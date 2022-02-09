@@ -164,9 +164,8 @@ where
         Ok(value)
     }
 
-    // TODO rename to `parse_any_value`
     /// Parse value as <any-value>.
-    pub(super) fn parse_any_value_as_tokens(&mut self) -> PResult<Vec<TokenAndSpan>> {
+    pub(super) fn parse_any_value(&mut self) -> PResult<Vec<TokenAndSpan>> {
         let mut tokens = vec![];
         let mut balance_stack: Vec<Option<char>> = vec![];
 
@@ -295,6 +294,7 @@ where
     }
 
     pub(super) fn parse_one_value_inner(&mut self) -> PResult<Value> {
+    fn parse_one_value_inner(&mut self) -> PResult<Value> {
         // TODO remove me
         self.input.skip_ws()?;
 

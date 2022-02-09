@@ -11381,56 +11381,48 @@
                       "value": "not",
                       "raw": "not"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 1510,
-                        "end": 1517,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 1510,
-                            "end": 1511,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "*"
-                            }
-                          }
+                    "children": [
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 1510,
+                          "end": 1511,
+                          "ctxt": 0
                         },
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 1511,
-                            "end": 1512,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "."
-                            }
-                          }
-                        },
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 1512,
-                            "end": 1517,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "green",
-                              "raw": "green"
-                            }
+                        "token": {
+                          "Delim": {
+                            "value": "*"
                           }
                         }
-                      ]
-                    }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 1511,
+                          "end": 1512,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Delim": {
+                            "value": "."
+                          }
+                        }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 1512,
+                          "end": 1517,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "green",
+                            "raw": "green"
+                          }
+                        }
+                      }
+                    ]
                   }
                 ]
               }

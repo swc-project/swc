@@ -106,7 +106,6 @@ define!({
         Delimiter(Delimiter),
         Urange(Urange),
         Url(Url),
-        Tokens(Tokens),
         PreservedToken(TokenAndSpan),
     }
 
@@ -329,8 +328,7 @@ define!({
 
     pub enum PseudoSelectorChildren {
         Nth(Nth),
-
-        Tokens(Tokens),
+        PreservedToken(TokenAndSpan),
     }
 
     pub struct Nth {
@@ -356,7 +354,7 @@ define!({
     pub struct PseudoClassSelector {
         pub span: Span,
         pub name: Ident,
-        pub children: Option<PseudoSelectorChildren>,
+        pub children: Option<Vec<PseudoSelectorChildren>>,
     }
 
     pub struct PseudoElementSelector {

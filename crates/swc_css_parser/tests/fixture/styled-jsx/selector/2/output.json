@@ -102,89 +102,81 @@
                       "value": "global",
                       "raw": "global"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 10,
-                        "end": 25,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 10,
-                            "end": 14,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "span",
-                              "raw": "span"
-                            }
+                    "children": [
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 10,
+                          "end": 14,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "span",
+                            "raw": "span"
                           }
-                        },
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 14,
-                            "end": 15,
-                            "ctxt": 0
-                          },
-                          "token": "Colon"
-                        },
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 15,
-                            "end": 19,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Function": {
-                              "value": "not",
-                              "raw": "not"
-                            }
-                          }
-                        },
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 19,
-                            "end": 20,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "."
-                            }
-                          }
-                        },
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 20,
-                            "end": 24,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "test",
-                              "raw": "test"
-                            }
-                          }
-                        },
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 24,
-                            "end": 25,
-                            "ctxt": 0
-                          },
-                          "token": "RParen"
                         }
-                      ]
-                    }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 14,
+                          "end": 15,
+                          "ctxt": 0
+                        },
+                        "token": "Colon"
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 15,
+                          "end": 19,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Function": {
+                            "value": "not",
+                            "raw": "not"
+                          }
+                        }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 19,
+                          "end": 20,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Delim": {
+                            "value": "."
+                          }
+                        }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 20,
+                          "end": 24,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "test",
+                            "raw": "test"
+                          }
+                        }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 24,
+                          "end": 25,
+                          "ctxt": 0
+                        },
+                        "token": "RParen"
+                      }
+                    ]
                   }
                 ]
               }

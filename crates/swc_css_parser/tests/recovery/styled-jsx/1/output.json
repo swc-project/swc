@@ -256,69 +256,61 @@
                       "value": "global",
                       "raw": "global"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 135,
-                        "end": 157,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 135,
-                            "end": 136,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": ">"
-                            }
-                          }
+                    "children": [
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 135,
+                          "end": 136,
+                          "ctxt": 0
                         },
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 136,
-                            "end": 137,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 137,
-                            "end": 138,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "."
-                            }
-                          }
-                        },
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 138,
-                            "end": 157,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "removed-214123-item",
-                              "raw": "removed-214123-item"
-                            }
+                        "token": {
+                          "Delim": {
+                            "value": ">"
                           }
                         }
-                      ]
-                    }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 136,
+                          "end": 137,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "WhiteSpace": {
+                            "value": " "
+                          }
+                        }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 137,
+                          "end": 138,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Delim": {
+                            "value": "."
+                          }
+                        }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 138,
+                          "end": 157,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "removed-214123-item",
+                            "raw": "removed-214123-item"
+                          }
+                        }
+                      }
+                    ]
                   }
                 ]
               }
@@ -605,69 +597,61 @@
                           "value": "global",
                           "raw": "global"
                         },
-                        "children": {
-                          "type": "Tokens",
-                          "span": {
-                            "start": 332,
-                            "end": 354,
-                            "ctxt": 0
-                          },
-                          "tokens": [
-                            {
-                              "type": "PreservedToken",
-                              "span": {
-                                "start": 332,
-                                "end": 333,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "Delim": {
-                                  "value": ">"
-                                }
-                              }
+                        "children": [
+                          {
+                            "type": "PreservedToken",
+                            "span": {
+                              "start": 332,
+                              "end": 333,
+                              "ctxt": 0
                             },
-                            {
-                              "type": "PreservedToken",
-                              "span": {
-                                "start": 333,
-                                "end": 334,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "WhiteSpace": {
-                                  "value": " "
-                                }
-                              }
-                            },
-                            {
-                              "type": "PreservedToken",
-                              "span": {
-                                "start": 334,
-                                "end": 335,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "Delim": {
-                                  "value": "."
-                                }
-                              }
-                            },
-                            {
-                              "type": "PreservedToken",
-                              "span": {
-                                "start": 335,
-                                "end": 354,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "Ident": {
-                                  "value": "removed-214123-item",
-                                  "raw": "removed-214123-item"
-                                }
+                            "token": {
+                              "Delim": {
+                                "value": ">"
                               }
                             }
-                          ]
-                        }
+                          },
+                          {
+                            "type": "PreservedToken",
+                            "span": {
+                              "start": 333,
+                              "end": 334,
+                              "ctxt": 0
+                            },
+                            "token": {
+                              "WhiteSpace": {
+                                "value": " "
+                              }
+                            }
+                          },
+                          {
+                            "type": "PreservedToken",
+                            "span": {
+                              "start": 334,
+                              "end": 335,
+                              "ctxt": 0
+                            },
+                            "token": {
+                              "Delim": {
+                                "value": "."
+                              }
+                            }
+                          },
+                          {
+                            "type": "PreservedToken",
+                            "span": {
+                              "start": 335,
+                              "end": 354,
+                              "ctxt": 0
+                            },
+                            "token": {
+                              "Ident": {
+                                "value": "removed-214123-item",
+                                "raw": "removed-214123-item"
+                              }
+                            }
+                          }
+                        ]
                       }
                     ]
                   }
@@ -863,69 +847,61 @@
                           "value": "global",
                           "raw": "global"
                         },
-                        "children": {
-                          "type": "Tokens",
-                          "span": {
-                            "start": 461,
-                            "end": 483,
-                            "ctxt": 0
-                          },
-                          "tokens": [
-                            {
-                              "type": "PreservedToken",
-                              "span": {
-                                "start": 461,
-                                "end": 462,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "Delim": {
-                                  "value": ">"
-                                }
-                              }
+                        "children": [
+                          {
+                            "type": "PreservedToken",
+                            "span": {
+                              "start": 461,
+                              "end": 462,
+                              "ctxt": 0
                             },
-                            {
-                              "type": "PreservedToken",
-                              "span": {
-                                "start": 462,
-                                "end": 463,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "WhiteSpace": {
-                                  "value": " "
-                                }
-                              }
-                            },
-                            {
-                              "type": "PreservedToken",
-                              "span": {
-                                "start": 463,
-                                "end": 464,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "Delim": {
-                                  "value": "."
-                                }
-                              }
-                            },
-                            {
-                              "type": "PreservedToken",
-                              "span": {
-                                "start": 464,
-                                "end": 483,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "Ident": {
-                                  "value": "removed-214123-item",
-                                  "raw": "removed-214123-item"
-                                }
+                            "token": {
+                              "Delim": {
+                                "value": ">"
                               }
                             }
-                          ]
-                        }
+                          },
+                          {
+                            "type": "PreservedToken",
+                            "span": {
+                              "start": 462,
+                              "end": 463,
+                              "ctxt": 0
+                            },
+                            "token": {
+                              "WhiteSpace": {
+                                "value": " "
+                              }
+                            }
+                          },
+                          {
+                            "type": "PreservedToken",
+                            "span": {
+                              "start": 463,
+                              "end": 464,
+                              "ctxt": 0
+                            },
+                            "token": {
+                              "Delim": {
+                                "value": "."
+                              }
+                            }
+                          },
+                          {
+                            "type": "PreservedToken",
+                            "span": {
+                              "start": 464,
+                              "end": 483,
+                              "ctxt": 0
+                            },
+                            "token": {
+                              "Ident": {
+                                "value": "removed-214123-item",
+                                "raw": "removed-214123-item"
+                              }
+                            }
+                          }
+                        ]
                       }
                     ]
                   }

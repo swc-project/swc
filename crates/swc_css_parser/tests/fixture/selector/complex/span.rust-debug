@@ -9110,12 +9110,6 @@ error: Ident
 97 | *[href] *:not(*.green) {}
    |           ^^^
 
-error: Tokens
-  --> $DIR/tests/fixture/selector/complex/input.css:97:15
-   |
-97 | *[href] *:not(*.green) {}
-   |               ^^^^^^^
-
 error: Delim { value: '*' }
   --> $DIR/tests/fixture/selector/complex/input.css:97:15
    |

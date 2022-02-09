@@ -1256,27 +1256,29 @@
                       "value": "nth-last-of-type",
                       "raw": "nth-last-of-type"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 280,
-                        "end": 281,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 280,
                           "end": 281,
                           "ctxt": 0
                         },
-                        "a": null,
-                        "aRaw": null,
-                        "b": 2,
-                        "bRaw": "2"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 280,
+                            "end": 281,
+                            "ctxt": 0
+                          },
+                          "a": null,
+                          "aRaw": null,
+                          "b": 2,
+                          "bRaw": "2"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1344,66 +1346,58 @@
                       "value": "lang",
                       "raw": "lang"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 294,
-                        "end": 300,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 294,
-                            "end": 296,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "en",
-                              "raw": "en"
-                            }
-                          }
+                    "children": [
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 294,
+                          "end": 296,
+                          "ctxt": 0
                         },
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 296,
-                            "end": 297,
-                            "ctxt": 0
-                          },
-                          "token": "Comma"
-                        },
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 297,
-                            "end": 298,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 298,
-                            "end": 300,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "ko",
-                              "raw": "ko"
-                            }
+                        "token": {
+                          "Ident": {
+                            "value": "en",
+                            "raw": "en"
                           }
                         }
-                      ]
-                    }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 296,
+                          "end": 297,
+                          "ctxt": 0
+                        },
+                        "token": "Comma"
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 297,
+                          "end": 298,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "WhiteSpace": {
+                            "value": " "
+                          }
+                        }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 298,
+                          "end": 300,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "ko",
+                            "raw": "ko"
+                          }
+                        }
+                      }
+                    ]
                   }
                 ]
               }

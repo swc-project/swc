@@ -829,7 +829,6 @@ where
             Value::Url(n) => emit!(self, n),
             Value::Delimiter(n) => emit!(self, n),
             Value::Urange(n) => emit!(self, n),
-            Value::Tokens(n) => emit!(self, n),
             Value::PreservedToken(n) => emit!(self, n),
         }
     }
@@ -1649,7 +1648,7 @@ where
     fn emit_pseudo_selector_children(&mut self, n: &PseudoSelectorChildren) -> Result {
         match n {
             PseudoSelectorChildren::Nth(n) => emit!(self, n),
-            PseudoSelectorChildren::Tokens(n) => emit!(self, n),
+            PseudoSelectorChildren::PreservedToken(n) => emit!(self, n),
         }
     }
 
@@ -1658,9 +1657,9 @@ where
         punct!(self, ":");
         emit!(self, n.name);
 
-        if n.children.is_some() {
+        if let Some(children) = &n.children {
             punct!(self, "(");
-            emit!(self, n.children);
+            self.emit_list(children, ListFormat::NotDelimited)?;
             punct!(self, ")");
         }
     }

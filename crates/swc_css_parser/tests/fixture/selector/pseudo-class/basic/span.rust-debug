@@ -442,12 +442,6 @@ error: Ident
 7 | :matches(section, article, aside, nav) h1 {}
   |  ^^^^^^^
 
-error: Tokens
- --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:10
-  |
-7 | :matches(section, article, aside, nav) h1 {}
-  |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 error: Ident { value: Atom('section' type=inline), raw: Atom('section' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:10
   |
@@ -622,12 +616,6 @@ error: Ident
 8 | input:not([type='submit']) {}
   |       ^^^
 
-error: Tokens
- --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:11
-  |
-8 | input:not([type='submit']) {}
-  |           ^^^^^^^^^^^^^^^
-
 error: LBracket
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:11
   |
@@ -754,12 +742,6 @@ error: Ident
 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
   |             ^^^
 
-error: Tokens
- --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:17
-  |
-9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
-  |                 ^^^^^^^^^^^^^^
-
 error: Delim { value: '*' }
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:17
   |
@@ -807,12 +789,6 @@ error: Ident
   |
 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
   |                                 ^^^
-
-error: Tokens
- --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:37
-  |
-9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
-  |                                     ^^^^^^^^^^^^^^^^^^^^
 
 error: Colon
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:37
@@ -1197,12 +1173,6 @@ error: Ident
    |
 13 | *:is(*) {}
    |   ^^
-
-error: Tokens
-  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:6
-   |
-13 | *:is(*) {}
-   |      ^
 
 error: Delim { value: '*' }
   --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:6

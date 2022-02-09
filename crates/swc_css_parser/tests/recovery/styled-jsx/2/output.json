@@ -95,69 +95,61 @@
                       "value": "global",
                       "raw": "global"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 11,
-                        "end": 15,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 11,
-                            "end": 12,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": ">"
-                            }
-                          }
+                    "children": [
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 11,
+                          "end": 12,
+                          "ctxt": 0
                         },
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 12,
-                            "end": 13,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 13,
-                            "end": 14,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "."
-                            }
-                          }
-                        },
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 14,
-                            "end": 15,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "b",
-                              "raw": "b"
-                            }
+                        "token": {
+                          "Delim": {
+                            "value": ">"
                           }
                         }
-                      ]
-                    }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 12,
+                          "end": 13,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "WhiteSpace": {
+                            "value": " "
+                          }
+                        }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 13,
+                          "end": 14,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Delim": {
+                            "value": "."
+                          }
+                        }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 14,
+                          "end": 15,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "b",
+                            "raw": "b"
+                          }
+                        }
+                      }
+                    ]
                   }
                 ]
               }

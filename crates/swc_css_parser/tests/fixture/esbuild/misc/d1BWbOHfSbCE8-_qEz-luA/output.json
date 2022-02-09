@@ -82,39 +82,31 @@
                       "value": "b",
                       "raw": "b"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 4,
-                        "end": 6,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 4,
-                            "end": 5,
-                            "ctxt": 0
-                          },
-                          "token": "Colon"
+                    "children": [
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 4,
+                          "end": 5,
+                          "ctxt": 0
                         },
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 5,
-                            "end": 6,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "c",
-                              "raw": "c"
-                            }
+                        "token": "Colon"
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 5,
+                          "end": 6,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "c",
+                            "raw": "c"
                           }
                         }
-                      ]
-                    }
+                      }
+                    ]
                   }
                 ]
               }

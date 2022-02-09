@@ -56,30 +56,22 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 11,
-                        "end": 18,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 11,
-                            "end": 18,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "unknown",
-                              "raw": "unknown"
-                            }
+                    "children": [
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 11,
+                          "end": 18,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "unknown",
+                            "raw": "unknown"
                           }
                         }
-                      ]
-                    }
+                      }
+                    ]
                   }
                 ]
               }
