@@ -1327,9 +1327,10 @@ where
 }
 
 fn is_length_unit(unit: &str) -> bool {
-    match &*unit.to_ascii_lowercase() {
-        // Relative Lengths
-        // Font-relative Lengths
+    debug_assert_eq!(unit, unit.to_ascii_lowercase());
+
+    matches!(
+        unit,
         "em" | "rem"  | 
         "ex" | "rex" | 
         "cap" | "rcap" | 
@@ -1344,42 +1345,36 @@ fn is_length_unit(unit: &str) -> bool {
         "vmin" | "svmin" | "lvmin" | "dvmin" |
         "vmax" | "svmax" | "lvmax" | "dvmax" |
         // Absolute lengths
-        "cm" | "mm" | "q" | "in" | "pc" | "pt" | "px" | "mozmm" => true,
-        _ => false,
-    }
+        "cm" | "mm" | "q" | "in" | "pc" | "pt" | "px" | "mozmm"
+    )
 }
 
 fn is_angle_unit(unit: &str) -> bool {
-    match &*unit.to_ascii_lowercase() {
-        "deg" | "grad" | "rad" | "turn" => true,
-        _ => false,
-    }
+    debug_assert_eq!(unit, unit.to_ascii_lowercase());
+
+    matches!(unit, "deg" | "grad" | "rad" | "turn")
 }
 
 fn is_time_unit(unit: &str) -> bool {
-    match &*unit.to_ascii_lowercase() {
-        "s" | "ms" => true,
-        _ => false,
-    }
+    debug_assert_eq!(unit, unit.to_ascii_lowercase());
+
+    matches!(unit, "s" | "ms")
 }
 
 fn is_frequency_unit(unit: &str) -> bool {
-    match &*unit.to_ascii_lowercase() {
-        "hz" | "khz" => true,
-        _ => false,
-    }
+    debug_assert_eq!(unit, unit.to_ascii_lowercase());
+
+    matches!(unit, "hz" | "khz")
 }
 
 fn is_resolution_unit(unit: &str) -> bool {
-    match &*unit.to_ascii_lowercase() {
-        "dpi" | "dpcm" | "dppx" | "x" => true,
-        _ => false,
-    }
+    debug_assert_eq!(unit, unit.to_ascii_lowercase());
+
+    matches!(unit, "dpi" | "dpcm" | "dppx" | "x")
 }
 
 fn is_flex_unit(unit: &str) -> bool {
-    match &*unit.to_ascii_lowercase() {
-        "fr" => true,
-        _ => false,
-    }
+    debug_assert_eq!(unit, unit.to_ascii_lowercase());
+
+    matches!(unit, "fr")
 }
