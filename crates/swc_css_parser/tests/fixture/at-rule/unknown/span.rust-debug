@@ -718,12 +718,6 @@ error: Value
 13 | @unknown {p:v}
    |           ^
 
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:13:11
-   |
-13 | @unknown {p:v}
-   |           ^
-
 error: Ident { value: Atom('p' type=inline), raw: Atom('p' type=inline) }
   --> $DIR/tests/fixture/at-rule/unknown/input.css:13:11
    |
@@ -736,12 +730,6 @@ error: Value
 13 | @unknown {p:v}
    |            ^
 
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:13:12
-   |
-13 | @unknown {p:v}
-   |            ^
-
 error: Colon
   --> $DIR/tests/fixture/at-rule/unknown/input.css:13:12
    |
@@ -749,12 +737,6 @@ error: Colon
    |            ^
 
 error: Value
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:13:13
-   |
-13 | @unknown {p:v}
-   |             ^
-
-error: Tokens
   --> $DIR/tests/fixture/at-rule/unknown/input.css:13:13
    |
 13 | @unknown {p:v}
@@ -898,12 +880,6 @@ error: Value
 14 | @unknown x y {p:v}
    |               ^
 
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:14:15
-   |
-14 | @unknown x y {p:v}
-   |               ^
-
 error: Ident { value: Atom('p' type=inline), raw: Atom('p' type=inline) }
   --> $DIR/tests/fixture/at-rule/unknown/input.css:14:15
    |
@@ -916,12 +892,6 @@ error: Value
 14 | @unknown x y {p:v}
    |                ^
 
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:14:16
-   |
-14 | @unknown x y {p:v}
-   |                ^
-
 error: Colon
   --> $DIR/tests/fixture/at-rule/unknown/input.css:14:16
    |
@@ -929,12 +899,6 @@ error: Colon
    |                ^
 
 error: Value
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:14:17
-   |
-14 | @unknown x y {p:v}
-   |                 ^
-
-error: Tokens
   --> $DIR/tests/fixture/at-rule/unknown/input.css:14:17
    |
 14 | @unknown x y {p:v}
@@ -988,12 +952,6 @@ error: Value
 17 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
    |                          ^
 
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:17:26
-   |
-17 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                          ^
-
 error: Ident { value: Atom('p' type=inline), raw: Atom('p' type=inline) }
   --> $DIR/tests/fixture/at-rule/unknown/input.css:17:26
    |
@@ -1006,12 +964,6 @@ error: Value
 17 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
    |                                   ^
 
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:17:35
-   |
-17 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                                   ^
-
 error: Colon
   --> $DIR/tests/fixture/at-rule/unknown/input.css:17:35
    |
@@ -1019,12 +971,6 @@ error: Colon
    |                                   ^
 
 error: Value
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:17:44
-   |
-17 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-   |                                            ^
-
-error: Tokens
   --> $DIR/tests/fixture/at-rule/unknown/input.css:17:44
    |
 17 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
@@ -1096,12 +1042,6 @@ error: Value
 20 | @unknown  {  p  :  v  }
    |            ^^
 
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:20:12
-   |
-20 | @unknown  {  p  :  v  }
-   |            ^^
-
 error: WhiteSpace { value: Atom('  ' type=inline) }
   --> $DIR/tests/fixture/at-rule/unknown/input.css:20:12
    |
@@ -1109,12 +1049,6 @@ error: WhiteSpace { value: Atom('  ' type=inline) }
    |            ^^
 
 error: Value
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:20:14
-   |
-20 | @unknown  {  p  :  v  }
-   |              ^
-
-error: Tokens
   --> $DIR/tests/fixture/at-rule/unknown/input.css:20:14
    |
 20 | @unknown  {  p  :  v  }
@@ -1132,12 +1066,6 @@ error: Value
 20 | @unknown  {  p  :  v  }
    |               ^^
 
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:20:15
-   |
-20 | @unknown  {  p  :  v  }
-   |               ^^
-
 error: WhiteSpace { value: Atom('  ' type=inline) }
   --> $DIR/tests/fixture/at-rule/unknown/input.css:20:15
    |
@@ -1145,12 +1073,6 @@ error: WhiteSpace { value: Atom('  ' type=inline) }
    |               ^^
 
 error: Value
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:20:17
-   |
-20 | @unknown  {  p  :  v  }
-   |                 ^
-
-error: Tokens
   --> $DIR/tests/fixture/at-rule/unknown/input.css:20:17
    |
 20 | @unknown  {  p  :  v  }
@@ -1168,12 +1090,6 @@ error: Value
 20 | @unknown  {  p  :  v  }
    |                  ^^
 
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:20:18
-   |
-20 | @unknown  {  p  :  v  }
-   |                  ^^
-
 error: WhiteSpace { value: Atom('  ' type=inline) }
   --> $DIR/tests/fixture/at-rule/unknown/input.css:20:18
    |
@@ -1186,12 +1102,6 @@ error: Value
 20 | @unknown  {  p  :  v  }
    |                    ^
 
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:20:20
-   |
-20 | @unknown  {  p  :  v  }
-   |                    ^
-
 error: Ident { value: Atom('v' type=inline), raw: Atom('v' type=inline) }
   --> $DIR/tests/fixture/at-rule/unknown/input.css:20:20
    |
@@ -1199,12 +1109,6 @@ error: Ident { value: Atom('v' type=inline), raw: Atom('v' type=inline) }
    |                    ^
 
 error: Value
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:20:21
-   |
-20 | @unknown  {  p  :  v  }
-   |                     ^^
-
-error: Tokens
   --> $DIR/tests/fixture/at-rule/unknown/input.css:20:21
    |
 20 | @unknown  {  p  :  v  }
@@ -1348,12 +1252,6 @@ error: Value
 21 | @unknown  x  y  {  p  :  v  }
    |                  ^^
 
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:21:18
-   |
-21 | @unknown  x  y  {  p  :  v  }
-   |                  ^^
-
 error: WhiteSpace { value: Atom('  ' type=inline) }
   --> $DIR/tests/fixture/at-rule/unknown/input.css:21:18
    |
@@ -1361,12 +1259,6 @@ error: WhiteSpace { value: Atom('  ' type=inline) }
    |                  ^^
 
 error: Value
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:21:20
-   |
-21 | @unknown  x  y  {  p  :  v  }
-   |                    ^
-
-error: Tokens
   --> $DIR/tests/fixture/at-rule/unknown/input.css:21:20
    |
 21 | @unknown  x  y  {  p  :  v  }
@@ -1384,12 +1276,6 @@ error: Value
 21 | @unknown  x  y  {  p  :  v  }
    |                     ^^
 
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:21:21
-   |
-21 | @unknown  x  y  {  p  :  v  }
-   |                     ^^
-
 error: WhiteSpace { value: Atom('  ' type=inline) }
   --> $DIR/tests/fixture/at-rule/unknown/input.css:21:21
    |
@@ -1397,12 +1283,6 @@ error: WhiteSpace { value: Atom('  ' type=inline) }
    |                     ^^
 
 error: Value
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:21:23
-   |
-21 | @unknown  x  y  {  p  :  v  }
-   |                       ^
-
-error: Tokens
   --> $DIR/tests/fixture/at-rule/unknown/input.css:21:23
    |
 21 | @unknown  x  y  {  p  :  v  }
@@ -1420,12 +1300,6 @@ error: Value
 21 | @unknown  x  y  {  p  :  v  }
    |                        ^^
 
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:21:24
-   |
-21 | @unknown  x  y  {  p  :  v  }
-   |                        ^^
-
 error: WhiteSpace { value: Atom('  ' type=inline) }
   --> $DIR/tests/fixture/at-rule/unknown/input.css:21:24
    |
@@ -1438,12 +1312,6 @@ error: Value
 21 | @unknown  x  y  {  p  :  v  }
    |                          ^
 
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:21:26
-   |
-21 | @unknown  x  y  {  p  :  v  }
-   |                          ^
-
 error: Ident { value: Atom('v' type=inline), raw: Atom('v' type=inline) }
   --> $DIR/tests/fixture/at-rule/unknown/input.css:21:26
    |
@@ -1451,12 +1319,6 @@ error: Ident { value: Atom('v' type=inline), raw: Atom('v' type=inline) }
    |                          ^
 
 error: Value
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:21:27
-   |
-21 | @unknown  x  y  {  p  :  v  }
-   |                           ^^
-
-error: Tokens
   --> $DIR/tests/fixture/at-rule/unknown/input.css:21:27
    |
 21 | @unknown  x  y  {  p  :  v  }
@@ -1528,12 +1390,6 @@ error: Value
 24 | @unknown {s{p:v}}
    |           ^
 
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:24:11
-   |
-24 | @unknown {s{p:v}}
-   |           ^
-
 error: Ident { value: Atom('s' type=inline), raw: Atom('s' type=inline) }
   --> $DIR/tests/fixture/at-rule/unknown/input.css:24:11
    |
@@ -1541,12 +1397,6 @@ error: Ident { value: Atom('s' type=inline), raw: Atom('s' type=inline) }
    |           ^
 
 error: Value
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:24:12
-   |
-24 | @unknown {s{p:v}}
-   |            ^
-
-error: Tokens
   --> $DIR/tests/fixture/at-rule/unknown/input.css:24:12
    |
 24 | @unknown {s{p:v}}
@@ -1564,12 +1414,6 @@ error: Value
 24 | @unknown {s{p:v}}
    |             ^
 
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:24:13
-   |
-24 | @unknown {s{p:v}}
-   |             ^
-
 error: Ident { value: Atom('p' type=inline), raw: Atom('p' type=inline) }
   --> $DIR/tests/fixture/at-rule/unknown/input.css:24:13
    |
@@ -1582,12 +1426,6 @@ error: Value
 24 | @unknown {s{p:v}}
    |              ^
 
-error: Tokens
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:24:14
-   |
-24 | @unknown {s{p:v}}
-   |              ^
-
 error: Colon
   --> $DIR/tests/fixture/at-rule/unknown/input.css:24:14
    |
@@ -1595,12 +1433,6 @@ error: Colon
    |              ^
 
 error: Value
-  --> $DIR/tests/fixture/at-rule/unknown/input.css:24:15
-   |
-24 | @unknown {s{p:v}}
-   |               ^
-
-error: Tokens
   --> $DIR/tests/fixture/at-rule/unknown/input.css:24:15
    |
 24 | @unknown {s{p:v}}

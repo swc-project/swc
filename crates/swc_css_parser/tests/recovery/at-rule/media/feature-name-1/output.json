@@ -57,119 +57,69 @@
           "name": "(",
           "value": [
             {
-              "type": "Tokens",
+              "type": "PreservedToken",
               "span": {
                 "start": 7,
                 "end": 8,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "PreservedToken",
-                  "span": {
-                    "start": 7,
-                    "end": 8,
-                    "ctxt": 0
-                  },
-                  "token": "LParen"
-                }
-              ]
+              "token": "LParen"
             },
             {
-              "type": "Tokens",
+              "type": "PreservedToken",
               "span": {
                 "start": 8,
                 "end": 12,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "PreservedToken",
-                  "span": {
-                    "start": 8,
-                    "end": 12,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "Dimension": {
-                      "value": 20.0,
-                      "raw_value": "20",
-                      "unit": "px",
-                      "raw_unit": "px",
-                      "type": "integer"
-                    }
-                  }
+              "token": {
+                "Dimension": {
+                  "value": 20.0,
+                  "raw_value": "20",
+                  "unit": "px",
+                  "raw_unit": "px",
+                  "type": "integer"
                 }
-              ]
+              }
             },
             {
-              "type": "Tokens",
+              "type": "PreservedToken",
               "span": {
                 "start": 12,
                 "end": 13,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "PreservedToken",
-                  "span": {
-                    "start": 12,
-                    "end": 13,
-                    "ctxt": 0
-                  },
-                  "token": "Colon"
-                }
-              ]
+              "token": "Colon"
             },
             {
-              "type": "Tokens",
+              "type": "PreservedToken",
               "span": {
                 "start": 13,
                 "end": 14,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "PreservedToken",
-                  "span": {
-                    "start": 13,
-                    "end": 14,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "WhiteSpace": {
-                      "value": " "
-                    }
-                  }
+              "token": {
+                "WhiteSpace": {
+                  "value": " "
                 }
-              ]
+              }
             },
             {
-              "type": "Tokens",
+              "type": "PreservedToken",
               "span": {
                 "start": 14,
                 "end": 18,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "PreservedToken",
-                  "span": {
-                    "start": 14,
-                    "end": 18,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "Dimension": {
-                      "value": 20.0,
-                      "raw_value": "20",
-                      "unit": "px",
-                      "raw_unit": "px",
-                      "type": "integer"
-                    }
-                  }
+              "token": {
+                "Dimension": {
+                  "value": 20.0,
+                  "raw_value": "20",
+                  "unit": "px",
+                  "raw_unit": "px",
+                  "type": "integer"
                 }
-              ]
+              }
             }
           ]
         },

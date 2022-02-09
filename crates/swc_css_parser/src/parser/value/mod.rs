@@ -393,13 +393,9 @@ where
                     return Ok(simple_block);
                 }
                 _ => {
-                    let span = self.input.cur_span()?;
                     let token = self.input.bump()?.unwrap();
 
-                    simple_block.value.push(Value::Tokens(Tokens {
-                        span: span!(self, span.lo),
-                        tokens: vec![token],
-                    }));
+                    simple_block.value.push(Value::PreservedToken(token));
                 }
             }
         }

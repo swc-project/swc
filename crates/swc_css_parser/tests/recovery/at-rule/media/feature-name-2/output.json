@@ -57,47 +57,27 @@
           "name": "(",
           "value": [
             {
-              "type": "Tokens",
+              "type": "PreservedToken",
               "span": {
                 "start": 7,
                 "end": 8,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "PreservedToken",
-                  "span": {
-                    "start": 7,
-                    "end": 8,
-                    "ctxt": 0
-                  },
-                  "token": "LParen"
-                }
-              ]
+              "token": "LParen"
             },
             {
-              "type": "Tokens",
+              "type": "PreservedToken",
               "span": {
                 "start": 8,
                 "end": 16,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "PreservedToken",
-                  "span": {
-                    "start": 8,
-                    "end": 16,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "Str": {
-                      "value": "string",
-                      "raw": "\"string\""
-                    }
-                  }
+              "token": {
+                "Str": {
+                  "value": "string",
+                  "raw": "\"string\""
                 }
-              ]
+              }
             }
           ]
         },

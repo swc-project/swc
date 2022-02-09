@@ -105,28 +105,18 @@
         "name": "{",
         "value": [
           {
-            "type": "Tokens",
+            "type": "PreservedToken",
             "span": {
               "start": 15,
               "end": 23,
               "ctxt": 0
             },
-            "tokens": [
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 15,
-                  "end": 23,
-                  "ctxt": 0
-                },
-                "token": {
-                  "AtKeyword": {
-                    "value": "content",
-                    "raw": "content"
-                  }
-                }
+            "token": {
+              "AtKeyword": {
+                "value": "content",
+                "raw": "content"
               }
-            ]
+            }
           }
         ]
       }
