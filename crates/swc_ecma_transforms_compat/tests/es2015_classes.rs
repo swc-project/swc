@@ -831,14 +831,13 @@ class Test extends Foo {
     
       function Test() {
         _classCallCheck(this, Test);
-        var _thisSuper, _thisSuper1;
         
         var _this = _super.call(this);
+
+        _get((_assertThisInitialized(_this), _getPrototypeOf(Test.prototype)), "test", _this).whatever();
     
-        _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(Test.prototype)), "test", _thisSuper).whatever();
-    
-        _get((_thisSuper1 = _assertThisInitialized(_this), _getPrototypeOf(Test.prototype)), "test", _thisSuper1).call(_thisSuper1);
-    
+        _get((_assertThisInitialized(_this), _getPrototypeOf(Test.prototype)), "test", _this).call(_this);
+
         return _this;
       }
     
@@ -1663,7 +1662,6 @@ var Outer = function (Hello) {
   var _super = _createSuper(Outer);
   function Outer() {
     _classCallCheck(this, Outer);
-    var _thisSuper;
     var _this = _super.call(this);
 
     var Inner = /*#__PURE__*/function () {
@@ -1672,7 +1670,7 @@ var Outer = function (Hello) {
       }
 
       _createClass(Inner, [{
-        key: _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(Outer.prototype)), "toString", _thisSuper).call(_thisSuper),
+        key: _get((_assertThisInitialized(_this), _getPrototypeOf(Outer.prototype)), "toString", _this).call(_this),
         value: function () {
           return 'hello';
         }
@@ -1703,7 +1701,6 @@ class Foo extends Bar {
     super[super().method]();
   }
 }
-
 "#,
     r#"
     var Foo = /*#__PURE__*/function (Bar) {
@@ -1715,17 +1712,15 @@ class Foo extends Bar {
       function Foo() {
         _classCallCheck(this, Foo);
 
-        var _thisSuper, _this;
-    
-        _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(Foo.prototype)), (_this = _super.call(this)).method, _thisSuper).call(_thisSuper);
+      var _this;
+
+      _get((_assertThisInitialized(_this), _getPrototypeOf(Foo.prototype)), (_this = _super.call(this)).method, _this).call(_this);        
 
         return _possibleConstructorReturn(_this);
       }
     
       return Foo;
     }(Bar);
-
-
 "#
 );
 
@@ -1860,20 +1855,19 @@ class Test extends Foo {
     var Test = /*#__PURE__*/function (Foo) {
       "use strict";
       _inherits(Test, Foo);
-    
+
       var _super = _createSuper(Test);
     
       function Test() {    
         _classCallCheck(this, Test);
-        var _thisSuper, _thisSuper1;
         var _this = _super.call(this);
-    
-        _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(Test.prototype)), "test", _thisSuper);
-    
-        _get((_thisSuper1 = _assertThisInitialized(_this), _getPrototypeOf(Test.prototype)), "test", _thisSuper1).whatever;
+
+        _get((_assertThisInitialized(_this), _getPrototypeOf(Test.prototype)), "test", _this);
+
+        _get((_assertThisInitialized(_this), _getPrototypeOf(Test.prototype)), "test", _this).whatever;
         return _this;
       }
-    
+
       return Test;
     }(Foo);
 
@@ -2205,16 +2199,16 @@ var _super = _createSuper(ColorPoint);
   function ColorPoint() {
     _classCallCheck(this, ColorPoint);
 
-    var _thisSuper, _thisSuper1, _this;
+    var _this;
 
     _this = _super.call(this);
     _this.x = 2;
 
-    _set((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(ColorPoint.prototype)), "x", 3, _thisSuper, true);
+    _set((_assertThisInitialized(_this), _getPrototypeOf(ColorPoint.prototype)), "x", 3, _this, true);
 
     expect(_this.x).toBe(3); // A
 
-    expect(_get((_thisSuper1 = _assertThisInitialized(_this), _getPrototypeOf(ColorPoint.prototype)), "x", _thisSuper1)).toBeUndefined(); // B
+    expect(_get((_assertThisInitialized(_this), _getPrototypeOf(ColorPoint.prototype)), "x", _this)).toBeUndefined(); // B
 
     return _this;
   }
@@ -3741,10 +3735,9 @@ function (Hello) {
   var _super = _createSuper(Outer);
   function Outer() {
     _classCallCheck(this, Outer);
-    var _thisSuper;
     var _this = _super.call(this);
     var Inner = {
-      [_get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(Outer.prototype)), "toString", _thisSuper).call(_thisSuper)] () {
+      [_get((_assertThisInitialized(_this), _getPrototypeOf(Outer.prototype)), "toString", _this).call(_this)] () {
         return 'hello';
       }
 
@@ -4903,6 +4896,40 @@ test!(
         return hello.apply(void 0, _toConsumableArray(foo));
     }
 }"
+);
+
+test!(
+    syntax(),
+    |t| chain!(resolver(), classes(Some(t.comments.clone()))),
+    duplicate_ident,
+    r#"
+class Foo extends Bar {
+  constructor() {
+    var Foo = 123;
+    console.log(Foo)
+  }
+}
+"#,
+    r#"
+let Foo = /*#__PURE__*/function (Bar) {
+  "use strict";
+  _inherits(Foo, Bar);
+
+  var _super = _createSuper(Foo);
+
+  function Foo() {
+    _classCallCheck(this, Foo);
+    var _this;
+
+    var Foo1 = 123;
+    console.log(Foo1)
+
+    return _possibleConstructorReturn(_this);
+  }
+
+  return Foo;
+}(Bar);
+"#
 );
 
 //// regression_3028
@@ -6325,6 +6352,36 @@ test!(
       _classCallCheck(this, A);
     };
   "
+);
+
+test!(
+    syntax(),
+    |t| classes(Some(t.comments.clone())),
+    constructor_super_update,
+    "
+class A extends B{
+  constructor() {
+    super.foo ++;
+    super.bar += 123;
+  }
+}
+  ",
+    r#"
+let A = function(B) {
+  "use strict";
+  _inherits(A, B);
+  var _super = _createSuper(A);
+  function A() {
+      _classCallCheck(this, A);
+      var _ref, _superRef, _ref1;
+      var _this;
+      _set((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), _ref = "foo", (_superRef = +_get((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), _ref, _this)) + 1, _this, true), _superRef;
+      _set((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), _ref1 = "bar", _get((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), _ref1, _this) + 123, _this, true);
+      return _possibleConstructorReturn(_this);
+  }
+  return A;
+}(B);
+"#
 );
 
 test!(

@@ -17,7 +17,7 @@ use tracing::debug;
 use self::{
     constructor::{
         constructor_fn, make_possible_return_value, replace_this_in_constructor, ConstructorFolder,
-        ReturningMode, SuperCallFinder, SuperFoldingMode, VarRenamer,
+        ReturningMode, SuperCallFinder, SuperFoldingMode,
     },
     prop_name::HashKey,
 };
@@ -473,10 +473,11 @@ where
                 constructor.unwrap_or_else(|| default_constructor(super_class_ident.is_some()));
 
             // Rename variables to avoid conflicting with class name
-            constructor.body.visit_mut_with(&mut VarRenamer {
-                mark: Mark::fresh(Mark::root()),
-                class_name: &class_name.sym,
-            });
+            // TODO: bring it back once we have a proper private ident
+            // constructor.body.visit_mut_with(&mut VarRenamer {
+            //     mark: Mark::fresh(Mark::root()),
+            //     class_name: &class_name.sym,
+            // });
 
             // Black magic to detect injected constructor.
             let is_constructor_default = constructor.span.is_dummy();
@@ -529,9 +530,6 @@ where
                     } else {
                         mode
                     },
-                    vars: &mut vars,
-                    // This if expression is required to handle super() call in all case
-                    cur_this_super: None,
                     mark: this_mark,
                     is_constructor_default,
                     super_var,

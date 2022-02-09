@@ -5,7 +5,7 @@ use swc_common::{util::take::Take, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_classes::{get_prototype_of, visit_mut_only_key};
-use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{quote_ident, ExprFactory};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
@@ -156,11 +156,6 @@ pub(super) fn constructor_fn(c: Constructor) -> Function {
 pub(super) struct ConstructorFolder<'a> {
     pub class_name: &'a Ident,
     pub mode: Option<SuperFoldingMode>,
-    /// Variables named `thisSuper` will be added if `super.foo` or
-    /// `super.foo()` is used in constructor.
-    pub vars: &'a mut Vec<VarDeclarator>,
-
-    pub cur_this_super: Option<Ident>,
 
     /// Mark for `_this`
     pub mark: Mark,
@@ -169,131 +164,6 @@ pub(super) struct ConstructorFolder<'a> {
     /// True when recursing into other function or class.
     pub ignore_return: bool,
     pub in_injected_define_property_call: bool,
-}
-
-impl ConstructorFolder<'_> {
-    /// `true` means it's processed and children are folded.
-    fn handle_super_assignment(&mut self, e: &mut Expr) -> bool {
-        if let Expr::Assign(AssignExpr {
-            left,
-            op: op!("="),
-            right,
-            span,
-        }) = e
-        {
-            let left = left.take().normalize_expr();
-            match left {
-                PatOrExpr::Expr(mut left_expr) => match *left_expr {
-                    Expr::SuperProp(_) => {
-                        right.visit_mut_children_with(self);
-                        self.handle_super_access(&mut left_expr, Some(right.take()));
-                        *e = *left_expr;
-                        true
-                    }
-                    _ => {
-                        *e = Expr::Assign(AssignExpr {
-                            span: *span,
-                            left: PatOrExpr::Expr(left_expr),
-                            op: op!("="),
-                            right: right.take(),
-                        });
-                        false
-                    }
-                },
-                _ => {
-                    *e = Expr::Assign(AssignExpr {
-                        span: *span,
-                        left,
-                        op: op!("="),
-                        right: right.take(),
-                    });
-                    false
-                }
-            }
-        } else {
-            false
-        }
-    }
-
-    fn handle_super_access(&mut self, e: &mut Expr, set_to: Option<Box<Expr>>) {
-        if let Expr::SuperProp(SuperPropExpr { span, prop, .. }) = e {
-            let this_var = quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this");
-            let this_super = private_ident!("_thisSuper");
-            self.cur_this_super = Some(this_super.clone());
-
-            self.vars.push(VarDeclarator {
-                span: DUMMY_SP,
-                name: this_super.clone().into(),
-                init: None,
-                definite: Default::default(),
-            });
-
-            // _thisSuper = _assertThisInitialized(_this)
-            let init_this_super = Box::new(Expr::Assign(AssignExpr {
-                span: DUMMY_SP,
-                op: op!("="),
-                left: PatOrExpr::Pat(Box::new(this_super.clone().into())),
-                right: Box::new(Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: helper!(assert_this_initialized, "assertThisInitialized"),
-                    args: vec![this_var.as_arg()],
-                    type_args: Default::default(),
-                })),
-            }));
-            // _getPrototypeOf(Foo.prototype)
-            let get_proto = Box::new(Expr::Call(CallExpr {
-                span: *span,
-                callee: helper!(get_prototype_of, "getPrototypeOf"),
-                args: vec![self
-                    .class_name
-                    .clone()
-                    .make_member(quote_ident!("prototype"))
-                    .as_arg()],
-                type_args: Default::default(),
-            }));
-
-            *e = Expr::Call(CallExpr {
-                span: DUMMY_SP,
-                callee: if set_to.is_some() {
-                    helper!(set, "set")
-                } else {
-                    helper!(get, "get")
-                },
-                args: {
-                    let mut args = vec![
-                        Expr::Seq(SeqExpr {
-                            span: DUMMY_SP,
-                            exprs: vec![init_this_super, get_proto],
-                        })
-                        .as_arg(),
-                        match prop {
-                            SuperProp::Computed(ComputedPropName { expr, .. }) => {
-                                expr.take().as_arg()
-                            }
-                            SuperProp::Ident(ident) => Str {
-                                span: ident.span,
-                                value: ident.take().sym,
-                                has_escape: false,
-                                kind: Default::default(),
-                            }
-                            .as_arg(),
-                        },
-                    ];
-
-                    let is_set = set_to.is_some();
-                    args.extend(set_to.map(|v| v.as_arg()));
-
-                    args.push(this_super.as_arg());
-
-                    if is_set {
-                        args.push(true.as_arg());
-                    }
-                    args
-                },
-                type_args: Default::default(),
-            })
-        };
-    }
 }
 
 /// `None`: `return _possibleConstructorReturn`
@@ -318,41 +188,11 @@ impl VisitMut for ConstructorFolder<'_> {
 
     ignore_return!(visit_mut_constructor, Constructor);
 
-    fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
-        match &e.callee {
-            Callee::Expr(callee) => match &**callee {
-                Expr::SuperProp(_) => {
-                    let old = self.cur_this_super.take();
-
-                    e.visit_mut_children_with(self);
-
-                    let this_super = self.cur_this_super.take().unwrap();
-                    self.cur_this_super = old;
-
-                    e.args.insert(0, this_super.as_arg());
-                    e.callee = e
-                        .callee
-                        .take()
-                        .expect_expr()
-                        .make_member(quote_ident!("call"))
-                        .as_callee();
-                }
-
-                _ => e.visit_mut_children_with(self),
-            },
-
-            _ => e.visit_mut_children_with(self),
-        }
-    }
-
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         match self.mode {
             Some(SuperFoldingMode::Assign) => {}
             _ => {
-                if !self.handle_super_assignment(expr) {
-                    expr.visit_mut_children_with(self);
-                };
-                self.handle_super_access(expr, None);
+                expr.visit_mut_children_with(self);
                 return;
             }
         }
@@ -377,9 +217,8 @@ impl VisitMut for ConstructorFolder<'_> {
             }
         }
 
-        if !self.handle_super_assignment(expr) {
-            expr.visit_mut_children_with(self);
-        };
+        expr.visit_mut_children_with(self);
+
         match expr {
             Expr::This(e) => {
                 *expr = Expr::Ident(Ident::new("_this".into(), e.span.apply_mark(self.mark)))
@@ -428,7 +267,7 @@ impl VisitMut for ConstructorFolder<'_> {
                 });
             }
 
-            _ => self.handle_super_access(expr, None),
+            _ => (),
         };
     }
 

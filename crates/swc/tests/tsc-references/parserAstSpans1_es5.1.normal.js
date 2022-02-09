@@ -215,9 +215,9 @@ var c3 = /*#__PURE__*/ function(c2) {
     var _super = _createSuper(c3);
     function c3() {
         _classCallCheck(this, c3);
-        var _thisSuper, _this;
+        var _this;
         _this = _super.call(this, 10);
-        _this.p1 = _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(c3.prototype)), "c2_p1", _thisSuper);
+        _this.p1 = _get((_assertThisInitialized(_this), _getPrototypeOf(c3.prototype)), "c2_p1", _this);
         return _this;
     }
     _createClass(c3, [
@@ -309,9 +309,9 @@ var c6 = /*#__PURE__*/ function(c5) {
     var _super = _createSuper(c6);
     function c6() {
         _classCallCheck(this, c6);
-        var _thisSuper, _this;
+        var _this;
         _this = _super.call(this);
-        _this.d = _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(c6.prototype)), "b", _thisSuper);
+        _this.d = _get((_assertThisInitialized(_this), _getPrototypeOf(c6.prototype)), "b", _this);
         return _this;
     }
     return c6;
