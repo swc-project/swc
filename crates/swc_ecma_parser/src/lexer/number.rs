@@ -566,7 +566,7 @@ mod tests {
     #[test]
     fn read_num_sep() {
         assert_eq!(1_000, int(10, "1_000"));
-        assert_eq!(0xAEBECE, int(16, "AE_BE_CE"));
+        assert_eq!(0xaebece, int(16, "AE_BE_CE"));
         assert_eq!(0b1010000110000101, int(2, "1010_0001_1000_0101"));
         assert_eq!(0o0666, int(8, "0_6_6_6"));
     }

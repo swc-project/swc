@@ -91,9 +91,9 @@ where
                     let b4;
                     let char_as_u8 = char as u8;
 
-                    let bytes = if char_as_u8 > 0x0F {
+                    let bytes = if char_as_u8 > 0x0f {
                         let high = (char_as_u8 >> 4) as usize;
-                        let low = (char_as_u8 & 0x0F) as usize;
+                        let low = (char_as_u8 & 0x0f) as usize;
 
                         b4 = [b'\\', HEX_DIGITS[high], HEX_DIGITS[low], b' '];
 
