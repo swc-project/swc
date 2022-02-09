@@ -5,4 +5,3 @@ head ~ /**/ body .selector {}
 .selector { -property: value; }
 .selector { property: value\9; }
 .selector { property/*\**/: value\9; }
-/*.cf { *zoom: 1; }*/

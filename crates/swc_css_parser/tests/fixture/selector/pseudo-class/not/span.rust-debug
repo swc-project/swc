@@ -1,0 +1,749 @@
+error: Stylesheet
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:1:1
+   |
+1  | / :not(p) {}
+2  | | :not(   p   ) {}
+3  | | :not(   
+4  | | p   
+...  |
+10 | | :not(:is(argument)) {}
+11 | |
+   | |_^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:1:1
+  |
+1 | :not(p) {}
+  | ^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:1:1
+  |
+1 | :not(p) {}
+  | ^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:1:1
+  |
+1 | :not(p) {}
+  | ^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:1:1
+  |
+1 | :not(p) {}
+  | ^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:1:1
+  |
+1 | :not(p) {}
+  | ^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:1:1
+  |
+1 | :not(p) {}
+  | ^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:1:1
+  |
+1 | :not(p) {}
+  | ^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:1:2
+  |
+1 | :not(p) {}
+  |  ^^^
+
+error: Tokens
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:1:6
+  |
+1 | :not(p) {}
+  |      ^
+
+error: Ident { value: Atom('p' type=inline), raw: Atom('p' type=inline) }
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:1:6
+  |
+1 | :not(p) {}
+  |      ^
+
+error: Block
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:1:9
+  |
+1 | :not(p) {}
+  |         ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:2:1
+  |
+2 | :not(   p   ) {}
+  | ^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:2:1
+  |
+2 | :not(   p   ) {}
+  | ^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:2:1
+  |
+2 | :not(   p   ) {}
+  | ^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:2:1
+  |
+2 | :not(   p   ) {}
+  | ^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:2:1
+  |
+2 | :not(   p   ) {}
+  | ^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:2:1
+  |
+2 | :not(   p   ) {}
+  | ^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:2:1
+  |
+2 | :not(   p   ) {}
+  | ^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:2:2
+  |
+2 | :not(   p   ) {}
+  |  ^^^
+
+error: Tokens
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:2:6
+  |
+2 | :not(   p   ) {}
+  |      ^^^^^^^
+
+error: WhiteSpace { value: Atom('   ' type=inline) }
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:2:6
+  |
+2 | :not(   p   ) {}
+  |      ^^^
+
+error: Ident { value: Atom('p' type=inline), raw: Atom('p' type=inline) }
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:2:9
+  |
+2 | :not(   p   ) {}
+  |         ^
+
+error: WhiteSpace { value: Atom('   ' type=inline) }
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:2:10
+  |
+2 | :not(   p   ) {}
+  |          ^^^
+
+error: Block
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:2:15
+  |
+2 | :not(   p   ) {}
+  |               ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:3:1
+  |
+3 | / :not(   
+4 | | p   
+5 | | ) {}
+  | |____^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:3:1
+  |
+3 | / :not(   
+4 | | p   
+5 | | ) {}
+  | |____^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:3:1
+  |
+3 | / :not(   
+4 | | p   
+5 | | ) {}
+  | |_^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:3:1
+  |
+3 | / :not(   
+4 | | p   
+5 | | ) {}
+  | |_^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:3:1
+  |
+3 | / :not(   
+4 | | p   
+5 | | ) {}
+  | |_^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:3:1
+  |
+3 | / :not(   
+4 | | p   
+5 | | ) {}
+  | |_^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:3:1
+  |
+3 | / :not(   
+4 | | p   
+5 | | ) {}
+  | |_^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:3:2
+  |
+3 | :not(   
+  |  ^^^
+
+error: Tokens
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:3:6
+  |
+3 |   :not(   
+  |  ______^
+4 | | p   
+5 | | ) {}
+  | |_
+
+error: WhiteSpace { value: Atom('   
+' type=inline) }
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:3:6
+  |
+3 |   :not(   
+  |  ______^
+4 | | p   
+  | |_
+
+error: Ident { value: Atom('p' type=inline), raw: Atom('p' type=inline) }
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:4:1
+  |
+4 | p   
+  | ^
+
+error: WhiteSpace { value: Atom('   
+' type=inline) }
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:4:2
+  |
+4 |   p   
+  |  __^
+5 | | ) {}
+  | |_
+
+error: Block
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:5:3
+  |
+5 | ) {}
+  |   ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:6:1
+  |
+6 | button:not([DISABLED]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:6:1
+  |
+6 | button:not([DISABLED]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:6:1
+  |
+6 | button:not([DISABLED]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:6:1
+  |
+6 | button:not([DISABLED]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:6:1
+  |
+6 | button:not([DISABLED]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:6:1
+  |
+6 | button:not([DISABLED]) {}
+  | ^^^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:6:1
+  |
+6 | button:not([DISABLED]) {}
+  | ^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:6:1
+  |
+6 | button:not([DISABLED]) {}
+  | ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:6:1
+  |
+6 | button:not([DISABLED]) {}
+  | ^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:6:7
+  |
+6 | button:not([DISABLED]) {}
+  |       ^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:6:7
+  |
+6 | button:not([DISABLED]) {}
+  |       ^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:6:8
+  |
+6 | button:not([DISABLED]) {}
+  |        ^^^
+
+error: Tokens
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:6:12
+  |
+6 | button:not([DISABLED]) {}
+  |            ^^^^^^^^^^
+
+error: LBracket
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:6:12
+  |
+6 | button:not([DISABLED]) {}
+  |            ^
+
+error: Ident { value: Atom('DISABLED' type=dynamic), raw: Atom('DISABLED' type=dynamic) }
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:6:13
+  |
+6 | button:not([DISABLED]) {}
+  |             ^^^^^^^^
+
+error: RBracket
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:6:21
+  |
+6 | button:not([DISABLED]) {}
+  |                     ^
+
+error: Block
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:6:24
+  |
+6 | button:not([DISABLED]) {}
+  |                        ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:7:1
+  |
+7 | *:not(FOO) {}
+  | ^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:7:1
+  |
+7 | *:not(FOO) {}
+  | ^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:7:1
+  |
+7 | *:not(FOO) {}
+  | ^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:7:1
+  |
+7 | *:not(FOO) {}
+  | ^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:7:1
+  |
+7 | *:not(FOO) {}
+  | ^^^^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:7:1
+  |
+7 | *:not(FOO) {}
+  | ^
+
+error: UniversalSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:7:1
+  |
+7 | *:not(FOO) {}
+  | ^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:7:2
+  |
+7 | *:not(FOO) {}
+  |  ^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:7:2
+  |
+7 | *:not(FOO) {}
+  |  ^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:7:3
+  |
+7 | *:not(FOO) {}
+  |   ^^^
+
+error: Tokens
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:7:7
+  |
+7 | *:not(FOO) {}
+  |       ^^^
+
+error: Ident { value: Atom('FOO' type=inline), raw: Atom('FOO' type=inline) }
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:7:7
+  |
+7 | *:not(FOO) {}
+  |       ^^^
+
+error: Block
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:7:12
+  |
+7 | *:not(FOO) {}
+  |            ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:1
+  |
+8 | html|*:not(:link):not(:visited) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:1
+  |
+8 | html|*:not(:link):not(:visited) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:1
+  |
+8 | html|*:not(:link):not(:visited) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:1
+  |
+8 | html|*:not(:link):not(:visited) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:1
+  |
+8 | html|*:not(:link):not(:visited) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:1
+  |
+8 | html|*:not(:link):not(:visited) {}
+  | ^^^^^^
+
+error: UniversalSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:1
+  |
+8 | html|*:not(:link):not(:visited) {}
+  | ^^^^^^
+
+error: NsPrefix
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:1
+  |
+8 | html|*:not(:link):not(:visited) {}
+  | ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:1
+  |
+8 | html|*:not(:link):not(:visited) {}
+  | ^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:7
+  |
+8 | html|*:not(:link):not(:visited) {}
+  |       ^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:7
+  |
+8 | html|*:not(:link):not(:visited) {}
+  |       ^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:8
+  |
+8 | html|*:not(:link):not(:visited) {}
+  |        ^^^
+
+error: Tokens
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:12
+  |
+8 | html|*:not(:link):not(:visited) {}
+  |            ^^^^^
+
+error: Colon
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:12
+  |
+8 | html|*:not(:link):not(:visited) {}
+  |            ^
+
+error: Ident { value: Atom('link' type=inline), raw: Atom('link' type=inline) }
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:13
+  |
+8 | html|*:not(:link):not(:visited) {}
+  |             ^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:18
+  |
+8 | html|*:not(:link):not(:visited) {}
+  |                  ^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:18
+  |
+8 | html|*:not(:link):not(:visited) {}
+  |                  ^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:19
+  |
+8 | html|*:not(:link):not(:visited) {}
+  |                   ^^^
+
+error: Tokens
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:23
+  |
+8 | html|*:not(:link):not(:visited) {}
+  |                       ^^^^^^^^
+
+error: Colon
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:23
+  |
+8 | html|*:not(:link):not(:visited) {}
+  |                       ^
+
+error: Ident { value: Atom('visited' type=inline), raw: Atom('visited' type=inline) }
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:24
+  |
+8 | html|*:not(:link):not(:visited) {}
+  |                        ^^^^^^^
+
+error: Block
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:33
+  |
+8 | html|*:not(:link):not(:visited) {}
+  |                                 ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:9:1
+  |
+9 | .selector:not(*:root) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:9:1
+  |
+9 | .selector:not(*:root) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:9:1
+  |
+9 | .selector:not(*:root) {}
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:9:1
+  |
+9 | .selector:not(*:root) {}
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:9:1
+  |
+9 | .selector:not(*:root) {}
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:9:1
+  |
+9 | .selector:not(*:root) {}
+  | ^^^^^^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:9:1
+  |
+9 | .selector:not(*:root) {}
+  | ^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:9:2
+  |
+9 | .selector:not(*:root) {}
+  |  ^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:9:10
+  |
+9 | .selector:not(*:root) {}
+  |          ^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:9:10
+  |
+9 | .selector:not(*:root) {}
+  |          ^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:9:11
+  |
+9 | .selector:not(*:root) {}
+  |           ^^^
+
+error: Tokens
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:9:15
+  |
+9 | .selector:not(*:root) {}
+  |               ^^^^^^
+
+error: Delim { value: '*' }
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:9:15
+  |
+9 | .selector:not(*:root) {}
+  |               ^
+
+error: Colon
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:9:16
+  |
+9 | .selector:not(*:root) {}
+  |                ^
+
+error: Ident { value: Atom('root' type=inline), raw: Atom('root' type=inline) }
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:9:17
+  |
+9 | .selector:not(*:root) {}
+  |                 ^^^^
+
+error: Block
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:9:23
+  |
+9 | .selector:not(*:root) {}
+  |                       ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:1
+   |
+10 | :not(:is(argument)) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:1
+   |
+10 | :not(:is(argument)) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:1
+   |
+10 | :not(:is(argument)) {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:1
+   |
+10 | :not(:is(argument)) {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:1
+   |
+10 | :not(:is(argument)) {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:1
+   |
+10 | :not(:is(argument)) {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:1
+   |
+10 | :not(:is(argument)) {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:2
+   |
+10 | :not(:is(argument)) {}
+   |  ^^^
+
+error: Tokens
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:6
+   |
+10 | :not(:is(argument)) {}
+   |      ^^^^^^^^^^^^^
+
+error: Colon
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:6
+   |
+10 | :not(:is(argument)) {}
+   |      ^
+
+error: Function { value: Atom('is' type=static), raw: Atom('is' type=static) }
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:7
+   |
+10 | :not(:is(argument)) {}
+   |       ^^^
+
+error: Ident { value: Atom('argument' type=dynamic), raw: Atom('argument' type=dynamic) }
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:10
+   |
+10 | :not(:is(argument)) {}
+   |          ^^^^^^^^
+
+error: RParen
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:18
+   |
+10 | :not(:is(argument)) {}
+   |                  ^
+
+error: Block
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:21
+   |
+10 | :not(:is(argument)) {}
+   |                     ^^
+
