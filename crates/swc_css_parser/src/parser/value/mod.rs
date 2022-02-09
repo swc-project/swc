@@ -1327,10 +1327,8 @@ where
 }
 
 fn is_length_unit(unit: &str) -> bool {
-    debug_assert_eq!(unit, unit.to_ascii_lowercase());
-
     matches!(
-        unit,
+        &*unit.to_ascii_lowercase(),
         "em" | "rem"  | 
         "ex" | "rex" | 
         "cap" | "rcap" | 
