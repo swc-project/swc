@@ -9,7 +9,9 @@ let [ast1, ast2] =
         .map(file => readFileSync(file, 'utf-8')) // read given files as strings
         .map(code => {
             // console.log(code);
-            return parse(code)
+            return parse(code, {
+                sourceType: 'module'
+            })
         }); // parse into ASTs
 
 notDeepEqual(ast1, ast2); // ensure they're still not equal
