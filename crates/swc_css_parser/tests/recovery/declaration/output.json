@@ -199,6 +199,7 @@
             },
             "tokens": [
               {
+                "type": "Token",
                 "span": {
                   "start": 53,
                   "end": 57,
@@ -212,6 +213,7 @@
                 }
               },
               {
+                "type": "Token",
                 "span": {
                   "start": 57,
                   "end": 58,
@@ -220,6 +222,7 @@
                 "token": "Colon"
               },
               {
+                "type": "Token",
                 "span": {
                   "start": 58,
                   "end": 59,
@@ -232,6 +235,7 @@
                 }
               },
               {
+                "type": "Token",
                 "span": {
                   "start": 59,
                   "end": 60,
@@ -244,6 +248,7 @@
                 }
               },
               {
+                "type": "Token",
                 "span": {
                   "start": 60,
                   "end": 61,

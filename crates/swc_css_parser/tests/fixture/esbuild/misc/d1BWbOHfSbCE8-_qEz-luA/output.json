@@ -91,6 +91,7 @@
                       },
                       "tokens": [
                         {
+                          "type": "Token",
                           "span": {
                             "start": 4,
                             "end": 5,
@@ -99,6 +100,7 @@
                           "token": "Colon"
                         },
                         {
+                          "type": "Token",
                           "span": {
                             "start": 5,
                             "end": 6,

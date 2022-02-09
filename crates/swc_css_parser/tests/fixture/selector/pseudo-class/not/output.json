@@ -65,6 +65,7 @@
                       },
                       "tokens": [
                         {
+                          "type": "Token",
                           "span": {
                             "start": 5,
                             "end": 6,
@@ -155,6 +156,7 @@
                       },
                       "tokens": [
                         {
+                          "type": "Token",
                           "span": {
                             "start": 16,
                             "end": 19,
@@ -167,6 +169,7 @@
                           }
                         },
                         {
+                          "type": "Token",
                           "span": {
                             "start": 19,
                             "end": 20,
@@ -180,6 +183,7 @@
                           }
                         },
                         {
+                          "type": "Token",
                           "span": {
                             "start": 20,
                             "end": 23,
@@ -269,6 +273,7 @@
                       },
                       "tokens": [
                         {
+                          "type": "Token",
                           "span": {
                             "start": 33,
                             "end": 37,
@@ -281,6 +286,7 @@
                           }
                         },
                         {
+                          "type": "Token",
                           "span": {
                             "start": 37,
                             "end": 38,
@@ -294,6 +300,7 @@
                           }
                         },
                         {
+                          "type": "Token",
                           "span": {
                             "start": 38,
                             "end": 42,
@@ -409,6 +416,7 @@
                       },
                       "tokens": [
                         {
+                          "type": "Token",
                           "span": {
                             "start": 58,
                             "end": 59,
@@ -417,6 +425,7 @@
                           "token": "LBracket"
                         },
                         {
+                          "type": "Token",
                           "span": {
                             "start": 59,
                             "end": 67,
@@ -430,6 +439,7 @@
                           }
                         },
                         {
+                          "type": "Token",
                           "span": {
                             "start": 67,
                             "end": 68,
@@ -523,6 +533,7 @@
                       },
                       "tokens": [
                         {
+                          "type": "Token",
                           "span": {
                             "start": 79,
                             "end": 82,
@@ -638,6 +649,7 @@
                       },
                       "tokens": [
                         {
+                          "type": "Token",
                           "span": {
                             "start": 98,
                             "end": 99,
@@ -646,6 +658,7 @@
                           "token": "Colon"
                         },
                         {
+                          "type": "Token",
                           "span": {
                             "start": 99,
                             "end": 103,
@@ -687,6 +700,7 @@
                       },
                       "tokens": [
                         {
+                          "type": "Token",
                           "span": {
                             "start": 109,
                             "end": 110,
@@ -695,6 +709,7 @@
                           "token": "Colon"
                         },
                         {
+                          "type": "Token",
                           "span": {
                             "start": 110,
                             "end": 117,
@@ -803,6 +818,7 @@
                       },
                       "tokens": [
                         {
+                          "type": "Token",
                           "span": {
                             "start": 136,
                             "end": 137,
@@ -815,6 +831,7 @@
                           }
                         },
                         {
+                          "type": "Token",
                           "span": {
                             "start": 137,
                             "end": 138,
@@ -823,6 +840,7 @@
                           "token": "Colon"
                         },
                         {
+                          "type": "Token",
                           "span": {
                             "start": 138,
                             "end": 142,
@@ -913,6 +931,7 @@
                       },
                       "tokens": [
                         {
+                          "type": "Token",
                           "span": {
                             "start": 152,
                             "end": 153,
@@ -921,6 +940,7 @@
                           "token": "Colon"
                         },
                         {
+                          "type": "Token",
                           "span": {
                             "start": 153,
                             "end": 156,
@@ -934,6 +954,7 @@
                           }
                         },
                         {
+                          "type": "Token",
                           "span": {
                             "start": 156,
                             "end": 164,
@@ -947,6 +968,7 @@
                           }
                         },
                         {
+                          "type": "Token",
                           "span": {
                             "start": 164,
                             "end": 165,

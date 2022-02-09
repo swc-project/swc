@@ -710,6 +710,7 @@
           },
           "tokens": [
             {
+              "type": "Token",
               "span": {
                 "start": 276,
                 "end": 303,
@@ -723,6 +724,7 @@
               }
             },
             {
+              "type": "Token",
               "span": {
                 "start": 303,
                 "end": 304,

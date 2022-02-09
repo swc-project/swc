@@ -65,6 +65,7 @@
                       },
                       "tokens": [
                         {
+                          "type": "Token",
                           "span": {
                             "start": 11,
                             "end": 18,

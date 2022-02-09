@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
 
+// TODO remove me in favor `PreservedToken`
 #[ast_node("Tokens")]
 #[derive(Default)]
 pub struct Tokens {
@@ -9,7 +10,7 @@ pub struct Tokens {
     pub tokens: Vec<TokenAndSpan>,
 }
 
-#[ast_node]
+#[ast_node("Token")]
 pub struct TokenAndSpan {
     pub span: Span,
     pub token: Token,
