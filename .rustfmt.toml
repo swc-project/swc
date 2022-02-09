@@ -1,4 +1,5 @@
 format_strings = true
+group_imports = "StdExternalCrate"
 hex_literal_case = "Lower"
 imports_granularity = "Crate"
 reorder_impl_items = true
