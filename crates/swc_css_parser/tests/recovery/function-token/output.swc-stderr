@@ -1,6 +1,0 @@
-error: Expected Declaration value
- --> $DIR/tests/recovery/function-token/input.css:2:23
-  |
-2 |     prop: url("test") :
-  |                       ^
-

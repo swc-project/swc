@@ -172,38 +172,38 @@ where
             tok!(",") => {
                 bump!(self);
 
-                return Ok(Value::Delimiter(Delimiter {
+                Ok(Value::Delimiter(Delimiter {
                     span: span!(self, span.lo),
                     value: DelimiterValue::Comma,
-                }));
+                }))
             }
 
             tok!("/") => {
                 bump!(self);
 
-                return Ok(Value::Delimiter(Delimiter {
+                Ok(Value::Delimiter(Delimiter {
                     span: span!(self, span.lo),
                     value: DelimiterValue::Solidus,
-                }));
+                }))
             }
 
-            tok!("str") => return Ok(Value::Str(self.parse()?)),
+            tok!("str") => Ok(Value::Str(self.parse()?)),
 
-            tok!("url") => return Ok(Value::Url(self.parse()?)),
+            tok!("url") => Ok(Value::Url(self.parse()?)),
 
             Token::Function { value, .. } => {
                 if &*value.to_ascii_lowercase() == "url" || &*value.to_ascii_lowercase() == "src" {
                     return Ok(Value::Url(self.parse()?));
                 }
 
-                return Ok(Value::Function(self.parse()?));
+                Ok(Value::Function(self.parse()?))
             }
 
             tok!("percentage") | tok!("dimension") | tok!("num") => {
                 let span = self.input.cur_span()?;
                 let base = self.parse_basical_numeric_value()?;
 
-                return self.parse_numeric_value_with_base(span.lo, base);
+                self.parse_numeric_value_with_base(span.lo, base)
             }
 
             Token::Ident { value, .. } => {
@@ -215,23 +215,26 @@ where
                     return Ok(Value::Urange(self.parse()?));
                 }
 
-                return Ok(Value::Ident(self.parse()?));
+                Ok(Value::Ident(self.parse()?))
             }
 
-            tok!("[") => return self.parse_brackets(']').map(From::from),
+            tok!("[") => Ok(Value::SimpleBlock(self.parse()?)),
 
-            tok!("(") => return self.parse_brackets(')').map(From::from),
+            tok!("(") => Ok(Value::SimpleBlock(self.parse()?)),
 
-            tok!("{") => {
-                return self.parse_brace_value().map(From::from);
+            tok!("{") => Ok(Value::SimpleBlock(self.parse()?)),
+
+            tok!("#") => Ok(Value::Color(Color::HexColor(self.parse()?))),
+
+            _ => {
+                let token = self.input.bump()?.unwrap();
+
+                Ok(Value::Tokens(Tokens {
+                    span,
+                    tokens: vec![token],
+                }))
             }
-
-            tok!("#") => return Ok(Value::Color(Color::HexColor(self.parse()?))),
-
-            _ => {}
         }
-
-        Err(Error::new(span, ErrorKind::Expected("Declaration value")))
     }
 
     fn parse_numeric_value_with_base(&mut self, start: BytePos, base: Value) -> PResult<Value> {
@@ -275,47 +278,6 @@ where
         Ok(base)
     }
 
-    fn parse_brace_value(&mut self) -> PResult<SimpleBlock> {
-        let span = self.input.cur_span()?;
-
-        expect!(self, "{");
-
-        let brace_start = self.input.cur_span()?.lo;
-        let mut tokens = vec![];
-
-        let mut brace_cnt = 1;
-        loop {
-            if is!(self, "}") {
-                brace_cnt -= 1;
-                if brace_cnt == 0 {
-                    break;
-                }
-            }
-            if is!(self, "{") {
-                brace_cnt += 1;
-            }
-
-            let token = self.input.bump()?;
-            match token {
-                Some(token) => tokens.push(token),
-                None => break,
-            }
-        }
-
-        let brace_span = span!(self, brace_start);
-        expect!(self, "}");
-
-        Ok(SimpleBlock {
-            span: span!(self, span.lo),
-            name: '{',
-            // TODO refactor me
-            value: vec![Value::Tokens(Tokens {
-                span: brace_span,
-                tokens,
-            })],
-        })
-    }
-
     fn parse_basical_numeric_value(&mut self) -> PResult<Value> {
         match cur!(self) {
             tok!("percentage") => Ok(Value::Percentage(self.parse()?)),
@@ -325,85 +287,6 @@ where
                 unreachable!()
             }
         }
-    }
-
-    fn parse_brackets(&mut self, ending: char) -> PResult<SimpleBlock> {
-        let span = self.input.cur_span()?;
-
-        match ending {
-            ']' => {
-                expect!(self, "[");
-            }
-            ')' => {
-                expect!(self, "(");
-            }
-            _ => {
-                unreachable!();
-            }
-        }
-
-        // TODO remove me
-        self.input.skip_ws()?;
-
-        let mut simple_block = SimpleBlock {
-            span: Default::default(),
-            name: if ending == ']' { '[' } else { '(' },
-            value: vec![],
-        };
-
-        // Repeatedly consume the next input token and process it as follows:
-        loop {
-            // <EOF-token>
-            // This is a parse error. Return the function.
-            if is!(self, EOF) {
-                break;
-            }
-
-            match cur!(self) {
-                // <]-token>
-                // Return the function.
-                tok!("]") if ending == ']' => {
-                    bump!(self);
-
-                    break;
-                }
-                tok!(")") if ending == ')' => {
-                    bump!(self);
-
-                    break;
-                }
-                // anything else
-                // Reconsume the current input token. Consume a component value and append the
-                // returned value to the function’s value.
-                _ => {
-                    let state = self.input.state();
-                    let ctx = Ctx {
-                        allow_operation_in_value: ending == ')',
-                        ..self.ctx
-                    };
-                    let parsed = self.with_ctx(ctx).parse_one_value_inner();
-                    let value = match parsed {
-                        Ok(value) => {
-                            self.input.skip_ws()?;
-
-                            value
-                        }
-                        Err(err) => {
-                            self.errors.push(err);
-                            self.input.reset(&state);
-
-                            self.parse_component_value()?
-                        }
-                    };
-
-                    simple_block.value.push(value);
-                }
-            }
-        }
-
-        simple_block.span = span!(self, span.lo);
-
-        Ok(simple_block)
     }
 
     pub fn parse_simple_block(&mut self, ending: char) -> PResult<SimpleBlock> {
