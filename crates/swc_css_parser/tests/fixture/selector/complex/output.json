@@ -11390,6 +11390,7 @@
                       },
                       "tokens": [
                         {
+                          "type": "PreservedToken",
                           "span": {
                             "start": 1510,
                             "end": 1511,
@@ -11402,6 +11403,7 @@
                           }
                         },
                         {
+                          "type": "PreservedToken",
                           "span": {
                             "start": 1511,
                             "end": 1512,
@@ -11414,6 +11416,7 @@
                           }
                         },
                         {
+                          "type": "PreservedToken",
                           "span": {
                             "start": 1512,
                             "end": 1517,

@@ -33,6 +33,7 @@
           },
           "tokens": [
             {
+              "type": "PreservedToken",
               "span": {
                 "start": 6,
                 "end": 7,
@@ -64,6 +65,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 7,
                     "end": 8,
@@ -82,6 +84,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 8,
                     "end": 16,
@@ -107,6 +110,7 @@
           },
           "tokens": [
             {
+              "type": "PreservedToken",
               "span": {
                 "start": 17,
                 "end": 18,

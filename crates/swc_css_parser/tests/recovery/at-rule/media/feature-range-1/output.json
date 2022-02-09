@@ -33,6 +33,7 @@
           },
           "tokens": [
             {
+              "type": "PreservedToken",
               "span": {
                 "start": 6,
                 "end": 7,
@@ -64,6 +65,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 7,
                     "end": 8,
@@ -82,6 +84,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 8,
                     "end": 14,
@@ -105,6 +108,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 14,
                     "end": 15,
@@ -127,6 +131,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 15,
                     "end": 16,
@@ -149,6 +154,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 16,
                     "end": 17,
@@ -171,6 +177,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 17,
                     "end": 18,
@@ -193,6 +200,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 18,
                     "end": 23,
@@ -221,6 +229,7 @@
           },
           "tokens": [
             {
+              "type": "PreservedToken",
               "span": {
                 "start": 24,
                 "end": 25,

@@ -33,6 +33,7 @@
           },
           "tokens": [
             {
+              "type": "PreservedToken",
               "span": {
                 "start": 9,
                 "end": 10,
@@ -64,6 +65,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 10,
                     "end": 11,
@@ -82,6 +84,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 11,
                     "end": 30,
@@ -105,6 +108,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 30,
                     "end": 31,
@@ -123,6 +127,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 31,
                     "end": 32,
@@ -145,6 +150,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 32,
                     "end": 37,
@@ -170,6 +176,7 @@
           },
           "tokens": [
             {
+              "type": "PreservedToken",
               "span": {
                 "start": 38,
                 "end": 39,
@@ -192,6 +199,7 @@
           },
           "tokens": [
             {
+              "type": "PreservedToken",
               "span": {
                 "start": 39,
                 "end": 41,
@@ -215,6 +223,7 @@
           },
           "tokens": [
             {
+              "type": "PreservedToken",
               "span": {
                 "start": 41,
                 "end": 42,
@@ -246,6 +255,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 42,
                     "end": 43,
@@ -264,6 +274,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 43,
                     "end": 57,
@@ -287,6 +298,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 57,
                     "end": 58,
@@ -305,6 +317,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 58,
                     "end": 59,
@@ -327,6 +340,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 59,
                     "end": 62,
@@ -352,6 +366,7 @@
           },
           "tokens": [
             {
+              "type": "PreservedToken",
               "span": {
                 "start": 63,
                 "end": 64,
@@ -374,6 +389,7 @@
           },
           "tokens": [
             {
+              "type": "PreservedToken",
               "span": {
                 "start": 64,
                 "end": 67,
@@ -397,6 +413,7 @@
           },
           "tokens": [
             {
+              "type": "PreservedToken",
               "span": {
                 "start": 67,
                 "end": 68,
@@ -428,6 +445,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 68,
                     "end": 69,
@@ -446,6 +464,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 69,
                     "end": 78,
@@ -469,6 +488,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 78,
                     "end": 79,
@@ -487,6 +507,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 79,
                     "end": 80,
@@ -509,6 +530,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 80,
                     "end": 87,
@@ -532,6 +554,7 @@
               },
               "tokens": [
                 {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 87,
                     "end": 92,
@@ -560,6 +583,7 @@
           },
           "tokens": [
             {
+              "type": "PreservedToken",
               "span": {
                 "start": 93,
                 "end": 94,
@@ -578,6 +602,7 @@
           },
           "tokens": [
             {
+              "type": "PreservedToken",
               "span": {
                 "start": 94,
                 "end": 95,

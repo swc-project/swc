@@ -211,6 +211,7 @@
                   },
                   "tokens": [
                     {
+                      "type": "PreservedToken",
                       "span": {
                         "start": 137,
                         "end": 138,
@@ -243,6 +244,7 @@
                     },
                     "tokens": [
                       {
+                        "type": "PreservedToken",
                         "span": {
                           "start": 139,
                           "end": 152,
@@ -265,6 +267,7 @@
                     },
                     "tokens": [
                       {
+                        "type": "PreservedToken",
                         "span": {
                           "start": 152,
                           "end": 159,
@@ -288,6 +291,7 @@
                     },
                     "tokens": [
                       {
+                        "type": "PreservedToken",
                         "span": {
                           "start": 159,
                           "end": 160,
@@ -306,6 +310,7 @@
                     },
                     "tokens": [
                       {
+                        "type": "PreservedToken",
                         "span": {
                           "start": 160,
                           "end": 161,
@@ -328,6 +333,7 @@
                     },
                     "tokens": [
                       {
+                        "type": "PreservedToken",
                         "span": {
                           "start": 161,
                           "end": 166,
@@ -351,6 +357,7 @@
                     },
                     "tokens": [
                       {
+                        "type": "PreservedToken",
                         "span": {
                           "start": 166,
                           "end": 167,
@@ -369,6 +376,7 @@
                     },
                     "tokens": [
                       {
+                        "type": "PreservedToken",
                         "span": {
                           "start": 167,
                           "end": 176,

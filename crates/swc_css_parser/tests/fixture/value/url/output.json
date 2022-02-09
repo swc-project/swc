@@ -1000,6 +1000,7 @@
                 },
                 "tokens": [
                   {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 830,
                       "end": 866,

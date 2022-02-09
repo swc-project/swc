@@ -105,8 +105,9 @@ define!({
         Bin(BinValue),
         Delimiter(Delimiter),
         Urange(Urange),
-        Tokens(Tokens),
         Url(Url),
+        Tokens(Tokens),
+        PreservedToken(TokenAndSpan),
     }
 
     pub enum DelimiterValue {

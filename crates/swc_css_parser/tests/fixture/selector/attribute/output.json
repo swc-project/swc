@@ -4050,6 +4050,7 @@
                       },
                       "tokens": [
                         {
+                          "type": "PreservedToken",
                           "span": {
                             "start": 795,
                             "end": 796,
@@ -4058,6 +4059,7 @@
                           "token": "LBracket"
                         },
                         {
+                          "type": "PreservedToken",
                           "span": {
                             "start": 796,
                             "end": 799,
@@ -4071,6 +4073,7 @@
                           }
                         },
                         {
+                          "type": "PreservedToken",
                           "span": {
                             "start": 799,
                             "end": 800,
@@ -4083,6 +4086,7 @@
                           }
                         },
                         {
+                          "type": "PreservedToken",
                           "span": {
                             "start": 800,
                             "end": 803,
@@ -4096,6 +4100,7 @@
                           }
                         },
                         {
+                          "type": "PreservedToken",
                           "span": {
                             "start": 803,
                             "end": 804,
@@ -4181,6 +4186,7 @@
                       },
                       "tokens": [
                         {
+                          "type": "PreservedToken",
                           "span": {
                             "start": 814,
                             "end": 817,

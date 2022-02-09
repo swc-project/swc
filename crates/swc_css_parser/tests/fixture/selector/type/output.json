@@ -1915,6 +1915,7 @@
                       },
                       "tokens": [
                         {
+                          "type": "PreservedToken",
                           "span": {
                             "start": 233,
                             "end": 234,

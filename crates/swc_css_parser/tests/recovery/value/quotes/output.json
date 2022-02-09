@@ -107,6 +107,7 @@
             },
             "tokens": [
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 16,
                   "end": 23,
@@ -120,6 +121,7 @@
                 }
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 23,
                   "end": 24,
@@ -128,6 +130,7 @@
                 "token": "Colon"
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 24,
                   "end": 25,
@@ -140,6 +143,7 @@
                 }
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 25,
                   "end": 29,
@@ -153,6 +157,7 @@
                 }
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 29,
                   "end": 34,
@@ -165,6 +170,7 @@
                 }
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 34,
                   "end": 35,
@@ -178,6 +184,7 @@
                 }
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 35,
                   "end": 37,
@@ -191,6 +198,7 @@
                 }
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 37,
                   "end": 38,

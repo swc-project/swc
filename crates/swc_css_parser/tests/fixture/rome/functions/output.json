@@ -98,6 +98,7 @@
                 },
                 "tokens": [
                   {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 19,
                       "end": 22,

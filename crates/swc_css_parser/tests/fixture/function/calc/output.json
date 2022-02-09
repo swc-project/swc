@@ -262,6 +262,7 @@
                 },
                 "tokens": [
                   {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 63,
                       "end": 68,
@@ -275,6 +276,7 @@
                     }
                   },
                   {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 68,
                       "end": 71,
@@ -288,6 +290,7 @@
                     }
                   },
                   {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 71,
                       "end": 72,
@@ -300,6 +303,7 @@
                     }
                   },
                   {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 72,
                       "end": 73,
@@ -312,6 +316,7 @@
                     }
                   },
                   {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 73,
                       "end": 74,
@@ -324,6 +329,7 @@
                     }
                   },
                   {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 74,
                       "end": 78,
@@ -340,6 +346,7 @@
                     }
                   },
                   {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 78,
                       "end": 79,

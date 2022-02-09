@@ -87,6 +87,7 @@
             },
             "tokens": [
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 8,
                   "end": 12,
@@ -100,6 +101,7 @@
                 }
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 12,
                   "end": 13,
@@ -108,6 +110,7 @@
                 "token": "Colon"
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 13,
                   "end": 14,
@@ -120,6 +123,7 @@
                 }
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 14,
                   "end": 18,
@@ -133,6 +137,7 @@
                 }
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 18,
                   "end": 24,
@@ -146,6 +151,7 @@
                 }
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 24,
                   "end": 25,
@@ -154,6 +160,7 @@
                 "token": "RParen"
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 25,
                   "end": 26,
@@ -166,6 +173,7 @@
                 }
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 39,
                   "end": 42,
@@ -178,6 +186,7 @@
                 }
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 55,
                   "end": 64,
@@ -190,6 +199,7 @@
                 }
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 77,
                   "end": 78,
@@ -198,6 +208,7 @@
                 "token": "Colon"
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 78,
                   "end": 79,
