@@ -190,7 +190,7 @@ function a() {
         expected,
         MangleOptions {
             top_level: true,
-            reserved: vec!["func1".to_owned()],
+            reserved: vec!["func1".into()],
             ..Default::default()
         },
     )
@@ -217,7 +217,38 @@ class a {
         expected,
         MangleOptions {
             top_level: true,
-            reserved: vec!["Class1".to_owned()],
+            reserved: vec!["Class1".into()],
+            ..Default::default()
+        },
+    )
+}
+
+#[test]
+fn reserved_class_props() {
+    let src = "class Class1 {
+    hello1 = 1;
+}
+class Class2 {
+    hello2 = 2;
+}";
+
+    let expected = "class Class1 {
+    hello1 = 1;
+}
+class a {
+    hello2 = 2;
+}";
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: true,
+            reserved: vec!["hello1".into()],
+            props: Some(ManglePropertiesOptions {
+                reserved: vec!["hello2".into()],
+                ..Default::default()
+            }),
             ..Default::default()
         },
     )
@@ -233,10 +264,10 @@ class Class2 {
 }";
 
     let expected = "class a {
-    #hello1 = 1;
+    #a = 1;
 }
 class b {
-    #a = 2;
+    #b = 2;
 }";
 
     assert_mangled(
@@ -244,7 +275,7 @@ class b {
         expected,
         MangleOptions {
             top_level: true,
-            reserved: vec!["hello1".to_owned()],
+            reserved: vec!["hello1".into()],
             ..Default::default()
         },
     )

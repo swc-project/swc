@@ -62,14 +62,14 @@ pub struct MangleOptions {
     pub safari10: bool,
 
     #[serde(default, alias = "reserved")]
-    pub reserved: Vec<String>,
+    pub reserved: Vec<JsWord>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ManglePropertiesOptions {
     #[serde(default, alias = "reserved")]
-    pub reserved: Vec<String>,
+    pub reserved: Vec<JsWord>,
     #[serde(default, alias = "undeclared")]
     pub undeclared: bool,
     #[serde(default, with = "serde_regex")]

@@ -76,7 +76,7 @@ impl ManglePropertiesState {
     }
 
     fn is_reserved(&self, name: &JsWord) -> bool {
-        JS_ENVIRONMENT_PROPS.contains(name) || self.options.reserved.contains(&name.to_string())
+        JS_ENVIRONMENT_PROPS.contains(name) || self.options.reserved.contains(name)
     }
 
     fn gen_name(&mut self, name: &JsWord) -> Option<JsWord> {

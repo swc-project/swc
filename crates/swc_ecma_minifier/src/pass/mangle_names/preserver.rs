@@ -26,7 +26,7 @@ pub(super) struct Preserver {
 
 impl Preserver {
     fn is_reserved(&self, ident: &Ident) -> bool {
-        self.options.reserved.contains(&ident.sym.to_string())
+        self.options.reserved.contains(&ident.sym)
     }
 }
 

@@ -5,15 +5,11 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
-pub fn private_name_mangler(
-    keep_private_props: bool,
-    reserved: Vec<String>,
-) -> impl Fold + VisitMut {
+pub fn private_name_mangler(keep_private_props: bool) -> impl Fold + VisitMut {
     as_folder(PrivateNameMangler {
         keep_private_props,
         private_n: Default::default(),
         renamed_private: Default::default(),
-        reserved,
     })
 }
 
@@ -22,8 +18,6 @@ struct PrivateNameMangler {
     private_n: usize,
 
     renamed_private: AHashMap<Id, JsWord>,
-
-    reserved: Vec<String>,
 }
 
 impl PrivateNameMangler {
@@ -44,10 +38,6 @@ impl PrivateNameMangler {
 
         private_name.id.sym = new_sym;
     }
-
-    fn is_reserved(&self, ident: &Ident) -> bool {
-        self.reserved.contains(&ident.sym.to_string())
-    }
 }
 
 impl VisitMut for PrivateNameMangler {
@@ -64,7 +54,7 @@ impl VisitMut for PrivateNameMangler {
     }
 
     fn visit_mut_private_name(&mut self, private_name: &mut PrivateName) {
-        if !self.keep_private_props && !self.is_reserved(&private_name.id) {
+        if !self.keep_private_props {
             self.rename_private(private_name);
         }
     }
