@@ -396,7 +396,7 @@
             "type": "Declaration",
             "span": {
               "start": 225,
-              "end": 264,
+              "end": 265,
               "ctxt": 0
             },
             "name": {
@@ -411,26 +411,23 @@
             },
             "value": [
               {
-                "type": "Tokens",
+                "type": "Ident",
                 "span": {
                   "start": 237,
+                  "end": 264,
+                  "ctxt": 0
+                },
+                "value": "__styled-jsx-placeholder__2",
+                "raw": "__styled-jsx-placeholder__2"
+              },
+              {
+                "type": "Tokens",
+                "span": {
+                  "start": 264,
                   "end": 265,
                   "ctxt": 0
                 },
                 "tokens": [
-                  {
-                    "span": {
-                      "start": 237,
-                      "end": 264,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Ident": {
-                        "value": "__styled-jsx-placeholder__2",
-                        "raw": "__styled-jsx-placeholder__2"
-                      }
-                    }
-                  },
                   {
                     "span": {
                       "start": 264,
@@ -687,7 +684,7 @@
                 "type": "Declaration",
                 "span": {
                   "start": 366,
-                  "end": 405,
+                  "end": 406,
                   "ctxt": 0
                 },
                 "name": {
@@ -702,26 +699,23 @@
                 },
                 "value": [
                   {
-                    "type": "Tokens",
+                    "type": "Ident",
                     "span": {
                       "start": 378,
+                      "end": 405,
+                      "ctxt": 0
+                    },
+                    "value": "__styled-jsx-placeholder__3",
+                    "raw": "__styled-jsx-placeholder__3"
+                  },
+                  {
+                    "type": "Tokens",
+                    "span": {
+                      "start": 405,
                       "end": 406,
                       "ctxt": 0
                     },
                     "tokens": [
-                      {
-                        "span": {
-                          "start": 378,
-                          "end": 405,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Ident": {
-                            "value": "__styled-jsx-placeholder__3",
-                            "raw": "__styled-jsx-placeholder__3"
-                          }
-                        }
-                      },
                       {
                         "span": {
                           "start": 405,
@@ -949,7 +943,7 @@
                 "type": "Declaration",
                 "span": {
                   "start": 495,
-                  "end": 534,
+                  "end": 535,
                   "ctxt": 0
                 },
                 "name": {
@@ -964,26 +958,23 @@
                 },
                 "value": [
                   {
-                    "type": "Tokens",
+                    "type": "Ident",
                     "span": {
                       "start": 507,
+                      "end": 534,
+                      "ctxt": 0
+                    },
+                    "value": "__styled-jsx-placeholder__4",
+                    "raw": "__styled-jsx-placeholder__4"
+                  },
+                  {
+                    "type": "Tokens",
+                    "span": {
+                      "start": 534,
                       "end": 535,
                       "ctxt": 0
                     },
                     "tokens": [
-                      {
-                        "span": {
-                          "start": 507,
-                          "end": 534,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Ident": {
-                            "value": "__styled-jsx-placeholder__4",
-                            "raw": "__styled-jsx-placeholder__4"
-                          }
-                        }
-                      },
                       {
                         "span": {
                           "start": 534,
