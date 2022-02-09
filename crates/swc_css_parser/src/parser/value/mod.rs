@@ -287,9 +287,9 @@ where
                 return Ok(Value::Ident(self.parse()?));
             }
 
-            tok!("[") => return self.parse_square_brackets_value().map(From::from),
+            tok!("[") => return self.parse_brackets(']').map(From::from),
 
-            tok!("(") => return self.parse_round_brackets_value().map(From::from),
+            tok!("(") => return self.parse_brackets(')').map(From::from),
 
             tok!("{") => {
                 return self.parse_brace_value().map(From::from);
@@ -404,51 +404,83 @@ where
         }
     }
 
-    fn parse_square_brackets_value(&mut self) -> PResult<SimpleBlock> {
+    fn parse_brackets(&mut self, ending: char) -> PResult<SimpleBlock> {
         let span = self.input.cur_span()?;
 
-        expect!(self, "[");
+        match ending {
+            ']' => {
+                expect!(self, "[");
+            }
+            ')' => {
+                expect!(self, "(");
+            }
+            _ => {
+                unreachable!();
+            }
+        }
 
+        // TODO remove me
         self.input.skip_ws()?;
 
-        let value = self.parse_property_values()?.0;
-
-        self.input.skip_ws()?;
-
-        expect!(self, "]");
-
-        Ok(SimpleBlock {
-            span: span!(self, span.lo),
-            name: '[',
-            value,
-        })
-    }
-
-    fn parse_round_brackets_value(&mut self) -> PResult<SimpleBlock> {
-        let span = self.input.cur_span()?;
-
-        expect!(self, "(");
-
-        self.input.skip_ws()?;
-
-        let value = if is!(self, ")") {
-            vec![]
-        } else {
-            let ctx = Ctx {
-                allow_operation_in_value: true,
-                ..self.ctx
-            };
-
-            self.with_ctx(ctx).parse_property_values()?.0
+        let mut simple_block = SimpleBlock {
+            span: Default::default(),
+            name: if ending == ']' { '[' } else { '(' },
+            value: vec![],
         };
 
-        expect!(self, ")");
+        // Repeatedly consume the next input token and process it as follows:
+        loop {
+            // <EOF-token>
+            // This is a parse error. Return the function.
+            if is!(self, EOF) {
+                break;
+            }
 
-        Ok(SimpleBlock {
-            span: span!(self, span.lo),
-            name: '(',
-            value,
-        })
+            match cur!(self) {
+                // <]-token>
+                // Return the function.
+                tok!("]") if ending == ']' => {
+                    bump!(self);
+
+                    break;
+                }
+                tok!(")") if ending == ')' => {
+                    bump!(self);
+
+                    break;
+                }
+                // anything else
+                // Reconsume the current input token. Consume a component value and append the
+                // returned value to the function’s value.
+                _ => {
+                    let state = self.input.state();
+                    let ctx = Ctx {
+                        allow_operation_in_value: ending == ')',
+                        ..self.ctx
+                    };
+                    let parsed = self.with_ctx(ctx).parse_one_value_inner();
+                    let value = match parsed {
+                        Ok(value) => {
+                            self.input.skip_ws()?;
+
+                            value
+                        }
+                        Err(err) => {
+                            self.errors.push(err);
+                            self.input.reset(&state);
+
+                            self.parse_component_value()?
+                        }
+                    };
+
+                    simple_block.value.push(value);
+                }
+            }
+        }
+
+        simple_block.span = span!(self, span.lo);
+
+        Ok(simple_block)
     }
 
     pub fn parse_simple_block(&mut self, ending: char) -> PResult<SimpleBlock> {
