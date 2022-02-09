@@ -232,10 +232,10 @@ class Class2 {
     hello2 = 2;
 }";
 
-    let expected = "class Class1 {
-    hello1 = 1;
+    let expected = "class a {
+    a = 1;
 }
-class a {
+class b {
     hello2 = 2;
 }";
 
