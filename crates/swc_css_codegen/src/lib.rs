@@ -1656,7 +1656,6 @@ where
     #[emitter]
     fn emit_pseudo_class_selector(&mut self, n: &PseudoClassSelector) -> Result {
         punct!(self, ":");
-
         emit!(self, n.name);
 
         if n.children.is_some() {
@@ -1670,12 +1669,11 @@ where
     fn emit_pseudo_element_selector(&mut self, n: &PseudoElementSelector) -> Result {
         punct!(self, ":");
         punct!(self, ":");
-
         emit!(self, n.name);
 
-        if n.children.is_some() {
+        if let Some(children) = &n.children {
             punct!(self, "(");
-            emit!(self, n.children);
+            self.emit_list(children, ListFormat::NotDelimited)?;
             punct!(self, ")");
         }
     }
