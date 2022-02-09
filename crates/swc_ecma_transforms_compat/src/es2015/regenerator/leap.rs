@@ -15,6 +15,7 @@ impl LeapManager {
     pub fn push(&mut self, entry: Entry) {
         self.stack.push(entry);
     }
+
     pub fn pop(&mut self) -> Option<Entry> {
         self.stack.pop()
     }
@@ -48,6 +49,7 @@ impl LeapManager {
 
         None
     }
+
     pub fn find_break_loc(&self, label: Option<&JsWord>) -> Option<Loc> {
         self.find_leap_loc(
             |entry| match *entry {

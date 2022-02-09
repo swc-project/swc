@@ -188,7 +188,9 @@ impl Visit for TopLevelAwaitFinder {
     noop_visit_type!();
 
     fn visit_function(&mut self, _: &Function) {}
+
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
     fn visit_class_member(&mut self, _: &ClassMember) {}
 
     fn visit_await_expr(&mut self, _: &AwaitExpr) {

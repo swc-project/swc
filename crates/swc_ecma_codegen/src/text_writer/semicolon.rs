@@ -35,24 +35,35 @@ macro_rules! with_semi {
 
 impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
     with_semi!(increase_indent());
+
     with_semi!(decrease_indent());
+
+    with_semi!(write_space());
+
+    with_semi!(write_comment(span: Span, s: &str));
+
+    with_semi!(write_keyword(span: Option<Span>, s: &'static str));
+
+    with_semi!(write_operator(span: Option<Span>, s: &str));
+
+    with_semi!(write_param(s: &str));
+
+    with_semi!(write_property(s: &str));
+
+    with_semi!(write_line());
+
+    with_semi!(write_lit(span: Span, s: &str));
+
+    with_semi!(write_str_lit(span: Span, s: &str));
+
+    with_semi!(write_str(s: &str));
+
+    with_semi!(write_symbol(span: Span, s: &str));
 
     fn write_semi(&mut self, _: Option<Span>) -> Result {
         self.pending_semi = true;
         Ok(())
     }
-
-    with_semi!(write_space());
-    with_semi!(write_comment(span: Span, s: &str));
-    with_semi!(write_keyword(span: Option<Span>, s: &'static str));
-    with_semi!(write_operator(span: Option<Span>, s: &str));
-    with_semi!(write_param(s: &str));
-    with_semi!(write_property(s: &str));
-    with_semi!(write_line());
-    with_semi!(write_lit(span: Span, s: &str));
-    with_semi!(write_str_lit(span: Span, s: &str));
-    with_semi!(write_str(s: &str));
-    with_semi!(write_symbol(span: Span, s: &str));
 
     fn write_punct(&mut self, span: Option<Span>, s: &'static str) -> Result {
         match s {

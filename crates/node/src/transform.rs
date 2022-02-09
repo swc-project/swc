@@ -35,8 +35,8 @@ pub struct TransformTask {
 
 #[napi]
 impl Task for TransformTask {
-    type Output = TransformOutput;
     type JsValue = TransformOutput;
+    type Output = TransformOutput;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
         let mut options: Options = serde_json::from_slice(self.options.as_ref())?;

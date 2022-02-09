@@ -17,10 +17,15 @@ impl<'a> Visit for UsedNameCollector<'a> {
     noop_visit_type!();
 
     noop!(visit_arrow_expr, ArrowExpr);
+
     noop!(visit_function, Function);
+
     noop!(visit_setter_prop, SetterProp);
+
     noop!(visit_getter_prop, GetterProp);
+
     noop!(visit_method_prop, MethodProp);
+
     noop!(visit_constructor, Constructor);
 
     fn visit_expr(&mut self, expr: &Expr) {

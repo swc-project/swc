@@ -56,6 +56,7 @@ where
             _ => {}
         }
     }
+
     /// This method may change return value.
     ///
     /// - `a ? b : false` => `a && b`

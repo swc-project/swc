@@ -159,6 +159,7 @@ impl From<String> for NormalizedOutput {
 
 impl Deref for NormalizedOutput {
     type Target = str;
+
     fn deref(&self) -> &str {
         &self.0
     }

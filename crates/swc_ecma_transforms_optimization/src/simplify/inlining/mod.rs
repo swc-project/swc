@@ -738,11 +738,11 @@ struct IdentListVisitor<'a, 'b> {
 impl Visit for IdentListVisitor<'_, '_> {
     noop_visit_type!();
 
+    visit_obj_and_computed!();
+
     fn visit_ident(&mut self, node: &Ident) {
         self.scope.add_write(&node.to_id(), true);
     }
-
-    visit_obj_and_computed!();
 }
 
 /// Mark idents as `written`.
@@ -753,9 +753,9 @@ struct WriteVisitor<'a, 'b> {
 impl Visit for WriteVisitor<'_, '_> {
     noop_visit_type!();
 
+    visit_obj_and_computed!();
+
     fn visit_ident(&mut self, node: &Ident) {
         self.scope.add_write(&node.to_id(), false);
     }
-
-    visit_obj_and_computed!();
 }

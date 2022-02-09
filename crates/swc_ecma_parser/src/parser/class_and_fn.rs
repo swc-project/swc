@@ -1314,6 +1314,7 @@ impl OutputType for Box<Expr> {
     fn finish_fn(_span: Span, ident: Option<Ident>, function: Function) -> Self {
         Box::new(Expr::Fn(FnExpr { ident, function }))
     }
+
     fn finish_class(_span: Span, ident: Option<Ident>, class: Class) -> Self {
         Box::new(Expr::Class(ClassExpr { ident, class }))
     }
@@ -1335,6 +1336,7 @@ impl OutputType for ExportDefaultDecl {
             decl: DefaultDecl::Fn(FnExpr { ident, function }),
         }
     }
+
     fn finish_class(span: Span, ident: Option<Ident>, class: Class) -> Self {
         ExportDefaultDecl {
             span,
@@ -1357,6 +1359,7 @@ impl OutputType for Decl {
             function,
         })
     }
+
     fn finish_class(_: Span, ident: Ident, class: Class) -> Self {
         Decl::Class(ClassDecl {
             declare: false,

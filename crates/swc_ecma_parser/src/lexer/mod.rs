@@ -46,8 +46,8 @@ impl From<u32> for Char {
 pub(crate) struct CharIter(SmallVec<[char; 7]>);
 
 impl IntoIterator for Char {
-    type Item = char;
     type IntoIter = CharIter;
+    type Item = char;
 
     #[allow(unsafe_code)]
     fn into_iter(self) -> Self::IntoIter {

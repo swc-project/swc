@@ -73,6 +73,7 @@ impl Babelify for BinaryOp {
 // the correct way to handle this case.
 impl Babelify for AssignOp {
     type Output = String;
+
     fn babelify(self, _ctx: &Context) -> Self::Output {
         match self {
             AssignOp::Assign => "=".into(),

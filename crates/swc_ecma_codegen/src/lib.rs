@@ -583,6 +583,7 @@ where
             Callee::Import(ref n) => emit!(n),
         }
     }
+
     #[emitter]
     fn emit_super(&mut self, node: &Super) -> Result {
         keyword!(node.span, "super");

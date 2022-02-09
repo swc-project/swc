@@ -571,6 +571,7 @@ impl Visit for ReturnFinder {
     }
 
     fn visit_function(&mut self, _: &Function) {}
+
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 }
 

@@ -31,6 +31,7 @@ impl<'a> Derive<'a> {
 
                 visit::visit_path(self, path)
             }
+
             fn visit_macro(&mut self, _: &Macro) {}
         }
 

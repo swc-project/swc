@@ -906,6 +906,8 @@ impl MutationHandler<'_> {
 impl VisitMut for MutationHandler<'_> {
     noop_visit_mut_type!();
 
+    visit_mut_obj_and_computed!();
+
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
         let old = self.in_function;
         self.in_function = true;
@@ -963,8 +965,6 @@ impl VisitMut for MutationHandler<'_> {
 
         n.arg = Some(Box::new(self.make_reassignment(val)))
     }
-
-    visit_mut_obj_and_computed!();
 }
 
 #[derive(Debug)]

@@ -258,6 +258,7 @@ impl Syntax {
             Syntax::Typescript(_) => true,
         }
     }
+
     pub fn allow_super_outside_method(self) -> bool {
         match self {
             Syntax::Es(EsConfig {

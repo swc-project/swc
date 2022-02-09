@@ -77,6 +77,8 @@ where
 {
     noop_fold_type!();
 
+    mark_as_nested!();
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         let exports = self.exports.0.clone();
         let top_level = self.in_top_level;
@@ -797,8 +799,6 @@ where
             ..var
         }
     }
-
-    mark_as_nested!();
 }
 
 impl<R> ModulePass for Umd<R>

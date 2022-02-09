@@ -97,6 +97,7 @@ impl Tokens for TokensInput {
     fn syntax(&self) -> Syntax {
         self.syntax
     }
+
     fn target(&self) -> EsVersion {
         self.target
     }
@@ -159,6 +160,7 @@ impl<I: Tokens> Capturing<I> {
             captured: Default::default(),
         }
     }
+
     /// Take captured tokens
     pub fn take(&mut self) -> Vec<TokenAndSpan> {
         mem::take(&mut *self.captured.borrow_mut())
@@ -205,6 +207,7 @@ impl<I: Tokens> Tokens for Capturing<I> {
     fn syntax(&self) -> Syntax {
         self.inner.syntax()
     }
+
     fn target(&self) -> EsVersion {
         self.inner.target()
     }
@@ -257,6 +260,7 @@ impl<I: Tokens> Parser<I> {
     pub fn input(&mut self) -> &mut I {
         &mut self.input.iter
     }
+
     pub(crate) fn input_ref(&self) -> &I {
         &self.input.iter
     }
@@ -452,6 +456,7 @@ impl<I: Tokens> Buffer<I> {
     pub fn syntax(&self) -> Syntax {
         self.iter.syntax()
     }
+
     #[inline]
     pub fn target(&self) -> EsVersion {
         self.iter.target()
@@ -466,10 +471,12 @@ impl<I: Tokens> Buffer<I> {
     pub(crate) fn token_context(&self) -> &lexer::TokenContexts {
         self.iter.token_context()
     }
+
     #[inline]
     pub(crate) fn token_context_mut(&mut self) -> &mut lexer::TokenContexts {
         self.iter.token_context_mut()
     }
+
     #[inline]
     pub(crate) fn set_token_context(&mut self, c: lexer::TokenContexts) {
         self.iter.set_token_context(c)

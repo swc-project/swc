@@ -241,10 +241,12 @@ impl StmtLike for Stmt {
     fn try_into_stmt(self) -> Result<Stmt, Self> {
         Ok(self)
     }
+
     #[inline]
     fn as_stmt(&self) -> Option<&Stmt> {
         Some(self)
     }
+
     #[inline]
     fn from_stmt(stmt: Stmt) -> Self {
         stmt
@@ -259,6 +261,7 @@ impl ModuleItemLike for ModuleItem {
             _ => Err(self),
         }
     }
+
     #[inline]
     fn try_from_module_decl(decl: ModuleDecl) -> Result<Self, ModuleDecl> {
         Ok(ModuleItem::ModuleDecl(decl))
@@ -272,6 +275,7 @@ impl StmtLike for ModuleItem {
             _ => Err(self),
         }
     }
+
     #[inline]
     fn as_stmt(&self) -> Option<&Stmt> {
         match *self {
@@ -279,6 +283,7 @@ impl StmtLike for ModuleItem {
             _ => None,
         }
     }
+
     #[inline]
     fn from_stmt(stmt: Stmt) -> Self {
         ModuleItem::Stmt(stmt)
@@ -1297,6 +1302,7 @@ impl Purity {
 
 impl Add for Purity {
     type Output = Self;
+
     fn add(self, rhs: Self) -> Self {
         match (self, rhs) {
             (Pure, Pure) => Pure,
@@ -1877,13 +1883,13 @@ pub struct UsageFinder<'a> {
 impl<'a> Visit for UsageFinder<'a> {
     noop_visit_type!();
 
+    visit_obj_and_computed!();
+
     fn visit_ident(&mut self, i: &Ident) {
         if i.span.ctxt == self.ident.span.ctxt && i.sym == self.ident.sym {
             self.found = true;
         }
     }
-
-    visit_obj_and_computed!();
 }
 
 impl<'a> UsageFinder<'a> {
@@ -2100,13 +2106,13 @@ pub struct IdentReplacer<'a> {
 impl VisitMut for IdentReplacer<'_> {
     noop_visit_mut_type!();
 
+    visit_mut_obj_and_computed!();
+
     fn visit_mut_ident(&mut self, node: &mut Ident) {
         if node.sym == self.from.0 && node.span.ctxt == self.from.1 {
             *node = self.to.clone();
         }
     }
-
-    visit_mut_obj_and_computed!();
 }
 
 pub struct BindingCollector<I>

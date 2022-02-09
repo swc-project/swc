@@ -141,7 +141,6 @@ pub struct EncodeJsWord;
 #[cfg(feature = "rkyv")]
 impl rkyv::with::ArchiveWith<swc_atoms::JsWord> for EncodeJsWord {
     type Archived = rkyv::Archived<String>;
-
     type Resolver = rkyv::Resolver<String>;
 
     unsafe fn resolve_with(
@@ -190,7 +189,6 @@ where
 #[cfg(feature = "rkyv")]
 impl rkyv::with::ArchiveWith<Option<swc_atoms::JsWord>> for EncodeJsWord {
     type Archived = rkyv::Archived<Option<String>>;
-
     type Resolver = rkyv::Resolver<Option<String>>;
 
     unsafe fn resolve_with(

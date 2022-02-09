@@ -31,6 +31,7 @@ impl Raw {
             st.push_str(s)
         }
     }
+
     #[inline]
     pub fn push(&mut self, c: char) {
         if let Some(ref mut st) = self.0 {
@@ -78,9 +79,11 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub(super) fn cur(&mut self) -> Option<char> {
         self.input.cur()
     }
+
     pub(super) fn peek(&mut self) -> Option<char> {
         self.input.peek()
     }
+
     pub(super) fn peek_ahead(&mut self) -> Option<char> {
         self.input.peek_ahead()
     }
@@ -88,6 +91,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub(super) fn cur_pos(&mut self) -> BytePos {
         self.input.cur_pos()
     }
+
     pub(super) fn last_pos(&self) -> BytePos {
         self.input.last_pos()
     }

@@ -348,6 +348,7 @@ impl FieldInitFinder {
             }
         }
     }
+
     fn check_lhs_expr_of_assign(&mut self, lhs: &Expr) {
         if let Expr::Member(m) = lhs {
             match &*m.obj {
@@ -539,9 +540,13 @@ impl Visit for RequirementCalculator {
     noop_visit_type!();
 
     weak!(visit_arrow_expr, ArrowExpr);
+
     weak!(visit_function, Function);
+
     weak!(visit_class_method, ClassMethod);
+
     weak!(visit_private_method, PrivateMethod);
+
     weak!(visit_method_prop, MethodProp);
 
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {

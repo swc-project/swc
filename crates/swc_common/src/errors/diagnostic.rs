@@ -69,12 +69,15 @@ impl DiagnosticStyledString {
     pub fn new() -> DiagnosticStyledString {
         Default::default()
     }
+
     pub fn push_normal<S: Into<String>>(&mut self, t: S) {
         self.0.push(StringPart::Normal(t.into()));
     }
+
     pub fn push_highlighted<S: Into<String>>(&mut self, t: S) {
         self.0.push(StringPart::Highlighted(t.into()));
     }
+
     pub fn normal<S: Into<String>>(t: S) -> DiagnosticStyledString {
         DiagnosticStyledString(vec![StringPart::Normal(t.into())])
     }

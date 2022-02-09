@@ -87,6 +87,7 @@ impl Helpers {
     pub const fn mark(&self) -> Mark {
         self.mark.0
     }
+
     pub const fn external(&self) -> bool {
         self.external
     }

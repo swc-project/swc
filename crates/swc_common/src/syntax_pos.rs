@@ -202,6 +202,7 @@ impl Span {
     pub fn lo(self) -> BytePos {
         self.lo
     }
+
     #[inline]
     pub fn new(mut lo: BytePos, mut hi: BytePos, ctxt: SyntaxContext) -> Self {
         if lo > hi {
@@ -215,6 +216,7 @@ impl Span {
     pub fn with_lo(&self, lo: BytePos) -> Span {
         Span::new(lo, self.hi, self.ctxt)
     }
+
     #[inline]
     pub fn hi(self) -> BytePos {
         self.hi
@@ -224,10 +226,12 @@ impl Span {
     pub fn with_hi(&self, hi: BytePos) -> Span {
         Span::new(self.lo, hi, self.ctxt)
     }
+
     #[inline]
     pub fn ctxt(self) -> SyntaxContext {
         self.ctxt
     }
+
     #[inline]
     pub fn with_ctxt(&self, ctxt: SyntaxContext) -> Span {
         Span::new(self.lo, self.hi, ctxt)
@@ -245,6 +249,7 @@ impl Span {
     pub fn shrink_to_lo(self) -> Span {
         self.with_hi(self.lo)
     }
+
     /// Returns a new span representing an empty span at the end of this span
     #[inline]
     pub fn shrink_to_hi(self) -> Span {
@@ -742,6 +747,7 @@ impl SourceFile {
     pub fn byte_length(&self) -> u32 {
         self.end_pos.0 - self.start_pos.0
     }
+
     pub fn count_lines(&self) -> usize {
         self.lines.len()
     }

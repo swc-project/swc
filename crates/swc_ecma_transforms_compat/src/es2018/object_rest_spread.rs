@@ -200,7 +200,9 @@ impl VisitMut for ObjectRest {
     noop_visit_mut_type!();
 
     impl_for_for_stmt!(visit_mut_for_in_stmt, ForInStmt);
+
     impl_for_for_stmt!(visit_mut_for_of_stmt, ForOfStmt);
+
     impl_visit_mut_fn!();
 
     /// Handles assign expression

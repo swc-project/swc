@@ -19,6 +19,7 @@ pub fn object_super() -> impl Fold + VisitMut {
 
 impl VisitMut for ObjectSuper {
     noop_visit_mut_type!();
+
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         n.visit_mut_children_with(self);
         if !self.extra_vars.is_empty() {
@@ -43,6 +44,7 @@ impl VisitMut for ObjectSuper {
             );
         }
     }
+
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         stmts.visit_mut_children_with(self);
         if !self.extra_vars.is_empty() {
@@ -153,6 +155,7 @@ impl SuperReplacer {
             ident
         }
     }
+
     fn get_proto(&mut self) -> ExprOrSpread {
         Expr::Call(CallExpr {
             span: DUMMY_SP,
@@ -178,6 +181,7 @@ impl SuperReplacer {
             SuperProp::Computed(ComputedPropName { expr, .. }) => expr,
         }
     }
+
     /// # In
     /// ```js
     /// super.foo(a)
@@ -334,6 +338,7 @@ impl SuperReplacer {
             type_args: Default::default(),
         })
     }
+
     fn to_bin_expr(left: Box<Expr>, op: AssignOp, rhs: Box<Expr>) -> BinExpr {
         BinExpr {
             span: DUMMY_SP,
@@ -342,6 +347,7 @@ impl SuperReplacer {
             right: rhs,
         }
     }
+
     fn call_set_helper(
         &mut self,
         super_token: Span,
@@ -362,6 +368,7 @@ impl SuperReplacer {
             type_args: Default::default(),
         })
     }
+
     fn super_to_set_call(
         &mut self,
         super_token: Span,

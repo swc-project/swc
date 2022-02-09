@@ -65,6 +65,7 @@ impl CurScope<'_> {
             v.remove_usage(id);
         }
     }
+
     fn remove_decl(&self, id: &Id) {
         {
             let mut b = self.data.decls.borrow_mut();

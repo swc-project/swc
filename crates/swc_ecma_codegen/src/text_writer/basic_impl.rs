@@ -110,6 +110,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     fn target(&self) -> EsVersion {
         self.target
     }
+
     fn increase_indent(&mut self) -> Result {
         self.indent += 1;
         Ok(())
@@ -119,6 +120,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
         self.indent -= 1;
         Ok(())
     }
+
     fn write_semi(&mut self, span: Option<Span>) -> Result {
         self.write(span, ";")?;
         Ok(())

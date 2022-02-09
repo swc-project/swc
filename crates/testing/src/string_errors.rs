@@ -36,6 +36,7 @@ impl Write for BufferedError {
     fn write(&mut self, d: &[u8]) -> io::Result<usize> {
         self.0.write().unwrap().write(d)
     }
+
     fn flush(&mut self) -> io::Result<()> {
         Ok(())
     }

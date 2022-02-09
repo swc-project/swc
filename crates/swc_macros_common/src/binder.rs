@@ -56,6 +56,7 @@ impl<'a> Binder<'a> {
     pub const fn new(ident: &'a Ident, body: &'a Data, attrs: &'a [Attribute]) -> Self {
         Binder { ident, body, attrs }
     }
+
     pub fn new_from(input: &'a DeriveInput) -> Self {
         Self::new(&input.ident, &input.data, &input.attrs)
     }
@@ -111,6 +112,7 @@ impl<'a> VariantBinder<'a> {
     pub const fn data(&self) -> &Fields {
         self.data
     }
+
     pub const fn attrs(&self) -> &[Attribute] {
         self.attrs
     }

@@ -363,8 +363,11 @@ impl VisitMut for AsyncFnBodyHandler {
     noop_visit_mut_type!();
 
     noop!(visit_mut_fn_expr, FnExpr);
+
     noop!(visit_mut_constructor, Constructor);
+
     noop!(visit_mut_arrow_expr, ArrowExpr);
+
     noop!(visit_mut_fn_decl, FnDecl);
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {

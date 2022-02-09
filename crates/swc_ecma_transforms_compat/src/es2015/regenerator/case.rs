@@ -1540,16 +1540,21 @@ macro_rules! leap {
 impl Visit for LeapFinder {
     noop_visit_type!();
 
+    leap!(visit_yield_expr, YieldExpr);
+
+    leap!(visit_break_stmt, BreakStmt);
+
+    leap!(visit_continue_stmt, ContinueStmt);
+
+    leap!(visit_return_stmt, ReturnStmt);
+
+    leap!(visit_throw_stmt, ThrowStmt);
+
     /// Ignored
     fn visit_function(&mut self, _: &Function) {}
+
     /// Ignored
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
-
-    leap!(visit_yield_expr, YieldExpr);
-    leap!(visit_break_stmt, BreakStmt);
-    leap!(visit_continue_stmt, ContinueStmt);
-    leap!(visit_return_stmt, ReturnStmt);
-    leap!(visit_throw_stmt, ThrowStmt);
 }
 
 fn contains_leap<T>(node: &T) -> bool

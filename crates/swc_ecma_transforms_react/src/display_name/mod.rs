@@ -135,6 +135,7 @@ impl VisitMut for Folder {
             add_display_name(expr, name)
         }
     }
+
     /// Don't recurse into object.
     fn visit_mut_object_lit(&mut self, _: &mut ObjectLit) {}
 }

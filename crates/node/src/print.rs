@@ -23,8 +23,8 @@ pub struct PrintTask {
 
 #[napi]
 impl Task for PrintTask {
-    type Output = TransformOutput;
     type JsValue = TransformOutput;
+    type Output = TransformOutput;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
         let program: Program = deserialize_json(&self.program_json)?;

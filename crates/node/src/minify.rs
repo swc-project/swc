@@ -47,9 +47,8 @@ impl MinifyTarget {
 
 #[napi]
 impl Task for MinifyTask {
-    type Output = TransformOutput;
-
     type JsValue = TransformOutput;
+    type Output = TransformOutput;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
         let input: MinifyTarget = deserialize_json(&self.code)?;

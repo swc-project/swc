@@ -341,5 +341,6 @@ impl Visit for BreakFinder {
     fn visit_while_stmt(&mut self, _: &WhileStmt) {}
 
     fn visit_function(&mut self, _: &Function) {}
+
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 }

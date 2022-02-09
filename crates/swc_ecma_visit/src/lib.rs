@@ -225,17 +225,23 @@ where
     V: VisitMut,
 {
     delegate!(visit_mut_ident, Ident);
+
     delegate!(visit_mut_span, Span);
 
     delegate!(visit_mut_expr, Expr);
+
     delegate!(visit_mut_decl, Decl);
+
     delegate!(visit_mut_stmt, Stmt);
+
     delegate!(visit_mut_pat, Pat);
 
     delegate!(visit_mut_ts_type, TsType);
 
     delegate!(visit_mut_module, Module);
+
     delegate!(visit_mut_script, Script);
+
     delegate!(visit_mut_program, Program);
 }
 
@@ -254,14 +260,22 @@ where
     V: VisitMut,
 {
     method!(fold_ident, Ident);
+
     method!(fold_span, Span);
 
     method!(fold_expr, Expr);
+
     method!(fold_decl, Decl);
+
     method!(fold_stmt, Stmt);
+
     method!(fold_pat, Pat);
 
     method!(fold_ts_type, TsType);
+
+    method!(fold_script, Script);
+
+    method!(fold_program, Program);
 
     #[inline(always)]
     fn fold_module(&mut self, mut n: Module) -> Module {
@@ -273,8 +287,6 @@ where
         n.visit_mut_with(&mut self.0);
         n
     }
-    method!(fold_script, Script);
-    method!(fold_program, Program);
 }
 
 /// Note: Ignoring more types is not considered as a breaking change.

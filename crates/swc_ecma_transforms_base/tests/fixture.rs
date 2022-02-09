@@ -105,6 +105,8 @@ struct TsHygiene {
 }
 
 impl VisitMut for TsHygiene {
+    visit_mut_obj_and_computed!();
+
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         if SyntaxContext::empty().apply_mark(self.top_level_mark) == i.span.ctxt {
             println!("ts_hygiene: {} is top-level", i.sym);
@@ -115,8 +117,6 @@ impl VisitMut for TsHygiene {
         i.sym = format!("{}__{}", i.sym, ctxt).into();
         i.span = i.span.with_ctxt(SyntaxContext::empty());
     }
-
-    visit_mut_obj_and_computed!();
 
     fn visit_mut_prop_name(&mut self, n: &mut PropName) {
         if let PropName::Computed(n) = n {

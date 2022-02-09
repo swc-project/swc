@@ -72,6 +72,7 @@ impl FnEnvHoister {
         extend_super(&mut decls, super_get, super_set);
         decls
     }
+
     pub fn to_stmt(self) -> Option<Stmt> {
         let decls = self.to_decl();
 

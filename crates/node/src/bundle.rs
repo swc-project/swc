@@ -48,8 +48,8 @@ pub(crate) struct BundleTask {
 #[cfg(feature = "swc_v1")]
 #[napi]
 impl Task for BundleTask {
-    type Output = AHashMap<String, TransformOutput>;
     type JsValue = AHashMap<String, TransformOutput>;
+    type Output = AHashMap<String, TransformOutput>;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
         let builtins = if let TargetEnv::Node = self.config.static_items.config.target {
@@ -166,8 +166,8 @@ impl Task for BundleTask {
 
 #[cfg(feature = "swc_v2")]
 impl Task for BundleTask {
-    type Output = AHashMap<String, TransformOutput>;
     type JsValue = AHashMap<String, TransformOutput>;
+    type Output = AHashMap<String, TransformOutput>;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
         todo!()

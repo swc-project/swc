@@ -525,6 +525,7 @@ where
     Ty: EdgeType,
 {
     type Item = N;
+
     fn next(&mut self) -> Option<N> {
         if Ty::is_directed() {
             (&mut self.iter)
@@ -553,6 +554,7 @@ where
     Ty: EdgeType,
 {
     type Item = N;
+
     fn next(&mut self) -> Option<N> {
         if Ty::is_directed() {
             let self_dir = self.dir;
@@ -589,6 +591,7 @@ where
     Ty: EdgeType,
 {
     type Item = (N, N, &'a E);
+
     fn next(&mut self) -> Option<Self::Item> {
         match self.iter.next() {
             None => None,
@@ -618,6 +621,7 @@ where
     Ty: EdgeType,
 {
     type Item = (N, N, &'a E);
+
     fn next(&mut self) -> Option<Self::Item> {
         self.inner.next().map(|(&(a, b), v)| (a, b, v))
     }
@@ -671,6 +675,7 @@ where
     Ty: EdgeType,
 {
     type Item = (N, N, &'a mut E);
+
     fn next(&mut self) -> Option<Self::Item> {
         self.inner
             .next()
@@ -766,6 +771,7 @@ impl<'b, T> Ord for Ptr<'b, T> {
 
 impl<'b, T> Deref for Ptr<'b, T> {
     type Target = T;
+
     fn deref(&self) -> &T {
         self.0
     }
@@ -802,6 +808,7 @@ where
     Ty: EdgeType,
 {
     type Item = N;
+
     fn next(&mut self) -> Option<Self::Item> {
         self.iter.next().map(|(&n, _)| n)
     }
@@ -823,6 +830,7 @@ where
     Ty: EdgeType,
 {
     type Item = (N, &'a N);
+
     fn next(&mut self) -> Option<Self::Item> {
         self.iter.next().map(|(n, _)| (*n, n))
     }
@@ -842,7 +850,6 @@ where
     N: Copy + PartialEq,
 {
     type EdgeId = (N, N);
-
     type NodeId = N;
 }
 
@@ -852,9 +859,11 @@ where
     Ty: EdgeType,
 {
     type Map = AHashSet<N>;
+
     fn visit_map(&self) -> AHashSet<N> {
         AHashSet::with_capacity_and_hasher(self.node_count(), Default::default())
     }
+
     fn reset_map(&self, map: &mut Self::Map) {
         map.clear();
     }
@@ -866,6 +875,7 @@ where
     Ty: EdgeType,
 {
     type Neighbors = Neighbors<'a, N, Ty>;
+
     fn neighbors(self, n: Self::NodeId) -> Self::Neighbors {
         self.neighbors(n)
     }
@@ -877,6 +887,7 @@ where
     Ty: EdgeType,
 {
     type NeighborsDirected = NeighborsDirected<'a, N, Ty>;
+
     fn neighbors_directed(self, n: N, dir: Direction) -> Self::NeighborsDirected {
         self.neighbors_directed(n, dir)
     }

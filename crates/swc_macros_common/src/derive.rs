@@ -79,6 +79,7 @@ impl<'a> Derive<'a> {
     pub fn unsafety(&mut self, unsafety: Option<token::Unsafe>) {
         self.out.unsafety = unsafety;
     }
+
     pub fn input(&self) -> &DeriveInput {
         self.input
     }

@@ -66,6 +66,7 @@ impl BuiltConfig {
 
         src.split('/').last().unwrap().to_camel_case().into()
     }
+
     pub fn determine_export_name(&self, filename: FileName) -> Ident {
         match filename {
             FileName::Real(ref path) => {

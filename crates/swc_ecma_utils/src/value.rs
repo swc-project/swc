@@ -99,6 +99,7 @@ impl Value<bool> {
 
 impl Not for Value<bool> {
     type Output = Self;
+
     fn not(self) -> Self {
         match self {
             Value::Known(b) => Value::Known(!b),

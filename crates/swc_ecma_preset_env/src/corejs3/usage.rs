@@ -86,6 +86,7 @@ impl UsageVisitor {
             self.add(features)
         }
     }
+
     fn add_property_deps(&mut self, obj: &Expr, prop: &JsWord) {
         let obj = match obj {
             Expr::Ident(i) => &i.sym,

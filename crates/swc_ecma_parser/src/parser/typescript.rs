@@ -923,6 +923,7 @@ impl<I: Tokens> Parser<I> {
             type_args,
         })
     }
+
     /// `tsParseInterfaceDeclaration`
     pub(super) fn parse_ts_interface_decl(&mut self, start: BytePos) -> PResult<TsInterfaceDecl> {
         debug_assert!(self.input.syntax().typescript());

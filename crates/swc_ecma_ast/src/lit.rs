@@ -75,7 +75,6 @@ pub struct EncodeBigInt;
 #[cfg(feature = "rkyv")]
 impl rkyv::with::ArchiveWith<BigIntValue> for EncodeBigInt {
     type Archived = rkyv::Archived<String>;
-
     type Resolver = rkyv::Resolver<String>;
 
     unsafe fn resolve_with(

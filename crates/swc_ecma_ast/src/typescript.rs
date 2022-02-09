@@ -686,6 +686,7 @@ impl<'de> Deserialize<'de> for TruePlusMinus {
 
         impl<'de> Visitor<'de> for TruePlusMinusVisitor {
             type Value = TruePlusMinus;
+
             fn expecting(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
                 formatter.write_str("one of '+', '-', true")
             }
