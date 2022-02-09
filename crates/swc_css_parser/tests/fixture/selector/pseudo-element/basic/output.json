@@ -458,30 +458,22 @@
                       "value": "cue",
                       "raw": "cue"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 73,
-                        "end": 74,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 73,
-                            "end": 74,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "b",
-                              "raw": "b"
-                            }
+                    "children": [
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 73,
+                          "end": 74,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "b",
+                            "raw": "b"
                           }
                         }
-                      ]
-                    }
+                      }
+                    ]
                   }
                 ]
               }
@@ -669,31 +661,23 @@
                       "value": "cue-region",
                       "raw": "cue-region"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 119,
-                        "end": 126,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 119,
-                            "end": 126,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Hash": {
-                              "is_id": true,
-                              "value": "scroll",
-                              "raw": "scroll"
-                            }
+                    "children": [
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 119,
+                          "end": 126,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Hash": {
+                            "is_id": true,
+                            "value": "scroll",
+                            "raw": "scroll"
                           }
                         }
-                      ]
-                    }
+                      }
+                    ]
                   }
                 ]
               }
@@ -923,30 +907,22 @@
                       "value": "part",
                       "raw": "part"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 193,
-                        "end": 196,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 193,
-                            "end": 196,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "tab",
-                              "raw": "tab"
-                            }
+                    "children": [
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 193,
+                          "end": 196,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "tab",
+                            "raw": "tab"
                           }
                         }
-                      ]
-                    }
+                      }
+                    ]
                   }
                 ]
               }
@@ -1150,29 +1126,21 @@
                       "value": "slotted",
                       "raw": "slotted"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 246,
-                        "end": 247,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 246,
-                            "end": 247,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "*"
-                            }
+                    "children": [
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 246,
+                          "end": 247,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Delim": {
+                            "value": "*"
                           }
                         }
-                      ]
-                    }
+                      }
+                    ]
                   }
                 ]
               }
@@ -1240,30 +1208,22 @@
                       "value": "slotted",
                       "raw": "slotted"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 262,
-                        "end": 266,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 262,
-                            "end": 266,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "span",
-                              "raw": "span"
-                            }
+                    "children": [
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 262,
+                          "end": 266,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "span",
+                            "raw": "span"
                           }
                         }
-                      ]
-                    }
+                      }
+                    ]
                   }
                 ]
               }

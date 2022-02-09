@@ -56,30 +56,22 @@
                       "value": "b",
                       "raw": "b"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 4,
-                        "end": 5,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "type": "PreservedToken",
-                          "span": {
-                            "start": 4,
-                            "end": 5,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "c",
-                              "raw": "c"
-                            }
+                    "children": [
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 4,
+                          "end": 5,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "c",
+                            "raw": "c"
                           }
                         }
-                      ]
-                    }
+                      }
+                    ]
                   }
                 ]
               }

@@ -164,6 +164,69 @@ where
         Ok(value)
     }
 
+    // TODO rename to `parse_any_value`
+    /// Parse value as <any-value>.
+    pub(super) fn parse_any_value_as_tokens(&mut self) -> PResult<Vec<TokenAndSpan>> {
+        let mut tokens = vec![];
+        let mut balance_stack: Vec<Option<char>> = vec![];
+
+        // The <any-value> production matches any sequence of one or more tokens,
+        // so long as the sequence ...
+        loop {
+            match cur!(self) {
+                // ... <bad-string-token>, <bad-url-token>,
+                tok!("bad-string") | tok!("bad-url") => {
+                    break;
+                }
+
+                // ... unmatched <)-token>, <]-token>, or <}-token>,
+                tok!(")") | tok!("]") | tok!("}") => {
+                    let value = match cur!(self) {
+                        tok!(")") => ')',
+                        tok!("]") => ']',
+                        tok!("}") => '}',
+                        _ => {
+                            unreachable!();
+                        }
+                    };
+
+                    let balance_close_type = match balance_stack.pop() {
+                        Some(v) => v,
+                        None => None,
+                    };
+
+                    if Some(value) != balance_close_type {
+                        break;
+                    }
+                }
+
+                tok!("function") | tok!("(") | tok!("[") | tok!("{") => {
+                    let value = match cur!(self) {
+                        tok!("function") | tok!("(") => ')',
+                        tok!("[") => ']',
+                        tok!("{") => '}',
+                        _ => {
+                            unreachable!();
+                        }
+                    };
+
+                    balance_stack.push(Some(value));
+                }
+
+                _ => {}
+            }
+
+            let token = self.input.bump()?;
+
+            match token {
+                Some(token) => tokens.push(token),
+                None => break,
+            }
+        }
+
+        Ok(tokens)
+    }
+
     /// Parse value as <any-value>.
     pub(super) fn parse_any_value(&mut self) -> PResult<Tokens> {
         let start = self.input.cur_span()?.lo;

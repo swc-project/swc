@@ -3,7 +3,7 @@ use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
-use crate::{Ident, Str, Tokens};
+use crate::{Ident, Str, TokenAndSpan, Tokens};
 
 #[ast_node("SelectorList")]
 pub struct SelectorList {
@@ -192,7 +192,7 @@ pub struct PseudoClassSelector {
 pub struct PseudoElementSelector {
     pub span: Span,
     pub name: Ident,
-    pub children: Option<Tokens>,
+    pub children: Option<Vec<TokenAndSpan>>,
 }
 
 #[ast_node]

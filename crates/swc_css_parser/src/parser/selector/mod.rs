@@ -647,7 +647,7 @@ where
                 _ => unreachable!(),
             };
 
-            let children = self.parse_any_value()?;
+            let children = self.parse_any_value_as_tokens()?;
 
             expect!(self, ")");
 

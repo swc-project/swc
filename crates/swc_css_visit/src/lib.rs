@@ -362,7 +362,7 @@ define!({
     pub struct PseudoElementSelector {
         pub span: Span,
         pub name: Ident,
-        pub children: Option<Tokens>,
+        pub children: Option<Vec<TokenAndSpan>>,
     }
 
     pub struct IdSelector {
