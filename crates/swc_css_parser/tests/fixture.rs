@@ -389,6 +389,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(UrlModifier, visit_url_modifier);
 
     mtd!(Urange, visit_urange);
+
     mtd!(Value, visit_value);
 
     mtd!(CharsetRule, visit_charset_rule);
