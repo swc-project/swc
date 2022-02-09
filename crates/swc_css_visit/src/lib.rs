@@ -104,6 +104,7 @@ define!({
         Function(Function),
         Bin(BinValue),
         Delimiter(Delimiter),
+        Urange(Urange),
         Tokens(Tokens),
         Url(Url),
     }
@@ -230,6 +231,11 @@ define!({
     pub enum UrlModifier {
         Ident(Ident),
         Function(Function),
+    }
+
+    pub struct Urange {
+        pub span: Span,
+        pub value: JsWord,
     }
 
     pub struct SelectorList {
