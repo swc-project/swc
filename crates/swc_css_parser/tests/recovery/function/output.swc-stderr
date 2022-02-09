@@ -16,3 +16,9 @@ error: Expected Declaration value
 4 |     prop: func3(   ident.ident   );
   |                         ^
 
+error: Expected Declaration value
+ --> $DIR/tests/recovery/function/input.css:7:21
+  |
+7 |     prop: func({ foo: bar });
+  |                     ^
+
