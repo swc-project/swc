@@ -1,4 +1,5 @@
 use std::iter;
+
 use swc_atoms::js_word;
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;

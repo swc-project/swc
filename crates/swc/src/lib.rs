@@ -111,10 +111,14 @@ pub extern crate swc_atoms as atoms;
 pub extern crate swc_common as common;
 pub extern crate swc_ecmascript as ecmascript;
 
-pub use crate::builder::PassBuilder;
-use crate::config::{
-    BuiltInput, Config, ConfigFile, InputSourceMap, Merge, Options, Rc, RootMode, SourceMapsConfig,
+use std::{
+    fs::{read_to_string, File},
+    io::Write,
+    mem::take,
+    path::{Path, PathBuf},
+    sync::{Arc, Mutex},
 };
+
 use anyhow::{bail, Context, Error};
 use atoms::JsWord;
 use common::{
@@ -126,13 +130,6 @@ use once_cell::sync::Lazy;
 use serde::Serialize;
 use serde_json::error::Category;
 pub use sourcemap;
-use std::{
-    fs::{read_to_string, File},
-    io::Write,
-    mem::take,
-    path::{Path, PathBuf},
-    sync::{Arc, Mutex},
-};
 use swc_common::{
     chain,
     comments::{Comment, Comments},
@@ -160,17 +157,24 @@ use swc_ecma_transforms::{
 use swc_ecma_visit::{noop_visit_type, FoldWith, Visit, VisitMutWith, VisitWith};
 pub use swc_node_comments::SwcComments;
 
+pub use crate::builder::PassBuilder;
+use crate::config::{
+    BuiltInput, Config, ConfigFile, InputSourceMap, Merge, Options, Rc, RootMode, SourceMapsConfig,
+};
+
 mod builder;
 pub mod config;
 mod plugin;
 pub mod resolver {
-    use crate::config::CompiledPaths;
     use std::path::PathBuf;
+
     use swc_common::collections::AHashMap;
     use swc_ecma_loader::{
         resolvers::{lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver},
         TargetEnv,
     };
+
+    use crate::config::CompiledPaths;
 
     pub type NodeResolver = CachingResolver<NodeModulesResolver>;
 
@@ -464,6 +468,7 @@ impl Compiler {
     ///
     /// This method receives target file path, but does not write file to the
     /// path. See: https://github.com/swc-project/swc/issues/1255
+    #[allow(clippy::too_many_arguments)]
     pub fn print<T>(
         &self,
         node: &T,

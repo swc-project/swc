@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function AsyncGenerator(gen) {
     var front, back;
     function resume(key, arg) {
@@ -58,6 +57,16 @@ function _wrapAsyncGenerator(fn) {
         return new AsyncGenerator(fn.apply(this, arguments));
     };
 }
+"function" == typeof Symbol && Symbol.asyncIterator && (AsyncGenerator.prototype[Symbol.asyncIterator] = function() {
+    return this;
+}), AsyncGenerator.prototype.next = function(arg) {
+    return this._invoke("next", arg);
+}, AsyncGenerator.prototype.throw = function(arg) {
+    return this._invoke("throw", arg);
+}, AsyncGenerator.prototype.return = function(arg) {
+    return this._invoke("return", arg);
+};
+import regeneratorRuntime from "regenerator-runtime";
 function inferReturnType2() {
     return _inferReturnType2.apply(this, arguments);
 }
@@ -74,15 +83,7 @@ function _inferReturnType2() {
         }, _callee);
     }))).apply(this, arguments);
 }
-"function" == typeof Symbol && Symbol.asyncIterator && (AsyncGenerator.prototype[Symbol.asyncIterator] = function() {
-    return this;
-}), AsyncGenerator.prototype.next = function(arg) {
-    return this._invoke("next", arg);
-}, AsyncGenerator.prototype.throw = function(arg) {
-    return this._invoke("throw", arg);
-}, AsyncGenerator.prototype.return = function(arg) {
-    return this._invoke("return", arg);
-}, _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+_wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:

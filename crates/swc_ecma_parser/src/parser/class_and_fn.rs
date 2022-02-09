@@ -1,8 +1,9 @@
-use super::{ident::MaybeOptionalIdentParser, *};
-use crate::{error::SyntaxError, lexer::TokenContext, parser::stmt::IsDirective, Tokens};
 use either::Either;
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
+
+use super::{ident::MaybeOptionalIdentParser, *};
+use crate::{error::SyntaxError, lexer::TokenContext, parser::stmt::IsDirective, Tokens};
 
 /// Parser for function expression and function declaration.
 impl<'a, I: Tokens> Parser<I> {
@@ -974,16 +975,7 @@ impl<'a, I: Tokens> Parser<I> {
         assert_and_bump!(self, "function");
         let is_async = start_of_async.is_some();
 
-        let is_generator = {
-            if eat!(self, '*') {
-                // if is_async {
-                //     syntax_error!(self, span!(self, start), SyntaxError::AsyncGenerator {});
-                // }
-                true
-            } else {
-                false
-            }
-        };
+        let is_generator = eat!(self, '*');
 
         let ident = if T::is_fn_expr() {
             //
@@ -1323,6 +1315,7 @@ impl OutputType for Box<Expr> {
     fn finish_fn(_span: Span, ident: Option<Ident>, function: Function) -> Self {
         Box::new(Expr::Fn(FnExpr { ident, function }))
     }
+
     fn finish_class(_span: Span, ident: Option<Ident>, class: Class) -> Self {
         Box::new(Expr::Class(ClassExpr { ident, class }))
     }
@@ -1344,6 +1337,7 @@ impl OutputType for ExportDefaultDecl {
             decl: DefaultDecl::Fn(FnExpr { ident, function }),
         }
     }
+
     fn finish_class(span: Span, ident: Option<Ident>, class: Class) -> Self {
         ExportDefaultDecl {
             span,
@@ -1366,6 +1360,7 @@ impl OutputType for Decl {
             function,
         })
     }
+
     fn finish_class(_: Span, ident: Ident, class: Class) -> Self {
         Decl::Class(ClassDecl {
             declare: false,
@@ -1494,9 +1489,10 @@ struct MakeMethodArgs {
 mod tests {
     #![allow(unused)]
 
-    use super::*;
     use swc_common::DUMMY_SP as span;
     use swc_ecma_visit::assert_eq_ignore_span;
+
+    use super::*;
 
     fn lhs(s: &'static str) -> Box<Expr> {
         test_parser(s, Syntax::default(), |p| p.parse_lhs_expr())

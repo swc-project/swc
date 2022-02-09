@@ -1,11 +1,11 @@
-use crate::babelify::{extract_class_body_span, Babelify, Context};
 use copyless::BoxHelper;
+use swc_ecma_ast::{ClassDecl, Decl, FnDecl, VarDecl, VarDeclKind, VarDeclarator};
 use swc_estree_ast::{
     ClassBody, ClassDeclaration, Declaration, FunctionDeclaration, VariableDeclaration,
     VariableDeclarationKind, VariableDeclarator,
 };
 
-use swc_ecma_ast::{ClassDecl, Decl, FnDecl, VarDecl, VarDeclKind, VarDeclarator};
+use crate::babelify::{extract_class_body_span, Babelify, Context};
 
 impl Babelify for Decl {
     type Output = Declaration;

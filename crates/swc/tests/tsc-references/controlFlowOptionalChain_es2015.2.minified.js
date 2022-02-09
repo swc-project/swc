@@ -15,4 +15,4 @@ someFunction({
     someProperty: 42
 }), someFunction(void 0);
 let i = 0;
-for(; (null === (ref8 = arr[i]) || void 0 === ref8 ? void 0 : ref8.tag) === "left";)(null === (ref19 = arr[i += 1]) || void 0 === ref19 ? void 0 : ref19.tag) === "right" && console.log("I should ALSO be reachable");
+for(; (null === (ref8 = arr[i]) || void 0 === ref8 ? void 0 : ref8.tag) === "left";)i += 1, (null === (ref19 = arr[i]) || void 0 === ref19 ? void 0 : ref19.tag) === "right" && console.log("I should ALSO be reachable");

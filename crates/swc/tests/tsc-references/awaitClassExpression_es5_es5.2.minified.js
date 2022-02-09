@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function _getPrototypeOf(o) {
     return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
         return o.__proto__ || Object.getPrototypeOf(o);
@@ -9,3 +8,4 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
+import regeneratorRuntime from "regenerator-runtime";

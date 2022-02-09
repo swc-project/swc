@@ -1,6 +1,7 @@
 #![feature(test)]
 
 use std::path::Path;
+
 use swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax};
 use test::Bencher;
 

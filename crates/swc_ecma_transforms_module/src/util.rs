@@ -1,13 +1,13 @@
-use crate::path::ImportResolver;
-use anyhow::Context;
-use indexmap::{IndexMap, IndexSet};
-use inflector::Inflector;
-use serde::{Deserialize, Serialize};
 use std::{
     cell::{Ref, RefMut},
     collections::hash_map::Entry,
     iter,
 };
+
+use anyhow::Context;
+use indexmap::{IndexMap, IndexSet};
+use inflector::Inflector;
+use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -20,6 +20,8 @@ use swc_ecma_utils::{
     DestructuringFinder, ExprFactory, Id,
 };
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
+
+use crate::path::ImportResolver;
 
 pub(super) trait ModulePass: Fold {
     fn config(&self) -> &Config;

@@ -1,5 +1,5 @@
-use super::util::Scope;
 use std::{cell::RefCell, rc::Rc};
+
 use swc_atoms::{js_word, JsWord};
 use swc_common::collections::AHashSet;
 use swc_ecma_ast::*;
@@ -7,6 +7,8 @@ use swc_ecma_transforms_base::enable_helper;
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitWith,
 };
+
+use super::util::Scope;
 
 pub fn import_analyzer(scope: Rc<RefCell<Scope>>) -> impl Fold + VisitMut {
     as_folder(ImportAnalyzer {

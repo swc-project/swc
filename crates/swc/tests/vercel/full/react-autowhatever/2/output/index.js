@@ -126,8 +126,8 @@ var h = function(b) {
         }
     ], c(d.prototype, i), j && c(d, j), h;
 }(b.Component);
-h.propTypes = {
+exports.default = h, h.propTypes = {
     items: 500
 }, h.defaultProps = {
     sectionIndex: null
-}, exports.default = h, new h();
+}, new h();

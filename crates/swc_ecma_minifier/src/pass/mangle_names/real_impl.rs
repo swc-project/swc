@@ -1,8 +1,9 @@
-use super::{analyzer::Analyzer, preserver::idents_to_preserve};
-use crate::{marks::Marks, option::MangleOptions, pass::compute_char_freq::CharFreqInfo};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::hygiene::rename;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+
+use super::{analyzer::Analyzer, preserver::idents_to_preserve};
+use crate::{marks::Marks, option::MangleOptions, pass::compute_char_freq::CharFreqInfo};
 
 pub(crate) fn name_mangler(
     options: MangleOptions,

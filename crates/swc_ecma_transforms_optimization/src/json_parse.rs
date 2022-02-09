@@ -1,5 +1,6 @@
-use serde_json::Value;
 use std::usize;
+
+use serde_json::Value;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
@@ -142,8 +143,9 @@ fn jsonify(e: Expr) -> Value {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use swc_ecma_transforms_testing::test;
+
+    use super::*;
 
     struct Normalizer;
     impl Fold for Normalizer {

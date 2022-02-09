@@ -1,4 +1,3 @@
-use crate::babelify::{Babelify, Context};
 use copyless::BoxHelper;
 use serde::{Deserialize, Serialize};
 use swc_ecma_ast::{
@@ -18,6 +17,8 @@ use swc_estree_ast::{
     ModuleDeclaration, ModuleExportNameType, TSExportAssignment, TSImportEqualsDeclaration,
     TSNamespaceExportDeclaration,
 };
+
+use crate::babelify::{Babelify, Context};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum ModuleDeclOutput {

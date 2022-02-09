@@ -1,10 +1,12 @@
-use crate::ast::Text;
-use nom::{Compare, CompareResult, InputIter, InputLength, InputTake, Slice, UnspecializedInput};
 use std::{
     ops::{Deref, Range, RangeFrom, RangeTo},
     str::{CharIndices, Chars},
 };
+
+use nom::{Compare, CompareResult, InputIter, InputLength, InputTake, Slice, UnspecializedInput};
 use swc_common::{comments::Comment, BytePos, Span};
+
+use crate::ast::Text;
 
 #[derive(Debug, Clone, Copy)]
 pub struct Input<'i> {

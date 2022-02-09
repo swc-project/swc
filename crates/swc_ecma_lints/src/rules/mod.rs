@@ -1,8 +1,10 @@
-use crate::{config::LintConfig, rule::Rule};
 use std::sync::Arc;
+
 use swc_common::{SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_fold_type, Fold};
+
+use crate::{config::LintConfig, rule::Rule};
 
 mod const_assign;
 mod duplicate_bindings;

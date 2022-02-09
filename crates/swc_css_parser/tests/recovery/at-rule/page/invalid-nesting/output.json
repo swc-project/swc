@@ -437,7 +437,7 @@
           },
           "value": [
             {
-              "type": "Dimension",
+              "type": "Length",
               "span": {
                 "start": 222,
                 "end": 226,

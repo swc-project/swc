@@ -1,4 +1,3 @@
-use crate::swcify::Swcify;
 use swc_atoms::js_word;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::{
@@ -29,6 +28,7 @@ use swc_estree_ast::{
 };
 
 use super::Context;
+use crate::swcify::Swcify;
 
 impl Swcify for Expression {
     type Output = Box<Expr>;

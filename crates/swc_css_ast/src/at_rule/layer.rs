@@ -1,5 +1,6 @@
-use crate::{Ident, Rule};
 use swc_common::{ast_node, Span};
+
+use crate::{Ident, Rule};
 
 #[ast_node("LayerName")]
 pub struct LayerName {

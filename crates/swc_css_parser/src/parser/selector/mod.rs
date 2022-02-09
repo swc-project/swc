@@ -1,11 +1,12 @@
+use swc_atoms::JsWord;
+use swc_common::{BytePos, Span};
+use swc_css_ast::*;
+
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
     Parse,
 };
-use swc_atoms::JsWord;
-use swc_common::{BytePos, Span};
-use swc_css_ast::*;
 
 impl<I> Parse<SelectorList> for Parser<I>
 where
@@ -410,13 +411,12 @@ where
 
         self.input.skip_ws()?;
 
-        let name;
         let mut matcher = None;
         let mut value = None;
         let mut modifier = None;
 
-        if let Ok(Some(wq_name)) = self.parse() {
-            name = wq_name;
+        let name = if let Ok(Some(wq_name)) = self.parse() {
+            wq_name
         } else {
             let span = self.input.cur_span()?;
 
@@ -424,7 +424,7 @@ where
                 span!(self, span.lo),
                 ErrorKind::InvalidAttrSelectorName,
             ));
-        }
+        };
 
         self.input.skip_ws()?;
 
@@ -517,7 +517,7 @@ where
                     value: AttributeSelectorMatcherValue::Equals,
                 })
             }
-            _ => Err(Error::new(span, ErrorKind::InvalidAttrSelectorMatcher))?,
+            _ => return Err(Error::new(span, ErrorKind::InvalidAttrSelectorMatcher)),
         }
     }
 }
@@ -731,21 +731,14 @@ where
                 let mut has_plus_sign = false;
 
                 // '+' n
-                match cur!(self) {
-                    Token::Delim { value: '+' } => {
-                        let peeked = self.input.peek()?;
+                if let  Token::Delim { value: '+' } = cur!(self){
+                    let peeked = self.input.peek()?;
 
-                        match peeked {
-                            Some(Token::Ident { .. }) => {
-                                bump!(self);
-                                has_plus_sign = true;
-                            }
-                            _ => {}
-                        }
+                    if let Some(Token::Ident { .. }) = peeked {
+                        bump!(self);
+                        has_plus_sign = true;
                     }
-                    _ => {}
                 }
-
                 let a;
                 let a_raw;
 
@@ -760,7 +753,7 @@ where
                             }
                         };
 
-                        let has_minus_sign = ident_value.chars().next() == Some('-');
+                        let has_minus_sign = ident_value.starts_with('-');
                         let n_char = if has_minus_sign { ident_value.chars().nth(1) } else { ident_value.chars().next() };
 
                         if n_char != Some('n') && n_char != Some('N') {

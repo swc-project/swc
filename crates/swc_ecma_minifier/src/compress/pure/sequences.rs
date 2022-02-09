@@ -1,9 +1,10 @@
-use super::Pure;
-use crate::mode::Mode;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, ExprFactory};
+
+use super::Pure;
+use crate::mode::Mode;
 
 impl<M> Pure<'_, M>
 where

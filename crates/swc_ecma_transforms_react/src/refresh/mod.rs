@@ -1,10 +1,3 @@
-use self::{
-    hook::HookRegister,
-    util::{
-        collect_ident_in_jsx, is_body_arrow_fn, is_import_or_require, make_assign_stmt,
-        CollectIdent,
-    },
-};
 use indexmap::IndexSet;
 use swc_atoms::JsWord;
 use swc_common::{
@@ -14,6 +7,14 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, private_ident, quote_ident, quote_str, Id};
 use swc_ecma_visit::{as_folder, Fold, Visit, VisitMut, VisitMutWith};
+
+use self::{
+    hook::HookRegister,
+    util::{
+        collect_ident_in_jsx, is_body_arrow_fn, is_import_or_require, make_assign_stmt,
+        CollectIdent,
+    },
+};
 
 pub mod options;
 use options::RefreshOptions;

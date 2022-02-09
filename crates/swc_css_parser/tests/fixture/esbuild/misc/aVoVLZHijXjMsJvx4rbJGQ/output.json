@@ -40,7 +40,7 @@
             },
             "value": [
               {
-                "type": "Dimension",
+                "type": "Length",
                 "span": {
                   "start": 19,
                   "end": 24,

@@ -1,5 +1,6 @@
-use super::Merge;
 use serde::{Deserialize, Serialize};
+
+use super::Merge;
 
 /// Note: `{}` (empty object) is treated as `true`.
 #[derive(Clone, Serialize, Debug)]

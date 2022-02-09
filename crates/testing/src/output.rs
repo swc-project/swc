@@ -1,6 +1,3 @@
-use tracing::{debug, error};
-
-use crate::paths;
 use std::{
     fmt,
     fs::{create_dir_all, File},
@@ -8,6 +5,10 @@ use std::{
     ops::Deref,
     path::Path,
 };
+
+use tracing::{debug, error};
+
+use crate::paths;
 
 #[must_use]
 pub struct TestOutput<R> {
@@ -159,6 +160,7 @@ impl From<String> for NormalizedOutput {
 
 impl Deref for NormalizedOutput {
     type Target = str;
+
     fn deref(&self) -> &str {
         &self.0
     }

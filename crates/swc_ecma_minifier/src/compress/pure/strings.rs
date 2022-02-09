@@ -1,10 +1,12 @@
-use super::Pure;
-use crate::mode::Mode;
 use std::mem::take;
+
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
+
+use super::Pure;
+use crate::mode::Mode;
 
 impl<M> Pure<'_, M>
 where

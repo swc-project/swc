@@ -1,9 +1,9 @@
-use crate::util::Readonly;
-#[cfg(feature = "concurrent")]
-use rayon::prelude::*;
 use std::borrow::Cow;
 #[cfg(feature = "concurrent")]
 use std::sync::Arc;
+
+#[cfg(feature = "concurrent")]
+use rayon::prelude::*;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     pass::{CompilerPass, Repeated},
@@ -18,6 +18,8 @@ use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::{debug, span, trace, Level};
+
+use crate::util::Readonly;
 
 /// Note: This becomes parallel if `concurrent` feature is enabled.
 pub fn dce(config: Config) -> impl Fold + VisitMut + Repeated + CompilerPass {

@@ -1,5 +1,10 @@
 extern crate test;
 
+use std::{ops::Range, str};
+
+use swc_common::SyntaxContext;
+use test::{black_box, Bencher};
+
 use super::{
     state::{lex, lex_module_errors, lex_tokens, with_lexer},
     *,
@@ -8,9 +13,6 @@ use crate::{
     error::{Error, SyntaxError},
     lexer::state::lex_errors,
 };
-use std::{ops::Range, str};
-use swc_common::SyntaxContext;
-use test::{black_box, Bencher};
 
 fn sp(r: Range<usize>) -> Span {
     Span {
@@ -1178,6 +1180,7 @@ fn lex_large_number(b: &mut Bencher) {
 }
 
 #[bench]
+#[allow(clippy::octal_escapes)]
 fn lex_escaped_char(b: &mut Bencher) {
     bench_simple(
         b,

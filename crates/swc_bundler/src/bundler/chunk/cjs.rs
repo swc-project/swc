@@ -1,15 +1,17 @@
-use crate::{
-    bundler::{chunk::merge::Ctx, load::TransformedModule},
-    modules::Modules,
-    Bundler, Load, Resolve,
-};
-use anyhow::Error;
 use std::sync::atomic::Ordering;
+
+use anyhow::Error;
 use swc_atoms::js_word;
 use swc_common::{Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{ModuleItem, *};
 use swc_ecma_utils::{quote_ident, undefined, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+
+use crate::{
+    bundler::{chunk::merge::Ctx, load::TransformedModule},
+    modules::Modules,
+    Bundler, Load, Resolve,
+};
 
 impl<L, R> Bundler<'_, L, R>
 where

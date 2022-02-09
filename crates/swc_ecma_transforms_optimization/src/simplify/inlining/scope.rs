@@ -1,18 +1,20 @@
 #![allow(dead_code)]
 
-use super::{Inlining, Phase};
-use indexmap::map::{Entry, IndexMap};
 use std::{
     borrow::Cow,
     cell::{Cell, RefCell},
     collections::VecDeque,
 };
+
+use indexmap::map::{Entry, IndexMap};
 use swc_atoms::js_word;
 use swc_common::collections::{AHashMap, AHashSet};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use tracing::{span, Level};
+
+use super::{Inlining, Phase};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ScopeKind {

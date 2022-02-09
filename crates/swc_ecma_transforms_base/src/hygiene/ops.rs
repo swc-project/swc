@@ -1,4 +1,5 @@
 use std::collections::hash_map::Entry;
+
 use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -181,13 +182,6 @@ impl<'a> VisitMut for Operator<'a> {
 
         if let MemberProp::Computed(c) = &mut expr.prop {
             c.visit_mut_with(self)
-        }
-    }
-
-    fn visit_mut_super_prop_expr(&mut self, expr: &mut SuperPropExpr) {
-        expr.span.visit_mut_with(self);
-        if let SuperProp::Computed(c) = &mut expr.prop {
-            c.visit_mut_with(self);
         }
     }
 
@@ -386,6 +380,13 @@ impl<'a> VisitMut for Operator<'a> {
     fn visit_mut_prop_name(&mut self, n: &mut PropName) {
         if let PropName::Computed(c) = n {
             c.visit_mut_with(self)
+        }
+    }
+
+    fn visit_mut_super_prop_expr(&mut self, expr: &mut SuperPropExpr) {
+        expr.span.visit_mut_with(self);
+        if let SuperProp::Computed(c) = &mut expr.prop {
+            c.visit_mut_with(self);
         }
     }
 }

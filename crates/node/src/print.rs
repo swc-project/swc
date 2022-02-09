@@ -1,17 +1,19 @@
-use crate::{
-    get_compiler,
-    util::{deserialize_json, get_deserialized, MapErr},
-};
+use std::sync::Arc;
+
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Env, Task,
 };
-use std::sync::Arc;
 use swc::{
     config::{Options, SourceMapsConfig},
     Compiler, TransformOutput,
 };
 use swc_ecma_ast::{EsVersion, Program};
+
+use crate::{
+    get_compiler,
+    util::{deserialize_json, get_deserialized, MapErr},
+};
 
 // ----- Printing -----
 
@@ -23,8 +25,8 @@ pub struct PrintTask {
 
 #[napi]
 impl Task for PrintTask {
-    type Output = TransformOutput;
     type JsValue = TransformOutput;
+    type Output = TransformOutput;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
         let program: Program = deserialize_json(&self.program_json)?;

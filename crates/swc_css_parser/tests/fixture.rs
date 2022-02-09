@@ -1,6 +1,7 @@
 #![allow(clippy::needless_update)]
 
 use std::path::PathBuf;
+
 use swc_common::{errors::Handler, input::SourceFileInput, Span, Spanned};
 use swc_css_ast::*;
 use swc_css_parser::{
@@ -280,118 +281,235 @@ macro_rules! mtd {
 
 impl Visit for SpanVisualizer<'_> {
     mtd!(AtRule, visit_at_rule);
+
     mtd!(BinValue, visit_bin_value);
+
     mtd!(SelectorList, visit_selector_list);
+
     mtd!(ComplexSelector, visit_complex_selector);
+
     mtd!(Combinator, visit_combinator);
+
     mtd!(CompoundSelector, visit_compound_selector);
+
     mtd!(TypeSelector, visit_type_selector);
+
     mtd!(TagNameSelector, visit_tag_name_selector);
+
     mtd!(NsPrefix, visit_ns_prefix);
+
     mtd!(WqName, visit_wq_name);
+
     mtd!(UniversalSelector, visit_universal_selector);
+
     mtd!(IdSelector, visit_id_selector);
+
     mtd!(ClassSelector, visit_class_selector);
+
     mtd!(AttributeSelector, visit_attribute_selector);
+
     mtd!(AttributeSelectorMatcher, visit_attribute_selector_matcher);
+
     mtd!(AttributeSelectorValue, visit_attribute_selector_value);
+
     mtd!(AttributeSelectorModifier, visit_attribute_selector_modifier);
+
     mtd!(SubclassSelector, visit_subclass_selector);
+
     mtd!(NestingSelector, visit_nesting_selector);
+
     mtd!(PseudoClassSelector, visit_pseudo_class_selector);
+
     mtd!(PseudoElementSelector, visit_pseudo_element_selector);
+
     mtd!(AnPlusB, visit_an_plus_b);
+
     mtd!(Delimiter, visit_delimiter);
+
     mtd!(Block, visit_block);
+
     mtd!(SimpleBlock, visit_simple_block);
+
     mtd!(Function, visit_function);
+
     mtd!(HexColor, visit_hex_color);
+
     mtd!(Number, visit_number);
+
     mtd!(Ratio, visit_ratio);
+
     mtd!(Percent, visit_percent);
+
     mtd!(Declaration, visit_declaration);
+
     mtd!(DeclarationName, visit_declaration_name);
+
     mtd!(ImportantFlag, visit_important_flag);
+
     mtd!(Nth, visit_nth);
+
     mtd!(Rule, visit_rule);
+
     mtd!(Str, visit_str);
+
     mtd!(QualifiedRule, visit_qualified_rule);
+
     mtd!(Stylesheet, visit_stylesheet);
+
     mtd!(Ident, visit_ident);
+
     mtd!(CustomIdent, visit_custom_ident);
+
     mtd!(DashedIdent, visit_dashed_ident);
+
     mtd!(Tokens, visit_tokens);
+
     mtd!(Dimension, visit_dimension);
+
+    mtd!(Length, visit_length);
+
+    mtd!(Angle, visit_angle);
+
+    mtd!(Time, visit_time);
+
+    mtd!(Frequency, visit_frequency);
+
+    mtd!(Resolution, visit_resolution);
+
+    mtd!(Flex, visit_flex);
+
+    mtd!(UnknownDimension, visit_unknown_dimension);
+
     mtd!(Url, visit_url);
+
     mtd!(UrlValue, visit_url_value);
+
     mtd!(UrlValueRaw, visit_url_value_raw);
+
     mtd!(UrlModifier, visit_url_modifier);
+
     mtd!(Value, visit_value);
 
     mtd!(CharsetRule, visit_charset_rule);
+
     mtd!(DocumentRule, visit_document_rule);
+
     mtd!(
         DocumentRuleMatchingFunction,
         visit_document_rule_matching_function
     );
+
     mtd!(FontFaceRule, visit_font_face_rule);
+
     mtd!(ImportRule, visit_import_rule);
+
     mtd!(ImportHref, visit_import_href);
+
     mtd!(ImportLayerName, visit_import_layer_name);
+
     mtd!(ImportSupportsType, visit_import_supports_type);
+
     mtd!(KeyframesRule, visit_keyframes_rule);
+
     mtd!(KeyframeBlock, visit_keyframe_block);
+
     mtd!(KeyframeSelector, visit_keyframe_selector);
+
     mtd!(LayerName, visit_layer_name);
+
     mtd!(LayerNameList, visit_layer_name_list);
+
     mtd!(LayerPrelude, visit_layer_prelude);
+
     mtd!(LayerRule, visit_layer_rule);
+
     mtd!(MediaRule, visit_media_rule);
+
     mtd!(MediaQueryList, visit_media_query_list);
+
     mtd!(MediaQuery, visit_media_query);
+
     mtd!(MediaCondition, visit_media_condition);
+
     mtd!(MediaConditionWithoutOr, visit_media_condition_without_or);
+
     mtd!(MediaConditionAllType, visit_media_condition_all_type);
+
     mtd!(
         MediaConditionWithoutOrType,
         visit_media_condition_without_or_type
     );
+
     mtd!(MediaNot, visit_media_not);
+
     mtd!(MediaAnd, visit_media_and);
+
     mtd!(MediaOr, visit_media_or);
+
     mtd!(MediaInParens, visit_media_in_parens);
+
     mtd!(MediaFeatureName, visit_media_feature_name);
+
     mtd!(MediaFeatureValue, visit_media_feature_value);
+
     mtd!(MediaFeature, visit_media_feature);
+
     mtd!(MediaFeaturePlain, visit_media_feature_plain);
+
     mtd!(MediaFeatureBoolean, visit_media_feature_boolean);
+
     mtd!(MediaFeatureRange, visit_media_feature_range);
+
     mtd!(
         MediaFeatureRangeInterval,
         visit_media_feature_range_interval
     );
+
     mtd!(SupportsRule, visit_supports_rule);
+
     mtd!(SupportsCondition, visit_supports_condition);
+
     mtd!(SupportsConditionType, visit_supports_condition_type);
+
     mtd!(SupportsNot, visit_supports_not);
+
     mtd!(SupportsAnd, visit_supports_and);
+
     mtd!(SupportsOr, visit_supports_or);
+
     mtd!(SupportsInParens, visit_supports_in_parens);
+
     mtd!(SupportsFeature, visit_supports_feature);
+
     mtd!(NamespaceUri, visit_namespace_uri);
+
     mtd!(NamespaceRule, visit_namespace_rule);
+
     mtd!(PageRule, visit_page_rule);
+
     mtd!(PageSelectorList, visit_page_selector_list);
+
     mtd!(PageSelector, visit_page_selector);
+
     mtd!(PageSelectorType, visit_page_selector_type);
+
     mtd!(PageSelectorPseudo, visit_page_selector_pseudo);
+
     mtd!(AtRuleName, visit_at_rule_name);
+
     mtd!(PageMarginRule, visit_page_margin_rule);
+
     mtd!(UnknownAtRule, visit_unknown_at_rule);
+
     mtd!(ViewportRule, visit_viewport_rule);
+
     mtd!(ColorProfileName, visit_color_profile_name);
+
     mtd!(ColorProfileRule, visit_color_profile_rule);
+
     mtd!(CounterStyleRule, visit_counter_style_rule);
+
+    mtd!(PropertyRule, visit_property_rule);
 
     fn visit_token_and_span(&mut self, n: &TokenAndSpan) {
         self.handler

@@ -6,9 +6,9 @@ error: Stylesheet
 3  | | div   ,   p   {}
 4  | | a, a[href='place'] {}
 ...  |
-22 | | .class, .foo {}
 23 | | [attr], [attrtoo] {}
-   | |_____________________^
+24 | | a/* { } */ b {}
+   | |________________^
 
 error: Rule
  --> $DIR/tests/fixture/selector/list/input.css:1:1
@@ -2393,4 +2393,100 @@ error: Block
    |
 23 | [attr], [attrtoo] {}
    |                   ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/list/input.css:24:1
+   |
+24 | a/* { } */ b {}
+   | ^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/list/input.css:24:1
+   |
+24 | a/* { } */ b {}
+   | ^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/list/input.css:24:1
+   |
+24 | a/* { } */ b {}
+   | ^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/list/input.css:24:1
+   |
+24 | a/* { } */ b {}
+   | ^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/list/input.css:24:1
+   |
+24 | a/* { } */ b {}
+   | ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/list/input.css:24:1
+   |
+24 | a/* { } */ b {}
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/list/input.css:24:1
+   |
+24 | a/* { } */ b {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/list/input.css:24:1
+   |
+24 | a/* { } */ b {}
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/list/input.css:24:1
+   |
+24 | a/* { } */ b {}
+   | ^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/list/input.css:24:11
+   |
+24 | a/* { } */ b {}
+   |           ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/list/input.css:24:12
+   |
+24 | a/* { } */ b {}
+   |            ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/list/input.css:24:12
+   |
+24 | a/* { } */ b {}
+   |            ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/list/input.css:24:12
+   |
+24 | a/* { } */ b {}
+   |            ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/list/input.css:24:12
+   |
+24 | a/* { } */ b {}
+   |            ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/list/input.css:24:12
+   |
+24 | a/* { } */ b {}
+   |            ^
+
+error: Block
+  --> $DIR/tests/fixture/selector/list/input.css:24:14
+   |
+24 | a/* { } */ b {}
+   |              ^^
 

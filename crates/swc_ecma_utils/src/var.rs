@@ -1,6 +1,7 @@
-use crate::Id;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+
+use crate::Id;
 
 /// This collects variables bindings while ignoring if it's nested in
 /// expression.

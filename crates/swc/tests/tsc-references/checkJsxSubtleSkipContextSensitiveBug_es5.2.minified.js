@@ -1,5 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
-import * as React from "react";
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
         var info = gen[key](arg), value = info.value;
@@ -25,6 +23,8 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
+import regeneratorRuntime from "regenerator-runtime";
+import * as React from "react";
 var AsyncLoader = function(_Component) {
     "use strict";
     !function(subClass, superClass) {

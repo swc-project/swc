@@ -1,10 +1,11 @@
-use anyhow::{anyhow, Context, Error};
-use napi::Status;
-use serde::de::DeserializeOwned;
 use std::{
     any::type_name,
     panic::{catch_unwind, AssertUnwindSafe},
 };
+
+use anyhow::{anyhow, Context, Error};
+use napi::Status;
+use serde::de::DeserializeOwned;
 use swc::try_with_handler;
 use swc_common::{errors::Handler, sync::Lrc, SourceMap};
 

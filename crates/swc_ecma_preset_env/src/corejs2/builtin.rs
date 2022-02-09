@@ -1,6 +1,7 @@
-use crate::{BrowserData, Versions};
 use once_cell::sync::Lazy;
 use swc_common::collections::AHashMap;
+
+use crate::{BrowserData, Versions};
 
 pub(crate) static BUILTINS: Lazy<AHashMap<String, Versions>> = Lazy::new(|| {
     let map: AHashMap<_, BrowserData<Option<String>>> =

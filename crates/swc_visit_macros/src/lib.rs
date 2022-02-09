@@ -1,9 +1,10 @@
 extern crate proc_macro;
 
+use std::{collections::HashSet, mem::replace};
+
 use inflector::Inflector;
 use pmutil::{q, Quote};
 use proc_macro2::Ident;
-use std::{collections::HashSet, mem::replace};
 use swc_macros_common::{call_site, def_site};
 use syn::{
     parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block,

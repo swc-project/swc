@@ -1,13 +1,15 @@
 #![deny(clippy::all)]
 #![allow(clippy::needless_update)]
 
-pub use self::emit::*;
-use self::{ctx::Ctx, list::ListFormat};
 pub use std::fmt::Result;
+
 use swc_common::Spanned;
 use swc_css_ast::*;
 use swc_css_codegen_macros::emitter;
 use writer::CssWriter;
+
+pub use self::emit::*;
+use self::{ctx::Ctx, list::ListFormat};
 
 #[macro_use]
 mod macros;
@@ -87,6 +89,7 @@ where
             AtRule::Document(n) => emit!(self, n),
             AtRule::ColorProfile(n) => emit!(self, n),
             AtRule::CounterStyle(n) => emit!(self, n),
+            AtRule::Property(n) => emit!(self, n),
             AtRule::Unknown(n) => emit!(self, n),
         }
     }
@@ -759,9 +762,19 @@ where
                                 true
                             }
                         }
-                        Some(Value::Dimension(n)) => {
+                        Some(Value::Dimension(dimension)) => {
                             if self.config.minify {
-                                let minified = minify_numeric(n.value.value);
+                                let value = match dimension {
+                                    Dimension::Length(i) => i.value.value,
+                                    Dimension::Angle(i) => i.value.value,
+                                    Dimension::Time(i) => i.value.value,
+                                    Dimension::Frequency(i) => i.value.value,
+                                    Dimension::Resolution(i) => i.value.value,
+                                    Dimension::Flex(i) => i.value.value,
+                                    Dimension::UnknownDimension(i) => i.value.value,
+                                };
+
+                                let minified = minify_numeric(value);
 
                                 !minified.starts_with('.')
                             } else {
@@ -858,6 +871,25 @@ where
     fn emit_counter_style_rule(&mut self, n: &CounterStyleRule) -> Result {
         punct!(self, "@");
         keyword!(self, "counter-style");
+        space!(self);
+        emit!(self, n.name);
+        formatting_space!(self);
+        punct!(self, "{");
+        self.emit_list(
+            &n.block,
+            if self.config.minify {
+                ListFormat::SemiDelimited
+            } else {
+                ListFormat::SemiDelimited | ListFormat::MultiLine
+            },
+        )?;
+        punct!(self, "}");
+    }
+
+    #[emitter]
+    fn emit_property_rule(&mut self, n: &PropertyRule) -> Result {
+        punct!(self, "@");
+        keyword!(self, "property");
         space!(self);
         emit!(self, n.name);
         formatting_space!(self);
@@ -1030,6 +1062,55 @@ where
 
     #[emitter]
     fn emit_dimension(&mut self, n: &Dimension) -> Result {
+        match n {
+            Dimension::Length(n) => emit!(self, n),
+            Dimension::Angle(n) => emit!(self, n),
+            Dimension::Time(n) => emit!(self, n),
+            Dimension::Frequency(n) => emit!(self, n),
+            Dimension::Resolution(n) => emit!(self, n),
+            Dimension::Flex(n) => emit!(self, n),
+            Dimension::UnknownDimension(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_lenth(&mut self, n: &Length) -> Result {
+        emit!(self, n.value);
+        emit!(self, n.unit);
+    }
+
+    #[emitter]
+    fn emit_angle(&mut self, n: &Angle) -> Result {
+        emit!(self, n.value);
+        emit!(self, n.unit);
+    }
+
+    #[emitter]
+    fn emit_time(&mut self, n: &Time) -> Result {
+        emit!(self, n.value);
+        emit!(self, n.unit);
+    }
+
+    #[emitter]
+    fn emit_frequency(&mut self, n: &Frequency) -> Result {
+        emit!(self, n.value);
+        emit!(self, n.unit);
+    }
+
+    #[emitter]
+    fn emit_resolution(&mut self, n: &Resolution) -> Result {
+        emit!(self, n.value);
+        emit!(self, n.unit);
+    }
+
+    #[emitter]
+    fn emit_flex(&mut self, n: &Flex) -> Result {
+        emit!(self, n.value);
+        emit!(self, n.unit);
+    }
+
+    #[emitter]
+    fn emit_unknown_dimension(&mut self, n: &UnknownDimension) -> Result {
         emit!(self, n.value);
         emit!(self, n.unit);
     }

@@ -1,13 +1,14 @@
-use anyhow::{bail, Context, Error};
-use path_clean::PathClean;
-use reqwest::Url;
-use sha1::{Digest, Sha1};
 use std::{
     env::current_dir,
     fs::{create_dir_all, read_to_string, write},
     io::Write,
     path::{Path, PathBuf},
 };
+
+use anyhow::{bail, Context, Error};
+use path_clean::PathClean;
+use reqwest::Url;
+use sha1::{Digest, Sha1};
 use swc_bundler::{Load, ModuleData, Resolve};
 use swc_common::{
     comments::SingleThreadedComments,
@@ -35,7 +36,7 @@ fn calc_hash(s: &str) -> String {
 }
 
 fn calc_cache_path(cache_dir: &Path, url: &Url) -> PathBuf {
-    let hash = calc_hash(&url.to_string());
+    let hash = calc_hash(url.as_ref());
     let s = url.to_string();
     if s.starts_with("https://deno.land/") {
         return cache_dir.join("deno").join(&hash);
@@ -299,13 +300,13 @@ impl Resolve for NodeResolver {
         if target.starts_with("./") || target.starts_with("../") {
             let win_target;
             let target = if cfg!(target_os = "windows") {
-                let t = if target.starts_with("./") {
-                    &target[2..]
+                let t = if let Some(s) = target.strip_prefix("./") {
+                    s
                 } else {
                     base_dir = base_dir.parent().unwrap();
                     &target[3..]
                 };
-                win_target = t.replace("/", "\\");
+                win_target = t.replace('/', "\\");
                 &*win_target
             } else {
                 target

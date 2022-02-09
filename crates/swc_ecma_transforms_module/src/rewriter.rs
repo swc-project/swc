@@ -1,8 +1,9 @@
-use crate::path::ImportResolver;
 use anyhow::Context;
 use swc_common::FileName;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+
+use crate::path::ImportResolver;
 
 /// Import rewriter, which rewrites imports as es modules.
 pub fn import_rewriter<R>(base: FileName, resolver: R) -> impl Fold + VisitMut
@@ -53,6 +54,7 @@ where
             .with_context(|| format!("failed to resolve import `{}`", i.src.value))
             .unwrap();
 
+        i.src.kind = Default::default();
         i.src.value = src;
     }
 
@@ -64,6 +66,7 @@ where
                 .with_context(|| format!("failed to resolve import `{}`", src.value))
                 .unwrap();
 
+            src.kind = Default::default();
             src.value = new;
         }
     }

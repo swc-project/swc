@@ -157,6 +157,12 @@ error: Dimension
 2 |     grid-template-columns: repeat(4, fit-content(300px));
   |                                                  ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:47
+  |
+2 |     grid-template-columns: repeat(4, fit-content(300px));
+  |                                                  ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:47
   |

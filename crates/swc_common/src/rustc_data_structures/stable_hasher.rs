@@ -1,9 +1,10 @@
-use siphasher::sip128::{Hash128, Hasher128, SipHasher24};
 use std::{
     hash::{BuildHasher, Hash, Hasher},
     marker::PhantomData,
     mem,
 };
+
+use siphasher::sip128::{Hash128, Hasher128, SipHasher24};
 
 /// When hashing something that ends up affecting properties like symbol names,
 /// we want these symbol names to be calculated independently of other factors
@@ -327,6 +328,7 @@ impl<CTX> HashStable<CTX> for String {
 
 impl<HCX> ToStableHashKey<HCX> for String {
     type KeyType = String;
+
     #[inline]
     fn to_stable_hash_key(&self, _: &HCX) -> Self::KeyType {
         self.clone()

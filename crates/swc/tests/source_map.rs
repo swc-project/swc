@@ -1,6 +1,5 @@
 #![allow(unused)]
 
-use anyhow::{Context, Error};
 use std::{
     env::temp_dir,
     fs,
@@ -9,6 +8,8 @@ use std::{
     process::{Command, Output},
     sync::Arc,
 };
+
+use anyhow::{Context, Error};
 use swc::{
     config::{Config, IsModule, Options, SourceMapsConfig},
     Compiler,

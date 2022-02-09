@@ -1,4 +1,3 @@
-import Main from "mod";
 function _extends() {
     return (_extends = Object.assign || function(target) {
         for(var i = 1; i < arguments.length; i++){
@@ -8,6 +7,7 @@ function _extends() {
         return target;
     }).apply(this, arguments);
 }
+import Main from "mod";
 React.createElement(Foo, {
     handler: Main
 }), React.createElement(Foo, _extends({}, Main));

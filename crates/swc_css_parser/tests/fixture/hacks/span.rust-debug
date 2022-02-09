@@ -5,10 +5,10 @@ error: Stylesheet
 2 | | head ~ /**/ body .selector {}
 3 | |
 4 | | .selector { _property: value; }
-... |
+5 | | .selector { -property: value; }
+6 | | .selector { property: value\9; }
 7 | | .selector { property/*\**/: value\9; }
-8 | | /*.cf { *zoom: 1; }*/
-  | |______________________^
+  | |_______________________________________^
 
 error: Rule
  --> $DIR/tests/fixture/hacks/input.css:1:1

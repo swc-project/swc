@@ -1,5 +1,6 @@
-pub use self::logical_assignments::logical_assignments;
 use swc_ecma_visit::{Fold, VisitMut};
+
+pub use self::logical_assignments::logical_assignments;
 
 mod logical_assignments;
 

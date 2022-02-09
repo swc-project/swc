@@ -1,3 +1,7 @@
+use serde::{ser::SerializeMap, Deserialize, Serialize};
+use serde_json::Value;
+use swc_common::ast_serde;
+
 use crate::{
     common::{
         Access, BaseNode, Decorator, Identifier, Param, PrivateName, SuperTypeParams,
@@ -10,9 +14,6 @@ use crate::{
     stmt::{BlockStatement, Statement},
     typescript::{TSDeclareMethod, TSExpressionWithTypeArguments, TSIndexSignature},
 };
-use serde::{ser::SerializeMap, Deserialize, Serialize};
-use serde_json::Value;
-use swc_common::ast_serde;
 
 #[derive(Debug, Clone, PartialEq)]
 #[ast_serde]

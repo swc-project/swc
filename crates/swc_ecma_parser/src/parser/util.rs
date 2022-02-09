@@ -1,6 +1,7 @@
+use swc_atoms::js_word;
+
 use super::*;
 use crate::token::Keyword;
-use swc_atoms::js_word;
 
 impl Context {
     pub(crate) fn is_reserved(self, word: &Word) -> bool {
@@ -281,6 +282,8 @@ pub(super) trait ExprExt {
 
             Expr::Seq(..) => false,
 
+            Expr::OptChain(..) => false,
+
             // MemberExpression is valid assignment target
             Expr::PrivateName(..) => false,
 
@@ -292,8 +295,7 @@ pub(super) trait ExprExt {
             | Expr::JSXFragment(..) => false,
 
             // typescript
-            Expr::OptChain(OptChainExpr { ref expr, .. })
-            | Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
+            Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
             | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
             | Expr::TsAs(TsAsExpr { ref expr, .. }) => {
                 expr.is_valid_simple_assignment_target(strict)

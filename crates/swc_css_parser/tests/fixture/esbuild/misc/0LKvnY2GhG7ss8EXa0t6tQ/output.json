@@ -97,7 +97,7 @@
             },
             "value": [
               {
-                "type": "Dimension",
+                "type": "UnknownDimension",
                 "span": {
                   "start": 11,
                   "end": 18,

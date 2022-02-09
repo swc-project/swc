@@ -2,7 +2,6 @@
 pub use swc_common::{
     chain,
     plugin::{PluginError, Serialized},
-    DUMMY_SP,
 };
 pub mod ast {
     pub use swc_atoms::*;
@@ -10,10 +9,15 @@ pub mod ast {
     pub use swc_ecma_visit::*;
 }
 
+pub mod syntax_pos {
+    pub use swc_common::{Mark, DUMMY_SP};
+}
+
 mod handler;
 pub mod errors {
-    pub use crate::handler::HANDLER;
     pub use swc_common::errors::{Diagnostic, Handler, Level};
+
+    pub use crate::handler::HANDLER;
 }
 
 mod context;

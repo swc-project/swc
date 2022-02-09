@@ -1,3 +1,8 @@
+use swc_atoms::js_word;
+use swc_common::{util::take::Take, Spanned};
+use swc_ecma_ast::*;
+use swc_ecma_utils::{find_ids, ident::IdentLike, ExprExt, UsageFinder};
+
 use super::Optimizer;
 use crate::{
     compress::optimize::util::{class_has_side_effect, is_valid_for_lhs},
@@ -5,10 +10,6 @@ use crate::{
     mode::Mode,
     util::{idents_captured_by, idents_used_by},
 };
-use swc_atoms::js_word;
-use swc_common::{util::take::Take, Spanned};
-use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, ident::IdentLike, ExprExt, UsageFinder};
 
 /// Methods related to option `inline`.
 impl<M> Optimizer<'_, M>

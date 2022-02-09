@@ -1,5 +1,16 @@
 #![recursion_limit = "1024"]
+#![allow(clippy::match_like_matches_macro)]
+#![allow(clippy::nonminimal_bool)]
 #![allow(unused_variables)]
+
+use std::{borrow::Cow, fmt::Write, io};
+
+use memchr::memmem::Finder;
+use once_cell::sync::Lazy;
+use swc_atoms::JsWord;
+use swc_common::{comments::Comments, sync::Lrc, BytePos, SourceMap, Span, Spanned, DUMMY_SP};
+use swc_ecma_ast::*;
+use swc_ecma_codegen_macros::emitter;
 
 pub use self::config::Config;
 use self::{
@@ -8,13 +19,6 @@ use self::{
     util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
 use crate::util::EndsWithAlphaNum;
-use memchr::memmem::Finder;
-use once_cell::sync::Lazy;
-use std::{borrow::Cow, fmt::Write, io};
-use swc_atoms::JsWord;
-use swc_common::{comments::Comments, sync::Lrc, BytePos, SourceMap, Span, Spanned, DUMMY_SP};
-use swc_ecma_ast::*;
-use swc_ecma_codegen_macros::emitter;
 
 #[macro_use]
 pub mod macros;
@@ -581,6 +585,7 @@ where
             Callee::Import(ref n) => emit!(n),
         }
     }
+
     #[emitter]
     fn emit_super(&mut self, node: &Super) -> Result {
         keyword!(node.span, "super");
@@ -3122,11 +3127,11 @@ fn escape_without_source(v: &str, target: EsVersion, single_quote: bool) -> Stri
     buf
 }
 
-fn escape_with_source<'s>(
+fn escape_with_source(
     cm: &SourceMap,
     target: EsVersion,
     span: Span,
-    s: &'s str,
+    s: &str,
     single_quote: Option<bool>,
 ) -> String {
     if target <= EsVersion::Es5 {

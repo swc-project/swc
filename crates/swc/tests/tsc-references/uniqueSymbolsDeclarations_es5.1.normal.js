@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function AsyncGenerator(gen) {
     var front, back;
     function send(key, arg) {
@@ -149,6 +148,7 @@ function _wrapAsyncGenerator(fn) {
         return new AsyncGenerator(fn.apply(this, arguments));
     };
 }
+import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(genFuncYieldConstCallWithTypeQuery);
 var _marked1 = regeneratorRuntime.mark(genFuncYieldVarCall);
 var _marked2 = regeneratorRuntime.mark(genFuncYieldLetCall);

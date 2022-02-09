@@ -1,4 +1,5 @@
 use std::sync::Arc;
+
 use swc_common::{BytePos, FileName, SourceFile, SourceMap, Span, SyntaxContext, DUMMY_SP};
 use swc_estree_ast::{BaseNode, LineCol, Loc};
 use swc_node_comments::SwcComments;

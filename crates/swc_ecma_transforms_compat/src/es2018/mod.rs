@@ -1,6 +1,7 @@
-pub use self::object_rest_spread::object_rest_spread;
 use serde::Deserialize;
 use swc_ecma_visit::Fold;
+
+pub use self::object_rest_spread::object_rest_spread;
 
 pub mod object_rest_spread;
 

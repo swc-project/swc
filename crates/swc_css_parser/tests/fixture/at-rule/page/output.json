@@ -54,7 +54,7 @@
           },
           "value": [
             {
-              "type": "Dimension",
+              "type": "Length",
               "span": {
                 "start": 31,
                 "end": 34,
@@ -114,7 +114,7 @@
           },
           "value": [
             {
-              "type": "Dimension",
+              "type": "Length",
               "span": {
                 "start": 51,
                 "end": 54,
@@ -174,7 +174,7 @@
           },
           "value": [
             {
-              "type": "Dimension",
+              "type": "Length",
               "span": {
                 "start": 71,
                 "end": 74,
@@ -272,7 +272,7 @@
           },
           "value": [
             {
-              "type": "Dimension",
+              "type": "Length",
               "span": {
                 "start": 99,
                 "end": 102,
@@ -370,7 +370,7 @@
           },
           "value": [
             {
-              "type": "Dimension",
+              "type": "Length",
               "span": {
                 "start": 126,
                 "end": 129,
@@ -468,7 +468,7 @@
           },
           "value": [
             {
-              "type": "Dimension",
+              "type": "Length",
               "span": {
                 "start": 153,
                 "end": 156,
@@ -2103,7 +2103,7 @@
           },
           "value": [
             {
-              "type": "Dimension",
+              "type": "Length",
               "span": {
                 "start": 1044,
                 "end": 1048,

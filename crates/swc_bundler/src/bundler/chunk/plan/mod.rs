@@ -1,11 +1,12 @@
+use anyhow::{bail, Error};
+use swc_common::collections::AHashMap;
+use swc_graph_analyzer::{DepGraph, GraphAnalyzer};
+
 use crate::{
     bundler::{load::TransformedModule, scope::Scope},
     dep_graph::ModuleGraph,
     BundleKind, Bundler, Load, ModuleId, Resolve,
 };
-use anyhow::{bail, Error};
-use swc_common::collections::AHashMap;
-use swc_graph_analyzer::{DepGraph, GraphAnalyzer};
 
 #[cfg(test)]
 mod tests;

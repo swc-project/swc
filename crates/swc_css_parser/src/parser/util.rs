@@ -1,6 +1,8 @@
-use super::{input::ParserInput, Ctx, PResult, Parse, Parser};
 use std::ops::{Deref, DerefMut};
+
 use swc_common::Span;
+
+use super::{input::ParserInput, Ctx, PResult, Parse, Parser};
 
 pub(crate) trait ItemBlock {
     type Item;

@@ -1,8 +1,9 @@
-use super::*;
 use swc_common::{chain, Mark};
 use swc_ecma_transforms_base::resolver::{resolver, resolver_with_mark};
 use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_testing::{test, Tester};
+
+use super::*;
 
 fn tr(t: &mut Tester) -> impl Fold {
     let top_level_mark = Mark::fresh(Mark::root());

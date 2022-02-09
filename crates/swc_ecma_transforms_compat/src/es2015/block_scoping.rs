@@ -1,5 +1,6 @@
-use smallvec::SmallVec;
 use std::mem::take;
+
+use smallvec::SmallVec;
 use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -906,10 +907,15 @@ impl MutationHandler<'_> {
 impl VisitMut for MutationHandler<'_> {
     noop_visit_mut_type!();
 
-    fn visit_mut_ident(&mut self, n: &mut Ident) {
-        if let Some(&ctxt) = self.map.get(&n.to_id()) {
-            n.span = n.span.with_ctxt(ctxt)
-        }
+    visit_mut_obj_and_computed!();
+
+    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
+        let old = self.in_function;
+        self.in_function = true;
+
+        n.visit_mut_children_with(self);
+
+        self.in_function = old;
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
@@ -933,15 +939,6 @@ impl VisitMut for MutationHandler<'_> {
         }
     }
 
-    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
-        let old = self.in_function;
-        self.in_function = true;
-
-        n.visit_mut_children_with(self);
-
-        self.in_function = old;
-    }
-
     fn visit_mut_function(&mut self, n: &mut Function) {
         let old = self.in_function;
         let arguments = self.arguments.take();
@@ -951,6 +948,12 @@ impl VisitMut for MutationHandler<'_> {
 
         self.in_function = old;
         self.arguments = arguments;
+    }
+
+    fn visit_mut_ident(&mut self, n: &mut Ident) {
+        if let Some(&ctxt) = self.map.get(&n.to_id()) {
+            n.span = n.span.with_ctxt(ctxt)
+        }
     }
 
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
@@ -963,8 +966,6 @@ impl VisitMut for MutationHandler<'_> {
 
         n.arg = Some(Box::new(self.make_reassignment(val)))
     }
-
-    visit_mut_obj_and_computed!();
 }
 
 #[derive(Debug)]

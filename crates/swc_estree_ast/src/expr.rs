@@ -1,3 +1,7 @@
+use serde::{Deserialize, Serialize};
+use swc_atoms::JsWord;
+use swc_common::ast_serde;
+
 use crate::{
     class::{ClassBody, ClassImpl},
     common::{
@@ -16,9 +20,6 @@ use crate::{
         TSAsExpression, TSNonNullExpression, TSTypeAssertion, TSTypeParameterInstantiation,
     },
 };
-use serde::{Deserialize, Serialize};
-use swc_atoms::JsWord;
-use swc_common::ast_serde;
 
 #[derive(Debug, Clone, PartialEq)]
 #[ast_serde]

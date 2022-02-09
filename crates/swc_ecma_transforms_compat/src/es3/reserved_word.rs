@@ -84,8 +84,9 @@ fn fold_ident(preserve_import: bool, i: Ident) -> Ident {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use swc_ecma_transforms_testing::test;
+
+    use super::*;
 
     macro_rules! identical {
         ($name:ident, $src:literal) => {

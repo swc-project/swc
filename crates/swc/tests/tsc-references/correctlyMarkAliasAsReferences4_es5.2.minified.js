@@ -1,6 +1,4 @@
 var buttonProps;
-import * as cx from "classnames";
-import * as React from "react";
 function _extends() {
     return (_extends = Object.assign || function(target) {
         for(var i = 1; i < arguments.length; i++){
@@ -10,6 +8,8 @@ function _extends() {
         return target;
     }).apply(this, arguments);
 }
+import * as cx from "classnames";
+import * as React from "react";
 React.createElement("button", _extends({}, buttonProps, {
     className: cx("class1", {
         class2: !0

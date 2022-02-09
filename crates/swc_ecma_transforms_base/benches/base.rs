@@ -6,6 +6,7 @@ extern crate test;
 static GLOBAL: System = System;
 
 use std::alloc::System;
+
 use swc_common::{chain, FileName};
 use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::helpers;

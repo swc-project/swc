@@ -1,4 +1,3 @@
-use crate::babelify::{Babelify, Context};
 use copyless::BoxHelper;
 use swc_common::Spanned;
 use swc_ecma_ast::{
@@ -8,6 +7,8 @@ use swc_estree_ast::{
     AssignmentPattern, AssignmentPatternLeft, Expression, FunctionExpression, ObjectKey,
     ObjectMember, ObjectMethod, ObjectMethodKind, ObjectPropVal, ObjectProperty,
 };
+
+use crate::babelify::{Babelify, Context};
 
 impl Babelify for Prop {
     type Output = ObjectMember;

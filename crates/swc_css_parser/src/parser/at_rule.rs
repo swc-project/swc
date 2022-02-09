@@ -1,11 +1,12 @@
+use swc_common::{BytePos, Span};
+use swc_css_ast::*;
+
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
     parser::{Ctx, RuleContext},
     Parse,
 };
-use swc_common::{BytePos, Span};
-use swc_css_ast::*;
 
 #[derive(Debug, Default)]
 pub(super) struct AtRuleContext {}
@@ -294,6 +295,23 @@ where
                 }
             }
 
+            "property" => {
+                self.input.skip_ws()?;
+
+                let at_rule_color_profile: PResult<PropertyRule> = self.parse();
+
+                match at_rule_color_profile {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Property(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
+                }
+            }
+
             _ => {}
         }
 
@@ -515,16 +533,13 @@ where
             tok!("ident") => {
                 let custom_ident: CustomIdent = self.parse()?;
 
-                match &*custom_ident.value.to_ascii_lowercase() {
-                    "none" => {
-                        let span = self.input.cur_span()?;
+                if &*custom_ident.value.to_ascii_lowercase() == "none" {
+                    let span = self.input.cur_span()?;
 
-                        return Err(Error::new(
-                            span,
-                            ErrorKind::InvalidCustomIdent(stringify!(value)),
-                        ));
-                    }
-                    _ => {}
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::InvalidCustomIdent(stringify!(value)),
+                    ));
                 }
 
                 Ok(KeyframesName::CustomIdent(custom_ident))
@@ -533,7 +548,7 @@ where
             _ => {
                 let span = self.input.cur_span()?;
 
-                return Err(Error::new(span, ErrorKind::Expected("ident or string")));
+                Err(Error::new(span, ErrorKind::Expected("ident or string")))
             }
         }
     }
@@ -598,7 +613,7 @@ where
             _ => {
                 let span = self.input.cur_span()?;
 
-                return Err(Error::new(span, ErrorKind::Expected("ident or percentage")));
+                Err(Error::new(span, ErrorKind::Expected("ident or percentage")))
             }
         }
     }
@@ -1807,6 +1822,28 @@ where
         expect!(self, "}");
 
         Ok(CounterStyleRule {
+            span: span!(self, span.lo),
+            name,
+            block,
+        })
+    }
+}
+
+impl<I> Parse<PropertyRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<PropertyRule> {
+        let span = self.input.cur_span()?;
+        let name = self.parse()?;
+
+        expect!(self, "{");
+
+        let block = self.parse()?;
+
+        expect!(self, "}");
+
+        Ok(PropertyRule {
             span: span!(self, span.lo),
             name,
             block,

@@ -1,10 +1,12 @@
-use crate::{input::*, util::is_bool};
 use std::{fmt::Display, ops::AddAssign, result::Result as StdResult};
+
 use swc_macros_common::prelude::*;
 use syn::{
     parse::{Parse, ParseStream},
     *,
 };
+
+use crate::{input::*, util::is_bool};
 
 impl From<DeriveInput> for Input {
     fn from(

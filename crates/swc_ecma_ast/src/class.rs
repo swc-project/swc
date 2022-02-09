@@ -1,3 +1,7 @@
+use is_macro::Is;
+use serde::{Deserialize, Serialize};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
+
 use crate::{
     expr::Expr,
     function::{Function, ParamOrTsParamProp},
@@ -10,9 +14,6 @@ use crate::{
     },
     EmptyStmt,
 };
-use is_macro::Is;
-use serde::{Deserialize, Serialize};
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan)]

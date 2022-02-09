@@ -1,4 +1,3 @@
-import Fab from "./index3";
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -12,6 +11,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
+import Fab from "./index3";
 export default 12;
 export default function foo() {
     return foo;

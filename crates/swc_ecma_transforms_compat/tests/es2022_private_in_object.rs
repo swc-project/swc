@@ -1,5 +1,6 @@
-use serde::Deserialize;
 use std::path::PathBuf;
+
+use serde::Deserialize;
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms_base::pass::noop;

@@ -8,9 +8,16 @@ use std::{
     fmt::{self, Debug},
     sync::Arc,
 };
+
+use serde::{Deserialize, Serialize};
 use swc_common::{errors::HANDLER, SourceMap, Span};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit};
+
+use crate::{
+    config::{LintRuleReaction, RuleConfig},
+    rule::{visitor_rule, Rule},
+};
 
 const MUST_USE_SINGLE_QUOTES_MESSAGE: &str = "String must use singlequotes";
 const MUST_USE_DOUBLE_QUOTES_MESSAGE: &str = "String must use doublequotes";

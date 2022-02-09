@@ -1,4 +1,5 @@
 use std::borrow::Cow;
+
 use swc_common::{pass::CompilerPass, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{should_work, Check};

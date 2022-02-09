@@ -1,10 +1,10 @@
-// @Filename: use.js
-import * as s from './mod';
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
+// @Filename: use.js
+import * as s from './mod';
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true

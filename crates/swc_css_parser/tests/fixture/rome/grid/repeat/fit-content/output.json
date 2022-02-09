@@ -145,7 +145,7 @@
                     },
                     "value": [
                       {
-                        "type": "Dimension",
+                        "type": "Length",
                         "span": {
                           "start": 55,
                           "end": 60,

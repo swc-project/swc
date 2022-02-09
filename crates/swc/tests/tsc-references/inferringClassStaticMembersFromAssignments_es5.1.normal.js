@@ -1,10 +1,10 @@
-// @filename: b.ts
-import * as a from "./a";
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
+// @filename: b.ts
+import * as a from "./a";
 // @noEmit: true
 // @allowJs: true
 // @filename: a.js

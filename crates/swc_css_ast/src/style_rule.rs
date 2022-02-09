@@ -1,6 +1,7 @@
-use crate::{AtRule, DashedIdent, Ident, SelectorList, Tokens, Value};
 use is_macro::Is;
 use swc_common::{ast_node, Span};
+
+use crate::{AtRule, DashedIdent, Ident, SelectorList, Tokens, Value};
 
 #[ast_node("Stylesheet")]
 pub struct Stylesheet {

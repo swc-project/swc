@@ -1,9 +1,10 @@
-use anyhow::{anyhow, Error};
 use std::{
     env, fs,
     path::{Path, PathBuf},
     process::{Command, Stdio},
 };
+
+use anyhow::{anyhow, Error};
 use swc_common::{errors::HANDLER, plugin::Serialized, FileName};
 use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, Str};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};

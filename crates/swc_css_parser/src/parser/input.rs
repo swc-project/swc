@@ -1,8 +1,10 @@
-use super::PResult;
-use crate::error::{Error, ErrorKind};
 use std::fmt::Debug;
+
 use swc_common::{BytePos, Span, SyntaxContext};
 use swc_css_ast::{Token, TokenAndSpan, Tokens};
+
+use super::PResult;
+use crate::error::{Error, ErrorKind};
 
 pub trait ParserInput {
     type State: Debug;

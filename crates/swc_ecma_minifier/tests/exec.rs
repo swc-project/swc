@@ -2,10 +2,11 @@
 
 extern crate swc_node_base;
 
+use std::process::Command;
+
 use ansi_term::Color;
 use anyhow::{bail, Context, Error};
 use serde::Deserialize;
-use std::process::Command;
 use swc_common::{
     comments::SingleThreadedComments, errors::Handler, input::SourceFileInput, sync::Lrc, FileName,
     Mark, SourceMap,
@@ -9560,6 +9561,30 @@ console.log(murmur2("1va1ns`klj"));"###;
     "defaults": true,
     "toplevel": true
 }"###;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn plotly_1() {
+    let src = r###"
+    function log2(v) {
+        var r, shift;
+        r =     (v > 0xFFFF) << 4; v >>>= r;
+        shift = (v > 0xFF  ) << 3; v >>>= shift; r |= shift;
+        shift = (v > 0xF   ) << 2; v >>>= shift; r |= shift;
+        shift = (v > 0x3   ) << 1; v >>>= shift; r |= shift;
+        return r | (v >> 1);
+    }
+    console.log(log2(65536))
+    console.log(log2(2))
+    console.log(log2(4))
+    console.log(log2(8))
+    "###;
+    let config = r###"{
+        "defaults": true,
+        "toplevel": true
+    }"###;
 
     run_exec_test(src, config, false);
 }

@@ -1,7 +1,8 @@
-use crate::common::Mode;
 use pmutil::q;
 use proc_macro2::{Span, TokenStream};
 use syn::{Expr, Ident, ImplItem, ImplItemMethod, ItemImpl, Meta, Type};
+
+use crate::common::Mode;
 
 pub fn expand(attr: TokenStream, mut item: ItemImpl) -> ItemImpl {
     let mode = {
@@ -278,6 +279,7 @@ fn make_par_visit_method(
             {
                 fn method_name(&mut self, nodes: &mut Vec<NodeType>) {
                     use std::mem::take;
+
                     use swc_common::errors::HANDLER;
                     use swc_ecma_transforms_base::perf::{ParExplode, Parallel};
                     use swc_ecma_visit::VisitMutWith;

@@ -1,14 +1,15 @@
+use indexmap::IndexSet;
+use swc_atoms::{js_word, JsWord};
+use swc_common::DUMMY_SP;
+use swc_ecma_ast::*;
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+
 pub(crate) use self::entry::Entry;
 use self::{
     builtin::BUILTINS,
     data::{BUILTIN_TYPES, INSTANCE_PROPERTIES, STATIC_PROPERTIES},
 };
 use crate::{util::DataMapExt, version::should_enable, Versions};
-use indexmap::IndexSet;
-use swc_atoms::{js_word, JsWord};
-use swc_common::DUMMY_SP;
-use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 mod builtin;
 mod data;

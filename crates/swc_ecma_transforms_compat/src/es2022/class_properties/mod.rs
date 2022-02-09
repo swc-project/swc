@@ -1,11 +1,5 @@
 #![allow(dead_code)]
 
-use self::{
-    class_name_tdz::ClassNameTdzFolder,
-    private_field::{BrandCheckHandler, FieldAccessFolder, Private, PrivateKind, PrivateRecord},
-    this_in_static::ThisInStaticFolder,
-    used_name::UsedNameCollector,
-};
 use swc_common::{collections::AHashSet, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Check};
@@ -17,6 +11,13 @@ use swc_ecma_utils::{
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+};
+
+use self::{
+    class_name_tdz::ClassNameTdzFolder,
+    private_field::{BrandCheckHandler, FieldAccessFolder, Private, PrivateKind, PrivateRecord},
+    this_in_static::ThisInStaticFolder,
+    used_name::UsedNameCollector,
 };
 
 mod class_name_tdz;

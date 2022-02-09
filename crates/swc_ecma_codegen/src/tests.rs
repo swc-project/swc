@@ -1,14 +1,16 @@
-use self::swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax};
-use super::*;
-use crate::{config::Config, text_writer::omit_trailing_semi};
 use std::{
     fmt::Debug,
     io::Write,
     sync::{Arc, RwLock},
 };
+
 use swc_common::{comments::SingleThreadedComments, FileName, SourceMap};
 use swc_ecma_parser;
 use testing::DebugUsingDisplay;
+
+use self::swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax};
+use super::*;
+use crate::{config::Config, text_writer::omit_trailing_semi};
 
 struct Builder {
     cfg: Config,

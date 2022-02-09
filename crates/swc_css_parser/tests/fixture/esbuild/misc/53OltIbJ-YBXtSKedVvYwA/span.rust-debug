@@ -94,6 +94,12 @@ error: Dimension
 1 | a { value: 10\2cx }
   |            ^^^^^^
 
+error: UnknownDimension
+ --> $DIR/tests/fixture/esbuild/misc/53OltIbJ-YBXtSKedVvYwA/input.css:1:12
+  |
+1 | a { value: 10\2cx }
+  |            ^^^^^^
+
 error: Number
  --> $DIR/tests/fixture/esbuild/misc/53OltIbJ-YBXtSKedVvYwA/input.css:1:12
   |

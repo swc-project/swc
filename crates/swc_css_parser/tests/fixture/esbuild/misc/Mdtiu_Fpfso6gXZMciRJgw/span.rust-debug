@@ -94,6 +94,12 @@ error: Dimension
 1 | a { value: 10\65m }
   |            ^^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:12
+  |
+1 | a { value: 10\65m }
+  |            ^^^^^^
+
 error: Number
  --> $DIR/tests/fixture/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:12
   |

@@ -1,11 +1,3 @@
-use self::{
-    ctx::Ctx,
-    storage::{Storage, *},
-};
-use crate::{
-    marks::Marks,
-    util::{can_end_conditionally, idents_used_by},
-};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -15,6 +7,15 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
+
+use self::{
+    ctx::Ctx,
+    storage::{Storage, *},
+};
+use crate::{
+    marks::Marks,
+    util::{can_end_conditionally, idents_used_by},
+};
 
 mod ctx;
 pub(crate) mod storage;

@@ -1,4 +1,5 @@
 use std::borrow::Cow;
+
 use swc_common::{collections::AHashSet, pass::CompilerPass, EqIgnoreSpan, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};

@@ -2285,7 +2285,7 @@
                         case "\x01":
                             const n14 = t.substring(r, e);
                             let o;
-                            0 === i.length ? o = n14 : (o = i += n14, i = ""), s.push(o);
+                            0 === i.length ? o = n14 : (i += n14, o = i, i = ""), s.push(o);
                             break;
                         case "\x10":
                             i += t.substring(r, e), i += "\x00";

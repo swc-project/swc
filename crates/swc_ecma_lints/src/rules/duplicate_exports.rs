@@ -1,4 +1,5 @@
 use std::collections::hash_map::Entry;
+
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, errors::HANDLER, Span};
 use swc_ecma_ast::*;

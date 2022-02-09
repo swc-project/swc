@@ -1,14 +1,15 @@
-use super::{
-    load::{Source, Specifier},
-    Bundler,
-};
-use crate::{id::Id, load::Load, resolve::Resolve};
 use indexmap::IndexMap;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{FileName, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+
+use super::{
+    load::{Source, Specifier},
+    Bundler,
+};
+use crate::{id::Id, load::Load, resolve::Resolve};
 
 impl<L, R> Bundler<'_, L, R>
 where

@@ -1,7 +1,8 @@
+use std::{fmt::Debug, sync::Arc};
+
 use auto_impl::auto_impl;
 use parking_lot::Mutex;
 use rayon::prelude::*;
-use std::{fmt::Debug, sync::Arc};
 use swc_common::errors::{Diagnostic, DiagnosticBuilder, Emitter, Handler, HANDLER};
 use swc_ecma_ast::{Module, Script};
 use swc_ecma_visit::{Visit, VisitWith};

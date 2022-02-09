@@ -1,15 +1,16 @@
-use pretty_assertions::assert_eq;
 use std::{
     fs::read_to_string,
     path::{Path, PathBuf},
 };
+
+use pretty_assertions::assert_eq;
 use swc_common::{errors::Handler, sync::Lrc, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput};
 use swc_ecma_visit::{Fold, FoldWith};
 use testing::{run_test, StdErr};
 
-fn parse_module<'a>(cm: Lrc<SourceMap>, handler: &Handler, file_name: &Path) -> Result<Module, ()> {
+fn parse_module(cm: Lrc<SourceMap>, handler: &Handler, file_name: &Path) -> Result<Module, ()> {
     with_parser(cm, handler, file_name, |p| p.parse_module())
 }
 

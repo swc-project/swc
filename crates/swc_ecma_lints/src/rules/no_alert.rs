@@ -1,12 +1,13 @@
-use crate::{
-    config::{LintRuleReaction, RuleConfig},
-    rule::{visitor_rule, Rule},
-};
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, errors::HANDLER, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{collect_decls_with_ctxt, ident::IdentLike};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+
+use crate::{
+    config::{LintRuleReaction, RuleConfig},
+    rule::{visitor_rule, Rule},
+};
 
 const FN_NAMES: &[&str] = &["alert", "confirm", "prompt"];
 const GLOBAL_THIS_PROP: &str = "globalThis";

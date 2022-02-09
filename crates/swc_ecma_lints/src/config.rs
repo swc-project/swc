@@ -1,3 +1,7 @@
+use std::fmt::Debug;
+
+use serde::{Deserialize, Serialize};
+
 #[cfg(feature = "non_critical_lints")]
 use crate::rules::non_critical_lints::dot_notation::DotNotationConfig;
 #[cfg(feature = "non_critical_lints")]
@@ -6,8 +10,6 @@ use crate::rules::non_critical_lints::no_console::NoConsoleConfig;
 use crate::rules::non_critical_lints::prefer_regex_literals::PreferRegexLiteralsConfig;
 #[cfg(feature = "non_critical_lints")]
 use crate::rules::non_critical_lints::quotes::QuotesConfig;
-use serde::{Deserialize, Serialize};
-use std::fmt::Debug;
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]

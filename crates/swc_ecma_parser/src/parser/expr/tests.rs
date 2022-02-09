@@ -1,11 +1,13 @@
 extern crate test;
 
-use super::*;
-use crate::EsConfig;
 use std::hint::black_box;
+
 use swc_common::DUMMY_SP as span;
 use swc_ecma_visit::assert_eq_ignore_span;
 use test::Bencher;
+
+use super::*;
+use crate::EsConfig;
 
 fn syntax() -> Syntax {
     Syntax::Es(EsConfig {
@@ -176,7 +178,7 @@ fn new_expr_should_not_eat_too_much() {
         Box::new(Expr::Member(MemberExpr {
             span,
             obj: member_expr("new Date()"),
-            prop: MemberProp::Ident(Ident::new("toString".into(), span).into()),
+            prop: MemberProp::Ident(Ident::new("toString".into(), span)),
         }))
     );
 }

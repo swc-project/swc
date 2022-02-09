@@ -1,3 +1,6 @@
+use is_macro::Is;
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
+
 use crate::{
     decl::Decl,
     expr::{ClassExpr, Expr, FnExpr},
@@ -6,8 +9,6 @@ use crate::{
     typescript::{TsExportAssignment, TsImportEqualsDecl, TsInterfaceDecl, TsNamespaceExportDecl},
     ObjectLit,
 };
-use is_macro::Is;
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]

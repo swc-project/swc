@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function _defineEnumerableProperties(obj, descs) {
     for(var key in descs){
         var desc = descs[key];
@@ -10,6 +9,7 @@ function _defineEnumerableProperties(obj, descs) {
     }
     return obj;
 }
+import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(function() {
     var _obj, _mutatorMap, x;
     return regeneratorRuntime.wrap(function(_ctx) {

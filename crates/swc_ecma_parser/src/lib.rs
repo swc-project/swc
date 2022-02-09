@@ -117,13 +117,19 @@
 #![cfg_attr(test, feature(bench_black_box))]
 #![cfg_attr(test, feature(test))]
 #![deny(unused)]
+#![allow(clippy::nonminimal_bool)]
+#![allow(clippy::too_many_arguments)]
+#![allow(clippy::unnecessary_unwrap)]
+#![allow(clippy::vec_box)]
+#![allow(clippy::wrong_self_convention)]
+
+use serde::{Deserialize, Serialize};
+use swc_ecma_ast::EsVersion;
 
 pub use self::{
     lexer::input::{Input, StringInput},
     parser::*,
 };
-use serde::{Deserialize, Serialize};
-use swc_ecma_ast::EsVersion;
 #[deprecated(note = "Use `EsVersion` instead")]
 pub type JscTarget = EsVersion;
 
@@ -253,6 +259,7 @@ impl Syntax {
             Syntax::Typescript(_) => true,
         }
     }
+
     pub fn allow_super_outside_method(self) -> bool {
         match self {
             Syntax::Es(EsConfig {
