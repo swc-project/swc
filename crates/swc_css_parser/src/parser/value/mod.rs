@@ -62,7 +62,7 @@ where
                     self.input.reset(&start);
 
                     let mut value = vec![];
-                    
+
                     while !is_one_of!(self, EOF, ";", "}", "!", ")", "]") {
                         let token = self.input.bump()?;
 
