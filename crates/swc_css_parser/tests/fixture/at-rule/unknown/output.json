@@ -45,98 +45,58 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 18,
             "end": 19,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 18,
-                "end": 19,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 19,
             "end": 20,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 19,
-                "end": 20,
-                "ctxt": 0
-              },
-              "token": {
-                "Ident": {
-                  "value": "x",
-                  "raw": "x"
-                }
-              }
+          "token": {
+            "Ident": {
+              "value": "x",
+              "raw": "x"
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 20,
             "end": 21,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 20,
-                "end": 21,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 21,
             "end": 22,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 21,
-                "end": 22,
-                "ctxt": 0
-              },
-              "token": {
-                "Ident": {
-                  "value": "y",
-                  "raw": "y"
-                }
-              }
+          "token": {
+            "Ident": {
+              "value": "y",
+              "raw": "y"
             }
-          ]
+          }
         }
       ],
       "block": null
@@ -160,51 +120,31 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 32,
             "end": 33,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 32,
-                "end": 33,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 33,
             "end": 39,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 33,
-                "end": 39,
-                "ctxt": 0
-              },
-              "token": {
-                "Str": {
-                  "value": "blah",
-                  "raw": "\"blah\""
-                }
-              }
+          "token": {
+            "Str": {
+              "value": "blah",
+              "raw": "\"blah\""
             }
-          ]
+          }
         }
       ],
       "block": null
@@ -228,51 +168,31 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 49,
             "end": 50,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 49,
-                "end": 50,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 50,
             "end": 58,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 50,
-                "end": 58,
-                "ctxt": 0
-              },
-              "token": {
-                "Ident": {
-                  "value": "\"blah\"",
-                  "raw": "\\\"blah\\\""
-                }
-              }
+          "token": {
+            "Ident": {
+              "value": "\"blah\"",
+              "raw": "\\\"blah\\\""
             }
-          ]
+          }
         }
       ],
       "block": null
@@ -296,27 +216,17 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 123,
             "end": 125,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 123,
-                "end": 125,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": "  "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": "  "
             }
-          ]
+          }
         }
       ],
       "block": null
@@ -340,98 +250,58 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 135,
             "end": 137,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 135,
-                "end": 137,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": "  "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": "  "
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 137,
             "end": 138,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 137,
-                "end": 138,
-                "ctxt": 0
-              },
-              "token": {
-                "Ident": {
-                  "value": "x",
-                  "raw": "x"
-                }
-              }
+          "token": {
+            "Ident": {
+              "value": "x",
+              "raw": "x"
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 138,
             "end": 140,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 138,
-                "end": 140,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": "  "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": "  "
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 140,
             "end": 141,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 140,
-                "end": 141,
-                "ctxt": 0
-              },
-              "token": {
-                "Ident": {
-                  "value": "y",
-                  "raw": "y"
-                }
-              }
+          "token": {
+            "Ident": {
+              "value": "y",
+              "raw": "y"
             }
-          ]
+          }
         }
       ],
       "block": null
@@ -455,27 +325,17 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 152,
             "end": 153,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 152,
-                "end": 153,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         }
       ],
       "block": {
@@ -508,27 +368,17 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 165,
             "end": 166,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 165,
-                "end": 166,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         }
       ],
       "block": {
@@ -561,121 +411,71 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 177,
             "end": 178,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 177,
-                "end": 178,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 178,
             "end": 179,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 178,
-                "end": 179,
-                "ctxt": 0
-              },
-              "token": {
-                "Ident": {
-                  "value": "a",
-                  "raw": "a"
-                }
-              }
+          "token": {
+            "Ident": {
+              "value": "a",
+              "raw": "a"
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 179,
             "end": 180,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 179,
-                "end": 180,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 180,
             "end": 181,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 180,
-                "end": 181,
-                "ctxt": 0
-              },
-              "token": {
-                "Ident": {
-                  "value": "b",
-                  "raw": "b"
-                }
-              }
+          "token": {
+            "Ident": {
+              "value": "b",
+              "raw": "b"
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 181,
             "end": 182,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 181,
-                "end": 182,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         }
       ],
       "block": {
@@ -708,27 +508,17 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 193,
             "end": 194,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 193,
-                "end": 194,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         }
       ],
       "block": {
@@ -799,121 +589,71 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 208,
             "end": 209,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 208,
-                "end": 209,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 209,
             "end": 210,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 209,
-                "end": 210,
-                "ctxt": 0
-              },
-              "token": {
-                "Ident": {
-                  "value": "x",
-                  "raw": "x"
-                }
-              }
+          "token": {
+            "Ident": {
+              "value": "x",
+              "raw": "x"
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 210,
             "end": 211,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 210,
-                "end": 211,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 211,
             "end": 212,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 211,
-                "end": 212,
-                "ctxt": 0
-              },
-              "token": {
-                "Ident": {
-                  "value": "y",
-                  "raw": "y"
-                }
-              }
+          "token": {
+            "Ident": {
+              "value": "y",
+              "raw": "y"
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 212,
             "end": 213,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 212,
-                "end": 213,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         }
       ],
       "block": {
@@ -1051,27 +791,17 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 550,
             "end": 552,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 550,
-                "end": 552,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": "  "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": "  "
             }
-          ]
+          }
         }
       ],
       "block": {
@@ -1194,121 +924,71 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 574,
             "end": 576,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 574,
-                "end": 576,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": "  "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": "  "
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 576,
             "end": 577,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 576,
-                "end": 577,
-                "ctxt": 0
-              },
-              "token": {
-                "Ident": {
-                  "value": "x",
-                  "raw": "x"
-                }
-              }
+          "token": {
+            "Ident": {
+              "value": "x",
+              "raw": "x"
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 577,
             "end": 579,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 577,
-                "end": 579,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": "  "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": "  "
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 579,
             "end": 580,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 579,
-                "end": 580,
-                "ctxt": 0
-              },
-              "token": {
-                "Ident": {
-                  "value": "y",
-                  "raw": "y"
-                }
-              }
+          "token": {
+            "Ident": {
+              "value": "y",
+              "raw": "y"
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 580,
             "end": 582,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 580,
-                "end": 582,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": "  "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": "  "
             }
-          ]
+          }
         }
       ],
       "block": {
@@ -1431,27 +1111,17 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 658,
             "end": 659,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 658,
-                "end": 659,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         }
       ],
       "block": {

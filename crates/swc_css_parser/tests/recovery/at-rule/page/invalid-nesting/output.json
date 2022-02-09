@@ -203,27 +203,17 @@
               },
               "prelude": [
                 {
-                  "type": "Tokens",
+                  "type": "Token",
                   "span": {
                     "start": 137,
                     "end": 138,
                     "ctxt": 0
                   },
-                  "tokens": [
-                    {
-                      "type": "Token",
-                      "span": {
-                        "start": 137,
-                        "end": 138,
-                        "ctxt": 0
-                      },
-                      "token": {
-                        "WhiteSpace": {
-                          "value": " "
-                        }
-                      }
+                  "token": {
+                    "WhiteSpace": {
+                      "value": " "
                     }
-                  ]
+                  }
                 }
               ],
               "block": {

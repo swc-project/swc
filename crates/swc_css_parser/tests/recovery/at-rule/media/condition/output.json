@@ -25,27 +25,17 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 6,
             "end": 7,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 6,
-                "end": 7,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         },
         {
           "type": "SimpleBlock",
@@ -118,74 +108,44 @@
           ]
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 21,
             "end": 22,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 21,
-                "end": 22,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 22,
             "end": 29,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 22,
-                "end": 29,
-                "ctxt": 0
-              },
-              "token": {
-                "Ident": {
-                  "value": "unknown",
-                  "raw": "unknown"
-                }
-              }
+          "token": {
+            "Ident": {
+              "value": "unknown",
+              "raw": "unknown"
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 29,
             "end": 30,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 29,
-                "end": 30,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         },
         {
           "type": "SimpleBlock",
@@ -258,27 +218,17 @@
           ]
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 43,
             "end": 44,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 43,
-                "end": 44,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         }
       ],
       "block": {

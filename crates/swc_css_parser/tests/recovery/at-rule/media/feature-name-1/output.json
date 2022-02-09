@@ -25,27 +25,17 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 6,
             "end": 7,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 6,
-                "end": 7,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         },
         {
           "type": "SimpleBlock",
@@ -124,27 +114,17 @@
           ]
         },
         {
-          "type": "Tokens",
+          "type": "Token",
           "span": {
             "start": 19,
             "end": 20,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "type": "Token",
-              "span": {
-                "start": 19,
-                "end": 20,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         }
       ],
       "block": {

@@ -348,14 +348,10 @@ where
             tok!("{") => Ok(Value::SimpleBlock(self.parse_simple_block('}')?)),
             tok!("function") => Ok(Value::Function(self.parse()?)),
             _ => {
-                let span = self.input.cur_span()?;
                 let token = self.input.bump()?;
 
                 match token {
-                    Some(t) => Ok(Value::Tokens(Tokens {
-                        span: span!(self, span.lo),
-                        tokens: vec![t],
-                    })),
+                    Some(t) => Ok(Value::PerservedToken(t)),
                     _ => {
                         unreachable!();
                     }
