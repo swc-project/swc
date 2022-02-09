@@ -3,6 +3,8 @@ use std::fmt::Debug;
 use serde::{Deserialize, Serialize};
 
 #[cfg(feature = "non_critical_lints")]
+use crate::rules::non_critical_lints::dot_notation::DotNotationConfig;
+#[cfg(feature = "non_critical_lints")]
 use crate::rules::non_critical_lints::no_console::NoConsoleConfig;
 #[cfg(feature = "non_critical_lints")]
 use crate::rules::non_critical_lints::prefer_regex_literals::PreferRegexLiteralsConfig;
@@ -58,6 +60,10 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default)]
     pub no_debugger: RuleConfig<()>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default)]
+    pub dot_notation: RuleConfig<DotNotationConfig>,
 
     #[cfg(feature = "non_critical_lints")]
     #[serde(default)]

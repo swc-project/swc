@@ -2612,7 +2612,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.123.0"
+version = "0.123.3"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2752,7 +2752,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.74.0"
+version = "0.75.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -2764,7 +2764,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.69.0"
+version = "0.70.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -2775,7 +2775,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.72.0"
+version = "0.73.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -2801,7 +2801,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.36.0"
+version = "0.37.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2814,7 +2814,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.73.0"
+version = "0.74.0"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2829,7 +2829,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "0.66.0"
+version = "0.67.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2839,7 +2839,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.68.0"
+version = "0.69.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2920,11 +2920,14 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.14.1"
+version = "0.14.2"
 dependencies = [
+ "ahash",
  "auto_impl",
+ "dashmap",
  "parking_lot",
  "rayon",
+ "regex",
  "serde",
  "swc_atoms",
  "swc_common",
@@ -3495,7 +3498,7 @@ version = "0.24.0"
 
 [[package]]
 name = "swc_stylis"
-version = "0.71.0"
+version = "0.72.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
