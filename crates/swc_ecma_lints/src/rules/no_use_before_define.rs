@@ -1,7 +1,3 @@
-use crate::{
-    config::{LintRuleReaction, RuleConfig},
-    rule::{visitor_rule, Rule},
-};
 use serde::{Deserialize, Serialize};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -11,6 +7,11 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+
+use crate::{
+    config::{LintRuleReaction, RuleConfig},
+    rule::{visitor_rule, Rule},
+};
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]

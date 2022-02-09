@@ -3,15 +3,11 @@ use std::fmt::Debug;
 use serde::{Deserialize, Serialize};
 
 #[cfg(feature = "non_critical_lints")]
-use crate::rules::non_critical_lints::dot_notation::DotNotationConfig;
-#[cfg(feature = "non_critical_lints")]
-use crate::rules::non_critical_lints::no_console::NoConsoleConfig;
-#[cfg(feature = "non_critical_lints")]
-use crate::rules::non_critical_lints::no_use_before_define::NoUseBeforeDefineConfig;
-#[cfg(feature = "non_critical_lints")]
-use crate::rules::non_critical_lints::prefer_regex_literals::PreferRegexLiteralsConfig;
-#[cfg(feature = "non_critical_lints")]
-use crate::rules::non_critical_lints::quotes::QuotesConfig;
+use crate::rules::non_critical_lints::{
+    dot_notation::DotNotationConfig, no_console::NoConsoleConfig,
+    no_use_before_define::NoUseBeforeDefineConfig,
+    prefer_regex_literals::PreferRegexLiteralsConfig, quotes::QuotesConfig,
+};
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
@@ -66,6 +62,9 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default)]
     pub no_use_before_define: RuleConfig<NoUseBeforeDefineConfig>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default)]
     pub dot_notation: RuleConfig<DotNotationConfig>,
 
     #[cfg(feature = "non_critical_lints")]
