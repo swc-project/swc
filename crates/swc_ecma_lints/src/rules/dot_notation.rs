@@ -3,87 +3,18 @@ use crate::{
     rule::{visitor_rule, Rule},
     rules::utils::{resolve_string_quote_type, QuotesType},
 };
+use dashmap::DashMap;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 use std::{
     fmt::{self, Debug},
     sync::Arc,
 };
-use swc_common::{collections::AHashSet, errors::HANDLER, sync::Lazy, SourceMap, Span};
+use swc_common::{errors::HANDLER, sync::Lazy, SourceMap, Span};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
-static KEYWORDS: Lazy<AHashSet<&'static str>> = Lazy::new(|| {
-    let mut keywords: AHashSet<&'static str> = AHashSet::default();
-
-    [
-        "abstract",
-        "boolean",
-        "break",
-        "byte",
-        "case",
-        "catch",
-        "char",
-        "class",
-        "const",
-        "continue",
-        "debugger",
-        "default",
-        "delete",
-        "do",
-        "double",
-        "else",
-        "enum",
-        "export",
-        "extends",
-        "false",
-        "final",
-        "finally",
-        "float",
-        "for",
-        "function",
-        "goto",
-        "if",
-        "implements",
-        "import",
-        "in",
-        "instanceof",
-        "int",
-        "interface",
-        "long",
-        "native",
-        "new",
-        "null",
-        "package",
-        "private",
-        "protected",
-        "public",
-        "return",
-        "short",
-        "static",
-        "super",
-        "switch",
-        "synchronized",
-        "this",
-        "throw",
-        "throws",
-        "transient",
-        "true",
-        "try",
-        "typeof",
-        "var",
-        "void",
-        "volatile",
-        "while",
-        "with",
-    ]
-    .iter()
-    .for_each(|keyword| {
-        keywords.insert(*keyword);
-    });
-
-    keywords
-});
+const INVALID_REGEX_MESSAGE: &str = "dotNotation: invalid regex pattern in allowPattern. Check syntax documentation https://docs.rs/regex/latest/regex/#syntax";
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -93,21 +24,27 @@ pub struct DotNotationConfig {
 }
 
 pub fn dot_notation(
+    program: &Program,
     source_map: &Arc<SourceMap>,
     config: &RuleConfig<DotNotationConfig>,
 ) -> Option<Box<dyn Rule>> {
     match config.get_rule_reaction() {
         LintRuleReaction::Off => None,
-        _ => Some(visitor_rule(DotNotation::new(source_map.clone(), config))),
+        _ => Some(visitor_rule(DotNotation::new(
+            source_map.clone(),
+            program.is_module(),
+            config,
+        ))),
     }
 }
 
 #[derive(Default)]
 struct DotNotation {
+    source_map: Arc<SourceMap>,
     expected_reaction: LintRuleReaction,
     allow_keywords: bool,
-    pattern: Option<Regex>,
-    source_map: Arc<SourceMap>,
+    pattern: Option<String>,
+    is_module: bool,
 }
 
 impl Debug for DotNotation {
@@ -116,22 +53,25 @@ impl Debug for DotNotation {
             .field("expected_reaction", &self.expected_reaction)
             .field("allow_keywords", &self.allow_keywords)
             .field("pattern", &self.pattern)
+            .field("is_module", &self.is_module)
             .finish()
     }
 }
 
 impl DotNotation {
-    fn new(source_map: Arc<SourceMap>, config: &RuleConfig<DotNotationConfig>) -> Self {
+    fn new(
+        source_map: Arc<SourceMap>,
+        is_module: bool,
+        config: &RuleConfig<DotNotationConfig>,
+    ) -> Self {
         let dot_notation_config = config.get_rule_config();
 
         Self {
             expected_reaction: *config.get_rule_reaction(),
             allow_keywords: dot_notation_config.allow_keywords.unwrap_or(true),
             source_map,
-            pattern: dot_notation_config
-                .allow_pattern
-                .as_ref()
-                .map(|patter| Regex::new(patter).unwrap()),
+            is_module,
+            pattern: dot_notation_config.allow_pattern.clone(),
         }
     }
 
@@ -154,12 +94,24 @@ impl DotNotation {
     }
 
     fn check(&self, span: Span, quote_type: QuotesType, prop_name: &str) {
-        if self.allow_keywords && KEYWORDS.contains(&prop_name) {
+        if self.allow_keywords
+            && (prop_name.is_reserved() || prop_name.is_reserved_in_strict_mode(self.is_module))
+        {
             return;
         }
 
         if let Some(pattern) = &self.pattern {
-            if pattern.is_match(prop_name) {
+            static REGEX_CACHE: Lazy<DashMap<String, Regex, ahash::RandomState>> =
+                Lazy::new(Default::default);
+
+            if !REGEX_CACHE.contains_key(pattern) {
+                REGEX_CACHE.insert(
+                    pattern.clone(),
+                    Regex::new(pattern).expect(INVALID_REGEX_MESSAGE),
+                );
+            }
+
+            if REGEX_CACHE.get(pattern).unwrap().is_match(prop_name) {
                 return;
             }
         }
@@ -172,8 +124,8 @@ impl Visit for DotNotation {
     noop_visit_type!();
 
     fn visit_member_prop(&mut self, member: &MemberProp) {
-        if let Some(prop) = member.as_computed() {
-            match prop.expr.as_ref() {
+        if let MemberProp::Computed(prop) = member {
+            match &*prop.expr {
                 Expr::Lit(Lit::Str(Str { value, span, .. })) => {
                     let quote_type = resolve_string_quote_type(&self.source_map, span).unwrap();
 

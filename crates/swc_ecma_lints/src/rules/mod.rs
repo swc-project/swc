@@ -72,6 +72,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         ));
 
         rules.extend(dot_notation::dot_notation(
+            program,
             &source_map,
             &lint_config.dot_notation,
         ));
