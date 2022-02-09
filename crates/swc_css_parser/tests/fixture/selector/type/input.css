@@ -21,3 +21,10 @@ div#thing {}
 *:hover {}
 *::before {}
 * *:not(*) {}
+a/**/{}
+a/**/
+{}
+\@noat { }
+h1\\{
+    color: \\;
+}

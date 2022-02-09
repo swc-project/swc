@@ -38,3 +38,10 @@ a[href='te"s"t'] {}
 [ng\:cloak] {}
 [ng\3a cloak] {}
 [ng\00003acloak] {}
+:not([foo=")"]) {}
+:not(div/*)*/) { }
+[foo=\"] {}
+[foo=\{] {}
+[foo=\(] {}
+[foo=yes\:\(it\'s\ work\)] {}
+[attr=\;] { }
