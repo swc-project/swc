@@ -305,14 +305,6 @@ where
             _ => {}
         }
 
-        if is_one_of!(self, "<!--", "-->", "!", ";") {
-            let token = self.input.bump()?.unwrap();
-            return Ok(Value::Tokens(Tokens {
-                span,
-                tokens: vec![token],
-            }));
-        }
-
         Err(Error::new(span, ErrorKind::Expected("Declaration value")))
     }
 
