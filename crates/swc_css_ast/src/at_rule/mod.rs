@@ -2,22 +2,25 @@ use is_macro::Is;
 use swc_common::{ast_node, Span};
 
 pub use self::{
-    charset::*, color_profile::*, counter_style::*, document::*, import::*, keyframe::*, layer::*,
-    media::*, page::*, property::*, support::*,
+    charset::*, color_profile::*, counter_style::*, document::*, font_face::*, import::*,
+    keyframe::*, layer::*, media::*, namespace::*, page::*, property::*, support::*, viewport::*,
 };
-use crate::{Block, DashedIdent, Ident, SimpleBlock, Str, Url, Value};
+use crate::{DashedIdent, Ident, SimpleBlock, Value};
 
 mod charset;
 mod color_profile;
 mod counter_style;
 mod document;
+mod font_face;
 mod import;
 mod keyframe;
 mod layer;
 mod media;
+mod namespace;
 mod page;
 mod property;
 mod support;
+mod viewport;
 
 #[ast_node]
 #[derive(Is)]
@@ -69,34 +72,6 @@ pub enum AtRule {
 
     #[tag("UnknownAtRule")]
     Unknown(UnknownAtRule),
-}
-
-#[ast_node("FontFaceRule")]
-pub struct FontFaceRule {
-    pub span: Span,
-    pub block: Block,
-}
-
-#[ast_node]
-pub enum NamespaceUri {
-    #[tag("Url")]
-    Url(Url),
-
-    #[tag("Str")]
-    Str(Str),
-}
-
-#[ast_node("NamespaceRule")]
-pub struct NamespaceRule {
-    pub span: Span,
-    pub prefix: Option<Ident>,
-    pub uri: NamespaceUri,
-}
-
-#[ast_node("ViewportRule")]
-pub struct ViewportRule {
-    pub span: Span,
-    pub block: Block,
 }
 
 #[ast_node]

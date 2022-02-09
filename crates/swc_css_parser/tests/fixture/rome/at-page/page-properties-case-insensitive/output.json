@@ -23,7 +23,7 @@
             "ctxt": 0
           },
           "name": {
-            "type": "Identifier",
+            "type": "Ident",
             "span": {
               "start": 9,
               "end": 16,
@@ -34,7 +34,7 @@
           },
           "value": [
             {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 18,
                 "end": 22,

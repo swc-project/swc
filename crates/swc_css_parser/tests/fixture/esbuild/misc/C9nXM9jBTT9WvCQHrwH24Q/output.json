@@ -62,7 +62,7 @@
                       },
                       "prefix": null,
                       "value": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 2,
                           "end": 3,

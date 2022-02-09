@@ -61,7 +61,7 @@
                           "ctxt": 0
                         },
                         "prefix": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 1,
                             "end": 2,
@@ -72,7 +72,7 @@
                         }
                       },
                       "value": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 3,
                           "end": 4,

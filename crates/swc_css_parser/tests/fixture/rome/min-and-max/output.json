@@ -47,7 +47,7 @@
                       "ctxt": 0
                     },
                     "text": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1,
                         "end": 6,
@@ -79,7 +79,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 10,
                 "end": 15,
@@ -97,7 +97,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 17,
                     "end": 20,
@@ -125,7 +125,7 @@
                       "raw": "500"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 24,
                         "end": 26,
@@ -148,7 +148,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 30,
                 "end": 35,
@@ -166,7 +166,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 37,
                     "end": 40,
@@ -194,7 +194,7 @@
                       "raw": "500"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 44,
                         "end": 46,
@@ -255,7 +255,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 57,
                 "end": 62,
@@ -273,7 +273,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 64,
                     "end": 67,
@@ -301,7 +301,7 @@
                       "raw": "500"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 71,
                         "end": 73,
@@ -346,7 +346,7 @@
                         "raw": "40"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 77,
                           "end": 79,
@@ -357,7 +357,7 @@
                       }
                     },
                     "right": {
-                      "type": "Percent",
+                      "type": "Percentage",
                       "span": {
                         "start": 82,
                         "end": 84,
@@ -388,7 +388,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 88,
                 "end": 93,
@@ -406,7 +406,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 95,
                     "end": 98,
@@ -434,7 +434,7 @@
                       "raw": "500"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 102,
                         "end": 104,
@@ -470,7 +470,7 @@
                       },
                       "op": "*",
                       "left": {
-                        "type": "Percent",
+                        "type": "Percentage",
                         "span": {
                           "start": 106,
                           "end": 108,
@@ -505,7 +505,7 @@
                           "raw": "400"
                         },
                         "unit": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 114,
                             "end": 116,
@@ -534,7 +534,7 @@
                         "raw": "2"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 120,
                           "end": 122,
@@ -558,7 +558,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 126,
                 "end": 131,
@@ -576,7 +576,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 133,
                     "end": 136,
@@ -604,7 +604,7 @@
                       "raw": "500"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 140,
                         "end": 142,
@@ -640,7 +640,7 @@
                       },
                       "op": "*",
                       "left": {
-                        "type": "Percent",
+                        "type": "Percentage",
                         "span": {
                           "start": 144,
                           "end": 146,
@@ -675,7 +675,7 @@
                           "raw": "400"
                         },
                         "unit": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 152,
                             "end": 154,
@@ -704,7 +704,7 @@
                         "raw": "2"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 158,
                           "end": 160,
@@ -741,7 +741,7 @@
                       },
                       "op": "*",
                       "left": {
-                        "type": "Percent",
+                        "type": "Percentage",
                         "span": {
                           "start": 162,
                           "end": 164,
@@ -776,7 +776,7 @@
                           "raw": "400"
                         },
                         "unit": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 170,
                             "end": 172,
@@ -805,7 +805,7 @@
                         "raw": "2"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 176,
                           "end": 178,
@@ -842,7 +842,7 @@
                       },
                       "op": "*",
                       "left": {
-                        "type": "Percent",
+                        "type": "Percentage",
                         "span": {
                           "start": 180,
                           "end": 182,
@@ -877,7 +877,7 @@
                           "raw": "400"
                         },
                         "unit": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 188,
                             "end": 190,
@@ -906,7 +906,7 @@
                         "raw": "2"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 194,
                           "end": 196,
@@ -930,7 +930,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 200,
                 "end": 205,
@@ -948,7 +948,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 207,
                     "end": 210,
@@ -976,7 +976,7 @@
                       "raw": "500"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 214,
                         "end": 216,
@@ -999,7 +999,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 220,
                 "end": 225,
@@ -1017,7 +1017,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 227,
                     "end": 230,
@@ -1045,7 +1045,7 @@
                       "raw": "500"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 234,
                         "end": 236,
@@ -1106,7 +1106,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 247,
                 "end": 252,
@@ -1124,7 +1124,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 254,
                     "end": 257,
@@ -1152,7 +1152,7 @@
                       "raw": "500"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 261,
                         "end": 263,
@@ -1197,7 +1197,7 @@
                         "raw": "40"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 267,
                           "end": 269,
@@ -1208,7 +1208,7 @@
                       }
                     },
                     "right": {
-                      "type": "Percent",
+                      "type": "Percentage",
                       "span": {
                         "start": 272,
                         "end": 274,
@@ -1239,7 +1239,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 278,
                 "end": 283,
@@ -1257,7 +1257,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 285,
                     "end": 288,
@@ -1285,7 +1285,7 @@
                       "raw": "500"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 292,
                         "end": 294,
@@ -1321,7 +1321,7 @@
                       },
                       "op": "*",
                       "left": {
-                        "type": "Percent",
+                        "type": "Percentage",
                         "span": {
                           "start": 296,
                           "end": 298,
@@ -1356,7 +1356,7 @@
                           "raw": "400"
                         },
                         "unit": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 304,
                             "end": 306,
@@ -1385,7 +1385,7 @@
                         "raw": "2"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 310,
                           "end": 312,
@@ -1409,7 +1409,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 316,
                 "end": 321,
@@ -1427,7 +1427,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 323,
                     "end": 326,
@@ -1455,7 +1455,7 @@
                       "raw": "500"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 330,
                         "end": 332,
@@ -1491,7 +1491,7 @@
                       },
                       "op": "*",
                       "left": {
-                        "type": "Percent",
+                        "type": "Percentage",
                         "span": {
                           "start": 334,
                           "end": 336,
@@ -1526,7 +1526,7 @@
                           "raw": "400"
                         },
                         "unit": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 342,
                             "end": 344,
@@ -1555,7 +1555,7 @@
                         "raw": "2"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 348,
                           "end": 350,
@@ -1592,7 +1592,7 @@
                       },
                       "op": "*",
                       "left": {
-                        "type": "Percent",
+                        "type": "Percentage",
                         "span": {
                           "start": 352,
                           "end": 354,
@@ -1627,7 +1627,7 @@
                           "raw": "400"
                         },
                         "unit": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 360,
                             "end": 362,
@@ -1656,7 +1656,7 @@
                         "raw": "2"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 366,
                           "end": 368,
@@ -1693,7 +1693,7 @@
                       },
                       "op": "*",
                       "left": {
-                        "type": "Percent",
+                        "type": "Percentage",
                         "span": {
                           "start": 370,
                           "end": 372,
@@ -1728,7 +1728,7 @@
                           "raw": "400"
                         },
                         "unit": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 378,
                             "end": 380,
@@ -1757,7 +1757,7 @@
                         "raw": "2"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 384,
                           "end": 386,

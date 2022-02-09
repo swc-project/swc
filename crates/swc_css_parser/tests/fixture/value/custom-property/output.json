@@ -47,7 +47,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1,
                         "end": 5,
@@ -80,7 +80,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 12,
                 "end": 14,
@@ -124,7 +124,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 27,
                 "end": 38,
@@ -166,7 +166,7 @@
                 "ctxt": 0
               },
               "value": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 45,
                   "end": 54,
@@ -185,7 +185,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 60,
                 "end": 72,
@@ -227,7 +227,7 @@
                 "ctxt": 0
               },
               "value": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 80,
                   "end": 89,
@@ -246,7 +246,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 95,
                 "end": 107,
@@ -300,7 +300,7 @@
                 "ctxt": 0
               },
               "value": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 116,
                   "end": 125,
@@ -319,7 +319,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 131,
                 "end": 143,
@@ -373,7 +373,7 @@
                 "ctxt": 0
               },
               "value": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 151,
                   "end": 160,
@@ -392,7 +392,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 166,
                 "end": 178,
@@ -456,7 +456,7 @@
                 "ctxt": 0
               },
               "value": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 188,
                   "end": 197,
@@ -475,7 +475,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 204,
                 "end": 211,
@@ -505,7 +505,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 219,
                 "end": 227,
@@ -535,7 +535,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 239,
                 "end": 247,
@@ -563,7 +563,7 @@
                 "ctxt": 0
               },
               "value": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 250,
                   "end": 259,
@@ -582,7 +582,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 265,
                 "end": 273,
@@ -610,7 +610,7 @@
                 "ctxt": 0
               },
               "value": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 280,
                   "end": 289,
@@ -629,7 +629,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 295,
                 "end": 303,
@@ -659,7 +659,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 326,
                 "end": 341,
@@ -703,7 +703,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 353,
                 "end": 361,
@@ -748,7 +748,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 370,
                 "end": 376,
@@ -795,7 +795,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 389,
                 "end": 396,
@@ -840,7 +840,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 409,
                 "end": 419,
@@ -956,7 +956,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 438,
                 "end": 448,
@@ -1021,7 +1021,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 468,
                 "end": 476,
@@ -1065,7 +1065,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 506,
                 "end": 514,
@@ -1109,7 +1109,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 545,
                 "end": 559,
@@ -1238,7 +1238,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 576,
                 "end": 591,
@@ -1285,7 +1285,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 601,
                 "end": 616,
@@ -1332,7 +1332,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 625,
                 "end": 638,
@@ -1461,7 +1461,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 655,
                 "end": 669,
@@ -1508,7 +1508,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 679,
                 "end": 693,
@@ -1555,7 +1555,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 702,
                 "end": 717,
@@ -1684,7 +1684,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 734,
                 "end": 750,
@@ -1731,7 +1731,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 760,
                 "end": 776,
@@ -1778,7 +1778,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 787,
                 "end": 793,
@@ -2042,7 +2042,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 834,
                 "end": 846,
@@ -2218,7 +2218,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 891,
                 "end": 896,
@@ -2257,7 +2257,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 908,
                 "end": 913,
@@ -2296,7 +2296,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 925,
                 "end": 943,
@@ -2567,7 +2567,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 980,
                 "end": 996,
@@ -2639,7 +2639,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 1015,
                 "end": 1040,
@@ -2694,7 +2694,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 1051,
                 "end": 1072,
@@ -2753,7 +2753,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 1083,
                 "end": 1094,
@@ -2946,7 +2946,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 1146,
                 "end": 1158,
@@ -3191,7 +3191,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1221,
                         "end": 1225,
@@ -3224,7 +3224,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 1226,
                 "end": 1229,
@@ -3305,7 +3305,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1234,
                         "end": 1238,
@@ -3338,7 +3338,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 1240,
                 "end": 1245,
@@ -3404,7 +3404,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1250,
                         "end": 1254,
@@ -3437,7 +3437,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 1261,
                 "end": 1266,
@@ -3503,7 +3503,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1273,
                         "end": 1277,
@@ -3536,7 +3536,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 1284,
                 "end": 1289,

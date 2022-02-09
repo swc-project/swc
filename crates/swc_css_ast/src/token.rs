@@ -86,7 +86,7 @@ pub enum Token {
         type_flag: NumberType,
     },
 
-    Percent {
+    Percentage {
         value: f64,
         raw: JsWord,
     },

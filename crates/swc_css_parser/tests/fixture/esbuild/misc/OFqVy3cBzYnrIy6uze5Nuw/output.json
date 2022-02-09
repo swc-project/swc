@@ -14,7 +14,7 @@
         "ctxt": 0
       },
       "name": {
-        "type": "CustomIdentifier",
+        "type": "CustomIdent",
         "span": {
           "start": 11,
           "end": 15,
@@ -32,7 +32,7 @@
           },
           "prelude": [
             {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 18,
                 "end": 22,
@@ -60,7 +60,7 @@
           },
           "prelude": [
             {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 26,
                 "end": 28,
@@ -86,7 +86,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 31,
                     "end": 36,
@@ -97,7 +97,7 @@
                 },
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 38,
                       "end": 41,

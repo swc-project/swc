@@ -88,7 +88,7 @@ error: Value
 1 | a { width: +0.0%; }
   |            ^^^^^
 
-error: Percent
+error: Percentage
  --> $DIR/tests/fixture/esbuild/misc/ccwWSeXA2f9cTFtUANZA8Q/input.css:1:12
   |
 1 | a { width: +0.0%; }

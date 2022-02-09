@@ -7,8 +7,8 @@ macro_rules! tok {
         swc_css_ast::Token::Dimension { .. }
     };
 
-    ("percent") => {
-        swc_css_ast::Token::Percent { .. }
+    ("percentage") => {
+        swc_css_ast::Token::Percentage { .. }
     };
 
     ("function") => {
