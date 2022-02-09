@@ -1,6 +1,6 @@
 use swc_common::{ast_node, Span};
 
-use crate::{Block, CustomIdent, Ident, Percent, Str};
+use crate::{Block, CustomIdent, Ident, Percentage, Str};
 
 #[ast_node("KeyframesRule")]
 pub struct KeyframesRule {
@@ -28,6 +28,6 @@ pub struct KeyframeBlock {
 pub enum KeyframeSelector {
     #[tag("Ident")]
     Ident(Ident),
-    #[tag("Percent")]
-    Percent(Percent),
+    #[tag("Percentage")]
+    Percentage(Percentage),
 }

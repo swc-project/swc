@@ -617,7 +617,7 @@ error: Value
 12 |     prop: 100%100%;
    |           ^^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/declaration/input.css:12:11
    |
 12 |     prop: 100%100%;
@@ -635,7 +635,7 @@ error: Value
 12 |     prop: 100%100%;
    |               ^^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/declaration/input.css:12:15
    |
 12 |     prop: 100%100%;

@@ -53,7 +53,7 @@
                     },
                     "prefix": null,
                     "value": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 0,
                         "end": 3,
@@ -86,7 +86,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 30,
                 "end": 35,
@@ -97,7 +97,7 @@
             },
             "value": [
               {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 37,
                   "end": 40,

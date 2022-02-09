@@ -257,7 +257,7 @@ error: Tokens
 6 |     --percentage: 25%;
   |                   ^^^
 
-error: Percent { value: 25.0, raw: Atom('25' type=inline) }
+error: Percentage { value: 25.0, raw: Atom('25' type=inline) }
  --> $DIR/tests/fixture/rome/custom-properties/input.css:6:16
   |
 6 |     --percentage: 25%;

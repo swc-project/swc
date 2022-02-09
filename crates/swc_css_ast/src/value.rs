@@ -2,7 +2,7 @@ use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
-use crate::{DashedIdent, Ident, SimpleBlock, Str, Tokens};
+use crate::{SimpleBlock, Tokens};
 
 #[ast_node]
 pub enum Value {
@@ -15,8 +15,8 @@ pub enum Value {
     #[tag("Number")]
     Number(Number),
 
-    #[tag("Percent")]
-    Percent(Percent),
+    #[tag("Percentage")]
+    Percentage(Percentage),
 
     #[tag("Ratio")]
     Ratio(Ratio),
@@ -47,6 +47,35 @@ pub enum Value {
 
     #[tag("Url")]
     Url(Url),
+}
+
+#[ast_node("Ident")]
+pub struct Ident {
+    pub span: Span,
+    pub value: JsWord,
+    pub raw: JsWord,
+}
+
+#[ast_node("CustomIdent")]
+pub struct CustomIdent {
+    pub span: Span,
+    pub value: JsWord,
+    pub raw: JsWord,
+}
+
+#[ast_node("DashedIdent")]
+pub struct DashedIdent {
+    pub span: Span,
+    pub value: JsWord,
+    pub raw: JsWord,
+}
+
+/// Quoted string.
+#[ast_node("String")]
+pub struct Str {
+    pub span: Span,
+    pub value: JsWord,
+    pub raw: JsWord,
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
@@ -172,8 +201,8 @@ pub struct UnknownDimension {
     pub unit: Ident,
 }
 
-#[ast_node("Percent")]
-pub struct Percent {
+#[ast_node("Percentage")]
+pub struct Percentage {
     pub span: Span,
     pub value: Number,
 }

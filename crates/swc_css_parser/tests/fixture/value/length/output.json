@@ -53,7 +53,7 @@
                     },
                     "prefix": null,
                     "value": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 0,
                         "end": 3,
@@ -86,7 +86,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 10,
                 "end": 15,
@@ -114,7 +114,7 @@
                   "raw": "100"
                 },
                 "unit": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 20,
                     "end": 23,
@@ -135,7 +135,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 29,
                 "end": 34,
@@ -163,7 +163,7 @@
                   "raw": "100"
                 },
                 "unit": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 39,
                     "end": 41,
@@ -184,7 +184,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 47,
                 "end": 52,
@@ -212,7 +212,7 @@
                   "raw": "100"
                 },
                 "unit": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 57,
                     "end": 59,
@@ -233,7 +233,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 65,
                 "end": 70,
@@ -261,7 +261,7 @@
                   "raw": "100"
                 },
                 "unit": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 75,
                     "end": 77,
@@ -282,7 +282,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 83,
                 "end": 88,
@@ -310,7 +310,7 @@
                   "raw": "100"
                 },
                 "unit": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 93,
                     "end": 95,

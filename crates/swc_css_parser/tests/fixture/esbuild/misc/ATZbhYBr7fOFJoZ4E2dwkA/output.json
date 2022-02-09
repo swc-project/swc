@@ -14,7 +14,7 @@
         "ctxt": 0
       },
       "name": {
-        "type": "CustomIdentifier",
+        "type": "CustomIdent",
         "span": {
           "start": 11,
           "end": 15,
@@ -32,7 +32,7 @@
           },
           "prelude": [
             {
-              "type": "Percent",
+              "type": "Percentage",
               "span": {
                 "start": 18,
                 "end": 20,
@@ -50,7 +50,7 @@
               }
             },
             {
-              "type": "Percent",
+              "type": "Percentage",
               "span": {
                 "start": 22,
                 "end": 25,
@@ -84,7 +84,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 28,
                     "end": 33,
@@ -95,7 +95,7 @@
                 },
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 35,
                       "end": 38,
@@ -118,7 +118,7 @@
           },
           "prelude": [
             {
-              "type": "Percent",
+              "type": "Percentage",
               "span": {
                 "start": 41,
                 "end": 44,
@@ -136,7 +136,7 @@
               }
             },
             {
-              "type": "Percent",
+              "type": "Percentage",
               "span": {
                 "start": 46,
                 "end": 49,
@@ -170,7 +170,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 52,
                     "end": 57,
@@ -181,7 +181,7 @@
                 },
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 59,
                       "end": 63,

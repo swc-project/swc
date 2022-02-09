@@ -46,7 +46,7 @@ where
                     "function",
                     "ident",
                     "dimension",
-                    "percent",
+                    "percentage",
                     "num",
                     "str",
                     "#",
@@ -268,7 +268,7 @@ where
                 return Ok(Value::Function(self.parse()?));
             }
 
-            tok!("percent") | tok!("dimension") | tok!("num") => {
+            tok!("percentage") | tok!("dimension") | tok!("num") => {
                 let span = self.input.cur_span()?;
                 let base = self.parse_basical_numeric_value()?;
 
@@ -391,7 +391,7 @@ where
 
     fn parse_basical_numeric_value(&mut self) -> PResult<Value> {
         match cur!(self) {
-            tok!("percent") => Ok(Value::Percent(self.parse()?)),
+            tok!("percentage") => Ok(Value::Percentage(self.parse()?)),
             tok!("dimension") => Ok(Value::Dimension(self.parse()?)),
             tok!("num") => Ok(Value::Number(self.parse()?)),
             _ => {
@@ -1064,26 +1064,26 @@ where
     }
 }
 
-impl<I> Parse<Percent> for Parser<I>
+impl<I> Parse<Percentage> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<Percent> {
+    fn parse(&mut self) -> PResult<Percentage> {
         let span = self.input.cur_span()?;
 
-        if !is!(self, Percent) {
-            return Err(Error::new(span, ErrorKind::Expected("Percent")));
+        if !is!(self, Percentage) {
+            return Err(Error::new(span, ErrorKind::Expected("percentage token")));
         }
 
         match bump!(self) {
-            Token::Percent { value, raw } => {
+            Token::Percentage { value, raw } => {
                 let value = Number {
                     span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
                     value,
                     raw,
                 };
 
-                Ok(Percent { span, value })
+                Ok(Percentage { span, value })
             }
             _ => {
                 unreachable!()

@@ -276,7 +276,7 @@ error: Function { value: Atom('calc' type=inline), raw: Atom('calc' type=inline)
 6 |     --width: calc(10% + 30px);
   |              ^^^^^
 
-error: Percent { value: 10.0, raw: Atom('10' type=inline) }
+error: Percentage { value: 10.0, raw: Atom('10' type=inline) }
  --> $DIR/tests/fixture/function/calc/input.css:6:19
   |
 6 |     --width: calc(10% + 30px);
@@ -1026,7 +1026,7 @@ error: Value
 16 |     width: calc(500px + 50%);
    |                         ^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/function/calc/input.css:16:25
    |
 16 |     width: calc(500px + 50%);
@@ -1092,7 +1092,7 @@ error: Value
 17 |     width: calc(10% + 20%);
    |                 ^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/function/calc/input.css:17:17
    |
 17 |     width: calc(10% + 20%);
@@ -1110,7 +1110,7 @@ error: Value
 17 |     width: calc(10% + 20%);
    |                       ^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/function/calc/input.css:17:23
    |
 17 |     width: calc(10% + 20%);
@@ -1332,7 +1332,7 @@ error: Value
 19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
    |                 ^^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/function/calc/input.css:19:17
    |
 19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
@@ -1608,7 +1608,7 @@ error: Value
 23 |     width: calc(calc(3 * 25%));
    |                          ^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/function/calc/input.css:23:26
    |
 23 |     width: calc(calc(3 * 25%));
@@ -2834,7 +2834,7 @@ error: Value
 42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
    |                                              ^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/function/calc/input.css:42:46
    |
 42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
@@ -2960,7 +2960,7 @@ error: Value
 42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
    |                                                                         ^^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/function/calc/input.css:42:73
    |
 42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
@@ -3032,7 +3032,7 @@ error: Value
 42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
    |                                                                                              ^^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/function/calc/input.css:42:94
    |
 42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
@@ -3228,7 +3228,7 @@ error: Value
 49 | div { width: calc(100% / 4); }
    |                   ^^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/function/calc/input.css:49:19
    |
 49 | div { width: calc(100% / 4); }
@@ -3366,7 +3366,7 @@ error: Value
 50 | div { margin-top: calc(-120% - 4px); }
    |                        ^^^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/function/calc/input.css:50:24
    |
 50 | div { margin-top: calc(-120% - 4px); }

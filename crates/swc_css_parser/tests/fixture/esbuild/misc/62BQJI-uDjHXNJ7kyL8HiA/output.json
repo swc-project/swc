@@ -55,7 +55,7 @@
                       },
                       "prefix": null,
                       "value": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 1,
                           "end": 8,
@@ -75,7 +75,7 @@
                       "value": "="
                     },
                     "value": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 9,
                         "end": 10,
