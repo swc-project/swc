@@ -97,8 +97,11 @@ fn run(input: &Path, minify: bool) {
 struct NormalizeTest;
 
 impl VisitMut for NormalizeTest {
-    fn visit_mut_span(&mut self, n: &mut Span) {
-        *n = Default::default()
+    fn visit_mut_hex_color(&mut self, n: &mut HexColor) {
+        n.visit_mut_children_with(self);
+
+        n.value = "fff".into();
+        n.raw = "fff".into();
     }
 
     fn visit_mut_important_flag(&mut self, n: &mut ImportantFlag) {
@@ -108,18 +111,14 @@ impl VisitMut for NormalizeTest {
         n.value.raw = n.value.raw.to_lowercase().into();
     }
 
-    fn visit_mut_url_value_raw(&mut self, n: &mut UrlValueRaw) {
-        n.visit_mut_children_with(self);
-
-        n.before = "".into();
-        n.after = "".into();
-        n.raw = "".into();
-    }
-
     fn visit_mut_number(&mut self, n: &mut Number) {
         n.visit_mut_children_with(self);
 
         n.raw = "".into();
+    }
+
+    fn visit_mut_span(&mut self, n: &mut Span) {
+        *n = Default::default()
     }
 
     fn visit_mut_str(&mut self, n: &mut Str) {
@@ -128,11 +127,12 @@ impl VisitMut for NormalizeTest {
         n.raw = "".into();
     }
 
-    fn visit_mut_hex_color(&mut self, n: &mut HexColor) {
+    fn visit_mut_url_value_raw(&mut self, n: &mut UrlValueRaw) {
         n.visit_mut_children_with(self);
 
-        n.value = "fff".into();
-        n.raw = "fff".into();
+        n.before = "".into();
+        n.after = "".into();
+        n.raw = "".into();
     }
 }
 

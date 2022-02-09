@@ -64,21 +64,6 @@ impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
 
     visit_mut_only_key!();
 
-    fn visit_mut_function(&mut self, n: &mut Function) {
-        if self.folding_constructor {
-            return;
-        }
-
-        if self.folding_constructor && !self.in_injected_define_property_call {
-            let old = self.in_nested_scope;
-            self.in_nested_scope = true;
-            n.visit_mut_children_with(self);
-            self.in_nested_scope = old;
-        } else {
-            n.visit_mut_children_with(self);
-        }
-    }
-
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         match n {
             Expr::This(ThisExpr { span }) if self.in_nested_scope => {
@@ -120,6 +105,21 @@ impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
         self.visit_mut_super_member_get(n);
 
         n.visit_mut_children_with(self)
+    }
+
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        if self.folding_constructor {
+            return;
+        }
+
+        if self.folding_constructor && !self.in_injected_define_property_call {
+            let old = self.in_nested_scope;
+            self.in_nested_scope = true;
+            n.visit_mut_children_with(self);
+            self.in_nested_scope = old;
+        } else {
+            n.visit_mut_children_with(self);
+        }
     }
 }
 

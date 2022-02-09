@@ -184,13 +184,6 @@ impl<'a> VisitMut for Operator<'a> {
         }
     }
 
-    fn visit_mut_super_prop_expr(&mut self, expr: &mut SuperPropExpr) {
-        expr.span.visit_mut_with(self);
-        if let SuperProp::Computed(c) = &mut expr.prop {
-            c.visit_mut_with(self);
-        }
-    }
-
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         let mut stmts = Vec::with_capacity(items.len());
 
@@ -386,6 +379,13 @@ impl<'a> VisitMut for Operator<'a> {
     fn visit_mut_prop_name(&mut self, n: &mut PropName) {
         if let PropName::Computed(c) = n {
             c.visit_mut_with(self)
+        }
+    }
+
+    fn visit_mut_super_prop_expr(&mut self, expr: &mut SuperPropExpr) {
+        expr.span.visit_mut_with(self);
+        if let SuperProp::Computed(c) = &mut expr.prop {
+            c.visit_mut_with(self);
         }
     }
 }
