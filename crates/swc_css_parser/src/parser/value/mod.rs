@@ -1402,7 +1402,7 @@ where
                     }
                 } else {
                     let question = match bump!(self) {
-                        Token::Delim { value } => value,
+                        Token::Delim { value } if value == '?' => value,
                         _ => {
                             return Err(Error::new(span, ErrorKind::Expected("'?' delim token")));
                         }
