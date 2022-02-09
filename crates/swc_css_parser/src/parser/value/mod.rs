@@ -344,6 +344,100 @@ where
         Ok(base)
     }
 
+    fn parse_brace_value(&mut self) -> PResult<SimpleBlock> {
+        let span = self.input.cur_span()?;
+
+        expect!(self, "{");
+
+        let brace_start = self.input.cur_span()?.lo;
+        let mut value = vec![];
+
+        let mut brace_cnt = 1;
+        loop {
+            if is!(self, "}") {
+                brace_cnt -= 1;
+                if brace_cnt == 0 {
+                    break;
+                }
+            }
+            if is!(self, "{") {
+                brace_cnt += 1;
+            }
+
+            let token = self.input.bump()?;
+            match token {
+                Some(token) => value.push(Value::PreservedToken(token)),
+                None => break,
+            }
+        }
+
+        expect!(self, "}");
+
+        Ok(SimpleBlock {
+            span: span!(self, span.lo),
+            name: '{',
+            value,
+        })
+    }
+
+    fn parse_basical_numeric_value(&mut self) -> PResult<Value> {
+        match cur!(self) {
+            tok!("percentage") => Ok(Value::Percentage(self.parse()?)),
+            tok!("dimension") => Ok(Value::Dimension(self.parse()?)),
+            tok!("num") => Ok(Value::Number(self.parse()?)),
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+
+    fn parse_square_brackets_value(&mut self) -> PResult<SimpleBlock> {
+        let span = self.input.cur_span()?;
+
+        expect!(self, "[");
+
+        self.input.skip_ws()?;
+
+        let value = self.parse_property_values()?.0;
+
+        self.input.skip_ws()?;
+
+        expect!(self, "]");
+
+        Ok(SimpleBlock {
+            span: span!(self, span.lo),
+            name: '[',
+            value,
+        })
+    }
+
+    fn parse_round_brackets_value(&mut self) -> PResult<SimpleBlock> {
+        let span = self.input.cur_span()?;
+
+        expect!(self, "(");
+
+        self.input.skip_ws()?;
+
+        let value = if is!(self, ")") {
+            vec![]
+        } else {
+            let ctx = Ctx {
+                allow_operation_in_value: true,
+                ..self.ctx
+            };
+
+            self.with_ctx(ctx).parse_property_values()?.0
+        };
+
+        expect!(self, ")");
+
+        Ok(SimpleBlock {
+            span: span!(self, span.lo),
+            name: '(',
+            value,
+        })
+    }
+
     pub fn parse_simple_block(&mut self, ending: char) -> PResult<SimpleBlock> {
         let start_pos = self.input.last_pos()? - BytePos(1);
         let mut simple_block = SimpleBlock {

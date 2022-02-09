@@ -513,84 +513,78 @@
                         "span": {
                           "start": 169,
                           "end": 170,
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 165,
+                          "end": 166,
                           "ctxt": 0
                         },
-                        "tokens": [
-                          {
-                            "type": "PreservedToken",
-                            "span": {
-                              "start": 165,
-                              "end": 166,
-                              "ctxt": 0
-                            },
-                            "token": {
-                              "WhiteSpace": {
-                                "value": " "
-                              }
-                            }
-                          },
-                          {
-                            "type": "PreservedToken",
-                            "span": {
-                              "start": 166,
-                              "end": 169,
-                              "ctxt": 0
-                            },
-                            "token": {
-                              "Ident": {
-                                "value": "foo",
-                                "raw": "foo"
-                              }
-                            }
-                          },
-                          {
-                            "type": "PreservedToken",
-                            "span": {
-                              "start": 169,
-                              "end": 170,
-                              "ctxt": 0
-                            },
-                            "token": "Colon"
-                          },
-                          {
-                            "type": "PreservedToken",
-                            "span": {
-                              "start": 170,
-                              "end": 171,
-                              "ctxt": 0
-                            },
-                            "token": {
-                              "WhiteSpace": {
-                                "value": " "
-                              }
-                            }
-                          },
-                          {
-                            "type": "PreservedToken",
-                            "span": {
-                              "start": 171,
-                              "end": 174,
-                              "ctxt": 0
-                            },
-                            "token": {
-                              "Ident": {
-                                "value": "bar",
-                                "raw": "bar"
-                              }
-                            }
-                          },
-                          {
-                            "type": "PreservedToken",
-                            "span": {
-                              "start": 174,
-                              "end": 175,
-                              "ctxt": 0
-                            },
-                            "token": {
-                              "WhiteSpace": {
-                                "value": " "
-                              }
-                            }
+                        "token": {
+                          "WhiteSpace": {
+                            "value": " "
+                          }
+                        }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 166,
+                          "end": 169,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "foo",
+                            "raw": "foo"
+                          }
+                        }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 169,
+                          "end": 170,
+                          "ctxt": 0
+                        },
+                        "token": "Colon"
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 170,
+                          "end": 171,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "WhiteSpace": {
+                            "value": " "
+                          }
+                        }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 171,
+                          "end": 174,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "bar",
+                            "raw": "bar"
+                          }
+                        }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 174,
+                          "end": 175,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "WhiteSpace": {
+                            "value": " "
                           }
                         ]
                       },
@@ -603,6 +597,7 @@
                         },
                         "value": "bar",
                         "raw": "bar"
+                        }
                       }
                     ]
                   }

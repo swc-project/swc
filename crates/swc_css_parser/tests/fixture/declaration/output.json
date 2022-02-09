@@ -180,6 +180,7 @@
                 "value": [
                   {
                     "type": "Ident",
+                    "type": "PreservedToken",
                     "span": {
                       "start": 53,
                       "end": 58,
@@ -201,8 +202,12 @@
                             "raw": "value"
                           }
                         }
+                    "token": {
+                      "Ident": {
+                        "value": "value",
+                        "raw": "value"
                       }
-                    ]
+                    }
                   }
                 ]
               }
@@ -897,6 +902,7 @@
                 "value": [
                   {
                     "type": "Ident",
+                    "type": "PreservedToken",
                     "span": {
                       "start": 364,
                       "end": 369,
@@ -918,8 +924,12 @@
                             "raw": "value"
                           }
                         }
+                    "token": {
+                      "Ident": {
+                        "value": "value",
+                        "raw": "value"
                       }
-                    ]
+                    }
                   }
                 ]
               },
@@ -934,6 +944,7 @@
                 "value": [
                   {
                     "type": "Ident",
+                    "type": "PreservedToken",
                     "span": {
                       "start": 371,
                       "end": 376,
@@ -955,8 +966,12 @@
                             "raw": "value"
                           }
                         }
+                    "token": {
+                      "Ident": {
+                        "value": "value",
+                        "raw": "value"
                       }
-                    ]
+                    }
                   }
                 ]
               }
