@@ -2612,7 +2612,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.123.0"
+version = "0.123.3"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2920,11 +2920,14 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.14.1"
+version = "0.14.2"
 dependencies = [
+ "ahash",
  "auto_impl",
+ "dashmap",
  "parking_lot",
  "rayon",
+ "regex",
  "serde",
  "swc_atoms",
  "swc_common",

@@ -11,25 +11,12 @@ use swc_ecma_visit::{noop_visit_type, Visit};
 use crate::{
     config::{LintRuleReaction, RuleConfig},
     rule::{visitor_rule, Rule},
+    rules::utils::{resolve_string_quote_type, QuotesType},
 };
 
 const MUST_USE_SINGLE_QUOTES_MESSAGE: &str = "String must use singlequotes";
 const MUST_USE_DOUBLE_QUOTES_MESSAGE: &str = "String must use doublequotes";
 const MUST_USE_BACKTICK_QUOTES_MESSAGE: &str = "String must use backtick quotes";
-
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
-#[serde(rename_all = "lowercase")]
-enum QuotesType {
-    Single,
-    Double,
-    Backtick,
-}
-
-impl Default for QuotesType {
-    fn default() -> Self {
-        Self::Double
-    }
-}
 
 #[derive(Debug, Clone, Default, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -101,26 +88,8 @@ impl Quotes {
         });
     }
 
-    fn resolve_quote_type(&self, span: &Span) -> Option<QuotesType> {
-        let quote = self.source_map.lookup_byte_offset(span.lo);
-        let quote_index = quote.pos.0;
-        let src = &quote.sf.src;
-        let byte = src.as_bytes()[quote_index as usize];
-
-        match byte {
-            b'\'' => Some(QuotesType::Single),
-            b'"' => Some(QuotesType::Double),
-            b'`' => Some(QuotesType::Backtick),
-            _ => None,
-        }
-    }
-
     fn is_mirroring_escape(&self, value: &str) -> bool {
-        let quote = match &self.prefer {
-            QuotesType::Single => '\'',
-            QuotesType::Double => '"',
-            QuotesType::Backtick => '`',
-        };
+        let quote = self.prefer.get_char();
 
         for ch in value.chars() {
             if ch == quote {
@@ -131,8 +100,10 @@ impl Quotes {
         false
     }
 
-    fn check_str(&self, is_method_key_check: bool, Str { span, value, .. }: &Str) {
-        let found_quote_type = self.resolve_quote_type(span).unwrap();
+    fn check_str(&self, is_method_key_check: bool, lit_str: &Str) {
+        let found_quote_type = resolve_string_quote_type(&self.source_map, lit_str).unwrap();
+
+        let Str { span, value, .. } = lit_str;
 
         match (&self.prefer, &found_quote_type) {
             (QuotesType::Double, QuotesType::Single) => {
