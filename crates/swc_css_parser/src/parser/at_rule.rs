@@ -1,11 +1,12 @@
+use swc_common::{BytePos, Span};
+use swc_css_ast::*;
+
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
     parser::{Ctx, RuleContext},
     Parse,
 };
-use swc_common::{BytePos, Span};
-use swc_css_ast::*;
 
 #[derive(Debug, Default)]
 pub(super) struct AtRuleContext {}

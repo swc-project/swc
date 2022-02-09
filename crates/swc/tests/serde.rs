@@ -1,4 +1,5 @@
 use std::path::Path;
+
 use swc_common::input::StringInput;
 use swc_ecma_ast::Module;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Syntax};

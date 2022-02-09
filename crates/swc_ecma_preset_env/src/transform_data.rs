@@ -1,7 +1,8 @@
-use crate::{version::should_enable, BrowserData, Version, Versions};
 use once_cell::sync::Lazy;
 use string_enum::StringEnum;
 use swc_common::collections::AHashMap;
+
+use crate::{version::should_enable, BrowserData, Version, Versions};
 
 impl Feature {
     pub fn should_enable(self, target: Versions, bugfixes: bool, default: bool) -> bool {

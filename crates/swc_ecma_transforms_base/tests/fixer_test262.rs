@@ -8,6 +8,7 @@ use std::{
     path::Path,
     sync::{Arc, RwLock},
 };
+
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{self, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};

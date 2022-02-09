@@ -2,7 +2,12 @@
 //!
 //! See: https://github.com/goto-bus-stop/node-resolve
 
-use crate::{resolve::Resolve, TargetEnv, NODE_BUILTINS};
+use std::{
+    fs::File,
+    io::BufReader,
+    path::{Component, Path, PathBuf},
+};
+
 use anyhow::{bail, Context, Error};
 use dashmap::{DashMap, DashSet};
 #[cfg(windows)]
@@ -10,13 +15,10 @@ use normpath::BasePath;
 use once_cell::sync::Lazy;
 use path_clean::PathClean;
 use serde::Deserialize;
-use std::{
-    fs::File,
-    io::BufReader,
-    path::{Component, Path, PathBuf},
-};
 use swc_common::{collections::AHashMap, FileName};
 use tracing::debug;
+
+use crate::{resolve::Resolve, TargetEnv, NODE_BUILTINS};
 
 static PACKAGE: &str = "package.json";
 

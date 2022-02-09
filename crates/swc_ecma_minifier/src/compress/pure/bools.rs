@@ -1,3 +1,10 @@
+use std::mem::swap;
+
+use swc_atoms::js_word;
+use swc_common::{util::take::Take, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
+use swc_ecma_ast::*;
+use swc_ecma_utils::{ExprExt, Type, Value};
+
 use super::Pure;
 use crate::{
     compress::util::{is_pure_undefined, negate, negate_cost},
@@ -5,11 +12,6 @@ use crate::{
     option::CompressOptions,
     util::make_bool,
 };
-use std::mem::swap;
-use swc_atoms::js_word;
-use swc_common::{util::take::Take, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
-use swc_ecma_ast::*;
-use swc_ecma_utils::{ExprExt, Type, Value};
 
 impl<M> Pure<'_, M>
 where

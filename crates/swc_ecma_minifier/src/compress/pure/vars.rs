@@ -1,11 +1,12 @@
-use super::Pure;
-use crate::mode::Mode;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend, StmtLike};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+
+use super::Pure;
+use crate::mode::Mode;
 
 impl<M> Pure<'_, M>
 where
@@ -272,6 +273,15 @@ pub(super) struct VarPrepender {
 impl VisitMut for VarPrepender {
     noop_visit_mut_type!();
 
+    /// Noop
+    fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
+
+    /// Noop
+    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
+
+    /// Noop
+    fn visit_mut_function(&mut self, _: &mut Function) {}
+
     fn visit_mut_var_decl(&mut self, v: &mut VarDecl) {
         if self.vars.is_empty() {
             return;
@@ -288,13 +298,4 @@ impl VisitMut for VarPrepender {
             v.decls = decls;
         }
     }
-
-    /// Noop
-    fn visit_mut_function(&mut self, _: &mut Function) {}
-
-    /// Noop
-    fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
-
-    /// Noop
-    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
 }

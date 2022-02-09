@@ -1,10 +1,11 @@
 #![allow(dead_code)]
 
-use super::case::Loc;
 use is_macro::Is;
 use smallvec::SmallVec;
 use swc_atoms::JsWord;
 use swc_ecma_utils::Id;
+
+use super::case::Loc;
 
 #[derive(Debug, Default)]
 pub(super) struct LeapManager {
@@ -15,6 +16,7 @@ impl LeapManager {
     pub fn push(&mut self, entry: Entry) {
         self.stack.push(entry);
     }
+
     pub fn pop(&mut self) -> Option<Entry> {
         self.stack.pop()
     }
@@ -48,6 +50,7 @@ impl LeapManager {
 
         None
     }
+
     pub fn find_break_loc(&self, label: Option<&JsWord>) -> Option<Loc> {
         self.find_leap_loc(
             |entry| match *entry {

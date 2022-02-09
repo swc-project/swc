@@ -1,8 +1,8 @@
-use crate::babelify::{Babelify, Context};
-use swc_estree_ast::{BinaryExprOp, LogicalExprOp, UnaryExprOp, UpdateExprOp};
-
 use serde::{Deserialize, Serialize};
 use swc_ecma_ast::{AssignOp, BinaryOp, UnaryOp, UpdateOp};
+use swc_estree_ast::{BinaryExprOp, LogicalExprOp, UnaryExprOp, UpdateExprOp};
+
+use crate::babelify::{Babelify, Context};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum BinaryOpOutput {
@@ -73,6 +73,7 @@ impl Babelify for BinaryOp {
 // the correct way to handle this case.
 impl Babelify for AssignOp {
     type Output = String;
+
     fn babelify(self, _ctx: &Context) -> Self::Output {
         match self {
             AssignOp::Assign => "=".into(),

@@ -1,8 +1,10 @@
-use crate::{common::BaseNode, expr::Expression, flavor::Flavor, typescript::TSType};
-use serde::{ser::SerializeMap, Deserialize, Serialize};
 use std::borrow::Cow;
+
+use serde::{ser::SerializeMap, Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_common::ast_serde;
+
+use crate::{common::BaseNode, expr::Expression, flavor::Flavor, typescript::TSType};
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Literal {

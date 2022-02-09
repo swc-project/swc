@@ -1,6 +1,7 @@
+use std::io;
+
 use anyhow::{Context, Error};
 use crc::{crc64, crc64::Digest, Hasher64};
-use std::io;
 use swc_common::{sync::Lrc, SourceMap, Span};
 use swc_ecma_ast::{EsVersion, Module};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};

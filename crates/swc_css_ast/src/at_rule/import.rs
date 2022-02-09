@@ -1,5 +1,6 @@
-use crate::{Declaration, Function, Ident, MediaQueryList, Str, SupportsCondition, Url};
 use swc_common::{ast_node, Span};
+
+use crate::{Declaration, Function, Ident, MediaQueryList, Str, SupportsCondition, Url};
 
 #[ast_node]
 pub enum ImportHref {

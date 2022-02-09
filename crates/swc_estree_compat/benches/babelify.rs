@@ -4,6 +4,7 @@
 extern crate test;
 
 use std::{hint::black_box, io::stderr, sync::Arc};
+
 use swc::config::IsModule;
 use swc_common::{errors::Handler, FileName, FilePathMapping, Mark, SourceFile, SourceMap};
 use swc_ecma_ast::{EsVersion, Program};

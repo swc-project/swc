@@ -1,11 +1,13 @@
+use std::char::REPLACEMENT_CHARACTER;
+
+use swc_atoms::{js_word, JsWord};
+use swc_common::{input::Input, BytePos, Span};
+use swc_css_ast::{NumberType, Token, TokenAndSpan};
+
 use crate::{
     error::{Error, ErrorKind},
     parser::{input::ParserInput, PResult, ParserConfig},
 };
-use std::char::REPLACEMENT_CHARACTER;
-use swc_atoms::{js_word, JsWord};
-use swc_common::{input::Input, BytePos, Span};
-use swc_css_ast::{NumberType, Token, TokenAndSpan};
 
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
 

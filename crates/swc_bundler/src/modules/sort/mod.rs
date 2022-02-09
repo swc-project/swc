@@ -1,8 +1,10 @@
-use super::Modules;
-use crate::{dep_graph::ModuleGraph, ModuleId};
 use std::time::Instant;
+
 use swc_common::{sync::Lrc, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
+
+use super::Modules;
+use crate::{dep_graph::ModuleGraph, ModuleId};
 
 mod chunk;
 mod graph;

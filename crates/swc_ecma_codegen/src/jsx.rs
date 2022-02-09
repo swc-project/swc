@@ -1,8 +1,9 @@
-use super::{Emitter, Result};
-use crate::{list::ListFormat, text_writer::WriteJs};
 use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
+
+use super::{Emitter, Result};
+use crate::{list::ListFormat, text_writer::WriteJs};
 
 impl<'a, W> Emitter<'a, W>
 where

@@ -1,18 +1,20 @@
-use crate::{
-    get_compiler,
-    util::{deserialize_json, get_deserialized, try_with, MapErr},
+use std::{
+    path::{Path, PathBuf},
+    sync::Arc,
 };
+
 use anyhow::Context as _;
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Env, Task,
 };
-use std::{
-    path::{Path, PathBuf},
-    sync::Arc,
-};
 use swc::{config::ParseOptions, Compiler};
 use swc_common::FileName;
+
+use crate::{
+    get_compiler,
+    util::{deserialize_json, get_deserialized, try_with, MapErr},
+};
 
 // ----- Parsing -----
 
@@ -31,8 +33,8 @@ pub struct ParseFileTask {
 
 #[napi]
 impl Task for ParseTask {
-    type Output = String;
     type JsValue = String;
+    type Output = String;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
         let options: ParseOptions = deserialize_json(&self.options)?;
@@ -65,8 +67,8 @@ impl Task for ParseTask {
 
 #[napi]
 impl Task for ParseFileTask {
-    type Output = String;
     type JsValue = String;
+    type Output = String;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
         let program = try_with(self.c.cm.clone(), false, |handler| {

@@ -1,3 +1,19 @@
+use std::sync::atomic::Ordering;
+
+use anyhow::Error;
+use indexmap::IndexSet;
+use petgraph::EdgeDirection;
+use swc_atoms::js_word;
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    sync::Lock,
+    FileName, SyntaxContext, DUMMY_SP,
+};
+use swc_ecma_ast::*;
+use swc_ecma_utils::{find_ids, prepend, private_ident, quote_ident, ExprFactory};
+use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use EdgeDirection::Outgoing;
+
 use crate::{
     bundler::{
         keywords::KeywordRenamer,
@@ -12,20 +28,6 @@ use crate::{
     util::{CloneMap, ExprExt, VarDeclaratorExt},
     Bundler, Hook, ModuleRecord,
 };
-use anyhow::Error;
-use indexmap::IndexSet;
-use petgraph::EdgeDirection;
-use std::sync::atomic::Ordering;
-use swc_atoms::js_word;
-use swc_common::{
-    collections::{AHashMap, AHashSet},
-    sync::Lock,
-    FileName, SyntaxContext, DUMMY_SP,
-};
-use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, prepend, private_ident, quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
-use EdgeDirection::Outgoing;
 
 pub(super) struct Ctx {
     /// Full dependency graph.

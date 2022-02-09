@@ -1,10 +1,11 @@
-use crate::swcify::{Context, Swcify};
 use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_estree_ast::{
     ArrayPattern, AssignmentPattern, AssignmentPatternLeft, LVal, ObjectPattern, ObjectPatternProp,
     PatternLike, RestElement,
 };
+
+use crate::swcify::{Context, Swcify};
 
 impl Swcify for LVal {
     type Output = Pat;

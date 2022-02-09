@@ -65,8 +65,9 @@ impl Fold for MemberExprLit {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use swc_ecma_transforms_testing::test;
+
+    use super::*;
 
     test!(
         ::swc_ecma_parser::Syntax::default(),

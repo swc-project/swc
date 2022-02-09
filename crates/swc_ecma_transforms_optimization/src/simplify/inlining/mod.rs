@@ -1,5 +1,5 @@
-use self::scope::{Scope, ScopeKind, VarType};
 use std::borrow::Cow;
+
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::take::Take,
@@ -12,6 +12,8 @@ use swc_ecma_visit::{
     VisitMutWith, VisitWith,
 };
 use tracing::{span, Level};
+
+use self::scope::{Scope, ScopeKind, VarType};
 
 mod scope;
 
@@ -738,11 +740,11 @@ struct IdentListVisitor<'a, 'b> {
 impl Visit for IdentListVisitor<'_, '_> {
     noop_visit_type!();
 
+    visit_obj_and_computed!();
+
     fn visit_ident(&mut self, node: &Ident) {
         self.scope.add_write(&node.to_id(), true);
     }
-
-    visit_obj_and_computed!();
 }
 
 /// Mark idents as `written`.
@@ -753,9 +755,9 @@ struct WriteVisitor<'a, 'b> {
 impl Visit for WriteVisitor<'_, '_> {
     noop_visit_type!();
 
+    visit_obj_and_computed!();
+
     fn visit_ident(&mut self, node: &Ident) {
         self.scope.add_write(&node.to_id(), false);
     }
-
-    visit_obj_and_computed!();
 }

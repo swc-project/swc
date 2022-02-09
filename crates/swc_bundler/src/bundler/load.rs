@@ -1,14 +1,5 @@
 #![allow(dead_code)]
 
-use super::{export::Exports, helpers::Helpers, Bundler};
-use crate::{
-    bundler::{export::RawExports, import::RawImports},
-    id::{Id, ModuleId},
-    load::ModuleData,
-    util,
-    util::IntoParallelIterator,
-    Load, Resolve,
-};
 use anyhow::{Context, Error};
 use is_macro::Is;
 #[cfg(feature = "rayon")]
@@ -22,6 +13,16 @@ use swc_ecma_ast::{
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith,
+};
+
+use super::{export::Exports, helpers::Helpers, Bundler};
+use crate::{
+    bundler::{export::RawExports, import::RawImports},
+    id::{Id, ModuleId},
+    load::ModuleData,
+    util,
+    util::IntoParallelIterator,
+    Load, Resolve,
 };
 /// Module after applying transformations.
 #[derive(Debug, Clone)]

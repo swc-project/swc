@@ -1,8 +1,9 @@
-use super::{pat::PatType, *};
-use crate::error::SyntaxError;
 use swc_atoms::js_word;
 use swc_common::Spanned;
 use typed_arena::Arena;
+
+use super::{pat::PatType, *};
+use crate::error::SyntaxError;
 
 mod module_item;
 
@@ -1192,10 +1193,11 @@ impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-    use crate::{EsConfig, TsConfig};
     use swc_common::{comments::SingleThreadedComments, DUMMY_SP as span};
     use swc_ecma_visit::assert_eq_ignore_span;
+
+    use super::*;
+    use crate::{EsConfig, TsConfig};
 
     fn stmt(s: &'static str) -> Stmt {
         test_parser(s, Syntax::default(), |p| p.parse_stmt(true))

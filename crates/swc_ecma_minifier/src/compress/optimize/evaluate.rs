@@ -1,10 +1,12 @@
-use super::Optimizer;
-use crate::{compress::util::eval_as_number, mode::Mode, DISABLE_BUGGY_PASSES};
 use std::num::FpCategory;
+
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, undefined, ExprExt, Value::Known};
+
+use super::Optimizer;
+use crate::{compress::util::eval_as_number, mode::Mode, DISABLE_BUGGY_PASSES};
 
 /// Methods related to the option `evaluate`.
 impl<M> Optimizer<'_, M>

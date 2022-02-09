@@ -5,19 +5,21 @@
 //!
 //!
 //! [babylon/util/identifier.js]:https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
-use super::{comments_buffer::BufferedComment, input::Input, Char, LexResult, Lexer};
-use crate::{
-    error::{Error, SyntaxError},
-    lexer::comments_buffer::BufferedCommentKind,
-    Tokens,
-};
 use std::char;
+
 use swc_common::{
     comments::{Comment, CommentKind},
     BytePos, Span, SyntaxContext,
 };
 use tracing::warn;
 use unicode_xid::UnicodeXID;
+
+use super::{comments_buffer::BufferedComment, input::Input, Char, LexResult, Lexer};
+use crate::{
+    error::{Error, SyntaxError},
+    lexer::comments_buffer::BufferedCommentKind,
+    Tokens,
+};
 
 /// Collector for raw string.
 ///
@@ -31,6 +33,7 @@ impl Raw {
             st.push_str(s)
         }
     }
+
     #[inline]
     pub fn push(&mut self, c: char) {
         if let Some(ref mut st) = self.0 {
@@ -78,9 +81,11 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub(super) fn cur(&mut self) -> Option<char> {
         self.input.cur()
     }
+
     pub(super) fn peek(&mut self) -> Option<char> {
         self.input.peek()
     }
+
     pub(super) fn peek_ahead(&mut self) -> Option<char> {
         self.input.peek_ahead()
     }
@@ -88,6 +93,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub(super) fn cur_pos(&mut self) -> BytePos {
         self.input.cur_pos()
     }
+
     pub(super) fn last_pos(&self) -> BytePos {
         self.input.last_pos()
     }

@@ -1,14 +1,9 @@
-pub use super::util::Config;
-use super::util::{
-    define_es_module, define_property, has_use_strict, initialize_to_undefined, make_descriptor,
-    make_require_call, use_strict, ModulePass, Scope,
-};
-use crate::path::{ImportResolver, NoopImportResolver};
-use indexmap::IndexSet;
 use std::{
     cell::{Ref, RefCell, RefMut},
     rc::Rc,
 };
+
+use indexmap::IndexSet;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -21,6 +16,13 @@ use swc_ecma_utils::{
     DestructuringFinder, ExprFactory, IsDirective,
 };
 use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, VisitWith};
+
+pub use super::util::Config;
+use super::util::{
+    define_es_module, define_property, has_use_strict, initialize_to_undefined, make_descriptor,
+    make_require_call, use_strict, ModulePass, Scope,
+};
+use crate::path::{ImportResolver, NoopImportResolver};
 
 pub fn common_js(
     top_level_mark: Mark,
@@ -81,9 +83,13 @@ impl Visit for LazyIdentifierVisitor {
     noop_visit_type!();
 
     fn visit_import_decl(&mut self, _: &ImportDecl) {}
+
     fn visit_export_decl(&mut self, _: &ExportDecl) {}
+
     fn visit_named_export(&mut self, _: &NamedExport) {}
+
     fn visit_export_default_decl(&mut self, _: &ExportDefaultDecl) {}
+
     fn visit_export_default_expr(&mut self, _: &ExportDefaultExpr) {}
 
     fn visit_export_all(&mut self, export: &ExportAll) {
@@ -91,13 +97,19 @@ impl Visit for LazyIdentifierVisitor {
     }
 
     fn visit_labeled_stmt(&mut self, _: &LabeledStmt) {}
+
     fn visit_continue_stmt(&mut self, _: &ContinueStmt) {}
 
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
     fn visit_function(&mut self, _: &Function) {}
+
     fn visit_constructor(&mut self, _: &Constructor) {}
+
     fn visit_setter_prop(&mut self, _: &SetterProp) {}
+
     fn visit_getter_prop(&mut self, _: &GetterProp) {}
+
     fn visit_class_prop(&mut self, _: &ClassProp) {}
 
     fn visit_prop_name(&mut self, prop_name: &PropName) {
@@ -138,6 +150,8 @@ where
     P: ImportResolver,
 {
     noop_fold_type!();
+
+    mark_as_nested!();
 
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         let mut emitted_esmodule = false;
@@ -879,8 +893,6 @@ where
 
         node.fold_children_with(self)
     }
-
-    mark_as_nested!();
 }
 
 impl<P> ModulePass for CommonJs<P>

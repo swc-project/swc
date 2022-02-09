@@ -1,5 +1,6 @@
-use serde::Deserialize;
 use std::{iter, mem};
+
+use serde::Deserialize;
 use swc_common::{chain, util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
@@ -200,7 +201,9 @@ impl VisitMut for ObjectRest {
     noop_visit_mut_type!();
 
     impl_for_for_stmt!(visit_mut_for_in_stmt, ForInStmt);
+
     impl_for_for_stmt!(visit_mut_for_of_stmt, ForOfStmt);
+
     impl_visit_mut_fn!();
 
     /// Handles assign expression

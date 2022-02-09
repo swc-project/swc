@@ -1,3 +1,8 @@
+use swc_common::{util::take::Take, Spanned, DUMMY_SP};
+use swc_ecma_ast::*;
+use swc_ecma_utils::{prepend, undefined, StmtLike};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+
 use super::Optimizer;
 use crate::{
     compress::util::{always_terminates, is_pure_undefined},
@@ -5,10 +10,6 @@ use crate::{
     mode::Mode,
     util::ExprOptExt,
 };
-use swc_common::{util::take::Take, Spanned, DUMMY_SP};
-use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend, undefined, StmtLike};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 /// Methods related to the option `if_return`. All methods are noop if
 /// `if_return` is false.
@@ -571,6 +572,7 @@ impl Visit for ReturnFinder {
     }
 
     fn visit_function(&mut self, _: &Function) {}
+
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 }
 

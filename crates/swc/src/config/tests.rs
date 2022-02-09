@@ -1,6 +1,7 @@
+use serde_json;
+
 use super::Rc;
 use crate::Options;
-use serde_json;
 
 #[test]
 fn object() {

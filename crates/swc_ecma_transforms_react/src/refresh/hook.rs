@@ -1,8 +1,9 @@
+use std::mem;
+
 use indexmap::IndexSet;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use sha1::{Digest, Sha1};
-use std::mem;
 use swc_atoms::JsWord;
 use swc_common::{util::take::Take, SourceMap, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -11,9 +12,8 @@ use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
-use crate::RefreshOptions;
-
 use super::util::{is_builtin_hook, make_call_expr, make_call_stmt, CollectIdent};
+use crate::RefreshOptions;
 
 // function that use hooks
 struct HookSig {

@@ -1,7 +1,8 @@
-use super::compute_char_freq::CharFreqInfo;
-use crate::{marks::Marks, option::MangleOptions};
 use swc_common::chain;
 use swc_ecma_visit::VisitMut;
+
+use super::compute_char_freq::CharFreqInfo;
+use crate::{marks::Marks, option::MangleOptions};
 
 mod analyzer;
 mod preserver;

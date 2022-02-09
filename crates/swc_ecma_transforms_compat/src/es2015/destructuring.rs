@@ -1,5 +1,6 @@
-use serde::Deserialize;
 use std::iter;
+
+use serde::Deserialize;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -479,6 +480,7 @@ impl VisitMut for Destructuring {
     noop_visit_mut_type!();
 
     impl_for_for_stmt!(visit_mut_for_in_stmt, ForInStmt);
+
     impl_for_for_stmt!(visit_mut_for_of_stmt, ForOfStmt);
 
     impl_visit_mut_fn!();

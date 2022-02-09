@@ -1,15 +1,3 @@
-use self::util::BoolOrObject;
-use crate::{builder::PassBuilder, plugin::PluginConfig, SwcComments, SwcImportResolver};
-use anyhow::{bail, Context, Error};
-use dashmap::DashMap;
-use either::Either;
-use indexmap::IndexMap;
-use once_cell::sync::Lazy;
-use regex::Regex;
-use serde::{
-    de::{Unexpected, Visitor},
-    Deserialize, Deserializer, Serialize, Serializer,
-};
 use std::{
     cell::RefCell,
     collections::{HashMap, HashSet},
@@ -19,6 +7,17 @@ use std::{
     rc::Rc as RustRc,
     sync::Arc,
     usize,
+};
+
+use anyhow::{bail, Context, Error};
+use dashmap::DashMap;
+use either::Either;
+use indexmap::IndexMap;
+use once_cell::sync::Lazy;
+use regex::Regex;
+use serde::{
+    de::{Unexpected, Visitor},
+    Deserialize, Deserializer, Serialize, Serializer,
 };
 use swc_atoms::JsWord;
 pub use swc_common::chain;
@@ -58,6 +57,9 @@ use swc_ecma_transforms::{
 use swc_ecma_transforms_compat::es2015::regenerator;
 use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
 use swc_ecma_visit::{Fold, VisitMutWith};
+
+use self::util::BoolOrObject;
+use crate::{builder::PassBuilder, plugin::PluginConfig, SwcComments, SwcImportResolver};
 
 #[cfg(test)]
 mod tests;

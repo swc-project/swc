@@ -1,5 +1,6 @@
-use super::*;
 use swc_common::comments::CommentKind;
+
+use super::*;
 
 macro_rules! write_comments {
     ($e:expr, $prefix_space:expr, $cmts:expr) => {{

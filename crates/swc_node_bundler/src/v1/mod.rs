@@ -1,16 +1,18 @@
+use std::{collections::HashMap, fmt, marker::PhantomData, path::PathBuf};
+
+use serde::Deserialize;
+use string_enum::StringEnum;
+use swc_atoms::JsWord;
+use swc_common::{collections::AHashMap, FileName};
+use swc_ecma_ast::EsVersion;
+use swc_ecma_loader::TargetEnv;
+
 pub use self::{
     module::ModuleConfig,
     optimization::OptimizationConfig,
     output::OutputConfig,
     resolve::{AliasConfig, ResolveConfig},
 };
-use serde::Deserialize;
-use std::{collections::HashMap, fmt, marker::PhantomData, path::PathBuf};
-use string_enum::StringEnum;
-use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, FileName};
-use swc_ecma_ast::EsVersion;
-use swc_ecma_loader::TargetEnv;
 
 mod module;
 mod optimization;

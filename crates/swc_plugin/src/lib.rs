@@ -15,8 +15,9 @@ pub mod syntax_pos {
 
 mod handler;
 pub mod errors {
-    pub use crate::handler::HANDLER;
     pub use swc_common::errors::{Diagnostic, Handler, Level};
+
+    pub use crate::handler::HANDLER;
 }
 
 mod context;

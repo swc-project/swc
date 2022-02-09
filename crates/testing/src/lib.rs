@@ -1,8 +1,3 @@
-pub use self::output::{NormalizedOutput, StdErr, StdOut, TestOutput};
-use difference::Changeset;
-use once_cell::sync::Lazy;
-pub use pretty_assertions::{assert_eq, assert_ne};
-use regex::Regex;
 use std::{
     env, fmt,
     fmt::{Debug, Display, Formatter},
@@ -13,6 +8,11 @@ use std::{
     sync::RwLock,
     thread,
 };
+
+use difference::Changeset;
+use once_cell::sync::Lazy;
+pub use pretty_assertions::{assert_eq, assert_ne};
+use regex::Regex;
 use swc_common::{
     collections::AHashMap,
     errors::{Diagnostic, Handler},
@@ -21,6 +21,8 @@ use swc_common::{
 };
 pub use testing_macros::fixture;
 use tracing_subscriber::EnvFilter;
+
+pub use self::output::{NormalizedOutput, StdErr, StdOut, TestOutput};
 
 pub mod json;
 #[macro_use]

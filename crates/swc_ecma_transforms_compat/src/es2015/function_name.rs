@@ -137,12 +137,18 @@ impl VisitMut for Rename {
     noop_visit_mut_type!();
 
     impl_for!(visit_mut_fn_expr, FnExpr);
+
     impl_for!(visit_mut_class_expr, ClassExpr);
 
     noop!(visit_mut_object_lit, ObjectLit);
+
     noop!(visit_mut_array_lit, ArrayLit);
+
     noop!(visit_mut_call_expr, CallExpr);
+
     noop!(visit_mut_new_expr, NewExpr);
+
     noop!(visit_mut_bin_expr, BinExpr);
+
     noop!(visit_mut_unary_expr, UnaryExpr);
 }

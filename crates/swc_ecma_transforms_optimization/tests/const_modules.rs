@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+
 use swc_ecma_transforms_optimization::const_modules;
 use swc_ecma_transforms_testing::{test, Tester};
 use swc_ecma_visit::Fold;

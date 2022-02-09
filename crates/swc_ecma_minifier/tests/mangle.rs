@@ -1,6 +1,7 @@
 #![deny(warnings)]
 
 use std::path::{Path, PathBuf};
+
 use swc_common::{input::SourceFileInput, sync::Lrc, FileName, Mark, SourceFile, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{

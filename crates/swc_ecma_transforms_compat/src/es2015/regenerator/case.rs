@@ -1,6 +1,6 @@
-use super::leap::{CatchEntry, Entry, FinallyEntry, LeapManager, TryEntry};
-use smallvec::SmallVec;
 use std::mem::take;
+
+use smallvec::SmallVec;
 use swc_atoms::JsWord;
 use swc_common::{
     util::{map::Map, move_map::MoveMap, take::Take},
@@ -13,6 +13,8 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+
+use super::leap::{CatchEntry, Entry, FinallyEntry, LeapManager, TryEntry};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub(super) struct Loc {
@@ -1540,16 +1542,21 @@ macro_rules! leap {
 impl Visit for LeapFinder {
     noop_visit_type!();
 
+    leap!(visit_yield_expr, YieldExpr);
+
+    leap!(visit_break_stmt, BreakStmt);
+
+    leap!(visit_continue_stmt, ContinueStmt);
+
+    leap!(visit_return_stmt, ReturnStmt);
+
+    leap!(visit_throw_stmt, ThrowStmt);
+
     /// Ignored
     fn visit_function(&mut self, _: &Function) {}
+
     /// Ignored
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
-
-    leap!(visit_yield_expr, YieldExpr);
-    leap!(visit_break_stmt, BreakStmt);
-    leap!(visit_continue_stmt, ContinueStmt);
-    leap!(visit_return_stmt, ReturnStmt);
-    leap!(visit_throw_stmt, ThrowStmt);
 }
 
 fn contains_leap<T>(node: &T) -> bool

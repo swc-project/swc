@@ -1,10 +1,11 @@
+use either::Either;
+use swc_atoms::js_word;
+use swc_common::{ast_node, util::take::Take, Spanned};
+
 use super::{pat::PatType, util::ExprExt, *};
 use crate::{
     lexer::TokenContext, parser::class_and_fn::IsSimpleParameterList, token::AssignOpToken,
 };
-use either::Either;
-use swc_atoms::js_word;
-use swc_common::{ast_node, util::take::Take, Spanned};
 
 mod ops;
 #[cfg(test)]
@@ -1298,6 +1299,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
     }
+
     /// Parse call, dot, and `[]`-subscript expressions.
     pub(super) fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_lhs_expr);

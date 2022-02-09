@@ -1,4 +1,5 @@
 use std::iter;
+
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -70,7 +71,9 @@ impl Visit for SuperCallFinder {
     noop_visit_type!();
 
     mark_as_complex!(visit_arrow_expr, ArrowExpr);
+
     mark_as_complex!(visit_if_stmt, IfStmt);
+
     mark_as_complex!(visit_prop_name, PropName);
 
     fn visit_assign_expr(&mut self, node: &AssignExpr) {
@@ -304,11 +307,15 @@ pub(super) enum SuperFoldingMode {
 
 impl VisitMut for ConstructorFolder<'_> {
     noop_visit_mut_type!();
+
     visit_mut_only_key!();
 
     ignore_return!(visit_mut_function, Function);
+
     ignore_return!(visit_mut_class, Class);
+
     ignore_return!(visit_mut_arrow_expr, ArrowExpr);
+
     ignore_return!(visit_mut_constructor, Constructor);
 
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {

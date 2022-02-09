@@ -1,11 +1,12 @@
+use swc_atoms::JsWord;
+use swc_common::{BytePos, Span};
+use swc_css_ast::*;
+
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
     Parse,
 };
-use swc_atoms::JsWord;
-use swc_common::{BytePos, Span};
-use swc_css_ast::*;
 
 impl<I> Parse<SelectorList> for Parser<I>
 where

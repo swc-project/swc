@@ -1,13 +1,14 @@
-use anyhow::{anyhow, bail, Context, Error};
-use once_cell::sync::Lazy;
-use parking_lot::Mutex;
-use serde::Deserialize;
 use std::{
     env::current_dir,
     fs::read_to_string,
     path::{Path, PathBuf},
     sync::Arc,
 };
+
+use anyhow::{anyhow, bail, Context, Error};
+use once_cell::sync::Lazy;
+use parking_lot::Mutex;
+use serde::Deserialize;
 use swc_common::collections::AHashMap;
 use wasmer_cache::FileSystemCache;
 

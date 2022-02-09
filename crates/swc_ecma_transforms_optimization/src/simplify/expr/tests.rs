@@ -1,5 +1,6 @@
-use super::expr_simplifier;
 use swc_ecma_transforms_testing::test_transform;
+
+use super::expr_simplifier;
 
 fn fold(src: &str, expected: &str) {
     test_transform(

@@ -1,5 +1,5 @@
-use crate::scope::{IdentType, ScopeKind};
 use std::cell::RefCell;
+
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, Mark, SyntaxContext};
 use swc_ecma_ast::*;
@@ -8,6 +8,8 @@ use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
 };
 use tracing::{debug, span, Level};
+
+use crate::scope::{IdentType, ScopeKind};
 
 #[cfg(test)]
 mod tests;
@@ -379,50 +381,93 @@ macro_rules! noop {
 
 impl<'a> VisitMut for Resolver<'a> {
     noop!(visit_mut_accessibility, Accessibility);
+
     noop!(visit_mut_true_plus_minus, TruePlusMinus);
+
     noop!(visit_mut_ts_keyword_type, TsKeywordType);
+
     noop!(visit_mut_ts_keyword_type_kind, TsKeywordTypeKind);
+
     noop!(visit_mut_ts_type_operator_op, TsTypeOperatorOp);
+
     noop!(visit_mut_ts_enum_member_id, TsEnumMemberId);
+
     noop!(visit_mut_ts_external_module_ref, TsExternalModuleRef);
+
     noop!(visit_mut_ts_module_name, TsModuleName);
+
     noop!(visit_mut_ts_this_type, TsThisType);
 
     typed_ref!(visit_mut_ts_array_type, TsArrayType);
+
     typed_ref!(visit_mut_ts_conditional_type, TsConditionalType);
+
     typed_ref!(
         visit_mut_ts_type_param_instantiation,
         TsTypeParamInstantiation
     );
+
     typed_ref!(visit_mut_ts_type_query, TsTypeQuery);
+
     typed_ref!(visit_mut_ts_type_query_expr, TsTypeQueryExpr);
+
     typed_ref!(visit_mut_ts_type_operator, TsTypeOperator);
+
     typed_ref!(visit_mut_ts_type, TsType);
+
     typed_ref!(visit_mut_ts_type_ann, TsTypeAnn);
+
     typed!(
         visit_mut_ts_union_or_intersection_type,
         TsUnionOrIntersectionType
     );
+
     typed!(visit_mut_ts_fn_or_constructor_type, TsFnOrConstructorType);
+
     typed_ref!(visit_mut_ts_union_type, TsUnionType);
+
     typed_ref!(visit_mut_ts_infer_type, TsInferType);
+
     typed_ref!(visit_mut_ts_import_type, TsImportType);
+
     typed_ref!(visit_mut_ts_tuple_type, TsTupleType);
+
     typed_ref!(visit_mut_ts_intersection_type, TsIntersectionType);
+
     typed_ref!(visit_mut_ts_type_ref, TsTypeRef);
+
     typed_decl!(visit_mut_ts_type_param_decl, TsTypeParamDecl);
+
     typed!(visit_mut_ts_fn_param, TsFnParam);
+
     typed!(visit_mut_ts_indexed_access_type, TsIndexedAccessType);
+
     typed!(visit_mut_ts_index_signature, TsIndexSignature);
+
     typed!(visit_mut_ts_interface_body, TsInterfaceBody);
+
     typed!(visit_mut_ts_parenthesized_type, TsParenthesizedType);
+
     typed!(visit_mut_ts_type_lit, TsTypeLit);
+
     typed!(visit_mut_ts_type_element, TsTypeElement);
+
     typed!(visit_mut_ts_optional_type, TsOptionalType);
+
     typed!(visit_mut_ts_rest_type, TsRestType);
+
     typed!(visit_mut_ts_type_predicate, TsTypePredicate);
+
     typed_ref!(visit_mut_ts_this_type_or_ident, TsThisTypeOrIdent);
+
     typed_ref!(visit_mut_ts_expr_with_type_args, TsExprWithTypeArgs);
+
+    visit_mut_obj_and_computed!();
+
+    // TODO: How should I handle this?
+    typed!(visit_mut_ts_namespace_export_decl, TsNamespaceExportDecl);
+
+    track_ident_mut!();
 
     fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
         let child_mark = Mark::fresh(Mark::root());
@@ -821,8 +866,6 @@ impl<'a> VisitMut for Resolver<'a> {
     /// See https://github.com/swc-project/swc/issues/2854
     fn visit_mut_jsx_attr_name(&mut self, _: &mut JSXAttrName) {}
 
-    visit_mut_obj_and_computed!();
-
     fn visit_mut_method_prop(&mut self, m: &mut MethodProp) {
         m.key.visit_mut_with(self);
 
@@ -858,11 +901,6 @@ impl<'a> VisitMut for Resolver<'a> {
         // Phase 2.
         stmts.visit_mut_children_with(self)
     }
-
-    // TODO: How should I handle this?
-    typed!(visit_mut_ts_namespace_export_decl, TsNamespaceExportDecl);
-
-    track_ident_mut!();
 
     fn visit_mut_named_export(&mut self, e: &mut NamedExport) {
         if e.src.is_some() {

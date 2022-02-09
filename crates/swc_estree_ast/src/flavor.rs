@@ -49,6 +49,7 @@ impl Flavor {
     pub(crate) fn skip_none<T>(v: &Option<T>) -> bool {
         matches!(Self::current(), Flavor::Acorn { .. }) && v.is_none()
     }
+
     pub(crate) fn skip_none_and_false(v: &Option<bool>) -> bool {
         matches!(Self::current(), Flavor::Acorn { .. }) && matches!(v, None | Some(false))
     }

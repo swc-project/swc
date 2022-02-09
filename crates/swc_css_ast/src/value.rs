@@ -1,7 +1,8 @@
-use crate::{DashedIdent, Ident, SimpleBlock, Str, Tokens};
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
+
+use crate::{DashedIdent, Ident, SimpleBlock, Str, Tokens};
 
 #[ast_node]
 pub enum Value {

@@ -1,5 +1,6 @@
-use crate::{DashedIdent, DeclarationBlockItem, Ident};
 use swc_common::{ast_node, Span};
+
+use crate::{DashedIdent, DeclarationBlockItem, Ident};
 
 #[ast_node]
 pub enum ColorProfileName {

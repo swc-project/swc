@@ -1,4 +1,5 @@
 use std::ops::DerefMut;
+
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -135,6 +136,7 @@ impl VisitMut for Folder {
             add_display_name(expr, name)
         }
     }
+
     /// Don't recurse into object.
     fn visit_mut_object_lit(&mut self, _: &mut ObjectLit) {}
 }

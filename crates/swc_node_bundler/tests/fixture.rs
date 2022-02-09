@@ -1,4 +1,3 @@
-use anyhow::Error;
 use std::{
     collections::HashMap,
     fs::{create_dir_all, read_dir},
@@ -6,6 +5,8 @@ use std::{
     path::PathBuf,
     sync::Arc,
 };
+
+use anyhow::Error;
 use swc::{config::SourceMapsConfig, resolver::environment_resolver};
 use swc_atoms::js_word;
 use swc_bundler::{BundleKind, Bundler, Config, ModuleRecord};

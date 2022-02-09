@@ -1,6 +1,7 @@
+use std::{collections::HashMap, sync::Arc};
+
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
-use std::{collections::HashMap, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{errors::HANDLER, sync::Lrc, util::move_map::MoveMap, FileName, SourceMap};
 use swc_ecma_ast::*;

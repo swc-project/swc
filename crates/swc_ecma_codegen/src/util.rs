@@ -1,7 +1,9 @@
-use super::list::ListFormat;
 use std::{rc::Rc, sync::Arc};
+
 use swc_common::{errors::SourceMapper, BytePos, SourceMap, SourceMapperDyn, Span, Spanned};
 use swc_ecma_ast::*;
+
+use super::list::ListFormat;
 
 pub trait SpanExt: Spanned {
     #[inline]

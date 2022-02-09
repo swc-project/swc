@@ -1,9 +1,10 @@
+use swc_common::chain;
+use swc_ecma_visit::Fold;
+
 pub use self::{
     member_expr_lits::member_expression_literals, prop_lits::property_literals,
     reserved_word::reserved_words,
 };
-use swc_common::chain;
-use swc_ecma_visit::Fold;
 
 mod member_expr_lits;
 mod prop_lits;

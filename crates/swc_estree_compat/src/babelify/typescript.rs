@@ -1,6 +1,22 @@
-use crate::babelify::{Babelify, Context};
 use copyless::BoxHelper;
+use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
+use swc_common::Spanned;
+use swc_ecma_ast::{
+    Accessibility, Pat, TruePlusMinus, TsArrayType, TsAsExpr, TsCallSignatureDecl,
+    TsConditionalType, TsConstAssertion, TsConstructSignatureDecl, TsConstructorType, TsEntityName,
+    TsEnumDecl, TsEnumMember, TsEnumMemberId, TsExportAssignment, TsExprWithTypeArgs,
+    TsExternalModuleRef, TsFnOrConstructorType, TsFnParam, TsFnType, TsImportEqualsDecl,
+    TsImportType, TsIndexSignature, TsIndexedAccessType, TsInferType, TsInterfaceBody,
+    TsInterfaceDecl, TsIntersectionType, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType,
+    TsMappedType, TsMethodSignature, TsModuleBlock, TsModuleDecl, TsModuleName, TsModuleRef,
+    TsNamespaceBody, TsNamespaceDecl, TsNamespaceExportDecl, TsNonNullExpr, TsOptionalType,
+    TsParamProp, TsParamPropParam, TsParenthesizedType, TsPropertySignature, TsQualifiedName,
+    TsRestType, TsThisType, TsThisTypeOrIdent, TsTplLitType, TsTupleElement, TsTupleType, TsType,
+    TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeElement, TsTypeLit, TsTypeOperator,
+    TsTypeOperatorOp, TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation, TsTypePredicate,
+    TsTypeQuery, TsTypeQueryExpr, TsTypeRef, TsUnionOrIntersectionType, TsUnionType,
+};
 use swc_estree_ast::{
     Access, ArrayPattern, IdOrRest, IdOrString, Identifier, ObjectPattern, RestElement,
     TSAnyKeyword, TSArrayType, TSAsExpression, TSBigIntKeyword, TSBooleanKeyword,
@@ -21,23 +37,7 @@ use swc_estree_ast::{
     TSUndefinedKeyword, TSUnionType, TSUnknownKeyword, TSVoidKeyword,
 };
 
-use serde::{Deserialize, Serialize};
-use swc_common::Spanned;
-use swc_ecma_ast::{
-    Accessibility, Pat, TruePlusMinus, TsArrayType, TsAsExpr, TsCallSignatureDecl,
-    TsConditionalType, TsConstAssertion, TsConstructSignatureDecl, TsConstructorType, TsEntityName,
-    TsEnumDecl, TsEnumMember, TsEnumMemberId, TsExportAssignment, TsExprWithTypeArgs,
-    TsExternalModuleRef, TsFnOrConstructorType, TsFnParam, TsFnType, TsImportEqualsDecl,
-    TsImportType, TsIndexSignature, TsIndexedAccessType, TsInferType, TsInterfaceBody,
-    TsInterfaceDecl, TsIntersectionType, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType,
-    TsMappedType, TsMethodSignature, TsModuleBlock, TsModuleDecl, TsModuleName, TsModuleRef,
-    TsNamespaceBody, TsNamespaceDecl, TsNamespaceExportDecl, TsNonNullExpr, TsOptionalType,
-    TsParamProp, TsParamPropParam, TsParenthesizedType, TsPropertySignature, TsQualifiedName,
-    TsRestType, TsThisType, TsThisTypeOrIdent, TsTplLitType, TsTupleElement, TsTupleType, TsType,
-    TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeElement, TsTypeLit, TsTypeOperator,
-    TsTypeOperatorOp, TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation, TsTypePredicate,
-    TsTypeQuery, TsTypeQueryExpr, TsTypeRef, TsUnionOrIntersectionType, TsUnionType,
-};
+use crate::babelify::{Babelify, Context};
 
 impl Babelify for TsTypeAnn {
     type Output = TSTypeAnnotation;

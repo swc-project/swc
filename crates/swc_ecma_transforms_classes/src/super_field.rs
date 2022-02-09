@@ -1,11 +1,13 @@
-use super::get_prototype_of;
 use std::iter;
+
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{alias_ident_for, is_rest_arguments, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+
+use super::get_prototype_of;
 
 /// Process function body.
 ///
@@ -64,21 +66,6 @@ impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
 
     visit_mut_only_key!();
 
-    fn visit_mut_function(&mut self, n: &mut Function) {
-        if self.folding_constructor {
-            return;
-        }
-
-        if self.folding_constructor && !self.in_injected_define_property_call {
-            let old = self.in_nested_scope;
-            self.in_nested_scope = true;
-            n.visit_mut_children_with(self);
-            self.in_nested_scope = old;
-        } else {
-            n.visit_mut_children_with(self);
-        }
-    }
-
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         match n {
             Expr::This(ThisExpr { span }) if self.in_nested_scope => {
@@ -120,6 +107,21 @@ impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
         self.visit_mut_super_member_get(n);
 
         n.visit_mut_children_with(self)
+    }
+
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        if self.folding_constructor {
+            return;
+        }
+
+        if self.folding_constructor && !self.in_injected_define_property_call {
+            let old = self.in_nested_scope;
+            self.in_nested_scope = true;
+            n.visit_mut_children_with(self);
+            self.in_nested_scope = old;
+        } else {
+            n.visit_mut_children_with(self);
+        }
     }
 }
 

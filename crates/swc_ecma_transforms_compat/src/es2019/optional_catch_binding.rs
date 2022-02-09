@@ -23,8 +23,9 @@ impl VisitMut for OptionalCatchBinding {
 
 #[cfg(test)]
 mod tests {
-    use super::optional_catch_binding as tr;
     use swc_ecma_transforms_testing::test;
+
+    use super::optional_catch_binding as tr;
 
     test!(
         ::swc_ecma_parser::Syntax::default(),

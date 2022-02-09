@@ -1,5 +1,5 @@
-use crate::{debug::dump, util::ModuleItemExt};
 use std::f64;
+
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -7,6 +7,8 @@ use swc_ecma_transforms::fixer;
 use swc_ecma_utils::{ExprExt, Id, UsageFinder, Value};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith, VisitWith};
 use unicode_xid::UnicodeXID;
+
+use crate::{debug::dump, util::ModuleItemExt};
 
 #[cfg(test)]
 mod tests;

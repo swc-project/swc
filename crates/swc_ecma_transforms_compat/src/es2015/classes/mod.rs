@@ -1,11 +1,5 @@
-use self::{
-    constructor::{
-        constructor_fn, make_possible_return_value, replace_this_in_constructor, ConstructorFolder,
-        ReturningMode, SuperCallFinder, SuperFoldingMode, VarRenamer,
-    },
-    prop_name::HashKey,
-};
 use std::iter;
+
 use swc_common::{comments::Comments, util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
@@ -19,6 +13,14 @@ use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::debug;
+
+use self::{
+    constructor::{
+        constructor_fn, make_possible_return_value, replace_this_in_constructor, ConstructorFolder,
+        ReturningMode, SuperCallFinder, SuperFoldingMode, VarRenamer,
+    },
+    prop_name::HashKey,
+};
 
 mod constructor;
 mod prop_name;

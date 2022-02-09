@@ -1,5 +1,6 @@
-use crate::{Span, DUMMY_SP};
 use std::mem::replace;
+
+use crate::{Span, DUMMY_SP};
 
 /// Helper for people who are working on `VisitMut`.
 ///

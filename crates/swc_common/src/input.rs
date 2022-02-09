@@ -1,6 +1,8 @@
-use crate::syntax_pos::{BytePos, SourceFile};
-use debug_unreachable::debug_unreachable;
 use std::str;
+
+use debug_unreachable::debug_unreachable;
+
+use crate::syntax_pos::{BytePos, SourceFile};
 
 pub type SourceFileInput<'a> = StringInput<'a>;
 
@@ -253,9 +255,10 @@ pub trait Input: Clone {
 
 #[cfg(test)]
 mod tests {
+    use std::sync::Arc;
+
     use super::*;
     use crate::{FileName, FilePathMapping, SourceMap};
-    use std::sync::Arc;
 
     fn with_test_sess<F>(src: &str, f: F)
     where

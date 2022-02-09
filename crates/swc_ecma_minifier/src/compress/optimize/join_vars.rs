@@ -1,11 +1,12 @@
+use swc_common::util::take::Take;
+use swc_ecma_ast::*;
+
 use super::Optimizer;
 use crate::{
     compress::util::{drop_invalid_stmts, is_directive},
     mode::Mode,
     util::ModuleItemExt,
 };
-use swc_common::util::take::Take;
-use swc_ecma_ast::*;
 
 /// Methods related to option `join_vars`.
 impl<M> Optimizer<'_, M>

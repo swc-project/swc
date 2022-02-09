@@ -1,11 +1,12 @@
+use swc_common::Span;
+use swc_css_ast::*;
+
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
     parser::{Ctx, RuleContext},
     Parse,
 };
-use swc_common::Span;
-use swc_css_ast::*;
 
 impl<I> Parse<Stylesheet> for Parser<I>
 where

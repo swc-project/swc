@@ -3,14 +3,15 @@
 /// Use memory allocator
 extern crate swc_node_base;
 
-use anyhow::{bail, Error};
-use path_clean::PathClean;
 use std::{
     collections::HashMap,
     env, fs,
     path::{Path, PathBuf},
     time::{Duration, Instant},
 };
+
+use anyhow::{bail, Error};
+use path_clean::PathClean;
 use swc_atoms::js_word;
 use swc_bundler::{Bundle, Bundler, Load, ModuleData, ModuleRecord, Resolve};
 use swc_common::{
