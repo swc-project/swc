@@ -106,8 +106,8 @@ define!({
         Delimiter(Delimiter),
         Urange(Urange),
         Url(Url),
-        PerservedToken(TokenAndSpan),
         Tokens(Tokens),
+        PerservedToken(TokenAndSpan),
     }
 
     pub enum DelimiterValue {
