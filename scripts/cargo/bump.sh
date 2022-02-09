@@ -12,6 +12,6 @@ cargo metadata --offline --format-version 1 > /dev/null
 ./scripts/crev/verify.sh
 
 git add -A
-git commit -m 'chore: Publish crates'
+git commit --author="SWC Bot <bot@swc.rs>" -m 'chore: Publish crates'
 git push --no-verify
 cargo mono publish --no-verify
