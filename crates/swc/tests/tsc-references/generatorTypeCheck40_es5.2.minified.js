@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -45,6 +44,7 @@ function _createSuper(Derived) {
         })(self);
     };
 }
+import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(function() {
     var C;
     return regeneratorRuntime.wrap(function(_ctx) {

@@ -1,3 +1,17 @@
+function _extends() {
+    _extends = Object.assign || function(target) {
+        for(var i = 1; i < arguments.length; i++){
+            var source = arguments[i];
+            for(var key in source){
+                if (Object.prototype.hasOwnProperty.call(source, key)) {
+                    target[key] = source[key];
+                }
+            }
+        }
+        return target;
+    };
+    return _extends.apply(this, arguments);
+}
 import { Writable } from "stream";
 import React from "react";
 import * as ReactDOMServer from "react-dom/server";
@@ -24,20 +38,6 @@ import optimizeAmp from "./optimize-amp";
 import { allowedStatusCodes, getRedirectStatus } from "../lib/load-custom-routes";
 import RenderResult from "./render-result";
 import isError from "../lib/is-error";
-function _extends() {
-    _extends = Object.assign || function(target) {
-        for(var i = 1; i < arguments.length; i++){
-            var source = arguments[i];
-            for(var key in source){
-                if (Object.prototype.hasOwnProperty.call(source, key)) {
-                    target[key] = source[key];
-                }
-            }
-        }
-        return target;
-    };
-    return _extends.apply(this, arguments);
-}
 function noRouter() {
     const message = 'No router instance found. you should only use "next/router" inside the client side of your app. https://nextjs.org/docs/messages/no-router-instance';
     throw new Error(message);

@@ -1,5 +1,4 @@
 var React, foo;
-import { React } from "./test";
 function _extends() {
     return (_extends = Object.assign || function(target) {
         for(var i = 1; i < arguments.length; i++){
@@ -9,6 +8,7 @@ function _extends() {
         return target;
     }).apply(this, arguments);
 }
+import { React } from "./test";
 React.createElement("div", _extends({
     x: ""
 }, foo, {

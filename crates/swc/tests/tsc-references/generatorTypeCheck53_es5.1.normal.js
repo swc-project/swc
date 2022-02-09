@@ -1,9 +1,9 @@
-import regeneratorRuntime from "regenerator-runtime";
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
+import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(g);
 var Foo = function Foo() {
     "use strict";

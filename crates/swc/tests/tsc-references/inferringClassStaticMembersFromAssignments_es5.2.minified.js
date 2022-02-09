@@ -1,7 +1,7 @@
-import * as a from "./a";
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
+import * as a from "./a";
 export var n, C1 = function() {
     "use strict";
     _classCallCheck(this, C1);

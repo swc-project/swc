@@ -1,5 +1,3 @@
-//@filename: react-consumer.tsx
-import { React } from "./test";
 function _extends() {
     _extends = Object.assign || function(target) {
         for(var i = 1; i < arguments.length; i++){
@@ -14,6 +12,8 @@ function _extends() {
     };
     return _extends.apply(this, arguments);
 }
+//@filename: react-consumer.tsx
+import { React } from "./test";
 //@filename: test.d.ts
 export var React;
 // Should emit test_1.React.createElement

@@ -1,5 +1,3 @@
-// @filename: main.js
-import A from './mod1';
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
@@ -19,6 +17,8 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
+// @filename: main.js
+import A from './mod1';
 var Alias = // @allowJs: true
 // @checkJs: true
 // @noEmit: true

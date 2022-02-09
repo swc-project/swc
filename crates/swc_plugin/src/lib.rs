@@ -2,12 +2,15 @@
 pub use swc_common::{
     chain,
     plugin::{PluginError, Serialized},
-    DUMMY_SP,
 };
 pub mod ast {
     pub use swc_atoms::*;
     pub use swc_ecma_ast::*;
     pub use swc_ecma_visit::*;
+}
+
+pub mod syntax_pos {
+    pub use swc_common::{Mark, DUMMY_SP};
 }
 
 mod handler;

@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
         var info = gen[key](arg);
@@ -55,6 +54,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
     }
     return target;
 }
+import regeneratorRuntime from "regenerator-runtime";
 var resolver = {
     sendSomeMessage: function sendSomeMessage(_parent, _param, _param1) {
         return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {

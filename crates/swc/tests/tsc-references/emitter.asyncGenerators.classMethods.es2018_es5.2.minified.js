@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function AsyncGenerator(gen) {
     var front, back;
     function resume(key, arg) {
@@ -105,6 +104,7 @@ function _wrapAsyncGenerator(fn) {
 }, AsyncGenerator.prototype.return = function(arg) {
     return this._invoke("return", arg);
 };
+import regeneratorRuntime from "regenerator-runtime";
 var C1 = function() {
     "use strict";
     function C1() {
