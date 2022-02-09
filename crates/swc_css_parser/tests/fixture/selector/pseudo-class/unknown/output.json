@@ -47,7 +47,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1,
                         "end": 8,
@@ -115,7 +115,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 13,
                         "end": 20,
@@ -191,7 +191,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 27,
                         "end": 34,
@@ -281,7 +281,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 44,
                         "end": 51,
@@ -396,7 +396,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 65,
                         "end": 72,
@@ -519,7 +519,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 87,
                         "end": 94,
@@ -625,7 +625,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 106,
                         "end": 113,
@@ -756,7 +756,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 129,
                         "end": 136,
@@ -903,7 +903,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 154,
                         "end": 161,
@@ -1042,7 +1042,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 178,
                         "end": 185,
@@ -1197,7 +1197,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 204,
                         "end": 211,
@@ -1373,7 +1373,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 239,
                         "end": 246,
@@ -1463,7 +1463,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 261,
                         "end": 268,
@@ -1586,7 +1586,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 288,
                         "end": 295,
@@ -1676,7 +1676,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 310,
                         "end": 317,
@@ -1770,7 +1770,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 336,
                         "end": 343,
@@ -1875,7 +1875,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 353,
                         "end": 360,
@@ -1964,7 +1964,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 368,
                         "end": 375,
@@ -2065,7 +2065,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 385,
                         "end": 392,

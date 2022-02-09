@@ -1,0 +1,104 @@
+article p {}
+article
+p {}
+article   p   {}
+article > p {}
+article
+> 
+p {}
+article    >    p    {}
+p + img {}
+p 
++ 
+img {}
+p   +   img {}
+p ~ img {}
+p 
+~ 
+img {}
+p    ~    img {}
+article > p > a {}
+article
+>
+p
+>
+a {}
+div p {}
+.class p {}
+div .class {}
+.class .class {}
+#id p {}
+div #id {}
+#id #id {}
+[attribute] p {}
+div [attribute] {}
+[attribute] [src] {}
+div > p {}
+.class > p {}
+div > .class {}
+.class > .class {}
+#id > p {}
+div > #id {}
+#id > #id {}
+[attribute] > p {}
+div > [attribute] {}
+[attribute] > [src] {}
+div + p {}
+.class + p {}
+div + .class {}
+.class + .class {}
+#id + p {}
+div + #id {}
+#id + #id {}
+[attribute] + p {}
+div + [attribute] {}
+[attribute] + [src] {}
+div ~ p {}
+.class ~ p {}
+div ~ .class {}
+.class ~ .class {}
+#id ~ p {}
+div ~ #id {}
+#id ~ #id {}
+[attribute] ~ p {}
+div ~ [attribute] {}
+[attribute] ~ [src] {}
+a:hover [attribute] {}
+a:hover #id {}
+a:hover .class {}
+a:hover div#thing {}
+a + a[href='place'] {}
+ul.list + a {}
+.foo ~ a + bar {}
+a+ a {}
+a> a {}
+a~ a {}
+a +a {}
+a >a {}
+a ~a {}
+a+a {}
+a>a {}
+a~a {}
+a [type='button'] {}
+a 
+[type='button'] {}
+a   a {}
+namespace|type#id > .foo {}
+#id > .cl + .cl2 {}
+a c, d + e h {}
+a ~ h + d {}
+div div div div div div div div div div div {}
+[href][class][name] h1 > h2 {}
+[href*="test.com"][rel='external'][id][class~="test"] > [name] {}
+[data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
+* + * {}
+* * {}
+*         * {}
+*[href] *:not(*.green) {}
+*::-webkit-media-controls-play-button {}
+col.selected || td {}
+col.selected
+|| 
+td
+{}
+col.selected||td {}

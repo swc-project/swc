@@ -1,10 +1,11 @@
+use serde::{Deserialize, Serialize};
+use swc_atoms::JsWord;
+use swc_common::ast_serde;
+
 use crate::{
     class::*, comment::Comment, decl::*, expr::*, flow::*, jsx::*, lit::*, module::*, object::*,
     pat::*, stmt::*, typescript::*,
 };
-use serde::{Deserialize, Serialize};
-use swc_atoms::JsWord;
-use swc_common::ast_serde;
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]

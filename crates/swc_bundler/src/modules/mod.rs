@@ -1,9 +1,11 @@
-use crate::ModuleId;
-use retain_mut::RetainMut;
 use std::mem::take;
+
+use retain_mut::RetainMut;
 use swc_common::{collections::AHashMap, SourceMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith};
+
+use crate::ModuleId;
 
 mod sort;
 

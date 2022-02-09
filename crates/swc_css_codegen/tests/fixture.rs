@@ -2,8 +2,9 @@ use std::{
     mem::take,
     path::{Path, PathBuf},
 };
+
 use swc_common::{FileName, Span};
-use swc_css_ast::{Number, Str, Stylesheet, UrlValueRaw};
+use swc_css_ast::{HexColor, ImportantFlag, Number, Str, Stylesheet, UrlValueRaw};
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodeGenerator, CodegenConfig, Emit,
@@ -97,16 +98,18 @@ fn run(input: &Path, minify: bool) {
 struct NormalizeTest;
 
 impl VisitMut for NormalizeTest {
-    fn visit_mut_span(&mut self, n: &mut Span) {
-        *n = Default::default()
-    }
-
-    fn visit_mut_url_value_raw(&mut self, n: &mut UrlValueRaw) {
+    fn visit_mut_hex_color(&mut self, n: &mut HexColor) {
         n.visit_mut_children_with(self);
 
-        n.before = "".into();
-        n.after = "".into();
-        n.raw = "".into();
+        n.value = "fff".into();
+        n.raw = "fff".into();
+    }
+
+    fn visit_mut_important_flag(&mut self, n: &mut ImportantFlag) {
+        n.visit_mut_children_with(self);
+
+        n.value.value = n.value.value.to_lowercase().into();
+        n.value.raw = n.value.raw.to_lowercase().into();
     }
 
     fn visit_mut_number(&mut self, n: &mut Number) {
@@ -115,9 +118,21 @@ impl VisitMut for NormalizeTest {
         n.raw = "".into();
     }
 
+    fn visit_mut_span(&mut self, n: &mut Span) {
+        *n = Default::default()
+    }
+
     fn visit_mut_str(&mut self, n: &mut Str) {
         n.visit_mut_children_with(self);
 
+        n.raw = "".into();
+    }
+
+    fn visit_mut_url_value_raw(&mut self, n: &mut UrlValueRaw) {
+        n.visit_mut_children_with(self);
+
+        n.before = "".into();
+        n.after = "".into();
         n.raw = "".into();
     }
 }

@@ -1,17 +1,14 @@
-use crate::{
-    get_compiler,
-    util::{get_deserialized, MapErr},
+use std::{
+    panic::{catch_unwind, AssertUnwindSafe},
+    sync::Arc,
 };
+
 use anyhow::{bail, Error};
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Env, Status, Task,
 };
 use serde::Deserialize;
-use std::{
-    panic::{catch_unwind, AssertUnwindSafe},
-    sync::Arc,
-};
 use swc::{
     config::SourceMapsConfig,
     resolver::{environment_resolver, paths_resolver},
@@ -25,6 +22,11 @@ use swc_ecma_ast::{
     PropName, Str,
 };
 use swc_ecma_loader::{TargetEnv, NODE_BUILTINS};
+
+use crate::{
+    get_compiler,
+    util::{get_deserialized, MapErr},
+};
 
 struct ConfigItem {
     loader: Box<dyn Load>,
@@ -48,8 +50,8 @@ pub(crate) struct BundleTask {
 #[cfg(feature = "swc_v1")]
 #[napi]
 impl Task for BundleTask {
-    type Output = AHashMap<String, TransformOutput>;
     type JsValue = AHashMap<String, TransformOutput>;
+    type Output = AHashMap<String, TransformOutput>;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
         let builtins = if let TargetEnv::Node = self.config.static_items.config.target {
@@ -166,8 +168,8 @@ impl Task for BundleTask {
 
 #[cfg(feature = "swc_v2")]
 impl Task for BundleTask {
-    type Output = AHashMap<String, TransformOutput>;
     type JsValue = AHashMap<String, TransformOutput>;
+    type Output = AHashMap<String, TransformOutput>;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
         todo!()

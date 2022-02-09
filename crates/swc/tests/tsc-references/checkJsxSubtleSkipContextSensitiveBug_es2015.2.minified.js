@@ -1,4 +1,3 @@
-import * as React from "react";
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
         var info = gen[key](arg), value = info.value;
@@ -8,6 +7,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     }
     info.done ? resolve(value) : Promise.resolve(value).then(_next, _throw);
 }
+import * as React from "react";
 class AsyncLoader extends React.Component {
     render() {
         return null;

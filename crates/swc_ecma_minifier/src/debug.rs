@@ -1,5 +1,6 @@
-use once_cell::sync::Lazy;
 use std::{env, process::Command};
+
+use once_cell::sync::Lazy;
 use swc_common::{sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};

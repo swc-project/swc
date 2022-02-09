@@ -184,6 +184,7 @@ impl ListFormat {
             _ => unreachable!(),
         }
     }
+
     pub fn closing_bracket(self) -> &'static str {
         match self & ListFormat::BracketsMask {
             ListFormat::Braces => "}",

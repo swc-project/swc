@@ -1,4 +1,5 @@
 use std::mem::take;
+
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 use swc_css_utils::replace_ident;
@@ -50,7 +51,6 @@ impl VisitMut for Prefixer {
                     value: $name.into(),
                     raw: $name.into(),
                 });
-
                 self.added.push(Declaration {
                     span: n.span,
                     name,
@@ -67,7 +67,6 @@ impl VisitMut for Prefixer {
                     value: $name.into(),
                     raw: $name.into(),
                 };
-
                 self.added.push(Declaration {
                     span: n.span,
                     name: n.name.clone(),
@@ -189,7 +188,7 @@ impl VisitMut for Prefixer {
                                 span: n.span,
                                 name: n.name.clone(),
                                 value: vec![val],
-                                important: n.important,
+                                important: n.important.clone(),
                             });
                         }
                     }
@@ -213,7 +212,7 @@ impl VisitMut for Prefixer {
                                 span: n.span,
                                 name: n.name.clone(),
                                 value: vec![val],
-                                important: n.important,
+                                important: n.important.clone(),
                             });
                         }
                     }
@@ -469,7 +468,9 @@ impl VisitMut for Prefixer {
 
             "transition" => {
                 let mut value = n.value.clone();
+
                 replace_ident(&mut value, "transform", "-webkit-transform");
+
                 let name = DeclarationName::Ident(Ident {
                     span: DUMMY_SP,
                     value: "-webkit-transition".into(),
@@ -479,7 +480,7 @@ impl VisitMut for Prefixer {
                     span: n.span,
                     name,
                     value,
-                    important: n.important,
+                    important: n.important.clone(),
                 });
             }
 

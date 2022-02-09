@@ -1,5 +1,6 @@
-use crate::flavor::Flavor;
 use serde::Serializer;
+
+use crate::flavor::Flavor;
 
 pub(crate) fn serialize_optional<S>(o: &Option<bool>, s: S) -> Result<S::Ok, S::Error>
 where

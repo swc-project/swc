@@ -1,5 +1,6 @@
-use serde::{Deserialize, Serialize};
 use std::mem::take;
+
+use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -1774,6 +1775,8 @@ impl<C> Visit for Strip<C>
 where
     C: Comments,
 {
+    visit_obj_and_computed!();
+
     fn visit_assign_pat_prop(&mut self, n: &AssignPatProp) {
         if !self.in_var_pat {
             n.key.visit_with(self);
@@ -1875,8 +1878,6 @@ where
         }
     }
 
-    visit_obj_and_computed!();
-
     fn visit_module_items(&mut self, n: &[ModuleItem]) {
         let old = self.non_top_level;
         self.non_top_level = false;
@@ -1960,6 +1961,17 @@ impl<C> VisitMut for Strip<C>
 where
     C: Comments,
 {
+    type_to_none!(visit_mut_opt_ts_type, Box<TsType>);
+
+    type_to_none!(visit_mut_opt_ts_type_ann, TsTypeAnn);
+
+    type_to_none!(visit_mut_opt_ts_type_param_decl, TsTypeParamDecl);
+
+    type_to_none!(
+        visit_mut_opt_ts_type_param_instantiation,
+        TsTypeParamInstantiation
+    );
+
     fn visit_mut_array_pat(&mut self, n: &mut ArrayPat) {
         n.visit_mut_children_with(self);
         n.optional = false;
@@ -2509,14 +2521,6 @@ where
             )
         });
     }
-
-    type_to_none!(visit_mut_opt_ts_type, Box<TsType>);
-    type_to_none!(visit_mut_opt_ts_type_ann, TsTypeAnn);
-    type_to_none!(visit_mut_opt_ts_type_param_decl, TsTypeParamDecl);
-    type_to_none!(
-        visit_mut_opt_ts_type_param_instantiation,
-        TsTypeParamInstantiation
-    );
 
     fn visit_mut_pat_or_expr(&mut self, node: &mut PatOrExpr) {
         // Coerce bindingident to assign expr where parenthesis exists due to TsAsExpr

@@ -1,12 +1,6 @@
-use self::config::BuiltConfig;
-pub use self::config::Config;
-use super::util::{
-    self, define_es_module, define_property, has_use_strict, initialize_to_undefined,
-    local_name_for_src, make_descriptor, make_require_call, use_strict, Exports, ModulePass, Scope,
-};
-use crate::path::{ImportResolver, NoopImportResolver};
-use indexmap::IndexSet;
 use std::cell::{Ref, RefCell, RefMut};
+
+use indexmap::IndexSet;
 use swc_atoms::js_word;
 use swc_common::{sync::Lrc, FileName, Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -16,6 +10,14 @@ use swc_ecma_utils::{
     DestructuringFinder, ExprFactory,
 };
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
+
+use self::config::BuiltConfig;
+pub use self::config::Config;
+use super::util::{
+    self, define_es_module, define_property, has_use_strict, initialize_to_undefined,
+    local_name_for_src, make_descriptor, make_require_call, use_strict, Exports, ModulePass, Scope,
+};
+use crate::path::{ImportResolver, NoopImportResolver};
 
 mod config;
 
@@ -76,6 +78,8 @@ where
     R: ImportResolver,
 {
     noop_fold_type!();
+
+    mark_as_nested!();
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         let exports = self.exports.0.clone();
@@ -797,8 +801,6 @@ where
             ..var
         }
     }
-
-    mark_as_nested!();
 }
 
 impl<R> ModulePass for Umd<R>

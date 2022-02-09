@@ -3,6 +3,7 @@ use std::{
     path::PathBuf,
     sync::{Arc, RwLock},
 };
+
 use swc_common::{FileName, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{self, Emitter};

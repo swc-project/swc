@@ -13,7 +13,7 @@
         "end": 51,
         "ctxt": 0
       },
-      "selectors": [
+      "matchingFunctions": [
         {
           "type": "Function",
           "span": {
@@ -22,7 +22,7 @@
             "ctxt": 0
           },
           "name": {
-            "type": "Identifier",
+            "type": "Ident",
             "span": {
               "start": 15,
               "end": 25,
@@ -67,22 +67,30 @@
                     },
                     "nestingSelector": null,
                     "typeSelector": {
-                      "type": "TypeSelector",
+                      "type": "TagNameSelector",
                       "span": {
                         "start": 30,
                         "end": 32,
                         "ctxt": 0
                       },
-                      "prefix": null,
                       "name": {
-                        "type": "Identifier",
+                        "type": "WqName",
                         "span": {
                           "start": 30,
                           "end": 32,
                           "ctxt": 0
                         },
-                        "value": "h1",
-                        "raw": "h1"
+                        "prefix": null,
+                        "value": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 30,
+                            "end": 32,
+                            "ctxt": 0
+                          },
+                          "value": "h1",
+                          "raw": "h1"
+                        }
                       }
                     },
                     "subclassSelectors": []
@@ -107,7 +115,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 35,
                     "end": 40,
@@ -118,7 +126,7 @@
                 },
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 42,
                       "end": 47,

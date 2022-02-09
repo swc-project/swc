@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
         var info = gen[key](arg), value = info.value;
@@ -69,6 +68,7 @@ function _wrapNativeSuper(Class) {
         }), _setPrototypeOf(Wrapper, Class);
     }, _wrapNativeSuper(Class);
 }
+import regeneratorRuntime from "regenerator-runtime";
 export var Task = function(Promise) {
     "use strict";
     !function(subClass, superClass) {

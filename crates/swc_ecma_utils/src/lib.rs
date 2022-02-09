@@ -4,6 +4,25 @@
 #[doc(hidden)]
 pub extern crate swc_ecma_ast;
 
+use std::{
+    borrow::Cow,
+    f64::{INFINITY, NAN},
+    hash::Hash,
+    num::FpCategory,
+    ops::Add,
+};
+
+use swc_atoms::{js_word, JsWord};
+#[deprecated(since = "0.50.0", note = "Use `swc_common::errors::HANDLER` directly")]
+pub use swc_common::errors::HANDLER;
+use swc_common::{collections::AHashSet, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_ecma_ast::*;
+use swc_ecma_visit::{
+    noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, visit_obj_and_computed,
+    Visit, VisitMut, VisitMutWith, VisitWith,
+};
+use tracing::trace;
+
 pub use self::{
     factory::{ExprFactory, IntoIndirectCall},
     ident::{id, Id},
@@ -17,23 +36,6 @@ pub use self::{
     Purity::{MayBeImpure, Pure},
 };
 use crate::ident::IdentLike;
-use std::{
-    borrow::Cow,
-    f64::{INFINITY, NAN},
-    hash::Hash,
-    num::FpCategory,
-    ops::Add,
-};
-use swc_atoms::{js_word, JsWord};
-#[deprecated(since = "0.50.0", note = "Use `swc_common::errors::HANDLER` directly")]
-pub use swc_common::errors::HANDLER;
-use swc_common::{collections::AHashSet, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
-use swc_ecma_ast::*;
-use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, visit_obj_and_computed,
-    Visit, VisitMut, VisitMutWith, VisitWith,
-};
-use tracing::trace;
 
 #[macro_use]
 mod macros;
@@ -241,10 +243,12 @@ impl StmtLike for Stmt {
     fn try_into_stmt(self) -> Result<Stmt, Self> {
         Ok(self)
     }
+
     #[inline]
     fn as_stmt(&self) -> Option<&Stmt> {
         Some(self)
     }
+
     #[inline]
     fn from_stmt(stmt: Stmt) -> Self {
         stmt
@@ -259,6 +263,7 @@ impl ModuleItemLike for ModuleItem {
             _ => Err(self),
         }
     }
+
     #[inline]
     fn try_from_module_decl(decl: ModuleDecl) -> Result<Self, ModuleDecl> {
         Ok(ModuleItem::ModuleDecl(decl))
@@ -272,6 +277,7 @@ impl StmtLike for ModuleItem {
             _ => Err(self),
         }
     }
+
     #[inline]
     fn as_stmt(&self) -> Option<&Stmt> {
         match *self {
@@ -279,6 +285,7 @@ impl StmtLike for ModuleItem {
             _ => None,
         }
     }
+
     #[inline]
     fn from_stmt(stmt: Stmt) -> Self {
         ModuleItem::Stmt(stmt)
@@ -1297,6 +1304,7 @@ impl Purity {
 
 impl Add for Purity {
     type Output = Self;
+
     fn add(self, rhs: Self) -> Self {
         match (self, rhs) {
             (Pure, Pure) => Pure,
@@ -1877,13 +1885,13 @@ pub struct UsageFinder<'a> {
 impl<'a> Visit for UsageFinder<'a> {
     noop_visit_type!();
 
+    visit_obj_and_computed!();
+
     fn visit_ident(&mut self, i: &Ident) {
         if i.span.ctxt == self.ident.span.ctxt && i.sym == self.ident.sym {
             self.found = true;
         }
     }
-
-    visit_obj_and_computed!();
 }
 
 impl<'a> UsageFinder<'a> {
@@ -2100,13 +2108,13 @@ pub struct IdentReplacer<'a> {
 impl VisitMut for IdentReplacer<'_> {
     noop_visit_mut_type!();
 
+    visit_mut_obj_and_computed!();
+
     fn visit_mut_ident(&mut self, node: &mut Ident) {
         if node.sym == self.from.0 && node.span.ctxt == self.from.1 {
             *node = self.to.clone();
         }
     }
-
-    visit_mut_obj_and_computed!();
 }
 
 pub struct BindingCollector<I>

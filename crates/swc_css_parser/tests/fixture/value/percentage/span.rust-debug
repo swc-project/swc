@@ -58,6 +58,18 @@ error: TypeSelector
 1 | div {
   | ^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/value/percentage/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: WqName
+ --> $DIR/tests/fixture/value/percentage/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
 error: Ident
  --> $DIR/tests/fixture/value/percentage/input.css:1:1
   |
@@ -101,7 +113,7 @@ error: Value
 2 |     width: 0%;
   |            ^^
 
-error: Percent
+error: Percentage
  --> $DIR/tests/fixture/value/percentage/input.css:2:12
   |
 2 |     width: 0%;
@@ -137,7 +149,7 @@ error: Value
 3 |     width: 0.1%;
   |            ^^^^
 
-error: Percent
+error: Percentage
  --> $DIR/tests/fixture/value/percentage/input.css:3:12
   |
 3 |     width: 0.1%;
@@ -173,7 +185,7 @@ error: Value
 4 |     width: 100%;
   |            ^^^^
 
-error: Percent
+error: Percentage
  --> $DIR/tests/fixture/value/percentage/input.css:4:12
   |
 4 |     width: 100%;
@@ -209,7 +221,7 @@ error: Value
 5 |     width: 100.5%;
   |            ^^^^^^
 
-error: Percent
+error: Percentage
  --> $DIR/tests/fixture/value/percentage/input.css:5:12
   |
 5 |     width: 100.5%;
@@ -245,7 +257,7 @@ error: Value
 6 |     width: 100.1000%;
   |            ^^^^^^^^^
 
-error: Percent
+error: Percentage
  --> $DIR/tests/fixture/value/percentage/input.css:6:12
   |
 6 |     width: 100.1000%;
@@ -281,7 +293,7 @@ error: Value
 7 |     width: 1e0%;
   |            ^^^^
 
-error: Percent
+error: Percentage
  --> $DIR/tests/fixture/value/percentage/input.css:7:12
   |
 7 |     width: 1e0%;
@@ -317,7 +329,7 @@ error: Value
 8 |     width: 1e1%;
   |            ^^^^
 
-error: Percent
+error: Percentage
  --> $DIR/tests/fixture/value/percentage/input.css:8:12
   |
 8 |     width: 1e1%;
@@ -353,7 +365,7 @@ error: Value
 9 |     width: 1e2%;
   |            ^^^^
 
-error: Percent
+error: Percentage
  --> $DIR/tests/fixture/value/percentage/input.css:9:12
   |
 9 |     width: 1e2%;
@@ -389,7 +401,7 @@ error: Value
 10 |     width: 10e-1%;
    |            ^^^^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/value/percentage/input.css:10:12
    |
 10 |     width: 10e-1%;
@@ -425,7 +437,7 @@ error: Value
 11 |     width: 10e-5%;
    |            ^^^^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/value/percentage/input.css:11:12
    |
 11 |     width: 10e-5%;
@@ -461,7 +473,7 @@ error: Value
 12 |     width: 10e+2%;
    |            ^^^^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/value/percentage/input.css:12:12
    |
 12 |     width: 10e+2%;
@@ -515,6 +527,18 @@ error: TypeSelector
 15 | div {
    | ^^^
 
+error: TagNameSelector
+  --> $DIR/tests/fixture/value/percentage/input.css:15:1
+   |
+15 | div {
+   | ^^^
+
+error: WqName
+  --> $DIR/tests/fixture/value/percentage/input.css:15:1
+   |
+15 | div {
+   | ^^^
+
 error: Ident
   --> $DIR/tests/fixture/value/percentage/input.css:15:1
    |
@@ -555,7 +579,7 @@ error: Value
 16 |     margin: -5%;
    |             ^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/value/percentage/input.css:16:13
    |
 16 |     margin: -5%;
@@ -591,7 +615,7 @@ error: Value
 17 |     margin: -5.5%;
    |             ^^^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/value/percentage/input.css:17:13
    |
 17 |     margin: -5.5%;

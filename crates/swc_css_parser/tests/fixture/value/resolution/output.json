@@ -1,0 +1,782 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 434,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 0,
+        "end": 44,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 7,
+          "end": 41,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 7,
+              "end": 41,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": {
+              "type": "Ident",
+              "span": {
+                "start": 7,
+                "end": 12,
+                "ctxt": 0
+              },
+              "value": "print",
+              "raw": "print"
+            },
+            "condition": {
+              "type": "MediaConditionWithoutOr",
+              "span": {
+                "start": 17,
+                "end": 41,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeaturePlain",
+                  "span": {
+                    "start": 17,
+                    "end": 41,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 18,
+                      "end": 32,
+                      "ctxt": 0
+                    },
+                    "value": "min-resolution",
+                    "raw": "min-resolution"
+                  },
+                  "value": {
+                    "type": "Resolution",
+                    "span": {
+                      "start": 34,
+                      "end": 40,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 34,
+                        "end": 37,
+                        "ctxt": 0
+                      },
+                      "value": 300.0,
+                      "raw": "300"
+                    },
+                    "unit": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 37,
+                        "end": 40,
+                        "ctxt": 0
+                      },
+                      "value": "dpi",
+                      "raw": "dpi"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 45,
+        "end": 90,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 52,
+          "end": 87,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 52,
+              "end": 87,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": {
+              "type": "Ident",
+              "span": {
+                "start": 52,
+                "end": 57,
+                "ctxt": 0
+              },
+              "value": "print",
+              "raw": "print"
+            },
+            "condition": {
+              "type": "MediaConditionWithoutOr",
+              "span": {
+                "start": 62,
+                "end": 87,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeaturePlain",
+                  "span": {
+                    "start": 62,
+                    "end": 87,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 63,
+                      "end": 77,
+                      "ctxt": 0
+                    },
+                    "value": "min-resolution",
+                    "raw": "min-resolution"
+                  },
+                  "value": {
+                    "type": "Resolution",
+                    "span": {
+                      "start": 79,
+                      "end": 86,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 79,
+                        "end": 82,
+                        "ctxt": 0
+                      },
+                      "value": 300.0,
+                      "raw": "300"
+                    },
+                    "unit": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 82,
+                        "end": 86,
+                        "ctxt": 0
+                      },
+                      "value": "dpcm",
+                      "raw": "dpcm"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 91,
+        "end": 136,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 98,
+          "end": 133,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 98,
+              "end": 133,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": {
+              "type": "Ident",
+              "span": {
+                "start": 98,
+                "end": 103,
+                "ctxt": 0
+              },
+              "value": "print",
+              "raw": "print"
+            },
+            "condition": {
+              "type": "MediaConditionWithoutOr",
+              "span": {
+                "start": 108,
+                "end": 133,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeaturePlain",
+                  "span": {
+                    "start": 108,
+                    "end": 133,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 109,
+                      "end": 123,
+                      "ctxt": 0
+                    },
+                    "value": "min-resolution",
+                    "raw": "min-resolution"
+                  },
+                  "value": {
+                    "type": "Resolution",
+                    "span": {
+                      "start": 125,
+                      "end": 132,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 125,
+                        "end": 128,
+                        "ctxt": 0
+                      },
+                      "value": 300.0,
+                      "raw": "300"
+                    },
+                    "unit": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 128,
+                        "end": 132,
+                        "ctxt": 0
+                      },
+                      "value": "dppx",
+                      "raw": "dppx"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 137,
+        "end": 179,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 144,
+          "end": 176,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 144,
+              "end": 176,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": {
+              "type": "Ident",
+              "span": {
+                "start": 144,
+                "end": 149,
+                "ctxt": 0
+              },
+              "value": "print",
+              "raw": "print"
+            },
+            "condition": {
+              "type": "MediaConditionWithoutOr",
+              "span": {
+                "start": 154,
+                "end": 176,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeaturePlain",
+                  "span": {
+                    "start": 154,
+                    "end": 176,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 155,
+                      "end": 169,
+                      "ctxt": 0
+                    },
+                    "value": "min-resolution",
+                    "raw": "min-resolution"
+                  },
+                  "value": {
+                    "type": "Resolution",
+                    "span": {
+                      "start": 171,
+                      "end": 175,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 171,
+                        "end": 174,
+                        "ctxt": 0
+                      },
+                      "value": 300.0,
+                      "raw": "300"
+                    },
+                    "unit": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 174,
+                        "end": 175,
+                        "ctxt": 0
+                      },
+                      "value": "x",
+                      "raw": "x"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "rules": []
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 181,
+        "end": 433,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 181,
+          "end": 185,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 181,
+              "end": 185,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 181,
+                  "end": 185,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 181,
+                      "end": 185,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 182,
+                        "end": 185,
+                        "ctxt": 0
+                      },
+                      "value": "box",
+                      "raw": "box"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 186,
+          "end": 433,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 192,
+              "end": 312,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 192,
+                "end": 208,
+                "ctxt": 0
+              },
+              "value": "background-image",
+              "raw": "background-image"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 210,
+                  "end": 312,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 210,
+                    "end": 227,
+                    "ctxt": 0
+                  },
+                  "value": "-webkit-image-set",
+                  "raw": "-webkit-image-set"
+                },
+                "value": [
+                  {
+                    "type": "Url",
+                    "span": {
+                      "start": 241,
+                      "end": 266,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 241,
+                        "end": 244,
+                        "ctxt": 0
+                      },
+                      "value": "url",
+                      "raw": "url"
+                    },
+                    "value": {
+                      "type": "String",
+                      "span": {
+                        "start": 245,
+                        "end": 265,
+                        "ctxt": 0
+                      },
+                      "value": "small-balloons.jpg",
+                      "raw": "\"small-balloons.jpg\""
+                    },
+                    "modifiers": []
+                  },
+                  {
+                    "type": "Resolution",
+                    "span": {
+                      "start": 267,
+                      "end": 269,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 267,
+                        "end": 268,
+                        "ctxt": 0
+                      },
+                      "value": 1.0,
+                      "raw": "1"
+                    },
+                    "unit": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 268,
+                        "end": 269,
+                        "ctxt": 0
+                      },
+                      "value": "x",
+                      "raw": "x"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 269,
+                      "end": 270,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Url",
+                    "span": {
+                      "start": 283,
+                      "end": 308,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 283,
+                        "end": 286,
+                        "ctxt": 0
+                      },
+                      "value": "url",
+                      "raw": "url"
+                    },
+                    "value": {
+                      "type": "String",
+                      "span": {
+                        "start": 287,
+                        "end": 307,
+                        "ctxt": 0
+                      },
+                      "value": "large-balloons.jpg",
+                      "raw": "\"large-balloons.jpg\""
+                    },
+                    "modifiers": []
+                  },
+                  {
+                    "type": "Resolution",
+                    "span": {
+                      "start": 309,
+                      "end": 311,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 309,
+                        "end": 310,
+                        "ctxt": 0
+                      },
+                      "value": 2.0,
+                      "raw": "2"
+                    },
+                    "unit": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 310,
+                        "end": 311,
+                        "ctxt": 0
+                      },
+                      "value": "x",
+                      "raw": "x"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 318,
+              "end": 430,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 318,
+                "end": 334,
+                "ctxt": 0
+              },
+              "value": "background-image",
+              "raw": "background-image"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 336,
+                  "end": 430,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 336,
+                    "end": 345,
+                    "ctxt": 0
+                  },
+                  "value": "image-set",
+                  "raw": "image-set"
+                },
+                "value": [
+                  {
+                    "type": "Url",
+                    "span": {
+                      "start": 359,
+                      "end": 384,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 359,
+                        "end": 362,
+                        "ctxt": 0
+                      },
+                      "value": "url",
+                      "raw": "url"
+                    },
+                    "value": {
+                      "type": "String",
+                      "span": {
+                        "start": 363,
+                        "end": 383,
+                        "ctxt": 0
+                      },
+                      "value": "small-balloons.jpg",
+                      "raw": "\"small-balloons.jpg\""
+                    },
+                    "modifiers": []
+                  },
+                  {
+                    "type": "Resolution",
+                    "span": {
+                      "start": 385,
+                      "end": 387,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 385,
+                        "end": 386,
+                        "ctxt": 0
+                      },
+                      "value": 1.0,
+                      "raw": "1"
+                    },
+                    "unit": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 386,
+                        "end": 387,
+                        "ctxt": 0
+                      },
+                      "value": "x",
+                      "raw": "x"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 387,
+                      "end": 388,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Url",
+                    "span": {
+                      "start": 401,
+                      "end": 426,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 401,
+                        "end": 404,
+                        "ctxt": 0
+                      },
+                      "value": "url",
+                      "raw": "url"
+                    },
+                    "value": {
+                      "type": "String",
+                      "span": {
+                        "start": 405,
+                        "end": 425,
+                        "ctxt": 0
+                      },
+                      "value": "large-balloons.jpg",
+                      "raw": "\"large-balloons.jpg\""
+                    },
+                    "modifiers": []
+                  },
+                  {
+                    "type": "Resolution",
+                    "span": {
+                      "start": 427,
+                      "end": 429,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 427,
+                        "end": 428,
+                        "ctxt": 0
+                      },
+                      "value": 2.0,
+                      "raw": "2"
+                    },
+                    "unit": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 428,
+                        "end": 429,
+                        "ctxt": 0
+                      },
+                      "value": "x",
+                      "raw": "x"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    }
+  ]
+}

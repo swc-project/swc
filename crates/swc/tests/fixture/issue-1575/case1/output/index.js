@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
         var info = gen[key](arg);
@@ -28,6 +27,7 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+import regeneratorRuntime from "regenerator-runtime";
 Vue.component('test', {
     methods: {
         onSend: function onSend() {

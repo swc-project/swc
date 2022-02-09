@@ -1,4 +1,3 @@
-use crate::babelify::{Babelify, Context};
 use copyless::BoxHelper;
 use swc_ecma_ast::{
     BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, Decl, DoWhileStmt, EmptyStmt,
@@ -12,6 +11,8 @@ use swc_estree_ast::{
     ReturnStatement, Statement, SwitchCase as BabelSwitchCase, SwitchStatement, ThrowStatement,
     TryStatement, WhileStatement, WithStatement,
 };
+
+use crate::babelify::{Babelify, Context};
 
 impl Babelify for BlockStmt {
     type Output = BlockStatement;

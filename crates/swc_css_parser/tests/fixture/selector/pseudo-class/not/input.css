@@ -1,0 +1,11 @@
+:not(p) {}
+:not(   p   ) {}
+:not(   
+p   
+) {}
+button:not([DISABLED]) {}
+*:not(FOO) {}
+html|*:not(:link):not(:visited) {}
+.selector:not(*:root) {}
+:not(:is(argument)) {}
+

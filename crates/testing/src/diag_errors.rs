@@ -1,4 +1,5 @@
 use std::sync::RwLock;
+
 use swc_common::{
     errors::{Diagnostic, DiagnosticBuilder, Emitter, Handler, HandlerFlags, SourceMapperDyn},
     sync::Lrc,

@@ -1,7 +1,7 @@
-import regeneratorRuntime from "regenerator-runtime";
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
+import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){

@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
         var info = gen[key](arg);
@@ -28,6 +27,7 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+import regeneratorRuntime from "regenerator-runtime";
 it('should compress avif smaller than webp and smaller than jpg', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
     var query, res1, res2, res3, avif, webp, jpeg;
     return regeneratorRuntime.wrap(function _callee$(_ctx) {

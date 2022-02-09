@@ -1,4 +1,3 @@
-use crate::babelify::{Babelify, Context};
 use copyless::BoxHelper;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::{
@@ -17,6 +16,8 @@ use swc_estree_ast::{
     JSXOpeningElement as BabelJSXOpeningElement, JSXOpeningFragment as BabelJSXOpeningFragment,
     JSXSpreadAttribute, JSXSpreadChild as BabelJSXSpreadChild, JSXText as BabelJSXText,
 };
+
+use crate::babelify::{Babelify, Context};
 
 impl Babelify for JSXObject {
     type Output = JSXMemberExprObject;

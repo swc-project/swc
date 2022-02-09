@@ -1,12 +1,14 @@
 #![allow(dead_code)]
 
-use crate::token::Token;
 use std::{borrow::Cow, fmt::Debug};
+
 use swc_atoms::JsWord;
 use swc_common::{
     errors::{DiagnosticBuilder, Handler},
     Span, Spanned,
 };
+
+use crate::token::Token;
 
 /// Note: this struct is 8 bytes.
 #[derive(Debug, Clone, PartialEq)]
@@ -568,7 +570,9 @@ impl SyntaxError {
             SyntaxError::TS2371 => "A parameter initializer is only allowed in a function or \
                                     constructor implementation"
                 .into(),
-            SyntaxError::TS2406 => "Invalid left-hand side in 'for...in' statement".into(),
+            SyntaxError::TS2406 => "The left-hand side of an assignment expression must be a \
+                                    variable or a property access."
+                .into(),
             SyntaxError::TS2410 => "The 'with' statement is not supported. All symbols in a \
                                     'with' block will have type 'any'."
                 .into(),

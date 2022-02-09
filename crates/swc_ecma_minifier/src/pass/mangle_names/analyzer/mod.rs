@@ -1,10 +1,11 @@
-use self::scope::Scope;
 use swc_atoms::JsWord;
 use swc_common::collections::{AHashMap, AHashSet};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use tracing::trace;
+
+use self::scope::Scope;
 
 mod scope;
 
@@ -98,6 +99,16 @@ impl Visit for Analyzer {
         self.add_decl(c.ident.to_id());
 
         c.class.visit_with(self);
+    }
+
+    fn visit_class_expr(&mut self, c: &ClassExpr) {
+        self.with_scope(|v| {
+            if let Some(id) = &c.ident {
+                v.add_decl(id.to_id());
+            }
+
+            c.class.visit_with(v);
+        })
     }
 
     fn visit_default_decl(&mut self, d: &DefaultDecl) {

@@ -1,12 +1,14 @@
 //! 13.3.3 Destructuring Binding Patterns
+use std::iter;
+
+use swc_atoms::js_word;
+use swc_common::Spanned;
+
 use super::{util::ExprExt, *};
 use crate::{
     parser::{class_and_fn::is_not_this, expr::PatOrExprOrSpread},
     token::AssignOpToken,
 };
-use std::iter;
-use swc_atoms::js_word;
-use swc_common::Spanned;
 
 impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<Option<BindingIdent>> {
@@ -824,9 +826,10 @@ impl<'a, I: Tokens> Parser<I> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use swc_common::DUMMY_SP as span;
     use swc_ecma_visit::assert_eq_ignore_span;
+
+    use super::*;
 
     fn array_pat(s: &'static str) -> Pat {
         test_parser(s, Syntax::default(), |p| p.parse_array_binding_pat())

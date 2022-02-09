@@ -1,5 +1,3 @@
-use super::Context;
-use crate::swcify::Swcify;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::{
     BlockStmt, BreakStmt, ClassDecl, ClassExpr, ContinueStmt, DebuggerStmt, Decl, DefaultDecl,
@@ -23,6 +21,9 @@ use swc_estree_ast::{
     SwitchStatement, ThrowStatement, TryStatement, VariableDeclaration, VariableDeclarationKind,
     VariableDeclarator, WhileStatement, WithStatement,
 };
+
+use super::Context;
+use crate::swcify::Swcify;
 
 impl Swcify for BlockStatement {
     type Output = BlockStmt;

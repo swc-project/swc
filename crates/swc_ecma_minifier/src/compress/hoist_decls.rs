@@ -1,12 +1,13 @@
+use swc_common::{collections::AHashSet, pass::Repeated, util::take::Take, DUMMY_SP};
+use swc_ecma_ast::*;
+use swc_ecma_utils::{find_ids, ident::IdentLike, Id, StmtLike};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+
 use super::util::drop_invalid_stmts;
 use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
     util::{is_hoisted_var_decl_without_init, sort::is_sorted_by_key, IsModuleItem, ModuleItemExt},
 };
-use swc_common::{collections::AHashSet, pass::Repeated, util::take::Take, DUMMY_SP};
-use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, ident::IdentLike, Id, StmtLike};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 pub(super) struct DeclHoisterConfig {
     pub hoist_fns: bool,
@@ -235,11 +236,11 @@ impl Hoister<'_> {
 impl VisitMut for Hoister<'_> {
     noop_visit_mut_type!();
 
-    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+    fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         self.handle_stmt_likes(stmts);
     }
 
-    fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         self.handle_stmt_likes(stmts);
     }
 }

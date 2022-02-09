@@ -1,6 +1,8 @@
-use super::{input::ParserInput, Ctx, Parser};
 use std::ops::{Deref, DerefMut};
+
 use swc_common::Span;
+
+use super::{input::ParserInput, Ctx, PResult, Parse, Parser};
 
 pub(crate) trait ItemBlock {
     type Item;
@@ -21,6 +23,14 @@ where
             orig_ctx,
             inner: self,
         }
+    }
+
+    #[inline]
+    pub(super) fn parse_as<T>(&mut self) -> PResult<T>
+    where
+        Self: Parse<T>,
+    {
+        self.parse()
     }
 }
 

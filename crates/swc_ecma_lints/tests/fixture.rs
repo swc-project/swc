@@ -56,6 +56,7 @@ fn pass(input: PathBuf) {
             lint_config: &config,
             top_level_ctxt,
             es_version,
+            source_map: cm,
         });
 
         HANDLER.set(handler, || {

@@ -1,10 +1,11 @@
-use crate::babelify::{Babelify, Context};
 use copyless::BoxHelper;
 use swc_ecma_ast::{Function, Param, ParamOrTsParamProp, Pat};
 use swc_estree_ast::{
     ArrayPattern, AssignmentPattern, FunctionExpression, Identifier, ObjectPattern,
     Param as BabelParam, Pattern, RestElement,
 };
+
+use crate::babelify::{Babelify, Context};
 
 impl Babelify for Function {
     type Output = FunctionExpression;

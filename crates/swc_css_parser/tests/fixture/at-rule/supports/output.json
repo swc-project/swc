@@ -29,7 +29,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 11,
                 "end": 18,
@@ -40,7 +40,7 @@
             },
             "value": [
               {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 20,
                   "end": 24,
@@ -87,22 +87,30 @@
                     },
                     "nestingSelector": null,
                     "typeSelector": {
-                      "type": "TypeSelector",
+                      "type": "TagNameSelector",
                       "span": {
                         "start": 32,
                         "end": 35,
                         "ctxt": 0
                       },
-                      "prefix": null,
                       "name": {
-                        "type": "Identifier",
+                        "type": "WqName",
                         "span": {
                           "start": 32,
                           "end": 35,
                           "ctxt": 0
                         },
-                        "value": "div",
-                        "raw": "div"
+                        "prefix": null,
+                        "value": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 32,
+                            "end": 35,
+                            "ctxt": 0
+                          },
+                          "value": "div",
+                          "raw": "div"
+                        }
                       }
                     },
                     "subclassSelectors": []
@@ -127,7 +135,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 46,
                     "end": 53,
@@ -138,7 +146,7 @@
                 },
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 55,
                       "end": 59,
@@ -178,7 +186,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 81,
                 "end": 88,
@@ -189,7 +197,7 @@
             },
             "value": [
               {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 90,
                   "end": 94,
@@ -236,22 +244,30 @@
                     },
                     "nestingSelector": null,
                     "typeSelector": {
-                      "type": "TypeSelector",
+                      "type": "TagNameSelector",
                       "span": {
                         "start": 102,
                         "end": 106,
                         "ctxt": 0
                       },
-                      "prefix": null,
                       "name": {
-                        "type": "Identifier",
+                        "type": "WqName",
                         "span": {
                           "start": 102,
                           "end": 106,
                           "ctxt": 0
                         },
-                        "value": "body",
-                        "raw": "body"
+                        "prefix": null,
+                        "value": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 102,
+                            "end": 106,
+                            "ctxt": 0
+                          },
+                          "value": "body",
+                          "raw": "body"
+                        }
                       }
                     },
                     "subclassSelectors": []
@@ -276,7 +292,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 117,
                     "end": 122,
@@ -287,7 +303,7 @@
                 },
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 124,
                       "end": 128,
@@ -326,7 +342,7 @@
                 },
                 "modifier": null,
                 "mediaType": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 148,
                     "end": 154,
@@ -351,7 +367,7 @@
                         "ctxt": 0
                       },
                       "name": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 160,
                           "end": 169,
@@ -361,7 +377,7 @@
                         "raw": "min-width"
                       },
                       "value": {
-                        "type": "Dimension",
+                        "type": "Length",
                         "span": {
                           "start": 171,
                           "end": 176,
@@ -378,7 +394,7 @@
                           "raw": "900"
                         },
                         "unit": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 174,
                             "end": 176,
@@ -427,22 +443,30 @@
                         },
                         "nestingSelector": null,
                         "typeSelector": {
-                          "type": "TypeSelector",
+                          "type": "TagNameSelector",
                           "span": {
                             "start": 188,
                             "end": 195,
                             "ctxt": 0
                           },
-                          "prefix": null,
                           "name": {
-                            "type": "Identifier",
+                            "type": "WqName",
                             "span": {
                               "start": 188,
                               "end": 195,
                               "ctxt": 0
                             },
-                            "value": "article",
-                            "raw": "article"
+                            "prefix": null,
+                            "value": {
+                              "type": "Ident",
+                              "span": {
+                                "start": 188,
+                                "end": 195,
+                                "ctxt": 0
+                              },
+                              "value": "article",
+                              "raw": "article"
+                            }
                           }
                         },
                         "subclassSelectors": []
@@ -467,7 +491,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 210,
                         "end": 217,
@@ -478,7 +502,7 @@
                     },
                     "value": [
                       {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 219,
                           "end": 223,
@@ -520,7 +544,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 259,
                 "end": 266,
@@ -531,7 +555,7 @@
             },
             "value": [
               {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 273,
                   "end": 277,
@@ -577,7 +601,7 @@
                 "ctxt": 0
               },
               "name": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 302,
                   "end": 309,
@@ -588,7 +612,7 @@
               },
               "value": [
                 {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 311,
                     "end": 315,
@@ -635,7 +659,7 @@
                 "ctxt": 0
               },
               "name": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 335,
                   "end": 342,
@@ -646,7 +670,7 @@
               },
               "value": [
                 {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 344,
                     "end": 348,
@@ -686,7 +710,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 364,
                 "end": 374,
@@ -717,7 +741,7 @@
                 "raw": "0"
               },
               {
-                "type": "Dimension",
+                "type": "Length",
                 "span": {
                   "start": 380,
                   "end": 383,
@@ -734,7 +758,7 @@
                   "raw": "2"
                 },
                 "unit": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 381,
                     "end": 383,
@@ -745,7 +769,7 @@
                 }
               },
               {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 384,
                   "end": 389,
@@ -755,7 +779,7 @@
                 "raw": "black"
               },
               {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 390,
                   "end": 395,
@@ -782,7 +806,7 @@
                 "ctxt": 0
               },
               "name": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 402,
                   "end": 417,
@@ -813,7 +837,7 @@
                   "raw": "0"
                 },
                 {
-                  "type": "Dimension",
+                  "type": "Length",
                   "span": {
                     "start": 423,
                     "end": 426,
@@ -830,7 +854,7 @@
                     "raw": "2"
                   },
                   "unit": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 424,
                       "end": 426,
@@ -841,7 +865,7 @@
                   }
                 },
                 {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 427,
                     "end": 432,
@@ -851,7 +875,7 @@
                   "raw": "black"
                 },
                 {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 433,
                     "end": 438,
@@ -879,7 +903,7 @@
                 "ctxt": 0
               },
               "name": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 445,
                   "end": 463,
@@ -910,7 +934,7 @@
                   "raw": "0"
                 },
                 {
-                  "type": "Dimension",
+                  "type": "Length",
                   "span": {
                     "start": 469,
                     "end": 472,
@@ -927,7 +951,7 @@
                     "raw": "2"
                   },
                   "unit": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 470,
                       "end": 472,
@@ -938,7 +962,7 @@
                   }
                 },
                 {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 473,
                     "end": 478,
@@ -948,7 +972,7 @@
                   "raw": "black"
                 },
                 {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 479,
                     "end": 484,
@@ -976,7 +1000,7 @@
                 "ctxt": 0
               },
               "name": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 491,
                   "end": 504,
@@ -1007,7 +1031,7 @@
                   "raw": "0"
                 },
                 {
-                  "type": "Dimension",
+                  "type": "Length",
                   "span": {
                     "start": 510,
                     "end": 513,
@@ -1024,7 +1048,7 @@
                     "raw": "2"
                   },
                   "unit": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 511,
                       "end": 513,
@@ -1035,7 +1059,7 @@
                   }
                 },
                 {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 514,
                     "end": 519,
@@ -1045,7 +1069,7 @@
                   "raw": "black"
                 },
                 {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 520,
                     "end": 525,
@@ -1085,7 +1109,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 543,
                 "end": 553,
@@ -1116,7 +1140,7 @@
                 "raw": "0"
               },
               {
-                "type": "Dimension",
+                "type": "Length",
                 "span": {
                   "start": 559,
                   "end": 562,
@@ -1133,7 +1157,7 @@
                   "raw": "2"
                 },
                 "unit": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 560,
                     "end": 562,
@@ -1144,7 +1168,7 @@
                 }
               },
               {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 563,
                   "end": 568,
@@ -1154,7 +1178,7 @@
                 "raw": "black"
               },
               {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 569,
                   "end": 574,
@@ -1181,7 +1205,7 @@
                 "ctxt": 0
               },
               "name": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 584,
                   "end": 599,
@@ -1212,7 +1236,7 @@
                   "raw": "0"
                 },
                 {
-                  "type": "Dimension",
+                  "type": "Length",
                   "span": {
                     "start": 605,
                     "end": 608,
@@ -1229,7 +1253,7 @@
                     "raw": "2"
                   },
                   "unit": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 606,
                       "end": 608,
@@ -1240,7 +1264,7 @@
                   }
                 },
                 {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 609,
                     "end": 614,
@@ -1250,7 +1274,7 @@
                   "raw": "black"
                 },
                 {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 615,
                     "end": 620,
@@ -1278,7 +1302,7 @@
                 "ctxt": 0
               },
               "name": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 630,
                   "end": 648,
@@ -1309,7 +1333,7 @@
                   "raw": "0"
                 },
                 {
-                  "type": "Dimension",
+                  "type": "Length",
                   "span": {
                     "start": 654,
                     "end": 657,
@@ -1326,7 +1350,7 @@
                     "raw": "2"
                   },
                   "unit": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 655,
                       "end": 657,
@@ -1337,7 +1361,7 @@
                   }
                 },
                 {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 658,
                     "end": 663,
@@ -1347,7 +1371,7 @@
                   "raw": "black"
                 },
                 {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 664,
                     "end": 669,
@@ -1375,7 +1399,7 @@
                 "ctxt": 0
               },
               "name": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 679,
                   "end": 692,
@@ -1406,7 +1430,7 @@
                   "raw": "0"
                 },
                 {
-                  "type": "Dimension",
+                  "type": "Length",
                   "span": {
                     "start": 698,
                     "end": 701,
@@ -1423,7 +1447,7 @@
                     "raw": "2"
                   },
                   "unit": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 699,
                       "end": 701,
@@ -1434,7 +1458,7 @@
                   }
                 },
                 {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 702,
                     "end": 707,
@@ -1444,7 +1468,7 @@
                   "raw": "black"
                 },
                 {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 708,
                     "end": 713,
@@ -1492,7 +1516,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 737,
                     "end": 756,
@@ -1503,7 +1527,7 @@
                 },
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 758,
                       "end": 763,
@@ -1530,7 +1554,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 769,
                       "end": 783,
@@ -1541,7 +1565,7 @@
                   },
                   "value": [
                     {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 785,
                         "end": 788,
@@ -1571,7 +1595,7 @@
                 "ctxt": 0
               },
               "name": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 796,
                   "end": 805,
@@ -1589,7 +1613,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 807,
                       "end": 813,
@@ -1600,7 +1624,7 @@
                   },
                   "value": [
                     {
-                      "type": "Dimension",
+                      "type": "Angle",
                       "span": {
                         "start": 814,
                         "end": 819,
@@ -1617,7 +1641,7 @@
                         "raw": "10"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 816,
                           "end": 819,
@@ -1660,7 +1684,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 836,
                 "end": 855,
@@ -1671,7 +1695,7 @@
             },
             "value": [
               {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 857,
                   "end": 862,
@@ -1706,7 +1730,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 869,
                       "end": 883,
@@ -1717,7 +1741,7 @@
                   },
                   "value": [
                     {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 885,
                         "end": 888,
@@ -1744,7 +1768,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 895,
                         "end": 904,
@@ -1762,7 +1786,7 @@
                           "ctxt": 0
                         },
                         "name": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 906,
                             "end": 912,
@@ -1773,7 +1797,7 @@
                         },
                         "value": [
                           {
-                            "type": "Dimension",
+                            "type": "Angle",
                             "span": {
                               "start": 913,
                               "end": 918,
@@ -1790,7 +1814,7 @@
                               "raw": "10"
                             },
                             "unit": {
-                              "type": "Identifier",
+                              "type": "Ident",
                               "span": {
                                 "start": 915,
                                 "end": 918,
@@ -1836,7 +1860,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 941,
                 "end": 960,
@@ -1847,7 +1871,7 @@
             },
             "value": [
               {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 967,
                   "end": 972,
@@ -1882,7 +1906,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 992,
                       "end": 1006,
@@ -1893,7 +1917,7 @@
                   },
                   "value": [
                     {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1013,
                         "end": 1016,
@@ -1920,7 +1944,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1033,
                         "end": 1042,
@@ -1938,7 +1962,7 @@
                           "ctxt": 0
                         },
                         "name": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 1050,
                             "end": 1056,
@@ -1949,7 +1973,7 @@
                         },
                         "value": [
                           {
-                            "type": "Dimension",
+                            "type": "Angle",
                             "span": {
                               "start": 1057,
                               "end": 1062,
@@ -1966,7 +1990,7 @@
                               "raw": "10"
                             },
                             "unit": {
-                              "type": "Identifier",
+                              "type": "Ident",
                               "span": {
                                 "start": 1059,
                                 "end": 1062,
@@ -2012,7 +2036,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 1087,
                 "end": 1106,
@@ -2023,7 +2047,7 @@
             },
             "value": [
               {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 1107,
                   "end": 1112,
@@ -2058,7 +2082,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1118,
                       "end": 1132,
@@ -2069,7 +2093,7 @@
                   },
                   "value": [
                     {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1133,
                         "end": 1136,
@@ -2096,7 +2120,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1142,
                         "end": 1151,
@@ -2114,7 +2138,7 @@
                           "ctxt": 0
                         },
                         "name": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 1152,
                             "end": 1158,
@@ -2125,7 +2149,7 @@
                         },
                         "value": [
                           {
-                            "type": "Dimension",
+                            "type": "Angle",
                             "span": {
                               "start": 1159,
                               "end": 1164,
@@ -2142,7 +2166,7 @@
                               "raw": "10"
                             },
                             "unit": {
-                              "type": "Identifier",
+                              "type": "Ident",
                               "span": {
                                 "start": 1161,
                                 "end": 1164,
@@ -2196,7 +2220,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 1182,
                     "end": 1189,
@@ -2207,7 +2231,7 @@
                 },
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1191,
                       "end": 1195,
@@ -2248,7 +2272,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 1212,
                 "end": 1219,
@@ -2259,7 +2283,7 @@
             },
             "value": [
               {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 1221,
                   "end": 1225,
@@ -2270,9 +2294,22 @@
               }
             ],
             "important": {
-              "start": 1226,
-              "end": 1236,
-              "ctxt": 0
+              "type": "ImportantFlag",
+              "span": {
+                "start": 1226,
+                "end": 1236,
+                "ctxt": 0
+              },
+              "value": {
+                "type": "Ident",
+                "span": {
+                  "start": 1227,
+                  "end": 1236,
+                  "ctxt": 0
+                },
+                "value": "important",
+                "raw": "important"
+              }
             }
           }
         ]
@@ -2309,7 +2346,7 @@
                 "ctxt": 0
               },
               "name": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 1256,
                   "end": 1263,
@@ -2320,7 +2357,7 @@
               },
               "value": [
                 {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 1265,
                     "end": 1269,
@@ -2368,7 +2405,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 1286,
                     "end": 1305,
@@ -2379,7 +2416,7 @@
                 },
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1307,
                       "end": 1312,
@@ -2406,7 +2443,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1318,
                       "end": 1332,
@@ -2417,7 +2454,7 @@
                   },
                   "value": [
                     {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1334,
                         "end": 1337,
@@ -2447,7 +2484,7 @@
                 "ctxt": 0
               },
               "name": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 1345,
                   "end": 1354,
@@ -2465,7 +2502,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1356,
                       "end": 1362,
@@ -2476,7 +2513,7 @@
                   },
                   "value": [
                     {
-                      "type": "Dimension",
+                      "type": "Angle",
                       "span": {
                         "start": 1363,
                         "end": 1368,
@@ -2493,7 +2530,7 @@
                         "raw": "10"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 1365,
                           "end": 1368,
@@ -2536,7 +2573,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 1385,
                 "end": 1404,
@@ -2547,7 +2584,7 @@
             },
             "value": [
               {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 1406,
                   "end": 1411,
@@ -2582,7 +2619,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1418,
                       "end": 1432,
@@ -2593,7 +2630,7 @@
                   },
                   "value": [
                     {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1434,
                         "end": 1437,
@@ -2620,7 +2657,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1444,
                         "end": 1453,
@@ -2638,7 +2675,7 @@
                           "ctxt": 0
                         },
                         "name": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 1455,
                             "end": 1461,
@@ -2649,7 +2686,7 @@
                         },
                         "value": [
                           {
-                            "type": "Dimension",
+                            "type": "Angle",
                             "span": {
                               "start": 1462,
                               "end": 1467,
@@ -2666,7 +2703,7 @@
                               "raw": "10"
                             },
                             "unit": {
-                              "type": "Identifier",
+                              "type": "Ident",
                               "span": {
                                 "start": 1464,
                                 "end": 1467,
@@ -2727,7 +2764,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1490,
                       "end": 1497,
@@ -2738,7 +2775,7 @@
                   },
                   "value": [
                     {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1499,
                         "end": 1503,

@@ -1,8 +1,9 @@
-use super::Pure;
-use crate::mode::Mode;
 use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value};
+
+use super::Pure;
+use crate::mode::Mode;
 
 impl<M> Pure<'_, M>
 where

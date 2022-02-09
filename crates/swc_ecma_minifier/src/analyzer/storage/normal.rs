@@ -1,9 +1,11 @@
-use super::{ScopeDataLike, Storage, VarDataLike};
-use crate::analyzer::{ctx::Ctx, ProgramData, ScopeData, ScopeKind, VarUsageInfo};
 use std::collections::hash_map::Entry;
+
 use swc_common::collections::AHashSet;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
+
+use super::{ScopeDataLike, Storage, VarDataLike};
+use crate::analyzer::{ctx::Ctx, ProgramData, ScopeData, ScopeKind, VarUsageInfo};
 
 impl Storage for ProgramData {
     type ScopeData = ScopeData;

@@ -94,6 +94,12 @@ error: Dimension
 1 | @media (min-width: 800px) {}
   |                    ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/media/condition/input.css:1:20
+  |
+1 | @media (min-width: 800px) {}
+  |                    ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/media/condition/input.css:1:20
   |
@@ -190,6 +196,12 @@ error: Dimension
 2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                    ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/media/condition/input.css:2:20
+  |
+2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+  |                    ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/media/condition/input.css:2:20
   |
@@ -256,6 +268,12 @@ error: Dimension
 2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                                           ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/media/condition/input.css:2:43
+  |
+2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+  |                                           ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/media/condition/input.css:2:43
   |
@@ -317,6 +335,12 @@ error: MediaFeatureValue
   |                                                                  ^^^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/media/condition/input.css:2:66
+  |
+2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+  |                                                                  ^^^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/media/condition/input.css:2:66
   |
 2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -418,6 +442,12 @@ error: Dimension
 3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                    ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/media/condition/input.css:3:20
+  |
+3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+  |                    ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/media/condition/input.css:3:20
   |
@@ -479,6 +509,12 @@ error: MediaFeatureValue
   |                                           ^^^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/media/condition/input.css:3:43
+  |
+3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+  |                                           ^^^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/media/condition/input.css:3:43
   |
 3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -550,6 +586,12 @@ error: Dimension
 3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                                                                  ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/media/condition/input.css:3:66
+  |
+3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+  |                                                                  ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/media/condition/input.css:3:66
   |
@@ -611,6 +653,12 @@ error: MediaFeatureValue
   |                                                                                         ^^^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/media/condition/input.css:3:89
+  |
+3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+  |                                                                                         ^^^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/media/condition/input.css:3:89
   |
 3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -713,6 +761,12 @@ error: MediaFeatureValue
   |                        ^^^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/media/condition/input.css:4:24
+  |
+4 | @media not (min-width: 800px) {}
+  |                        ^^^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/media/condition/input.css:4:24
   |
 4 | @media not (min-width: 800px) {}
@@ -832,6 +886,12 @@ error: Dimension
 5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
   |                     ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:21
+  |
+5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
+  |                     ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/media/condition/input.css:5:21
   |
@@ -898,6 +958,12 @@ error: Dimension
 5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
   |                                            ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:44
+  |
+5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
+  |                                            ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/media/condition/input.css:5:44
   |
@@ -959,6 +1025,12 @@ error: MediaFeatureValue
   |                                                                   ^^^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:67
+  |
+5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
+  |                                                                   ^^^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/media/condition/input.css:5:67
   |
 5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
@@ -1060,6 +1132,12 @@ error: Dimension
 6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
   |                    ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:20
+  |
+6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
+  |                    ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/media/condition/input.css:6:20
   |
@@ -1144,6 +1222,12 @@ error: Dimension
 6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
   |                                            ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:44
+  |
+6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
+  |                                            ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/media/condition/input.css:6:44
   |
@@ -1205,6 +1289,12 @@ error: MediaFeatureValue
   |                                                                  ^^^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:66
+  |
+6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
+  |                                                                  ^^^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/media/condition/input.css:6:66
   |
 6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
@@ -1342,6 +1432,12 @@ error: Dimension
 7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
   |                     ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/media/condition/input.css:7:21
+  |
+7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
+  |                     ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/media/condition/input.css:7:21
   |
@@ -1403,6 +1499,12 @@ error: MediaFeatureValue
   |                                            ^^^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/media/condition/input.css:7:44
+  |
+7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
+  |                                            ^^^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/media/condition/input.css:7:44
   |
 7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
@@ -1474,6 +1576,12 @@ error: Dimension
 7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
   |                                                                   ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/media/condition/input.css:7:67
+  |
+7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
+  |                                                                   ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/media/condition/input.css:7:67
   |
@@ -1523,6 +1631,18 @@ error: CompoundSelector
   |     ^
 
 error: TypeSelector
+ --> $DIR/tests/fixture/rome/media/condition/input.css:8:2
+  |
+8 |     a {
+  |     ^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/rome/media/condition/input.css:8:2
+  |
+8 |     a {
+  |     ^
+
+error: WqName
  --> $DIR/tests/fixture/rome/media/condition/input.css:8:2
   |
 8 |     a {
@@ -1708,6 +1828,12 @@ error: Dimension
 15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
    |                    ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/rome/media/condition/input.css:15:20
+   |
+15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
+   |                    ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/rome/media/condition/input.css:15:20
    |
@@ -1792,6 +1918,12 @@ error: Dimension
 15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
    |                                            ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/rome/media/condition/input.css:15:44
+   |
+15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
+   |                                            ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/rome/media/condition/input.css:15:44
    |
@@ -1858,6 +1990,12 @@ error: Dimension
 15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
    |                                                                  ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/rome/media/condition/input.css:15:66
+   |
+15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
+   |                                                                  ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/rome/media/condition/input.css:15:66
    |
@@ -1907,6 +2045,18 @@ error: CompoundSelector
    |     ^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/rome/media/condition/input.css:16:2
+   |
+16 |     a {
+   |     ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/rome/media/condition/input.css:16:2
+   |
+16 |     a {
+   |     ^
+
+error: WqName
   --> $DIR/tests/fixture/rome/media/condition/input.css:16:2
    |
 16 |     a {

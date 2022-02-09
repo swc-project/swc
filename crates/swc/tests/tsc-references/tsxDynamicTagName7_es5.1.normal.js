@@ -1,5 +1,3 @@
-//@filename: app.tsx
-import * as React from 'react';
 function _assertThisInitialized(self) {
     if (self === void 0) {
         throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -85,6 +83,8 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
+//@filename: app.tsx
+import * as React from 'react';
 export var Text = /*#__PURE__*/ function(_Component) {
     "use strict";
     _inherits(Text, _Component);

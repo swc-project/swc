@@ -1,4 +1,3 @@
-import * as React from "react";
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
@@ -15,6 +14,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
+import * as React from "react";
 export var Text = function(_Component) {
     "use strict";
     !function(subClass, superClass) {

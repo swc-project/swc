@@ -15,13 +15,15 @@
 //! and definition contexts*. J. Funct. Program. 22, 2 (March 2012), 181-216.
 //! DOI=10.1017/S0956796812000093 <https://doi.org/10.1017/S0956796812000093>
 
-use super::GLOBALS;
-use crate::collections::AHashMap;
-use serde::{Deserialize, Serialize};
 use std::{
     collections::{HashMap, HashSet},
     fmt,
 };
+
+use serde::{Deserialize, Serialize};
+
+use super::GLOBALS;
+use crate::collections::AHashMap;
 
 /// A SyntaxContext represents a chain of macro expansions (represented by
 /// marks).
@@ -61,15 +63,45 @@ struct MarkData {
     is_builtin: bool,
 }
 
+/// List of proxy calls injected by the host in the plugin's runtime context.
+/// When related calls being executed inside of the plugin, it'll call these
+/// proxies instead which'll call actual host fn.
+extern "C" {
+    // Instead of trying to copy-serialize `Mark`, this fn directly consume
+    // inner raw value as well as fn and let each context constrcuts struct
+    // on their side.
+    fn __mark_fresh_proxy(mark: i32) -> i32;
+}
+
 impl Mark {
     pub fn fresh(parent: Mark) -> Self {
-        HygieneData::with(|data| {
+        // Note: msvc tries to link against proxied fn for normal build,
+        // have to limit build target to wasm only to avoid it.
+        #[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
+        return Mark(unsafe {
+            __mark_fresh_proxy(
+                parent
+                    .as_u32()
+                    .try_into()
+                    .expect("Should able to convert mark into i32"),
+            )
+            .try_into()
+            .expect("Should able to convert i32 into mark")
+        });
+
+        // https://github.com/swc-project/swc/pull/3492#discussion_r802224857
+        // This is unreachable path for noraml execution. However for some
+        // cases like running plugin's test without targeting wasm32-*, we'll
+        // allow to not panic in here at least.
+
+        #[cfg(not(all(feature = "plugin-mode", target_arch = "wasm32")))]
+        return HygieneData::with(|data| {
             data.marks.push(MarkData {
                 parent,
                 is_builtin: false,
             });
             Mark(data.marks.len() as u32 - 1)
-        })
+        });
     }
 
     /// The mark of the theoretical expansion that generates freshly parsed,

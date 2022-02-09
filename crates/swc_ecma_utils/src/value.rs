@@ -1,5 +1,6 @@
-use self::Value::{Known, Unknown};
 use std::ops::Not;
+
+use self::Value::{Known, Unknown};
 
 /// Runtime value.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -99,6 +100,7 @@ impl Value<bool> {
 
 impl Not for Value<bool> {
     type Output = Self;
+
     fn not(self) -> Self {
         match self {
             Value::Known(b) => Value::Known(!b),

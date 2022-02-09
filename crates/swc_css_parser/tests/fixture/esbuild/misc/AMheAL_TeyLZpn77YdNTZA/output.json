@@ -14,7 +14,7 @@
         "ctxt": 0
       },
       "name": {
-        "type": "CustomIdentifier",
+        "type": "CustomIdent",
         "span": {
           "start": 11,
           "end": 14,
@@ -32,7 +32,7 @@
           },
           "prelude": [
             {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 17,
                 "end": 23,

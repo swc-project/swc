@@ -58,6 +58,18 @@ error: TypeSelector
 1 | div {
   | ^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/value/square-brackets/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: WqName
+ --> $DIR/tests/fixture/value/square-brackets/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
 error: Ident
  --> $DIR/tests/fixture/value/square-brackets/input.css:1:1
   |
@@ -287,6 +299,12 @@ error: Dimension
 6 |     prop:  [red #fff 12px];
   |                      ^^^^
 
+error: Length
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:22
+  |
+6 |     prop:  [red #fff 12px];
+  |                      ^^^^
+
 error: Number
  --> $DIR/tests/fixture/value/square-brackets/input.css:6:22
   |
@@ -347,7 +365,7 @@ error: Value
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
   |                        ^^^
 
-error: Percent
+error: Percentage
  --> $DIR/tests/fixture/value/square-brackets/input.css:7:24
   |
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
@@ -401,7 +419,7 @@ error: Value
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
   |                                                  ^^^
 
-error: Percent
+error: Percentage
  --> $DIR/tests/fixture/value/square-brackets/input.css:7:50
   |
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];

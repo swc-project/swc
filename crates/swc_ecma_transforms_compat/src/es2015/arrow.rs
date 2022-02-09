@@ -69,6 +69,14 @@ struct Arrow {
 impl VisitMut for Arrow {
     noop_visit_mut_type!();
 
+    fn visit_mut_class(&mut self, c: &mut Class) {
+        if c.super_class.is_some() {
+            self.in_subclass = true;
+        }
+        c.visit_mut_children_with(self);
+        self.in_subclass = false;
+    }
+
     fn visit_mut_constructor(&mut self, c: &mut Constructor) {
         c.params.visit_mut_children_with(self);
 
@@ -95,14 +103,6 @@ impl VisitMut for Arrow {
                 }
             }
         }
-    }
-
-    fn visit_mut_class(&mut self, c: &mut Class) {
-        if c.super_class.is_some() {
-            self.in_subclass = true;
-        }
-        c.visit_mut_children_with(self);
-        self.in_subclass = false;
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {

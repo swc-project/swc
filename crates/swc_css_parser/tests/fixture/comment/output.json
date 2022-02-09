@@ -38,22 +38,30 @@
                 },
                 "nestingSelector": null,
                 "typeSelector": {
-                  "type": "TypeSelector",
+                  "type": "TagNameSelector",
                   "span": {
                     "start": 13,
                     "end": 14,
                     "ctxt": 0
                   },
-                  "prefix": null,
                   "name": {
-                    "type": "Identifier",
+                    "type": "WqName",
                     "span": {
                       "start": 13,
                       "end": 14,
                       "ctxt": 0
                     },
-                    "value": "a",
-                    "raw": "a"
+                    "prefix": null,
+                    "value": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 13,
+                        "end": 14,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "raw": "a"
+                    }
                   }
                 },
                 "subclassSelectors": []
@@ -78,7 +86,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 43,
                 "end": 48,
@@ -89,7 +97,7 @@
             },
             "value": [
               {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 75,
                   "end": 78,
@@ -136,22 +144,30 @@
                 },
                 "nestingSelector": null,
                 "typeSelector": {
-                  "type": "TypeSelector",
+                  "type": "TagNameSelector",
                   "span": {
                     "start": 132,
                     "end": 135,
                     "ctxt": 0
                   },
-                  "prefix": null,
                   "name": {
-                    "type": "Identifier",
+                    "type": "WqName",
                     "span": {
                       "start": 132,
                       "end": 135,
                       "ctxt": 0
                     },
-                    "value": "div",
-                    "raw": "div"
+                    "prefix": null,
+                    "value": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 132,
+                        "end": 135,
+                        "ctxt": 0
+                      },
+                      "value": "div",
+                      "raw": "div"
+                    }
                   }
                 },
                 "subclassSelectors": []
@@ -176,7 +192,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 159,
                 "end": 164,
@@ -187,7 +203,7 @@
             },
             "value": [
               {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 166,
                   "end": 171,
@@ -207,7 +223,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 195,
                 "end": 205,
@@ -218,7 +234,7 @@
             },
             "value": [
               {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 207,
                   "end": 210,
@@ -265,22 +281,30 @@
                 },
                 "nestingSelector": null,
                 "typeSelector": {
-                  "type": "TypeSelector",
+                  "type": "TagNameSelector",
                   "span": {
                     "start": 237,
                     "end": 238,
                     "ctxt": 0
                   },
-                  "prefix": null,
                   "name": {
-                    "type": "Identifier",
+                    "type": "WqName",
                     "span": {
                       "start": 237,
                       "end": 238,
                       "ctxt": 0
                     },
-                    "value": "a",
-                    "raw": "a"
+                    "prefix": null,
+                    "value": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 237,
+                        "end": 238,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "raw": "a"
+                    }
                   }
                 },
                 "subclassSelectors": []
@@ -305,7 +329,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 245,
                 "end": 250,
@@ -316,7 +340,7 @@
             },
             "value": [
               {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 252,
                   "end": 257,
@@ -355,7 +379,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 293,
                 "end": 299,
@@ -394,7 +418,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 336,
                 "end": 342,

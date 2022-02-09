@@ -622,6 +622,12 @@ error: Dimension
 10 | @media print and (min-resolution: 118dpcm) {}
    |                                   ^^^^^^^
 
+error: Resolution
+  --> $DIR/tests/fixture/at-rule/media/input.css:10:35
+   |
+10 | @media print and (min-resolution: 118dpcm) {}
+   |                                   ^^^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:10:35
    |
@@ -1588,6 +1594,12 @@ error: Dimension
 25 | @media (min-width: 20px) {}
    |                    ^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:25:20
+   |
+25 | @media (min-width: 20px) {}
+   |                    ^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:25:20
    |
@@ -1684,6 +1696,12 @@ error: Dimension
 26 | @media(min-width: 20px){}
    |                   ^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:26:19
+   |
+26 | @media(min-width: 20px){}
+   |                   ^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:26:19
    |
@@ -1775,6 +1793,12 @@ error: MediaFeatureValue
    |                              ^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:27:30
+   |
+27 | @media   (   min-width   :   20px   )   {}
+   |                              ^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:27:30
    |
 27 | @media   (   min-width   :   20px   )   {}
@@ -2110,6 +2134,12 @@ error: Dimension
 30 | @media (grid) and (max-width: 15em) {}
    |                               ^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:30:31
+   |
+30 | @media (grid) and (max-width: 15em) {}
+   |                               ^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:30:31
    |
@@ -2278,6 +2308,12 @@ error: Dimension
 33 | @media (min-width: 20em) and (min-width: 20em) {}
    |                    ^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:33:20
+   |
+33 | @media (min-width: 20em) and (min-width: 20em) {}
+   |                    ^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:33:20
    |
@@ -2339,6 +2375,12 @@ error: MediaFeatureValue
    |                                          ^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:33:42
+   |
+33 | @media (min-width: 20em) and (min-width: 20em) {}
+   |                                          ^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:33:42
    |
 33 | @media (min-width: 20em) and (min-width: 20em) {}
@@ -2440,6 +2482,12 @@ error: Dimension
 34 | @media   (min-width   :   20em   )   and   (   min-width   :   20em   )   {}
    |                           ^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:34:27
+   |
+34 | @media   (min-width   :   20em   )   and   (   min-width   :   20em   )   {}
+   |                           ^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:34:27
    |
@@ -2501,6 +2549,12 @@ error: MediaFeatureValue
    |                                                                ^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:34:64
+   |
+34 | @media   (min-width   :   20em   )   and   (   min-width   :   20em   )   {}
+   |                                                                ^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:34:64
    |
 34 | @media   (min-width   :   20em   )   and   (   min-width   :   20em   )   {}
@@ -2602,6 +2656,12 @@ error: Dimension
 35 | @media (min-width: 1024px) and (min-width: 1024px) and (min-width: 1024px) {}
    |                    ^^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:35:20
+   |
+35 | @media (min-width: 1024px) and (min-width: 1024px) and (min-width: 1024px) {}
+   |                    ^^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:35:20
    |
@@ -2668,6 +2728,12 @@ error: Dimension
 35 | @media (min-width: 1024px) and (min-width: 1024px) and (min-width: 1024px) {}
    |                                            ^^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:35:44
+   |
+35 | @media (min-width: 1024px) and (min-width: 1024px) and (min-width: 1024px) {}
+   |                                            ^^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:35:44
    |
@@ -2729,6 +2795,12 @@ error: MediaFeatureValue
    |                                                                    ^^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:35:68
+   |
+35 | @media (min-width: 1024px) and (min-width: 1024px) and (min-width: 1024px) {}
+   |                                                                    ^^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:35:68
    |
 35 | @media (min-width: 1024px) and (min-width: 1024px) and (min-width: 1024px) {}
@@ -2830,6 +2902,12 @@ error: Dimension
 36 | @media(min-width:20em)and (min-width: 20em){}
    |                  ^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:36:18
+   |
+36 | @media(min-width:20em)and (min-width: 20em){}
+   |                  ^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:36:18
    |
@@ -2891,6 +2969,12 @@ error: MediaFeatureValue
    |                                       ^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:36:39
+   |
+36 | @media(min-width:20em)and (min-width: 20em){}
+   |                                       ^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:36:39
    |
 36 | @media(min-width:20em)and (min-width: 20em){}
@@ -2992,6 +3076,12 @@ error: Dimension
 37 | @media(min-width:20em)and (min-width:20em){}
    |                  ^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:37:18
+   |
+37 | @media(min-width:20em)and (min-width:20em){}
+   |                  ^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:37:18
    |
@@ -3053,6 +3143,12 @@ error: MediaFeatureValue
    |                                      ^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:37:38
+   |
+37 | @media(min-width:20em)and (min-width:20em){}
+   |                                      ^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:37:38
    |
 37 | @media(min-width:20em)and (min-width:20em){}
@@ -3568,6 +3664,12 @@ error: Dimension
 43 | @media (height < 600px) {}
    |                  ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:43:18
+   |
+43 | @media (height < 600px) {}
+   |                  ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:43:18
    |
@@ -3659,6 +3761,12 @@ error: MediaFeatureValue
    |                   ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:44:19
+   |
+44 | @media (height <= 600px) {}
+   |                   ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:44:19
    |
 44 | @media (height <= 600px) {}
@@ -3760,6 +3868,12 @@ error: Dimension
 45 | @media (height > 600px) {}
    |                  ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:45:18
+   |
+45 | @media (height > 600px) {}
+   |                  ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:45:18
    |
@@ -3851,6 +3965,12 @@ error: MediaFeatureValue
    |                   ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:46:19
+   |
+46 | @media (height >= 600px) {}
+   |                   ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:46:19
    |
 46 | @media (height >= 600px) {}
@@ -3952,6 +4072,12 @@ error: Dimension
 47 | @media (height = 600px) {}
    |                  ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:47:18
+   |
+47 | @media (height = 600px) {}
+   |                  ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:47:18
    |
@@ -4043,6 +4169,12 @@ error: MediaFeatureValue
    |                           ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:48:27
+   |
+48 | @media   (   height   <   600px   )   {}
+   |                           ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:48:27
    |
 48 | @media   (   height   <   600px   )   {}
@@ -4144,6 +4276,12 @@ error: Dimension
 49 | @media   (   height   <=   600px   )   {}
    |                            ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:49:28
+   |
+49 | @media   (   height   <=   600px   )   {}
+   |                            ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:49:28
    |
@@ -4235,6 +4373,12 @@ error: MediaFeatureValue
    |                           ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:50:27
+   |
+50 | @media   (   height   >   600px   )   {}
+   |                           ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:50:27
    |
 50 | @media   (   height   >   600px   )   {}
@@ -4336,6 +4480,12 @@ error: Dimension
 51 | @media   (   height   >=   600px   )   {}
    |                            ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:51:28
+   |
+51 | @media   (   height   >=   600px   )   {}
+   |                            ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:51:28
    |
@@ -4427,6 +4577,12 @@ error: MediaFeatureValue
    |                           ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:52:27
+   |
+52 | @media   (   height   =   600px   )   {}
+   |                           ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:52:27
    |
 52 | @media   (   height   =   600px   )   {}
@@ -4528,6 +4684,12 @@ error: Dimension
 53 | @media(height=600px){}
    |               ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:53:15
+   |
+53 | @media(height=600px){}
+   |               ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:53:15
    |
@@ -4624,6 +4786,12 @@ error: Dimension
 54 | @media(height>=600px) {}
    |                ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:54:16
+   |
+54 | @media(height>=600px) {}
+   |                ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:54:16
    |
@@ -4703,6 +4871,12 @@ error: MediaFeatureValue
    |         ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:56:9
+   |
+56 | @media (600px < height) {}
+   |         ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:56:9
    |
 56 | @media (600px < height) {}
@@ -4804,6 +4978,12 @@ error: Dimension
 57 | @media (600px <= height) {}
    |         ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:57:9
+   |
+57 | @media (600px <= height) {}
+   |         ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:57:9
    |
@@ -4895,6 +5075,12 @@ error: MediaFeatureValue
    |         ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:58:9
+   |
+58 | @media (600px > height) {}
+   |         ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:58:9
    |
 58 | @media (600px > height) {}
@@ -4996,6 +5182,12 @@ error: Dimension
 59 | @media (600px >= height) {}
    |         ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:59:9
+   |
+59 | @media (600px >= height) {}
+   |         ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:59:9
    |
@@ -5087,6 +5279,12 @@ error: MediaFeatureValue
    |         ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:60:9
+   |
+60 | @media (600px = height) {}
+   |         ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:60:9
    |
 60 | @media (600px = height) {}
@@ -5188,6 +5386,12 @@ error: Dimension
 61 | @media   (   600px   <   height   )   {}
    |              ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:61:14
+   |
+61 | @media   (   600px   <   height   )   {}
+   |              ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:61:14
    |
@@ -5279,6 +5483,12 @@ error: MediaFeatureValue
    |              ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:62:14
+   |
+62 | @media   (   600px   <=   height   )   {}
+   |              ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:62:14
    |
 62 | @media   (   600px   <=   height   )   {}
@@ -5380,6 +5590,12 @@ error: Dimension
 63 | @media   (   600px   >   height   )   {}
    |              ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:63:14
+   |
+63 | @media   (   600px   >   height   )   {}
+   |              ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:63:14
    |
@@ -5471,6 +5687,12 @@ error: MediaFeatureValue
    |              ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:64:14
+   |
+64 | @media   (   600px   >=   height   )   {}
+   |              ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:64:14
    |
 64 | @media   (   600px   >=   height   )   {}
@@ -5572,6 +5794,12 @@ error: Dimension
 65 | @media   (   600px   =   height   )   {}
    |              ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:65:14
+   |
+65 | @media   (   600px   =   height   )   {}
+   |              ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:65:14
    |
@@ -5663,6 +5891,12 @@ error: MediaFeatureValue
    |        ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:66:8
+   |
+66 | @media(600px=height) {}
+   |        ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:66:8
    |
 66 | @media(600px=height) {}
@@ -5764,6 +5998,12 @@ error: Dimension
 67 | @media(600px>=height) {}
    |        ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:67:8
+   |
+67 | @media(600px>=height) {}
+   |        ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:67:8
    |
@@ -5860,6 +6100,12 @@ error: Dimension
 69 | @media (400px < width < 700px) {}
    |         ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:69:9
+   |
+69 | @media (400px < width < 700px) {}
+   |         ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:69:9
    |
@@ -5891,6 +6137,12 @@ error: MediaFeatureValue
    |                         ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:69:25
+   |
+69 | @media (400px < width < 700px) {}
+   |                         ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:69:25
    |
 69 | @media (400px < width < 700px) {}
@@ -5980,6 +6232,12 @@ error: Dimension
 70 | @media (400px <= width < 700px) {}
    |         ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:70:9
+   |
+70 | @media (400px <= width < 700px) {}
+   |         ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:70:9
    |
@@ -6011,6 +6269,12 @@ error: MediaFeatureValue
    |                          ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:70:26
+   |
+70 | @media (400px <= width < 700px) {}
+   |                          ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:70:26
    |
 70 | @media (400px <= width < 700px) {}
@@ -6100,6 +6364,12 @@ error: Dimension
 71 | @media (400px < width <= 700px) {}
    |         ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:71:9
+   |
+71 | @media (400px < width <= 700px) {}
+   |         ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:71:9
    |
@@ -6131,6 +6401,12 @@ error: MediaFeatureValue
    |                          ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:71:26
+   |
+71 | @media (400px < width <= 700px) {}
+   |                          ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:71:26
    |
 71 | @media (400px < width <= 700px) {}
@@ -6220,6 +6496,12 @@ error: Dimension
 72 | @media (400px <= width <= 700px) {}
    |         ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:72:9
+   |
+72 | @media (400px <= width <= 700px) {}
+   |         ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:72:9
    |
@@ -6251,6 +6533,12 @@ error: MediaFeatureValue
    |                           ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:72:27
+   |
+72 | @media (400px <= width <= 700px) {}
+   |                           ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:72:27
    |
 72 | @media (400px <= width <= 700px) {}
@@ -6340,6 +6628,12 @@ error: Dimension
 73 | @media(400px<width<700px){}
    |        ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:73:8
+   |
+73 | @media(400px<width<700px){}
+   |        ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:73:8
    |
@@ -6371,6 +6665,12 @@ error: MediaFeatureValue
    |                    ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:73:20
+   |
+73 | @media(400px<width<700px){}
+   |                    ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:73:20
    |
 73 | @media(400px<width<700px){}
@@ -6460,6 +6760,12 @@ error: Dimension
 74 | @media(400px<=width<=700px){}
    |        ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:74:8
+   |
+74 | @media(400px<=width<=700px){}
+   |        ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:74:8
    |
@@ -6491,6 +6797,12 @@ error: MediaFeatureValue
    |                      ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:74:22
+   |
+74 | @media(400px<=width<=700px){}
+   |                      ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:74:22
    |
 74 | @media(400px<=width<=700px){}
@@ -6580,6 +6892,12 @@ error: Dimension
 75 | @media   (   400px   <   width   <   700px   )   {}
    |              ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:75:14
+   |
+75 | @media   (   400px   <   width   <   700px   )   {}
+   |              ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:75:14
    |
@@ -6611,6 +6929,12 @@ error: MediaFeatureValue
    |                                      ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:75:38
+   |
+75 | @media   (   400px   <   width   <   700px   )   {}
+   |                                      ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:75:38
    |
 75 | @media   (   400px   <   width   <   700px   )   {}
@@ -6700,6 +7024,12 @@ error: Dimension
 76 | @media   (   400px   <=   width   <   700px   )   {}
    |              ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:76:14
+   |
+76 | @media   (   400px   <=   width   <   700px   )   {}
+   |              ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:76:14
    |
@@ -6731,6 +7061,12 @@ error: MediaFeatureValue
    |                                       ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:76:39
+   |
+76 | @media   (   400px   <=   width   <   700px   )   {}
+   |                                       ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:76:39
    |
 76 | @media   (   400px   <=   width   <   700px   )   {}
@@ -6820,6 +7156,12 @@ error: Dimension
 77 | @media   (   400px   <   width   <=   700px   )   {}
    |              ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:77:14
+   |
+77 | @media   (   400px   <   width   <=   700px   )   {}
+   |              ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:77:14
    |
@@ -6851,6 +7193,12 @@ error: MediaFeatureValue
    |                                       ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:77:39
+   |
+77 | @media   (   400px   <   width   <=   700px   )   {}
+   |                                       ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:77:39
    |
 77 | @media   (   400px   <   width   <=   700px   )   {}
@@ -6940,6 +7288,12 @@ error: Dimension
 78 | @media   (   400px   <=   width   <=   700px   )   {}
    |              ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:78:14
+   |
+78 | @media   (   400px   <=   width   <=   700px   )   {}
+   |              ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:78:14
    |
@@ -6971,6 +7325,12 @@ error: MediaFeatureValue
    |                                        ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:78:40
+   |
+78 | @media   (   400px   <=   width   <=   700px   )   {}
+   |                                        ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:78:40
    |
 78 | @media   (   400px   <=   width   <=   700px   )   {}
@@ -7060,6 +7420,12 @@ error: Dimension
 79 | @media(400px<width<700px){}
    |        ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:79:8
+   |
+79 | @media(400px<width<700px){}
+   |        ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:79:8
    |
@@ -7091,6 +7457,12 @@ error: MediaFeatureValue
    |                    ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:79:20
+   |
+79 | @media(400px<width<700px){}
+   |                    ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:79:20
    |
 79 | @media(400px<width<700px){}
@@ -7180,6 +7552,12 @@ error: Dimension
 80 | @media(400px<=width<=700px){}
    |        ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:80:8
+   |
+80 | @media(400px<=width<=700px){}
+   |        ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:80:8
    |
@@ -7211,6 +7589,12 @@ error: MediaFeatureValue
    |                      ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:80:22
+   |
+80 | @media(400px<=width<=700px){}
+   |                      ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:80:22
    |
 80 | @media(400px<=width<=700px){}
@@ -7300,6 +7684,12 @@ error: Dimension
 82 | @media (400px > width > 700px) {}
    |         ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:82:9
+   |
+82 | @media (400px > width > 700px) {}
+   |         ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:82:9
    |
@@ -7331,6 +7721,12 @@ error: MediaFeatureValue
    |                         ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:82:25
+   |
+82 | @media (400px > width > 700px) {}
+   |                         ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:82:25
    |
 82 | @media (400px > width > 700px) {}
@@ -7420,6 +7816,12 @@ error: Dimension
 83 | @media (400px >= width > 700px) {}
    |         ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:83:9
+   |
+83 | @media (400px >= width > 700px) {}
+   |         ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:83:9
    |
@@ -7451,6 +7853,12 @@ error: MediaFeatureValue
    |                          ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:83:26
+   |
+83 | @media (400px >= width > 700px) {}
+   |                          ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:83:26
    |
 83 | @media (400px >= width > 700px) {}
@@ -7540,6 +7948,12 @@ error: Dimension
 84 | @media (400px > width >= 700px) {}
    |         ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:84:9
+   |
+84 | @media (400px > width >= 700px) {}
+   |         ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:84:9
    |
@@ -7571,6 +7985,12 @@ error: MediaFeatureValue
    |                          ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:84:26
+   |
+84 | @media (400px > width >= 700px) {}
+   |                          ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:84:26
    |
 84 | @media (400px > width >= 700px) {}
@@ -7660,6 +8080,12 @@ error: Dimension
 85 | @media (400px >= width >= 700px) {}
    |         ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:85:9
+   |
+85 | @media (400px >= width >= 700px) {}
+   |         ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:85:9
    |
@@ -7691,6 +8117,12 @@ error: MediaFeatureValue
    |                           ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:85:27
+   |
+85 | @media (400px >= width >= 700px) {}
+   |                           ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:85:27
    |
 85 | @media (400px >= width >= 700px) {}
@@ -7780,6 +8212,12 @@ error: Dimension
 86 | @media(400px>width>700px){}
    |        ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:86:8
+   |
+86 | @media(400px>width>700px){}
+   |        ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:86:8
    |
@@ -7811,6 +8249,12 @@ error: MediaFeatureValue
    |                    ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:86:20
+   |
+86 | @media(400px>width>700px){}
+   |                    ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:86:20
    |
 86 | @media(400px>width>700px){}
@@ -7900,6 +8344,12 @@ error: Dimension
 87 | @media(400px>=width>=700px) {}
    |        ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:87:8
+   |
+87 | @media(400px>=width>=700px) {}
+   |        ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:87:8
    |
@@ -7931,6 +8381,12 @@ error: MediaFeatureValue
    |                      ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:87:22
+   |
+87 | @media(400px>=width>=700px) {}
+   |                      ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:87:22
    |
 87 | @media(400px>=width>=700px) {}
@@ -8020,6 +8476,12 @@ error: Dimension
 88 | @media   (   400px   >   width   >   700px   )   {}
    |              ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:88:14
+   |
+88 | @media   (   400px   >   width   >   700px   )   {}
+   |              ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:88:14
    |
@@ -8051,6 +8513,12 @@ error: MediaFeatureValue
    |                                      ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:88:38
+   |
+88 | @media   (   400px   >   width   >   700px   )   {}
+   |                                      ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:88:38
    |
 88 | @media   (   400px   >   width   >   700px   )   {}
@@ -8140,6 +8608,12 @@ error: Dimension
 89 | @media   (   400px   >=   width   >   700px   )   {}
    |              ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:89:14
+   |
+89 | @media   (   400px   >=   width   >   700px   )   {}
+   |              ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:89:14
    |
@@ -8171,6 +8645,12 @@ error: MediaFeatureValue
    |                                       ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:89:39
+   |
+89 | @media   (   400px   >=   width   >   700px   )   {}
+   |                                       ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:89:39
    |
 89 | @media   (   400px   >=   width   >   700px   )   {}
@@ -8260,6 +8740,12 @@ error: Dimension
 90 | @media   (   400px   >   width   >=   700px   )   {}
    |              ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:90:14
+   |
+90 | @media   (   400px   >   width   >=   700px   )   {}
+   |              ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:90:14
    |
@@ -8291,6 +8777,12 @@ error: MediaFeatureValue
    |                                       ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:90:39
+   |
+90 | @media   (   400px   >   width   >=   700px   )   {}
+   |                                       ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:90:39
    |
 90 | @media   (   400px   >   width   >=   700px   )   {}
@@ -8380,6 +8872,12 @@ error: Dimension
 91 | @media   (   400px   >=   width   >=   700px   )   {}
    |              ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:91:14
+   |
+91 | @media   (   400px   >=   width   >=   700px   )   {}
+   |              ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:91:14
    |
@@ -8411,6 +8909,12 @@ error: MediaFeatureValue
    |                                        ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:91:40
+   |
+91 | @media   (   400px   >=   width   >=   700px   )   {}
+   |                                        ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:91:40
    |
 91 | @media   (   400px   >=   width   >=   700px   )   {}
@@ -8500,6 +9004,12 @@ error: Dimension
 92 | @media(400px>width>700px){}
    |        ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:92:8
+   |
+92 | @media(400px>width>700px){}
+   |        ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:92:8
    |
@@ -8531,6 +9041,12 @@ error: MediaFeatureValue
    |                    ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:92:20
+   |
+92 | @media(400px>width>700px){}
+   |                    ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:92:20
    |
 92 | @media(400px>width>700px){}
@@ -8620,6 +9136,12 @@ error: Dimension
 93 | @media(400px>=width>=700px){}
    |        ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:93:8
+   |
+93 | @media(400px>=width>=700px){}
+   |        ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:93:8
    |
@@ -8651,6 +9173,12 @@ error: MediaFeatureValue
    |                      ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:93:22
+   |
+93 | @media(400px>=width>=700px){}
+   |                      ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:93:22
    |
 93 | @media(400px>=width>=700px){}
@@ -8789,6 +9317,12 @@ error: MediaFeatureValue
    |                                   ^^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/media/input.css:95:35
+   |
+95 | @media (--modern) and (min-width: 1024px) {}
+   |                                   ^^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/media/input.css:95:35
    |
 95 | @media (--modern) and (min-width: 1024px) {}
@@ -9256,6 +9790,12 @@ error: Dimension
 99 | @media ((color) or (hover)) and (width > 1024px) {}
    |                                          ^^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/at-rule/media/input.css:99:42
+   |
+99 | @media ((color) or (hover)) and (width > 1024px) {}
+   |                                          ^^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/media/input.css:99:42
    |
@@ -9467,6 +10007,12 @@ error: MediaFeatureValue
     |                                              ^^^^^^
 
 error: Dimension
+   --> $DIR/tests/fixture/at-rule/media/input.css:100:46
+    |
+100 | @media (((color)) or ((hover))) and (width > 1024px) {}
+    |                                              ^^^^^^
+
+error: Length
    --> $DIR/tests/fixture/at-rule/media/input.css:100:46
     |
 100 | @media (((color)) or ((hover))) and (width > 1024px) {}
@@ -9724,6 +10270,12 @@ error: Dimension
 101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
     |                                                  ^^^^^^
 
+error: Length
+   --> $DIR/tests/fixture/at-rule/media/input.css:101:50
+    |
+101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
+    |                                                  ^^^^^^
+
 error: Number
    --> $DIR/tests/fixture/at-rule/media/input.css:101:50
     |
@@ -9976,6 +10528,12 @@ error: Dimension
 102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
     |                                                                                                             ^^^^^^
 
+error: Length
+   --> $DIR/tests/fixture/at-rule/media/input.css:102:109
+    |
+102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
+    |                                                                                                             ^^^^^^
+
 error: Number
    --> $DIR/tests/fixture/at-rule/media/input.css:102:109
     |
@@ -10090,6 +10648,12 @@ error: Dimension
 104 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
     |                     ^^^^^
 
+error: Length
+   --> $DIR/tests/fixture/at-rule/media/input.css:104:21
+    |
+104 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
+    |                     ^^^^^
+
 error: Number
    --> $DIR/tests/fixture/at-rule/media/input.css:104:21
     |
@@ -10156,6 +10720,12 @@ error: Dimension
 104 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
     |                                            ^^^^^
 
+error: Length
+   --> $DIR/tests/fixture/at-rule/media/input.css:104:44
+    |
+104 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
+    |                                            ^^^^^
+
 error: Number
    --> $DIR/tests/fixture/at-rule/media/input.css:104:44
     |
@@ -10217,6 +10787,12 @@ error: MediaFeatureValue
     |                                                                   ^^^^^
 
 error: Dimension
+   --> $DIR/tests/fixture/at-rule/media/input.css:104:67
+    |
+104 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
+    |                                                                   ^^^^^
+
+error: Length
    --> $DIR/tests/fixture/at-rule/media/input.css:104:67
     |
 104 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
@@ -10318,6 +10894,12 @@ error: Dimension
 105 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
     |                    ^^^^^
 
+error: Length
+   --> $DIR/tests/fixture/at-rule/media/input.css:105:20
+    |
+105 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
+    |                    ^^^^^
+
 error: Number
    --> $DIR/tests/fixture/at-rule/media/input.css:105:20
     |
@@ -10402,6 +10984,12 @@ error: Dimension
 105 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
     |                                            ^^^^^
 
+error: Length
+   --> $DIR/tests/fixture/at-rule/media/input.css:105:44
+    |
+105 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
+    |                                            ^^^^^
+
 error: Number
    --> $DIR/tests/fixture/at-rule/media/input.css:105:44
     |
@@ -10463,6 +11051,12 @@ error: MediaFeatureValue
     |                                                                  ^^^^^
 
 error: Dimension
+   --> $DIR/tests/fixture/at-rule/media/input.css:105:66
+    |
+105 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
+    |                                                                  ^^^^^
+
+error: Length
    --> $DIR/tests/fixture/at-rule/media/input.css:105:66
     |
 105 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
@@ -10708,6 +11302,12 @@ error: Dimension
 109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
     |                     ^^^^^
 
+error: Length
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:21
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                     ^^^^^
+
 error: Number
    --> $DIR/tests/fixture/at-rule/media/input.css:109:21
     |
@@ -10774,6 +11374,12 @@ error: Dimension
 109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
     |                                            ^^^^^
 
+error: Length
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:44
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                            ^^^^^
+
 error: Number
    --> $DIR/tests/fixture/at-rule/media/input.css:109:44
     |
@@ -10835,6 +11441,12 @@ error: MediaFeatureValue
     |                                                                   ^^^^^
 
 error: Dimension
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:67
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                                                   ^^^^^
+
+error: Length
    --> $DIR/tests/fixture/at-rule/media/input.css:109:67
     |
 109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
@@ -10936,6 +11548,12 @@ error: Dimension
 110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
     |                    ^^^^^
 
+error: Length
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:20
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                    ^^^^^
+
 error: Number
    --> $DIR/tests/fixture/at-rule/media/input.css:110:20
     |
@@ -11020,6 +11638,12 @@ error: Dimension
 110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
     |                                            ^^^^^
 
+error: Length
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:44
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                            ^^^^^
+
 error: Number
    --> $DIR/tests/fixture/at-rule/media/input.css:110:44
     |
@@ -11081,6 +11705,12 @@ error: MediaFeatureValue
     |                                                                  ^^^^^
 
 error: Dimension
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:66
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                                                  ^^^^^
+
+error: Length
    --> $DIR/tests/fixture/at-rule/media/input.css:110:66
     |
 110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}

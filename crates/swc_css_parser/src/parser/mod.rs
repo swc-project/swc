@@ -1,15 +1,16 @@
+use std::mem::take;
+
+use swc_css_ast::*;
+
 use self::input::{Buffer, ParserInput};
 use crate::{error::Error, Parse};
-use std::mem::take;
-use swc_common::Span;
-use swc_css_ast::*;
 
 #[macro_use]
 mod macros;
 mod at_rule;
+mod base;
 pub mod input;
 mod selector;
-mod style_rule;
 #[cfg(test)]
 mod tests;
 mod traits;
@@ -32,9 +33,9 @@ pub struct ParserConfig {
 
 #[derive(Debug, Default, Clone, Copy)]
 struct Ctx {
-    allow_operation_in_value: bool,
+    in_page_at_rule: bool,
 
-    allow_at_selector: bool,
+    allow_operation_in_value: bool,
 
     recover_from_property_value: bool,
 }
@@ -81,21 +82,4 @@ where
 #[derive(Clone, Copy)]
 pub struct RuleContext {
     is_top_level: bool,
-}
-
-impl<I> Parse<Stylesheet> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> Result<Stylesheet, Error> {
-        let start = self.input.cur_span()?;
-        let rules = self.parse_rule_list(RuleContext { is_top_level: true })?;
-
-        let last = self.input.last_pos()?;
-
-        Ok(Stylesheet {
-            span: Span::new(start.lo, last, Default::default()),
-            rules,
-        })
-    }
 }

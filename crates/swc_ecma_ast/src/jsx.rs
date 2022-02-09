@@ -1,12 +1,13 @@
+use is_macro::Is;
+use swc_atoms::JsWord;
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
+
 use crate::{
     expr::{Expr, SpreadElement},
     ident::Ident,
     lit::Lit,
     typescript::TsTypeParamInstantiation,
 };
-use is_macro::Is;
-use swc_atoms::JsWord;
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 /// Used for `obj` property of `JSXMemberExpr`.
 #[ast_node]

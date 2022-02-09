@@ -1,0 +1,18 @@
+@page :first {
+    color: green;
+
+    @top-left {
+        content: "foo";
+        color: blue;
+    }
+
+    @top-right {
+        @top-right {
+            content: "zzz";
+        }
+
+        content: "bar";
+    }
+
+    margin: 20px;
+}

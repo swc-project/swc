@@ -1,4 +1,3 @@
-use crate::{fixer::fixer, helpers::HELPERS, hygiene::hygiene_with_config};
 use swc_common::{
     comments::SingleThreadedComments,
     errors::{Handler, HANDLER},
@@ -10,6 +9,8 @@ use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_utils::DropSpan;
 use swc_ecma_visit::{as_folder, Fold, FoldWith};
+
+use crate::{fixer::fixer, helpers::HELPERS, hygiene::hygiene_with_config};
 
 pub struct Tester<'a> {
     pub cm: Lrc<SourceMap>,

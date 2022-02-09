@@ -45,6 +45,15 @@
     --fake-important:{!important};
     --semicolon-not-top-level: (;);
     --delim-not-top-level: (!);
+    --zero-size: {
+        width: 0;
+        height: 0;
+    };
+    --small-icon: {
+        width: 16px;
+        height: 16px;
+    }
+    ;
 }
 
 :root{--a:1}

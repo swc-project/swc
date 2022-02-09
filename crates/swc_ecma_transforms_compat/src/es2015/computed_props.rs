@@ -62,14 +62,6 @@ struct ComputedProps {
 impl VisitMut for ComputedProps {
     noop_visit_mut_type!();
 
-    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        self.visit_mut_stmt_like(n);
-    }
-
-    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        self.visit_mut_stmt_like(n);
-    }
-
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
 
@@ -314,6 +306,14 @@ impl VisitMut for ComputedProps {
                 exprs,
             });
         };
+    }
+
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        self.visit_mut_stmt_like(n);
+    }
+
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        self.visit_mut_stmt_like(n);
     }
 }
 

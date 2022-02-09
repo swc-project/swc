@@ -29,6 +29,7 @@ where
     I: IntoIterator<Item = B::Item>,
 {
     type Item = I::Item;
+
     fn next(&mut self) -> Option<Self::Item> {
         if let Some(b) = self.base.next() {
             return Some(b);

@@ -966,7 +966,7 @@ test!(
         configurable: true,
         enumerable: true,
         writable: true,
-        initializer: void 0
+        initializer: null
     }), _class);
     "#,
     ok_if_code_eq
@@ -994,7 +994,7 @@ test_exec!(
     }
 
     class Child extends Base {
-      @DefineAction() action: number
+      @DefineAction() declare action: number
 
       callApi() {
         console.log(this.action) // undefined

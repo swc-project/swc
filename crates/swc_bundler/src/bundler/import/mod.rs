@@ -1,5 +1,3 @@
-use super::Bundler;
-use crate::{load::Load, resolve::Resolve};
 use anyhow::{Context, Error};
 use retain_mut::RetainMut;
 use swc_atoms::{js_word, JsWord};
@@ -11,6 +9,9 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+
+use super::Bundler;
+use crate::{load::Load, resolve::Resolve};
 
 #[cfg(test)]
 mod tests;

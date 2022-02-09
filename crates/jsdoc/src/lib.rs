@@ -1,11 +1,12 @@
-pub use self::input::Input;
-use crate::ast::*;
 use nom::{
     bytes::complete::{tag, take_while},
     error::ErrorKind,
     IResult, InputIter, Slice,
 };
 use swc_common::{Span, Spanned, SyntaxContext};
+
+pub use self::input::Input;
+use crate::ast::*;
 
 pub mod ast;
 mod input;
@@ -662,8 +663,9 @@ fn skip(i: Input) -> Input {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use swc_common::BytePos;
+
+    use super::*;
 
     fn input(s: &str) -> Input {
         Input::new(BytePos(0), BytePos(s.as_bytes().len() as _), s)

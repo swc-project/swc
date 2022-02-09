@@ -24,9 +24,9 @@ add_bitflags!(
     },
     /// Delimiters
     Values {
-        /// There is no delimiter between list items (default).
         NotDelimited: 0,
         SpaceDelimited: 1 << 2,
+        /// There is no delimiter between list items (default).
         SemiDelimited: 1 << 3,
         CommaDelimited: 1 << 4,
         DotDelimited: 1 << 5,

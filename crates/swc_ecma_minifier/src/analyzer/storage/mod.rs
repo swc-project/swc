@@ -1,8 +1,9 @@
-use super::{ctx::Ctx, ScopeKind};
 use swc_atoms::JsWord;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::Id;
+
+use super::{ctx::Ctx, ScopeKind};
 
 pub mod normal;
 

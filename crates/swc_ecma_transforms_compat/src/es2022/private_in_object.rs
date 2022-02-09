@@ -2,6 +2,7 @@ use std::{
     borrow::Cow,
     mem::{replace, take},
 };
+
 use swc_atoms::JsWord;
 use swc_common::{
     collections::AHashSet, pass::CompilerPass, util::take::Take, Mark, Spanned, DUMMY_SP,

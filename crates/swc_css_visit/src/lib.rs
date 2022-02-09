@@ -61,12 +61,17 @@ define!({
         pub span: Span,
         pub name: DeclarationName,
         pub value: Vec<Value>,
-        pub important: Option<Span>,
+        pub important: Option<ImportantFlag>,
     }
 
     pub enum DeclarationName {
         Ident(Ident),
         DashedIdent(DashedIdent),
+    }
+
+    pub struct ImportantFlag {
+        pub span: Span,
+        pub value: Ident,
     }
 
     pub struct QualifiedRule {
@@ -88,31 +93,18 @@ define!({
 
     pub enum Value {
         SimpleBlock(SimpleBlock),
-
         Dimension(Dimension),
-
         Number(Number),
-
-        Percent(Percent),
-
+        Percentage(Percentage),
         Ratio(Ratio),
-
         Color(Color),
-
         Ident(Ident),
-
         DashedIdent(DashedIdent),
-
         Str(Str),
-
         Function(Function),
-
         Bin(BinValue),
-
         Delimiter(Delimiter),
-
         Tokens(Tokens),
-
         Url(Url),
     }
 
@@ -152,13 +144,59 @@ define!({
         pub raw: JsWord,
     }
 
-    pub struct Dimension {
+    pub enum Dimension {
+        Length(Length),
+        Angle(Angle),
+        Time(Time),
+        Frequency(Frequency),
+        Resolution(Resolution),
+        Flex(Flex),
+        UnknownDimension(UnknownDimension),
+    }
+
+    pub struct Length {
         pub span: Span,
         pub value: Number,
         pub unit: Ident,
     }
 
-    pub struct Percent {
+    pub struct Angle {
+        pub span: Span,
+        pub value: Number,
+        pub unit: Ident,
+    }
+
+    pub struct Time {
+        pub span: Span,
+        pub value: Number,
+        pub unit: Ident,
+    }
+
+    pub struct Frequency {
+        pub span: Span,
+        pub value: Number,
+        pub unit: Ident,
+    }
+
+    pub struct Resolution {
+        pub span: Span,
+        pub value: Number,
+        pub unit: Ident,
+    }
+
+    pub struct Flex {
+        pub span: Span,
+        pub value: Number,
+        pub unit: Ident,
+    }
+
+    pub struct UnknownDimension {
+        pub span: Span,
+        pub value: Number,
+        pub unit: Ident,
+    }
+
+    pub struct Percentage {
         pub span: Span,
         pub value: Number,
     }
@@ -221,10 +259,30 @@ define!({
         pub value: CombinatorValue,
     }
 
-    pub struct TypeSelector {
+    pub enum TypeSelector {
+        TagName(TagNameSelector),
+        Universal(UniversalSelector),
+    }
+
+    pub struct TagNameSelector {
+        pub span: Span,
+        pub name: WqName,
+    }
+
+    pub struct UniversalSelector {
+        pub span: Span,
+        pub prefix: Option<NsPrefix>,
+    }
+
+    pub struct NsPrefix {
         pub span: Span,
         pub prefix: Option<Ident>,
-        pub name: Ident,
+    }
+
+    pub struct WqName {
+        pub span: Span,
+        pub prefix: Option<NsPrefix>,
+        pub value: Ident,
     }
 
     pub struct NestingSelector {
@@ -233,30 +291,33 @@ define!({
 
     pub enum SubclassSelector {
         Id(IdSelector),
-
         Class(ClassSelector),
-
-        Attr(AttrSelector),
-
+        Attribute(AttributeSelector),
         PseudoClass(PseudoClassSelector),
-
         PseudoElement(PseudoElementSelector),
-
-        At(AtSelector),
     }
 
-    pub enum AttrSelectorValue {
+    pub struct AttributeSelector {
+        pub span: Span,
+        pub name: WqName,
+        pub matcher: Option<AttributeSelectorMatcher>,
+        pub value: Option<AttributeSelectorValue>,
+        pub modifier: Option<AttributeSelectorModifier>,
+    }
+
+    pub struct AttributeSelectorMatcher {
+        pub span: Span,
+        pub value: AttributeSelectorMatcherValue,
+    }
+
+    pub enum AttributeSelectorValue {
         Str(Str),
         Ident(Ident),
     }
 
-    pub struct AttrSelector {
+    pub struct AttributeSelectorModifier {
         pub span: Span,
-        pub prefix: Option<Ident>,
-        pub name: Ident,
-        pub matcher: Option<AttrSelectorMatcher>,
-        pub value: Option<AttrSelectorValue>,
-        pub modifier: Option<char>,
+        pub value: Ident,
     }
 
     pub enum PseudoSelectorChildren {
@@ -307,16 +368,6 @@ define!({
         pub text: Ident,
     }
 
-    pub struct TagSelector {
-        pub span: Span,
-        pub text: Ident,
-    }
-
-    pub struct AtSelector {
-        pub span: Span,
-        pub text: Ident,
-    }
-
     pub struct Stylesheet {
         pub span: Span,
         pub rules: Vec<Rule>,
@@ -339,10 +390,13 @@ define!({
         Media(MediaRule),
         Supports(SupportsRule),
         Page(PageRule),
+        PageMargin(PageMarginRule),
         Namespace(NamespaceRule),
         Viewport(ViewportRule),
         Document(DocumentRule),
         ColorProfile(ColorProfileRule),
+        CounterStyle(CounterStyleRule),
+        Property(PropertyRule),
         Unknown(UnknownAtRule),
     }
 
@@ -409,8 +463,13 @@ define!({
 
     pub struct DocumentRule {
         pub span: Span,
-        pub selectors: Vec<Function>,
+        pub matching_functions: Vec<DocumentRuleMatchingFunction>,
         pub block: Vec<Rule>,
+    }
+
+    pub enum DocumentRuleMatchingFunction {
+        Url(Url),
+        Function(Function),
     }
 
     pub enum KeyframesName {
@@ -432,7 +491,7 @@ define!({
 
     pub enum KeyframeSelector {
         Ident(Ident),
-        Percent(Percent),
+        Percentage(Percentage),
     }
 
     pub struct LayerName {
@@ -569,32 +628,35 @@ define!({
 
     pub struct PageRule {
         pub span: Span,
+        pub prelude: Option<PageSelectorList>,
+        pub block: Vec<DeclarationBlockItem>,
+    }
 
-        pub prelude: Vec<PageSelector>,
-
-        pub block: PageRuleBlock,
+    pub struct PageSelectorList {
+        pub span: Span,
+        pub selectors: Vec<PageSelector>,
     }
 
     pub struct PageSelector {
         pub span: Span,
-        pub ident: Option<Ident>,
-        pub pseudo: Option<Ident>,
+        pub page_type: Option<PageSelectorType>,
+        pub pseudos: Option<Vec<PageSelectorPseudo>>,
     }
 
-    pub struct PageRuleBlock {
+    pub struct PageSelectorType {
         pub span: Span,
-        pub items: Vec<PageRuleBlockItem>,
+        pub value: Ident,
     }
 
-    pub enum PageRuleBlockItem {
-        Declaration(Box<Declaration>),
-        Nested(Box<NestedPageRule>),
-    }
-
-    pub struct NestedPageRule {
+    pub struct PageSelectorPseudo {
         pub span: Span,
-        pub prelude: SelectorList,
-        pub block: PageRuleBlock,
+        pub value: Ident,
+    }
+
+    pub struct PageMarginRule {
+        pub span: Span,
+        pub name: Ident,
+        pub block: Vec<DeclarationBlockItem>,
     }
 
     pub struct SupportsRule {
@@ -647,6 +709,18 @@ define!({
     pub struct ColorProfileRule {
         pub span: Span,
         pub name: ColorProfileName,
+        pub block: Vec<DeclarationBlockItem>,
+    }
+
+    pub struct CounterStyleRule {
+        pub span: Span,
+        pub name: CustomIdent,
+        pub block: Vec<DeclarationBlockItem>,
+    }
+
+    pub struct PropertyRule {
+        pub span: Span,
+        pub name: DashedIdent,
         pub block: Vec<DeclarationBlockItem>,
     }
 });

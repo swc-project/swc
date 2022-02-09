@@ -13,191 +13,164 @@
         "end": 72,
         "ctxt": 0
       },
-      "prelude": [
-        {
-          "span": {
-            "start": 6,
-            "end": 18,
-            "ctxt": 0
-          },
-          "ident": {
-            "type": "Identifier",
+      "prelude": {
+        "type": "PageSelectorList",
+        "span": {
+          "start": 6,
+          "end": 18,
+          "ctxt": 0
+        },
+        "selectors": [
+          {
+            "type": "PageSelector",
             "span": {
               "start": 6,
-              "end": 12,
-              "ctxt": 0
-            },
-            "value": "MyPage",
-            "raw": "MyPage"
-          },
-          "pseudo": {
-            "type": "Identifier",
-            "span": {
-              "start": 13,
               "end": 18,
               "ctxt": 0
             },
-            "value": "blank",
-            "raw": "blank"
-          }
-        }
-      ],
-      "block": {
-        "span": {
-          "start": 19,
-          "end": 72,
-          "ctxt": 0
-        },
-        "items": [
-          {
-            "type": "NestedPageRule",
-            "span": {
-              "start": 22,
-              "end": 51,
-              "ctxt": 0
-            },
-            "prelude": {
-              "type": "SelectorList",
+            "pageType": {
+              "type": "PageSelectorType",
               "span": {
-                "start": 22,
-                "end": 33,
+                "start": 6,
+                "end": 12,
                 "ctxt": 0
               },
-              "children": [
-                {
-                  "type": "ComplexSelector",
-                  "span": {
-                    "start": 22,
-                    "end": 33,
-                    "ctxt": 0
-                  },
-                  "children": [
-                    {
-                      "type": "CompoundSelector",
-                      "span": {
-                        "start": 22,
-                        "end": 33,
-                        "ctxt": 0
-                      },
-                      "nestingSelector": null,
-                      "typeSelector": null,
-                      "subclassSelectors": [
-                        {
-                          "type": "AtSelector",
-                          "span": {
-                            "start": 22,
-                            "end": 33,
-                            "ctxt": 0
-                          },
-                          "text": {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 22,
-                              "end": 33,
-                              "ctxt": 0
-                            },
-                            "value": "top-center",
-                            "raw": "top-center"
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "block": {
-              "span": {
-                "start": 34,
-                "end": 51,
-                "ctxt": 0
-              },
-              "items": [
-                {
-                  "type": "Declaration",
-                  "span": {
-                    "start": 36,
-                    "end": 49,
-                    "ctxt": 0
-                  },
-                  "name": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 36,
-                      "end": 43,
-                      "ctxt": 0
-                    },
-                    "value": "content",
-                    "raw": "content"
-                  },
-                  "value": [
-                    {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 45,
-                        "end": 49,
-                        "ctxt": 0
-                      },
-                      "value": "none",
-                      "raw": "none"
-                    }
-                  ],
-                  "important": null
-                }
-              ]
-            }
-          },
-          {
-            "type": "Declaration",
-            "span": {
-              "start": 53,
-              "end": 69,
-              "ctxt": 0
-            },
-            "name": {
-              "type": "Identifier",
-              "span": {
-                "start": 53,
-                "end": 64,
-                "ctxt": 0
-              },
-              "value": "margin-left",
-              "raw": "margin-left"
-            },
-            "value": [
-              {
-                "type": "Dimension",
+              "value": {
+                "type": "Ident",
                 "span": {
-                  "start": 66,
-                  "end": 69,
+                  "start": 6,
+                  "end": 12,
+                  "ctxt": 0
+                },
+                "value": "MyPage",
+                "raw": "MyPage"
+              }
+            },
+            "pseudos": [
+              {
+                "type": "PageSelectorPseudo",
+                "span": {
+                  "start": 12,
+                  "end": 18,
                   "ctxt": 0
                 },
                 "value": {
-                  "type": "Number",
+                  "type": "Ident",
                   "span": {
-                    "start": 66,
-                    "end": 67,
+                    "start": 13,
+                    "end": 18,
                     "ctxt": 0
                   },
-                  "value": 4.0,
-                  "raw": "4"
-                },
-                "unit": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 67,
-                    "end": 69,
-                    "ctxt": 0
-                  },
-                  "value": "cm",
-                  "raw": "cm"
+                  "value": "blank",
+                  "raw": "blank"
                 }
               }
-            ],
-            "important": null
+            ]
           }
         ]
-      }
+      },
+      "block": [
+        {
+          "type": "PageMarginRule",
+          "span": {
+            "start": 22,
+            "end": 51,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 23,
+              "end": 33,
+              "ctxt": 0
+            },
+            "value": "top-center",
+            "raw": "top-center"
+          },
+          "block": [
+            {
+              "type": "Declaration",
+              "span": {
+                "start": 36,
+                "end": 49,
+                "ctxt": 0
+              },
+              "name": {
+                "type": "Ident",
+                "span": {
+                  "start": 36,
+                  "end": 43,
+                  "ctxt": 0
+                },
+                "value": "content",
+                "raw": "content"
+              },
+              "value": [
+                {
+                  "type": "Ident",
+                  "span": {
+                    "start": 45,
+                    "end": 49,
+                    "ctxt": 0
+                  },
+                  "value": "none",
+                  "raw": "none"
+                }
+              ],
+              "important": null
+            }
+          ]
+        },
+        {
+          "type": "Declaration",
+          "span": {
+            "start": 53,
+            "end": 69,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 53,
+              "end": 64,
+              "ctxt": 0
+            },
+            "value": "margin-left",
+            "raw": "margin-left"
+          },
+          "value": [
+            {
+              "type": "Length",
+              "span": {
+                "start": 66,
+                "end": 69,
+                "ctxt": 0
+              },
+              "value": {
+                "type": "Number",
+                "span": {
+                  "start": 66,
+                  "end": 67,
+                  "ctxt": 0
+                },
+                "value": 4.0,
+                "raw": "4"
+              },
+              "unit": {
+                "type": "Ident",
+                "span": {
+                  "start": 67,
+                  "end": 69,
+                  "ctxt": 0
+                },
+                "value": "cm",
+                "raw": "cm"
+              }
+            }
+          ],
+          "important": null
+        }
+      ]
     },
     {
       "type": "PageRule",
@@ -206,182 +179,147 @@
         "end": 140,
         "ctxt": 0
       },
-      "prelude": [
-        {
-          "span": {
-            "start": 80,
-            "end": 86,
-            "ctxt": 0
-          },
-          "ident": null,
-          "pseudo": {
-            "type": "Identifier",
+      "prelude": {
+        "type": "PageSelectorList",
+        "span": {
+          "start": 80,
+          "end": 86,
+          "ctxt": 0
+        },
+        "selectors": [
+          {
+            "type": "PageSelector",
             "span": {
-              "start": 81,
+              "start": 80,
               "end": 86,
               "ctxt": 0
             },
-            "value": "blank",
-            "raw": "blank"
-          }
-        }
-      ],
-      "block": {
-        "span": {
-          "start": 87,
-          "end": 140,
-          "ctxt": 0
-        },
-        "items": [
-          {
-            "type": "NestedPageRule",
-            "span": {
-              "start": 90,
-              "end": 119,
-              "ctxt": 0
-            },
-            "prelude": {
-              "type": "SelectorList",
-              "span": {
-                "start": 90,
-                "end": 101,
-                "ctxt": 0
-              },
-              "children": [
-                {
-                  "type": "ComplexSelector",
-                  "span": {
-                    "start": 90,
-                    "end": 101,
-                    "ctxt": 0
-                  },
-                  "children": [
-                    {
-                      "type": "CompoundSelector",
-                      "span": {
-                        "start": 90,
-                        "end": 101,
-                        "ctxt": 0
-                      },
-                      "nestingSelector": null,
-                      "typeSelector": null,
-                      "subclassSelectors": [
-                        {
-                          "type": "AtSelector",
-                          "span": {
-                            "start": 90,
-                            "end": 101,
-                            "ctxt": 0
-                          },
-                          "text": {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 90,
-                              "end": 101,
-                              "ctxt": 0
-                            },
-                            "value": "top-center",
-                            "raw": "top-center"
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "block": {
-              "span": {
-                "start": 102,
-                "end": 119,
-                "ctxt": 0
-              },
-              "items": [
-                {
-                  "type": "Declaration",
-                  "span": {
-                    "start": 104,
-                    "end": 117,
-                    "ctxt": 0
-                  },
-                  "name": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 104,
-                      "end": 111,
-                      "ctxt": 0
-                    },
-                    "value": "content",
-                    "raw": "content"
-                  },
-                  "value": [
-                    {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 113,
-                        "end": 117,
-                        "ctxt": 0
-                      },
-                      "value": "none",
-                      "raw": "none"
-                    }
-                  ],
-                  "important": null
-                }
-              ]
-            }
-          },
-          {
-            "type": "Declaration",
-            "span": {
-              "start": 121,
-              "end": 137,
-              "ctxt": 0
-            },
-            "name": {
-              "type": "Identifier",
-              "span": {
-                "start": 121,
-                "end": 132,
-                "ctxt": 0
-              },
-              "value": "margin-left",
-              "raw": "margin-left"
-            },
-            "value": [
+            "pageType": null,
+            "pseudos": [
               {
-                "type": "Dimension",
+                "type": "PageSelectorPseudo",
                 "span": {
-                  "start": 134,
-                  "end": 137,
+                  "start": 80,
+                  "end": 86,
                   "ctxt": 0
                 },
                 "value": {
-                  "type": "Number",
+                  "type": "Ident",
                   "span": {
-                    "start": 134,
-                    "end": 135,
+                    "start": 81,
+                    "end": 86,
                     "ctxt": 0
                   },
-                  "value": 4.0,
-                  "raw": "4"
-                },
-                "unit": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 135,
-                    "end": 137,
-                    "ctxt": 0
-                  },
-                  "value": "cm",
-                  "raw": "cm"
+                  "value": "blank",
+                  "raw": "blank"
                 }
               }
-            ],
-            "important": null
+            ]
           }
         ]
-      }
+      },
+      "block": [
+        {
+          "type": "PageMarginRule",
+          "span": {
+            "start": 90,
+            "end": 119,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 91,
+              "end": 101,
+              "ctxt": 0
+            },
+            "value": "top-center",
+            "raw": "top-center"
+          },
+          "block": [
+            {
+              "type": "Declaration",
+              "span": {
+                "start": 104,
+                "end": 117,
+                "ctxt": 0
+              },
+              "name": {
+                "type": "Ident",
+                "span": {
+                  "start": 104,
+                  "end": 111,
+                  "ctxt": 0
+                },
+                "value": "content",
+                "raw": "content"
+              },
+              "value": [
+                {
+                  "type": "Ident",
+                  "span": {
+                    "start": 113,
+                    "end": 117,
+                    "ctxt": 0
+                  },
+                  "value": "none",
+                  "raw": "none"
+                }
+              ],
+              "important": null
+            }
+          ]
+        },
+        {
+          "type": "Declaration",
+          "span": {
+            "start": 121,
+            "end": 137,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 121,
+              "end": 132,
+              "ctxt": 0
+            },
+            "value": "margin-left",
+            "raw": "margin-left"
+          },
+          "value": [
+            {
+              "type": "Length",
+              "span": {
+                "start": 134,
+                "end": 137,
+                "ctxt": 0
+              },
+              "value": {
+                "type": "Number",
+                "span": {
+                  "start": 134,
+                  "end": 135,
+                  "ctxt": 0
+                },
+                "value": 4.0,
+                "raw": "4"
+              },
+              "unit": {
+                "type": "Ident",
+                "span": {
+                  "start": 135,
+                  "end": 137,
+                  "ctxt": 0
+                },
+                "value": "cm",
+                "raw": "cm"
+              }
+            }
+          ],
+          "important": null
+        }
+      ]
     },
     {
       "type": "PageRule",
@@ -390,163 +328,109 @@
         "end": 201,
         "ctxt": 0
       },
-      "prelude": [],
-      "block": {
-        "span": {
-          "start": 148,
-          "end": 201,
-          "ctxt": 0
-        },
-        "items": [
-          {
-            "type": "NestedPageRule",
+      "prelude": null,
+      "block": [
+        {
+          "type": "PageMarginRule",
+          "span": {
+            "start": 151,
+            "end": 180,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Ident",
             "span": {
-              "start": 151,
-              "end": 180,
+              "start": 152,
+              "end": 162,
               "ctxt": 0
             },
-            "prelude": {
-              "type": "SelectorList",
+            "value": "top-center",
+            "raw": "top-center"
+          },
+          "block": [
+            {
+              "type": "Declaration",
               "span": {
-                "start": 151,
-                "end": 162,
+                "start": 165,
+                "end": 178,
                 "ctxt": 0
               },
-              "children": [
-                {
-                  "type": "ComplexSelector",
-                  "span": {
-                    "start": 151,
-                    "end": 162,
-                    "ctxt": 0
-                  },
-                  "children": [
-                    {
-                      "type": "CompoundSelector",
-                      "span": {
-                        "start": 151,
-                        "end": 162,
-                        "ctxt": 0
-                      },
-                      "nestingSelector": null,
-                      "typeSelector": null,
-                      "subclassSelectors": [
-                        {
-                          "type": "AtSelector",
-                          "span": {
-                            "start": 151,
-                            "end": 162,
-                            "ctxt": 0
-                          },
-                          "text": {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 151,
-                              "end": 162,
-                              "ctxt": 0
-                            },
-                            "value": "top-center",
-                            "raw": "top-center"
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "block": {
-              "span": {
-                "start": 163,
-                "end": 180,
-                "ctxt": 0
+              "name": {
+                "type": "Ident",
+                "span": {
+                  "start": 165,
+                  "end": 172,
+                  "ctxt": 0
+                },
+                "value": "content",
+                "raw": "content"
               },
-              "items": [
+              "value": [
                 {
-                  "type": "Declaration",
+                  "type": "Ident",
                   "span": {
-                    "start": 165,
+                    "start": 174,
                     "end": 178,
                     "ctxt": 0
                   },
-                  "name": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 165,
-                      "end": 172,
-                      "ctxt": 0
-                    },
-                    "value": "content",
-                    "raw": "content"
-                  },
-                  "value": [
-                    {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 174,
-                        "end": 178,
-                        "ctxt": 0
-                      },
-                      "value": "none",
-                      "raw": "none"
-                    }
-                  ],
-                  "important": null
+                  "value": "none",
+                  "raw": "none"
                 }
-              ]
+              ],
+              "important": null
             }
+          ]
+        },
+        {
+          "type": "Declaration",
+          "span": {
+            "start": 182,
+            "end": 198,
+            "ctxt": 0
           },
-          {
-            "type": "Declaration",
+          "name": {
+            "type": "Ident",
             "span": {
               "start": 182,
-              "end": 198,
+              "end": 193,
               "ctxt": 0
             },
-            "name": {
-              "type": "Identifier",
+            "value": "margin-left",
+            "raw": "margin-left"
+          },
+          "value": [
+            {
+              "type": "Length",
               "span": {
-                "start": 182,
-                "end": 193,
+                "start": 195,
+                "end": 198,
                 "ctxt": 0
               },
-              "value": "margin-left",
-              "raw": "margin-left"
-            },
-            "value": [
-              {
-                "type": "Dimension",
+              "value": {
+                "type": "Number",
                 "span": {
                   "start": 195,
+                  "end": 196,
+                  "ctxt": 0
+                },
+                "value": 4.0,
+                "raw": "4"
+              },
+              "unit": {
+                "type": "Ident",
+                "span": {
+                  "start": 196,
                   "end": 198,
                   "ctxt": 0
                 },
-                "value": {
-                  "type": "Number",
-                  "span": {
-                    "start": 195,
-                    "end": 196,
-                    "ctxt": 0
-                  },
-                  "value": 4.0,
-                  "raw": "4"
-                },
-                "unit": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 196,
-                    "end": 198,
-                    "ctxt": 0
-                  },
-                  "value": "cm",
-                  "raw": "cm"
-                }
+                "value": "cm",
+                "raw": "cm"
               }
-            ],
-            "important": null
-          }
-        ]
-      }
+            }
+          ],
+          "important": null
+        }
+      ]
     },
     {
       "type": "PageRule",
@@ -555,163 +439,109 @@
         "end": 262,
         "ctxt": 0
       },
-      "prelude": [],
-      "block": {
-        "span": {
-          "start": 209,
-          "end": 262,
-          "ctxt": 0
-        },
-        "items": [
-          {
-            "type": "NestedPageRule",
+      "prelude": null,
+      "block": [
+        {
+          "type": "PageMarginRule",
+          "span": {
+            "start": 212,
+            "end": 241,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Ident",
             "span": {
-              "start": 212,
-              "end": 241,
+              "start": 213,
+              "end": 223,
               "ctxt": 0
             },
-            "prelude": {
-              "type": "SelectorList",
+            "value": "top-center",
+            "raw": "top-center"
+          },
+          "block": [
+            {
+              "type": "Declaration",
               "span": {
-                "start": 212,
-                "end": 223,
+                "start": 226,
+                "end": 239,
                 "ctxt": 0
               },
-              "children": [
-                {
-                  "type": "ComplexSelector",
-                  "span": {
-                    "start": 212,
-                    "end": 223,
-                    "ctxt": 0
-                  },
-                  "children": [
-                    {
-                      "type": "CompoundSelector",
-                      "span": {
-                        "start": 212,
-                        "end": 223,
-                        "ctxt": 0
-                      },
-                      "nestingSelector": null,
-                      "typeSelector": null,
-                      "subclassSelectors": [
-                        {
-                          "type": "AtSelector",
-                          "span": {
-                            "start": 212,
-                            "end": 223,
-                            "ctxt": 0
-                          },
-                          "text": {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 212,
-                              "end": 223,
-                              "ctxt": 0
-                            },
-                            "value": "top-center",
-                            "raw": "top-center"
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "block": {
-              "span": {
-                "start": 224,
-                "end": 241,
-                "ctxt": 0
+              "name": {
+                "type": "Ident",
+                "span": {
+                  "start": 226,
+                  "end": 233,
+                  "ctxt": 0
+                },
+                "value": "CONTENT",
+                "raw": "CONTENT"
               },
-              "items": [
+              "value": [
                 {
-                  "type": "Declaration",
+                  "type": "Ident",
                   "span": {
-                    "start": 226,
+                    "start": 235,
                     "end": 239,
                     "ctxt": 0
                   },
-                  "name": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 226,
-                      "end": 233,
-                      "ctxt": 0
-                    },
-                    "value": "CONTENT",
-                    "raw": "CONTENT"
-                  },
-                  "value": [
-                    {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 235,
-                        "end": 239,
-                        "ctxt": 0
-                      },
-                      "value": "none",
-                      "raw": "none"
-                    }
-                  ],
-                  "important": null
+                  "value": "none",
+                  "raw": "none"
                 }
-              ]
+              ],
+              "important": null
             }
+          ]
+        },
+        {
+          "type": "Declaration",
+          "span": {
+            "start": 243,
+            "end": 259,
+            "ctxt": 0
           },
-          {
-            "type": "Declaration",
+          "name": {
+            "type": "Ident",
             "span": {
               "start": 243,
-              "end": 259,
+              "end": 254,
               "ctxt": 0
             },
-            "name": {
-              "type": "Identifier",
+            "value": "MARGIN-LEFT",
+            "raw": "MARGIN-LEFT"
+          },
+          "value": [
+            {
+              "type": "Length",
               "span": {
-                "start": 243,
-                "end": 254,
+                "start": 256,
+                "end": 259,
                 "ctxt": 0
               },
-              "value": "MARGIN-LEFT",
-              "raw": "MARGIN-LEFT"
-            },
-            "value": [
-              {
-                "type": "Dimension",
+              "value": {
+                "type": "Number",
                 "span": {
                   "start": 256,
+                  "end": 257,
+                  "ctxt": 0
+                },
+                "value": 4.0,
+                "raw": "4"
+              },
+              "unit": {
+                "type": "Ident",
+                "span": {
+                  "start": 257,
                   "end": 259,
                   "ctxt": 0
                 },
-                "value": {
-                  "type": "Number",
-                  "span": {
-                    "start": 256,
-                    "end": 257,
-                    "ctxt": 0
-                  },
-                  "value": 4.0,
-                  "raw": "4"
-                },
-                "unit": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 257,
-                    "end": 259,
-                    "ctxt": 0
-                  },
-                  "value": "cm",
-                  "raw": "cm"
-                }
+                "value": "cm",
+                "raw": "cm"
               }
-            ],
-            "important": null
-          }
-        ]
-      }
+            }
+          ],
+          "important": null
+        }
+      ]
     }
   ]
 }

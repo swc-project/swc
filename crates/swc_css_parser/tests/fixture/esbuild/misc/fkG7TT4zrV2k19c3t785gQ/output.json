@@ -30,7 +30,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 7,
                 "end": 26,

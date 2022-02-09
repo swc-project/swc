@@ -1,5 +1,13 @@
 //! ECMAScript lexer.
 
+use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
+
+use either::Either::{Left, Right};
+use smallvec::{smallvec, SmallVec};
+use swc_atoms::{js_word, JsWord};
+use swc_common::{comments::Comments, BytePos, Span};
+use swc_ecma_ast::{op, EsVersion};
+
 use self::{comments_buffer::CommentsBuffer, state::State, util::*};
 pub use self::{
     input::Input,
@@ -10,12 +18,6 @@ use crate::{
     token::*,
     Context, Syntax,
 };
-use either::Either::{Left, Right};
-use smallvec::{smallvec, SmallVec};
-use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
-use swc_atoms::{js_word, JsWord};
-use swc_common::{comments::Comments, BytePos, Span};
-use swc_ecma_ast::{op, EsVersion};
 
 mod comments_buffer;
 pub mod input;
@@ -46,8 +48,8 @@ impl From<u32> for Char {
 pub(crate) struct CharIter(SmallVec<[char; 7]>);
 
 impl IntoIterator for Char {
-    type Item = char;
     type IntoIter = CharIter;
+    type Item = char;
 
     #[allow(unsafe_code)]
     fn into_iter(self) -> Self::IntoIter {
@@ -834,7 +836,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         let start = self.cur_pos();
         let val = self.read_int_u32(16, 0, raw)?;
         match val {
-            Some(val) if 0x0010_FFFF >= val => match char::from_u32(val) {
+            Some(val) if 0x0010_ffff >= val => match char::from_u32(val) {
                 Some(c) => Ok(c.into()),
                 None => self.error(start, SyntaxError::InvalidCodePoint)?,
             },

@@ -40,6 +40,18 @@ error: TypeSelector
 1 | a { color: #11223344 }
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/misc/yboE7Tr5zjKHy9-m10AZTg/input.css:1:1
+  |
+1 | a { color: #11223344 }
+  | ^
+
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/yboE7Tr5zjKHy9-m10AZTg/input.css:1:1
+  |
+1 | a { color: #11223344 }
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/yboE7Tr5zjKHy9-m10AZTg/input.css:1:1
   |

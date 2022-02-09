@@ -1,5 +1,4 @@
 var fn;
-import regeneratorRuntime from "regenerator-runtime";
 function AsyncGenerator(gen) {
     var front, back;
     function resume(key, arg) {
@@ -62,7 +61,9 @@ function _AwaitValue(value) {
     return this._invoke("throw", arg);
 }, AsyncGenerator.prototype.return = function(arg) {
     return this._invoke("return", arg);
-}, f1(regeneratorRuntime.mark(function _callee() {
+};
+import regeneratorRuntime from "regenerator-runtime";
+f1(regeneratorRuntime.mark(function _callee() {
     var a;
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){

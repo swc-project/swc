@@ -1,6 +1,7 @@
 //! Copied from PeepholeIntegrationTest from the google closure compiler.
 
 use std::{cell::RefCell, rc::Rc};
+
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::{

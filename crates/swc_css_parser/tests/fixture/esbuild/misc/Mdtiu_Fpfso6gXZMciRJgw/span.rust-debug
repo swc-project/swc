@@ -40,6 +40,18 @@ error: TypeSelector
 1 | a { value: 10\65m }
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1
+  |
+1 | a { value: 10\65m }
+  | ^
+
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1
+  |
+1 | a { value: 10\65m }
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1
   |
@@ -77,6 +89,12 @@ error: Value
   |            ^^^^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:12
+  |
+1 | a { value: 10\65m }
+  |            ^^^^^^
+
+error: Length
  --> $DIR/tests/fixture/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:12
   |
 1 | a { value: 10\65m }

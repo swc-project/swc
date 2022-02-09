@@ -72,6 +72,7 @@ impl VisitMut for Fixer<'_> {
     noop_visit_mut_type!();
 
     array!(visit_mut_array_lit, ArrayLit);
+
     // array!(ArrayPat);
 
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
@@ -305,7 +306,15 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::Default;
         node.visit_mut_children_with(self);
         match &mut node.super_class {
-            Some(ref mut e) if e.is_seq() || e.is_await_expr() || e.is_bin() => self.wrap(&mut **e),
+            Some(ref mut e)
+                if e.is_seq()
+                    || e.is_await_expr()
+                    || e.is_bin()
+                    || e.is_assign()
+                    || e.is_cond() =>
+            {
+                self.wrap(&mut **e)
+            }
             _ => {}
         };
         self.ctx = old;
@@ -391,6 +400,7 @@ impl VisitMut for Fixer<'_> {
 
         node.value.visit_mut_with(self);
     }
+
     fn visit_mut_key_value_prop(&mut self, prop: &mut KeyValueProp) {
         prop.visit_mut_children_with(self);
 
@@ -1329,6 +1339,30 @@ var store = global[SHARED] || (global[SHARED] = {});
         deno_10487_2,
         "class MultiVector extends (options.baseType||Float32Array) {}"
     );
+
+    identical!(
+        extends_nullish_coalescing,
+        "class Foo extends (Bar ?? class{}) {}"
+    );
+
+    identical!(extends_assign, "class Foo extends (Bar = class{}) {}");
+
+    identical!(
+        extends_logical_or_assin,
+        "class Foo extends (Bar ||= class{}) {}"
+    );
+
+    identical!(
+        extends_logical_and_assin,
+        "class Foo extends (Bar &&= class{}) {}"
+    );
+
+    identical!(
+        extends_logical_nullish_assin,
+        "class Foo extends (Bar ??= class{}) {}"
+    );
+
+    identical!(extends_cond, "class Foo extends (true ? Bar : Baz) {}");
 
     identical!(deno_10668_1, "console.log(null ?? (undefined && true))");
 

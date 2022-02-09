@@ -185,6 +185,7 @@ fn make_from_str(i: &DeriveInput) -> ItemImpl {
             {
                 impl ::std::str::FromStr for Type {
                     type Err = ();
+
                     fn from_str(s: &str) -> Result<Self, ()> {
                         body
                     }

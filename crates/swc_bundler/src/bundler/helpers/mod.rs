@@ -1,5 +1,6 @@
-use once_cell::sync::Lazy;
 use std::sync::atomic::{AtomicBool, Ordering::SeqCst};
+
+use once_cell::sync::Lazy;
 use swc_common::{FileName, FilePathMapping, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};

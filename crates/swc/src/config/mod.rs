@@ -1,15 +1,3 @@
-use self::util::BoolOrObject;
-use crate::{builder::PassBuilder, plugin::PluginConfig, SwcComments, SwcImportResolver};
-use anyhow::{bail, Context, Error};
-use dashmap::DashMap;
-use either::Either;
-use indexmap::IndexMap;
-use once_cell::sync::Lazy;
-use regex::Regex;
-use serde::{
-    de::{Unexpected, Visitor},
-    Deserialize, Deserializer, Serialize, Serializer,
-};
 use std::{
     cell::RefCell,
     collections::{HashMap, HashSet},
@@ -19,6 +7,17 @@ use std::{
     rc::Rc as RustRc,
     sync::Arc,
     usize,
+};
+
+use anyhow::{bail, Context, Error};
+use dashmap::DashMap;
+use either::Either;
+use indexmap::IndexMap;
+use once_cell::sync::Lazy;
+use regex::Regex;
+use serde::{
+    de::{Unexpected, Visitor},
+    Deserialize, Deserializer, Serialize, Serializer,
 };
 use swc_atoms::JsWord;
 pub use swc_common::chain;
@@ -46,7 +45,7 @@ use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{
     hygiene, modules,
     modules::{
-        hoist::import_hoister, path::NodeImportResolver, rewriter::import_rewriter, util::Scope,
+        hoist::module_hoister, path::NodeImportResolver, rewriter::import_rewriter, util::Scope,
     },
     optimization::{const_modules, json_parse, simplifier},
     pass::{noop, Optional},
@@ -58,6 +57,9 @@ use swc_ecma_transforms::{
 use swc_ecma_transforms_compat::es2015::regenerator;
 use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
 use swc_ecma_visit::{Fold, VisitMutWith};
+
+use self::util::BoolOrObject;
+use crate::{builder::PassBuilder, plugin::PluginConfig, SwcComments, SwcImportResolver};
 
 #[cfg(test)]
 mod tests;
@@ -448,6 +450,13 @@ impl Options {
                 ),
                 syntax.typescript()
             ),
+            lint_to_fold(swc_ecma_lints::rules::all(LintParams {
+                program: &program,
+                lint_config: &lints,
+                top_level_ctxt,
+                es_version,
+                source_map: cm.clone(),
+            })),
             crate::plugin::plugins(experimental),
             custom_before_pass(&program),
             // handle jsx
@@ -523,6 +532,7 @@ fn default_cwd() -> PathBuf {
 /// `.swcrc` file
 #[derive(Debug, Clone, Deserialize)]
 #[serde(untagged, rename = "swcrc")]
+#[allow(clippy::large_enum_variant)]
 pub enum Rc {
     Single(Config),
     Multi(Vec<Config>),
@@ -1055,52 +1065,61 @@ impl ModuleConfig {
 
         match config {
             None | Some(ModuleConfig::Es6) => {
-                let base_pass = import_hoister();
                 if paths.is_empty() {
-                    Box::new(base_pass)
+                    Box::new(noop())
                 } else {
                     let resolver = build_resolver(base_url, paths);
 
-                    Box::new(chain!(import_rewriter(base, resolver), base_pass))
+                    Box::new(import_rewriter(base, resolver))
                 }
             }
             Some(ModuleConfig::CommonJs(config)) => {
+                let base_pass = module_hoister();
                 if paths.is_empty() {
-                    Box::new(modules::common_js::common_js(
-                        root_mark,
-                        config,
-                        Some(scope),
+                    Box::new(chain!(
+                        base_pass,
+                        modules::common_js::common_js(root_mark, config, Some(scope),)
                     ))
                 } else {
                     let resolver = build_resolver(base_url, paths);
-
-                    Box::new(modules::common_js::common_js_with_resolver(
-                        resolver,
-                        base,
-                        root_mark,
-                        config,
-                        Some(scope),
+                    Box::new(chain!(
+                        base_pass,
+                        modules::common_js::common_js_with_resolver(
+                            resolver,
+                            base,
+                            root_mark,
+                            config,
+                            Some(scope),
+                        )
                     ))
                 }
             }
             Some(ModuleConfig::Umd(config)) => {
+                let base_pass = module_hoister();
+
                 if paths.is_empty() {
-                    Box::new(modules::umd::umd(cm, root_mark, config))
+                    Box::new(chain!(base_pass, modules::umd::umd(cm, root_mark, config)))
                 } else {
                     let resolver = build_resolver(base_url, paths);
 
-                    Box::new(modules::umd::umd_with_resolver(
-                        resolver, base, cm, root_mark, config,
+                    Box::new(chain!(
+                        base_pass,
+                        modules::umd::umd_with_resolver(resolver, base, cm, root_mark, config,)
                     ))
                 }
             }
             Some(ModuleConfig::Amd(config)) => {
+                let base_pass = module_hoister();
+
                 if paths.is_empty() {
-                    Box::new(modules::amd::amd(config))
+                    Box::new(chain!(base_pass, modules::amd::amd(config)))
                 } else {
                     let resolver = build_resolver(base_url, paths);
 
-                    Box::new(modules::amd::amd_with_resolver(resolver, base, config))
+                    Box::new(chain!(
+                        base_pass,
+                        modules::amd::amd_with_resolver(resolver, base, config)
+                    ))
                 }
             }
         }

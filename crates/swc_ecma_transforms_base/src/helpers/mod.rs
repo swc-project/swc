@@ -1,6 +1,7 @@
+use std::sync::atomic::{AtomicBool, Ordering};
+
 use once_cell::sync::Lazy;
 use scoped_tls::scoped_thread_local;
-use std::sync::atomic::{AtomicBool, Ordering};
 use swc_common::{FileName, FilePathMapping, Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
@@ -87,6 +88,7 @@ impl Helpers {
     pub const fn mark(&self) -> Mark {
         self.mark.0
     }
+
     pub const fn external(&self) -> bool {
         self.external
     }
@@ -336,10 +338,11 @@ impl VisitMut for Marker {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-    use crate::pass::noop;
     use swc_ecma_visit::{as_folder, FoldWith};
     use testing::DebugUsingDisplay;
+
+    use super::*;
+    use crate::pass::noop;
 
     #[test]
     fn external_helper() {

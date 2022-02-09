@@ -1,6 +1,5 @@
 #![allow(clippy::vec_box)]
 
-use crate::reducer::ast_reducer;
 use anyhow::{anyhow, Context, Error};
 use serde::Serialize;
 use swc_common::{
@@ -14,6 +13,8 @@ use swc_ecma_visit::VisitMutWith;
 use swc_estree_ast::flavor::Flavor;
 use swc_estree_compat::babelify::Babelify;
 use swc_timer::timer;
+
+use crate::reducer::ast_reducer;
 
 pub mod reducer;
 

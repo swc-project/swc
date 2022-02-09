@@ -1,4 +1,3 @@
-use anyhow::Error;
 use std::{
     collections::HashMap,
     fs::{create_dir_all, read_dir},
@@ -6,6 +5,8 @@ use std::{
     path::PathBuf,
     sync::Arc,
 };
+
+use anyhow::Error;
 use swc::{config::SourceMapsConfig, resolver::environment_resolver};
 use swc_atoms::js_word;
 use swc_bundler::{BundleKind, Bundler, Config, ModuleRecord};
@@ -67,7 +68,7 @@ fn pass(input_dir: PathBuf) {
                     require: true,
                     disable_inliner: true,
                     module: Default::default(),
-                    external_modules: NODE_BUILTINS.to_vec().into_iter().map(From::from).collect(),
+                    external_modules: NODE_BUILTINS.iter().copied().map(From::from).collect(),
                     ..Default::default()
                 },
                 Box::new(Hook),

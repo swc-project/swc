@@ -1,6 +1,6 @@
-error: Expected !important
- --> $DIR/tests/recovery/delim-token/bang/input.css:2:12
+error: Expected Ident
+ --> $DIR/tests/recovery/delim-token/bang/input.css:2:13
   |
 2 |     color: !!;
-  |            ^^^
+  |             ^
 

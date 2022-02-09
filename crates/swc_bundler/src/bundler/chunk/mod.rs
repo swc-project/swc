@@ -1,12 +1,14 @@
+use std::time::Instant;
+
+use anyhow::{Context, Error};
+#[cfg(feature = "rayon")]
+use rayon::iter::ParallelIterator;
+use swc_common::collections::AHashMap;
+
 use super::{load::TransformedModule, Bundler};
 use crate::{
     bundler::chunk::merge::Ctx, load::Load, resolve::Resolve, util::IntoParallelIterator, Bundle,
 };
-use anyhow::{Context, Error};
-#[cfg(feature = "rayon")]
-use rayon::iter::ParallelIterator;
-use std::time::Instant;
-use swc_common::collections::AHashMap;
 
 mod cjs;
 mod computed_key;
@@ -153,9 +155,10 @@ where
 
 #[cfg(test)]
 mod tests {
+    use swc_common::FileName;
+
     use super::*;
     use crate::bundler::tests::suite;
-    use swc_common::FileName;
 
     #[test]
     fn cjs_chunk() {

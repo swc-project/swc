@@ -1,7 +1,8 @@
-use crate::babelify::{Babelify, Context};
 use copyless::BoxHelper;
 use swc_ecma_ast::{BindingIdent, Ident, PrivateName};
 use swc_estree_ast::{Identifier, PrivateName as BabelPrivateName};
+
+use crate::babelify::{Babelify, Context};
 
 impl Babelify for BindingIdent {
     type Output = Identifier;

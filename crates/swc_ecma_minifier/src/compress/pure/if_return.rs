@@ -1,7 +1,8 @@
-use super::Pure;
-use crate::compress::util::{is_fine_for_if_cons, negate};
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
+
+use super::Pure;
+use crate::compress::util::{is_fine_for_if_cons, negate};
 
 impl<M> Pure<'_, M> {
     /// # Input

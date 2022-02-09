@@ -1,20 +1,22 @@
-use crate::{
-    get_compiler,
-    util::{deserialize_json, get_deserialized, try_with, MapErr},
+use std::{
+    path::{Path, PathBuf},
+    sync::Arc,
 };
+
 use anyhow::Context as _;
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Env, JsBuffer, JsBufferValue, Ref, Task,
 };
 use path_clean::clean;
-use std::{
-    path::{Path, PathBuf},
-    sync::Arc,
-};
 use swc::{config::Options, Compiler, TransformOutput};
 use swc_common::FileName;
 use swc_ecma_ast::Program;
+
+use crate::{
+    get_compiler,
+    util::{deserialize_json, get_deserialized, try_with, MapErr},
+};
 
 /// Input to transform
 #[derive(Debug)]
@@ -35,8 +37,8 @@ pub struct TransformTask {
 
 #[napi]
 impl Task for TransformTask {
-    type Output = TransformOutput;
     type JsValue = TransformOutput;
+    type Output = TransformOutput;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
         let mut options: Options = serde_json::from_slice(self.options.as_ref())?;

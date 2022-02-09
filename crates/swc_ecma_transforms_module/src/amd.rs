@@ -1,15 +1,11 @@
-use super::util::{
-    self, define_es_module, define_property, has_use_strict, initialize_to_undefined,
-    local_name_for_src, make_descriptor, use_strict, Exports, ModulePass, Scope,
-};
-use crate::path::{ImportResolver, NoopImportResolver};
-use anyhow::Context;
-use indexmap::IndexSet;
-use serde::{Deserialize, Serialize};
 use std::{
     cell::{Ref, RefCell, RefMut},
     iter,
 };
+
+use anyhow::Context;
+use indexmap::IndexSet;
+use serde::{Deserialize, Serialize};
 use swc_atoms::js_word;
 use swc_common::{FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -19,6 +15,12 @@ use swc_ecma_utils::{
     ExprFactory,
 };
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
+
+use super::util::{
+    self, define_es_module, define_property, has_use_strict, initialize_to_undefined,
+    local_name_for_src, make_descriptor, use_strict, Exports, ModulePass, Scope,
+};
+use crate::path::{ImportResolver, NoopImportResolver};
 
 pub fn amd(config: Config) -> impl Fold {
     Amd {
@@ -73,6 +75,8 @@ where
     R: ImportResolver,
 {
     noop_fold_type!();
+
+    mark_as_nested!();
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         let top_level = self.in_top_level;
@@ -662,8 +666,6 @@ where
             ..var
         }
     }
-
-    mark_as_nested!();
 }
 
 impl<R> ModulePass for Amd<R>

@@ -1,0 +1,24 @@
+div, p {}
+div , p {}
+div   ,   p   {}
+a, a[href='place'] {}
+a #foo > [foo='bar'], .FOO {}
+div, p, a {}
+div,p,a{}
+div   ,   p   ,   a   {}
+div
+, 
+p
+, 
+a 
+{}
+.foo, .bar, *.baz {}
+input::-moz-placeholder, input::placeholder {}
+a,b,c,d,e,f,g {}
+a, b, c, d, e, f, g {}
+*, * {}
+#id, #id2 {}
+h1, h2 {}
+.class, .foo {}
+[attr], [attrtoo] {}
+a/* { } */ b {}

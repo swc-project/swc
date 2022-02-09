@@ -40,6 +40,18 @@ error: TypeSelector
 1 | a { value: 10\,x }
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/misc/uxHrqNkMo_2PTuF8sIRQxA/input.css:1:1
+  |
+1 | a { value: 10\,x }
+  | ^
+
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/uxHrqNkMo_2PTuF8sIRQxA/input.css:1:1
+  |
+1 | a { value: 10\,x }
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/uxHrqNkMo_2PTuF8sIRQxA/input.css:1:1
   |
@@ -77,6 +89,12 @@ error: Value
   |            ^^^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/esbuild/misc/uxHrqNkMo_2PTuF8sIRQxA/input.css:1:12
+  |
+1 | a { value: 10\,x }
+  |            ^^^^^
+
+error: UnknownDimension
  --> $DIR/tests/fixture/esbuild/misc/uxHrqNkMo_2PTuF8sIRQxA/input.css:1:12
   |
 1 | a { value: 10\,x }

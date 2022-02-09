@@ -53,16 +53,24 @@
                       "end": 4,
                       "ctxt": 0
                     },
-                    "prefix": null,
                     "name": {
-                      "type": "Identifier",
+                      "type": "WqName",
                       "span": {
                         "start": 2,
                         "end": 3,
                         "ctxt": 0
                       },
-                      "value": "a",
-                      "raw": "a"
+                      "prefix": null,
+                      "value": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 2,
+                          "end": 3,
+                          "ctxt": 0
+                        },
+                        "value": "a",
+                        "raw": "a"
+                      }
                     },
                     "matcher": null,
                     "value": null,

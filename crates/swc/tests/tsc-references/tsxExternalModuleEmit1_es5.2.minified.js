@@ -1,5 +1,3 @@
-import * as React from "react";
-import * as React from "react";
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -55,6 +53,8 @@ function _createSuper(Derived) {
         })(self);
     };
 }
+import * as React from "react";
+import * as React from "react";
 export var App = function(_Component) {
     "use strict";
     _inherits(App, _Component);

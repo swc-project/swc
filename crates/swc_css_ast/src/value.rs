@@ -1,7 +1,8 @@
-use crate::{DashedIdent, Ident, SimpleBlock, Str, Tokens};
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
+
+use crate::{SimpleBlock, Tokens};
 
 #[ast_node]
 pub enum Value {
@@ -14,8 +15,8 @@ pub enum Value {
     #[tag("Number")]
     Number(Number),
 
-    #[tag("Percent")]
-    Percent(Percent),
+    #[tag("Percentage")]
+    Percentage(Percentage),
 
     #[tag("Ratio")]
     Ratio(Ratio),
@@ -46,6 +47,35 @@ pub enum Value {
 
     #[tag("Url")]
     Url(Url),
+}
+
+#[ast_node("Ident")]
+pub struct Ident {
+    pub span: Span,
+    pub value: JsWord,
+    pub raw: JsWord,
+}
+
+#[ast_node("CustomIdent")]
+pub struct CustomIdent {
+    pub span: Span,
+    pub value: JsWord,
+    pub raw: JsWord,
+}
+
+#[ast_node("DashedIdent")]
+pub struct DashedIdent {
+    pub span: Span,
+    pub value: JsWord,
+    pub raw: JsWord,
+}
+
+/// Quoted string.
+#[ast_node("String")]
+pub struct Str {
+    pub span: Span,
+    pub value: JsWord,
+    pub raw: JsWord,
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
@@ -98,15 +128,81 @@ pub struct HexColor {
     pub raw: JsWord,
 }
 
-#[ast_node("Dimension")]
-pub struct Dimension {
+#[ast_node]
+pub enum Dimension {
+    #[tag("Length")]
+    Length(Length),
+
+    #[tag("Angle")]
+    Angle(Angle),
+
+    #[tag("Time")]
+    Time(Time),
+
+    #[tag("Frequency")]
+    Frequency(Frequency),
+
+    #[tag("Resolution")]
+    Resolution(Resolution),
+
+    #[tag("Flex")]
+    Flex(Flex),
+
+    #[tag("UnknownDimension")]
+    UnknownDimension(UnknownDimension),
+}
+
+#[ast_node("Length")]
+pub struct Length {
     pub span: Span,
     pub value: Number,
     pub unit: Ident,
 }
 
-#[ast_node("Percent")]
-pub struct Percent {
+#[ast_node("Angle")]
+pub struct Angle {
+    pub span: Span,
+    pub value: Number,
+    pub unit: Ident,
+}
+
+#[ast_node("Time")]
+pub struct Time {
+    pub span: Span,
+    pub value: Number,
+    pub unit: Ident,
+}
+
+#[ast_node("Frequency")]
+pub struct Frequency {
+    pub span: Span,
+    pub value: Number,
+    pub unit: Ident,
+}
+
+#[ast_node("Resolution")]
+pub struct Resolution {
+    pub span: Span,
+    pub value: Number,
+    pub unit: Ident,
+}
+
+#[ast_node("Flex")]
+pub struct Flex {
+    pub span: Span,
+    pub value: Number,
+    pub unit: Ident,
+}
+
+#[ast_node("UnknownDimension")]
+pub struct UnknownDimension {
+    pub span: Span,
+    pub value: Number,
+    pub unit: Ident,
+}
+
+#[ast_node("Percentage")]
+pub struct Percentage {
     pub span: Span,
     pub value: Number,
 }

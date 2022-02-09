@@ -1,8 +1,10 @@
-use crate::resolve::Resolve;
+use std::sync::Mutex;
+
 use anyhow::Error;
 use lru::LruCache;
-use std::sync::Mutex;
 use swc_common::FileName;
+
+use crate::resolve::Resolve;
 
 #[derive(Debug)]
 pub struct CachingResolver<R>

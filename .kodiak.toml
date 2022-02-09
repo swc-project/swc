@@ -1,0 +1,15 @@
+# .kodiak.toml
+version = 1
+
+# We can't use automerge because of version bumping.
+# But to make merging faster, we auto-update PRs.
+[merge]
+do_not_merge = true
+
+[update]
+autoupdate_label = "S-approved"
+require_automerge_label = false
+
+# I want to use auto-merge feature of github
+[approve]
+auto_approve_usernames = ["kdy1"]

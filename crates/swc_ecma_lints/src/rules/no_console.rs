@@ -1,11 +1,12 @@
-use crate::{
-    config::{LintRuleReaction, RuleConfig},
-    rule::{visitor_rule, Rule},
-};
 use serde::{Deserialize, Serialize};
 use swc_common::{collections::AHashSet, errors::HANDLER, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit};
+
+use crate::{
+    config::{LintRuleReaction, RuleConfig},
+    rule::{visitor_rule, Rule},
+};
 
 const MESSAGE: &str = "Unexpected console statement";
 

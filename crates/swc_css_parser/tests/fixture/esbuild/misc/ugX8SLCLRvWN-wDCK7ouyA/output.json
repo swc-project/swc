@@ -29,7 +29,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 16,
                 "end": 21,
@@ -40,7 +40,7 @@
             },
             "value": [
               {
-                "type": "Dimension",
+                "type": "Length",
                 "span": {
                   "start": 23,
                   "end": 28,
@@ -57,7 +57,7 @@
                   "raw": "100"
                 },
                 "unit": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 26,
                     "end": 28,

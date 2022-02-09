@@ -1,9 +1,10 @@
-use super::stmt::sort_stmts;
-use crate::{bundler::tests::suite, debug::print_hygiene};
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::drop_span;
 use testing::assert_eq;
+
+use super::stmt::sort_stmts;
+use crate::{bundler::tests::suite, debug::print_hygiene};
 
 fn assert_sorted(src: &[&str], res: &str) {
     assert_sorted_with_free(src, "", res)

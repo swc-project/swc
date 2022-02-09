@@ -13,16 +13,16 @@
         "end": 65,
         "ctxt": 0
       },
-      "selectors": [
+      "matchingFunctions": [
         {
-          "type": "Function",
+          "type": "Url",
           "span": {
             "start": 10,
             "end": 41,
             "ctxt": 0
           },
           "name": {
-            "type": "Identifier",
+            "type": "Ident",
             "span": {
               "start": 10,
               "end": 13,
@@ -31,18 +31,17 @@
             "value": "url",
             "raw": "url"
           },
-          "value": [
-            {
-              "type": "String",
-              "span": {
-                "start": 14,
-                "end": 40,
-                "ctxt": 0
-              },
-              "value": "https://www.example.com/",
-              "raw": "\"https://www.example.com/\""
-            }
-          ]
+          "value": {
+            "type": "String",
+            "span": {
+              "start": 14,
+              "end": 40,
+              "ctxt": 0
+            },
+            "value": "https://www.example.com/",
+            "raw": "\"https://www.example.com/\""
+          },
+          "modifiers": []
         }
       ],
       "block": [
@@ -78,22 +77,30 @@
                     },
                     "nestingSelector": null,
                     "typeSelector": {
-                      "type": "TypeSelector",
+                      "type": "TagNameSelector",
                       "span": {
                         "start": 44,
                         "end": 46,
                         "ctxt": 0
                       },
-                      "prefix": null,
                       "name": {
-                        "type": "Identifier",
+                        "type": "WqName",
                         "span": {
                           "start": 44,
                           "end": 46,
                           "ctxt": 0
                         },
-                        "value": "h1",
-                        "raw": "h1"
+                        "prefix": null,
+                        "value": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 44,
+                            "end": 46,
+                            "ctxt": 0
+                          },
+                          "value": "h1",
+                          "raw": "h1"
+                        }
                       }
                     },
                     "subclassSelectors": []
@@ -118,7 +125,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 49,
                     "end": 54,
@@ -129,7 +136,7 @@
                 },
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 56,
                       "end": 61,

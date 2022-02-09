@@ -780,7 +780,7 @@
                     for(i = 0, overAvg = 0; i < patches.length; i++)overAvg += (patch = patches[i]).rad, _config.debug.showPatches && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
                         color: "red"
                     });
-                    for((overAvg = (180 * (overAvg /= patches.length) / Math.PI + 90) % 180 - 90) < 0 && (overAvg += 180), overAvg = (180 - overAvg) * Math.PI / 180, transMat = gl_mat2__WEBPACK_IMPORTED_MODULE_1__.copy(gl_mat2__WEBPACK_IMPORTED_MODULE_1__.create(), [
+                    for(overAvg /= patches.length, (overAvg = (180 * overAvg / Math.PI + 90) % 180 - 90) < 0 && (overAvg += 180), overAvg = (180 - overAvg) * Math.PI / 180, transMat = gl_mat2__WEBPACK_IMPORTED_MODULE_1__.copy(gl_mat2__WEBPACK_IMPORTED_MODULE_1__.create(), [
                         Math.cos(overAvg),
                         Math.sin(overAvg),
                         -Math.sin(overAvg),
@@ -5062,7 +5062,7 @@
                         value: function() {
                             for(var start = this._nextUnset(this._row), end = start, i = 1; i < this._counters.length; i++){
                                 var pattern = this._toPattern(i);
-                                if (-1 !== pattern && this._isStartEnd(pattern)) return end = (start += this._sumCounters(0, i)) + this._sumCounters(i, i + 8), {
+                                if (-1 !== pattern && this._isStartEnd(pattern)) return start += this._sumCounters(0, i), end = start + this._sumCounters(i, i + 8), {
                                     start: start,
                                     end: end,
                                     startCounter: i,
@@ -6836,13 +6836,15 @@
                         break;
                     }
                     0 === notloadedImgs.length && (console.log("Images loaded"), !1 === sequence ? (function(src) {
-                        var url, tags = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : AvailableTags;
-                        return /^blob:/i.test(src) ? (url = src, new Promise(function(resolve, reject) {
-                            var http = new XMLHttpRequest();
-                            http.open("GET", url, !0), http.responseType = "blob", http.onreadystatechange = function() {
-                                http.readyState === XMLHttpRequest.DONE && (200 === http.status || 0 === http.status) && resolve(this.response);
-                            }, http.onerror = reject, http.send();
-                        })).then(readToBuffer).then(function(buffer) {
+                        var tags = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : AvailableTags;
+                        return /^blob:/i.test(src) ? (function(url) {
+                            return new Promise(function(resolve, reject) {
+                                var http = new XMLHttpRequest();
+                                http.open("GET", url, !0), http.responseType = "blob", http.onreadystatechange = function() {
+                                    http.readyState === XMLHttpRequest.DONE && (200 === http.status || 0 === http.status) && resolve(this.response);
+                                }, http.onerror = reject, http.send();
+                            });
+                        })(src).then(readToBuffer).then(function(buffer) {
                             return (function(file) {
                                 var selectedTags = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : AvailableTags, dataView = new DataView(file), length = file.byteLength, exifTags = selectedTags.reduce(function(result, selectedTag) {
                                     var exifTag = Object.keys(ExifTags).filter(function(tag) {

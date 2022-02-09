@@ -1,6 +1,3 @@
-import { jsx as _jsx } from "preact/jsx-runtime";
-import { createElement as _createElement } from "react";
-import "./preact";
 function _defineProperty(obj, key, value) {
     return key in obj ? Object.defineProperty(obj, key, {
         value: value,
@@ -20,6 +17,9 @@ function _objectSpread(target) {
     }
     return target;
 }
+import { jsx as _jsx } from "preact/jsx-runtime";
+import { createElement as _createElement } from "react";
+import "./preact";
 const props = {
     answer: 42
 };

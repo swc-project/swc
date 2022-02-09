@@ -1,10 +1,11 @@
-use super::*;
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{Parser, StringInput};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_testing::Tester;
 use swc_ecma_visit::FoldWith;
+
+use super::*;
 
 fn parse(
     tester: &mut Tester,

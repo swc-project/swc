@@ -1,0 +1,577 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 464,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "DocumentRule",
+      "span": {
+        "start": 0,
+        "end": 82,
+        "ctxt": 0
+      },
+      "matchingFunctions": [
+        {
+          "type": "Url",
+          "span": {
+            "start": 10,
+            "end": 41,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 10,
+              "end": 13,
+              "ctxt": 0
+            },
+            "value": "url",
+            "raw": "url"
+          },
+          "value": {
+            "type": "String",
+            "span": {
+              "start": 14,
+              "end": 40,
+              "ctxt": 0
+            },
+            "value": "https://www.example.com/",
+            "raw": "\"https://www.example.com/\""
+          },
+          "modifiers": []
+        }
+      ],
+      "block": [
+        {
+          "type": "QualifiedRule",
+          "span": {
+            "start": 48,
+            "end": 80,
+            "ctxt": 0
+          },
+          "prelude": {
+            "type": "SelectorList",
+            "span": {
+              "start": 48,
+              "end": 50,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "ComplexSelector",
+                "span": {
+                  "start": 48,
+                  "end": 50,
+                  "ctxt": 0
+                },
+                "children": [
+                  {
+                    "type": "CompoundSelector",
+                    "span": {
+                      "start": 48,
+                      "end": 50,
+                      "ctxt": 0
+                    },
+                    "nestingSelector": null,
+                    "typeSelector": {
+                      "type": "TagNameSelector",
+                      "span": {
+                        "start": 48,
+                        "end": 50,
+                        "ctxt": 0
+                      },
+                      "name": {
+                        "type": "WqName",
+                        "span": {
+                          "start": 48,
+                          "end": 50,
+                          "ctxt": 0
+                        },
+                        "prefix": null,
+                        "value": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 48,
+                            "end": 50,
+                            "ctxt": 0
+                          },
+                          "value": "h1",
+                          "raw": "h1"
+                        }
+                      }
+                    },
+                    "subclassSelectors": []
+                  }
+                ]
+              }
+            ]
+          },
+          "block": {
+            "type": "Block",
+            "span": {
+              "start": 51,
+              "end": 80,
+              "ctxt": 0
+            },
+            "value": [
+              {
+                "type": "Declaration",
+                "span": {
+                  "start": 61,
+                  "end": 73,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 61,
+                    "end": 66,
+                    "ctxt": 0
+                  },
+                  "value": "color",
+                  "raw": "color"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 68,
+                      "end": 73,
+                      "ctxt": 0
+                    },
+                    "value": "green",
+                    "raw": "green"
+                  }
+                ],
+                "important": null
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "DocumentRule",
+      "span": {
+        "start": 84,
+        "end": 299,
+        "ctxt": 0
+      },
+      "matchingFunctions": [
+        {
+          "type": "Url",
+          "span": {
+            "start": 94,
+            "end": 119,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 94,
+              "end": 97,
+              "ctxt": 0
+            },
+            "value": "url",
+            "raw": "url"
+          },
+          "value": {
+            "type": "String",
+            "span": {
+              "start": 98,
+              "end": 118,
+              "ctxt": 0
+            },
+            "value": "http://www.w3.org/",
+            "raw": "\"http://www.w3.org/\""
+          },
+          "modifiers": []
+        },
+        {
+          "type": "Function",
+          "span": {
+            "start": 121,
+            "end": 159,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 121,
+              "end": 131,
+              "ctxt": 0
+            },
+            "value": "url-prefix",
+            "raw": "url-prefix"
+          },
+          "value": [
+            {
+              "type": "String",
+              "span": {
+                "start": 132,
+                "end": 158,
+                "ctxt": 0
+              },
+              "value": "http://www.w3.org/Style/",
+              "raw": "\"http://www.w3.org/Style/\""
+            }
+          ]
+        },
+        {
+          "type": "Function",
+          "span": {
+            "start": 161,
+            "end": 182,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 161,
+              "end": 167,
+              "ctxt": 0
+            },
+            "value": "domain",
+            "raw": "domain"
+          },
+          "value": [
+            {
+              "type": "String",
+              "span": {
+                "start": 168,
+                "end": 181,
+                "ctxt": 0
+              },
+              "value": "mozilla.org",
+              "raw": "\"mozilla.org\""
+            }
+          ]
+        },
+        {
+          "type": "Function",
+          "span": {
+            "start": 184,
+            "end": 207,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 184,
+              "end": 198,
+              "ctxt": 0
+            },
+            "value": "media-document",
+            "raw": "media-document"
+          },
+          "value": [
+            {
+              "type": "String",
+              "span": {
+                "start": 199,
+                "end": 206,
+                "ctxt": 0
+              },
+              "value": "video",
+              "raw": "\"video\""
+            }
+          ]
+        },
+        {
+          "type": "Function",
+          "span": {
+            "start": 209,
+            "end": 227,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 209,
+              "end": 215,
+              "ctxt": 0
+            },
+            "value": "regexp",
+            "raw": "regexp"
+          },
+          "value": [
+            {
+              "type": "String",
+              "span": {
+                "start": 216,
+                "end": 226,
+                "ctxt": 0
+              },
+              "value": "https:.*",
+              "raw": "\"https:.*\""
+            }
+          ]
+        }
+      ],
+      "block": [
+        {
+          "type": "QualifiedRule",
+          "span": {
+            "start": 234,
+            "end": 297,
+            "ctxt": 0
+          },
+          "prelude": {
+            "type": "SelectorList",
+            "span": {
+              "start": 234,
+              "end": 238,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "ComplexSelector",
+                "span": {
+                  "start": 234,
+                  "end": 238,
+                  "ctxt": 0
+                },
+                "children": [
+                  {
+                    "type": "CompoundSelector",
+                    "span": {
+                      "start": 234,
+                      "end": 238,
+                      "ctxt": 0
+                    },
+                    "nestingSelector": null,
+                    "typeSelector": {
+                      "type": "TagNameSelector",
+                      "span": {
+                        "start": 234,
+                        "end": 238,
+                        "ctxt": 0
+                      },
+                      "name": {
+                        "type": "WqName",
+                        "span": {
+                          "start": 234,
+                          "end": 238,
+                          "ctxt": 0
+                        },
+                        "prefix": null,
+                        "value": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 234,
+                            "end": 238,
+                            "ctxt": 0
+                          },
+                          "value": "body",
+                          "raw": "body"
+                        }
+                      }
+                    },
+                    "subclassSelectors": []
+                  }
+                ]
+              }
+            ]
+          },
+          "block": {
+            "type": "Block",
+            "span": {
+              "start": 239,
+              "end": 297,
+              "ctxt": 0
+            },
+            "value": [
+              {
+                "type": "Declaration",
+                "span": {
+                  "start": 249,
+                  "end": 262,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 249,
+                    "end": 254,
+                    "ctxt": 0
+                  },
+                  "value": "color",
+                  "raw": "color"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 256,
+                      "end": 262,
+                      "ctxt": 0
+                    },
+                    "value": "purple",
+                    "raw": "purple"
+                  }
+                ],
+                "important": null
+              },
+              {
+                "type": "Declaration",
+                "span": {
+                  "start": 272,
+                  "end": 290,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 272,
+                    "end": 282,
+                    "ctxt": 0
+                  },
+                  "value": "background",
+                  "raw": "background"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 284,
+                      "end": 290,
+                      "ctxt": 0
+                    },
+                    "value": "yellow",
+                    "raw": "yellow"
+                  }
+                ],
+                "important": null
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "DocumentRule",
+      "span": {
+        "start": 301,
+        "end": 343,
+        "ctxt": 0
+      },
+      "matchingFunctions": [
+        {
+          "type": "Url",
+          "span": {
+            "start": 311,
+            "end": 340,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 311,
+              "end": 314,
+              "ctxt": 0
+            },
+            "value": "url",
+            "raw": "url"
+          },
+          "value": {
+            "type": "UrlValueRaw",
+            "span": {
+              "start": 315,
+              "end": 339,
+              "ctxt": 0
+            },
+            "before": "",
+            "after": "",
+            "value": "https://www.example.com/",
+            "raw": "https://www.example.com/"
+          },
+          "modifiers": null
+        }
+      ],
+      "block": []
+    },
+    {
+      "type": "DocumentRule",
+      "span": {
+        "start": 344,
+        "end": 393,
+        "ctxt": 0
+      },
+      "matchingFunctions": [
+        {
+          "type": "Url",
+          "span": {
+            "start": 359,
+            "end": 390,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 359,
+              "end": 362,
+              "ctxt": 0
+            },
+            "value": "url",
+            "raw": "url"
+          },
+          "value": {
+            "type": "String",
+            "span": {
+              "start": 363,
+              "end": 389,
+              "ctxt": 0
+            },
+            "value": "https://www.example.com/",
+            "raw": "\"https://www.example.com/\""
+          },
+          "modifiers": []
+        }
+      ],
+      "block": []
+    },
+    {
+      "type": "DocumentRule",
+      "span": {
+        "start": 394,
+        "end": 463,
+        "ctxt": 0
+      },
+      "matchingFunctions": [
+        {
+          "type": "Url",
+          "span": {
+            "start": 432,
+            "end": 452,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 432,
+              "end": 435,
+              "ctxt": 0
+            },
+            "value": "url",
+            "raw": "url"
+          },
+          "value": {
+            "type": "String",
+            "span": {
+              "start": 436,
+              "end": 451,
+              "ctxt": 0
+            },
+            "value": "example.com/{",
+            "raw": "\"example.com/{\""
+          },
+          "modifiers": []
+        }
+      ],
+      "block": []
+    }
+  ]
+}

@@ -46,25 +46,41 @@
                       "end": 11,
                       "ctxt": 0
                     },
-                    "prefix": {
-                      "type": "Identifier",
+                    "name": {
+                      "type": "WqName",
                       "span": {
                         "start": 1,
-                        "end": 3,
-                        "ctxt": 0
-                      },
-                      "value": "ns",
-                      "raw": "ns"
-                    },
-                    "name": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 4,
                         "end": 10,
                         "ctxt": 0
                       },
-                      "value": "attr",
-                      "raw": "\\61ttr"
+                      "prefix": {
+                        "type": "NsPrefix",
+                        "span": {
+                          "start": 1,
+                          "end": 4,
+                          "ctxt": 0
+                        },
+                        "prefix": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 1,
+                            "end": 3,
+                            "ctxt": 0
+                          },
+                          "value": "ns",
+                          "raw": "ns"
+                        }
+                      },
+                      "value": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 4,
+                          "end": 10,
+                          "ctxt": 0
+                        },
+                        "value": "attr",
+                        "raw": "\\61ttr"
+                      }
                     },
                     "matcher": null,
                     "value": null,

@@ -1,10 +1,11 @@
-use crate::{id::Id, modules::Modules, util::Readonly};
 use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, Visit, VisitMut,
     VisitMutWith, VisitWith,
 };
+
+use crate::{id::Id, modules::Modules, util::Readonly};
 
 #[derive(Debug, Default)]
 pub(crate) struct InlineData {
@@ -85,6 +86,8 @@ impl Visit for Analyzer<'_> {
 impl VisitMut for Inliner {
     noop_visit_mut_type!();
 
+    visit_mut_obj_and_computed!();
+
     /// Don't modify exported ident.
     fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
         if n.exported.is_none() {
@@ -100,8 +103,6 @@ impl VisitMut for Inliner {
             n.visit_mut_with(self);
         }
     }
-
-    visit_mut_obj_and_computed!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         n.visit_mut_children_with(self);

@@ -1,4 +1,3 @@
-use crate::babelify::{extract_class_body_span, Babelify, Context};
 use copyless::BoxHelper;
 use serde_json::value::Value;
 use swc_ecma_ast::{
@@ -10,6 +9,8 @@ use swc_estree_ast::{
     ClassPrivateMethod, ClassPrivateProperty, ClassProperty, Decorator as BabelDecorator,
     StaticBlock as BabelStaticBlock,
 };
+
+use crate::babelify::{extract_class_body_span, Babelify, Context};
 
 impl Babelify for Class {
     type Output = ClassExpression;

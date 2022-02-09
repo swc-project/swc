@@ -1,11 +1,12 @@
-use anyhow::Error;
-use pathdiff::diff_paths;
 use std::{
     borrow::Cow,
     env::current_dir,
     path::{Component, PathBuf},
     sync::Arc,
 };
+
+use anyhow::Error;
+use pathdiff::diff_paths;
 use swc_atoms::JsWord;
 use swc_common::FileName;
 use swc_ecma_loader::resolve::Resolve;

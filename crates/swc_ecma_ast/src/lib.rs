@@ -9,6 +9,9 @@
 
 // #![deny(variant_size_differences)]
 
+use serde::{Deserialize, Serialize};
+use swc_common::{ast_node, EqIgnoreSpan, Span};
+
 pub use self::{
     class::{
         Class, ClassMember, ClassMethod, ClassProp, Constructor, Decorator, MethodKind,
@@ -68,8 +71,6 @@ pub use self::{
         TsTypeQuery, TsTypeQueryExpr, TsTypeRef, TsUnionOrIntersectionType, TsUnionType,
     },
 };
-use serde::{Deserialize, Serialize};
-use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[macro_use]
 mod macros;
@@ -141,7 +142,6 @@ pub struct EncodeJsWord;
 #[cfg(feature = "rkyv")]
 impl rkyv::with::ArchiveWith<swc_atoms::JsWord> for EncodeJsWord {
     type Archived = rkyv::Archived<String>;
-
     type Resolver = rkyv::Resolver<String>;
 
     unsafe fn resolve_with(
@@ -190,7 +190,6 @@ where
 #[cfg(feature = "rkyv")]
 impl rkyv::with::ArchiveWith<Option<swc_atoms::JsWord>> for EncodeJsWord {
     type Archived = rkyv::Archived<Option<String>>;
-
     type Resolver = rkyv::Resolver<Option<String>>;
 
     unsafe fn resolve_with(

@@ -1,0 +1,699 @@
+error: Stylesheet
+  --> $DIR/tests/fixture/value/time/input.css:1:1
+   |
+1  | / #delay {
+2  | |     font-size: 14px;
+3  | |     transition-property: font-size;
+4  | |     transition-duration: 4s;
+...  |
+14 | |     transition-duration: 4000ms;
+15 | | }
+   | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/value/time/input.css:1:1
+  |
+1 | / #delay {
+2 | |     font-size: 14px;
+3 | |     transition-property: font-size;
+4 | |     transition-duration: 4s;
+5 | |     transition-delay: 2s;
+6 | | }
+  | |_^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/value/time/input.css:1:1
+  |
+1 | / #delay {
+2 | |     font-size: 14px;
+3 | |     transition-property: font-size;
+4 | |     transition-duration: 4s;
+5 | |     transition-delay: 2s;
+6 | | }
+  | |_^
+
+error: SelectorList
+ --> $DIR/tests/fixture/value/time/input.css:1:1
+  |
+1 | #delay {
+  | ^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/value/time/input.css:1:1
+  |
+1 | #delay {
+  | ^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/value/time/input.css:1:1
+  |
+1 | #delay {
+  | ^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/value/time/input.css:1:1
+  |
+1 | #delay {
+  | ^^^^^^
+
+error: IdSelector
+ --> $DIR/tests/fixture/value/time/input.css:1:1
+  |
+1 | #delay {
+  | ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/time/input.css:1:1
+  |
+1 | #delay {
+  | ^^^^^^
+
+error: Block
+ --> $DIR/tests/fixture/value/time/input.css:1:8
+  |
+1 |   #delay {
+  |  ________^
+2 | |     font-size: 14px;
+3 | |     transition-property: font-size;
+4 | |     transition-duration: 4s;
+5 | |     transition-delay: 2s;
+6 | | }
+  | |_^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/time/input.css:2:5
+  |
+2 |     font-size: 14px;
+  |     ^^^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/time/input.css:2:5
+  |
+2 |     font-size: 14px;
+  |     ^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/time/input.css:2:5
+  |
+2 |     font-size: 14px;
+  |     ^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/time/input.css:2:16
+  |
+2 |     font-size: 14px;
+  |                ^^^^
+
+error: Dimension
+ --> $DIR/tests/fixture/value/time/input.css:2:16
+  |
+2 |     font-size: 14px;
+  |                ^^^^
+
+error: Length
+ --> $DIR/tests/fixture/value/time/input.css:2:16
+  |
+2 |     font-size: 14px;
+  |                ^^^^
+
+error: Number
+ --> $DIR/tests/fixture/value/time/input.css:2:16
+  |
+2 |     font-size: 14px;
+  |                ^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/time/input.css:2:18
+  |
+2 |     font-size: 14px;
+  |                  ^^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/time/input.css:3:5
+  |
+3 |     transition-property: font-size;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/time/input.css:3:5
+  |
+3 |     transition-property: font-size;
+  |     ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/time/input.css:3:5
+  |
+3 |     transition-property: font-size;
+  |     ^^^^^^^^^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/time/input.css:3:26
+  |
+3 |     transition-property: font-size;
+  |                          ^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/time/input.css:3:26
+  |
+3 |     transition-property: font-size;
+  |                          ^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/time/input.css:4:5
+  |
+4 |     transition-duration: 4s;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/time/input.css:4:5
+  |
+4 |     transition-duration: 4s;
+  |     ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/time/input.css:4:5
+  |
+4 |     transition-duration: 4s;
+  |     ^^^^^^^^^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/time/input.css:4:26
+  |
+4 |     transition-duration: 4s;
+  |                          ^^
+
+error: Dimension
+ --> $DIR/tests/fixture/value/time/input.css:4:26
+  |
+4 |     transition-duration: 4s;
+  |                          ^^
+
+error: Time
+ --> $DIR/tests/fixture/value/time/input.css:4:26
+  |
+4 |     transition-duration: 4s;
+  |                          ^^
+
+error: Number
+ --> $DIR/tests/fixture/value/time/input.css:4:26
+  |
+4 |     transition-duration: 4s;
+  |                          ^
+
+error: Ident
+ --> $DIR/tests/fixture/value/time/input.css:4:27
+  |
+4 |     transition-duration: 4s;
+  |                           ^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/time/input.css:5:5
+  |
+5 |     transition-delay: 2s;
+  |     ^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/time/input.css:5:5
+  |
+5 |     transition-delay: 2s;
+  |     ^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/time/input.css:5:5
+  |
+5 |     transition-delay: 2s;
+  |     ^^^^^^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/time/input.css:5:23
+  |
+5 |     transition-delay: 2s;
+  |                       ^^
+
+error: Dimension
+ --> $DIR/tests/fixture/value/time/input.css:5:23
+  |
+5 |     transition-delay: 2s;
+  |                       ^^
+
+error: Time
+ --> $DIR/tests/fixture/value/time/input.css:5:23
+  |
+5 |     transition-delay: 2s;
+  |                       ^^
+
+error: Number
+ --> $DIR/tests/fixture/value/time/input.css:5:23
+  |
+5 |     transition-delay: 2s;
+  |                       ^
+
+error: Ident
+ --> $DIR/tests/fixture/value/time/input.css:5:24
+  |
+5 |     transition-delay: 2s;
+  |                        ^
+
+error: Rule
+  --> $DIR/tests/fixture/value/time/input.css:8:1
+   |
+8  | / .box {
+9  | |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+10 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/value/time/input.css:8:1
+   |
+8  | / .box {
+9  | |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+10 | | }
+   | |_^
+
+error: SelectorList
+ --> $DIR/tests/fixture/value/time/input.css:8:1
+  |
+8 | .box {
+  | ^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/value/time/input.css:8:1
+  |
+8 | .box {
+  | ^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/value/time/input.css:8:1
+  |
+8 | .box {
+  | ^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/value/time/input.css:8:1
+  |
+8 | .box {
+  | ^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/value/time/input.css:8:1
+  |
+8 | .box {
+  | ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/time/input.css:8:2
+  |
+8 | .box {
+  |  ^^^
+
+error: Block
+  --> $DIR/tests/fixture/value/time/input.css:8:6
+   |
+8  |   .box {
+   |  ______^
+9  | |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+10 | | }
+   | |_^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/time/input.css:9:5
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/time/input.css:9:5
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |     ^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/time/input.css:9:5
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |     ^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/time/input.css:9:17
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                 ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/time/input.css:9:17
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                 ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/time/input.css:9:23
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                       ^^
+
+error: Dimension
+ --> $DIR/tests/fixture/value/time/input.css:9:23
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                       ^^
+
+error: Time
+ --> $DIR/tests/fixture/value/time/input.css:9:23
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                       ^^
+
+error: Number
+ --> $DIR/tests/fixture/value/time/input.css:9:23
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                       ^
+
+error: Ident
+ --> $DIR/tests/fixture/value/time/input.css:9:24
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                        ^
+
+error: Value
+ --> $DIR/tests/fixture/value/time/input.css:9:25
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                         ^
+
+error: Delimiter
+ --> $DIR/tests/fixture/value/time/input.css:9:25
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                         ^
+
+error: Value
+ --> $DIR/tests/fixture/value/time/input.css:9:27
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                           ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/time/input.css:9:27
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                           ^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/time/input.css:9:34
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                                  ^^
+
+error: Dimension
+ --> $DIR/tests/fixture/value/time/input.css:9:34
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                                  ^^
+
+error: Time
+ --> $DIR/tests/fixture/value/time/input.css:9:34
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                                  ^^
+
+error: Number
+ --> $DIR/tests/fixture/value/time/input.css:9:34
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                                  ^
+
+error: Ident
+ --> $DIR/tests/fixture/value/time/input.css:9:35
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                                   ^
+
+error: Value
+ --> $DIR/tests/fixture/value/time/input.css:9:36
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                                    ^
+
+error: Delimiter
+ --> $DIR/tests/fixture/value/time/input.css:9:36
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                                    ^
+
+error: Value
+ --> $DIR/tests/fixture/value/time/input.css:9:38
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                                      ^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/time/input.css:9:38
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                                      ^^^^^^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/time/input.css:9:55
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                                                       ^^
+
+error: Dimension
+ --> $DIR/tests/fixture/value/time/input.css:9:55
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                                                       ^^
+
+error: Time
+ --> $DIR/tests/fixture/value/time/input.css:9:55
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                                                       ^^
+
+error: Number
+ --> $DIR/tests/fixture/value/time/input.css:9:55
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                                                       ^
+
+error: Ident
+ --> $DIR/tests/fixture/value/time/input.css:9:56
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                                                        ^
+
+error: Value
+ --> $DIR/tests/fixture/value/time/input.css:9:57
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                                                         ^
+
+error: Delimiter
+ --> $DIR/tests/fixture/value/time/input.css:9:57
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                                                         ^
+
+error: Value
+ --> $DIR/tests/fixture/value/time/input.css:9:59
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                                                           ^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/time/input.css:9:59
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                                                           ^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/time/input.css:9:69
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                                                                     ^^
+
+error: Dimension
+ --> $DIR/tests/fixture/value/time/input.css:9:69
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                                                                     ^^
+
+error: Time
+ --> $DIR/tests/fixture/value/time/input.css:9:69
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                                                                     ^^
+
+error: Number
+ --> $DIR/tests/fixture/value/time/input.css:9:69
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                                                                     ^
+
+error: Ident
+ --> $DIR/tests/fixture/value/time/input.css:9:70
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |                                                                      ^
+
+error: Rule
+  --> $DIR/tests/fixture/value/time/input.css:12:1
+   |
+12 | / .time {
+13 | |     transition-duration: 4s;
+14 | |     transition-duration: 4000ms;
+15 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/value/time/input.css:12:1
+   |
+12 | / .time {
+13 | |     transition-duration: 4s;
+14 | |     transition-duration: 4000ms;
+15 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/value/time/input.css:12:1
+   |
+12 | .time {
+   | ^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/value/time/input.css:12:1
+   |
+12 | .time {
+   | ^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/value/time/input.css:12:1
+   |
+12 | .time {
+   | ^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/value/time/input.css:12:1
+   |
+12 | .time {
+   | ^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/value/time/input.css:12:1
+   |
+12 | .time {
+   | ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/time/input.css:12:2
+   |
+12 | .time {
+   |  ^^^^
+
+error: Block
+  --> $DIR/tests/fixture/value/time/input.css:12:7
+   |
+12 |   .time {
+   |  _______^
+13 | |     transition-duration: 4s;
+14 | |     transition-duration: 4000ms;
+15 | | }
+   | |_^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/time/input.css:13:5
+   |
+13 |     transition-duration: 4s;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/time/input.css:13:5
+   |
+13 |     transition-duration: 4s;
+   |     ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/time/input.css:13:5
+   |
+13 |     transition-duration: 4s;
+   |     ^^^^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/time/input.css:13:26
+   |
+13 |     transition-duration: 4s;
+   |                          ^^
+
+error: Dimension
+  --> $DIR/tests/fixture/value/time/input.css:13:26
+   |
+13 |     transition-duration: 4s;
+   |                          ^^
+
+error: Time
+  --> $DIR/tests/fixture/value/time/input.css:13:26
+   |
+13 |     transition-duration: 4s;
+   |                          ^^
+
+error: Number
+  --> $DIR/tests/fixture/value/time/input.css:13:26
+   |
+13 |     transition-duration: 4s;
+   |                          ^
+
+error: Ident
+  --> $DIR/tests/fixture/value/time/input.css:13:27
+   |
+13 |     transition-duration: 4s;
+   |                           ^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/time/input.css:14:5
+   |
+14 |     transition-duration: 4000ms;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/time/input.css:14:5
+   |
+14 |     transition-duration: 4000ms;
+   |     ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/time/input.css:14:5
+   |
+14 |     transition-duration: 4000ms;
+   |     ^^^^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/time/input.css:14:26
+   |
+14 |     transition-duration: 4000ms;
+   |                          ^^^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/value/time/input.css:14:26
+   |
+14 |     transition-duration: 4000ms;
+   |                          ^^^^^^
+
+error: Time
+  --> $DIR/tests/fixture/value/time/input.css:14:26
+   |
+14 |     transition-duration: 4000ms;
+   |                          ^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/time/input.css:14:26
+   |
+14 |     transition-duration: 4000ms;
+   |                          ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/time/input.css:14:30
+   |
+14 |     transition-duration: 4000ms;
+   |                              ^^
+

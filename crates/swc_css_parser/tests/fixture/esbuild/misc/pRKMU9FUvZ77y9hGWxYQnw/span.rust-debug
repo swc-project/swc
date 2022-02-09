@@ -40,17 +40,35 @@ error: SubclassSelector
 1 | [attr=\,] {}
   | ^^^^^^^^^
 
-error: AttrSelector
+error: AttributeSelector
  --> $DIR/tests/fixture/esbuild/misc/pRKMU9FUvZ77y9hGWxYQnw/input.css:1:1
   |
 1 | [attr=\,] {}
   | ^^^^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/pRKMU9FUvZ77y9hGWxYQnw/input.css:1:2
+  |
+1 | [attr=\,] {}
+  |  ^^^^
 
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/pRKMU9FUvZ77y9hGWxYQnw/input.css:1:2
   |
 1 | [attr=\,] {}
   |  ^^^^
+
+error: AttributeSelectorMatcher
+ --> $DIR/tests/fixture/esbuild/misc/pRKMU9FUvZ77y9hGWxYQnw/input.css:1:6
+  |
+1 | [attr=\,] {}
+  |      ^
+
+error: AttributeSelectorValue
+ --> $DIR/tests/fixture/esbuild/misc/pRKMU9FUvZ77y9hGWxYQnw/input.css:1:7
+  |
+1 | [attr=\,] {}
+  |       ^^
 
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/pRKMU9FUvZ77y9hGWxYQnw/input.css:1:7

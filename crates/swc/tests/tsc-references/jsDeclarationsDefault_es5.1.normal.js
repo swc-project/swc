@@ -1,5 +1,3 @@
-// @filename: index4.js
-import Fab from "./index3";
 function _assertThisInitialized(self) {
     if (self === void 0) {
         throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -71,6 +69,8 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
+// @filename: index4.js
+import Fab from "./index3";
 // @allowJs: true
 // @checkJs: true
 // @target: es5

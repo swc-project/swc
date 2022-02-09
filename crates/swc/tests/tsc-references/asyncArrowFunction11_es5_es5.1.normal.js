@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
         var info = gen[key](arg);
@@ -46,6 +45,7 @@ function _defineProperty(obj, key, value) {
     }
     return obj;
 }
+import regeneratorRuntime from "regenerator-runtime";
 var A = function A() {
     "use strict";
     _classCallCheck(this, A);

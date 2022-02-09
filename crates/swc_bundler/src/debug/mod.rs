@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 
 use std::io::{stderr, Write};
+
 use swc_common::{sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::{Ident, Module};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};

@@ -25,6 +25,8 @@ impl Parallel for EsReservedWord {
 impl VisitMut for EsReservedWord {
     noop_visit_mut_type!();
 
+    visit_mut_obj_and_computed!();
+
     fn visit_mut_export_specifier(&mut self, _n: &mut ExportSpecifier) {}
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
@@ -34,8 +36,6 @@ impl VisitMut for EsReservedWord {
     fn visit_mut_import_named_specifier(&mut self, s: &mut ImportNamedSpecifier) {
         s.local.visit_mut_with(self);
     }
-
-    visit_mut_obj_and_computed!();
 
     fn visit_mut_prop_name(&mut self, _n: &mut PropName) {}
 }

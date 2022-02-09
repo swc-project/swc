@@ -1,18 +1,20 @@
-use super::Optimizer;
-use crate::{
-    compress::optimize::Ctx,
-    mode::Mode,
-    util::{idents_used_by, make_number},
-};
 use std::{
     collections::HashMap,
     mem::{replace, swap},
 };
+
 use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, pass::Either, util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_arguments, ident::IdentLike, undefined, ExprFactory, Id};
 use swc_ecma_visit::VisitMutWith;
+
+use super::Optimizer;
+use crate::{
+    compress::optimize::Ctx,
+    mode::Mode,
+    util::{idents_captured_by, idents_used_by, make_number},
+};
 
 /// Methods related to the option `negate_iife`.
 impl<M> Optimizer<'_, M>
@@ -520,6 +522,18 @@ where
                     .and_then(|data| data.vars.get(&pid.to_id()))
                 {
                     if usage.ref_count > 1 || usage.assign_count > 0 || usage.inline_prevented {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        if self.ctx.executed_multiple_time {
+            if !param_ids.is_empty() {
+                let captured = idents_captured_by(body);
+
+                for param in param_ids {
+                    if captured.contains(&param.to_id()) {
                         return false;
                     }
                 }

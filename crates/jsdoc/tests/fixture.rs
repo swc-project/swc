@@ -1,7 +1,8 @@
 #![feature(bench_black_box)]
 
-use dashmap::DashMap;
 use std::path::PathBuf;
+
+use dashmap::DashMap;
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
     BytePos, DUMMY_SP,

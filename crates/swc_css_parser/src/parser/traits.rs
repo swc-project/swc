@@ -1,6 +1,7 @@
+use swc_common::Span;
+
 use super::PResult;
 use crate::Parse;
-use swc_common::Span;
 
 pub(super) trait ParseDelmited<T>: Parse<T> {
     fn eat_delimiter(&mut self) -> PResult<bool>;

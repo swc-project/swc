@@ -1,18 +1,3 @@
-pub(crate) use self::pure::pure_optimizer;
-use self::{hoist_decls::DeclHoisterConfig, optimize::optimizer};
-use crate::{
-    analyzer::{analyze, UsageAnalyzer},
-    compress::hoist_decls::decl_hoister,
-    debug::dump,
-    marks::Marks,
-    mode::Mode,
-    option::CompressOptions,
-    util::{now, unit::CompileUnit, Optional},
-    DISABLE_BUGGY_PASSES, MAX_PAR_DEPTH,
-};
-#[cfg(feature = "pretty_assertions")]
-use pretty_assertions::assert_eq;
-use rayon::prelude::*;
 use std::{
     borrow::Cow,
     fmt,
@@ -20,6 +5,10 @@ use std::{
     thread,
     time::Instant,
 };
+
+#[cfg(feature = "pretty_assertions")]
+use pretty_assertions::assert_eq;
+use rayon::prelude::*;
 use swc_common::{
     chain,
     pass::{CompilerPass, Repeated},
@@ -34,6 +23,19 @@ use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use swc_timer::timer;
 use tracing::error;
+
+pub(crate) use self::pure::pure_optimizer;
+use self::{hoist_decls::DeclHoisterConfig, optimize::optimizer};
+use crate::{
+    analyzer::{analyze, UsageAnalyzer},
+    compress::hoist_decls::decl_hoister,
+    debug::dump,
+    marks::Marks,
+    mode::Mode,
+    option::CompressOptions,
+    util::{now, unit::CompileUnit, Optional},
+    DISABLE_BUGGY_PASSES, MAX_PAR_DEPTH,
+};
 
 mod hoist_decls;
 mod optimize;

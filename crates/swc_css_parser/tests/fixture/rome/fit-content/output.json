@@ -47,7 +47,7 @@
                       "ctxt": 0
                     },
                     "text": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1,
                         "end": 6,
@@ -79,7 +79,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 10,
                 "end": 31,
@@ -97,7 +97,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 33,
                     "end": 44,
@@ -108,7 +108,7 @@
                 },
                 "value": [
                   {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 45,
                       "end": 48,
@@ -125,7 +125,7 @@
                       "raw": "8"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 46,
                         "end": 48,
@@ -145,7 +145,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 50,
                     "end": 61,
@@ -156,7 +156,7 @@
                 },
                 "value": [
                   {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 62,
                       "end": 65,
@@ -173,7 +173,7 @@
                       "raw": "8"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 63,
                         "end": 65,
@@ -186,7 +186,7 @@
                 ]
               },
               {
-                "type": "Dimension",
+                "type": "Flex",
                 "span": {
                   "start": 67,
                   "end": 70,
@@ -203,7 +203,7 @@
                   "raw": "1"
                 },
                 "unit": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 68,
                     "end": 70,

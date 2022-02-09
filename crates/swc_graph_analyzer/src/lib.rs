@@ -1,6 +1,7 @@
+use std::{fmt::Debug, hash::Hash, marker::PhantomData};
+
 use ahash::AHashSet;
 use auto_impl::auto_impl;
-use std::{fmt::Debug, hash::Hash, marker::PhantomData};
 use swc_fast_graph::digraph::FastDiGraphMap;
 
 #[auto_impl(&, Box, Rc, Arc)]

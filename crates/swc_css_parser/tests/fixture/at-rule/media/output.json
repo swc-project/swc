@@ -30,7 +30,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 8,
                 "end": 14,
@@ -69,7 +69,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 26,
                 "end": 33,
@@ -108,7 +108,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 45,
                 "end": 48,
@@ -147,7 +147,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 59,
                 "end": 65,
@@ -186,7 +186,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 76,
                 "end": 81,
@@ -225,7 +225,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 92,
                 "end": 98,
@@ -250,7 +250,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 104,
                       "end": 109,
@@ -291,7 +291,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 121,
                 "end": 127,
@@ -316,7 +316,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 133,
                       "end": 138,
@@ -338,7 +338,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 141,
                 "end": 151,
@@ -363,7 +363,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 157,
                       "end": 162,
@@ -404,7 +404,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 177,
                 "end": 183,
@@ -429,7 +429,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 198,
                       "end": 203,
@@ -451,7 +451,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 214,
                 "end": 224,
@@ -476,7 +476,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 238,
                       "end": 243,
@@ -517,7 +517,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 260,
                 "end": 265,
@@ -542,7 +542,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 271,
                       "end": 285,
@@ -552,7 +552,7 @@
                     "raw": "min-resolution"
                   },
                   "value": {
-                    "type": "Dimension",
+                    "type": "Resolution",
                     "span": {
                       "start": 287,
                       "end": 294,
@@ -569,7 +569,7 @@
                       "raw": "118"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 290,
                         "end": 294,
@@ -611,7 +611,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 309,
                 "end": 312,
@@ -650,7 +650,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 326,
                 "end": 332,
@@ -675,7 +675,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 338,
                       "end": 343,
@@ -716,7 +716,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 357,
                 "end": 363,
@@ -741,7 +741,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 377,
                       "end": 382,
@@ -781,7 +781,7 @@
               "ctxt": 0
             },
             "modifier": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 400,
                 "end": 403,
@@ -791,7 +791,7 @@
               "raw": "not"
             },
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 404,
                 "end": 407,
@@ -816,7 +816,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 413,
                       "end": 423,
@@ -856,7 +856,7 @@
               "ctxt": 0
             },
             "modifier": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 435,
                 "end": 438,
@@ -866,7 +866,7 @@
               "raw": "not"
             },
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 439,
                 "end": 445,
@@ -891,7 +891,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 451,
                       "end": 456,
@@ -913,7 +913,7 @@
             },
             "modifier": null,
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 459,
                 "end": 464,
@@ -938,7 +938,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 470,
                       "end": 475,
@@ -1002,7 +1002,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 492,
                         "end": 511,
@@ -1095,7 +1095,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 534,
                         "end": 553,
@@ -1164,7 +1164,7 @@
               "ctxt": 0
             },
             "modifier": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 573,
                 "end": 576,
@@ -1174,7 +1174,7 @@
               "raw": "not"
             },
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 577,
                 "end": 580,
@@ -1212,7 +1212,7 @@
               "ctxt": 0
             },
             "modifier": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 594,
                 "end": 597,
@@ -1222,7 +1222,7 @@
               "raw": "not"
             },
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 600,
                 "end": 603,
@@ -1260,7 +1260,7 @@
               "ctxt": 0
             },
             "modifier": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 617,
                 "end": 621,
@@ -1270,7 +1270,7 @@
               "raw": "only"
             },
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 622,
                 "end": 628,
@@ -1295,7 +1295,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 634,
                       "end": 639,
@@ -1335,7 +1335,7 @@
               "ctxt": 0
             },
             "modifier": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 653,
                 "end": 657,
@@ -1345,7 +1345,7 @@
               "raw": "only"
             },
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 660,
                 "end": 666,
@@ -1370,7 +1370,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 679,
                       "end": 684,
@@ -1427,7 +1427,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 703,
                       "end": 712,
@@ -1437,7 +1437,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 714,
                       "end": 718,
@@ -1454,7 +1454,7 @@
                       "raw": "20"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 716,
                         "end": 718,
@@ -1512,7 +1512,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 730,
                       "end": 739,
@@ -1522,7 +1522,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 741,
                       "end": 745,
@@ -1539,7 +1539,7 @@
                       "raw": "20"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 743,
                         "end": 745,
@@ -1597,7 +1597,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 762,
                       "end": 771,
@@ -1607,7 +1607,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 778,
                       "end": 782,
@@ -1624,7 +1624,7 @@
                       "raw": "20"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 780,
                         "end": 782,
@@ -1682,7 +1682,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 800,
                       "end": 819,
@@ -1767,7 +1767,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 844,
                       "end": 863,
@@ -1852,7 +1852,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 899,
                       "end": 903,
@@ -1877,7 +1877,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 910,
                         "end": 919,
@@ -1887,7 +1887,7 @@
                       "raw": "max-width"
                     },
                     "value": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 921,
                         "end": 925,
@@ -1904,7 +1904,7 @@
                         "raw": "15"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 923,
                           "end": 925,
@@ -1963,7 +1963,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 938,
                       "end": 948,
@@ -2020,7 +2020,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 962,
                       "end": 971,
@@ -2030,7 +2030,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 973,
                       "end": 977,
@@ -2047,7 +2047,7 @@
                       "raw": "20"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 975,
                         "end": 977,
@@ -2073,7 +2073,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 984,
                         "end": 993,
@@ -2083,7 +2083,7 @@
                       "raw": "min-width"
                     },
                     "value": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 995,
                         "end": 999,
@@ -2100,7 +2100,7 @@
                         "raw": "20"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 997,
                           "end": 999,
@@ -2159,7 +2159,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1014,
                       "end": 1023,
@@ -2169,7 +2169,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1030,
                       "end": 1034,
@@ -2186,7 +2186,7 @@
                       "raw": "20"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1032,
                         "end": 1034,
@@ -2212,7 +2212,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1051,
                         "end": 1060,
@@ -2222,7 +2222,7 @@
                       "raw": "min-width"
                     },
                     "value": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 1067,
                         "end": 1071,
@@ -2239,7 +2239,7 @@
                         "raw": "20"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 1069,
                           "end": 1071,
@@ -2298,7 +2298,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1089,
                       "end": 1098,
@@ -2308,7 +2308,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1100,
                       "end": 1106,
@@ -2325,7 +2325,7 @@
                       "raw": "1024"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1104,
                         "end": 1106,
@@ -2351,7 +2351,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1113,
                         "end": 1122,
@@ -2361,7 +2361,7 @@
                       "raw": "min-width"
                     },
                     "value": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 1124,
                         "end": 1130,
@@ -2378,7 +2378,7 @@
                         "raw": "1024"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 1128,
                           "end": 1130,
@@ -2405,7 +2405,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1137,
                         "end": 1146,
@@ -2415,7 +2415,7 @@
                       "raw": "min-width"
                     },
                     "value": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 1148,
                         "end": 1154,
@@ -2432,7 +2432,7 @@
                         "raw": "1024"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 1152,
                           "end": 1154,
@@ -2491,7 +2491,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1166,
                       "end": 1175,
@@ -2501,7 +2501,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1176,
                       "end": 1180,
@@ -2518,7 +2518,7 @@
                       "raw": "20"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1178,
                         "end": 1180,
@@ -2544,7 +2544,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1186,
                         "end": 1195,
@@ -2554,7 +2554,7 @@
                       "raw": "min-width"
                     },
                     "value": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 1197,
                         "end": 1201,
@@ -2571,7 +2571,7 @@
                         "raw": "20"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 1199,
                           "end": 1201,
@@ -2630,7 +2630,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1212,
                       "end": 1221,
@@ -2640,7 +2640,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1222,
                       "end": 1226,
@@ -2657,7 +2657,7 @@
                       "raw": "20"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1224,
                         "end": 1226,
@@ -2683,7 +2683,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1232,
                         "end": 1241,
@@ -2693,7 +2693,7 @@
                       "raw": "min-width"
                     },
                     "value": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 1242,
                         "end": 1246,
@@ -2710,7 +2710,7 @@
                         "raw": "20"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 1244,
                           "end": 1246,
@@ -2769,7 +2769,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1259,
                       "end": 1265,
@@ -2779,7 +2779,7 @@
                     "raw": "update"
                   },
                   "value": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1267,
                       "end": 1271,
@@ -2804,7 +2804,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1277,
                         "end": 1282,
@@ -2814,7 +2814,7 @@
                       "raw": "hover"
                     },
                     "value": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1284,
                         "end": 1288,
@@ -2872,7 +2872,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1306,
                       "end": 1312,
@@ -2882,7 +2882,7 @@
                     "raw": "update"
                   },
                   "value": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1319,
                       "end": 1323,
@@ -2907,7 +2907,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1340,
                         "end": 1345,
@@ -2917,7 +2917,7 @@
                       "raw": "hover"
                     },
                     "value": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1352,
                         "end": 1356,
@@ -2975,7 +2975,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1374,
                       "end": 1380,
@@ -2985,7 +2985,7 @@
                     "raw": "update"
                   },
                   "value": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1382,
                       "end": 1386,
@@ -3010,7 +3010,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1391,
                         "end": 1396,
@@ -3020,7 +3020,7 @@
                       "raw": "hover"
                     },
                     "value": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1398,
                         "end": 1402,
@@ -3078,7 +3078,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1415,
                       "end": 1421,
@@ -3089,7 +3089,7 @@
                   },
                   "comparison": "<",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1424,
                       "end": 1429,
@@ -3106,7 +3106,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1427,
                         "end": 1429,
@@ -3164,7 +3164,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1442,
                       "end": 1448,
@@ -3175,7 +3175,7 @@
                   },
                   "comparison": "<=",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1452,
                       "end": 1457,
@@ -3192,7 +3192,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1455,
                         "end": 1457,
@@ -3250,7 +3250,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1470,
                       "end": 1476,
@@ -3261,7 +3261,7 @@
                   },
                   "comparison": ">",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1479,
                       "end": 1484,
@@ -3278,7 +3278,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1482,
                         "end": 1484,
@@ -3336,7 +3336,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1497,
                       "end": 1503,
@@ -3347,7 +3347,7 @@
                   },
                   "comparison": ">=",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1507,
                       "end": 1512,
@@ -3364,7 +3364,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1510,
                         "end": 1512,
@@ -3422,7 +3422,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1525,
                       "end": 1531,
@@ -3433,7 +3433,7 @@
                   },
                   "comparison": "=",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1534,
                       "end": 1539,
@@ -3450,7 +3450,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1537,
                         "end": 1539,
@@ -3508,7 +3508,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1557,
                       "end": 1563,
@@ -3519,7 +3519,7 @@
                   },
                   "comparison": "<",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1570,
                       "end": 1575,
@@ -3536,7 +3536,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1573,
                         "end": 1575,
@@ -3594,7 +3594,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1598,
                       "end": 1604,
@@ -3605,7 +3605,7 @@
                   },
                   "comparison": "<=",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1612,
                       "end": 1617,
@@ -3622,7 +3622,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1615,
                         "end": 1617,
@@ -3680,7 +3680,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1640,
                       "end": 1646,
@@ -3691,7 +3691,7 @@
                   },
                   "comparison": ">",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1653,
                       "end": 1658,
@@ -3708,7 +3708,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1656,
                         "end": 1658,
@@ -3766,7 +3766,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1681,
                       "end": 1687,
@@ -3777,7 +3777,7 @@
                   },
                   "comparison": ">=",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1695,
                       "end": 1700,
@@ -3794,7 +3794,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1698,
                         "end": 1700,
@@ -3852,7 +3852,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1723,
                       "end": 1729,
@@ -3863,7 +3863,7 @@
                   },
                   "comparison": "=",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1736,
                       "end": 1741,
@@ -3880,7 +3880,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1739,
                         "end": 1741,
@@ -3938,7 +3938,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1758,
                       "end": 1764,
@@ -3949,7 +3949,7 @@
                   },
                   "comparison": "=",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1765,
                       "end": 1770,
@@ -3966,7 +3966,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1768,
                         "end": 1770,
@@ -4024,7 +4024,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1781,
                       "end": 1787,
@@ -4035,7 +4035,7 @@
                   },
                   "comparison": ">=",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1789,
                       "end": 1794,
@@ -4052,7 +4052,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1792,
                         "end": 1794,
@@ -4110,7 +4110,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1808,
                       "end": 1813,
@@ -4127,7 +4127,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1811,
                         "end": 1813,
@@ -4139,7 +4139,7 @@
                   },
                   "comparison": "<",
                   "right": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1816,
                       "end": 1822,
@@ -4196,7 +4196,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1835,
                       "end": 1840,
@@ -4213,7 +4213,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1838,
                         "end": 1840,
@@ -4225,7 +4225,7 @@
                   },
                   "comparison": "<=",
                   "right": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1844,
                       "end": 1850,
@@ -4282,7 +4282,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1863,
                       "end": 1868,
@@ -4299,7 +4299,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1866,
                         "end": 1868,
@@ -4311,7 +4311,7 @@
                   },
                   "comparison": ">",
                   "right": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1871,
                       "end": 1877,
@@ -4368,7 +4368,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1890,
                       "end": 1895,
@@ -4385,7 +4385,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1893,
                         "end": 1895,
@@ -4397,7 +4397,7 @@
                   },
                   "comparison": ">=",
                   "right": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1899,
                       "end": 1905,
@@ -4454,7 +4454,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1918,
                       "end": 1923,
@@ -4471,7 +4471,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1921,
                         "end": 1923,
@@ -4483,7 +4483,7 @@
                   },
                   "comparison": "=",
                   "right": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1926,
                       "end": 1932,
@@ -4540,7 +4540,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1950,
                       "end": 1955,
@@ -4557,7 +4557,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1953,
                         "end": 1955,
@@ -4569,7 +4569,7 @@
                   },
                   "comparison": "<",
                   "right": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1962,
                       "end": 1968,
@@ -4626,7 +4626,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1991,
                       "end": 1996,
@@ -4643,7 +4643,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1994,
                         "end": 1996,
@@ -4655,7 +4655,7 @@
                   },
                   "comparison": "<=",
                   "right": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2004,
                       "end": 2010,
@@ -4712,7 +4712,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2033,
                       "end": 2038,
@@ -4729,7 +4729,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2036,
                         "end": 2038,
@@ -4741,7 +4741,7 @@
                   },
                   "comparison": ">",
                   "right": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2045,
                       "end": 2051,
@@ -4798,7 +4798,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2074,
                       "end": 2079,
@@ -4815,7 +4815,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2077,
                         "end": 2079,
@@ -4827,7 +4827,7 @@
                   },
                   "comparison": ">=",
                   "right": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2087,
                       "end": 2093,
@@ -4884,7 +4884,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2116,
                       "end": 2121,
@@ -4901,7 +4901,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2119,
                         "end": 2121,
@@ -4913,7 +4913,7 @@
                   },
                   "comparison": "=",
                   "right": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2128,
                       "end": 2134,
@@ -4970,7 +4970,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2151,
                       "end": 2156,
@@ -4987,7 +4987,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2154,
                         "end": 2156,
@@ -4999,7 +4999,7 @@
                   },
                   "comparison": "=",
                   "right": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2157,
                       "end": 2163,
@@ -5056,7 +5056,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2175,
                       "end": 2180,
@@ -5073,7 +5073,7 @@
                       "raw": "600"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2178,
                         "end": 2180,
@@ -5085,7 +5085,7 @@
                   },
                   "comparison": ">=",
                   "right": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2182,
                       "end": 2188,
@@ -5142,7 +5142,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2202,
                       "end": 2207,
@@ -5159,7 +5159,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2205,
                         "end": 2207,
@@ -5171,7 +5171,7 @@
                   },
                   "leftComparison": "<",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2210,
                       "end": 2215,
@@ -5182,7 +5182,7 @@
                   },
                   "rightComparison": "<",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2218,
                       "end": 2223,
@@ -5199,7 +5199,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2221,
                         "end": 2223,
@@ -5257,7 +5257,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2236,
                       "end": 2241,
@@ -5274,7 +5274,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2239,
                         "end": 2241,
@@ -5286,7 +5286,7 @@
                   },
                   "leftComparison": "<=",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2245,
                       "end": 2250,
@@ -5297,7 +5297,7 @@
                   },
                   "rightComparison": "<",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2253,
                       "end": 2258,
@@ -5314,7 +5314,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2256,
                         "end": 2258,
@@ -5372,7 +5372,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2271,
                       "end": 2276,
@@ -5389,7 +5389,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2274,
                         "end": 2276,
@@ -5401,7 +5401,7 @@
                   },
                   "leftComparison": "<",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2279,
                       "end": 2284,
@@ -5412,7 +5412,7 @@
                   },
                   "rightComparison": "<=",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2288,
                       "end": 2293,
@@ -5429,7 +5429,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2291,
                         "end": 2293,
@@ -5487,7 +5487,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2306,
                       "end": 2311,
@@ -5504,7 +5504,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2309,
                         "end": 2311,
@@ -5516,7 +5516,7 @@
                   },
                   "leftComparison": "<=",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2315,
                       "end": 2320,
@@ -5527,7 +5527,7 @@
                   },
                   "rightComparison": "<=",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2324,
                       "end": 2329,
@@ -5544,7 +5544,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2327,
                         "end": 2329,
@@ -5602,7 +5602,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2341,
                       "end": 2346,
@@ -5619,7 +5619,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2344,
                         "end": 2346,
@@ -5631,7 +5631,7 @@
                   },
                   "leftComparison": "<",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2347,
                       "end": 2352,
@@ -5642,7 +5642,7 @@
                   },
                   "rightComparison": "<",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2353,
                       "end": 2358,
@@ -5659,7 +5659,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2356,
                         "end": 2358,
@@ -5717,7 +5717,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2369,
                       "end": 2374,
@@ -5734,7 +5734,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2372,
                         "end": 2374,
@@ -5746,7 +5746,7 @@
                   },
                   "leftComparison": "<=",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2376,
                       "end": 2381,
@@ -5757,7 +5757,7 @@
                   },
                   "rightComparison": "<=",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2383,
                       "end": 2388,
@@ -5774,7 +5774,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2386,
                         "end": 2388,
@@ -5832,7 +5832,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2405,
                       "end": 2410,
@@ -5849,7 +5849,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2408,
                         "end": 2410,
@@ -5861,7 +5861,7 @@
                   },
                   "leftComparison": "<",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2417,
                       "end": 2422,
@@ -5872,7 +5872,7 @@
                   },
                   "rightComparison": "<",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2429,
                       "end": 2434,
@@ -5889,7 +5889,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2432,
                         "end": 2434,
@@ -5947,7 +5947,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2457,
                       "end": 2462,
@@ -5964,7 +5964,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2460,
                         "end": 2462,
@@ -5976,7 +5976,7 @@
                   },
                   "leftComparison": "<=",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2470,
                       "end": 2475,
@@ -5987,7 +5987,7 @@
                   },
                   "rightComparison": "<",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2482,
                       "end": 2487,
@@ -6004,7 +6004,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2485,
                         "end": 2487,
@@ -6062,7 +6062,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2510,
                       "end": 2515,
@@ -6079,7 +6079,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2513,
                         "end": 2515,
@@ -6091,7 +6091,7 @@
                   },
                   "leftComparison": "<",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2522,
                       "end": 2527,
@@ -6102,7 +6102,7 @@
                   },
                   "rightComparison": "<=",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2535,
                       "end": 2540,
@@ -6119,7 +6119,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2538,
                         "end": 2540,
@@ -6177,7 +6177,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2563,
                       "end": 2568,
@@ -6194,7 +6194,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2566,
                         "end": 2568,
@@ -6206,7 +6206,7 @@
                   },
                   "leftComparison": "<=",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2576,
                       "end": 2581,
@@ -6217,7 +6217,7 @@
                   },
                   "rightComparison": "<=",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2589,
                       "end": 2594,
@@ -6234,7 +6234,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2592,
                         "end": 2594,
@@ -6292,7 +6292,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2611,
                       "end": 2616,
@@ -6309,7 +6309,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2614,
                         "end": 2616,
@@ -6321,7 +6321,7 @@
                   },
                   "leftComparison": "<",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2617,
                       "end": 2622,
@@ -6332,7 +6332,7 @@
                   },
                   "rightComparison": "<",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2623,
                       "end": 2628,
@@ -6349,7 +6349,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2626,
                         "end": 2628,
@@ -6407,7 +6407,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2639,
                       "end": 2644,
@@ -6424,7 +6424,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2642,
                         "end": 2644,
@@ -6436,7 +6436,7 @@
                   },
                   "leftComparison": "<=",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2646,
                       "end": 2651,
@@ -6447,7 +6447,7 @@
                   },
                   "rightComparison": "<=",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2653,
                       "end": 2658,
@@ -6464,7 +6464,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2656,
                         "end": 2658,
@@ -6522,7 +6522,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2671,
                       "end": 2676,
@@ -6539,7 +6539,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2674,
                         "end": 2676,
@@ -6551,7 +6551,7 @@
                   },
                   "leftComparison": ">",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2679,
                       "end": 2684,
@@ -6562,7 +6562,7 @@
                   },
                   "rightComparison": ">",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2687,
                       "end": 2692,
@@ -6579,7 +6579,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2690,
                         "end": 2692,
@@ -6637,7 +6637,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2705,
                       "end": 2710,
@@ -6654,7 +6654,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2708,
                         "end": 2710,
@@ -6666,7 +6666,7 @@
                   },
                   "leftComparison": ">=",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2714,
                       "end": 2719,
@@ -6677,7 +6677,7 @@
                   },
                   "rightComparison": ">",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2722,
                       "end": 2727,
@@ -6694,7 +6694,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2725,
                         "end": 2727,
@@ -6752,7 +6752,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2740,
                       "end": 2745,
@@ -6769,7 +6769,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2743,
                         "end": 2745,
@@ -6781,7 +6781,7 @@
                   },
                   "leftComparison": ">",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2748,
                       "end": 2753,
@@ -6792,7 +6792,7 @@
                   },
                   "rightComparison": ">=",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2757,
                       "end": 2762,
@@ -6809,7 +6809,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2760,
                         "end": 2762,
@@ -6867,7 +6867,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2775,
                       "end": 2780,
@@ -6884,7 +6884,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2778,
                         "end": 2780,
@@ -6896,7 +6896,7 @@
                   },
                   "leftComparison": ">=",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2784,
                       "end": 2789,
@@ -6907,7 +6907,7 @@
                   },
                   "rightComparison": ">=",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2793,
                       "end": 2798,
@@ -6924,7 +6924,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2796,
                         "end": 2798,
@@ -6982,7 +6982,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2810,
                       "end": 2815,
@@ -6999,7 +6999,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2813,
                         "end": 2815,
@@ -7011,7 +7011,7 @@
                   },
                   "leftComparison": ">",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2816,
                       "end": 2821,
@@ -7022,7 +7022,7 @@
                   },
                   "rightComparison": ">",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2822,
                       "end": 2827,
@@ -7039,7 +7039,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2825,
                         "end": 2827,
@@ -7097,7 +7097,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2838,
                       "end": 2843,
@@ -7114,7 +7114,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2841,
                         "end": 2843,
@@ -7126,7 +7126,7 @@
                   },
                   "leftComparison": ">=",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2845,
                       "end": 2850,
@@ -7137,7 +7137,7 @@
                   },
                   "rightComparison": ">=",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2852,
                       "end": 2857,
@@ -7154,7 +7154,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2855,
                         "end": 2857,
@@ -7212,7 +7212,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2875,
                       "end": 2880,
@@ -7229,7 +7229,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2878,
                         "end": 2880,
@@ -7241,7 +7241,7 @@
                   },
                   "leftComparison": ">",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2887,
                       "end": 2892,
@@ -7252,7 +7252,7 @@
                   },
                   "rightComparison": ">",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2899,
                       "end": 2904,
@@ -7269,7 +7269,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2902,
                         "end": 2904,
@@ -7327,7 +7327,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2927,
                       "end": 2932,
@@ -7344,7 +7344,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2930,
                         "end": 2932,
@@ -7356,7 +7356,7 @@
                   },
                   "leftComparison": ">=",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2940,
                       "end": 2945,
@@ -7367,7 +7367,7 @@
                   },
                   "rightComparison": ">",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2952,
                       "end": 2957,
@@ -7384,7 +7384,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2955,
                         "end": 2957,
@@ -7442,7 +7442,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 2980,
                       "end": 2985,
@@ -7459,7 +7459,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 2983,
                         "end": 2985,
@@ -7471,7 +7471,7 @@
                   },
                   "leftComparison": ">",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 2992,
                       "end": 2997,
@@ -7482,7 +7482,7 @@
                   },
                   "rightComparison": ">=",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 3005,
                       "end": 3010,
@@ -7499,7 +7499,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 3008,
                         "end": 3010,
@@ -7557,7 +7557,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 3033,
                       "end": 3038,
@@ -7574,7 +7574,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 3036,
                         "end": 3038,
@@ -7586,7 +7586,7 @@
                   },
                   "leftComparison": ">=",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 3046,
                       "end": 3051,
@@ -7597,7 +7597,7 @@
                   },
                   "rightComparison": ">=",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 3059,
                       "end": 3064,
@@ -7614,7 +7614,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 3062,
                         "end": 3064,
@@ -7672,7 +7672,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 3081,
                       "end": 3086,
@@ -7689,7 +7689,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 3084,
                         "end": 3086,
@@ -7701,7 +7701,7 @@
                   },
                   "leftComparison": ">",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 3087,
                       "end": 3092,
@@ -7712,7 +7712,7 @@
                   },
                   "rightComparison": ">",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 3093,
                       "end": 3098,
@@ -7729,7 +7729,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 3096,
                         "end": 3098,
@@ -7787,7 +7787,7 @@
                     "ctxt": 0
                   },
                   "left": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 3109,
                       "end": 3114,
@@ -7804,7 +7804,7 @@
                       "raw": "400"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 3112,
                         "end": 3114,
@@ -7816,7 +7816,7 @@
                   },
                   "leftComparison": ">=",
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 3116,
                       "end": 3121,
@@ -7827,7 +7827,7 @@
                   },
                   "rightComparison": ">=",
                   "right": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 3123,
                       "end": 3128,
@@ -7844,7 +7844,7 @@
                       "raw": "700"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 3126,
                         "end": 3128,
@@ -7902,7 +7902,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 3141,
                       "end": 3149,
@@ -7927,7 +7927,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 3156,
                         "end": 3165,
@@ -7937,7 +7937,7 @@
                       "raw": "min-width"
                     },
                     "value": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 3167,
                         "end": 3173,
@@ -7954,7 +7954,7 @@
                         "raw": "1024"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 3171,
                           "end": 3173,
@@ -8028,7 +8028,7 @@
                           "ctxt": 0
                         },
                         "name": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 3192,
                             "end": 3197,
@@ -8056,7 +8056,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 3204,
                         "end": 3209,
@@ -8129,7 +8129,7 @@
                           "ctxt": 0
                         },
                         "name": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 3238,
                             "end": 3243,
@@ -8157,7 +8157,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 3263,
                         "end": 3268,
@@ -8223,7 +8223,7 @@
                         "ctxt": 0
                       },
                       "name": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 3287,
                           "end": 3292,
@@ -8248,7 +8248,7 @@
                           "ctxt": 0
                         },
                         "name": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 3298,
                             "end": 3303,
@@ -8276,7 +8276,7 @@
                       "ctxt": 0
                     },
                     "left": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 3311,
                         "end": 3316,
@@ -8287,7 +8287,7 @@
                     },
                     "comparison": ">",
                     "right": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 3319,
                         "end": 3325,
@@ -8304,7 +8304,7 @@
                         "raw": "1024"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 3323,
                           "end": 3325,
@@ -8379,7 +8379,7 @@
                             "ctxt": 0
                           },
                           "name": {
-                            "type": "Identifier",
+                            "type": "Ident",
                             "span": {
                               "start": 3340,
                               "end": 3345,
@@ -8414,7 +8414,7 @@
                               "ctxt": 0
                             },
                             "name": {
-                              "type": "Identifier",
+                              "type": "Ident",
                               "span": {
                                 "start": 3353,
                                 "end": 3358,
@@ -8444,7 +8444,7 @@
                       "ctxt": 0
                     },
                     "left": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 3367,
                         "end": 3372,
@@ -8455,7 +8455,7 @@
                     },
                     "comparison": ">",
                     "right": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 3375,
                         "end": 3381,
@@ -8472,7 +8472,7 @@
                         "raw": "1024"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 3379,
                           "end": 3381,
@@ -8563,7 +8563,7 @@
                                     "ctxt": 0
                                   },
                                   "name": {
-                                    "type": "Identifier",
+                                    "type": "Ident",
                                     "span": {
                                       "start": 3398,
                                       "end": 3403,
@@ -8598,7 +8598,7 @@
                                       "ctxt": 0
                                     },
                                     "name": {
-                                      "type": "Identifier",
+                                      "type": "Ident",
                                       "span": {
                                         "start": 3411,
                                         "end": 3416,
@@ -8632,7 +8632,7 @@
                       "ctxt": 0
                     },
                     "left": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 3427,
                         "end": 3432,
@@ -8643,7 +8643,7 @@
                     },
                     "comparison": ">",
                     "right": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 3435,
                         "end": 3441,
@@ -8660,7 +8660,7 @@
                         "raw": "1024"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 3439,
                           "end": 3441,
@@ -8751,7 +8751,7 @@
                                     "ctxt": 0
                                   },
                                   "name": {
-                                    "type": "Identifier",
+                                    "type": "Ident",
                                     "span": {
                                       "start": 3475,
                                       "end": 3480,
@@ -8786,7 +8786,7 @@
                                       "ctxt": 0
                                     },
                                     "name": {
-                                      "type": "Identifier",
+                                      "type": "Ident",
                                       "span": {
                                         "start": 3504,
                                         "end": 3509,
@@ -8820,7 +8820,7 @@
                       "ctxt": 0
                     },
                     "left": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 3542,
                         "end": 3547,
@@ -8831,7 +8831,7 @@
                     },
                     "comparison": ">",
                     "right": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 3554,
                         "end": 3560,
@@ -8848,7 +8848,7 @@
                         "raw": "1024"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 3558,
                           "end": 3560,
@@ -8915,7 +8915,7 @@
                         "ctxt": 0
                       },
                       "name": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 3580,
                           "end": 3589,
@@ -8925,7 +8925,7 @@
                         "raw": "min-width"
                       },
                       "value": {
-                        "type": "Dimension",
+                        "type": "Length",
                         "span": {
                           "start": 3591,
                           "end": 3596,
@@ -8942,7 +8942,7 @@
                           "raw": "800"
                         },
                         "unit": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 3594,
                             "end": 3596,
@@ -8968,7 +8968,7 @@
                           "ctxt": 0
                         },
                         "name": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 3603,
                             "end": 3612,
@@ -8978,7 +8978,7 @@
                           "raw": "min-width"
                         },
                         "value": {
-                          "type": "Dimension",
+                          "type": "Length",
                           "span": {
                             "start": 3614,
                             "end": 3619,
@@ -8995,7 +8995,7 @@
                             "raw": "800"
                           },
                           "unit": {
-                            "type": "Identifier",
+                            "type": "Ident",
                             "span": {
                               "start": 3617,
                               "end": 3619,
@@ -9024,7 +9024,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 3626,
                         "end": 3635,
@@ -9034,7 +9034,7 @@
                       "raw": "min-width"
                     },
                     "value": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 3637,
                         "end": 3642,
@@ -9051,7 +9051,7 @@
                         "raw": "800"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 3640,
                           "end": 3642,
@@ -9110,7 +9110,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 3655,
                       "end": 3664,
@@ -9120,7 +9120,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 3666,
                       "end": 3671,
@@ -9137,7 +9137,7 @@
                       "raw": "800"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 3669,
                         "end": 3671,
@@ -9171,7 +9171,7 @@
                           "ctxt": 0
                         },
                         "name": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 3679,
                             "end": 3688,
@@ -9181,7 +9181,7 @@
                           "raw": "min-width"
                         },
                         "value": {
-                          "type": "Dimension",
+                          "type": "Length",
                           "span": {
                             "start": 3690,
                             "end": 3695,
@@ -9198,7 +9198,7 @@
                             "raw": "800"
                           },
                           "unit": {
-                            "type": "Identifier",
+                            "type": "Ident",
                             "span": {
                               "start": 3693,
                               "end": 3695,
@@ -9224,7 +9224,7 @@
                             "ctxt": 0
                           },
                           "name": {
-                            "type": "Identifier",
+                            "type": "Ident",
                             "span": {
                               "start": 3701,
                               "end": 3710,
@@ -9234,7 +9234,7 @@
                             "raw": "min-width"
                           },
                           "value": {
-                            "type": "Dimension",
+                            "type": "Length",
                             "span": {
                               "start": 3712,
                               "end": 3717,
@@ -9251,7 +9251,7 @@
                               "raw": "800"
                             },
                             "unit": {
-                              "type": "Identifier",
+                              "type": "Ident",
                               "span": {
                                 "start": 3715,
                                 "end": 3717,
@@ -9296,7 +9296,7 @@
               "ctxt": 0
             },
             "modifier": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 3734,
                 "end": 3737,
@@ -9306,7 +9306,7 @@
               "raw": "NOT"
             },
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 3740,
                 "end": 3743,
@@ -9344,7 +9344,7 @@
               "ctxt": 0
             },
             "modifier": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 3756,
                 "end": 3760,
@@ -9354,7 +9354,7 @@
               "raw": "ONLY"
             },
             "mediaType": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 3761,
                 "end": 3767,
@@ -9379,7 +9379,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 3773,
                       "end": 3778,
@@ -9444,7 +9444,7 @@
                         "ctxt": 0
                       },
                       "name": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 3792,
                           "end": 3801,
@@ -9454,7 +9454,7 @@
                         "raw": "min-width"
                       },
                       "value": {
-                        "type": "Dimension",
+                        "type": "Length",
                         "span": {
                           "start": 3803,
                           "end": 3808,
@@ -9471,7 +9471,7 @@
                           "raw": "800"
                         },
                         "unit": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 3806,
                             "end": 3808,
@@ -9497,7 +9497,7 @@
                           "ctxt": 0
                         },
                         "name": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 3815,
                             "end": 3824,
@@ -9507,7 +9507,7 @@
                           "raw": "min-width"
                         },
                         "value": {
-                          "type": "Dimension",
+                          "type": "Length",
                           "span": {
                             "start": 3826,
                             "end": 3831,
@@ -9524,7 +9524,7 @@
                             "raw": "800"
                           },
                           "unit": {
-                            "type": "Identifier",
+                            "type": "Ident",
                             "span": {
                               "start": 3829,
                               "end": 3831,
@@ -9553,7 +9553,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 3838,
                         "end": 3847,
@@ -9563,7 +9563,7 @@
                       "raw": "min-width"
                     },
                     "value": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 3849,
                         "end": 3854,
@@ -9580,7 +9580,7 @@
                         "raw": "800"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 3852,
                           "end": 3854,
@@ -9639,7 +9639,7 @@
                     "ctxt": 0
                   },
                   "name": {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 3867,
                       "end": 3876,
@@ -9649,7 +9649,7 @@
                     "raw": "min-width"
                   },
                   "value": {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 3878,
                       "end": 3883,
@@ -9666,7 +9666,7 @@
                       "raw": "800"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 3881,
                         "end": 3883,
@@ -9700,7 +9700,7 @@
                           "ctxt": 0
                         },
                         "name": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 3891,
                             "end": 3900,
@@ -9710,7 +9710,7 @@
                           "raw": "min-width"
                         },
                         "value": {
-                          "type": "Dimension",
+                          "type": "Length",
                           "span": {
                             "start": 3902,
                             "end": 3907,
@@ -9727,7 +9727,7 @@
                             "raw": "800"
                           },
                           "unit": {
-                            "type": "Identifier",
+                            "type": "Ident",
                             "span": {
                               "start": 3905,
                               "end": 3907,
@@ -9753,7 +9753,7 @@
                             "ctxt": 0
                           },
                           "name": {
-                            "type": "Identifier",
+                            "type": "Ident",
                             "span": {
                               "start": 3913,
                               "end": 3922,
@@ -9763,7 +9763,7 @@
                             "raw": "min-width"
                           },
                           "value": {
-                            "type": "Dimension",
+                            "type": "Length",
                             "span": {
                               "start": 3924,
                               "end": 3929,
@@ -9780,7 +9780,7 @@
                               "raw": "800"
                             },
                             "unit": {
-                              "type": "Identifier",
+                              "type": "Ident",
                               "span": {
                                 "start": 3927,
                                 "end": 3929,

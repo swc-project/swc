@@ -1,10 +1,6 @@
-use crate::{
-    analyzer::{analyze, ProgramData},
-    option::ManglePropertiesOptions,
-    util::base54::incr_base54,
-};
-use once_cell::sync::Lazy;
 use std::collections::HashSet;
+
+use once_cell::sync::Lazy;
 use swc_atoms::{js_word, JsWord};
 use swc_common::collections::{AHashMap, AHashSet};
 use swc_ecma_ast::{
@@ -13,6 +9,12 @@ use swc_ecma_ast::{
 };
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+
+use crate::{
+    analyzer::{analyze, ProgramData},
+    option::ManglePropertiesOptions,
+    util::base54::incr_base54,
+};
 
 pub static JS_ENVIRONMENT_PROPS: Lazy<AHashSet<JsWord>> = Lazy::new(|| {
     let domprops: Vec<JsWord> = serde_json::from_str(include_str!("../lists/domprops.json"))

@@ -1,9 +1,10 @@
-use super::EnumKind;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, util::move_map::MoveMap, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{member_expr, quote_ident, undefined, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+
+use super::EnumKind;
 
 /// https://github.com/leonardfactory/babel-plugin-transform-typescript-metadata/blob/master/src/parameter/parameterVisitor.ts
 pub(super) struct ParamMetadata;

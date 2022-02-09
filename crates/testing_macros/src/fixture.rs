@@ -1,13 +1,14 @@
+use std::{
+    env,
+    path::{Component, PathBuf},
+};
+
 use anyhow::{Context, Error};
 use glob::glob;
 use pmutil::q;
 use proc_macro2::Span;
 use regex::Regex;
 use relative_path::RelativePath;
-use std::{
-    env,
-    path::{Component, PathBuf},
-};
 use syn::{
     parse::{Parse, ParseStream},
     Ident, ItemFn, Lit, LitStr, Meta, NestedMeta, Token,

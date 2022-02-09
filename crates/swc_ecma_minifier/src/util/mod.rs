@@ -1,4 +1,5 @@
 use std::time::Instant;
+
 use swc_common::{
     collections::AHashSet,
     pass::{CompilerPass, Repeated},
@@ -227,6 +228,7 @@ impl Visit for LeapFinder {
     }
 
     fn visit_function(&mut self, _: &Function) {}
+
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 }
 
@@ -359,6 +361,8 @@ pub(crate) struct IdentUsageCollector {
 impl Visit for IdentUsageCollector {
     noop_visit_type!();
 
+    visit_obj_and_computed!();
+
     fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr) {
         if self.ignore_nested {
             return;
@@ -387,8 +391,6 @@ impl Visit for IdentUsageCollector {
         self.ids.insert(n.to_id());
     }
 
-    visit_obj_and_computed!();
-
     fn visit_prop_name(&mut self, n: &PropName) {
         if let PropName::Computed(..) = n {
             n.visit_children_with(self);
@@ -404,6 +406,8 @@ pub(crate) struct CapturedIdCollector {
 
 impl Visit for CapturedIdCollector {
     noop_visit_type!();
+
+    visit_obj_and_computed!();
 
     fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr) {
         let old = self.is_nested;
@@ -431,8 +435,6 @@ impl Visit for CapturedIdCollector {
             self.ids.insert(n.to_id());
         }
     }
-
-    visit_obj_and_computed!();
 
     fn visit_prop_name(&mut self, n: &PropName) {
         if let PropName::Computed(..) = n {

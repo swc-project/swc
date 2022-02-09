@@ -40,6 +40,18 @@ error: TypeSelector
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:1
+  |
+1 | a { box-shadow: inset 0px 0px 0px 0px black }
+  | ^
+
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:1
+  |
+1 | a { box-shadow: inset 0px 0px 0px 0px black }
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:1
   |
@@ -94,6 +106,12 @@ error: Dimension
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   |                       ^^^
 
+error: Length
+ --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:23
+  |
+1 | a { box-shadow: inset 0px 0px 0px 0px black }
+  |                       ^^^
+
 error: Number
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:23
   |
@@ -113,6 +131,12 @@ error: Value
   |                           ^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:27
+  |
+1 | a { box-shadow: inset 0px 0px 0px 0px black }
+  |                           ^^^
+
+error: Length
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:27
   |
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
@@ -142,6 +166,12 @@ error: Dimension
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   |                               ^^^
 
+error: Length
+ --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:31
+  |
+1 | a { box-shadow: inset 0px 0px 0px 0px black }
+  |                               ^^^
+
 error: Number
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:31
   |
@@ -161,6 +191,12 @@ error: Value
   |                                   ^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:35
+  |
+1 | a { box-shadow: inset 0px 0px 0px 0px black }
+  |                                   ^^^
+
+error: Length
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:35
   |
 1 | a { box-shadow: inset 0px 0px 0px 0px black }

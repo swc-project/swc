@@ -1,0 +1,6 @@
+error: Invalid selector
+ --> $DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:2:11
+  |
+2 |     color: teal;
+  |           ^
+

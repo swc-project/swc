@@ -111,6 +111,12 @@ error: Dimension
 3 |         margin-top: 50px !important;
   |                     ^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/keyframe/input.css:3:21
+  |
+3 |         margin-top: 50px !important;
+  |                     ^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/keyframe/input.css:3:21
   |
@@ -122,6 +128,18 @@ error: Ident
   |
 3 |         margin-top: 50px !important;
   |                       ^^
+
+error: ImportantFlag
+ --> $DIR/tests/fixture/rome/keyframe/input.css:3:26
+  |
+3 |         margin-top: 50px !important;
+  |                          ^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/rome/keyframe/input.css:3:27
+  |
+3 |         margin-top: 50px !important;
+  |                           ^^^^^^^^^
 
 error: KeyframeBlock
  --> $DIR/tests/fixture/rome/keyframe/input.css:5:5
@@ -182,6 +200,12 @@ error: Dimension
 6 |         margin-top: 100px !important;
   |                     ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/keyframe/input.css:6:21
+  |
+6 |         margin-top: 100px !important;
+  |                     ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/keyframe/input.css:6:21
   |
@@ -193,6 +217,18 @@ error: Ident
   |
 6 |         margin-top: 100px !important;
   |                        ^^
+
+error: ImportantFlag
+ --> $DIR/tests/fixture/rome/keyframe/input.css:6:27
+  |
+6 |         margin-top: 100px !important;
+  |                           ^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/rome/keyframe/input.css:6:28
+  |
+6 |         margin-top: 100px !important;
+  |                            ^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/rome/keyframe/input.css:10:1
@@ -303,7 +339,7 @@ error: KeyframeSelector
 15 |     15% {
    |     ^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/rome/keyframe/input.css:15:5
    |
 15 |     15% {
@@ -336,7 +372,7 @@ error: KeyframeSelector
 17 |     0% {
    |     ^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/rome/keyframe/input.css:17:5
    |
 17 |     0% {
@@ -369,7 +405,7 @@ error: KeyframeSelector
 19 |     100% {
    |     ^^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/rome/keyframe/input.css:19:5
    |
 19 |     100% {

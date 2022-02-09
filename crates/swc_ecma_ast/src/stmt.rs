@@ -1,11 +1,12 @@
+use is_macro::Is;
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
+
 use crate::{
     decl::{Decl, VarDecl},
     expr::Expr,
     ident::Ident,
     pat::Pat,
 };
-use is_macro::Is;
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 /// Use when only block statements are allowed.
 #[ast_node("BlockStatement")]

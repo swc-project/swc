@@ -3,10 +3,10 @@
 //! This module exists because this is way easier than using copying requires
 //! files.
 
-use self::common::*;
+use std::{collections::HashMap, fs::write, path::PathBuf, process::Command};
+
 use anyhow::Error;
 use ntest::timeout;
-use std::{collections::HashMap, fs::write, path::PathBuf, process::Command};
 use swc_atoms::js_word;
 use swc_bundler::{Bundler, Load, ModuleRecord};
 use swc_common::{collections::AHashSet, FileName, Mark, Span, GLOBALS};
@@ -20,6 +20,8 @@ use swc_ecma_transforms_base::{fixer::fixer, resolver::resolver_with_mark};
 use swc_ecma_utils::{find_ids, Id};
 use swc_ecma_visit::{Visit, VisitMutWith, VisitWith};
 use testing::assert_eq;
+
+use self::common::*;
 
 #[path = "common/mod.rs"]
 mod common;

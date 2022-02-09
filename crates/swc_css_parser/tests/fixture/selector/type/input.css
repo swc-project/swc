@@ -6,3 +6,25 @@ foo|* {}
 h1 {}
 \2d {}
 \2d a {}
+div\:before {}
+d\iv {}
+foreignObject {}
+html textPath {}
+div#thing {}
+* {}
+* #foo {}
+*#foo {}
+#foo * {}
+.bar * {}
+*.bar {}
+*[lang^=en] {}
+*:hover {}
+*::before {}
+* *:not(*) {}
+a/**/{}
+a/**/
+{}
+\@noat { }
+h1\\{
+    color: \\;
+}

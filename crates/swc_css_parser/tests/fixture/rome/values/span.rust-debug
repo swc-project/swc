@@ -50,6 +50,18 @@ error: TypeSelector
 1 | p::before {
   | ^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/rome/values/input.css:1:1
+  |
+1 | p::before {
+  | ^
+
+error: WqName
+ --> $DIR/tests/fixture/rome/values/input.css:1:1
+  |
+1 | p::before {
+  | ^
+
 error: Ident
  --> $DIR/tests/fixture/rome/values/input.css:1:1
   |
@@ -267,7 +279,7 @@ error: Value
 8 |     width: 20%;
   |            ^^^
 
-error: Percent
+error: Percentage
  --> $DIR/tests/fixture/rome/values/input.css:8:9
   |
 8 |     width: 20%;
@@ -303,7 +315,7 @@ error: Value
 9 |     margin-top: -5%;
   |                 ^^^
 
-error: Percent
+error: Percentage
  --> $DIR/tests/fixture/rome/values/input.css:9:14
   |
 9 |     margin-top: -5%;
@@ -350,6 +362,18 @@ error: CompoundSelector
    | ^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/rome/values/input.css:12:1
+   |
+12 | foo {
+   | ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/rome/values/input.css:12:1
+   |
+12 | foo {
+   | ^^^
+
+error: WqName
   --> $DIR/tests/fixture/rome/values/input.css:12:1
    |
 12 | foo {
@@ -437,6 +461,18 @@ error: CompoundSelector
    | ^^^
 
 error: TypeSelector
+  --> $DIR/tests/fixture/rome/values/input.css:16:1
+   |
+16 | bar {
+   | ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/rome/values/input.css:16:1
+   |
+16 | bar {
+   | ^^^
+
+error: WqName
   --> $DIR/tests/fixture/rome/values/input.css:16:1
    |
 16 | bar {

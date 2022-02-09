@@ -1,7 +1,5 @@
 //! Compatibility for terser config.
 
-use super::{true_by_default, CompressOptions, TopLevelOptions};
-use crate::option::PureGetterOption;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use swc_atoms::JsWord;
@@ -11,6 +9,9 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser};
 use swc_ecma_utils::drop_span;
+
+use super::{true_by_default, CompressOptions, TopLevelOptions};
+use crate::option::PureGetterOption;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]

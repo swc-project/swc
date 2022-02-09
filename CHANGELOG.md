@@ -5,10 +5,110 @@
 
 
 
+- **(es/modules)** Use correct `StrKind` after rewriting import path (#3489) ([ff6eb27](https://github.com/swc-project/swc/commit/ff6eb272a00f0c11c9e916eb898e1b309bcb686c))
+
+
+- **(es/modules)** Hoist named exports (#3479) ([fa0216d](https://github.com/swc-project/swc/commit/fa0216d908118ba008f4be2505590bbb09b7be46))
+
+### Features
+
+
+
+- **(css/parser)** Improve error recovery (#3486) ([48e5b90](https://github.com/swc-project/swc/commit/48e5b903e2b82e8fc741d125662bbac825d5b0d0))
+
+
+- **(es/lints)** Implement `dot-notation` rule (#3481) ([5bb6bd7](https://github.com/swc-project/swc/commit/5bb6bd71b6aa5dbdde62842c34e9ef6742968650))
+
+
+- **(swc/plugin)** Implement proxy for `Mark::fresh` (#3492) ([494b4c8](https://github.com/swc-project/swc/commit/494b4c8203514dd9f21b2bc3804ba8c44d46a4a1))
+
+### Refactor
+
+
+
+- **(common)** Cleanup & rustfmt (#3495) ([9b76783](https://github.com/swc-project/swc/commit/9b76783281af7c6b92e8185b44ebefae41648d3f))
+
+
+- **(css/ast)** Rename types to match specification (#3484) ([460f846](https://github.com/swc-project/swc/commit/460f84693414c58d4aa116f9d4e630b1e32bffa4))
+
+### Testing
+
+
+
+- **(css/parser)** Add tests from `postcss` (#3488) ([04782ae](https://github.com/swc-project/swc/commit/04782ae9f73193ec6cd15f7e7059c97143289169))
+
+## [1.2.138] - 2022-02-08
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Make `sequences` less aggressive (#3480) ([292add7](https://github.com/swc-project/swc/commit/292add7d26a079a1da09ff94444124faea8e39fc))
+
+### Features
+
+
+
+- **(css)** Add support for `@property` at-rule (#3470) ([fd5668c](https://github.com/swc-project/swc/commit/fd5668c32fa002698e387df6bc6a927c0d562e06))
+
+
+- **(css/ast)** Add types for `@counter-style` at-rule (#3469) ([e6f4fbf](https://github.com/swc-project/swc/commit/e6f4fbf056767344776afbb6bd3b2f5dfe83dcf3))
+
+
+- **(css/ast)** Add types for all dimensions (#3477) ([dc939c6](https://github.com/swc-project/swc/commit/dc939c65afa3b3b09101128f5801f532170bdea2))
+
+
+- **(es/parser)** Disallow assignment to optional chaining expressions (#3483) ([26565b1](https://github.com/swc-project/swc/commit/26565b1ae9c0ab93b425c97fc40aaf49576e4b90))
+
+
+- **(plugin)** Support global `HANDLER` in the plugin context (#3478) ([d473a65](https://github.com/swc-project/swc/commit/d473a6597653e59fc485ffb9cb116d23b4b55e70))
+
+### Miscellaneous Tasks
+
+
+
+- **(es)** Fix clippy warnings (#3482) ([8bf5cf4](https://github.com/swc-project/swc/commit/8bf5cf4d030ec5ab615924b938c8c027c600e3e1))
+
+
+- **(repo)** Configure kodiak (#3485) ([cf8aa05](https://github.com/swc-project/swc/commit/cf8aa05d9ce5b60936c53c42d70ca934a09c373e))
+
+## [1.2.137] - 2022-02-07
+
+### Bug Fixes
+
+
+
+- **(css)** Fix parsing of `@page` at-rule (#3356) ([4853821](https://github.com/swc-project/swc/commit/4853821d004f366c89c1b9122786e26ff923df05))
+
+
+- **(css/ast)** Fix type definitions for `@document` at-rule (#3468) ([df08e4c](https://github.com/swc-project/swc/commit/df08e4cfd7ed76fcfd00cc8245b13cc328513938))
+
+
+- **(css/parser)** Report errors of at-rules (#3461) ([e732250](https://github.com/swc-project/swc/commit/e732250cdf74c47faf5321b650a9cea6bd1ab4d4))
+
+
 - **(es/compat)** Handle private fields in nested classes (#3431) ([01500a5](https://github.com/swc-project/swc/commit/01500a54e04b88d08edff09f218166c862763657))
 
 
 - **(es/compat)** Handle initializer hole in array patterns (#3442) ([3bb2a6c](https://github.com/swc-project/swc/commit/3bb2a6ccca4e78412f80aea4fe6c22d04d345a00))
+
+
+- **(es/compat)** Fix legacy decorator pass (#3459) ([4f5e87b](https://github.com/swc-project/swc/commit/4f5e87b66b42a5672e00edcfa22234f1cde79580))
+
+
+- **(es/fixer)** Handle more expressions in the super class position (#3452) ([032f397](https://github.com/swc-project/swc/commit/032f397b52415378ede985be35713a3482093958))
+
+
+- **(es/minifier)** Fix `codemirror` (#3462) ([5812c3c](https://github.com/swc-project/swc/commit/5812c3c10fc224fbb33a17302491c5f7c2bd0a0b))
+
+
+- **(es/minifier)** Fix `mapbox` (#3463) ([0371c41](https://github.com/swc-project/swc/commit/0371c41b7cb9d505705a956b84b8e4dbe626a17c))
+
+
+- **(es/modules)** Allow using a dynamic import with an expression from another import (#3450) ([745604b](https://github.com/swc-project/swc/commit/745604b26d9151732d2572307dbeb22b2d10ca66))
+
+
+- **(es/parser)** Fix parsing of decorators (#3449) ([5a806c5](https://github.com/swc-project/swc/commit/5a806c5b817c63b7c4f7730b538831b1cea62711))
 
 
 - **(es/resolver)** Fix handling of for statements (#3446) ([2af5096](https://github.com/swc-project/swc/commit/2af5096e83229df1e5ccfe62659360c0392ef0ba))
@@ -20,19 +120,58 @@
 - **(css/ast)** Improve types related to `url` tokens (#3444) ([49564d9](https://github.com/swc-project/swc/commit/49564d9b5d627b38b2faa63b55076cb55ba8d1a7))
 
 
+- **(css/codegen)** Implement minification of hex colors (#3453) ([eeedd71](https://github.com/swc-project/swc/commit/eeedd71705dc9b94363ec4e002ec647a3addba2d))
+
+
+- **(css/codegen)** Implement minification of identifiers (#3466) ([81850c2](https://github.com/swc-project/swc/commit/81850c2b30693061428569c9a6ebd4a3f07d7683))
+
+
+- **(css/codegen)** Improve minification for page rules (#3467) ([0ca036a](https://github.com/swc-project/swc/commit/0ca036a962042727e362b91748aa10547c87fc63))
+
+
 - **(css/lexer)** Implement error recovery for functions (#3445) ([f1410fc](https://github.com/swc-project/swc/commit/f1410fc09b4838fa8113c9b2041f58d7d752c519))
 
 
 - **(es/lints)** Implement `prefer-regex-literals` (#3399) ([8166275](https://github.com/swc-project/swc/commit/81662751666b5d49458ab8dad15f3c73e89ef2f6))
 
 
+- **(es/lints)** Implement linter for quotes of string literals (#3443) ([5d6143a](https://github.com/swc-project/swc/commit/5d6143a53c03d0caefc76ea54d6975126984d84d))
+
+
 - **(es/parser)** Add an option to allow `super` outside of class methods (#3427) ([cc185f0](https://github.com/swc-project/swc/commit/cc185f01cb249634d144830db702a281674f48da))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/lints)** Fix CI ([b06a5ab](https://github.com/swc-project/swc/commit/b06a5abe5868c3652fe89927acd3a56ea437b113))
 
 ### Refactor
 
 
 
 - **(css/ast)** Refactor types related to `@keyframes` at-rule (#3441) ([5c1b021](https://github.com/swc-project/swc/commit/5c1b02182df9ee2f59b8b83f58b5d0b1ae04af35))
+
+
+- **(css/ast)** Change AST for `!important` (#3440) ([38879de](https://github.com/swc-project/swc/commit/38879de8deec6a45882252104fdcbb33cc3116a9))
+
+
+- **(css/ast)** Refactor types related to selectors (#3460) ([cd87d96](https://github.com/swc-project/swc/commit/cd87d965f35155748ec0e3b22deae3d8a5ebdb5b))
+
+
+- **(css/ast)** Remove unused types (#3465) ([69660fd](https://github.com/swc-project/swc/commit/69660fd161e0cce5eca7b7f5d436d4bb67dea64f))
+
+### Testing
+
+
+
+- **(css/parser)** Add more tests for the selector parser (#3455) ([479b509](https://github.com/swc-project/swc/commit/479b50984513296439af2814f990eb88486b82d5))
+
+
+- **(es)** Update tsc test suite (#3448) ([8b7c38c](https://github.com/swc-project/swc/commit/8b7c38c80ceeb8fc41ad4c60eb427dab9c06ba6e))
+
+
+- **(es/parser)** Fix crlf (#3451) ([397a96a](https://github.com/swc-project/swc/commit/397a96a1cf4a0d540db6e766890ed874f7818a65))
 
 ## [1.2.136] - 2022-02-03
 

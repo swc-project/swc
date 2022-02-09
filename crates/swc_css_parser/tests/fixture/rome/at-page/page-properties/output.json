@@ -13,47 +13,40 @@
         "end": 25,
         "ctxt": 0
       },
-      "prelude": [],
-      "block": {
-        "span": {
-          "start": 6,
-          "end": 25,
-          "ctxt": 0
-        },
-        "items": [
-          {
-            "type": "Declaration",
+      "prelude": null,
+      "block": [
+        {
+          "type": "Declaration",
+          "span": {
+            "start": 9,
+            "end": 22,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Ident",
             "span": {
               "start": 9,
-              "end": 22,
+              "end": 16,
               "ctxt": 0
             },
-            "name": {
-              "type": "Identifier",
+            "value": "display",
+            "raw": "display"
+          },
+          "value": [
+            {
+              "type": "Ident",
               "span": {
-                "start": 9,
-                "end": 16,
+                "start": 18,
+                "end": 22,
                 "ctxt": 0
               },
-              "value": "display",
-              "raw": "display"
-            },
-            "value": [
-              {
-                "type": "Identifier",
-                "span": {
-                  "start": 18,
-                  "end": 22,
-                  "ctxt": 0
-                },
-                "value": "none",
-                "raw": "none"
-              }
-            ],
-            "important": null
-          }
-        ]
-      }
+              "value": "none",
+              "raw": "none"
+            }
+          ],
+          "important": null
+        }
+      ]
     }
   ]
 }

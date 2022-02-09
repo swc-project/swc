@@ -1,5 +1,6 @@
-use super::*;
 use either::Either;
+
+use super::*;
 
 impl<'a, I: Input> Lexer<'a, I> {
     pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<Token>> {

@@ -1,3 +1,6 @@
+use is_macro::Is;
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
+
 use crate::{
     expr::Expr,
     function::Function,
@@ -7,8 +10,6 @@ use crate::{
     stmt::BlockStmt,
     typescript::TsTypeAnn,
 };
-use is_macro::Is;
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]

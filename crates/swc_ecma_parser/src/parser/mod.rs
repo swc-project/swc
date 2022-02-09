@@ -1,4 +1,10 @@
 #![deny(non_snake_case)]
+use std::ops::{Deref, DerefMut};
+
+use swc_atoms::JsWord;
+use swc_common::{comments::Comments, input::Input, BytePos, Span};
+use swc_ecma_ast::*;
+
 pub use self::input::{Capturing, Tokens, TokensInput};
 use self::{input::Buffer, util::ParseObject};
 use crate::{
@@ -7,15 +13,12 @@ use crate::{
     token::{Token, Word},
     Context, EsVersion, Syntax,
 };
-use std::ops::{Deref, DerefMut};
-use swc_atoms::JsWord;
-use swc_common::{comments::Comments, input::Input, BytePos, Span};
-use swc_ecma_ast::*;
 #[cfg(test)]
 extern crate test;
-use crate::error::Error;
 #[cfg(test)]
 use test::Bencher;
+
+use crate::error::Error;
 
 #[macro_use]
 mod macros;

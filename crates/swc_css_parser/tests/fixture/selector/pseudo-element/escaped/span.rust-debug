@@ -40,6 +40,18 @@ error: TypeSelector
 1 | div::bef\ore {}
   | ^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1
+  |
+1 | div::bef\ore {}
+  | ^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1
+  |
+1 | div::bef\ore {}
+  | ^^^
+
 error: Ident
  --> $DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1
   |

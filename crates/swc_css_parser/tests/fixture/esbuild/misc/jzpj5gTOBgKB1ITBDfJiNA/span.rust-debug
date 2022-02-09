@@ -40,6 +40,24 @@ error: TypeSelector
 1 | *|b {}
   | ^^^
 
+error: TagNameSelector
+ --> $DIR/tests/fixture/esbuild/misc/jzpj5gTOBgKB1ITBDfJiNA/input.css:1:1
+  |
+1 | *|b {}
+  | ^^^
+
+error: WqName
+ --> $DIR/tests/fixture/esbuild/misc/jzpj5gTOBgKB1ITBDfJiNA/input.css:1:1
+  |
+1 | *|b {}
+  | ^^^
+
+error: NsPrefix
+ --> $DIR/tests/fixture/esbuild/misc/jzpj5gTOBgKB1ITBDfJiNA/input.css:1:1
+  |
+1 | *|b {}
+  | ^^
+
 error: Ident
  --> $DIR/tests/fixture/esbuild/misc/jzpj5gTOBgKB1ITBDfJiNA/input.css:1:1
   |

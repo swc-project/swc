@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function _defineProperty(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
@@ -12,6 +11,7 @@ function _defineProperty(obj, key, value) {
     }
     return obj;
 }
+import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(foo);
 // @target: es6
 function foo() {

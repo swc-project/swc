@@ -14,7 +14,7 @@
         "ctxt": 0
       },
       "name": {
-        "type": "CustomIdentifier",
+        "type": "CustomIdent",
         "span": {
           "start": 11,
           "end": 21,
@@ -32,7 +32,7 @@
           },
           "prelude": [
             {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 28,
                 "end": 32,
@@ -58,7 +58,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 43,
                     "end": 53,
@@ -69,7 +69,7 @@
                 },
                 "value": [
                   {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 55,
                       "end": 59,
@@ -86,7 +86,7 @@
                       "raw": "50"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 57,
                         "end": 59,
@@ -98,9 +98,22 @@
                   }
                 ],
                 "important": {
-                  "start": 60,
-                  "end": 70,
-                  "ctxt": 0
+                  "type": "ImportantFlag",
+                  "span": {
+                    "start": 60,
+                    "end": 70,
+                    "ctxt": 0
+                  },
+                  "value": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 61,
+                      "end": 70,
+                      "ctxt": 0
+                    },
+                    "value": "important",
+                    "raw": "important"
+                  }
                 }
               }
             ]
@@ -114,7 +127,7 @@
           },
           "prelude": [
             {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 82,
                 "end": 84,
@@ -140,7 +153,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 95,
                     "end": 105,
@@ -151,7 +164,7 @@
                 },
                 "value": [
                   {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 107,
                       "end": 112,
@@ -168,7 +181,7 @@
                       "raw": "100"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 110,
                         "end": 112,
@@ -180,9 +193,22 @@
                   }
                 ],
                 "important": {
-                  "start": 113,
-                  "end": 123,
-                  "ctxt": 0
+                  "type": "ImportantFlag",
+                  "span": {
+                    "start": 113,
+                    "end": 123,
+                    "ctxt": 0
+                  },
+                  "value": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 114,
+                      "end": 123,
+                      "ctxt": 0
+                    },
+                    "value": "important",
+                    "raw": "important"
+                  }
                 }
               }
             ]
@@ -198,7 +224,7 @@
         "ctxt": 0
       },
       "name": {
-        "type": "CustomIdentifier",
+        "type": "CustomIdent",
         "span": {
           "start": 145,
           "end": 148,
@@ -216,7 +242,7 @@
           },
           "prelude": [
             {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 155,
                 "end": 159,
@@ -244,7 +270,7 @@
           },
           "prelude": [
             {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 172,
                 "end": 174,
@@ -272,7 +298,7 @@
           },
           "prelude": [
             {
-              "type": "Percent",
+              "type": "Percentage",
               "span": {
                 "start": 187,
                 "end": 190,
@@ -308,7 +334,7 @@
           },
           "prelude": [
             {
-              "type": "Percent",
+              "type": "Percentage",
               "span": {
                 "start": 203,
                 "end": 205,
@@ -344,7 +370,7 @@
           },
           "prelude": [
             {
-              "type": "Percent",
+              "type": "Percentage",
               "span": {
                 "start": 218,
                 "end": 222,
@@ -382,7 +408,7 @@
         "ctxt": 0
       },
       "name": {
-        "type": "CustomIdentifier",
+        "type": "CustomIdent",
         "span": {
           "start": 245,
           "end": 248,

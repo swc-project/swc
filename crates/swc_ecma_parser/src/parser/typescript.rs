@@ -1,8 +1,9 @@
-use super::*;
-use crate::{lexer::TokenContexts, parser::class_and_fn::IsSimpleParameterList};
 use either::Either;
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
+
+use super::*;
+use crate::{lexer::TokenContexts, parser::class_and_fn::IsSimpleParameterList};
 
 impl<I: Tokens> Parser<I> {
     /// `tsNextTokenCanFollowModifier`
@@ -923,6 +924,7 @@ impl<I: Tokens> Parser<I> {
             type_args,
         })
     }
+
     /// `tsParseInterfaceDeclaration`
     pub(super) fn parse_ts_interface_decl(&mut self, start: BytePos) -> PResult<TsInterfaceDecl> {
         debug_assert!(self.input.syntax().typescript());
@@ -2658,12 +2660,13 @@ fn make_decl_declare(mut decl: Decl) -> Decl {
 
 #[cfg(test)]
 mod tests {
-    use crate::{
-        lexer::Lexer, test_parser, token::*, Capturing, EsVersion, Parser, Syntax, TsConfig,
-    };
     use swc_common::DUMMY_SP;
     use swc_ecma_ast::*;
     use swc_ecma_visit::assert_eq_ignore_span;
+
+    use crate::{
+        lexer::Lexer, test_parser, token::*, Capturing, EsVersion, Parser, Syntax, TsConfig,
+    };
 
     #[test]
     fn issue_708_1() {
