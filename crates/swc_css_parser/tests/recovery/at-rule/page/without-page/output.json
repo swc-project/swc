@@ -50,19 +50,6 @@
           {
             "type": "Token",
             "span": {
-              "start": 11,
-              "end": 16,
-              "ctxt": 0
-            },
-            "token": {
-              "WhiteSpace": {
-                "value": "\n    "
-              }
-            }
-          },
-          {
-            "type": "Token",
-            "span": {
               "start": 16,
               "end": 23,
               "ctxt": 0

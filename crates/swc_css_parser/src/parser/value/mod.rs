@@ -289,63 +289,11 @@ where
         }
     }
 
-    pub fn parse_simple_block(&mut self, ending: char) -> PResult<SimpleBlock> {
-        let start_pos = self.input.last_pos()? - BytePos(1);
-        let mut simple_block = SimpleBlock {
-            span: Default::default(),
-            name: Default::default(),
-            value: vec![],
-        };
-
-        loop {
-            match cur!(self) {
-                tok!("}") if ending == '}' => {
-                    self.input.bump()?;
-
-                    let ending_pos = self.input.last_pos()?;
-
-                    simple_block.span =
-                        swc_common::Span::new(ending_pos, start_pos, Default::default());
-                    simple_block.name = '{';
-
-                    return Ok(simple_block);
-                }
-                tok!(")") if ending == ')' => {
-                    self.input.bump()?;
-
-                    let ending_pos = self.input.last_pos()?;
-
-                    simple_block.span =
-                        swc_common::Span::new(ending_pos, start_pos, Default::default());
-                    simple_block.name = '(';
-
-                    return Ok(simple_block);
-                }
-                tok!("]") if ending == ']' => {
-                    self.input.bump()?;
-
-                    let ending_pos = self.input.last_pos()?;
-
-                    simple_block.span =
-                        swc_common::Span::new(ending_pos, start_pos, Default::default());
-                    simple_block.name = '[';
-
-                    return Ok(simple_block);
-                }
-                _ => {
-                    let token = self.input.bump()?.unwrap();
-
-                    simple_block.value.push(Value::PerservedToken(token));
-                }
-            }
-        }
-    }
-
     pub fn parse_component_value(&mut self) -> PResult<Value> {
         match cur!(self) {
-            tok!("[") => Ok(Value::SimpleBlock(self.parse_simple_block(']')?)),
-            tok!("(") => Ok(Value::SimpleBlock(self.parse_simple_block(')')?)),
-            tok!("{") => Ok(Value::SimpleBlock(self.parse_simple_block('}')?)),
+            tok!("[") => Ok(Value::SimpleBlock(self.parse()?)),
+            tok!("(") => Ok(Value::SimpleBlock(self.parse()?)),
+            tok!("{") => Ok(Value::SimpleBlock(self.parse()?)),
             tok!("function") => Ok(Value::Function(self.parse()?)),
             _ => {
                 let token = self.input.bump()?;

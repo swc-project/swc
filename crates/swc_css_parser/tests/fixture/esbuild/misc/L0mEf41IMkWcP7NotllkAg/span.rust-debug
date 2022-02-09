@@ -57,23 +57,6 @@ error: SimpleBlock
   | |_^
 
 error: Value
- --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:10
-  |
-1 |   @unknown{
-  |  __________^
-2 | | a: b;
-  | |_
-
-error: WhiteSpace { value: Atom('
-' type=inline) }
- --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:10
-  |
-1 |   @unknown{
-  |  __________^
-2 | | a: b;
-  | |_
-
-error: Value
  --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1
   |
 2 | a: b;

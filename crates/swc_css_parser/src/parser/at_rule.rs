@@ -371,9 +371,14 @@ where
                 // <{-token>
                 // Consume a simple block and assign it to the at-rule’s block. Return the at-rule.
                 tok!("{") => {
-                    self.input.bump()?;
+                    let ctx = Ctx {
+                        as_component_value: true,
+                        ..self.ctx
+                    };
 
-                    at_rule.block = Some(self.parse_simple_block('}')?);
+                    let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+
+                    at_rule.block = Some(block);
                     at_rule.span = span!(self, at_rule_span.lo);
 
                     return Ok(AtRule::Unknown(at_rule));

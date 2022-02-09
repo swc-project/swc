@@ -40,70 +40,50 @@
         {
           "type": "SimpleBlock",
           "span": {
-            "start": 9,
+            "start": 10,
             "end": 38,
             "ctxt": 0
           },
           "name": "(",
           "value": [
             {
-              "type": "Token",
-              "span": {
-                "start": 10,
-                "end": 11,
-                "ctxt": 0
-              },
-              "token": "LParen"
-            },
-            {
-              "type": "Token",
+              "type": "Ident",
               "span": {
                 "start": 11,
                 "end": 30,
                 "ctxt": 0
               },
-              "token": {
-                "Ident": {
-                  "value": "transition-property",
-                  "raw": "transition-property"
-                }
-              }
+              "value": "transition-property",
+              "raw": "transition-property"
             },
             {
-              "type": "Token",
+              "type": "Tokens",
               "span": {
                 "start": 30,
                 "end": 31,
                 "ctxt": 0
               },
-              "token": "Colon"
-            },
-            {
-              "type": "Token",
-              "span": {
-                "start": 31,
-                "end": 32,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
+              "tokens": [
+                {
+                  "type": "Token",
+                  "span": {
+                    "start": 30,
+                    "end": 31,
+                    "ctxt": 0
+                  },
+                  "token": "Colon"
                 }
-              }
+              ]
             },
             {
-              "type": "Token",
+              "type": "Ident",
               "span": {
                 "start": 32,
                 "end": 37,
                 "ctxt": 0
               },
-              "token": {
-                "Ident": {
-                  "value": "color",
-                  "raw": "color"
-                }
-              }
+              "value": "color",
+              "raw": "color"
             }
           ]
         },
@@ -150,70 +130,50 @@
         {
           "type": "SimpleBlock",
           "span": {
-            "start": 41,
+            "start": 42,
             "end": 63,
             "ctxt": 0
           },
           "name": "(",
           "value": [
             {
-              "type": "Token",
-              "span": {
-                "start": 42,
-                "end": 43,
-                "ctxt": 0
-              },
-              "token": "LParen"
-            },
-            {
-              "type": "Token",
+              "type": "Ident",
               "span": {
                 "start": 43,
                 "end": 57,
                 "ctxt": 0
               },
-              "token": {
-                "Ident": {
-                  "value": "animation-name",
-                  "raw": "animation-name"
-                }
-              }
+              "value": "animation-name",
+              "raw": "animation-name"
             },
             {
-              "type": "Token",
+              "type": "Tokens",
               "span": {
                 "start": 57,
                 "end": 58,
                 "ctxt": 0
               },
-              "token": "Colon"
-            },
-            {
-              "type": "Token",
-              "span": {
-                "start": 58,
-                "end": 59,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
+              "tokens": [
+                {
+                  "type": "Token",
+                  "span": {
+                    "start": 57,
+                    "end": 58,
+                    "ctxt": 0
+                  },
+                  "token": "Colon"
                 }
-              }
+              ]
             },
             {
-              "type": "Token",
+              "type": "Ident",
               "span": {
                 "start": 59,
                 "end": 62,
                 "ctxt": 0
               },
-              "token": {
-                "Ident": {
-                  "value": "foo",
-                  "raw": "foo"
-                }
-              }
+              "value": "foo",
+              "raw": "foo"
             }
           ]
         },
@@ -260,98 +220,90 @@
         {
           "type": "SimpleBlock",
           "span": {
-            "start": 67,
-            "end": 93,
+            "start": 68,
+            "end": 94,
             "ctxt": 0
           },
           "name": "(",
           "value": [
             {
-              "type": "Token",
-              "span": {
-                "start": 68,
-                "end": 69,
-                "ctxt": 0
-              },
-              "token": "LParen"
-            },
-            {
-              "type": "Token",
+              "type": "Ident",
               "span": {
                 "start": 69,
                 "end": 78,
                 "ctxt": 0
               },
-              "token": {
-                "Ident": {
-                  "value": "transform",
-                  "raw": "transform"
-                }
-              }
+              "value": "transform",
+              "raw": "transform"
             },
             {
-              "type": "Token",
+              "type": "Tokens",
               "span": {
                 "start": 78,
                 "end": 79,
                 "ctxt": 0
               },
-              "token": "Colon"
-            },
-            {
-              "type": "Token",
-              "span": {
-                "start": 79,
-                "end": 80,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
+              "tokens": [
+                {
+                  "type": "Token",
+                  "span": {
+                    "start": 78,
+                    "end": 79,
+                    "ctxt": 0
+                  },
+                  "token": "Colon"
                 }
-              }
+              ]
             },
             {
-              "type": "Token",
+              "type": "Function",
               "span": {
                 "start": 80,
-                "end": 87,
+                "end": 93,
                 "ctxt": 0
               },
-              "token": {
-                "Function": {
-                  "value": "rotate",
-                  "raw": "rotate"
-                }
-              }
-            },
-            {
-              "type": "Token",
-              "span": {
-                "start": 87,
-                "end": 92,
-                "ctxt": 0
+              "name": {
+                "type": "Ident",
+                "span": {
+                  "start": 80,
+                  "end": 86,
+                  "ctxt": 0
+                },
+                "value": "rotate",
+                "raw": "rotate"
               },
-              "token": {
-                "Dimension": {
-                  "value": 10.0,
-                  "raw_value": "10",
-                  "unit": "deg",
-                  "raw_unit": "deg",
-                  "type": "integer"
+              "value": [
+                {
+                  "type": "Angle",
+                  "span": {
+                    "start": 87,
+                    "end": 92,
+                    "ctxt": 0
+                  },
+                  "value": {
+                    "type": "Number",
+                    "span": {
+                      "start": 87,
+                      "end": 89,
+                      "ctxt": 0
+                    },
+                    "value": 10.0,
+                    "raw": "10"
+                  },
+                  "unit": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 89,
+                      "end": 92,
+                      "ctxt": 0
+                    },
+                    "value": "deg",
+                    "raw": "deg"
+                  }
                 }
-              }
+              ]
             }
           ]
-        },
-        {
-          "type": "Token",
-          "span": {
-            "start": 93,
-            "end": 94,
-            "ctxt": 0
-          },
-          "token": "RParen"
         },
         {
           "type": "Token",

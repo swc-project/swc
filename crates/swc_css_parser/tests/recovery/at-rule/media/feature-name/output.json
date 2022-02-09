@@ -40,72 +40,67 @@
         {
           "type": "SimpleBlock",
           "span": {
-            "start": 6,
+            "start": 7,
             "end": 26,
             "ctxt": 0
           },
           "name": "(",
           "value": [
             {
-              "type": "Token",
-              "span": {
-                "start": 7,
-                "end": 8,
-                "ctxt": 0
-              },
-              "token": "LParen"
-            },
-            {
-              "type": "Token",
+              "type": "String",
               "span": {
                 "start": 8,
                 "end": 19,
                 "ctxt": 0
               },
-              "token": {
-                "Str": {
-                  "value": "min-width",
-                  "raw": "\"min-width\""
-                }
-              }
+              "value": "min-width",
+              "raw": "\"min-width\""
             },
             {
-              "type": "Token",
+              "type": "Tokens",
               "span": {
                 "start": 19,
                 "end": 20,
                 "ctxt": 0
               },
-              "token": "Colon"
-            },
-            {
-              "type": "Token",
-              "span": {
-                "start": 20,
-                "end": 21,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
+              "tokens": [
+                {
+                  "type": "Token",
+                  "span": {
+                    "start": 19,
+                    "end": 20,
+                    "ctxt": 0
+                  },
+                  "token": "Colon"
                 }
-              }
+              ]
             },
             {
-              "type": "Token",
+              "type": "Length",
               "span": {
                 "start": 21,
                 "end": 25,
                 "ctxt": 0
               },
-              "token": {
-                "Dimension": {
-                  "value": 20.0,
-                  "raw_value": "20",
-                  "unit": "px",
-                  "raw_unit": "px",
-                  "type": "integer"
-                }
+              "value": {
+                "type": "Number",
+                "span": {
+                  "start": 21,
+                  "end": 23,
+                  "ctxt": 0
+                },
+                "value": 20.0,
+                "raw": "20"
+              },
+              "unit": {
+                "type": "Ident",
+                "span": {
+                  "start": 23,
+                  "end": 25,
+                  "ctxt": 0
+                },
+                "value": "px",
+                "raw": "px"
               }
             }
           ]

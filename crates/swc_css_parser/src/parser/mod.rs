@@ -33,6 +33,8 @@ pub struct ParserConfig {
 
 #[derive(Debug, Default, Clone, Copy)]
 struct Ctx {
+    as_component_value: bool,
+
     in_page_at_rule: bool,
 
     allow_operation_in_value: bool,

@@ -40,89 +40,71 @@
         {
           "type": "SimpleBlock",
           "span": {
-            "start": 6,
+            "start": 7,
             "end": 23,
             "ctxt": 0
           },
           "name": "(",
           "value": [
             {
-              "type": "Token",
-              "span": {
-                "start": 7,
-                "end": 8,
-                "ctxt": 0
-              },
-              "token": "LParen"
-            },
-            {
-              "type": "Token",
+              "type": "Ident",
               "span": {
                 "start": 8,
                 "end": 14,
                 "ctxt": 0
               },
-              "token": {
-                "Ident": {
-                  "value": "height",
-                  "raw": "height"
-                }
-              }
+              "value": "height",
+              "raw": "height"
             },
             {
-              "type": "Token",
-              "span": {
-                "start": 14,
-                "end": 15,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
-            },
-            {
-              "type": "Token",
+              "type": "Tokens",
               "span": {
                 "start": 15,
                 "end": 16,
                 "ctxt": 0
               },
-              "token": {
-                "Delim": {
-                  "value": "+"
+              "tokens": [
+                {
+                  "type": "Token",
+                  "span": {
+                    "start": 15,
+                    "end": 16,
+                    "ctxt": 0
+                  },
+                  "token": {
+                    "Delim": {
+                      "value": "+"
+                    }
+                  }
                 }
-              }
+              ]
             },
             {
-              "type": "Token",
-              "span": {
-                "start": 16,
-                "end": 17,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
-            },
-            {
-              "type": "Token",
+              "type": "Length",
               "span": {
                 "start": 17,
                 "end": 22,
                 "ctxt": 0
               },
-              "token": {
-                "Dimension": {
-                  "value": 600.0,
-                  "raw_value": "600",
-                  "unit": "px",
-                  "raw_unit": "px",
-                  "type": "integer"
-                }
+              "value": {
+                "type": "Number",
+                "span": {
+                  "start": 17,
+                  "end": 20,
+                  "ctxt": 0
+                },
+                "value": 600.0,
+                "raw": "600"
+              },
+              "unit": {
+                "type": "Ident",
+                "span": {
+                  "start": 20,
+                  "end": 22,
+                  "ctxt": 0
+                },
+                "value": "px",
+                "raw": "px"
               }
             }
           ]

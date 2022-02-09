@@ -4,3 +4,5 @@ error: Expected a number
 1 | @media (aspect-ratio: 12/) {}
   |                          ^
 
+error: Unexpected end of file
+

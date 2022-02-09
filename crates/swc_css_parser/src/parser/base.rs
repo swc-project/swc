@@ -193,28 +193,34 @@ where
                 // Reconsume the current input token. Consume a component value and append it to the
                 // value of the block.
                 _ => {
-                    let state = self.input.state();
-                    let ctx = Ctx {
-                        // TODO refactor me
-                        allow_operation_in_value: name == '(',
-                        ..self.ctx
-                    };
-                    let parsed = self.with_ctx(ctx).parse_one_value_inner();
-                    let value = match parsed {
-                        Ok(value) => {
-                            self.input.skip_ws()?;
+                    if self.ctx.as_component_value {
+                        let value = self.parse_component_value()?;
 
-                            value
-                        }
-                        Err(err) => {
-                            self.errors.push(err);
-                            self.input.reset(&state);
+                        simple_block.value.push(value);
+                    } else {
+                        let state = self.input.state();
+                        let ctx = Ctx {
+                            // TODO refactor me
+                            allow_operation_in_value: name == '(',
+                            ..self.ctx
+                        };
+                        let parsed = self.with_ctx(ctx).parse_one_value_inner();
+                        let value = match parsed {
+                            Ok(value) => {
+                                self.input.skip_ws()?;
 
-                            self.parse_component_value()?
-                        }
-                    };
+                                value
+                            }
+                            Err(err) => {
+                                self.errors.push(err);
+                                self.input.reset(&state);
 
-                    simple_block.value.push(value);
+                                self.parse_component_value()?
+                            }
+                        };
+
+                        simple_block.value.push(value);
+                    }
                 }
             }
         }

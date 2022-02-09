@@ -228,19 +228,6 @@
                   {
                     "type": "Token",
                     "span": {
-                      "start": 139,
-                      "end": 152,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": "\n            "
-                      }
-                    }
-                  },
-                  {
-                    "type": "Token",
-                    "span": {
                       "start": 152,
                       "end": 159,
                       "ctxt": 0
