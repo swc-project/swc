@@ -7,6 +7,18 @@
 
 - **(es/modules)** Use correct `StrKind` after rewriting import path (#3489) ([ff6eb27](https://github.com/swc-project/swc/commit/ff6eb272a00f0c11c9e916eb898e1b309bcb686c))
 
+### Features
+
+
+
+- **(css/parser)** Improve error recovery (#3486) ([48e5b90](https://github.com/swc-project/swc/commit/48e5b903e2b82e8fc741d125662bbac825d5b0d0))
+
+### Testing
+
+
+
+- **(css/parser)** Add tests from `postcss` (#3488) ([04782ae](https://github.com/swc-project/swc/commit/04782ae9f73193ec6cd15f7e7059c97143289169))
+
 ## [1.2.138] - 2022-02-08
 
 ### Bug Fixes
