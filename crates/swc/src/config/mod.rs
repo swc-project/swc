@@ -1090,7 +1090,7 @@ impl ModuleConfig {
                 let base_pass = module_hoister();
 
                 if paths.is_empty() {
-                    Box::new(modules::umd::umd(cm, root_mark, config))
+                    Box::new(chain!(base_pass, modules::umd::umd(cm, root_mark, config)))
                 } else {
                     let resolver = build_resolver(base_url, paths);
 
