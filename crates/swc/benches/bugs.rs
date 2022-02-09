@@ -6,8 +6,10 @@ extern crate test;
 
 use std::{fs::read_to_string, io::stderr, path::Path};
 
-use swc::config::{IsModule, Options};
+use swc::config::{Config, IsModule, Options};
 use swc_common::{errors::Handler, sync::Lrc, FilePathMapping, SourceMap};
+use swc_ecma_ast::EsVersion;
+use swc_ecma_parser::{EsConfig, Syntax};
 use test::Bencher;
 
 fn mk() -> swc::Compiler {
@@ -16,7 +18,7 @@ fn mk() -> swc::Compiler {
     swc::Compiler::new(cm)
 }
 
-fn bench_file(b: &mut Bencher, path: &Path) {
+fn bench_file(b: &mut Bencher, path: &Path, opts: Options) {
     let c = mk();
 
     b.bytes = read_to_string(&path).unwrap().len() as _;
@@ -26,22 +28,42 @@ fn bench_file(b: &mut Bencher, path: &Path) {
 
         let fm = c.cm.load_file(path).unwrap();
 
-        let result = {
-            c.process_js_file(
-                fm,
-                &handler,
-                &Options {
-                    is_module: IsModule::Bool(true),
-                    ..Default::default()
-                },
-            )
-            .unwrap()
-        };
+        let result = { c.process_js_file(fm, &handler, &opts).unwrap() };
         println!("{}", result.code);
     });
 }
 
 #[bench]
 fn bugs_1(b: &mut Bencher) {
-    bench_file(b, Path::new("benches/bugs/1/input.tsx"));
+    bench_file(
+        b,
+        Path::new("benches/bugs/1/input.tsx"),
+        Options {
+            is_module: IsModule::Bool(true),
+            ..Default::default()
+        },
+    );
+}
+
+#[bench]
+fn bun(b: &mut Bencher) {
+    bench_file(
+        b,
+        Path::new("benches/assets/bun-input.tsx"),
+        Options {
+            config: Config {
+                jsc: swc::config::JscConfig {
+                    syntax: Some(Syntax::Es(EsConfig {
+                        jsx: true,
+                        ..Default::default()
+                    })),
+                    target: Some(EsVersion::Es2022),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            is_module: IsModule::Bool(true),
+            ..Default::default()
+        },
+    );
 }
