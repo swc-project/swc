@@ -75,8 +75,7 @@ impl Mark {
     pub fn fresh(parent: Mark) -> Self {
         // Note: msvc tries to link against proxied fn for normal build,
         // have to limit build target to wasm only to avoid it.
-        #[cfg(feature = "plugin-mode")]
-        #[cfg(target_arch = "wasm32")]
+        #[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
         return Mark(unsafe {
             __mark_fresh_proxy(
                 parent
@@ -88,20 +87,12 @@ impl Mark {
             .expect("Should able to convert i32 into mark")
         });
 
-        #[cfg(not(feature = "plugin-mode"))]
-        return HygieneData::with(|data| {
-            data.marks.push(MarkData {
-                parent,
-                is_builtin: false,
-            });
-            Mark(data.marks.len() as u32 - 1)
-        });
-
         // https://github.com/swc-project/swc/pull/3492#discussion_r802224857
         // This is unreachable path for noraml execution. However for some
         // cases like running plugin's test without targeting wasm32-*, we'll
         // allow to not panic in here at least.
-        #[cfg(all(feature = "plugin-mode", not(target_arch = "wasm32")))]
+
+        #[cfg(not(all(feature = "plugin-mode", target_arch = "wasm32")))]
         return HygieneData::with(|data| {
             data.marks.push(MarkData {
                 parent,
