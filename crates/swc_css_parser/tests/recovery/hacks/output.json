@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 13,
-    "end": 4759,
+    "end": 4857,
     "ctxt": 0
   },
   "rules": [
@@ -14215,6 +14215,320 @@
         },
         "name": "{",
         "value": []
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 4760,
+        "end": 4856,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 4760,
+          "end": 4761,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 4760,
+              "end": 4761,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 4760,
+                  "end": 4761,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": {
+                  "type": "TagNameSelector",
+                  "span": {
+                    "start": 4760,
+                    "end": 4761,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "WqName",
+                    "span": {
+                      "start": 4760,
+                      "end": 4761,
+                      "ctxt": 0
+                    },
+                    "prefix": null,
+                    "value": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 4760,
+                        "end": 4761,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "raw": "a"
+                    }
+                  }
+                },
+                "subclassSelectors": []
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "Block",
+        "span": {
+          "start": 4762,
+          "end": 4856,
+          "ctxt": 0
+        },
+        "value": [
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 4768,
+              "end": 4782,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 4768,
+                  "end": 4769,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "*"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 4769,
+                  "end": 4774,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "color",
+                    "raw": "color"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 4774,
+                  "end": 4775,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 4775,
+                  "end": 4776,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 4776,
+                  "end": 4777,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 4777,
+                  "end": 4782,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "black",
+                    "raw": "black"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 4788,
+              "end": 4806,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 4788,
+                "end": 4799,
+                "ctxt": 0
+              },
+              "value": "_background",
+              "raw": "_background"
+            },
+            "value": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 4801,
+                  "end": 4806,
+                  "ctxt": 0
+                },
+                "value": "white",
+                "raw": "white"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 4812,
+              "end": 4830,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 4812,
+                "end": 4821,
+                "ctxt": 0
+              },
+              "value": "font-size",
+              "raw": "font-size"
+            },
+            "value": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 4827,
+                  "end": 4830,
+                  "ctxt": 0
+                },
+                "value": "big",
+                "raw": "big"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 4836,
+              "end": 4853,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "span": {
+                  "start": 4836,
+                  "end": 4837,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "$"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 4837,
+                  "end": 4838,
+                  "ctxt": 0
+                },
+                "token": "LParen"
+              },
+              {
+                "span": {
+                  "start": 4838,
+                  "end": 4841,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "var",
+                    "raw": "var"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 4841,
+                  "end": 4842,
+                  "ctxt": 0
+                },
+                "token": "RParen"
+              },
+              {
+                "span": {
+                  "start": 4842,
+                  "end": 4847,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "-size",
+                    "raw": "-size"
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 4847,
+                  "end": 4848,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "span": {
+                  "start": 4848,
+                  "end": 4849,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "span": {
+                  "start": 4849,
+                  "end": 4853,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Percentage": {
+                    "value": 100.0,
+                    "raw": "100"
+                  }
+                }
+              }
+            ]
+          }
+        ]
       }
     }
   ]
