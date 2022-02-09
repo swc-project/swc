@@ -390,9 +390,7 @@ where
         if !is!(self, EOF) {
             match is_dashed_ident {
                 true => {
-                    let tokens = Value::Tokens(self.parse_declaration_value()?);
-
-                    value.push(tokens);
+                    value.extend(self.parse_declaration_value()?);
                 }
                 false => {
                     let ctx = Ctx {
