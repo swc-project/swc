@@ -91,29 +91,19 @@
             },
             "value": [
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 26,
                   "end": 30,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 26,
-                      "end": 30,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Hash": {
-                        "is_id": false,
-                        "value": "06c",
-                        "raw": "06c"
-                      }
-                    }
+                "token": {
+                  "Hash": {
+                    "is_id": false,
+                    "value": "06c",
+                    "raw": "06c"
                   }
-                ]
+                }
               }
             ],
             "important": null
@@ -137,29 +127,19 @@
             },
             "value": [
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 52,
                   "end": 56,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 52,
-                      "end": 56,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Hash": {
-                        "is_id": false,
-                        "value": "006",
-                        "raw": "006"
-                      }
-                    }
+                "token": {
+                  "Hash": {
+                    "is_id": false,
+                    "value": "006",
+                    "raw": "006"
                   }
-                ]
+                }
               }
             ],
             "important": null
@@ -251,28 +231,18 @@
             },
             "value": [
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 84,
                   "end": 88,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 84,
-                      "end": 88,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Ident": {
-                        "value": "blue",
-                        "raw": "blue"
-                      }
-                    }
+                "token": {
+                  "Ident": {
+                    "value": "blue",
+                    "raw": "blue"
                   }
-                ]
+                }
               }
             ],
             "important": null

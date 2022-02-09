@@ -15,10 +15,8 @@ where
     I: ParserInput,
 {
     /// Parse value as <declaration-value>.
-    pub(super) fn parse_declaration_value(&mut self) -> PResult<Tokens> {
-        let start = self.input.cur_span()?.lo;
-
-        let mut tokens = vec![];
+    pub(super) fn parse_declaration_value(&mut self) -> PResult<Vec<Value>> {
+        let mut values = vec![];
         let mut balance_stack: Vec<Option<char>> = vec![];
 
         // The <declaration-value> production matches any sequence of one or more
@@ -84,15 +82,12 @@ where
             let token = self.input.bump()?;
 
             match token {
-                Some(token) => tokens.push(token),
+                Some(token) => values.push(Value::PerservedToken(token)),
                 None => break,
             }
         }
 
-        Ok(Tokens {
-            span: span!(self, start),
-            tokens,
-        })
+        Ok(values)
     }
 
     /// Parse value as <any-value>.

@@ -97,28 +97,18 @@
             },
             "value": [
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 17,
                   "end": 53,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 17,
-                      "end": 53,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Str": {
-                        "value": "http://www.example.com/pinkish.gif",
-                        "raw": "\"http://www.example.com/pinkish.gif\""
-                      }
-                    }
+                "token": {
+                  "Str": {
+                    "value": "http://www.example.com/pinkish.gif",
+                    "raw": "\"http://www.example.com/pinkish.gif\""
                   }
-                ]
+                }
               }
             ],
             "important": null

@@ -368,9 +368,9 @@ where
 
         match is_dashed_ident {
             true => {
-                let tokens = Value::Tokens(self.parse_declaration_value()?);
+                let tokens = self.parse_declaration_value()?;
 
-                value.push(tokens);
+                value.extend(tokens);
             }
             false => {
                 loop {
