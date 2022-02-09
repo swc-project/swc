@@ -128,10 +128,10 @@ impl Visit for DotNotation {
     fn visit_member_prop(&mut self, member: &MemberProp) {
         if let MemberProp::Computed(prop) = member {
             match &*prop.expr {
-                Expr::Lit(Lit::Str(Str { value, span, .. })) => {
-                    let quote_type = resolve_string_quote_type(&self.source_map, span).unwrap();
+                Expr::Lit(Lit::Str(lit_str)) => {
+                    let quote_type = resolve_string_quote_type(&self.source_map, lit_str).unwrap();
 
-                    self.check(prop.span, quote_type, &*value);
+                    self.check(prop.span, quote_type, &*lit_str.value);
                 }
                 Expr::Member(member) => {
                     member.visit_children_with(self);

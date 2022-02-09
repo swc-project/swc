@@ -100,8 +100,10 @@ impl Quotes {
         false
     }
 
-    fn check_str(&self, is_method_key_check: bool, Str { span, value, .. }: &Str) {
-        let found_quote_type = resolve_string_quote_type(&self.source_map, span).unwrap();
+    fn check_str(&self, is_method_key_check: bool, lit_str: &Str) {
+        let found_quote_type = resolve_string_quote_type(&self.source_map, lit_str).unwrap();
+
+        let Str { span, value, .. } = lit_str;
 
         match (&self.prefer, &found_quote_type) {
             (QuotesType::Double, QuotesType::Single) => {

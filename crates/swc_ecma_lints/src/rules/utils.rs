@@ -1,7 +1,8 @@
 use std::{fmt::Debug, sync::Arc};
 
 use serde::{Deserialize, Serialize};
-use swc_common::{SourceMap, Span};
+use swc_common::SourceMap;
+use swc_ecma_ast::Str;
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
@@ -27,8 +28,8 @@ impl QuotesType {
     }
 }
 
-pub fn resolve_string_quote_type(source_map: &Arc<SourceMap>, span: &Span) -> Option<QuotesType> {
-    let quote = source_map.lookup_byte_offset(span.lo);
+pub fn resolve_string_quote_type(source_map: &Arc<SourceMap>, lit_str: &Str) -> Option<QuotesType> {
+    let quote = source_map.lookup_byte_offset(lit_str.span.lo);
     let quote_index = quote.pos.0;
     let src = &quote.sf.src;
     let byte = src.as_bytes()[quote_index as usize];
