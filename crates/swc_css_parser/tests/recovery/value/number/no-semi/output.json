@@ -135,23 +135,13 @@
                 "raw": "prop1"
               },
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 31,
                   "end": 32,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 31,
-                      "end": 32,
-                      "ctxt": 0
-                    },
-                    "token": "Colon"
-                  }
-                ]
+                "token": "Colon"
               },
               {
                 "type": "Length",
@@ -192,23 +182,13 @@
                 "raw": "prop2"
               },
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 47,
                   "end": 48,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 47,
-                      "end": 48,
-                      "ctxt": 0
-                    },
-                    "token": "Colon"
-                  }
-                ]
+                "token": "Colon"
               },
               {
                 "type": "Number",
@@ -231,23 +211,13 @@
                 "raw": "prop3"
               },
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 61,
                   "end": 62,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 61,
-                      "end": 62,
-                      "ctxt": 0
-                    },
-                    "token": "Colon"
-                  }
-                ]
+                "token": "Colon"
               },
               {
                 "type": "Number",

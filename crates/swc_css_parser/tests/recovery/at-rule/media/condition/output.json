@@ -57,23 +57,13 @@
               "raw": "update"
             },
             {
-              "type": "Tokens",
+              "type": "Token",
               "span": {
                 "start": 14,
                 "end": 15,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "Token",
-                  "span": {
-                    "start": 14,
-                    "end": 15,
-                    "ctxt": 0
-                  },
-                  "token": "Colon"
-                }
-              ]
+              "token": "Colon"
             },
             {
               "type": "Ident",
@@ -147,23 +137,13 @@
               "raw": "hover"
             },
             {
-              "type": "Tokens",
+              "type": "Token",
               "span": {
                 "start": 36,
                 "end": 37,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "Token",
-                  "span": {
-                    "start": 36,
-                    "end": 37,
-                    "ctxt": 0
-                  },
-                  "token": "Colon"
-                }
-              ]
+              "token": "Colon"
             },
             {
               "type": "Ident",

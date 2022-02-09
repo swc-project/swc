@@ -224,10 +224,7 @@ where
             _ => {
                 let token = self.input.bump()?.unwrap();
 
-                Ok(Value::Tokens(Tokens {
-                    span,
-                    tokens: vec![token],
-                }))
+                Ok(Value::PerservedToken(token))
             }
         }
     }

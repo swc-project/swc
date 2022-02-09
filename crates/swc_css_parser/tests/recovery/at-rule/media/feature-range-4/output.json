@@ -75,50 +75,30 @@
               }
             },
             {
-              "type": "Tokens",
+              "type": "Token",
               "span": {
                 "start": 14,
                 "end": 15,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "Token",
-                  "span": {
-                    "start": 14,
-                    "end": 15,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "Delim": {
-                      "value": ">"
-                    }
-                  }
+              "token": {
+                "Delim": {
+                  "value": ">"
                 }
-              ]
+              }
             },
             {
-              "type": "Tokens",
+              "type": "Token",
               "span": {
                 "start": 15,
                 "end": 16,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "Token",
-                  "span": {
-                    "start": 15,
-                    "end": 16,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "Delim": {
-                      "value": "="
-                    }
-                  }
+              "token": {
+                "Delim": {
+                  "value": "="
                 }
-              ]
+              }
             },
             {
               "type": "Ident",
@@ -131,27 +111,17 @@
               "raw": "width"
             },
             {
-              "type": "Tokens",
+              "type": "Token",
               "span": {
                 "start": 23,
                 "end": 24,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "Token",
-                  "span": {
-                    "start": 23,
-                    "end": 24,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "Delim": {
-                      "value": "!"
-                    }
-                  }
+              "token": {
+                "Delim": {
+                  "value": "!"
                 }
-              ]
+              }
             },
             {
               "type": "Length",

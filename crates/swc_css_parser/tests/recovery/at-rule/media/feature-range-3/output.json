@@ -75,50 +75,30 @@
               }
             },
             {
-              "type": "Tokens",
+              "type": "Token",
               "span": {
                 "start": 14,
                 "end": 15,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "Token",
-                  "span": {
-                    "start": 14,
-                    "end": 15,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "Delim": {
-                      "value": ">"
-                    }
-                  }
+              "token": {
+                "Delim": {
+                  "value": ">"
                 }
-              ]
+              }
             },
             {
-              "type": "Tokens",
+              "type": "Token",
               "span": {
                 "start": 16,
                 "end": 17,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "Token",
-                  "span": {
-                    "start": 16,
-                    "end": 17,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "Delim": {
-                      "value": "="
-                    }
-                  }
+              "token": {
+                "Delim": {
+                  "value": "="
                 }
-              ]
+              }
             },
             {
               "type": "Ident",
@@ -131,50 +111,30 @@
               "raw": "width"
             },
             {
-              "type": "Tokens",
+              "type": "Token",
               "span": {
                 "start": 24,
                 "end": 25,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "Token",
-                  "span": {
-                    "start": 24,
-                    "end": 25,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "Delim": {
-                      "value": ">"
-                    }
-                  }
+              "token": {
+                "Delim": {
+                  "value": ">"
                 }
-              ]
+              }
             },
             {
-              "type": "Tokens",
+              "type": "Token",
               "span": {
                 "start": 26,
                 "end": 27,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "Token",
-                  "span": {
-                    "start": 26,
-                    "end": 27,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "Delim": {
-                      "value": "="
-                    }
-                  }
+              "token": {
+                "Delim": {
+                  "value": "="
                 }
-              ]
+              }
             },
             {
               "type": "Length",

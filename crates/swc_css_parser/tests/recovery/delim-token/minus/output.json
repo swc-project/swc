@@ -97,27 +97,17 @@
             },
             "value": [
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 14,
                   "end": 15,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 14,
-                      "end": 15,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Delim": {
-                        "value": "-"
-                      }
-                    }
+                "token": {
+                  "Delim": {
+                    "value": "-"
                   }
-                ]
+                }
               }
             ],
             "important": null
@@ -151,27 +141,17 @@
                 "raw": "1"
               },
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 30,
                   "end": 31,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 30,
-                      "end": 31,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Delim": {
-                        "value": "-"
-                      }
-                    }
+                "token": {
+                  "Delim": {
+                    "value": "-"
                   }
-                ]
+                }
               },
               {
                 "type": "Number",
@@ -233,27 +213,17 @@
                     "raw": "1"
                   },
                   {
-                    "type": "Tokens",
+                    "type": "Token",
                     "span": {
                       "start": 53,
                       "end": 54,
                       "ctxt": 0
                     },
-                    "tokens": [
-                      {
-                        "type": "Token",
-                        "span": {
-                          "start": 53,
-                          "end": 54,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "-"
-                          }
-                        }
+                    "token": {
+                      "Delim": {
+                        "value": "-"
                       }
-                    ]
+                    }
                   },
                   {
                     "type": "Number",

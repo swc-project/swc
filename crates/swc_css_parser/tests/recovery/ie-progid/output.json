@@ -107,23 +107,13 @@
                 "raw": "progid"
               },
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 21,
                   "end": 22,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 21,
-                      "end": 22,
-                      "ctxt": 0
-                    },
-                    "token": "Colon"
-                  }
-                ]
+                "token": "Colon"
               },
               {
                 "type": "Ident",
@@ -136,27 +126,17 @@
                 "raw": "DXImageTransform"
               },
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 38,
                   "end": 39,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 38,
-                      "end": 39,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Delim": {
-                        "value": "."
-                      }
-                    }
+                "token": {
+                  "Delim": {
+                    "value": "."
                   }
-                ]
+                }
               },
               {
                 "type": "Ident",
@@ -169,27 +149,17 @@
                 "raw": "Microsoft"
               },
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 48,
                   "end": 49,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 48,
-                      "end": 49,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Delim": {
-                        "value": "."
-                      }
-                    }
+                "token": {
+                  "Delim": {
+                    "value": "."
                   }
-                ]
+                }
               },
               {
                 "type": "Function",
@@ -220,27 +190,17 @@
                     "raw": "startColorstr"
                   },
                   {
-                    "type": "Tokens",
+                    "type": "Token",
                     "span": {
                       "start": 71,
                       "end": 72,
                       "ctxt": 0
                     },
-                    "tokens": [
-                      {
-                        "type": "Token",
-                        "span": {
-                          "start": 71,
-                          "end": 72,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "="
-                          }
-                        }
+                    "token": {
+                      "Delim": {
+                        "value": "="
                       }
-                    ]
+                    }
                   },
                   {
                     "type": "String",
@@ -272,27 +232,17 @@
                     "raw": "endColorstr"
                   },
                   {
-                    "type": "Tokens",
+                    "type": "Token",
                     "span": {
                       "start": 93,
                       "end": 94,
                       "ctxt": 0
                     },
-                    "tokens": [
-                      {
-                        "type": "Token",
-                        "span": {
-                          "start": 93,
-                          "end": 94,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "="
-                          }
-                        }
+                    "token": {
+                      "Delim": {
+                        "value": "="
                       }
-                    ]
+                    }
                   },
                   {
                     "type": "String",
@@ -324,27 +274,17 @@
                     "raw": "GradientType"
                   },
                   {
-                    "type": "Tokens",
+                    "type": "Token",
                     "span": {
                       "start": 116,
                       "end": 117,
                       "ctxt": 0
                     },
-                    "tokens": [
-                      {
-                        "type": "Token",
-                        "span": {
-                          "start": 116,
-                          "end": 117,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "="
-                          }
-                        }
+                    "token": {
+                      "Delim": {
+                        "value": "="
                       }
-                    ]
+                    }
                   },
                   {
                     "type": "Number",
@@ -390,23 +330,13 @@
                 "raw": "progid"
               },
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 139,
                   "end": 140,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 139,
-                      "end": 140,
-                      "ctxt": 0
-                    },
-                    "token": "Colon"
-                  }
-                ]
+                "token": "Colon"
               },
               {
                 "type": "Ident",
@@ -419,27 +349,17 @@
                 "raw": "DXImageTransform"
               },
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 156,
                   "end": 157,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 156,
-                      "end": 157,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Delim": {
-                        "value": "."
-                      }
-                    }
+                "token": {
+                  "Delim": {
+                    "value": "."
                   }
-                ]
+                }
               },
               {
                 "type": "Ident",
@@ -452,27 +372,17 @@
                 "raw": "Microsoft"
               },
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 166,
                   "end": 167,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 166,
-                      "end": 167,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Delim": {
-                        "value": "."
-                      }
-                    }
+                "token": {
+                  "Delim": {
+                    "value": "."
                   }
-                ]
+                }
               },
               {
                 "type": "Function",
@@ -503,27 +413,17 @@
                     "raw": "pixelradius"
                   },
                   {
-                    "type": "Tokens",
+                    "type": "Token",
                     "span": {
                       "start": 183,
                       "end": 184,
                       "ctxt": 0
                     },
-                    "tokens": [
-                      {
-                        "type": "Token",
-                        "span": {
-                          "start": 183,
-                          "end": 184,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "="
-                          }
-                        }
+                    "token": {
+                      "Delim": {
+                        "value": "="
                       }
-                    ]
+                    }
                   },
                   {
                     "type": "Number",
@@ -548,23 +448,13 @@
                 "raw": "progid"
               },
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 193,
                   "end": 194,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 193,
-                      "end": 194,
-                      "ctxt": 0
-                    },
-                    "token": "Colon"
-                  }
-                ]
+                "token": "Colon"
               },
               {
                 "type": "Ident",
@@ -577,27 +467,17 @@
                 "raw": "DXImageTransform"
               },
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 210,
                   "end": 211,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 210,
-                      "end": 211,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Delim": {
-                        "value": "."
-                      }
-                    }
+                "token": {
+                  "Delim": {
+                    "value": "."
                   }
-                ]
+                }
               },
               {
                 "type": "Ident",
@@ -610,27 +490,17 @@
                 "raw": "Microsoft"
               },
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 220,
                   "end": 221,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 220,
-                      "end": 221,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Delim": {
-                        "value": "."
-                      }
-                    }
+                "token": {
+                  "Delim": {
+                    "value": "."
                   }
-                ]
+                }
               },
               {
                 "type": "Function",
@@ -661,27 +531,17 @@
                     "raw": "duration"
                   },
                   {
-                    "type": "Tokens",
+                    "type": "Token",
                     "span": {
                       "start": 235,
                       "end": 236,
                       "ctxt": 0
                     },
-                    "tokens": [
-                      {
-                        "type": "Token",
-                        "span": {
-                          "start": 235,
-                          "end": 236,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "="
-                          }
-                        }
+                    "token": {
+                      "Delim": {
+                        "value": "="
                       }
-                    ]
+                    }
                   },
                   {
                     "type": "Number",

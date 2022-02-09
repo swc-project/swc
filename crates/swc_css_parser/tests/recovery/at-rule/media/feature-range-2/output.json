@@ -75,27 +75,17 @@
               }
             },
             {
-              "type": "Tokens",
+              "type": "Token",
               "span": {
                 "start": 14,
                 "end": 15,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "Token",
-                  "span": {
-                    "start": 14,
-                    "end": 15,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "Delim": {
-                      "value": ">"
-                    }
-                  }
+              "token": {
+                "Delim": {
+                  "value": ">"
                 }
-              ]
+              }
             },
             {
               "type": "String",
@@ -108,27 +98,17 @@
               "raw": "\"width\""
             },
             {
-              "type": "Tokens",
+              "type": "Token",
               "span": {
                 "start": 24,
                 "end": 25,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "Token",
-                  "span": {
-                    "start": 24,
-                    "end": 25,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "Delim": {
-                      "value": ">"
-                    }
-                  }
+              "token": {
+                "Delim": {
+                  "value": ">"
                 }
-              ]
+              }
             },
             {
               "type": "Length",

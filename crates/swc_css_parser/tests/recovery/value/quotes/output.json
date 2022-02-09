@@ -117,28 +117,18 @@
             },
             "value": [
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 25,
                   "end": 29,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 25,
-                      "end": 29,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "BadStr": {
-                        "value": "tes",
-                        "raw": "\"tes"
-                      }
-                    }
+                "token": {
+                  "BadStr": {
+                    "value": "tes",
+                    "raw": "\"tes"
                   }
-                ]
+                }
               },
               {
                 "type": "Ident",
@@ -151,28 +141,18 @@
                 "raw": "t"
               },
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 35,
                   "end": 37,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 35,
-                      "end": 37,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "BadStr": {
-                        "value": ";",
-                        "raw": "\";"
-                      }
-                    }
+                "token": {
+                  "BadStr": {
+                    "value": ";",
+                    "raw": "\";"
                   }
-                ]
+                }
               }
             ],
             "important": null

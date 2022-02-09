@@ -97,30 +97,20 @@
             },
             "value": [
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 26,
                   "end": 50,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 26,
-                      "end": 50,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "BadUrl": {
-                        "name": "url",
-                        "raw_name": "url",
-                        "value": "   ./image.jpg  a  ",
-                        "raw_value": "   ./image.jpg  a  "
-                      }
-                    }
+                "token": {
+                  "BadUrl": {
+                    "name": "url",
+                    "raw_name": "url",
+                    "value": "   ./image.jpg  a  ",
+                    "raw_value": "   ./image.jpg  a  "
                   }
-                ]
+                }
               }
             ],
             "important": null

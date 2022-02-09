@@ -132,30 +132,20 @@
             },
             "value": [
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 71,
                   "end": 85,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 71,
-                      "end": 85,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "BadUrl": {
-                        "name": "url",
-                        "raw_name": "url",
-                        "value": "var(--foo",
-                        "raw_value": "var(--foo"
-                      }
-                    }
+                "token": {
+                  "BadUrl": {
+                    "name": "url",
+                    "raw_name": "url",
+                    "value": "var(--foo",
+                    "raw_value": "var(--foo"
                   }
-                ]
+                }
               }
             ],
             "important": null

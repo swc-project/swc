@@ -97,28 +97,18 @@
             },
             "value": [
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 11,
                   "end": 22,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 11,
-                      "end": 22,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "AtKeyword": {
-                        "value": "keyword",
-                        "raw": "\\6b eyword"
-                      }
-                    }
+                "token": {
+                  "AtKeyword": {
+                    "value": "keyword",
+                    "raw": "\\6b eyword"
                   }
-                ]
+                }
               }
             ],
             "important": null

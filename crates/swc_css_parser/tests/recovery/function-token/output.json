@@ -126,23 +126,13 @@
                 "modifiers": []
               },
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 26,
                   "end": 27,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 26,
-                      "end": 27,
-                      "ctxt": 0
-                    },
-                    "token": "Colon"
-                  }
-                ]
+                "token": "Colon"
               }
             ],
             "important": null

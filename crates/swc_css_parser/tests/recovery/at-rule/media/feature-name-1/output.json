@@ -75,23 +75,13 @@
               }
             },
             {
-              "type": "Tokens",
+              "type": "Token",
               "span": {
                 "start": 12,
                 "end": 13,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "Token",
-                  "span": {
-                    "start": 12,
-                    "end": 13,
-                    "ctxt": 0
-                  },
-                  "token": "Colon"
-                }
-              ]
+              "token": "Colon"
             },
             {
               "type": "Length",

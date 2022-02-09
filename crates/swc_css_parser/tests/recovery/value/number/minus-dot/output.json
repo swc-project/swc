@@ -107,27 +107,17 @@
                 "raw": "-0"
               },
               {
-                "type": "Tokens",
+                "type": "Token",
                 "span": {
                   "start": 13,
                   "end": 14,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "Token",
-                    "span": {
-                      "start": 13,
-                      "end": 14,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Delim": {
-                        "value": "."
-                      }
-                    }
+                "token": {
+                  "Delim": {
+                    "value": "."
                   }
-                ]
+                }
               }
             ],
             "important": null

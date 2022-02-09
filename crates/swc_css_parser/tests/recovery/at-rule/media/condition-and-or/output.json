@@ -111,23 +111,13 @@
               "raw": "min-width"
             },
             {
-              "type": "Tokens",
+              "type": "Token",
               "span": {
                 "start": 28,
                 "end": 29,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "Token",
-                  "span": {
-                    "start": 28,
-                    "end": 29,
-                    "ctxt": 0
-                  },
-                  "token": "Colon"
-                }
-              ]
+              "token": "Colon"
             },
             {
               "type": "Length",
@@ -219,23 +209,13 @@
               "raw": "min-width"
             },
             {
-              "type": "Tokens",
+              "type": "Token",
               "span": {
                 "start": 50,
                 "end": 51,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "Token",
-                  "span": {
-                    "start": 50,
-                    "end": 51,
-                    "ctxt": 0
-                  },
-                  "token": "Colon"
-                }
-              ]
+              "token": "Colon"
             },
             {
               "type": "Length",

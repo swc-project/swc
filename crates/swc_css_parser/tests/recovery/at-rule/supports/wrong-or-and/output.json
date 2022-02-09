@@ -57,23 +57,13 @@
               "raw": "transition-property"
             },
             {
-              "type": "Tokens",
+              "type": "Token",
               "span": {
                 "start": 30,
                 "end": 31,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "Token",
-                  "span": {
-                    "start": 30,
-                    "end": 31,
-                    "ctxt": 0
-                  },
-                  "token": "Colon"
-                }
-              ]
+              "token": "Colon"
             },
             {
               "type": "Ident",
@@ -147,23 +137,13 @@
               "raw": "animation-name"
             },
             {
-              "type": "Tokens",
+              "type": "Token",
               "span": {
                 "start": 57,
                 "end": 58,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "Token",
-                  "span": {
-                    "start": 57,
-                    "end": 58,
-                    "ctxt": 0
-                  },
-                  "token": "Colon"
-                }
-              ]
+              "token": "Colon"
             },
             {
               "type": "Ident",
@@ -237,23 +217,13 @@
               "raw": "transform"
             },
             {
-              "type": "Tokens",
+              "type": "Token",
               "span": {
                 "start": 78,
                 "end": 79,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "type": "Token",
-                  "span": {
-                    "start": 78,
-                    "end": 79,
-                    "ctxt": 0
-                  },
-                  "token": "Colon"
-                }
-              ]
+              "token": "Colon"
             },
             {
               "type": "Function",
