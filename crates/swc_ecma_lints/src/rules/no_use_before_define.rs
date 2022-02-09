@@ -205,9 +205,7 @@ impl Visit for NoUseBeforeDefine {
         let es6_var_check = !matches!(&var_decl.kind, VarDeclKind::Var);
 
         var_decl.decls.iter().for_each(|declarator| {
-            if let Some(init) = &declarator.init {
-                init.visit_children_with(self);
-            }
+            declarator.init.visit_with(self);
 
             if let VarDeclKind::Var = var_decl.kind {
                 if !self.check_vars {
@@ -223,11 +221,15 @@ impl Visit for NoUseBeforeDefine {
         if self.check_functions {
             self.check_ident(false, &function.ident);
         }
+
+        function.visit_children_with(self);
     }
 
     fn visit_class_decl(&mut self, class: &ClassDecl) {
         if self.check_classes {
             self.check_ident(false, &class.ident);
         }
+
+        class.visit_children_with(self);
     }
 }

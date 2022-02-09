@@ -40,6 +40,12 @@ error: 'a' was used before it was defined
 18 |     [a]: "",
    |      ^
 
+error: 'b' was used before it was defined
+  
+   |
+25 |     alert(b);
+   |           ^
+
 error: 'a1' was used before it was defined
   
    |
