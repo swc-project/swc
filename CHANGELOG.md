@@ -5,6 +5,14 @@
 
 
 
+- **(es/modules)** Use correct `StrKind` after rewriting import path (#3489) ([ff6eb27](https://github.com/swc-project/swc/commit/ff6eb272a00f0c11c9e916eb898e1b309bcb686c))
+
+## [1.2.138] - 2022-02-08
+
+### Bug Fixes
+
+
+
 - **(es/minifier)** Make `sequences` less aggressive (#3480) ([292add7](https://github.com/swc-project/swc/commit/292add7d26a079a1da09ff94444124faea8e39fc))
 
 ### Features
