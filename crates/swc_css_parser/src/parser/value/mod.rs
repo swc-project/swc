@@ -61,18 +61,23 @@ where
                 {
                     self.input.reset(&start);
 
-                    let mut tokens = vec![];
+                    let mut value = vec![];
+                    
                     while !is_one_of!(self, EOF, ";", "}", "!", ")", "]") {
-                        tokens.extend(self.input.bump()?);
+                        let token = self.input.bump()?;
+
+                        match token {
+                            Some(token) => value.push(Value::PreservedToken(token)),
+                            None => break,
+                        }
                     }
 
                     let span = span!(self, start_pos);
-                    let v = Value::Tokens(Tokens { span, tokens });
 
                     self.errors
                         .push(Error::new(span, ErrorKind::InvalidDeclarationValue));
 
-                    return Ok((vec![v], hi));
+                    return Ok((value, hi));
                 }
 
                 break;
@@ -349,7 +354,6 @@ where
 
         expect!(self, "{");
 
-        let brace_start = self.input.cur_span()?.lo;
         let mut value = vec![];
 
         let mut brace_cnt = 1;

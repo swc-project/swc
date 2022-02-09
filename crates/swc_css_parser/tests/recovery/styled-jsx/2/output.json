@@ -192,41 +192,31 @@
             },
             "value": [
               {
-                "type": "Tokens",
+                "type": "PreservedToken",
                 "span": {
                   "start": 35,
+                  "end": 62,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "__styled-jsx-placeholder__0",
+                    "raw": "__styled-jsx-placeholder__0"
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 62,
                   "end": 63,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "type": "PreservedToken",
-                    "span": {
-                      "start": 35,
-                      "end": 62,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Ident": {
-                        "value": "__styled-jsx-placeholder__0",
-                        "raw": "__styled-jsx-placeholder__0"
-                      }
-                    }
-                  },
-                  {
-                    "type": "PreservedToken",
-                    "span": {
-                      "start": 62,
-                      "end": 63,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Delim": {
-                        "value": "%"
-                      }
-                    }
+                "token": {
+                  "Delim": {
+                    "value": "%"
                   }
-                ]
+                }
               }
             ],
             "important": null
