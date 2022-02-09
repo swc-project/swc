@@ -1,18 +1,20 @@
+use std::{
+    fmt::{self, Debug},
+    sync::Arc,
+};
+
+use dashmap::DashMap;
+use regex::Regex;
+use serde::{Deserialize, Serialize};
+use swc_common::{errors::HANDLER, sync::Lazy, SourceMap, Span};
+use swc_ecma_ast::*;
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+
 use crate::{
     config::{LintRuleReaction, RuleConfig},
     rule::{visitor_rule, Rule},
     rules::utils::{resolve_string_quote_type, QuotesType},
 };
-use dashmap::DashMap;
-use regex::Regex;
-use serde::{Deserialize, Serialize};
-use std::{
-    fmt::{self, Debug},
-    sync::Arc,
-};
-use swc_common::{errors::HANDLER, sync::Lazy, SourceMap, Span};
-use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 const INVALID_REGEX_MESSAGE: &str = "dotNotation: invalid regex pattern in allowPattern. Check syntax documentation https://docs.rs/regex/latest/regex/#syntax";
 

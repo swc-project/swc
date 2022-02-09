@@ -1,5 +1,6 @@
-use serde::{Deserialize, Serialize};
 use std::{fmt::Debug, sync::Arc};
+
+use serde::{Deserialize, Serialize};
 use swc_common::{SourceMap, Span};
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]

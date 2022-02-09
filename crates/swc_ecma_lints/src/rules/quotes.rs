@@ -1,9 +1,3 @@
-use crate::{
-    config::{LintRuleReaction, RuleConfig},
-    rule::{visitor_rule, Rule},
-    rules::utils::{resolve_string_quote_type, QuotesType},
-};
-use serde::{Deserialize, Serialize};
 use std::{
     fmt::{self, Debug},
     sync::Arc,
@@ -17,6 +11,7 @@ use swc_ecma_visit::{noop_visit_type, Visit};
 use crate::{
     config::{LintRuleReaction, RuleConfig},
     rule::{visitor_rule, Rule},
+    rules::utils::{resolve_string_quote_type, QuotesType},
 };
 
 const MUST_USE_SINGLE_QUOTES_MESSAGE: &str = "String must use singlequotes";
