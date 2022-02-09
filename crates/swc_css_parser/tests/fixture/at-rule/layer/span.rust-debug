@@ -598,6 +598,12 @@ error: Dimension
 17 | .sidebar { animation: slide-left 300ms; }
    |                                  ^^^^^
 
+error: Time
+  --> $DIR/tests/fixture/at-rule/layer/input.css:17:34
+   |
+17 | .sidebar { animation: slide-left 300ms; }
+   |                                  ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/at-rule/layer/input.css:17:34
    |
@@ -1403,6 +1409,12 @@ error: Value
    |                           ^^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/layer/input.css:40:27
+   |
+40 |         p { margin-block: 0.75em; }
+   |                           ^^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/layer/input.css:40:27
    |
 40 |         p { margin-block: 0.75em; }

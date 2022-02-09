@@ -322,6 +322,13 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(DashedIdent, visit_dashed_ident);
     mtd!(Tokens, visit_tokens);
     mtd!(Dimension, visit_dimension);
+    mtd!(Length, visit_length);
+    mtd!(Angle, visit_angle);
+    mtd!(Time, visit_time);
+    mtd!(Frequency, visit_frequency);
+    mtd!(Resolution, visit_resolution);
+    mtd!(Flex, visit_flex);
+    mtd!(UnknownDimension, visit_unknown_dimension);
     mtd!(Url, visit_url);
     mtd!(UrlValue, visit_url_value);
     mtd!(UrlValueRaw, visit_url_value_raw);
@@ -392,6 +399,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(ColorProfileName, visit_color_profile_name);
     mtd!(ColorProfileRule, visit_color_profile_rule);
     mtd!(CounterStyleRule, visit_counter_style_rule);
+    mtd!(PropertyRule, visit_property_rule);
 
     fn visit_token_and_span(&mut self, n: &TokenAndSpan) {
         self.handler

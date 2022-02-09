@@ -6,9 +6,9 @@ error: Stylesheet
 3  | | foo|* {}
 4  | | |h1 {}
 ...  |
-22 | | *::before {}
-23 | | * *:not(*) {}
-   | |______________^
+29 | |     color: \\;
+30 | | }
+   | |__^
 
 error: Rule
  --> $DIR/tests/fixture/selector/type/input.css:1:1
@@ -1610,5 +1610,284 @@ error: Block
   --> $DIR/tests/fixture/selector/type/input.css:23:12
    |
 23 | * *:not(*) {}
+   |            ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/type/input.css:24:1
+   |
+24 | a/**/{}
+   | ^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/type/input.css:24:1
+   |
+24 | a/**/{}
+   | ^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/type/input.css:24:1
+   |
+24 | a/**/{}
+   | ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/type/input.css:24:1
+   |
+24 | a/**/{}
+   | ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/type/input.css:24:1
+   |
+24 | a/**/{}
+   | ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/type/input.css:24:1
+   |
+24 | a/**/{}
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/type/input.css:24:1
+   |
+24 | a/**/{}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/type/input.css:24:1
+   |
+24 | a/**/{}
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/type/input.css:24:1
+   |
+24 | a/**/{}
+   | ^
+
+error: Block
+  --> $DIR/tests/fixture/selector/type/input.css:24:6
+   |
+24 | a/**/{}
+   |      ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/type/input.css:25:1
+   |
+25 | / a/**/
+26 | | {}
+   | |__^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/type/input.css:25:1
+   |
+25 | / a/**/
+26 | | {}
+   | |__^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/type/input.css:25:1
+   |
+25 | a/**/
+   | ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/type/input.css:25:1
+   |
+25 | a/**/
+   | ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/type/input.css:25:1
+   |
+25 | a/**/
+   | ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/type/input.css:25:1
+   |
+25 | a/**/
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/type/input.css:25:1
+   |
+25 | a/**/
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/type/input.css:25:1
+   |
+25 | a/**/
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/type/input.css:25:1
+   |
+25 | a/**/
+   | ^
+
+error: Block
+  --> $DIR/tests/fixture/selector/type/input.css:26:1
+   |
+26 | {}
+   | ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/type/input.css:27:1
+   |
+27 | \@noat { }
+   | ^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/type/input.css:27:1
+   |
+27 | \@noat { }
+   | ^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/type/input.css:27:1
+   |
+27 | \@noat { }
+   | ^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/type/input.css:27:1
+   |
+27 | \@noat { }
+   | ^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/type/input.css:27:1
+   |
+27 | \@noat { }
+   | ^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/type/input.css:27:1
+   |
+27 | \@noat { }
+   | ^^^^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/type/input.css:27:1
+   |
+27 | \@noat { }
+   | ^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/type/input.css:27:1
+   |
+27 | \@noat { }
+   | ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/type/input.css:27:1
+   |
+27 | \@noat { }
+   | ^^^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/type/input.css:27:8
+   |
+27 | \@noat { }
+   |        ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/type/input.css:28:1
+   |
+28 | / h1\\{
+29 | |     color: \\;
+30 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/type/input.css:28:1
+   |
+28 | / h1\\{
+29 | |     color: \\;
+30 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/type/input.css:28:1
+   |
+28 | h1\\{
+   | ^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/type/input.css:28:1
+   |
+28 | h1\\{
+   | ^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/type/input.css:28:1
+   |
+28 | h1\\{
+   | ^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/type/input.css:28:1
+   |
+28 | h1\\{
+   | ^^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/type/input.css:28:1
+   |
+28 | h1\\{
+   | ^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/type/input.css:28:1
+   |
+28 | h1\\{
+   | ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/type/input.css:28:1
+   |
+28 | h1\\{
+   | ^^^^
+
+error: Block
+  --> $DIR/tests/fixture/selector/type/input.css:28:5
+   |
+28 |   h1\\{
+   |  _____^
+29 | |     color: \\;
+30 | | }
+   | |_^
+
+error: Declaration
+  --> $DIR/tests/fixture/selector/type/input.css:29:5
+   |
+29 |     color: \\;
+   |     ^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/selector/type/input.css:29:5
+   |
+29 |     color: \\;
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/type/input.css:29:5
+   |
+29 |     color: \\;
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/selector/type/input.css:29:12
+   |
+29 |     color: \\;
+   |            ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/type/input.css:29:12
+   |
+29 |     color: \\;
    |            ^^
 

@@ -119,6 +119,12 @@ error: Dimension
 2 |     prop: 10px;
   |           ^^^^
 
+error: Length
+ --> $DIR/tests/fixture/dimension/basic/input.css:2:11
+  |
+2 |     prop: 10px;
+  |           ^^^^
+
 error: Number
  --> $DIR/tests/fixture/dimension/basic/input.css:2:11
   |
@@ -156,6 +162,12 @@ error: Value
   |           ^^^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/dimension/basic/input.css:3:11
+  |
+3 |     prop: .10px;
+  |           ^^^^^
+
+error: Length
  --> $DIR/tests/fixture/dimension/basic/input.css:3:11
   |
 3 |     prop: .10px;
@@ -203,6 +215,12 @@ error: Dimension
 4 |     prop: 12.34px;
   |           ^^^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/dimension/basic/input.css:4:11
+  |
+4 |     prop: 12.34px;
+  |           ^^^^^^^
+
 error: Number
  --> $DIR/tests/fixture/dimension/basic/input.css:4:11
   |
@@ -240,6 +258,12 @@ error: Value
   |           ^^^^^^^^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/dimension/basic/input.css:5:11
+  |
+5 |     prop: 0000.000px;
+  |           ^^^^^^^^^^
+
+error: Length
  --> $DIR/tests/fixture/dimension/basic/input.css:5:11
   |
 5 |     prop: 0000.000px;
@@ -287,6 +311,12 @@ error: Dimension
 6 |     prop: 1px\\9;
   |           ^^^^^^
 
+error: UnknownDimension
+ --> $DIR/tests/fixture/dimension/basic/input.css:6:11
+  |
+6 |     prop: 1px\\9;
+  |           ^^^^^^
+
 error: Number
  --> $DIR/tests/fixture/dimension/basic/input.css:6:11
   |
@@ -329,6 +359,12 @@ error: Dimension
 7 |     prop: 1e;
   |           ^^
 
+error: UnknownDimension
+ --> $DIR/tests/fixture/dimension/basic/input.css:7:11
+  |
+7 |     prop: 1e;
+  |           ^^
+
 error: Number
  --> $DIR/tests/fixture/dimension/basic/input.css:7:11
   |
@@ -366,6 +402,12 @@ error: Value
   |           ^^^^^^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/dimension/basic/input.css:8:11
+  |
+8 |     prop: 1unknown;
+  |           ^^^^^^^^
+
+error: UnknownDimension
  --> $DIR/tests/fixture/dimension/basic/input.css:8:11
   |
 8 |     prop: 1unknown;

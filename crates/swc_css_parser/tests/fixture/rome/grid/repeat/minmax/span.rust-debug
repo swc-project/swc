@@ -181,6 +181,12 @@ error: Dimension
 2 |     grid-template-columns: repeat(4, minmax(min-content, 300px));
   |                                                          ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/grid/repeat/minmax/input.css:2:55
+  |
+2 |     grid-template-columns: repeat(4, minmax(min-content, 300px));
+  |                                                          ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/grid/repeat/minmax/input.css:2:55
   |

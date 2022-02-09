@@ -117,7 +117,7 @@
                 "raw": "1"
               },
               {
-                "type": "Dimension",
+                "type": "Length",
                 "span": {
                   "start": 17,
                   "end": 20,
@@ -145,7 +145,7 @@
                 }
               },
               {
-                "type": "Dimension",
+                "type": "Length",
                 "span": {
                   "start": 21,
                   "end": 24,

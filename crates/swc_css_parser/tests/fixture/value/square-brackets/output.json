@@ -272,7 +272,7 @@
                     "raw": "fff"
                   },
                   {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 133,
                       "end": 137,

@@ -214,7 +214,7 @@
                     },
                     "op": "+",
                     "left": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 64,
                         "end": 68,
@@ -242,7 +242,7 @@
                       }
                     },
                     "right": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 71,
                         "end": 75,

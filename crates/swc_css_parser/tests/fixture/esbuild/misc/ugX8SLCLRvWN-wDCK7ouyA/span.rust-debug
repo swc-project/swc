@@ -58,6 +58,12 @@ error: Dimension
 1 | @-ms-viewport { width: 100vw }
   |                        ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/esbuild/misc/ugX8SLCLRvWN-wDCK7ouyA/input.css:1:24
+  |
+1 | @-ms-viewport { width: 100vw }
+  |                        ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/esbuild/misc/ugX8SLCLRvWN-wDCK7ouyA/input.css:1:24
   |
