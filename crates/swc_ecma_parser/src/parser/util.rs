@@ -1,6 +1,7 @@
+use swc_atoms::js_word;
+
 use super::*;
 use crate::token::Keyword;
-use swc_atoms::js_word;
 
 impl Context {
     pub(crate) fn is_reserved(self, word: &Word) -> bool {

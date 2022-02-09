@@ -1,9 +1,10 @@
-use siphasher::sip128::{Hash128, Hasher128, SipHasher24};
 use std::{
     hash::{BuildHasher, Hash, Hasher},
     marker::PhantomData,
     mem,
 };
+
+use siphasher::sip128::{Hash128, Hasher128, SipHasher24};
 
 /// When hashing something that ends up affecting properties like symbol names,
 /// we want these symbol names to be calculated independently of other factors

@@ -1,7 +1,9 @@
-use super::*;
-use quote::quote;
 use std::collections::BTreeSet;
+
+use quote::quote;
 use syn::visit::{self, Visit};
+
+use super::*;
 
 impl<'a> Derive<'a> {
     pub fn all_generic_fields(&self) -> Vec<&'a Field> {

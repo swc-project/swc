@@ -1,5 +1,6 @@
-use serde::{Deserialize, Serialize};
 use std::mem::take;
+
+use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},

@@ -1,8 +1,9 @@
-use crate::{Bundler, Load, Resolve};
 use swc_common::pass::Repeat;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::simplify::{const_propgation::constant_propagation, dce};
 use swc_ecma_visit::FoldWith;
+
+use crate::{Bundler, Load, Resolve};
 
 impl<L, R> Bundler<'_, L, R>
 where

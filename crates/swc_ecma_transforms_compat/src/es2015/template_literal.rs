@@ -1,5 +1,6 @@
-use serde::Deserialize;
 use std::{iter, mem};
+
+use serde::Deserialize;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, BytePos, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;

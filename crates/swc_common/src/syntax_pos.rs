@@ -1,8 +1,3 @@
-pub use self::hygiene::{Mark, SyntaxContext};
-use crate::{rustc_data_structures::stable_hasher::StableHasher, sync::Lrc};
-#[cfg(feature = "parking_lot")]
-use parking_lot::Mutex;
-use serde::{Deserialize, Serialize};
 #[cfg(not(feature = "parking_lot"))]
 use std::sync::Mutex;
 use std::{
@@ -12,7 +7,14 @@ use std::{
     ops::{Add, Sub},
     path::PathBuf,
 };
+
+#[cfg(feature = "parking_lot")]
+use parking_lot::Mutex;
+use serde::{Deserialize, Serialize};
 use url::Url;
+
+pub use self::hygiene::{Mark, SyntaxContext};
+use crate::{rustc_data_structures::stable_hasher::StableHasher, sync::Lrc};
 
 mod analyze_source_file;
 pub mod hygiene;

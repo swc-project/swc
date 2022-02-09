@@ -1,10 +1,12 @@
-use super::Optimizer;
-use crate::{mode::Mode, util::ExprOptExt};
 use std::mem::take;
+
 use swc_common::{util::take::Take, EqIgnoreSpan, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, prepend, ExprExt, StmtExt, Type, Value::Known};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+
+use super::Optimizer;
+use crate::{mode::Mode, util::ExprOptExt};
 
 /// Methods related to option `switches`.
 impl<M> Optimizer<'_, M>

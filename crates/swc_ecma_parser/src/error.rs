@@ -1,12 +1,14 @@
 #![allow(dead_code)]
 
-use crate::token::Token;
 use std::{borrow::Cow, fmt::Debug};
+
 use swc_atoms::JsWord;
 use swc_common::{
     errors::{DiagnosticBuilder, Handler},
     Span, Spanned,
 };
+
+use crate::token::Token;
 
 /// Note: this struct is 8 bytes.
 #[derive(Debug, Clone, PartialEq)]

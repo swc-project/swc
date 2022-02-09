@@ -1,5 +1,6 @@
-use super::Pure;
 use std::ops::{Deref, DerefMut};
+
+use super::Pure;
 
 #[derive(Default, Clone, Copy)]
 pub(super) struct Ctx {

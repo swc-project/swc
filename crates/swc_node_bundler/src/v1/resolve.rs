@@ -1,5 +1,6 @@
-use serde::Deserialize;
 use std::{collections::HashMap, path::PathBuf};
+
+use serde::Deserialize;
 use swc_atoms::JsWord;
 
 /// https://webpack.js.org/configuration/resolve/

@@ -1,8 +1,8 @@
-use crate::{hash::calc_hash, Bundle, BundleKind, Bundler, Load, ModuleType, Resolve};
+use std::path::{Path, PathBuf};
+
 use ahash::AHashMap;
 use anyhow::Error;
 use relative_path::RelativePath;
-use std::path::{Path, PathBuf};
 use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, FileName, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -13,6 +13,8 @@ use swc_ecma_transforms_base::{
 };
 use swc_ecma_utils::{find_ids, private_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, VisitWith};
+
+use crate::{hash::calc_hash, Bundle, BundleKind, Bundler, Load, ModuleType, Resolve};
 
 impl<L, R> Bundler<'_, L, R>
 where

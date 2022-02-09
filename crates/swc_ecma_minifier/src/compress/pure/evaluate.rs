@@ -1,12 +1,13 @@
+use swc_atoms::js_word;
+use swc_common::{util::take::Take, Spanned, SyntaxContext};
+use swc_ecma_ast::*;
+use swc_ecma_utils::{undefined, ExprExt, Value};
+
 use super::Pure;
 use crate::{
     compress::util::{eval_as_number, is_pure_undefined_or_null},
     mode::Mode,
 };
-use swc_atoms::js_word;
-use swc_common::{util::take::Take, Spanned, SyntaxContext};
-use swc_ecma_ast::*;
-use swc_ecma_utils::{undefined, ExprExt, Value};
 
 impl<M> Pure<'_, M>
 where

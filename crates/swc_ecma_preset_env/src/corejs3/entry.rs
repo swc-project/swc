@@ -1,11 +1,12 @@
-use super::compat::DATA as CORE_JS_COMPAT_DATA;
-use crate::{version::should_enable, Version, Versions};
 use indexmap::IndexSet;
 use once_cell::sync::Lazy;
 use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith};
+
+use super::compat::DATA as CORE_JS_COMPAT_DATA;
+use crate::{version::should_enable, Version, Versions};
 
 static ENTRIES: Lazy<AHashMap<String, Vec<&'static str>>> = Lazy::new(|| {
     serde_json::from_str::<AHashMap<String, Vec<String>>>(include_str!("entries.json"))

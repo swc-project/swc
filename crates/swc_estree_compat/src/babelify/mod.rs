@@ -1,6 +1,7 @@
+use std::sync::Arc;
+
 use rayon::prelude::*;
 use serde::{de::DeserializeOwned, Serialize};
-use std::sync::Arc;
 use swc_common::{
     comments::{CommentKind, Comments},
     sync::Lrc,

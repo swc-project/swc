@@ -5,19 +5,21 @@
 //!
 //!
 //! [babylon/util/identifier.js]:https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
-use super::{comments_buffer::BufferedComment, input::Input, Char, LexResult, Lexer};
-use crate::{
-    error::{Error, SyntaxError},
-    lexer::comments_buffer::BufferedCommentKind,
-    Tokens,
-};
 use std::char;
+
 use swc_common::{
     comments::{Comment, CommentKind},
     BytePos, Span, SyntaxContext,
 };
 use tracing::warn;
 use unicode_xid::UnicodeXID;
+
+use super::{comments_buffer::BufferedComment, input::Input, Char, LexResult, Lexer};
+use crate::{
+    error::{Error, SyntaxError},
+    lexer::comments_buffer::BufferedCommentKind,
+    Tokens,
+};
 
 /// Collector for raw string.
 ///

@@ -1,14 +1,9 @@
-pub use super::util::Config;
-use super::util::{
-    define_es_module, define_property, has_use_strict, initialize_to_undefined, make_descriptor,
-    make_require_call, use_strict, ModulePass, Scope,
-};
-use crate::path::{ImportResolver, NoopImportResolver};
-use indexmap::IndexSet;
 use std::{
     cell::{Ref, RefCell, RefMut},
     rc::Rc,
 };
+
+use indexmap::IndexSet;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -21,6 +16,13 @@ use swc_ecma_utils::{
     DestructuringFinder, ExprFactory, IsDirective,
 };
 use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, VisitWith};
+
+pub use super::util::Config;
+use super::util::{
+    define_es_module, define_property, has_use_strict, initialize_to_undefined, make_descriptor,
+    make_require_call, use_strict, ModulePass, Scope,
+};
+use crate::path::{ImportResolver, NoopImportResolver};
 
 pub fn common_js(
     top_level_mark: Mark,

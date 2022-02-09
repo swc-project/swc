@@ -1,10 +1,11 @@
 //! Ported from closure compiler.
+use swc_common::{chain, pass::Repeat};
+use swc_ecma_transforms_base::pass::RepeatedJsPass;
+
 pub use self::{
     branch::dead_branch_remover,
     expr::{expr_simplifier, Config as ExprSimplifierConfig},
 };
-use swc_common::{chain, pass::Repeat};
-use swc_ecma_transforms_base::pass::RepeatedJsPass;
 
 mod branch;
 pub mod const_propgation;

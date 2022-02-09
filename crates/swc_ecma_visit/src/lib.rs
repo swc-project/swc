@@ -4,8 +4,9 @@
 #[doc(hidden)]
 pub extern crate swc_ecma_ast;
 
-use num_bigint::BigInt as BigIntValue;
 use std::{borrow::Cow, fmt::Debug};
+
+use num_bigint::BigInt as BigIntValue;
 use swc_atoms::JsWord;
 use swc_common::{pass::CompilerPass, Span, DUMMY_SP};
 use swc_ecma_ast::*;

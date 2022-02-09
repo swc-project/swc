@@ -6,8 +6,9 @@ extern crate napi_derive;
 /// Explicit extern crate to use allocator.
 extern crate swc_node_base;
 
-use backtrace::Backtrace;
 use std::{env, panic::set_hook, sync::Arc};
+
+use backtrace::Backtrace;
 use swc::Compiler;
 use swc_common::{self, sync::Lazy, FilePathMapping, SourceMap};
 use tracing_subscriber::EnvFilter;

@@ -1,7 +1,8 @@
-use super::Optimizer;
-use crate::mode::Mode;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
+
+use super::Optimizer;
+use crate::mode::Mode;
 
 /// Methods related to the option `collapse_vars`.
 impl<M> Optimizer<'_, M>

@@ -4,6 +4,25 @@
 #[doc(hidden)]
 pub extern crate swc_ecma_ast;
 
+use std::{
+    borrow::Cow,
+    f64::{INFINITY, NAN},
+    hash::Hash,
+    num::FpCategory,
+    ops::Add,
+};
+
+use swc_atoms::{js_word, JsWord};
+#[deprecated(since = "0.50.0", note = "Use `swc_common::errors::HANDLER` directly")]
+pub use swc_common::errors::HANDLER;
+use swc_common::{collections::AHashSet, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_ecma_ast::*;
+use swc_ecma_visit::{
+    noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, visit_obj_and_computed,
+    Visit, VisitMut, VisitMutWith, VisitWith,
+};
+use tracing::trace;
+
 pub use self::{
     factory::{ExprFactory, IntoIndirectCall},
     ident::{id, Id},
@@ -17,23 +36,6 @@ pub use self::{
     Purity::{MayBeImpure, Pure},
 };
 use crate::ident::IdentLike;
-use std::{
-    borrow::Cow,
-    f64::{INFINITY, NAN},
-    hash::Hash,
-    num::FpCategory,
-    ops::Add,
-};
-use swc_atoms::{js_word, JsWord};
-#[deprecated(since = "0.50.0", note = "Use `swc_common::errors::HANDLER` directly")]
-pub use swc_common::errors::HANDLER;
-use swc_common::{collections::AHashSet, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
-use swc_ecma_ast::*;
-use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, visit_obj_and_computed,
-    Visit, VisitMut, VisitMutWith, VisitWith,
-};
-use tracing::trace;
 
 #[macro_use]
 mod macros;

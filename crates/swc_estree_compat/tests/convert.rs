@@ -1,15 +1,16 @@
 #![feature(test)]
 extern crate test;
 
-use anyhow::{Context as AnyhowContext, Error};
-use copyless::BoxHelper;
-use pretty_assertions::assert_eq;
-use serde_json::{Number, Value};
 use std::{
     env, fs,
     path::{Path, PathBuf},
     sync::Arc,
 };
+
+use anyhow::{Context as AnyhowContext, Error};
+use copyless::BoxHelper;
+use pretty_assertions::assert_eq;
+use serde_json::{Number, Value};
 use swc::{config::IsModule, Compiler};
 use swc_common::{
     errors::{ColorConfig, Handler},

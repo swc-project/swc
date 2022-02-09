@@ -1,5 +1,13 @@
 //! ECMAScript lexer.
 
+use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
+
+use either::Either::{Left, Right};
+use smallvec::{smallvec, SmallVec};
+use swc_atoms::{js_word, JsWord};
+use swc_common::{comments::Comments, BytePos, Span};
+use swc_ecma_ast::{op, EsVersion};
+
 use self::{comments_buffer::CommentsBuffer, state::State, util::*};
 pub use self::{
     input::Input,
@@ -10,12 +18,6 @@ use crate::{
     token::*,
     Context, Syntax,
 };
-use either::Either::{Left, Right};
-use smallvec::{smallvec, SmallVec};
-use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
-use swc_atoms::{js_word, JsWord};
-use swc_common::{comments::Comments, BytePos, Span};
-use swc_ecma_ast::{op, EsVersion};
 
 mod comments_buffer;
 pub mod input;

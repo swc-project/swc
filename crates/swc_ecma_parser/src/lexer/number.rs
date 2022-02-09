@@ -2,13 +2,15 @@
 //!
 //!
 //! See https://tc39.github.io/ecma262/#sec-literals-numeric-literals
-use super::*;
-use crate::error::SyntaxError;
+use std::fmt::Write;
+
 use either::Either;
 use num_bigint::BigInt as BigIntValue;
-use std::fmt::Write;
 use swc_common::SyntaxContext;
 use tracing::trace;
+
+use super::*;
+use crate::error::SyntaxError;
 
 impl<'a, I: Input> Lexer<'a, I> {
     /// Reads an integer, octal integer, or floating-point number
@@ -425,9 +427,10 @@ impl<'a, I: Input> Lexer<'a, I> {
 
 #[cfg(test)]
 mod tests {
+    use std::{f64::INFINITY, panic};
+
     use super::{input::StringInput, *};
     use crate::EsConfig;
-    use std::{f64::INFINITY, panic};
 
     fn lex<F, Ret>(s: &'static str, f: F) -> Ret
     where

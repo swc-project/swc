@@ -2,6 +2,7 @@
 extern crate swc_node_base;
 
 use std::{env, fs, path::Path, time::Instant};
+
 use swc_common::input::SourceFileInput;
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};

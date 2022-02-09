@@ -1,3 +1,16 @@
+use std::mem::take;
+
+use retain_mut::RetainMut;
+use swc_atoms::js_word;
+use swc_common::{util::take::Take, Spanned, DUMMY_SP};
+use swc_ecma_ast::*;
+use swc_ecma_utils::{
+    contains_arguments, contains_this_expr, ident::IdentLike, undefined, ExprExt, Id, StmtLike,
+    UsageFinder,
+};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use tracing::{span, Level};
+
 use super::{is_pure_undefined, Optimizer};
 use crate::{
     compress::{
@@ -9,17 +22,6 @@ use crate::{
     option::CompressOptions,
     util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, ModuleItemExt},
 };
-use retain_mut::RetainMut;
-use std::mem::take;
-use swc_atoms::js_word;
-use swc_common::{util::take::Take, Spanned, DUMMY_SP};
-use swc_ecma_ast::*;
-use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, ident::IdentLike, undefined, ExprExt, Id, StmtLike,
-    UsageFinder,
-};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
-use tracing::{span, Level};
 
 /// Methods related to the option `sequences`. All methods are noop if
 /// `sequences` is false.

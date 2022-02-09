@@ -1,10 +1,11 @@
+use swc_common::{util::take::Take, DUMMY_SP};
+use swc_ecma_ast::*;
+use swc_ecma_utils::{ExprExt, Value::Known};
+
 use crate::{
     compress::{optimize::Optimizer, util::UnreachableHandler},
     mode::Mode,
 };
-use swc_common::{util::take::Take, DUMMY_SP};
-use swc_ecma_ast::*;
-use swc_ecma_utils::{ExprExt, Value::Known};
 
 /// Methods related to the option `loops`.
 impl<M> Optimizer<'_, M>

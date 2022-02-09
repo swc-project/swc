@@ -1,9 +1,11 @@
-use crate::def_site;
+use std::iter;
+
 use pmutil::ToTokensExt;
 use proc_macro2::TokenStream;
 use quote::ToTokens;
-use std::iter;
 use syn::{punctuated::Pair, *};
+
+use crate::def_site;
 
 mod generics;
 

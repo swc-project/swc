@@ -1,9 +1,10 @@
-use super::Context;
-use crate::swcify::Swcify;
 use swc_ecma_ast::{ClassMember, Function, MethodKind, ParamOrTsParamProp, TsExprWithTypeArgs};
 use swc_estree_ast::{
     ClassBody, ClassBodyEl, ClassImpl, ClassMethodKind, TSExpressionWithTypeArguments,
 };
+
+use super::Context;
+use crate::swcify::Swcify;
 
 impl Swcify for ClassBody {
     type Output = Vec<ClassMember>;

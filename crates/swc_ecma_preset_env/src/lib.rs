@@ -2,13 +2,13 @@
 #![allow(dead_code)]
 #![recursion_limit = "256"]
 
-pub use self::{transform_data::Feature, version::Version};
+use std::path::PathBuf;
+
 use anyhow::{Context, Error};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use serde::Deserialize;
 use st_map::StaticMap;
-use std::path::PathBuf;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     chain,
@@ -23,6 +23,8 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_utils::prepend_stmts;
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
+
+pub use self::{transform_data::Feature, version::Version};
 
 #[macro_use]
 mod util;

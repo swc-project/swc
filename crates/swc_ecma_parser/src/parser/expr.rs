@@ -1,10 +1,11 @@
+use either::Either;
+use swc_atoms::js_word;
+use swc_common::{ast_node, util::take::Take, Spanned};
+
 use super::{pat::PatType, util::ExprExt, *};
 use crate::{
     lexer::TokenContext, parser::class_and_fn::IsSimpleParameterList, token::AssignOpToken,
 };
-use either::Either;
-use swc_atoms::js_word;
-use swc_common::{ast_node, util::take::Take, Spanned};
 
 mod ops;
 #[cfg(test)]

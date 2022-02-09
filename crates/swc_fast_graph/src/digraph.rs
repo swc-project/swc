@@ -3,15 +3,6 @@
 
 #![allow(dead_code)] // We don't want to modify copied source code.
 
-use indexmap::{
-    map::{Iter as IndexMapIter, IterMut as IndexMapIterMut, Keys},
-    IndexMap,
-};
-use petgraph::{
-    graph::{node_index, Graph},
-    visit::{GraphBase, IntoNeighbors, IntoNeighborsDirected, NodeCount, Visitable},
-    Directed, Direction, EdgeType, Incoming, IntoWeightedEdge, Outgoing, Undirected,
-};
 use std::{
     cmp::Ordering,
     fmt,
@@ -20,6 +11,16 @@ use std::{
     marker::PhantomData,
     ops::Deref,
     slice::Iter,
+};
+
+use indexmap::{
+    map::{Iter as IndexMapIter, IterMut as IndexMapIterMut, Keys},
+    IndexMap,
+};
+use petgraph::{
+    graph::{node_index, Graph},
+    visit::{GraphBase, IntoNeighbors, IntoNeighborsDirected, NodeCount, Visitable},
+    Directed, Direction, EdgeType, Incoming, IntoWeightedEdge, Outgoing, Undirected,
 };
 use swc_common::collections::AHashSet;
 

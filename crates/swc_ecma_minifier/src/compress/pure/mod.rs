@@ -1,3 +1,9 @@
+use rayon::prelude::*;
+use swc_common::{pass::Repeated, util::take::Take, DUMMY_SP};
+use swc_ecma_ast::*;
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+use tracing::{span, Level};
+
 use self::{ctx::Ctx, misc::DropOpts};
 use crate::{
     debug::{dump, AssertValid},
@@ -7,11 +13,6 @@ use crate::{
     util::ModuleItemExt,
     MAX_PAR_DEPTH,
 };
-use rayon::prelude::*;
-use swc_common::{pass::Repeated, util::take::Take, DUMMY_SP};
-use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
-use tracing::{span, Level};
 
 mod arrows;
 mod bools;

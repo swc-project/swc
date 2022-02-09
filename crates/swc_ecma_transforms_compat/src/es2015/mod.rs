@@ -1,3 +1,7 @@
+use serde::Deserialize;
+use swc_common::{chain, comments::Comments, pass::Optional, Mark};
+use swc_ecma_visit::Fold;
+
 pub use self::{
     arrow::arrow, block_scoped_fn::block_scoped_functions, block_scoping::block_scoping,
     classes::classes, computed_props::computed_properties, destructuring::destructuring,
@@ -7,9 +11,6 @@ pub use self::{
     spread::spread, sticky_regex::sticky_regex, template_literal::template_literal,
     typeof_symbol::typeof_symbol,
 };
-use serde::Deserialize;
-use swc_common::{chain, comments::Comments, pass::Optional, Mark};
-use swc_ecma_visit::Fold;
 
 mod arrow;
 mod block_scoped_fn;
@@ -98,10 +99,11 @@ pub struct Config {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use swc_common::Mark;
     use swc_ecma_transforms_base::resolver::resolver;
     use swc_ecma_transforms_testing::{test, test_exec};
+
+    use super::*;
 
     test!(
         ::swc_ecma_parser::Syntax::default(),

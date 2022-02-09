@@ -1,6 +1,7 @@
-use crate::{Dimension, Ident, Number, Ratio, Rule};
 use string_enum::StringEnum;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
+
+use crate::{Dimension, Ident, Number, Ratio, Rule};
 
 #[ast_node("MediaRule")]
 pub struct MediaRule {

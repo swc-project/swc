@@ -1,11 +1,13 @@
-use super::get_prototype_of;
 use std::iter;
+
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{alias_ident_for, is_rest_arguments, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+
+use super::get_prototype_of;
 
 /// Process function body.
 ///

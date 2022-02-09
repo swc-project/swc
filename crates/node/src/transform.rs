@@ -1,20 +1,22 @@
-use crate::{
-    get_compiler,
-    util::{deserialize_json, get_deserialized, try_with, MapErr},
+use std::{
+    path::{Path, PathBuf},
+    sync::Arc,
 };
+
 use anyhow::Context as _;
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Env, JsBuffer, JsBufferValue, Ref, Task,
 };
 use path_clean::clean;
-use std::{
-    path::{Path, PathBuf},
-    sync::Arc,
-};
 use swc::{config::Options, Compiler, TransformOutput};
 use swc_common::FileName;
 use swc_ecma_ast::Program;
+
+use crate::{
+    get_compiler,
+    util::{deserialize_json, get_deserialized, try_with, MapErr},
+};
 
 /// Input to transform
 #[derive(Debug)]

@@ -1,5 +1,6 @@
-use super::{Result, WriteJs};
 use swc_common::Span;
+
+use super::{Result, WriteJs};
 
 pub fn omit_trailing_semi<W: WriteJs>(w: W) -> impl WriteJs {
     OmitTrailingSemi {

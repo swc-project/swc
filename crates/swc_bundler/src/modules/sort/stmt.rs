@@ -1,8 +1,7 @@
-use super::graph::Required;
-use crate::{id::Id, modules::sort::graph::StmtDepGraph};
+use std::{collections::VecDeque, iter::from_fn, ops::Range};
+
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::{Incoming as Dependants, Outgoing as Dependencies};
-use std::{collections::VecDeque, iter::from_fn, ops::Range};
 use swc_atoms::js_word;
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -13,6 +12,9 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+
+use super::graph::Required;
+use crate::{id::Id, modules::sort::graph::StmtDepGraph};
 
 pub(super) fn sort_stmts(
     injected_ctxt: SyntaxContext,
@@ -792,10 +794,11 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
 
 #[cfg(test)]
 mod tests {
-    use super::{calc_deps, Dependencies};
-    use crate::{bundler::tests::suite, debug::print_hygiene};
     use swc_common::DUMMY_SP;
     use swc_ecma_ast::*;
+
+    use super::{calc_deps, Dependencies};
+    use crate::{bundler::tests::suite, debug::print_hygiene};
 
     fn assert_no_cycle(s: &str) {
         suite().file("main.js", s).run(|t| {

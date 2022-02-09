@@ -3,9 +3,10 @@
 
 extern crate test;
 
+use std::hint::black_box;
+
 use ast_node::ast_node;
 use serde::{Deserialize, Serialize};
-use std::hint::black_box;
 use swc_common::{Span, DUMMY_SP};
 use test::Bencher;
 

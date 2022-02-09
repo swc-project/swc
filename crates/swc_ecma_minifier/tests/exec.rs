@@ -2,10 +2,11 @@
 
 extern crate swc_node_base;
 
+use std::process::Command;
+
 use ansi_term::Color;
 use anyhow::{bail, Context, Error};
 use serde::Deserialize;
-use std::process::Command;
 use swc_common::{
     comments::SingleThreadedComments, errors::Handler, input::SourceFileInput, sync::Lrc, FileName,
     Mark, SourceMap,

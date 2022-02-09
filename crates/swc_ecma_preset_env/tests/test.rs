@@ -1,8 +1,5 @@
 #![allow(dead_code)]
 
-use pretty_assertions::assert_eq;
-use serde::Deserialize;
-use serde_json::Value;
 use std::{
     cmp::Ordering,
     env,
@@ -11,6 +8,10 @@ use std::{
     io::Read,
     path::{Path, PathBuf},
 };
+
+use pretty_assertions::assert_eq;
+use serde::Deserialize;
+use serde_json::Value;
 use swc_common::{
     chain, collections::AHashMap, comments::SingleThreadedComments, input::StringInput,
     FromVariant, Mark,

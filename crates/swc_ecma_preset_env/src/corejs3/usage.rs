@@ -1,3 +1,9 @@
+use indexmap::IndexSet;
+use swc_atoms::{js_word, JsWord};
+use swc_common::DUMMY_SP;
+use swc_ecma_ast::*;
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+
 use super::data::BUILTINS;
 use crate::{
     corejs3::{
@@ -11,11 +17,6 @@ use crate::{
     version::should_enable,
     Versions,
 };
-use indexmap::IndexSet;
-use swc_atoms::{js_word, JsWord};
-use swc_common::DUMMY_SP;
-use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 pub(crate) struct UsageVisitor {
     shipped_proposals: bool,

@@ -1,11 +1,13 @@
-use super::stmt::sort_stmts;
-use crate::{dep_graph::ModuleGraph, modules::Modules, ModuleId};
+use std::{collections::VecDeque, iter::from_fn, mem::take, time::Instant};
+
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::Outgoing;
-use std::{collections::VecDeque, iter::from_fn, mem::take, time::Instant};
 use swc_common::{collections::AHashSet, sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prepend_stmts;
+
+use super::stmt::sort_stmts;
+use crate::{dep_graph::ModuleGraph, modules::Modules, ModuleId};
 
 /// The unit of sorting.
 #[derive(Debug)]

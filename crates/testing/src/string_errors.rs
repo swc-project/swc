@@ -1,12 +1,14 @@
-use super::StdErr;
 use std::{
     io::{self, Write},
     sync::{Arc, RwLock},
 };
+
 use swc_common::{
     errors::{EmitterWriter, Handler, HandlerFlags, SourceMapperDyn},
     sync::Lrc,
 };
+
+use super::StdErr;
 
 /// Creates a new handler for testing.
 pub(crate) fn new_handler(

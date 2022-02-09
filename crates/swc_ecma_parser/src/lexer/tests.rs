@@ -1,5 +1,10 @@
 extern crate test;
 
+use std::{ops::Range, str};
+
+use swc_common::SyntaxContext;
+use test::{black_box, Bencher};
+
 use super::{
     state::{lex, lex_module_errors, lex_tokens, with_lexer},
     *,
@@ -8,9 +13,6 @@ use crate::{
     error::{Error, SyntaxError},
     lexer::state::lex_errors,
 };
-use std::{ops::Range, str};
-use swc_common::SyntaxContext;
-use test::{black_box, Bencher};
 
 fn sp(r: Range<usize>) -> Span {
     Span {

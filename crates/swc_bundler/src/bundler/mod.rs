@@ -1,12 +1,14 @@
-use self::scope::Scope;
-use crate::{Hook, Load, ModuleId, Resolve};
-use anyhow::{Context, Error};
 use std::collections::HashMap;
+
+use anyhow::{Context, Error};
 use swc_atoms::JsWord;
 use swc_common::{
     collections::AHashMap, sync::Lrc, FileName, Globals, Mark, SourceMap, SyntaxContext, GLOBALS,
 };
 use swc_ecma_ast::Module;
+
+use self::scope::Scope;
+use crate::{Hook, Load, ModuleId, Resolve};
 
 mod chunk;
 mod export;

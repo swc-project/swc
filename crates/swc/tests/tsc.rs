@@ -1,8 +1,9 @@
-use serde::de::DeserializeOwned;
 use std::{
     fs::create_dir_all,
     path::{Path, PathBuf},
 };
+
+use serde::de::DeserializeOwned;
 use swc::{
     config::{Config, IsModule, JscConfig, Options},
     Compiler,

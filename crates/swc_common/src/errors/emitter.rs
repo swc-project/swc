@@ -8,6 +8,20 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
+use std::{
+    borrow::Cow,
+    cmp::{min, Reverse},
+    collections::HashMap,
+    io::{self, prelude::*},
+    ops::Range,
+};
+
+#[cfg(feature = "tty-emitter")]
+use atty;
+#[cfg(feature = "tty-emitter")]
+use termcolor::{Buffer, BufferWriter, Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
+use unicode_width;
+
 use self::Destination::*;
 use super::{
     snippet::{Annotation, AnnotationType, Line, MultilineAnnotation, Style, StyledString},
@@ -18,18 +32,6 @@ use crate::{
     sync::Lrc,
     syntax_pos::{MultiSpan, SourceFile, Span},
 };
-#[cfg(feature = "tty-emitter")]
-use atty;
-use std::{
-    borrow::Cow,
-    cmp::{min, Reverse},
-    collections::HashMap,
-    io::{self, prelude::*},
-    ops::Range,
-};
-#[cfg(feature = "tty-emitter")]
-use termcolor::{Buffer, BufferWriter, Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
-use unicode_width;
 
 const ANONYMIZED_LINE_NUM: &str = "LL";
 

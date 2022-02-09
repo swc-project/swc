@@ -1,5 +1,6 @@
-use serde::Deserialize;
 use std::mem::take;
+
+use serde::Deserialize;
 use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{alias_if_required, undefined, StmtLike};

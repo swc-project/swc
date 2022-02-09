@@ -16,16 +16,6 @@
 //! `spans` and used pervasively in the compiler. They are absolute positions
 //! within the SourceMap, which upon request can be converted to line and column
 //! information, source code snippets, etc.
-pub use crate::syntax_pos::*;
-use crate::{
-    collections::AHashMap,
-    errors::SourceMapper,
-    rustc_data_structures::stable_hasher::StableHasher,
-    sync::{Lock, LockGuard, Lrc, MappedLockGuard},
-};
-use once_cell::sync::Lazy;
-#[cfg(feature = "sourcemap")]
-use sourcemap::SourceMapBuilder;
 use std::{
     cmp,
     cmp::{max, min},
@@ -35,7 +25,19 @@ use std::{
     path::{Path, PathBuf},
     sync::atomic::{AtomicUsize, Ordering::SeqCst},
 };
+
+use once_cell::sync::Lazy;
+#[cfg(feature = "sourcemap")]
+use sourcemap::SourceMapBuilder;
 use tracing::debug;
+
+pub use crate::syntax_pos::*;
+use crate::{
+    collections::AHashMap,
+    errors::SourceMapper,
+    rustc_data_structures::stable_hasher::StableHasher,
+    sync::{Lock, LockGuard, Lrc, MappedLockGuard},
+};
 
 static CURRENT_DIR: Lazy<Option<PathBuf>> = Lazy::new(|| env::current_dir().ok());
 

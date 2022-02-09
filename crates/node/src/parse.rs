@@ -1,18 +1,20 @@
-use crate::{
-    get_compiler,
-    util::{deserialize_json, get_deserialized, try_with, MapErr},
+use std::{
+    path::{Path, PathBuf},
+    sync::Arc,
 };
+
 use anyhow::Context as _;
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Env, Task,
 };
-use std::{
-    path::{Path, PathBuf},
-    sync::Arc,
-};
 use swc::{config::ParseOptions, Compiler};
 use swc_common::FileName;
+
+use crate::{
+    get_compiler,
+    util::{deserialize_json, get_deserialized, try_with, MapErr},
+};
 
 // ----- Parsing -----
 

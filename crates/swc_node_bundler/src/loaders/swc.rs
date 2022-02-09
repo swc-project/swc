@@ -1,7 +1,7 @@
-use crate::loaders::json::load_json_as_module;
+use std::{collections::HashMap, env, sync::Arc};
+
 use anyhow::{bail, Context, Error};
 use helpers::Helpers;
-use std::{collections::HashMap, env, sync::Arc};
 use swc::{
     config::{GlobalInliningPassEnvs, InputSourceMap, IsModule, JscConfig, TransformConfig},
     try_with_handler,
@@ -25,6 +25,8 @@ use swc_ecma_transforms::{
     pass::noop,
 };
 use swc_ecma_visit::FoldWith;
+
+use crate::loaders::json::load_json_as_module;
 
 /// JavaScript loader
 pub struct SwcLoader {

@@ -1,7 +1,8 @@
 #![cfg(feature = "tsc")]
 
-use anyhow::{anyhow, Error};
 use std::collections::HashMap;
+
+use anyhow::{anyhow, Error};
 use swc_common::{collections::AHashMap, FileName};
 use swc_ecma_loader::{resolve::Resolve, resolvers::tsc::TsConfigResolver};
 

@@ -3,6 +3,15 @@
 #![allow(clippy::nonminimal_bool)]
 #![allow(unused_variables)]
 
+use std::{borrow::Cow, fmt::Write, io};
+
+use memchr::memmem::Finder;
+use once_cell::sync::Lazy;
+use swc_atoms::JsWord;
+use swc_common::{comments::Comments, sync::Lrc, BytePos, SourceMap, Span, Spanned, DUMMY_SP};
+use swc_ecma_ast::*;
+use swc_ecma_codegen_macros::emitter;
+
 pub use self::config::Config;
 use self::{
     list::ListFormat,
@@ -10,13 +19,6 @@ use self::{
     util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
 use crate::util::EndsWithAlphaNum;
-use memchr::memmem::Finder;
-use once_cell::sync::Lazy;
-use std::{borrow::Cow, fmt::Write, io};
-use swc_atoms::JsWord;
-use swc_common::{comments::Comments, sync::Lrc, BytePos, SourceMap, Span, Spanned, DUMMY_SP};
-use swc_ecma_ast::*;
-use swc_ecma_codegen_macros::emitter;
 
 #[macro_use]
 pub mod macros;

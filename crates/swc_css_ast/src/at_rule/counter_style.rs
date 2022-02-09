@@ -1,5 +1,6 @@
-use crate::{CustomIdent, DeclarationBlockItem};
 use swc_common::{ast_node, Span};
+
+use crate::{CustomIdent, DeclarationBlockItem};
 
 #[ast_node("CounterStyleRule")]
 pub struct CounterStyleRule {

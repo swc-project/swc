@@ -1,12 +1,11 @@
 #![allow(clippy::redundant_allocation)]
 
-use self::static_check::should_use_create_element;
-use crate::refresh::options::{deserialize_refresh, RefreshOptions};
+use std::{borrow::Cow, iter, iter::once, mem, sync::Arc};
+
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use std::{borrow::Cow, iter, iter::once, mem, sync::Arc};
 use string_enum::StringEnum;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
@@ -24,6 +23,9 @@ use swc_ecma_utils::{
     drop_span, member_expr, prepend, private_ident, quote_ident, undefined, ExprFactory,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+
+use self::static_check::should_use_create_element;
+use crate::refresh::options::{deserialize_refresh, RefreshOptions};
 
 mod static_check;
 #[cfg(test)]

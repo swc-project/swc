@@ -137,8 +137,9 @@ fn mk_call(span: Span, left: Box<Expr>, right: Box<Expr>) -> Expr {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use swc_ecma_transforms_testing::{test, test_exec};
+
+    use super::*;
 
     test!(
         ::swc_ecma_parser::Syntax::default(),

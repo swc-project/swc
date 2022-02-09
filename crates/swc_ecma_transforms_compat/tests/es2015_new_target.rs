@@ -1,4 +1,5 @@
 use std::{fs::read_to_string, path::PathBuf};
+
 use swc_ecma_transforms_compat::es2015::new_target::new_target;
 use swc_ecma_transforms_testing::{exec_tr, test, test_fixture};
 

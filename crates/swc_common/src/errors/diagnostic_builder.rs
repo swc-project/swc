@@ -8,14 +8,16 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-use super::{Applicability, Diagnostic, DiagnosticId, DiagnosticStyledString, Handler, Level};
-use crate::syntax_pos::{MultiSpan, Span};
 use std::{
     fmt::{self, Debug},
     ops::{Deref, DerefMut},
     thread::panicking,
 };
+
 use tracing::debug;
+
+use super::{Applicability, Diagnostic, DiagnosticId, DiagnosticStyledString, Handler, Level};
+use crate::syntax_pos::{MultiSpan, Span};
 
 /// Used for emitting structured error messages and other diagnostic
 /// information.

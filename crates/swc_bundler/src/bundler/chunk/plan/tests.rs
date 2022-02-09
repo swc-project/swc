@@ -1,6 +1,8 @@
-use crate::bundler::tests::suite;
 use std::collections::HashMap;
+
 use swc_common::collections::{AHashMap, AHashSet};
+
+use crate::bundler::tests::suite;
 
 fn assert_cycles(map: AHashMap<String, String>, cycle_entries: Vec<&str>) {
     let mut tester = suite();

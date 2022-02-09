@@ -1,10 +1,11 @@
-use crate::{id::Id, modules::Modules, util::Readonly};
 use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, Visit, VisitMut,
     VisitMutWith, VisitWith,
 };
+
+use crate::{id::Id, modules::Modules, util::Readonly};
 
 #[derive(Debug, Default)]
 pub(crate) struct InlineData {

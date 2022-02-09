@@ -1,5 +1,5 @@
-use self::scope::{Scope, ScopeKind, VarType};
 use std::borrow::Cow;
+
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::take::Take,
@@ -12,6 +12,8 @@ use swc_ecma_visit::{
     VisitMutWith, VisitWith,
 };
 use tracing::{span, Level};
+
+use self::scope::{Scope, ScopeKind, VarType};
 
 mod scope;
 

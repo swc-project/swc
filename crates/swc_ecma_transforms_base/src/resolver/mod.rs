@@ -1,5 +1,5 @@
-use crate::scope::{IdentType, ScopeKind};
 use std::cell::RefCell;
+
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, Mark, SyntaxContext};
 use swc_ecma_ast::*;
@@ -8,6 +8,8 @@ use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
 };
 use tracing::{debug, span, Level};
+
+use crate::scope::{IdentType, ScopeKind};
 
 #[cfg(test)]
 mod tests;

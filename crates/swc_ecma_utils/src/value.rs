@@ -1,5 +1,6 @@
-use self::Value::{Known, Unknown};
 use std::ops::Not;
+
+use self::Value::{Known, Unknown};
 
 /// Runtime value.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]

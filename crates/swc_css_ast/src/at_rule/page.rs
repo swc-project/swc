@@ -1,5 +1,6 @@
-use crate::{DeclarationBlockItem, Ident};
 use swc_common::{ast_node, Span};
+
+use crate::{DeclarationBlockItem, Ident};
 
 #[ast_node("PageRule")]
 pub struct PageRule {

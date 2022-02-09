@@ -1,11 +1,12 @@
-use super::*;
-use crate::tests::{HygieneVisualizer, Tester};
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, hygiene::*, DUMMY_SP};
 use swc_ecma_parser::Syntax;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_visit::{Fold, FoldWith};
 use testing::{assert_eq, DebugUsingDisplay};
+
+use super::*;
+use crate::tests::{HygieneVisualizer, Tester};
 
 struct Marker {
     map: AHashMap<JsWord, Mark>,

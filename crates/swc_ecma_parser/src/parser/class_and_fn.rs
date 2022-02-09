@@ -1,8 +1,9 @@
-use super::{ident::MaybeOptionalIdentParser, *};
-use crate::{error::SyntaxError, lexer::TokenContext, parser::stmt::IsDirective, Tokens};
 use either::Either;
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
+
+use super::{ident::MaybeOptionalIdentParser, *};
+use crate::{error::SyntaxError, lexer::TokenContext, parser::stmt::IsDirective, Tokens};
 
 /// Parser for function expression and function declaration.
 impl<'a, I: Tokens> Parser<I> {
@@ -1488,9 +1489,10 @@ struct MakeMethodArgs {
 mod tests {
     #![allow(unused)]
 
-    use super::*;
     use swc_common::DUMMY_SP as span;
     use swc_ecma_visit::assert_eq_ignore_span;
+
+    use super::*;
 
     fn lhs(s: &'static str) -> Box<Expr> {
         test_parser(s, Syntax::default(), |p| p.parse_lhs_expr())

@@ -2,10 +2,6 @@
 
 extern crate swc_node_base;
 
-use ansi_term::Color;
-use anyhow::{bail, Context, Error};
-use once_cell::sync::Lazy;
-use serde::Deserialize;
 use std::{
     env,
     fmt::{self, Debug},
@@ -15,6 +11,11 @@ use std::{
     process::Command,
     time::Instant,
 };
+
+use ansi_term::Color;
+use anyhow::{bail, Context, Error};
+use once_cell::sync::Lazy;
+use serde::Deserialize;
 use swc_common::{
     comments::SingleThreadedComments, errors::Handler, sync::Lrc, EqIgnoreSpan, FileName, Mark,
     SourceMap, Spanned,

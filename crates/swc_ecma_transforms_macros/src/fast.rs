@@ -1,8 +1,9 @@
-use crate::common::Mode;
 use pmutil::q;
 use proc_macro2::TokenStream;
 use swc_macros_common::call_site;
 use syn::{FnArg, Ident, ImplItem, ImplItemMethod, ItemImpl, Pat, Path, Stmt};
+
+use crate::common::Mode;
 
 pub fn expand(attr: TokenStream, item: ItemImpl) -> ItemImpl {
     let expander = Expander {

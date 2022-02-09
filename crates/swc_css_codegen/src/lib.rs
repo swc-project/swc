@@ -1,13 +1,15 @@
 #![deny(clippy::all)]
 #![allow(clippy::needless_update)]
 
-pub use self::emit::*;
-use self::{ctx::Ctx, list::ListFormat};
 pub use std::fmt::Result;
+
 use swc_common::Spanned;
 use swc_css_ast::*;
 use swc_css_codegen_macros::emitter;
 use writer::CssWriter;
+
+pub use self::emit::*;
+use self::{ctx::Ctx, list::ListFormat};
 
 #[macro_use]
 mod macros;

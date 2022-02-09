@@ -1,6 +1,7 @@
-use super::*;
 use either::Either;
 use swc_common::{Span, Spanned, SyntaxContext};
+
+use super::*;
 
 #[cfg(test)]
 mod tests;

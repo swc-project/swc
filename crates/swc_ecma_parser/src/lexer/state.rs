@@ -1,14 +1,16 @@
+use std::mem::take;
+
+use enum_kind::Kind;
+#[cfg(not(debug_assertions))]
+use smallvec::SmallVec;
+use swc_common::BytePos;
+use tracing::trace;
+
 use super::{
     comments_buffer::{BufferedComment, BufferedCommentKind},
     Context, Input, Lexer,
 };
 use crate::{error::Error, input::Tokens, lexer::util::CharExt, token::*, EsVersion, Syntax};
-use enum_kind::Kind;
-#[cfg(not(debug_assertions))]
-use smallvec::SmallVec;
-use std::mem::take;
-use swc_common::BytePos;
-use tracing::trace;
 
 /// State of lexer.
 ///

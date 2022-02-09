@@ -1,13 +1,14 @@
-use crate::mode::Mode;
-
-use super::{Ctx, Optimizer};
 use std::ops::{Deref, DerefMut};
+
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, Span};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, prop_name_eq, ExprExt, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use tracing::debug;
+
+use super::{Ctx, Optimizer};
+use crate::mode::Mode;
 
 impl<'b, M> Optimizer<'b, M>
 where

@@ -1,5 +1,6 @@
-use crate::{Function, Rule, Url};
 use swc_common::{ast_node, Span};
+
+use crate::{Function, Rule, Url};
 
 #[ast_node("DocumentRule")]
 pub struct DocumentRule {

@@ -1,4 +1,5 @@
 use std::path::PathBuf;
+
 use swc_common::{
     comments::SingleThreadedComments,
     errors::{DiagnosticBuilder, Handler},

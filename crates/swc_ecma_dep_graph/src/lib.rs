@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     comments::{Comment, Comments},
@@ -335,7 +336,6 @@ fn parse_dynamic_import_assertions(arg: Option<&ast::ExprOrSpread>) -> ImportAss
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use ast::EsVersion;
     use pretty_assertions::assert_eq;
     use swc_common::{
@@ -343,6 +343,8 @@ mod tests {
         BytePos, FileName, Span, SyntaxContext,
     };
     use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
+
+    use super::*;
 
     fn helper(
         file_name: &str,

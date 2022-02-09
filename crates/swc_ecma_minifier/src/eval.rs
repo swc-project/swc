@@ -1,15 +1,17 @@
-use crate::{
-    compress::{compressor, pure_optimizer},
-    marks::Marks,
-    mode::Mode,
-};
 use std::sync::{Arc, Mutex};
+
 use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::optimization::simplify::{expr_simplifier, ExprSimplifierConfig};
 use swc_ecma_utils::{ident::IdentLike, undefined, ExprExt, Id};
 use swc_ecma_visit::{FoldWith, VisitMutWith};
+
+use crate::{
+    compress::{compressor, pure_optimizer},
+    marks::Marks,
+    mode::Mode,
+};
 
 pub struct Evaluator {
     module: Module,

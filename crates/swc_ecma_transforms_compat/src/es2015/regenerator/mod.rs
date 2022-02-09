@@ -1,6 +1,6 @@
-use self::{case::CaseHandler, hoist::hoist};
-use serde::{Deserialize, Serialize};
 use std::mem::take;
+
+use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -10,6 +10,8 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+
+use self::{case::CaseHandler, hoist::hoist};
 
 mod case;
 mod hoist;

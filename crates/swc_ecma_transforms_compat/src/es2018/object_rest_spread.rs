@@ -1,5 +1,6 @@
-use serde::Deserialize;
 use std::{iter, mem};
+
+use serde::Deserialize;
 use swc_common::{chain, util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{

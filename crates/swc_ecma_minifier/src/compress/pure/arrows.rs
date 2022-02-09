@@ -1,8 +1,9 @@
-use super::Pure;
-use crate::mode::Mode;
 use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::contains_this_expr;
+
+use super::Pure;
+use crate::mode::Mode;
 
 /// Methods related to the option `arrows`.
 impl<M> Pure<'_, M>

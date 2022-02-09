@@ -468,12 +468,13 @@ impl SuperReplacer {
 }
 #[cfg(test)]
 mod tests {
-    use super::*;
-    use crate::es2015::{function_name, shorthand_property::shorthand};
     use swc_common::{chain, Mark};
     use swc_ecma_parser::{EsConfig, Syntax};
     use swc_ecma_transforms_base::resolver::resolver_with_mark;
     use swc_ecma_transforms_testing::test;
+
+    use super::*;
+    use crate::es2015::{function_name, shorthand_property::shorthand};
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| {

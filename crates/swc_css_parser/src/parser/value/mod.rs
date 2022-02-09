@@ -1,10 +1,11 @@
+use swc_common::{BytePos, Spanned};
+use swc_css_ast::*;
+
 use super::{input::ParserInput, Ctx, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
     Parse,
 };
-use swc_common::{BytePos, Spanned};
-use swc_css_ast::*;
 
 #[cfg(test)]
 mod tests;

@@ -1,8 +1,9 @@
+use std::{collections::VecDeque, iter::repeat};
+
 use petgraph::{
     EdgeDirection,
     EdgeDirection::{Incoming, Outgoing},
 };
-use std::{collections::VecDeque, iter::repeat};
 use swc_common::collections::AHashSet;
 use swc_fast_graph::digraph::FastDiGraphMap;
 

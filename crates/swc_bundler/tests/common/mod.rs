@@ -1,13 +1,14 @@
-use anyhow::{bail, Context, Error};
-use path_clean::PathClean;
-use reqwest::Url;
-use sha1::{Digest, Sha1};
 use std::{
     env::current_dir,
     fs::{create_dir_all, read_to_string, write},
     io::Write,
     path::{Path, PathBuf},
 };
+
+use anyhow::{bail, Context, Error};
+use path_clean::PathClean;
+use reqwest::Url;
+use sha1::{Digest, Sha1};
 use swc_bundler::{Load, ModuleData, Resolve};
 use swc_common::{
     comments::SingleThreadedComments,

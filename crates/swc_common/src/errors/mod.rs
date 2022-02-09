@@ -8,6 +8,19 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
+use std::{
+    borrow::Cow,
+    cell::RefCell,
+    error, fmt,
+    io::Write,
+    panic,
+    sync::atomic::{AtomicUsize, Ordering::SeqCst},
+};
+
+use scoped_tls::scoped_thread_local;
+#[cfg(feature = "tty-emitter")]
+use termcolor::{Color, ColorSpec};
+
 use self::Level::*;
 pub use self::{
     diagnostic::{Diagnostic, DiagnosticId, DiagnosticStyledString, SubDiagnostic},
@@ -20,17 +33,6 @@ use crate::{
     sync::{Lock, LockCell, Lrc},
     syntax_pos::{BytePos, FileLinesResult, FileName, Loc, MultiSpan, Span, NO_EXPANSION},
 };
-use scoped_tls::scoped_thread_local;
-use std::{
-    borrow::Cow,
-    cell::RefCell,
-    error, fmt,
-    io::Write,
-    panic,
-    sync::atomic::{AtomicUsize, Ordering::SeqCst},
-};
-#[cfg(feature = "tty-emitter")]
-use termcolor::{Color, ColorSpec};
 
 mod diagnostic;
 mod diagnostic_builder;

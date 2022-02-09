@@ -5,6 +5,7 @@ extern crate swc_node_base;
 extern crate test;
 
 use std::hint::black_box;
+
 use swc_common::FileName;
 use swc_ecma_parser::{lexer::Lexer, StringInput, Syntax};
 use test::Bencher;

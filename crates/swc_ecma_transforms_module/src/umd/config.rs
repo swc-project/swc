@@ -1,12 +1,14 @@
-use super::super::util;
+use std::collections::HashMap;
+
 use inflector::Inflector;
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
 use swc_atoms::JsWord;
 use swc_common::{errors::HANDLER, sync::Lrc, FileName, SourceMap};
 use swc_ecma_ast::{Expr, Ident};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_utils::quote_ident;
+
+use super::super::util;
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]

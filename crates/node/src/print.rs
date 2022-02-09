@@ -1,17 +1,19 @@
-use crate::{
-    get_compiler,
-    util::{deserialize_json, get_deserialized, MapErr},
-};
+use std::sync::Arc;
+
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Env, Task,
 };
-use std::sync::Arc;
 use swc::{
     config::{Options, SourceMapsConfig},
     Compiler, TransformOutput,
 };
 use swc_ecma_ast::{EsVersion, Program};
+
+use crate::{
+    get_compiler,
+    util::{deserialize_json, get_deserialized, MapErr},
+};
 
 // ----- Printing -----
 

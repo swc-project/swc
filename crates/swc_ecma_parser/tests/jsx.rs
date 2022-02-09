@@ -1,8 +1,9 @@
-use pretty_assertions::assert_eq;
 use std::{
     fs::read_to_string,
     path::{Path, PathBuf},
 };
+
+use pretty_assertions::assert_eq;
 use swc_common::{errors::Handler, sync::Lrc, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput};

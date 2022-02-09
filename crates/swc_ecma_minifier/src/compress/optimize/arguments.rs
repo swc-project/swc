@@ -1,11 +1,13 @@
-use super::Optimizer;
-use crate::{compress::optimize::is_left_access_to_arguments, mode::Mode};
 use std::iter::repeat_with;
+
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, private_ident, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+
+use super::Optimizer;
+use crate::{compress::optimize::is_left_access_to_arguments, mode::Mode};
 
 /// Methods related to the option `arguments`.
 impl<M> Optimizer<'_, M>

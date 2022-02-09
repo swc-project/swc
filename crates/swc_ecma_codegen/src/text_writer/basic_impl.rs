@@ -1,7 +1,9 @@
-use super::{Result, WriteJs};
 use std::io::{self, Write};
+
 use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span};
 use swc_ecma_ast::EsVersion;
+
+use super::{Result, WriteJs};
 
 ///
 /// -----

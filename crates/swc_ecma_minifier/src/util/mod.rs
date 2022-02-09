@@ -1,4 +1,5 @@
 use std::time::Instant;
+
 use swc_common::{
     collections::AHashSet,
     pass::{CompilerPass, Repeated},

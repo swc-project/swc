@@ -1,6 +1,6 @@
-use super::leap::{CatchEntry, Entry, FinallyEntry, LeapManager, TryEntry};
-use smallvec::SmallVec;
 use std::mem::take;
+
+use smallvec::SmallVec;
 use swc_atoms::JsWord;
 use swc_common::{
     util::{map::Map, move_map::MoveMap, take::Take},
@@ -13,6 +13,8 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+
+use super::leap::{CatchEntry, Entry, FinallyEntry, LeapManager, TryEntry};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub(super) struct Loc {

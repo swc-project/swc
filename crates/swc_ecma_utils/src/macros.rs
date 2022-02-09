@@ -95,9 +95,10 @@ macro_rules! member_expr {
 
 #[cfg(test)]
 mod tests {
-    use crate::drop_span;
     use swc_common::DUMMY_SP as span;
     use swc_ecma_ast::*;
+
+    use crate::drop_span;
 
     #[test]
     fn quote_member_expr() {

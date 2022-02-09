@@ -1,14 +1,15 @@
+use swc_atoms::js_word;
+use swc_common::{util::take::Take, EqIgnoreSpan};
+use swc_ecma_ast::*;
+use swc_ecma_utils::{ident::IdentLike, ExprExt, Type, Value};
+use Value::Known;
+
 use super::Optimizer;
 use crate::{
     compress::util::negate,
     mode::Mode,
     util::{make_bool, ValueExt},
 };
-use swc_atoms::js_word;
-use swc_common::{util::take::Take, EqIgnoreSpan};
-use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, ExprExt, Type, Value};
-use Value::Known;
 
 impl<M> Optimizer<'_, M>
 where

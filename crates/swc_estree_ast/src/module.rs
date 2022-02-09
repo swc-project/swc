@@ -1,3 +1,8 @@
+use serde::{Deserialize, Serialize};
+use serde_json::Value;
+use swc_atoms::JsWord;
+use swc_common::ast_serde;
+
 use crate::{
     class::ClassDeclaration,
     comment::Comment,
@@ -8,10 +13,6 @@ use crate::{
     stmt::Statement,
     typescript::TSDeclareFunction,
 };
-use serde::{Deserialize, Serialize};
-use serde_json::Value;
-use swc_atoms::JsWord;
-use swc_common::ast_serde;
 
 #[derive(Debug, Clone, PartialEq)]
 #[ast_serde]

@@ -1,5 +1,3 @@
-use super::Context;
-use crate::swcify::Swcify;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::{BigInt, Bool, Expr, Lit, Null, Number, Regex, Str, Tpl, TplElement};
 use swc_estree_ast::{
@@ -7,6 +5,9 @@ use swc_estree_ast::{
     NumericLiteral, RegExpLiteral, StringLiteral, TemplateElement, TemplateLiteral,
     TemplateLiteralExpr,
 };
+
+use super::Context;
+use crate::swcify::Swcify;
 
 impl Swcify for Literal {
     type Output = Lit;

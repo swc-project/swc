@@ -15,13 +15,15 @@
 //! and definition contexts*. J. Funct. Program. 22, 2 (March 2012), 181-216.
 //! DOI=10.1017/S0956796812000093 <https://doi.org/10.1017/S0956796812000093>
 
-use super::GLOBALS;
-use crate::collections::AHashMap;
-use serde::{Deserialize, Serialize};
 use std::{
     collections::{HashMap, HashSet},
     fmt,
 };
+
+use serde::{Deserialize, Serialize};
+
+use super::GLOBALS;
+use crate::collections::AHashMap;
 
 /// A SyntaxContext represents a chain of macro expansions (represented by
 /// marks).

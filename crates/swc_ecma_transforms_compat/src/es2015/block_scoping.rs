@@ -1,5 +1,6 @@
-use smallvec::SmallVec;
 use std::mem::take;
+
+use smallvec::SmallVec;
 use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;

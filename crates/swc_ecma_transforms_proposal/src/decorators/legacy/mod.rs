@@ -1,7 +1,6 @@
-use self::metadata::{Metadata, ParamMetadata};
-use super::{contains_decorator, DecoratorFinder};
-use smallvec::SmallVec;
 use std::mem::take;
+
+use smallvec::SmallVec;
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -12,6 +11,9 @@ use swc_ecma_utils::{
     ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Visit, VisitWith};
+
+use self::metadata::{Metadata, ParamMetadata};
+use super::{contains_decorator, DecoratorFinder};
 
 mod metadata;
 

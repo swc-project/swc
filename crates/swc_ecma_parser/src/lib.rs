@@ -123,12 +123,13 @@
 #![allow(clippy::vec_box)]
 #![allow(clippy::wrong_self_convention)]
 
+use serde::{Deserialize, Serialize};
+use swc_ecma_ast::EsVersion;
+
 pub use self::{
     lexer::input::{Input, StringInput},
     parser::*,
 };
-use serde::{Deserialize, Serialize};
-use swc_ecma_ast::EsVersion;
 #[deprecated(note = "Use `EsVersion` instead")]
 pub type JscTarget = EsVersion;
 

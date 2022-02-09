@@ -32,7 +32,6 @@
 //! -----
 //!
 //! Adopted from `synstructure`.
-use crate::{def_site, is_attr_name, syn_ext::PairExt};
 use pmutil::{prelude::*, *};
 use proc_macro2::{Span, TokenStream};
 use quote::ToTokens;
@@ -41,6 +40,8 @@ use syn::{
     token::{Mut, Ref},
     *,
 };
+
+use crate::{def_site, is_attr_name, syn_ext::PairExt};
 
 /// Used to bind whole struct or enum.
 #[derive(Debug, Clone)]

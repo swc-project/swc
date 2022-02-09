@@ -5,12 +5,13 @@
 
 extern crate test;
 
-use anyhow::Error;
 use std::{
     collections::HashMap,
     hint::black_box,
     path::{Path, PathBuf},
 };
+
+use anyhow::Error;
 use swc::resolver::NodeResolver;
 use swc_atoms::js_word;
 use swc_bundler::{Bundler, Load, ModuleData, ModuleRecord};

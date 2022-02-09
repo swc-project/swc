@@ -1,5 +1,5 @@
-use crate::es2015::regenerator;
 use std::{fs::read_to_string, path::PathBuf};
+
 use swc_common::{chain, Mark, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_parser::Syntax;
@@ -12,6 +12,8 @@ use swc_ecma_transforms_compat::{
 };
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
 use swc_ecma_visit::{Fold, FoldWith};
+
+use crate::es2015::regenerator;
 
 struct ParenRemover;
 impl Fold for ParenRemover {

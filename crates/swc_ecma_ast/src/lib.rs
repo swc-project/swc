@@ -9,6 +9,9 @@
 
 // #![deny(variant_size_differences)]
 
+use serde::{Deserialize, Serialize};
+use swc_common::{ast_node, EqIgnoreSpan, Span};
+
 pub use self::{
     class::{
         Class, ClassMember, ClassMethod, ClassProp, Constructor, Decorator, MethodKind,
@@ -68,8 +71,6 @@ pub use self::{
         TsTypeQuery, TsTypeQueryExpr, TsTypeRef, TsUnionOrIntersectionType, TsUnionType,
     },
 };
-use serde::{Deserialize, Serialize};
-use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[macro_use]
 mod macros;

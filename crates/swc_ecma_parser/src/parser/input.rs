@@ -1,3 +1,8 @@
+use std::{cell::RefCell, mem, mem::take, rc::Rc};
+
+use lexer::TokenContexts;
+use swc_common::{BytePos, Span};
+
 use super::Parser;
 use crate::{
     error::Error,
@@ -5,9 +10,6 @@ use crate::{
     token::*,
     Context, EsVersion, Syntax,
 };
-use lexer::TokenContexts;
-use std::{cell::RefCell, mem, mem::take, rc::Rc};
-use swc_common::{BytePos, Span};
 
 /// Clone should be cheap if you are parsing typescript because typescript
 /// syntax requires backtracking.

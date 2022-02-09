@@ -30,6 +30,14 @@
 #![deny(unused)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
+use std::fmt::Debug;
+
+pub use ast_node::{ast_node, ast_serde, DeserializeEnum, Spanned};
+pub use from_variant::FromVariant;
+use serde::Serialize;
+pub use swc_eq_ignore_macros::{EqIgnoreSpan, TypeEq};
+pub use swc_visit::chain;
+
 pub use self::{
     eq::{EqIgnoreSpan, TypeEq},
     errors::{SourceMapper, SourceMapperDyn},
@@ -41,12 +49,6 @@ pub use self::{
     source_map::{FileLines, FileLoader, FilePathMapping, SourceMap, SpanSnippetError},
     syntax_pos::LineCol,
 };
-pub use ast_node::{ast_node, ast_serde, DeserializeEnum, Spanned};
-pub use from_variant::FromVariant;
-use serde::Serialize;
-use std::fmt::Debug;
-pub use swc_eq_ignore_macros::{EqIgnoreSpan, TypeEq};
-pub use swc_visit::chain;
 #[doc(hidden)]
 pub mod private;
 

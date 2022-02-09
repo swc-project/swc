@@ -1,14 +1,16 @@
-use crate::jsx::JSXText;
-use num_bigint::BigInt as BigIntValue;
-use serde::{Deserialize, Serialize};
 use std::{
     borrow::Cow,
     fmt::{self, Display, Formatter},
     hash::{Hash, Hasher},
     mem,
 };
+
+use num_bigint::BigInt as BigIntValue;
+use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
+
+use crate::jsx::JSXText;
 
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan)]

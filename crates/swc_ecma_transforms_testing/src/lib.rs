@@ -1,10 +1,6 @@
 #![deny(clippy::all)]
 #![allow(clippy::result_unit_err)]
 
-use ansi_term::Color;
-use anyhow::{bail, Context, Error};
-use serde::de::DeserializeOwned;
-use sha1::{Digest, Sha1};
 use std::{
     env,
     fs::{self, create_dir_all, read_to_string, OpenOptions},
@@ -15,6 +11,11 @@ use std::{
     rc::Rc,
     sync::{Arc, RwLock},
 };
+
+use ansi_term::Color;
+use anyhow::{bail, Context, Error};
+use serde::de::DeserializeOwned;
+use sha1::{Digest, Sha1};
 use swc_common::{
     chain,
     comments::SingleThreadedComments,

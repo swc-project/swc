@@ -1,8 +1,7 @@
 #![allow(dead_code)]
 
-use super::*;
-use crate::{display_name, react};
 use std::path::PathBuf;
+
 use swc_common::{chain, Mark};
 use swc_ecma_parser::EsConfig;
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
@@ -12,6 +11,9 @@ use swc_ecma_transforms_compat::{
 };
 use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_testing::{parse_options, test, test_fixture_allowing_error, Tester};
+
+use super::*;
+use crate::{display_name, react};
 
 fn tr(t: &mut Tester, options: Options, top_level_mark: Mark) -> impl Fold {
     chain!(

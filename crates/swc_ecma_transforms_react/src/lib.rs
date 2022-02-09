@@ -1,5 +1,8 @@
 #![deny(clippy::all)]
 
+use swc_common::{chain, comments::Comments, sync::Lrc, Mark, SourceMap};
+use swc_ecma_visit::Fold;
+
 pub use self::{
     display_name::display_name,
     jsx::{jsx, parse_expr_for_jsx, JsxDirectives, Options, Runtime},
@@ -8,8 +11,6 @@ pub use self::{
     pure_annotations::pure_annotations,
     refresh::{options::RefreshOptions, refresh},
 };
-use swc_common::{chain, comments::Comments, sync::Lrc, Mark, SourceMap};
-use swc_ecma_visit::Fold;
 
 mod display_name;
 mod jsx;
