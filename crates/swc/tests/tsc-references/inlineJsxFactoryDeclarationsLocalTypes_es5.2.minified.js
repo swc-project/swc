@@ -1,5 +1,3 @@
-import { predom } from "./renderer2";
-import prerendered from "./component";
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -12,6 +10,8 @@ function _defineProperties(target, props) {
 function _createClass(Constructor, protoProps, staticProps) {
     return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
 }
+import { predom } from "./renderer2";
+import prerendered from "./component";
 export var MySFC = function(props) {
     return predom("p", null, props.x, " + ", props.y, " = ", props.x + props.y);
 };

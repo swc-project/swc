@@ -1,5 +1,3 @@
-import { Foo as A } from "./a";
-import { Foo as B } from "./b";
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -9,6 +7,8 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
+import { Foo as A } from "./a";
+import { Foo as B } from "./b";
 export var Foo = function() {
     "use strict";
     var Constructor, protoProps, staticProps;

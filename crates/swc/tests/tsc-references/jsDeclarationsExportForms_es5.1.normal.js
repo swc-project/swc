@@ -1,3 +1,8 @@
+function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
 // @filename: includeAll.js
 import "./cjs4";
 import "./cjs3";
@@ -9,11 +14,6 @@ import "./bat";
 import "./baz";
 import "./bar";
 import "./bar2";
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
 // @allowJs: true
 // @checkJs: true
 // @target: es5

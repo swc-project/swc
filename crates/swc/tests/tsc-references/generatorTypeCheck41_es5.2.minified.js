@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function _defineProperty(obj, key, value) {
     return key in obj ? Object.defineProperty(obj, key, {
         value: value,
@@ -7,6 +6,7 @@ function _defineProperty(obj, key, value) {
         writable: !0
     }) : obj[key] = value, obj;
 }
+import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(function() {
     var x;
     return regeneratorRuntime.wrap(function(_ctx) {

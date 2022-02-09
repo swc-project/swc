@@ -1,8 +1,3 @@
-import { jsx as _jsx } from "react/jsx-runtime";
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Item from './Item';
-import compareObjects from './compareObjects';
 function _assertThisInitialized(self) {
     if (self === void 0) {
         throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -116,6 +111,11 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
+import { jsx as _jsx } from "react/jsx-runtime";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import Item from './Item';
+import compareObjects from './compareObjects';
 var ItemsList = /*#__PURE__*/ function(Component1) {
     "use strict";
     _inherits(ItemsList, Component1);

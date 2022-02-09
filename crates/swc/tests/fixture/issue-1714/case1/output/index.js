@@ -2,15 +2,15 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _exportNames = {
-    render: true
-};
 Object.defineProperty(exports, "render", {
     enumerable: true,
     get: function() {
         return _customRender.customRender;
     }
 });
+var _exportNames = {
+    render: true
+};
 var _customRender = require("./customRender");
 var _react = _interopRequireWildcard(require("@testing-library/react"));
 Object.keys(_react).forEach(function(key) {

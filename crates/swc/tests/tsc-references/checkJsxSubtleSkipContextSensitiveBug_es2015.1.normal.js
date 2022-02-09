@@ -1,9 +1,3 @@
-// @strict: true
-// @jsx: react
-// @lib: es6
-// @skipLibCheck: true
-/// <reference path="/.lib/react16.d.ts" />
-import * as React from "react";
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
         var info = gen[key](arg);
@@ -33,6 +27,12 @@ function _asyncToGenerator(fn) {
         });
     };
 }
+// @strict: true
+// @jsx: react
+// @lib: es6
+// @skipLibCheck: true
+/// <reference path="/.lib/react16.d.ts" />
+import * as React from "react";
 class AsyncLoader extends React.Component {
     render() {
         return null;

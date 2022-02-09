@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function _arrayLikeToArray(arr, len) {
     if (len == null || len > arr.length) len = arr.length;
     for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
@@ -205,6 +204,7 @@ function _wrapAsyncGenerator(fn) {
         return new AsyncGenerator(fn.apply(this, arguments));
     };
 }
+import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(f1);
 // spread iterable
 _toConsumableArray(g1); // error

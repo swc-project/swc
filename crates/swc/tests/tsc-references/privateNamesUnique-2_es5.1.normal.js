@@ -1,6 +1,3 @@
-// @filename: main.ts
-import { Foo as A } from "./a";
-import { Foo as B } from "./b";
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
@@ -26,6 +23,9 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
+// @filename: main.ts
+import { Foo as A } from "./a";
+import { Foo as B } from "./b";
 // @target: es2015
 // @filename: a.ts
 export var Foo = /*#__PURE__*/ function() {
