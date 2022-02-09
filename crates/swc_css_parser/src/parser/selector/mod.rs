@@ -600,7 +600,7 @@ where
                             let any_value = self.parse_any_value()?;
                             let any_value: Vec<PseudoSelectorChildren> = any_value
                                 .into_iter()
-                                .map(|x| PseudoSelectorChildren::PreservedToken(x))
+                                .map(PseudoSelectorChildren::PreservedToken)
                                 .collect();
 
                             children.extend(any_value)
@@ -611,7 +611,7 @@ where
                     let any_value = self.parse_any_value()?;
                     let any_value: Vec<PseudoSelectorChildren> = any_value
                         .into_iter()
-                        .map(|x| PseudoSelectorChildren::PreservedToken(x))
+                        .map(PseudoSelectorChildren::PreservedToken)
                         .collect();
 
                     children.extend(any_value)
