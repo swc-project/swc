@@ -1350,31 +1350,21 @@ fn is_length_unit(unit: &str) -> bool {
 }
 
 fn is_angle_unit(unit: &str) -> bool {
-    debug_assert_eq!(unit, unit.to_ascii_lowercase());
-
-    matches!(unit, "deg" | "grad" | "rad" | "turn")
+    matches!(&*unit.to_ascii_lowercase(), "deg" | "grad" | "rad" | "turn")
 }
 
 fn is_time_unit(unit: &str) -> bool {
-    debug_assert_eq!(unit, unit.to_ascii_lowercase());
-
-    matches!(unit, "s" | "ms")
+    matches!(&*unit.to_ascii_lowercase(), "s" | "ms")
 }
 
 fn is_frequency_unit(unit: &str) -> bool {
-    debug_assert_eq!(unit, unit.to_ascii_lowercase());
-
-    matches!(unit, "hz" | "khz")
+    matches!(&*unit.to_ascii_lowercase(), "hz" | "khz")
 }
 
 fn is_resolution_unit(unit: &str) -> bool {
-    debug_assert_eq!(unit, unit.to_ascii_lowercase());
-
-    matches!(unit, "dpi" | "dpcm" | "dppx" | "x")
+    matches!(&*unit.to_ascii_lowercase(), "dpi" | "dpcm" | "dppx" | "x")
 }
 
 fn is_flex_unit(unit: &str) -> bool {
-    debug_assert_eq!(unit, unit.to_ascii_lowercase());
-
-    matches!(unit, "fr")
+    matches!(&*unit.to_ascii_lowercase(), "fr")
 }
