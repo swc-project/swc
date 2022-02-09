@@ -1,4 +1,5 @@
 format_strings = true
 imports_granularity = "Crate"
+reorder_impl_items = true
 use_field_init_shorthand = true
 wrap_comments = true
