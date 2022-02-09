@@ -1,0 +1,175 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/value/dimension/input.css:1:1
+  |
+1 | / div {
+2 | |     width: 100\%;
+3 | |     width: 100px2p;
+4 | | }
+  | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/value/dimension/input.css:1:1
+  |
+1 | / div {
+2 | |     width: 100\%;
+3 | |     width: 100px2p;
+4 | | }
+  | |_^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/value/dimension/input.css:1:1
+  |
+1 | / div {
+2 | |     width: 100\%;
+3 | |     width: 100px2p;
+4 | | }
+  | |_^
+
+error: SelectorList
+ --> $DIR/tests/fixture/value/dimension/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/value/dimension/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/value/dimension/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/value/dimension/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/value/dimension/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: WqName
+ --> $DIR/tests/fixture/value/dimension/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/dimension/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: Block
+ --> $DIR/tests/fixture/value/dimension/input.css:1:5
+  |
+1 |   div {
+  |  _____^
+2 | |     width: 100\%;
+3 | |     width: 100px2p;
+4 | | }
+  | |_^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/dimension/input.css:2:5
+  |
+2 |     width: 100\%;
+  |     ^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/dimension/input.css:2:5
+  |
+2 |     width: 100\%;
+  |     ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/dimension/input.css:2:5
+  |
+2 |     width: 100\%;
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/dimension/input.css:2:12
+  |
+2 |     width: 100\%;
+  |            ^^^^^
+
+error: Dimension
+ --> $DIR/tests/fixture/value/dimension/input.css:2:12
+  |
+2 |     width: 100\%;
+  |            ^^^^^
+
+error: UnknownDimension
+ --> $DIR/tests/fixture/value/dimension/input.css:2:12
+  |
+2 |     width: 100\%;
+  |            ^^^^^
+
+error: Number
+ --> $DIR/tests/fixture/value/dimension/input.css:2:12
+  |
+2 |     width: 100\%;
+  |            ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/dimension/input.css:2:15
+  |
+2 |     width: 100\%;
+  |               ^^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/dimension/input.css:3:5
+  |
+3 |     width: 100px2p;
+  |     ^^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/dimension/input.css:3:5
+  |
+3 |     width: 100px2p;
+  |     ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/dimension/input.css:3:5
+  |
+3 |     width: 100px2p;
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/dimension/input.css:3:12
+  |
+3 |     width: 100px2p;
+  |            ^^^^^^^
+
+error: Dimension
+ --> $DIR/tests/fixture/value/dimension/input.css:3:12
+  |
+3 |     width: 100px2p;
+  |            ^^^^^^^
+
+error: UnknownDimension
+ --> $DIR/tests/fixture/value/dimension/input.css:3:12
+  |
+3 |     width: 100px2p;
+  |            ^^^^^^^
+
+error: Number
+ --> $DIR/tests/fixture/value/dimension/input.css:3:12
+  |
+3 |     width: 100px2p;
+  |            ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/dimension/input.css:3:15
+  |
+3 |     width: 100px2p;
+  |               ^^^^
+

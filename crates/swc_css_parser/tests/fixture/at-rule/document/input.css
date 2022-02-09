@@ -13,3 +13,4 @@
 
 @document url(https://www.example.com/) {}
 @-moz-document url("https://www.example.com/") {}
+@-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
