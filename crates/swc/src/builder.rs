@@ -1,10 +1,7 @@
-use crate::{
-    config::{util::BoolOrObject, CompiledPaths, GlobalPassOption, JsMinifyOptions, ModuleConfig},
-    SwcComments,
-};
+use std::{cell::RefCell, collections::HashMap, path::PathBuf, rc::Rc, sync::Arc};
+
 use compat::{es2015::regenerator, es2020::export_namespace_from};
 use either::Either;
-use std::{cell::RefCell, collections::HashMap, path::PathBuf, rc::Rc, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{
     chain, comments::Comments, errors::Handler, sync::Lrc, util::take::Take, FileName, Mark,
@@ -19,6 +16,11 @@ use swc_ecma_transforms::{
     pass::Optional, Assumptions,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
+
+use crate::{
+    config::{util::BoolOrObject, CompiledPaths, GlobalPassOption, JsMinifyOptions, ModuleConfig},
+    SwcComments,
+};
 
 /// Builder is used to create a high performance `Compiler`.
 pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {

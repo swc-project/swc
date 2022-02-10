@@ -1,5 +1,6 @@
-use crate::v1::JsCallback;
 use serde::Deserialize;
+
+use crate::v1::JsCallback;
 
 #[derive(Debug, Deserialize)]
 #[serde(rename = "Optimization", rename_all = "camelCase")]

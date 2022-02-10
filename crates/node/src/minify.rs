@@ -1,15 +1,17 @@
-use crate::{
-    get_compiler,
-    util::{deserialize_json, get_deserialized, try_with, MapErr},
-};
+use std::sync::Arc;
+
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Task,
 };
 use serde::Deserialize;
-use std::sync::Arc;
 use swc::{config::JsMinifyOptions, TransformOutput};
 use swc_common::{collections::AHashMap, sync::Lrc, FileName, SourceFile, SourceMap};
+
+use crate::{
+    get_compiler,
+    util::{deserialize_json, get_deserialized, try_with, MapErr},
+};
 
 struct MinifyTask {
     c: Arc<swc::Compiler>,
@@ -47,9 +49,8 @@ impl MinifyTarget {
 
 #[napi]
 impl Task for MinifyTask {
-    type Output = TransformOutput;
-
     type JsValue = TransformOutput;
+    type Output = TransformOutput;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
         let input: MinifyTarget = deserialize_json(&self.code)?;

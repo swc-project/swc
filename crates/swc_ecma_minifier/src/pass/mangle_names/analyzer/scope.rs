@@ -1,4 +1,3 @@
-use crate::util::base54::incr_base54;
 use rayon::prelude::*;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
@@ -6,6 +5,8 @@ use swc_common::{
     util::take::Take,
 };
 use swc_ecma_utils::Id;
+
+use crate::util::base54::incr_base54;
 
 #[derive(Debug, Default)]
 pub(crate) struct Scope {

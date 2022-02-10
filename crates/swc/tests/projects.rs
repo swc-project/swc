@@ -1,8 +1,9 @@
-use rayon::prelude::*;
 use std::{
     fs::create_dir_all,
     path::{Path, PathBuf},
 };
+
+use rayon::prelude::*;
 use swc::{
     config::{
         BuiltInput, Config, IsModule, JscConfig, ModuleConfig, Options, SourceMapsConfig,

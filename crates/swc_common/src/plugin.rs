@@ -4,9 +4,11 @@
 //! `swc_common`.
 #![allow(unused)]
 
-use crate::{syntax_pos::Mark, SyntaxContext};
-use anyhow::Error;
 use std::any::type_name;
+
+use anyhow::Error;
+
+use crate::{syntax_pos::Mark, SyntaxContext};
 
 #[derive(Debug, Clone, PartialEq)]
 #[non_exhaustive]

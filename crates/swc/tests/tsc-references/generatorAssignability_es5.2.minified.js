@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function _arrayLikeToArray(arr, len) {
     (null == len || len > arr.length) && (len = arr.length);
     for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
@@ -114,6 +113,7 @@ function _unsupportedIterableToArray(o, minLen) {
 }, AsyncGenerator.prototype.return = function(arg) {
     return this._invoke("return", arg);
 };
+import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){

@@ -1,8 +1,9 @@
-use crate::es2015::arrow;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prepend;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, InjectVars};
+
+use crate::es2015::arrow;
 
 /// Safari 10.3 had an issue where async arrow function expressions within any
 /// class method would throw. After an initial fix, any references to the
@@ -94,8 +95,9 @@ impl Fold for AsyncArrowsInClass {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use swc_ecma_transforms_testing::test;
+
+    use super::*;
 
     test!(
         ::swc_ecma_parser::Syntax::default(),

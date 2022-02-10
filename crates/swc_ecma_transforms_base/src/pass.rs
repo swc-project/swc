@@ -13,6 +13,7 @@ impl Fold for Noop {
     fn fold_module(&mut self, m: Module) -> Module {
         m
     }
+
     #[inline(always)]
     fn fold_script(&mut self, s: Script) -> Script {
         s

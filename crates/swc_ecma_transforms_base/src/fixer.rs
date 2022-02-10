@@ -72,6 +72,7 @@ impl VisitMut for Fixer<'_> {
     noop_visit_mut_type!();
 
     array!(visit_mut_array_lit, ArrayLit);
+
     // array!(ArrayPat);
 
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
@@ -399,6 +400,7 @@ impl VisitMut for Fixer<'_> {
 
         node.value.visit_mut_with(self);
     }
+
     fn visit_mut_key_value_prop(&mut self, prop: &mut KeyValueProp) {
         prop.visit_mut_children_with(self);
 

@@ -1,5 +1,6 @@
-use anyhow::{anyhow, Error};
 use std::sync::Arc;
+
+use anyhow::{anyhow, Error};
 use swc_common::{input::SourceFileInput, SourceFile, DUMMY_SP};
 use swc_ecma_ast::{EsVersion, *};
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};

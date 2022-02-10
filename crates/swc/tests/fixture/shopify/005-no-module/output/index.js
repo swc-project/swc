@@ -1,5 +1,3 @@
-import React from "react";
-import { useI18n } from "@shopify/react-i18n";
 function _arrayLikeToArray(arr, len) {
     if (len == null || len > arr.length) len = arr.length;
     for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
@@ -46,6 +44,8 @@ function _unsupportedIterableToArray(o, minLen) {
     if (n === "Map" || n === "Set") return Array.from(n);
     if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
 }
+import React from "react";
+import { useI18n } from "@shopify/react-i18n";
 export function App() {
     var ref = _slicedToArray(useI18n(), 1), i18n = ref[0];
     return(/*#__PURE__*/ React.createElement("h1", null, i18n.translate("foo")));

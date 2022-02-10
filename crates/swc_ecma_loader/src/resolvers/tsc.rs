@@ -1,10 +1,12 @@
-use crate::resolve::Resolve;
+use std::path::{Component, PathBuf};
+
 use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
-use std::path::{Component, PathBuf};
 use swc_common::FileName;
+
+use crate::resolve::Resolve;
 
 #[derive(Debug)]
 enum Pattern {

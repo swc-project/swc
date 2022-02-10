@@ -1,10 +1,12 @@
+use std::sync::atomic::{AtomicBool, Ordering};
+
+use swc_common::{sync::Lrc, FileName};
+
 use super::load::TransformedModule;
 use crate::{
     id::{Id, ModuleId, ModuleIdGenerator},
     util::CloneMap,
 };
-use std::sync::atomic::{AtomicBool, Ordering};
-use swc_common::{sync::Lrc, FileName};
 
 #[derive(Debug, Default)]
 pub(super) struct Scope {

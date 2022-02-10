@@ -1,19 +1,39 @@
+use swc_common::Span;
+use swc_css_ast::*;
+
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
     parser::{Ctx, RuleContext},
     Parse,
 };
-use swc_common::Span;
-use swc_css_ast::*;
+
+impl<I> Parse<Stylesheet> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Stylesheet> {
+        let start = self.input.cur_span()?;
+        let rules = self.parse_rule_list(RuleContext { is_top_level: true })?;
+
+        let last = self.input.last_pos()?;
+
+        Ok(Stylesheet {
+            span: Span::new(start.lo, last, Default::default()),
+            rules,
+        })
+    }
+}
 
 impl<I> Parser<I>
 where
     I: ParserInput,
 {
     pub(crate) fn parse_rule_list(&mut self, ctx: RuleContext) -> PResult<Vec<Rule>> {
+        // Create an initially empty list of rules.
         let mut rules = vec![];
 
+        // Repeatedly consume the next input token:
         loop {
             // TODO: remove `}`
             // <EOF-token>
@@ -42,9 +62,15 @@ where
                     // anything is returned, append it to the list of rules.
                     rules.push(self.parse()?);
                 }
+                // <at-keyword-token>
+                // Reconsume the current input token. Consume an at-rule, and append the returned
+                // value to the list of rules.
                 Token::AtKeyword { .. } => {
-                    rules.push(self.parse_at_rule(Default::default())?.into());
+                    rules.push(Rule::AtRule(self.parse_at_rule(Default::default())?));
                 }
+                // anything else
+                // Reconsume the current input token. Consume a qualified rule. If anything is
+                // returned, append it to the list of rules.
                 _ => {
                     rules.push(self.parse()?);
                 }
@@ -137,31 +163,9 @@ where
                     bump!(self);
                 }
                 Token::AtKeyword { .. } => {
-                    let state = self.input.state();
-                    let span = self.input.cur_span()?;
-                    let prop = match self
-                        .parse_at_rule(Default::default())
-                        .map(DeclarationBlockItem::AtRule)
-                    {
-                        Ok(v) => v,
-                        Err(err) => {
-                            self.errors.push(err);
-                            self.input.reset(&state);
-
-                            let mut tokens = vec![];
-
-                            while !is_one_of!(self, EOF, ";", "}") {
-                                tokens.extend(self.input.bump()?);
-                            }
-
-                            DeclarationBlockItem::Invalid(Tokens {
-                                span: span!(self, span.lo),
-                                tokens,
-                            })
-                        }
-                    };
-
-                    declarations.push(prop);
+                    declarations.push(DeclarationBlockItem::AtRule(
+                        self.parse_at_rule(Default::default())?,
+                    ));
                 }
                 Token::Ident { .. } => {
                     let state = self.input.state();
@@ -188,8 +192,32 @@ where
                     declarations.push(prop);
                 }
 
-                _ => {
+                // TODO refactor me
+                tok!("}") => {
                     break;
+                }
+
+                // anything else
+                _ => {
+                    let span = self.input.cur_span()?;
+
+                    self.errors.push(Error::new(
+                        span,
+                        ErrorKind::Expected(
+                            "whitespace, semicolon, EOF, at-keyword or ident token",
+                        ),
+                    ));
+
+                    let mut tokens = vec![];
+
+                    while !is_one_of!(self, EOF, ";") {
+                        tokens.extend(self.input.bump()?);
+                    }
+
+                    declarations.push(DeclarationBlockItem::Invalid(Tokens {
+                        span: span!(self, span.lo),
+                        tokens,
+                    }));
                 }
             }
         }

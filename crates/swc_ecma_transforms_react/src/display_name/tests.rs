@@ -1,5 +1,6 @@
-use super::*;
 use swc_ecma_transforms_testing::test;
+
+use super::*;
 
 fn tr() -> impl Fold {
     display_name()

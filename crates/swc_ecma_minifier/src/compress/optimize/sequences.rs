@@ -1,3 +1,16 @@
+use std::mem::take;
+
+use retain_mut::RetainMut;
+use swc_atoms::js_word;
+use swc_common::{util::take::Take, Spanned, DUMMY_SP};
+use swc_ecma_ast::*;
+use swc_ecma_utils::{
+    contains_arguments, contains_this_expr, ident::IdentLike, undefined, ExprExt, Id, StmtLike,
+    UsageFinder,
+};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use tracing::{span, Level};
+
 use super::{is_pure_undefined, Optimizer};
 use crate::{
     compress::{
@@ -9,16 +22,6 @@ use crate::{
     option::CompressOptions,
     util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, ModuleItemExt},
 };
-use retain_mut::RetainMut;
-use std::mem::take;
-use swc_atoms::js_word;
-use swc_common::{util::take::Take, Spanned, DUMMY_SP};
-use swc_ecma_ast::*;
-use swc_ecma_utils::{
-    contains_this_expr, ident::IdentLike, undefined, ExprExt, Id, StmtLike, UsageFinder,
-};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
-use tracing::{span, Level};
 
 /// Methods related to the option `sequences`. All methods are noop if
 /// `sequences` is false.
@@ -1008,13 +1011,13 @@ where
 
             Expr::Assign(b @ AssignExpr { op: op!("="), .. }) => {
                 match &mut b.left {
-                    PatOrExpr::Expr(b) => {
+                    PatOrExpr::Expr(b_left) => {
                         tracing::trace!("seq: Try lhs of assign");
-                        if self.merge_sequential_expr(a, &mut **b)? {
+                        if self.merge_sequential_expr(a, &mut **b_left)? {
                             return Ok(true);
                         }
 
-                        match &**b {
+                        match &**b_left {
                             Expr::Ident(..) => {}
 
                             _ => {
@@ -1022,14 +1025,14 @@ where
                             }
                         }
                     }
-                    PatOrExpr::Pat(b) => match &mut **b {
-                        Pat::Expr(b) => {
+                    PatOrExpr::Pat(b_left) => match &mut **b_left {
+                        Pat::Expr(b_left) => {
                             tracing::trace!("seq: Try lhs of assign");
-                            if self.merge_sequential_expr(a, &mut **b)? {
+                            if self.merge_sequential_expr(a, &mut **b_left)? {
                                 return Ok(true);
                             }
 
-                            match &**b {
+                            match &**b_left {
                                 Expr::Ident(..) => {}
                                 _ => {
                                     return Ok(false);
@@ -1041,11 +1044,19 @@ where
                     },
                 }
 
+                if should_not_check_rhs_of_assign(a, b) {
+                    return Ok(false);
+                }
+
                 tracing::trace!("seq: Try rhs of assign");
                 return self.merge_sequential_expr(a, &mut b.right);
             }
 
             Expr::Assign(b) => {
+                if should_not_check_rhs_of_assign(a, b) {
+                    return Ok(false);
+                }
+
                 let b_left = b.left.as_ident();
                 let b_left = match b_left {
                     Some(v) => v.clone(),
@@ -1368,10 +1379,7 @@ where
         if right.is_this() || right.is_ident_ref_to(js_word!("arguments")) {
             return Ok(false);
         }
-        if idents_used_by_ignoring_nested(&**right)
-            .iter()
-            .any(|v| v.0 == js_word!("arguments"))
-        {
+        if contains_arguments(&**right) {
             return Ok(false);
         }
 
@@ -1444,6 +1452,31 @@ where
 
         Ok(true)
     }
+}
+
+/// TODO(kdy1): Optimize this
+///
+/// See https://github.com/swc-project/swc/pull/3480
+///
+/// This works, but it should be optimized.
+///
+/// This check blocks optimization of clearly valid optimizations like `i += 1,
+/// arr[i]`
+fn should_not_check_rhs_of_assign(a: &Mergable, b: &mut AssignExpr) -> bool {
+    if let Some(a_id) = a.id() {
+        match a {
+            Mergable::Expr(Expr::Assign(AssignExpr { op: op!("="), .. })) => {}
+            Mergable::Expr(Expr::Assign(..)) => {
+                let used_by_b = idents_used_by(&*b.right);
+                if used_by_b.contains(&a_id) {
+                    return true;
+                }
+            }
+            _ => {}
+        }
+    }
+
+    false
 }
 
 struct UsageCounter<'a> {

@@ -1,0 +1,12 @@
+{
+    "jsc": {
+        "lints": {
+            "dotNotation": [
+                "error",
+                {
+                    "allowPattern": "^prefix.*"
+                }
+            ]
+        }
+    }
+}

@@ -1,13 +1,18 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![deny(unused_must_use)]
+#![deny(clippy::all)]
+#![allow(clippy::needless_return)]
+#![allow(clippy::nonminimal_bool)]
+#![allow(clippy::wrong_self_convention)]
+
+use swc_common::{input::StringInput, BytePos, SourceFile};
+use swc_css_ast::Tokens;
 
 use crate::{
     error::Error,
     lexer::Lexer,
     parser::{input::TokensInput, PResult, Parser, ParserConfig},
 };
-use swc_common::{input::StringInput, BytePos, SourceFile};
-use swc_css_ast::Tokens;
 
 #[macro_use]
 mod macros;

@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 1163,
+    "end": 1301,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "QualifiedRule",
       "span": {
         "start": 0,
-        "end": 1080,
+        "end": 1218,
         "ctxt": 0
       },
       "prelude": {
@@ -47,7 +47,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1,
                         "end": 5,
@@ -68,7 +68,7 @@
         "type": "Block",
         "span": {
           "start": 6,
-          "end": 1080,
+          "end": 1218,
           "ctxt": 0
         },
         "value": [
@@ -80,7 +80,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 12,
                 "end": 14,
@@ -124,7 +124,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 27,
                 "end": 38,
@@ -166,7 +166,7 @@
                 "ctxt": 0
               },
               "value": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 45,
                   "end": 54,
@@ -185,7 +185,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 60,
                 "end": 72,
@@ -227,7 +227,7 @@
                 "ctxt": 0
               },
               "value": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 80,
                   "end": 89,
@@ -246,7 +246,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 95,
                 "end": 107,
@@ -300,7 +300,7 @@
                 "ctxt": 0
               },
               "value": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 116,
                   "end": 125,
@@ -319,7 +319,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 131,
                 "end": 143,
@@ -373,7 +373,7 @@
                 "ctxt": 0
               },
               "value": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 151,
                   "end": 160,
@@ -392,7 +392,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 166,
                 "end": 178,
@@ -456,7 +456,7 @@
                 "ctxt": 0
               },
               "value": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 188,
                   "end": 197,
@@ -475,7 +475,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 204,
                 "end": 211,
@@ -505,7 +505,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 219,
                 "end": 227,
@@ -535,7 +535,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 239,
                 "end": 247,
@@ -563,7 +563,7 @@
                 "ctxt": 0
               },
               "value": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 250,
                   "end": 259,
@@ -582,7 +582,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 265,
                 "end": 273,
@@ -610,7 +610,7 @@
                 "ctxt": 0
               },
               "value": {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 280,
                   "end": 289,
@@ -629,7 +629,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 295,
                 "end": 303,
@@ -659,7 +659,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 326,
                 "end": 341,
@@ -703,7 +703,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 353,
                 "end": 361,
@@ -748,7 +748,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 370,
                 "end": 376,
@@ -795,7 +795,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 389,
                 "end": 396,
@@ -840,7 +840,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 409,
                 "end": 419,
@@ -956,7 +956,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 438,
                 "end": 448,
@@ -1021,7 +1021,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 468,
                 "end": 476,
@@ -1065,7 +1065,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 506,
                 "end": 514,
@@ -1109,7 +1109,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 545,
                 "end": 559,
@@ -1238,7 +1238,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 576,
                 "end": 591,
@@ -1285,7 +1285,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 601,
                 "end": 616,
@@ -1332,7 +1332,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 625,
                 "end": 638,
@@ -1461,7 +1461,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 655,
                 "end": 669,
@@ -1508,7 +1508,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 679,
                 "end": 693,
@@ -1555,7 +1555,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 702,
                 "end": 717,
@@ -1684,7 +1684,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 734,
                 "end": 750,
@@ -1731,7 +1731,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 760,
                 "end": 776,
@@ -1778,7 +1778,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 787,
                 "end": 793,
@@ -2042,7 +2042,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 834,
                 "end": 846,
@@ -2218,7 +2218,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 891,
                 "end": 896,
@@ -2257,7 +2257,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 908,
                 "end": 913,
@@ -2296,7 +2296,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 925,
                 "end": 943,
@@ -2567,7 +2567,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 980,
                 "end": 996,
@@ -2639,7 +2639,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 1015,
                 "end": 1040,
@@ -2694,7 +2694,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 1051,
                 "end": 1072,
@@ -2744,6 +2744,408 @@
               }
             ],
             "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1083,
+              "end": 1097,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "DashedIdent",
+              "span": {
+                "start": 1083,
+                "end": 1094,
+                "ctxt": 0
+              },
+              "value": "--zero-size",
+              "raw": "--zero-size"
+            },
+            "value": [
+              {
+                "type": "Tokens",
+                "span": {
+                  "start": 1096,
+                  "end": 1140,
+                  "ctxt": 0
+                },
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 1096,
+                      "end": 1097,
+                      "ctxt": 0
+                    },
+                    "token": "LBrace"
+                  },
+                  {
+                    "span": {
+                      "start": 1097,
+                      "end": 1106,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": "\n        "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 1106,
+                      "end": 1111,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Ident": {
+                        "value": "width",
+                        "raw": "width"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 1111,
+                      "end": 1112,
+                      "ctxt": 0
+                    },
+                    "token": "Colon"
+                  },
+                  {
+                    "span": {
+                      "start": 1112,
+                      "end": 1113,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 1113,
+                      "end": 1114,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Num": {
+                        "value": 0.0,
+                        "raw": "0",
+                        "type": "integer"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 1114,
+                      "end": 1115,
+                      "ctxt": 0
+                    },
+                    "token": "Semi"
+                  },
+                  {
+                    "span": {
+                      "start": 1115,
+                      "end": 1124,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": "\n        "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 1124,
+                      "end": 1130,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Ident": {
+                        "value": "height",
+                        "raw": "height"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 1130,
+                      "end": 1131,
+                      "ctxt": 0
+                    },
+                    "token": "Colon"
+                  },
+                  {
+                    "span": {
+                      "start": 1131,
+                      "end": 1132,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 1132,
+                      "end": 1133,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Num": {
+                        "value": 0.0,
+                        "raw": "0",
+                        "type": "integer"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 1133,
+                      "end": 1134,
+                      "ctxt": 0
+                    },
+                    "token": "Semi"
+                  },
+                  {
+                    "span": {
+                      "start": 1134,
+                      "end": 1139,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": "\n    "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 1139,
+                      "end": 1140,
+                      "ctxt": 0
+                    },
+                    "token": "RBrace"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1146,
+              "end": 1161,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "DashedIdent",
+              "span": {
+                "start": 1146,
+                "end": 1158,
+                "ctxt": 0
+              },
+              "value": "--small-icon",
+              "raw": "--small-icon"
+            },
+            "value": [
+              {
+                "type": "Tokens",
+                "span": {
+                  "start": 1160,
+                  "end": 1215,
+                  "ctxt": 0
+                },
+                "tokens": [
+                  {
+                    "span": {
+                      "start": 1160,
+                      "end": 1161,
+                      "ctxt": 0
+                    },
+                    "token": "LBrace"
+                  },
+                  {
+                    "span": {
+                      "start": 1161,
+                      "end": 1170,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": "\n        "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 1170,
+                      "end": 1175,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Ident": {
+                        "value": "width",
+                        "raw": "width"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 1175,
+                      "end": 1176,
+                      "ctxt": 0
+                    },
+                    "token": "Colon"
+                  },
+                  {
+                    "span": {
+                      "start": 1176,
+                      "end": 1177,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 1177,
+                      "end": 1181,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Dimension": {
+                        "value": 16.0,
+                        "raw_value": "16",
+                        "unit": "px",
+                        "raw_unit": "px",
+                        "type": "integer"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 1181,
+                      "end": 1182,
+                      "ctxt": 0
+                    },
+                    "token": "Semi"
+                  },
+                  {
+                    "span": {
+                      "start": 1182,
+                      "end": 1191,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": "\n        "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 1191,
+                      "end": 1197,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Ident": {
+                        "value": "height",
+                        "raw": "height"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 1197,
+                      "end": 1198,
+                      "ctxt": 0
+                    },
+                    "token": "Colon"
+                  },
+                  {
+                    "span": {
+                      "start": 1198,
+                      "end": 1199,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 1199,
+                      "end": 1203,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Dimension": {
+                        "value": 16.0,
+                        "raw_value": "16",
+                        "unit": "px",
+                        "raw_unit": "px",
+                        "type": "integer"
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 1203,
+                      "end": 1204,
+                      "ctxt": 0
+                    },
+                    "token": "Semi"
+                  },
+                  {
+                    "span": {
+                      "start": 1204,
+                      "end": 1209,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": "\n    "
+                      }
+                    }
+                  },
+                  {
+                    "span": {
+                      "start": 1209,
+                      "end": 1210,
+                      "ctxt": 0
+                    },
+                    "token": "RBrace"
+                  },
+                  {
+                    "span": {
+                      "start": 1210,
+                      "end": 1215,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": "\n    "
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
           }
         ]
       }
@@ -2751,31 +3153,31 @@
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 1082,
-        "end": 1094,
+        "start": 1220,
+        "end": 1232,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 1082,
-          "end": 1087,
+          "start": 1220,
+          "end": 1225,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 1082,
-              "end": 1087,
+              "start": 1220,
+              "end": 1225,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 1082,
-                  "end": 1087,
+                  "start": 1220,
+                  "end": 1225,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -2784,15 +3186,15 @@
                   {
                     "type": "PseudoClassSelector",
                     "span": {
-                      "start": 1082,
-                      "end": 1087,
+                      "start": 1220,
+                      "end": 1225,
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
-                        "start": 1083,
-                        "end": 1087,
+                        "start": 1221,
+                        "end": 1225,
                         "ctxt": 0
                       },
                       "value": "root",
@@ -2809,23 +3211,23 @@
       "block": {
         "type": "Block",
         "span": {
-          "start": 1087,
-          "end": 1094,
+          "start": 1225,
+          "end": 1232,
           "ctxt": 0
         },
         "value": [
           {
             "type": "Declaration",
             "span": {
-              "start": 1088,
-              "end": 1093,
+              "start": 1226,
+              "end": 1231,
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
-                "start": 1088,
-                "end": 1091,
+                "start": 1226,
+                "end": 1229,
                 "ctxt": 0
               },
               "value": "--a",
@@ -2835,15 +3237,15 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 1092,
-                  "end": 1093,
+                  "start": 1230,
+                  "end": 1231,
                   "ctxt": 0
                 },
                 "tokens": [
                   {
                     "span": {
-                      "start": 1092,
-                      "end": 1093,
+                      "start": 1230,
+                      "end": 1231,
                       "ctxt": 0
                     },
                     "token": {
@@ -2865,31 +3267,31 @@
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 1095,
-        "end": 1110,
+        "start": 1233,
+        "end": 1248,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 1095,
-          "end": 1100,
+          "start": 1233,
+          "end": 1238,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 1095,
-              "end": 1100,
+              "start": 1233,
+              "end": 1238,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 1095,
-                  "end": 1100,
+                  "start": 1233,
+                  "end": 1238,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -2898,15 +3300,15 @@
                   {
                     "type": "PseudoClassSelector",
                     "span": {
-                      "start": 1095,
-                      "end": 1100,
+                      "start": 1233,
+                      "end": 1238,
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
-                        "start": 1096,
-                        "end": 1100,
+                        "start": 1234,
+                        "end": 1238,
                         "ctxt": 0
                       },
                       "value": "root",
@@ -2923,23 +3325,23 @@
       "block": {
         "type": "Block",
         "span": {
-          "start": 1101,
-          "end": 1110,
+          "start": 1239,
+          "end": 1248,
           "ctxt": 0
         },
         "value": [
           {
             "type": "Declaration",
             "span": {
-              "start": 1102,
-              "end": 1110,
+              "start": 1240,
+              "end": 1248,
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
-                "start": 1102,
-                "end": 1107,
+                "start": 1240,
+                "end": 1245,
                 "ctxt": 0
               },
               "value": "--foo",
@@ -2949,8 +3351,8 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 1109,
-                  "end": 1109,
+                  "start": 1247,
+                  "end": 1247,
                   "ctxt": 0
                 },
                 "tokens": []
@@ -2964,31 +3366,31 @@
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 1111,
-        "end": 1132,
+        "start": 1249,
+        "end": 1270,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 1111,
-          "end": 1116,
+          "start": 1249,
+          "end": 1254,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 1111,
-              "end": 1116,
+              "start": 1249,
+              "end": 1254,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 1111,
-                  "end": 1116,
+                  "start": 1249,
+                  "end": 1254,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -2997,15 +3399,15 @@
                   {
                     "type": "PseudoClassSelector",
                     "span": {
-                      "start": 1111,
-                      "end": 1116,
+                      "start": 1249,
+                      "end": 1254,
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
-                        "start": 1112,
-                        "end": 1116,
+                        "start": 1250,
+                        "end": 1254,
                         "ctxt": 0
                       },
                       "value": "root",
@@ -3022,23 +3424,23 @@
       "block": {
         "type": "Block",
         "span": {
-          "start": 1117,
-          "end": 1132,
+          "start": 1255,
+          "end": 1270,
           "ctxt": 0
         },
         "value": [
           {
             "type": "Declaration",
             "span": {
-              "start": 1123,
-              "end": 1132,
+              "start": 1261,
+              "end": 1270,
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
-                "start": 1123,
-                "end": 1128,
+                "start": 1261,
+                "end": 1266,
                 "ctxt": 0
               },
               "value": "--foo",
@@ -3048,8 +3450,8 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 1131,
-                  "end": 1131,
+                  "start": 1269,
+                  "end": 1269,
                   "ctxt": 0
                 },
                 "tokens": []
@@ -3063,31 +3465,31 @@
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 1134,
-        "end": 1162,
+        "start": 1272,
+        "end": 1300,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 1134,
-          "end": 1139,
+          "start": 1272,
+          "end": 1277,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 1134,
-              "end": 1139,
+              "start": 1272,
+              "end": 1277,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 1134,
-                  "end": 1139,
+                  "start": 1272,
+                  "end": 1277,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -3096,15 +3498,15 @@
                   {
                     "type": "PseudoClassSelector",
                     "span": {
-                      "start": 1134,
-                      "end": 1139,
+                      "start": 1272,
+                      "end": 1277,
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
-                        "start": 1135,
-                        "end": 1139,
+                        "start": 1273,
+                        "end": 1277,
                         "ctxt": 0
                       },
                       "value": "root",
@@ -3121,23 +3523,23 @@
       "block": {
         "type": "Block",
         "span": {
-          "start": 1140,
-          "end": 1162,
+          "start": 1278,
+          "end": 1300,
           "ctxt": 0
         },
         "value": [
           {
             "type": "Declaration",
             "span": {
-              "start": 1146,
-              "end": 1159,
+              "start": 1284,
+              "end": 1297,
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
-                "start": 1146,
-                "end": 1151,
+                "start": 1284,
+                "end": 1289,
                 "ctxt": 0
               },
               "value": "--var",
@@ -3147,15 +3549,15 @@
               {
                 "type": "Tokens",
                 "span": {
-                  "start": 1154,
-                  "end": 1159,
+                  "start": 1292,
+                  "end": 1297,
                   "ctxt": 0
                 },
                 "tokens": [
                   {
                     "span": {
-                      "start": 1154,
-                      "end": 1159,
+                      "start": 1292,
+                      "end": 1297,
                       "ctxt": 0
                     },
                     "token": {

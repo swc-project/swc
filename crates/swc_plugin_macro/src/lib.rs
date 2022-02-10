@@ -1,6 +1,5 @@
 extern crate proc_macro;
 use proc_macro::TokenStream;
-
 use proc_macro2::{Ident, Span};
 use quote::quote;
 use syn::{Item as SynItem, ItemFn};
@@ -25,6 +24,8 @@ fn handle_func(func: ItemFn) -> TokenStream {
     let ret = quote! {
         #func
 
+        // Declaration for imported function from swc host.
+        // Refer swc_plugin_runner for the actual implementation.
         extern "C" {
             fn __set_transform_result(bytes_ptr: i32, bytes_ptr_len: i32);
             fn __free(bytes_ptr: i32, size: i32) -> i32;
@@ -76,6 +77,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
             let raw_config_serialized_bytes =
                 unsafe { std::slice::from_raw_parts(config_str_ptr, config_str_ptr_len_usize.unwrap()) };
 
+
             // Reconstruct SerializedProgram from raw bytes
             let serialized_program = swc_plugin::Serialized::new_for_plugin(raw_ast_serialized_bytes, ast_ptr_len);
             let serialized_config = swc_plugin::Serialized::new_for_plugin(raw_config_serialized_bytes, config_str_ptr_len);
@@ -91,7 +93,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
                     );
                 return construct_error_ptr(err);
             }
-            let program = program.expect("Should be a program");
+            let program: Program = program.expect("Should be a program");
 
             if config.is_err() {
                 let err = swc_plugin::PluginError::Deserialize(
@@ -100,11 +102,26 @@ fn handle_func(func: ItemFn) -> TokenStream {
                     );
                 return construct_error_ptr(err);
             }
-            let config = config.expect("Should be a string");
+            let config: String = config.expect("Should be a string");
 
-            let host_context = swc_plugin::environment::HostContext::new();
+
+            // Create a handler wired with plugin's diagnostic emitter, set it for global context.
+            let handler = swc_plugin::errors::Handler::with_emitter(
+                true,
+                false,
+                Box::new(swc_plugin::environment::PluginDiagnosticsEmitter {})
+            );
+            let handler_set_result = swc_plugin::errors::HANDLER.inner.set(handler);
+
+            if handler_set_result.is_err() {
+                let err = swc_plugin::PluginError::Serialize(
+                        "Failed to set handler for plugin".to_string()
+                    );
+                return construct_error_ptr(err);
+            }
+
             // Take original plugin fn ident, then call it with interop'ed args
-            let transformed_program = #ident(program, config, &host_context);
+            let transformed_program = #ident(program, config);
 
             // Serialize transformed result, return back to the host.
             let serialized_result = swc_plugin::Serialized::serialize(&transformed_program);

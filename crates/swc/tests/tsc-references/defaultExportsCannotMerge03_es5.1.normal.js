@@ -1,10 +1,10 @@
-// @filename: m2.ts
-import Entity from "m1";
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
+// @filename: m2.ts
+import Entity from "m1";
 var Decl = function Decl() {
     "use strict";
     _classCallCheck(this, Decl);

@@ -1,4 +1,3 @@
-import React from "react";
 function _getPrototypeOf(o) {
     return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
         return o.__proto__ || Object.getPrototypeOf(o);
@@ -9,6 +8,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
+import React from "react";
 var ResizablePanel = function(_Component) {
     "use strict";
     !function(subClass, superClass) {

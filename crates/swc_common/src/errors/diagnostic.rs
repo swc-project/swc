@@ -8,9 +8,10 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
+use std::fmt;
+
 use super::{snippet::Style, Applicability, CodeSuggestion, Level, Substitution, SubstitutionPart};
 use crate::syntax_pos::{MultiSpan, Span};
-use std::fmt;
 
 #[must_use]
 #[derive(Clone, Debug, PartialEq, Hash)]
@@ -69,12 +70,15 @@ impl DiagnosticStyledString {
     pub fn new() -> DiagnosticStyledString {
         Default::default()
     }
+
     pub fn push_normal<S: Into<String>>(&mut self, t: S) {
         self.0.push(StringPart::Normal(t.into()));
     }
+
     pub fn push_highlighted<S: Into<String>>(&mut self, t: S) {
         self.0.push(StringPart::Highlighted(t.into()));
     }
+
     pub fn normal<S: Into<String>>(t: S) -> DiagnosticStyledString {
         DiagnosticStyledString(vec![StringPart::Normal(t.into())])
     }

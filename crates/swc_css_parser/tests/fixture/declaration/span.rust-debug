@@ -6,8 +6,8 @@ error: Stylesheet
 3  | |     prop: (value);
 4  | |     prop: {value};
 ...  |
-22 | |     prop: center / 1em;
-23 | | }
+32 | |     ; ;
+33 | | }
    | |__^
 
 error: Rule
@@ -18,8 +18,8 @@ error: Rule
 3  | |     prop: (value);
 4  | |     prop: {value};
 ...  |
-22 | |     prop: center / 1em;
-23 | | }
+24 | |     prop/**/: big;
+25 | | }
    | |_^
 
 error: QualifiedRule
@@ -30,8 +30,8 @@ error: QualifiedRule
 3  | |     prop: (value);
 4  | |     prop: {value};
 ...  |
-22 | |     prop: center / 1em;
-23 | | }
+24 | |     prop/**/: big;
+25 | | }
    | |_^
 
 error: SelectorList
@@ -85,8 +85,8 @@ error: Block
 3  | |     prop: (value);
 4  | |     prop: {value};
 ...  |
-22 | |     prop: center / 1em;
-23 | | }
+24 | |     prop/**/: big;
+25 | | }
    | |_^
 
 error: Declaration
@@ -617,7 +617,7 @@ error: Value
 12 |     prop: 100%100%;
    |           ^^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/declaration/input.css:12:11
    |
 12 |     prop: 100%100%;
@@ -635,7 +635,7 @@ error: Value
 12 |     prop: 100%100%;
    |               ^^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/declaration/input.css:12:15
    |
 12 |     prop: 100%100%;
@@ -1073,6 +1073,12 @@ error: Dimension
 19 |     prop: center/1em;
    |                  ^^^
 
+error: Length
+  --> $DIR/tests/fixture/declaration/input.css:19:18
+   |
+19 |     prop: center/1em;
+   |                  ^^^
+
 error: Number
   --> $DIR/tests/fixture/declaration/input.css:19:18
    |
@@ -1134,6 +1140,12 @@ error: Value
    |                   ^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/declaration/input.css:20:19
+   |
+20 |     prop: center/ 1em;
+   |                   ^^^
+
+error: Length
   --> $DIR/tests/fixture/declaration/input.css:20:19
    |
 20 |     prop: center/ 1em;
@@ -1205,6 +1217,12 @@ error: Dimension
 21 |     prop: center /1em;
    |                   ^^^
 
+error: Length
+  --> $DIR/tests/fixture/declaration/input.css:21:19
+   |
+21 |     prop: center /1em;
+   |                   ^^^
+
 error: Number
   --> $DIR/tests/fixture/declaration/input.css:21:19
    |
@@ -1271,6 +1289,12 @@ error: Dimension
 22 |     prop: center / 1em;
    |                    ^^^
 
+error: Length
+  --> $DIR/tests/fixture/declaration/input.css:22:20
+   |
+22 |     prop: center / 1em;
+   |                    ^^^
+
 error: Number
   --> $DIR/tests/fixture/declaration/input.css:22:20
    |
@@ -1282,4 +1306,356 @@ error: Ident
    |
 22 |     prop: center / 1em;
    |                     ^^
+
+error: Declaration
+  --> $DIR/tests/fixture/declaration/input.css:23:5
+   |
+23 |     c\olor: red;
+   |     ^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/declaration/input.css:23:5
+   |
+23 |     c\olor: red;
+   |     ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:23:5
+   |
+23 |     c\olor: red;
+   |     ^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:23:13
+   |
+23 |     c\olor: red;
+   |             ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:23:13
+   |
+23 |     c\olor: red;
+   |             ^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/declaration/input.css:24:5
+   |
+24 |     prop/**/: big;
+   |     ^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/declaration/input.css:24:5
+   |
+24 |     prop/**/: big;
+   |     ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:24:5
+   |
+24 |     prop/**/: big;
+   |     ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:24:15
+   |
+24 |     prop/**/: big;
+   |               ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:24:15
+   |
+24 |     prop/**/: big;
+   |               ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/declaration/input.css:27:1
+   |
+27 | a { color: a/* ; */ b  ; }
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/declaration/input.css:27:1
+   |
+27 | a { color: a/* ; */ b  ; }
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/declaration/input.css:27:1
+   |
+27 | a { color: a/* ; */ b  ; }
+   | ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/declaration/input.css:27:1
+   |
+27 | a { color: a/* ; */ b  ; }
+   | ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/declaration/input.css:27:1
+   |
+27 | a { color: a/* ; */ b  ; }
+   | ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/declaration/input.css:27:1
+   |
+27 | a { color: a/* ; */ b  ; }
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/declaration/input.css:27:1
+   |
+27 | a { color: a/* ; */ b  ; }
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/declaration/input.css:27:1
+   |
+27 | a { color: a/* ; */ b  ; }
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:27:1
+   |
+27 | a { color: a/* ; */ b  ; }
+   | ^
+
+error: Block
+  --> $DIR/tests/fixture/declaration/input.css:27:3
+   |
+27 | a { color: a/* ; */ b  ; }
+   |   ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/declaration/input.css:27:5
+   |
+27 | a { color: a/* ; */ b  ; }
+   |     ^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/declaration/input.css:27:5
+   |
+27 | a { color: a/* ; */ b  ; }
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:27:5
+   |
+27 | a { color: a/* ; */ b  ; }
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:27:12
+   |
+27 | a { color: a/* ; */ b  ; }
+   |            ^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:27:12
+   |
+27 | a { color: a/* ; */ b  ; }
+   |            ^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:27:21
+   |
+27 | a { color: a/* ; */ b  ; }
+   |                     ^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:27:21
+   |
+27 | a { color: a/* ; */ b  ; }
+   |                     ^
+
+error: Rule
+  --> $DIR/tests/fixture/declaration/input.css:28:1
+   |
+28 | a{color:black}
+   | ^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/declaration/input.css:28:1
+   |
+28 | a{color:black}
+   | ^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/declaration/input.css:28:1
+   |
+28 | a{color:black}
+   | ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/declaration/input.css:28:1
+   |
+28 | a{color:black}
+   | ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/declaration/input.css:28:1
+   |
+28 | a{color:black}
+   | ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/declaration/input.css:28:1
+   |
+28 | a{color:black}
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/declaration/input.css:28:1
+   |
+28 | a{color:black}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/declaration/input.css:28:1
+   |
+28 | a{color:black}
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:28:1
+   |
+28 | a{color:black}
+   | ^
+
+error: Block
+  --> $DIR/tests/fixture/declaration/input.css:28:2
+   |
+28 | a{color:black}
+   |  ^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/declaration/input.css:28:3
+   |
+28 | a{color:black}
+   |   ^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/declaration/input.css:28:3
+   |
+28 | a{color:black}
+   |   ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:28:3
+   |
+28 | a{color:black}
+   |   ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:28:9
+   |
+28 | a{color:black}
+   |         ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:28:9
+   |
+28 | a{color:black}
+   |         ^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/declaration/input.css:30:1
+   |
+30 | / a {;;
+31 | |     color: black;
+32 | |     ; ;
+33 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/declaration/input.css:30:1
+   |
+30 | / a {;;
+31 | |     color: black;
+32 | |     ; ;
+33 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/declaration/input.css:30:1
+   |
+30 | a {;;
+   | ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/declaration/input.css:30:1
+   |
+30 | a {;;
+   | ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/declaration/input.css:30:1
+   |
+30 | a {;;
+   | ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/declaration/input.css:30:1
+   |
+30 | a {;;
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/declaration/input.css:30:1
+   |
+30 | a {;;
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/declaration/input.css:30:1
+   |
+30 | a {;;
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:30:1
+   |
+30 | a {;;
+   | ^
+
+error: Block
+  --> $DIR/tests/fixture/declaration/input.css:30:3
+   |
+30 |   a {;;
+   |  ___^
+31 | |     color: black;
+32 | |     ; ;
+33 | | }
+   | |_^
+
+error: Declaration
+  --> $DIR/tests/fixture/declaration/input.css:31:5
+   |
+31 |     color: black;
+   |     ^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/declaration/input.css:31:5
+   |
+31 |     color: black;
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:31:5
+   |
+31 |     color: black;
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/declaration/input.css:31:12
+   |
+31 |     color: black;
+   |            ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration/input.css:31:12
+   |
+31 |     color: black;
+   |            ^^^^^
 

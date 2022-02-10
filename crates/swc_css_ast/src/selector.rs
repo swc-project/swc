@@ -1,8 +1,9 @@
-use crate::{Ident, Str, Tokens};
 use is_macro::Is;
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
+
+use crate::{Ident, Str, Tokens};
 
 #[ast_node("SelectorList")]
 pub struct SelectorList {

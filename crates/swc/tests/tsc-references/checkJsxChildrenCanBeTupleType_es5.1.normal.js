@@ -1,8 +1,3 @@
-// @jsx: react
-// @strict: true
-// @esModuleInterop: true
-/// <reference path="/.lib/react16.d.ts" />
-import React from 'react';
 function _assertThisInitialized(self) {
     if (self === void 0) {
         throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -74,6 +69,11 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
+// @jsx: react
+// @strict: true
+// @esModuleInterop: true
+/// <reference path="/.lib/react16.d.ts" />
+import React from 'react';
 var ResizablePanel = /*#__PURE__*/ function(_Component) {
     "use strict";
     _inherits(ResizablePanel, _Component);

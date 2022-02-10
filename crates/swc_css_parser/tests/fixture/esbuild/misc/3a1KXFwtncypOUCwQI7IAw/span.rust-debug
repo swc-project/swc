@@ -40,7 +40,7 @@ error: KeyframeSelector
 1 | @keyframes name { 100% { color: red } }
   |                   ^^^^
 
-error: Percent
+error: Percentage
  --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:19
   |
 1 | @keyframes name { 100% { color: red } }

@@ -1,5 +1,6 @@
-use crate::{writer::CssWriter, CodeGenerator};
 use std::ops::{Deref, DerefMut};
+
+use crate::{writer::CssWriter, CodeGenerator};
 
 impl<W> CodeGenerator<W>
 where

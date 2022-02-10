@@ -1,3 +1,8 @@
+use std::cmp::Ordering;
+
+use swc_common::util::take::Take;
+use swc_ecma_ast::*;
+
 use super::Optimizer;
 use crate::{
     compress::util::is_directive,
@@ -5,9 +10,6 @@ use crate::{
     util::{sort::is_sorted_by, ModuleItemExt},
     DISABLE_BUGGY_PASSES,
 };
-use std::cmp::Ordering;
-use swc_common::util::take::Take;
-use swc_ecma_ast::*;
 
 impl<M> Optimizer<'_, M>
 where

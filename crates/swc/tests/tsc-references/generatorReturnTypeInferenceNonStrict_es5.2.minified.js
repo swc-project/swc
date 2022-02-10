@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function _arrayLikeToArray(arr, len) {
     (null == len || len > arr.length) && (len = arr.length);
     for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
@@ -36,6 +35,7 @@ function _unsupportedIterableToArray(o, minLen) {
         if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
     }
 }
+import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx1) {
         for(;;)switch(_ctx1.prev = _ctx1.next){

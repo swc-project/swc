@@ -1,17 +1,19 @@
 #![allow(clippy::needless_update)]
 
-use crate::common::Normalizer;
-use pretty_assertions::assert_eq;
 use std::{
     fs::File,
     io::Read,
     path::{Path, PathBuf},
 };
+
+use pretty_assertions::assert_eq;
 use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_visit::FoldWith;
 use testing::StdErr;
+
+use crate::common::Normalizer;
 
 #[path = "common/mod.rs"]
 mod common;

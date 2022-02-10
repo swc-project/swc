@@ -1,6 +1,7 @@
 #![allow(deprecated)]
 
 use std::{fs::read_to_string, path::PathBuf};
+
 use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver;

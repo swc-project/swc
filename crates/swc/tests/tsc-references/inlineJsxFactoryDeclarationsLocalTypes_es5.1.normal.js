@@ -1,6 +1,3 @@
-// @filename: component.tsx
-/** @jsx predom */ import { predom } from "./renderer2";
-import prerendered from "./component";
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
@@ -20,6 +17,9 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
+// @filename: component.tsx
+/** @jsx predom */ import { predom } from "./renderer2";
+import prerendered from "./component";
 export var MySFC = function(props) {
     /*#__PURE__*/ return predom("p", null, props.x, " + ", props.y, " = ", props.x + props.y);
 };

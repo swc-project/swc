@@ -280,7 +280,7 @@ error: Value
 6 |         to { translate: -100% 0; }
   |                         ^^^^^
 
-error: Percent
+error: Percentage
  --> $DIR/tests/fixture/at-rule/layer/input.css:6:25
   |
 6 |         to { translate: -100% 0; }
@@ -490,7 +490,7 @@ error: Value
 13 |         to { margin-left: -100%; }
    |                           ^^^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/at-rule/layer/input.css:13:27
    |
 13 |         to { margin-left: -100%; }
@@ -593,6 +593,12 @@ error: Value
    |                                  ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/layer/input.css:17:34
+   |
+17 | .sidebar { animation: slide-left 300ms; }
+   |                                  ^^^^^
+
+error: Time
   --> $DIR/tests/fixture/at-rule/layer/input.css:17:34
    |
 17 | .sidebar { animation: slide-left 300ms; }
@@ -1403,6 +1409,12 @@ error: Value
    |                           ^^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/at-rule/layer/input.css:40:27
+   |
+40 |         p { margin-block: 0.75em; }
+   |                           ^^^^^^
+
+error: Length
   --> $DIR/tests/fixture/at-rule/layer/input.css:40:27
    |
 40 |         p { margin-block: 0.75em; }

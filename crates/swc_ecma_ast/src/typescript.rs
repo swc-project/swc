@@ -1,5 +1,15 @@
 #![allow(clippy::vec_box)]
 #![allow(missing_copy_implementations)]
+use std::fmt;
+
+use is_macro::Is;
+use serde::{
+    de::{self, Unexpected, Visitor},
+    Deserialize, Deserializer, Serialize,
+};
+use string_enum::StringEnum;
+use swc_common::{ast_node, EqIgnoreSpan, Span};
+
 use crate::{
     class::Decorator,
     expr::Expr,
@@ -9,14 +19,6 @@ use crate::{
     pat::{ArrayPat, AssignPat, ObjectPat, Pat, RestPat},
     BigInt, BindingIdent, TplElement,
 };
-use is_macro::Is;
-use serde::{
-    de::{self, Unexpected, Visitor},
-    Deserialize, Deserializer, Serialize,
-};
-use std::fmt;
-use string_enum::StringEnum;
-use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[ast_node("TsTypeAnnotation")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
@@ -686,6 +688,7 @@ impl<'de> Deserialize<'de> for TruePlusMinus {
 
         impl<'de> Visitor<'de> for TruePlusMinusVisitor {
             type Value = TruePlusMinus;
+
             fn expecting(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
                 formatter.write_str("one of '+', '-', true")
             }

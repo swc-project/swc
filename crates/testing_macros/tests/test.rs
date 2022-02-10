@@ -1,6 +1,7 @@
 #![deny(unused)]
 
 use std::path::PathBuf;
+
 use testing_macros::fixture;
 
 #[fixture("tests/simple/*.ts")]

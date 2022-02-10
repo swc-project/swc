@@ -1,11 +1,13 @@
-use crate::typescript::TsTypeAnn;
-use serde::{Deserialize, Serialize};
 use std::fmt::Display;
+
+use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     ast_node, util::take::Take, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use unicode_xid::UnicodeXID;
+
+use crate::typescript::TsTypeAnn;
 
 /// Identifier used as a pattern.
 #[derive(Spanned, Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan, Serialize, Deserialize)]

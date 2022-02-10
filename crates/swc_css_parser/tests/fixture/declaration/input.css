@@ -20,4 +20,14 @@ div {
     prop: center/ 1em;
     prop: center /1em;
     prop: center / 1em;
+    c\olor: red;
+    prop/**/: big;
+}
+
+a { color: a/* ; */ b  ; }
+a{color:black}
+
+a {;;
+    color: black;
+    ; ;
 }

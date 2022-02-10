@@ -1,7 +1,8 @@
-use super::Pure;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::undefined;
+
+use super::Pure;
 
 impl<M> Pure<'_, M> {
     pub(super) fn drop_console(&mut self, e: &mut Expr) {

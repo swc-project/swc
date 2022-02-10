@@ -1,16 +1,20 @@
-use crate::{config::LintConfig, rule::Rule};
 use std::sync::Arc;
+
 use swc_common::{SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_fold_type, Fold};
 
+use crate::{config::LintConfig, rule::Rule};
+
 mod const_assign;
 mod duplicate_bindings;
 mod duplicate_exports;
+mod utils;
 
 #[cfg(feature = "non_critical_lints")]
 #[path = ""]
 pub(crate) mod non_critical_lints {
+    pub mod dot_notation;
     pub mod no_alert;
     pub mod no_console;
     pub mod no_debugger;
@@ -67,6 +71,12 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
             &lint_config.prefer_regex_literals,
             top_level_ctxt,
             es_version,
+        ));
+
+        rules.extend(dot_notation::dot_notation(
+            program,
+            &source_map,
+            &lint_config.dot_notation,
         ));
     }
 

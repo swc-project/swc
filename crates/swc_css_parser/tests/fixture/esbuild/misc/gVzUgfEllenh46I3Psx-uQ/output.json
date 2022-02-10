@@ -53,7 +53,7 @@
                     },
                     "prefix": null,
                     "value": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 0,
                         "end": 1,
@@ -86,7 +86,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 4,
                 "end": 10,
@@ -117,7 +117,7 @@
                 "raw": "1"
               },
               {
-                "type": "Dimension",
+                "type": "Length",
                 "span": {
                   "start": 16,
                   "end": 19,
@@ -134,7 +134,7 @@
                   "raw": "0"
                 },
                 "unit": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 17,
                     "end": 19,
@@ -145,7 +145,7 @@
                 }
               },
               {
-                "type": "Dimension",
+                "type": "Length",
                 "span": {
                   "start": 20,
                   "end": 23,
@@ -162,7 +162,7 @@
                   "raw": "1"
                 },
                 "unit": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 21,
                     "end": 23,

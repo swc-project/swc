@@ -53,7 +53,7 @@
                     },
                     "prefix": null,
                     "value": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 22,
                         "end": 26,
@@ -86,7 +86,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 33,
                 "end": 43,
@@ -97,7 +97,7 @@
             },
             "value": [
               {
-                "type": "Identifier",
+                "type": "Ident",
                 "span": {
                   "start": 45,
                   "end": 48,
@@ -117,7 +117,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 54,
                 "end": 59,
@@ -135,7 +135,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 61,
                     "end": 65,
@@ -154,7 +154,7 @@
                     },
                     "op": "+",
                     "left": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 66,
                         "end": 69,
@@ -171,7 +171,7 @@
                         "raw": "1"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 67,
                           "end": 69,
@@ -182,7 +182,7 @@
                       }
                     },
                     "right": {
-                      "type": "Percent",
+                      "type": "Percentage",
                       "span": {
                         "start": 72,
                         "end": 74,

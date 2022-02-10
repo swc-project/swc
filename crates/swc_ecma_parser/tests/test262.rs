@@ -2,13 +2,14 @@
 
 extern crate test;
 
-use common::Normalizer;
 use std::{
     env,
     fs::{read_dir, File},
     io::{self, Read},
     path::Path,
 };
+
+use common::Normalizer;
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput, Syntax};
 use swc_ecma_visit::FoldWith;
@@ -311,7 +312,7 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 fn parse_script(file_name: &Path) -> Result<Script, NormalizedOutput> {
     with_parser(file_name, |p| p.parse_script())
 }
-fn parse_module<'a>(file_name: &Path) -> Result<Module, NormalizedOutput> {
+fn parse_module(file_name: &Path) -> Result<Module, NormalizedOutput> {
     with_parser(file_name, |p| p.parse_module())
 }
 

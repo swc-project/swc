@@ -3,6 +3,7 @@
 //! This program will emit output to stdout.
 
 use std::{env, path::Path};
+
 use swc_common::{
     self,
     comments::SingleThreadedComments,

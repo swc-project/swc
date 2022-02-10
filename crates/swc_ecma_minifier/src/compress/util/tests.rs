@@ -1,12 +1,12 @@
-use crate::{compress::util::negate, debug::dump};
-
-use super::negate_cost;
 use swc_common::{input::SourceFileInput, util::take::Take, FileName};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser};
 use swc_ecma_transforms::fixer;
 use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
 use tracing::{info, warn};
+
+use super::negate_cost;
+use crate::{compress::util::negate, debug::dump};
 
 struct UnwrapParen;
 impl VisitMut for UnwrapParen {

@@ -9,6 +9,7 @@ use std::{
     io::{self, stderr},
     sync::Arc,
 };
+
 use swc::config::{Config, IsModule, JscConfig, Options, SourceMapsConfig};
 use swc_common::{errors::Handler, FileName, FilePathMapping, Mark, SourceFile, SourceMap};
 use swc_ecma_ast::{EsVersion, Program};

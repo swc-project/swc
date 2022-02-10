@@ -1,14 +1,16 @@
+use std::mem::take;
+
+use enum_kind::Kind;
+#[cfg(not(debug_assertions))]
+use smallvec::SmallVec;
+use swc_common::BytePos;
+use tracing::trace;
+
 use super::{
     comments_buffer::{BufferedComment, BufferedCommentKind},
     Context, Input, Lexer,
 };
 use crate::{error::Error, input::Tokens, lexer::util::CharExt, token::*, EsVersion, Syntax};
-use enum_kind::Kind;
-#[cfg(not(debug_assertions))]
-use smallvec::SmallVec;
-use std::mem::take;
-use swc_common::BytePos;
-use tracing::trace;
 
 /// State of lexer.
 ///
@@ -125,6 +127,7 @@ impl<I: Input> Tokens for Lexer<'_, I> {
     fn syntax(&self) -> Syntax {
         self.syntax
     }
+
     fn target(&self) -> EsVersion {
         self.target
     }
@@ -136,6 +139,7 @@ impl<I: Input> Tokens for Lexer<'_, I> {
     fn set_expr_allowed(&mut self, allow: bool) {
         self.set_expr_allowed(allow)
     }
+
     fn token_context(&self) -> &TokenContexts {
         &self.state.context
     }
@@ -167,6 +171,7 @@ impl<I: Input> Tokens for Lexer<'_, I> {
 
 impl<'a, I: Input> Iterator for Lexer<'a, I> {
     type Item = TokenAndSpan;
+
     fn next(&mut self) -> Option<Self::Item> {
         let mut start = self.cur_pos();
 
@@ -628,9 +633,11 @@ impl TokenContexts {
     pub fn len(&self) -> usize {
         self.0.len()
     }
+
     pub fn is_empty(&self) -> bool {
         self.0.is_empty()
     }
+
     pub fn pop(&mut self) -> Option<TokenContext> {
         let opt = self.0.pop();
         if cfg!(feature = "debug") {
@@ -638,9 +645,11 @@ impl TokenContexts {
         }
         opt
     }
+
     pub fn current(&self) -> Option<TokenContext> {
         self.0.last().cloned()
     }
+
     fn push(&mut self, t: TokenContext) {
         self.0.push(t);
 

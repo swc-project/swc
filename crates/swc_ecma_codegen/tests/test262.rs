@@ -7,6 +7,7 @@ use std::{
     path::{Path, PathBuf},
     sync::{Arc, RwLock},
 };
+
 use swc_common::comments::SingleThreadedComments;
 use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};

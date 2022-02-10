@@ -21,3 +21,4 @@ a, b, c, d, e, f, g {}
 h1, h2 {}
 .class, .foo {}
 [attr], [attrtoo] {}
+a/* { } */ b {}

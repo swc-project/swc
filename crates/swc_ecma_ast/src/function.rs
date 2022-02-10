@@ -1,11 +1,12 @@
+use is_macro::Is;
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
+
 use crate::{
     class::Decorator,
     pat::Pat,
     stmt::BlockStmt,
     typescript::{TsParamProp, TsTypeAnn, TsTypeParamDecl},
 };
-use is_macro::Is;
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 /// Common parts of function and method.
 #[ast_node]

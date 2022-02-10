@@ -47,7 +47,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1,
                         "end": 5,
@@ -80,7 +80,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 12,
                 "end": 21,
@@ -98,7 +98,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 23,
                     "end": 27,
@@ -117,7 +117,7 @@
                     },
                     "op": "/",
                     "left": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 28,
                         "end": 33,
@@ -134,7 +134,7 @@
                         "raw": "100"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 31,
                           "end": 33,
@@ -210,7 +210,7 @@
                     },
                     "prefix": null,
                     "value": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 44,
                         "end": 47,
@@ -243,7 +243,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "DashedIdentifier",
+              "type": "DashedIdent",
               "span": {
                 "start": 54,
                 "end": 61,
@@ -281,7 +281,7 @@
                       "ctxt": 0
                     },
                     "token": {
-                      "Percent": {
+                      "Percentage": {
                         "value": 10.0,
                         "raw": "10"
                       }
@@ -360,7 +360,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 86,
                 "end": 91,
@@ -378,7 +378,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 93,
                     "end": 97,
@@ -389,7 +389,7 @@
                 },
                 "value": [
                   {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 98,
                       "end": 101,
@@ -406,7 +406,7 @@
                       "raw": "0"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 99,
                         "end": 101,
@@ -429,7 +429,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 108,
                 "end": 119,
@@ -447,7 +447,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 121,
                     "end": 125,
@@ -480,7 +480,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 134,
                 "end": 145,
@@ -498,7 +498,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 147,
                     "end": 151,
@@ -569,7 +569,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 208,
                 "end": 219,
@@ -587,7 +587,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 221,
                     "end": 225,
@@ -639,7 +639,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 239,
                 "end": 244,
@@ -657,7 +657,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 246,
                     "end": 250,
@@ -685,7 +685,7 @@
                         },
                         "op": "+",
                         "left": {
-                          "type": "Dimension",
+                          "type": "Length",
                           "span": {
                             "start": 252,
                             "end": 257,
@@ -702,7 +702,7 @@
                             "raw": "100"
                           },
                           "unit": {
-                            "type": "Identifier",
+                            "type": "Ident",
                             "span": {
                               "start": 255,
                               "end": 257,
@@ -713,7 +713,7 @@
                           }
                         },
                         "right": {
-                          "type": "Dimension",
+                          "type": "Length",
                           "span": {
                             "start": 260,
                             "end": 265,
@@ -730,7 +730,7 @@
                             "raw": "100"
                           },
                           "unit": {
-                            "type": "Identifier",
+                            "type": "Ident",
                             "span": {
                               "start": 263,
                               "end": 265,
@@ -756,7 +756,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 273,
                 "end": 278,
@@ -774,7 +774,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 280,
                     "end": 284,
@@ -802,7 +802,7 @@
                         },
                         "op": "+",
                         "left": {
-                          "type": "Dimension",
+                          "type": "Length",
                           "span": {
                             "start": 292,
                             "end": 297,
@@ -819,7 +819,7 @@
                             "raw": "100"
                           },
                           "unit": {
-                            "type": "Identifier",
+                            "type": "Ident",
                             "span": {
                               "start": 295,
                               "end": 297,
@@ -830,7 +830,7 @@
                           }
                         },
                         "right": {
-                          "type": "Dimension",
+                          "type": "Length",
                           "span": {
                             "start": 304,
                             "end": 309,
@@ -847,7 +847,7 @@
                             "raw": "100"
                           },
                           "unit": {
-                            "type": "Identifier",
+                            "type": "Ident",
                             "span": {
                               "start": 307,
                               "end": 309,
@@ -873,7 +873,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 323,
                 "end": 328,
@@ -891,7 +891,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 330,
                     "end": 334,
@@ -910,7 +910,7 @@
                     },
                     "op": "+",
                     "left": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 338,
                         "end": 343,
@@ -927,7 +927,7 @@
                         "raw": "100"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 341,
                           "end": 343,
@@ -938,7 +938,7 @@
                       }
                     },
                     "right": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 351,
                         "end": 356,
@@ -955,7 +955,7 @@
                         "raw": "100"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 354,
                           "end": 356,
@@ -979,7 +979,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 366,
                 "end": 371,
@@ -997,7 +997,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 373,
                     "end": 377,
@@ -1016,7 +1016,7 @@
                     },
                     "op": "+",
                     "left": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 378,
                         "end": 383,
@@ -1033,7 +1033,7 @@
                         "raw": "500"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 381,
                           "end": 383,
@@ -1044,7 +1044,7 @@
                       }
                     },
                     "right": {
-                      "type": "Percent",
+                      "type": "Percentage",
                       "span": {
                         "start": 386,
                         "end": 389,
@@ -1075,7 +1075,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 396,
                 "end": 401,
@@ -1093,7 +1093,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 403,
                     "end": 407,
@@ -1112,7 +1112,7 @@
                     },
                     "op": "+",
                     "left": {
-                      "type": "Percent",
+                      "type": "Percentage",
                       "span": {
                         "start": 408,
                         "end": 411,
@@ -1130,7 +1130,7 @@
                       }
                     },
                     "right": {
-                      "type": "Percent",
+                      "type": "Percentage",
                       "span": {
                         "start": 414,
                         "end": 417,
@@ -1161,7 +1161,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 424,
                 "end": 429,
@@ -1179,7 +1179,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 431,
                     "end": 435,
@@ -1198,7 +1198,7 @@
                     },
                     "op": "+",
                     "left": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 436,
                         "end": 439,
@@ -1215,7 +1215,7 @@
                         "raw": "2"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 437,
                           "end": 439,
@@ -1226,7 +1226,7 @@
                       }
                     },
                     "right": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 442,
                         "end": 445,
@@ -1243,7 +1243,7 @@
                         "raw": "3"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 443,
                           "end": 445,
@@ -1267,7 +1267,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 452,
                 "end": 457,
@@ -1285,7 +1285,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 459,
                     "end": 463,
@@ -1336,7 +1336,7 @@
                             },
                             "op": "/",
                             "left": {
-                              "type": "Percent",
+                              "type": "Percentage",
                               "span": {
                                 "start": 464,
                                 "end": 468,
@@ -1376,7 +1376,7 @@
                           }
                         },
                         "right": {
-                          "type": "Dimension",
+                          "type": "Length",
                           "span": {
                             "start": 479,
                             "end": 482,
@@ -1393,7 +1393,7 @@
                             "raw": "1"
                           },
                           "unit": {
-                            "type": "Identifier",
+                            "type": "Ident",
                             "span": {
                               "start": 480,
                               "end": 482,
@@ -1416,7 +1416,7 @@
                       }
                     },
                     "right": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 489,
                         "end": 492,
@@ -1433,7 +1433,7 @@
                         "raw": "1"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 490,
                           "end": 492,
@@ -1457,7 +1457,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 500,
                 "end": 505,
@@ -1475,7 +1475,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 507,
                     "end": 511,
@@ -1493,7 +1493,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 512,
                         "end": 516,
@@ -1504,7 +1504,7 @@
                     },
                     "value": [
                       {
-                        "type": "Dimension",
+                        "type": "Length",
                         "span": {
                           "start": 517,
                           "end": 521,
@@ -1521,7 +1521,7 @@
                           "raw": "50"
                         },
                         "unit": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 519,
                             "end": 521,
@@ -1546,7 +1546,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 568,
                 "end": 573,
@@ -1564,7 +1564,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 575,
                     "end": 579,
@@ -1582,7 +1582,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 580,
                         "end": 584,
@@ -1611,7 +1611,7 @@
                           "raw": "3"
                         },
                         "right": {
-                          "type": "Percent",
+                          "type": "Percentage",
                           "span": {
                             "start": 589,
                             "end": 592,
@@ -1644,7 +1644,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 600,
                 "end": 605,
@@ -1662,7 +1662,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 607,
                     "end": 611,
@@ -1698,7 +1698,7 @@
                         "ctxt": 0
                       },
                       "name": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 616,
                           "end": 619,
@@ -1709,7 +1709,7 @@
                       },
                       "value": [
                         {
-                          "type": "DashedIdentifier",
+                          "type": "DashedIdent",
                           "span": {
                             "start": 620,
                             "end": 627,
@@ -1734,7 +1734,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 692,
                 "end": 697,
@@ -1752,7 +1752,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 699,
                     "end": 703,
@@ -1763,7 +1763,7 @@
                 },
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 704,
                       "end": 712,
@@ -1785,7 +1785,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 719,
                 "end": 724,
@@ -1803,7 +1803,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 726,
                     "end": 730,
@@ -1814,7 +1814,7 @@
                 },
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 731,
                       "end": 739,
@@ -1836,7 +1836,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 746,
                 "end": 751,
@@ -1854,7 +1854,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 753,
                     "end": 757,
@@ -1865,7 +1865,7 @@
                 },
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 758,
                       "end": 761,
@@ -1923,7 +1923,7 @@
                       "ctxt": 0
                     },
                     "text": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 839,
                         "end": 842,
@@ -1955,7 +1955,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 849,
                 "end": 858,
@@ -1973,7 +1973,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 860,
                     "end": 864,
@@ -1992,7 +1992,7 @@
                     },
                     "op": "*",
                     "left": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 865,
                         "end": 869,
@@ -2009,7 +2009,7 @@
                         "raw": "1"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 866,
                           "end": 869,
@@ -2027,7 +2027,7 @@
                         "ctxt": 0
                       },
                       "name": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 872,
                           "end": 875,
@@ -2082,7 +2082,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 891,
                 "end": 900,
@@ -2100,7 +2100,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 902,
                     "end": 906,
@@ -2119,7 +2119,7 @@
                     },
                     "op": "*",
                     "left": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 907,
                         "end": 911,
@@ -2136,7 +2136,7 @@
                         "raw": "1"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 908,
                           "end": 911,
@@ -2154,7 +2154,7 @@
                         "ctxt": 0
                       },
                       "name": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 914,
                           "end": 917,
@@ -2209,7 +2209,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 932,
                 "end": 941,
@@ -2227,7 +2227,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 943,
                     "end": 947,
@@ -2246,7 +2246,7 @@
                     },
                     "op": "*",
                     "left": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 948,
                         "end": 952,
@@ -2263,7 +2263,7 @@
                         "raw": "1"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 949,
                           "end": 952,
@@ -2281,7 +2281,7 @@
                         "ctxt": 0
                       },
                       "name": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 955,
                           "end": 958,
@@ -2336,7 +2336,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 973,
                 "end": 982,
@@ -2354,7 +2354,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 984,
                     "end": 988,
@@ -2373,7 +2373,7 @@
                     },
                     "op": "*",
                     "left": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 989,
                         "end": 993,
@@ -2390,7 +2390,7 @@
                         "raw": "1"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 990,
                           "end": 993,
@@ -2408,7 +2408,7 @@
                         "ctxt": 0
                       },
                       "name": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 996,
                           "end": 999,
@@ -2463,7 +2463,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 1014,
                 "end": 1023,
@@ -2481,7 +2481,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 1025,
                     "end": 1029,
@@ -2500,7 +2500,7 @@
                     },
                     "op": "*",
                     "left": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 1030,
                         "end": 1034,
@@ -2517,7 +2517,7 @@
                         "raw": "1"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 1031,
                           "end": 1034,
@@ -2535,7 +2535,7 @@
                         "ctxt": 0
                       },
                       "name": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 1037,
                           "end": 1040,
@@ -2590,7 +2590,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 1055,
                 "end": 1064,
@@ -2608,7 +2608,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 1066,
                     "end": 1070,
@@ -2627,7 +2627,7 @@
                     },
                     "op": "*",
                     "left": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 1071,
                         "end": 1075,
@@ -2644,7 +2644,7 @@
                         "raw": "1"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 1072,
                           "end": 1075,
@@ -2662,7 +2662,7 @@
                         "ctxt": 0
                       },
                       "name": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 1078,
                           "end": 1081,
@@ -2753,7 +2753,7 @@
                       "ctxt": 0
                     },
                     "text": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1096,
                         "end": 1100,
@@ -2785,7 +2785,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 1107,
                 "end": 1123,
@@ -2803,7 +2803,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 1125,
                     "end": 1140,
@@ -2814,7 +2814,7 @@
                 },
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1141,
                       "end": 1147,
@@ -2824,7 +2824,7 @@
                     "raw": "silver"
                   },
                   {
-                    "type": "Percent",
+                    "type": "Percentage",
                     "span": {
                       "start": 1148,
                       "end": 1150,
@@ -2851,7 +2851,7 @@
                     "value": ","
                   },
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1152,
                       "end": 1157,
@@ -2861,7 +2861,7 @@
                     "raw": "white"
                   },
                   {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 1158,
                       "end": 1162,
@@ -2878,7 +2878,7 @@
                       "raw": "20"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1160,
                         "end": 1162,
@@ -2898,7 +2898,7 @@
                     "value": ","
                   },
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1164,
                       "end": 1169,
@@ -2915,7 +2915,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1170,
                         "end": 1174,
@@ -2934,7 +2934,7 @@
                         },
                         "op": "-",
                         "left": {
-                          "type": "Percent",
+                          "type": "Percentage",
                           "span": {
                             "start": 1175,
                             "end": 1179,
@@ -2952,7 +2952,7 @@
                           }
                         },
                         "right": {
-                          "type": "Dimension",
+                          "type": "Length",
                           "span": {
                             "start": 1182,
                             "end": 1186,
@@ -2969,7 +2969,7 @@
                             "raw": "20"
                           },
                           "unit": {
-                            "type": "Identifier",
+                            "type": "Ident",
                             "span": {
                               "start": 1184,
                               "end": 1186,
@@ -2992,7 +2992,7 @@
                     "value": ","
                   },
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 1189,
                       "end": 1195,
@@ -3002,7 +3002,7 @@
                     "raw": "silver"
                   },
                   {
-                    "type": "Percent",
+                    "type": "Percentage",
                     "span": {
                       "start": 1196,
                       "end": 1200,
@@ -3074,7 +3074,7 @@
                     },
                     "prefix": null,
                     "value": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1206,
                         "end": 1209,
@@ -3148,7 +3148,7 @@
                     },
                     "prefix": null,
                     "value": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1309,
                         "end": 1312,
@@ -3181,7 +3181,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 1315,
                 "end": 1320,
@@ -3199,7 +3199,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 1322,
                     "end": 1326,
@@ -3218,7 +3218,7 @@
                     },
                     "op": "/",
                     "left": {
-                      "type": "Percent",
+                      "type": "Percentage",
                       "span": {
                         "start": 1327,
                         "end": 1331,
@@ -3301,7 +3301,7 @@
                     },
                     "prefix": null,
                     "value": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1340,
                         "end": 1343,
@@ -3334,7 +3334,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 1346,
                 "end": 1356,
@@ -3352,7 +3352,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 1358,
                     "end": 1362,
@@ -3371,7 +3371,7 @@
                     },
                     "op": "-",
                     "left": {
-                      "type": "Percent",
+                      "type": "Percentage",
                       "span": {
                         "start": 1363,
                         "end": 1368,
@@ -3389,7 +3389,7 @@
                       }
                     },
                     "right": {
-                      "type": "Dimension",
+                      "type": "Length",
                       "span": {
                         "start": 1371,
                         "end": 1374,
@@ -3406,7 +3406,7 @@
                         "raw": "4"
                       },
                       "unit": {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 1372,
                           "end": 1374,

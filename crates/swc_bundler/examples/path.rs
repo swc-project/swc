@@ -1,5 +1,6 @@
-use anyhow::Error;
 use std::{collections::HashMap, io::stdout};
+
+use anyhow::Error;
 use swc_bundler::{BundleKind, Bundler, Config, Hook, Load, ModuleData, ModuleRecord, Resolve};
 use swc_common::{sync::Lrc, FileName, FilePathMapping, Globals, SourceMap, Span};
 use swc_ecma_ast::KeyValueProp;

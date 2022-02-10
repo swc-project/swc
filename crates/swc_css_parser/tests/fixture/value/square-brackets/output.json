@@ -53,7 +53,7 @@
                     },
                     "prefix": null,
                     "value": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 0,
                         "end": 3,
@@ -86,7 +86,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 10,
                 "end": 14,
@@ -117,7 +117,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 25,
                 "end": 29,
@@ -148,7 +148,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 41,
                 "end": 45,
@@ -168,7 +168,7 @@
                 "name": "[",
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 49,
                       "end": 59,
@@ -190,7 +190,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 66,
                 "end": 70,
@@ -210,7 +210,7 @@
                 "name": "[",
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 77,
                       "end": 106,
@@ -232,7 +232,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 116,
                 "end": 120,
@@ -252,7 +252,7 @@
                 "name": "[",
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 124,
                       "end": 127,
@@ -272,7 +272,7 @@
                     "raw": "fff"
                   },
                   {
-                    "type": "Dimension",
+                    "type": "Length",
                     "span": {
                       "start": 133,
                       "end": 137,
@@ -289,7 +289,7 @@
                       "raw": "12"
                     },
                     "unit": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 135,
                         "end": 137,
@@ -312,7 +312,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 144,
                 "end": 148,
@@ -332,7 +332,7 @@
                 "name": "[",
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 151,
                       "end": 161,
@@ -344,7 +344,7 @@
                 ]
               },
               {
-                "type": "Percent",
+                "type": "Percentage",
                 "span": {
                   "start": 163,
                   "end": 166,
@@ -371,7 +371,7 @@
                 "name": "[",
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 168,
                       "end": 176,
@@ -381,7 +381,7 @@
                     "raw": "row1-end"
                   },
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 177,
                       "end": 187,
@@ -393,7 +393,7 @@
                 ]
               },
               {
-                "type": "Percent",
+                "type": "Percentage",
                 "span": {
                   "start": 189,
                   "end": 192,
@@ -420,7 +420,7 @@
                 "name": "[",
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 194,
                       "end": 202,

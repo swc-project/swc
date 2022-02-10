@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function _defineProperty(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
@@ -12,6 +11,7 @@ function _defineProperty(obj, key, value) {
     }
     return obj;
 }
+import regeneratorRuntime from "regenerator-runtime";
 foo("", regeneratorRuntime.mark(function _callee1() {
     return regeneratorRuntime.wrap(function _callee$(_ctx1) {
         while(1)switch(_ctx1.prev = _ctx1.next){

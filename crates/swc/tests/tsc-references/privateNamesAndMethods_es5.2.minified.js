@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function _assertThisInitialized(self) {
     if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
     return self;
@@ -98,6 +97,7 @@ function _setPrototypeOf(o, p) {
 }, AsyncGenerator.prototype.return = function(arg) {
     return this._invoke("return", arg);
 };
+import regeneratorRuntime from "regenerator-runtime";
 var _foo = new WeakSet(), _bar = new WeakSet(), _baz = new WeakSet(), _quux = new WeakSet(), _quux = new WeakSet(), A = function() {
     "use strict";
     _classCallCheck(this, A), _foo.add(this), _bar.add(this), _baz.add(this), __quux.set(this, {

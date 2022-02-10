@@ -1,9 +1,10 @@
 use std::num::FpCategory;
 
-use super::Pure;
-use crate::{compress::util::is_pure_undefined, mode::Mode};
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
+
+use super::Pure;
+use crate::{compress::util::is_pure_undefined, mode::Mode};
 
 impl<M> Pure<'_, M>
 where

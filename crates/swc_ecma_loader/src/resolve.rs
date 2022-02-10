@@ -1,5 +1,6 @@
-use anyhow::Error;
 use std::sync::Arc;
+
+use anyhow::Error;
 use swc_common::{
     sync::{Send, Sync},
     FileName,

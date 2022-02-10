@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 394,
+    "end": 464,
     "ctxt": 0
   },
   "rules": [
@@ -22,7 +22,7 @@
             "ctxt": 0
           },
           "name": {
-            "type": "Identifier",
+            "type": "Ident",
             "span": {
               "start": 10,
               "end": 13,
@@ -92,7 +92,7 @@
                         },
                         "prefix": null,
                         "value": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 48,
                             "end": 50,
@@ -125,7 +125,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 61,
                     "end": 66,
@@ -136,7 +136,7 @@
                 },
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 68,
                       "end": 73,
@@ -169,7 +169,7 @@
             "ctxt": 0
           },
           "name": {
-            "type": "Identifier",
+            "type": "Ident",
             "span": {
               "start": 94,
               "end": 97,
@@ -198,7 +198,7 @@
             "ctxt": 0
           },
           "name": {
-            "type": "Identifier",
+            "type": "Ident",
             "span": {
               "start": 121,
               "end": 131,
@@ -228,7 +228,7 @@
             "ctxt": 0
           },
           "name": {
-            "type": "Identifier",
+            "type": "Ident",
             "span": {
               "start": 161,
               "end": 167,
@@ -258,7 +258,7 @@
             "ctxt": 0
           },
           "name": {
-            "type": "Identifier",
+            "type": "Ident",
             "span": {
               "start": 184,
               "end": 198,
@@ -288,7 +288,7 @@
             "ctxt": 0
           },
           "name": {
-            "type": "Identifier",
+            "type": "Ident",
             "span": {
               "start": 209,
               "end": 215,
@@ -359,7 +359,7 @@
                         },
                         "prefix": null,
                         "value": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 234,
                             "end": 238,
@@ -392,7 +392,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 249,
                     "end": 254,
@@ -403,7 +403,7 @@
                 },
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 256,
                       "end": 262,
@@ -423,7 +423,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 272,
                     "end": 282,
@@ -434,7 +434,7 @@
                 },
                 "value": [
                   {
-                    "type": "Identifier",
+                    "type": "Ident",
                     "span": {
                       "start": 284,
                       "end": 290,
@@ -467,7 +467,7 @@
             "ctxt": 0
           },
           "name": {
-            "type": "Identifier",
+            "type": "Ident",
             "span": {
               "start": 311,
               "end": 314,
@@ -509,7 +509,7 @@
             "ctxt": 0
           },
           "name": {
-            "type": "Identifier",
+            "type": "Ident",
             "span": {
               "start": 359,
               "end": 362,
@@ -527,6 +527,46 @@
             },
             "value": "https://www.example.com/",
             "raw": "\"https://www.example.com/\""
+          },
+          "modifiers": []
+        }
+      ],
+      "block": []
+    },
+    {
+      "type": "DocumentRule",
+      "span": {
+        "start": 394,
+        "end": 463,
+        "ctxt": 0
+      },
+      "matchingFunctions": [
+        {
+          "type": "Url",
+          "span": {
+            "start": 432,
+            "end": 452,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 432,
+              "end": 435,
+              "ctxt": 0
+            },
+            "value": "url",
+            "raw": "url"
+          },
+          "value": {
+            "type": "String",
+            "span": {
+              "start": 436,
+              "end": 451,
+              "ctxt": 0
+            },
+            "value": "example.com/{",
+            "raw": "\"example.com/{\""
           },
           "modifiers": []
         }

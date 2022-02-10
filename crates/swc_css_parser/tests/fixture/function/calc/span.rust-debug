@@ -131,6 +131,12 @@ error: Dimension
 2 |     font-size: calc(100vw / 35);
   |                     ^^^^^
 
+error: Length
+ --> $DIR/tests/fixture/function/calc/input.css:2:21
+  |
+2 |     font-size: calc(100vw / 35);
+  |                     ^^^^^
+
 error: Number
  --> $DIR/tests/fixture/function/calc/input.css:2:21
   |
@@ -270,7 +276,7 @@ error: Function { value: Atom('calc' type=inline), raw: Atom('calc' type=inline)
 6 |     --width: calc(10% + 30px);
   |              ^^^^^
 
-error: Percent { value: 10.0, raw: Atom('10' type=inline) }
+error: Percentage { value: 10.0, raw: Atom('10' type=inline) }
  --> $DIR/tests/fixture/function/calc/input.css:6:19
   |
 6 |     --width: calc(10% + 30px);
@@ -349,6 +355,12 @@ error: Value
   |                 ^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/function/calc/input.css:8:17
+  |
+8 |     width: calc(0px);
+  |                 ^^^
+
+error: Length
  --> $DIR/tests/fixture/function/calc/input.css:8:17
   |
 8 |     width: calc(0px);
@@ -654,6 +666,12 @@ error: Dimension
 13 |     width: calc((100px + 100px));
    |                  ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/function/calc/input.css:13:18
+   |
+13 |     width: calc((100px + 100px));
+   |                  ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/function/calc/input.css:13:18
    |
@@ -673,6 +691,12 @@ error: Value
    |                          ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:13:26
+   |
+13 |     width: calc((100px + 100px));
+   |                          ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/function/calc/input.css:13:26
    |
 13 |     width: calc((100px + 100px));
@@ -762,6 +786,12 @@ error: Dimension
 14 |     width: calc(   (   100px   +   100px   )   );
    |                        ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/function/calc/input.css:14:24
+   |
+14 |     width: calc(   (   100px   +   100px   )   );
+   |                        ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/function/calc/input.css:14:24
    |
@@ -781,6 +811,12 @@ error: Value
    |                                    ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:14:36
+   |
+14 |     width: calc(   (   100px   +   100px   )   );
+   |                                    ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/function/calc/input.css:14:36
    |
 14 |     width: calc(   (   100px   +   100px   )   );
@@ -858,6 +894,12 @@ error: Dimension
 15 |     width: calc(   100px   +    100px   );
    |                    ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/function/calc/input.css:15:20
+   |
+15 |     width: calc(   100px   +    100px   );
+   |                    ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/function/calc/input.css:15:20
    |
@@ -877,6 +919,12 @@ error: Value
    |                                 ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:15:33
+   |
+15 |     width: calc(   100px   +    100px   );
+   |                                 ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/function/calc/input.css:15:33
    |
 15 |     width: calc(   100px   +    100px   );
@@ -954,6 +1002,12 @@ error: Dimension
 16 |     width: calc(500px + 50%);
    |                 ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/function/calc/input.css:16:17
+   |
+16 |     width: calc(500px + 50%);
+   |                 ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/function/calc/input.css:16:17
    |
@@ -972,7 +1026,7 @@ error: Value
 16 |     width: calc(500px + 50%);
    |                         ^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/function/calc/input.css:16:25
    |
 16 |     width: calc(500px + 50%);
@@ -1038,7 +1092,7 @@ error: Value
 17 |     width: calc(10% + 20%);
    |                 ^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/function/calc/input.css:17:17
    |
 17 |     width: calc(10% + 20%);
@@ -1056,7 +1110,7 @@ error: Value
 17 |     width: calc(10% + 20%);
    |                       ^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/function/calc/input.css:17:23
    |
 17 |     width: calc(10% + 20%);
@@ -1128,6 +1182,12 @@ error: Dimension
 18 |     width: calc(2pc + 3pt);
    |                 ^^^
 
+error: Length
+  --> $DIR/tests/fixture/function/calc/input.css:18:17
+   |
+18 |     width: calc(2pc + 3pt);
+   |                 ^^^
+
 error: Number
   --> $DIR/tests/fixture/function/calc/input.css:18:17
    |
@@ -1147,6 +1207,12 @@ error: Value
    |                       ^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:18:23
+   |
+18 |     width: calc(2pc + 3pt);
+   |                       ^^^
+
+error: Length
   --> $DIR/tests/fixture/function/calc/input.css:18:23
    |
 18 |     width: calc(2pc + 3pt);
@@ -1266,7 +1332,7 @@ error: Value
 19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
    |                 ^^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/function/calc/input.css:19:17
    |
 19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
@@ -1314,6 +1380,12 @@ error: Dimension
 19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
    |                                ^^^
 
+error: Length
+  --> $DIR/tests/fixture/function/calc/input.css:19:32
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                                ^^^
+
 error: Number
   --> $DIR/tests/fixture/function/calc/input.css:19:32
    |
@@ -1345,6 +1417,12 @@ error: Value
    |                                          ^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:19:42
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |                                          ^^^
+
+error: Length
   --> $DIR/tests/fixture/function/calc/input.css:19:42
    |
 19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
@@ -1423,6 +1501,12 @@ error: Value
    |                      ^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:21:22
+   |
+21 |     width: calc(calc(50px));
+   |                      ^^^^
+
+error: Length
   --> $DIR/tests/fixture/function/calc/input.css:21:22
    |
 21 |     width: calc(calc(50px));
@@ -1524,7 +1608,7 @@ error: Value
 23 |     width: calc(calc(3 * 25%));
    |                          ^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/function/calc/input.css:23:26
    |
 23 |     width: calc(calc(3 * 25%));
@@ -1903,6 +1987,12 @@ error: Dimension
 33 |     font-size: calc(1rem * pow(1.5, -1));
    |                     ^^^^
 
+error: Length
+  --> $DIR/tests/fixture/function/calc/input.css:33:21
+   |
+33 |     font-size: calc(1rem * pow(1.5, -1));
+   |                     ^^^^
+
 error: Number
   --> $DIR/tests/fixture/function/calc/input.css:33:21
    |
@@ -2024,6 +2114,12 @@ error: Value
    |                     ^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:34:21
+   |
+34 |     font-size: calc(1rem * pow(1.5, 0));
+   |                     ^^^^
+
+error: Length
   --> $DIR/tests/fixture/function/calc/input.css:34:21
    |
 34 |     font-size: calc(1rem * pow(1.5, 0));
@@ -2155,6 +2251,12 @@ error: Dimension
 35 |     font-size: calc(1rem * pow(1.5, 1));
    |                     ^^^^
 
+error: Length
+  --> $DIR/tests/fixture/function/calc/input.css:35:21
+   |
+35 |     font-size: calc(1rem * pow(1.5, 1));
+   |                     ^^^^
+
 error: Number
   --> $DIR/tests/fixture/function/calc/input.css:35:21
    |
@@ -2276,6 +2378,12 @@ error: Value
    |                     ^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:36:21
+   |
+36 |     font-size: calc(1rem * pow(1.5, 2));
+   |                     ^^^^
+
+error: Length
   --> $DIR/tests/fixture/function/calc/input.css:36:21
    |
 36 |     font-size: calc(1rem * pow(1.5, 2));
@@ -2407,6 +2515,12 @@ error: Dimension
 37 |     font-size: calc(1rem * pow(1.5, 3));
    |                     ^^^^
 
+error: Length
+  --> $DIR/tests/fixture/function/calc/input.css:37:21
+   |
+37 |     font-size: calc(1rem * pow(1.5, 3));
+   |                     ^^^^
+
 error: Number
   --> $DIR/tests/fixture/function/calc/input.css:37:21
    |
@@ -2528,6 +2642,12 @@ error: Value
    |                     ^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:38:21
+   |
+38 |     font-size: calc(1rem * pow(1.5, 4));
+   |                     ^^^^
+
+error: Length
   --> $DIR/tests/fixture/function/calc/input.css:38:21
    |
 38 |     font-size: calc(1rem * pow(1.5, 4));
@@ -2714,7 +2834,7 @@ error: Value
 42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
    |                                              ^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/function/calc/input.css:42:46
    |
 42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
@@ -2757,6 +2877,12 @@ error: Value
    |                                                        ^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:42:56
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                        ^^^^
+
+error: Length
   --> $DIR/tests/fixture/function/calc/input.css:42:56
    |
 42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
@@ -2834,7 +2960,7 @@ error: Value
 42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
    |                                                                         ^^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/function/calc/input.css:42:73
    |
 42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
@@ -2853,6 +2979,12 @@ error: Value
    |                                                                                ^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:42:80
+   |
+42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |                                                                                ^^^^
+
+error: Length
   --> $DIR/tests/fixture/function/calc/input.css:42:80
    |
 42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
@@ -2900,7 +3032,7 @@ error: Value
 42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
    |                                                                                              ^^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/function/calc/input.css:42:94
    |
 42 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
@@ -3096,7 +3228,7 @@ error: Value
 49 | div { width: calc(100% / 4); }
    |                   ^^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/function/calc/input.css:49:19
    |
 49 | div { width: calc(100% / 4); }
@@ -3234,7 +3366,7 @@ error: Value
 50 | div { margin-top: calc(-120% - 4px); }
    |                        ^^^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/function/calc/input.css:50:24
    |
 50 | div { margin-top: calc(-120% - 4px); }
@@ -3253,6 +3385,12 @@ error: Value
    |                                ^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/function/calc/input.css:50:32
+   |
+50 | div { margin-top: calc(-120% - 4px); }
+   |                                ^^^
+
+error: Length
   --> $DIR/tests/fixture/function/calc/input.css:50:32
    |
 50 | div { margin-top: calc(-120% - 4px); }

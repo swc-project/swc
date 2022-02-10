@@ -1,10 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
-// @strict: true
-// @jsx: react
-// @lib: es6
-// @skipLibCheck: true
-/// <reference path="/.lib/react16.d.ts" />
-import * as React from "react";
 function _assertThisInitialized(self) {
     if (self === void 0) {
         throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -119,6 +112,13 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
+import regeneratorRuntime from "regenerator-runtime";
+// @strict: true
+// @jsx: react
+// @lib: es6
+// @skipLibCheck: true
+/// <reference path="/.lib/react16.d.ts" />
+import * as React from "react";
 var AsyncLoader = /*#__PURE__*/ function(_Component) {
     "use strict";
     _inherits(AsyncLoader, _Component);

@@ -1,10 +1,11 @@
+use swc_common::{errors::HANDLER, Span};
+use swc_ecma_ast::*;
+use swc_ecma_visit::{noop_visit_type, Visit};
+
 use crate::{
     config::{LintRuleReaction, RuleConfig},
     rule::{visitor_rule, Rule},
 };
-use swc_common::{errors::HANDLER, Span};
-use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, Visit};
 
 const MESSAGE: &str = "Unexpected 'debugger' statement";
 

@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function AsyncGenerator(gen) {
     var front, back;
     function resume(key, arg) {
@@ -95,6 +94,7 @@ function _classCheckPrivateStaticAccess(receiver, classConstructor) {
 }, AsyncGenerator.prototype.return = function(arg) {
     return this._invoke("return", arg);
 };
+import regeneratorRuntime from "regenerator-runtime";
 var A = function() {
     "use strict";
     _classCallCheck(this, A), _classStaticPrivateMethodGet(A, A, foo).call(A, 30), _classStaticPrivateMethodGet(A, A, bar).call(A, 30), _classStaticPrivateMethodGet(A, A, bar).call(A, 30), _classStaticPrivateFieldSpecSet(A, A, _quux, _classStaticPrivateMethodGet(A, A, quux) + 1), _classStaticPrivateFieldSpecSet(A, A, _quux, +_classStaticPrivateMethodGet(A, A, quux) + 1);

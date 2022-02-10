@@ -1,9 +1,10 @@
-use crate::util::base54::incr_base54;
 use swc_atoms::JsWord;
 use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+
+use crate::util::base54::incr_base54;
 
 pub fn private_name_mangler(keep_private_props: bool) -> impl Fold + VisitMut {
     as_folder(PrivateNameMangler {

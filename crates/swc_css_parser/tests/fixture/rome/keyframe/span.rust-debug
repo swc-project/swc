@@ -111,6 +111,12 @@ error: Dimension
 3 |         margin-top: 50px !important;
   |                     ^^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/keyframe/input.css:3:21
+  |
+3 |         margin-top: 50px !important;
+  |                     ^^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/keyframe/input.css:3:21
   |
@@ -189,6 +195,12 @@ error: Value
   |                     ^^^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/keyframe/input.css:6:21
+  |
+6 |         margin-top: 100px !important;
+  |                     ^^^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/keyframe/input.css:6:21
   |
 6 |         margin-top: 100px !important;
@@ -327,7 +339,7 @@ error: KeyframeSelector
 15 |     15% {
    |     ^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/rome/keyframe/input.css:15:5
    |
 15 |     15% {
@@ -360,7 +372,7 @@ error: KeyframeSelector
 17 |     0% {
    |     ^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/rome/keyframe/input.css:17:5
    |
 17 |     0% {
@@ -393,7 +405,7 @@ error: KeyframeSelector
 19 |     100% {
    |     ^^^^
 
-error: Percent
+error: Percentage
   --> $DIR/tests/fixture/rome/keyframe/input.css:19:5
    |
 19 |     100% {

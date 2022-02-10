@@ -1,6 +1,7 @@
+use swc_common::Span;
+
 pub use self::{basic_impl::JsWriter, semicolon::omit_trailing_semi};
 use super::*;
-use swc_common::Span;
 
 mod basic_impl;
 mod semicolon;

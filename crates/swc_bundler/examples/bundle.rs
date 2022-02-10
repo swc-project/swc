@@ -3,14 +3,15 @@
 /// Use memory allocator
 extern crate swc_node_base;
 
-use anyhow::{bail, Error};
-use path_clean::PathClean;
 use std::{
     collections::HashMap,
     env, fs,
     path::{Path, PathBuf},
     time::{Duration, Instant},
 };
+
+use anyhow::{bail, Error};
+use path_clean::PathClean;
 use swc_atoms::js_word;
 use swc_bundler::{Bundle, Bundler, Load, ModuleData, ModuleRecord, Resolve};
 use swc_common::{
@@ -362,13 +363,13 @@ impl Resolve for NodeResolver {
         if target.starts_with("./") || target.starts_with("../") {
             let win_target;
             let target = if cfg!(target_os = "windows") {
-                let t = if target.starts_with("./") {
-                    &target[2..]
+                let t = if let Some(s) = target.strip_prefix("./") {
+                    s
                 } else {
                     base_dir = base_dir.parent().unwrap();
                     &target[3..]
                 };
-                win_target = t.replace("/", "\\");
+                win_target = t.replace('/', "\\");
                 &*win_target
             } else {
                 target

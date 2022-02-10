@@ -151,6 +151,12 @@ error: Dimension
 2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
   |                                    ^^
 
+error: Resolution
+ --> $DIR/tests/fixture/stylis/comma/01/input.css:2:36
+  |
+2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
+  |                                    ^^
+
 error: Number
  --> $DIR/tests/fixture/stylis/comma/01/input.css:2:36
   |

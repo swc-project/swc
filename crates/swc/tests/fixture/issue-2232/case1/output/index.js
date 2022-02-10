@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
         var info = gen[key](arg);
@@ -74,6 +73,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
     }
     return target;
 }
+import regeneratorRuntime from "regenerator-runtime";
 var Foo = /*#__PURE__*/ function() {
     "use strict";
     function Foo() {

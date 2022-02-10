@@ -2,6 +2,7 @@ use std::{
     fmt,
     sync::atomic::{AtomicU32, Ordering::SeqCst},
 };
+
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, sync::Lock, FileName, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{Expr, Ident};

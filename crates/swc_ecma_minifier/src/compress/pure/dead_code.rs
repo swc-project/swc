@@ -1,12 +1,13 @@
+use swc_common::{util::take::Take, DUMMY_SP};
+use swc_ecma_ast::*;
+use swc_ecma_utils::{ExprExt, StmtLike, Value};
+
 use super::Pure;
 use crate::{
     compress::util::{always_terminates, is_fine_for_if_cons},
     mode::Mode,
     util::ModuleItemExt,
 };
-use swc_common::{util::take::Take, DUMMY_SP};
-use swc_ecma_ast::*;
-use swc_ecma_utils::{ExprExt, StmtLike, Value};
 
 /// Methods related to option `dead_code`.
 impl<M> Pure<'_, M>

@@ -1,5 +1,6 @@
-use crate::swcify::{Context, Swcify};
 use swc_ecma_ast::Ident;
+
+use crate::swcify::{Context, Swcify};
 
 impl Swcify for swc_estree_ast::JSXNamespacedName {
     type Output = swc_ecma_ast::JSXNamespacedName;

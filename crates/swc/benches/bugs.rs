@@ -5,6 +5,7 @@ extern crate swc_node_base;
 extern crate test;
 
 use std::{fs::read_to_string, io::stderr, path::Path};
+
 use swc::config::{IsModule, Options};
 use swc_common::{errors::Handler, sync::Lrc, FilePathMapping, SourceMap};
 use test::Bencher;

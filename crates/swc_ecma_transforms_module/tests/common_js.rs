@@ -1,4 +1,5 @@
 use std::{cell::RefCell, path::PathBuf, rc::Rc};
+
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::{
@@ -16,6 +17,7 @@ use swc_ecma_transforms_compat::{
 };
 use swc_ecma_transforms_module::{
     common_js::common_js,
+    hoist::module_hoister,
     import_analysis::import_analyzer,
     util::{Config, Lazy, Scope},
 };
@@ -37,7 +39,11 @@ fn ts_syntax() -> Syntax {
 fn tr(config: Config) -> impl Fold {
     let mark = Mark::fresh(Mark::root());
 
-    chain!(resolver_with_mark(mark), common_js(mark, config, None))
+    chain!(
+        resolver_with_mark(mark),
+        module_hoister(),
+        common_js(mark, config, None)
+    )
 }
 
 test!(
@@ -4752,17 +4758,18 @@ test!(
 
     var _foo = _interopRequireDefault(require('foo'));
 
-    class OK {
-        constructor() {
-            console.log(_foo.default);
-        }
-    }
     class NotOK {
         constructor() {
             console.log(_foo.default);
         }
     }
     exports.default = NotOK;
+
+    class OK {
+        constructor() {
+            console.log(_foo.default);
+        }
+    }
     "
 );
 

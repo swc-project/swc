@@ -16,16 +16,6 @@
 //! `spans` and used pervasively in the compiler. They are absolute positions
 //! within the SourceMap, which upon request can be converted to line and column
 //! information, source code snippets, etc.
-pub use crate::syntax_pos::*;
-use crate::{
-    collections::AHashMap,
-    errors::SourceMapper,
-    rustc_data_structures::stable_hasher::StableHasher,
-    sync::{Lock, LockGuard, Lrc, MappedLockGuard},
-};
-use once_cell::sync::Lazy;
-#[cfg(feature = "sourcemap")]
-use sourcemap::SourceMapBuilder;
 use std::{
     cmp,
     cmp::{max, min},
@@ -35,7 +25,19 @@ use std::{
     path::{Path, PathBuf},
     sync::atomic::{AtomicUsize, Ordering::SeqCst},
 };
+
+use once_cell::sync::Lazy;
+#[cfg(feature = "sourcemap")]
+use sourcemap::SourceMapBuilder;
 use tracing::debug;
+
+pub use crate::syntax_pos::*;
+use crate::{
+    collections::AHashMap,
+    errors::SourceMapper,
+    rustc_data_structures::stable_hasher::StableHasher,
+    sync::{Lock, LockGuard, Lrc, MappedLockGuard},
+};
 
 static CURRENT_DIR: Lazy<Option<PathBuf>> = Lazy::new(|| env::current_dir().ok());
 
@@ -1200,21 +1202,27 @@ impl SourceMapper for SourceMap {
     fn lookup_char_pos(&self, pos: BytePos) -> Loc {
         self.lookup_char_pos(pos)
     }
+
     fn span_to_lines(&self, sp: Span) -> FileLinesResult {
         self.span_to_lines(sp)
     }
+
     fn span_to_string(&self, sp: Span) -> String {
         self.span_to_string(sp)
     }
+
     fn span_to_filename(&self, sp: Span) -> FileName {
         self.span_to_filename(sp)
     }
+
     fn merge_spans(&self, sp_lhs: Span, sp_rhs: Span) -> Option<Span> {
         self.merge_spans(sp_lhs, sp_rhs)
     }
+
     fn call_span_if_macro(&self, sp: Span) -> Span {
         sp
     }
+
     fn doctest_offset_line(&self, line: usize) -> usize {
         self.doctest_offset_line(line)
     }

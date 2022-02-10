@@ -1,5 +1,6 @@
-use auto_impl::auto_impl;
 use std::fmt::Result;
+
+use auto_impl::auto_impl;
 use swc_common::Span;
 
 pub mod basic;

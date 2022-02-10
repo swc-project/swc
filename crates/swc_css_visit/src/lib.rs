@@ -93,31 +93,19 @@ define!({
 
     pub enum Value {
         SimpleBlock(SimpleBlock),
-
         Dimension(Dimension),
-
         Number(Number),
-
-        Percent(Percent),
-
+        Percentage(Percentage),
         Ratio(Ratio),
-
         Color(Color),
-
         Ident(Ident),
-
         DashedIdent(DashedIdent),
-
         Str(Str),
-
         Function(Function),
-
         Bin(BinValue),
-
         Delimiter(Delimiter),
-
+        Urange(Urange),
         Tokens(Tokens),
-
         Url(Url),
     }
 
@@ -157,13 +145,59 @@ define!({
         pub raw: JsWord,
     }
 
-    pub struct Dimension {
+    pub enum Dimension {
+        Length(Length),
+        Angle(Angle),
+        Time(Time),
+        Frequency(Frequency),
+        Resolution(Resolution),
+        Flex(Flex),
+        UnknownDimension(UnknownDimension),
+    }
+
+    pub struct Length {
         pub span: Span,
         pub value: Number,
         pub unit: Ident,
     }
 
-    pub struct Percent {
+    pub struct Angle {
+        pub span: Span,
+        pub value: Number,
+        pub unit: Ident,
+    }
+
+    pub struct Time {
+        pub span: Span,
+        pub value: Number,
+        pub unit: Ident,
+    }
+
+    pub struct Frequency {
+        pub span: Span,
+        pub value: Number,
+        pub unit: Ident,
+    }
+
+    pub struct Resolution {
+        pub span: Span,
+        pub value: Number,
+        pub unit: Ident,
+    }
+
+    pub struct Flex {
+        pub span: Span,
+        pub value: Number,
+        pub unit: Ident,
+    }
+
+    pub struct UnknownDimension {
+        pub span: Span,
+        pub value: Number,
+        pub unit: Ident,
+    }
+
+    pub struct Percentage {
         pub span: Span,
         pub value: Number,
     }
@@ -197,6 +231,11 @@ define!({
     pub enum UrlModifier {
         Ident(Ident),
         Function(Function),
+    }
+
+    pub struct Urange {
+        pub span: Span,
+        pub value: JsWord,
     }
 
     pub struct SelectorList {
@@ -362,6 +401,8 @@ define!({
         Viewport(ViewportRule),
         Document(DocumentRule),
         ColorProfile(ColorProfileRule),
+        CounterStyle(CounterStyleRule),
+        Property(PropertyRule),
         Unknown(UnknownAtRule),
     }
 
@@ -456,7 +497,7 @@ define!({
 
     pub enum KeyframeSelector {
         Ident(Ident),
-        Percent(Percent),
+        Percentage(Percentage),
     }
 
     pub struct LayerName {
@@ -674,6 +715,18 @@ define!({
     pub struct ColorProfileRule {
         pub span: Span,
         pub name: ColorProfileName,
+        pub block: Vec<DeclarationBlockItem>,
+    }
+
+    pub struct CounterStyleRule {
+        pub span: Span,
+        pub name: CustomIdent,
+        pub block: Vec<DeclarationBlockItem>,
+    }
+
+    pub struct PropertyRule {
+        pub span: Span,
+        pub name: DashedIdent,
         pub block: Vec<DeclarationBlockItem>,
     }
 });

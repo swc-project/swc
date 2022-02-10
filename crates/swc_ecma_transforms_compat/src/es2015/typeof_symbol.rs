@@ -168,9 +168,10 @@ fn is_non_symbol_literal(e: &Expr) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use swc_ecma_parser::Syntax;
     use swc_ecma_transforms_testing::test;
+
+    use super::*;
 
     test!(
         Syntax::default(),

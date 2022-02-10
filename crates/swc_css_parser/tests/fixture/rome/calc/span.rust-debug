@@ -131,6 +131,12 @@ error: Dimension
 2 |     width: calc(2px);
   |                 ^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/calc/input.css:2:14
+  |
+2 |     width: calc(2px);
+  |                 ^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/calc/input.css:2:14
   |
@@ -203,6 +209,12 @@ error: Dimension
 3 |     width: calc(2px + 1px);
   |                 ^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/calc/input.css:3:14
+  |
+3 |     width: calc(2px + 1px);
+  |                 ^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/calc/input.css:3:14
   |
@@ -222,6 +234,12 @@ error: Value
   |                       ^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/calc/input.css:3:20
+  |
+3 |     width: calc(2px + 1px);
+  |                       ^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/calc/input.css:3:20
   |
 3 |     width: calc(2px + 1px);
@@ -299,6 +317,12 @@ error: Dimension
 4 |     width: calc(2em + 1%);
   |                 ^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/calc/input.css:4:14
+  |
+4 |     width: calc(2em + 1%);
+  |                 ^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/calc/input.css:4:14
   |
@@ -317,7 +341,7 @@ error: Value
 4 |     width: calc(2em + 1%);
   |                       ^^
 
-error: Percent
+error: Percentage
  --> $DIR/tests/fixture/rome/calc/input.css:4:20
   |
 4 |     width: calc(2em + 1%);
@@ -401,6 +425,12 @@ error: Dimension
 5 |     width: calc(2em * 2% * 3px);
   |                 ^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/calc/input.css:5:14
+  |
+5 |     width: calc(2em * 2% * 3px);
+  |                 ^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/calc/input.css:5:14
   |
@@ -419,7 +449,7 @@ error: Value
 5 |     width: calc(2em * 2% * 3px);
   |                       ^^
 
-error: Percent
+error: Percentage
  --> $DIR/tests/fixture/rome/calc/input.css:5:20
   |
 5 |     width: calc(2em * 2% * 3px);
@@ -438,6 +468,12 @@ error: Value
   |                            ^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/calc/input.css:5:25
+  |
+5 |     width: calc(2em * 2% * 3px);
+  |                            ^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/calc/input.css:5:25
   |
 5 |     width: calc(2em * 2% * 3px);
@@ -522,6 +558,12 @@ error: Value
   |                 ^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/calc/input.css:6:14
+  |
+6 |     width: calc(2em / 2 / 3);
+  |                 ^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/calc/input.css:6:14
   |
 6 |     width: calc(2em / 2 / 3);
@@ -630,6 +672,12 @@ error: Value
   |                 ^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/calc/input.css:7:14
+  |
+7 |     width: calc(2em / (2 - 3) / (2 - 6));
+  |                 ^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/calc/input.css:7:14
   |
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
@@ -815,6 +863,12 @@ error: Dimension
 8 |     width: calc(2em * 2 + 3);
   |                 ^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/calc/input.css:8:14
+  |
+8 |     width: calc(2em * 2 + 3);
+  |                 ^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/calc/input.css:8:14
   |
@@ -947,6 +1001,12 @@ error: Dimension
 9 |     width: calc(2em * 2 - 3 + 3em / 5);
   |                 ^^^
 
+error: Length
+ --> $DIR/tests/fixture/rome/calc/input.css:9:14
+  |
+9 |     width: calc(2em * 2 - 3 + 3em / 5);
+  |                 ^^^
+
 error: Number
  --> $DIR/tests/fixture/rome/calc/input.css:9:14
   |
@@ -990,6 +1050,12 @@ error: Value
   |                               ^^^
 
 error: Dimension
+ --> $DIR/tests/fixture/rome/calc/input.css:9:28
+  |
+9 |     width: calc(2em * 2 - 3 + 3em / 5);
+  |                               ^^^
+
+error: Length
  --> $DIR/tests/fixture/rome/calc/input.css:9:28
   |
 9 |     width: calc(2em * 2 - 3 + 3em / 5);

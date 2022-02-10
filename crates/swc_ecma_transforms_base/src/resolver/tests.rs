@@ -1,7 +1,8 @@
-use super::*;
-use crate::hygiene::Config;
 use swc_ecma_parser::Syntax;
 use swc_ecma_visit::Fold;
+
+use super::*;
+use crate::hygiene::Config;
 
 // struct TsHygiene {
 //     top_level_mark: Mark,

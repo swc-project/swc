@@ -1,9 +1,11 @@
-use super::Pure;
-use crate::{compress::util::negate_cost, debug::dump, mode::Mode, util::make_bool};
 use std::mem::swap;
+
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
+
+use super::Pure;
+use crate::{compress::util::negate_cost, debug::dump, mode::Mode, util::make_bool};
 
 impl<M> Pure<'_, M>
 where

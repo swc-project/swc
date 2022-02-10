@@ -1,4 +1,5 @@
 use std::iter;
+
 use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -160,6 +161,7 @@ impl<'a> VisitMut for FieldAccessFolder<'a> {
     noop_visit_mut_type!();
 
     take_vars!(visit_mut_function, Function);
+
     take_vars!(visit_mut_constructor, Constructor);
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {

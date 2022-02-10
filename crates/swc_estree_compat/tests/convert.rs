@@ -1,15 +1,16 @@
 #![feature(test)]
 extern crate test;
 
-use anyhow::{Context as AnyhowContext, Error};
-use copyless::BoxHelper;
-use pretty_assertions::assert_eq;
-use serde_json::{Number, Value};
 use std::{
     env, fs,
     path::{Path, PathBuf},
     sync::Arc,
 };
+
+use anyhow::{Context as AnyhowContext, Error};
+use copyless::BoxHelper;
+use pretty_assertions::assert_eq;
+use serde_json::{Number, Value};
 use swc::{config::IsModule, Compiler};
 use swc_common::{
     errors::{ColorConfig, Handler},
@@ -200,7 +201,7 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
                 Value::String(s) => {
                     // TODO(kdy1): Remove this
                     // This is wrong, but we are not babel ast at the moment
-                    *s = s.replace("\n", "");
+                    *s = s.replace('\n', "");
                 }
 
                 _ => {}

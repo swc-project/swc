@@ -1,9 +1,10 @@
 //! Parser for object literal.
 
-use super::*;
-use crate::{lexer::TokenContext, parser::class_and_fn::is_not_this, token::Keyword};
 use swc_atoms::js_word;
 use swc_common::Spanned;
+
+use super::*;
+use crate::{lexer::TokenContext, parser::class_and_fn::is_not_this, token::Keyword};
 
 impl<'a, I: Tokens> Parser<I> {
     /// Parse a object literal or object pattern.

@@ -1,4 +1,5 @@
 use std::path::{Path, PathBuf};
+
 use swc_common::{chain, sync::Lrc, Mark, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
@@ -105,18 +106,18 @@ struct TsHygiene {
 }
 
 impl VisitMut for TsHygiene {
+    visit_mut_obj_and_computed!();
+
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         if SyntaxContext::empty().apply_mark(self.top_level_mark) == i.span.ctxt {
             println!("ts_hygiene: {} is top-level", i.sym);
             return;
         }
 
-        let ctxt = format!("{:?}", i.span.ctxt).replace("#", "");
+        let ctxt = format!("{:?}", i.span.ctxt).replace('#', "");
         i.sym = format!("{}__{}", i.sym, ctxt).into();
         i.span = i.span.with_ctxt(SyntaxContext::empty());
     }
-
-    visit_mut_obj_and_computed!();
 
     fn visit_mut_prop_name(&mut self, n: &mut PropName) {
         if let PropName::Computed(n) = n {

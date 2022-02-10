@@ -1,5 +1,6 @@
-pub use self::ctx::Context;
 use std::fmt::Debug;
+
+pub use self::ctx::Context;
 
 mod class;
 mod ctx;

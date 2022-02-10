@@ -1,5 +1,6 @@
-use super::{super::expr_simplifier, dead_branch_remover};
 use swc_common::chain;
+
+use super::{super::expr_simplifier, dead_branch_remover};
 
 macro_rules! test_stmt {
     ($l:expr, $r:expr) => {

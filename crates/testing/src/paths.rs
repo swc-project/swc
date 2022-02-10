@@ -1,5 +1,6 @@
-use once_cell::sync::Lazy;
 use std::{env, path::PathBuf, sync::Arc};
+
+use once_cell::sync::Lazy;
 
 pub fn manifest_dir() -> PathBuf {
     env::var("CARGO_MANIFEST_DIR")

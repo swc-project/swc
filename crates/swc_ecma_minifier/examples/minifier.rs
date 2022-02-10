@@ -1,6 +1,7 @@
 extern crate swc_node_base;
 
 use std::{env::args, fs, path::Path};
+
 use swc_common::{input::SourceFileInput, sync::Lrc, Mark, SourceMap};
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{

@@ -1,5 +1,3 @@
-use self::common::*;
-use anyhow::Error;
 use std::{
     self,
     collections::HashMap,
@@ -7,6 +5,8 @@ use std::{
     io,
     path::{Path, PathBuf},
 };
+
+use anyhow::Error;
 use swc_atoms::js_word;
 use swc_bundler::{BundleKind, Bundler, Config, ModuleRecord};
 use swc_common::{FileName, Globals, Span};
@@ -19,6 +19,8 @@ use swc_ecma_loader::NODE_BUILTINS;
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_visit::FoldWith;
 use testing::NormalizedOutput;
+
+use self::common::*;
 
 #[path = "common/mod.rs"]
 mod common;
@@ -34,7 +36,7 @@ fn do_test(entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
             Config {
                 require: true,
                 disable_inliner: !inline,
-                external_modules: NODE_BUILTINS.to_vec().into_iter().map(From::from).collect(),
+                external_modules: NODE_BUILTINS.iter().copied().map(From::from).collect(),
                 module: Default::default(),
                 ..Default::default()
             },

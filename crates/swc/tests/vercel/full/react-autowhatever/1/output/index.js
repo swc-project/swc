@@ -128,7 +128,7 @@ var i = function(b) {
         }
     ], d(c.prototype, e), j && d(c, j), i;
 }(b.Component);
-i.propTypes = {
+exports.default = i, i.propTypes = {
     items: c.default.array.isRequired,
     itemProps: c.default.oneOfType([
         c.default.object,
@@ -144,4 +144,4 @@ i.propTypes = {
     keyPrefix: c.default.string.isRequired
 }, i.defaultProps = {
     sectionIndex: null
-}, exports.default = i, new i();
+}, new i();

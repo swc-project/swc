@@ -1,4 +1,9 @@
 #![allow(clippy::vec_box)]
+use is_macro::Is;
+use serde::{self, Deserialize, Serialize};
+use string_enum::StringEnum;
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
+
 use crate::{
     class::Class,
     function::Function,
@@ -15,10 +20,6 @@ use crate::{
     },
     ComputedPropName, Invalid,
 };
-use is_macro::Is;
-use serde::{self, Deserialize, Serialize};
-use string_enum::StringEnum;
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]

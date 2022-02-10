@@ -185,6 +185,12 @@ error: Dimension
 4 |     width: 1px!important;
   |            ^^^
 
+error: Length
+ --> $DIR/tests/fixture/important/basic/input.css:4:12
+  |
+4 |     width: 1px!important;
+  |            ^^^
+
 error: Number
  --> $DIR/tests/fixture/important/basic/input.css:4:12
   |
@@ -491,6 +497,12 @@ error: Dimension
 11 |     margin: 10px      !      important;
    |             ^^^^
 
+error: Length
+  --> $DIR/tests/fixture/important/basic/input.css:11:13
+   |
+11 |     margin: 10px      !      important;
+   |             ^^^^
+
 error: Number
   --> $DIR/tests/fixture/important/basic/input.css:11:13
    |
@@ -540,6 +552,12 @@ error: Value
    |              ^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/important/basic/input.css:12:14
+   |
+12 |     padding: 20px     !  /* test */   important;
+   |              ^^^^
+
+error: Length
   --> $DIR/tests/fixture/important/basic/input.css:12:14
    |
 12 |     padding: 20px     !  /* test */   important;
@@ -599,6 +617,12 @@ error: Dimension
 13 |     width: 100px ! /*! test */ important;
    |            ^^^^^
 
+error: Length
+  --> $DIR/tests/fixture/important/basic/input.css:13:12
+   |
+13 |     width: 100px ! /*! test */ important;
+   |            ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/important/basic/input.css:13:12
    |
@@ -648,6 +672,12 @@ error: Value
    |             ^^^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/important/basic/input.css:14:13
+   |
+14 |     height: 100px /*! test */ important;
+   |             ^^^^^
+
+error: Length
   --> $DIR/tests/fixture/important/basic/input.css:14:13
    |
 14 |     height: 100px /*! test */ important;
@@ -756,6 +786,12 @@ error: Value
    |              ^^^
 
 error: Dimension
+  --> $DIR/tests/fixture/important/basic/input.css:16:14
+   |
+16 |     padding: 1px/* sep */!important;
+   |              ^^^
+
+error: Length
   --> $DIR/tests/fixture/important/basic/input.css:16:14
    |
 16 |     padding: 1px/* sep */!important;

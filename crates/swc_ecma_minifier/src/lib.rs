@@ -16,6 +16,15 @@
 #![allow(clippy::collapsible_else_if)]
 #![allow(clippy::collapsible_if)]
 #![allow(clippy::vec_box)]
+#![allow(unstable_name_collisions)]
+
+use mode::Minification;
+use pass::postcompress::postcompress_optimizer;
+use swc_common::{comments::Comments, sync::Lrc, SourceMap, GLOBALS};
+use swc_ecma_ast::Module;
+use swc_ecma_visit::{FoldWith, VisitMutWith};
+use swc_timer::timer;
+use timing::Timings;
 
 pub use crate::pass::unique_scope::unique_scope;
 use crate::{
@@ -29,13 +38,6 @@ use crate::{
         precompress::precompress_optimizer,
     },
 };
-use mode::Minification;
-use pass::postcompress::postcompress_optimizer;
-use swc_common::{comments::Comments, sync::Lrc, SourceMap, GLOBALS};
-use swc_ecma_ast::Module;
-use swc_ecma_visit::{FoldWith, VisitMutWith};
-use swc_timer::timer;
-use timing::Timings;
 
 mod analyzer;
 mod compress;

@@ -30,12 +30,6 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
         }
     }
 
-    fn visit_mut_ident(&mut self, ident: &mut Ident) {
-        if self.in_body && !self.fn_expr_name.eq(&ident.sym) {
-            self.other_ident_syms.insert(ident.sym.clone());
-        }
-    }
-
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
         if let Some(ident) = &n.ident {
             self.fn_expr_name = ident.sym.clone();
@@ -49,7 +43,7 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
                     let mut id_value: JsWord = format!("_{}", self.fn_expr_name).into();
                     let mut count = 0;
                     while self.other_ident_syms.contains(&id_value) {
-                        count = count + 1;
+                        count += 1;
                         id_value = format!("_{}{}", self.fn_expr_name, count).into();
                     }
                     id_value
@@ -60,12 +54,19 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
             }
         }
     }
+
+    fn visit_mut_ident(&mut self, ident: &mut Ident) {
+        if self.in_body && !self.fn_expr_name.eq(&ident.sym) {
+            self.other_ident_syms.insert(ident.sym.clone());
+        }
+    }
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use swc_ecma_transforms_testing::test;
+
+    use super::*;
 
     test!(
         ::swc_ecma_parser::Syntax::default(),

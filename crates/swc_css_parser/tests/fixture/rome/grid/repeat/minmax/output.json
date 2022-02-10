@@ -47,7 +47,7 @@
                       "ctxt": 0
                     },
                     "text": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 1,
                         "end": 6,
@@ -79,7 +79,7 @@
               "ctxt": 0
             },
             "name": {
-              "type": "Identifier",
+              "type": "Ident",
               "span": {
                 "start": 10,
                 "end": 31,
@@ -97,7 +97,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Identifier",
+                  "type": "Ident",
                   "span": {
                     "start": 33,
                     "end": 39,
@@ -134,7 +134,7 @@
                       "ctxt": 0
                     },
                     "name": {
-                      "type": "Identifier",
+                      "type": "Ident",
                       "span": {
                         "start": 43,
                         "end": 49,
@@ -145,7 +145,7 @@
                     },
                     "value": [
                       {
-                        "type": "Identifier",
+                        "type": "Ident",
                         "span": {
                           "start": 50,
                           "end": 61,
@@ -164,7 +164,7 @@
                         "value": ","
                       },
                       {
-                        "type": "Dimension",
+                        "type": "Length",
                         "span": {
                           "start": 63,
                           "end": 68,
@@ -181,7 +181,7 @@
                           "raw": "300"
                         },
                         "unit": {
-                          "type": "Identifier",
+                          "type": "Ident",
                           "span": {
                             "start": 66,
                             "end": 68,

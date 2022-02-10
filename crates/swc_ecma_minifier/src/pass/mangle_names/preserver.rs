@@ -1,8 +1,9 @@
-use crate::option::MangleOptions;
 use swc_common::collections::AHashSet;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+
+use crate::option::MangleOptions;
 
 pub(super) fn idents_to_preserve<N>(options: MangleOptions, n: &N) -> AHashSet<Id>
 where

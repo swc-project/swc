@@ -1,3 +1,7 @@
+use is_macro::Is;
+use string_enum::StringEnum;
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
+
 use crate::{
     class::Class,
     expr::Expr,
@@ -6,9 +10,6 @@ use crate::{
     pat::Pat,
     typescript::{TsEnumDecl, TsInterfaceDecl, TsModuleDecl, TsTypeAliasDecl},
 };
-use is_macro::Is;
-use string_enum::StringEnum;
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]

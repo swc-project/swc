@@ -1,12 +1,13 @@
-use crate::{
-    config::{LintRuleReaction, RuleConfig},
-    rule::{visitor_rule, Rule},
-};
 use serde::{Deserialize, Serialize};
 use swc_common::{collections::AHashSet, errors::HANDLER, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{collect_decls_with_ctxt, ident::IdentLike};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+
+use crate::{
+    config::{LintRuleReaction, RuleConfig},
+    rule::{visitor_rule, Rule},
+};
 
 const UNEXPECTED_REG_EXP_MESSAGE: &str =
     "Use a regular expression literal instead of the 'RegExp' constructor";

@@ -1,4 +1,3 @@
-import regeneratorRuntime from "regenerator-runtime";
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
         var info = gen[key](arg), value = info.value;
@@ -60,6 +59,7 @@ function _createSuper(Derived) {
         })(self);
     };
 }
+import regeneratorRuntime from "regenerator-runtime";
 export var B = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
