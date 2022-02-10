@@ -944,11 +944,8 @@ where
 
         for (idx, node) in n.value.iter().enumerate() {
             if idx == 0 {
-                match node {
-                    ComponentValue::DeclarationBlockItem(_) => {
-                        formatting_newline!(self);
-                    }
-                    _ => {}
+                if let ComponentValue::DeclarationBlockItem(_) = node {
+                    formatting_newline!(self);
                 }
             }
 
