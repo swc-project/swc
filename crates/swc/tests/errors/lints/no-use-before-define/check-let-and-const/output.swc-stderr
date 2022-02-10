@@ -1,0 +1,84 @@
+error: 'a' was used before it was defined
+ 
+  |
+1 | alert(a);
+  |       ^
+
+error: 'a' was used before it was defined
+ 
+  |
+3 | console.log(a);
+  |             ^
+
+error: 'a' was used before it was defined
+ 
+  |
+9 | obj[a];
+  |     ^
+
+error: 'a' was used before it was defined
+  
+   |
+11 | `${a}`;
+   |    ^
+
+error: 'a' was used before it was defined
+  
+   |
+13 | [a];
+   |  ^
+
+error: 'a' was used before it was defined
+  
+   |
+15 | var x = a + "";
+   |         ^
+
+error: 'a' was used before it was defined
+  
+   |
+18 |     [a]: "",
+   |      ^
+
+error: 'b' was used before it was defined
+  
+   |
+25 |     alert(b);
+   |           ^
+
+error: 'a1' was used before it was defined
+  
+   |
+30 | console.log(a1);
+   |             ^^
+
+error: 'a3' was used before it was defined
+  
+   |
+37 | console.log(a3);
+   |             ^^
+
+error: 'a4' was used before it was defined
+  
+   |
+42 | console.log(a4);
+   |             ^^
+
+error: 'a5' was used before it was defined
+  
+   |
+49 | console.log(a5);
+   |             ^^
+
+error: 'a6' was used before it was defined
+  
+   |
+54 | console.log(a6);
+   |             ^^
+
+error: 'a7' was used before it was defined
+  
+   |
+59 | console.log(a7);
+   |             ^^
+

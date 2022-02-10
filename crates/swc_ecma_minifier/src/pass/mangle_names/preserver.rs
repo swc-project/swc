@@ -25,6 +25,12 @@ pub(super) struct Preserver {
     in_top_level: bool,
 }
 
+impl Preserver {
+    fn is_reserved(&self, ident: &Ident) -> bool {
+        self.options.reserved.contains(&ident.sym)
+    }
+}
+
 impl Visit for Preserver {
     noop_visit_type!();
 
@@ -43,7 +49,10 @@ impl Visit for Preserver {
     fn visit_class_decl(&mut self, n: &ClassDecl) {
         n.visit_children_with(self);
 
-        if (self.in_top_level && !self.options.top_level) || self.options.keep_class_names {
+        if (self.in_top_level && !self.options.top_level)
+            || self.options.keep_class_names
+            || self.is_reserved(&n.ident)
+        {
             self.preserved.insert(n.ident.to_id());
         }
     }
@@ -70,7 +79,7 @@ impl Visit for Preserver {
         n.visit_children_with(self);
 
         if let Expr::Ident(i) = n {
-            if self.should_preserve {
+            if self.should_preserve || self.is_reserved(i) {
                 self.preserved.insert(i.to_id());
             }
         }
@@ -79,7 +88,10 @@ impl Visit for Preserver {
     fn visit_fn_decl(&mut self, n: &FnDecl) {
         n.visit_children_with(self);
 
-        if (self.in_top_level && !self.options.top_level) || self.options.keep_fn_names {
+        if (self.in_top_level && !self.options.top_level)
+            || self.is_reserved(&n.ident)
+            || self.options.keep_fn_names
+        {
             self.preserved.insert(n.ident.to_id());
         }
     }
@@ -105,7 +117,7 @@ impl Visit for Preserver {
         n.visit_children_with(self);
 
         if let Pat::Ident(i) = n {
-            if self.should_preserve {
+            if self.should_preserve || self.is_reserved(&i.id) {
                 self.preserved.insert(i.to_id());
             }
         }

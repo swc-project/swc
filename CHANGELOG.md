@@ -23,6 +23,12 @@
 - **(es/lints)** Implement `dot-notation` rule (#3481) ([5bb6bd7](https://github.com/swc-project/swc/commit/5bb6bd71b6aa5dbdde62842c34e9ef6742968650))
 
 
+- **(es/lints)** Implement `no-use-before-define` rule (#3456) ([205b76e](https://github.com/swc-project/swc/commit/205b76e78d238de3a5cb8ab64aa5c61799b77bd2))
+
+
+- **(es/minifier)** Implement `reserved` mangle option (#3476) ([5488159](https://github.com/swc-project/swc/commit/5488159ba5dd124878ebdc50c390a51ab3b07f16))
+
+
 - **(swc/plugin)** Implement proxy for `Mark::fresh` (#3492) ([494b4c8](https://github.com/swc-project/swc/commit/494b4c8203514dd9f21b2bc3804ba8c44d46a4a1))
 
 ### Miscellaneous Tasks
@@ -43,11 +49,17 @@
 
 - **(css/ast)** Rename types to match specification (#3484) ([460f846](https://github.com/swc-project/swc/commit/460f84693414c58d4aa116f9d4e630b1e32bffa4))
 
+
+- **(css/parser)** Refactor codes related to simple blocks (#3506) ([4e124c7](https://github.com/swc-project/swc/commit/4e124c7bca85d70b6e4836038ea1aaa25b9ea663))
+
 ### Testing
 
 
 
 - **(css/parser)** Add tests from `postcss` (#3488) ([04782ae](https://github.com/swc-project/swc/commit/04782ae9f73193ec6cd15f7e7059c97143289169))
+
+
+- **(css/parser)** Add some tests from `postcss` (#3501) ([8b438ea](https://github.com/swc-project/swc/commit/8b438ea024661f344cb4af1160c3102a5d880ae6))
 
 ## [1.2.138] - 2022-02-08
 
