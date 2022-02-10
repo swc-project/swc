@@ -4,3 +4,9 @@ error: Expected Declaration value
 2 |     color: ##;
   |            ^
 
+error: Expected Declaration value
+ --> $DIR/tests/recovery/delim-token/hash/input.css:2:13
+  |
+2 |     color: ##;
+  |             ^
+

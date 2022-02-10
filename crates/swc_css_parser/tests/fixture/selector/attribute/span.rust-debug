@@ -3232,12 +3232,6 @@ error: Ident
 41 | :not([foo=")"]) {}
    |  ^^^
 
-error: Tokens
-  --> $DIR/tests/fixture/selector/attribute/input.css:41:6
-   |
-41 | :not([foo=")"]) {}
-   |      ^^^^^^^^^
-
 error: LBracket
   --> $DIR/tests/fixture/selector/attribute/input.css:41:6
    |
@@ -3321,12 +3315,6 @@ error: Ident
    |
 42 | :not(div/*)*/) { }
    |  ^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/selector/attribute/input.css:42:6
-   |
-42 | :not(div/*)*/) { }
-   |      ^^^
 
 error: Ident { value: Atom('div' type=inline), raw: Atom('div' type=inline) }
   --> $DIR/tests/fixture/selector/attribute/input.css:42:6

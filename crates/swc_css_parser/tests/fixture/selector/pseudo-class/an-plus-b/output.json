@@ -56,27 +56,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 11,
-                        "end": 15,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 11,
                           "end": 15,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 11,
+                            "end": 15,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -144,27 +146,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 31,
-                        "end": 36,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 31,
                           "end": 36,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 31,
+                            "end": 36,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -232,27 +236,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 52,
-                        "end": 58,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 52,
                           "end": 58,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 52,
+                            "end": 58,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -320,27 +326,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 74,
-                        "end": 79,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 74,
                           "end": 79,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 74,
+                            "end": 79,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -408,27 +416,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 95,
-                        "end": 99,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 95,
                           "end": 99,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 95,
+                            "end": 99,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -496,27 +506,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 115,
-                        "end": 120,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 115,
                           "end": 120,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 115,
+                            "end": 120,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -584,27 +596,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 136,
-                        "end": 141,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 136,
                           "end": 141,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": -1,
-                        "bRaw": "- 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 136,
+                            "end": 141,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": -1,
+                          "bRaw": "- 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -672,27 +686,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 157,
-                        "end": 163,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 157,
                           "end": 163,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": -1,
-                        "bRaw": " - 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 157,
+                            "end": 163,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": -1,
+                          "bRaw": " - 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -760,27 +776,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 179,
-                        "end": 184,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 179,
                           "end": 184,
                           "ctxt": 0
                         },
-                        "a": -2,
-                        "aRaw": "-2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 179,
+                            "end": 184,
+                            "ctxt": 0
+                          },
+                          "a": -2,
+                          "aRaw": "-2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -848,27 +866,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 200,
-                        "end": 206,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 200,
                           "end": 206,
                           "ctxt": 0
                         },
-                        "a": -2,
-                        "aRaw": "-2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 200,
+                            "end": 206,
+                            "ctxt": 0
+                          },
+                          "a": -2,
+                          "aRaw": "-2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -936,27 +956,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 222,
-                        "end": 229,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 222,
                           "end": 229,
                           "ctxt": 0
                         },
-                        "a": -2,
-                        "aRaw": "-2",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 222,
+                            "end": 229,
+                            "ctxt": 0
+                          },
+                          "a": -2,
+                          "aRaw": "-2",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1024,27 +1046,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 245,
-                        "end": 251,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 245,
                           "end": 251,
                           "ctxt": 0
                         },
-                        "a": -2,
-                        "aRaw": "-2",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 245,
+                            "end": 251,
+                            "ctxt": 0
+                          },
+                          "a": -2,
+                          "aRaw": "-2",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1112,27 +1136,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 267,
-                        "end": 272,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 267,
                           "end": 272,
                           "ctxt": 0
                         },
-                        "a": -2,
-                        "aRaw": "-2",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 267,
+                            "end": 272,
+                            "ctxt": 0
+                          },
+                          "a": -2,
+                          "aRaw": "-2",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1200,27 +1226,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 288,
-                        "end": 294,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 288,
                           "end": 294,
                           "ctxt": 0
                         },
-                        "a": -2,
-                        "aRaw": "-2",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 288,
+                            "end": 294,
+                            "ctxt": 0
+                          },
+                          "a": -2,
+                          "aRaw": "-2",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1288,27 +1316,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 310,
-                        "end": 317,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 310,
                           "end": 317,
                           "ctxt": 0
                         },
-                        "a": -2,
-                        "aRaw": "-2",
-                        "b": -1,
-                        "bRaw": " - 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 310,
+                            "end": 317,
+                            "ctxt": 0
+                          },
+                          "a": -2,
+                          "aRaw": "-2",
+                          "b": -1,
+                          "bRaw": " - 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1376,27 +1406,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 333,
-                        "end": 338,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 333,
                           "end": 338,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "+2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 333,
+                            "end": 338,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "+2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1464,27 +1496,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 354,
-                        "end": 360,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 354,
                           "end": 360,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "+2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 354,
+                            "end": 360,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "+2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1552,27 +1586,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 376,
-                        "end": 383,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 376,
                           "end": 383,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "+2",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 376,
+                            "end": 383,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "+2",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1640,27 +1676,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 399,
-                        "end": 405,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 399,
                           "end": 405,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "+2",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 399,
+                            "end": 405,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "+2",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1728,27 +1766,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 421,
-                        "end": 426,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 421,
                           "end": 426,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "+2",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 421,
+                            "end": 426,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "+2",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1816,27 +1856,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 442,
-                        "end": 448,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 442,
                           "end": 448,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "+2",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 442,
+                            "end": 448,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "+2",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1904,27 +1946,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 464,
-                        "end": 470,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 464,
                           "end": 470,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "+2",
-                        "b": -1,
-                        "bRaw": "- 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 464,
+                            "end": 470,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "+2",
+                          "b": -1,
+                          "bRaw": "- 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1992,27 +2036,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 486,
-                        "end": 493,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 486,
                           "end": 493,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "+2",
-                        "b": -1,
-                        "bRaw": " - 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 486,
+                            "end": 493,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "+2",
+                          "b": -1,
+                          "bRaw": " - 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -2080,27 +2126,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 509,
-                        "end": 512,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 509,
                           "end": 512,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 509,
+                            "end": 512,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -2168,27 +2216,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 528,
-                        "end": 532,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 528,
                           "end": 532,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 528,
+                            "end": 532,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -2256,27 +2306,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 548,
-                        "end": 553,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 548,
                           "end": 553,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 548,
+                            "end": 553,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -2344,27 +2396,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 569,
-                        "end": 573,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 569,
                           "end": 573,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 569,
+                            "end": 573,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -2432,27 +2486,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 589,
-                        "end": 592,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 589,
                           "end": 592,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 589,
+                            "end": 592,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -2520,27 +2576,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 608,
-                        "end": 612,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 608,
                           "end": 612,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 608,
+                            "end": 612,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -2608,27 +2666,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 628,
-                        "end": 632,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 628,
                           "end": 632,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "",
-                        "b": -1,
-                        "bRaw": "- 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 628,
+                            "end": 632,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "",
+                          "b": -1,
+                          "bRaw": "- 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -2696,27 +2756,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 648,
-                        "end": 653,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 648,
                           "end": 653,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "",
-                        "b": -1,
-                        "bRaw": " - 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 648,
+                            "end": 653,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "",
+                          "b": -1,
+                          "bRaw": " - 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -2784,27 +2846,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 669,
-                        "end": 673,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 669,
                           "end": 673,
                           "ctxt": 0
                         },
-                        "a": -1,
-                        "aRaw": "-",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 669,
+                            "end": 673,
+                            "ctxt": 0
+                          },
+                          "a": -1,
+                          "aRaw": "-",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -2872,27 +2936,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 689,
-                        "end": 694,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 689,
                           "end": 694,
                           "ctxt": 0
                         },
-                        "a": -1,
-                        "aRaw": "-",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 689,
+                            "end": 694,
+                            "ctxt": 0
+                          },
+                          "a": -1,
+                          "aRaw": "-",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -2960,27 +3026,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 710,
-                        "end": 716,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 710,
                           "end": 716,
                           "ctxt": 0
                         },
-                        "a": -1,
-                        "aRaw": "-",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 710,
+                            "end": 716,
+                            "ctxt": 0
+                          },
+                          "a": -1,
+                          "aRaw": "-",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -3048,27 +3116,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 732,
-                        "end": 737,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 732,
                           "end": 737,
                           "ctxt": 0
                         },
-                        "a": -1,
-                        "aRaw": "-",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 732,
+                            "end": 737,
+                            "ctxt": 0
+                          },
+                          "a": -1,
+                          "aRaw": "-",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -3136,27 +3206,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 753,
-                        "end": 757,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 753,
                           "end": 757,
                           "ctxt": 0
                         },
-                        "a": -1,
-                        "aRaw": "-",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 753,
+                            "end": 757,
+                            "ctxt": 0
+                          },
+                          "a": -1,
+                          "aRaw": "-",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -3224,27 +3296,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 773,
-                        "end": 778,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 773,
                           "end": 778,
                           "ctxt": 0
                         },
-                        "a": -1,
-                        "aRaw": "-",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 773,
+                            "end": 778,
+                            "ctxt": 0
+                          },
+                          "a": -1,
+                          "aRaw": "-",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -3312,27 +3386,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 794,
-                        "end": 799,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 794,
                           "end": 799,
                           "ctxt": 0
                         },
-                        "a": -1,
-                        "aRaw": "-",
-                        "b": -1,
-                        "bRaw": "- 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 794,
+                            "end": 799,
+                            "ctxt": 0
+                          },
+                          "a": -1,
+                          "aRaw": "-",
+                          "b": -1,
+                          "bRaw": "- 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -3400,27 +3476,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 815,
-                        "end": 821,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 815,
                           "end": 821,
                           "ctxt": 0
                         },
-                        "a": -1,
-                        "aRaw": "-",
-                        "b": -1,
-                        "bRaw": " - 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 815,
+                            "end": 821,
+                            "ctxt": 0
+                          },
+                          "a": -1,
+                          "aRaw": "-",
+                          "b": -1,
+                          "bRaw": " - 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -3488,27 +3566,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 837,
-                        "end": 841,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 837,
                           "end": 841,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "+",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 837,
+                            "end": 841,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "+",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -3576,27 +3656,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 857,
-                        "end": 862,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 857,
                           "end": 862,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "+",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 857,
+                            "end": 862,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "+",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -3664,27 +3746,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 878,
-                        "end": 884,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 878,
                           "end": 884,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "+",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 878,
+                            "end": 884,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "+",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -3752,27 +3836,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 900,
-                        "end": 905,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 900,
                           "end": 905,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "+",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 900,
+                            "end": 905,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "+",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -3840,27 +3926,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 921,
-                        "end": 925,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 921,
                           "end": 925,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "+",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 921,
+                            "end": 925,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "+",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -3928,27 +4016,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 941,
-                        "end": 946,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 941,
                           "end": 946,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "+",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 941,
+                            "end": 946,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "+",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -4016,27 +4106,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 962,
-                        "end": 967,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 962,
                           "end": 967,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "+",
-                        "b": -1,
-                        "bRaw": "- 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 962,
+                            "end": 967,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "+",
+                          "b": -1,
+                          "bRaw": "- 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -4104,27 +4196,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 983,
-                        "end": 989,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 983,
                           "end": 989,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "+",
-                        "b": -1,
-                        "bRaw": " - 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 983,
+                            "end": 989,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "+",
+                          "b": -1,
+                          "bRaw": " - 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -4192,27 +4286,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1005,
-                        "end": 1006,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1005,
                           "end": 1006,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1005,
+                            "end": 1006,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -4280,27 +4376,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1022,
-                        "end": 1024,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1022,
                           "end": 1024,
                           "ctxt": 0
                         },
-                        "a": -1,
-                        "aRaw": "-",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1022,
+                            "end": 1024,
+                            "ctxt": 0
+                          },
+                          "a": -1,
+                          "aRaw": "-",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -4368,27 +4466,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1040,
-                        "end": 1042,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1040,
                           "end": 1042,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "+",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1040,
+                            "end": 1042,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "+",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -4456,27 +4556,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1058,
-                        "end": 1060,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1058,
                           "end": 1060,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1058,
+                            "end": 1060,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -4544,27 +4646,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1076,
-                        "end": 1079,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1076,
                           "end": 1079,
                           "ctxt": 0
                         },
-                        "a": -2,
-                        "aRaw": "-2",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1076,
+                            "end": 1079,
+                            "ctxt": 0
+                          },
+                          "a": -2,
+                          "aRaw": "-2",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -4632,27 +4736,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1095,
-                        "end": 1098,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1095,
                           "end": 1098,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "+2",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1095,
+                            "end": 1098,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "+2",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -4720,27 +4826,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1114,
-                        "end": 1115,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1114,
                           "end": 1115,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1114,
+                            "end": 1115,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -4808,27 +4916,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1131,
-                        "end": 1133,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1131,
                           "end": 1133,
                           "ctxt": 0
                         },
-                        "a": -1,
-                        "aRaw": "-",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1131,
+                            "end": 1133,
+                            "ctxt": 0
+                          },
+                          "a": -1,
+                          "aRaw": "-",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -4896,27 +5006,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1149,
-                        "end": 1151,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1149,
                           "end": 1151,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "+",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1149,
+                            "end": 1151,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "+",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -4984,27 +5096,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1167,
-                        "end": 1169,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1167,
                           "end": 1169,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1167,
+                            "end": 1169,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -5072,27 +5186,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1185,
-                        "end": 1188,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1185,
                           "end": 1188,
                           "ctxt": 0
                         },
-                        "a": -2,
-                        "aRaw": "-2",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1185,
+                            "end": 1188,
+                            "ctxt": 0
+                          },
+                          "a": -2,
+                          "aRaw": "-2",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -5160,27 +5276,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1204,
-                        "end": 1207,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1204,
                           "end": 1207,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "+2",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1204,
+                            "end": 1207,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "+2",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -5248,27 +5366,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1223,
-                        "end": 1224,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1223,
                           "end": 1224,
                           "ctxt": 0
                         },
-                        "a": null,
-                        "aRaw": null,
-                        "b": 1,
-                        "bRaw": "1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1223,
+                            "end": 1224,
+                            "ctxt": 0
+                          },
+                          "a": null,
+                          "aRaw": null,
+                          "b": 1,
+                          "bRaw": "1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -5336,27 +5456,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1240,
-                        "end": 1242,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1240,
                           "end": 1242,
                           "ctxt": 0
                         },
-                        "a": null,
-                        "aRaw": null,
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1240,
+                            "end": 1242,
+                            "ctxt": 0
+                          },
+                          "a": null,
+                          "aRaw": null,
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -5424,27 +5546,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1258,
-                        "end": 1260,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1258,
                           "end": 1260,
                           "ctxt": 0
                         },
-                        "a": null,
-                        "aRaw": null,
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1258,
+                            "end": 1260,
+                            "ctxt": 0
+                          },
+                          "a": null,
+                          "aRaw": null,
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -5512,27 +5636,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1276,
-                        "end": 1292,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1276,
                           "end": 1292,
                           "ctxt": 0
                         },
-                        "a": 123456,
-                        "aRaw": "123456",
-                        "b": -12345678,
-                        "bRaw": "-12345678"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1276,
+                            "end": 1292,
+                            "ctxt": 0
+                          },
+                          "a": 123456,
+                          "aRaw": "123456",
+                          "b": -12345678,
+                          "bRaw": "-12345678"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -5600,27 +5726,29 @@
                       "value": "Nth-Child",
                       "raw": "Nth-Child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1309,
-                        "end": 1313,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1309,
                           "end": 1313,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1309,
+                            "end": 1313,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -5688,27 +5816,29 @@
                       "value": "NTH-CHILD",
                       "raw": "NTH-CHILD"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1329,
-                        "end": 1333,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1329,
                           "end": 1333,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1329,
+                            "end": 1333,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -5776,25 +5906,27 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1350,
-                        "end": 1353,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "Ident",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1350,
                           "end": 1353,
                           "ctxt": 0
                         },
-                        "value": "odd",
-                        "raw": "odd"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 1350,
+                            "end": 1353,
+                            "ctxt": 0
+                          },
+                          "value": "odd",
+                          "raw": "odd"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -5862,25 +5994,27 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1369,
-                        "end": 1372,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "Ident",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1369,
                           "end": 1372,
                           "ctxt": 0
                         },
-                        "value": "ODD",
-                        "raw": "ODD"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 1369,
+                            "end": 1372,
+                            "ctxt": 0
+                          },
+                          "value": "ODD",
+                          "raw": "ODD"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -5948,25 +6082,27 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1388,
-                        "end": 1391,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "Ident",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1388,
                           "end": 1391,
                           "ctxt": 0
                         },
-                        "value": "oDd",
-                        "raw": "oDd"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 1388,
+                            "end": 1391,
+                            "ctxt": 0
+                          },
+                          "value": "oDd",
+                          "raw": "oDd"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -6034,25 +6170,27 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1407,
-                        "end": 1411,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "Ident",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1407,
                           "end": 1411,
                           "ctxt": 0
                         },
-                        "value": "even",
-                        "raw": "even"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 1407,
+                            "end": 1411,
+                            "ctxt": 0
+                          },
+                          "value": "even",
+                          "raw": "even"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -6120,25 +6258,27 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1427,
-                        "end": 1431,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "Ident",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1427,
                           "end": 1431,
                           "ctxt": 0
                         },
-                        "value": "eVeN",
-                        "raw": "eVeN"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 1427,
+                            "end": 1431,
+                            "ctxt": 0
+                          },
+                          "value": "eVeN",
+                          "raw": "eVeN"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -6206,25 +6346,27 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1447,
-                        "end": 1451,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "Ident",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1447,
                           "end": 1451,
                           "ctxt": 0
                         },
-                        "value": "EVEN",
-                        "raw": "EVEN"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 1447,
+                            "end": 1451,
+                            "ctxt": 0
+                          },
+                          "value": "EVEN",
+                          "raw": "EVEN"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -6292,27 +6434,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1476,
-                        "end": 1496,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1476,
                           "end": 1496,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1476,
+                            "end": 1496,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -6380,27 +6524,29 @@
                       "value": "nth-last-child",
                       "raw": "nth-last-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1533,
-                        "end": 1554,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1533,
                           "end": 1554,
                           "ctxt": 0
                         },
-                        "a": 3,
-                        "aRaw": "+3",
-                        "b": -2,
-                        "bRaw": " - 2"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1533,
+                            "end": 1554,
+                            "ctxt": 0
+                          },
+                          "a": 3,
+                          "aRaw": "+3",
+                          "b": -2,
+                          "bRaw": " - 2"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -6468,27 +6614,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1581,
-                        "end": 1589,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1581,
                           "end": 1589,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1581,
+                            "end": 1589,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -6556,27 +6704,29 @@
                       "value": "nth-last-child",
                       "raw": "nth-last-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1614,
-                        "end": 1623,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1614,
                           "end": 1623,
                           "ctxt": 0
                         },
-                        "a": 3,
-                        "aRaw": "+3",
-                        "b": -2,
-                        "bRaw": " - 2"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1614,
+                            "end": 1623,
+                            "ctxt": 0
+                          },
+                          "a": 3,
+                          "aRaw": "+3",
+                          "b": -2,
+                          "bRaw": " - 2"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -6644,27 +6794,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1642,
-                        "end": 1647,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1642,
                           "end": 1647,
                           "ctxt": 0
                         },
-                        "a": -2,
-                        "aRaw": "-2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1642,
+                            "end": 1647,
+                            "ctxt": 0
+                          },
+                          "a": -2,
+                          "aRaw": "-2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -6732,27 +6884,29 @@
                       "value": "nth-last-child",
                       "raw": "nth-last-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1668,
-                        "end": 1672,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1668,
                           "end": 1672,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1668,
+                            "end": 1672,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -6820,27 +6974,29 @@
                       "value": "nth-of-type",
                       "raw": "nth-of-type"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1690,
-                        "end": 1694,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1690,
                           "end": 1694,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1690,
+                            "end": 1694,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -6908,27 +7064,29 @@
                       "value": "nth-last-of-type",
                       "raw": "nth-last-of-type"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1717,
-                        "end": 1721,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1717,
                           "end": 1721,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1717,
+                            "end": 1721,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }

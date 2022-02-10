@@ -94,12 +94,6 @@ error: Ident
 1 | p :global(span:not(.test)) {
   |    ^^^^^^
 
-error: Tokens
- --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:11
-  |
-1 | p :global(span:not(.test)) {
-  |           ^^^^^^^^^^^^^^^
-
 error: Ident { value: Atom('span' type=inline), raw: Atom('span' type=inline) }
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:11
   |

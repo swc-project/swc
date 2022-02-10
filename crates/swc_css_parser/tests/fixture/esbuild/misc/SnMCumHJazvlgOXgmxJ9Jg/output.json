@@ -25,49 +25,31 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 8,
             "end": 9,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "span": {
-                "start": 8,
-                "end": 9,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 9,
             "end": 10,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "span": {
-                "start": 9,
-                "end": 10,
-                "ctxt": 0
-              },
-              "token": {
-                "Ident": {
-                  "value": "x",
-                  "raw": "x"
-                }
-              }
+          "token": {
+            "Ident": {
+              "value": "x",
+              "raw": "x"
             }
-          ]
+          }
         }
       ],
       "block": null

@@ -25,26 +25,17 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 6,
             "end": 7,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "span": {
-                "start": 6,
-                "end": 7,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         },
         {
           "type": "SimpleBlock",
@@ -56,69 +47,42 @@
           "name": "(",
           "value": [
             {
-              "type": "Tokens",
+              "type": "PreservedToken",
               "span": {
                 "start": 7,
                 "end": 8,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "span": {
-                    "start": 7,
-                    "end": 8,
-                    "ctxt": 0
-                  },
-                  "token": "LParen"
-                }
-              ]
+              "token": "LParen"
             },
             {
-              "type": "Tokens",
+              "type": "PreservedToken",
               "span": {
                 "start": 8,
                 "end": 16,
                 "ctxt": 0
               },
-              "tokens": [
-                {
-                  "span": {
-                    "start": 8,
-                    "end": 16,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "Str": {
-                      "value": "string",
-                      "raw": "\"string\""
-                    }
-                  }
+              "token": {
+                "Str": {
+                  "value": "string",
+                  "raw": "\"string\""
                 }
-              ]
+              }
             }
           ]
         },
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 17,
             "end": 18,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "span": {
-                "start": 17,
-                "end": 18,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         }
       ],
       "block": {

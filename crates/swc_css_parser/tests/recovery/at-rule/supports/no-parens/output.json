@@ -25,134 +25,80 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 9,
             "end": 10,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "span": {
-                "start": 9,
-                "end": 10,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 10,
             "end": 17,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "span": {
-                "start": 10,
-                "end": 17,
-                "ctxt": 0
-              },
-              "token": {
-                "Ident": {
-                  "value": "display",
-                  "raw": "display"
-                }
-              }
+          "token": {
+            "Ident": {
+              "value": "display",
+              "raw": "display"
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 17,
             "end": 18,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "span": {
-                "start": 17,
-                "end": 18,
-                "ctxt": 0
-              },
-              "token": "Colon"
-            }
-          ]
+          "token": "Colon"
         },
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 18,
             "end": 19,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "span": {
-                "start": 18,
-                "end": 19,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 19,
             "end": 23,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "span": {
-                "start": 19,
-                "end": 23,
-                "ctxt": 0
-              },
-              "token": {
-                "Ident": {
-                  "value": "flex",
-                  "raw": "flex"
-                }
-              }
+          "token": {
+            "Ident": {
+              "value": "flex",
+              "raw": "flex"
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 23,
             "end": 24,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "span": {
-                "start": 23,
-                "end": 24,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         }
       ],
       "block": {

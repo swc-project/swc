@@ -25,71 +25,44 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 10,
             "end": 11,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "span": {
-                "start": 10,
-                "end": 11,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 11,
             "end": 18,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "span": {
-                "start": 11,
-                "end": 18,
-                "ctxt": 0
-              },
-              "token": {
-                "Ident": {
-                  "value": "initial",
-                  "raw": "initial"
-                }
-              }
+          "token": {
+            "Ident": {
+              "value": "initial",
+              "raw": "initial"
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 18,
             "end": 19,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "span": {
-                "start": 18,
-                "end": 19,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         }
       ],
       "block": {

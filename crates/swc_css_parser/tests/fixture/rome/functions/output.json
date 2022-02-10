@@ -90,30 +90,21 @@
             },
             "value": [
               {
-                "type": "Tokens",
+                "type": "PreservedToken",
                 "span": {
                   "start": 19,
                   "end": 22,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "span": {
-                      "start": 19,
-                      "end": 22,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Dimension": {
-                        "value": 2.0,
-                        "raw_value": "2",
-                        "unit": "px",
-                        "raw_unit": "px",
-                        "type": "integer"
-                      }
-                    }
+                "token": {
+                  "Dimension": {
+                    "value": 2.0,
+                    "raw_value": "2",
+                    "unit": "px",
+                    "raw_unit": "px",
+                    "type": "integer"
                   }
-                ]
+                }
               }
             ],
             "important": null

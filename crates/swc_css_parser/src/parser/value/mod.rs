@@ -1,4 +1,4 @@
-use swc_common::{BytePos, Spanned};
+use swc_common::BytePos;
 use swc_css_ast::*;
 
 use super::{input::ParserInput, Ctx, PResult, Parser};
@@ -14,80 +14,9 @@ impl<I> Parser<I>
 where
     I: ParserInput,
 {
-    /// Ported from `parseDeclaration` of esbuild.
-    ///
-    /// https://github.com/evanw/esbuild/blob/a9456dfbf08ab50607952eefb85f2418968c124c/internal/css_parser/css_parser.go#L987
-    ///
-    /// Returned [BytePos] is `hi`.
-    pub(super) fn parse_property_values(&mut self) -> PResult<(Vec<Value>, BytePos)> {
-        let start = self.input.state();
-        let mut values = vec![];
-        let mut state = self.input.state();
-        let start_pos = self.input.cur_span()?.lo;
-        let mut hi = self.input.last_pos()?;
-
-        loop {
-            if is_one_of!(self, EOF, ";", "}", "!", ")", "]") {
-                self.input.reset(&state);
-                break;
-            }
-
-            let v = self.parse_one_value_inner()?;
-
-            hi = v.span().hi;
-            values.push(v);
-            state = self.input.state();
-
-            if !eat!(self, " ")
-                && !is_one_of!(
-                    self,
-                    ",",
-                    "/",
-                    "function",
-                    "ident",
-                    "dimension",
-                    "percentage",
-                    "num",
-                    "str",
-                    "#",
-                    "url",
-                    "[",
-                    "{",
-                    "("
-                )
-            {
-                if self.ctx.recover_from_property_value
-                    && !is_one_of!(self, EOF, ";", "}", "!", ")", "]")
-                {
-                    self.input.reset(&start);
-
-                    let mut tokens = vec![];
-                    while !is_one_of!(self, EOF, ";", "}", "!", ")", "]") {
-                        tokens.extend(self.input.bump()?);
-                    }
-
-                    let span = span!(self, start_pos);
-                    let v = Value::Tokens(Tokens { span, tokens });
-
-                    self.errors
-                        .push(Error::new(span, ErrorKind::InvalidDeclarationValue));
-
-                    return Ok((vec![v], hi));
-                }
-
-                break;
-            }
-        }
-
-        // TODO: Make this lazy
-        Ok((values, hi))
-    }
-
     /// Parse value as <declaration-value>.
-    pub(super) fn parse_declaration_value(&mut self) -> PResult<Tokens> {
-        let start = self.input.cur_span()?.lo;
-
-        let mut tokens = vec![];
+    pub(super) fn parse_declaration_value(&mut self) -> PResult<Vec<Value>> {
+        let mut value = vec![];
         let mut balance_stack: Vec<Option<char>> = vec![];
 
         // The <declaration-value> production matches any sequence of one or more
@@ -153,21 +82,16 @@ where
             let token = self.input.bump()?;
 
             match token {
-                Some(token) => tokens.push(token),
+                Some(token) => value.push(Value::PreservedToken(token)),
                 None => break,
             }
         }
 
-        Ok(Tokens {
-            span: span!(self, start),
-            tokens,
-        })
+        Ok(value)
     }
 
     /// Parse value as <any-value>.
-    pub(super) fn parse_any_value(&mut self) -> PResult<Tokens> {
-        let start = self.input.cur_span()?.lo;
-
+    pub(super) fn parse_any_value(&mut self) -> PResult<Vec<TokenAndSpan>> {
         let mut tokens = vec![];
         let mut balance_stack: Vec<Option<char>> = vec![];
 
@@ -225,10 +149,7 @@ where
             }
         }
 
-        Ok(Tokens {
-            span: span!(self, start),
-            tokens,
-        })
+        Ok(tokens)
     }
 
     pub(super) fn parse_one_value_inner(&mut self) -> PResult<Value> {
@@ -393,13 +314,9 @@ where
                     return Ok(simple_block);
                 }
                 _ => {
-                    let span = self.input.cur_span()?;
                     let token = self.input.bump()?.unwrap();
 
-                    simple_block.value.push(Value::Tokens(Tokens {
-                        span: span!(self, span.lo),
-                        tokens: vec![token],
-                    }));
+                    simple_block.value.push(Value::PreservedToken(token));
                 }
             }
         }
@@ -412,14 +329,10 @@ where
             tok!("{") => Ok(Value::SimpleBlock(self.parse_simple_block('}')?)),
             tok!("function") => Ok(Value::Function(self.parse()?)),
             _ => {
-                let span = self.input.cur_span()?;
                 let token = self.input.bump()?;
 
                 match token {
-                    Some(t) => Ok(Value::Tokens(Tokens {
-                        span: span!(self, span.lo),
-                        tokens: vec![t],
-                    })),
+                    Some(t) => Ok(Value::PreservedToken(t)),
                     _ => {
                         unreachable!();
                     }
