@@ -75,7 +75,6 @@ where
         append_stmts: Default::default(),
         lits: Default::default(),
         vars_for_inlining: Default::default(),
-        inlined_vars: Default::default(),
         vars_for_prop_hoisting: Default::default(),
         simple_props: Default::default(),
         _simple_array_values: Default::default(),
@@ -200,7 +199,6 @@ struct Optimizer<'a, M> {
     lits: AHashMap<Id, Box<Expr>>,
 
     vars_for_inlining: AHashMap<Id, Box<Expr>>,
-    inlined_vars: AHashMap<Id, Box<Expr>>,
 
     vars_for_prop_hoisting: AHashMap<Id, Box<Expr>>,
     /// Used for `hoist_props`.
@@ -2164,11 +2162,6 @@ where
             ..self.ctx
         };
         self.with_ctx(ctx).handle_stmt_likes(stmts);
-
-        stmts.visit_mut_with(&mut MultiReplacer {
-            vars: take(&mut self.inlined_vars),
-            changed: false,
-        });
 
         stmts.visit_mut_with(&mut MultiReplacer {
             vars: take(&mut self.vars_for_inlining),
