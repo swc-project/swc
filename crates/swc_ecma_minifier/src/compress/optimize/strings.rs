@@ -67,9 +67,10 @@ where
             _ => {}
         }
 
-        let span = n.span();
         let value = n.as_string();
         if let Known(value) = value {
+            let span = n.span();
+
             self.changed = true;
             tracing::debug!(
                 "strings: Converted an expression into a string literal (in string context)"
