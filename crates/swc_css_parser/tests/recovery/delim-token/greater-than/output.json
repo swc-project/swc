@@ -79,49 +79,23 @@
         },
         "value": [
           {
-            "type": "Tokens",
+            "type": "Declaration",
             "span": {
               "start": 8,
               "end": 15,
               "ctxt": 0
             },
-            "tokens": [
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 8,
-                  "end": 12,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "prop",
-                    "raw": "prop"
-                  }
-                }
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 8,
+                "end": 12,
+                "ctxt": 0
               },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 12,
-                  "end": 13,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 13,
-                  "end": 14,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              },
+              "value": "prop",
+              "raw": "prop"
+            },
+            "value": [
               {
                 "type": "PreservedToken",
                 "span": {
@@ -135,7 +109,8 @@
                   }
                 }
               }
-            ]
+            ],
+            "important": null
           }
         ]
       }

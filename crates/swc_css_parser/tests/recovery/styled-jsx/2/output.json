@@ -169,7 +169,7 @@
             "type": "Declaration",
             "span": {
               "start": 23,
-              "end": 62,
+              "end": 63,
               "ctxt": 0
             },
             "name": {
@@ -184,18 +184,14 @@
             },
             "value": [
               {
-                "type": "PreservedToken",
+                "type": "Ident",
                 "span": {
                   "start": 35,
                   "end": 62,
                   "ctxt": 0
                 },
-                "token": {
-                  "Ident": {
-                    "value": "__styled-jsx-placeholder__0",
-                    "raw": "__styled-jsx-placeholder__0"
-                  }
-                }
+                "value": "__styled-jsx-placeholder__0",
+                "raw": "__styled-jsx-placeholder__0"
               },
               {
                 "type": "PreservedToken",

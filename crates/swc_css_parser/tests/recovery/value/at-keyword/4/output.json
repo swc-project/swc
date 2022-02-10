@@ -79,49 +79,23 @@
         },
         "value": [
           {
-            "type": "Tokens",
+            "type": "Declaration",
             "span": {
               "start": 4,
-              "end": 17,
+              "end": 16,
               "ctxt": 0
             },
-            "tokens": [
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 4,
-                  "end": 9,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "value",
-                    "raw": "value"
-                  }
-                }
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 4,
+                "end": 9,
+                "ctxt": 0
               },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 9,
-                  "end": 10,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 10,
-                  "end": 11,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              },
+              "value": "value",
+              "raw": "value"
+            },
+            "value": [
               {
                 "type": "PreservedToken",
                 "span": {
@@ -135,21 +109,9 @@
                     "raw": "\\2cx"
                   }
                 }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 16,
-                  "end": 17,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
               }
-            ]
+            ],
+            "important": null
           }
         ]
       }

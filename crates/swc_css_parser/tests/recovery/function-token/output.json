@@ -79,98 +79,51 @@
         },
         "value": [
           {
-            "type": "Tokens",
+            "type": "Declaration",
             "span": {
               "start": 8,
-              "end": 28,
+              "end": 27,
               "ctxt": 0
             },
-            "tokens": [
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 8,
-                  "end": 12,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "prop",
-                    "raw": "prop"
-                  }
-                }
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 8,
+                "end": 12,
+                "ctxt": 0
               },
+              "value": "prop",
+              "raw": "prop"
+            },
+            "value": [
               {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 12,
-                  "end": 13,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 13,
-                  "end": 14,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              },
-              {
-                "type": "PreservedToken",
+                "type": "Url",
                 "span": {
                   "start": 14,
-                  "end": 18,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Function": {
-                    "value": "url",
-                    "raw": "url"
-                  }
-                }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 18,
-                  "end": 24,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Str": {
-                    "value": "test",
-                    "raw": "\"test\""
-                  }
-                }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 24,
                   "end": 25,
                   "ctxt": 0
                 },
-                "token": "RParen"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 25,
-                  "end": 26,
-                  "ctxt": 0
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 14,
+                    "end": 17,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
                 },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 18,
+                    "end": 24,
+                    "ctxt": 0
+                  },
+                  "value": "test",
+                  "raw": "\"test\""
+                },
+                "modifiers": []
               },
               {
                 "type": "PreservedToken",
@@ -180,21 +133,9 @@
                   "ctxt": 0
                 },
                 "token": "Colon"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 27,
-                  "end": 28,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": "\n"
-                  }
-                }
               }
-            ]
+            ],
+            "important": null
           }
         ]
       }

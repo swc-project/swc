@@ -36,8 +36,6 @@ struct Ctx {
     in_page_at_rule: bool,
 
     allow_operation_in_value: bool,
-
-    recover_from_property_value: bool,
 }
 
 #[derive(Debug)]

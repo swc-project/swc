@@ -114,49 +114,23 @@
             "important": null
           },
           {
-            "type": "Tokens",
+            "type": "Declaration",
             "span": {
               "start": 59,
-              "end": 86,
+              "end": 85,
               "ctxt": 0
             },
-            "tokens": [
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 59,
-                  "end": 69,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "background",
-                    "raw": "background"
-                  }
-                }
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 59,
+                "end": 69,
+                "ctxt": 0
               },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 69,
-                  "end": 70,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 70,
-                  "end": 71,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
               {
                 "type": "PreservedToken",
                 "span": {
@@ -172,7 +146,18 @@
                     "raw_value": "var(--foo"
                   }
                 }
-              },
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 85,
+              "end": 86,
+              "ctxt": 0
+            },
+            "tokens": [
               {
                 "type": "PreservedToken",
                 "span": {

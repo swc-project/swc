@@ -1,6 +1,6 @@
-error: Expected a property value
- --> $DIR/tests/recovery/styled-jsx/2/input.css:2:17
+error: Expected Declaration value
+ --> $DIR/tests/recovery/styled-jsx/2/input.css:2:44
   |
 2 |     flex-basis: __styled-jsx-placeholder__0%;
-  |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |                                            ^
 

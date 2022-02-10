@@ -393,16 +393,35 @@ where
                     value.extend(self.parse_declaration_value()?);
                 }
                 false => {
-                    let ctx = Ctx {
-                        allow_operation_in_value: false,
-                        recover_from_property_value: true,
-                        ..self.ctx
-                    };
-                    let (parsed_value, parsed_last_pos) =
-                        self.with_ctx(ctx).parse_property_values()?;
+                    loop {
+                        // TODO fix me
+                        self.input.skip_ws()?;
 
-                    value.extend(parsed_value);
-                    end = parsed_last_pos;
+                        // TODO fix me
+                        if is_one_of!(self, EOF, "!", ";", "}", ")") {
+                            break;
+                        }
+
+                        let ctx = Ctx {
+                            allow_operation_in_value: false,
+                            ..self.ctx
+                        };
+
+                        let state = self.input.state();
+                        let parsed = self.with_ctx(ctx).parse_one_value_inner();
+                        let value_or_token = match parsed {
+                            Ok(value) => value,
+                            Err(err) => {
+                                self.errors.push(err);
+                                self.input.reset(&state);
+
+                                self.parse_component_value()?
+                            }
+                        };
+
+                        value.push(value_or_token);
+                        end = self.input.last_pos()?;
+                    }
                 }
             }
         }

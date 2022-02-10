@@ -79,49 +79,23 @@
         },
         "value": [
           {
-            "type": "Tokens",
+            "type": "Declaration",
             "span": {
               "start": 4,
-              "end": 22,
+              "end": 21,
               "ctxt": 0
             },
-            "tokens": [
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 4,
-                  "end": 9,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "value",
-                    "raw": "value"
-                  }
-                }
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 4,
+                "end": 9,
+                "ctxt": 0
               },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 9,
-                  "end": 10,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 10,
-                  "end": 11,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              },
+              "value": "value",
+              "raw": "value"
+            },
+            "value": [
               {
                 "type": "PreservedToken",
                 "span": {
@@ -135,21 +109,9 @@
                     "raw": "k\\65yword"
                   }
                 }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 21,
-                  "end": 22,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
               }
-            ]
+            ],
+            "important": null
           }
         ]
       }

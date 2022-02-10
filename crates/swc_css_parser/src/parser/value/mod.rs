@@ -1,4 +1,4 @@
-use swc_common::{BytePos, Spanned};
+use swc_common::{BytePos};
 use swc_css_ast::*;
 
 use super::{input::ParserInput, Ctx, PResult, Parser};
@@ -14,80 +14,6 @@ impl<I> Parser<I>
 where
     I: ParserInput,
 {
-    /// Ported from `parseDeclaration` of esbuild.
-    ///
-    /// https://github.com/evanw/esbuild/blob/a9456dfbf08ab50607952eefb85f2418968c124c/internal/css_parser/css_parser.go#L987
-    ///
-    /// Returned [BytePos] is `hi`.
-    pub(super) fn parse_property_values(&mut self) -> PResult<(Vec<Value>, BytePos)> {
-        let start = self.input.state();
-        let mut values = vec![];
-        let mut state = self.input.state();
-        let start_pos = self.input.cur_span()?.lo;
-        let mut hi = self.input.last_pos()?;
-
-        loop {
-            if is_one_of!(self, EOF, ";", "}", "!", ")", "]") {
-                self.input.reset(&state);
-                break;
-            }
-
-            let v = self.parse_one_value_inner()?;
-
-            hi = v.span().hi;
-            values.push(v);
-            state = self.input.state();
-
-            if !eat!(self, " ")
-                && !is_one_of!(
-                    self,
-                    ",",
-                    "/",
-                    "function",
-                    "ident",
-                    "dimension",
-                    "percentage",
-                    "num",
-                    "str",
-                    "#",
-                    "url",
-                    "[",
-                    "{",
-                    "("
-                )
-            {
-                if self.ctx.recover_from_property_value
-                    && !is_one_of!(self, EOF, ";", "}", "!", ")", "]")
-                {
-                    self.input.reset(&start);
-
-                    let mut value = vec![];
-
-                    while !is_one_of!(self, EOF, ";", "}", "!", ")", "]") {
-                        let token = self.input.bump()?;
-
-                        match token {
-                            Some(token) => value.push(Value::PreservedToken(token)),
-                            None => break,
-                        }
-                    }
-
-                    let span = span!(self, start_pos);
-
-                    self.errors
-                        .push(Error::new(span, ErrorKind::InvalidDeclarationValue));
-
-                    return Ok((value, hi));
-                }
-
-                break;
-            }
-        }
-
-        // TODO: Make this lazy
-        Ok((values, hi))
-    }
-
     /// Parse value as <declaration-value>.
     pub(super) fn parse_declaration_value(&mut self) -> PResult<Vec<Value>> {
         let mut value = vec![];
