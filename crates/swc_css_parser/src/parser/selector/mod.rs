@@ -585,21 +585,37 @@ where
                 _ => unreachable!(),
             };
 
-            let children = match &*names.0.to_ascii_lowercase() {
+            let mut children = vec![];
+
+            match &*names.0.to_ascii_lowercase() {
                 "nth-child" | "nth-last-child" | "nth-of-type" | "nth-last-of-type" => {
                     let state = self.input.state();
                     let nth = self.parse();
 
                     match nth {
-                        Ok(nth) => PseudoSelectorChildren::Nth(nth),
+                        Ok(nth) => children.push(PseudoSelectorChildren::Nth(nth)),
                         Err(_) => {
                             self.input.reset(&state);
 
-                            PseudoSelectorChildren::Tokens(self.parse_any_value()?)
+                            let any_value = self.parse_any_value()?;
+                            let any_value: Vec<PseudoSelectorChildren> = any_value
+                                .into_iter()
+                                .map(PseudoSelectorChildren::PreservedToken)
+                                .collect();
+
+                            children.extend(any_value)
                         }
                     }
                 }
-                _ => PseudoSelectorChildren::Tokens(self.parse_any_value()?),
+                _ => {
+                    let any_value = self.parse_any_value()?;
+                    let any_value: Vec<PseudoSelectorChildren> = any_value
+                        .into_iter()
+                        .map(PseudoSelectorChildren::PreservedToken)
+                        .collect();
+
+                    children.extend(any_value)
+                }
             };
 
             expect!(self, ")");

@@ -826,10 +826,10 @@ where
             Value::DashedIdent(n) => emit!(self, n),
             Value::Str(n) => emit!(self, n),
             Value::Bin(n) => emit!(self, n),
-            Value::Tokens(n) => emit!(self, n),
             Value::Url(n) => emit!(self, n),
             Value::Delimiter(n) => emit!(self, n),
             Value::Urange(n) => emit!(self, n),
+            Value::PreservedToken(n) => emit!(self, n),
         }
     }
 
@@ -992,7 +992,7 @@ where
         // we print " " (whitespace) always
         if is_custom_property {
             match n.value.get(0) {
-                Some(Value::Tokens(tokens)) if tokens.tokens.is_empty() => {
+                None => {
                     space!(self);
                 }
                 _ => {
@@ -1183,6 +1183,113 @@ where
     #[emitter]
     fn emit_delimiter(&mut self, n: &Delimiter) -> Result {
         punct!(self, n.value.as_str());
+    }
+
+    #[emitter]
+    fn emit_token_and_span(&mut self, n: &TokenAndSpan) -> Result {
+        let span = n.span;
+
+        match &n.token {
+            Token::AtKeyword { raw, .. } => {
+                punct!(self, span, "@");
+                self.wr.write_raw(Some(n.span), raw)?;
+            }
+            Token::Delim { value } => {
+                self.wr.write_raw_char(Some(n.span), *value)?;
+            }
+            Token::LParen => {
+                punct!(self, span, "(");
+            }
+            Token::RParen => {
+                punct!(self, span, ")");
+            }
+            Token::LBracket => {
+                punct!(self, span, "[");
+            }
+            Token::RBracket => {
+                punct!(self, span, "]");
+            }
+            Token::Num { raw, .. } => {
+                self.wr.write_raw(Some(span), raw)?;
+            }
+            Token::Percentage { raw, .. } => {
+                self.wr.write_raw(Some(span), raw)?;
+                punct!(self, "%");
+            }
+            Token::Dimension {
+                raw_value,
+                raw_unit,
+                ..
+            } => {
+                self.wr.write_raw(Some(span), raw_value)?;
+                self.wr.write_raw(Some(span), raw_unit)?;
+            }
+            Token::Ident { raw, .. } => {
+                self.wr.write_raw(Some(n.span), raw)?;
+            }
+            Token::Function { raw, .. } => {
+                self.wr.write_raw(Some(n.span), raw)?;
+                punct!(self, "(");
+            }
+            Token::BadStr { raw, .. } => {
+                self.wr.write_raw(Some(span), raw)?;
+            }
+            Token::Str { raw, .. } => {
+                self.wr.write_raw(Some(span), raw)?;
+            }
+            Token::Url {
+                raw_name,
+                raw_value,
+                before,
+                after,
+                ..
+            } => {
+                self.wr.write_raw(None, raw_name)?;
+                punct!(self, "(");
+                self.wr.write_raw(None, before)?;
+                self.wr.write_raw(None, raw_value)?;
+                self.wr.write_raw(None, after)?;
+                punct!(self, ")");
+            }
+            Token::BadUrl {
+                raw_name,
+                raw_value,
+                ..
+            } => {
+                self.wr.write_raw(Some(span), raw_name)?;
+                punct!(self, "(");
+                self.wr.write_raw(None, raw_value)?;
+                punct!(self, ")");
+            }
+            Token::Comma => {
+                punct!(self, span, ",");
+            }
+            Token::Semi => {
+                punct!(self, span, ";");
+            }
+            Token::LBrace => {
+                punct!(self, span, "{");
+            }
+            Token::RBrace => {
+                punct!(self, span, "}");
+            }
+            Token::Colon => {
+                punct!(self, span, ":");
+            }
+            Token::Hash { raw, .. } => {
+                punct!(self, "#");
+                self.wr.write_raw(Some(span), raw)?;
+            }
+            Token::WhiteSpace { value, .. } => {
+                self.wr.write_raw(None, value)?;
+            }
+            Token::CDC => {
+                punct!(self, span, "-->");
+            }
+            Token::CDO => {
+                punct!(self, span, "<!--");
+            }
+        }
     }
 
     #[emitter]
@@ -1541,19 +1648,18 @@ where
     fn emit_pseudo_selector_children(&mut self, n: &PseudoSelectorChildren) -> Result {
         match n {
             PseudoSelectorChildren::Nth(n) => emit!(self, n),
-            PseudoSelectorChildren::Tokens(n) => emit!(self, n),
+            PseudoSelectorChildren::PreservedToken(n) => emit!(self, n),
         }
     }
 
     #[emitter]
     fn emit_pseudo_class_selector(&mut self, n: &PseudoClassSelector) -> Result {
         punct!(self, ":");
-
         emit!(self, n.name);
 
-        if n.children.is_some() {
+        if let Some(children) = &n.children {
             punct!(self, "(");
-            emit!(self, n.children);
+            self.emit_list(children, ListFormat::NotDelimited)?;
             punct!(self, ")");
         }
     }
@@ -1562,12 +1668,11 @@ where
     fn emit_pseudo_element_selector(&mut self, n: &PseudoElementSelector) -> Result {
         punct!(self, ":");
         punct!(self, ":");
-
         emit!(self, n.name);
 
-        if n.children.is_some() {
+        if let Some(children) = &n.children {
             punct!(self, "(");
-            emit!(self, n.children);
+            self.emit_list(children, ListFormat::NotDelimited)?;
             punct!(self, ")");
         }
     }

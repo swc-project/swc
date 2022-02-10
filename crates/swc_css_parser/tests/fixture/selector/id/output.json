@@ -2824,27 +2824,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 730,
-                        "end": 734,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 730,
                           "end": 734,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 730,
+                            "end": 734,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }

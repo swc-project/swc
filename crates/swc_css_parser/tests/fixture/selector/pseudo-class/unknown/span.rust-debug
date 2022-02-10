@@ -112,12 +112,6 @@ error: Ident
 2 | :unknown() {}
   |  ^^^^^^^
 
-error: Tokens
- --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:10
-  |
-2 | :unknown() {}
-  |          ^
-
 error: Block
  --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:12
   |
@@ -171,12 +165,6 @@ error: Ident
   |
 3 | :unknown(foo) {}
   |  ^^^^^^^
-
-error: Tokens
- --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:10
-  |
-3 | :unknown(foo) {}
-  |          ^^^
 
 error: Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:10
@@ -237,12 +225,6 @@ error: Ident
   |
 4 | :unknown(foo bar) {}
   |  ^^^^^^^
-
-error: Tokens
- --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:10
-  |
-4 | :unknown(foo bar) {}
-  |          ^^^^^^^
 
 error: Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:10
@@ -315,12 +297,6 @@ error: Ident
   |
 5 | :unknown(foo, bar) {}
   |  ^^^^^^^
-
-error: Tokens
- --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:10
-  |
-5 | :unknown(foo, bar) {}
-  |          ^^^^^^^^
 
 error: Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:10
@@ -400,12 +376,6 @@ error: Ident
 6 | :unknown([foo]) {}
   |  ^^^^^^^
 
-error: Tokens
- --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:10
-  |
-6 | :unknown([foo]) {}
-  |          ^^^^^
-
 error: LBracket
  --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:10
   |
@@ -477,12 +447,6 @@ error: Ident
   |
 7 | :unknown((foo bar)) {}
   |  ^^^^^^^
-
-error: Tokens
- --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:10
-  |
-7 | :unknown((foo bar)) {}
-  |          ^^^^^^^^^
 
 error: LParen
  --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:10
@@ -567,12 +531,6 @@ error: Ident
   |
 8 | :unknown(((foo bar))) {}
   |  ^^^^^^^
-
-error: Tokens
- --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:10
-  |
-8 | :unknown(((foo bar))) {}
-  |          ^^^^^^^^^^^
 
 error: LParen
  --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:10
@@ -670,12 +628,6 @@ error: Ident
 9 | :unknown({foo: bar}) {}
   |  ^^^^^^^
 
-error: Tokens
- --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:10
-  |
-9 | :unknown({foo: bar}) {}
-  |          ^^^^^^^^^^
-
 error: LBrace
  --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:10
   |
@@ -765,12 +717,6 @@ error: Ident
    |
 10 | :unknown({{foo: bar}}) {}
    |  ^^^^^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:10
-   |
-10 | :unknown({{foo: bar}}) {}
-   |          ^^^^^^^^^^^^
 
 error: LBrace
   --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:10
@@ -873,12 +819,6 @@ error: Ident
    |
 11 | :unknown({foo: bar !important}) {}
    |  ^^^^^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:10
-   |
-11 | :unknown({foo: bar !important}) {}
-   |          ^^^^^^^^^^^^^^^^^^^^^
 
 error: LBrace
   --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:10
@@ -988,12 +928,6 @@ error: Ident
 12 | :unknown("string") {}
    |  ^^^^^^^
 
-error: Tokens
-  --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:10
-   |
-12 | :unknown("string") {}
-   |          ^^^^^^^^
-
 error: Str { value: Atom('string' type=static), raw: Atom('"string"' type=dynamic) }
   --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:10
    |
@@ -1053,12 +987,6 @@ error: Ident
    |
 13 | :unknown("string", foo) {}
    |  ^^^^^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:10
-   |
-13 | :unknown("string", foo) {}
-   |          ^^^^^^^^^^^^^
 
 error: Str { value: Atom('string' type=static), raw: Atom('"string"' type=dynamic) }
   --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:10
@@ -1138,12 +1066,6 @@ error: Ident
 14 | :unknown('string') {}
    |  ^^^^^^^
 
-error: Tokens
-  --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:10
-   |
-14 | :unknown('string') {}
-   |          ^^^^^^^^
-
 error: Str { value: Atom('string' type=static), raw: Atom(''string'' type=dynamic) }
   --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:10
    |
@@ -1204,12 +1126,6 @@ error: Ident
 15 | :unknown(url(foo.png)) {}
    |  ^^^^^^^
 
-error: Tokens
-  --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:10
-   |
-15 | :unknown(url(foo.png)) {}
-   |          ^^^^^^^^^^^^
-
 error: Url { name: Atom('url' type=static), raw_name: Atom('url' type=static), before: Atom('' type=static), after: Atom('' type=static), value: Atom('foo.png' type=inline), raw_value: Atom('foo.png' type=inline) }
   --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:10
    |
@@ -1269,12 +1185,6 @@ error: Ident
    |
 16 | :unknown({!}) {}
    |  ^^^^^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:10
-   |
-16 | :unknown({!}) {}
-   |          ^^^
 
 error: LBrace
   --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:10
@@ -1348,12 +1258,6 @@ error: Ident
 17 | :unknown(!) {}
    |  ^^^^^^^
 
-error: Tokens
-  --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:10
-   |
-17 | :unknown(!) {}
-   |          ^
-
 error: Delim { value: '!' }
   --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:10
    |
@@ -1413,12 +1317,6 @@ error: Ident
    |
 18 | :unknown({;}) {}
    |  ^^^^^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:10
-   |
-18 | :unknown({;}) {}
-   |          ^^^
 
 error: LBrace
   --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:10
@@ -1491,12 +1389,6 @@ error: Ident
    |
 19 | :unknown(;) {}
    |  ^^^^^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:19:10
-   |
-19 | :unknown(;) {}
-   |          ^
 
 error: Semi
   --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:19:10

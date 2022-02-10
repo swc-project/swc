@@ -58,12 +58,6 @@ error: Ident
 1 | :not(p) {}
   |  ^^^
 
-error: Tokens
- --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:1:6
-  |
-1 | :not(p) {}
-  |      ^
-
 error: Ident { value: Atom('p' type=inline), raw: Atom('p' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:1:6
   |
@@ -123,12 +117,6 @@ error: Ident
   |
 2 | :not(   p   ) {}
   |  ^^^
-
-error: Tokens
- --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:2:6
-  |
-2 | :not(   p   ) {}
-  |      ^^^^^^^
 
 error: WhiteSpace { value: Atom('   ' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:2:6
@@ -215,15 +203,6 @@ error: Ident
   |
 3 | :not(   
   |  ^^^
-
-error: Tokens
- --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:3:6
-  |
-3 |   :not(   
-  |  ______^
-4 | | p   
-5 | | ) {}
-  | |_
 
 error: WhiteSpace { value: Atom('   
 ' type=inline) }
@@ -327,12 +306,6 @@ error: Ident
 6 | button:not([DISABLED]) {}
   |        ^^^
 
-error: Tokens
- --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:6:12
-  |
-6 | button:not([DISABLED]) {}
-  |            ^^^^^^^^^^
-
 error: LBracket
  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:6:12
   |
@@ -416,12 +389,6 @@ error: Ident
   |
 7 | *:not(FOO) {}
   |   ^^^
-
-error: Tokens
- --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:7:7
-  |
-7 | *:not(FOO) {}
-  |       ^^^
 
 error: Ident { value: Atom('FOO' type=inline), raw: Atom('FOO' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:7:7
@@ -507,12 +474,6 @@ error: Ident
 8 | html|*:not(:link):not(:visited) {}
   |        ^^^
 
-error: Tokens
- --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:12
-  |
-8 | html|*:not(:link):not(:visited) {}
-  |            ^^^^^
-
 error: Colon
  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:12
   |
@@ -542,12 +503,6 @@ error: Ident
   |
 8 | html|*:not(:link):not(:visited) {}
   |                   ^^^
-
-error: Tokens
- --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:23
-  |
-8 | html|*:not(:link):not(:visited) {}
-  |                       ^^^^^^^^
 
 error: Colon
  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:23
@@ -633,12 +588,6 @@ error: Ident
 9 | .selector:not(*:root) {}
   |           ^^^
 
-error: Tokens
- --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:9:15
-  |
-9 | .selector:not(*:root) {}
-  |               ^^^^^^
-
 error: Delim { value: '*' }
  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:9:15
   |
@@ -710,12 +659,6 @@ error: Ident
    |
 10 | :not(:is(argument)) {}
    |  ^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:6
-   |
-10 | :not(:is(argument)) {}
-   |      ^^^^^^^^^^^^^
 
 error: Colon
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:6

@@ -1594,12 +1594,6 @@ error: Ident
 23 | * *:not(*) {}
    |     ^^^
 
-error: Tokens
-  --> $DIR/tests/fixture/selector/type/input.css:23:9
-   |
-23 | * *:not(*) {}
-   |         ^
-
 error: Delim { value: '*' }
   --> $DIR/tests/fixture/selector/type/input.css:23:9
    |

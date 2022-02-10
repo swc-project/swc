@@ -4,3 +4,9 @@ error: Expected Declaration value
 2 |     content: "tes
   |              ^^^^
 
+error: Expected Declaration value
+ --> $DIR/tests/recovery/value/quotes/input.css:3:6
+  |
+3 |     t";
+  |      ^^
+

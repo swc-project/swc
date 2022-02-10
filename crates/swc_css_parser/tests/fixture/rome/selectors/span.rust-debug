@@ -1169,12 +1169,6 @@ error: Ident
 32 | :lang(en, ko) {
    |  ^^^^
 
-error: Tokens
-  --> $DIR/tests/fixture/rome/selectors/input.css:32:7
-   |
-32 | :lang(en, ko) {
-   |       ^^^^^^
-
 error: Ident { value: Atom('en' type=inline), raw: Atom('en' type=inline) }
   --> $DIR/tests/fixture/rome/selectors/input.css:32:7
    |
@@ -1257,12 +1251,6 @@ error: Ident
 35 | ::pseudo-elem() {
    |   ^^^^^^^^^^^
 
-error: Tokens
-  --> $DIR/tests/fixture/rome/selectors/input.css:35:15
-   |
-35 | ::pseudo-elem() {
-   |               ^
-
 error: Block
   --> $DIR/tests/fixture/rome/selectors/input.css:35:17
    |
@@ -1320,12 +1308,6 @@ error: Ident
    |
 38 | ::pseudo-elem(a, b) {
    |   ^^^^^^^^^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/rome/selectors/input.css:38:15
-   |
-38 | ::pseudo-elem(a, b) {
-   |               ^^^^
 
 error: Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
   --> $DIR/tests/fixture/rome/selectors/input.css:38:15

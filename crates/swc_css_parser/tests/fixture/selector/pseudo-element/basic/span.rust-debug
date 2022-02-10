@@ -394,12 +394,6 @@ error: Ident
 8 | video::cue(b) {}
   |        ^^^
 
-error: Tokens
- --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:12
-  |
-8 | video::cue(b) {}
-  |            ^
-
 error: Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:12
   |
@@ -561,12 +555,6 @@ error: Ident
    |
 11 | video::cue-region(#scroll) {}
    |        ^^^^^^^^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:19
-   |
-11 | video::cue-region(#scroll) {}
-   |                   ^^^^^^^
 
 error: Hash { is_id: true, value: Atom('scroll' type=inline), raw: Atom('scroll' type=inline) }
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:19
@@ -760,12 +748,6 @@ error: Ident
 17 | tabbed-custom-element::part(tab) {}
    |                        ^^^^
 
-error: Tokens
-  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:29
-   |
-17 | tabbed-custom-element::part(tab) {}
-   |                             ^^^
-
 error: Ident { value: Atom('tab' type=inline), raw: Atom('tab' type=inline) }
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:29
    |
@@ -934,12 +916,6 @@ error: Ident
 23 | ::slotted(*) {}
    |   ^^^^^^^
 
-error: Tokens
-  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:11
-   |
-23 | ::slotted(*) {}
-   |           ^
-
 error: Delim { value: '*' }
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:11
    |
@@ -999,12 +975,6 @@ error: Ident
    |
 24 | ::slotted(span) {}
    |   ^^^^^^^
-
-error: Tokens
-  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:11
-   |
-24 | ::slotted(span) {}
-   |           ^^^^
 
 error: Ident { value: Atom('span' type=inline), raw: Atom('span' type=inline) }
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:11
