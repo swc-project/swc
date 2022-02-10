@@ -2814,7 +2814,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.74.0"
+version = "0.74.1"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2960,7 +2960,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.73.0"
+version = "0.73.1"
 dependencies = [
  "ahash",
  "ansi_term",
