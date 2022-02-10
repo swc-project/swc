@@ -2219,10 +2219,14 @@ background-color: #d3d3d4;
 border-color: #bcbebf}
 .alert-dark .alert-link {color: #101214}
 @keyframes progress-bar-stripes {
-0% {background-position-x: 1rem}
+0% {
+background-position-x: 1rem;
+}
 }
 @keyframes progress-bar-stripes {
-0% {background-position-x: 1rem}
+0% {
+background-position-x: 1rem;
+}
 }
 .progress {display: flex;
 height: 1rem;
@@ -2838,10 +2842,14 @@ text-align: center}
 .carousel-dark .carousel-indicators [data-bs-target] {background-color: #000}
 .carousel-dark .carousel-caption {color: #000}
 @keyframes spinner-border {
-to {transform: rotate(360deg)}
+to {
+transform: rotate(360deg);
+}
 }
 @keyframes spinner-border {
-to {transform: rotate(360deg)}
+to {
+transform: rotate(360deg);
+}
 }
 .spinner-border {display: inline-block;
 width: 2rem;
@@ -2856,14 +2864,22 @@ animation: 0.75s linear infinite spinner-border}
 height: 1rem;
 border-width: 0.2em}
 @keyframes spinner-grow {
-0% {transform: scale(0)}
-50% {opacity: 1;
-transform: none}
+0% {
+transform: scale(0);
+}
+50% {
+opacity: 1;
+transform: none;
+}
 }
 @keyframes spinner-grow {
-0% {transform: scale(0)}
-50% {opacity: 1;
-transform: none}
+0% {
+transform: scale(0);
+}
+50% {
+opacity: 1;
+transform: none;
+}
 }
 .spinner-grow {display: inline-block;
 width: 2rem;
@@ -2950,10 +2966,14 @@ content: ""}
 .placeholder-glow .placeholder {-webkit-animation: placeholder-glow 2s ease-in-out infinite;
 animation: placeholder-glow 2s ease-in-out infinite}
 @keyframes placeholder-glow {
-50% {opacity: 0.2}
+50% {
+opacity: 0.2;
+}
 }
 @keyframes placeholder-glow {
-50% {opacity: 0.2}
+50% {
+opacity: 0.2;
+}
 }
 .placeholder-wave {-webkit-mask-image: linear-gradient(130deg, #000 55%, rgba(0, 0, 0, 0.8) 75%, #000 95%);
 mask-image: linear-gradient(130deg, #000 55%, rgba(0, 0, 0, 0.8) 75%, #000 95%);
@@ -2962,12 +2982,16 @@ mask-size: 200% 100%;
 -webkit-animation: placeholder-wave 2s linear infinite;
 animation: placeholder-wave 2s linear infinite}
 @keyframes placeholder-wave {
-100% {-webkit-mask-position: -200% 0%;
-mask-position: -200% 0%}
+100% {
+-webkit-mask-position: -200% 0%;
+mask-position: -200% 0%;
+}
 }
 @keyframes placeholder-wave {
-100% {-webkit-mask-position: -200% 0%;
-mask-position: -200% 0%}
+100% {
+-webkit-mask-position: -200% 0%;
+mask-position: -200% 0%;
+}
 }
 .clearfix::after {display: block;
 clear: both;

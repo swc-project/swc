@@ -1,7 +1,7 @@
 use swc_common::BytePos;
 use swc_css_ast::*;
 
-use super::{input::ParserInput, Ctx, PResult, Parser};
+use super::{input::ParserInput, Ctx, Grammar, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
     Parse,
@@ -215,11 +215,35 @@ where
                 return Ok(Value::Ident(self.parse()?));
             }
 
-            tok!("[") => return Ok(Value::SimpleBlock(self.parse()?)),
+            tok!("[") => {
+                let ctx = Ctx {
+                    grammar: Grammar::DeclarationValue,
+                    ..self.ctx
+                };
+                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
-            tok!("(") => return Ok(Value::SimpleBlock(self.parse()?)),
+                return Ok(Value::SimpleBlock(block));
+            }
 
-            tok!("{") => return Ok(Value::SimpleBlock(self.parse()?)),
+            tok!("(") => {
+                let ctx = Ctx {
+                    grammar: Grammar::DeclarationValue,
+                    ..self.ctx
+                };
+                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+
+                return Ok(Value::SimpleBlock(block));
+            }
+
+            tok!("{") => {
+                let ctx = Ctx {
+                    grammar: Grammar::DeclarationValue,
+                    ..self.ctx
+                };
+                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+
+                return Ok(Value::SimpleBlock(block));
+            }
 
             tok!("#") => return Ok(Value::Color(Color::HexColor(self.parse()?))),
 
