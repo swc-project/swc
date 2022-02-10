@@ -1191,13 +1191,14 @@ where
 
     /// `new RegExp("([Sap]+)", "ig")` => `/([Sap]+)/gi`
     fn compress_regexp(&mut self, e: &mut Expr) {
-        let span = e.span();
-        let args = match e {
-            Expr::New(NewExpr { callee, args, .. }) => match &**callee {
+        let (span, args) = match e {
+            Expr::New(NewExpr {
+                span, callee, args, ..
+            }) => match &**callee {
                 Expr::Ident(Ident {
                     sym: js_word!("RegExp"),
                     ..
-                }) => args,
+                }) => (*span, args),
                 _ => return,
             },
             _ => return,
