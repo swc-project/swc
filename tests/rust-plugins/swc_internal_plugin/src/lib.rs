@@ -1,4 +1,9 @@
-use swc_plugin::{ast::*, errors::HANDLER, plugin_module, syntax_pos::DUMMY_SP};
+use swc_plugin::{
+    ast::*,
+    errors::HANDLER,
+    plugin_module,
+    syntax_pos::{DUMMY_SP},
+};
 
 struct ConsoleOutputReplacer;
 

@@ -197,13 +197,7 @@ error: Value
 4 |     prop: {value};
   |            ^^^^^
 
-error: Tokens
- --> $DIR/tests/fixture/declaration/input.css:4:12
-  |
-4 |     prop: {value};
-  |            ^^^^^
-
-error: Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
+error: Ident
  --> $DIR/tests/fixture/declaration/input.css:4:12
   |
 4 |     prop: {value};
@@ -911,13 +905,7 @@ error: Value
 17 |     prop: {value}{value};
    |            ^^^^^
 
-error: Tokens
-  --> $DIR/tests/fixture/declaration/input.css:17:12
-   |
-17 |     prop: {value}{value};
-   |            ^^^^^
-
-error: Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
+error: Ident
   --> $DIR/tests/fixture/declaration/input.css:17:12
    |
 17 |     prop: {value}{value};
@@ -941,13 +929,7 @@ error: Value
 17 |     prop: {value}{value};
    |                   ^^^^^
 
-error: Tokens
-  --> $DIR/tests/fixture/declaration/input.css:17:19
-   |
-17 |     prop: {value}{value};
-   |                   ^^^^^
-
-error: Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
+error: Ident
   --> $DIR/tests/fixture/declaration/input.css:17:19
    |
 17 |     prop: {value}{value};

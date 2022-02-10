@@ -82,6 +82,7 @@ fn compressed(compressed_file: PathBuf) {
                     keep_private_props: false,
                     ie8: false,
                     safari10: false,
+                    reserved: Default::default(),
                 }),
                 compress: None,
                 ..Default::default()
@@ -134,4 +135,176 @@ fn fixture(input: PathBuf) {
         Ok(())
     })
     .unwrap();
+}
+
+fn assert_mangled(src: &str, expected: &str, opts: MangleOptions) {
+    testing::run_test2(false, |cm, _handler| {
+        let fm = cm.new_source_file(FileName::Anon, src.into());
+
+        let m = parse_fm(fm);
+
+        let top_level_mark = Mark::fresh(Mark::root());
+
+        let m = optimize(
+            m,
+            cm.clone(),
+            None,
+            None,
+            &MinifyOptions {
+                mangle: Some(opts),
+                compress: None,
+                ..Default::default()
+            },
+            &ExtraOptions { top_level_mark },
+        );
+
+        let mangled = print(cm, &m, false);
+
+        assert_eq!(
+            NormalizedOutput::from(mangled),
+            NormalizedOutput::from(expected.to_owned())
+        );
+
+        Ok(())
+    })
+    .unwrap()
+}
+
+#[test]
+fn reserved_func_names() {
+    let src = "function func1() {
+    console.log(1);
+}
+function func2() {
+    console.log(2);
+}";
+
+    let expected = "function func1() {
+    console.log(1);
+}
+function a() {
+    console.log(2);
+}";
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: true,
+            reserved: vec!["func1".into()],
+            ..Default::default()
+        },
+    )
+}
+
+#[test]
+fn reserved_class_names() {
+    let src = "class Class1 {
+    hello1 = 1;
+}
+class Class2 {
+    hello2 = 2;
+}";
+
+    let expected = "class Class1 {
+    hello1 = 1;
+}
+class a {
+    hello2 = 2;
+}";
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: true,
+            reserved: vec!["Class1".into()],
+            ..Default::default()
+        },
+    )
+}
+
+#[test]
+fn reserved_class_props() {
+    let src = "class Class1 {
+    hello1 = 1;
+}
+class Class2 {
+    hello2 = 2;
+}";
+
+    let expected = "class a {
+    a = 1;
+}
+class b {
+    hello2 = 2;
+}";
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: true,
+            reserved: vec!["hello1".into()],
+            props: Some(ManglePropertiesOptions {
+                reserved: vec!["hello2".into()],
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    )
+}
+
+#[test]
+fn reserved_private_props() {
+    let src = "class Class1 {
+    #hello1 = 1;
+}
+class Class2 {
+    #hello2 = 2;
+}";
+
+    let expected = "class a {
+    #a = 1;
+}
+class b {
+    #b = 2;
+}";
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: true,
+            reserved: vec!["hello1".into()],
+            ..Default::default()
+        },
+    )
+}
+
+#[test]
+fn reserved_all_private_props() {
+    let src = "class Class1 {
+    #hello1 = 1;
+}
+class Class2 {
+    #hello2 = 2;
+}";
+
+    let expected = "class a {
+    #hello1 = 1;
+}
+class b {
+    #hello2 = 2;
+}";
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: true,
+            keep_private_props: true,
+            ..Default::default()
+        },
+    )
 }

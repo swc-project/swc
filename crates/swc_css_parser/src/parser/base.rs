@@ -149,6 +149,109 @@ where
     }
 }
 
+impl<I> Parse<SimpleBlock> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<SimpleBlock> {
+        let span = self.input.cur_span()?;
+        let name = match cur!(self) {
+            tok!("{") => {
+                bump!(self);
+
+                '{'
+            }
+            tok!("(") => {
+                bump!(self);
+
+                '('
+            }
+            tok!("[") => {
+                bump!(self);
+
+                '['
+            }
+            _ => {
+                unreachable!();
+            }
+        };
+        // Create a simple block with its associated token set to the current input
+        // token and with its value initially set to an empty list.
+        let mut simple_block = SimpleBlock {
+            span: Default::default(),
+            name,
+            value: vec![],
+        };
+
+        // TODO refactor me
+        self.input.skip_ws()?;
+
+        // Repeatedly consume the next input token and process it as follows:
+        loop {
+            // <EOF-token>
+            // This is a parse error. Return the block.
+            if is!(self, EOF) {
+                let span = self.input.cur_span()?;
+
+                self.errors.push(Error::new(span, ErrorKind::Eof));
+
+                break;
+            }
+
+            match cur!(self) {
+                // ending token
+                // Return the block.
+                tok!("]") if name == '[' => {
+                    bump!(self);
+
+                    break;
+                }
+                tok!(")") if name == '(' => {
+                    bump!(self);
+
+                    break;
+                }
+                tok!("}") if name == '{' => {
+                    bump!(self);
+
+                    break;
+                }
+                // anything else
+                // Reconsume the current input token. Consume a component value and append it to the
+                // value of the block.
+                _ => {
+                    let state = self.input.state();
+                    let ctx = Ctx {
+                        // TODO refactor me
+                        allow_operation_in_value: name == '(',
+                        ..self.ctx
+                    };
+                    let parsed = self.with_ctx(ctx).parse_one_value_inner();
+                    let value = match parsed {
+                        Ok(value) => {
+                            self.input.skip_ws()?;
+
+                            value
+                        }
+                        Err(err) => {
+                            self.errors.push(err);
+                            self.input.reset(&state);
+
+                            self.parse_component_value()?
+                        }
+                    };
+
+                    simple_block.value.push(value);
+                }
+            }
+        }
+
+        simple_block.span = span!(self, span.lo);
+
+        Ok(simple_block)
+    }
+}
+
 impl<I> Parse<Block> for Parser<I>
 where
     I: ParserInput,
