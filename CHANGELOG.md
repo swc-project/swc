@@ -38,6 +38,9 @@
 
 
 
+- **(build)** Disable LTO for local builds (#3514) ([80ed69d](https://github.com/swc-project/swc/commit/80ed69d67dfae44986c19c04ddff758fee98f8ff))
+
+
 - **(crates)** Use bot account for publishing commits ([c10cbc4](https://github.com/swc-project/swc/commit/c10cbc4ecaaca8f5795de70c8bcf7feee455aaa4))
 
 
@@ -54,6 +57,9 @@
 
 
 - **(css/parser)** Refactor codes related to simple blocks (#3506) ([4e124c7](https://github.com/swc-project/swc/commit/4e124c7bca85d70b6e4836038ea1aaa25b9ea663))
+
+
+- **(css/parser)** Refactor code for error recovery (#3508) ([2d997b3](https://github.com/swc-project/swc/commit/2d997b38066ff01e2e84284ae3a1f79f8df8bb6b))
 
 ### Testing
 
