@@ -316,7 +316,9 @@ where
                 _ => {
                     let token = self.input.bump()?.unwrap();
 
-                    simple_block.value.push(Value::PreservedToken(token));
+                    simple_block
+                        .value
+                        .push(ComponentValue::Value(Value::PreservedToken(token)));
                 }
             }
         }

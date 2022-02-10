@@ -196,7 +196,7 @@ error: Ident
 5 |         from { translate: 0; }
   |         ^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/at-rule/layer/input.css:5:14
   |
 5 |         from { translate: 0; }
@@ -250,7 +250,7 @@ error: Ident
 6 |         to { translate: -100% 0; }
   |         ^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/at-rule/layer/input.css:6:12
   |
 6 |         to { translate: -100% 0; }
@@ -406,7 +406,7 @@ error: Ident
 12 |         from { margin-left: 0; }
    |         ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/layer/input.css:12:14
    |
 12 |         from { margin-left: 0; }
@@ -460,7 +460,7 @@ error: Ident
 13 |         to { margin-left: -100%; }
    |         ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/layer/input.css:13:12
    |
 13 |         to { margin-left: -100%; }

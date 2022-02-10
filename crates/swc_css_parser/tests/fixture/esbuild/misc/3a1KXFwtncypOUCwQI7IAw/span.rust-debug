@@ -52,7 +52,7 @@ error: Number
 1 | @keyframes name { 100% { color: red } }
   |                   ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:24
   |
 1 | @keyframes name { 100% { color: red } }

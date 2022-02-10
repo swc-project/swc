@@ -4,7 +4,7 @@ use swc_css_ast::*;
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
-    parser::{Ctx, RuleContext},
+    parser::{Ctx, Grammar, RuleContext},
     Parse,
 };
 
@@ -578,7 +578,11 @@ where
             prelude.push(child);
         }
 
-        let block = self.parse()?;
+        let ctx = Ctx {
+            grammar: Grammar::DeclarationList,
+            ..self.ctx
+        };
+        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
         Ok(KeyframeBlock {
             span: span!(self, span.lo),
@@ -628,7 +632,11 @@ where
 {
     fn parse(&mut self) -> PResult<ViewportRule> {
         let span = self.input.cur_span()?;
-        let block = self.parse()?;
+        let ctx = Ctx {
+            grammar: Grammar::DeclarationList,
+            ..self.ctx
+        };
+        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
         Ok(ViewportRule {
             span: span!(self, span.lo),
@@ -684,7 +692,11 @@ where
 {
     fn parse(&mut self) -> PResult<FontFaceRule> {
         let span = self.input.cur_span()?;
-        let block = self.parse()?;
+        let ctx = Ctx {
+            grammar: Grammar::DeclarationList,
+            ..self.ctx
+        };
+        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
         Ok(FontFaceRule {
             span: span!(self, span.lo),

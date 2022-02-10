@@ -144,7 +144,7 @@ error: Ident
 6 |     from {
   |     ^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/at-rule/keyframe/input.css:6:10
   |
 6 |       from {
@@ -227,7 +227,7 @@ error: Ident
 10 |     to {
    |     ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:10:8
    |
 10 |       to {
@@ -353,7 +353,7 @@ error: Number
 16 |     0% { top: 0; left: 0; }
    |     ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:8
    |
 16 |     0% { top: 0; left: 0; }
@@ -443,7 +443,7 @@ error: Number
 17 |     30% { top: 50px; }
    |     ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:9
    |
 17 |     30% { top: 50px; }
@@ -539,7 +539,7 @@ error: Number
 18 |     68%, 72% { left: 50px; }
    |          ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:14
    |
 18 |     68%, 72% { left: 50px; }
@@ -617,7 +617,7 @@ error: Number
 19 |     100% { top: 100px; left: 100%; }
    |     ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:10
    |
 19 |     100% { top: 100px; left: 100%; }
@@ -841,7 +841,7 @@ error: Ident
 27 |     from {
    |     ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:27:10
    |
 27 |       from {
@@ -925,7 +925,7 @@ error: Number
 31 |     50% {
    |     ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:31:9
    |
 31 |       50% {
@@ -1039,7 +1039,7 @@ error: Number
 36 |     50% {
    |     ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:36:9
    |
 36 |       50% {
@@ -1098,7 +1098,7 @@ error: Ident
 40 |     to {
    |     ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:40:8
    |
 40 |       to {
@@ -1217,7 +1217,7 @@ error: Ident
 47 |     fRoM {
    |     ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:47:10
    |
 47 |       fRoM {
@@ -1300,7 +1300,7 @@ error: Ident
 51 |     tO {
    |     ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:51:8
    |
 51 |       tO {

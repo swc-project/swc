@@ -72,7 +72,7 @@ error: Ident
 2 |     from {
   |     ^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/rome/keyframe/input.css:2:10
   |
 2 |       from {
@@ -161,7 +161,7 @@ error: Ident
 5 |     to {
   |     ^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/rome/keyframe/input.css:5:8
   |
 5 |       to {
@@ -291,7 +291,7 @@ error: Ident
 11 |     from {
    |     ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/rome/keyframe/input.css:11:10
    |
 11 |       from {
@@ -318,7 +318,7 @@ error: Ident
 13 |     to {
    |     ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/rome/keyframe/input.css:13:8
    |
 13 |       to {
@@ -351,7 +351,7 @@ error: Number
 15 |     15% {
    |     ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/rome/keyframe/input.css:15:9
    |
 15 |       15% {
@@ -384,7 +384,7 @@ error: Number
 17 |     0% {
    |     ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/rome/keyframe/input.css:17:8
    |
 17 |       0% {
@@ -417,7 +417,7 @@ error: Number
 19 |     100% {
    |     ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/rome/keyframe/input.css:19:10
    |
 19 |       100% {

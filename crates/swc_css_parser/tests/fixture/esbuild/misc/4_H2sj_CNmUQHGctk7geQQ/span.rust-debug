@@ -46,7 +46,7 @@ error: Ident
 1 | @k\65yframes abc { from {} }
   |                    ^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:25
   |
 1 | @k\65yframes abc { from {} }

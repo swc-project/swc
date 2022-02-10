@@ -24,7 +24,12 @@ define!({
     pub struct SimpleBlock {
         pub span: Span,
         pub name: char,
-        pub value: Vec<Value>,
+        pub value: Vec<ComponentValue>,
+    }
+
+    pub enum ComponentValue {
+        Value(Value),
+        DeclarationBlockItem(DeclarationBlockItem),
     }
 
     pub struct Ident {
@@ -435,7 +440,7 @@ define!({
 
     pub struct FontFaceRule {
         pub span: Span,
-        pub block: Block,
+        pub block: SimpleBlock,
     }
 
     pub enum NamespaceUri {
@@ -451,7 +456,7 @@ define!({
 
     pub struct ViewportRule {
         pub span: Span,
-        pub block: Block,
+        pub block: SimpleBlock,
     }
 
     pub enum AtRuleName {
@@ -491,7 +496,7 @@ define!({
     pub struct KeyframeBlock {
         pub span: Span,
         pub prelude: Vec<KeyframeSelector>,
-        pub block: Block,
+        pub block: SimpleBlock,
     }
 
     pub enum KeyframeSelector {
