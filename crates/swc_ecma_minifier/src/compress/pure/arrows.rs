@@ -1,4 +1,4 @@
-use swc_common::{util::take::Take, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::contains_this_expr;
 

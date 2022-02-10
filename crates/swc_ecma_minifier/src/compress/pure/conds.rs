@@ -1,6 +1,6 @@
 use std::mem::swap;
 
-use swc_common::{util::take::Take, EqIgnoreSpan, Spanned};
+use swc_common::{util::take::Take, EqIgnoreSpan, };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
 
