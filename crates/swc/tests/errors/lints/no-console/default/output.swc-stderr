@@ -2,5 +2,5 @@ error: Unexpected console statement
  
   |
 7 | console.log("message");
-  | ^^^^^^^
+  | ^^^^^^^^^^^
 

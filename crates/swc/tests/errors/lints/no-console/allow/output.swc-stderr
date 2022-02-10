@@ -1,0 +1,6 @@
+error: Unexpected console statement
+ 
+  |
+1 | console.log('restricted');
+  | ^^^^^^^^^^^
+
