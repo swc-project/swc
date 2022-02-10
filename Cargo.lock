@@ -2612,7 +2612,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.123.3"
+version = "0.123.4"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2814,7 +2814,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.74.0"
+version = "0.74.1"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2920,7 +2920,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.14.2"
+version = "0.14.3"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -2960,7 +2960,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.73.0"
+version = "0.73.1"
 dependencies = [
  "ahash",
  "ansi_term",

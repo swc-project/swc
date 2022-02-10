@@ -18,6 +18,7 @@ pub(crate) mod non_critical_lints {
     pub mod no_alert;
     pub mod no_console;
     pub mod no_debugger;
+    pub mod no_use_before_define;
     pub mod prefer_regex_literals;
     pub mod quotes;
 }
@@ -49,6 +50,10 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
             es_version,
             source_map,
         } = lint_params;
+
+        rules.extend(no_use_before_define::no_use_before_define(
+            &lint_params.lint_config.no_use_before_define,
+        ));
 
         rules.extend(no_console::no_console(
             &lint_config.no_console,
