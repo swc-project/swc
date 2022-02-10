@@ -1,4 +1,4 @@
-use swc_common::{BytePos};
+use swc_common::BytePos;
 use swc_css_ast::*;
 
 use super::{input::ParserInput, Ctx, PResult, Parser};
