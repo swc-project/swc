@@ -40,6 +40,9 @@ struct NoAlert {
     top_level_declared_vars: AHashSet<Id>,
     pass_call_on_global_this: bool,
     inside_callee: bool,
+    inside_class: bool,
+    inside_object: bool,
+    inside_arrow_fn: bool,
     obj: Option<JsWord>,
     prop: Option<JsWord>,
 }
@@ -57,6 +60,9 @@ impl NoAlert {
             top_level_declared_vars,
             pass_call_on_global_this: es_version < EsVersion::Es2020,
             inside_callee: false,
+            inside_class: false,
+            inside_object: false,
+            inside_arrow_fn: false,
             obj: None,
             prop: None,
         }
@@ -108,7 +114,23 @@ impl NoAlert {
         true
     }
 
+    fn handle_member_prop(&mut self, prop: &MemberProp) {
+        match prop {
+            MemberProp::Ident(Ident { sym, .. }) => {
+                self.prop = Some(sym.clone());
+            }
+            MemberProp::Computed(comp) => {
+                if let Expr::Lit(Lit::Str(Str { value, .. })) = comp.expr.as_ref() {
+                    self.prop = Some(value.clone());
+                }
+            }
+            _ => {}
+        }
+    }
+
     fn handle_callee(&mut self, expr: &Expr) {
+        println!("{:?}", expr);
+
         match expr {
             Expr::Ident(ident) => {
                 if self.is_satisfying_indent(ident) {
@@ -118,27 +140,29 @@ impl NoAlert {
             Expr::Member(member_expr) => {
                 let MemberExpr { obj, prop, .. } = member_expr;
 
-                if let Expr::Ident(obj) = obj.as_ref() {
-                    if !self.is_satisfying_indent(obj) {
-                        return;
-                    }
-
-                    self.obj = Some(obj.sym.clone());
-
-                    match prop {
-                        MemberProp::Ident(Ident { sym, .. }) => {
-                            self.prop = Some(sym.clone());
+                match obj.as_ref() {
+                    Expr::Ident(obj) => {
+                        if !self.is_satisfying_indent(obj) {
+                            return;
                         }
-                        MemberProp::Computed(comp) => {
-                            if let Expr::Lit(Lit::Str(Str { value, .. })) = comp.expr.as_ref() {
-                                self.prop = Some(value.clone());
-                            }
-                        }
-                        _ => {}
+
+                        self.obj = Some(obj.sym.clone());
+
+                        self.handle_member_prop(prop);
                     }
+                    Expr::This(_) => {
+                        if self.inside_arrow_fn && self.inside_class {
+                            return;
+                        }
+
+                        if !self.inside_arrow_fn && (self.inside_class || self.inside_object) {
+                            return;
+                        }
+
+                        self.handle_member_prop(prop);
+                    }
+                    _ => {}
                 }
-
-                // TODO: handle call alert on "this"
             }
             Expr::OptChain(opt_chain) => {
                 opt_chain.visit_children_with(self);
@@ -181,5 +205,29 @@ impl Visit for NoAlert {
 
             expr.visit_children_with(self);
         }
+    }
+
+    fn visit_class(&mut self, class: &Class) {
+        self.inside_class = true;
+
+        class.visit_children_with(self);
+
+        self.inside_class = false;
+    }
+
+    fn visit_object_lit(&mut self, lit_obj: &ObjectLit) {
+        self.inside_object = true;
+
+        lit_obj.visit_children_with(self);
+
+        self.inside_object = false;
+    }
+
+    fn visit_arrow_expr(&mut self, arrow_fn: &ArrowExpr) {
+        self.inside_arrow_fn = true;
+
+        arrow_fn.visit_children_with(self);
+
+        self.inside_arrow_fn = false;
     }
 }

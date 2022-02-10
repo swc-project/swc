@@ -1,0 +1,7 @@
+{
+    "jsc": {
+        "lints": {
+            "noAlert": ["error"]
+        }
+    }
+}
