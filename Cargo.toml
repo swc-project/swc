@@ -19,7 +19,10 @@ members = [
 
 [profile.release]
 codegen-units = 1
-lto = "fat"
+
+# We use CARGO_PROFILE_RELEASE_LTO for production builds
+# lto = "fat"
+
 # debug = true
 # opt-level = 'z'
 

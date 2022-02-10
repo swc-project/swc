@@ -2,6 +2,7 @@ name: Publish (wasm)
 
 env:
   CARGO_INCREMENTAL: 0
+  CARGO_PROFILE_RELEASE_LTO: "fat"
   CI: "1"
 
 on:
