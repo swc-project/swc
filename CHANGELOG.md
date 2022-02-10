@@ -29,6 +29,9 @@
 - **(es/minifier)** Implement `reserved` mangle option (#3476) ([5488159](https://github.com/swc-project/swc/commit/5488159ba5dd124878ebdc50c390a51ab3b07f16))
 
 
+- **(plugin)** Implement proxy for `Mark` and `SyntaxContext` (#3511) ([bc25026](https://github.com/swc-project/swc/commit/bc250262f2af38086eeed59e4d42d14ff44d5b83))
+
+
 - **(swc/plugin)** Implement proxy for `Mark::fresh` (#3492) ([494b4c8](https://github.com/swc-project/swc/commit/494b4c8203514dd9f21b2bc3804ba8c44d46a4a1))
 
 ### Miscellaneous Tasks
@@ -54,6 +57,9 @@
 
 ### Testing
 
+
+
+- **(css/codegen)** Add tests for multiple keyframe selectors (#3509) ([ebd71d5](https://github.com/swc-project/swc/commit/ebd71d565d0ac29d38cda195085be78dfdf3eaf0))
 
 
 - **(css/parser)** Add tests from `postcss` (#3488) ([04782ae](https://github.com/swc-project/swc/commit/04782ae9f73193ec6cd15f7e7059c97143289169))
