@@ -180,7 +180,6 @@
                 "value": [
                   {
                     "type": "Ident",
-                    "type": "PreservedToken",
                     "span": {
                       "start": 53,
                       "end": 58,
@@ -188,26 +187,6 @@
                     },
                     "value": "value",
                     "raw": "value"
-                    "tokens": [
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 53,
-                          "end": 58,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Ident": {
-                            "value": "value",
-                            "raw": "value"
-                          }
-                        }
-                    "token": {
-                      "Ident": {
-                        "value": "value",
-                        "raw": "value"
-                      }
-                    }
                   }
                 ]
               }
@@ -902,7 +881,6 @@
                 "value": [
                   {
                     "type": "Ident",
-                    "type": "PreservedToken",
                     "span": {
                       "start": 364,
                       "end": 369,
@@ -910,26 +888,6 @@
                     },
                     "value": "value",
                     "raw": "value"
-                    "tokens": [
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 364,
-                          "end": 369,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Ident": {
-                            "value": "value",
-                            "raw": "value"
-                          }
-                        }
-                    "token": {
-                      "Ident": {
-                        "value": "value",
-                        "raw": "value"
-                      }
-                    }
                   }
                 ]
               },
@@ -944,7 +902,6 @@
                 "value": [
                   {
                     "type": "Ident",
-                    "type": "PreservedToken",
                     "span": {
                       "start": 371,
                       "end": 376,
@@ -952,26 +909,6 @@
                     },
                     "value": "value",
                     "raw": "value"
-                    "tokens": [
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 371,
-                          "end": 376,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Ident": {
-                            "value": "value",
-                            "raw": "value"
-                          }
-                        }
-                    "token": {
-                      "Ident": {
-                        "value": "value",
-                        "raw": "value"
-                      }
-                    }
                   }
                 ]
               }
