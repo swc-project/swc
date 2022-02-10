@@ -102,12 +102,12 @@ where
             _ => return,
         };
 
-        let cons_span = cond.cons.span();
-
         match (&mut *cond.cons, &mut *cond.alt) {
             (Expr::Bin(cons @ BinExpr { op: op!("||"), .. }), alt)
                 if (*cons.right).eq_ignore_span(&*alt) =>
             {
+                let cons_span = cons.span;
+
                 tracing::debug!("conditionals: `x ? y || z : z` => `x || y && z`");
                 self.changed = true;
 
