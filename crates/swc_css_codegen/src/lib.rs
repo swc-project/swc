@@ -829,6 +829,7 @@ where
             Value::Tokens(n) => emit!(self, n),
             Value::Url(n) => emit!(self, n),
             Value::Delimiter(n) => emit!(self, n),
+            Value::Urange(n) => emit!(self, n),
         }
     }
 
@@ -1342,6 +1343,11 @@ where
             UrlModifier::Ident(n) => emit!(self, n),
             UrlModifier::Function(n) => emit!(self, n),
         }
+    }
+
+    #[emitter]
+    fn emit_urange(&mut self, n: &Urange) -> Result {
+        self.wr.write_raw(Some(n.span), &n.value)?;
     }
 
     #[emitter]

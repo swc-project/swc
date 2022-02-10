@@ -42,11 +42,14 @@ pub enum Value {
     #[tag("Delimiter")]
     Delimiter(Delimiter),
 
-    #[tag("Tokens")]
-    Tokens(Tokens),
-
     #[tag("Url")]
     Url(Url),
+
+    #[tag("Urange")]
+    Urange(Urange),
+
+    #[tag("Tokens")]
+    Tokens(Tokens),
 }
 
 #[ast_node("Ident")]
@@ -264,4 +267,10 @@ pub enum UrlModifier {
     Ident(Ident),
     #[tag("Function")]
     Function(Function),
+}
+
+#[ast_node("Urange")]
+pub struct Urange {
+    pub span: Span,
+    pub value: JsWord,
 }

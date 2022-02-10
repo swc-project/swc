@@ -202,3 +202,15 @@ error: Expected "{"
 241 | @media \\0 screen {}
     |            ^^^^^^
 
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+   --> $DIR/tests/recovery/hacks/input.css:244:5
+    |
+244 |     *color : black;
+    |     ^
+
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+   --> $DIR/tests/recovery/hacks/input.css:247:5
+    |
+247 |     $(var)-size: 100%;
+    |     ^
+
