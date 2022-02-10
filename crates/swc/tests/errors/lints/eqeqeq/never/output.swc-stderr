@@ -1,0 +1,12 @@
+error: Expected '==' and instead saw '==='
+ 
+  |
+3 | if (x === y || z !== (a || b)) {}
+  |     ^^^^^^^
+
+error: Expected '!=' and instead saw '!=='
+ 
+  |
+3 | if (x === y || z !== (a || b)) {}
+  |                ^^^^^^^^^^^^^^
+

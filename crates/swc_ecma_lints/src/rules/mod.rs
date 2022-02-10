@@ -15,6 +15,7 @@ mod utils;
 #[path = ""]
 pub(crate) mod non_critical_lints {
     pub mod dot_notation;
+    pub mod eqeqeq;
     pub mod no_alert;
     pub mod no_console;
     pub mod no_debugger;
@@ -83,6 +84,8 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
             &source_map,
             &lint_config.dot_notation,
         ));
+
+        rules.extend(eqeqeq::eqeqeq(&lint_config.eqeqeq));
     }
 
     rules
