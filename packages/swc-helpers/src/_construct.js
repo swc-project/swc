@@ -1,3 +1,5 @@
+import _setPrototypeOf from "./_set_prototype_of";
+
 function isNativeReflectConstruct() {
   if (typeof Reflect === "undefined" || !Reflect.construct) return false;
   if (Reflect.construct.sham) return false;
