@@ -39,6 +39,17 @@ error: PageRule
 5 | | }
   | |_^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:1:7
+  |
+1 |   @page {
+  |  _______^
+2 | |     @top-center {
+3 | |         display: none;
+4 | |     }
+5 | | }
+  | |_^
+
 error: AtRule
  --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:2
   |
@@ -62,6 +73,15 @@ error: Ident
   |
 2 |     @top-center {
   |      ^^^^^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:14
+  |
+2 |       @top-center {
+  |  _________________^
+3 | |         display: none;
+4 | |     }
+  | |_____^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:3:3
