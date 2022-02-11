@@ -17,6 +17,9 @@
 - **(css)** Support urange syntax (#3491) ([cbe302b](https://github.com/swc-project/swc/commit/cbe302b99d762a72d8522196cc05159791515e49))
 
 
+- **(css/minifier)** Implement more rules (#3522) ([69cfe39](https://github.com/swc-project/swc/commit/69cfe395c7cc0de8ea5eb4bdf605f5c56b7cf69b))
+
+
 - **(css/parser)** Improve error recovery (#3486) ([48e5b90](https://github.com/swc-project/swc/commit/48e5b903e2b82e8fc741d125662bbac825d5b0d0))
 
 
@@ -46,6 +49,12 @@
 
 - **(crates)** Use bot account for commiitter ([edc46cc](https://github.com/swc-project/swc/commit/edc46ccf939f8fd3ac49300085daf3b42d4ce841))
 
+### Performance
+
+
+
+- **(es/minifier)** Remove useless operations like eager call to `.span()` (#3512) ([8dab3d9](https://github.com/swc-project/swc/commit/8dab3d92b178b3ee1e1cb6a7288ce33b91793145))
+
 ### Refactor
 
 
@@ -54,6 +63,9 @@
 
 
 - **(css/ast)** Rename types to match specification (#3484) ([460f846](https://github.com/swc-project/swc/commit/460f84693414c58d4aa116f9d4e630b1e32bffa4))
+
+
+- **(css/ast)** Remove `Tokens` in favor of `Vec<TokenAndSpan>` (#3507) ([92a3cb9](https://github.com/swc-project/swc/commit/92a3cb9609b68e73a6a1f439186f09c15da8d570))
 
 
 - **(css/parser)** Refactor codes related to simple blocks (#3506) ([4e124c7](https://github.com/swc-project/swc/commit/4e124c7bca85d70b6e4836038ea1aaa25b9ea663))
