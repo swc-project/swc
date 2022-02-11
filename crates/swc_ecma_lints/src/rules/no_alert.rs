@@ -141,8 +141,6 @@ impl NoAlert {
     }
 
     fn handle_callee(&mut self, expr: &Expr) {
-        println!("{:?}", expr);
-
         match expr {
             Expr::Ident(ident) => {
                 if self.is_satisfying_indent(ident) {
