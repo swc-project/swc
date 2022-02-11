@@ -35,6 +35,11 @@ impl Visit for BaseAnalyzer<'_> {
                     v.ids
                 };
 
+                // This prints only while testing analyzer
+                if cfg!(test) {
+                    dbg!(&var.id, &used_idents);
+                }
+
                 for id in used_idents {
                     {
                         let v = self.data.infects.entry(id.clone()).or_default();
@@ -62,6 +67,10 @@ struct AliasCollector<'a> {
 
 impl AliasCollector<'_> {
     fn add(&mut self, id: Id) {
+        if id.sym == js_word!("arguments") {
+            return;
+        }
+
         if !self.excluded.contains(&id) {
             self.ids.insert(id);
         }
