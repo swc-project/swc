@@ -19,6 +19,11 @@ pub(crate) trait Storage: Sized + Default + Send + Sync {
 
     fn merge(&mut self, kind: ScopeKind, child: Self);
 
+    /// Merge, but for parallel execution.
+    ///
+    /// `used_before_decl` should be adjusted
+    fn par_merge(&mut self, data: Self);
+
     fn report_usage(&mut self, ctx: Ctx, i: &Ident, is_assign: bool);
 
     fn declare_decl(
@@ -31,9 +36,7 @@ pub(crate) trait Storage: Sized + Default + Send + Sync {
 }
 
 pub(crate) trait ScopeDataLike: Sized + Default + Send + Sync {
-    fn add_declared_symbol(&mut self, id: &Ident);
-
-    fn merge(&mut self, other: Self, is_child: bool);
+    fn merge(&mut self, other: Self);
 
     fn mark_eval_called(&mut self);
 

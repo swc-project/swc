@@ -26,9 +26,9 @@ impl Storage for ProgramData {
     fn merge(&mut self, kind: ScopeKind, child: Self) {
         for (ctxt, scope) in child.scopes {
             let to = self.scopes.entry(ctxt).or_default();
-            self.top.merge(scope.clone(), true);
+            self.top.merge(scope.clone());
 
-            to.merge(scope, false);
+            to.merge(scope);
         }
 
         for (id, mut var_info) in child.vars {
@@ -156,12 +156,14 @@ impl Storage for ProgramData {
 
         v
     }
+
+    fn par_merge(&mut self, data: Self) {
+        self.merge(ScopeKind::Block, data)
+    }
 }
 
 impl ScopeDataLike for ScopeData {
-    fn add_declared_symbol(&mut self, _: &Ident) {}
-
-    fn merge(&mut self, other: Self, _: bool) {
+    fn merge(&mut self, other: Self) {
         self.has_with_stmt |= other.has_with_stmt;
         self.has_eval_call |= other.has_eval_call;
     }

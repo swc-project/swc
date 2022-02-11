@@ -51,7 +51,7 @@ where
     };
     n.visit_with(&mut v);
     let top_scope = v.scope;
-    v.data.top_scope().merge(top_scope, false);
+    v.data.top_scope().merge(top_scope);
 
     v.data
 }
@@ -184,7 +184,7 @@ where
         {
             let child_scope = child.data.scope(child_ctxt);
 
-            child_scope.merge(child.scope, false);
+            child_scope.merge(child.scope);
         }
 
         self.data.merge(kind, child.data);
@@ -206,10 +206,27 @@ where
             return;
         }
 
-        nodes.par_iter().zip(contexts).for_each(|(node, ctx)| {
-            //
-            node.visit_with(&mut *self.with_ctx(ctx))
-        });
+        let results = nodes
+            .par_iter()
+            .zip(contexts)
+            .map(|(node, ctx)| {
+                //
+                let mut v = UsageAnalyzer {
+                    data: Default::default(),
+                    marks: self.marks,
+                    ctx,
+                    scope: Default::default(),
+                };
+                node.visit_with(&mut v);
+
+                (v.data, v.scope)
+            })
+            .collect::<Vec<_>>();
+
+        for (data, scope) in results {
+            self.data.par_merge(data);
+            self.scope.merge(scope);
+        }
     }
 
     fn visit_pat_id(&mut self, i: &Ident) {
@@ -251,8 +268,6 @@ where
         kind: Option<VarDeclKind>,
         _is_fn_decl: bool,
     ) -> &mut S::VarData {
-        self.scope.add_declared_symbol(i);
-
         self.data.declare_decl(self.ctx, i, has_init, kind)
     }
 }
@@ -511,6 +526,12 @@ where
         }
     }
 
+    fn visit_exprs(&mut self, exprs: &[Box<Expr>]) {
+        let contexts = iter::repeat(self.ctx).take(exprs.len()).collect();
+
+        self.visit_par(contexts, exprs, 8)
+    }
+
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_fn_decl(&mut self, n: &FnDecl) {
         self.declare_decl(&n.ident, true, None, true);
@@ -688,6 +709,12 @@ where
         n.visit_children_with(&mut *self.with_ctx(ctx))
     }
 
+    fn visit_module_items(&mut self, items: &[ModuleItem]) {
+        let contexts = iter::repeat(self.ctx).take(items.len()).collect();
+
+        self.visit_par(contexts, items, 16)
+    }
+
     fn visit_named_export(&mut self, n: &NamedExport) {
         if n.src.is_some() {
             return;
@@ -797,15 +824,13 @@ where
     }
 
     fn visit_stmts(&mut self, stmts: &[Stmt]) {
-        let mut had_cond = false;
-
         let cond_end_idx = stmts.iter().position(can_end_conditionally);
 
         let contexts = if let Some(idx) = cond_end_idx {
             iter::repeat(self.ctx)
                 .take(idx)
                 .chain(iter::repeat(Ctx {
-                    in_cond: self.ctx.in_cond || had_cond,
+                    in_cond: true,
                     ..self.ctx
                 }))
                 .take(stmts.len() - idx)
@@ -814,7 +839,7 @@ where
             iter::repeat(self.ctx).take(stmts.len()).collect()
         };
 
-        self.visit_par(contexts, stmts, 8)
+        self.visit_par(contexts, stmts, 4)
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
