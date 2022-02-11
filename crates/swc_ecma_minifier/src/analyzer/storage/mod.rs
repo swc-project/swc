@@ -1,15 +1,21 @@
+use std::sync::Arc;
+
 use swc_atoms::JsWord;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::Id;
 
-use super::{ctx::Ctx, ScopeKind};
+use super::{ctx::Ctx, sequential::BaseData, ScopeKind};
 
 pub mod normal;
 
-pub(crate) trait Storage: Sized + Default + Send + Sync {
+pub(crate) trait Storage: Sized + Send + Sync {
     type ScopeData: ScopeDataLike;
     type VarData: VarDataLike;
+
+    fn new(base: Arc<BaseData>) -> Self;
+
+    fn get_base(&self) -> Arc<BaseData>;
 
     fn scope(&mut self, ctxt: SyntaxContext) -> &mut Self::ScopeData;
 

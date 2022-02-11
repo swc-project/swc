@@ -6,12 +6,12 @@ use swc_ecma_visit::{Visit, VisitWith};
 use crate::util::idents_used_by;
 
 #[derive(Debug, Default)]
-pub(super) struct BaseData {
-    pub infects: AHashMap<Id, Vec<Id>>,
+pub(crate) struct BaseData {
+    pub(super) infects: AHashMap<Id, Vec<Id>>,
 }
 
-pub struct BaseAnalyzer<'a> {
-    pub data: &'a mut BaseData,
+pub(crate) struct BaseAnalyzer<'a> {
+    pub(super) data: &'a mut BaseData,
 }
 
 impl Visit for BaseAnalyzer<'_> {

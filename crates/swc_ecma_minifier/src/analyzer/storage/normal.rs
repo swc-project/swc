@@ -1,11 +1,13 @@
-use std::collections::hash_map::Entry;
+use std::{collections::hash_map::Entry, sync::Arc};
 
 use swc_common::collections::AHashSet;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 
 use super::{ScopeDataLike, Storage, VarDataLike};
-use crate::analyzer::{ctx::Ctx, ProgramData, ScopeData, ScopeKind, VarUsageInfo};
+use crate::analyzer::{
+    ctx::Ctx, sequential::BaseData, ProgramData, ScopeData, ScopeKind, VarUsageInfo,
+};
 
 impl Storage for ProgramData {
     type ScopeData = ScopeData;
@@ -102,6 +104,10 @@ impl Storage for ProgramData {
         }
     }
 
+    fn par_merge(&mut self, data: Self) {
+        self.merge(ScopeKind::Block, data)
+    }
+
     fn report_usage(&mut self, ctx: Ctx, i: &Ident, is_assign: bool) {
         self.report(i.to_id(), ctx, is_assign, &mut Default::default());
     }
@@ -155,8 +161,17 @@ impl Storage for ProgramData {
         v
     }
 
-    fn par_merge(&mut self, data: Self) {
-        self.merge(ScopeKind::Block, data)
+    fn new(base: Arc<BaseData>) -> Self {
+        Self {
+            base,
+            vars: Default::default(),
+            top: Default::default(),
+            scopes: Default::default(),
+        }
+    }
+
+    fn get_base(&self) -> Arc<BaseData> {
+        self.base.clone()
     }
 }
 
@@ -177,6 +192,8 @@ impl ScopeDataLike for ScopeData {
 
 impl ProgramData {
     fn report(&mut self, i: Id, ctx: Ctx, is_modify: bool, dejavu: &mut AHashSet<Id>) {
+        let base = self.base.clone();
+
         // tracing::trace!("report({}{:?})", i.0, i.1);
 
         let is_first = dejavu.is_empty();
@@ -185,7 +202,7 @@ impl ProgramData {
             return;
         }
 
-        let e = self.vars.entry(i).or_insert_with(|| {
+        let e = self.vars.entry(i.clone()).or_insert_with(|| {
             // tracing::trace!("insert({}{:?})", i.0, i.1);
 
             VarUsageInfo {
@@ -213,7 +230,7 @@ impl ProgramData {
                 e.usage_count += 1;
             }
 
-            for other in e.infects.clone() {
+            for other in base.infects.get(&i).into_iter().flatten().cloned() {
                 self.report(other, ctx, true, dejavu)
             }
         } else {
@@ -261,10 +278,6 @@ impl VarDataLike for VarUsageInfo {
 
     fn mark_reassigned_with_assign(&mut self) {
         self.reassigned_with_assignment = true;
-    }
-
-    fn add_infects(&mut self, other: Id) {
-        self.infects.push(other);
     }
 
     fn prevent_inline(&mut self) {

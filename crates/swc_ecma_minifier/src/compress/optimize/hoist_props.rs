@@ -30,7 +30,7 @@ where
                         !v.mutated
                             && !v.reassigned_with_assignment
                             && !v.reassigned_with_var_decl
-                            && !v.is_infected()
+                            && !data.is_infected(&name.to_id())
                     })
                 })
                 .unwrap_or(false)

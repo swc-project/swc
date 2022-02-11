@@ -1,4 +1,4 @@
-use std::iter;
+use std::{iter, sync::Arc};
 
 use rayon::prelude::*;
 use swc_atoms::{js_word, JsWord};
@@ -11,14 +11,13 @@ use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
+pub(crate) use self::sequential::BaseAnalyzer;
 use self::{
     ctx::Ctx,
+    sequential::BaseData,
     storage::{Storage, *},
 };
-use crate::{
-    marks::Marks,
-    util::{can_end_conditionally, idents_used_by},
-};
+use crate::{marks::Marks, util::can_end_conditionally};
 
 mod ctx;
 mod sequential;
@@ -29,6 +28,7 @@ mod tests;
 pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>) -> ProgramData
 where
     N: VisitWith<UsageAnalyzer>,
+    N: for<'aa> VisitWith<BaseAnalyzer<'aa>>,
 {
     analyze_with_storage::<ProgramData, _>(n, marks)
 }
@@ -41,11 +41,20 @@ pub(crate) fn analyze_with_storage<S, N>(n: &N, marks: Option<Marks>) -> S
 where
     S: Storage,
     N: VisitWith<UsageAnalyzer<S>>,
+    N: for<'aa> VisitWith<BaseAnalyzer<'aa>>,
 {
     let _timer = timer!("analyze");
 
+    let mut base = BaseData::default();
+    {
+        let mut v = BaseAnalyzer { data: &mut base };
+
+        n.visit_with(&mut v);
+    }
+    let base = Arc::new(base);
+
     let mut v = UsageAnalyzer {
-        data: Default::default(),
+        data: S::new(base),
         marks,
         scope: Default::default(),
         ctx: Default::default(),
@@ -120,10 +129,6 @@ impl VarUsageInfo {
         self.assign_count == 0 && self.mutation_by_call_count == 1
     }
 
-    pub fn is_infected(&self) -> bool {
-        !self.infects.is_empty()
-    }
-
     pub fn reassigned(&self) -> bool {
         self.reassigned_with_assignment || self.reassigned_with_var_decl
     }
@@ -144,11 +149,23 @@ pub(crate) struct ScopeData {
 /// Analyzed info of a whole program we are working on.
 #[derive(Debug, Default)]
 pub(crate) struct ProgramData {
+    base: Arc<BaseData>,
+
     pub vars: AHashMap<Id, VarUsageInfo>,
 
     pub top: ScopeData,
 
     pub scopes: AHashMap<SyntaxContext, ScopeData>,
+}
+
+impl ProgramData {
+    pub(crate) fn is_infected(&self, id: &Id) -> bool {
+        self.base
+            .infects
+            .get(id)
+            .map(|v| !v.is_empty())
+            .unwrap_or(false)
+    }
 }
 
 /// This assumes there are no two variable with same name and same span hygiene.
@@ -171,8 +188,9 @@ where
     where
         F: FnOnce(&mut UsageAnalyzer<S>) -> Ret,
     {
+        let base = self.data.get_base();
         let mut child = UsageAnalyzer {
-            data: Default::default(),
+            data: S::new(base),
             marks: self.marks,
             ctx: self.ctx,
             scope: Default::default(),
@@ -204,13 +222,15 @@ where
             return;
         }
 
+        let base = self.data.get_base();
+
         let results = nodes
             .par_iter()
             .zip(contexts)
             .map(|(node, ctx)| {
                 //
                 let mut v = UsageAnalyzer {
-                    data: Default::default(),
+                    data: S::new(base.clone()),
                     marks: self.marks,
                     ctx,
                     scope: Default::default(),

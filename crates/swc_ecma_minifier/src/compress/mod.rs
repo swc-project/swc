@@ -27,7 +27,7 @@ use tracing::error;
 pub(crate) use self::pure::pure_optimizer;
 use self::{hoist_decls::DeclHoisterConfig, optimize::optimizer};
 use crate::{
-    analyzer::{analyze, UsageAnalyzer},
+    analyzer::{analyze, BaseAnalyzer, UsageAnalyzer},
     compress::hoist_decls::decl_hoister,
     debug::dump,
     marks::Marks,
@@ -179,7 +179,10 @@ where
 
     fn optimize_unit_repeatedly<N>(&mut self, n: &mut N)
     where
-        N: CompileUnit + VisitWith<UsageAnalyzer> + for<'aa> VisitMutWith<Compressor<'aa, M>>,
+        N: CompileUnit
+            + VisitWith<UsageAnalyzer>
+            + for<'aa> VisitMutWith<Compressor<'aa, M>>
+            + for<'aa> VisitWith<BaseAnalyzer<'aa>>,
     {
         if cfg!(feature = "debug") {
             tracing::debug!(
@@ -227,7 +230,10 @@ where
     /// Optimize a module. `N` can be [Module] or [FnExpr].
     fn optimize_unit<N>(&mut self, n: &mut N)
     where
-        N: CompileUnit + VisitWith<UsageAnalyzer> + for<'aa> VisitMutWith<Compressor<'aa, M>>,
+        N: CompileUnit
+            + VisitWith<UsageAnalyzer>
+            + for<'aa> VisitMutWith<Compressor<'aa, M>>
+            + for<'aa> VisitWith<BaseAnalyzer<'aa>>,
     {
         let _timer = timer!("optimize", pass = self.pass);
 
