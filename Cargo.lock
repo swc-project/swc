@@ -2752,7 +2752,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.76.0"
+version = "0.77.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -2801,7 +2801,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.38.0"
+version = "0.39.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
