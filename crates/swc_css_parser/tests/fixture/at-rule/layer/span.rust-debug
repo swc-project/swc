@@ -550,7 +550,7 @@ error: Ident
 17 | .sidebar { animation: slide-left 300ms; }
    |  ^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/layer/input.css:17:10
    |
 17 | .sidebar { animation: slide-left 300ms; }
@@ -754,7 +754,7 @@ error: Ident
 23 |     strong { font-weight: bold; }
    |     ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/layer/input.css:23:12
    |
 23 |     strong { font-weight: bold; }
@@ -892,7 +892,7 @@ error: Ident
 27 |     .title { font-weight: 100; }
    |      ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/layer/input.css:27:12
    |
 27 |     .title { font-weight: 100; }
@@ -1060,7 +1060,7 @@ error: Ident
 30 |         h1, h2 { color: maroon; }
    |             ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/layer/input.css:30:16
    |
 30 |         h1, h2 { color: maroon; }
@@ -1192,7 +1192,7 @@ error: Ident
 35 |     [hidden] { display: none; }
    |      ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/layer/input.css:35:14
    |
 35 |     [hidden] { display: none; }
@@ -1378,7 +1378,7 @@ error: Ident
 40 |         p { margin-block: 0.75em; }
    |         ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/layer/input.css:40:11
    |
 40 |         p { margin-block: 0.75em; }
@@ -1528,7 +1528,7 @@ error: Ident
 44 |         p { color: #222; }
    |         ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/layer/input.css:44:11
    |
 44 |         p { color: #222; }
@@ -1669,7 +1669,7 @@ error: Ident
 50 |     blockquote { color: rebeccapurple; }
    |     ^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/layer/input.css:50:16
    |
 50 |     blockquote { color: rebeccapurple; }

@@ -91,12 +91,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 10,
           "end": 39,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",

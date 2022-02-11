@@ -15,13 +15,29 @@ to {
 margin-left: -100%;
 }
 }}
-.sidebar {animation: slide-left 300ms}
+.sidebar {
+animation: slide-left 300ms;
+}
 @layer {}
 @layer {}
-@layer reset.type{strong {font-weight: bold}}
-@layer framework{.title {font-weight: 100}
-@layer theme{h1, h2 {color: maroon}}}
-@layer reset{[hidden] {display: none}}
-@layer framework{@layer default{p {margin-block: 0.75em}}
-@layer theme{p {color: #222}}}
-@layer framework.theme{blockquote {color: rebeccapurple}}
+@layer reset.type{strong {
+font-weight: bold;
+}}
+@layer framework{.title {
+font-weight: 100;
+}
+@layer theme{h1, h2 {
+color: maroon;
+}}}
+@layer reset{[hidden] {
+display: none;
+}}
+@layer framework{@layer default{p {
+margin-block: 0.75em;
+}}
+@layer theme{p {
+color: #222;
+}}}
+@layer framework.theme{blockquote {
+color: rebeccapurple;
+}}

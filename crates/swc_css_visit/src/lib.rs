@@ -82,12 +82,7 @@ define!({
     pub struct QualifiedRule {
         pub span: Span,
         pub prelude: SelectorList,
-        pub block: Block,
-    }
-
-    pub struct Block {
-        pub span: Span,
-        pub value: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 
     pub enum DeclarationBlockItem {

@@ -94,7 +94,7 @@ error: Ident
 1 | a [b] {}
   |    ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/Q42FDvG6_mtoeI7PoHqgQw/input.css:1:7
   |
 1 | a [b] {}

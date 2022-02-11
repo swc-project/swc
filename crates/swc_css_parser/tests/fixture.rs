@@ -326,8 +326,6 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(Delimiter, visit_delimiter);
 
-    mtd!(Block, visit_block);
-
     mtd!(SimpleBlock, visit_simple_block);
 
     mtd!(Function, visit_function);

@@ -148,7 +148,7 @@ error: Ident
 1 | div::before::after::selection::first-line::first-letter {color:red}
   |                                            ^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:57
   |
 1 | div::before::after::selection::first-line::first-letter {color:red}

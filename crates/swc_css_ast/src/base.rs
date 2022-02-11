@@ -26,7 +26,7 @@ pub enum Rule {
 pub struct QualifiedRule {
     pub span: Span,
     pub prelude: SelectorList,
-    pub block: Block,
+    pub block: SimpleBlock,
 }
 
 #[ast_node("SimpleBlock")]
@@ -44,12 +44,6 @@ pub enum ComponentValue {
     Value(Value),
     #[tag("DeclarationBlockItem")]
     DeclarationBlockItem(DeclarationBlockItem),
-}
-
-#[ast_node("Block")]
-pub struct Block {
-    pub span: Span,
-    pub value: Vec<DeclarationBlockItem>,
 }
 
 #[ast_node]

@@ -70,7 +70,7 @@ error: Ident
 1 | .style {
   |  ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/rome/custom-properties/input.css:1:8
    |
 1  |   .style {

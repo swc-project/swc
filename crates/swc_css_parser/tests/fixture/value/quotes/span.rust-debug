@@ -94,7 +94,7 @@ error: Ident
 1 | a::before {
   |    ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/value/quotes/input.css:1:11
    |
 1  |   a::before {
@@ -824,7 +824,7 @@ error: Str
 32 | | o very long title"] {
    | |__________________^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/value/quotes/input.css:32:21
    |
 32 |   o very long title"] {
@@ -963,7 +963,7 @@ error: Str
 35 | a[title="a not so very long title"] {
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/value/quotes/input.css:35:37
    |
 35 |   a[title="a not so very long title"] {
@@ -1060,7 +1060,7 @@ error: Ident
 39 | div {
    | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/value/quotes/input.css:39:5
    |
 39 |   div {
@@ -1153,7 +1153,7 @@ error: Ident
 44 | .foo {
    |  ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/value/quotes/input.css:44:6
    |
 44 |   .foo {

@@ -70,7 +70,7 @@ error: Ident
 1 | [*|attr] {}
   |    ^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/_XB1oeHz4bZ49LCE2cBI6g/input.css:1:10
   |
 1 | [*|attr] {}
