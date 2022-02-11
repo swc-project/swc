@@ -58,7 +58,7 @@ error: Ident
 1 | .style {
   |  ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/rome/grid/repeat/line-name/input.css:1:8
   |
 1 |   .style {

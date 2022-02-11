@@ -1,8 +1,12 @@
-div {--y: ;
+div {
+--y: ;
 --x: var(--y) ;
 --z: 0px;
 --foo: if(x > 5) this.width = 10;
 --bar: ;
 --bar2: ;
---yz: foo  !important}
-div {width: var(--a,)}
+--yz: foo  !important;
+}
+div {
+width: var(--a,);
+}

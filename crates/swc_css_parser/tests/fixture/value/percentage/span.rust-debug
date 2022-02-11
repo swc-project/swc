@@ -76,7 +76,7 @@ error: Ident
 1 | div {
   | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/value/percentage/input.css:1:5
    |
 1  |   div {
@@ -545,7 +545,7 @@ error: Ident
 15 | div {
    | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/value/percentage/input.css:15:5
    |
 15 |   div {

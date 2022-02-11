@@ -58,7 +58,7 @@ error: Ident
 1 | .one {}
   |  ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/compound/input.css:1:6
   |
 1 | .one {}
@@ -130,7 +130,7 @@ error: Ident
 2 | .foo.bar {}
   |      ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/compound/input.css:2:10
   |
 2 | .foo.bar {}
@@ -202,7 +202,7 @@ error: Ident
 3 | .foo#id {}
   |     ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/compound/input.css:3:9
   |
 3 | .foo#id {}
@@ -280,7 +280,7 @@ error: Ident
 4 | .class[target] {}
   |        ^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/compound/input.css:4:16
   |
 4 | .class[target] {}
@@ -376,7 +376,7 @@ error: Ident
 5 | .class#id[target] {}
   |           ^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/compound/input.css:5:19
   |
 5 | .class#id[target] {}
@@ -448,7 +448,7 @@ error: Ident
 6 | #id.class {}
   |     ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/compound/input.css:6:11
   |
 6 | #id.class {}
@@ -544,7 +544,7 @@ error: Ident
 7 | #id.class[target] {}
   |           ^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/compound/input.css:7:19
   |
 7 | #id.class[target] {}
@@ -640,7 +640,7 @@ error: Ident
 8 | div#thing:hover {}
   |           ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/compound/input.css:8:17
   |
 8 | div#thing:hover {}
@@ -736,7 +736,7 @@ error: Ident
 9 | div#thing::before {}
   |            ^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/compound/input.css:9:19
   |
 9 | div#thing::before {}
@@ -856,7 +856,7 @@ error: Ident
 10 | a[href='place']:hover {}
    |                 ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/compound/input.css:10:23
    |
 10 | a[href='place']:hover {}
@@ -976,7 +976,7 @@ error: Ident
 11 | a[href='place']::before {}
    |                  ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/compound/input.css:11:25
    |
 11 | a[href='place']::before {}
@@ -1066,7 +1066,7 @@ error: Ident
 12 | .one.two.three {}
    |          ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/compound/input.css:12:16
    |
 12 | .one.two.three {}
@@ -1144,7 +1144,7 @@ error: Ident
 13 | button.btn-primary {}
    |        ^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/compound/input.css:13:20
    |
 13 | button.btn-primary {}
@@ -1210,7 +1210,7 @@ error: Ident
 14 | *#z98y {}
    |  ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/compound/input.css:14:8
    |
 14 | *#z98y {}
@@ -1282,7 +1282,7 @@ error: Ident
 15 | #one#two {}
    |     ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/compound/input.css:15:10
    |
 15 | #one#two {}
@@ -1372,7 +1372,7 @@ error: Ident
 16 | #one.two.three {}
    |          ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/compound/input.css:16:16
    |
 16 | #one.two.three {}

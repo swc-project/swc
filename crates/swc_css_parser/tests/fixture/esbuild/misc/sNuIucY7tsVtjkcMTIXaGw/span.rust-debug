@@ -58,7 +58,7 @@ error: Ident
 1 | [\2c attr] {}
   |  ^^^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/sNuIucY7tsVtjkcMTIXaGw/input.css:1:12
   |
 1 | [\2c attr] {}

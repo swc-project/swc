@@ -52,7 +52,7 @@ error: UniversalSelector
 1 | &* {}
   |  ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/hYoP2sEvEyLualMll8L_RQ/input.css:1:4
   |
 1 | &* {}

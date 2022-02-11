@@ -58,7 +58,7 @@ error: Ident
 1 | a { value: #\68ash }
   | ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/bdiLSVQWZCfQNNwD_OM6qA/input.css:1:3
   |
 1 | a { value: #\68ash }

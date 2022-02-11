@@ -70,7 +70,7 @@ error: Ident
 1 | *|b {}
   |   ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/jzpj5gTOBgKB1ITBDfJiNA/input.css:1:5
   |
 1 | *|b {}

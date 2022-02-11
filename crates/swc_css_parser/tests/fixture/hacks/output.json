@@ -156,12 +156,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 27,
           "end": 29,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -315,12 +316,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 57,
           "end": 59,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -382,12 +384,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 71,
           "end": 92,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",
@@ -481,12 +484,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 103,
           "end": 124,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",
@@ -580,12 +584,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 135,
           "end": 157,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",
@@ -679,12 +684,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 168,
           "end": 196,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",

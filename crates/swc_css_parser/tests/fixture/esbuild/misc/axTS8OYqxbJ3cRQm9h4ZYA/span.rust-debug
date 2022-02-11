@@ -58,7 +58,7 @@ error: Ident
 1 | a { value: '\61 bc' }
   | ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/axTS8OYqxbJ3cRQm9h4ZYA/input.css:1:3
   |
 1 | a { value: '\61 bc' }

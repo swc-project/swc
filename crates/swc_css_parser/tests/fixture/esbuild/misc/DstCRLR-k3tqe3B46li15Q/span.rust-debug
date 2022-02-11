@@ -64,7 +64,7 @@ error: Ident
 1 | [|b]{}
   |   ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/DstCRLR-k3tqe3B46li15Q/input.css:1:5
   |
 1 | [|b]{}

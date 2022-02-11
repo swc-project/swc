@@ -52,7 +52,7 @@ error: Ident
 1 | .decl { a: b; c: d; }
   |  ^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:7
   |
 1 | .decl { a: b; c: d; }

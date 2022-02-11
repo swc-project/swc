@@ -58,7 +58,7 @@ error: Ident { value: Atom('cl,ss' type=inline), raw: Atom('cl\2css' type=inline
 1 | :pseudo(cl\2css) {}
   |         ^^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:18
   |
 1 | :pseudo(cl\2css) {}

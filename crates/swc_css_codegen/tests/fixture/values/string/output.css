@@ -1,4 +1,5 @@
-div {content: '⬇️';
+div {
+content: '⬇️';
 content: "😀";
 content: "\'test\'";
 content: "\\'test\'";
@@ -35,7 +36,14 @@ content: '\\\'test\\\' \\\'test\\\' \\\'test\\\' \\\"test\\\"';
 background: url('http://example.com/foo\'bar.jpg');
 background: url('http://example.com/foo\"bar.jpg');
 background: url("http://example.com/foo\'bar.jpg");
-background: url("http://example.com/foo\"bar.jpg")}
-div {grid-template: [header-top] "a a a" [header-bottom] [main-top] "b b b" 1fr [main-bottom] / auto 1fr auto}
-.other {grid-template: [header-left] "head head" 30px [header-right] [main-left] "nav  main" 1fr [main-right] [footer-left] "nav  foot" 30px [footer-right] / 120px 1fr}
-.prop {prop: name "test"}
+background: url("http://example.com/foo\"bar.jpg");
+}
+div {
+grid-template: [header-top] "a a a" [header-bottom] [main-top] "b b b" 1fr [main-bottom] / auto 1fr auto;
+}
+.other {
+grid-template: [header-left] "head head" 30px [header-right] [main-left] "nav  main" 1fr [main-right] [footer-left] "nav  foot" 30px [footer-right] / 120px 1fr;
+}
+.prop {
+prop: name "test";
+}

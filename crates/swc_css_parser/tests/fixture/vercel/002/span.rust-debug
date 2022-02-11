@@ -58,7 +58,7 @@ error: Ident
 1 | .a {
   |  ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/vercel/002/input.css:1:4
   |
 1 |   .a {

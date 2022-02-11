@@ -52,7 +52,7 @@ error: Ident
 1 | #\30hash {}
   | ^^^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/XetGJrWBJuC-NtgpX2eq1Q/input.css:1:10
   |
 1 | #\30hash {}

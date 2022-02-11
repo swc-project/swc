@@ -94,7 +94,7 @@ error: Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
 1 | :global(.foo + a) {
   |                ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:19
   |
 1 |   :global(.foo + a) {

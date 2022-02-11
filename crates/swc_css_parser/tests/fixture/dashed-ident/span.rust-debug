@@ -64,7 +64,7 @@ error: Ident
 1 | :root {
   |  ^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/dashed-ident/input.css:1:7
   |
 1 |   :root {
@@ -186,7 +186,7 @@ error: Ident
 6 | .foo {
   |  ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/dashed-ident/input.css:6:6
   |
 6 |   .foo {
@@ -313,7 +313,7 @@ error: Ident
 10 | #foo h1 {
    |      ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/dashed-ident/input.css:10:9
    |
 10 |   #foo h1 {

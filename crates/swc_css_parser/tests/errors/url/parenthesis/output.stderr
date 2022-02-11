@@ -1,5 +1,3 @@
-error: Expected "}"
-
 error: Expected Declaration value
  --> $DIR/tests/errors/url/parenthesis/input.css:2:17
   |
@@ -7,4 +5,6 @@ error: Expected Declaration value
   |  _________________^
 3 | | }
   | |_^
+
+error: Unexpected end of file
 

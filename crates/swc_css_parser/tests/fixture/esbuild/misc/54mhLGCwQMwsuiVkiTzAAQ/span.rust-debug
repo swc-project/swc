@@ -76,7 +76,7 @@ error: Str
 1 | [attr="-a"] {}
   |       ^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/54mhLGCwQMwsuiVkiTzAAQ/input.css:1:13
   |
 1 | [attr="-a"] {}

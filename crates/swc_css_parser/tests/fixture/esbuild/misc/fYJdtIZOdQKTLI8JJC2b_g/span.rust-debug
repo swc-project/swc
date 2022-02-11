@@ -88,7 +88,7 @@ error: Str
 1 | [a|b|="c"]{}
   |       ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/fYJdtIZOdQKTLI8JJC2b_g/input.css:1:11
   |
 1 | [a|b|="c"]{}

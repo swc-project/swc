@@ -101,7 +101,7 @@ error: Ident
 1 | /* { } */a b {}
   |            ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/comments/input.css:1:14
   |
 1 | /* { } */a b {}
@@ -197,7 +197,7 @@ error: Ident
 2 | /* test */a b {}
   |             ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/comments/input.css:2:15
   |
 2 | /* test */a b {}
@@ -293,7 +293,7 @@ error: Ident
 3 | /* { } */ a b {}
   |             ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/comments/input.css:3:15
   |
 3 | /* { } */ a b {}
@@ -389,7 +389,7 @@ error: Ident
 4 | /* test */ a b {}
   |              ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/comments/input.css:4:16
   |
 4 | /* test */ a b {}
@@ -485,7 +485,7 @@ error: Ident
 5 | a/* { } */b {}
   |           ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/comments/input.css:5:13
   |
 5 | a/* { } */b {}
@@ -581,7 +581,7 @@ error: Ident
 6 | a/* test */b {}
   |            ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/comments/input.css:6:14
   |
 6 | a/* test */b {}
@@ -677,7 +677,7 @@ error: Ident
 7 | a /* { } */ b {}
   |             ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/comments/input.css:7:15
   |
 7 | a /* { } */ b {}
@@ -773,7 +773,7 @@ error: Ident
 8 | a /* test */ b {}
   |              ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/comments/input.css:8:16
   |
 8 | a /* test */ b {}
@@ -869,7 +869,7 @@ error: Ident
 9 | a b/* { } */ {}
   |   ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/comments/input.css:9:14
   |
 9 | a b/* { } */ {}
@@ -965,7 +965,7 @@ error: Ident
 10 | a b/* test */ {}
    |   ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/comments/input.css:10:15
    |
 10 | a b/* test */ {}
@@ -1061,7 +1061,7 @@ error: Ident
 11 | a b /* { } */ {}
    |   ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/comments/input.css:11:15
    |
 11 | a b /* { } */ {}
@@ -1157,7 +1157,7 @@ error: Ident
 12 | a b /* test */ {}
    |   ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/comments/input.css:12:16
    |
 12 | a b /* test */ {}
@@ -1253,7 +1253,7 @@ error: Ident
 13 | a b/* { } */{}
    |   ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/comments/input.css:13:13
    |
 13 | a b/* { } */{}
@@ -1349,7 +1349,7 @@ error: Ident
 14 | a b/* test */{}
    |   ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/comments/input.css:14:14
    |
 14 | a b/* test */{}
@@ -1445,7 +1445,7 @@ error: Ident
 15 | a/* test */,/* test */b{}
    |                       ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/comments/input.css:15:24
    |
 15 | a/* test */,/* test */b{}
@@ -1541,7 +1541,7 @@ error: Ident
 16 | a /* test */ , /* test */ b {}
    |                           ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/comments/input.css:16:29
    |
 16 | a /* test */ , /* test */ b {}

@@ -88,7 +88,7 @@ error: Ident { value: Atom('c' type=inline), raw: Atom('c' type=inline) }
 1 | a:b(:c) {}
   |      ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/d1BWbOHfSbCE8-_qEz-luA/input.css:1:9
   |
 1 | a:b(:c) {}

@@ -52,7 +52,7 @@ error: Ident
 1 | ::b {}
   |   ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/mTLdgh264Uoe84INHS3fAw/input.css:1:5
   |
 1 | ::b {}

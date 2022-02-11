@@ -52,7 +52,7 @@ error: Ident
 1 | #\2d 123 {}
   | ^^^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/eRzlGAuJZZYbPU6hnTADoA/input.css:1:10
   |
 1 | #\2d 123 {}

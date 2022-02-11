@@ -1,4 +1,5 @@
-div {background: url(https://example.com/image.png);
+div {
+background: url(https://example.com/image.png);
 background: URL(https://example.com/image.png);
 background: \URL(https://example.com/image.png);
 background: url("https://example.com/image.png");
@@ -29,5 +30,8 @@ https://example.com/image.png
 
 
     );
-background: url(image.png\D799)}
-div {background: url(foo.img) red}
+background: url(image.png\D799);
+}
+div {
+background: url(foo.img) red;
+}

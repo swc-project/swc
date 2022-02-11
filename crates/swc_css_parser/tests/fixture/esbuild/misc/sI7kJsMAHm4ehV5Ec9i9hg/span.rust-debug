@@ -76,7 +76,7 @@ error: Ident
 1 | [attr\~=x] {}
   |         ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/sI7kJsMAHm4ehV5Ec9i9hg/input.css:1:12
   |
 1 | [attr\~=x] {}

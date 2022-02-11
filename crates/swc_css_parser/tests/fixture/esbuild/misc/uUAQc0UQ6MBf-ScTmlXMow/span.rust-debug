@@ -40,7 +40,7 @@ error: NestingSelector
 1 | & {}
   | ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/uUAQc0UQ6MBf-ScTmlXMow/input.css:1:3
   |
 1 | & {}

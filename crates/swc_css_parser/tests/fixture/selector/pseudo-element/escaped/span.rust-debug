@@ -76,7 +76,7 @@ error: Ident
 1 | div::bef\ore {}
   |      ^^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:14
   |
 1 | div::bef\ore {}

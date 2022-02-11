@@ -1,15 +1,28 @@
-div {padding: 100% 20%;
+div {
+padding: 100% 20%;
 margin: 100% 20px;
 background-position: 50% 50%, calc(50% + 20px) calc(50% + 20px);
-margin: 20px 100%}
-div {background: image-set(url("image.png") 1x) 100%;
-background: 100% image-set(url("image.png") 1x)}
-div {background: 50% red}
-div {margin: 100% 20px 100% 40em}
-div {background: rgba(0, 0, 0, 0) image-set(url("image.png") 1x) repeat scroll 0% 0%}
-div {width: 100.00%;
-width: 100.01%}
-div {width: 0%;
+margin: 20px 100%;
+}
+div {
+background: image-set(url("image.png") 1x) 100%;
+background: 100% image-set(url("image.png") 1x);
+}
+div {
+background: 50% red;
+}
+div {
+margin: 100% 20px 100% 40em;
+}
+div {
+background: rgba(0, 0, 0, 0) image-set(url("image.png") 1x) repeat scroll 0% 0%;
+}
+div {
+width: 100.00%;
+width: 100.01%;
+}
+div {
+width: 0%;
 width: 0.1%;
 width: 100%;
 width: 100.5%;
@@ -26,4 +39,5 @@ width: -0%;
 width: +0000%;
 width: 0000%;
 width: 10.5%;
-width: 10.5000%}
+width: 10.5000%;
+}

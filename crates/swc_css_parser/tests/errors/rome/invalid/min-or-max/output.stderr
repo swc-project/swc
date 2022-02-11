@@ -1,5 +1,3 @@
-error: Expected "}"
-
 error: Expected Declaration value
  --> $DIR/tests/errors/rome/invalid/min-or-max/input.css:2:18
   |
@@ -17,4 +15,6 @@ error: Unexpected end of file
   |
 3 | }
   |   ^
+
+error: Unexpected end of file
 

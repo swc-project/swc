@@ -58,7 +58,7 @@ error: Ident
 1 | a { width: -.10; }
   | ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/OtM9lGhbFLqI-r3dvNTUjQ/input.css:1:3
   |
 1 | a { width: -.10; }

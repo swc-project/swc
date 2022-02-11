@@ -88,7 +88,7 @@ error: Ident
 1 | [b = "c" i] {}
   |          ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/Drl1Excz8WEwlfIfA2oRQg/input.css:1:13
   |
 1 | [b = "c" i] {}

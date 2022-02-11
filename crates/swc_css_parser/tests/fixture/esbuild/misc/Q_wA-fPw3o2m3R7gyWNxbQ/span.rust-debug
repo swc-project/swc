@@ -76,7 +76,7 @@ error: Ident
 1 | a:after { content: '\invalid' }
   |   ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:9
   |
 1 | a:after { content: '\invalid' }

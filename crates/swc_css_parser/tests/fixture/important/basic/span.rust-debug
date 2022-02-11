@@ -70,7 +70,7 @@ error: Ident
 1 | .a {
   |  ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/important/basic/input.css:1:4
    |
 1  |   .a {

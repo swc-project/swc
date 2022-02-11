@@ -985,22 +985,6 @@ where
     }
 
     #[emitter]
-    fn emit_block(&mut self, n: &Block) -> Result {
-        punct!(self, "{");
-
-        self.emit_list(
-            &n.value,
-            if self.config.minify {
-                ListFormat::SemiDelimited
-            } else {
-                ListFormat::SemiDelimited | ListFormat::MultiLine
-            },
-        )?;
-
-        punct!(self, "}");
-    }
-
-    #[emitter]
     fn emit_declaration_block_item(&mut self, n: &DeclarationBlockItem) -> Result {
         match n {
             DeclarationBlockItem::Declaration(n) => emit!(self, n),

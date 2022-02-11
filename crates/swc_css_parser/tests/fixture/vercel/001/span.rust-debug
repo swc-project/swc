@@ -70,7 +70,7 @@ error: AnPlusB
 1 | :nth-child(4n) {
   |            ^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/vercel/001/input.css:1:16
   |
 1 |   :nth-child(4n) {

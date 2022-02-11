@@ -61,12 +61,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 3,
           "end": 5,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     }

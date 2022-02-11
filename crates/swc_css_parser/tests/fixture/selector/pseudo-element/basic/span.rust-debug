@@ -82,7 +82,7 @@ error: Ident
 1 | a::after {}
   |    ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:10
   |
 1 | a::after {}
@@ -160,7 +160,7 @@ error: Ident
 3 | dialog::backdrop {}
   |         ^^^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:3:18
   |
 3 | dialog::backdrop {}
@@ -238,7 +238,7 @@ error: Ident
 5 | a::before {}
   |    ^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:5:11
   |
 5 | a::before {}
@@ -316,7 +316,7 @@ error: Ident
 7 | video::cue {}
   |        ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:12
   |
 7 | video::cue {}
@@ -400,7 +400,7 @@ error: Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
 8 | video::cue(b) {}
   |            ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:15
   |
 8 | video::cue(b) {}
@@ -478,7 +478,7 @@ error: Ident
 10 | video::cue-region {}
    |        ^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:19
    |
 10 | video::cue-region {}
@@ -562,7 +562,7 @@ error: Hash { is_id: true, value: Atom('scroll' type=inline), raw: Atom('scroll'
 11 | video::cue-region(#scroll) {}
    |                   ^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:28
    |
 11 | video::cue-region(#scroll) {}
@@ -616,7 +616,7 @@ error: Ident
 13 | ::grammar-error {}
    |   ^^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:13:17
    |
 13 | ::grammar-error {}
@@ -670,7 +670,7 @@ error: Ident
 15 | ::marker {}
    |   ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:15:10
    |
 15 | ::marker {}
@@ -754,7 +754,7 @@ error: Ident { value: Atom('tab' type=inline), raw: Atom('tab' type=inline) }
 17 | tabbed-custom-element::part(tab) {}
    |                             ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:34
    |
 17 | tabbed-custom-element::part(tab) {}
@@ -808,7 +808,7 @@ error: Ident
 19 | ::placeholder {}
    |   ^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:19:15
    |
 19 | ::placeholder {}
@@ -862,7 +862,7 @@ error: Ident
 21 | ::selection {}
    |   ^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:21:13
    |
 21 | ::selection {}
@@ -922,7 +922,7 @@ error: Delim { value: '*' }
 23 | ::slotted(*) {}
    |           ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:14
    |
 23 | ::slotted(*) {}
@@ -982,7 +982,7 @@ error: Ident { value: Atom('span' type=inline), raw: Atom('span' type=inline) }
 24 | ::slotted(span) {}
    |           ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:17
    |
 24 | ::slotted(span) {}
@@ -1036,7 +1036,7 @@ error: Ident
 26 | ::spelling-error {}
    |   ^^^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:26:18
    |
 26 | ::spelling-error {}
@@ -1090,7 +1090,7 @@ error: Ident
 28 | ::target-text {}
    |   ^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:28:15
    |
 28 | ::target-text {}
@@ -1180,7 +1180,7 @@ error: Ident
 30 | .form-range::-webkit-slider-thumb:active {}
    |                                   ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:42
    |
 30 | .form-range::-webkit-slider-thumb:active {}
@@ -1258,7 +1258,7 @@ error: Ident
 32 | a::bEfOrE {}
    |    ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:11
    |
 32 | a::bEfOrE {}
@@ -1354,7 +1354,7 @@ error: Ident
 34 | a:hover::before {}
    |          ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:17
    |
 34 | a:hover::before {}
@@ -1450,7 +1450,7 @@ error: Ident
 35 | a:hover::-moz-placeholder {}
    |          ^^^^^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:27
    |
 35 | a:hover::-moz-placeholder {}
@@ -1594,7 +1594,7 @@ error: Ident
 36 | a, b > .foo::before {}
    |              ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:21
    |
 36 | a, b > .foo::before {}
@@ -1678,7 +1678,7 @@ error: Ident
 37 | *:hover.class {}
    |         ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:15
    |
 37 | *:hover.class {}

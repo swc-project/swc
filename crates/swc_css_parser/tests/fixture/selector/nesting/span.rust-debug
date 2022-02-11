@@ -70,7 +70,7 @@ error: Ident
 1 | & > .bar { color: red; }
   |      ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/nesting/input.css:1:10
   |
 1 | & > .bar { color: red; }

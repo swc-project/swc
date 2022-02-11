@@ -73,7 +73,7 @@ error: Ident
 1 | /* comment */a/* comment */
   |              ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/comment/input.css:2:1
   |
 2 | / {
@@ -177,7 +177,7 @@ error: Ident
 9 | div {
   | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/comment/input.css:9:5
    |
 9  |   div {
@@ -310,7 +310,7 @@ error: Ident
 18 | a {
    | ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/comment/input.css:18:3
    |
 18 |   a {

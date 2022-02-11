@@ -52,7 +52,7 @@ error: Ident
 1 | .selector { property: value\9; }
   |  ^^^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:11
   |
 1 | .selector { property: value\9; }

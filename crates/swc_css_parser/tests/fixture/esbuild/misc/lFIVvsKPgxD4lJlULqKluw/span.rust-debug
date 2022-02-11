@@ -58,7 +58,7 @@ error: Ident
 1 | [\61ttr] {}
   |  ^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/lFIVvsKPgxD4lJlULqKluw/input.css:1:10
   |
 1 | [\61ttr] {}

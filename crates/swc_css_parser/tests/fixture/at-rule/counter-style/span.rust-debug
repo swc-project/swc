@@ -194,7 +194,7 @@ error: Ident
 7 | ul {
   | ^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/at-rule/counter-style/input.css:7:4
   |
 7 |   ul {
