@@ -1,3 +1,10 @@
+//! Some analysis of AST is inherently sequential, and those analysis are done
+//! by this module.
+//!
+//! Currently, this module performs
+//!
+//!  - Infection analysis
+
 use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
