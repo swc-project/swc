@@ -3,6 +3,11 @@ pub use swc_common::{
     chain,
     plugin::{PluginError, Serialized},
 };
+
+pub mod util {
+    pub use swc_common::util::take;
+}
+
 pub mod ast {
     pub use swc_atoms::*;
     pub use swc_ecma_ast::*;
