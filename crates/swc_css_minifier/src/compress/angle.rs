@@ -68,5 +68,5 @@ fn normalize_deg(mut value: f64) -> f64 {
         return value - 360.0;
     }
 
-    return value;
+    value
 }
