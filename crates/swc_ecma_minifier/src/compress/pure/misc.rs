@@ -2,6 +2,7 @@ use std::num::FpCategory;
 
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::ident::IdentLike;
 
 use super::Pure;
 use crate::{compress::util::is_pure_undefined, mode::Mode};
@@ -229,6 +230,18 @@ where
                     if arg.is_invalid() {
                         *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                         return;
+                    }
+                }
+
+                Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) => {
+                    // Convert `a = a` to `a`.
+                    if let Some(l) = assign.left.as_ident() {
+                        if let Expr::Ident(r) = &*assign.right {
+                            if l.to_id() == r.to_id() {
+                                self.changed = true;
+                                *e = *assign.right.take();
+                            }
+                        }
                     }
                 }
 
