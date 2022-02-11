@@ -72,6 +72,10 @@ impl Visit for AliasCollector {
                 | op!("<<")
                 | op!(">>")
                 | op!(">>>")
+                | op!("==")
+                | op!("===")
+                | op!("!=")
+                | op!("!==")
         ) {
             return;
         }
