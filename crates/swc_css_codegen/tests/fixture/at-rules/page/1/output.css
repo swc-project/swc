@@ -9,34 +9,38 @@ margin: 1cm;
 @page {
 margin: 1cm;
 }
-@page :first{
+@page :first {
 margin: 2cm;
 }
-@page :first{
+@page :first {
 margin: 2cm;
 }
-@page :first{
+@page :first {
 margin: 2cm;
 }
-@page :first{
+@page :first {
 color: green;
 @top-left {
 content: "foo";
 color: blue;
-}@top-right {
+}
+@top-right {
 content: "bar";
-}}
-@page :first{
+}
+}
+@page :first {
 color: green;
 @top-left {
 content: "foo";
 color: blue;
-}@top-right {
-content: "bar";
-}margin: 20px;
 }
-@page :right{}
-@page CompanyLetterHead:first{}
-@page :blank:first{}
-@page :first{}
-@page toc, index{}
+@top-right {
+content: "bar";
+}
+margin: 20px;
+}
+@page :right {}
+@page CompanyLetterHead:first {}
+@page :blank:first {}
+@page :first {}
+@page toc, index {}

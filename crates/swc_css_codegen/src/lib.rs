@@ -589,10 +589,9 @@ where
             }
 
             emit!(self, prelude);
-        } else {
-            formatting_space!(self);
         }
 
+        formatting_space!(self);
         emit!(self, n.block);
     }
 
@@ -908,7 +907,9 @@ where
                     }
                 }
                 ComponentValue::DeclarationBlockItem(i) => match i {
-                    DeclarationBlockItem::AtRule(_) => {}
+                    DeclarationBlockItem::AtRule(_) => {
+                        formatting_newline!(self);
+                    }
                     DeclarationBlockItem::Declaration(_) => {
                         if idx != len - 1 {
                             semi!(self);
