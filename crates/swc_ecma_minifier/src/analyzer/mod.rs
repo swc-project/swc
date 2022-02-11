@@ -21,6 +21,7 @@ use crate::{
 };
 
 mod ctx;
+mod sequential;
 pub(crate) mod storage;
 #[cfg(test)]
 mod tests;

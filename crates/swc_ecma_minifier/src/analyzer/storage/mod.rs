@@ -62,7 +62,5 @@ pub(crate) trait VarDataLike: Sized + Send + Sync {
     fn mark_mutated(&mut self);
     fn mark_reassigned_with_assign(&mut self);
 
-    fn add_infects(&mut self, other: Id);
-
     fn prevent_inline(&mut self);
 }
