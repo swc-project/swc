@@ -113,9 +113,6 @@ pub(crate) struct VarUsageInfo {
     pub used_as_callee: bool,
 
     pub used_as_arg: bool,
-
-    /// In `c = b`, `b` infects `c`.
-    infects: Vec<Id>,
 }
 
 impl VarUsageInfo {
@@ -897,20 +894,6 @@ where
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
-
-        for decl in &n.decls {
-            if let (Pat::Ident(var), Some(init)) = (&decl.name, decl.init.as_deref()) {
-                let used_idents = idents_used_by(init);
-
-                for id in used_idents {
-                    self.data
-                        .var_or_default(id.clone())
-                        .add_infects(var.to_id());
-
-                    self.data.var_or_default(var.to_id()).add_infects(id);
-                }
-            }
-        }
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]

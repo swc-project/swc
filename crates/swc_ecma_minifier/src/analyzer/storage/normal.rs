@@ -65,8 +65,6 @@ impl Storage for ProgramData {
 
                     e.get_mut().declared_as_catch_param |= var_info.declared_as_catch_param;
 
-                    e.get_mut().infects.extend(var_info.infects);
-
                     e.get_mut().no_side_effect_for_member_access =
                         e.get_mut().no_side_effect_for_member_access
                             && var_info.no_side_effect_for_member_access;
