@@ -2752,7 +2752,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.78.0"
+version = "0.78.1"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -2814,7 +2814,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.76.0"
+version = "0.76.1"
 dependencies = [
  "bitflags",
  "lexical",
