@@ -726,6 +726,6 @@ define!({
     pub struct PropertyRule {
         pub span: Span,
         pub name: DashedIdent,
-        pub block: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 });
