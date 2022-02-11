@@ -1,3 +1,6 @@
+use std::iter;
+
+use rayon::prelude::*;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -187,6 +190,26 @@ where
         self.data.merge(kind, child.data);
 
         ret
+    }
+
+    fn visit_par<T>(&mut self, contexts: Vec<Ctx>, nodes: &[T], threshold: usize)
+    where
+        T: Send + Sync + VisitWith<UsageAnalyzer<S>>,
+    {
+        debug_assert_eq!(contexts.len(), nodes.len());
+
+        if nodes.len() < threshold {
+            nodes
+                .iter()
+                .zip(contexts)
+                .for_each(|(node, ctx)| node.visit_with(&mut *self.with_ctx(ctx)));
+            return;
+        }
+
+        nodes.par_iter().zip(contexts).for_each(|(node, ctx)| {
+            //
+            node.visit_with(&mut *self.with_ctx(ctx))
+        });
     }
 
     fn visit_pat_id(&mut self, i: &Ident) {
@@ -776,16 +799,22 @@ where
     fn visit_stmts(&mut self, stmts: &[Stmt]) {
         let mut had_cond = false;
 
-        for stmt in stmts {
-            let ctx = Ctx {
-                in_cond: self.ctx.in_cond || had_cond,
-                ..self.ctx
-            };
+        let cond_end_idx = stmts.iter().position(can_end_conditionally);
 
-            stmt.visit_with(&mut *self.with_ctx(ctx));
+        let contexts = if let Some(idx) = cond_end_idx {
+            iter::repeat(self.ctx)
+                .take(idx)
+                .chain(iter::repeat(Ctx {
+                    in_cond: self.ctx.in_cond || had_cond,
+                    ..self.ctx
+                }))
+                .take(stmts.len() - idx)
+                .collect::<Vec<_>>()
+        } else {
+            iter::repeat(self.ctx).take(stmts.len()).collect()
+        };
 
-            had_cond |= can_end_conditionally(stmt);
-        }
+        self.visit_par(contexts, stmts, 8)
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
