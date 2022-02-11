@@ -25,6 +25,9 @@ pub(crate) mod storage;
 #[cfg(test)]
 mod tests;
 
+// TODO
+const DISABLE_PARALLEL_ANALYSIS: bool = true;
+
 pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>) -> ProgramData
 where
     N: VisitWith<UsageAnalyzer>,
@@ -214,7 +217,7 @@ where
     {
         debug_assert_eq!(contexts.len(), nodes.len());
 
-        if nodes.len() < threshold {
+        if nodes.len() < threshold || DISABLE_PARALLEL_ANALYSIS {
             nodes
                 .iter()
                 .zip(contexts)
