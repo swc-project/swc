@@ -1,5 +1,5 @@
-//! Some analysis of AST is inherently sequential, and those analysis are done
-//! by this module.
+//! Some analysis of AST cannot be easily done in parallel with other analysis,
+//! and those analysis are done by this module.
 //!
 //! Currently, this module performs
 //!
