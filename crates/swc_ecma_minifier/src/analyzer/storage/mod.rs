@@ -5,7 +5,7 @@ use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::Id;
 
-use super::{ctx::Ctx, sequential::BaseData, ScopeKind};
+use super::{base::BaseData, ctx::Ctx, ScopeKind};
 
 pub mod normal;
 

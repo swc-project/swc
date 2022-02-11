@@ -11,16 +11,16 @@ use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
-pub(crate) use self::sequential::BaseAnalyzer;
+pub(crate) use self::base::BaseAnalyzer;
 use self::{
+    base::BaseData,
     ctx::Ctx,
-    sequential::BaseData,
     storage::{Storage, *},
 };
 use crate::{marks::Marks, util::can_end_conditionally};
 
+mod base;
 mod ctx;
-mod sequential;
 pub(crate) mod storage;
 #[cfg(test)]
 mod tests;

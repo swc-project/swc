@@ -5,9 +5,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 
 use super::{ScopeDataLike, Storage, VarDataLike};
-use crate::analyzer::{
-    ctx::Ctx, sequential::BaseData, ProgramData, ScopeData, ScopeKind, VarUsageInfo,
-};
+use crate::analyzer::{base::BaseData, ctx::Ctx, ProgramData, ScopeData, ScopeKind, VarUsageInfo};
 
 impl Storage for ProgramData {
     type ScopeData = ScopeData;
