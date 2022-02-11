@@ -141,7 +141,9 @@ transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--
 .transform-none {transform: none}
 .animate-none {animation: none}
 @keyframes spin {
-to {transform: rotate(360deg)}
+to {
+transform: rotate(360deg);
+}
 }
 .animate-spin {animation: spin 1s linear infinite}
 .cursor-pointer {cursor: pointer}

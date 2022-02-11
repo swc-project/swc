@@ -1,11 +1,19 @@
 @layer framework, override, foo, bar.baz;
 @layer override{@keyframes slide-left {
-from {translate: 0}
-to {translate: -100% 0}
+from {
+translate: 0;
+}
+to {
+translate: -100% 0;
+}
 }}
 @layer framework{@keyframes slide-left {
-from {margin-left: 0}
-to {margin-left: -100%}
+from {
+margin-left: 0;
+}
+to {
+margin-left: -100%;
+}
 }}
 .sidebar {animation: slide-left 300ms}
 @layer {}

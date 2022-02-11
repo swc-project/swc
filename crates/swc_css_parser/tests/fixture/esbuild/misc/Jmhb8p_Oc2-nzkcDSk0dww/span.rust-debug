@@ -46,7 +46,7 @@ error: Ident
 1 | @keyframes name { from { color: red } }
   |                   ^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:24
   |
 1 | @keyframes name { from { color: red } }

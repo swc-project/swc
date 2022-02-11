@@ -53,3 +53,11 @@ macro_rules! semi {
         punct!($g, ";");
     }};
 }
+
+macro_rules! formatting_semi {
+    ($g:expr) => {{
+        if !$g.config.minify {
+            punct!($g, ";");
+        }
+    }};
+}

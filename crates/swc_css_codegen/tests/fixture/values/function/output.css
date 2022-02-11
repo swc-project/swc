@@ -7,8 +7,10 @@ padding: env(safe-area-inset-top, 20px) env(safe-area-inset-right, 20px) env(saf
 li::after {content: "[" counter(listCounter) "] == [" counter(listCounter, upper-roman) "]"}
 li::before {content: counters(listCounter, ".") " == " counters(listCounter, ".", lower-roman)}
 div {grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr}
-@font-face {font-family: examplefont;
-src: local(Example Font), url('examplefont.woff') format("woff"), url('examplefont.otf') format("opentype")}
+@font-face {
+font-family: examplefont;
+src: local(Example Font), url('examplefont.woff') format("woff"), url('examplefont.otf') format("opentype");
+}
 .three {background-color: var(--my-var, var(--my-background, pink))}
 img, input[type="image"], video, embed, iframe, marquee, object, table {aspect-ratio: attr(width) / attr(height)}
 div {prop: func(foo), func(foo)}

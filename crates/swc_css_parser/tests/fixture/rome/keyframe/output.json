@@ -43,12 +43,13 @@
             }
           ],
           "block": {
-            "type": "Block",
+            "type": "SimpleBlock",
             "span": {
               "start": 33,
               "end": 77,
               "ctxt": 0
             },
+            "name": "{",
             "value": [
               {
                 "type": "Declaration",
@@ -138,12 +139,13 @@
             }
           ],
           "block": {
-            "type": "Block",
+            "type": "SimpleBlock",
             "span": {
               "start": 85,
               "end": 130,
               "ctxt": 0
             },
+            "name": "{",
             "value": [
               {
                 "type": "Declaration",
@@ -253,12 +255,13 @@
             }
           ],
           "block": {
-            "type": "Block",
+            "type": "SimpleBlock",
             "span": {
               "start": 160,
               "end": 167,
               "ctxt": 0
             },
+            "name": "{",
             "value": []
           }
         },
@@ -281,12 +284,13 @@
             }
           ],
           "block": {
-            "type": "Block",
+            "type": "SimpleBlock",
             "span": {
               "start": 175,
               "end": 182,
               "ctxt": 0
             },
+            "name": "{",
             "value": []
           }
         },
@@ -317,12 +321,13 @@
             }
           ],
           "block": {
-            "type": "Block",
+            "type": "SimpleBlock",
             "span": {
               "start": 191,
               "end": 198,
               "ctxt": 0
             },
+            "name": "{",
             "value": []
           }
         },
@@ -353,12 +358,13 @@
             }
           ],
           "block": {
-            "type": "Block",
+            "type": "SimpleBlock",
             "span": {
               "start": 206,
               "end": 213,
               "ctxt": 0
             },
+            "name": "{",
             "value": []
           }
         },
@@ -389,12 +395,13 @@
             }
           ],
           "block": {
-            "type": "Block",
+            "type": "SimpleBlock",
             "span": {
               "start": 223,
               "end": 230,
               "ctxt": 0
             },
+            "name": "{",
             "value": []
           }
         }

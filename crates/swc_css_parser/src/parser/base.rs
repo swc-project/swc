@@ -4,7 +4,7 @@ use swc_css_ast::*;
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
-    parser::{Ctx, RuleContext},
+    parser::{Ctx, Grammar, RuleContext},
     Parse,
 };
 
@@ -220,28 +220,41 @@ where
                 // Reconsume the current input token. Consume a component value and append it to the
                 // value of the block.
                 _ => {
-                    let state = self.input.state();
-                    let ctx = Ctx {
-                        // TODO refactor me
-                        allow_operation_in_value: name == '(',
-                        ..self.ctx
-                    };
-                    let parsed = self.with_ctx(ctx).parse_one_value_inner();
-                    let value = match parsed {
-                        Ok(value) => {
-                            self.input.skip_ws()?;
+                    match self.ctx.grammar {
+                        Grammar::DeclarationList => {
+                            let declaration_list: Vec<DeclarationBlockItem> = self.parse()?;
+                            let declaration_list: Vec<ComponentValue> = declaration_list
+                                .into_iter()
+                                .map(ComponentValue::DeclarationBlockItem)
+                                .collect();
 
-                            value
+                            simple_block.value.extend(declaration_list);
                         }
-                        Err(err) => {
-                            self.errors.push(err);
-                            self.input.reset(&state);
+                        Grammar::DeclarationValue => {
+                            let state = self.input.state();
+                            let ctx = Ctx {
+                                // TODO refactor me
+                                allow_operation_in_value: name == '(',
+                                ..self.ctx
+                            };
+                            let parsed = self.with_ctx(ctx).parse_one_value_inner();
+                            let value = match parsed {
+                                Ok(value) => {
+                                    self.input.skip_ws()?;
 
-                            self.parse_component_value()?
+                                    value
+                                }
+                                Err(err) => {
+                                    self.errors.push(err);
+                                    self.input.reset(&state);
+
+                                    self.parse_component_value()?
+                                }
+                            };
+
+                            simple_block.value.push(ComponentValue::Value(value));
                         }
-                    };
-
-                    simple_block.value.push(value);
+                    }
                 }
             }
         }

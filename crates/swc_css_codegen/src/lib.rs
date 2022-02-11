@@ -611,9 +611,7 @@ where
                 }
             }
 
-            if !self.config.minify {
-                formatting_newline!(self);
-            }
+            formatting_newline!(self);
         }
 
         punct!(self, "}");
@@ -941,15 +939,49 @@ where
         };
 
         self.wr.write_raw_char(None, n.name)?;
-        self.emit_list(
-            &n.value,
-            if ending == ']' {
-                ListFormat::SpaceDelimited
-            } else {
-                ListFormat::NotDelimited
-            },
-        )?;
+
+        let len = n.value.len();
+
+        for (idx, node) in n.value.iter().enumerate() {
+            if idx == 0 {
+                if let ComponentValue::DeclarationBlockItem(_) = node {
+                    formatting_newline!(self);
+                }
+            }
+
+            emit!(self, node);
+
+            match node {
+                ComponentValue::Value(_) => {
+                    if ending == ']' && idx != len - 1 {
+                        space!(self);
+                    }
+                }
+                ComponentValue::DeclarationBlockItem(i) => match i {
+                    DeclarationBlockItem::AtRule(_) => {}
+                    DeclarationBlockItem::Declaration(_) => {
+                        if idx != len - 1 {
+                            semi!(self);
+                        } else {
+                            formatting_semi!(self);
+                        }
+
+                        formatting_newline!(self);
+                    }
+                    DeclarationBlockItem::Invalid(_) => {}
+                },
+            }
+        }
+
         self.wr.write_raw_char(None, ending)?;
+    }
+
+    #[emitter]
+    fn emit_component_value(&mut self, n: &ComponentValue) -> Result {
+        match n {
+            ComponentValue::Value(n) => emit!(self, n),
+            ComponentValue::DeclarationBlockItem(n) => emit!(self, n),
+        }
     }
 
     #[emitter]

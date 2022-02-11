@@ -195,12 +195,20 @@ table td, table th {vertical-align: top}
 table td:not([align]), table th:not([align]) {text-align: inherit}
 table th {color: #363636}
 @keyframes spinAround {
-from {transform: rotate(0deg)}
-to {transform: rotate(359deg)}
+from {
+transform: rotate(0deg);
+}
+to {
+transform: rotate(359deg);
+}
 }
 @keyframes spinAround {
-from {transform: rotate(0deg)}
-to {transform: rotate(359deg)}
+from {
+transform: rotate(0deg);
+}
+to {
+transform: rotate(359deg);
+}
 }
 .box {background-color: white;
 border-radius: 6px;
@@ -1067,12 +1075,20 @@ background-size: 150% 150%}
 .progress.is-medium {height: 1.25rem}
 .progress.is-large {height: 1.5rem}
 @keyframes moveIndeterminate {
-from {background-position: 200% 0}
-to {background-position: -200% 0}
+from {
+background-position: 200% 0;
+}
+to {
+background-position: -200% 0;
+}
 }
 @keyframes moveIndeterminate {
-from {background-position: 200% 0}
-to {background-position: -200% 0}
+from {
+background-position: 200% 0;
+}
+to {
+background-position: -200% 0;
+}
 }
 .table {background-color: white;
 color: #363636}
