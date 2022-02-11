@@ -38,7 +38,7 @@ impl Visit for BaseAnalyzer<'_> {
                     }
                     {
                         let v = self.data.infects.entry(var.id.to_id()).or_default();
-                        if v.contains(&id) {
+                        if !v.contains(&id) {
                             v.push(id);
                         }
                     }
