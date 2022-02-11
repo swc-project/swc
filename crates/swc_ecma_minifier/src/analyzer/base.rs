@@ -84,6 +84,12 @@ impl Visit for AliasCollector<'_> {
 
     visit_obj_and_computed!();
 
+    fn visit_assign_pat_prop(&mut self, n: &AssignPatProp) {
+        n.visit_children_with(self);
+
+        self.add(n.key.to_id());
+    }
+
     fn visit_bin_expr(&mut self, n: &BinExpr) {
         if matches!(
             n.op,
@@ -107,6 +113,14 @@ impl Visit for AliasCollector<'_> {
         n.visit_children_with(self);
     }
 
+    fn visit_callee(&mut self, n: &Callee) {
+        if let Some(..) = n.as_expr().and_then(|e| e.as_ident()) {
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
     fn visit_expr(&mut self, n: &Expr) {
         match n {
             Expr::Ident(i) => {
@@ -116,10 +130,13 @@ impl Visit for AliasCollector<'_> {
         }
     }
 
-    fn visit_assign_pat_prop(&mut self, n: &AssignPatProp) {
-        n.visit_children_with(self);
+    fn visit_new_expr(&mut self, n: &NewExpr) {
+        if let Expr::Ident(..) = &*n.callee {
+        } else {
+            n.callee.visit_with(self);
+        }
 
-        self.add(n.key.to_id());
+        n.args.visit_with(self);
     }
 
     fn visit_pat(&mut self, n: &Pat) {
