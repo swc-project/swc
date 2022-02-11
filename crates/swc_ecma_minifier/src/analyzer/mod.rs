@@ -125,6 +125,13 @@ pub(crate) struct VarUsageInfo {
     pub used_as_callee: bool,
 
     pub used_as_arg: bool,
+
+    // TODO: Remove
+    //
+    // This field exists only to make https://github.com/swc-project/swc/pull/3525 reviewable.
+    #[allow(unused)]
+    #[cfg(test)]
+    infects: Vec<()>,
 }
 
 impl VarUsageInfo {
