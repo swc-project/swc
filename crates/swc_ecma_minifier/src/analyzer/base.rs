@@ -5,6 +5,7 @@
 //!
 //!  - Infection analysis
 
+use swc_atoms::js_word;
 use swc_common::collections::{AHashMap, AHashSet};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{collect_decls, ident::IdentLike};
@@ -67,7 +68,7 @@ struct AliasCollector<'a> {
 
 impl AliasCollector<'_> {
     fn add(&mut self, id: Id) {
-        if id.sym == js_word!("arguments") {
+        if id.0 == js_word!("arguments") {
             return;
         }
 
