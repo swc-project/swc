@@ -13,6 +13,12 @@ class X {
             this.alert();
         }
     }
+
+    m1() {
+        class Y {}
+
+        this.alert();
+    }
 }
 
 var o = {
@@ -24,6 +30,14 @@ var o = {
     },
     c: () => {
         // should fail
+        this.alert();
+    },
+    e: {
+        a() {
+            this.alert();
+        }
+    },
+    f() {
         this.alert();
     }
 }

@@ -40,9 +40,9 @@ struct NoAlert {
     top_level_declared_vars: AHashSet<Id>,
     pass_call_on_global_this: bool,
     inside_callee: bool,
-    inside_class: bool,
-    inside_object: bool,
-    inside_arrow_fn: bool,
+    classes_depth: usize,
+    objects_depth: usize,
+    arrow_fns_depth: usize,
     obj: Option<JsWord>,
     prop: Option<JsWord>,
 }
@@ -60,9 +60,9 @@ impl NoAlert {
             top_level_declared_vars,
             pass_call_on_global_this: es_version < EsVersion::Es2020,
             inside_callee: false,
-            inside_class: false,
-            inside_object: false,
-            inside_arrow_fn: false,
+            classes_depth: 0,
+            objects_depth: 0,
+            arrow_fns_depth: 0,
             obj: None,
             prop: None,
         }
@@ -80,6 +80,18 @@ impl NoAlert {
             }
             _ => {}
         });
+    }
+
+    fn is_inside_class(&self) -> bool {
+        self.classes_depth > 0
+    }
+
+    fn is_inside_object(&self) -> bool {
+        self.objects_depth > 0
+    }
+
+    fn is_inside_arrow_fn(&self) -> bool {
+        self.arrow_fns_depth > 0
     }
 
     fn check(&self, call_span: Span, obj: &Option<JsWord>, prop: &JsWord) {
@@ -151,11 +163,14 @@ impl NoAlert {
                         self.handle_member_prop(prop);
                     }
                     Expr::This(_) => {
-                        if self.inside_arrow_fn && self.inside_class {
+                        let inside_arrow_fn = self.is_inside_arrow_fn();
+                        let inside_class = self.is_inside_class();
+
+                        if inside_arrow_fn && inside_class {
                             return;
                         }
 
-                        if !self.inside_arrow_fn && (self.inside_class || self.inside_object) {
+                        if !inside_arrow_fn && (inside_class || self.is_inside_object()) {
                             return;
                         }
 
@@ -208,26 +223,26 @@ impl Visit for NoAlert {
     }
 
     fn visit_class(&mut self, class: &Class) {
-        self.inside_class = true;
+        self.classes_depth += 1;
 
         class.visit_children_with(self);
 
-        self.inside_class = false;
+        self.classes_depth -= 1;
     }
 
     fn visit_object_lit(&mut self, lit_obj: &ObjectLit) {
-        self.inside_object = true;
+        self.objects_depth += 1;
 
         lit_obj.visit_children_with(self);
 
-        self.inside_object = false;
+        self.objects_depth -= 1;
     }
 
     fn visit_arrow_expr(&mut self, arrow_fn: &ArrowExpr) {
-        self.inside_arrow_fn = true;
+        self.arrow_fns_depth += 1;
 
         arrow_fn.visit_children_with(self);
 
-        self.inside_arrow_fn = false;
+        self.arrow_fns_depth -= 1;
     }
 }
