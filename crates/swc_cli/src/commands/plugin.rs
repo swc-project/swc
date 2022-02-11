@@ -182,7 +182,7 @@ target = "{}""#,
         create_dir_all(&src_path)?;
         paths::write(
             &src_path.join("lib.rs"),
-            r#"use swc_plugin::{ast::*, plugin_module};
+            r#"use swc_plugin::{ast::*, plugin_transform};
 
 pub struct TransformVisitor;
 
@@ -191,7 +191,7 @@ impl VisitMut for TransformVisitor {
 }
 
 /// An entrypoint to the SWC's transform plugin.
-/// `plugin_module` macro handles necessary interop to communicate with the host,
+/// `plugin_transform` macro handles necessary interop to communicate with the host,
 /// and entrypoint function name (`process_transform`) can be anything else.
 ///
 /// If plugin need to handle low-level ptr directly,
@@ -208,7 +208,7 @@ impl VisitMut for TransformVisitor {
 ///
 /// However, this means plugin author need to handle all of serialization/deserialization
 /// steps with communicating with host. Refer `swc_plugin_macro` for more details.
-#[plugin_module]
+#[plugin_transform]
 pub fn process_transform(program: Program, _plugin_config: String) -> Program {
     program.fold_with(&mut as_folder(TransformVisitor))
 }
