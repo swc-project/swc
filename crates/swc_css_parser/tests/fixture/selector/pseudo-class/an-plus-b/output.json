@@ -7262,12 +7262,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1741,
           "end": 1743,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -7352,12 +7353,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1759,
           "end": 1761,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -7440,12 +7442,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1781,
           "end": 1783,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -7530,12 +7533,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1804,
           "end": 1806,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     }

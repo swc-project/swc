@@ -5284,7 +5284,7 @@ error: Ident
 86 | :nth-col(odd) {}
    |          ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:86:15
    |
 86 | :nth-col(odd) {}
@@ -5350,7 +5350,7 @@ error: AnPlusB
 87 | :nth-col(2n+1) {}
    |          ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:87:16
    |
 87 | :nth-col(2n+1) {}
@@ -5416,7 +5416,7 @@ error: Ident
 88 | :nth-last-col(odd) {}
    |               ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:88:20
    |
 88 | :nth-last-col(odd) {}
@@ -5482,7 +5482,7 @@ error: AnPlusB
 89 | :nth-last-col(2n+1) {}
    |               ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:89:21
    |
 89 | :nth-last-col(2n+1) {}
