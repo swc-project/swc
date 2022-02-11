@@ -48,7 +48,7 @@ function set(target, property, value, receiver) {
         if (desc = Object.getOwnPropertyDescriptor(receiver, property)) {
             if (!desc.writable) return !1;
             desc.value = value, Object.defineProperty(receiver, property, desc);
-        } else obj = receiver, value = value, (key = property) in obj ? Object.defineProperty(obj, key, {
+        } else obj = receiver, (key = property) in obj ? Object.defineProperty(obj, key, {
             value: value,
             enumerable: !0,
             configurable: !0,

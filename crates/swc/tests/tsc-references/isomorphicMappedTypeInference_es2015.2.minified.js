@@ -1,3 +1,6 @@
+function getProps(obj, list) {
+    return {};
+}
 applySpec({
     sum: (a)=>3
     ,
@@ -10,15 +13,7 @@ applySpec({
             baz: (x)=>!0
         }
     }
-});
-let o = {
-    a: 5,
-    b: 7
-};
-function getProps(obj, list) {
-    return {};
-}
-o = o, f20({
+}), f20({
     foo: 42,
     bar: "hello"
 }), f21({

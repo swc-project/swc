@@ -25,4 +25,4 @@ var i, Foo = function() {
         }
     ], _defineProperties((Constructor = Foo).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Foo;
 }();
-i.x, i.y(), i.Z, i = i;
+i.x, i.y(), i.Z;
