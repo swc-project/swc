@@ -6,4 +6,4 @@ export UPDATE=1
 
 cargo test -p swc_ecma_minifier -p swc
 
-find ../swc/tests/ -type f -empty -delete
+# find ../swc/tests/ -type f -empty -delete

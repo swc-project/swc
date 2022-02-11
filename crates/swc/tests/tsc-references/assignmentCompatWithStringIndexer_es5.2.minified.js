@@ -44,12 +44,12 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var b, b2, Generics, A = function() {
+var Generics, A = function() {
     "use strict";
     _classCallCheck(this, A);
 };
-b = b, b2 = b2, (function(Generics) {
-    var b1, b21, A1 = function() {
+!function(Generics) {
+    var A1 = function() {
         "use strict";
         _classCallCheck(this, A1);
     }, B = function(A2) {
@@ -60,9 +60,7 @@ b = b, b2 = b2, (function(Generics) {
             return _classCallCheck(this, B), _super.apply(this, arguments);
         }
         return B;
-    }(A1);
-    b1 = b1;
-    var B2 = function(A3) {
+    }(A1), B2 = function(A3) {
         "use strict";
         _inherits(B2, A3);
         var _super = _createSuper(B2);
@@ -71,5 +69,4 @@ b = b, b2 = b2, (function(Generics) {
         }
         return B2;
     }(A1);
-    b21 = b21;
-})(Generics || (Generics = {}));
+}(Generics || (Generics = {}));
