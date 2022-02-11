@@ -70,7 +70,7 @@ error: Ident
 1 | :root {
   |  ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/value/custom-property/input.css:1:7
    |
 1  |   :root {
@@ -3022,7 +3022,7 @@ error: Ident
 59 | :root{--a:1}
    |  ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/value/custom-property/input.css:59:6
    |
 59 | :root{--a:1}
@@ -3106,7 +3106,7 @@ error: Ident
 60 | :root {--foo: }
    |  ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/value/custom-property/input.css:60:7
    |
 60 | :root {--foo: }
@@ -3182,7 +3182,7 @@ error: Ident
 61 | :root {
    |  ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/value/custom-property/input.css:61:7
    |
 61 |   :root {
@@ -3262,7 +3262,7 @@ error: Ident
 65 | :root {
    |  ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/value/custom-property/input.css:65:7
    |
 65 |   :root {

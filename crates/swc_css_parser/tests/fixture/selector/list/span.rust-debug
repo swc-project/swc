@@ -100,7 +100,7 @@ error: Ident
 1 | div, p {}
   |      ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/list/input.css:1:8
   |
 1 | div, p {}
@@ -196,7 +196,7 @@ error: Ident
 2 | div , p {}
   |       ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/list/input.css:2:9
   |
 2 | div , p {}
@@ -292,7 +292,7 @@ error: Ident
 3 | div   ,   p   {}
   |           ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/list/input.css:3:15
   |
 3 | div   ,   p   {}
@@ -430,7 +430,7 @@ error: Str
 4 | a, a[href='place'] {}
   |           ^^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/list/input.css:4:20
   |
 4 | a, a[href='place'] {}
@@ -604,7 +604,7 @@ error: Ident
 5 | a #foo > [foo='bar'], .FOO {}
   |                        ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/list/input.css:5:28
   |
 5 | a #foo > [foo='bar'], .FOO {}
@@ -736,7 +736,7 @@ error: Ident
 6 | div, p, a {}
   |         ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/list/input.css:6:11
   |
 6 | div, p, a {}
@@ -868,7 +868,7 @@ error: Ident
 7 | div,p,a{}
   |       ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/list/input.css:7:8
   |
 7 | div,p,a{}
@@ -1000,7 +1000,7 @@ error: Ident
 8 | div   ,   p   ,   a   {}
   |                   ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/list/input.css:8:23
   |
 8 | div   ,   p   ,   a   {}
@@ -1146,7 +1146,7 @@ error: Ident
 13 | a 
    | ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/list/input.css:14:1
    |
 14 | {}
@@ -1272,7 +1272,7 @@ error: Ident
 15 | .foo, .bar, *.baz {}
    |               ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/list/input.css:15:19
    |
 15 | .foo, .bar, *.baz {}
@@ -1404,7 +1404,7 @@ error: Ident
 16 | input::-moz-placeholder, input::placeholder {}
    |                                 ^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/list/input.css:16:45
    |
 16 | input::-moz-placeholder, input::placeholder {}
@@ -1680,7 +1680,7 @@ error: Ident
 17 | a,b,c,d,e,f,g {}
    |             ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/list/input.css:17:15
    |
 17 | a,b,c,d,e,f,g {}
@@ -1956,7 +1956,7 @@ error: Ident
 18 | a, b, c, d, e, f, g {}
    |                   ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/list/input.css:18:21
    |
 18 | a, b, c, d, e, f, g {}
@@ -2028,7 +2028,7 @@ error: UniversalSelector
 19 | *, * {}
    |    ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/list/input.css:19:6
    |
 19 | *, * {}
@@ -2112,7 +2112,7 @@ error: Ident
 20 | #id, #id2 {}
    |      ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/list/input.css:20:11
    |
 20 | #id, #id2 {}
@@ -2208,7 +2208,7 @@ error: Ident
 21 | h1, h2 {}
    |     ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/list/input.css:21:8
    |
 21 | h1, h2 {}
@@ -2292,7 +2292,7 @@ error: Ident
 22 | .class, .foo {}
    |          ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/list/input.css:22:14
    |
 22 | .class, .foo {}
@@ -2388,7 +2388,7 @@ error: Ident
 23 | [attr], [attrtoo] {}
    |          ^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/list/input.css:23:19
    |
 23 | [attr], [attrtoo] {}
@@ -2484,7 +2484,7 @@ error: Ident
 24 | a/* { } */ b {}
    |            ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/list/input.css:24:14
    |
 24 | a/* { } */ b {}

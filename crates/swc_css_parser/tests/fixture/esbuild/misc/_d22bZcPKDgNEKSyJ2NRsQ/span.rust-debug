@@ -70,7 +70,7 @@ error: Ident { value: Atom('c' type=inline), raw: Atom('c' type=inline) }
 1 | *::b(c) {}
   |      ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/_d22bZcPKDgNEKSyJ2NRsQ/input.css:1:9
   |
 1 | *::b(c) {}

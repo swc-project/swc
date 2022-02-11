@@ -64,7 +64,7 @@ error: Ident
 1 | table {
   | ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/property/escaped/input.css:1:7
   |
 1 |   table {

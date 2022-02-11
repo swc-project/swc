@@ -64,7 +64,7 @@ error: Ident
 1 | [title] {}
   |  ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/attribute/input.css:1:9
   |
 1 | [title] {}
@@ -142,7 +142,7 @@ error: Ident
 2 | [title=foo] {}
   |        ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/attribute/input.css:2:13
   |
 2 | [title=foo] {}
@@ -220,7 +220,7 @@ error: Str
 3 | [title="foo"] {}
   |        ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/attribute/input.css:3:15
   |
 3 | [title="foo"] {}
@@ -298,7 +298,7 @@ error: Str
 4 | [ title = "foo" ] {}
   |           ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/attribute/input.css:4:19
   |
 4 | [ title = "foo" ] {}
@@ -376,7 +376,7 @@ error: Str
 5 | [   title   =   "foo"   ] {}
   |                 ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/attribute/input.css:5:27
   |
 5 | [   title   =   "foo"   ] {}
@@ -454,7 +454,7 @@ error: Str
 6 | [lang~="en-us"] {}
   |        ^^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/attribute/input.css:6:17
   |
 6 | [lang~="en-us"] {}
@@ -532,7 +532,7 @@ error: Str
 7 | [lang|="zh"] {}
   |        ^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/attribute/input.css:7:14
   |
 7 | [lang|="zh"] {}
@@ -610,7 +610,7 @@ error: Str
 8 | [href^="#"] {}
   |        ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/attribute/input.css:8:13
   |
 8 | [href^="#"] {}
@@ -688,7 +688,7 @@ error: Str
 9 | [href$=".org"] {}
   |        ^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/attribute/input.css:9:16
   |
 9 | [href$=".org"] {}
@@ -766,7 +766,7 @@ error: Str
 10 | [href*="example"] {}
    |        ^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:10:19
    |
 10 | [href*="example"] {}
@@ -856,7 +856,7 @@ error: Ident
 11 | [href*="insensitive" i] {}
    |                      ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:11:25
    |
 11 | [href*="insensitive" i] {}
@@ -946,7 +946,7 @@ error: Ident
 12 | [href*="insensitive" I] {}
    |                      ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:12:25
    |
 12 | [href*="insensitive" I] {}
@@ -1036,7 +1036,7 @@ error: Ident
 13 | [href*="cAsE" s] {}
    |               ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:13:18
    |
 13 | [href*="cAsE" s] {}
@@ -1126,7 +1126,7 @@ error: Ident
 14 | [href*="cAsE" S] {}
    |               ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:14:18
    |
 14 | [href*="cAsE" S] {}
@@ -1216,7 +1216,7 @@ error: Ident
 15 | [foo|att=val] {}
    |          ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:15:15
    |
 15 | [foo|att=val] {}
@@ -1288,7 +1288,7 @@ error: Ident
 16 | [*|att] {}
    |    ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:16:9
    |
 16 | [*|att] {}
@@ -1360,7 +1360,7 @@ error: Ident
 17 | [   *|att   ] {}
    |       ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:17:15
    |
 17 | [   *|att   ] {}
@@ -1426,7 +1426,7 @@ error: Ident
 18 | [|att] {}
    |   ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:18:8
    |
 18 | [|att] {}
@@ -1492,7 +1492,7 @@ error: Ident
 19 | [ |att ] {}
    |    ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:19:10
    |
 19 | [ |att ] {}
@@ -1558,7 +1558,7 @@ error: Ident
 20 | [   |att   ] {}
    |      ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:20:14
    |
 20 | [   |att   ] {}
@@ -1618,7 +1618,7 @@ error: Ident
 21 | [att] {}
    |  ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:21:7
    |
 21 | [att] {}
@@ -1678,7 +1678,7 @@ error: Ident
 22 | [ att ] {}
    |   ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:22:9
    |
 22 | [ att ] {}
@@ -1738,7 +1738,7 @@ error: Ident
 23 | [   att   ] {}
    |     ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:23:13
    |
 23 | [   att   ] {}
@@ -1840,7 +1840,7 @@ error: Str
 24 | a[ class = "test" ] {}
    |            ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:24:21
    |
 24 | a[ class = "test" ] {}
@@ -1942,7 +1942,7 @@ error: Str
 25 | a[   class   =   "test"   ] {}
    |                  ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:25:29
    |
 25 | a[   class   =   "test"   ] {}
@@ -2032,7 +2032,7 @@ error: Ident
 26 | [href*="insensitive"   i] {}
    |                        ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:26:27
    |
 26 | [href*="insensitive"   i] {}
@@ -2122,7 +2122,7 @@ error: Ident
 27 | [   href*="insensitive"   i   ] {}
    |                           ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:27:33
    |
 27 | [   href*="insensitive"   i   ] {}
@@ -2212,7 +2212,7 @@ error: Ident
 28 | [   href   *=   "insensitive"   i   ] {}
    |                                 ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:28:39
    |
 28 | [   href   *=   "insensitive"   i   ] {}
@@ -2272,7 +2272,7 @@ error: Ident
 29 | [   href   ] {}
    |     ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:29:14
    |
 29 | [   href   ] {}
@@ -2362,7 +2362,7 @@ error: Ident
 30 | [frame=hsides i] {}
    |               ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:30:18
    |
 30 | [frame=hsides i] {}
@@ -2458,7 +2458,7 @@ error: Ident
 31 | #id.class[target] {}
    |           ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:31:19
    |
 31 | #id.class[target] {}
@@ -2536,7 +2536,7 @@ error: Ident
 32 | #id[target] {}
    |     ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:32:13
    |
 32 | #id[target] {}
@@ -2614,7 +2614,7 @@ error: Ident
 33 | [target].class {}
    |          ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:33:16
    |
 33 | [target].class {}
@@ -2692,7 +2692,7 @@ error: Str
 34 | [title='foo'] {}
    |        ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:34:15
    |
 34 | [title='foo'] {}
@@ -2794,7 +2794,7 @@ error: Ident
 35 | [data-style='value'][data-loading] {}
    |                      ^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:35:36
    |
 35 | [data-style='value'][data-loading] {}
@@ -2896,7 +2896,7 @@ error: Str
 36 | a[href="te's't"] {}
    |        ^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:36:18
    |
 36 | a[href="te's't"] {}
@@ -2998,7 +2998,7 @@ error: Str
 37 | a[href='te"s"t'] {}
    |        ^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:37:18
    |
 37 | a[href='te"s"t'] {}
@@ -3058,7 +3058,7 @@ error: Ident
 38 | [ng\:cloak] {}
    |  ^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:38:13
    |
 38 | [ng\:cloak] {}
@@ -3118,7 +3118,7 @@ error: Ident
 39 | [ng\3a cloak] {}
    |  ^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:39:15
    |
 39 | [ng\3a cloak] {}
@@ -3178,7 +3178,7 @@ error: Ident
 40 | [ng\00003acloak] {}
    |  ^^^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:40:18
    |
 40 | [ng\00003acloak] {}
@@ -3262,7 +3262,7 @@ error: RBracket
 41 | :not([foo=")"]) {}
    |              ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:41:17
    |
 41 | :not([foo=")"]) {}
@@ -3322,7 +3322,7 @@ error: Ident { value: Atom('div' type=inline), raw: Atom('div' type=inline) }
 42 | :not(div/*)*/) { }
    |      ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:42:16
    |
 42 | :not(div/*)*/) { }
@@ -3400,7 +3400,7 @@ error: Ident
 43 | [foo=\"] {}
    |      ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:43:10
    |
 43 | [foo=\"] {}
@@ -3478,7 +3478,7 @@ error: Ident
 44 | [foo=\{] {}
    |      ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:44:10
    |
 44 | [foo=\{] {}
@@ -3556,7 +3556,7 @@ error: Ident
 45 | [foo=\(] {}
    |      ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:45:10
    |
 45 | [foo=\(] {}
@@ -3634,7 +3634,7 @@ error: Ident
 46 | [foo=yes\:\(it\'s\ work\)] {}
    |      ^^^^^^^^^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:46:28
    |
 46 | [foo=yes\:\(it\'s\ work\)] {}
@@ -3712,7 +3712,7 @@ error: Ident
 47 | [attr=\;] { }
    |       ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:47:11
    |
 47 | [attr=\;] { }

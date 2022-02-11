@@ -62,7 +62,7 @@ error: Ident
 1 | :root {
   |  ^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/function/calc/input.css:1:7
   |
 1 |   :root {
@@ -227,7 +227,7 @@ error: Ident
 5 | div {
   | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/function/calc/input.css:5:5
    |
 5  |   div {
@@ -1944,7 +1944,7 @@ error: Ident
 32 | .bar {
    |  ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/function/calc/input.css:32:6
    |
 32 |   .bar {
@@ -2801,7 +2801,7 @@ error: Ident
 41 | .fade {
    |  ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/function/calc/input.css:41:7
    |
 41 |   .fade {
@@ -3134,7 +3134,7 @@ error: Ident
 45 | div {
    | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/function/calc/input.css:45:5
    |
 45 |   div {
@@ -3198,7 +3198,7 @@ error: Ident
 49 | div { width: calc(100% / 4); }
    | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/function/calc/input.css:49:5
    |
 49 | div { width: calc(100% / 4); }
@@ -3336,7 +3336,7 @@ error: Ident
 50 | div { margin-top: calc(-120% - 4px); }
    | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/function/calc/input.css:50:5
    |
 50 | div { margin-top: calc(-120% - 4px); }

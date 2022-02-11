@@ -131,7 +131,11 @@ where
                 // Consume a simple block and assign it to the qualified rule’s block. Return the
                 // qualified rule.
                 tok!("{") => {
-                    let block = self.parse()?;
+                    let ctx = Ctx {
+                        grammar: Grammar::DeclarationList,
+                        ..self.ctx
+                    };
+                    let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
                     return Ok(QualifiedRule {
                         span: span!(self, span.lo),
@@ -262,27 +266,6 @@ where
         simple_block.span = span!(self, span.lo);
 
         Ok(simple_block)
-    }
-}
-
-impl<I> Parse<Block> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<Block> {
-        let start = self.input.cur_span()?.lo;
-
-        expect!(self, "{");
-
-        self.input.skip_ws()?;
-
-        let value = self.parse()?;
-
-        expect!(self, "}");
-
-        let span = span!(self, start);
-
-        Ok(Block { span, value })
     }
 }
 

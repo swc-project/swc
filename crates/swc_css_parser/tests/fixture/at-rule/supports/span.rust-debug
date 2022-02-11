@@ -152,7 +152,7 @@ error: Ident
 2 |     div {
   |     ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/at-rule/supports/input.css:2:9
   |
 2 |       div {
@@ -339,7 +339,7 @@ error: Ident
 8 |     body {
   |     ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/supports/input.css:8:10
    |
 8  |       body {
@@ -556,7 +556,7 @@ error: Ident
 13 |         article {
    |         ^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/supports/input.css:13:17
    |
 13 |           article {
