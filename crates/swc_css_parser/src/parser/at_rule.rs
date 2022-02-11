@@ -1808,11 +1808,13 @@ where
             }
         };
 
-        expect!(self, "{");
+        self.input.skip_ws()?;
 
-        let block = self.parse()?;
-
-        expect!(self, "}");
+        let ctx = Ctx {
+            grammar: Grammar::DeclarationList,
+            ..self.ctx
+        };
+        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
         Ok(ColorProfileRule {
             span: span!(self, span.lo),
