@@ -23,16 +23,18 @@ impl Visit for BaseAnalyzer<'_> {
                 let used_idents = idents_used_by(init);
 
                 for id in used_idents {
-                    self.data
-                        .infects
-                        .entry(id.clone())
-                        .or_default()
-                        .push(var.id.to_id());
-                    self.data
-                        .infects
-                        .entry(var.id.to_id())
-                        .or_default()
-                        .push(id);
+                    {
+                        let v = self.data.infects.entry(id.clone()).or_default();
+                        if !v.contains(&var.id.to_id()) {
+                            v.push(var.id.to_id());
+                        }
+                    }
+                    {
+                        let v = self.data.infects.entry(var.id.to_id()).or_default();
+                        if v.contains(&id) {
+                            v.push(id);
+                        }
+                    }
                 }
             }
         }
