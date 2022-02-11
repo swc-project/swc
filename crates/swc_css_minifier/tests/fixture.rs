@@ -9,29 +9,13 @@ use swc_css_minifier::minify;
 use swc_css_parser::parse_file;
 use testing::NormalizedOutput;
 
-#[testing::fixture("../swc_css_parser/tests/fixture/**/input.css")]
-fn parser_fixture(input: PathBuf) {
-    // TODO: Remove this.
-    // This is used to merge it into master branch as requested.
-
-    if true {
-        return;
-    }
-
-    let prefix = PathBuf::new()
-        .join("..")
-        .join("swc_css_parser")
-        .join("tests")
-        .join("fixture")
-        .canonicalize()
-        .unwrap();
-
-    // Relative path of the input file, to the fixture directory.
-    let rel_path = input.strip_prefix(&prefix).unwrap();
-    let output_path = PathBuf::new()
-        .join("tests")
-        .join("parser-fixture")
-        .join(rel_path);
+#[testing::fixture("tests/fixture/**/input.css")]
+fn minify_fixtures(input: PathBuf) {
+    let dir = input.parent().unwrap();
+    let output = dir.join(format!(
+        "output.min.{}",
+        input.extension().unwrap().to_string_lossy()
+    ));
 
     testing::run_test(false, |cm, _handler| {
         let fm = cm.load_file(&input).unwrap();
@@ -40,9 +24,11 @@ fn parser_fixture(input: PathBuf) {
         let res: Result<Stylesheet, _> = parse_file(&fm, Default::default(), &mut errors);
 
         if res.is_err() || !errors.is_empty() {
+            // TODO uncomment me
             // We are not debugging parser
-            return Ok(());
+            // return Ok(());
         }
+
         let mut ss = res.unwrap();
 
         // Apply transforms
@@ -58,7 +44,7 @@ fn parser_fixture(input: PathBuf) {
         }
 
         NormalizedOutput::from(css_str)
-            .compare_to_file(&output_path)
+            .compare_to_file(&output)
             .unwrap();
 
         Ok(())
