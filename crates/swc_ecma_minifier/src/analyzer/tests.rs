@@ -5,6 +5,7 @@ use swc_ecma_ast::Id;
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax};
 use swc_ecma_transforms::resolver_with_mark;
 use swc_ecma_visit::FoldWith;
+use testing::NormalizedOutput;
 
 use super::VarUsageInfo;
 use crate::marks::Marks;
@@ -65,9 +66,9 @@ fn snapshot(input: PathBuf) {
 
         snapshot.vars.sort_by(|a, b| a.0.cmp(&b.0));
 
-        // NormalizedOutput::from(format!("{:#?}", snapshot))
-        //     .compare_to_file(dir.join("analysis-snapshot.rust-debug"))
-        //     .unwrap();
+        NormalizedOutput::from(format!("{:#?}", snapshot))
+            .compare_to_file(dir.join("analysis-snapshot.rust-debug"))
+            .unwrap();
 
         Ok(())
     })
