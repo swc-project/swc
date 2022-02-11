@@ -7,7 +7,7 @@
 
 use swc_common::collections::{AHashMap, AHashSet};
 use swc_ecma_ast::*;
-use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::{collect_decls, ident::IdentLike};
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
 #[derive(Debug, Default)]
@@ -26,7 +26,11 @@ impl Visit for BaseAnalyzer<'_> {
         for decl in &n.decls {
             if let (Pat::Ident(var), Some(init)) = (&decl.name, decl.init.as_deref()) {
                 let used_idents = {
-                    let mut v = AliasCollector::default();
+                    let bindings = collect_decls(init);
+                    let mut v = AliasCollector {
+                        ids: Default::default(),
+                        excluded: &bindings,
+                    };
                     init.visit_with(&mut v);
                     v.ids
                 };
@@ -50,12 +54,32 @@ impl Visit for BaseAnalyzer<'_> {
     }
 }
 
-#[derive(Default)]
-struct AliasCollector {
+struct AliasCollector<'a> {
     ids: AHashSet<Id>,
+    /// Declared bindings are not alias.
+    excluded: &'a AHashSet<Id>,
 }
 
-impl Visit for AliasCollector {
+impl AliasCollector<'_> {
+    fn add(&mut self, id: Id) {
+        if !self.excluded.contains(&id) {
+            self.ids.insert(id);
+        }
+    }
+}
+
+/// Note: We should handle nested nodes because of
+///
+/// ```js
+/// function (b) {
+///     var a = (function() {
+///         return b;
+///     });
+///
+///     return b++ + a
+/// }
+/// ```
+impl Visit for AliasCollector<'_> {
     noop_visit_type!();
 
     visit_obj_and_computed!();
@@ -83,14 +107,30 @@ impl Visit for AliasCollector {
         n.visit_children_with(self);
     }
 
-    fn visit_block_stmt_or_expr(&mut self, _: &BlockStmtOrExpr) {}
+    fn visit_expr(&mut self, n: &Expr) {
+        match n {
+            Expr::Ident(i) => {
+                self.add(i.to_id());
+            }
+            _ => n.visit_children_with(self),
+        }
+    }
 
-    fn visit_constructor(&mut self, _: &Constructor) {}
+    fn visit_assign_pat_prop(&mut self, n: &AssignPatProp) {
+        n.visit_children_with(self);
 
-    fn visit_function(&mut self, _: &Function) {}
+        self.add(n.key.to_id());
+    }
 
-    fn visit_ident(&mut self, n: &Ident) {
-        self.ids.insert(n.to_id());
+    fn visit_pat(&mut self, n: &Pat) {
+        match n {
+            Pat::Ident(i) => {
+                self.add(i.to_id());
+            }
+            _ => {
+                n.visit_children_with(self);
+            }
+        }
     }
 
     fn visit_prop_name(&mut self, n: &PropName) {
