@@ -10,7 +10,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{Visit, VisitWith};
 
-use crate::util::idents_used_by;
+use crate::util::idents_used_by_ignoring_nested;
 
 #[derive(Debug, Default)]
 pub(crate) struct BaseData {
@@ -27,7 +27,7 @@ impl Visit for BaseAnalyzer<'_> {
 
         for decl in &n.decls {
             if let (Pat::Ident(var), Some(init)) = (&decl.name, decl.init.as_deref()) {
-                let used_idents = idents_used_by(init);
+                let used_idents = idents_used_by_ignoring_nested(init);
 
                 for id in used_idents {
                     {
