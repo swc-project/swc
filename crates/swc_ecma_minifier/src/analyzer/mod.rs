@@ -829,11 +829,13 @@ where
         let contexts = if let Some(idx) = cond_end_idx {
             iter::repeat(self.ctx)
                 .take(idx)
-                .chain(iter::repeat(Ctx {
-                    in_cond: true,
-                    ..self.ctx
-                }))
-                .take(stmts.len() - idx)
+                .chain(
+                    iter::repeat(Ctx {
+                        in_cond: true,
+                        ..self.ctx
+                    })
+                    .take(stmts.len() - idx),
+                )
                 .collect::<Vec<_>>()
         } else {
             iter::repeat(self.ctx).take(stmts.len()).collect()
