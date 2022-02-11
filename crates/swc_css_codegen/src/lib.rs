@@ -864,16 +864,7 @@ where
         space!(self);
         emit!(self, n.name);
         formatting_space!(self);
-        punct!(self, "{");
-        self.emit_list(
-            &n.block,
-            if self.config.minify {
-                ListFormat::SemiDelimited
-            } else {
-                ListFormat::SemiDelimited | ListFormat::MultiLine
-            },
-        )?;
-        punct!(self, "}");
+        emit!(self, n.block);
     }
 
     #[emitter]

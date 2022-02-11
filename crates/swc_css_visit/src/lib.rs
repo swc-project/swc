@@ -720,7 +720,7 @@ define!({
     pub struct CounterStyleRule {
         pub span: Span,
         pub name: CustomIdent,
-        pub block: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 
     pub struct PropertyRule {
