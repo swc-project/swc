@@ -237,10 +237,7 @@ impl SimplifyExpr {
 
                     exprs.push(val);
 
-                    *expr = Expr::Seq(SeqExpr {
-                        span: span.take(),
-                        exprs,
-                    });
+                    *expr = Expr::Seq(SeqExpr { span: *span, exprs });
                 }
             }
 
@@ -274,9 +271,9 @@ impl SimplifyExpr {
                     if let Some(i) = idx {
                         let v = props.remove(i);
                         self.changed = true;
-                        let span = span.take();
+
                         *expr = preserve_effects(
-                            span,
+                            *span,
                             match v {
                                 PropOrSpread::Prop(p) => match *p {
                                     Prop::Shorthand(i) => Expr::Ident(i),
@@ -291,7 +288,7 @@ impl SimplifyExpr {
                             },
                             once(Box::new(Expr::Object(ObjectLit {
                                 props: props.take(),
-                                span,
+                                span: *span,
                             }))),
                         );
                     }
@@ -321,7 +318,7 @@ impl SimplifyExpr {
                         // TODO: Optimize
                         self.changed = true;
 
-                        *expr = make_bool_expr(span.take(), v, {
+                        *expr = make_bool_expr(*span, v, {
                             iter::once(left.take()).chain(iter::once(right.take()))
                         });
                         return;
@@ -333,10 +330,13 @@ impl SimplifyExpr {
                 match $v {
                     Known(v) => {
                         self.changed = true;
-                        let span = span.take();
+
                         *expr = preserve_effects(
-                            span,
-                            Expr::Lit(Lit::Num(Number { value: v, span })),
+                            *span,
+                            Expr::Lit(Lit::Num(Number {
+                                value: v,
+                                span: *span,
+                            })),
                             { iter::once(left.take()).chain(iter::once(right.take())) },
                         );
                         return;
@@ -356,7 +356,7 @@ impl SimplifyExpr {
                         self.changed = true;
                         *expr = Expr::Lit(Lit::Str(Str {
                             value: l.into(),
-                            span: span.take(),
+                            span: *span,
                             // TODO
                             has_escape: false,
                             kind: Default::default(),
@@ -378,7 +378,7 @@ impl SimplifyExpr {
 
                                     *expr = Expr::Lit(Lit::Str(Str {
                                         value: format!("{}{}", l, r).into(),
-                                        span: span.take(),
+                                        span: *span,
                                         // TODO
                                         has_escape: false,
                                         kind: Default::default(),
@@ -399,7 +399,7 @@ impl SimplifyExpr {
                                     self.perform_arithmetic_op(op!(bin, "+"), left, right)
                                 {
                                     self.changed = true;
-                                    let span = span.take();
+                                    let span = *span;
                                     *expr = preserve_effects(
                                         span,
                                         Expr::Lit(Lit::Num(Number { value: v, span })),
@@ -448,7 +448,7 @@ impl SimplifyExpr {
                         self.changed = true;
 
                         let mut seq = SeqExpr {
-                            span: span.take(),
+                            span: *span,
                             exprs: vec![left.take(), node.take()],
                         };
 
@@ -512,14 +512,14 @@ impl SimplifyExpr {
                 if is_non_obj(left) {
                     self.changed = true;
 
-                    *expr = make_bool_expr(span.take(), false, iter::once(right.take()));
+                    *expr = make_bool_expr(*span, false, iter::once(right.take()));
                     return;
                 }
 
                 if is_obj(left) && right.is_ident_ref_to(js_word!("Object")) {
                     self.changed = true;
 
-                    *expr = make_bool_expr(span.take(), true, iter::once(left.take()));
+                    *expr = make_bool_expr(*span, true, iter::once(left.take()));
                 }
             }
 
@@ -602,9 +602,8 @@ impl SimplifyExpr {
                     if *left_op == *op {
                         if let Known(value) = self.perform_arithmetic_op(*op, left_rhs, right) {
                             self.changed = true;
-                            let span = span.take();
                             *left = left_lhs.take();
-                            *right = Box::new(Expr::Lit(Lit::Num(Number { value, span })))
+                            *right = Box::new(Expr::Lit(Lit::Num(Number { value, span: *span })))
                         }
                     }
                 }
@@ -670,7 +669,7 @@ impl SimplifyExpr {
         self.changed = true;
 
         *expr = Expr::Lit(Lit::Str(Str {
-            span: span.take(),
+            span: *span,
             value: val.into(),
             has_escape: false,
             kind: Default::default(),
@@ -1190,7 +1189,7 @@ impl VisitMut for SimplifyExpr {
                         *(expr_value.take())
                     } else {
                         Expr::Seq(SeqExpr {
-                            span: span.take(),
+                            span: *span,
                             exprs: vec![test.take(), expr_value.take()],
                         })
                     }
