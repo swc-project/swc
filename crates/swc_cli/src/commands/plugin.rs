@@ -146,11 +146,6 @@ edition = "2021"
 [lib]
 crate-type = ["cdylib"]
 
-# Workaround for https://github.com/Amanieu/parking_lot/issues/269
-# (swc_atoms -> string_cache -> parking_lot)
-[target.'cfg(target_arch = "wasm32")'.dependencies]
-parking_lot_core = "=0.8.0"
-
 [dependencies]
 serde = "1"
 swc_plugin = "*""#,
