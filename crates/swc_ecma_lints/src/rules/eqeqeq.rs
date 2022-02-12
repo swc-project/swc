@@ -64,22 +64,22 @@ impl Eqeqeq {
 
     fn check(&self, span: Span, bin_op: &BinaryOp) {
         match bin_op {
-            BinaryOp::EqEq => {
+            op!("==") => {
                 if let EqeqeqMode::Always = self.mode {
                     self.emit_report(span, "==", "===");
                 }
             }
-            BinaryOp::NotEq => {
+            op!("!=") => {
                 if let EqeqeqMode::Always = self.mode {
                     self.emit_report(span, "!=", "!==");
                 }
             }
-            BinaryOp::EqEqEq => {
+            op!("===") => {
                 if let EqeqeqMode::Never = self.mode {
                     self.emit_report(span, "===", "==");
                 }
             }
-            BinaryOp::NotEqEq => {
+            op!("!==") => {
                 if let EqeqeqMode::Never = self.mode {
                     self.emit_report(span, "!==", "!=");
                 }
