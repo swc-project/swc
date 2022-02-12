@@ -7,6 +7,12 @@
 
 - **(es/compat)** Allow destructuring assignment to an object property (#3544) ([5802b62](https://github.com/swc-project/swc/commit/5802b62e3486b0fba176533fcd2998f47c60910d))
 
+### Features
+
+
+
+- **(es/lints)** Add this handling support to `no-alert` rule (#3515) ([af82006](https://github.com/swc-project/swc/commit/af8200647bb5f96525bcf3333c7c6889fe69dd5d))
+
 ## [1.2.139] - 2022-02-12
 
 ### Bug Fixes
