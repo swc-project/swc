@@ -62,7 +62,7 @@ error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:18
   |
 2 |         @page :first { margin: 0 }
-  |                        ^^^^^^^^^^
+  |                        ^^^^^^^^^
 
 error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:18

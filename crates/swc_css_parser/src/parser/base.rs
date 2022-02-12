@@ -236,12 +236,7 @@ where
                         }
                         Grammar::DeclarationValue => {
                             let state = self.input.state();
-                            let ctx = Ctx {
-                                // TODO refactor me
-                                allow_operation_in_value: name == '(',
-                                ..self.ctx
-                            };
-                            let parsed = self.with_ctx(ctx).parse_one_value_inner();
+                            let parsed = self.parse_one_value_inner();
                             let value = match parsed {
                                 Ok(value) => {
                                     self.input.skip_ws()?;
@@ -399,13 +394,8 @@ where
                             break;
                         }
 
-                        let ctx = Ctx {
-                            allow_operation_in_value: false,
-                            ..self.ctx
-                        };
-
                         let state = self.input.state();
-                        let parsed = self.with_ctx(ctx).parse_one_value_inner();
+                        let parsed = self.parse_one_value_inner();
                         let value_or_token = match parsed {
                             Ok(value) => value,
                             Err(err) => {

@@ -198,69 +198,99 @@
                 },
                 "value": [
                   {
-                    "type": "BinValue",
+                    "type": "CalcSum",
                     "span": {
                       "start": 64,
                       "end": 75,
                       "ctxt": 0
                     },
-                    "op": "+",
-                    "left": {
-                      "type": "Length",
-                      "span": {
-                        "start": 64,
-                        "end": 68,
-                        "ctxt": 0
-                      },
-                      "value": {
-                        "type": "Number",
+                    "expressions": [
+                      {
+                        "type": "CalcProduct",
                         "span": {
                           "start": 64,
-                          "end": 66,
+                          "end": 69,
                           "ctxt": 0
                         },
-                        "value": 10.0,
-                        "raw": "10"
+                        "expressions": [
+                          {
+                            "type": "Length",
+                            "span": {
+                              "start": 64,
+                              "end": 68,
+                              "ctxt": 0
+                            },
+                            "value": {
+                              "type": "Number",
+                              "span": {
+                                "start": 64,
+                                "end": 66,
+                                "ctxt": 0
+                              },
+                              "value": 10.0,
+                              "raw": "10"
+                            },
+                            "unit": {
+                              "type": "Ident",
+                              "span": {
+                                "start": 66,
+                                "end": 68,
+                                "ctxt": 0
+                              },
+                              "value": "px",
+                              "raw": "px"
+                            }
+                          }
+                        ]
                       },
-                      "unit": {
-                        "type": "Ident",
+                      {
+                        "type": "CalcOperator",
                         "span": {
-                          "start": 66,
-                          "end": 68,
+                          "start": 69,
+                          "end": 70,
                           "ctxt": 0
                         },
-                        "value": "px",
-                        "raw": "px"
-                      }
-                    },
-                    "right": {
-                      "type": "Length",
-                      "span": {
-                        "start": 71,
-                        "end": 75,
-                        "ctxt": 0
+                        "value": "+"
                       },
-                      "value": {
-                        "type": "Number",
+                      {
+                        "type": "CalcProduct",
                         "span": {
                           "start": 71,
-                          "end": 72,
-                          "ctxt": 0
-                        },
-                        "value": 5.0,
-                        "raw": "5"
-                      },
-                      "unit": {
-                        "type": "Ident",
-                        "span": {
-                          "start": 72,
                           "end": 75,
                           "ctxt": 0
                         },
-                        "value": "rem",
-                        "raw": "rem"
+                        "expressions": [
+                          {
+                            "type": "Length",
+                            "span": {
+                              "start": 71,
+                              "end": 75,
+                              "ctxt": 0
+                            },
+                            "value": {
+                              "type": "Number",
+                              "span": {
+                                "start": 71,
+                                "end": 72,
+                                "ctxt": 0
+                              },
+                              "value": 5.0,
+                              "raw": "5"
+                            },
+                            "unit": {
+                              "type": "Ident",
+                              "span": {
+                                "start": 72,
+                                "end": 75,
+                                "ctxt": 0
+                              },
+                              "value": "rem",
+                              "raw": "rem"
+                            }
+                          }
+                        ]
                       }
-                    }
+                    ]
                   }
                 ]
               }

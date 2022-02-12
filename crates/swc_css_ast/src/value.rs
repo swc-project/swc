@@ -36,8 +36,8 @@ pub enum Value {
     #[tag("Function")]
     Function(Function),
 
-    #[tag("BinValue")]
-    Bin(BinValue),
+    #[tag("CalcSum")]
+    CalcSum(CalcSum),
 
     #[tag("Delimiter")]
     Delimiter(Delimiter),
@@ -95,17 +95,6 @@ pub enum DelimiterValue {
 pub struct Delimiter {
     pub span: Span,
     pub value: DelimiterValue,
-}
-
-#[ast_node("BinValue")]
-pub struct BinValue {
-    pub span: Span,
-
-    pub op: BinOp,
-
-    pub left: Box<Value>,
-
-    pub right: Box<Value>,
 }
 
 #[ast_node("Function")]
@@ -275,4 +264,66 @@ pub enum UrlModifier {
 pub struct Urange {
     pub span: Span,
     pub value: JsWord,
+}
+
+#[ast_node("CalcSum")]
+pub struct CalcSum {
+    pub span: Span,
+    pub expressions: Vec<CalcProductOrOperator>,
+}
+
+#[ast_node]
+pub enum CalcProductOrOperator {
+    #[tag("CalcProduct")]
+    Product(CalcProduct),
+    #[tag("CalcOperator")]
+    Operator(CalcOperator),
+}
+
+#[ast_node("CalcProduct")]
+pub struct CalcProduct {
+    pub span: Span,
+    pub expressions: Vec<CalcValueOrOperator>,
+}
+
+#[ast_node("CalcOperator")]
+pub struct CalcOperator {
+    pub span: Span,
+    pub value: CalcOperatorType,
+}
+
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
+pub enum CalcOperatorType {
+    /// `+`
+    Add,
+    /// `-`
+    Sub,
+    /// `*`
+    Mul,
+    /// `/`
+    Div,
+}
+
+#[ast_node]
+pub enum CalcValueOrOperator {
+    #[tag("CalcValue")]
+    Value(CalcValue),
+    #[tag("CalcOperator")]
+    Operator(CalcOperator),
+}
+
+#[ast_node]
+pub enum CalcValue {
+    #[tag("Number")]
+    Number(Number),
+    #[tag("Dimension")]
+    Dimension(Dimension),
+    #[tag("Percentage")]
+    Percentage(Percentage),
+    #[tag("Ident")]
+    Constant(Ident),
+    #[tag("CalcSum")]
+    Sum(CalcSum),
+    #[tag("Function")]
+    Function(Function),
 }
