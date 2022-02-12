@@ -19,6 +19,15 @@
 
 - **(node/helpers)** Fix `isNativeReflectConstruct` (#3530) ([d14d3eb](https://github.com/swc-project/swc/commit/d14d3ebbc8f24a6bed61ce9e534ab06b32c08e34))
 
+
+- **(plugin)** Allow testing (#3542) ([fbe9196](https://github.com/swc-project/swc/commit/fbe91963bfb80976eebadc9f0e94e080ed81d624))
+
+### Documentation
+
+
+
+- **(plugin)** Fix install command (#3541) ([72b3197](https://github.com/swc-project/swc/commit/72b31977e49417cf9e4c95ad1365e2e212cac4d4))
+
 ### Features
 
 
