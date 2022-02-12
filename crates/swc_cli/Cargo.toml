@@ -1,16 +1,20 @@
 [package]
-description = "Commandline for swc"
+authors = ["강동윤 <kdy1997.dev@gmail.com>", "OJ Kwon <kwon.ohjoong@gmail.com>"]
+description = "Commandline for SWC"
 edition = "2021"
 include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc_cli"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.1.0"
+version = "0.1.1"
 
 [[bin]]
 name = "swc"
 path = "./src/main.rs"
 
 [dependencies]
-paw = "1.0"
-structopt = {version = "0.3.25", features = ["paw"]}
+anyhow = "1.0.53"
+cargo-util = "0.1.1"
+clap = { version = "3.0.14", features = ["derive", "wrap_help"] }
+
+[features]
