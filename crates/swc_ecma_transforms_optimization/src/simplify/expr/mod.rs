@@ -75,7 +75,7 @@ impl Repeated for SimplifyExpr {
 
 impl SimplifyExpr {
     fn fold_member_expr(&mut self, expr: &mut Expr) {
-        let e = match expr {
+        let MemberExpr { obj, prop, .. } = match expr {
             Expr::Member(member) => member,
             _ => return,
         };
@@ -93,7 +93,7 @@ impl SimplifyExpr {
             /// ({}).foo
             IndexStr(JsWord),
         }
-        let op = match &e.prop {
+        let op = match prop {
             MemberProp::Ident(Ident {
                 sym: js_word!("length"),
                 ..
@@ -113,9 +113,7 @@ impl SimplifyExpr {
             _ => return,
         };
 
-        let obj = &mut *e.obj;
-
-        match obj {
+        match &mut **obj {
             Expr::Lit(Lit::Str(Str { value, span, .. })) => match op {
                 // 'foo'.length
                 KnownOp::Len => {
@@ -123,7 +121,7 @@ impl SimplifyExpr {
 
                     *expr = Expr::Lit(Lit::Num(Number {
                         value: value.chars().count() as f64,
-                        span: span.take(),
+                        span: *span,
                     }));
                 }
 
@@ -132,11 +130,11 @@ impl SimplifyExpr {
                     self.changed = true;
 
                     if idx < 0 {
-                        *expr = *undefined(span.take())
+                        *expr = *undefined(*span)
                     } else {
                         *expr = Expr::Lit(Lit::Str(Str {
                             value: nth_char(value, idx as _).into(),
-                            span: span.take(),
+                            span: *span,
                             has_escape: false,
                             kind: Default::default(),
                         }))
@@ -167,7 +165,7 @@ impl SimplifyExpr {
 
                     *expr = Expr::Lit(Lit::Num(Number {
                         value: elems.len() as _,
-                        span: span.take(),
+                        span: *span,
                     }));
                 } else if matches!(op, KnownOp::Index(..)) {
                     self.changed = true;
@@ -190,7 +188,7 @@ impl SimplifyExpr {
                     };
 
                     let v = match e {
-                        None => undefined(span.take()),
+                        None => undefined(*span),
                         Some(e) => e.expr,
                     };
 
@@ -306,16 +304,16 @@ impl SimplifyExpr {
     }
 
     fn fold_bin(&mut self, expr: &mut Expr) {
-        let bin_expr = match expr {
-            Expr::Bin(bin) => bin,
-            _ => return,
-        };
         let BinExpr {
             left,
             op,
             right,
             span,
-        } = bin_expr;
+        } = match expr {
+            Expr::Bin(bin) => bin,
+            _ => return,
+        };
+
         macro_rules! try_replace {
             ($v:expr) => {{
                 match $v {
@@ -366,13 +364,6 @@ impl SimplifyExpr {
                         return;
                     }
                 }
-
-                // let mut bin = Expr::Bin(BinExpr {
-                //     span,
-                //     left,
-                //     op: op!(bin, "+"),
-                //     right,
-                // });
 
                 match expr.get_type() {
                     // String concatenation
@@ -612,12 +603,8 @@ impl SimplifyExpr {
                         if let Known(value) = self.perform_arithmetic_op(*op, left_rhs, right) {
                             self.changed = true;
                             let span = span.take();
-                            *bin_expr = BinExpr {
-                                span,
-                                left: left_lhs.take(),
-                                op: *left_op,
-                                right: Box::new(Expr::Lit(Lit::Num(Number { value, span }))),
-                            };
+                            *left = left_lhs.take();
+                            *right = Box::new(Expr::Lit(Lit::Num(Number { value, span })))
                         }
                     }
                 }
@@ -637,19 +624,12 @@ impl SimplifyExpr {
                 try_replace!(!self.perform_abstract_rel_cmp(left, right, true))
             }
 
-            op!("==") => try_replace!(self.perform_abstract_eq_cmp(span.take(), left, right)),
-            op!("!=") => try_replace!(!self.perform_abstract_eq_cmp(span.take(), left, right)),
+            op!("==") => try_replace!(self.perform_abstract_eq_cmp(*span, left, right)),
+            op!("!=") => try_replace!(!self.perform_abstract_eq_cmp(*span, left, right)),
             op!("===") => try_replace!(self.perform_strict_eq_cmp(left, right)),
             op!("!==") => try_replace!(!self.perform_strict_eq_cmp(left, right)),
             _ => {}
         };
-
-        // Expr::Bin(BinExpr {
-        //     left,
-        //     op,
-        //     right,
-        //     span,
-        // })
     }
 
     /// Folds 'typeof(foo)' if foo is a literal, e.g.
@@ -657,14 +637,14 @@ impl SimplifyExpr {
     /// typeof("bar") --> "string"
     ///
     /// typeof(6) --> "number"
-    fn try_fold_typeof(&mut self, expr: &mut Expr) -> bool {
-        let unary = match expr {
+    fn try_fold_typeof(&mut self, expr: &mut Expr) {
+        let UnaryExpr { op, arg, span } = match expr {
             Expr::Unary(unary) => unary,
-            _ => return false,
+            _ => return,
         };
-        assert_eq!(unary.op, op!("typeof"));
+        assert_eq!(*op, op!("typeof"));
 
-        let val = match *unary.arg {
+        let val = match &**arg {
             Expr::Fn(..) => "function",
             Expr::Lit(Lit::Str { .. }) => "string",
             Expr::Lit(Lit::Num(..)) => "number",
@@ -683,34 +663,33 @@ impl SimplifyExpr {
             }
 
             _ => {
-                return true;
+                return;
             }
         };
 
         self.changed = true;
 
         *expr = Expr::Lit(Lit::Str(Str {
-            span: unary.span.take(),
+            span: span.take(),
             value: val.into(),
             has_escape: false,
             kind: Default::default(),
         }));
-        true
     }
 
     fn fold_unary(&mut self, expr: &mut Expr) {
-        let unary_expr = match expr {
+        let UnaryExpr { op, arg, span } = match expr {
             Expr::Unary(unary) => unary,
             _ => return,
         };
-        let may_have_side_effects = unary_expr.arg.may_have_side_effects();
+        let may_have_side_effects = arg.may_have_side_effects();
 
-        match unary_expr.op {
+        match op {
             op!("typeof") if !may_have_side_effects => {
                 self.try_fold_typeof(expr);
             }
             op!("!") => {
-                match &*unary_expr.arg {
+                match &**arg {
                     // Don't expand booleans.
                     Expr::Lit(Lit::Num(..)) => return,
 
@@ -725,28 +704,27 @@ impl SimplifyExpr {
                     _ => {}
                 }
 
-                if let (_, Known(val)) = unary_expr.arg.as_bool() {
+                if let (_, Known(val)) = arg.as_bool() {
                     self.changed = true;
 
-                    *expr =
-                        make_bool_expr(unary_expr.span, !val, iter::once(unary_expr.arg.take()));
+                    *expr = make_bool_expr(*span, !val, iter::once(arg.take()));
                 }
             }
             op!(unary, "+") => {
-                if let Known(v) = unary_expr.arg.as_number() {
+                if let Known(v) = arg.as_number() {
                     self.changed = true;
 
                     *expr = preserve_effects(
-                        unary_expr.span,
+                        *span,
                         Expr::Lit(Lit::Num(Number {
                             value: v,
-                            span: unary_expr.span,
+                            span: *span,
                         })),
-                        iter::once(unary_expr.arg.take()),
+                        iter::once(arg.take()),
                     );
                 }
             }
-            op!(unary, "-") => match *unary_expr.arg {
+            op!(unary, "-") => match &**arg {
                 Expr::Ident(Ident {
                     sym: js_word!("Infinity"),
                     ..
@@ -757,13 +735,13 @@ impl SimplifyExpr {
                     ..
                 }) => {
                     self.changed = true;
-                    *expr = *(unary_expr.arg.take());
+                    *expr = *(arg.take());
                 }
                 Expr::Lit(Lit::Num(Number { value: f, .. })) => {
                     self.changed = true;
                     *expr = Expr::Lit(Lit::Num(Number {
                         value: -f,
-                        span: unary_expr.span.take(),
+                        span: *span,
                     }));
                 }
                 _ => {
@@ -773,24 +751,24 @@ impl SimplifyExpr {
                 }
             },
             op!("void") if !may_have_side_effects => {
-                match &*unary_expr.arg {
+                match &**arg {
                     Expr::Lit(Lit::Num(Number { value, .. })) if *value == 0.0 => return,
                     _ => {}
                 }
                 self.changed = true;
 
-                unary_expr.arg = Box::new(Expr::Lit(Lit::Num(Number {
+                *arg = Box::new(Expr::Lit(Lit::Num(Number {
                     value: 0.0,
-                    span: unary_expr.arg.span(),
+                    span: arg.span(),
                 })));
             }
 
             op!("~") => {
-                if let Known(value) = unary_expr.arg.as_number() {
+                if let Known(value) = arg.as_number() {
                     if value.fract() == 0.0 {
                         self.changed = true;
                         *expr = Expr::Lit(Lit::Num(Number {
-                            span: unary_expr.span,
+                            span: *span,
                             value: if value < 0.0 {
                                 !(value as i32 as u32) as i32 as f64
                             } else {
