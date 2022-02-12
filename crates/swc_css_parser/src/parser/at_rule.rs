@@ -1507,16 +1507,14 @@ where
             None
         };
 
-        expect!(self, "{");
+        self.input.skip_ws()?;
 
         let ctx = Ctx {
             in_page_at_rule: true,
+            grammar: Grammar::DeclarationList,
             ..self.ctx
         };
-
-        let block = self.with_ctx(ctx).parse_as::<Vec<DeclarationBlockItem>>()?;
-
-        expect!(self, "}");
+        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
         Ok(PageRule {
             span: span!(self, start),
@@ -1663,16 +1661,11 @@ where
 {
     fn parse(&mut self) -> PResult<PageMarginRule> {
         let span = self.input.cur_span()?;
-
-        expect!(self, "{");
-
         let ctx = Ctx {
-            in_page_at_rule: false,
+            grammar: Grammar::DeclarationList,
             ..self.ctx
         };
-        let block = self.with_ctx(ctx).parse_as::<Vec<DeclarationBlockItem>>()?;
-
-        expect!(self, "}");
+        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
         Ok(PageMarginRule {
             name: Ident {
@@ -1808,11 +1801,13 @@ where
             }
         };
 
-        expect!(self, "{");
+        self.input.skip_ws()?;
 
-        let block = self.parse()?;
-
-        expect!(self, "}");
+        let ctx = Ctx {
+            grammar: Grammar::DeclarationList,
+            ..self.ctx
+        };
+        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
         Ok(ColorProfileRule {
             span: span!(self, span.lo),
@@ -1830,11 +1825,13 @@ where
         let span = self.input.cur_span()?;
         let name = self.parse()?;
 
-        expect!(self, "{");
+        self.input.skip_ws()?;
 
-        let block = self.parse()?;
-
-        expect!(self, "}");
+        let ctx = Ctx {
+            grammar: Grammar::DeclarationList,
+            ..self.ctx
+        };
+        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
         Ok(CounterStyleRule {
             span: span!(self, span.lo),
@@ -1852,11 +1849,13 @@ where
         let span = self.input.cur_span()?;
         let name = self.parse()?;
 
-        expect!(self, "{");
+        self.input.skip_ws()?;
 
-        let block = self.parse()?;
-
-        expect!(self, "}");
+        let ctx = Ctx {
+            grammar: Grammar::DeclarationList,
+            ..self.ctx
+        };
+        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
         Ok(PropertyRule {
             span: span!(self, span.lo),
