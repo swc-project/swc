@@ -9,10 +9,6 @@ version = "0.1.0"
 [lib]
 crate-type = ["cdylib"]
 
-# swc_atoms -> string_cache -> parking_lot -> https://github.com/Amanieu/parking_lot/issues/269
-[target.'cfg(target_arch = "wasm32")'.dependencies]
-parking_lot_core = "=0.8.0"
-
 [dependencies]
 serde = "1"
 swc_plugin = {path = "../../../crates/swc_plugin"}

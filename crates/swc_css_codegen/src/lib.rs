@@ -589,32 +589,10 @@ where
             }
 
             emit!(self, prelude);
-        } else {
-            formatting_space!(self);
         }
 
-        punct!(self, "{");
-
-        let len = n.block.len();
-
-        for (idx, node) in n.block.iter().enumerate() {
-            emit!(self, node);
-
-            match node {
-                DeclarationBlockItem::AtRule(_) => {}
-                _ => {
-                    let need_delim = !(idx == len - 1 && self.config.minify);
-
-                    if need_delim {
-                        self.write_delim(ListFormat::SemiDelimited)?;
-                    }
-                }
-            }
-
-            formatting_newline!(self);
-        }
-
-        punct!(self, "}");
+        formatting_space!(self);
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -649,9 +627,7 @@ where
         punct!(self, "@");
         emit!(self, n.name);
         formatting_space!(self);
-        punct!(self, "{");
-        self.emit_list(&n.block, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
-        punct!(self, "}");
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -854,16 +830,7 @@ where
         space!(self);
         emit!(self, n.name);
         formatting_space!(self);
-        punct!(self, "{");
-        self.emit_list(
-            &n.block,
-            if self.config.minify {
-                ListFormat::SemiDelimited
-            } else {
-                ListFormat::SemiDelimited | ListFormat::MultiLine
-            },
-        )?;
-        punct!(self, "}");
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -873,16 +840,7 @@ where
         space!(self);
         emit!(self, n.name);
         formatting_space!(self);
-        punct!(self, "{");
-        self.emit_list(
-            &n.block,
-            if self.config.minify {
-                ListFormat::SemiDelimited
-            } else {
-                ListFormat::SemiDelimited | ListFormat::MultiLine
-            },
-        )?;
-        punct!(self, "}");
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -892,16 +850,7 @@ where
         space!(self);
         emit!(self, n.name);
         formatting_space!(self);
-        punct!(self, "{");
-        self.emit_list(
-            &n.block,
-            if self.config.minify {
-                ListFormat::SemiDelimited
-            } else {
-                ListFormat::SemiDelimited | ListFormat::MultiLine
-            },
-        )?;
-        punct!(self, "}");
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -958,7 +907,9 @@ where
                     }
                 }
                 ComponentValue::DeclarationBlockItem(i) => match i {
-                    DeclarationBlockItem::AtRule(_) => {}
+                    DeclarationBlockItem::AtRule(_) => {
+                        formatting_newline!(self);
+                    }
                     DeclarationBlockItem::Declaration(_) => {
                         if idx != len - 1 {
                             semi!(self);

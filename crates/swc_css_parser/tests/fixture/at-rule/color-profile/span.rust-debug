@@ -46,6 +46,15 @@ error: DashedIdent
 1 | @color-profile --fogra39 {
   |                ^^^^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/color-profile/input.css:1:26
+  |
+1 |   @color-profile --fogra39 {
+  |  __________________________^
+2 | |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+3 | | }
+  | |_^
+
 error: Declaration
  --> $DIR/tests/fixture/at-rule/color-profile/input.css:2:5
   |
@@ -129,6 +138,15 @@ error: Ident
   |
 5 | @color-profile device-cmyk {
   |                ^^^^^^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/color-profile/input.css:5:28
+  |
+5 |   @color-profile device-cmyk {
+  |  ____________________________^
+6 | |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+7 | | }
+  | |_^
 
 error: Declaration
  --> $DIR/tests/fixture/at-rule/color-profile/input.css:6:5
