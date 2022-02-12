@@ -14,7 +14,6 @@ path = "./src/main.rs"
 
 [dependencies]
 anyhow = "1.0.53"
-cargo-util = "0.1.1"
-clap = { version = "3.0.14", features = ["derive", "wrap_help"] }
+clap = {version = "3.0.14", features = ["derive", "wrap_help"]}
 
 [features]
