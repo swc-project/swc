@@ -223,38 +223,36 @@ where
                 // anything else
                 // Reconsume the current input token. Consume a component value and append it to the
                 // value of the block.
-                _ => {
-                    match self.ctx.grammar {
-                        Grammar::DeclarationList => {
-                            let declaration_list: Vec<DeclarationBlockItem> = self.parse()?;
-                            let declaration_list: Vec<ComponentValue> = declaration_list
-                                .into_iter()
-                                .map(ComponentValue::DeclarationBlockItem)
-                                .collect();
+                _ => match self.ctx.grammar {
+                    Grammar::DeclarationList => {
+                        let declaration_list: Vec<DeclarationBlockItem> = self.parse()?;
+                        let declaration_list: Vec<ComponentValue> = declaration_list
+                            .into_iter()
+                            .map(ComponentValue::DeclarationBlockItem)
+                            .collect();
 
-                            simple_block.value.extend(declaration_list);
-                        }
-                        Grammar::DeclarationValue => {
-                            let state = self.input.state();
-                            let parsed = self.parse_one_value_inner();
-                            let value = match parsed {
-                                Ok(value) => {
-                                    self.input.skip_ws()?;
-
-                                    value
-                                }
-                                Err(err) => {
-                                    self.errors.push(err);
-                                    self.input.reset(&state);
-
-                                    self.parse_component_value()?
-                                }
-                            };
-
-                            simple_block.value.push(ComponentValue::Value(value));
-                        }
+                        simple_block.value.extend(declaration_list);
                     }
-                }
+                    Grammar::DeclarationValue => {
+                        let state = self.input.state();
+                        let parsed = self.parse_one_value_inner();
+                        let value = match parsed {
+                            Ok(value) => {
+                                self.input.skip_ws()?;
+
+                                value
+                            }
+                            Err(err) => {
+                                self.errors.push(err);
+                                self.input.reset(&state);
+
+                                self.parse_component_value()?
+                            }
+                        };
+
+                        simple_block.value.push(ComponentValue::Value(value));
+                    }
+                },
             }
         }
 
