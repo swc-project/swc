@@ -12,7 +12,7 @@ All plugin require adding crate-type = ['cdylib'] to the Cargo.toml. For a quick
 // if you haven't, add build targets for webassembly
 rustup target add wasm32-wasi wasm32-unknown-unknown
 
-cargo install swc
+cargo install swc_cli
 
 swc plugin new ${plugin_name} --target-type wasm32-wasi
 ```
