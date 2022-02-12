@@ -1,4 +1,4 @@
-use swc_common::{util::take::Take, Spanned};
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::contains_this_expr;
 
@@ -60,7 +60,7 @@ where
                             .take()
                             .into_iter()
                             .map(|pat| Param {
-                                span: pat.span(),
+                                span: DUMMY_SP,
                                 decorators: Default::default(),
                                 pat,
                             })

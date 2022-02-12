@@ -76,7 +76,7 @@ error: Ident
 1 | div {
   | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/value/url/input.css:1:5
    |
 1  |   div {
@@ -966,12 +966,6 @@ error: DashedIdent
    |     ^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/value/url/input.css:21:12
-   |
-21 |     --foo: "http://www.example.com/pinkish.gif";
-   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Tokens
   --> $DIR/tests/fixture/value/url/input.css:21:12
    |
 21 |     --foo: "http://www.example.com/pinkish.gif";

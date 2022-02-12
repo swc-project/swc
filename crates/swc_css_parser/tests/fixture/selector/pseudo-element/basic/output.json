@@ -91,12 +91,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 9,
           "end": 11,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -185,12 +186,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 30,
           "end": 32,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -279,12 +281,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 44,
           "end": 46,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -373,12 +376,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 59,
           "end": 61,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -458,29 +462,22 @@
                       "value": "cue",
                       "raw": "cue"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 73,
-                        "end": 74,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 73,
-                            "end": 74,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "b",
-                              "raw": "b"
-                            }
+                    "children": [
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 73,
+                          "end": 74,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "b",
+                            "raw": "b"
                           }
                         }
-                      ]
-                    }
+                      }
+                    ]
                   }
                 ]
               }
@@ -489,12 +486,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 76,
           "end": 78,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -583,12 +581,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 98,
           "end": 100,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -668,30 +667,23 @@
                       "value": "cue-region",
                       "raw": "cue-region"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 119,
-                        "end": 126,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 119,
-                            "end": 126,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Hash": {
-                              "is_id": true,
-                              "value": "scroll",
-                              "raw": "scroll"
-                            }
+                    "children": [
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 119,
+                          "end": 126,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Hash": {
+                            "is_id": true,
+                            "value": "scroll",
+                            "raw": "scroll"
                           }
                         }
-                      ]
-                    }
+                      }
+                    ]
                   }
                 ]
               }
@@ -700,12 +692,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 128,
           "end": 130,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -768,12 +761,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 148,
           "end": 150,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -836,12 +830,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 161,
           "end": 163,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -921,29 +916,22 @@
                       "value": "part",
                       "raw": "part"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 193,
-                        "end": 196,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 193,
-                            "end": 196,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "tab",
-                              "raw": "tab"
-                            }
+                    "children": [
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 193,
+                          "end": 196,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "tab",
+                            "raw": "tab"
                           }
                         }
-                      ]
-                    }
+                      }
+                    ]
                   }
                 ]
               }
@@ -952,12 +940,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 198,
           "end": 200,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1020,12 +1009,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 216,
           "end": 218,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1088,12 +1078,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 232,
           "end": 234,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1147,28 +1138,21 @@
                       "value": "slotted",
                       "raw": "slotted"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 246,
-                        "end": 247,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 246,
-                            "end": 247,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "*"
-                            }
+                    "children": [
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 246,
+                          "end": 247,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Delim": {
+                            "value": "*"
                           }
                         }
-                      ]
-                    }
+                      }
+                    ]
                   }
                 ]
               }
@@ -1177,12 +1161,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 249,
           "end": 251,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1236,29 +1221,22 @@
                       "value": "slotted",
                       "raw": "slotted"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 262,
-                        "end": 266,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 262,
-                            "end": 266,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "span",
-                              "raw": "span"
-                            }
+                    "children": [
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 262,
+                          "end": 266,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "span",
+                            "raw": "span"
                           }
                         }
-                      ]
-                    }
+                      }
+                    ]
                   }
                 ]
               }
@@ -1267,12 +1245,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 268,
           "end": 270,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1335,12 +1314,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 289,
           "end": 291,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1403,12 +1383,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 307,
           "end": 309,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1508,12 +1489,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 352,
           "end": 354,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1602,12 +1584,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 366,
           "end": 368,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1715,12 +1698,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 386,
           "end": 388,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1828,12 +1812,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 415,
           "end": 417,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -2007,12 +1992,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 438,
           "end": 440,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -2101,12 +2087,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 455,
           "end": 457,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     }

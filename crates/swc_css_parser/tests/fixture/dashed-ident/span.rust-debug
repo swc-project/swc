@@ -64,7 +64,7 @@ error: Ident
 1 | :root {
   |  ^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/dashed-ident/input.css:1:7
   |
 1 |   :root {
@@ -98,12 +98,6 @@ error: Value
 2 |     --main-color: #06c;
   |                   ^^^^
 
-error: Tokens
- --> $DIR/tests/fixture/dashed-ident/input.css:2:19
-  |
-2 |     --main-color: #06c;
-  |                   ^^^^
-
 error: Hash { is_id: false, value: Atom('06c' type=inline), raw: Atom('06c' type=inline) }
  --> $DIR/tests/fixture/dashed-ident/input.css:2:19
   |
@@ -129,12 +123,6 @@ error: DashedIdent
   |     ^^^^^^^^^^^^^^
 
 error: Value
- --> $DIR/tests/fixture/dashed-ident/input.css:3:21
-  |
-3 |     --accent-color: #006;
-  |                     ^^^^
-
-error: Tokens
  --> $DIR/tests/fixture/dashed-ident/input.css:3:21
   |
 3 |     --accent-color: #006;
@@ -198,7 +186,7 @@ error: Ident
 6 | .foo {
   |  ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/dashed-ident/input.css:6:6
   |
 6 |   .foo {
@@ -226,12 +214,6 @@ error: DashedIdent
   |     ^^^^^^^^^^
 
 error: Value
- --> $DIR/tests/fixture/dashed-ident/input.css:7:17
-  |
-7 |     --fg-color: blue;
-  |                 ^^^^
-
-error: Tokens
  --> $DIR/tests/fixture/dashed-ident/input.css:7:17
   |
 7 |     --fg-color: blue;
@@ -331,7 +313,7 @@ error: Ident
 10 | #foo h1 {
    |      ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/dashed-ident/input.css:10:9
    |
 10 |   #foo h1 {
@@ -424,12 +406,6 @@ error: Value
 14 | @--custom {}
    |          ^
 
-error: Tokens
-  --> $DIR/tests/fixture/dashed-ident/input.css:14:10
-   |
-14 | @--custom {}
-   |          ^
-
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/dashed-ident/input.css:14:10
    |
@@ -473,12 +449,6 @@ error: DashedIdent
    |  ^^^^^^^^^^^^^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/dashed-ident/input.css:15:19
-   |
-15 | @--library1-custom {}
-   |                   ^
-
-error: Tokens
   --> $DIR/tests/fixture/dashed-ident/input.css:15:19
    |
 15 | @--library1-custom {}

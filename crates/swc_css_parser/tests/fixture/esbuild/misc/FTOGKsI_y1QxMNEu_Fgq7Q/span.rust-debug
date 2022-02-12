@@ -22,6 +22,12 @@ error: PageRule
 1 | @page { color: red; @top-left {} }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:7
+  |
+1 | @page { color: red; @top-left {} }
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:9
   |
@@ -69,4 +75,10 @@ error: Ident
   |
 1 | @page { color: red; @top-left {} }
   |                      ^^^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:31
+  |
+1 | @page { color: red; @top-left {} }
+  |                               ^^
 

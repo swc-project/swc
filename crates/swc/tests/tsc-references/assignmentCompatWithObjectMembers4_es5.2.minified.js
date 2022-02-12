@@ -46,7 +46,7 @@ function _createSuper(Derived) {
     };
 }
 !function(OnlyDerived) {
-    var t, t2, b, Base1 = function() {
+    var Base1 = function() {
         "use strict";
         _classCallCheck(this, Base1);
     }, Derived = function(Base) {
@@ -71,14 +71,10 @@ function _createSuper(Derived) {
     }, T = function() {
         "use strict";
         _classCallCheck(this, T);
-    }, a2 = {
-        foo: new Derived()
-    }, b2 = {
-        foo: new Derived2()
     };
-    t2 = t2, b = b, b2 = b2, t = t;
+    new Derived(), new Derived2();
 }(OnlyDerived || (OnlyDerived = {})), (function(WithBase) {
-    var t, t2, b, Base2 = function() {
+    var Base2 = function() {
         "use strict";
         _classCallCheck(this, Base2);
     }, Derived = function(Base) {
@@ -103,10 +99,6 @@ function _createSuper(Derived) {
     }, T = function() {
         "use strict";
         _classCallCheck(this, T);
-    }, a2 = {
-        foo: new Base2()
-    }, b2 = {
-        foo: new Derived2()
     };
-    t2 = t2, b = b, b2 = b2, t = t;
+    new Base2(), new Derived2();
 })(WithBase || (WithBase = {}));

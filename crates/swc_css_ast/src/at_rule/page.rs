@@ -1,12 +1,12 @@
 use swc_common::{ast_node, Span};
 
-use crate::{DeclarationBlockItem, Ident};
+use crate::{Ident, SimpleBlock};
 
 #[ast_node("PageRule")]
 pub struct PageRule {
     pub span: Span,
     pub prelude: Option<PageSelectorList>,
-    pub block: Vec<DeclarationBlockItem>,
+    pub block: SimpleBlock,
 }
 
 #[ast_node("PageSelectorList")]
@@ -38,5 +38,5 @@ pub struct PageSelectorPseudo {
 pub struct PageMarginRule {
     pub span: Span,
     pub name: Ident,
-    pub block: Vec<DeclarationBlockItem>,
+    pub block: SimpleBlock,
 }

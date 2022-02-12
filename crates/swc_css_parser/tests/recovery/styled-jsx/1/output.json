@@ -64,12 +64,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 16,
           "end": 109,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",
@@ -256,65 +257,61 @@
                       "value": "global",
                       "raw": "global"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 135,
-                        "end": 157,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 135,
-                            "end": 136,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": ">"
-                            }
-                          }
+                    "children": [
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 135,
+                          "end": 136,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 136,
-                            "end": 137,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 137,
-                            "end": 138,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "."
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 138,
-                            "end": 157,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "removed-214123-item",
-                              "raw": "removed-214123-item"
-                            }
+                        "token": {
+                          "Delim": {
+                            "value": ">"
                           }
                         }
-                      ]
-                    }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 136,
+                          "end": 137,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "WhiteSpace": {
+                            "value": " "
+                          }
+                        }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 137,
+                          "end": 138,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Delim": {
+                            "value": "."
+                          }
+                        }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 138,
+                          "end": 157,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "removed-214123-item",
+                            "raw": "removed-214123-item"
+                          }
+                        }
+                      }
+                    ]
                   }
                 ]
               }
@@ -323,12 +320,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 159,
           "end": 286,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",
@@ -396,7 +394,7 @@
             "type": "Declaration",
             "span": {
               "start": 225,
-              "end": 264,
+              "end": 265,
               "ctxt": 0
             },
             "name": {
@@ -411,39 +409,27 @@
             },
             "value": [
               {
-                "type": "Tokens",
+                "type": "Ident",
                 "span": {
                   "start": 237,
+                  "end": 264,
+                  "ctxt": 0
+                },
+                "value": "__styled-jsx-placeholder__2",
+                "raw": "__styled-jsx-placeholder__2"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 264,
                   "end": 265,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "span": {
-                      "start": 237,
-                      "end": 264,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Ident": {
-                        "value": "__styled-jsx-placeholder__2",
-                        "raw": "__styled-jsx-placeholder__2"
-                      }
-                    }
-                  },
-                  {
-                    "span": {
-                      "start": 264,
-                      "end": 265,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Delim": {
-                        "value": "%"
-                      }
-                    }
+                "token": {
+                  "Delim": {
+                    "value": "%"
                   }
-                ]
+                }
               }
             ],
             "important": null
@@ -609,65 +595,61 @@
                           "value": "global",
                           "raw": "global"
                         },
-                        "children": {
-                          "type": "Tokens",
-                          "span": {
-                            "start": 332,
-                            "end": 354,
-                            "ctxt": 0
-                          },
-                          "tokens": [
-                            {
-                              "span": {
-                                "start": 332,
-                                "end": 333,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "Delim": {
-                                  "value": ">"
-                                }
-                              }
+                        "children": [
+                          {
+                            "type": "PreservedToken",
+                            "span": {
+                              "start": 332,
+                              "end": 333,
+                              "ctxt": 0
                             },
-                            {
-                              "span": {
-                                "start": 333,
-                                "end": 334,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "WhiteSpace": {
-                                  "value": " "
-                                }
-                              }
-                            },
-                            {
-                              "span": {
-                                "start": 334,
-                                "end": 335,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "Delim": {
-                                  "value": "."
-                                }
-                              }
-                            },
-                            {
-                              "span": {
-                                "start": 335,
-                                "end": 354,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "Ident": {
-                                  "value": "removed-214123-item",
-                                  "raw": "removed-214123-item"
-                                }
+                            "token": {
+                              "Delim": {
+                                "value": ">"
                               }
                             }
-                          ]
-                        }
+                          },
+                          {
+                            "type": "PreservedToken",
+                            "span": {
+                              "start": 333,
+                              "end": 334,
+                              "ctxt": 0
+                            },
+                            "token": {
+                              "WhiteSpace": {
+                                "value": " "
+                              }
+                            }
+                          },
+                          {
+                            "type": "PreservedToken",
+                            "span": {
+                              "start": 334,
+                              "end": 335,
+                              "ctxt": 0
+                            },
+                            "token": {
+                              "Delim": {
+                                "value": "."
+                              }
+                            }
+                          },
+                          {
+                            "type": "PreservedToken",
+                            "span": {
+                              "start": 335,
+                              "end": 354,
+                              "ctxt": 0
+                            },
+                            "token": {
+                              "Ident": {
+                                "value": "removed-214123-item",
+                                "raw": "removed-214123-item"
+                              }
+                            }
+                          }
+                        ]
                       }
                     ]
                   }
@@ -676,18 +658,19 @@
             ]
           },
           "block": {
-            "type": "Block",
+            "type": "SimpleBlock",
             "span": {
               "start": 356,
               "end": 413,
               "ctxt": 0
             },
+            "name": "{",
             "value": [
               {
                 "type": "Declaration",
                 "span": {
                   "start": 366,
-                  "end": 405,
+                  "end": 406,
                   "ctxt": 0
                 },
                 "name": {
@@ -702,39 +685,27 @@
                 },
                 "value": [
                   {
-                    "type": "Tokens",
+                    "type": "Ident",
                     "span": {
                       "start": 378,
+                      "end": 405,
+                      "ctxt": 0
+                    },
+                    "value": "__styled-jsx-placeholder__3",
+                    "raw": "__styled-jsx-placeholder__3"
+                  },
+                  {
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 405,
                       "end": 406,
                       "ctxt": 0
                     },
-                    "tokens": [
-                      {
-                        "span": {
-                          "start": 378,
-                          "end": 405,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Ident": {
-                            "value": "__styled-jsx-placeholder__3",
-                            "raw": "__styled-jsx-placeholder__3"
-                          }
-                        }
-                      },
-                      {
-                        "span": {
-                          "start": 405,
-                          "end": 406,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "%"
-                          }
-                        }
+                    "token": {
+                      "Delim": {
+                        "value": "%"
                       }
-                    ]
+                    }
                   }
                 ],
                 "important": null
@@ -871,65 +842,61 @@
                           "value": "global",
                           "raw": "global"
                         },
-                        "children": {
-                          "type": "Tokens",
-                          "span": {
-                            "start": 461,
-                            "end": 483,
-                            "ctxt": 0
-                          },
-                          "tokens": [
-                            {
-                              "span": {
-                                "start": 461,
-                                "end": 462,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "Delim": {
-                                  "value": ">"
-                                }
-                              }
+                        "children": [
+                          {
+                            "type": "PreservedToken",
+                            "span": {
+                              "start": 461,
+                              "end": 462,
+                              "ctxt": 0
                             },
-                            {
-                              "span": {
-                                "start": 462,
-                                "end": 463,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "WhiteSpace": {
-                                  "value": " "
-                                }
-                              }
-                            },
-                            {
-                              "span": {
-                                "start": 463,
-                                "end": 464,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "Delim": {
-                                  "value": "."
-                                }
-                              }
-                            },
-                            {
-                              "span": {
-                                "start": 464,
-                                "end": 483,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "Ident": {
-                                  "value": "removed-214123-item",
-                                  "raw": "removed-214123-item"
-                                }
+                            "token": {
+                              "Delim": {
+                                "value": ">"
                               }
                             }
-                          ]
-                        }
+                          },
+                          {
+                            "type": "PreservedToken",
+                            "span": {
+                              "start": 462,
+                              "end": 463,
+                              "ctxt": 0
+                            },
+                            "token": {
+                              "WhiteSpace": {
+                                "value": " "
+                              }
+                            }
+                          },
+                          {
+                            "type": "PreservedToken",
+                            "span": {
+                              "start": 463,
+                              "end": 464,
+                              "ctxt": 0
+                            },
+                            "token": {
+                              "Delim": {
+                                "value": "."
+                              }
+                            }
+                          },
+                          {
+                            "type": "PreservedToken",
+                            "span": {
+                              "start": 464,
+                              "end": 483,
+                              "ctxt": 0
+                            },
+                            "token": {
+                              "Ident": {
+                                "value": "removed-214123-item",
+                                "raw": "removed-214123-item"
+                              }
+                            }
+                          }
+                        ]
                       }
                     ]
                   }
@@ -938,18 +905,19 @@
             ]
           },
           "block": {
-            "type": "Block",
+            "type": "SimpleBlock",
             "span": {
               "start": 485,
               "end": 542,
               "ctxt": 0
             },
+            "name": "{",
             "value": [
               {
                 "type": "Declaration",
                 "span": {
                   "start": 495,
-                  "end": 534,
+                  "end": 535,
                   "ctxt": 0
                 },
                 "name": {
@@ -964,39 +932,27 @@
                 },
                 "value": [
                   {
-                    "type": "Tokens",
+                    "type": "Ident",
                     "span": {
                       "start": 507,
+                      "end": 534,
+                      "ctxt": 0
+                    },
+                    "value": "__styled-jsx-placeholder__4",
+                    "raw": "__styled-jsx-placeholder__4"
+                  },
+                  {
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 534,
                       "end": 535,
                       "ctxt": 0
                     },
-                    "tokens": [
-                      {
-                        "span": {
-                          "start": 507,
-                          "end": 534,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Ident": {
-                            "value": "__styled-jsx-placeholder__4",
-                            "raw": "__styled-jsx-placeholder__4"
-                          }
-                        }
-                      },
-                      {
-                        "span": {
-                          "start": 534,
-                          "end": 535,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "%"
-                          }
-                        }
+                    "token": {
+                      "Delim": {
+                        "value": "%"
                       }
-                    ]
+                    }
                   }
                 ],
                 "important": null

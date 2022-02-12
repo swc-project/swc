@@ -71,55 +71,34 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 2,
           "end": 53,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
-            "type": "Tokens",
+            "type": "Declaration",
             "span": {
               "start": 8,
               "end": 50,
               "ctxt": 0
             },
-            "tokens": [
-              {
-                "span": {
-                  "start": 8,
-                  "end": 24,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "background-image",
-                    "raw": "background-image"
-                  }
-                }
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 8,
+                "end": 24,
+                "ctxt": 0
               },
+              "value": "background-image",
+              "raw": "background-image"
+            },
+            "value": [
               {
-                "span": {
-                  "start": 24,
-                  "end": 25,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
-                "span": {
-                  "start": 25,
-                  "end": 26,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              },
-              {
+                "type": "PreservedToken",
                 "span": {
                   "start": 26,
                   "end": 50,
@@ -134,7 +113,8 @@
                   }
                 }
               }
-            ]
+            ],
+            "important": null
           }
         ]
       }

@@ -5,7 +5,7 @@ use quote::quote;
 use syn::{Item as SynItem, ItemFn};
 
 #[proc_macro_attribute]
-pub fn plugin_module(
+pub fn plugin_transform(
     _args: proc_macro::TokenStream,
     input: proc_macro::TokenStream,
 ) -> proc_macro::TokenStream {
@@ -26,6 +26,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
 
         // Declaration for imported function from swc host.
         // Refer swc_plugin_runner for the actual implementation.
+        #[cfg(target_arch = "wasm32")] // Allow testing
         extern "C" {
             fn __set_transform_result(bytes_ptr: i32, bytes_ptr_len: i32);
             fn __free(bytes_ptr: i32, size: i32) -> i32;
@@ -36,6 +37,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
         /// When guest calls __set_transform_result host should've completed read guest's memory and allocates its byte
         /// into host's enviroment so guest can free its memory later.
         fn set_transform_result_volatile(bytes_ptr: i32, bytes_ptr_len: i32) {
+            #[cfg(target_arch = "wasm32")] // Allow testing
             unsafe {
                 __set_transform_result(bytes_ptr, bytes_ptr_len);
                 __free(bytes_ptr, bytes_ptr_len);
@@ -47,7 +49,10 @@ fn handle_func(func: ItemFn) -> TokenStream {
             let ret = swc_plugin::Serialized::serialize(&plugin_error).expect("Should able to serialize PluginError");
             let ret_ref = ret.as_ref();
 
-            set_transform_result_volatile(ret_ref.as_ptr() as _, ret_ref.len().try_into().expect("Should able to convert size of PluginError"));
+            set_transform_result_volatile(
+                ret_ref.as_ptr() as _,
+                std::convert::TryInto::try_into(ret_ref.len()).expect("Should able to convert size of PluginError")
+            );
             1
         }
 
@@ -57,8 +62,8 @@ fn handle_func(func: ItemFn) -> TokenStream {
         // serialization of PluginError itself should succeed.
         #[no_mangle]
         pub fn #process_impl_ident(ast_ptr: *const u8, ast_ptr_len: i32, config_str_ptr: *const u8, config_str_ptr_len: i32) -> i32 {
-            let ast_ptr_len_usize: Result<usize, std::num::TryFromIntError> = ast_ptr_len.try_into();
-            let config_str_ptr_len_usize: Result<usize, std::num::TryFromIntError> = config_str_ptr_len.try_into();
+            let ast_ptr_len_usize: Result<usize, std::num::TryFromIntError> = std::convert::TryInto::try_into(ast_ptr_len);
+            let config_str_ptr_len_usize: Result<usize, std::num::TryFromIntError> = std::convert::TryInto::try_into(config_str_ptr_len);
 
             if ast_ptr_len_usize.is_err() {
                 let err = swc_plugin::PluginError::SizeInteropFailure("Failed to convert size of AST pointer".to_string());
@@ -134,7 +139,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
             let serialized_result = serialized_result.expect("Should be a realized transformed program");
             let serialized_result = serialized_result.as_ref();
 
-            let serialized_result_len: Result<i32, std::num::TryFromIntError> = serialized_result.len().try_into();
+            let serialized_result_len: Result<i32, std::num::TryFromIntError> = std::convert::TryInto::try_into(serialized_result.len());
 
             if serialized_result_len.is_err() {
                 let err = swc_plugin::PluginError::SizeInteropFailure("Failed to convert size of transformed AST pointer".to_string());

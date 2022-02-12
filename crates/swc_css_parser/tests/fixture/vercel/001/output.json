@@ -56,27 +56,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 11,
-                        "end": 13,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 11,
                           "end": 13,
                           "ctxt": 0
                         },
-                        "a": 4,
-                        "aRaw": "4",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 11,
+                            "end": 13,
+                            "ctxt": 0
+                          },
+                          "a": 4,
+                          "aRaw": "4",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -85,12 +87,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 15,
           "end": 39,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",

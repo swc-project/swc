@@ -70,7 +70,7 @@ error: Number
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   |                       ^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:27
   |
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
@@ -148,7 +148,7 @@ error: Number
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   |                                               ^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:51
   |
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }

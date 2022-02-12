@@ -9,7 +9,7 @@ pub struct Tokens {
     pub tokens: Vec<TokenAndSpan>,
 }
 
-#[ast_node]
+#[ast_node("PreservedToken")]
 pub struct TokenAndSpan {
     pub span: Span,
     pub token: Token,

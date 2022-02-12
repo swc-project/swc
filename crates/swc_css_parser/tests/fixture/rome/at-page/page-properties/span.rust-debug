@@ -30,6 +30,15 @@ error: PageRule
 3 | | }
   | |_^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/at-page/page-properties/input.css:1:7
+  |
+1 |   @page {
+  |  _______^
+2 | |     display: none;
+3 | | }
+  | |_^
+
 error: Declaration
  --> $DIR/tests/fixture/rome/at-page/page-properties/input.css:2:2
   |

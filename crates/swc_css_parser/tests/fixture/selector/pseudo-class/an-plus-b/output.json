@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 1727,
+    "end": 1844,
     "ctxt": 0
   },
   "rules": [
@@ -56,27 +56,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 11,
-                        "end": 15,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 11,
                           "end": 15,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 11,
+                            "end": 15,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -85,12 +87,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 17,
           "end": 19,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -144,27 +147,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 31,
-                        "end": 36,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 31,
                           "end": 36,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 31,
+                            "end": 36,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -173,12 +178,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 38,
           "end": 40,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -232,27 +238,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 52,
-                        "end": 58,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 52,
                           "end": 58,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 52,
+                            "end": 58,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -261,12 +269,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 60,
           "end": 62,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -320,27 +329,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 74,
-                        "end": 79,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 74,
                           "end": 79,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 74,
+                            "end": 79,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -349,12 +360,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 81,
           "end": 83,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -408,27 +420,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 95,
-                        "end": 99,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 95,
                           "end": 99,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 95,
+                            "end": 99,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -437,12 +451,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 101,
           "end": 103,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -496,27 +511,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 115,
-                        "end": 120,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 115,
                           "end": 120,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 115,
+                            "end": 120,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -525,12 +542,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 122,
           "end": 124,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -584,27 +602,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 136,
-                        "end": 141,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 136,
                           "end": 141,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": -1,
-                        "bRaw": "- 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 136,
+                            "end": 141,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": -1,
+                          "bRaw": "- 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -613,12 +633,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 143,
           "end": 145,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -672,27 +693,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 157,
-                        "end": 163,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 157,
                           "end": 163,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": -1,
-                        "bRaw": " - 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 157,
+                            "end": 163,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": -1,
+                          "bRaw": " - 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -701,12 +724,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 165,
           "end": 167,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -760,27 +784,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 179,
-                        "end": 184,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 179,
                           "end": 184,
                           "ctxt": 0
                         },
-                        "a": -2,
-                        "aRaw": "-2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 179,
+                            "end": 184,
+                            "ctxt": 0
+                          },
+                          "a": -2,
+                          "aRaw": "-2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -789,12 +815,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 186,
           "end": 188,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -848,27 +875,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 200,
-                        "end": 206,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 200,
                           "end": 206,
                           "ctxt": 0
                         },
-                        "a": -2,
-                        "aRaw": "-2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 200,
+                            "end": 206,
+                            "ctxt": 0
+                          },
+                          "a": -2,
+                          "aRaw": "-2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -877,12 +906,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 208,
           "end": 210,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -936,27 +966,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 222,
-                        "end": 229,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 222,
                           "end": 229,
                           "ctxt": 0
                         },
-                        "a": -2,
-                        "aRaw": "-2",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 222,
+                            "end": 229,
+                            "ctxt": 0
+                          },
+                          "a": -2,
+                          "aRaw": "-2",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -965,12 +997,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 231,
           "end": 233,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1024,27 +1057,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 245,
-                        "end": 251,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 245,
                           "end": 251,
                           "ctxt": 0
                         },
-                        "a": -2,
-                        "aRaw": "-2",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 245,
+                            "end": 251,
+                            "ctxt": 0
+                          },
+                          "a": -2,
+                          "aRaw": "-2",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1053,12 +1088,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 253,
           "end": 255,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1112,27 +1148,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 267,
-                        "end": 272,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 267,
                           "end": 272,
                           "ctxt": 0
                         },
-                        "a": -2,
-                        "aRaw": "-2",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 267,
+                            "end": 272,
+                            "ctxt": 0
+                          },
+                          "a": -2,
+                          "aRaw": "-2",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1141,12 +1179,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 274,
           "end": 276,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1200,27 +1239,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 288,
-                        "end": 294,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 288,
                           "end": 294,
                           "ctxt": 0
                         },
-                        "a": -2,
-                        "aRaw": "-2",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 288,
+                            "end": 294,
+                            "ctxt": 0
+                          },
+                          "a": -2,
+                          "aRaw": "-2",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1229,12 +1270,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 296,
           "end": 298,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1288,27 +1330,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 310,
-                        "end": 317,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 310,
                           "end": 317,
                           "ctxt": 0
                         },
-                        "a": -2,
-                        "aRaw": "-2",
-                        "b": -1,
-                        "bRaw": " - 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 310,
+                            "end": 317,
+                            "ctxt": 0
+                          },
+                          "a": -2,
+                          "aRaw": "-2",
+                          "b": -1,
+                          "bRaw": " - 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1317,12 +1361,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 319,
           "end": 321,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1376,27 +1421,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 333,
-                        "end": 338,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 333,
                           "end": 338,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "+2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 333,
+                            "end": 338,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "+2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1405,12 +1452,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 340,
           "end": 342,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1464,27 +1512,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 354,
-                        "end": 360,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 354,
                           "end": 360,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "+2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 354,
+                            "end": 360,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "+2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1493,12 +1543,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 362,
           "end": 364,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1552,27 +1603,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 376,
-                        "end": 383,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 376,
                           "end": 383,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "+2",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 376,
+                            "end": 383,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "+2",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1581,12 +1634,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 385,
           "end": 387,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1640,27 +1694,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 399,
-                        "end": 405,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 399,
                           "end": 405,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "+2",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 399,
+                            "end": 405,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "+2",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1669,12 +1725,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 407,
           "end": 409,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1728,27 +1785,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 421,
-                        "end": 426,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 421,
                           "end": 426,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "+2",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 421,
+                            "end": 426,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "+2",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1757,12 +1816,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 428,
           "end": 430,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1816,27 +1876,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 442,
-                        "end": 448,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 442,
                           "end": 448,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "+2",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 442,
+                            "end": 448,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "+2",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1845,12 +1907,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 450,
           "end": 452,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1904,27 +1967,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 464,
-                        "end": 470,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 464,
                           "end": 470,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "+2",
-                        "b": -1,
-                        "bRaw": "- 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 464,
+                            "end": 470,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "+2",
+                          "b": -1,
+                          "bRaw": "- 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -1933,12 +1998,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 472,
           "end": 474,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1992,27 +2058,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 486,
-                        "end": 493,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 486,
                           "end": 493,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "+2",
-                        "b": -1,
-                        "bRaw": " - 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 486,
+                            "end": 493,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "+2",
+                          "b": -1,
+                          "bRaw": " - 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -2021,12 +2089,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 495,
           "end": 497,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -2080,27 +2149,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 509,
-                        "end": 512,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 509,
                           "end": 512,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 509,
+                            "end": 512,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -2109,12 +2180,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 514,
           "end": 516,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -2168,27 +2240,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 528,
-                        "end": 532,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 528,
                           "end": 532,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 528,
+                            "end": 532,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -2197,12 +2271,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 534,
           "end": 536,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -2256,27 +2331,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 548,
-                        "end": 553,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 548,
                           "end": 553,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 548,
+                            "end": 553,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -2285,12 +2362,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 555,
           "end": 557,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -2344,27 +2422,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 569,
-                        "end": 573,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 569,
                           "end": 573,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 569,
+                            "end": 573,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -2373,12 +2453,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 575,
           "end": 577,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -2432,27 +2513,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 589,
-                        "end": 592,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 589,
                           "end": 592,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 589,
+                            "end": 592,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -2461,12 +2544,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 594,
           "end": 596,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -2520,27 +2604,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 608,
-                        "end": 612,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 608,
                           "end": 612,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 608,
+                            "end": 612,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -2549,12 +2635,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 614,
           "end": 616,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -2608,27 +2695,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 628,
-                        "end": 632,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 628,
                           "end": 632,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "",
-                        "b": -1,
-                        "bRaw": "- 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 628,
+                            "end": 632,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "",
+                          "b": -1,
+                          "bRaw": "- 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -2637,12 +2726,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 634,
           "end": 636,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -2696,27 +2786,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 648,
-                        "end": 653,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 648,
                           "end": 653,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "",
-                        "b": -1,
-                        "bRaw": " - 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 648,
+                            "end": 653,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "",
+                          "b": -1,
+                          "bRaw": " - 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -2725,12 +2817,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 655,
           "end": 657,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -2784,27 +2877,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 669,
-                        "end": 673,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 669,
                           "end": 673,
                           "ctxt": 0
                         },
-                        "a": -1,
-                        "aRaw": "-",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 669,
+                            "end": 673,
+                            "ctxt": 0
+                          },
+                          "a": -1,
+                          "aRaw": "-",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -2813,12 +2908,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 675,
           "end": 677,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -2872,27 +2968,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 689,
-                        "end": 694,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 689,
                           "end": 694,
                           "ctxt": 0
                         },
-                        "a": -1,
-                        "aRaw": "-",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 689,
+                            "end": 694,
+                            "ctxt": 0
+                          },
+                          "a": -1,
+                          "aRaw": "-",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -2901,12 +2999,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 696,
           "end": 698,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -2960,27 +3059,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 710,
-                        "end": 716,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 710,
                           "end": 716,
                           "ctxt": 0
                         },
-                        "a": -1,
-                        "aRaw": "-",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 710,
+                            "end": 716,
+                            "ctxt": 0
+                          },
+                          "a": -1,
+                          "aRaw": "-",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -2989,12 +3090,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 718,
           "end": 720,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -3048,27 +3150,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 732,
-                        "end": 737,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 732,
                           "end": 737,
                           "ctxt": 0
                         },
-                        "a": -1,
-                        "aRaw": "-",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 732,
+                            "end": 737,
+                            "ctxt": 0
+                          },
+                          "a": -1,
+                          "aRaw": "-",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -3077,12 +3181,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 739,
           "end": 741,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -3136,27 +3241,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 753,
-                        "end": 757,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 753,
                           "end": 757,
                           "ctxt": 0
                         },
-                        "a": -1,
-                        "aRaw": "-",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 753,
+                            "end": 757,
+                            "ctxt": 0
+                          },
+                          "a": -1,
+                          "aRaw": "-",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -3165,12 +3272,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 759,
           "end": 761,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -3224,27 +3332,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 773,
-                        "end": 778,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 773,
                           "end": 778,
                           "ctxt": 0
                         },
-                        "a": -1,
-                        "aRaw": "-",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 773,
+                            "end": 778,
+                            "ctxt": 0
+                          },
+                          "a": -1,
+                          "aRaw": "-",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -3253,12 +3363,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 780,
           "end": 782,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -3312,27 +3423,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 794,
-                        "end": 799,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 794,
                           "end": 799,
                           "ctxt": 0
                         },
-                        "a": -1,
-                        "aRaw": "-",
-                        "b": -1,
-                        "bRaw": "- 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 794,
+                            "end": 799,
+                            "ctxt": 0
+                          },
+                          "a": -1,
+                          "aRaw": "-",
+                          "b": -1,
+                          "bRaw": "- 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -3341,12 +3454,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 801,
           "end": 803,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -3400,27 +3514,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 815,
-                        "end": 821,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 815,
                           "end": 821,
                           "ctxt": 0
                         },
-                        "a": -1,
-                        "aRaw": "-",
-                        "b": -1,
-                        "bRaw": " - 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 815,
+                            "end": 821,
+                            "ctxt": 0
+                          },
+                          "a": -1,
+                          "aRaw": "-",
+                          "b": -1,
+                          "bRaw": " - 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -3429,12 +3545,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 823,
           "end": 825,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -3488,27 +3605,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 837,
-                        "end": 841,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 837,
                           "end": 841,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "+",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 837,
+                            "end": 841,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "+",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -3517,12 +3636,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 843,
           "end": 845,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -3576,27 +3696,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 857,
-                        "end": 862,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 857,
                           "end": 862,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "+",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 857,
+                            "end": 862,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "+",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -3605,12 +3727,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 864,
           "end": 866,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -3664,27 +3787,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 878,
-                        "end": 884,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 878,
                           "end": 884,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "+",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 878,
+                            "end": 884,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "+",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -3693,12 +3818,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 886,
           "end": 888,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -3752,27 +3878,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 900,
-                        "end": 905,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 900,
                           "end": 905,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "+",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 900,
+                            "end": 905,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "+",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -3781,12 +3909,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 907,
           "end": 909,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -3840,27 +3969,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 921,
-                        "end": 925,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 921,
                           "end": 925,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "+",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 921,
+                            "end": 925,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "+",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -3869,12 +4000,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 927,
           "end": 929,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -3928,27 +4060,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 941,
-                        "end": 946,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 941,
                           "end": 946,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "+",
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 941,
+                            "end": 946,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "+",
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -3957,12 +4091,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 948,
           "end": 950,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -4016,27 +4151,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 962,
-                        "end": 967,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 962,
                           "end": 967,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "+",
-                        "b": -1,
-                        "bRaw": "- 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 962,
+                            "end": 967,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "+",
+                          "b": -1,
+                          "bRaw": "- 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -4045,12 +4182,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 969,
           "end": 971,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -4104,27 +4242,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 983,
-                        "end": 989,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 983,
                           "end": 989,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "+",
-                        "b": -1,
-                        "bRaw": " - 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 983,
+                            "end": 989,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "+",
+                          "b": -1,
+                          "bRaw": " - 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -4133,12 +4273,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 991,
           "end": 993,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -4192,27 +4333,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1005,
-                        "end": 1006,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1005,
                           "end": 1006,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1005,
+                            "end": 1006,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -4221,12 +4364,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1008,
           "end": 1010,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -4280,27 +4424,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1022,
-                        "end": 1024,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1022,
                           "end": 1024,
                           "ctxt": 0
                         },
-                        "a": -1,
-                        "aRaw": "-",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1022,
+                            "end": 1024,
+                            "ctxt": 0
+                          },
+                          "a": -1,
+                          "aRaw": "-",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -4309,12 +4455,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1026,
           "end": 1028,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -4368,27 +4515,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1040,
-                        "end": 1042,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1040,
                           "end": 1042,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "+",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1040,
+                            "end": 1042,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "+",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -4397,12 +4546,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1044,
           "end": 1046,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -4456,27 +4606,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1058,
-                        "end": 1060,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1058,
                           "end": 1060,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1058,
+                            "end": 1060,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -4485,12 +4637,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1062,
           "end": 1064,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -4544,27 +4697,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1076,
-                        "end": 1079,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1076,
                           "end": 1079,
                           "ctxt": 0
                         },
-                        "a": -2,
-                        "aRaw": "-2",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1076,
+                            "end": 1079,
+                            "ctxt": 0
+                          },
+                          "a": -2,
+                          "aRaw": "-2",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -4573,12 +4728,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1081,
           "end": 1083,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -4632,27 +4788,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1095,
-                        "end": 1098,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1095,
                           "end": 1098,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "+2",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1095,
+                            "end": 1098,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "+2",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -4661,12 +4819,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1100,
           "end": 1102,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -4720,27 +4879,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1114,
-                        "end": 1115,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1114,
                           "end": 1115,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1114,
+                            "end": 1115,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -4749,12 +4910,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1117,
           "end": 1119,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -4808,27 +4970,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1131,
-                        "end": 1133,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1131,
                           "end": 1133,
                           "ctxt": 0
                         },
-                        "a": -1,
-                        "aRaw": "-",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1131,
+                            "end": 1133,
+                            "ctxt": 0
+                          },
+                          "a": -1,
+                          "aRaw": "-",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -4837,12 +5001,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1135,
           "end": 1137,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -4896,27 +5061,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1149,
-                        "end": 1151,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1149,
                           "end": 1151,
                           "ctxt": 0
                         },
-                        "a": 1,
-                        "aRaw": "+",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1149,
+                            "end": 1151,
+                            "ctxt": 0
+                          },
+                          "a": 1,
+                          "aRaw": "+",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -4925,12 +5092,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1153,
           "end": 1155,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -4984,27 +5152,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1167,
-                        "end": 1169,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1167,
                           "end": 1169,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1167,
+                            "end": 1169,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -5013,12 +5183,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1171,
           "end": 1173,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -5072,27 +5243,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1185,
-                        "end": 1188,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1185,
                           "end": 1188,
                           "ctxt": 0
                         },
-                        "a": -2,
-                        "aRaw": "-2",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1185,
+                            "end": 1188,
+                            "ctxt": 0
+                          },
+                          "a": -2,
+                          "aRaw": "-2",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -5101,12 +5274,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1190,
           "end": 1192,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -5160,27 +5334,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1204,
-                        "end": 1207,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1204,
                           "end": 1207,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "+2",
-                        "b": null,
-                        "bRaw": null
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1204,
+                            "end": 1207,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "+2",
+                          "b": null,
+                          "bRaw": null
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -5189,12 +5365,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1209,
           "end": 1211,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -5248,27 +5425,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1223,
-                        "end": 1224,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1223,
                           "end": 1224,
                           "ctxt": 0
                         },
-                        "a": null,
-                        "aRaw": null,
-                        "b": 1,
-                        "bRaw": "1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1223,
+                            "end": 1224,
+                            "ctxt": 0
+                          },
+                          "a": null,
+                          "aRaw": null,
+                          "b": 1,
+                          "bRaw": "1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -5277,12 +5456,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1226,
           "end": 1228,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -5336,27 +5516,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1240,
-                        "end": 1242,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1240,
                           "end": 1242,
                           "ctxt": 0
                         },
-                        "a": null,
-                        "aRaw": null,
-                        "b": -1,
-                        "bRaw": "-1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1240,
+                            "end": 1242,
+                            "ctxt": 0
+                          },
+                          "a": null,
+                          "aRaw": null,
+                          "b": -1,
+                          "bRaw": "-1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -5365,12 +5547,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1244,
           "end": 1246,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -5424,27 +5607,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1258,
-                        "end": 1260,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1258,
                           "end": 1260,
                           "ctxt": 0
                         },
-                        "a": null,
-                        "aRaw": null,
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1258,
+                            "end": 1260,
+                            "ctxt": 0
+                          },
+                          "a": null,
+                          "aRaw": null,
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -5453,12 +5638,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1262,
           "end": 1264,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -5512,27 +5698,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1276,
-                        "end": 1292,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1276,
                           "end": 1292,
                           "ctxt": 0
                         },
-                        "a": 123456,
-                        "aRaw": "123456",
-                        "b": -12345678,
-                        "bRaw": "-12345678"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1276,
+                            "end": 1292,
+                            "ctxt": 0
+                          },
+                          "a": 123456,
+                          "aRaw": "123456",
+                          "b": -12345678,
+                          "bRaw": "-12345678"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -5541,12 +5729,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1294,
           "end": 1296,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -5600,27 +5789,29 @@
                       "value": "Nth-Child",
                       "raw": "Nth-Child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1309,
-                        "end": 1313,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1309,
                           "end": 1313,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1309,
+                            "end": 1313,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -5629,12 +5820,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1315,
           "end": 1317,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -5688,27 +5880,29 @@
                       "value": "NTH-CHILD",
                       "raw": "NTH-CHILD"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1329,
-                        "end": 1333,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1329,
                           "end": 1333,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1329,
+                            "end": 1333,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -5717,12 +5911,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1335,
           "end": 1337,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -5776,25 +5971,27 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1350,
-                        "end": 1353,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "Ident",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1350,
                           "end": 1353,
                           "ctxt": 0
                         },
-                        "value": "odd",
-                        "raw": "odd"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 1350,
+                            "end": 1353,
+                            "ctxt": 0
+                          },
+                          "value": "odd",
+                          "raw": "odd"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -5803,12 +6000,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1355,
           "end": 1357,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -5862,25 +6060,27 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1369,
-                        "end": 1372,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "Ident",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1369,
                           "end": 1372,
                           "ctxt": 0
                         },
-                        "value": "ODD",
-                        "raw": "ODD"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 1369,
+                            "end": 1372,
+                            "ctxt": 0
+                          },
+                          "value": "ODD",
+                          "raw": "ODD"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -5889,12 +6089,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1374,
           "end": 1376,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -5948,25 +6149,27 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1388,
-                        "end": 1391,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "Ident",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1388,
                           "end": 1391,
                           "ctxt": 0
                         },
-                        "value": "oDd",
-                        "raw": "oDd"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 1388,
+                            "end": 1391,
+                            "ctxt": 0
+                          },
+                          "value": "oDd",
+                          "raw": "oDd"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -5975,12 +6178,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1393,
           "end": 1395,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -6034,25 +6238,27 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1407,
-                        "end": 1411,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "Ident",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1407,
                           "end": 1411,
                           "ctxt": 0
                         },
-                        "value": "even",
-                        "raw": "even"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 1407,
+                            "end": 1411,
+                            "ctxt": 0
+                          },
+                          "value": "even",
+                          "raw": "even"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -6061,12 +6267,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1413,
           "end": 1415,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -6120,25 +6327,27 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1427,
-                        "end": 1431,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "Ident",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1427,
                           "end": 1431,
                           "ctxt": 0
                         },
-                        "value": "eVeN",
-                        "raw": "eVeN"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 1427,
+                            "end": 1431,
+                            "ctxt": 0
+                          },
+                          "value": "eVeN",
+                          "raw": "eVeN"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -6147,12 +6356,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1433,
           "end": 1435,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -6206,25 +6416,27 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1447,
-                        "end": 1451,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "Ident",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1447,
                           "end": 1451,
                           "ctxt": 0
                         },
-                        "value": "EVEN",
-                        "raw": "EVEN"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 1447,
+                            "end": 1451,
+                            "ctxt": 0
+                          },
+                          "value": "EVEN",
+                          "raw": "EVEN"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -6233,12 +6445,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1453,
           "end": 1455,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -6292,27 +6505,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1476,
-                        "end": 1496,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1476,
                           "end": 1496,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1476,
+                            "end": 1496,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -6321,12 +6536,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1506,
           "end": 1508,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -6380,27 +6596,29 @@
                       "value": "nth-last-child",
                       "raw": "nth-last-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1533,
-                        "end": 1554,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1533,
                           "end": 1554,
                           "ctxt": 0
                         },
-                        "a": 3,
-                        "aRaw": "+3",
-                        "b": -2,
-                        "bRaw": " - 2"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1533,
+                            "end": 1554,
+                            "ctxt": 0
+                          },
+                          "a": 3,
+                          "aRaw": "+3",
+                          "b": -2,
+                          "bRaw": " - 2"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -6409,12 +6627,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1564,
           "end": 1566,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -6468,27 +6687,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1581,
-                        "end": 1589,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1581,
                           "end": 1589,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": 1,
-                        "bRaw": " + 1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1581,
+                            "end": 1589,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": " + 1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -6497,12 +6718,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1593,
           "end": 1595,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -6556,27 +6778,29 @@
                       "value": "nth-last-child",
                       "raw": "nth-last-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1614,
-                        "end": 1623,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1614,
                           "end": 1623,
                           "ctxt": 0
                         },
-                        "a": 3,
-                        "aRaw": "+3",
-                        "b": -2,
-                        "bRaw": " - 2"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1614,
+                            "end": 1623,
+                            "ctxt": 0
+                          },
+                          "a": 3,
+                          "aRaw": "+3",
+                          "b": -2,
+                          "bRaw": " - 2"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -6585,12 +6809,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1627,
           "end": 1629,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -6644,27 +6869,29 @@
                       "value": "nth-child",
                       "raw": "nth-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1642,
-                        "end": 1647,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1642,
                           "end": 1647,
                           "ctxt": 0
                         },
-                        "a": -2,
-                        "aRaw": "-2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1642,
+                            "end": 1647,
+                            "ctxt": 0
+                          },
+                          "a": -2,
+                          "aRaw": "-2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -6673,12 +6900,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1649,
           "end": 1651,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -6732,27 +6960,29 @@
                       "value": "nth-last-child",
                       "raw": "nth-last-child"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1668,
-                        "end": 1672,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1668,
                           "end": 1672,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1668,
+                            "end": 1672,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -6761,12 +6991,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1674,
           "end": 1676,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -6820,27 +7051,29 @@
                       "value": "nth-of-type",
                       "raw": "nth-of-type"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1690,
-                        "end": 1694,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1690,
                           "end": 1694,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1690,
+                            "end": 1694,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -6849,12 +7082,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1696,
           "end": 1698,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -6908,27 +7142,29 @@
                       "value": "nth-last-of-type",
                       "raw": "nth-last-of-type"
                     },
-                    "children": {
-                      "type": "Nth",
-                      "span": {
-                        "start": 1717,
-                        "end": 1721,
-                        "ctxt": 0
-                      },
-                      "nth": {
-                        "type": "AnPlusB",
+                    "children": [
+                      {
+                        "type": "Nth",
                         "span": {
                           "start": 1717,
                           "end": 1721,
                           "ctxt": 0
                         },
-                        "a": 2,
-                        "aRaw": "2",
-                        "b": 1,
-                        "bRaw": "+1"
-                      },
-                      "selectorList": null
-                    }
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1717,
+                            "end": 1721,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
                   }
                 ]
               }
@@ -6937,12 +7173,373 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 1723,
           "end": 1725,
           "ctxt": 0
         },
+        "name": "{",
+        "value": []
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 1727,
+        "end": 1743,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 1727,
+          "end": 1740,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 1727,
+              "end": 1740,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 1727,
+                  "end": 1740,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "PseudoClassSelector",
+                    "span": {
+                      "start": 1727,
+                      "end": 1740,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 1728,
+                        "end": 1735,
+                        "ctxt": 0
+                      },
+                      "value": "nth-col",
+                      "raw": "nth-col"
+                    },
+                    "children": [
+                      {
+                        "type": "Nth",
+                        "span": {
+                          "start": 1736,
+                          "end": 1739,
+                          "ctxt": 0
+                        },
+                        "nth": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 1736,
+                            "end": 1739,
+                            "ctxt": 0
+                          },
+                          "value": "odd",
+                          "raw": "odd"
+                        },
+                        "selectorList": null
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 1741,
+          "end": 1743,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 1744,
+        "end": 1761,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 1744,
+          "end": 1758,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 1744,
+              "end": 1758,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 1744,
+                  "end": 1758,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "PseudoClassSelector",
+                    "span": {
+                      "start": 1744,
+                      "end": 1758,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 1745,
+                        "end": 1752,
+                        "ctxt": 0
+                      },
+                      "value": "nth-col",
+                      "raw": "nth-col"
+                    },
+                    "children": [
+                      {
+                        "type": "Nth",
+                        "span": {
+                          "start": 1753,
+                          "end": 1757,
+                          "ctxt": 0
+                        },
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1753,
+                            "end": 1757,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 1759,
+          "end": 1761,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 1762,
+        "end": 1783,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 1762,
+          "end": 1780,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 1762,
+              "end": 1780,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 1762,
+                  "end": 1780,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "PseudoClassSelector",
+                    "span": {
+                      "start": 1762,
+                      "end": 1780,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 1763,
+                        "end": 1775,
+                        "ctxt": 0
+                      },
+                      "value": "nth-last-col",
+                      "raw": "nth-last-col"
+                    },
+                    "children": [
+                      {
+                        "type": "Nth",
+                        "span": {
+                          "start": 1776,
+                          "end": 1779,
+                          "ctxt": 0
+                        },
+                        "nth": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 1776,
+                            "end": 1779,
+                            "ctxt": 0
+                          },
+                          "value": "odd",
+                          "raw": "odd"
+                        },
+                        "selectorList": null
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 1781,
+          "end": 1783,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 1784,
+        "end": 1806,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 1784,
+          "end": 1803,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 1784,
+              "end": 1803,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 1784,
+                  "end": 1803,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "PseudoClassSelector",
+                    "span": {
+                      "start": 1784,
+                      "end": 1803,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 1785,
+                        "end": 1797,
+                        "ctxt": 0
+                      },
+                      "value": "nth-last-col",
+                      "raw": "nth-last-col"
+                    },
+                    "children": [
+                      {
+                        "type": "Nth",
+                        "span": {
+                          "start": 1798,
+                          "end": 1802,
+                          "ctxt": 0
+                        },
+                        "nth": {
+                          "type": "AnPlusB",
+                          "span": {
+                            "start": 1798,
+                            "end": 1802,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        },
+                        "selectorList": null
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 1804,
+          "end": 1806,
+          "ctxt": 0
+        },
+        "name": "{",
         "value": []
       }
     }

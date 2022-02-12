@@ -44,7 +44,7 @@ function _createSuper(Derived1) {
         })(self);
     };
 }
-var a16, b, b2, b3, b4, b5, b6, b11, b15, b17, b18, Base = function() {
+var Base = function() {
     "use strict";
     _classCallCheck(this, Base);
 }, Derived = function(Base1) {
@@ -72,4 +72,3 @@ var a16, b, b2, b3, b4, b5, b6, b11, b15, b17, b18, Base = function() {
     }
     return OtherDerived;
 }(Base);
-b = b, b2 = b2, b3 = b3, b4 = b4, b5 = b5, b6 = b6, b11 = b11, b15 = b15, b15 = a16, b17 = b17, b18 = b18;

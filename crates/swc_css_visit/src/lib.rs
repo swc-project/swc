@@ -24,7 +24,12 @@ define!({
     pub struct SimpleBlock {
         pub span: Span,
         pub name: char,
-        pub value: Vec<Value>,
+        pub value: Vec<ComponentValue>,
+    }
+
+    pub enum ComponentValue {
+        Value(Value),
+        DeclarationBlockItem(DeclarationBlockItem),
     }
 
     pub struct Ident {
@@ -77,12 +82,7 @@ define!({
     pub struct QualifiedRule {
         pub span: Span,
         pub prelude: SelectorList,
-        pub block: Block,
-    }
-
-    pub struct Block {
-        pub span: Span,
-        pub value: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 
     pub enum DeclarationBlockItem {
@@ -105,8 +105,8 @@ define!({
         Bin(BinValue),
         Delimiter(Delimiter),
         Urange(Urange),
-        Tokens(Tokens),
         Url(Url),
+        PreservedToken(TokenAndSpan),
     }
 
     pub enum DelimiterValue {
@@ -328,8 +328,7 @@ define!({
 
     pub enum PseudoSelectorChildren {
         Nth(Nth),
-
-        Tokens(Tokens),
+        PreservedToken(TokenAndSpan),
     }
 
     pub struct Nth {
@@ -355,13 +354,13 @@ define!({
     pub struct PseudoClassSelector {
         pub span: Span,
         pub name: Ident,
-        pub children: Option<PseudoSelectorChildren>,
+        pub children: Option<Vec<PseudoSelectorChildren>>,
     }
 
     pub struct PseudoElementSelector {
         pub span: Span,
         pub name: Ident,
-        pub children: Option<Tokens>,
+        pub children: Option<Vec<TokenAndSpan>>,
     }
 
     pub struct IdSelector {
@@ -436,7 +435,7 @@ define!({
 
     pub struct FontFaceRule {
         pub span: Span,
-        pub block: Block,
+        pub block: SimpleBlock,
     }
 
     pub enum NamespaceUri {
@@ -452,7 +451,7 @@ define!({
 
     pub struct ViewportRule {
         pub span: Span,
-        pub block: Block,
+        pub block: SimpleBlock,
     }
 
     pub enum AtRuleName {
@@ -492,7 +491,7 @@ define!({
     pub struct KeyframeBlock {
         pub span: Span,
         pub prelude: Vec<KeyframeSelector>,
-        pub block: Block,
+        pub block: SimpleBlock,
     }
 
     pub enum KeyframeSelector {
@@ -635,7 +634,7 @@ define!({
     pub struct PageRule {
         pub span: Span,
         pub prelude: Option<PageSelectorList>,
-        pub block: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 
     pub struct PageSelectorList {
@@ -662,7 +661,7 @@ define!({
     pub struct PageMarginRule {
         pub span: Span,
         pub name: Ident,
-        pub block: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 
     pub struct SupportsRule {
@@ -715,18 +714,18 @@ define!({
     pub struct ColorProfileRule {
         pub span: Span,
         pub name: ColorProfileName,
-        pub block: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 
     pub struct CounterStyleRule {
         pub span: Span,
         pub name: CustomIdent,
-        pub block: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 
     pub struct PropertyRule {
         pub span: Span,
         pub name: DashedIdent,
-        pub block: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 });

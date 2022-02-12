@@ -67,7 +67,7 @@ error: Ident
 1 | div {
   | ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/value/dimension/input.css:1:5
   |
 1 |   div {
