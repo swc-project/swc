@@ -1,10 +1,10 @@
 use swc_common::{ast_node, Span};
 
-use crate::{DashedIdent, DeclarationBlockItem};
+use crate::{DashedIdent, SimpleBlock};
 
 #[ast_node("PropertyRule")]
 pub struct PropertyRule {
     pub span: Span,
     pub name: DashedIdent,
-    pub block: Vec<DeclarationBlockItem>,
+    pub block: SimpleBlock,
 }

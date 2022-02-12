@@ -14,39 +14,48 @@
         "ctxt": 0
       },
       "prelude": null,
-      "block": [
-        {
-          "type": "Declaration",
-          "span": {
-            "start": 9,
-            "end": 22,
-            "ctxt": 0
-          },
-          "name": {
-            "type": "Ident",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 6,
+          "end": 25,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
             "span": {
               "start": 9,
-              "end": 16,
+              "end": 22,
               "ctxt": 0
             },
-            "value": "display",
-            "raw": "display"
-          },
-          "value": [
-            {
+            "name": {
               "type": "Ident",
               "span": {
-                "start": 18,
-                "end": 22,
+                "start": 9,
+                "end": 16,
                 "ctxt": 0
               },
-              "value": "none",
-              "raw": "none"
-            }
-          ],
-          "important": null
-        }
-      ]
+              "value": "display",
+              "raw": "display"
+            },
+            "value": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 18,
+                  "end": 22,
+                  "ctxt": 0
+                },
+                "value": "none",
+                "raw": "none"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
     }
   ]
 }

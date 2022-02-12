@@ -1,6 +1,6 @@
 use swc_common::{ast_node, Span};
 
-use crate::{DashedIdent, DeclarationBlockItem, Ident};
+use crate::{DashedIdent, Ident, SimpleBlock};
 
 #[ast_node]
 pub enum ColorProfileName {
@@ -14,5 +14,5 @@ pub enum ColorProfileName {
 pub struct ColorProfileRule {
     pub span: Span,
     pub name: ColorProfileName,
-    pub block: Vec<DeclarationBlockItem>,
+    pub block: SimpleBlock,
 }

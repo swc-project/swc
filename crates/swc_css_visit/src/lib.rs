@@ -634,7 +634,7 @@ define!({
     pub struct PageRule {
         pub span: Span,
         pub prelude: Option<PageSelectorList>,
-        pub block: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 
     pub struct PageSelectorList {
@@ -661,7 +661,7 @@ define!({
     pub struct PageMarginRule {
         pub span: Span,
         pub name: Ident,
-        pub block: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 
     pub struct SupportsRule {
@@ -714,18 +714,18 @@ define!({
     pub struct ColorProfileRule {
         pub span: Span,
         pub name: ColorProfileName,
-        pub block: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 
     pub struct CounterStyleRule {
         pub span: Span,
         pub name: CustomIdent,
-        pub block: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 
     pub struct PropertyRule {
         pub span: Span,
         pub name: DashedIdent,
-        pub block: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 });

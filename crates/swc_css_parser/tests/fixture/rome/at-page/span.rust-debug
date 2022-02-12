@@ -73,6 +73,16 @@ error: Ident
 1 | @page MyPage:blank {
   |              ^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/at-page/input.css:1:20
+  |
+1 |   @page MyPage:blank {
+  |  ____________________^
+2 | |     @top-center { content: none }
+3 | |     margin-left: 4cm;
+4 | | }
+  | |_^
+
 error: AtRule
  --> $DIR/tests/fixture/rome/at-page/input.css:2:2
   |
@@ -90,6 +100,12 @@ error: Ident
   |
 2 |     @top-center { content: none }
   |      ^^^^^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/at-page/input.css:2:14
+  |
+2 |     @top-center { content: none }
+  |                 ^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/at-page/input.css:2:16
@@ -220,6 +236,16 @@ error: Ident
 6 | @page :blank {
   |        ^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/at-page/input.css:6:14
+  |
+6 |   @page :blank {
+  |  ______________^
+7 | |     @top-center { content: none }
+8 | |     margin-left: 4cm;
+9 | | }
+  | |_^
+
 error: AtRule
  --> $DIR/tests/fixture/rome/at-page/input.css:7:2
   |
@@ -237,6 +263,12 @@ error: Ident
   |
 7 |     @top-center { content: none }
   |      ^^^^^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/at-page/input.css:7:14
+  |
+7 |     @top-center { content: none }
+  |                 ^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/at-page/input.css:7:16
@@ -343,6 +375,16 @@ error: PageRule
 14 | | }
    | |_^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/rome/at-page/input.css:11:7
+   |
+11 |   @page {
+   |  _______^
+12 | |     @top-center { content: none }
+13 | |     margin-left: 4cm;
+14 | | }
+   | |_^
+
 error: AtRule
   --> $DIR/tests/fixture/rome/at-page/input.css:12:2
    |
@@ -360,6 +402,12 @@ error: Ident
    |
 12 |     @top-center { content: none }
    |      ^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/rome/at-page/input.css:12:14
+   |
+12 |     @top-center { content: none }
+   |                 ^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/at-page/input.css:12:16
@@ -466,6 +514,16 @@ error: PageRule
 19 | | }
    | |_^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/rome/at-page/input.css:16:7
+   |
+16 |   @page {
+   |  _______^
+17 | |     @top-center { CONTENT: none }
+18 | |     MARGIN-LEFT: 4cm;
+19 | | }
+   | |_^
+
 error: AtRule
   --> $DIR/tests/fixture/rome/at-page/input.css:17:2
    |
@@ -483,6 +541,12 @@ error: Ident
    |
 17 |     @top-center { CONTENT: none }
    |      ^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/rome/at-page/input.css:17:14
+   |
+17 |     @top-center { CONTENT: none }
+   |                 ^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/at-page/input.css:17:16

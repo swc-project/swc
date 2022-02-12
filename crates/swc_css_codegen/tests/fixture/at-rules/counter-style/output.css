@@ -1,6 +1,8 @@
-@counter-style thumbs {system: cyclic;
+@counter-style thumbs {
+system: cyclic;
 symbols: "\1F44D";
-suffix: " "}
+suffix: " ";
+}
 ul {
 list-style: thumbs;
 }
