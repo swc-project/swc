@@ -1,10 +1,10 @@
 use std::{
-    io::{BufRead, BufReader, ErrorKind},
+    fs::{self, create_dir_all, File, OpenOptions},
+    io::{BufRead, BufReader, ErrorKind, Write},
     path::{Path, PathBuf},
 };
 
 use anyhow::{Context, Result};
-use cargo_util::paths::{self, create_dir_all};
 use clap::{ArgEnum, Parser, Subcommand};
 
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Debug, ArgEnum)]
@@ -68,10 +68,10 @@ fn write_ignore_file(base_path: &Path) -> Result<()> {
 
     let ignore_file_path = base_path.join(".gitignore");
 
-    let ignore: String = match paths::open(&ignore_file_path) {
-        Err(err) => match err.downcast_ref::<std::io::Error>() {
-            Some(io_err) if io_err.kind() == ErrorKind::NotFound => ignore_list.join("\n") + "\n",
-            _ => return Err(err),
+    let ignore: String = match File::open(&ignore_file_path) {
+        Err(err) => match err {
+            io_err if io_err.kind() == ErrorKind::NotFound => ignore_list.join("\n") + "\n",
+            _ => return Err(err).context("failed to open .gitignore"),
         },
         Ok(file) => {
             let existing = BufReader::new(file);
@@ -97,7 +97,14 @@ fn write_ignore_file(base_path: &Path) -> Result<()> {
         }
     };
 
-    paths::append(&ignore_file_path, ignore.as_bytes())?;
+    let mut f = OpenOptions::new()
+        .write(true)
+        .append(true)
+        .create(true)
+        .open(&ignore_file_path)?;
+
+    write!(f, "{}", ignore).context("failed to write to .gitignore file")?;
+
     Ok(())
 }
 
@@ -135,7 +142,7 @@ impl super::CommandRunner for PluginScaffoldOptions {
         write_ignore_file(path)?;
 
         // Create `Cargo.toml` file with necessary sections
-        paths::write(
+        fs::write(
             &path.join("Cargo.toml"),
             format!(
                 r#"[package]
@@ -152,7 +159,8 @@ swc_plugin = "*""#,
                 name
             )
             .as_bytes(),
-        )?;
+        )
+        .context("failed to write Cargo.toml file")?;
 
         let build_target = match self.target_type {
             PluginTargetType::Wasm32UnknownUnknown => "wasm32-unknown-unknown",
@@ -161,8 +169,8 @@ swc_plugin = "*""#,
 
         // Create cargo config for build target
         let cargo_config_path = path.join(".cargo");
-        create_dir_all(&cargo_config_path)?;
-        paths::write(
+        create_dir_all(&cargo_config_path).context("`create_dir_all` failed")?;
+        fs::write(
             &cargo_config_path.join("config"),
             format!(
                 r#"[build]
@@ -170,12 +178,13 @@ target = "{}""#,
                 build_target
             )
             .as_bytes(),
-        )?;
+        )
+        .context("failed to write config toml file")?;
 
         // Create entrypoint src file
         let src_path = path.join("src");
         create_dir_all(&src_path)?;
-        paths::write(
+        fs::write(
             &src_path.join("lib.rs"),
             r#"use swc_plugin::{ast::*, plugin_transform};
 
@@ -209,7 +218,8 @@ pub fn process_transform(program: Program, _plugin_config: String) -> Program {
 }
 "#
             .as_bytes(),
-        )?;
+        )
+        .context("failed to write the rust source file")?;
 
         println!(
             r#"Successfully created {}.
