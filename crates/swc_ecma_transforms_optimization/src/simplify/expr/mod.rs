@@ -1241,103 +1241,108 @@ impl VisitMut for SimplifyExpr {
             _ => return,
         }
 
-        expr.map_with_mut(|expr| {
-            match expr {
-                Expr::Unary(expr) => self.fold_unary(expr),
-                Expr::Bin(expr) => self.fold_bin(expr),
+        match expr {
+            Expr::Unary(e) => *expr = self.fold_unary(e.take()),
+            Expr::Bin(e) => *expr = self.fold_bin(e.take()),
 
-                Expr::Member(e) => self.fold_member_expr(e),
+            Expr::Member(e) => *expr = self.fold_member_expr(e.take()),
 
-                Expr::Cond(CondExpr {
-                    span,
-                    test,
-                    cons,
-                    alt,
-                }) => match test.as_bool() {
-                    (p, Known(val)) => {
-                        self.changed = true;
+            Expr::Cond(CondExpr {
+                span,
+                test,
+                cons,
+                alt,
+            }) => if let (p, Known(val)) = test.as_bool() {
+                self.changed = true;
 
-                        let expr_value = if val { cons } else { alt };
-                        if p.is_pure() {
-                            *expr_value
-                        } else {
-                            Expr::Seq(SeqExpr {
-                                span,
-                                exprs: vec![test, expr_value],
-                            })
-                        }
-                    }
-                    _ => Expr::Cond(CondExpr {
-                        span,
-                        test,
-                        cons,
-                        alt,
-                    }),
-                },
-
-                // Simplify sequence expression.
-                Expr::Seq(SeqExpr { span, exprs }) => {
-                    if exprs.len() == 1 {
-                        //TODO: Respan
-                        *exprs.into_iter().next().unwrap()
-                    } else {
-                        assert!(!exprs.is_empty(), "sequence expression should not be empty");
-                        //TODO: remove unused
-                        Expr::Seq(SeqExpr { span, exprs })
-                    }
+                let expr_value = if val { cons } else { alt };
+                *expr = if p.is_pure() {
+                    *(expr_value.take())
+                } else {
+                    Expr::Seq(SeqExpr {
+                        span: span.take(),
+                        exprs: vec![test.take(), expr_value.take()],
+                    })
                 }
+            },
 
-                Expr::Array(ArrayLit { span, elems, .. }) => {
-                    let mut e = Vec::with_capacity(elems.len());
-
-                    for elem in elems {
-                        match elem {
-                            Some(ExprOrSpread {
-                                spread: Some(..),
-                                expr,
-                            }) if expr.is_array() => {
-                                self.changed = true;
-
-                                e.extend(expr.array().unwrap().elems)
-                            }
-
-                            _ => e.push(elem),
-                        }
+            // Simplify sequence expression.
+            Expr::Seq(SeqExpr { span, exprs }) => {
+                *expr = if exprs.len() == 1 {
+                    //TODO: Respan
+                    *exprs.take().into_iter().next().unwrap()
+                } else {
+                    assert!(!exprs.is_empty(), "sequence expression should not be empty");
+                    //TODO: remove unused
+                    SeqExpr {
+                        span: span.take(),
+                        exprs: exprs.take(),
                     }
-
-                    ArrayLit { span, elems: e }.into()
+                    .into()
                 }
-
-                Expr::Object(ObjectLit { span, props, .. }) => {
-                    let should_work = props
-                        .iter()
-                        .any(|p| matches!(&*p, PropOrSpread::Spread(..)));
-                    if !should_work {
-                        return ObjectLit { span, props }.into();
-                    }
-
-                    let mut ps = Vec::with_capacity(props.len());
-
-                    for p in props {
-                        match p {
-                            PropOrSpread::Spread(SpreadElement { expr, .. })
-                                if expr.is_object() =>
-                            {
-                                let props = expr.object().unwrap().props;
-                                ps.extend(props);
-                                self.changed = true;
-                            }
-
-                            _ => ps.push(p),
-                        }
-                    }
-                    ObjectLit { span, props: ps }.into()
-                }
-
-                // be conservative.
-                _ => expr,
             }
-        })
+
+            Expr::Array(ArrayLit { span, elems, .. }) => {
+                let mut e = Vec::with_capacity(elems.len());
+
+                for elem in elems.take() {
+                    match elem {
+                        Some(ExprOrSpread {
+                            spread: Some(..),
+                            expr,
+                        }) if expr.is_array() => {
+                            self.changed = true;
+
+                            e.extend(expr.array().unwrap().elems)
+                        }
+
+                        _ => e.push(elem),
+                    }
+                }
+
+                *expr = ArrayLit {
+                    span: span.take(),
+                    elems: e,
+                }
+                .into()
+            }
+
+            Expr::Object(ObjectLit { span, props, .. }) => {
+                let should_work = props
+                    .iter()
+                    .any(|p| matches!(&*p, PropOrSpread::Spread(..)));
+                if !should_work {
+                    *expr = ObjectLit {
+                        span: span.take(),
+                        props: props.take(),
+                    }
+                    .into();
+                    return;
+                }
+
+                let mut ps = Vec::with_capacity(props.len());
+
+                for p in props.take() {
+                    match p {
+                        PropOrSpread::Spread(SpreadElement { expr, .. }) if expr.is_object() => {
+                            let props = expr.object().unwrap().props;
+                            ps.extend(props);
+                            self.changed = true;
+                        }
+
+                        _ => ps.push(p),
+                    }
+                }
+                *expr = ObjectLit {
+                    span: span.take(),
+                    props: ps,
+                }
+                .into();
+            }
+
+            // be conservative.
+            _ => {}
+        };
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
