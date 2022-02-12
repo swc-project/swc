@@ -214,3 +214,9 @@ error: Expected whitespace, semicolon, EOF, at-keyword or ident token
 247 |     $(var)-size: 100%;
     |     ^
 
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+   --> $DIR/tests/recovery/hacks/input.css:250:3
+    |
+250 | a{*b:c}
+    |   ^
+
