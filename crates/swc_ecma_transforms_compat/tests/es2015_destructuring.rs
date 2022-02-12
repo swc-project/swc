@@ -2103,3 +2103,25 @@ test!(
     assert.sameValue(iterCount, 1, 'Iteration occurred as expected');
    "
 );
+
+test!(
+    syntax(),
+    |_| tr(),
+    statements_const_id_init_hole,
+    "\
+    const [x] = [,];
+    const [y] = [,], [z] = [,]
+    ",
+    "\
+    const x = void 0;
+    const y = void 0, z = void 0;
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    statements_let_id_init_hole,
+    "let [x] = [,];",
+    "let x;"
+);
