@@ -2824,7 +2824,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.78.1"
+version = "0.79.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -2836,7 +2836,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.72.0"
+version = "0.73.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -2847,7 +2847,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.75.0"
+version = "0.76.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -2873,7 +2873,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.40.0"
+version = "0.41.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2886,7 +2886,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.76.1"
+version = "0.77.0"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2901,7 +2901,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "0.69.0"
+version = "0.70.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2911,7 +2911,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.71.0"
+version = "0.72.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3570,7 +3570,7 @@ version = "0.24.1"
 
 [[package]]
 name = "swc_stylis"
-version = "0.74.0"
+version = "0.75.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
