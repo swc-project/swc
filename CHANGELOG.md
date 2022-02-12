@@ -17,6 +17,9 @@
 
 
 
+- **(cli)** Add a command for scaffolding a new plugin (#3536) ([6ed089e](https://github.com/swc-project/swc/commit/6ed089e1cff8d1e3edbe67cfe5945e3ff121f5d2))
+
+
 - **(css)** Support urange syntax (#3491) ([cbe302b](https://github.com/swc-project/swc/commit/cbe302b99d762a72d8522196cc05159791515e49))
 
 
