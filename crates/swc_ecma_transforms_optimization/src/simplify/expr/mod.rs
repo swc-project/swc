@@ -1252,19 +1252,21 @@ impl VisitMut for SimplifyExpr {
                 test,
                 cons,
                 alt,
-            }) => if let (p, Known(val)) = test.as_bool() {
-                self.changed = true;
+            }) => {
+                if let (p, Known(val)) = test.as_bool() {
+                    self.changed = true;
 
-                let expr_value = if val { cons } else { alt };
-                *expr = if p.is_pure() {
-                    *(expr_value.take())
-                } else {
-                    Expr::Seq(SeqExpr {
-                        span: span.take(),
-                        exprs: vec![test.take(), expr_value.take()],
-                    })
+                    let expr_value = if val { cons } else { alt };
+                    *expr = if p.is_pure() {
+                        *(expr_value.take())
+                    } else {
+                        Expr::Seq(SeqExpr {
+                            span: span.take(),
+                            exprs: vec![test.take(), expr_value.take()],
+                        })
+                    }
                 }
-            },
+            }
 
             // Simplify sequence expression.
             Expr::Seq(SeqExpr { span, exprs }) => {
