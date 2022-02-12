@@ -26,6 +26,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
 
         // Declaration for imported function from swc host.
         // Refer swc_plugin_runner for the actual implementation.
+        #[cfg(target_arch = "wasm32")] // Allow testing
         extern "C" {
             fn __set_transform_result(bytes_ptr: i32, bytes_ptr_len: i32);
             fn __free(bytes_ptr: i32, size: i32) -> i32;
@@ -36,6 +37,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
         /// When guest calls __set_transform_result host should've completed read guest's memory and allocates its byte
         /// into host's enviroment so guest can free its memory later.
         fn set_transform_result_volatile(bytes_ptr: i32, bytes_ptr_len: i32) {
+            #[cfg(target_arch = "wasm32")] // Allow testing
             unsafe {
                 __set_transform_result(bytes_ptr, bytes_ptr_len);
                 __free(bytes_ptr, bytes_ptr_len);
