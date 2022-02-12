@@ -1,7 +1,8 @@
 use serde::{Deserialize, Serialize};
+use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, errors::HANDLER, Span, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, Visit};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::{
     config::{LintRuleReaction, RuleConfig},
@@ -29,19 +30,24 @@ pub fn no_console(
 struct NoConsole {
     expected_reaction: LintRuleReaction,
     top_level_ctxt: SyntaxContext,
-    allow: Option<AHashSet<String>>,
+    allow: Option<AHashSet<JsWord>>,
 }
 
 impl NoConsole {
     fn new(config: &RuleConfig<NoConsoleConfig>, top_level_ctxt: SyntaxContext) -> Self {
         Self {
             expected_reaction: *config.get_rule_reaction(),
-            allow: config.get_rule_config().allow.clone(),
+            allow: config.get_rule_config().allow.as_ref().map(|method_names| {
+                method_names
+                    .iter()
+                    .map(|method_name| JsWord::from(method_name.as_str()))
+                    .collect()
+            }),
             top_level_ctxt,
         }
     }
 
-    fn check(&self, span: Span, ident: &Ident, method: &str) {
+    fn check(&self, span: Span, ident: &Ident, method: &JsWord) {
         if &*ident.sym == "console" && ident.span.ctxt == self.top_level_ctxt {
             if let Some(allow) = &self.allow {
                 if allow.contains(method) {
@@ -73,7 +79,9 @@ impl Visit for NoConsole {
                 }
                 MemberProp::Computed(ComputedPropName { expr, .. }) => {
                     if let Expr::Lit(Lit::Str(Str { value, .. })) = expr.as_ref() {
-                        self.check(member.span, ident, &*value);
+                        self.check(member.span, ident, value);
+                    } else {
+                        expr.visit_with(self);
                     }
                 }
                 _ => {}
