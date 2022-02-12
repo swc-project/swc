@@ -3753,6 +3753,59 @@ expect(new Outer().hello()).toBe('hello');
 "#
 );
 
+test!(
+    syntax(),
+    |t| tr(t),
+    nested_this_in_key,
+    r#"
+class Outer extends B {
+  constructor() {
+    class Inner {
+      [this]() {
+        return 'hello';
+      }
+    }
+
+    function foo() {
+      return this;
+    }
+
+    return new Inner();
+  }
+}
+"#,
+    r#"
+let Outer = function(B) {
+  "use strict";
+  _inherits(Outer, B);
+  var _super = _createSuper(Outer);
+  function Outer() {
+      _classCallCheck(this, Outer);
+      var _this;
+      let Inner = function() {
+          function Inner() {
+              _classCallCheck(this, Inner);
+          }
+          _createClass(Inner, [
+              {
+                  key: _assertThisInitialized(_this),
+                  value: function () {
+                      return 'hello';
+                  }
+              }
+          ]);
+          return Inner;
+      }();
+      function foo() {
+          return this;
+      }
+      return _possibleConstructorReturn(_this, new Inner());
+  }
+  return Outer;
+}(B);
+"#
+);
+
 // get_set_set_semantics_not_defined_on_parent_setter_on_obj_exec
 test_exec!(
     syntax(),

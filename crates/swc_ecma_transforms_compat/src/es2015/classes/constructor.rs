@@ -1,6 +1,6 @@
 use std::iter;
 
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{util::take::Take, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -44,10 +44,6 @@ impl SuperCallFinder {
 macro_rules! ignore_return {
     ($name:ident, $T:ty) => {
         fn $name(&mut self, n: &mut $T) {
-            if self.in_injected_define_property_call {
-                return;
-            }
-
             let old = self.ignore_return;
             self.ignore_return = true;
             n.visit_mut_children_with(self);
@@ -163,7 +159,6 @@ pub(super) struct ConstructorFolder<'a> {
     pub super_var: Option<Ident>,
     /// True when recursing into other function or class.
     pub ignore_return: bool,
-    pub in_injected_define_property_call: bool,
 }
 
 /// `None`: `return _possibleConstructorReturn`
@@ -180,13 +175,13 @@ impl VisitMut for ConstructorFolder<'_> {
 
     visit_mut_only_key!();
 
-    ignore_return!(visit_mut_function, Function);
-
     ignore_return!(visit_mut_class, Class);
 
     ignore_return!(visit_mut_arrow_expr, ArrowExpr);
 
     ignore_return!(visit_mut_constructor, Constructor);
+
+    fn visit_mut_function(&mut self, _: &mut Function) {}
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         match self.mode {
@@ -197,77 +192,49 @@ impl VisitMut for ConstructorFolder<'_> {
             }
         }
 
-        // We pretend method folding mode for while folding injected `_defineProperty`
-        // calls.
+        expr.visit_mut_children_with(self);
+
         if let Expr::Call(CallExpr {
-            callee: Callee::Expr(callee),
+            callee: Callee::Super(..),
+            args,
             ..
         }) = expr
         {
-            if let Expr::Ident(Ident {
-                sym: js_word!("_defineProperty"),
-                ..
-            }) = &**callee
-            {
-                let old = self.in_injected_define_property_call;
-                self.in_injected_define_property_call = true;
-                expr.visit_mut_children_with(self);
-                self.in_injected_define_property_call = old;
-                return;
-            }
-        }
-
-        expr.visit_mut_children_with(self);
-
-        match expr {
-            Expr::This(e) => {
-                *expr = Expr::Ident(Ident::new("_this".into(), e.span.apply_mark(self.mark)))
-            }
-            Expr::Call(CallExpr {
-                callee: Callee::Super(..),
-                args,
-                ..
-            }) => {
-                let right = match self.super_var.clone() {
-                    Some(super_var) => Box::new(Expr::Call(CallExpr {
-                        span: DUMMY_SP,
-                        callee: if self.is_constructor_default {
-                            super_var.make_member(quote_ident!("apply")).as_callee()
-                        } else {
-                            super_var.make_member(quote_ident!("call")).as_callee()
-                        },
-                        args: if self.is_constructor_default {
-                            vec![
-                                ThisExpr { span: DUMMY_SP }.as_arg(),
-                                quote_ident!("arguments").as_arg(),
-                            ]
-                        } else {
-                            let mut call_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
-                            call_args.extend(args.take());
-
-                            call_args
-                        },
-                        type_args: Default::default(),
-                    })),
-
-                    None => Box::new(make_possible_return_value(ReturningMode::Prototype {
-                        class_name: self.class_name.clone(),
-                        args: Some(args.take()),
-                        is_constructor_default: self.is_constructor_default,
-                    })),
-                };
-
-                *expr = Expr::Assign(AssignExpr {
+            let right = match self.super_var.clone() {
+                Some(super_var) => Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    left: PatOrExpr::Pat(
-                        quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
-                    ),
-                    op: op!("="),
-                    right,
-                });
-            }
+                    callee: if self.is_constructor_default {
+                        super_var.make_member(quote_ident!("apply")).as_callee()
+                    } else {
+                        super_var.make_member(quote_ident!("call")).as_callee()
+                    },
+                    args: if self.is_constructor_default {
+                        vec![
+                            ThisExpr { span: DUMMY_SP }.as_arg(),
+                            quote_ident!("arguments").as_arg(),
+                        ]
+                    } else {
+                        let mut call_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
+                        call_args.extend(args.take());
 
-            _ => (),
+                        call_args
+                    },
+                    type_args: Default::default(),
+                })),
+
+                None => Box::new(make_possible_return_value(ReturningMode::Prototype {
+                    class_name: self.class_name.clone(),
+                    args: Some(args.take()),
+                    is_constructor_default: self.is_constructor_default,
+                })),
+            };
+
+            *expr = Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                left: PatOrExpr::Pat(quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into()),
+                op: op!("="),
+                right,
+            });
         };
     }
 
@@ -470,35 +437,17 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: &mut Constructor) -> bo
         mark: Mark,
         found: bool,
         wrap_with_assertion: bool,
-        in_injected_define_property_call: bool,
     }
 
     impl VisitMut for Replacer {
         noop_visit_mut_type!();
 
-        fn visit_mut_class(&mut self, _: &mut Class) {}
+        // let computed keys be visited
+        fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
+
+        fn visit_mut_function(&mut self, _: &mut Function) {}
 
         fn visit_mut_expr(&mut self, expr: &mut Expr) {
-            // We pretend method folding mode for while folding injected `_defineProperty`
-            // calls.
-            if let Expr::Call(CallExpr {
-                callee: Callee::Expr(callee),
-                ..
-            }) = expr
-            {
-                if let Expr::Ident(Ident {
-                    sym: js_word!("_defineProperty"),
-                    ..
-                }) = &**callee
-                {
-                    let old = self.in_injected_define_property_call;
-                    self.in_injected_define_property_call = true;
-                    expr.visit_mut_children_with(self);
-                    self.in_injected_define_property_call = old;
-                    return;
-                }
-            }
-
             match expr {
                 Expr::This(..) => {
                     self.found = true;
@@ -520,13 +469,6 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: &mut Constructor) -> bo
             }
         }
 
-        fn visit_mut_function(&mut self, n: &mut Function) {
-            if self.in_injected_define_property_call {
-                return;
-            }
-            n.visit_mut_children_with(self)
-        }
-
         fn visit_mut_member_expr(&mut self, expr: &mut MemberExpr) {
             if self.mark != Mark::root() {
                 let old = self.wrap_with_assertion;
@@ -543,9 +485,8 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: &mut Constructor) -> bo
         found: false,
         mark,
         wrap_with_assertion: true,
-        in_injected_define_property_call: false,
     };
-    c.visit_mut_with(&mut v);
+    c.visit_mut_children_with(&mut v);
 
     v.found
 }

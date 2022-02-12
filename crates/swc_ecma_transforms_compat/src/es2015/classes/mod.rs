@@ -534,7 +534,6 @@ where
                     is_constructor_default,
                     super_var,
                     ignore_return: false,
-                    in_injected_define_property_call: false,
                 });
 
                 insert_this |= (mode == None && !is_always_initialized)
