@@ -67,9 +67,10 @@ for (let _ref of array){
 let xx;
 let rrestOff;
 for (var _ref1 of array){
-    var { x: xx  } = _ref1, rrestOff = _objectWithoutProperties(_ref1, [
+    var __ref;
+    __ref = _ref1, rrestOff = _objectWithoutProperties(__ref, [
         "x"
-    ]);
+    ]), ({ x: xx  } = __ref), __ref;
     [
         xx,
         rrestOff

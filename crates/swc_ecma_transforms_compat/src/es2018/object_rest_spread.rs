@@ -57,6 +57,8 @@ macro_rules! impl_for_for_stmt {
                 return;
             }
 
+            let mut stmt = None;
+
             let left = match &mut for_stmt.left {
                 VarDeclOrPat::VarDecl(var_decl) => {
                     let ref_ident = private_ident!("_ref");
@@ -67,27 +69,29 @@ macro_rules! impl_for_for_stmt {
                         .take()
                         .into_iter()
                         .map(|decl| VarDeclarator {
-                            name: self.fold_rest(
-                                &mut 0,
-                                decl.name,
-                                Box::new(Expr::Ident(ref_ident.clone())),
-                                false,
-                                true,
-                            ),
+                            name: decl.name,
                             init: Some(Box::new(Expr::Ident(ref_ident.clone()))),
                             ..decl
                         })
                         .collect::<Vec<_>>();
-                    // .fold_with(self);
 
                     // **prepend** decls to self.vars
-                    decls.append(&mut self.vars);
-                    mem::swap(&mut self.vars, &mut decls);
+                    decls.append(&mut self.vars.take());
+
+                    stmt = Some(Stmt::Decl(
+                        VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls,
+                            declare: false,
+                        }
+                        .into(),
+                    ));
 
                     VarDeclOrPat::VarDecl(VarDecl {
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: ref_ident.clone().into(),
+                            name: ref_ident.into(),
                             init: None,
                             definite: false,
                         }],
@@ -96,18 +100,26 @@ macro_rules! impl_for_for_stmt {
                 }
                 VarDeclOrPat::Pat(pat) => {
                     let var_ident = private_ident!("_ref");
-                    let mut index = self.vars.len();
-                    let pat = self.fold_rest(
-                        &mut index,
-                        pat.take(),
-                        Box::new(Expr::Ident(var_ident.clone())),
-                        false,
-                        true,
-                    );
+                    let index = self.vars.len();
+                    let pat = pat.take();
 
                     // initialize (or destructure)
                     match pat {
                         Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
+                        Pat::Object(ObjectPat { .. }) => {
+                            stmt = Some(Stmt::Expr(ExprStmt {
+                                span: DUMMY_SP,
+                                expr: Box::new(
+                                    AssignExpr {
+                                        span: DUMMY_SP,
+                                        op: op!("="),
+                                        left: PatOrExpr::Pat(Box::new(pat)),
+                                        right: Box::new(Expr::Ident(var_ident.clone())),
+                                    }
+                                    .into(),
+                                ),
+                            }));
+                        }
                         _ => {
                             // insert at index to create
                             // `var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);`
@@ -133,7 +145,7 @@ macro_rules! impl_for_for_stmt {
                         kind: VarDeclKind::Var,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
-                            name: var_ident.clone().into(),
+                            name: var_ident.into(),
                             init: None,
                             definite: false,
                         }],
@@ -143,24 +155,18 @@ macro_rules! impl_for_for_stmt {
             };
             for_stmt.left = left;
 
-            let stmt = Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                decls: mem::take(&mut self.vars),
-                declare: false,
-            }));
-
-            for_stmt.body.visit_mut_with(self);
             for_stmt.body = Box::new(Stmt::Block(match &mut *for_stmt.body {
                 Stmt::Block(BlockStmt { span, stmts }) => BlockStmt {
                     span: *span,
-                    stmts: iter::once(stmt).chain(stmts.take()).collect(),
+                    stmts: stmt.into_iter().chain(stmts.take()).collect(),
                 },
                 body => BlockStmt {
                     span: DUMMY_SP,
-                    stmts: vec![stmt, body.take()],
+                    stmts: stmt.into_iter().chain(iter::once(body.take())).collect(),
                 },
             }));
+
+            for_stmt.body.visit_mut_with(self);
         }
     };
 }
