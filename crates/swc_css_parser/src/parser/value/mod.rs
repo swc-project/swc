@@ -177,6 +177,15 @@ where
                 }));
             }
 
+            tok!(";") => {
+                bump!(self);
+
+                return Ok(Value::Delimiter(Delimiter {
+                    span: span!(self, span.lo),
+                    value: DelimiterValue::Semicolon,
+                }));
+            }
+
             tok!("str") => return Ok(Value::Str(self.parse()?)),
 
             tok!("url") => return Ok(Value::Url(self.parse()?)),

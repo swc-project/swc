@@ -112,6 +112,7 @@ define!({
     pub enum DelimiterValue {
         Comma,
         Solidus,
+        Semicolon,
     }
 
     pub struct Delimiter {
