@@ -40,8 +40,6 @@ fn tokens_input(input: PathBuf) {
         let _ss: Stylesheet = parse_tokens(
             &tokens,
             ParserConfig {
-                parse_values: true,
-
                 ..Default::default()
             },
             &mut errors,
@@ -106,8 +104,6 @@ fn test_pass(input: PathBuf, config: ParserConfig) {
                     let ss_tok: Stylesheet = parse_tokens(
                         &tokens,
                         ParserConfig {
-                            parse_values: true,
-
                             ..Default::default()
                         },
                         &mut errors,
@@ -145,7 +141,6 @@ fn pass(input: PathBuf) {
     test_pass(
         input,
         ParserConfig {
-            parse_values: true,
             ..Default::default()
         },
     )
@@ -156,7 +151,6 @@ fn line_comments(input: PathBuf) {
     test_pass(
         input,
         ParserConfig {
-            parse_values: true,
             allow_wrong_line_comments: true,
             ..Default::default()
         },
@@ -178,7 +172,6 @@ fn recovery(input: PathBuf) {
         let ref_json_path = input.parent().unwrap().join("output.json");
 
         let config = ParserConfig {
-            parse_values: true,
             allow_wrong_line_comments: false,
         };
         let fm = cm.load_file(&input).unwrap();
@@ -222,7 +215,6 @@ fn recovery(input: PathBuf) {
                     let ss_tok: Stylesheet = parse_tokens(
                         &tokens,
                         ParserConfig {
-                            parse_values: true,
                             ..Default::default()
                         },
                         &mut errors,
@@ -529,7 +521,6 @@ fn span(input: PathBuf) {
         }
 
         let config = ParserConfig {
-            parse_values: true,
             ..Default::default()
         };
 
@@ -568,8 +559,6 @@ fn fail(input: PathBuf) {
 
     let stderr = testing::run_test2(false, |cm, handler| -> Result<(), _> {
         let config = ParserConfig {
-            parse_values: true,
-
             ..Default::default()
         };
 

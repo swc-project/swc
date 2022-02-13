@@ -36,7 +36,6 @@ fn run(input: &Path, minify: bool) {
         let mut stylesheet: Stylesheet = parse_file(
             &fm,
             ParserConfig {
-                parse_values: true,
                 ..Default::default()
             },
             &mut errors,
@@ -72,7 +71,6 @@ fn run(input: &Path, minify: bool) {
         let mut stylesheet_output: Stylesheet = parse_file(
             &fm_output,
             ParserConfig {
-                parse_values: true,
                 ..Default::default()
             },
             &mut errors,
@@ -156,7 +154,6 @@ fn parse_again(input: PathBuf) {
         let mut stylesheet: Stylesheet = parse_file(
             &fm,
             ParserConfig {
-                parse_values: true,
                 ..Default::default()
             },
             &mut errors,
@@ -184,7 +181,6 @@ fn parse_again(input: PathBuf) {
         let mut parsed: Stylesheet = parse_file(
             &new_fm,
             ParserConfig {
-                parse_values: true,
                 ..Default::default()
             },
             &mut parsed_errors,
