@@ -25,6 +25,12 @@
 
 - **(es/lints)** Add `allow` config for `no-console` rule (#3517) ([286b6c8](https://github.com/swc-project/swc/commit/286b6c804fc9f4b12065eb848be56d0a58230cf2))
 
+### Performance
+
+
+
+- **(es/optimization)** Replace `map_with_mut` with proper implementation (#3539) ([6d132ca](https://github.com/swc-project/swc/commit/6d132ca0765a46b39a6844b7de2e7f2655f7dd1b))
+
 ## [1.2.139] - 2022-02-12
 
 ### Bug Fixes
