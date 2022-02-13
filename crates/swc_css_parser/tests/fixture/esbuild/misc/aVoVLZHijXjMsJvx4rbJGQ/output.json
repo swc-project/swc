@@ -14,18 +14,19 @@
         "ctxt": 0
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 10,
           "end": 26,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",
             "span": {
               "start": 12,
-              "end": 24,
+              "end": 25,
               "ctxt": 0
             },
             "name": {

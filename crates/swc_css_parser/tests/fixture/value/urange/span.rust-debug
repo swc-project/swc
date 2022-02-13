@@ -46,7 +46,7 @@ error: FontFaceRule
 18 | | }
    | |_^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/value/urange/input.css:1:12
    |
 1  |   @font-face {

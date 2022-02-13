@@ -551,11 +551,8 @@ where
                         unreachable!()
                     }
                 };
-                if usage.used_above_decl {
-                    self.inlined_vars.insert(i.to_id(), e);
-                } else {
-                    self.vars_for_inlining.insert(i.to_id(), e);
-                }
+
+                self.vars_for_inlining.insert(i.to_id(), e);
             } else {
                 if cfg!(feature = "debug") {
                     tracing::trace!("inline: [x] Usage: {:?}", usage);

@@ -602,7 +602,7 @@ export interface EsParserConfig {
 }
 
 /**
- * Options for trasnform.
+ * Options for transform.
  */
 export interface TransformConfig {
   /**

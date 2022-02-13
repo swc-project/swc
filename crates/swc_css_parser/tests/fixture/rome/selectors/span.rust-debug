@@ -266,7 +266,7 @@ error: Ident
 1 | div, div + #id, div ~ #id, div > #id {
   |                                  ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/rome/selectors/input.css:1:38
   |
 1 |   div, div + #id, div ~ #id, div > #id {
@@ -327,7 +327,7 @@ error: Ident
 5 | .escaped\.class\.name {
   |  ^^^^^^^^^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/rome/selectors/input.css:5:23
   |
 5 |   .escaped\.class\.name {
@@ -412,7 +412,7 @@ error: UniversalSelector
 9 | .class + * {
   |          ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/rome/selectors/input.css:9:12
    |
 9  |   .class + * {
@@ -503,7 +503,7 @@ error: Ident
 13 | a[title] {
    |   ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/rome/selectors/input.css:13:10
    |
 13 |   a[title] {
@@ -642,7 +642,7 @@ error: Str
 17 | a[title = "title"] {
    |           ^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/rome/selectors/input.css:17:20
    |
 17 |   a[title = "title"] {
@@ -793,7 +793,7 @@ error: Ident
 21 | a[title~="title" i] {
    |                  ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/rome/selectors/input.css:21:21
    |
 21 |   a[title~="title" i] {
@@ -986,7 +986,7 @@ error: Ident
 25 | a[title = "title"][href*="image/*" S] {
    |                                    ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/rome/selectors/input.css:25:39
    |
 25 |   a[title = "title"][href*="image/*" S] {
@@ -1111,7 +1111,7 @@ error: AnPlusB
 29 | p:nth-last-of-type(2) {
    |                    ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/rome/selectors/input.css:29:23
    |
 29 |   p:nth-last-of-type(2) {
@@ -1169,12 +1169,6 @@ error: Ident
 32 | :lang(en, ko) {
    |  ^^^^
 
-error: Tokens
-  --> $DIR/tests/fixture/rome/selectors/input.css:32:7
-   |
-32 | :lang(en, ko) {
-   |       ^^^^^^
-
 error: Ident { value: Atom('en' type=inline), raw: Atom('en' type=inline) }
   --> $DIR/tests/fixture/rome/selectors/input.css:32:7
    |
@@ -1199,7 +1193,7 @@ error: Ident { value: Atom('ko' type=inline), raw: Atom('ko' type=inline) }
 32 | :lang(en, ko) {
    |           ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/rome/selectors/input.css:32:15
    |
 32 |   :lang(en, ko) {
@@ -1257,13 +1251,7 @@ error: Ident
 35 | ::pseudo-elem() {
    |   ^^^^^^^^^^^
 
-error: Tokens
-  --> $DIR/tests/fixture/rome/selectors/input.css:35:15
-   |
-35 | ::pseudo-elem() {
-   |               ^
-
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/rome/selectors/input.css:35:17
    |
 35 |   ::pseudo-elem() {
@@ -1321,12 +1309,6 @@ error: Ident
 38 | ::pseudo-elem(a, b) {
    |   ^^^^^^^^^^^
 
-error: Tokens
-  --> $DIR/tests/fixture/rome/selectors/input.css:38:15
-   |
-38 | ::pseudo-elem(a, b) {
-   |               ^^^^
-
 error: Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
   --> $DIR/tests/fixture/rome/selectors/input.css:38:15
    |
@@ -1351,7 +1333,7 @@ error: Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
 38 | ::pseudo-elem(a, b) {
    |                  ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/rome/selectors/input.css:38:21
    |
 38 |   ::pseudo-elem(a, b) {

@@ -71,55 +71,34 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 2,
           "end": 24,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
-            "type": "Tokens",
+            "type": "Declaration",
             "span": {
               "start": 4,
-              "end": 23,
+              "end": 22,
               "ctxt": 0
             },
-            "tokens": [
-              {
-                "span": {
-                  "start": 4,
-                  "end": 9,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "value",
-                    "raw": "value"
-                  }
-                }
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 4,
+                "end": 9,
+                "ctxt": 0
               },
+              "value": "value",
+              "raw": "value"
+            },
+            "value": [
               {
-                "span": {
-                  "start": 9,
-                  "end": 10,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
-                "span": {
-                  "start": 10,
-                  "end": 11,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              },
-              {
+                "type": "PreservedToken",
                 "span": {
                   "start": 11,
                   "end": 22,
@@ -131,20 +110,9 @@
                     "raw": "\\6b eyword"
                   }
                 }
-              },
-              {
-                "span": {
-                  "start": 22,
-                  "end": 23,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
               }
-            ]
+            ],
+            "important": null
           }
         ]
       }

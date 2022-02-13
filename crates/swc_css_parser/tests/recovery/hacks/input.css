@@ -246,3 +246,17 @@ a {
     font-size/**/: big;
     $(var)-size: 100%;
 }
+
+a{*b:c}
+
+div {
+    color: red;
+}
+
+/*\*//*/ selector { property:value; } /**/
+selector { property:value; p\roperty: normal-value; }
+
+
+div {
+    color: red;
+}

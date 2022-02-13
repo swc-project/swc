@@ -14,59 +14,77 @@
         "ctxt": 0
       },
       "prelude": null,
-      "block": [
-        {
-          "type": "PageMarginRule",
-          "span": {
-            "start": 9,
-            "end": 42,
-            "ctxt": 0
-          },
-          "name": {
-            "type": "Ident",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 6,
+          "end": 44,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "PageMarginRule",
             "span": {
-              "start": 10,
-              "end": 20,
+              "start": 9,
+              "end": 42,
               "ctxt": 0
             },
-            "value": "top-center",
-            "raw": "top-center"
-          },
-          "block": [
-            {
-              "type": "Declaration",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 25,
-                "end": 38,
+                "start": 10,
+                "end": 20,
                 "ctxt": 0
               },
-              "name": {
-                "type": "Ident",
-                "span": {
-                  "start": 25,
-                  "end": 32,
-                  "ctxt": 0
-                },
-                "value": "display",
-                "raw": "display"
+              "value": "top-center",
+              "raw": "top-center"
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 21,
+                "end": 42,
+                "ctxt": 0
               },
+              "name": "{",
               "value": [
                 {
-                  "type": "Ident",
+                  "type": "Declaration",
                   "span": {
-                    "start": 34,
+                    "start": 25,
                     "end": 38,
                     "ctxt": 0
                   },
-                  "value": "none",
-                  "raw": "none"
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 25,
+                      "end": 32,
+                      "ctxt": 0
+                    },
+                    "value": "display",
+                    "raw": "display"
+                  },
+                  "value": [
+                    {
+                      "type": "Ident",
+                      "span": {
+                        "start": 34,
+                        "end": 38,
+                        "ctxt": 0
+                      },
+                      "value": "none",
+                      "raw": "none"
+                    }
+                  ],
+                  "important": null
                 }
-              ],
-              "important": null
+              ]
             }
-          ]
-        }
-      ]
+          }
+        ]
+      }
     }
   ]
 }

@@ -502,7 +502,7 @@ error: Ident
 6 | .box {
   |  ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/value/resolution/input.css:6:6
    |
 6  |   .box {

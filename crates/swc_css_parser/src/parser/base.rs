@@ -4,7 +4,7 @@ use swc_css_ast::*;
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
-    parser::{Ctx, RuleContext},
+    parser::{Ctx, Grammar, RuleContext},
     Parse,
 };
 
@@ -53,14 +53,14 @@ where
                 tok!("<!--") | tok!("-->") => {
                     // If the top-level flag is set, do nothing.
                     if ctx.is_top_level {
-                        self.input.bump()?;
+                        bump!(self);
 
                         continue;
                     }
 
                     // Otherwise, reconsume the current input token. Consume a qualified rule. If
                     // anything is returned, append it to the list of rules.
-                    rules.push(self.parse()?);
+                    rules.push(Rule::QualifiedRule(self.parse()?));
                 }
                 // <at-keyword-token>
                 // Reconsume the current input token. Consume an at-rule, and append the returned
@@ -72,53 +72,84 @@ where
                 // Reconsume the current input token. Consume a qualified rule. If anything is
                 // returned, append it to the list of rules.
                 _ => {
-                    rules.push(self.parse()?);
+                    let state = self.input.state();
+                    let qualified_rule = self.parse();
+
+                    match qualified_rule {
+                        Ok(i) => rules.push(Rule::QualifiedRule(i)),
+                        Err(err) => {
+                            if is!(self, "}") {
+                                self.errors.push(err);
+                                self.input.reset(&state);
+
+                                let start_pos = self.input.cur_span()?.lo;
+
+                                let mut tokens = vec![];
+
+                                while !is_one_of!(self, EOF, "}") {
+                                    tokens.extend(self.input.bump()?);
+                                }
+
+                                rules.push(Rule::Invalid(Tokens {
+                                    span: span!(self, start_pos),
+                                    tokens,
+                                }));
+                            } else {
+                                return Err(err);
+                            }
+                        }
+                    };
                 }
             }
         }
     }
 }
 
-impl<I> Parse<Rule> for Parser<I>
+impl<I> Parse<QualifiedRule> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<Rule> {
-        let start_pos = self.input.cur_span()?.lo;
-        let start_state = self.input.state();
-
-        let prelude = self.parse();
-        let prelude = match prelude {
-            Ok(v) => v,
-            Err(err) => {
-                self.input.skip_ws()?;
-                if is!(self, "}") {
-                    self.errors.push(err);
-                    self.input.reset(&start_state);
-
-                    let mut tokens = vec![];
-                    while !is_one_of!(self, EOF, "}") {
-                        tokens.extend(self.input.bump()?);
-                    }
-
-                    return Ok(Rule::Invalid(Tokens {
-                        span: span!(self, start_pos),
-                        tokens,
-                    }));
-                } else {
-                    return Err(err);
-                }
-            }
+    fn parse(&mut self) -> PResult<QualifiedRule> {
+        let span = self.input.cur_span()?;
+        let mut prelude = SelectorList {
+            span: Default::default(),
+            children: vec![],
         };
 
-        let block = self.parse()?;
-        let span = span!(self, start_pos);
+        // Repeatedly consume the next input token:
+        loop {
+            // <EOF-token>
+            // Return the list of rules.
+            if is!(self, EOF) {
+                let span = self.input.cur_span()?;
 
-        Ok(Rule::QualifiedRule(QualifiedRule {
-            span,
-            prelude,
-            block,
-        }))
+                return Err(Error::new(span, ErrorKind::Eof));
+            }
+
+            match cur!(self) {
+                // <{-token>
+                // Consume a simple block and assign it to the qualified rule’s block. Return the
+                // qualified rule.
+                tok!("{") => {
+                    let ctx = Ctx {
+                        grammar: Grammar::DeclarationList,
+                        ..self.ctx
+                    };
+                    let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+
+                    return Ok(QualifiedRule {
+                        span: span!(self, span.lo),
+                        prelude,
+                        block,
+                    });
+                }
+                // Reconsume the current input token. Consume a component value. Append the returned
+                // value to the qualified rule’s prelude.
+                _ => {
+                    prelude = self.parse()?;
+                }
+            }
+        }
     }
 }
 
@@ -193,28 +224,41 @@ where
                 // Reconsume the current input token. Consume a component value and append it to the
                 // value of the block.
                 _ => {
-                    let state = self.input.state();
-                    let ctx = Ctx {
-                        // TODO refactor me
-                        allow_operation_in_value: name == '(',
-                        ..self.ctx
-                    };
-                    let parsed = self.with_ctx(ctx).parse_one_value_inner();
-                    let value = match parsed {
-                        Ok(value) => {
-                            self.input.skip_ws()?;
+                    match self.ctx.grammar {
+                        Grammar::DeclarationList => {
+                            let declaration_list: Vec<DeclarationBlockItem> = self.parse()?;
+                            let declaration_list: Vec<ComponentValue> = declaration_list
+                                .into_iter()
+                                .map(ComponentValue::DeclarationBlockItem)
+                                .collect();
 
-                            value
+                            simple_block.value.extend(declaration_list);
                         }
-                        Err(err) => {
-                            self.errors.push(err);
-                            self.input.reset(&state);
+                        Grammar::DeclarationValue => {
+                            let state = self.input.state();
+                            let ctx = Ctx {
+                                // TODO refactor me
+                                allow_operation_in_value: name == '(',
+                                ..self.ctx
+                            };
+                            let parsed = self.with_ctx(ctx).parse_one_value_inner();
+                            let value = match parsed {
+                                Ok(value) => {
+                                    self.input.skip_ws()?;
 
-                            self.parse_component_value()?
+                                    value
+                                }
+                                Err(err) => {
+                                    self.errors.push(err);
+                                    self.input.reset(&state);
+
+                                    self.parse_component_value()?
+                                }
+                            };
+
+                            simple_block.value.push(ComponentValue::Value(value));
                         }
-                    };
-
-                    simple_block.value.push(value);
+                    }
                 }
             }
         }
@@ -222,27 +266,6 @@ where
         simple_block.span = span!(self, span.lo);
 
         Ok(simple_block)
-    }
-}
-
-impl<I> Parse<Block> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<Block> {
-        let start = self.input.cur_span()?.lo;
-
-        expect!(self, "{");
-
-        self.input.skip_ws()?;
-
-        let value = self.parse()?;
-
-        expect!(self, "}");
-
-        let span = span!(self, start);
-
-        Ok(Block { span, value })
     }
 }
 
@@ -313,7 +336,8 @@ where
 
                     let mut tokens = vec![];
 
-                    while !is_one_of!(self, EOF, ";") {
+                    // TODO fix me
+                    while !is_one_of!(self, EOF, ";", "}") {
                         tokens.extend(self.input.bump()?);
                     }
 
@@ -363,21 +387,38 @@ where
         if !is!(self, EOF) {
             match is_dashed_ident {
                 true => {
-                    let tokens = Value::Tokens(self.parse_declaration_value()?);
-
-                    value.push(tokens);
+                    value.extend(self.parse_declaration_value()?);
                 }
                 false => {
-                    let ctx = Ctx {
-                        allow_operation_in_value: false,
-                        recover_from_property_value: true,
-                        ..self.ctx
-                    };
-                    let (parsed_value, parsed_last_pos) =
-                        self.with_ctx(ctx).parse_property_values()?;
+                    loop {
+                        // TODO fix me
+                        self.input.skip_ws()?;
 
-                    value.extend(parsed_value);
-                    end = parsed_last_pos;
+                        // TODO fix me
+                        if is_one_of!(self, EOF, "!", ";", "}", ")") {
+                            break;
+                        }
+
+                        let ctx = Ctx {
+                            allow_operation_in_value: false,
+                            ..self.ctx
+                        };
+
+                        let state = self.input.state();
+                        let parsed = self.with_ctx(ctx).parse_one_value_inner();
+                        let value_or_token = match parsed {
+                            Ok(value) => value,
+                            Err(err) => {
+                                self.errors.push(err);
+                                self.input.reset(&state);
+
+                                self.parse_component_value()?
+                            }
+                        };
+
+                        value.push(value_or_token);
+                        end = self.input.last_pos()?;
+                    }
                 }
             }
         }

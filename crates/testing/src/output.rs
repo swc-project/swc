@@ -1,5 +1,5 @@
 use std::{
-    fmt,
+    env, fmt,
     fs::{create_dir_all, File},
     io::Read,
     ops::Deref,
@@ -109,7 +109,11 @@ impl NormalizedOutput {
             actual: self,
         };
 
-        pretty_assertions::assert_eq!(diff.expected, diff.actual, "Actual:\n{}", diff.actual);
+        if env::var("DIFF").unwrap_or_default() == "0" {
+            assert_eq!(diff.expected, diff.actual, "Actual:\n{}", diff.actual);
+        } else {
+            pretty_assertions::assert_eq!(diff.expected, diff.actual, "Actual:\n{}", diff.actual);
+        }
 
         // Actually unreachable.
         Err(diff)

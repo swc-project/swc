@@ -158,27 +158,29 @@
                           "value": "nth-child",
                           "raw": "nth-child"
                         },
-                        "children": {
-                          "type": "Nth",
-                          "span": {
-                            "start": 49,
-                            "end": 51,
-                            "ctxt": 0
-                          },
-                          "nth": {
-                            "type": "AnPlusB",
+                        "children": [
+                          {
+                            "type": "Nth",
                             "span": {
                               "start": 49,
                               "end": 51,
                               "ctxt": 0
                             },
-                            "a": 4,
-                            "aRaw": "4",
-                            "b": null,
-                            "bRaw": null
-                          },
-                          "selectorList": null
-                        }
+                            "nth": {
+                              "type": "AnPlusB",
+                              "span": {
+                                "start": 49,
+                                "end": 51,
+                                "ctxt": 0
+                              },
+                              "a": 4,
+                              "aRaw": "4",
+                              "b": null,
+                              "bRaw": null
+                            },
+                            "selectorList": null
+                          }
+                        ]
                       }
                     ]
                   }
@@ -187,12 +189,13 @@
             ]
           },
           "block": {
-            "type": "Block",
+            "type": "SimpleBlock",
             "span": {
               "start": 53,
               "end": 85,
               "ctxt": 0
             },
+            "name": "{",
             "value": [
               {
                 "type": "Declaration",
@@ -305,12 +308,13 @@
             ]
           },
           "block": {
-            "type": "Block",
+            "type": "SimpleBlock",
             "span": {
               "start": 108,
               "end": 140,
               "ctxt": 0
             },
+            "name": "{",
             "value": [
               {
                 "type": "Declaration",
@@ -473,27 +477,29 @@
                           "value": "nth-child",
                           "raw": "nth-child"
                         },
-                        "children": {
-                          "type": "Nth",
-                          "span": {
-                            "start": 186,
-                            "end": 187,
-                            "ctxt": 0
-                          },
-                          "nth": {
-                            "type": "AnPlusB",
+                        "children": [
+                          {
+                            "type": "Nth",
                             "span": {
                               "start": 186,
                               "end": 187,
                               "ctxt": 0
                             },
-                            "a": null,
-                            "aRaw": null,
-                            "b": 5,
-                            "bRaw": "5"
-                          },
-                          "selectorList": null
-                        }
+                            "nth": {
+                              "type": "AnPlusB",
+                              "span": {
+                                "start": 186,
+                                "end": 187,
+                                "ctxt": 0
+                              },
+                              "a": null,
+                              "aRaw": null,
+                              "b": 5,
+                              "bRaw": "5"
+                            },
+                            "selectorList": null
+                          }
+                        ]
                       }
                     ]
                   }
@@ -552,27 +558,29 @@
                           "value": "nth-child",
                           "raw": "nth-child"
                         },
-                        "children": {
-                          "type": "Nth",
-                          "span": {
-                            "start": 211,
-                            "end": 212,
-                            "ctxt": 0
-                          },
-                          "nth": {
-                            "type": "AnPlusB",
+                        "children": [
+                          {
+                            "type": "Nth",
                             "span": {
                               "start": 211,
                               "end": 212,
                               "ctxt": 0
                             },
-                            "a": null,
-                            "aRaw": null,
-                            "b": 9,
-                            "bRaw": "9"
-                          },
-                          "selectorList": null
-                        }
+                            "nth": {
+                              "type": "AnPlusB",
+                              "span": {
+                                "start": 211,
+                                "end": 212,
+                                "ctxt": 0
+                              },
+                              "a": null,
+                              "aRaw": null,
+                              "b": 9,
+                              "bRaw": "9"
+                            },
+                            "selectorList": null
+                          }
+                        ]
                       }
                     ]
                   }
@@ -631,27 +639,29 @@
                           "value": "nth-child",
                           "raw": "nth-child"
                         },
-                        "children": {
-                          "type": "Nth",
-                          "span": {
-                            "start": 236,
-                            "end": 238,
-                            "ctxt": 0
-                          },
-                          "nth": {
-                            "type": "AnPlusB",
+                        "children": [
+                          {
+                            "type": "Nth",
                             "span": {
                               "start": 236,
                               "end": 238,
                               "ctxt": 0
                             },
-                            "a": null,
-                            "aRaw": null,
-                            "b": 13,
-                            "bRaw": "13"
-                          },
-                          "selectorList": null
-                        }
+                            "nth": {
+                              "type": "AnPlusB",
+                              "span": {
+                                "start": 236,
+                                "end": 238,
+                                "ctxt": 0
+                              },
+                              "a": null,
+                              "aRaw": null,
+                              "b": 13,
+                              "bRaw": "13"
+                            },
+                            "selectorList": null
+                          }
+                        ]
                       }
                     ]
                   }
@@ -660,12 +670,13 @@
             ]
           },
           "block": {
-            "type": "Block",
+            "type": "SimpleBlock",
             "span": {
               "start": 240,
               "end": 271,
               "ctxt": 0
             },
+            "name": "{",
             "value": [
               {
                 "type": "Declaration",
@@ -710,6 +721,7 @@
           },
           "tokens": [
             {
+              "type": "PreservedToken",
               "span": {
                 "start": 276,
                 "end": 303,
@@ -723,6 +735,7 @@
               }
             },
             {
+              "type": "PreservedToken",
               "span": {
                 "start": 303,
                 "end": 304,

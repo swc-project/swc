@@ -3,9 +3,7 @@ class MyTestClass {
     get prop() {
         return this;
     }
-    set prop(v) {
-        v = v;
-    }
+    set prop(v) {}
     static staticFn(t = this) {
         var t, p, t = MyTestClass;
         t.staticCanary;
@@ -29,9 +27,7 @@ class MyGenericTestClass {
     get prop() {
         return this;
     }
-    set prop(v) {
-        v = v;
-    }
+    set prop(v) {}
     static staticFn(t = this) {
         var t, p, t = MyGenericTestClass;
         t.staticCanary;

@@ -56,29 +56,22 @@
                       "value": "pseudo",
                       "raw": "pseudo"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 8,
-                        "end": 14,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 8,
-                            "end": 14,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "cl,ss",
-                              "raw": "cl\\,ss"
-                            }
+                    "children": [
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 8,
+                          "end": 14,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "cl,ss",
+                            "raw": "cl\\,ss"
                           }
                         }
-                      ]
-                    }
+                      }
+                    ]
                   }
                 ]
               }
@@ -87,12 +80,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 16,
           "end": 18,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     }

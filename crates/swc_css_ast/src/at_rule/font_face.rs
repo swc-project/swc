@@ -1,9 +1,9 @@
 use swc_common::{ast_node, Span};
 
-use crate::Block;
+use crate::SimpleBlock;
 
 #[ast_node("FontFaceRule")]
 pub struct FontFaceRule {
     pub span: Span,
-    pub block: Block,
+    pub block: SimpleBlock,
 }

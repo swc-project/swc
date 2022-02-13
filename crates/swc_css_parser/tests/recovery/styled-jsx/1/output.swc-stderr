@@ -1,18 +1,18 @@
-error: Expected a property value
-  --> $DIR/tests/recovery/styled-jsx/1/input.css:10:17
+error: Expected Declaration value
+  --> $DIR/tests/recovery/styled-jsx/1/input.css:10:44
    |
 10 |     flex-basis: __styled-jsx-placeholder__2%;
-   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |                                            ^
 
-error: Expected a property value
-  --> $DIR/tests/recovery/styled-jsx/1/input.css:16:21
+error: Expected Declaration value
+  --> $DIR/tests/recovery/styled-jsx/1/input.css:16:48
    |
 16 |         flex-basis: __styled-jsx-placeholder__3%;
-   |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |                                                ^
 
-error: Expected a property value
-  --> $DIR/tests/recovery/styled-jsx/1/input.css:22:21
+error: Expected Declaration value
+  --> $DIR/tests/recovery/styled-jsx/1/input.css:22:48
    |
 22 |         flex-basis: __styled-jsx-placeholder__4%;
-   |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |                                                ^
 

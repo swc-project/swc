@@ -25,71 +25,44 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 10,
             "end": 11,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "span": {
-                "start": 10,
-                "end": 11,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 11,
             "end": 16,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "span": {
-                "start": 11,
-                "end": 16,
-                "ctxt": 0
-              },
-              "token": {
-                "Ident": {
-                  "value": "unset",
-                  "raw": "unset"
-                }
-              }
+          "token": {
+            "Ident": {
+              "value": "unset",
+              "raw": "unset"
             }
-          ]
+          }
         },
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 16,
             "end": 17,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "span": {
-                "start": 16,
-                "end": 17,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         }
       ],
       "block": {

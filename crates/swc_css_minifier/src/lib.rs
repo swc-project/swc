@@ -1,24 +1,14 @@
 use swc_css_ast::*;
-use swc_css_visit::{VisitMut, VisitMutWith};
+use swc_css_visit::VisitMutWith;
 
-pub fn minify(ss: &mut Stylesheet) {
-    ss.visit_mut_with(&mut minifier());
-}
+use self::compress::{
+    angle::compress_angle, empty_qualified_rule::compress_empty_qualified_rule, time::compress_time,
+};
 
-fn minifier() -> impl VisitMut {
-    Minifier {}
-}
+mod compress;
 
-struct Minifier {}
-
-impl VisitMut for Minifier {
-    fn visit_mut_tokens(&mut self, tokens: &mut Tokens) {
-        for tok in tokens.tokens.iter_mut() {
-            if let Token::WhiteSpace { value, .. } = &mut tok.token {
-                if value.len() >= 2 {
-                    *value = " ".into()
-                }
-            }
-        }
-    }
+pub fn minify(stylesheet: &mut Stylesheet) {
+    stylesheet.visit_mut_with(&mut compress_empty_qualified_rule());
+    stylesheet.visit_mut_with(&mut compress_time());
+    stylesheet.visit_mut_with(&mut compress_angle());
 }

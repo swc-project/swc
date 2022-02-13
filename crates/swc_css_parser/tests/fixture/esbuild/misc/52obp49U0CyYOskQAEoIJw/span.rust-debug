@@ -76,7 +76,7 @@ error: Ident
 1 | div#--0 {}
   |    ^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/52obp49U0CyYOskQAEoIJw/input.css:1:9
   |
 1 | div#--0 {}

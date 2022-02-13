@@ -71,7 +71,7 @@ error: Ident
 2 | body {
   | ^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/rome/smoke/input.css:2:6
   |
 2 |   body {

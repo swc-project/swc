@@ -27,9 +27,7 @@ var MyTestClass = function() {
             get: function() {
                 return this;
             },
-            set: function(v) {
-                v = v;
-            }
+            set: function(v) {}
         }
     ], [
         {
@@ -70,9 +68,7 @@ var MyTestClass = function() {
             get: function() {
                 return this;
             },
-            set: function(v) {
-                v = v;
-            }
+            set: function(v) {}
         }
     ], [
         {

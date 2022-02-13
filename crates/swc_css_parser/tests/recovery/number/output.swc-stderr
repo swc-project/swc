@@ -1,11 +1,18 @@
-error: Expected a property value
- --> $DIR/tests/recovery/number/input.css:2:11
+error: Expected Declaration value
+ --> $DIR/tests/recovery/number/input.css:3:10
   |
-2 |       prop: 10.10px
-  |  ___________^
-3 | |     prop1: 10px
-4 | |     prop2: 10
-5 | |     prop3: 10.10
-6 | | }
-  | |_
+3 |     prop1: 10px
+  |          ^
+
+error: Expected Declaration value
+ --> $DIR/tests/recovery/number/input.css:4:10
+  |
+4 |     prop2: 10
+  |          ^
+
+error: Expected Declaration value
+ --> $DIR/tests/recovery/number/input.css:5:10
+  |
+5 |     prop3: 10.10
+  |          ^
 

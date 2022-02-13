@@ -64,18 +64,19 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 7,
           "end": 38,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",
             "span": {
               "start": 13,
-              "end": 19,
+              "end": 20,
               "ctxt": 0
             },
             "name": {
@@ -183,12 +184,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 47,
           "end": 80,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Tokens",
@@ -199,6 +201,7 @@
             },
             "tokens": [
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 53,
                   "end": 57,
@@ -212,6 +215,7 @@
                 }
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 57,
                   "end": 58,
@@ -220,6 +224,7 @@
                 "token": "Colon"
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 58,
                   "end": 59,
@@ -232,6 +237,7 @@
                 }
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 59,
                   "end": 60,
@@ -244,6 +250,7 @@
                 }
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 60,
                   "end": 61,

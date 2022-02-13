@@ -31,13 +31,25 @@ pub struct ParserConfig {
     pub allow_wrong_line_comments: bool,
 }
 
+#[derive(Debug, Clone, Copy)]
+pub enum Grammar {
+    DeclarationList,
+    DeclarationValue,
+}
+
+impl Default for Grammar {
+    fn default() -> Self {
+        Grammar::DeclarationValue
+    }
+}
+
 #[derive(Debug, Default, Clone, Copy)]
 struct Ctx {
+    grammar: Grammar,
+
     in_page_at_rule: bool,
 
     allow_operation_in_value: bool,
-
-    recover_from_property_value: bool,
 }
 
 #[derive(Debug)]

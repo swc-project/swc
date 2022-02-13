@@ -44,6 +44,17 @@ error: DashedIdent
 1 | @property --my-color {
   |           ^^^^^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/property/input.css:1:22
+  |
+1 |   @property --my-color {
+  |  ______________________^
+2 | |     syntax: '<color>';
+3 | |     inherits: false;
+4 | |     initial-value: #c0ffee;
+5 | | }
+  | |_^
+
 error: Declaration
  --> $DIR/tests/fixture/at-rule/property/input.css:2:5
   |

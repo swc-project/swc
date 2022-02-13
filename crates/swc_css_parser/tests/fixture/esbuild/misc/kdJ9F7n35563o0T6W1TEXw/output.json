@@ -14,27 +14,45 @@
         "ctxt": 0
       },
       "prelude": null,
-      "block": [
-        {
-          "type": "PageMarginRule",
-          "span": {
-            "start": 8,
-            "end": 20,
-            "ctxt": 0
-          },
-          "name": {
-            "type": "Ident",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 6,
+          "end": 22,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "PageMarginRule",
             "span": {
-              "start": 9,
-              "end": 17,
+              "start": 8,
+              "end": 20,
               "ctxt": 0
             },
-            "value": "top-left",
-            "raw": "top-left"
-          },
-          "block": []
-        }
-      ]
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 9,
+                "end": 17,
+                "ctxt": 0
+              },
+              "value": "top-left",
+              "raw": "top-left"
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 18,
+                "end": 20,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": []
+            }
+          }
+        ]
+      }
     }
   ]
 }

@@ -46,7 +46,7 @@ error: Ident
 1 | @keyframes test { from { color: red } to {} }
   |                   ^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:24
   |
 1 | @keyframes test { from { color: red } to {} }
@@ -100,7 +100,7 @@ error: Ident
 1 | @keyframes test { from { color: red } to {} }
   |                                       ^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:42
   |
 1 | @keyframes test { from { color: red } to {} }

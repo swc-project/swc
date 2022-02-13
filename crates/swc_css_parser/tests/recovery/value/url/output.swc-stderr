@@ -4,3 +4,9 @@ error: Expected Declaration value
 3 |     background: url(var(--foo));
   |                 ^^^^^^^^^^^^^^
 
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+ --> $DIR/tests/recovery/value/url/input.css:3:31
+  |
+3 |     background: url(var(--foo));
+  |                               ^
+
