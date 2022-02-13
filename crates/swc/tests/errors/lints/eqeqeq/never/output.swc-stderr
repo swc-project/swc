@@ -1,0 +1,12 @@
+error: Use '==' instead of '==='
+ 
+  |
+3 | if (x === y || z !== (a || b)) {}
+  |     ^^^^^^^
+
+error: Use '!=' instead of '!=='
+ 
+  |
+3 | if (x === y || z !== (a || b)) {}
+  |                ^^^^^^^^^^^^^^
+
