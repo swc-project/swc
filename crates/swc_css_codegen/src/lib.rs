@@ -1144,10 +1144,7 @@ where
 
     #[emitter]
     fn emit_calc_operator(&mut self, n: &CalcOperator) -> Result {
-        let need_space = match n.value {
-            CalcOperatorType::Add | CalcOperatorType::Sub => true,
-            _ => false,
-        };
+        let need_space = matches!(n.value, CalcOperatorType::Add | CalcOperatorType::Sub);
 
         if need_space {
             space!(self);
