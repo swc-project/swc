@@ -141,4 +141,9 @@ div { width: calc(50% - ( ( 4% ) * 0.5 ) ); }
 .sign {
     background-position: sign(10%);
     background-position: sign(10% * 2);
+    background-position: sign(   10%   *   2   );
+    background-position: sign(10%*2);
+    background-position: sign(   10   +   10   );
+    background-position: sign(   10%   );
+    width: calc(   (   100px   +   100px   )   *   2   );
 }

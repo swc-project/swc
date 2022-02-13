@@ -158,7 +158,7 @@
                         "type": "CalcProduct",
                         "span": {
                           "start": 66,
-                          "end": 70,
+                          "end": 69,
                           "ctxt": 0
                         },
                         "expressions": [

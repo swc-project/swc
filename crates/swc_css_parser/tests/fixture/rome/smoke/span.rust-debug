@@ -163,13 +163,13 @@ error: CalcProductOrOperator
  --> $DIR/tests/fixture/rome/smoke/input.css:4:17
   |
 4 |     width: calc(1px + 2%);
-  |                 ^^^^
+  |                 ^^^
 
 error: CalcProduct
  --> $DIR/tests/fixture/rome/smoke/input.css:4:17
   |
 4 |     width: calc(1px + 2%);
-  |                 ^^^^
+  |                 ^^^
 
 error: CalcValueOrOperator
  --> $DIR/tests/fixture/rome/smoke/input.css:4:17

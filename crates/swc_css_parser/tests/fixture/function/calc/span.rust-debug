@@ -6,8 +6,8 @@ error: Stylesheet
 3   | | }
 4   | |
 ...   |
-143 | |     background-position: sign(10% * 2);
-144 | | }
+148 | |     width: calc(   (   100px   +   100px   )   *   2   );
+149 | | }
     | |__^
 
 error: Rule
@@ -604,13 +604,13 @@ error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:10:23
    |
 10 |     line-height: calc(2 + 3 * 4);
-   |                       ^^
+   |                       ^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:10:23
    |
 10 |     line-height: calc(2 + 3 * 4);
-   |                       ^^
+   |                       ^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:10:23
@@ -763,34 +763,34 @@ error: CalcProduct
    |                       ^^^^^^^^^^^
 
 error: CalcValueOrOperator
-  --> $DIR/tests/fixture/function/calc/input.css:11:24
+  --> $DIR/tests/fixture/function/calc/input.css:11:23
    |
 11 |     line-height: calc((2 + 3) * 4);
-   |                        ^^^^^
+   |                       ^^^^^^^
 
 error: CalcValue
-  --> $DIR/tests/fixture/function/calc/input.css:11:24
+  --> $DIR/tests/fixture/function/calc/input.css:11:23
    |
 11 |     line-height: calc((2 + 3) * 4);
-   |                        ^^^^^
+   |                       ^^^^^^^
 
 error: CalcSum
-  --> $DIR/tests/fixture/function/calc/input.css:11:24
+  --> $DIR/tests/fixture/function/calc/input.css:11:23
    |
 11 |     line-height: calc((2 + 3) * 4);
-   |                        ^^^^^
+   |                       ^^^^^^^
 
 error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:11:24
    |
 11 |     line-height: calc((2 + 3) * 4);
-   |                        ^^
+   |                        ^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:11:24
    |
 11 |     line-height: calc((2 + 3) * 4);
-   |                        ^^
+   |                        ^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:11:24
@@ -1051,34 +1051,28 @@ error: CalcProduct
    |                 ^^^^^^^^^^^^^^^
 
 error: CalcValueOrOperator
-  --> $DIR/tests/fixture/function/calc/input.css:13:18
+  --> $DIR/tests/fixture/function/calc/input.css:13:17
    |
 13 |     width: calc((100px + 100px));
-   |                  ^^^^^^^^^^^^^
+   |                 ^^^^^^^^^^^^^^^
 
 error: CalcValue
-  --> $DIR/tests/fixture/function/calc/input.css:13:18
+  --> $DIR/tests/fixture/function/calc/input.css:13:17
    |
 13 |     width: calc((100px + 100px));
-   |                  ^^^^^^^^^^^^^
-
-error: CalcSum
-  --> $DIR/tests/fixture/function/calc/input.css:13:18
-   |
-13 |     width: calc((100px + 100px));
-   |                  ^^^^^^^^^^^^^
+   |                 ^^^^^^^^^^^^^^^
 
 error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:13:18
    |
 13 |     width: calc((100px + 100px));
-   |                  ^^^^^^
+   |                  ^^^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:13:18
    |
 13 |     width: calc((100px + 100px));
-   |                  ^^^^^^
+   |                  ^^^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:13:18
@@ -1216,55 +1210,49 @@ error: Value
   --> $DIR/tests/fixture/function/calc/input.css:14:20
    |
 14 |     width: calc(   (   100px   +   100px   )   );
-   |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |                    ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: CalcSum
   --> $DIR/tests/fixture/function/calc/input.css:14:20
    |
 14 |     width: calc(   (   100px   +   100px   )   );
-   |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |                    ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:14:20
    |
 14 |     width: calc(   (   100px   +   100px   )   );
-   |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |                    ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:14:20
    |
 14 |     width: calc(   (   100px   +   100px   )   );
-   |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |                    ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: CalcValueOrOperator
-  --> $DIR/tests/fixture/function/calc/input.css:14:24
+  --> $DIR/tests/fixture/function/calc/input.css:14:20
    |
 14 |     width: calc(   (   100px   +   100px   )   );
-   |                        ^^^^^^^^^^^^^^^^^^^^
+   |                    ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: CalcValue
-  --> $DIR/tests/fixture/function/calc/input.css:14:24
+  --> $DIR/tests/fixture/function/calc/input.css:14:20
    |
 14 |     width: calc(   (   100px   +   100px   )   );
-   |                        ^^^^^^^^^^^^^^^^^^^^
-
-error: CalcSum
-  --> $DIR/tests/fixture/function/calc/input.css:14:24
-   |
-14 |     width: calc(   (   100px   +   100px   )   );
-   |                        ^^^^^^^^^^^^^^^^^^^^
+   |                    ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:14:24
    |
 14 |     width: calc(   (   100px   +   100px   )   );
-   |                        ^^^^^^^^
+   |                        ^^^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:14:24
    |
 14 |     width: calc(   (   100px   +   100px   )   );
-   |                        ^^^^^^^^
+   |                        ^^^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:14:24
@@ -1318,13 +1306,13 @@ error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:14:36
    |
 14 |     width: calc(   (   100px   +   100px   )   );
-   |                                    ^^^^^^^^
+   |                                    ^^^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:14:36
    |
 14 |     width: calc(   (   100px   +   100px   )   );
-   |                                    ^^^^^^^^
+   |                                    ^^^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:14:36
@@ -1402,25 +1390,25 @@ error: Value
   --> $DIR/tests/fixture/function/calc/input.css:15:20
    |
 15 |     width: calc(   100px   +    100px   );
-   |                    ^^^^^^^^^^^^^^^^^^^^^
+   |                    ^^^^^^^^^^^^^^^^^^
 
 error: CalcSum
   --> $DIR/tests/fixture/function/calc/input.css:15:20
    |
 15 |     width: calc(   100px   +    100px   );
-   |                    ^^^^^^^^^^^^^^^^^^^^^
+   |                    ^^^^^^^^^^^^^^^^^^
 
 error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:15:20
    |
 15 |     width: calc(   100px   +    100px   );
-   |                    ^^^^^^^^
+   |                    ^^^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:15:20
    |
 15 |     width: calc(   100px   +    100px   );
-   |                    ^^^^^^^^
+   |                    ^^^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:15:20
@@ -1474,13 +1462,13 @@ error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:15:33
    |
 15 |     width: calc(   100px   +    100px   );
-   |                                 ^^^^^^^^
+   |                                 ^^^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:15:33
    |
 15 |     width: calc(   100px   +    100px   );
-   |                                 ^^^^^^^^
+   |                                 ^^^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:15:33
@@ -1570,13 +1558,13 @@ error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:16:17
    |
 16 |     width: calc(500px + 50%);
-   |                 ^^^^^^
+   |                 ^^^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:16:17
    |
 16 |     width: calc(500px + 50%);
-   |                 ^^^^^^
+   |                 ^^^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:16:17
@@ -1714,13 +1702,13 @@ error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:17:17
    |
 17 |     width: calc(10% + 20%);
-   |                 ^^^^
+   |                 ^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:17:17
    |
 17 |     width: calc(10% + 20%);
-   |                 ^^^^
+   |                 ^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:17:17
@@ -1846,13 +1834,13 @@ error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:18:17
    |
 18 |     width: calc(2pc + 3pt);
-   |                 ^^^^
+   |                 ^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:18:17
    |
 18 |     width: calc(2pc + 3pt);
-   |                 ^^^^
+   |                 ^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:18:17
@@ -2002,13 +1990,13 @@ error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:19:17
    |
 19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
-   |                 ^^^^^^^^^
+   |                 ^^^^^^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:19:17
    |
 19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
-   |                 ^^^^^^^^^
+   |                 ^^^^^^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:19:17
@@ -2080,13 +2068,13 @@ error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:19:28
    |
 19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
-   |                            ^^^^^^^^
+   |                            ^^^^^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:19:28
    |
 19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
-   |                            ^^^^^^^^
+   |                            ^^^^^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:19:28
@@ -2440,13 +2428,13 @@ error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:22:17
    |
 22 |     width: calc(calc(60%) - 20px);
-   |                 ^^^^^^^^^^
+   |                 ^^^^^^^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:22:17
    |
 22 |     width: calc(calc(60%) - 20px);
-   |                 ^^^^^^^^^^
+   |                 ^^^^^^^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:22:17
@@ -3658,31 +3646,31 @@ error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:30:17
    |
 30 |     width: calc((1 * 2) * (5px + 20em / 2) - 80% / (3 - 1) + 5px);
-   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:30:17
    |
 30 |     width: calc((1 * 2) * (5px + 20em / 2) - 80% / (3 - 1) + 5px);
-   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: CalcValueOrOperator
-  --> $DIR/tests/fixture/function/calc/input.css:30:18
+  --> $DIR/tests/fixture/function/calc/input.css:30:17
    |
 30 |     width: calc((1 * 2) * (5px + 20em / 2) - 80% / (3 - 1) + 5px);
-   |                  ^^^^^
+   |                 ^^^^^^^
 
 error: CalcValue
-  --> $DIR/tests/fixture/function/calc/input.css:30:18
+  --> $DIR/tests/fixture/function/calc/input.css:30:17
    |
 30 |     width: calc((1 * 2) * (5px + 20em / 2) - 80% / (3 - 1) + 5px);
-   |                  ^^^^^
+   |                 ^^^^^^^
 
 error: CalcSum
-  --> $DIR/tests/fixture/function/calc/input.css:30:18
+  --> $DIR/tests/fixture/function/calc/input.css:30:17
    |
 30 |     width: calc((1 * 2) * (5px + 20em / 2) - 80% / (3 - 1) + 5px);
-   |                  ^^^^^
+   |                 ^^^^^^^
 
 error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:30:18
@@ -3757,34 +3745,34 @@ error: CalcOperator
    |                         ^
 
 error: CalcValueOrOperator
-  --> $DIR/tests/fixture/function/calc/input.css:30:28
+  --> $DIR/tests/fixture/function/calc/input.css:30:27
    |
 30 |     width: calc((1 * 2) * (5px + 20em / 2) - 80% / (3 - 1) + 5px);
-   |                            ^^^^^^^^^^^^^^
+   |                           ^^^^^^^^^^^^^^^^
 
 error: CalcValue
-  --> $DIR/tests/fixture/function/calc/input.css:30:28
+  --> $DIR/tests/fixture/function/calc/input.css:30:27
    |
 30 |     width: calc((1 * 2) * (5px + 20em / 2) - 80% / (3 - 1) + 5px);
-   |                            ^^^^^^^^^^^^^^
+   |                           ^^^^^^^^^^^^^^^^
 
 error: CalcSum
-  --> $DIR/tests/fixture/function/calc/input.css:30:28
+  --> $DIR/tests/fixture/function/calc/input.css:30:27
    |
 30 |     width: calc((1 * 2) * (5px + 20em / 2) - 80% / (3 - 1) + 5px);
-   |                            ^^^^^^^^^^^^^^
+   |                           ^^^^^^^^^^^^^^^^
 
 error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:30:28
    |
 30 |     width: calc((1 * 2) * (5px + 20em / 2) - 80% / (3 - 1) + 5px);
-   |                            ^^^^
+   |                            ^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:30:28
    |
 30 |     width: calc((1 * 2) * (5px + 20em / 2) - 80% / (3 - 1) + 5px);
-   |                            ^^^^
+   |                            ^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:30:28
@@ -3928,13 +3916,13 @@ error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:30:46
    |
 30 |     width: calc((1 * 2) * (5px + 20em / 2) - 80% / (3 - 1) + 5px);
-   |                                              ^^^^^^^^^^^^^^
+   |                                              ^^^^^^^^^^^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:30:46
    |
 30 |     width: calc((1 * 2) * (5px + 20em / 2) - 80% / (3 - 1) + 5px);
-   |                                              ^^^^^^^^^^^^^^
+   |                                              ^^^^^^^^^^^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:30:46
@@ -3973,34 +3961,34 @@ error: CalcOperator
    |                                                  ^
 
 error: CalcValueOrOperator
-  --> $DIR/tests/fixture/function/calc/input.css:30:53
+  --> $DIR/tests/fixture/function/calc/input.css:30:52
    |
 30 |     width: calc((1 * 2) * (5px + 20em / 2) - 80% / (3 - 1) + 5px);
-   |                                                     ^^^^^
+   |                                                    ^^^^^^^
 
 error: CalcValue
-  --> $DIR/tests/fixture/function/calc/input.css:30:53
+  --> $DIR/tests/fixture/function/calc/input.css:30:52
    |
 30 |     width: calc((1 * 2) * (5px + 20em / 2) - 80% / (3 - 1) + 5px);
-   |                                                     ^^^^^
+   |                                                    ^^^^^^^
 
 error: CalcSum
-  --> $DIR/tests/fixture/function/calc/input.css:30:53
+  --> $DIR/tests/fixture/function/calc/input.css:30:52
    |
 30 |     width: calc((1 * 2) * (5px + 20em / 2) - 80% / (3 - 1) + 5px);
-   |                                                     ^^^^^
+   |                                                    ^^^^^^^
 
 error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:30:53
    |
 30 |     width: calc((1 * 2) * (5px + 20em / 2) - 80% / (3 - 1) + 5px);
-   |                                                     ^^
+   |                                                     ^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:30:53
    |
 30 |     width: calc((1 * 2) * (5px + 20em / 2) - 80% / (3 - 1) + 5px);
-   |                                                     ^^
+   |                                                     ^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:30:53
@@ -5802,13 +5790,13 @@ error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:43:73
    |
 43 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
-   |                                                                         ^^^^^
+   |                                                                         ^^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:43:73
    |
 43 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
-   |                                                                         ^^^^^
+   |                                                                         ^^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:43:73
@@ -6292,13 +6280,13 @@ error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:51:24
    |
 51 | div { margin-top: calc(-120% - 4px); }
-   |                        ^^^^^^
+   |                        ^^^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:51:24
    |
 51 | div { margin-top: calc(-120% - 4px); }
-   |                        ^^^^^^
+   |                        ^^^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:51:24
@@ -6484,25 +6472,25 @@ error: Value
   --> $DIR/tests/fixture/function/calc/input.css:52:19
    |
 52 | div { width: calc(50% - ( ( 4% ) * 0.5 ) ); }
-   |                   ^^^^^^^^^^^^^^^^^^^^^^^
+   |                   ^^^^^^^^^^^^^^^^^^^^^^
 
 error: CalcSum
   --> $DIR/tests/fixture/function/calc/input.css:52:19
    |
 52 | div { width: calc(50% - ( ( 4% ) * 0.5 ) ); }
-   |                   ^^^^^^^^^^^^^^^^^^^^^^^
+   |                   ^^^^^^^^^^^^^^^^^^^^^^
 
 error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:52:19
    |
 52 | div { width: calc(50% - ( ( 4% ) * 0.5 ) ); }
-   |                   ^^^^
+   |                   ^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:52:19
    |
 52 | div { width: calc(50% - ( ( 4% ) * 0.5 ) ); }
-   |                   ^^^^
+   |                   ^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:52:19
@@ -6544,73 +6532,73 @@ error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:52:25
    |
 52 | div { width: calc(50% - ( ( 4% ) * 0.5 ) ); }
-   |                         ^^^^^^^^^^^^^^^^^
+   |                         ^^^^^^^^^^^^^^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:52:25
    |
 52 | div { width: calc(50% - ( ( 4% ) * 0.5 ) ); }
-   |                         ^^^^^^^^^^^^^^^^^
+   |                         ^^^^^^^^^^^^^^^^
 
 error: CalcValueOrOperator
-  --> $DIR/tests/fixture/function/calc/input.css:52:27
+  --> $DIR/tests/fixture/function/calc/input.css:52:25
    |
 52 | div { width: calc(50% - ( ( 4% ) * 0.5 ) ); }
-   |                           ^^^^^^^^^^^^^
+   |                         ^^^^^^^^^^^^^^^^
 
 error: CalcValue
-  --> $DIR/tests/fixture/function/calc/input.css:52:27
+  --> $DIR/tests/fixture/function/calc/input.css:52:25
    |
 52 | div { width: calc(50% - ( ( 4% ) * 0.5 ) ); }
-   |                           ^^^^^^^^^^^^^
+   |                         ^^^^^^^^^^^^^^^^
 
 error: CalcSum
-  --> $DIR/tests/fixture/function/calc/input.css:52:27
+  --> $DIR/tests/fixture/function/calc/input.css:52:25
    |
 52 | div { width: calc(50% - ( ( 4% ) * 0.5 ) ); }
-   |                           ^^^^^^^^^^^^^
+   |                         ^^^^^^^^^^^^^^^^
 
 error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:52:27
    |
 52 | div { width: calc(50% - ( ( 4% ) * 0.5 ) ); }
-   |                           ^^^^^^^^^^^^^
+   |                           ^^^^^^^^^^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:52:27
    |
 52 | div { width: calc(50% - ( ( 4% ) * 0.5 ) ); }
-   |                           ^^^^^^^^^^^^^
+   |                           ^^^^^^^^^^^^
 
 error: CalcValueOrOperator
-  --> $DIR/tests/fixture/function/calc/input.css:52:29
+  --> $DIR/tests/fixture/function/calc/input.css:52:27
    |
 52 | div { width: calc(50% - ( ( 4% ) * 0.5 ) ); }
-   |                             ^^^
+   |                           ^^^^^^
 
 error: CalcValue
-  --> $DIR/tests/fixture/function/calc/input.css:52:29
+  --> $DIR/tests/fixture/function/calc/input.css:52:27
    |
 52 | div { width: calc(50% - ( ( 4% ) * 0.5 ) ); }
-   |                             ^^^
+   |                           ^^^^^^
 
 error: CalcSum
-  --> $DIR/tests/fixture/function/calc/input.css:52:29
+  --> $DIR/tests/fixture/function/calc/input.css:52:27
    |
 52 | div { width: calc(50% - ( ( 4% ) * 0.5 ) ); }
-   |                             ^^^
+   |                           ^^^^^^
 
 error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:52:29
    |
 52 | div { width: calc(50% - ( ( 4% ) * 0.5 ) ); }
-   |                             ^^^
+   |                             ^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:52:29
    |
 52 | div { width: calc(50% - ( ( 4% ) * 0.5 ) ); }
-   |                             ^^^
+   |                             ^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:52:29
@@ -6913,13 +6901,13 @@ error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:56:16
    |
 56 |     white calc(100% - 20px), silver 100%);
-   |                ^^^^^
+   |                ^^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:56:16
    |
 56 |     white calc(100% - 20px), silver 100%);
-   |                ^^^^^
+   |                ^^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:56:16
@@ -7205,34 +7193,34 @@ error: CalcOperator
    |                       ^
 
 error: CalcValueOrOperator
-  --> $DIR/tests/fixture/function/calc/input.css:62:26
+  --> $DIR/tests/fixture/function/calc/input.css:62:25
    |
 62 |     font-size: max(10 * (1vw + 1vh) / 2, 12px);
-   |                          ^^^^^^^^^
+   |                         ^^^^^^^^^^^
 
 error: CalcValue
-  --> $DIR/tests/fixture/function/calc/input.css:62:26
+  --> $DIR/tests/fixture/function/calc/input.css:62:25
    |
 62 |     font-size: max(10 * (1vw + 1vh) / 2, 12px);
-   |                          ^^^^^^^^^
+   |                         ^^^^^^^^^^^
 
 error: CalcSum
-  --> $DIR/tests/fixture/function/calc/input.css:62:26
+  --> $DIR/tests/fixture/function/calc/input.css:62:25
    |
 62 |     font-size: max(10 * (1vw + 1vh) / 2, 12px);
-   |                          ^^^^^^^^^
+   |                         ^^^^^^^^^^^
 
 error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:62:26
    |
 62 |     font-size: max(10 * (1vw + 1vh) / 2, 12px);
-   |                          ^^^^
+   |                          ^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:62:26
    |
 62 |     font-size: max(10 * (1vw + 1vh) / 2, 12px);
-   |                          ^^^^
+   |                          ^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:62:26
@@ -7659,34 +7647,34 @@ error: CalcOperator
    |                               ^
 
 error: CalcValueOrOperator
-  --> $DIR/tests/fixture/function/calc/input.css:67:34
+  --> $DIR/tests/fixture/function/calc/input.css:67:33
    |
 67 |     font-size: clamp(12px, 10 * (1vw + 1vh) / 2, 100px);
-   |                                  ^^^^^^^^^
+   |                                 ^^^^^^^^^^^
 
 error: CalcValue
-  --> $DIR/tests/fixture/function/calc/input.css:67:34
+  --> $DIR/tests/fixture/function/calc/input.css:67:33
    |
 67 |     font-size: clamp(12px, 10 * (1vw + 1vh) / 2, 100px);
-   |                                  ^^^^^^^^^
+   |                                 ^^^^^^^^^^^
 
 error: CalcSum
-  --> $DIR/tests/fixture/function/calc/input.css:67:34
+  --> $DIR/tests/fixture/function/calc/input.css:67:33
    |
 67 |     font-size: clamp(12px, 10 * (1vw + 1vh) / 2, 100px);
-   |                                  ^^^^^^^^^
+   |                                 ^^^^^^^^^^^
 
 error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:67:34
    |
 67 |     font-size: clamp(12px, 10 * (1vw + 1vh) / 2, 100px);
-   |                                  ^^^^
+   |                                  ^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:67:34
    |
 67 |     font-size: clamp(12px, 10 * (1vw + 1vh) / 2, 100px);
-   |                                  ^^^^
+   |                                  ^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:67:34
@@ -9235,13 +9223,13 @@ error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:80:17
    |
 80 |     width: calc(pow(e, pi) - pi);
-   |                 ^^^^^^^^^^^
+   |                 ^^^^^^^^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:80:17
    |
 80 |     width: calc(pow(e, pi) - pi);
-   |                 ^^^^^^^^^^^
+   |                 ^^^^^^^^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:80:17
@@ -11468,25 +11456,25 @@ error: Value
   --> $DIR/tests/fixture/function/calc/input.css:94:19
    |
 94 |     width: min(   10px   ,   20px   ,   40px   ,   100px   );
-   |                   ^^^^^^^
+   |                   ^^^^
 
 error: CalcSum
   --> $DIR/tests/fixture/function/calc/input.css:94:19
    |
 94 |     width: min(   10px   ,   20px   ,   40px   ,   100px   );
-   |                   ^^^^^^^
+   |                   ^^^^
 
 error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:94:19
    |
 94 |     width: min(   10px   ,   20px   ,   40px   ,   100px   );
-   |                   ^^^^^^^
+   |                   ^^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:94:19
    |
 94 |     width: min(   10px   ,   20px   ,   40px   ,   100px   );
-   |                   ^^^^^^^
+   |                   ^^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:94:19
@@ -11540,25 +11528,25 @@ error: Value
   --> $DIR/tests/fixture/function/calc/input.css:94:30
    |
 94 |     width: min(   10px   ,   20px   ,   40px   ,   100px   );
-   |                              ^^^^^^^
+   |                              ^^^^
 
 error: CalcSum
   --> $DIR/tests/fixture/function/calc/input.css:94:30
    |
 94 |     width: min(   10px   ,   20px   ,   40px   ,   100px   );
-   |                              ^^^^^^^
+   |                              ^^^^
 
 error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:94:30
    |
 94 |     width: min(   10px   ,   20px   ,   40px   ,   100px   );
-   |                              ^^^^^^^
+   |                              ^^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:94:30
    |
 94 |     width: min(   10px   ,   20px   ,   40px   ,   100px   );
-   |                              ^^^^^^^
+   |                              ^^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:94:30
@@ -11612,25 +11600,25 @@ error: Value
   --> $DIR/tests/fixture/function/calc/input.css:94:41
    |
 94 |     width: min(   10px   ,   20px   ,   40px   ,   100px   );
-   |                                         ^^^^^^^
+   |                                         ^^^^
 
 error: CalcSum
   --> $DIR/tests/fixture/function/calc/input.css:94:41
    |
 94 |     width: min(   10px   ,   20px   ,   40px   ,   100px   );
-   |                                         ^^^^^^^
+   |                                         ^^^^
 
 error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:94:41
    |
 94 |     width: min(   10px   ,   20px   ,   40px   ,   100px   );
-   |                                         ^^^^^^^
+   |                                         ^^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:94:41
    |
 94 |     width: min(   10px   ,   20px   ,   40px   ,   100px   );
-   |                                         ^^^^^^^
+   |                                         ^^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:94:41
@@ -11684,25 +11672,25 @@ error: Value
   --> $DIR/tests/fixture/function/calc/input.css:94:52
    |
 94 |     width: min(   10px   ,   20px   ,   40px   ,   100px   );
-   |                                                    ^^^^^^^^
+   |                                                    ^^^^^
 
 error: CalcSum
   --> $DIR/tests/fixture/function/calc/input.css:94:52
    |
 94 |     width: min(   10px   ,   20px   ,   40px   ,   100px   );
-   |                                                    ^^^^^^^^
+   |                                                    ^^^^^
 
 error: CalcProductOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:94:52
    |
 94 |     width: min(   10px   ,   20px   ,   40px   ,   100px   );
-   |                                                    ^^^^^^^^
+   |                                                    ^^^^^
 
 error: CalcProduct
   --> $DIR/tests/fixture/function/calc/input.css:94:52
    |
 94 |     width: min(   10px   ,   20px   ,   40px   ,   100px   );
-   |                                                    ^^^^^^^^
+   |                                                    ^^^^^
 
 error: CalcValueOrOperator
   --> $DIR/tests/fixture/function/calc/input.css:94:52
@@ -14126,7 +14114,10 @@ error: Rule
 141 | / .sign {
 142 | |     background-position: sign(10%);
 143 | |     background-position: sign(10% * 2);
-144 | | }
+144 | |     background-position: sign(   10%   *   2   );
+...   |
+148 | |     width: calc(   (   100px   +   100px   )   *   2   );
+149 | | }
     | |_^
 
 error: QualifiedRule
@@ -14135,7 +14126,10 @@ error: QualifiedRule
 141 | / .sign {
 142 | |     background-position: sign(10%);
 143 | |     background-position: sign(10% * 2);
-144 | | }
+144 | |     background-position: sign(   10%   *   2   );
+...   |
+148 | |     width: calc(   (   100px   +   100px   )   *   2   );
+149 | | }
     | |_^
 
 error: SelectorList
@@ -14181,7 +14175,10 @@ error: SimpleBlock
     |  _______^
 142 | |     background-position: sign(10%);
 143 | |     background-position: sign(10% * 2);
-144 | | }
+144 | |     background-position: sign(   10%   *   2   );
+...   |
+148 | |     width: calc(   (   100px   +   100px   )   *   2   );
+149 | | }
     | |_^
 
 error: Declaration
@@ -14381,4 +14378,652 @@ error: Number
     |
 143 |     background-position: sign(10% * 2);
     |                                     ^
+
+error: Declaration
+   --> $DIR/tests/fixture/function/calc/input.css:144:5
+    |
+144 |     background-position: sign(   10%   *   2   );
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+   --> $DIR/tests/fixture/function/calc/input.css:144:5
+    |
+144 |     background-position: sign(   10%   *   2   );
+    |     ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/function/calc/input.css:144:5
+    |
+144 |     background-position: sign(   10%   *   2   );
+    |     ^^^^^^^^^^^^^^^^^^^
+
+error: Value
+   --> $DIR/tests/fixture/function/calc/input.css:144:26
+    |
+144 |     background-position: sign(   10%   *   2   );
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+   --> $DIR/tests/fixture/function/calc/input.css:144:26
+    |
+144 |     background-position: sign(   10%   *   2   );
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/function/calc/input.css:144:26
+    |
+144 |     background-position: sign(   10%   *   2   );
+    |                          ^^^^
+
+error: Value
+   --> $DIR/tests/fixture/function/calc/input.css:144:34
+    |
+144 |     background-position: sign(   10%   *   2   );
+    |                                  ^^^^^^^^^^^
+
+error: CalcSum
+   --> $DIR/tests/fixture/function/calc/input.css:144:34
+    |
+144 |     background-position: sign(   10%   *   2   );
+    |                                  ^^^^^^^^^^^
+
+error: CalcProductOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:144:34
+    |
+144 |     background-position: sign(   10%   *   2   );
+    |                                  ^^^^^^^^^^^
+
+error: CalcProduct
+   --> $DIR/tests/fixture/function/calc/input.css:144:34
+    |
+144 |     background-position: sign(   10%   *   2   );
+    |                                  ^^^^^^^^^^^
+
+error: CalcValueOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:144:34
+    |
+144 |     background-position: sign(   10%   *   2   );
+    |                                  ^^^
+
+error: CalcValue
+   --> $DIR/tests/fixture/function/calc/input.css:144:34
+    |
+144 |     background-position: sign(   10%   *   2   );
+    |                                  ^^^
+
+error: Percentage
+   --> $DIR/tests/fixture/function/calc/input.css:144:34
+    |
+144 |     background-position: sign(   10%   *   2   );
+    |                                  ^^^
+
+error: Number
+   --> $DIR/tests/fixture/function/calc/input.css:144:34
+    |
+144 |     background-position: sign(   10%   *   2   );
+    |                                  ^^
+
+error: CalcValueOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:144:40
+    |
+144 |     background-position: sign(   10%   *   2   );
+    |                                        ^
+
+error: CalcOperator
+   --> $DIR/tests/fixture/function/calc/input.css:144:40
+    |
+144 |     background-position: sign(   10%   *   2   );
+    |                                        ^
+
+error: CalcValueOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:144:44
+    |
+144 |     background-position: sign(   10%   *   2   );
+    |                                            ^
+
+error: CalcValue
+   --> $DIR/tests/fixture/function/calc/input.css:144:44
+    |
+144 |     background-position: sign(   10%   *   2   );
+    |                                            ^
+
+error: Number
+   --> $DIR/tests/fixture/function/calc/input.css:144:44
+    |
+144 |     background-position: sign(   10%   *   2   );
+    |                                            ^
+
+error: Declaration
+   --> $DIR/tests/fixture/function/calc/input.css:145:5
+    |
+145 |     background-position: sign(10%*2);
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+   --> $DIR/tests/fixture/function/calc/input.css:145:5
+    |
+145 |     background-position: sign(10%*2);
+    |     ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/function/calc/input.css:145:5
+    |
+145 |     background-position: sign(10%*2);
+    |     ^^^^^^^^^^^^^^^^^^^
+
+error: Value
+   --> $DIR/tests/fixture/function/calc/input.css:145:26
+    |
+145 |     background-position: sign(10%*2);
+    |                          ^^^^^^^^^^^
+
+error: Function
+   --> $DIR/tests/fixture/function/calc/input.css:145:26
+    |
+145 |     background-position: sign(10%*2);
+    |                          ^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/function/calc/input.css:145:26
+    |
+145 |     background-position: sign(10%*2);
+    |                          ^^^^
+
+error: Value
+   --> $DIR/tests/fixture/function/calc/input.css:145:31
+    |
+145 |     background-position: sign(10%*2);
+    |                               ^^^^^
+
+error: CalcSum
+   --> $DIR/tests/fixture/function/calc/input.css:145:31
+    |
+145 |     background-position: sign(10%*2);
+    |                               ^^^^^
+
+error: CalcProductOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:145:31
+    |
+145 |     background-position: sign(10%*2);
+    |                               ^^^^^
+
+error: CalcProduct
+   --> $DIR/tests/fixture/function/calc/input.css:145:31
+    |
+145 |     background-position: sign(10%*2);
+    |                               ^^^^^
+
+error: CalcValueOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:145:31
+    |
+145 |     background-position: sign(10%*2);
+    |                               ^^^
+
+error: CalcValue
+   --> $DIR/tests/fixture/function/calc/input.css:145:31
+    |
+145 |     background-position: sign(10%*2);
+    |                               ^^^
+
+error: Percentage
+   --> $DIR/tests/fixture/function/calc/input.css:145:31
+    |
+145 |     background-position: sign(10%*2);
+    |                               ^^^
+
+error: Number
+   --> $DIR/tests/fixture/function/calc/input.css:145:31
+    |
+145 |     background-position: sign(10%*2);
+    |                               ^^
+
+error: CalcValueOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:145:34
+    |
+145 |     background-position: sign(10%*2);
+    |                                  ^
+
+error: CalcOperator
+   --> $DIR/tests/fixture/function/calc/input.css:145:34
+    |
+145 |     background-position: sign(10%*2);
+    |                                  ^
+
+error: CalcValueOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:145:35
+    |
+145 |     background-position: sign(10%*2);
+    |                                   ^
+
+error: CalcValue
+   --> $DIR/tests/fixture/function/calc/input.css:145:35
+    |
+145 |     background-position: sign(10%*2);
+    |                                   ^
+
+error: Number
+   --> $DIR/tests/fixture/function/calc/input.css:145:35
+    |
+145 |     background-position: sign(10%*2);
+    |                                   ^
+
+error: Declaration
+   --> $DIR/tests/fixture/function/calc/input.css:146:5
+    |
+146 |     background-position: sign(   10   +   10   );
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+   --> $DIR/tests/fixture/function/calc/input.css:146:5
+    |
+146 |     background-position: sign(   10   +   10   );
+    |     ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/function/calc/input.css:146:5
+    |
+146 |     background-position: sign(   10   +   10   );
+    |     ^^^^^^^^^^^^^^^^^^^
+
+error: Value
+   --> $DIR/tests/fixture/function/calc/input.css:146:26
+    |
+146 |     background-position: sign(   10   +   10   );
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+   --> $DIR/tests/fixture/function/calc/input.css:146:26
+    |
+146 |     background-position: sign(   10   +   10   );
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/function/calc/input.css:146:26
+    |
+146 |     background-position: sign(   10   +   10   );
+    |                          ^^^^
+
+error: Value
+   --> $DIR/tests/fixture/function/calc/input.css:146:34
+    |
+146 |     background-position: sign(   10   +   10   );
+    |                                  ^^^^^^^^^^^
+
+error: CalcSum
+   --> $DIR/tests/fixture/function/calc/input.css:146:34
+    |
+146 |     background-position: sign(   10   +   10   );
+    |                                  ^^^^^^^^^^^
+
+error: CalcProductOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:146:34
+    |
+146 |     background-position: sign(   10   +   10   );
+    |                                  ^^
+
+error: CalcProduct
+   --> $DIR/tests/fixture/function/calc/input.css:146:34
+    |
+146 |     background-position: sign(   10   +   10   );
+    |                                  ^^
+
+error: CalcValueOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:146:34
+    |
+146 |     background-position: sign(   10   +   10   );
+    |                                  ^^
+
+error: CalcValue
+   --> $DIR/tests/fixture/function/calc/input.css:146:34
+    |
+146 |     background-position: sign(   10   +   10   );
+    |                                  ^^
+
+error: Number
+   --> $DIR/tests/fixture/function/calc/input.css:146:34
+    |
+146 |     background-position: sign(   10   +   10   );
+    |                                  ^^
+
+error: CalcProductOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:146:39
+    |
+146 |     background-position: sign(   10   +   10   );
+    |                                       ^
+
+error: CalcOperator
+   --> $DIR/tests/fixture/function/calc/input.css:146:39
+    |
+146 |     background-position: sign(   10   +   10   );
+    |                                       ^
+
+error: CalcProductOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:146:43
+    |
+146 |     background-position: sign(   10   +   10   );
+    |                                           ^^
+
+error: CalcProduct
+   --> $DIR/tests/fixture/function/calc/input.css:146:43
+    |
+146 |     background-position: sign(   10   +   10   );
+    |                                           ^^
+
+error: CalcValueOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:146:43
+    |
+146 |     background-position: sign(   10   +   10   );
+    |                                           ^^
+
+error: CalcValue
+   --> $DIR/tests/fixture/function/calc/input.css:146:43
+    |
+146 |     background-position: sign(   10   +   10   );
+    |                                           ^^
+
+error: Number
+   --> $DIR/tests/fixture/function/calc/input.css:146:43
+    |
+146 |     background-position: sign(   10   +   10   );
+    |                                           ^^
+
+error: Declaration
+   --> $DIR/tests/fixture/function/calc/input.css:147:5
+    |
+147 |     background-position: sign(   10%   );
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+   --> $DIR/tests/fixture/function/calc/input.css:147:5
+    |
+147 |     background-position: sign(   10%   );
+    |     ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/function/calc/input.css:147:5
+    |
+147 |     background-position: sign(   10%   );
+    |     ^^^^^^^^^^^^^^^^^^^
+
+error: Value
+   --> $DIR/tests/fixture/function/calc/input.css:147:26
+    |
+147 |     background-position: sign(   10%   );
+    |                          ^^^^^^^^^^^^^^^
+
+error: Function
+   --> $DIR/tests/fixture/function/calc/input.css:147:26
+    |
+147 |     background-position: sign(   10%   );
+    |                          ^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/function/calc/input.css:147:26
+    |
+147 |     background-position: sign(   10%   );
+    |                          ^^^^
+
+error: Value
+   --> $DIR/tests/fixture/function/calc/input.css:147:34
+    |
+147 |     background-position: sign(   10%   );
+    |                                  ^^^
+
+error: CalcSum
+   --> $DIR/tests/fixture/function/calc/input.css:147:34
+    |
+147 |     background-position: sign(   10%   );
+    |                                  ^^^
+
+error: CalcProductOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:147:34
+    |
+147 |     background-position: sign(   10%   );
+    |                                  ^^^
+
+error: CalcProduct
+   --> $DIR/tests/fixture/function/calc/input.css:147:34
+    |
+147 |     background-position: sign(   10%   );
+    |                                  ^^^
+
+error: CalcValueOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:147:34
+    |
+147 |     background-position: sign(   10%   );
+    |                                  ^^^
+
+error: CalcValue
+   --> $DIR/tests/fixture/function/calc/input.css:147:34
+    |
+147 |     background-position: sign(   10%   );
+    |                                  ^^^
+
+error: Percentage
+   --> $DIR/tests/fixture/function/calc/input.css:147:34
+    |
+147 |     background-position: sign(   10%   );
+    |                                  ^^^
+
+error: Number
+   --> $DIR/tests/fixture/function/calc/input.css:147:34
+    |
+147 |     background-position: sign(   10%   );
+    |                                  ^^
+
+error: Declaration
+   --> $DIR/tests/fixture/function/calc/input.css:148:5
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+   --> $DIR/tests/fixture/function/calc/input.css:148:5
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |     ^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/function/calc/input.css:148:5
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |     ^^^^^
+
+error: Value
+   --> $DIR/tests/fixture/function/calc/input.css:148:12
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+   --> $DIR/tests/fixture/function/calc/input.css:148:12
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/function/calc/input.css:148:12
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |            ^^^^
+
+error: Value
+   --> $DIR/tests/fixture/function/calc/input.css:148:20
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CalcSum
+   --> $DIR/tests/fixture/function/calc/input.css:148:20
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CalcProductOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:148:20
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CalcProduct
+   --> $DIR/tests/fixture/function/calc/input.css:148:20
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CalcValueOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:148:20
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CalcValue
+   --> $DIR/tests/fixture/function/calc/input.css:148:20
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CalcSum
+   --> $DIR/tests/fixture/function/calc/input.css:148:20
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CalcProductOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:148:24
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                        ^^^^^
+
+error: CalcProduct
+   --> $DIR/tests/fixture/function/calc/input.css:148:24
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                        ^^^^^
+
+error: CalcValueOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:148:24
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                        ^^^^^
+
+error: CalcValue
+   --> $DIR/tests/fixture/function/calc/input.css:148:24
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                        ^^^^^
+
+error: Dimension
+   --> $DIR/tests/fixture/function/calc/input.css:148:24
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                        ^^^^^
+
+error: Length
+   --> $DIR/tests/fixture/function/calc/input.css:148:24
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                        ^^^^^
+
+error: Number
+   --> $DIR/tests/fixture/function/calc/input.css:148:24
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                        ^^^
+
+error: Ident
+   --> $DIR/tests/fixture/function/calc/input.css:148:27
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                           ^^
+
+error: CalcProductOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:148:32
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                                ^
+
+error: CalcOperator
+   --> $DIR/tests/fixture/function/calc/input.css:148:32
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                                ^
+
+error: CalcProductOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:148:36
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                                    ^^^^^
+
+error: CalcProduct
+   --> $DIR/tests/fixture/function/calc/input.css:148:36
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                                    ^^^^^
+
+error: CalcValueOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:148:36
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                                    ^^^^^
+
+error: CalcValue
+   --> $DIR/tests/fixture/function/calc/input.css:148:36
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                                    ^^^^^
+
+error: Dimension
+   --> $DIR/tests/fixture/function/calc/input.css:148:36
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                                    ^^^^^
+
+error: Length
+   --> $DIR/tests/fixture/function/calc/input.css:148:36
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                                    ^^^^^
+
+error: Number
+   --> $DIR/tests/fixture/function/calc/input.css:148:36
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                                    ^^^
+
+error: Ident
+   --> $DIR/tests/fixture/function/calc/input.css:148:39
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                                       ^^
+
+error: CalcValueOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:148:48
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                                                ^
+
+error: CalcOperator
+   --> $DIR/tests/fixture/function/calc/input.css:148:48
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                                                ^
+
+error: CalcValueOrOperator
+   --> $DIR/tests/fixture/function/calc/input.css:148:52
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                                                    ^
+
+error: CalcValue
+   --> $DIR/tests/fixture/function/calc/input.css:148:52
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                                                    ^
+
+error: Number
+   --> $DIR/tests/fixture/function/calc/input.css:148:52
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |                                                    ^
 

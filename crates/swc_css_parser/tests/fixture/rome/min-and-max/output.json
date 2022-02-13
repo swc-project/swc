@@ -413,7 +413,7 @@
                         "type": "CalcProduct",
                         "span": {
                           "start": 75,
-                          "end": 80,
+                          "end": 79,
                           "ctxt": 0
                         },
                         "expressions": [
@@ -596,7 +596,7 @@
                         "type": "CalcProduct",
                         "span": {
                           "start": 106,
-                          "end": 117,
+                          "end": 116,
                           "ctxt": 0
                         },
                         "expressions": [
@@ -816,7 +816,7 @@
                         "type": "CalcProduct",
                         "span": {
                           "start": 144,
-                          "end": 155,
+                          "end": 154,
                           "ctxt": 0
                         },
                         "expressions": [
@@ -947,7 +947,7 @@
                         "type": "CalcProduct",
                         "span": {
                           "start": 162,
-                          "end": 173,
+                          "end": 172,
                           "ctxt": 0
                         },
                         "expressions": [
@@ -1078,7 +1078,7 @@
                         "type": "CalcProduct",
                         "span": {
                           "start": 180,
-                          "end": 191,
+                          "end": 190,
                           "ctxt": 0
                         },
                         "expressions": [
@@ -1534,7 +1534,7 @@
                         "type": "CalcProduct",
                         "span": {
                           "start": 265,
-                          "end": 270,
+                          "end": 269,
                           "ctxt": 0
                         },
                         "expressions": [
@@ -1717,7 +1717,7 @@
                         "type": "CalcProduct",
                         "span": {
                           "start": 296,
-                          "end": 307,
+                          "end": 306,
                           "ctxt": 0
                         },
                         "expressions": [
@@ -1937,7 +1937,7 @@
                         "type": "CalcProduct",
                         "span": {
                           "start": 334,
-                          "end": 345,
+                          "end": 344,
                           "ctxt": 0
                         },
                         "expressions": [
@@ -2068,7 +2068,7 @@
                         "type": "CalcProduct",
                         "span": {
                           "start": 352,
-                          "end": 363,
+                          "end": 362,
                           "ctxt": 0
                         },
                         "expressions": [
@@ -2199,7 +2199,7 @@
                         "type": "CalcProduct",
                         "span": {
                           "start": 370,
-                          "end": 381,
+                          "end": 380,
                           "ctxt": 0
                         },
                         "expressions": [

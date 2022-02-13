@@ -1,4 +1,4 @@
-use swc_common::BytePos;
+use swc_common::{BytePos, Span};
 use swc_css_ast::*;
 
 use super::{input::ParserInput, Ctx, Grammar, PResult, Parser};
@@ -1523,9 +1523,15 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<CalcSum> {
-        let span = self.input.cur_span()?;
+        let start = self.input.cur_span()?.lo;
         let mut expressions = vec![];
         let calc_product = CalcProductOrOperator::Product(self.parse()?);
+        let mut end = match calc_product {
+            CalcProductOrOperator::Product(ref calc_product) => calc_product.span.hi,
+            _ => {
+                unreachable!();
+            }
+        };
 
         expressions.push(calc_product);
 
@@ -1542,6 +1548,13 @@ where
 
                     let calc_product = CalcProductOrOperator::Product(self.parse()?);
 
+                    end = match calc_product {
+                        CalcProductOrOperator::Product(ref calc_product) => calc_product.span.hi,
+                        _ => {
+                            unreachable!();
+                        }
+                    };
+
                     expressions.push(calc_product);
                 }
                 _ => {
@@ -1551,7 +1564,7 @@ where
         }
 
         Ok(CalcSum {
-            span: span!(self, span.lo),
+            span: Span::new(start, end, Default::default()),
             expressions,
         })
     }
@@ -1562,9 +1575,30 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<CalcProduct> {
-        let span = self.input.cur_span()?;
+        let start = self.input.cur_span()?.lo;
         let mut expressions = vec![];
         let calc_value = CalcValueOrOperator::Value(self.parse()?);
+        let mut end = match calc_value {
+            CalcValueOrOperator::Value(ref calc_value) => match calc_value {
+                CalcValue::Number(item) => item.span.hi,
+                CalcValue::Percentage(item) => item.span.hi,
+                CalcValue::Constant(item) => item.span.hi,
+                CalcValue::Sum(item) => item.span.hi,
+                CalcValue::Function(item) => item.span.hi,
+                CalcValue::Dimension(item) => match item {
+                    Dimension::Length(item) => item.span.hi,
+                    Dimension::Angle(item) => item.span.hi,
+                    Dimension::Time(item) => item.span.hi,
+                    Dimension::Frequency(item) => item.span.hi,
+                    Dimension::Resolution(item) => item.span.hi,
+                    Dimension::Flex(item) => item.span.hi,
+                    Dimension::UnknownDimension(item) => item.span.hi,
+                },
+            },
+            _ => {
+                unreachable!();
+            }
+        };
 
         expressions.push(calc_value);
 
@@ -1581,6 +1615,28 @@ where
 
                     let calc_value = CalcValueOrOperator::Value(self.parse()?);
 
+                    end = match calc_value {
+                        CalcValueOrOperator::Value(ref calc_value) => match calc_value {
+                            CalcValue::Number(item) => item.span.hi,
+                            CalcValue::Percentage(item) => item.span.hi,
+                            CalcValue::Constant(item) => item.span.hi,
+                            CalcValue::Sum(item) => item.span.hi,
+                            CalcValue::Function(item) => item.span.hi,
+                            CalcValue::Dimension(item) => match item {
+                                Dimension::Length(item) => item.span.hi,
+                                Dimension::Angle(item) => item.span.hi,
+                                Dimension::Time(item) => item.span.hi,
+                                Dimension::Frequency(item) => item.span.hi,
+                                Dimension::Resolution(item) => item.span.hi,
+                                Dimension::Flex(item) => item.span.hi,
+                                Dimension::UnknownDimension(item) => item.span.hi,
+                            },
+                        },
+                        _ => {
+                            unreachable!();
+                        }
+                    };
+
                     expressions.push(calc_value);
                 }
                 _ => {
@@ -1590,7 +1646,7 @@ where
         }
 
         Ok(CalcProduct {
-            span: span!(self, span.lo),
+            span: Span::new(start, end, Default::default()),
             expressions,
         })
     }
@@ -1675,17 +1731,21 @@ where
                 Ok(CalcValue::Constant(self.parse()?))
             }
             tok!("(") => {
+                let span = self.input.cur_span()?;
+
                 expect!(self, "(");
 
                 self.input.skip_ws()?;
 
-                let calc_sum_in_parens = Ok(CalcValue::Sum(self.parse()?));
+                let mut calc_sum_in_parens: CalcSum = self.parse()?;
 
                 self.input.skip_ws()?;
 
                 expect!(self, ")");
 
-                calc_sum_in_parens
+                calc_sum_in_parens.span = span!(self, span.lo);
+
+                Ok(CalcValue::Sum(calc_sum_in_parens))
             }
             tok!("function") => Ok(CalcValue::Function(self.parse()?)),
             _ => {

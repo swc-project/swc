@@ -231,13 +231,13 @@ error: CalcProductOrOperator
  --> $DIR/tests/fixture/rome/calc/input.css:3:14
   |
 3 |     width: calc(2px + 1px);
-  |                 ^^^^
+  |                 ^^^
 
 error: CalcProduct
  --> $DIR/tests/fixture/rome/calc/input.css:3:14
   |
 3 |     width: calc(2px + 1px);
-  |                 ^^^^
+  |                 ^^^
 
 error: CalcValueOrOperator
  --> $DIR/tests/fixture/rome/calc/input.css:3:14
@@ -387,13 +387,13 @@ error: CalcProductOrOperator
  --> $DIR/tests/fixture/rome/calc/input.css:4:14
   |
 4 |     width: calc(2em + 1%);
-  |                 ^^^^
+  |                 ^^^
 
 error: CalcProduct
  --> $DIR/tests/fixture/rome/calc/input.css:4:14
   |
 4 |     width: calc(2em + 1%);
-  |                 ^^^^
+  |                 ^^^
 
 error: CalcValueOrOperator
  --> $DIR/tests/fixture/rome/calc/input.css:4:14
@@ -924,34 +924,34 @@ error: CalcOperator
   |                     ^
 
 error: CalcValueOrOperator
- --> $DIR/tests/fixture/rome/calc/input.css:7:21
+ --> $DIR/tests/fixture/rome/calc/input.css:7:20
   |
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
-  |                        ^^^^^
+  |                       ^^^^^^^
 
 error: CalcValue
- --> $DIR/tests/fixture/rome/calc/input.css:7:21
+ --> $DIR/tests/fixture/rome/calc/input.css:7:20
   |
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
-  |                        ^^^^^
+  |                       ^^^^^^^
 
 error: CalcSum
- --> $DIR/tests/fixture/rome/calc/input.css:7:21
+ --> $DIR/tests/fixture/rome/calc/input.css:7:20
   |
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
-  |                        ^^^^^
+  |                       ^^^^^^^
 
 error: CalcProductOrOperator
  --> $DIR/tests/fixture/rome/calc/input.css:7:21
   |
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
-  |                        ^^
+  |                        ^
 
 error: CalcProduct
  --> $DIR/tests/fixture/rome/calc/input.css:7:21
   |
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
-  |                        ^^
+  |                        ^
 
 error: CalcValueOrOperator
  --> $DIR/tests/fixture/rome/calc/input.css:7:21
@@ -1026,34 +1026,34 @@ error: CalcOperator
   |                               ^
 
 error: CalcValueOrOperator
- --> $DIR/tests/fixture/rome/calc/input.css:7:31
+ --> $DIR/tests/fixture/rome/calc/input.css:7:30
   |
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
-  |                                  ^^^^^
+  |                                 ^^^^^^^
 
 error: CalcValue
- --> $DIR/tests/fixture/rome/calc/input.css:7:31
+ --> $DIR/tests/fixture/rome/calc/input.css:7:30
   |
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
-  |                                  ^^^^^
+  |                                 ^^^^^^^
 
 error: CalcSum
- --> $DIR/tests/fixture/rome/calc/input.css:7:31
+ --> $DIR/tests/fixture/rome/calc/input.css:7:30
   |
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
-  |                                  ^^^^^
+  |                                 ^^^^^^^
 
 error: CalcProductOrOperator
  --> $DIR/tests/fixture/rome/calc/input.css:7:31
   |
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
-  |                                  ^^
+  |                                  ^
 
 error: CalcProduct
  --> $DIR/tests/fixture/rome/calc/input.css:7:31
   |
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
-  |                                  ^^
+  |                                  ^
 
 error: CalcValueOrOperator
  --> $DIR/tests/fixture/rome/calc/input.css:7:31
@@ -1167,13 +1167,13 @@ error: CalcProductOrOperator
  --> $DIR/tests/fixture/rome/calc/input.css:8:14
   |
 8 |     width: calc(2em * 2 + 3);
-  |                 ^^^^^^^^
+  |                 ^^^^^^^
 
 error: CalcProduct
  --> $DIR/tests/fixture/rome/calc/input.css:8:14
   |
 8 |     width: calc(2em * 2 + 3);
-  |                 ^^^^^^^^
+  |                 ^^^^^^^
 
 error: CalcValueOrOperator
  --> $DIR/tests/fixture/rome/calc/input.css:8:14
@@ -1335,13 +1335,13 @@ error: CalcProductOrOperator
  --> $DIR/tests/fixture/rome/calc/input.css:9:14
   |
 9 |     width: calc(2em * 2 - 3 + 3em / 5);
-  |                 ^^^^^^^^
+  |                 ^^^^^^^
 
 error: CalcProduct
  --> $DIR/tests/fixture/rome/calc/input.css:9:14
   |
 9 |     width: calc(2em * 2 - 3 + 3em / 5);
-  |                 ^^^^^^^^
+  |                 ^^^^^^^
 
 error: CalcValueOrOperator
  --> $DIR/tests/fixture/rome/calc/input.css:9:14
@@ -1425,13 +1425,13 @@ error: CalcProductOrOperator
  --> $DIR/tests/fixture/rome/calc/input.css:9:24
   |
 9 |     width: calc(2em * 2 - 3 + 3em / 5);
-  |                           ^^
+  |                           ^
 
 error: CalcProduct
  --> $DIR/tests/fixture/rome/calc/input.css:9:24
   |
 9 |     width: calc(2em * 2 - 3 + 3em / 5);
-  |                           ^^
+  |                           ^
 
 error: CalcValueOrOperator
  --> $DIR/tests/fixture/rome/calc/input.css:9:24

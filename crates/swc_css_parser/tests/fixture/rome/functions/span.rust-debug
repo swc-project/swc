@@ -213,13 +213,13 @@ error: CalcProductOrOperator
  --> $DIR/tests/fixture/rome/functions/input.css:4:18
   |
 4 |     font-size: calc(10px + 5rem);
-  |                     ^^^^^
+  |                     ^^^^
 
 error: CalcProduct
  --> $DIR/tests/fixture/rome/functions/input.css:4:18
   |
 4 |     font-size: calc(10px + 5rem);
-  |                     ^^^^^
+  |                     ^^^^
 
 error: CalcValueOrOperator
  --> $DIR/tests/fixture/rome/functions/input.css:4:18
