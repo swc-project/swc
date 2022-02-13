@@ -1,10 +1,4 @@
 error: Expected Declaration value
- --> $DIR/tests/errors/rome/invalid/min-or-max/input.css:2:18
-  |
-2 |     width: min(500px;
-  |                     ^
-
-error: Expected Declaration value
  --> $DIR/tests/errors/rome/invalid/min-or-max/input.css:3:1
   |
 3 | }
