@@ -163,14 +163,7 @@ where
 
             tok!("/") => return Ok(Value::Delimiter(self.parse()?)),
 
-            tok!(";") => {
-                bump!(self);
-
-                return Ok(Value::Delimiter(Delimiter {
-                    span: span!(self, span.lo),
-                    value: DelimiterValue::Semicolon,
-                }));
-            }
+            tok!(";") => return Ok(Value::Delimiter(self.parse()?)),
 
             tok!("str") => return Ok(Value::Str(self.parse()?)),
 
@@ -321,10 +314,10 @@ where
     fn parse(&mut self) -> PResult<Delimiter> {
         let span = self.input.cur_span()?;
 
-        if !is_one_of!(self, ",", "/") {
+        if !is_one_of!(self, ",", "/", ";") {
             return Err(Error::new(
                 span,
-                ErrorKind::Expected("',' or '/' delim token"),
+                ErrorKind::Expected("',', '/' or ';' delim token"),
             ));
         }
 
@@ -337,13 +330,20 @@ where
                     value: DelimiterValue::Comma,
                 });
             }
-
             tok!("/") => {
                 bump!(self);
 
                 return Ok(Delimiter {
                     span: span!(self, span.lo),
                     value: DelimiterValue::Solidus,
+                });
+            }
+            tok!(";") => {
+                bump!(self);
+
+                return Ok(Delimiter {
+                    span: span!(self, span.lo),
+                    value: DelimiterValue::Semicolon,
                 });
             }
             _ => {
