@@ -70,4 +70,8 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default)]
     pub quotes: RuleConfig<QuotesConfig>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default)]
+    pub no_empty_pattern: RuleConfig<()>,
 }
