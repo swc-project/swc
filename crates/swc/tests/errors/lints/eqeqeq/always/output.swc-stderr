@@ -1,10 +1,10 @@
-error: Expected '===' and instead saw '=='
+error: Use '===' instead of '=='
  
   |
 1 | if (x == y || z != (a || b)) {}
   |     ^^^^^^
 
-error: Expected '!==' and instead saw '!='
+error: Use '!==' instead of '!='
  
   |
 1 | if (x == y || z != (a || b)) {}
