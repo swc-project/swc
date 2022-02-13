@@ -159,23 +159,9 @@ where
         let span = self.input.cur_span()?;
 
         match cur!(self) {
-            tok!(",") => {
-                bump!(self);
+            tok!(",") => return Ok(Value::Delimiter(self.parse()?)),
 
-                return Ok(Value::Delimiter(Delimiter {
-                    span: span!(self, span.lo),
-                    value: DelimiterValue::Comma,
-                }));
-            }
-
-            tok!("/") => {
-                bump!(self);
-
-                return Ok(Value::Delimiter(Delimiter {
-                    span: span!(self, span.lo),
-                    value: DelimiterValue::Solidus,
-                }));
-            }
+            tok!("/") => return Ok(Value::Delimiter(self.parse()?)),
 
             tok!(";") => {
                 bump!(self);
@@ -323,6 +309,45 @@ where
                         unreachable!();
                     }
                 }
+            }
+        }
+    }
+}
+
+impl<I> Parse<Delimiter> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Delimiter> {
+        let span = self.input.cur_span()?;
+
+        if !is_one_of!(self, ",", "/") {
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected("',' or '/' delim token"),
+            ));
+        }
+
+        match cur!(self) {
+            tok!(",") => {
+                bump!(self);
+
+                return Ok(Delimiter {
+                    span: span!(self, span.lo),
+                    value: DelimiterValue::Comma,
+                });
+            }
+
+            tok!("/") => {
+                bump!(self);
+
+                return Ok(Delimiter {
+                    span: span!(self, span.lo),
+                    value: DelimiterValue::Solidus,
+                });
+            }
+            _ => {
+                unreachable!();
             }
         }
     }
@@ -1097,7 +1122,9 @@ where
                             loop {
                                 self.input.skip_ws()?;
 
-                                if !eat!(self, ",") {
+                                if is!(self, ",") {
+                                    function.value.push(Value::Delimiter(self.parse()?));
+                                } else {
                                     break;
                                 }
 
@@ -1117,7 +1144,16 @@ where
 
                             self.input.skip_ws()?;
 
-                            expect!(self, ",");
+                            if is!(self, ",") {
+                                function.value.push(Value::Delimiter(self.parse()?));
+                            } else {
+                                let span = self.input.cur_span()?;
+
+                                return Err(Error::new(
+                                    span,
+                                    ErrorKind::Expected("',' delim token"),
+                                ));
+                            }
 
                             self.input.skip_ws()?;
 
@@ -1127,7 +1163,16 @@ where
 
                             self.input.skip_ws()?;
 
-                            expect!(self, ",");
+                            if is!(self, ",") {
+                                function.value.push(Value::Delimiter(self.parse()?));
+                            } else {
+                                let span = self.input.cur_span()?;
+
+                                return Err(Error::new(
+                                    span,
+                                    ErrorKind::Expected("',' delim token"),
+                                ));
+                            }
 
                             self.input.skip_ws()?;
 
@@ -1148,7 +1193,16 @@ where
 
                                 self.input.skip_ws()?;
 
-                                expect!(self, ",");
+                                if is!(self, ",") {
+                                    function.value.push(Value::Delimiter(self.parse()?));
+                                } else {
+                                    let span = self.input.cur_span()?;
+
+                                    return Err(Error::new(
+                                        span,
+                                        ErrorKind::Expected("',' delim token"),
+                                    ));
+                                }
 
                                 self.input.skip_ws()?;
                             }
@@ -1159,7 +1213,16 @@ where
 
                             self.input.skip_ws()?;
 
-                            expect!(self, ",");
+                            if is!(self, ",") {
+                                function.value.push(Value::Delimiter(self.parse()?));
+                            } else {
+                                let span = self.input.cur_span()?;
+
+                                return Err(Error::new(
+                                    span,
+                                    ErrorKind::Expected("',' delim token"),
+                                ));
+                            }
 
                             self.input.skip_ws()?;
 
@@ -1178,7 +1241,16 @@ where
 
                             self.input.skip_ws()?;
 
-                            expect!(self, ",");
+                            if is!(self, ",") {
+                                function.value.push(Value::Delimiter(self.parse()?));
+                            } else {
+                                let span = self.input.cur_span()?;
+
+                                return Err(Error::new(
+                                    span,
+                                    ErrorKind::Expected("',' delim token"),
+                                ));
+                            }
 
                             self.input.skip_ws()?;
 
@@ -1198,7 +1270,7 @@ where
                             self.input.skip_ws()?;
 
                             if is!(self, ",") {
-                                bump!(self);
+                                function.value.push(Value::Delimiter(self.parse()?));
 
                                 self.input.skip_ws()?;
 

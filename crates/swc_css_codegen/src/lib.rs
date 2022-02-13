@@ -1131,7 +1131,7 @@ where
 
     #[emitter]
     fn emit_calc_sum(&mut self, n: &CalcSum) -> Result {
-        self.emit_list(&n.expressions, ListFormat::SpaceDelimited)?;
+        self.emit_list(&n.expressions, ListFormat::NotDelimited)?;
     }
 
     #[emitter]
@@ -1144,12 +1144,29 @@ where
 
     #[emitter]
     fn emit_calc_operator(&mut self, n: &CalcOperator) -> Result {
+        let need_space = match n.value {
+            CalcOperatorType::Add | CalcOperatorType::Sub => true,
+            _ => false,
+        };
+
+        if need_space {
+            space!(self);
+        } else {
+            formatting_space!(self);
+        }
+
         punct!(self, n.value.as_str());
+
+        if need_space {
+            space!(self);
+        } else {
+            formatting_space!(self);
+        }
     }
 
     #[emitter]
     fn emit_calc_product(&mut self, n: &CalcProduct) -> Result {
-        self.emit_list(&n.expressions, ListFormat::SpaceDelimited)?;
+        self.emit_list(&n.expressions, ListFormat::None)?;
     }
 
     #[emitter]

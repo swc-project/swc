@@ -276,6 +276,18 @@ error: Ident
   |                   ^^
 
 error: Value
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:3:18
+  |
+3 |     width: max(500px, 6 / 4);
+  |                     ^
+
+error: Delimiter
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:3:18
+  |
+3 |     width: max(500px, 6 / 4);
+  |                     ^
+
+error: Value
  --> $DIR/tests/fixture/rome/min-and-max/input.css:3:20
   |
 3 |     width: max(500px, 6 / 4);
@@ -442,6 +454,18 @@ error: Ident
   |
 4 |     width: max(500px, 40px + 5%);
   |                   ^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:4:18
+  |
+4 |     width: max(500px, 40px + 5%);
+  |                     ^
+
+error: Delimiter
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:4:18
+  |
+4 |     width: max(500px, 40px + 5%);
+  |                     ^
 
 error: Value
  --> $DIR/tests/fixture/rome/min-and-max/input.css:4:20
@@ -646,6 +670,18 @@ error: Ident
   |
 5 |     width: max(500px, 5% * 400px + 2px);
   |                   ^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:5:18
+  |
+5 |     width: max(500px, 5% * 400px + 2px);
+  |                     ^
+
+error: Delimiter
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:5:18
+  |
+5 |     width: max(500px, 5% * 400px + 2px);
+  |                     ^
 
 error: Value
  --> $DIR/tests/fixture/rome/min-and-max/input.css:5:20
@@ -900,6 +936,18 @@ error: Ident
   |                   ^^
 
 error: Value
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:6:18
+  |
+6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+  |                     ^
+
+error: Delimiter
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:6:18
+  |
+6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+  |                     ^
+
+error: Value
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:20
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -1056,6 +1104,18 @@ error: Ident
   |                                     ^^
 
 error: Value
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:6:36
+  |
+6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+  |                                       ^
+
+error: Delimiter
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:6:36
+  |
+6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+  |                                       ^
+
+error: Value
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:38
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -1210,6 +1270,18 @@ error: Ident
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |                                                       ^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:6:54
+  |
+6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+  |                                                         ^
+
+error: Delimiter
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:6:54
+  |
+6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+  |                                                         ^
 
 error: Value
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:56
@@ -1560,6 +1632,18 @@ error: Ident
   |                   ^^
 
 error: Value
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:8:18
+  |
+8 |     width: min(500px, 6 / 4);
+  |                     ^
+
+error: Delimiter
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:8:18
+  |
+8 |     width: min(500px, 6 / 4);
+  |                     ^
+
+error: Value
  --> $DIR/tests/fixture/rome/min-and-max/input.css:8:20
   |
 8 |     width: min(500px, 6 / 4);
@@ -1726,6 +1810,18 @@ error: Ident
   |
 9 |     width: min(500px, 40px + 5%);
   |                   ^^
+
+error: Value
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:9:18
+  |
+9 |     width: min(500px, 40px + 5%);
+  |                     ^
+
+error: Delimiter
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:9:18
+  |
+9 |     width: min(500px, 40px + 5%);
+  |                     ^
 
 error: Value
  --> $DIR/tests/fixture/rome/min-and-max/input.css:9:20
@@ -1930,6 +2026,18 @@ error: Ident
    |
 10 |     width: min(500px, 5% * 400px + 2px);
    |                   ^^
+
+error: Value
+  --> $DIR/tests/fixture/rome/min-and-max/input.css:10:18
+   |
+10 |     width: min(500px, 5% * 400px + 2px);
+   |                     ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/rome/min-and-max/input.css:10:18
+   |
+10 |     width: min(500px, 5% * 400px + 2px);
+   |                     ^
 
 error: Value
   --> $DIR/tests/fixture/rome/min-and-max/input.css:10:20
@@ -2184,6 +2292,18 @@ error: Ident
    |                   ^^
 
 error: Value
+  --> $DIR/tests/fixture/rome/min-and-max/input.css:11:18
+   |
+11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   |                     ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/rome/min-and-max/input.css:11:18
+   |
+11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   |                     ^
+
+error: Value
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:20
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -2340,6 +2460,18 @@ error: Ident
    |                                     ^^
 
 error: Value
+  --> $DIR/tests/fixture/rome/min-and-max/input.css:11:36
+   |
+11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   |                                       ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/rome/min-and-max/input.css:11:36
+   |
+11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   |                                       ^
+
+error: Value
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:38
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -2494,6 +2626,18 @@ error: Ident
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |                                                       ^^
+
+error: Value
+  --> $DIR/tests/fixture/rome/min-and-max/input.css:11:54
+   |
+11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   |                                                         ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/rome/min-and-max/input.css:11:54
+   |
+11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   |                                                         ^
 
 error: Value
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:56

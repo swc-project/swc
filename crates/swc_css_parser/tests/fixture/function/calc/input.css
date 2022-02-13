@@ -91,6 +91,7 @@ div { width: calc(50% - ( ( 4% ) * 0.5 ) ); }
 .min-max {
     width: min(10px, 20px, 40px, 100px);
     width: max(10px, 20px, 40px, 100px);
+    width: min(   10px   ,   20px   ,   40px   ,   100px   );
 }
 
 .rem {
