@@ -70,7 +70,7 @@ error: Ident
 1 | .style {
   |  ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/rome/functions/input.css:1:8
   |
 1 |   .style {
@@ -102,12 +102,6 @@ error: DashedIdent
   |     ^^^^^^^
 
 error: Value
- --> $DIR/tests/fixture/rome/functions/input.css:2:11
-  |
-2 |     --fancy: 2px;
-  |              ^^^
-
-error: Tokens
  --> $DIR/tests/fixture/rome/functions/input.css:2:11
   |
 2 |     --fancy: 2px;

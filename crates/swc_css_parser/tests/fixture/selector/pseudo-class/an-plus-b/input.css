@@ -83,4 +83,9 @@
 :nth-of-type(2n+1) {}
 :nth-last-of-type(2n+1) {}
 
+:nth-col(odd) {}
+:nth-col(2n+1) {}
+:nth-last-col(odd) {}
+:nth-last-col(2n+1) {}
+
 /*:nth-child(2n+1 of li,.test) {}*/

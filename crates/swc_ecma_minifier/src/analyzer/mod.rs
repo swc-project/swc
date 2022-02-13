@@ -19,6 +19,8 @@ use crate::{
 
 mod ctx;
 pub(crate) mod storage;
+#[cfg(test)]
+mod tests;
 
 pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>) -> ProgramData
 where

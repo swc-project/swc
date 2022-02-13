@@ -25,26 +25,17 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 10,
             "end": 11,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "span": {
-                "start": 10,
-                "end": 11,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         }
       ],
       "block": {

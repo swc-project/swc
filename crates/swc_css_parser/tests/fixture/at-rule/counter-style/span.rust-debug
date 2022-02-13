@@ -46,6 +46,17 @@ error: CustomIdent
 1 | @counter-style thumbs {
   |                ^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/counter-style/input.css:1:23
+  |
+1 |   @counter-style thumbs {
+  |  _______________________^
+2 | |     system: cyclic;
+3 | |     symbols: "\1F44D";
+4 | |     suffix: " ";
+5 | | }
+  | |_^
+
 error: Declaration
  --> $DIR/tests/fixture/at-rule/counter-style/input.css:2:5
   |
@@ -194,7 +205,7 @@ error: Ident
 7 | ul {
   | ^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/at-rule/counter-style/input.css:7:4
   |
 7 |   ul {

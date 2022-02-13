@@ -52,7 +52,7 @@ error: Ident
 1 | :pseudo\2c class {}
   |  ^^^^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/YUPpw78_zYmKpAkI2SzNsg/input.css:1:18
   |
 1 | :pseudo\2c class {}

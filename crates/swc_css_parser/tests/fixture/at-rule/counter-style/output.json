@@ -23,101 +23,110 @@
         "value": "thumbs",
         "raw": "thumbs"
       },
-      "block": [
-        {
-          "type": "Declaration",
-          "span": {
-            "start": 28,
-            "end": 42,
-            "ctxt": 0
-          },
-          "name": {
-            "type": "Ident",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 22,
+          "end": 85,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
             "span": {
               "start": 28,
-              "end": 34,
+              "end": 42,
               "ctxt": 0
             },
-            "value": "system",
-            "raw": "system"
-          },
-          "value": [
-            {
+            "name": {
               "type": "Ident",
               "span": {
-                "start": 36,
-                "end": 42,
+                "start": 28,
+                "end": 34,
                 "ctxt": 0
               },
-              "value": "cyclic",
-              "raw": "cyclic"
-            }
-          ],
-          "important": null
-        },
-        {
-          "type": "Declaration",
-          "span": {
-            "start": 48,
-            "end": 65,
-            "ctxt": 0
+              "value": "system",
+              "raw": "system"
+            },
+            "value": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 36,
+                  "end": 42,
+                  "ctxt": 0
+                },
+                "value": "cyclic",
+                "raw": "cyclic"
+              }
+            ],
+            "important": null
           },
-          "name": {
-            "type": "Ident",
+          {
+            "type": "Declaration",
             "span": {
               "start": 48,
-              "end": 55,
+              "end": 65,
               "ctxt": 0
             },
-            "value": "symbols",
-            "raw": "symbols"
-          },
-          "value": [
-            {
-              "type": "String",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 57,
-                "end": 65,
+                "start": 48,
+                "end": 55,
                 "ctxt": 0
               },
-              "value": "👍",
-              "raw": "\"\\1F44D\""
-            }
-          ],
-          "important": null
-        },
-        {
-          "type": "Declaration",
-          "span": {
-            "start": 71,
-            "end": 82,
-            "ctxt": 0
+              "value": "symbols",
+              "raw": "symbols"
+            },
+            "value": [
+              {
+                "type": "String",
+                "span": {
+                  "start": 57,
+                  "end": 65,
+                  "ctxt": 0
+                },
+                "value": "👍",
+                "raw": "\"\\1F44D\""
+              }
+            ],
+            "important": null
           },
-          "name": {
-            "type": "Ident",
+          {
+            "type": "Declaration",
             "span": {
               "start": 71,
-              "end": 77,
+              "end": 82,
               "ctxt": 0
             },
-            "value": "suffix",
-            "raw": "suffix"
-          },
-          "value": [
-            {
-              "type": "String",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 79,
-                "end": 82,
+                "start": 71,
+                "end": 77,
                 "ctxt": 0
               },
-              "value": " ",
-              "raw": "\" \""
-            }
-          ],
-          "important": null
-        }
-      ]
+              "value": "suffix",
+              "raw": "suffix"
+            },
+            "value": [
+              {
+                "type": "String",
+                "span": {
+                  "start": 79,
+                  "end": 82,
+                  "ctxt": 0
+                },
+                "value": " ",
+                "raw": "\" \""
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
     },
     {
       "type": "QualifiedRule",
@@ -184,12 +193,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 90,
           "end": 117,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",

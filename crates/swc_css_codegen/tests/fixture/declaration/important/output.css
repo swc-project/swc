@@ -1,8 +1,12 @@
-:root {--foo: red !important;
---foo: red!important}
-div {color: red !important;
+:root {
+--foo: red !important;
+--foo: red!important;
+}
+div {
+color: red !important;
 color: red !important;
 color: red !important;
 color: red !important;
 color: red !IMPORTANT;
-color: red !iMpOrTaNt}
+color: red !iMpOrTaNt;
+}

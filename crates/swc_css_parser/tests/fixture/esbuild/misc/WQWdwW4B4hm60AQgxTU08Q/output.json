@@ -82,29 +82,22 @@
                       "value": "b",
                       "raw": "b"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 5,
-                        "end": 6,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 5,
-                            "end": 6,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "c",
-                              "raw": "c"
-                            }
+                    "children": [
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 5,
+                          "end": 6,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "c",
+                            "raw": "c"
                           }
                         }
-                      ]
-                    }
+                      }
+                    ]
                   }
                 ]
               }
@@ -113,12 +106,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 8,
           "end": 10,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     }

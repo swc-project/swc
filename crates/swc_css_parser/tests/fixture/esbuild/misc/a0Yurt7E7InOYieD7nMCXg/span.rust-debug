@@ -58,7 +58,7 @@ error: Ident
 1 | a { color: #AABCCCFF }
   | ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/a0Yurt7E7InOYieD7nMCXg/input.css:1:3
   |
 1 | a { color: #AABCCCFF }

@@ -1,6 +1,6 @@
 use swc_common::{ast_node, Span};
 
-use crate::{Block, CustomIdent, Ident, Percentage, Str};
+use crate::{CustomIdent, Ident, Percentage, SimpleBlock, Str};
 
 #[ast_node("KeyframesRule")]
 pub struct KeyframesRule {
@@ -21,7 +21,7 @@ pub enum KeyframesName {
 pub struct KeyframeBlock {
     pub span: Span,
     pub prelude: Vec<KeyframeSelector>,
-    pub block: Block,
+    pub block: SimpleBlock,
 }
 
 #[ast_node]

@@ -76,7 +76,7 @@ error: Ident
 1 | div {
   | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/declaration/input.css:1:5
    |
 1  |   div {
@@ -1403,7 +1403,7 @@ error: Ident
 27 | a { color: a/* ; */ b  ; }
    | ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/declaration/input.css:27:3
    |
 27 | a { color: a/* ; */ b  ; }
@@ -1505,7 +1505,7 @@ error: Ident
 28 | a{color:black}
    | ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/declaration/input.css:28:2
    |
 28 | a{color:black}
@@ -1601,7 +1601,7 @@ error: Ident
 30 | a {;;
    | ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/declaration/input.css:30:3
    |
 30 |   a {;;

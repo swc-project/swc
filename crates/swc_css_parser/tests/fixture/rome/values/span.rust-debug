@@ -86,7 +86,7 @@ error: Ident
 1 | p::before {
   |    ^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/rome/values/input.css:1:11
   |
 1 |   p::before {
@@ -183,7 +183,7 @@ error: Ident
 5 | .number {
   |  ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/rome/values/input.css:5:9
    |
 5  |   .number {
@@ -385,7 +385,7 @@ error: Ident
 12 | foo {
    | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/rome/values/input.css:12:5
    |
 12 |   foo {
@@ -484,7 +484,7 @@ error: Ident
 16 | bar {
    | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/rome/values/input.css:16:5
    |
 16 |   bar {

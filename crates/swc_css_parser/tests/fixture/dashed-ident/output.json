@@ -65,12 +65,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 6,
           "end": 59,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",
@@ -91,28 +92,19 @@
             },
             "value": [
               {
-                "type": "Tokens",
+                "type": "PreservedToken",
                 "span": {
                   "start": 26,
                   "end": 30,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "span": {
-                      "start": 26,
-                      "end": 30,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Hash": {
-                        "is_id": false,
-                        "value": "06c",
-                        "raw": "06c"
-                      }
-                    }
+                "token": {
+                  "Hash": {
+                    "is_id": false,
+                    "value": "06c",
+                    "raw": "06c"
                   }
-                ]
+                }
               }
             ],
             "important": null
@@ -136,28 +128,19 @@
             },
             "value": [
               {
-                "type": "Tokens",
+                "type": "PreservedToken",
                 "span": {
                   "start": 52,
                   "end": 56,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "span": {
-                      "start": 52,
-                      "end": 56,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Hash": {
-                        "is_id": false,
-                        "value": "006",
-                        "raw": "006"
-                      }
-                    }
+                "token": {
+                  "Hash": {
+                    "is_id": false,
+                    "value": "006",
+                    "raw": "006"
                   }
-                ]
+                }
               }
             ],
             "important": null
@@ -223,12 +206,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 66,
           "end": 91,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",
@@ -249,27 +233,18 @@
             },
             "value": [
               {
-                "type": "Tokens",
+                "type": "PreservedToken",
                 "span": {
                   "start": 84,
                   "end": 88,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "span": {
-                      "start": 84,
-                      "end": 88,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Ident": {
-                        "value": "blue",
-                        "raw": "blue"
-                      }
-                    }
+                "token": {
+                  "Ident": {
+                    "value": "blue",
+                    "raw": "blue"
                   }
-                ]
+                }
               }
             ],
             "important": null
@@ -381,12 +356,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 101,
           "end": 134,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",
@@ -461,26 +437,17 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 145,
             "end": 146,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "span": {
-                "start": 145,
-                "end": 146,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         }
       ],
       "block": {
@@ -513,26 +480,17 @@
       },
       "prelude": [
         {
-          "type": "Tokens",
+          "type": "PreservedToken",
           "span": {
             "start": 167,
             "end": 168,
             "ctxt": 0
           },
-          "tokens": [
-            {
-              "span": {
-                "start": 167,
-                "end": 168,
-                "ctxt": 0
-              },
-              "token": {
-                "WhiteSpace": {
-                  "value": " "
-                }
-              }
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
-          ]
+          }
         }
       ],
       "block": {

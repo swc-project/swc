@@ -46,7 +46,7 @@ error: Ident
 1 | @keyframes a\2c c { \66rom {} }
   |                     ^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:28
   |
 1 | @keyframes a\2c c { \66rom {} }

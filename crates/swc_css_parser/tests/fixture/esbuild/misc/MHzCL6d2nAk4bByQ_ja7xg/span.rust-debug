@@ -58,7 +58,7 @@ error: Ident
 1 | a{}
   | ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/MHzCL6d2nAk4bByQ_ja7xg/input.css:1:2
   |
 1 | a{}

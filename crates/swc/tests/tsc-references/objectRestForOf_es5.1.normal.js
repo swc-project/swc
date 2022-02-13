@@ -87,9 +87,11 @@ var _iteratorNormalCompletion1 = true, _didIteratorError1 = false, _iteratorErro
 try {
     for(var _iterator1 = array[Symbol.iterator](), _step1; !(_iteratorNormalCompletion1 = (_step1 = _iterator1.next()).done); _iteratorNormalCompletion1 = true){
         var _ref1 = _step1.value;
-        var xx = _ref1.x, rrestOff = _objectWithoutProperties(_ref1, [
+        var __ref;
+        var ref;
+        __ref = _ref1, rrestOff = _objectWithoutProperties(__ref, [
             "x"
-        ]);
+        ]), ref = __ref, xx = ref.x, ref, __ref;
         [
             xx,
             rrestOff

@@ -6,9 +6,9 @@ error: Stylesheet
 3  | | :nth-child(2n + 1) {}
 4  | | :nth-child(2n+ 1) {}
 ...  |
-85 | |
-86 | | /*:nth-child(2n+1 of li,.test) {}*/
-   | |_
+90 | |
+91 | | /*:nth-child(2n+1 of li,.test) {}*/
+   | |____________________________________^
 
 error: Rule
  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:1:1
@@ -70,7 +70,7 @@ error: AnPlusB
 1 | :nth-child(2n+1) {}
   |            ^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:1:18
   |
 1 | :nth-child(2n+1) {}
@@ -136,7 +136,7 @@ error: AnPlusB
 2 | :nth-child(2n +1) {}
   |            ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:2:19
   |
 2 | :nth-child(2n +1) {}
@@ -202,7 +202,7 @@ error: AnPlusB
 3 | :nth-child(2n + 1) {}
   |            ^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:3:20
   |
 3 | :nth-child(2n + 1) {}
@@ -268,7 +268,7 @@ error: AnPlusB
 4 | :nth-child(2n+ 1) {}
   |            ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:4:19
   |
 4 | :nth-child(2n+ 1) {}
@@ -334,7 +334,7 @@ error: AnPlusB
 5 | :nth-child(2n-1) {}
   |            ^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:5:18
   |
 5 | :nth-child(2n-1) {}
@@ -400,7 +400,7 @@ error: AnPlusB
 6 | :nth-child(2n -1) {}
   |            ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:6:19
   |
 6 | :nth-child(2n -1) {}
@@ -466,7 +466,7 @@ error: AnPlusB
 7 | :nth-child(2n- 1) {}
   |            ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:7:19
   |
 7 | :nth-child(2n- 1) {}
@@ -532,7 +532,7 @@ error: AnPlusB
 8 | :nth-child(2n - 1) {}
   |            ^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:8:20
   |
 8 | :nth-child(2n - 1) {}
@@ -598,7 +598,7 @@ error: AnPlusB
 9 | :nth-child(-2n+1) {}
   |            ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:9:19
   |
 9 | :nth-child(-2n+1) {}
@@ -664,7 +664,7 @@ error: AnPlusB
 10 | :nth-child(-2n +1) {}
    |            ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:10:20
    |
 10 | :nth-child(-2n +1) {}
@@ -730,7 +730,7 @@ error: AnPlusB
 11 | :nth-child(-2n + 1) {}
    |            ^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:11:21
    |
 11 | :nth-child(-2n + 1) {}
@@ -796,7 +796,7 @@ error: AnPlusB
 12 | :nth-child(-2n+ 1) {}
    |            ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:12:20
    |
 12 | :nth-child(-2n+ 1) {}
@@ -862,7 +862,7 @@ error: AnPlusB
 13 | :nth-child(-2n-1) {}
    |            ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:13:19
    |
 13 | :nth-child(-2n-1) {}
@@ -928,7 +928,7 @@ error: AnPlusB
 14 | :nth-child(-2n -1) {}
    |            ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:14:20
    |
 14 | :nth-child(-2n -1) {}
@@ -994,7 +994,7 @@ error: AnPlusB
 15 | :nth-child(-2n - 1) {}
    |            ^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:15:21
    |
 15 | :nth-child(-2n - 1) {}
@@ -1060,7 +1060,7 @@ error: AnPlusB
 16 | :nth-child(+2n+1) {}
    |            ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:16:19
    |
 16 | :nth-child(+2n+1) {}
@@ -1126,7 +1126,7 @@ error: AnPlusB
 17 | :nth-child(+2n +1) {}
    |            ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:17:20
    |
 17 | :nth-child(+2n +1) {}
@@ -1192,7 +1192,7 @@ error: AnPlusB
 18 | :nth-child(+2n + 1) {}
    |            ^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:18:21
    |
 18 | :nth-child(+2n + 1) {}
@@ -1258,7 +1258,7 @@ error: AnPlusB
 19 | :nth-child(+2n+ 1) {}
    |            ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:19:20
    |
 19 | :nth-child(+2n+ 1) {}
@@ -1324,7 +1324,7 @@ error: AnPlusB
 20 | :nth-child(+2n-1) {}
    |            ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:20:19
    |
 20 | :nth-child(+2n-1) {}
@@ -1390,7 +1390,7 @@ error: AnPlusB
 21 | :nth-child(+2n -1) {}
    |            ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:21:20
    |
 21 | :nth-child(+2n -1) {}
@@ -1456,7 +1456,7 @@ error: AnPlusB
 22 | :nth-child(+2n- 1) {}
    |            ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:22:20
    |
 22 | :nth-child(+2n- 1) {}
@@ -1522,7 +1522,7 @@ error: AnPlusB
 23 | :nth-child(+2n - 1) {}
    |            ^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:23:21
    |
 23 | :nth-child(+2n - 1) {}
@@ -1588,7 +1588,7 @@ error: AnPlusB
 24 | :nth-child(n+1) {}
    |            ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:24:17
    |
 24 | :nth-child(n+1) {}
@@ -1654,7 +1654,7 @@ error: AnPlusB
 25 | :nth-child(n +1) {}
    |            ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:25:18
    |
 25 | :nth-child(n +1) {}
@@ -1720,7 +1720,7 @@ error: AnPlusB
 26 | :nth-child(n + 1) {}
    |            ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:26:19
    |
 26 | :nth-child(n + 1) {}
@@ -1786,7 +1786,7 @@ error: AnPlusB
 27 | :nth-child(n+ 1) {}
    |            ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:27:18
    |
 27 | :nth-child(n+ 1) {}
@@ -1852,7 +1852,7 @@ error: AnPlusB
 28 | :nth-child(n-1) {}
    |            ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:28:17
    |
 28 | :nth-child(n-1) {}
@@ -1918,7 +1918,7 @@ error: AnPlusB
 29 | :nth-child(n -1) {}
    |            ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:29:18
    |
 29 | :nth-child(n -1) {}
@@ -1984,7 +1984,7 @@ error: AnPlusB
 30 | :nth-child(n- 1) {}
    |            ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:30:18
    |
 30 | :nth-child(n- 1) {}
@@ -2050,7 +2050,7 @@ error: AnPlusB
 31 | :nth-child(n - 1) {}
    |            ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:31:19
    |
 31 | :nth-child(n - 1) {}
@@ -2116,7 +2116,7 @@ error: AnPlusB
 32 | :nth-child(-n+1) {}
    |            ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:32:18
    |
 32 | :nth-child(-n+1) {}
@@ -2182,7 +2182,7 @@ error: AnPlusB
 33 | :nth-child(-n +1) {}
    |            ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:33:19
    |
 33 | :nth-child(-n +1) {}
@@ -2248,7 +2248,7 @@ error: AnPlusB
 34 | :nth-child(-n + 1) {}
    |            ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:34:20
    |
 34 | :nth-child(-n + 1) {}
@@ -2314,7 +2314,7 @@ error: AnPlusB
 35 | :nth-child(-n+ 1) {}
    |            ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:35:19
    |
 35 | :nth-child(-n+ 1) {}
@@ -2380,7 +2380,7 @@ error: AnPlusB
 36 | :nth-child(-n-1) {}
    |            ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:36:18
    |
 36 | :nth-child(-n-1) {}
@@ -2446,7 +2446,7 @@ error: AnPlusB
 37 | :nth-child(-n -1) {}
    |            ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:37:19
    |
 37 | :nth-child(-n -1) {}
@@ -2512,7 +2512,7 @@ error: AnPlusB
 38 | :nth-child(-n- 1) {}
    |            ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:38:19
    |
 38 | :nth-child(-n- 1) {}
@@ -2578,7 +2578,7 @@ error: AnPlusB
 39 | :nth-child(-n - 1) {}
    |            ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:39:20
    |
 39 | :nth-child(-n - 1) {}
@@ -2644,7 +2644,7 @@ error: AnPlusB
 40 | :nth-child(+n+1) {}
    |            ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:40:18
    |
 40 | :nth-child(+n+1) {}
@@ -2710,7 +2710,7 @@ error: AnPlusB
 41 | :nth-child(+n +1) {}
    |            ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:41:19
    |
 41 | :nth-child(+n +1) {}
@@ -2776,7 +2776,7 @@ error: AnPlusB
 42 | :nth-child(+n + 1) {}
    |            ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:42:20
    |
 42 | :nth-child(+n + 1) {}
@@ -2842,7 +2842,7 @@ error: AnPlusB
 43 | :nth-child(+n+ 1) {}
    |            ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:43:19
    |
 43 | :nth-child(+n+ 1) {}
@@ -2908,7 +2908,7 @@ error: AnPlusB
 44 | :nth-child(+n-1) {}
    |            ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:44:18
    |
 44 | :nth-child(+n-1) {}
@@ -2974,7 +2974,7 @@ error: AnPlusB
 45 | :nth-child(+n -1) {}
    |            ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:45:19
    |
 45 | :nth-child(+n -1) {}
@@ -3040,7 +3040,7 @@ error: AnPlusB
 46 | :nth-child(+n- 1) {}
    |            ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:46:19
    |
 46 | :nth-child(+n- 1) {}
@@ -3106,7 +3106,7 @@ error: AnPlusB
 47 | :nth-child(+n - 1) {}
    |            ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:47:20
    |
 47 | :nth-child(+n - 1) {}
@@ -3172,7 +3172,7 @@ error: AnPlusB
 48 | :nth-child(n) {}
    |            ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:48:15
    |
 48 | :nth-child(n) {}
@@ -3238,7 +3238,7 @@ error: AnPlusB
 49 | :nth-child(-n) {}
    |            ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:49:16
    |
 49 | :nth-child(-n) {}
@@ -3304,7 +3304,7 @@ error: AnPlusB
 50 | :nth-child(+n) {}
    |            ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:50:16
    |
 50 | :nth-child(+n) {}
@@ -3370,7 +3370,7 @@ error: AnPlusB
 51 | :nth-child(2n) {}
    |            ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:51:16
    |
 51 | :nth-child(2n) {}
@@ -3436,7 +3436,7 @@ error: AnPlusB
 52 | :nth-child(-2n) {}
    |            ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:52:17
    |
 52 | :nth-child(-2n) {}
@@ -3502,7 +3502,7 @@ error: AnPlusB
 53 | :nth-child(+2n) {}
    |            ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:53:17
    |
 53 | :nth-child(+2n) {}
@@ -3568,7 +3568,7 @@ error: AnPlusB
 54 | :nth-child(N) {}
    |            ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:54:15
    |
 54 | :nth-child(N) {}
@@ -3634,7 +3634,7 @@ error: AnPlusB
 55 | :nth-child(-N) {}
    |            ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:55:16
    |
 55 | :nth-child(-N) {}
@@ -3700,7 +3700,7 @@ error: AnPlusB
 56 | :nth-child(+N) {}
    |            ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:56:16
    |
 56 | :nth-child(+N) {}
@@ -3766,7 +3766,7 @@ error: AnPlusB
 57 | :nth-child(2N) {}
    |            ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:57:16
    |
 57 | :nth-child(2N) {}
@@ -3832,7 +3832,7 @@ error: AnPlusB
 58 | :nth-child(-2N) {}
    |            ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:58:17
    |
 58 | :nth-child(-2N) {}
@@ -3898,7 +3898,7 @@ error: AnPlusB
 59 | :nth-child(+2N) {}
    |            ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:59:17
    |
 59 | :nth-child(+2N) {}
@@ -3964,7 +3964,7 @@ error: AnPlusB
 60 | :nth-child(1) {}
    |            ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:60:15
    |
 60 | :nth-child(1) {}
@@ -4030,7 +4030,7 @@ error: AnPlusB
 61 | :nth-child(-1) {}
    |            ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:61:16
    |
 61 | :nth-child(-1) {}
@@ -4096,7 +4096,7 @@ error: AnPlusB
 62 | :nth-child(+1) {}
    |            ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:62:16
    |
 62 | :nth-child(+1) {}
@@ -4162,7 +4162,7 @@ error: AnPlusB
 63 | :nth-child(123456n-12345678) {}
    |            ^^^^^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:63:30
    |
 63 | :nth-child(123456n-12345678) {}
@@ -4228,7 +4228,7 @@ error: AnPlusB
 65 | :Nth-Child(2n+1) {}
    |            ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:65:18
    |
 65 | :Nth-Child(2n+1) {}
@@ -4294,7 +4294,7 @@ error: AnPlusB
 66 | :NTH-CHILD(2n+1) {}
    |            ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:66:18
    |
 66 | :NTH-CHILD(2n+1) {}
@@ -4360,7 +4360,7 @@ error: Ident
 68 | :nth-child(odd) {}
    |            ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:68:17
    |
 68 | :nth-child(odd) {}
@@ -4426,7 +4426,7 @@ error: Ident
 69 | :nth-child(ODD) {}
    |            ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:69:17
    |
 69 | :nth-child(ODD) {}
@@ -4492,7 +4492,7 @@ error: Ident
 70 | :nth-child(oDd) {}
    |            ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:70:17
    |
 70 | :nth-child(oDd) {}
@@ -4558,7 +4558,7 @@ error: Ident
 71 | :nth-child(even) {}
    |            ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:71:18
    |
 71 | :nth-child(even) {}
@@ -4624,7 +4624,7 @@ error: Ident
 72 | :nth-child(eVeN) {}
    |            ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:72:18
    |
 72 | :nth-child(eVeN) {}
@@ -4690,7 +4690,7 @@ error: Ident
 73 | :nth-child(EVEN) {}
    |            ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:73:18
    |
 73 | :nth-child(EVEN) {}
@@ -4756,7 +4756,7 @@ error: AnPlusB
 75 | :nth-child(/*test*/2n/*test*/+/*test*/1/*test*/) {}
    |                    ^^^^^^^^^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:75:50
    |
 75 | :nth-child(/*test*/2n/*test*/+/*test*/1/*test*/) {}
@@ -4822,7 +4822,7 @@ error: AnPlusB
 76 | :nth-last-child(/*test*/+3n/*test*/-/*test*/2/*test*/) {}
    |                         ^^^^^^^^^^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:76:56
    |
 76 | :nth-last-child(/*test*/+3n/*test*/-/*test*/2/*test*/) {}
@@ -4888,7 +4888,7 @@ error: AnPlusB
 78 | :nth-child(  2n  +  1  ) {}
    |              ^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:78:26
    |
 78 | :nth-child(  2n  +  1  ) {}
@@ -4954,7 +4954,7 @@ error: AnPlusB
 79 | :nth-last-child(  +3n  -  2  ) {}
    |                   ^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:79:32
    |
 79 | :nth-last-child(  +3n  -  2  ) {}
@@ -5020,7 +5020,7 @@ error: AnPlusB
 81 | :nth-child(-2n+1) {}
    |            ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:81:19
    |
 81 | :nth-child(-2n+1) {}
@@ -5086,7 +5086,7 @@ error: AnPlusB
 82 | :nth-last-child(2n+1) {}
    |                 ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:82:23
    |
 82 | :nth-last-child(2n+1) {}
@@ -5152,7 +5152,7 @@ error: AnPlusB
 83 | :nth-of-type(2n+1) {}
    |              ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:83:20
    |
 83 | :nth-of-type(2n+1) {}
@@ -5218,9 +5218,273 @@ error: AnPlusB
 84 | :nth-last-of-type(2n+1) {}
    |                   ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:84:25
    |
 84 | :nth-last-of-type(2n+1) {}
    |                         ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:86:1
+   |
+86 | :nth-col(odd) {}
+   | ^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:86:1
+   |
+86 | :nth-col(odd) {}
+   | ^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:86:1
+   |
+86 | :nth-col(odd) {}
+   | ^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:86:1
+   |
+86 | :nth-col(odd) {}
+   | ^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:86:1
+   |
+86 | :nth-col(odd) {}
+   | ^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:86:1
+   |
+86 | :nth-col(odd) {}
+   | ^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:86:1
+   |
+86 | :nth-col(odd) {}
+   | ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:86:2
+   |
+86 | :nth-col(odd) {}
+   |  ^^^^^^^
+
+error: Nth
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:86:10
+   |
+86 | :nth-col(odd) {}
+   |          ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:86:10
+   |
+86 | :nth-col(odd) {}
+   |          ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:86:15
+   |
+86 | :nth-col(odd) {}
+   |               ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:87:1
+   |
+87 | :nth-col(2n+1) {}
+   | ^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:87:1
+   |
+87 | :nth-col(2n+1) {}
+   | ^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:87:1
+   |
+87 | :nth-col(2n+1) {}
+   | ^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:87:1
+   |
+87 | :nth-col(2n+1) {}
+   | ^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:87:1
+   |
+87 | :nth-col(2n+1) {}
+   | ^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:87:1
+   |
+87 | :nth-col(2n+1) {}
+   | ^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:87:1
+   |
+87 | :nth-col(2n+1) {}
+   | ^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:87:2
+   |
+87 | :nth-col(2n+1) {}
+   |  ^^^^^^^
+
+error: Nth
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:87:10
+   |
+87 | :nth-col(2n+1) {}
+   |          ^^^^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:87:10
+   |
+87 | :nth-col(2n+1) {}
+   |          ^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:87:16
+   |
+87 | :nth-col(2n+1) {}
+   |                ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:88:1
+   |
+88 | :nth-last-col(odd) {}
+   | ^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:88:1
+   |
+88 | :nth-last-col(odd) {}
+   | ^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:88:1
+   |
+88 | :nth-last-col(odd) {}
+   | ^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:88:1
+   |
+88 | :nth-last-col(odd) {}
+   | ^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:88:1
+   |
+88 | :nth-last-col(odd) {}
+   | ^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:88:1
+   |
+88 | :nth-last-col(odd) {}
+   | ^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:88:1
+   |
+88 | :nth-last-col(odd) {}
+   | ^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:88:2
+   |
+88 | :nth-last-col(odd) {}
+   |  ^^^^^^^^^^^^
+
+error: Nth
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:88:15
+   |
+88 | :nth-last-col(odd) {}
+   |               ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:88:15
+   |
+88 | :nth-last-col(odd) {}
+   |               ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:88:20
+   |
+88 | :nth-last-col(odd) {}
+   |                    ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:89:1
+   |
+89 | :nth-last-col(2n+1) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:89:1
+   |
+89 | :nth-last-col(2n+1) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:89:1
+   |
+89 | :nth-last-col(2n+1) {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:89:1
+   |
+89 | :nth-last-col(2n+1) {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:89:1
+   |
+89 | :nth-last-col(2n+1) {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:89:1
+   |
+89 | :nth-last-col(2n+1) {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:89:1
+   |
+89 | :nth-last-col(2n+1) {}
+   | ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:89:2
+   |
+89 | :nth-last-col(2n+1) {}
+   |  ^^^^^^^^^^^^
+
+error: Nth
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:89:15
+   |
+89 | :nth-last-col(2n+1) {}
+   |               ^^^^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:89:15
+   |
+89 | :nth-last-col(2n+1) {}
+   |               ^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:89:21
+   |
+89 | :nth-last-col(2n+1) {}
+   |                     ^^
 

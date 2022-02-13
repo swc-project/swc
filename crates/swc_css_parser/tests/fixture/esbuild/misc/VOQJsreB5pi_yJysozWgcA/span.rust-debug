@@ -52,11 +52,17 @@ error: Ident
 2 |         @page :first { margin: 0 }
   |                ^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:16
+  |
+2 |         @page :first { margin: 0 }
+  |                      ^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:18
   |
 2 |         @page :first { margin: 0 }
-  |                        ^^^^^^^^^
+  |                        ^^^^^^^^^^
 
 error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:18
@@ -121,6 +127,19 @@ error: PageRule
 20 | |         }
    | |_________^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:9
+   |
+3  |           @page {
+   |  _______________^
+4  | |             @top-left-corner { content: 'tlc' }
+5  | |             @top-left { content: 'tl' }
+6  | |             @top-center { content: 'tc' }
+...  |
+19 | |             @right-bottom { content: 'rb' }
+20 | |         }
+   | |_________^
+
 error: AtRule
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:4
   |
@@ -138,6 +157,12 @@ error: Ident
   |
 4 |             @top-left-corner { content: 'tlc' }
   |              ^^^^^^^^^^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:21
+  |
+4 |             @top-left-corner { content: 'tlc' }
+  |                              ^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:23
@@ -187,6 +212,12 @@ error: Ident
 5 |             @top-left { content: 'tl' }
   |              ^^^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:14
+  |
+5 |             @top-left { content: 'tl' }
+  |                       ^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:16
   |
@@ -234,6 +265,12 @@ error: Ident
   |
 6 |             @top-center { content: 'tc' }
   |              ^^^^^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:16
+  |
+6 |             @top-center { content: 'tc' }
+  |                         ^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:18
@@ -283,6 +320,12 @@ error: Ident
 7 |             @top-right { content: 'tr' }
   |              ^^^^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:15
+  |
+7 |             @top-right { content: 'tr' }
+  |                        ^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:17
   |
@@ -330,6 +373,12 @@ error: Ident
   |
 8 |             @top-right-corner { content: 'trc' }
   |              ^^^^^^^^^^^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:22
+  |
+8 |             @top-right-corner { content: 'trc' }
+  |                               ^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:24
@@ -379,6 +428,12 @@ error: Ident
 9 |             @bottom-left-corner { content: 'blc' }
   |              ^^^^^^^^^^^^^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:24
+  |
+9 |             @bottom-left-corner { content: 'blc' }
+  |                                 ^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:26
   |
@@ -426,6 +481,12 @@ error: Ident
    |
 10 |             @bottom-left { content: 'bl' }
    |              ^^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:17
+   |
+10 |             @bottom-left { content: 'bl' }
+   |                          ^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:19
@@ -475,6 +536,12 @@ error: Ident
 11 |             @bottom-center { content: 'bc' }
    |              ^^^^^^^^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:19
+   |
+11 |             @bottom-center { content: 'bc' }
+   |                            ^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:21
    |
@@ -522,6 +589,12 @@ error: Ident
    |
 12 |             @bottom-right { content: 'br' }
    |              ^^^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:18
+   |
+12 |             @bottom-right { content: 'br' }
+   |                           ^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:20
@@ -571,6 +644,12 @@ error: Ident
 13 |             @bottom-right-corner { content: 'brc' }
    |              ^^^^^^^^^^^^^^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:25
+   |
+13 |             @bottom-right-corner { content: 'brc' }
+   |                                  ^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:27
    |
@@ -618,6 +697,12 @@ error: Ident
    |
 14 |             @left-top { content: 'lt' }
    |              ^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:14
+   |
+14 |             @left-top { content: 'lt' }
+   |                       ^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:16
@@ -667,6 +752,12 @@ error: Ident
 15 |             @left-middle { content: 'lm' }
    |              ^^^^^^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:17
+   |
+15 |             @left-middle { content: 'lm' }
+   |                          ^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:19
    |
@@ -714,6 +805,12 @@ error: Ident
    |
 16 |             @left-bottom { content: 'lb' }
    |              ^^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:17
+   |
+16 |             @left-bottom { content: 'lb' }
+   |                          ^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:19
@@ -763,6 +860,12 @@ error: Ident
 17 |             @right-top { content: 'rt' }
    |              ^^^^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:15
+   |
+17 |             @right-top { content: 'rt' }
+   |                        ^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:17
    |
@@ -811,6 +914,12 @@ error: Ident
 18 |             @right-middle { content: 'rm' }
    |              ^^^^^^^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:18
+   |
+18 |             @right-middle { content: 'rm' }
+   |                           ^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:20
    |
@@ -858,6 +967,12 @@ error: Ident
    |
 19 |             @right-bottom { content: 'rb' }
    |              ^^^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:18
+   |
+19 |             @right-bottom { content: 'rb' }
+   |                           ^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:20

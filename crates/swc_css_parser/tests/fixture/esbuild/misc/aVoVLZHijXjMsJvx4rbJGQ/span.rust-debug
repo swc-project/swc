@@ -22,7 +22,7 @@ error: ViewportRule
 1 | @viewport { width: 100vw }
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:11
   |
 1 | @viewport { width: 100vw }
@@ -32,7 +32,7 @@ error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:13
   |
 1 | @viewport { width: 100vw }
-  |             ^^^^^^^^^^^^
+  |             ^^^^^^^^^^^^^
 
 error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:13
