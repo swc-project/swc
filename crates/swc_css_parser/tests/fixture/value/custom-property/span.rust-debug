@@ -341,7 +341,7 @@ error: Value
 8 |     --important4: calc(1)!important;
   |                        ^
 
-error: Num { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+error: Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
  --> $DIR/tests/fixture/value/custom-property/input.css:8:24
   |
 8 |     --important4: calc(1)!important;
@@ -539,7 +539,7 @@ error: Value
 17 |     --number: 1;
    |               ^
 
-error: Num { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+error: Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
   --> $DIR/tests/fixture/value/custom-property/input.css:17:15
    |
 17 |     --number: 1;
@@ -641,7 +641,7 @@ error: Value
 21 |     --function: calc(1 + 1);
    |                      ^
 
-error: Num { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+error: Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
   --> $DIR/tests/fixture/value/custom-property/input.css:21:22
    |
 21 |     --function: calc(1 + 1);
@@ -689,7 +689,7 @@ error: Value
 21 |     --function: calc(1 + 1);
    |                          ^
 
-error: Num { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+error: Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
   --> $DIR/tests/fixture/value/custom-property/input.css:21:26
    |
 21 |     --function: calc(1 + 1);
@@ -785,7 +785,7 @@ error: Value
 24 |     --string: 'single quoted string';
    |               ^^^^^^^^^^^^^^^^^^^^^^
 
-error: Str { value: Atom('single quoted string' type=dynamic), raw: Atom(''single quoted string'' type=dynamic) }
+error: String { value: Atom('single quoted string' type=dynamic), raw: Atom(''single quoted string'' type=dynamic) }
   --> $DIR/tests/fixture/value/custom-property/input.css:24:15
    |
 24 |     --string: 'single quoted string';
@@ -815,7 +815,7 @@ error: Value
 25 |     --string: "double quoted string";
    |               ^^^^^^^^^^^^^^^^^^^^^^
 
-error: Str { value: Atom('double quoted string' type=dynamic), raw: Atom('"double quoted string"' type=dynamic) }
+error: String { value: Atom('double quoted string' type=dynamic), raw: Atom('"double quoted string"' type=dynamic) }
   --> $DIR/tests/fixture/value/custom-property/input.css:25:15
    |
 25 |     --string: "double quoted string";
@@ -857,7 +857,7 @@ error: Value
 27 |     --square-block: [1, 2, 3];
    |                      ^
 
-error: Num { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+error: Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
   --> $DIR/tests/fixture/value/custom-property/input.css:27:22
    |
 27 |     --square-block: [1, 2, 3];
@@ -893,7 +893,7 @@ error: Value
 27 |     --square-block: [1, 2, 3];
    |                         ^
 
-error: Num { value: 2.0, raw: Atom('2' type=inline), type_flag: Integer }
+error: Number { value: 2.0, raw: Atom('2' type=inline), type_flag: Integer }
   --> $DIR/tests/fixture/value/custom-property/input.css:27:25
    |
 27 |     --square-block: [1, 2, 3];
@@ -929,7 +929,7 @@ error: Value
 27 |     --square-block: [1, 2, 3];
    |                            ^
 
-error: Num { value: 3.0, raw: Atom('3' type=inline), type_flag: Integer }
+error: Number { value: 3.0, raw: Atom('3' type=inline), type_flag: Integer }
   --> $DIR/tests/fixture/value/custom-property/input.css:27:28
    |
 27 |     --square-block: [1, 2, 3];
@@ -1067,7 +1067,7 @@ error: Value
 30 |     --round-block: (1, 2, 3);
    |                     ^
 
-error: Num { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+error: Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
   --> $DIR/tests/fixture/value/custom-property/input.css:30:21
    |
 30 |     --round-block: (1, 2, 3);
@@ -1103,7 +1103,7 @@ error: Value
 30 |     --round-block: (1, 2, 3);
    |                        ^
 
-error: Num { value: 2.0, raw: Atom('2' type=inline), type_flag: Integer }
+error: Number { value: 2.0, raw: Atom('2' type=inline), type_flag: Integer }
   --> $DIR/tests/fixture/value/custom-property/input.css:30:24
    |
 30 |     --round-block: (1, 2, 3);
@@ -1139,7 +1139,7 @@ error: Value
 30 |     --round-block: (1, 2, 3);
    |                           ^
 
-error: Num { value: 3.0, raw: Atom('3' type=inline), type_flag: Integer }
+error: Number { value: 3.0, raw: Atom('3' type=inline), type_flag: Integer }
   --> $DIR/tests/fixture/value/custom-property/input.css:30:27
    |
 30 |     --round-block: (1, 2, 3);
@@ -1277,7 +1277,7 @@ error: Value
 33 |     --bracket-block: {1, 2, 3};
    |                       ^
 
-error: Num { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+error: Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
   --> $DIR/tests/fixture/value/custom-property/input.css:33:23
    |
 33 |     --bracket-block: {1, 2, 3};
@@ -1313,7 +1313,7 @@ error: Value
 33 |     --bracket-block: {1, 2, 3};
    |                          ^
 
-error: Num { value: 2.0, raw: Atom('2' type=inline), type_flag: Integer }
+error: Number { value: 2.0, raw: Atom('2' type=inline), type_flag: Integer }
   --> $DIR/tests/fixture/value/custom-property/input.css:33:26
    |
 33 |     --bracket-block: {1, 2, 3};
@@ -1349,7 +1349,7 @@ error: Value
 33 |     --bracket-block: {1, 2, 3};
    |                             ^
 
-error: Num { value: 3.0, raw: Atom('3' type=inline), type_flag: Integer }
+error: Number { value: 3.0, raw: Atom('3' type=inline), type_flag: Integer }
   --> $DIR/tests/fixture/value/custom-property/input.css:33:29
    |
 33 |     --bracket-block: {1, 2, 3};
@@ -1487,7 +1487,7 @@ error: Value
 38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
    |              ^
 
-error: Num { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+error: Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
   --> $DIR/tests/fixture/value/custom-property/input.css:38:14
    |
 38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -1523,7 +1523,7 @@ error: Value
 38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
    |                 ^^^
 
-error: Str { value: Atom('2' type=inline), raw: Atom('"2"' type=inline) }
+error: String { value: Atom('2' type=inline), raw: Atom('"2"' type=inline) }
   --> $DIR/tests/fixture/value/custom-property/input.css:38:17
    |
 38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -1571,7 +1571,7 @@ error: Value
 38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
    |                       ^^^^^^^
 
-error: Str { value: Atom('three' type=inline), raw: Atom('"three"' type=inline) }
+error: String { value: Atom('three' type=inline), raw: Atom('"three"' type=inline) }
   --> $DIR/tests/fixture/value/custom-property/input.css:38:23
    |
 38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -1619,7 +1619,7 @@ error: Value
 38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
    |                                 ^^^
 
-error: Str { value: Atom('a' type=inline), raw: Atom('"a"' type=inline) }
+error: String { value: Atom('a' type=inline), raw: Atom('"a"' type=inline) }
   --> $DIR/tests/fixture/value/custom-property/input.css:38:33
    |
 38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -1643,7 +1643,7 @@ error: Value
 38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
    |                                     ^
 
-error: Num { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+error: Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
   --> $DIR/tests/fixture/value/custom-property/input.css:38:37
    |
 38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -1715,7 +1715,7 @@ error: Value
 38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
    |                                           ^
 
-error: Num { value: 4.0, raw: Atom('4' type=inline), type_flag: Integer }
+error: Number { value: 4.0, raw: Atom('4' type=inline), type_flag: Integer }
   --> $DIR/tests/fixture/value/custom-property/input.css:38:43
    |
 38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -2620,7 +2620,7 @@ error: Value
 49 |         width: 0;
    |                ^
 
-error: Num { value: 0.0, raw: Atom('0' type=inline), type_flag: Integer }
+error: Number { value: 0.0, raw: Atom('0' type=inline), type_flag: Integer }
   --> $DIR/tests/fixture/value/custom-property/input.css:49:16
    |
 49 |         width: 0;
@@ -2697,7 +2697,7 @@ error: Value
 50 |         height: 0;
    |                 ^
 
-error: Num { value: 0.0, raw: Atom('0' type=inline), type_flag: Integer }
+error: Number { value: 0.0, raw: Atom('0' type=inline), type_flag: Integer }
   --> $DIR/tests/fixture/value/custom-property/input.css:50:17
    |
 50 |         height: 0;
@@ -3052,7 +3052,7 @@ error: Value
 59 | :root{--a:1}
    |           ^
 
-error: Num { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+error: Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
   --> $DIR/tests/fixture/value/custom-property/input.css:59:11
    |
 59 | :root{--a:1}

@@ -396,7 +396,7 @@ where
     fn parse(&mut self) -> PResult<CharsetRule> {
         let span = self.input.cur_span()?;
         let charset = match cur!(self) {
-            Token::Str { .. } => self.parse()?,
+            tok!("string") => self.parse()?,
             _ => return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule)),
         };
 
@@ -416,7 +416,7 @@ where
     fn parse(&mut self) -> PResult<ImportRule> {
         let span = self.input.cur_span()?;
         let href = match cur!(self) {
-            tok!("str") => ImportHref::Str(self.parse()?),
+            tok!("string") => ImportHref::Str(self.parse()?),
             tok!("url") => ImportHref::Url(self.parse()?),
             tok!("function") => ImportHref::Url(self.parse()?),
             _ => {
@@ -544,7 +544,7 @@ where
 
                 Ok(KeyframesName::CustomIdent(custom_ident))
             }
-            tok!("str") => Ok(KeyframesName::Str(self.parse()?)),
+            tok!("string") => Ok(KeyframesName::Str(self.parse()?)),
             _ => {
                 let span = self.input.cur_span()?;
 
@@ -665,7 +665,7 @@ where
         }
 
         let uri = match cur!(self) {
-            tok!("str") => NamespaceUri::Str(self.parse()?),
+            tok!("string") => NamespaceUri::Str(self.parse()?),
             tok!("url") => NamespaceUri::Url(self.parse()?),
             tok!("function") => NamespaceUri::Url(self.parse()?),
             _ => {
@@ -1465,7 +1465,7 @@ where
         let span = self.input.cur_span()?;
 
         match cur!(self) {
-            Token::Num { .. } => {
+            tok!("number") => {
                 let left = self.parse()?;
 
                 self.input.skip_ws()?;
@@ -1484,11 +1484,11 @@ where
 
                 Ok(MediaFeatureValue::Number(left))
             }
-            Token::Ident { .. } => Ok(MediaFeatureValue::Ident(self.parse()?)),
-            Token::Dimension { .. } => Ok(MediaFeatureValue::Dimension(self.parse()?)),
+            tok!("ident") => Ok(MediaFeatureValue::Ident(self.parse()?)),
+            tok!("dimension") => Ok(MediaFeatureValue::Dimension(self.parse()?)),
             _ => Err(Error::new(
                 span,
-                ErrorKind::Expected("number, dimension, identifier or ration value"),
+                ErrorKind::Expected("number, ident or dimension token"),
             )),
         }
     }
