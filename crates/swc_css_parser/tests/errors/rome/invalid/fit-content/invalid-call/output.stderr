@@ -1,10 +1,4 @@
 error: Expected Declaration value
- --> $DIR/tests/errors/rome/invalid/fit-content/invalid-call/input.css:2:45
-  |
-2 |     grid-template-columns: fit-content("broken";
-  |                                                ^
-
-error: Expected Declaration value
  --> $DIR/tests/errors/rome/invalid/fit-content/invalid-call/input.css:3:1
   |
 3 | }
