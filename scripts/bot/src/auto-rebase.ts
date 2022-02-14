@@ -10,7 +10,12 @@ import { octokit } from "./util/octokit";
 (async () => {
     const latestCommitMessage = await getLatestCommitMesssage();
 
-    console.log(latestCommitMessage)
+    console.log(`Latest commit message: ${latestCommitMessage}`);
+
+    if (!latestCommitMessage.startsWith("test(") && !latestCommitMessage.startsWith("chore:")) {
+        console.log(`Auto rebase script cannot work because the latest commit may require a version bump`);
+        return;
+    }
 
     // octokit.rest.repos.mergeUpstream({
     //     owner,
