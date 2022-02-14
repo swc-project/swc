@@ -45,6 +45,7 @@ impl Storage for ProgramData {
                     e.get_mut().mutated |= var_info.mutated;
 
                     e.get_mut().has_property_access |= var_info.has_property_access;
+                    e.get_mut().has_property_mutation |= var_info.has_property_mutation;
                     e.get_mut().exported |= var_info.exported;
 
                     e.get_mut().declared |= var_info.declared;
