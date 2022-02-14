@@ -2835,7 +2835,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.65.3"
+version = "0.65.4"
 dependencies = [
  "arbitrary",
  "is-macro",
@@ -3079,7 +3079,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "0.45.0"
+version = "0.45.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3091,7 +3091,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.69.4"
+version = "0.69.5"
 dependencies = [
  "ahash",
  "arrayvec 0.7.2",
