@@ -1,36 +1,16 @@
-function a(a, b) {
-    if (!(a instanceof b)) throw new TypeError("Cannot call a class as a function");
-}
-function b(a, b) {
-    for(var c = 0; c < b.length; c++){
-        var d = b[c];
-        d.enumerable = d.enumerable || !1, d.configurable = !0, "value" in d && (d.writable = !0), Object.defineProperty(a, d.key, d);
-    }
-}
-var c = function() {
-    "use strict";
-    a(this, c);
-};
+var a = function() {};
 module.exports = (function() {
-    var d, e, f, g = function() {
+    var b, c, d, e = function() {
         "use strict";
-        var b, d, e;
-        function g() {
-            a(this, g);
-        }
-        return b = g, d = [
-            {
-                key: "it",
-                value: function() {
-                    this.bb = new g.MyA();
-                }
-            }
-        ], b(b.prototype, d), e && b(b, e), g;
+        function e() {}
+        return e.prototype.it = function() {
+            this.bb = new e.MyA();
+        }, e;
     }();
-    return d = g, e = "MyA", f = c, e in d ? Object.defineProperty(d, e, {
-        value: f,
+    return b = e, c = "MyA", d = a, c in b ? Object.defineProperty(b, c, {
+        value: d,
         enumerable: !0,
         configurable: !0,
         writable: !0
-    }) : d[e] = f, g;
+    }) : b[c] = d, e;
 })();
