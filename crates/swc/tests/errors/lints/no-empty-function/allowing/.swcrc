@@ -1,0 +1,18 @@
+{
+    "jsc": {
+        "lints": {
+            "noEmptyFunction": [
+                "error",
+                {
+                    "functions": [
+                        "all"
+                    ],
+                    "methods": [
+                        "async"
+                    ],
+                    "constructor": false
+                }
+            ]
+        }
+    }
+}

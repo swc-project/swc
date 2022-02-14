@@ -1,0 +1,12 @@
+error: Unexpected empty constructor pattern
+ 
+  |
+4 |     constructor() {}
+  |     ^^^^^^^^^^^^^^^^
+
+error: Unexpected empty method pattern
+ 
+  |
+8 |     method2() {}
+  |     ^^^^^^^^^^^^
+

@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 #[cfg(feature = "non_critical_lints")]
 use crate::rules::non_critical_lints::{
     dot_notation::DotNotationConfig, no_console::NoConsoleConfig,
-    no_use_before_define::NoUseBeforeDefineConfig,
+    no_empty_function::NoEmptyFunctionConfig, no_use_before_define::NoUseBeforeDefineConfig,
     prefer_regex_literals::PreferRegexLiteralsConfig, quotes::QuotesConfig,
 };
 
@@ -70,4 +70,8 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default)]
     pub quotes: RuleConfig<QuotesConfig>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default)]
+    pub no_empty_function: RuleConfig<NoEmptyFunctionConfig>,
 }

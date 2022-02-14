@@ -18,6 +18,7 @@ pub(crate) mod non_critical_lints {
     pub mod no_alert;
     pub mod no_console;
     pub mod no_debugger;
+    pub mod no_empty_function;
     pub mod no_use_before_define;
     pub mod prefer_regex_literals;
     pub mod quotes;
@@ -82,6 +83,11 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
             program,
             &source_map,
             &lint_config.dot_notation,
+        ));
+
+        rules.extend(no_empty_function::no_empty_function(
+            &source_map,
+            &lint_config.no_empty_function,
         ));
     }
 

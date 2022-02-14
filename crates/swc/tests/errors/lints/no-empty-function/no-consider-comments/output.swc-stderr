@@ -1,0 +1,8 @@
+error: Unexpected empty function pattern
+ 
+  |
+1 | / function foo1() {
+2 | |     // commnet into
+3 | | }
+  | |_^
+
