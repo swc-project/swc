@@ -799,7 +799,7 @@ where
             Value::Ident(n) => emit!(self, n),
             Value::DashedIdent(n) => emit!(self, n),
             Value::Str(n) => emit!(self, n),
-            Value::Bin(n) => emit!(self, n),
+            Value::CalcSum(n) => emit!(self, n),
             Value::Url(n) => emit!(self, n),
             Value::Delimiter(n) => emit!(self, n),
             Value::Urange(n) => emit!(self, n),
@@ -1125,31 +1125,69 @@ where
     }
 
     #[emitter]
-    fn emit_bin_value(&mut self, n: &BinValue) -> Result {
-        emit!(self, n.left);
-
-        let need_space = matches!(n.op, BinOp::Add | BinOp::Sub);
-
-        if need_space {
-            space!(self);
-        } else {
-            formatting_space!(self);
-        }
-
-        punct!(self, n.op.as_str());
-
-        if need_space {
-            space!(self);
-        } else {
-            formatting_space!(self);
-        }
-
-        emit!(self, n.right);
+    fn emit_delimiter(&mut self, n: &Delimiter) -> Result {
+        punct!(self, n.value.as_str());
     }
 
     #[emitter]
-    fn emit_delimiter(&mut self, n: &Delimiter) -> Result {
+    fn emit_calc_sum(&mut self, n: &CalcSum) -> Result {
+        self.emit_list(&n.expressions, ListFormat::NotDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_calc_product_or_operator(&mut self, n: &CalcProductOrOperator) -> Result {
+        match n {
+            CalcProductOrOperator::Product(n) => emit!(self, n),
+            CalcProductOrOperator::Operator(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_calc_operator(&mut self, n: &CalcOperator) -> Result {
+        let need_space = matches!(n.value, CalcOperatorType::Add | CalcOperatorType::Sub);
+
+        if need_space {
+            space!(self);
+        } else {
+            formatting_space!(self);
+        }
+
         punct!(self, n.value.as_str());
+
+        if need_space {
+            space!(self);
+        } else {
+            formatting_space!(self);
+        }
+    }
+
+    #[emitter]
+    fn emit_calc_product(&mut self, n: &CalcProduct) -> Result {
+        self.emit_list(&n.expressions, ListFormat::None)?;
+    }
+
+    #[emitter]
+    fn emit_calc_value_or_operator(&mut self, n: &CalcValueOrOperator) -> Result {
+        match n {
+            CalcValueOrOperator::Value(n) => emit!(self, n),
+            CalcValueOrOperator::Operator(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_calc_value(&mut self, n: &CalcValue) -> Result {
+        match n {
+            CalcValue::Number(n) => emit!(self, n),
+            CalcValue::Dimension(n) => emit!(self, n),
+            CalcValue::Percentage(n) => emit!(self, n),
+            CalcValue::Constant(n) => emit!(self, n),
+            CalcValue::Sum(n) => {
+                punct!(self, "(");
+                emit!(self, n);
+                punct!(self, ")");
+            }
+            CalcValue::Function(n) => emit!(self, n),
+        }
     }
 
     #[emitter]

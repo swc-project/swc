@@ -147,59 +147,89 @@
                 },
                 "value": [
                   {
-                    "type": "BinValue",
+                    "type": "CalcSum",
                     "span": {
                       "start": 66,
                       "end": 74,
                       "ctxt": 0
                     },
-                    "op": "+",
-                    "left": {
-                      "type": "Length",
-                      "span": {
-                        "start": 66,
-                        "end": 69,
-                        "ctxt": 0
-                      },
-                      "value": {
-                        "type": "Number",
+                    "expressions": [
+                      {
+                        "type": "CalcProduct",
                         "span": {
                           "start": 66,
-                          "end": 67,
-                          "ctxt": 0
-                        },
-                        "value": 1.0,
-                        "raw": "1"
-                      },
-                      "unit": {
-                        "type": "Ident",
-                        "span": {
-                          "start": 67,
                           "end": 69,
                           "ctxt": 0
                         },
-                        "value": "px",
-                        "raw": "px"
-                      }
-                    },
-                    "right": {
-                      "type": "Percentage",
-                      "span": {
-                        "start": 72,
-                        "end": 74,
-                        "ctxt": 0
+                        "expressions": [
+                          {
+                            "type": "Length",
+                            "span": {
+                              "start": 66,
+                              "end": 69,
+                              "ctxt": 0
+                            },
+                            "value": {
+                              "type": "Number",
+                              "span": {
+                                "start": 66,
+                                "end": 67,
+                                "ctxt": 0
+                              },
+                              "value": 1.0,
+                              "raw": "1"
+                            },
+                            "unit": {
+                              "type": "Ident",
+                              "span": {
+                                "start": 67,
+                                "end": 69,
+                                "ctxt": 0
+                              },
+                              "value": "px",
+                              "raw": "px"
+                            }
+                          }
+                        ]
                       },
-                      "value": {
-                        "type": "Number",
+                      {
+                        "type": "CalcOperator",
                         "span": {
-                          "start": 72,
-                          "end": 73,
+                          "start": 70,
+                          "end": 71,
                           "ctxt": 0
                         },
-                        "value": 2.0,
-                        "raw": "2"
+                        "value": "+"
+                      },
+                      {
+                        "type": "CalcProduct",
+                        "span": {
+                          "start": 72,
+                          "end": 74,
+                          "ctxt": 0
+                        },
+                        "expressions": [
+                          {
+                            "type": "Percentage",
+                            "span": {
+                              "start": 72,
+                              "end": 74,
+                              "ctxt": 0
+                            },
+                            "value": {
+                              "type": "Number",
+                              "span": {
+                                "start": 72,
+                                "end": 73,
+                                "ctxt": 0
+                              },
+                              "value": 2.0,
+                              "raw": "2"
+                            }
+                          }
+                        ]
                       }
-                    }
+                    ]
                   }
                 ]
               }

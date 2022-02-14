@@ -68,7 +68,7 @@ error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:5
   |
 1 | a { value: 10\65m }
-  |     ^^^^^^^^^^^^^^
+  |     ^^^^^^^^^^^^^
 
 error: DeclarationName
  --> $DIR/tests/fixture/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:5
