@@ -178,20 +178,10 @@ where
             }
 
             tok!("percentage") => return Ok(Value::Percentage(self.parse()?)),
-            tok!("percentage") | tok!("dimension") | tok!("number") => {
-                let span = self.input.cur_span()?;
-                let base = match cur!(self) {
-                    tok!("percentage") => Value::Percentage(self.parse()?),
-                    tok!("dimension") => Value::Dimension(self.parse()?),
-                    tok!("number") => Value::Number(self.parse()?),
-                    _ => {
-                        unreachable!()
-                    }
-                };
 
             tok!("dimension") => return Ok(Value::Dimension(self.parse()?)),
 
-            tok!("num") => return Ok(Value::Number(self.parse()?)),
+            tok!("number") => return Ok(Value::Number(self.parse()?)),
 
             Token::Ident { value, .. } => {
                 if value.starts_with("--") {
@@ -1720,7 +1710,7 @@ where
 {
     fn parse(&mut self) -> PResult<CalcValue> {
         match cur!(self) {
-            tok!("num") => Ok(CalcValue::Number(self.parse()?)),
+            tok!("number") => Ok(CalcValue::Number(self.parse()?)),
             tok!("dimension") => Ok(CalcValue::Dimension(self.parse()?)),
             tok!("percentage") => Ok(CalcValue::Percentage(self.parse()?)),
             Token::Ident { value, .. } => {
