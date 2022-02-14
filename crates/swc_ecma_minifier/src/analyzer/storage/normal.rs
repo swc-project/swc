@@ -36,6 +36,9 @@ impl Storage for ProgramData {
         }
 
         for (id, mut var_info) in child.vars {
+            // We filter assignments via aliasing.
+            let is_really_used = var_info.ref_count != 0 || var_info.reassigned();
+
             // tracing::trace!("merge({:?},{}{:?})", kind, id.0, id.1);
             match self.vars.entry(id) {
                 Entry::Occupied(mut e) => {
@@ -80,25 +83,29 @@ impl Storage for ProgramData {
                         e.get_mut().is_fn_local = false;
                     }
 
-                    match kind {
-                        ScopeKind::Fn => {
-                            e.get_mut().is_fn_local = false;
-                            e.get_mut().used_by_nested_fn = true;
-                        }
-                        ScopeKind::Block => {
-                            if var_info.used_by_nested_fn {
+                    if is_really_used {
+                        match kind {
+                            ScopeKind::Fn => {
                                 e.get_mut().is_fn_local = false;
                                 e.get_mut().used_by_nested_fn = true;
+                            }
+                            ScopeKind::Block => {
+                                if var_info.used_by_nested_fn {
+                                    e.get_mut().is_fn_local = false;
+                                    e.get_mut().used_by_nested_fn = true;
+                                }
                             }
                         }
                     }
                 }
                 Entry::Vacant(e) => {
-                    match kind {
-                        ScopeKind::Fn => {
-                            var_info.used_by_nested_fn = true;
+                    if is_really_used {
+                        match kind {
+                            ScopeKind::Fn => {
+                                var_info.used_by_nested_fn = true;
+                            }
+                            ScopeKind::Block => {}
                         }
-                        ScopeKind::Block => {}
                     }
                     e.insert(var_info);
                 }
