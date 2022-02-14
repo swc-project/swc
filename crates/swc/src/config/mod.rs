@@ -32,8 +32,9 @@ use swc_ecma_lints::{
     config::LintConfig,
     rules::{lint_to_fold, LintParams},
 };
-use swc_ecma_loader::resolvers::{
-    lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
+use swc_ecma_loader::{
+    resolvers::{lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver},
+    TargetEnv,
 };
 use swc_ecma_minifier::option::{
     terser::{TerserCompressorOptions, TerserEcmaVersion, TerserTopLevelOptions},
@@ -419,6 +420,11 @@ impl Options {
                 comments,
             );
 
+        let plugin_resolver = CachingResolver::new(
+            40,
+            NodeModulesResolver::new(TargetEnv::Node, Default::default(), true),
+        );
+
         let pass = chain!(
             lint_to_fold(swc_ecma_lints::rules::all(LintParams {
                 program: &program,
@@ -451,7 +457,7 @@ impl Options {
                 ),
                 syntax.typescript()
             ),
-            crate::plugin::plugins(experimental),
+            crate::plugin::plugins(plugin_resolver, experimental),
             custom_before_pass(&program),
             // handle jsx
             Optional::new(

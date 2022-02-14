@@ -6,6 +6,7 @@
 use serde::{Deserialize, Serialize};
 #[cfg(feature = "plugin")]
 use swc_ecma_ast::*;
+use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeModulesResolver};
 #[cfg(not(feature = "plugin"))]
 use swc_ecma_transforms::pass::noop;
 use swc_ecma_visit::{noop_fold_type, Fold};
@@ -14,13 +15,17 @@ use swc_ecma_visit::{noop_fold_type, Fold};
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct PluginConfig(String, serde_json::Value);
 
-pub fn plugins(config: crate::config::JscExperimental) -> impl Fold {
+pub fn plugins(
+    resolver: CachingResolver<NodeModulesResolver>,
+    config: crate::config::JscExperimental,
+) -> impl Fold {
     #[cfg(feature = "plugin")]
     {
         let cache_root =
             swc_plugin_runner::resolve::resolve_plugin_cache_root(config.cache_root).ok();
 
         RustPlugins {
+            resolver,
             plugins: config.plugins,
             plugin_cache: cache_root,
         }
@@ -33,6 +38,7 @@ pub fn plugins(config: crate::config::JscExperimental) -> impl Fold {
 }
 
 struct RustPlugins {
+    resolver: CachingResolver<NodeModulesResolver>,
     plugins: Option<Vec<PluginConfig>>,
     /// TODO: it is unclear how we'll support plugin itself in wasm target of
     /// swc, as well as cache.
@@ -43,8 +49,11 @@ struct RustPlugins {
 impl RustPlugins {
     #[cfg(feature = "plugin")]
     fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
+        use std::{path::PathBuf, sync::Arc};
+
         use anyhow::Context;
-        use swc_common::plugin::Serialized;
+        use swc_common::{plugin::Serialized, FileName};
+        use swc_ecma_loader::resolve::Resolve;
 
         let mut serialized = Serialized::serialize(&n)?;
 
@@ -60,7 +69,15 @@ impl RustPlugins {
                     .context("failed to serialize plugin config as json")?;
                 let config_json = Serialized::serialize(&config_json)?;
 
-                let path = swc_plugin_runner::resolve::resolve(&p.0)?;
+                let resolved_path = self
+                    .resolver
+                    .resolve(&FileName::Real(PathBuf::from(&p.0)), &p.0)?;
+
+                let path = if let FileName::Real(value) = resolved_path {
+                    Arc::new(value)
+                } else {
+                    anyhow::bail!("Failed to resolve plugin path: {:?}", resolved_path);
+                };
 
                 serialized = swc_plugin_runner::apply_js_plugin(
                     &p.0,
