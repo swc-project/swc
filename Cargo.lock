@@ -2598,7 +2598,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.124.6"
+version = "0.124.7"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3031,7 +3031,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.116.4"
+version = "0.116.5"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3091,7 +3091,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.69.3"
+version = "0.69.4"
 dependencies = [
  "ahash",
  "arrayvec 0.7.2",
@@ -3300,7 +3300,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.113.3"
+version = "0.113.4"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
