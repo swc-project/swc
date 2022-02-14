@@ -74,6 +74,10 @@ impl Storage for ProgramData {
                     e.get_mut().used_as_callee |= var_info.used_as_callee;
                     e.get_mut().used_as_arg |= var_info.used_as_arg;
 
+                    if !var_info.is_fn_local {
+                        e.get_mut().is_fn_local = false;
+                    }
+
                     match kind {
                         ScopeKind::Fn => {
                             e.get_mut().is_fn_local = false;
