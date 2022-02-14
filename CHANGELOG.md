@@ -49,6 +49,12 @@
 
 - **(es/optimization)** Replace `map_with_mut` with proper implementation (#3539) ([6d132ca](https://github.com/swc-project/swc/commit/6d132ca0765a46b39a6844b7de2e7f2655f7dd1b))
 
+### Testing
+
+
+
+- **(css/parser)** Add a test for a custom function name (#3554) ([f252dfb](https://github.com/swc-project/swc/commit/f252dfb885b904ef8386f2004c359a1a2f43b63e))
+
 ## [1.2.139] - 2022-02-12
 
 ### Bug Fixes
