@@ -69,7 +69,7 @@ error: Ident
 5 | a {
   | ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/rome/comment/input.css:5:3
   |
 5 |   a {
@@ -166,7 +166,7 @@ error: Ident
 9 | a {
   | ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/rome/comment/input.css:9:3
    |
 9  |   a {
@@ -263,7 +263,7 @@ error: Ident
 13 | a /* comment */ {
    | ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/rome/comment/input.css:13:17
    |
 13 |   a /* comment */ {

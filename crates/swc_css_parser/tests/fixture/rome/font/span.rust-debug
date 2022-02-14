@@ -30,7 +30,7 @@ error: FontFaceRule
 3 | | }
   | |_^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/rome/font/input.css:1:12
   |
 1 |   @font-face {

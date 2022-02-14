@@ -79,7 +79,7 @@ error: Ident
 1 | a:after { content: 'a\
   |   ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:9
   |
 1 |   a:after { content: 'a\

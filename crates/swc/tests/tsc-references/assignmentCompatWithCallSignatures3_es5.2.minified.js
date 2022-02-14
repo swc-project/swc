@@ -44,7 +44,7 @@ function _createSuper(Derived1) {
         })(self);
     };
 }
-var b, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, b18, Base = function() {
+var Base = function() {
     "use strict";
     _classCallCheck(this, Base);
 }, Derived = function(Base1) {
@@ -72,4 +72,3 @@ var b, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, b
     }
     return OtherDerived;
 }(Base);
-b = b, b2 = b2, b3 = b3, b4 = b4, b5 = b5, b6 = b6, b7 = b7, b8 = b8, b9 = b9, b10 = b10, b11 = b11, b12 = b12, b13 = b13, b14 = b14, b15 = b15, b16 = b16, b17 = b17, b18 = b18;

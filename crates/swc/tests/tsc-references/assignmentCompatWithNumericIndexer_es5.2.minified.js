@@ -11,11 +11,11 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var b, b2, Generics, A = function() {
+var Generics, A = function() {
     "use strict";
     _classCallCheck(this, A);
 };
-b = b, b2 = b2, (function(Generics) {
+!function(Generics) {
     var A1 = function() {
         "use strict";
         _classCallCheck(this, A1);
@@ -56,4 +56,4 @@ b = b, b2 = b2, (function(Generics) {
         }
         return B;
     }(A1);
-})(Generics || (Generics = {}));
+}(Generics || (Generics = {}));

@@ -58,7 +58,7 @@ error: Ident
 1 | ::unknown {}
   |   ^^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:1:11
   |
 1 | ::unknown {}
@@ -112,7 +112,7 @@ error: Ident
 2 | ::unknown() {}
   |   ^^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:2:13
   |
 2 | ::unknown() {}
@@ -172,7 +172,7 @@ error: Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
 3 | ::unknown(foo) {}
   |           ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:3:16
   |
 3 | ::unknown(foo) {}
@@ -244,7 +244,7 @@ error: Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
 4 | ::unknown(foo bar) {}
   |               ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:4:20
   |
 4 | ::unknown(foo bar) {}
@@ -322,7 +322,7 @@ error: Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
 5 | ::unknown(foo, bar) {}
   |                ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:5:21
   |
 5 | ::unknown(foo, bar) {}
@@ -394,7 +394,7 @@ error: RBracket
 6 | ::unknown([foo]) {}
   |               ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:6:18
   |
 6 | ::unknown([foo]) {}
@@ -478,7 +478,7 @@ error: RParen
 7 | ::unknown((foo bar)) {}
   |                   ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:7:22
   |
 7 | ::unknown((foo bar)) {}
@@ -574,7 +574,7 @@ error: RParen
 8 | ::unknown(((foo bar))) {}
   |                     ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:8:24
   |
 8 | ::unknown(((foo bar))) {}
@@ -664,7 +664,7 @@ error: RBrace
 9 | ::unknown({foo: bar}) {}
   |                    ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:23
   |
 9 | ::unknown({foo: bar}) {}
@@ -766,7 +766,7 @@ error: RBrace
 10 | ::unknown({{foo: bar}}) {}
    |                      ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:25
    |
 10 | ::unknown({{foo: bar}}) {}
@@ -874,7 +874,7 @@ error: RBrace
 11 | ::unknown({foo: bar !important}) {}
    |                               ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:34
    |
 11 | ::unknown({foo: bar !important}) {}
@@ -934,7 +934,7 @@ error: Str { value: Atom('string' type=static), raw: Atom('"string"' type=dynami
 12 | ::unknown("string") {}
    |           ^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:12:21
    |
 12 | ::unknown("string") {}
@@ -1012,7 +1012,7 @@ error: Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
 13 | ::unknown("string", foo) {}
    |                     ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:26
    |
 13 | ::unknown("string", foo) {}
@@ -1072,7 +1072,7 @@ error: Str { value: Atom('string' type=static), raw: Atom(''string'' type=dynami
 14 | ::unknown('string') {}
    |           ^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:14:21
    |
 14 | ::unknown('string') {}
@@ -1132,7 +1132,7 @@ error: Url { name: Atom('url' type=static), raw_name: Atom('url' type=static), b
 15 | ::unknown(url(foo.png)) {}
    |           ^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:15:25
    |
 15 | ::unknown(url(foo.png)) {}
@@ -1204,7 +1204,7 @@ error: RBrace
 16 | ::unknown({!}) {}
    |             ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:16
    |
 16 | ::unknown({!}) {}
@@ -1264,7 +1264,7 @@ error: Delim { value: '!' }
 17 | ::unknown(!) {}
    |           ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:17:14
    |
 17 | ::unknown(!) {}
@@ -1336,7 +1336,7 @@ error: RBrace
 18 | ::unknown({;}) {}
    |             ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:18:16
    |
 18 | ::unknown({;}) {}
@@ -1396,7 +1396,7 @@ error: Semi
 19 | ::unknown(;) {}
    |           ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:19:14
    |
 19 | ::unknown(;) {}

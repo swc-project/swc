@@ -38,7 +38,7 @@ error: FontFaceRule
 5 | | }
   | |_^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/at-rule/font-face/input.css:1:12
   |
 1 |   @font-face {

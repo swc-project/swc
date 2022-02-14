@@ -4,7 +4,7 @@ use swc_css_ast::*;
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
-    parser::{Ctx, RuleContext},
+    parser::{Ctx, Grammar, RuleContext},
     Parse,
 };
 
@@ -578,7 +578,11 @@ where
             prelude.push(child);
         }
 
-        let block = self.parse()?;
+        let ctx = Ctx {
+            grammar: Grammar::DeclarationList,
+            ..self.ctx
+        };
+        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
         Ok(KeyframeBlock {
             span: span!(self, span.lo),
@@ -628,7 +632,11 @@ where
 {
     fn parse(&mut self) -> PResult<ViewportRule> {
         let span = self.input.cur_span()?;
-        let block = self.parse()?;
+        let ctx = Ctx {
+            grammar: Grammar::DeclarationList,
+            ..self.ctx
+        };
+        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
         Ok(ViewportRule {
             span: span!(self, span.lo),
@@ -684,7 +692,11 @@ where
 {
     fn parse(&mut self) -> PResult<FontFaceRule> {
         let span = self.input.cur_span()?;
-        let block = self.parse()?;
+        let ctx = Ctx {
+            grammar: Grammar::DeclarationList,
+            ..self.ctx
+        };
+        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
         Ok(FontFaceRule {
             span: span!(self, span.lo),
@@ -1495,16 +1507,13 @@ where
             None
         };
 
-        expect!(self, "{");
+        self.input.skip_ws()?;
 
         let ctx = Ctx {
             in_page_at_rule: true,
-            ..self.ctx
+            grammar: Grammar::DeclarationList,
         };
-
-        let block = self.with_ctx(ctx).parse_as::<Vec<DeclarationBlockItem>>()?;
-
-        expect!(self, "}");
+        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
         Ok(PageRule {
             span: span!(self, start),
@@ -1651,16 +1660,11 @@ where
 {
     fn parse(&mut self) -> PResult<PageMarginRule> {
         let span = self.input.cur_span()?;
-
-        expect!(self, "{");
-
         let ctx = Ctx {
-            in_page_at_rule: false,
+            grammar: Grammar::DeclarationList,
             ..self.ctx
         };
-        let block = self.with_ctx(ctx).parse_as::<Vec<DeclarationBlockItem>>()?;
-
-        expect!(self, "}");
+        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
         Ok(PageMarginRule {
             name: Ident {
@@ -1796,11 +1800,13 @@ where
             }
         };
 
-        expect!(self, "{");
+        self.input.skip_ws()?;
 
-        let block = self.parse()?;
-
-        expect!(self, "}");
+        let ctx = Ctx {
+            grammar: Grammar::DeclarationList,
+            ..self.ctx
+        };
+        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
         Ok(ColorProfileRule {
             span: span!(self, span.lo),
@@ -1818,11 +1824,13 @@ where
         let span = self.input.cur_span()?;
         let name = self.parse()?;
 
-        expect!(self, "{");
+        self.input.skip_ws()?;
 
-        let block = self.parse()?;
-
-        expect!(self, "}");
+        let ctx = Ctx {
+            grammar: Grammar::DeclarationList,
+            ..self.ctx
+        };
+        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
         Ok(CounterStyleRule {
             span: span!(self, span.lo),
@@ -1840,11 +1848,13 @@ where
         let span = self.input.cur_span()?;
         let name = self.parse()?;
 
-        expect!(self, "{");
+        self.input.skip_ws()?;
 
-        let block = self.parse()?;
-
-        expect!(self, "}");
+        let ctx = Ctx {
+            grammar: Grammar::DeclarationList,
+            ..self.ctx
+        };
+        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
         Ok(PropertyRule {
             span: span!(self, span.lo),

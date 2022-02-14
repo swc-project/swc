@@ -5,19 +5,111 @@
 
 
 
-- **(es/modules)** Use correct `StrKind` after rewriting import path (#3489) ([ff6eb27](https://github.com/swc-project/swc/commit/ff6eb272a00f0c11c9e916eb898e1b309bcb686c))
+- **(es/compat)** Allow destructuring assignment to an object property (#3544) ([5802b62](https://github.com/swc-project/swc/commit/5802b62e3486b0fba176533fcd2998f47c60910d))
 
 
-- **(es/modules)** Hoist named exports (#3479) ([fa0216d](https://github.com/swc-project/swc/commit/fa0216d908118ba008f4be2505590bbb09b7be46))
+- **(es/compat)** Fix destructing of `const` (#3545) ([342c320](https://github.com/swc-project/swc/commit/342c320bfa1f43f25262c0ba403a51df8228c655))
+
+
+- **(es/compat)** Apply `new.target` before `classes` (#3555) ([f1c7394](https://github.com/swc-project/swc/commit/f1c7394d10d624009549ec24de8c79b08594cfd4))
+
+
+- **(es/compat)** Handle arrow parameters in class fields (#3556) ([45b44b0](https://github.com/swc-project/swc/commit/45b44b088cf0c0964232b66bb4b7b5f9e539623d))
+
+
+- **(es/minifier)** Fix analyzer (#3557) ([ac1d405](https://github.com/swc-project/swc/commit/ac1d4058f276693f52d5ccec5ccbb4c04f62bc9f))
+
+### Documentation
+
+
+
+- **(plugin)** Fix typo (#3547) ([3fc16cd](https://github.com/swc-project/swc/commit/3fc16cdc1c69a5ee0ecb506e3a3c496c51e52756))
 
 ### Features
 
 
 
+- **(css/ast)** Add `;` to delimiters (#3551) ([da36e90](https://github.com/swc-project/swc/commit/da36e90d1ee6ca479826ef379fbf0562cdc02ee5))
+
+
+- **(css/ast)** Use correct type for `calc` (#3549) ([b311ace](https://github.com/swc-project/swc/commit/b311aced89dbbcb1605312e3ad5b0715e437bcd8))
+
+
+- **(es/lints)** Add this handling support to `no-alert` rule (#3515) ([af82006](https://github.com/swc-project/swc/commit/af8200647bb5f96525bcf3333c7c6889fe69dd5d))
+
+
+- **(es/lints)** Add `allow` config for `no-console` rule (#3517) ([286b6c8](https://github.com/swc-project/swc/commit/286b6c804fc9f4b12065eb848be56d0a58230cf2))
+
+
+- **(es/lints)** Implement `eqeqeq` rule (#3513) ([8d92050](https://github.com/swc-project/swc/commit/8d92050f557690bca6f695bbae173876fd9e53a2))
+
+### Performance
+
+
+
+- **(es/optimization)** Replace `map_with_mut` with proper implementation (#3539) ([6d132ca](https://github.com/swc-project/swc/commit/6d132ca0765a46b39a6844b7de2e7f2655f7dd1b))
+
+### Refactor
+
+
+
+- **(css/parser)** Remove `parse_values`, which is not used (#3552) ([d5aee47](https://github.com/swc-project/swc/commit/d5aee470cb6ea1e25057a5a36f0a19274c1f42b3))
+
+### Testing
+
+
+
+- **(css/parser)** Add a test for a custom function name (#3554) ([f252dfb](https://github.com/swc-project/swc/commit/f252dfb885b904ef8386f2004c359a1a2f43b63e))
+
+## [1.2.139] - 2022-02-12
+
+### Bug Fixes
+
+
+
+- **(cli)** Update the plugin template for pinned dependencies (#3538) ([05cf2e9](https://github.com/swc-project/swc/commit/05cf2e92e690c72ca6d49fee1dd33c9e776ba304))
+
+
+- **(css/ast)** Use `SimpleBlock` in more types (#3535) ([cfb2248](https://github.com/swc-project/swc/commit/cfb2248a2e7bf19d3bafb345c5c227d4615ee197))
+
+
+- **(es/modules)** Use correct `StrKind` after rewriting import path (#3489) ([ff6eb27](https://github.com/swc-project/swc/commit/ff6eb272a00f0c11c9e916eb898e1b309bcb686c))
+
+
+- **(es/modules)** Hoist named exports (#3479) ([fa0216d](https://github.com/swc-project/swc/commit/fa0216d908118ba008f4be2505590bbb09b7be46))
+
+
+- **(node/helpers)** Fix `isNativeReflectConstruct` (#3530) ([d14d3eb](https://github.com/swc-project/swc/commit/d14d3ebbc8f24a6bed61ce9e534ab06b32c08e34))
+
+
+- **(plugin)** Allow testing (#3542) ([fbe9196](https://github.com/swc-project/swc/commit/fbe91963bfb80976eebadc9f0e94e080ed81d624))
+
+### Documentation
+
+
+
+- **(plugin)** Fix install command (#3541) ([72b3197](https://github.com/swc-project/swc/commit/72b31977e49417cf9e4c95ad1365e2e212cac4d4))
+
+### Features
+
+
+
+- **(cli)** Add a command for scaffolding a new plugin (#3536) ([6ed089e](https://github.com/swc-project/swc/commit/6ed089e1cff8d1e3edbe67cfe5945e3ff121f5d2))
+
+
 - **(css)** Support urange syntax (#3491) ([cbe302b](https://github.com/swc-project/swc/commit/cbe302b99d762a72d8522196cc05159791515e49))
 
 
+- **(css/minifier)** Implement more rules (#3522) ([69cfe39](https://github.com/swc-project/swc/commit/69cfe395c7cc0de8ea5eb4bdf605f5c56b7cf69b))
+
+
 - **(css/parser)** Improve error recovery (#3486) ([48e5b90](https://github.com/swc-project/swc/commit/48e5b903e2b82e8fc741d125662bbac825d5b0d0))
+
+
+- **(css/parser)** Implement more parser logic for nth selectors (#3532) ([fcbc2ff](https://github.com/swc-project/swc/commit/fcbc2ff03f9eebbb5fed95dd082504a6b1a49af9))
+
+
+- **(css/parser)** Implement more error recovery (#3534) ([547eba5](https://github.com/swc-project/swc/commit/547eba5e31745877be425ad14722adf6134caca7))
 
 
 - **(es/lints)** Implement `dot-notation` rule (#3481) ([5bb6bd7](https://github.com/swc-project/swc/commit/5bb6bd71b6aa5dbdde62842c34e9ef6742968650))
@@ -27,6 +119,9 @@
 
 
 - **(es/minifier)** Implement `reserved` mangle option (#3476) ([5488159](https://github.com/swc-project/swc/commit/5488159ba5dd124878ebdc50c390a51ab3b07f16))
+
+
+- **(es/minifier)** Drop useless assignments (#3528) ([a7f0e84](https://github.com/swc-project/swc/commit/a7f0e84bbf986df0afc39f18ea7553f4a8c445f1))
 
 
 - **(plugin)** Implement proxy for `Mark` and `SyntaxContext` (#3511) ([bc25026](https://github.com/swc-project/swc/commit/bc250262f2af38086eeed59e4d42d14ff44d5b83))
@@ -39,6 +134,12 @@
 
 
 - **(build)** Disable LTO for local builds (#3514) ([80ed69d](https://github.com/swc-project/swc/commit/80ed69d67dfae44986c19c04ddff758fee98f8ff))
+
+
+- **(build)** Remove version pinning of `parking_lot_core` (#3537) ([a4d914d](https://github.com/swc-project/swc/commit/a4d914dab5a4263a9f2ac396decd11b64dfc0714))
+
+
+- **(ci)** Remove `cargo-uttil` from dependency (#3543) ([068a408](https://github.com/swc-project/swc/commit/068a4087caa12f2c28ec62b5e194a85efcc907a1))
 
 
 - **(crates)** Use bot account for publishing commits ([c10cbc4](https://github.com/swc-project/swc/commit/c10cbc4ecaaca8f5795de70c8bcf7feee455aaa4))
@@ -65,6 +166,12 @@
 - **(css/ast)** Remove `Tokens` in favor of `Vec<TokenAndSpan>` (#3507) ([92a3cb9](https://github.com/swc-project/swc/commit/92a3cb9609b68e73a6a1f439186f09c15da8d570))
 
 
+- **(css/ast)** Unify `SimpleBlock` and `Block` (#3519) ([57f6a58](https://github.com/swc-project/swc/commit/57f6a581fa730ae6763dc9db712514d1a72c764e))
+
+
+- **(css/ast)** Unify `SimpleBlock` and `Block` completely (#3531) ([37c49e8](https://github.com/swc-project/swc/commit/37c49e876c123f4ee98a0499729998b3793037b2))
+
+
 - **(css/parser)** Refactor codes related to simple blocks (#3506) ([4e124c7](https://github.com/swc-project/swc/commit/4e124c7bca85d70b6e4836038ea1aaa25b9ea663))
 
 
@@ -81,6 +188,9 @@
 
 
 - **(css/parser)** Add some tests from `postcss` (#3501) ([8b438ea](https://github.com/swc-project/swc/commit/8b438ea024661f344cb4af1160c3102a5d880ae6))
+
+
+- **(es/minifier)** Add snapshot testing for the analyzer (#3529) ([73e9185](https://github.com/swc-project/swc/commit/73e9185bbafa45f00d9222a9ad8a34229e079130))
 
 ## [1.2.138] - 2022-02-08
 

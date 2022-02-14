@@ -4,7 +4,7 @@ use swc_css_ast::*;
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
-    parser::{Ctx, RuleContext},
+    parser::{Ctx, Grammar, RuleContext},
     Parse,
 };
 
@@ -131,7 +131,11 @@ where
                 // Consume a simple block and assign it to the qualified rule’s block. Return the
                 // qualified rule.
                 tok!("{") => {
-                    let block = self.parse()?;
+                    let ctx = Ctx {
+                        grammar: Grammar::DeclarationList,
+                        ..self.ctx
+                    };
+                    let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
                     return Ok(QualifiedRule {
                         span: span!(self, span.lo),
@@ -219,57 +223,42 @@ where
                 // anything else
                 // Reconsume the current input token. Consume a component value and append it to the
                 // value of the block.
-                _ => {
-                    let state = self.input.state();
-                    let ctx = Ctx {
-                        // TODO refactor me
-                        allow_operation_in_value: name == '(',
-                        ..self.ctx
-                    };
-                    let parsed = self.with_ctx(ctx).parse_one_value_inner();
-                    let value = match parsed {
-                        Ok(value) => {
-                            self.input.skip_ws()?;
+                _ => match self.ctx.grammar {
+                    Grammar::DeclarationList => {
+                        let declaration_list: Vec<DeclarationBlockItem> = self.parse()?;
+                        let declaration_list: Vec<ComponentValue> = declaration_list
+                            .into_iter()
+                            .map(ComponentValue::DeclarationBlockItem)
+                            .collect();
 
-                            value
-                        }
-                        Err(err) => {
-                            self.errors.push(err);
-                            self.input.reset(&state);
+                        simple_block.value.extend(declaration_list);
+                    }
+                    Grammar::DeclarationValue => {
+                        let state = self.input.state();
+                        let parsed = self.parse_one_value_inner();
+                        let value = match parsed {
+                            Ok(value) => {
+                                self.input.skip_ws()?;
 
-                            self.parse_component_value()?
-                        }
-                    };
+                                value
+                            }
+                            Err(err) => {
+                                self.errors.push(err);
+                                self.input.reset(&state);
 
-                    simple_block.value.push(value);
-                }
+                                self.parse_component_value()?
+                            }
+                        };
+
+                        simple_block.value.push(ComponentValue::Value(value));
+                    }
+                },
             }
         }
 
         simple_block.span = span!(self, span.lo);
 
         Ok(simple_block)
-    }
-}
-
-impl<I> Parse<Block> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<Block> {
-        let start = self.input.cur_span()?.lo;
-
-        expect!(self, "{");
-
-        self.input.skip_ws()?;
-
-        let value = self.parse()?;
-
-        expect!(self, "}");
-
-        let span = span!(self, start);
-
-        Ok(Block { span, value })
     }
 }
 
@@ -340,7 +329,8 @@ where
 
                     let mut tokens = vec![];
 
-                    while !is_one_of!(self, EOF, ";") {
+                    // TODO fix me
+                    while !is_one_of!(self, EOF, ";", "}") {
                         tokens.extend(self.input.bump()?);
                     }
 
@@ -402,13 +392,8 @@ where
                             break;
                         }
 
-                        let ctx = Ctx {
-                            allow_operation_in_value: false,
-                            ..self.ctx
-                        };
-
                         let state = self.input.state();
-                        let parsed = self.with_ctx(ctx).parse_one_value_inner();
+                        let parsed = self.parse_one_value_inner();
                         let value_or_token = match parsed {
                             Ok(value) => value,
                             Err(err) => {

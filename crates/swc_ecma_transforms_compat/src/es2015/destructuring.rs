@@ -960,6 +960,18 @@ impl VisitMut for AssignFolder {
 
         *declarators = decls;
     }
+
+    fn visit_mut_var_decl(&mut self, var_decl: &mut VarDecl) {
+        var_decl.decls.visit_mut_with(self);
+
+        if var_decl.kind == VarDeclKind::Const {
+            var_decl.decls.iter_mut().for_each(|v| {
+                if v.init.is_none() {
+                    v.init = Some(undefined(DUMMY_SP));
+                }
+            })
+        }
+    }
 }
 
 impl Destructuring {

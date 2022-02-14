@@ -588,7 +588,8 @@ where
             let mut children = vec![];
 
             match &*names.0.to_ascii_lowercase() {
-                "nth-child" | "nth-last-child" | "nth-of-type" | "nth-last-of-type" => {
+                "nth-child" | "nth-last-child" | "nth-of-type" | "nth-last-of-type" | "nth-col"
+                | "nth-last-col" => {
                     let state = self.input.state();
                     let nth = self.parse();
 

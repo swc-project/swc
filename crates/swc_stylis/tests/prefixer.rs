@@ -6,7 +6,7 @@
 use std::path::PathBuf;
 
 use swc_common::{FileName, DUMMY_SP};
-use swc_css_ast::{Block, DeclarationBlockItem, QualifiedRule, Stylesheet};
+use swc_css_ast::{ComponentValue, DeclarationBlockItem, QualifiedRule, SimpleBlock, Stylesheet};
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodegenConfig, Emit,
@@ -489,12 +489,12 @@ fn t(src: &str, expected: &str) {
         let props: Vec<DeclarationBlockItem> = parse_file(
             &fm,
             ParserConfig {
-                parse_values: true,
                 ..Default::default()
             },
             &mut errors,
         )
         .unwrap();
+
         for err in errors {
             err.to_diagnostics(&handler).emit();
         }
@@ -505,9 +505,13 @@ fn t(src: &str, expected: &str) {
                 span: DUMMY_SP,
                 children: Default::default(),
             },
-            block: Block {
+            block: SimpleBlock {
                 span: DUMMY_SP,
-                value: props,
+                name: '{',
+                value: props
+                    .into_iter()
+                    .map(ComponentValue::DeclarationBlockItem)
+                    .collect(),
             },
         };
         node.visit_mut_with(&mut prefixer());

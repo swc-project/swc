@@ -23,17 +23,15 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 }
 let array;
 for (let _ref of array){
-    var { x  } = _ref;
+    var __ref, { x  } = _ref;
     _objectWithoutProperties(_ref, [
         "x"
     ]);
 }
-for (var _ref1 of array){
-    var { x: xx  } = _ref1;
-    _objectWithoutProperties(_ref1, [
-        "x"
-    ]);
-}
+let xx;
+for (var _ref1 of array)_objectWithoutProperties(__ref = _ref1, [
+    "x"
+]), { x: xx  } = __ref;
 for (const norest of array.map((a)=>(function(target) {
         for(var i = 1; i < arguments.length; i++){
             var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);

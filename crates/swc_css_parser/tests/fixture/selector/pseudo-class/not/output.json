@@ -80,12 +80,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 8,
           "end": 10,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -189,12 +190,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 25,
           "end": 27,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -298,12 +300,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 44,
           "end": 46,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -425,12 +428,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 70,
           "end": 72,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -516,12 +520,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 84,
           "end": 86,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -676,12 +681,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 119,
           "end": 121,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -799,12 +805,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 144,
           "end": 146,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -914,12 +921,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 167,
           "end": 169,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     }

@@ -26,7 +26,7 @@ pub enum Rule {
 pub struct QualifiedRule {
     pub span: Span,
     pub prelude: SelectorList,
-    pub block: Block,
+    pub block: SimpleBlock,
 }
 
 #[ast_node("SimpleBlock")]
@@ -35,13 +35,15 @@ pub struct SimpleBlock {
     // TODO Create a simple block with its associated token set to the current input token and with
     // its value initially set to an empty list.
     pub name: char,
-    pub value: Vec<Value>,
+    pub value: Vec<ComponentValue>,
 }
 
-#[ast_node("Block")]
-pub struct Block {
-    pub span: Span,
-    pub value: Vec<DeclarationBlockItem>,
+#[ast_node]
+pub enum ComponentValue {
+    #[tag("Value")]
+    Value(Value),
+    #[tag("DeclarationBlockItem")]
+    DeclarationBlockItem(DeclarationBlockItem),
 }
 
 #[ast_node]

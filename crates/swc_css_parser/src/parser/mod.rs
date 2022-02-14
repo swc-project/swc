@@ -21,8 +21,6 @@ pub type PResult<T> = Result<T, Error>;
 
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct ParserConfig {
-    pub parse_values: bool,
-
     /// If this is `true`, **wrong** comments starting with `//` will be treated
     /// as a comment.
     ///
@@ -31,11 +29,23 @@ pub struct ParserConfig {
     pub allow_wrong_line_comments: bool,
 }
 
+#[derive(Debug, Clone, Copy)]
+pub enum Grammar {
+    DeclarationList,
+    DeclarationValue,
+}
+
+impl Default for Grammar {
+    fn default() -> Self {
+        Grammar::DeclarationValue
+    }
+}
+
 #[derive(Debug, Default, Clone, Copy)]
 struct Ctx {
-    in_page_at_rule: bool,
+    grammar: Grammar,
 
-    allow_operation_in_value: bool,
+    in_page_at_rule: bool,
 }
 
 #[derive(Debug)]

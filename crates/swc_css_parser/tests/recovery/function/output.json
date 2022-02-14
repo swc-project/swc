@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 181,
+    "end": 203,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "QualifiedRule",
       "span": {
         "start": 0,
-        "end": 180,
+        "end": 202,
         "ctxt": 0
       },
       "prelude": {
@@ -71,12 +71,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 4,
-          "end": 180,
+          "end": 202,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",
@@ -528,6 +529,76 @@
                         "raw": "bar"
                       }
                     ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 183,
+              "end": 199,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 183,
+                "end": 187,
+                "ctxt": 0
+              },
+              "value": "prop",
+              "raw": "prop"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 189,
+                  "end": 199,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 189,
+                    "end": 193,
+                    "ctxt": 0
+                  },
+                  "value": "func",
+                  "raw": "func"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 194,
+                      "end": 195,
+                      "ctxt": 0
+                    },
+                    "value": 1.0,
+                    "raw": "1"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 195,
+                      "end": 196,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 197,
+                      "end": 198,
+                      "ctxt": 0
+                    },
+                    "value": 2.0,
+                    "raw": "2"
                   }
                 ]
               }

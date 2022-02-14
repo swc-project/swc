@@ -23,58 +23,67 @@
         "value": "--fogra39",
         "raw": "--fogra39"
       },
-      "block": [
-        {
-          "type": "Declaration",
-          "span": {
-            "start": 31,
-            "end": 91,
-            "ctxt": 0
-          },
-          "name": {
-            "type": "Ident",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 25,
+          "end": 94,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
             "span": {
               "start": 31,
-              "end": 34,
+              "end": 91,
               "ctxt": 0
             },
-            "value": "src",
-            "raw": "src"
-          },
-          "value": [
-            {
-              "type": "Url",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 36,
-                "end": 91,
+                "start": 31,
+                "end": 34,
                 "ctxt": 0
               },
-              "name": {
-                "type": "Ident",
+              "value": "src",
+              "raw": "src"
+            },
+            "value": [
+              {
+                "type": "Url",
                 "span": {
                   "start": 36,
-                  "end": 39,
+                  "end": 91,
                   "ctxt": 0
                 },
-                "value": "url",
-                "raw": "url"
-              },
-              "value": {
-                "type": "String",
-                "span": {
-                  "start": 40,
-                  "end": 90,
-                  "ctxt": 0
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 36,
+                    "end": 39,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
                 },
-                "value": "https://example.org/Coated_Fogra39L_VIGC_300.icc",
-                "raw": "'https://example.org/Coated_Fogra39L_VIGC_300.icc'"
-              },
-              "modifiers": []
-            }
-          ],
-          "important": null
-        }
-      ]
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 40,
+                    "end": 90,
+                    "ctxt": 0
+                  },
+                  "value": "https://example.org/Coated_Fogra39L_VIGC_300.icc",
+                  "raw": "'https://example.org/Coated_Fogra39L_VIGC_300.icc'"
+                },
+                "modifiers": []
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
     },
     {
       "type": "ColorProfileRule",
@@ -93,58 +102,67 @@
         "value": "device-cmyk",
         "raw": "device-cmyk"
       },
-      "block": [
-        {
-          "type": "Declaration",
-          "span": {
-            "start": 129,
-            "end": 218,
-            "ctxt": 0
-          },
-          "name": {
-            "type": "Ident",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 123,
+          "end": 221,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
             "span": {
               "start": 129,
-              "end": 132,
+              "end": 218,
               "ctxt": 0
             },
-            "value": "src",
-            "raw": "src"
-          },
-          "value": [
-            {
-              "type": "Url",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 134,
-                "end": 218,
+                "start": 129,
+                "end": 132,
                 "ctxt": 0
               },
-              "name": {
-                "type": "Ident",
+              "value": "src",
+              "raw": "src"
+            },
+            "value": [
+              {
+                "type": "Url",
                 "span": {
                   "start": 134,
-                  "end": 137,
+                  "end": 218,
                   "ctxt": 0
                 },
-                "value": "url",
-                "raw": "url"
-              },
-              "value": {
-                "type": "String",
-                "span": {
-                  "start": 138,
-                  "end": 217,
-                  "ctxt": 0
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 134,
+                    "end": 137,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
                 },
-                "value": "https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc",
-                "raw": "'https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc'"
-              },
-              "modifiers": []
-            }
-          ],
-          "important": null
-        }
-      ]
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 138,
+                    "end": 217,
+                    "ctxt": 0
+                  },
+                  "value": "https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc",
+                  "raw": "'https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc'"
+                },
+                "modifiers": []
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
     }
   ]
 }

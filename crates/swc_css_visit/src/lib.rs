@@ -24,7 +24,12 @@ define!({
     pub struct SimpleBlock {
         pub span: Span,
         pub name: char,
-        pub value: Vec<Value>,
+        pub value: Vec<ComponentValue>,
+    }
+
+    pub enum ComponentValue {
+        Value(Value),
+        DeclarationBlockItem(DeclarationBlockItem),
     }
 
     pub struct Ident {
@@ -77,12 +82,7 @@ define!({
     pub struct QualifiedRule {
         pub span: Span,
         pub prelude: SelectorList,
-        pub block: Block,
-    }
-
-    pub struct Block {
-        pub span: Span,
-        pub value: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 
     pub enum DeclarationBlockItem {
@@ -102,7 +102,7 @@ define!({
         DashedIdent(DashedIdent),
         Str(Str),
         Function(Function),
-        Bin(BinValue),
+        CalcSum(CalcSum),
         Delimiter(Delimiter),
         Urange(Urange),
         Url(Url),
@@ -112,21 +112,12 @@ define!({
     pub enum DelimiterValue {
         Comma,
         Solidus,
+        Semicolon,
     }
 
     pub struct Delimiter {
         pub span: Span,
         pub value: DelimiterValue,
-    }
-
-    pub struct BinValue {
-        pub span: Span,
-
-        pub op: BinOp,
-
-        pub left: Box<Value>,
-
-        pub right: Box<Value>,
     }
 
     pub struct Function {
@@ -236,6 +227,47 @@ define!({
     pub struct Urange {
         pub span: Span,
         pub value: JsWord,
+    }
+
+    pub struct CalcSum {
+        pub span: Span,
+        pub expressions: Vec<CalcProductOrOperator>,
+    }
+
+    pub enum CalcProductOrOperator {
+        Product(CalcProduct),
+        Operator(CalcOperator),
+    }
+
+    pub struct CalcProduct {
+        pub span: Span,
+        pub expressions: Vec<CalcValueOrOperator>,
+    }
+
+    pub struct CalcOperator {
+        pub span: Span,
+        pub value: CalcOperatorType,
+    }
+
+    pub enum CalcOperatorType {
+        Add,
+        Sub,
+        Mul,
+        Div,
+    }
+
+    pub enum CalcValueOrOperator {
+        Value(CalcValue),
+        Operator(CalcOperator),
+    }
+
+    pub enum CalcValue {
+        Number(Number),
+        Dimension(Dimension),
+        Percentage(Percentage),
+        Constant(Ident),
+        Sum(CalcSum),
+        Function(Function),
     }
 
     pub struct SelectorList {
@@ -435,7 +467,7 @@ define!({
 
     pub struct FontFaceRule {
         pub span: Span,
-        pub block: Block,
+        pub block: SimpleBlock,
     }
 
     pub enum NamespaceUri {
@@ -451,7 +483,7 @@ define!({
 
     pub struct ViewportRule {
         pub span: Span,
-        pub block: Block,
+        pub block: SimpleBlock,
     }
 
     pub enum AtRuleName {
@@ -491,7 +523,7 @@ define!({
     pub struct KeyframeBlock {
         pub span: Span,
         pub prelude: Vec<KeyframeSelector>,
-        pub block: Block,
+        pub block: SimpleBlock,
     }
 
     pub enum KeyframeSelector {
@@ -634,7 +666,7 @@ define!({
     pub struct PageRule {
         pub span: Span,
         pub prelude: Option<PageSelectorList>,
-        pub block: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 
     pub struct PageSelectorList {
@@ -661,7 +693,7 @@ define!({
     pub struct PageMarginRule {
         pub span: Span,
         pub name: Ident,
-        pub block: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 
     pub struct SupportsRule {
@@ -714,18 +746,18 @@ define!({
     pub struct ColorProfileRule {
         pub span: Span,
         pub name: ColorProfileName,
-        pub block: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 
     pub struct CounterStyleRule {
         pub span: Span,
         pub name: CustomIdent,
-        pub block: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 
     pub struct PropertyRule {
         pub span: Span,
         pub name: DashedIdent,
-        pub block: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 });

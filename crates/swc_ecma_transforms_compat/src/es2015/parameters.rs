@@ -27,6 +27,7 @@ struct Params {
     /// transform an arrow expression to a function expression.
     hoister: FnEnvHoister,
     in_subclass: bool,
+    in_prop: bool,
     c: Config,
 }
 
@@ -394,6 +395,25 @@ impl Params {
 impl VisitMut for Params {
     noop_visit_mut_type!();
 
+    // generally speaking, there won't be class field in here, but Safari 14.1
+    // still has bugs in parameters
+    fn visit_mut_class_prop(&mut self, prop: &mut ClassProp) {
+        prop.key.visit_mut_children_with(self);
+
+        let old_in_prop = self.in_prop;
+        self.in_prop = !prop.is_static;
+        prop.value.visit_mut_with(self);
+        self.in_prop = old_in_prop;
+    }
+
+    // same for private prop
+    fn visit_mut_private_prop(&mut self, prop: &mut PrivateProp) {
+        let old_in_prop = self.in_prop;
+        self.in_prop = !prop.is_static;
+        prop.value.visit_mut_with(self);
+        self.in_prop = old_in_prop;
+    }
+
     fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
         let old_rep = self.hoister.take();
 
@@ -492,9 +512,17 @@ impl VisitMut for Params {
                     _ => false,
                 });
 
+                let mut local_vars = None;
+
                 // this needs to happen before rest parameter transform
                 if need_arrow_to_function {
-                    f.visit_mut_children_with(&mut self.hoister);
+                    if !self.in_prop {
+                        f.visit_mut_children_with(&mut self.hoister)
+                    } else {
+                        let mut hoister = FnEnvHoister::default();
+                        f.visit_mut_children_with(&mut hoister);
+                        local_vars = hoister.to_stmt();
+                    }
                 }
 
                 let body_span = f.body.span();
@@ -523,7 +551,7 @@ impl VisitMut for Params {
                 self.visit_mut_fn_like(&mut params, &mut body, false);
 
                 if need_arrow_to_function {
-                    *e = Expr::Fn(FnExpr {
+                    let func = Expr::Fn(FnExpr {
                         ident: None,
                         function: Function {
                             params,
@@ -536,6 +564,29 @@ impl VisitMut for Params {
                             return_type: Default::default(),
                         },
                     });
+                    *e = match (self.in_prop, local_vars) {
+                        (true, Some(var_decl)) => Expr::Arrow(ArrowExpr {
+                            span: f.span,
+                            params: Vec::new(),
+                            is_async: false,
+                            is_generator: false,
+                            body: BlockStmtOrExpr::BlockStmt(BlockStmt {
+                                span: f.span,
+                                stmts: vec![
+                                    var_decl,
+                                    Stmt::Return(ReturnStmt {
+                                        span: f.span,
+                                        arg: Some(Box::new(func)),
+                                    }),
+                                ],
+                            }),
+                            type_params: Default::default(),
+                            return_type: Default::default(),
+                        })
+                        .as_iife()
+                        .into(),
+                        _ => func,
+                    };
                     return;
                 }
 
@@ -574,12 +625,20 @@ impl VisitMut for Params {
             return;
         }
 
+        let old_in_subclass = self.in_subclass;
+        let old_in_prop = self.in_prop;
+        self.in_subclass = false;
+        self.in_prop = false;
+
         f.visit_mut_children_with(self);
 
         let mut body = f.body.take().unwrap();
         self.visit_mut_fn_like(&mut f.params, &mut body, false);
 
         f.body = Some(body);
+
+        self.in_subclass = old_in_subclass;
+        self.in_prop = old_in_prop;
     }
 
     fn visit_mut_getter_prop(&mut self, f: &mut GetterProp) {
@@ -620,11 +679,15 @@ impl VisitMut for Params {
     }
 
     fn visit_mut_class(&mut self, c: &mut Class) {
-        if c.super_class.is_some() {
-            self.in_subclass = true;
-        }
+        let old_in_subclass = self.in_subclass;
+        let old_in_prop = self.in_prop;
+
+        self.in_subclass = c.super_class.is_some();
+        self.in_prop = false;
         c.visit_mut_children_with(self);
-        self.in_subclass = false;
+
+        self.in_subclass = old_in_subclass;
+        self.in_prop = old_in_prop;
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {

@@ -71,18 +71,19 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 2,
           "end": 70,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",
             "span": {
               "start": 8,
-              "end": 69,
+              "end": 68,
               "ctxt": 0
             },
             "name": {

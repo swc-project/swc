@@ -589,34 +589,10 @@ where
             }
 
             emit!(self, prelude);
-        } else {
-            formatting_space!(self);
         }
 
-        punct!(self, "{");
-
-        let len = n.block.len();
-
-        for (idx, node) in n.block.iter().enumerate() {
-            emit!(self, node);
-
-            match node {
-                DeclarationBlockItem::AtRule(_) => {}
-                _ => {
-                    let need_delim = !(idx == len - 1 && self.config.minify);
-
-                    if need_delim {
-                        self.write_delim(ListFormat::SemiDelimited)?;
-                    }
-                }
-            }
-
-            if !self.config.minify {
-                formatting_newline!(self);
-            }
-        }
-
-        punct!(self, "}");
+        formatting_space!(self);
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -651,9 +627,7 @@ where
         punct!(self, "@");
         emit!(self, n.name);
         formatting_space!(self);
-        punct!(self, "{");
-        self.emit_list(&n.block, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
-        punct!(self, "}");
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -825,7 +799,7 @@ where
             Value::Ident(n) => emit!(self, n),
             Value::DashedIdent(n) => emit!(self, n),
             Value::Str(n) => emit!(self, n),
-            Value::Bin(n) => emit!(self, n),
+            Value::CalcSum(n) => emit!(self, n),
             Value::Url(n) => emit!(self, n),
             Value::Delimiter(n) => emit!(self, n),
             Value::Urange(n) => emit!(self, n),
@@ -856,16 +830,7 @@ where
         space!(self);
         emit!(self, n.name);
         formatting_space!(self);
-        punct!(self, "{");
-        self.emit_list(
-            &n.block,
-            if self.config.minify {
-                ListFormat::SemiDelimited
-            } else {
-                ListFormat::SemiDelimited | ListFormat::MultiLine
-            },
-        )?;
-        punct!(self, "}");
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -875,16 +840,7 @@ where
         space!(self);
         emit!(self, n.name);
         formatting_space!(self);
-        punct!(self, "{");
-        self.emit_list(
-            &n.block,
-            if self.config.minify {
-                ListFormat::SemiDelimited
-            } else {
-                ListFormat::SemiDelimited | ListFormat::MultiLine
-            },
-        )?;
-        punct!(self, "}");
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -894,16 +850,7 @@ where
         space!(self);
         emit!(self, n.name);
         formatting_space!(self);
-        punct!(self, "{");
-        self.emit_list(
-            &n.block,
-            if self.config.minify {
-                ListFormat::SemiDelimited
-            } else {
-                ListFormat::SemiDelimited | ListFormat::MultiLine
-            },
-        )?;
-        punct!(self, "}");
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -941,31 +888,51 @@ where
         };
 
         self.wr.write_raw_char(None, n.name)?;
-        self.emit_list(
-            &n.value,
-            if ending == ']' {
-                ListFormat::SpaceDelimited
-            } else {
-                ListFormat::NotDelimited
-            },
-        )?;
+
+        let len = n.value.len();
+
+        for (idx, node) in n.value.iter().enumerate() {
+            if idx == 0 {
+                if let ComponentValue::DeclarationBlockItem(_) = node {
+                    formatting_newline!(self);
+                }
+            }
+
+            emit!(self, node);
+
+            match node {
+                ComponentValue::Value(_) => {
+                    if ending == ']' && idx != len - 1 {
+                        space!(self);
+                    }
+                }
+                ComponentValue::DeclarationBlockItem(i) => match i {
+                    DeclarationBlockItem::AtRule(_) => {
+                        formatting_newline!(self);
+                    }
+                    DeclarationBlockItem::Declaration(_) => {
+                        if idx != len - 1 {
+                            semi!(self);
+                        } else {
+                            formatting_semi!(self);
+                        }
+
+                        formatting_newline!(self);
+                    }
+                    DeclarationBlockItem::Invalid(_) => {}
+                },
+            }
+        }
+
         self.wr.write_raw_char(None, ending)?;
     }
 
     #[emitter]
-    fn emit_block(&mut self, n: &Block) -> Result {
-        punct!(self, "{");
-
-        self.emit_list(
-            &n.value,
-            if self.config.minify {
-                ListFormat::SemiDelimited
-            } else {
-                ListFormat::SemiDelimited | ListFormat::MultiLine
-            },
-        )?;
-
-        punct!(self, "}");
+    fn emit_component_value(&mut self, n: &ComponentValue) -> Result {
+        match n {
+            ComponentValue::Value(n) => emit!(self, n),
+            ComponentValue::DeclarationBlockItem(n) => emit!(self, n),
+        }
     }
 
     #[emitter]
@@ -1158,31 +1125,69 @@ where
     }
 
     #[emitter]
-    fn emit_bin_value(&mut self, n: &BinValue) -> Result {
-        emit!(self, n.left);
-
-        let need_space = matches!(n.op, BinOp::Add | BinOp::Sub);
-
-        if need_space {
-            space!(self);
-        } else {
-            formatting_space!(self);
-        }
-
-        punct!(self, n.op.as_str());
-
-        if need_space {
-            space!(self);
-        } else {
-            formatting_space!(self);
-        }
-
-        emit!(self, n.right);
+    fn emit_delimiter(&mut self, n: &Delimiter) -> Result {
+        punct!(self, n.value.as_str());
     }
 
     #[emitter]
-    fn emit_delimiter(&mut self, n: &Delimiter) -> Result {
+    fn emit_calc_sum(&mut self, n: &CalcSum) -> Result {
+        self.emit_list(&n.expressions, ListFormat::NotDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_calc_product_or_operator(&mut self, n: &CalcProductOrOperator) -> Result {
+        match n {
+            CalcProductOrOperator::Product(n) => emit!(self, n),
+            CalcProductOrOperator::Operator(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_calc_operator(&mut self, n: &CalcOperator) -> Result {
+        let need_space = matches!(n.value, CalcOperatorType::Add | CalcOperatorType::Sub);
+
+        if need_space {
+            space!(self);
+        } else {
+            formatting_space!(self);
+        }
+
         punct!(self, n.value.as_str());
+
+        if need_space {
+            space!(self);
+        } else {
+            formatting_space!(self);
+        }
+    }
+
+    #[emitter]
+    fn emit_calc_product(&mut self, n: &CalcProduct) -> Result {
+        self.emit_list(&n.expressions, ListFormat::None)?;
+    }
+
+    #[emitter]
+    fn emit_calc_value_or_operator(&mut self, n: &CalcValueOrOperator) -> Result {
+        match n {
+            CalcValueOrOperator::Value(n) => emit!(self, n),
+            CalcValueOrOperator::Operator(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_calc_value(&mut self, n: &CalcValue) -> Result {
+        match n {
+            CalcValue::Number(n) => emit!(self, n),
+            CalcValue::Dimension(n) => emit!(self, n),
+            CalcValue::Percentage(n) => emit!(self, n),
+            CalcValue::Constant(n) => emit!(self, n),
+            CalcValue::Sum(n) => {
+                punct!(self, "(");
+                emit!(self, n);
+                punct!(self, ")");
+            }
+            CalcValue::Function(n) => emit!(self, n),
+        }
     }
 
     #[emitter]

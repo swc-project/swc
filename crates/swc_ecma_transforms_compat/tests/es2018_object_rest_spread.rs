@@ -281,18 +281,18 @@ for (var _ref of []) {
 }
 
 for (var _ref1 of []) {
-  var {
-    a
-  } = _ref1,
-      b = _objectWithoutProperties(_ref1, ["a"]);
+  var __ref;
+  __ref = _ref1, b = _objectWithoutProperties(__ref, [
+      "a"
+  ]), ({ a  } = __ref), __ref;
 }
 
 async function a() {
   for await (var _ref2 of []) {
-    var {
-      a
-    } = _ref2,
-        b = _objectWithoutProperties(_ref2, ["a"]);
+      var __ref;
+      __ref = _ref2, b = _objectWithoutProperties(__ref, [
+          "a"
+      ]), ({ a  } = __ref), __ref;
   }
 } // skip
 
@@ -3009,5 +3009,64 @@ o.__proto__ = [];
 const o2 = { ...o };
 // Loose will do o2.__proto__ = []
 expect(Array.isArray(Object.getPrototypeOf(o2))).toBe(true);
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        no_symbol: true,
+        set_property: true
+    }),
+    statements_for_of_dstr_obj_rest_to_property,
+    r#"
+    var src = {};
+
+    var counter = 0;
+    
+    for ({ ...src.y } of [{ x: 1, y: 2 }]) {
+        expect(src.y.x).toEqual(1);
+        expect(src.y.y).toEqual(2);
+
+        counter += 1;
+    }
+    
+    expect(counter).toEqual(1);
+"#,
+    r#"
+    var src = {};
+    var counter = 0;
+    for (var _ref of [{ x: 1, y: 2 }]) {
+        var __ref;
+        __ref = _ref, src.y = _extends({}, __ref), __ref;
+        expect(src.y.x).toEqual(1);
+        expect(src.y.y).toEqual(2);
+
+        counter += 1;
+    }
+    expect(counter).toEqual(1);
+  "#
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Config {
+        no_symbol: true,
+        set_property: true
+    }),
+    statements_for_of_dstr_obj_rest_to_property_exec,
+    r#"
+    var src = {};
+
+    var counter = 0;
+
+    for ({ ...src.y } of [{ x: 1, y: 2 }]) {
+        expect(src.y.x).toEqual(1);
+        expect(src.y.y).toEqual(2);
+
+        counter += 1;
+    }
+
+    expect(counter).toEqual(1);
 "#
 );
