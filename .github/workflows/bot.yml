@@ -24,3 +24,5 @@ jobs:
         run: |
           yarn
           npx ts-node src/auto-rebase.ts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
