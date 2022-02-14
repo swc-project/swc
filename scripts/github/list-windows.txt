@@ -1,1 +1,16 @@
+swc
+swc_cli
+swc_common
+swc_css_codegen
+swc_css_parser
+swc_ecma_codegen
+swc_ecma_loader
+swc_ecma_parser
+swc_ecma_preset_env
+swc_ecma_transforms_module
+swc_ecma_transforms_testing
+swc_node_bundler
+swc_plugin
 swc_plugin_runner
+swc_plugin_runner
+swc_plugin_testing
