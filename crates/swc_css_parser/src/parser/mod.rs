@@ -46,8 +46,6 @@ struct Ctx {
     grammar: Grammar,
 
     in_page_at_rule: bool,
-
-    allow_operation_in_value: bool,
 }
 
 #[derive(Debug)]

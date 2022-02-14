@@ -5,4 +5,5 @@ div {
     prop: func([foo bar]);
     prop: func((foo, bar));
     prop: func({ foo: bar });
+    prop: func(1, 2);
 }

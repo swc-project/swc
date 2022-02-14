@@ -1,4 +1,4 @@
-use swc_common::BytePos;
+use swc_common::{BytePos, Span};
 use swc_css_ast::*;
 
 use super::{input::ParserInput, Ctx, Grammar, PResult, Parser};
@@ -159,32 +159,11 @@ where
         let span = self.input.cur_span()?;
 
         match cur!(self) {
-            tok!(",") => {
-                bump!(self);
+            tok!(",") => return Ok(Value::Delimiter(self.parse()?)),
 
-                return Ok(Value::Delimiter(Delimiter {
-                    span: span!(self, span.lo),
-                    value: DelimiterValue::Comma,
-                }));
-            }
+            tok!("/") => return Ok(Value::Delimiter(self.parse()?)),
 
-            tok!("/") => {
-                bump!(self);
-
-                return Ok(Value::Delimiter(Delimiter {
-                    span: span!(self, span.lo),
-                    value: DelimiterValue::Solidus,
-                }));
-            }
-
-            tok!(";") => {
-                bump!(self);
-
-                return Ok(Value::Delimiter(Delimiter {
-                    span: span!(self, span.lo),
-                    value: DelimiterValue::Semicolon,
-                }));
-            }
+            tok!(";") => return Ok(Value::Delimiter(self.parse()?)),
 
             tok!("str") => return Ok(Value::Str(self.parse()?)),
 
@@ -198,19 +177,11 @@ where
                 return Ok(Value::Function(self.parse()?));
             }
 
-            tok!("percentage") | tok!("dimension") | tok!("num") => {
-                let span = self.input.cur_span()?;
-                let base = match cur!(self) {
-                    tok!("percentage") => Value::Percentage(self.parse()?),
-                    tok!("dimension") => Value::Dimension(self.parse()?),
-                    tok!("num") => Value::Number(self.parse()?),
-                    _ => {
-                        unreachable!()
-                    }
-                };
+            tok!("percentage") => return Ok(Value::Percentage(self.parse()?)),
 
-                return self.parse_numeric_value_with_base(span.lo, base);
-            }
+            tok!("dimension") => return Ok(Value::Dimension(self.parse()?)),
+
+            tok!("num") => return Ok(Value::Number(self.parse()?)),
 
             Token::Ident { value, .. } => {
                 if value.starts_with("--") {
@@ -260,47 +231,6 @@ where
         }
 
         Err(Error::new(span, ErrorKind::Expected("Declaration value")))
-    }
-
-    fn parse_numeric_value_with_base(&mut self, start: BytePos, base: Value) -> PResult<Value> {
-        let start_state = self.input.state();
-        self.input.skip_ws()?;
-
-        if self.ctx.allow_operation_in_value && is_one_of!(self, "+", "-", "*", "/") {
-            let token = bump!(self);
-
-            self.input.skip_ws()?;
-
-            let op = match token {
-                tok!("+") => BinOp::Add,
-                tok!("-") => BinOp::Sub,
-                tok!("*") => BinOp::Mul,
-                tok!("/") => BinOp::Div,
-                _ => {
-                    unreachable!()
-                }
-            };
-            self.input.skip_ws()?;
-
-            let ctx = Ctx {
-                allow_operation_in_value: false,
-                ..self.ctx
-            };
-            let right = self.with_ctx(ctx).parse_one_value_inner()?;
-
-            let value = Value::Bin(BinValue {
-                span: span!(self, start),
-                op,
-                left: Box::new(base),
-                right: Box::new(right),
-            });
-
-            return self.parse_numeric_value_with_base(start, value);
-        }
-
-        self.input.reset(&start_state);
-
-        Ok(base)
     }
 
     pub fn parse_simple_block(&mut self, ending: char) -> PResult<SimpleBlock> {
@@ -372,6 +302,52 @@ where
                         unreachable!();
                     }
                 }
+            }
+        }
+    }
+}
+
+impl<I> Parse<Delimiter> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Delimiter> {
+        let span = self.input.cur_span()?;
+
+        if !is_one_of!(self, ",", "/", ";") {
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected("',', '/' or ';' delim token"),
+            ));
+        }
+
+        match cur!(self) {
+            tok!(",") => {
+                bump!(self);
+
+                return Ok(Delimiter {
+                    span: span!(self, span.lo),
+                    value: DelimiterValue::Comma,
+                });
+            }
+            tok!("/") => {
+                bump!(self);
+
+                return Ok(Delimiter {
+                    span: span!(self, span.lo),
+                    value: DelimiterValue::Solidus,
+                });
+            }
+            tok!(";") => {
+                bump!(self);
+
+                return Ok(Delimiter {
+                    span: span!(self, span.lo),
+                    value: DelimiterValue::Semicolon,
+                });
+            }
+            _ => {
+                unreachable!();
             }
         }
     }
@@ -1088,38 +1064,11 @@ where
                 unreachable!()
             }
         };
-        let is_math_function = matches!(
-            &*ident.0.to_ascii_lowercase(),
-            "calc"
-                | "min"
-                | "max"
-                | "clamp"
-                | "round"
-                | "mod"
-                | "rem"
-                | "sin"
-                | "cos"
-                | "tan"
-                | "asin"
-                | "acos"
-                | "atan"
-                | "atan2"
-                | "pow"
-                | "sqrt"
-                | "hypot"
-                | "log"
-                | "exp"
-                | "abs"
-                | "sign"
-        );
+        let lowercased_name = &*ident.0.to_ascii_lowercase();
         let name = Ident {
             span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
             value: ident.0,
             raw: ident.1,
-        };
-        let ctx = Ctx {
-            allow_operation_in_value: is_math_function,
-            ..self.ctx
         };
 
         // Create a function with its name equal to the value of the current input token
@@ -1151,22 +1100,206 @@ where
                 // returned value to the function’s value.
                 _ => {
                     let state = self.input.state();
-                    let parsed = self.with_ctx(ctx).parse_one_value_inner();
-                    let value = match parsed {
-                        Ok(value) => {
+
+                    match lowercased_name {
+                        "calc" | "sin" | "cos" | "tan" | "asin" | "acos" | "atan" | "sqrt"
+                        | "exp" | "abs" | "sign" => {
                             self.input.skip_ws()?;
 
-                            value
-                        }
-                        Err(err) => {
-                            self.errors.push(err);
-                            self.input.reset(&state);
+                            let calc_sum = Value::CalcSum(self.parse()?);
 
-                            self.parse_component_value()?
+                            function.value.push(calc_sum);
+
+                            self.input.skip_ws()?;
+                        }
+                        "min" | "max" | "hypot" => {
+                            self.input.skip_ws()?;
+
+                            let calc_sum = Value::CalcSum(self.parse()?);
+
+                            function.value.push(calc_sum);
+
+                            loop {
+                                self.input.skip_ws()?;
+
+                                if is!(self, ",") {
+                                    function.value.push(Value::Delimiter(self.parse()?));
+                                } else {
+                                    break;
+                                }
+
+                                self.input.skip_ws()?;
+
+                                let calc_sum = Value::CalcSum(self.parse()?);
+
+                                function.value.push(calc_sum);
+                            }
+                        }
+                        "clamp" => {
+                            self.input.skip_ws()?;
+
+                            let calc_sum = Value::CalcSum(self.parse()?);
+
+                            function.value.push(calc_sum);
+
+                            self.input.skip_ws()?;
+
+                            if is!(self, ",") {
+                                function.value.push(Value::Delimiter(self.parse()?));
+                            } else {
+                                let span = self.input.cur_span()?;
+
+                                return Err(Error::new(
+                                    span,
+                                    ErrorKind::Expected("',' delim token"),
+                                ));
+                            }
+
+                            self.input.skip_ws()?;
+
+                            let calc_sum = Value::CalcSum(self.parse()?);
+
+                            function.value.push(calc_sum);
+
+                            self.input.skip_ws()?;
+
+                            if is!(self, ",") {
+                                function.value.push(Value::Delimiter(self.parse()?));
+                            } else {
+                                let span = self.input.cur_span()?;
+
+                                return Err(Error::new(
+                                    span,
+                                    ErrorKind::Expected("',' delim token"),
+                                ));
+                            }
+
+                            self.input.skip_ws()?;
+
+                            let calc_sum = Value::CalcSum(self.parse()?);
+
+                            function.value.push(calc_sum);
+
+                            self.input.skip_ws()?;
+                        }
+                        "round" => {
+                            self.input.skip_ws()?;
+
+                            if is!(self, "ident") {
+                                // TODO improve me
+                                let rounding_strategy = Value::Ident(self.parse()?);
+
+                                function.value.push(rounding_strategy);
+
+                                self.input.skip_ws()?;
+
+                                if is!(self, ",") {
+                                    function.value.push(Value::Delimiter(self.parse()?));
+                                } else {
+                                    let span = self.input.cur_span()?;
+
+                                    return Err(Error::new(
+                                        span,
+                                        ErrorKind::Expected("',' delim token"),
+                                    ));
+                                }
+
+                                self.input.skip_ws()?;
+                            }
+
+                            let calc_sum = Value::CalcSum(self.parse()?);
+
+                            function.value.push(calc_sum);
+
+                            self.input.skip_ws()?;
+
+                            if is!(self, ",") {
+                                function.value.push(Value::Delimiter(self.parse()?));
+                            } else {
+                                let span = self.input.cur_span()?;
+
+                                return Err(Error::new(
+                                    span,
+                                    ErrorKind::Expected("',' delim token"),
+                                ));
+                            }
+
+                            self.input.skip_ws()?;
+
+                            let calc_sum = Value::CalcSum(self.parse()?);
+
+                            function.value.push(calc_sum);
+
+                            self.input.skip_ws()?;
+                        }
+                        "mod" | "rem" | "atan2" | "pow" => {
+                            self.input.skip_ws()?;
+
+                            let calc_sum = Value::CalcSum(self.parse()?);
+
+                            function.value.push(calc_sum);
+
+                            self.input.skip_ws()?;
+
+                            if is!(self, ",") {
+                                function.value.push(Value::Delimiter(self.parse()?));
+                            } else {
+                                let span = self.input.cur_span()?;
+
+                                return Err(Error::new(
+                                    span,
+                                    ErrorKind::Expected("',' delim token"),
+                                ));
+                            }
+
+                            self.input.skip_ws()?;
+
+                            let calc_sum = Value::CalcSum(self.parse()?);
+
+                            function.value.push(calc_sum);
+
+                            self.input.skip_ws()?;
+                        }
+                        "log" => {
+                            self.input.skip_ws()?;
+
+                            let calc_sum = Value::CalcSum(self.parse()?);
+
+                            function.value.push(calc_sum);
+
+                            self.input.skip_ws()?;
+
+                            if is!(self, ",") {
+                                function.value.push(Value::Delimiter(self.parse()?));
+
+                                self.input.skip_ws()?;
+
+                                let calc_sum = Value::CalcSum(self.parse()?);
+
+                                function.value.push(calc_sum);
+
+                                self.input.skip_ws()?;
+                            }
+                        }
+                        _ => {
+                            let parsed = self.parse_one_value_inner();
+                            let value = match parsed {
+                                Ok(value) => {
+                                    self.input.skip_ws()?;
+
+                                    value
+                                }
+                                Err(err) => {
+                                    self.errors.push(err);
+                                    self.input.reset(&state);
+
+                                    self.parse_component_value()?
+                                }
+                            };
+
+                            function.value.push(value);
                         }
                     };
-
-                    function.value.push(value);
                 }
             }
         }
@@ -1382,6 +1515,250 @@ where
             span: span!(self, span.lo),
             value: urange.into(),
         });
+    }
+}
+
+impl<I> Parse<CalcSum> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<CalcSum> {
+        let start = self.input.cur_span()?.lo;
+        let mut expressions = vec![];
+        let calc_product = CalcProductOrOperator::Product(self.parse()?);
+        let mut end = match calc_product {
+            CalcProductOrOperator::Product(ref calc_product) => calc_product.span.hi,
+            _ => {
+                unreachable!();
+            }
+        };
+
+        expressions.push(calc_product);
+
+        loop {
+            self.input.skip_ws()?;
+
+            match cur!(self) {
+                tok!("+") | tok!("-") => {
+                    let operator = CalcProductOrOperator::Operator(self.parse()?);
+
+                    expressions.push(operator);
+
+                    self.input.skip_ws()?;
+
+                    let calc_product = CalcProductOrOperator::Product(self.parse()?);
+
+                    end = match calc_product {
+                        CalcProductOrOperator::Product(ref calc_product) => calc_product.span.hi,
+                        _ => {
+                            unreachable!();
+                        }
+                    };
+
+                    expressions.push(calc_product);
+                }
+                _ => {
+                    break;
+                }
+            }
+        }
+
+        Ok(CalcSum {
+            span: Span::new(start, end, Default::default()),
+            expressions,
+        })
+    }
+}
+
+impl<I> Parse<CalcProduct> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<CalcProduct> {
+        let start = self.input.cur_span()?.lo;
+        let mut expressions = vec![];
+        let calc_value = CalcValueOrOperator::Value(self.parse()?);
+        let mut end = match calc_value {
+            CalcValueOrOperator::Value(ref calc_value) => match calc_value {
+                CalcValue::Number(item) => item.span.hi,
+                CalcValue::Percentage(item) => item.span.hi,
+                CalcValue::Constant(item) => item.span.hi,
+                CalcValue::Sum(item) => item.span.hi,
+                CalcValue::Function(item) => item.span.hi,
+                CalcValue::Dimension(item) => match item {
+                    Dimension::Length(item) => item.span.hi,
+                    Dimension::Angle(item) => item.span.hi,
+                    Dimension::Time(item) => item.span.hi,
+                    Dimension::Frequency(item) => item.span.hi,
+                    Dimension::Resolution(item) => item.span.hi,
+                    Dimension::Flex(item) => item.span.hi,
+                    Dimension::UnknownDimension(item) => item.span.hi,
+                },
+            },
+            _ => {
+                unreachable!();
+            }
+        };
+
+        expressions.push(calc_value);
+
+        loop {
+            self.input.skip_ws()?;
+
+            match cur!(self) {
+                tok!("*") | tok!("/") => {
+                    let operator = CalcValueOrOperator::Operator(self.parse()?);
+
+                    expressions.push(operator);
+
+                    self.input.skip_ws()?;
+
+                    let calc_value = CalcValueOrOperator::Value(self.parse()?);
+
+                    end = match calc_value {
+                        CalcValueOrOperator::Value(ref calc_value) => match calc_value {
+                            CalcValue::Number(item) => item.span.hi,
+                            CalcValue::Percentage(item) => item.span.hi,
+                            CalcValue::Constant(item) => item.span.hi,
+                            CalcValue::Sum(item) => item.span.hi,
+                            CalcValue::Function(item) => item.span.hi,
+                            CalcValue::Dimension(item) => match item {
+                                Dimension::Length(item) => item.span.hi,
+                                Dimension::Angle(item) => item.span.hi,
+                                Dimension::Time(item) => item.span.hi,
+                                Dimension::Frequency(item) => item.span.hi,
+                                Dimension::Resolution(item) => item.span.hi,
+                                Dimension::Flex(item) => item.span.hi,
+                                Dimension::UnknownDimension(item) => item.span.hi,
+                            },
+                        },
+                        _ => {
+                            unreachable!();
+                        }
+                    };
+
+                    expressions.push(calc_value);
+                }
+                _ => {
+                    break;
+                }
+            }
+        }
+
+        Ok(CalcProduct {
+            span: Span::new(start, end, Default::default()),
+            expressions,
+        })
+    }
+}
+
+impl<I> Parse<CalcOperator> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<CalcOperator> {
+        let span = self.input.cur_span()?;
+
+        match cur!(self) {
+            tok!("+") => {
+                bump!(self);
+
+                Ok(CalcOperator {
+                    span: span!(self, span.lo),
+                    value: CalcOperatorType::Add,
+                })
+            }
+            tok!("-") => {
+                bump!(self);
+
+                Ok(CalcOperator {
+                    span: span!(self, span.lo),
+                    value: CalcOperatorType::Sub,
+                })
+            }
+            tok!("*") => {
+                bump!(self);
+
+                Ok(CalcOperator {
+                    span: span!(self, span.lo),
+                    value: CalcOperatorType::Mul,
+                })
+            }
+            tok!("/") => {
+                bump!(self);
+
+                Ok(CalcOperator {
+                    span: span!(self, span.lo),
+                    value: CalcOperatorType::Div,
+                })
+            }
+            _ => {
+                let span = self.input.cur_span()?;
+
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("'+', '-', '*' or '/' delim tokens"),
+                ));
+            }
+        }
+    }
+}
+
+impl<I> Parse<CalcValue> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<CalcValue> {
+        match cur!(self) {
+            tok!("num") => Ok(CalcValue::Number(self.parse()?)),
+            tok!("dimension") => Ok(CalcValue::Dimension(self.parse()?)),
+            tok!("percentage") => Ok(CalcValue::Percentage(self.parse()?)),
+            Token::Ident { value, .. } => {
+                match &*value.to_ascii_lowercase() {
+                    "e" | "pi" | "infinity" | "-infinity" | "nan" => {}
+                    _ => {
+                        let span = self.input.cur_span()?;
+
+                        return Err(Error::new(
+                            span,
+                            ErrorKind::Expected(
+                                "'e', 'pi', 'infinity', '-infinity' or 'NaN', ident tokens",
+                            ),
+                        ));
+                    }
+                }
+
+                Ok(CalcValue::Constant(self.parse()?))
+            }
+            tok!("(") => {
+                let span = self.input.cur_span()?;
+
+                expect!(self, "(");
+
+                self.input.skip_ws()?;
+
+                let mut calc_sum_in_parens: CalcSum = self.parse()?;
+
+                self.input.skip_ws()?;
+
+                expect!(self, ")");
+
+                calc_sum_in_parens.span = span!(self, span.lo);
+
+                Ok(CalcValue::Sum(calc_sum_in_parens))
+            }
+            tok!("function") => Ok(CalcValue::Function(self.parse()?)),
+            _ => {
+                let span = self.input.cur_span()?;
+
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected(
+                        "'number', 'dimension', 'percentage', 'ident', '(' or 'function' tokens",
+                    ),
+                ));
+            }
+        }
     }
 }
 

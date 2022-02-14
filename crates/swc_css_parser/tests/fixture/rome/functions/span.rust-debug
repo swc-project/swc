@@ -203,13 +203,31 @@ error: Value
 4 |     font-size: calc(10px + 5rem);
   |                     ^^^^^^^^^^^
 
-error: BinValue
+error: CalcSum
  --> $DIR/tests/fixture/rome/functions/input.css:4:18
   |
 4 |     font-size: calc(10px + 5rem);
   |                     ^^^^^^^^^^^
 
-error: Value
+error: CalcProductOrOperator
+ --> $DIR/tests/fixture/rome/functions/input.css:4:18
+  |
+4 |     font-size: calc(10px + 5rem);
+  |                     ^^^^
+
+error: CalcProduct
+ --> $DIR/tests/fixture/rome/functions/input.css:4:18
+  |
+4 |     font-size: calc(10px + 5rem);
+  |                     ^^^^
+
+error: CalcValueOrOperator
+ --> $DIR/tests/fixture/rome/functions/input.css:4:18
+  |
+4 |     font-size: calc(10px + 5rem);
+  |                     ^^^^
+
+error: CalcValue
  --> $DIR/tests/fixture/rome/functions/input.css:4:18
   |
 4 |     font-size: calc(10px + 5rem);
@@ -239,7 +257,37 @@ error: Ident
 4 |     font-size: calc(10px + 5rem);
   |                       ^^
 
-error: Value
+error: CalcProductOrOperator
+ --> $DIR/tests/fixture/rome/functions/input.css:4:23
+  |
+4 |     font-size: calc(10px + 5rem);
+  |                          ^
+
+error: CalcOperator
+ --> $DIR/tests/fixture/rome/functions/input.css:4:23
+  |
+4 |     font-size: calc(10px + 5rem);
+  |                          ^
+
+error: CalcProductOrOperator
+ --> $DIR/tests/fixture/rome/functions/input.css:4:25
+  |
+4 |     font-size: calc(10px + 5rem);
+  |                            ^^^^
+
+error: CalcProduct
+ --> $DIR/tests/fixture/rome/functions/input.css:4:25
+  |
+4 |     font-size: calc(10px + 5rem);
+  |                            ^^^^
+
+error: CalcValueOrOperator
+ --> $DIR/tests/fixture/rome/functions/input.css:4:25
+  |
+4 |     font-size: calc(10px + 5rem);
+  |                            ^^^^
+
+error: CalcValue
  --> $DIR/tests/fixture/rome/functions/input.css:4:25
   |
 4 |     font-size: calc(10px + 5rem);

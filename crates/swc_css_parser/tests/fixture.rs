@@ -274,8 +274,6 @@ macro_rules! mtd {
 impl Visit for SpanVisualizer<'_> {
     mtd!(AtRule, visit_at_rule);
 
-    mtd!(BinValue, visit_bin_value);
-
     mtd!(SelectorList, visit_selector_list);
 
     mtd!(ComplexSelector, visit_complex_selector);
@@ -381,6 +379,18 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Urange, visit_urange);
 
     mtd!(Value, visit_value);
+
+    mtd!(CalcSum, visit_calc_sum);
+
+    mtd!(CalcProductOrOperator, visit_calc_product_or_operator);
+
+    mtd!(CalcProduct, visit_calc_product);
+
+    mtd!(CalcOperator, visit_calc_operator);
+
+    mtd!(CalcValueOrOperator, visit_calc_value_or_operator);
+
+    mtd!(CalcValue, visit_calc_value);
 
     mtd!(CharsetRule, visit_charset_rule);
 

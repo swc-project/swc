@@ -4903,12 +4903,13 @@
                     return this;
                 },
                 flush: function() {
+                    var self = this;
                     try {
-                        if (this.buffer += this.decoder.decode(), (this.cue || "HEADER" === this.state) && (this.buffer += "\n\n", this.parse()), "INITIAL" === this.state) throw new ParsingError(ParsingError.Errors.BadSignature);
+                        if (self.buffer += self.decoder.decode(), (self.cue || "HEADER" === self.state) && (self.buffer += "\n\n", self.parse()), "INITIAL" === self.state) throw new ParsingError(ParsingError.Errors.BadSignature);
                     } catch (e) {
-                        this.reportOrThrowError(e);
+                        self.reportOrThrowError(e);
                     }
-                    return this.onflush && this.onflush(), this;
+                    return self.onflush && self.onflush(), this;
                 }
             }, module.exports = WebVTT;
         },

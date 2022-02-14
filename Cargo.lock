@@ -2598,7 +2598,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.124.5"
+version = "0.124.7"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2738,7 +2738,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.80.0"
+version = "0.81.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -2750,7 +2750,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.74.0"
+version = "0.75.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -2761,7 +2761,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.77.0"
+version = "0.78.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -2787,7 +2787,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.42.0"
+version = "0.43.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2800,7 +2800,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.78.0"
+version = "0.79.0"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2815,7 +2815,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "0.71.0"
+version = "0.72.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2825,7 +2825,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.73.0"
+version = "0.74.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2906,7 +2906,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.14.5"
+version = "0.14.6"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -2946,7 +2946,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.73.3"
+version = "0.73.4"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3031,7 +3031,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.116.3"
+version = "0.116.5"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3091,7 +3091,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.69.2"
+version = "0.69.4"
 dependencies = [
  "ahash",
  "arrayvec 0.7.2",
@@ -3273,7 +3273,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.65.1"
+version = "0.65.2"
 dependencies = [
  "indexmap",
  "once_cell",
@@ -3300,7 +3300,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.113.2"
+version = "0.113.4"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3484,7 +3484,7 @@ version = "0.24.1"
 
 [[package]]
 name = "swc_stylis"
-version = "0.76.0"
+version = "0.77.0"
 dependencies = [
  "swc_atoms",
  "swc_common",

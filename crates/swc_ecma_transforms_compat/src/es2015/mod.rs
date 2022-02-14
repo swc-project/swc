@@ -50,8 +50,8 @@ where
     chain!(
         block_scoped_functions(),
         template_literal(c.template_literal),
-        new_target(),
         classes(comments),
+        new_target(),
         spread(c.spread),
         // https://github.com/Microsoft/TypeScript/issues/5441
         Optional::new(object_super(), !c.typescript),
@@ -386,6 +386,24 @@ return new B(20).print()"
             ]);
             return _class;
         }());
+        "
+    );
+
+    test_exec!(
+        ::swc_ecma_parser::Syntax::default(),
+        |t| es2015(
+            Mark::fresh(Mark::root()),
+            Some(t.comments.clone()),
+            Default::default()
+        ),
+        issue_2682,
+        "class MyObject extends null {
+            constructor() {
+              return Object.create(new.target.prototype);
+            }
+          }
+        var obj = new MyObject();
+        expect(obj.constructor).toBe(MyObject);
         "
     );
 }

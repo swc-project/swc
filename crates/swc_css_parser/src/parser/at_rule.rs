@@ -1512,7 +1512,6 @@ where
         let ctx = Ctx {
             in_page_at_rule: true,
             grammar: Grammar::DeclarationList,
-            ..self.ctx
         };
         let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
