@@ -489,7 +489,6 @@ fn t(src: &str, expected: &str) {
         let props: Vec<DeclarationBlockItem> = parse_file(
             &fm,
             ParserConfig {
-                parse_values: true,
                 ..Default::default()
             },
             &mut errors,
