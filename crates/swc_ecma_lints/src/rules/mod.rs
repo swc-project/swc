@@ -89,6 +89,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         rules.extend(no_empty_pattern::no_empty_pattern(
             &lint_config.no_empty_pattern,
         ));
+
         rules.extend(eqeqeq::eqeqeq(&lint_config.eqeqeq));
     }
 
