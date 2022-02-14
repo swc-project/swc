@@ -1352,7 +1352,7 @@ where
                     if usage.ref_count != 1 {
                         return Ok(false);
                     }
-                    if usage.reassigned() || !usage.is_fn_local {
+                    if usage.reassigned() {
                         return Ok(false);
                     }
                     if usage.inline_prevented {
