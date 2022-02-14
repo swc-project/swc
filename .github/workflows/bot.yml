@@ -1,0 +1,13 @@
+name: SWC Bot
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0,30 * * * *"
+
+jobs:
+  auto-rebase:
+    name: Auto rebase
+    runs-on: ubuntu-latest
