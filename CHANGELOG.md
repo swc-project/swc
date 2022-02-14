@@ -7,11 +7,74 @@
 
 - **(es/compat)** Allow destructuring assignment to an object property (#3544) ([5802b62](https://github.com/swc-project/swc/commit/5802b62e3486b0fba176533fcd2998f47c60910d))
 
+
+- **(es/compat)** Fix destructing of `const` (#3545) ([342c320](https://github.com/swc-project/swc/commit/342c320bfa1f43f25262c0ba403a51df8228c655))
+
+
+- **(es/compat)** Apply `new.target` before `classes` (#3555) ([f1c7394](https://github.com/swc-project/swc/commit/f1c7394d10d624009549ec24de8c79b08594cfd4))
+
+
+- **(es/compat)** Handle arrow parameters in class fields (#3556) ([45b44b0](https://github.com/swc-project/swc/commit/45b44b088cf0c0964232b66bb4b7b5f9e539623d))
+
+
+- **(es/compat)** Fix handling of constructor in `classes` (#3505) ([0b16210](https://github.com/swc-project/swc/commit/0b162102fad75a364121b51a94fc36a7f8872259))
+
+
+- **(es/minifier)** Fix analyzer (#3557) ([ac1d405](https://github.com/swc-project/swc/commit/ac1d4058f276693f52d5ccec5ccbb4c04f62bc9f))
+
+### Documentation
+
+
+
+- **(plugin)** Fix typo (#3547) ([3fc16cd](https://github.com/swc-project/swc/commit/3fc16cdc1c69a5ee0ecb506e3a3c496c51e52756))
+
 ### Features
 
 
 
+- **(css/ast)** Add `;` to delimiters (#3551) ([da36e90](https://github.com/swc-project/swc/commit/da36e90d1ee6ca479826ef379fbf0562cdc02ee5))
+
+
+- **(css/ast)** Use correct type for `calc` (#3549) ([b311ace](https://github.com/swc-project/swc/commit/b311aced89dbbcb1605312e3ad5b0715e437bcd8))
+
+
 - **(es/lints)** Add this handling support to `no-alert` rule (#3515) ([af82006](https://github.com/swc-project/swc/commit/af8200647bb5f96525bcf3333c7c6889fe69dd5d))
+
+
+- **(es/lints)** Add `allow` config for `no-console` rule (#3517) ([286b6c8](https://github.com/swc-project/swc/commit/286b6c804fc9f4b12065eb848be56d0a58230cf2))
+
+
+- **(es/lints)** Implement `eqeqeq` rule (#3513) ([8d92050](https://github.com/swc-project/swc/commit/8d92050f557690bca6f695bbae173876fd9e53a2))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Add a bot for auto-rebasing (#3560) ([b1fc7a9](https://github.com/swc-project/swc/commit/b1fc7a9e3446240e4615a50517e4a13c50c05f4e))
+
+
+- **(ci)** Remove useless tests from the matrix (#3561) ([47a81bd](https://github.com/swc-project/swc/commit/47a81bdb95e11e577afd35c854939151bb8bd668))
+
+### Performance
+
+
+
+- **(es/optimization)** Replace `map_with_mut` with proper implementation (#3539) ([6d132ca](https://github.com/swc-project/swc/commit/6d132ca0765a46b39a6844b7de2e7f2655f7dd1b))
+
+### Refactor
+
+
+
+- **(css/ast)** Rename tokens to match spec (#3553) ([aed622b](https://github.com/swc-project/swc/commit/aed622be2f8f73581ce72f5263ad2b61a7b04ea7))
+
+
+- **(css/parser)** Remove `parse_values`, which is not used (#3552) ([d5aee47](https://github.com/swc-project/swc/commit/d5aee470cb6ea1e25057a5a36f0a19274c1f42b3))
+
+### Testing
+
+
+
+- **(css/parser)** Add a test for a custom function name (#3554) ([f252dfb](https://github.com/swc-project/swc/commit/f252dfb885b904ef8386f2004c359a1a2f43b63e))
 
 ## [1.2.139] - 2022-02-12
 

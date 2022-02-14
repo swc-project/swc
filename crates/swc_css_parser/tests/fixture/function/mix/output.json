@@ -1,0 +1,332 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 176,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 0,
+        "end": 175,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 0,
+          "end": 3,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 0,
+              "end": 3,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 0,
+                  "end": 3,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": {
+                  "type": "TagNameSelector",
+                  "span": {
+                    "start": 0,
+                    "end": 3,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "WqName",
+                    "span": {
+                      "start": 0,
+                      "end": 3,
+                      "ctxt": 0
+                    },
+                    "prefix": null,
+                    "value": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 0,
+                        "end": 3,
+                        "ctxt": 0
+                      },
+                      "value": "div",
+                      "raw": "div"
+                    }
+                  }
+                },
+                "subclassSelectors": []
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 4,
+          "end": 175,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 102,
+              "end": 141,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 102,
+                "end": 109,
+                "ctxt": 0
+              },
+              "value": "opacity",
+              "raw": "opacity"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 111,
+                  "end": 141,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 111,
+                    "end": 114,
+                    "ctxt": 0
+                  },
+                  "value": "mix",
+                  "raw": "mix"
+                },
+                "value": [
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 116,
+                      "end": 119,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 116,
+                        "end": 118,
+                        "ctxt": 0
+                      },
+                      "value": 70.0,
+                      "raw": "70"
+                    }
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 120,
+                      "end": 122,
+                      "ctxt": 0
+                    },
+                    "value": "by",
+                    "raw": "by"
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 123,
+                      "end": 127,
+                      "ctxt": 0
+                    },
+                    "value": "ease",
+                    "raw": "ease"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 128,
+                      "end": 129,
+                      "ctxt": 0
+                    },
+                    "value": ";"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 130,
+                      "end": 132,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 130,
+                        "end": 131,
+                        "ctxt": 0
+                      },
+                      "value": 0.0,
+                      "raw": "0"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 133,
+                      "end": 134,
+                      "ctxt": 0
+                    },
+                    "value": ";"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 135,
+                      "end": 139,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 135,
+                        "end": 138,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 147,
+              "end": 172,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 147,
+                "end": 154,
+                "ctxt": 0
+              },
+              "value": "opacity",
+              "raw": "opacity"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 156,
+                  "end": 172,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 156,
+                    "end": 159,
+                    "ctxt": 0
+                  },
+                  "value": "mix",
+                  "raw": "mix"
+                },
+                "value": [
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 160,
+                      "end": 163,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 160,
+                        "end": 162,
+                        "ctxt": 0
+                      },
+                      "value": 70.0,
+                      "raw": "70"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 163,
+                      "end": 164,
+                      "ctxt": 0
+                    },
+                    "value": ";"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 164,
+                      "end": 166,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 164,
+                        "end": 165,
+                        "ctxt": 0
+                      },
+                      "value": 0.0,
+                      "raw": "0"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 166,
+                      "end": 167,
+                      "ctxt": 0
+                    },
+                    "value": ";"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 167,
+                      "end": 171,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 167,
+                        "end": 170,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    }
+  ]
+}

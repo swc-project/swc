@@ -48,12 +48,12 @@ pub enum Token {
         raw: JsWord,
     },
 
-    Str {
+    String {
         value: JsWord,
         raw: JsWord,
     },
 
-    BadStr {
+    BadString {
         value: JsWord,
         raw: JsWord,
     },
@@ -79,7 +79,7 @@ pub enum Token {
         value: char,
     },
 
-    Num {
+    Number {
         value: f64,
         raw: JsWord,
         #[serde(rename = "type")]

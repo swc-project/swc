@@ -166,7 +166,7 @@ error: Value
 3 | @unknown "blah";
   |          ^^^^^^
 
-error: Str { value: Atom('blah' type=inline), raw: Atom('"blah"' type=inline) }
+error: String { value: Atom('blah' type=inline), raw: Atom('"blah"' type=inline) }
  --> $DIR/tests/fixture/at-rule/unknown/input.css:3:10
   |
 3 | @unknown "blah";

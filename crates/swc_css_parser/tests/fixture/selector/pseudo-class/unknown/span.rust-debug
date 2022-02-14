@@ -928,7 +928,7 @@ error: Ident
 12 | :unknown("string") {}
    |  ^^^^^^^
 
-error: Str { value: Atom('string' type=static), raw: Atom('"string"' type=dynamic) }
+error: String { value: Atom('string' type=static), raw: Atom('"string"' type=dynamic) }
   --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:10
    |
 12 | :unknown("string") {}
@@ -988,7 +988,7 @@ error: Ident
 13 | :unknown("string", foo) {}
    |  ^^^^^^^
 
-error: Str { value: Atom('string' type=static), raw: Atom('"string"' type=dynamic) }
+error: String { value: Atom('string' type=static), raw: Atom('"string"' type=dynamic) }
   --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:10
    |
 13 | :unknown("string", foo) {}
@@ -1066,7 +1066,7 @@ error: Ident
 14 | :unknown('string') {}
    |  ^^^^^^^
 
-error: Str { value: Atom('string' type=static), raw: Atom(''string'' type=dynamic) }
+error: String { value: Atom('string' type=static), raw: Atom(''string'' type=dynamic) }
   --> $DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:10
    |
 14 | :unknown('string') {}

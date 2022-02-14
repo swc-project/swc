@@ -843,7 +843,7 @@
                           "ctxt": 0
                         },
                         "token": {
-                          "Str": {
+                          "String": {
                             "value": "submit",
                             "raw": "'submit'"
                           }
@@ -1016,7 +1016,7 @@
                           "ctxt": 0
                         },
                         "token": {
-                          "Num": {
+                          "Number": {
                             "value": 5.0,
                             "raw": "5",
                             "type": "integer"
@@ -1119,7 +1119,7 @@
                           "ctxt": 0
                         },
                         "token": {
-                          "Num": {
+                          "Number": {
                             "value": 6.0,
                             "raw": "6",
                             "type": "integer"

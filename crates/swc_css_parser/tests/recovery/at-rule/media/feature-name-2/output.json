@@ -63,7 +63,7 @@
                 "ctxt": 0
               },
               "token": {
-                "Str": {
+                "String": {
                   "value": "string",
                   "raw": "\"string\""
                 }

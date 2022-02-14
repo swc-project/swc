@@ -15,6 +15,7 @@ mod utils;
 #[path = ""]
 pub(crate) mod non_critical_lints {
     pub mod dot_notation;
+    pub mod eqeqeq;
     pub mod no_alert;
     pub mod no_console;
     pub mod no_debugger;
@@ -88,6 +89,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         rules.extend(no_empty_pattern::no_empty_pattern(
             &lint_config.no_empty_pattern,
         ));
+        rules.extend(eqeqeq::eqeqeq(&lint_config.eqeqeq));
     }
 
     rules

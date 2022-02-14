@@ -94,8 +94,8 @@ var SomeBaseClass = function() {
     });
     function SomeDerivedClass() {
         _classCallCheck(this, SomeDerivedClass);
-        var _thisSuper, _this = _super.call(this);
-        return _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(SomeDerivedClass.prototype)), "func", _thisSuper).call(_thisSuper), _this;
+        var _this = _super.call(this);
+        return _get((_assertThisInitialized(_this), _getPrototypeOf(SomeDerivedClass.prototype)), "func", _this).call(_this), _this;
     }
     return _createClass(SomeDerivedClass, [
         {

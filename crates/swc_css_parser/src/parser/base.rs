@@ -65,7 +65,7 @@ where
                 // <at-keyword-token>
                 // Reconsume the current input token. Consume an at-rule, and append the returned
                 // value to the list of rules.
-                Token::AtKeyword { .. } => {
+                tok!("@") => {
                     rules.push(Rule::AtRule(self.parse_at_rule(Default::default())?));
                 }
                 // anything else
@@ -223,43 +223,36 @@ where
                 // anything else
                 // Reconsume the current input token. Consume a component value and append it to the
                 // value of the block.
-                _ => {
-                    match self.ctx.grammar {
-                        Grammar::DeclarationList => {
-                            let declaration_list: Vec<DeclarationBlockItem> = self.parse()?;
-                            let declaration_list: Vec<ComponentValue> = declaration_list
-                                .into_iter()
-                                .map(ComponentValue::DeclarationBlockItem)
-                                .collect();
+                _ => match self.ctx.grammar {
+                    Grammar::DeclarationList => {
+                        let declaration_list: Vec<DeclarationBlockItem> = self.parse()?;
+                        let declaration_list: Vec<ComponentValue> = declaration_list
+                            .into_iter()
+                            .map(ComponentValue::DeclarationBlockItem)
+                            .collect();
 
-                            simple_block.value.extend(declaration_list);
-                        }
-                        Grammar::DeclarationValue => {
-                            let state = self.input.state();
-                            let ctx = Ctx {
-                                // TODO refactor me
-                                allow_operation_in_value: name == '(',
-                                ..self.ctx
-                            };
-                            let parsed = self.with_ctx(ctx).parse_one_value_inner();
-                            let value = match parsed {
-                                Ok(value) => {
-                                    self.input.skip_ws()?;
-
-                                    value
-                                }
-                                Err(err) => {
-                                    self.errors.push(err);
-                                    self.input.reset(&state);
-
-                                    self.parse_component_value()?
-                                }
-                            };
-
-                            simple_block.value.push(ComponentValue::Value(value));
-                        }
+                        simple_block.value.extend(declaration_list);
                     }
-                }
+                    Grammar::DeclarationValue => {
+                        let state = self.input.state();
+                        let parsed = self.parse_one_value_inner();
+                        let value = match parsed {
+                            Ok(value) => {
+                                self.input.skip_ws()?;
+
+                                value
+                            }
+                            Err(err) => {
+                                self.errors.push(err);
+                                self.input.reset(&state);
+
+                                self.parse_component_value()?
+                            }
+                        };
+
+                        simple_block.value.push(ComponentValue::Value(value));
+                    }
+                },
             }
         }
 
@@ -288,12 +281,12 @@ where
                 tok!(";") => {
                     bump!(self);
                 }
-                Token::AtKeyword { .. } => {
+                tok!("@") => {
                     declarations.push(DeclarationBlockItem::AtRule(
                         self.parse_at_rule(Default::default())?,
                     ));
                 }
-                Token::Ident { .. } => {
+                tok!("ident") => {
                     let state = self.input.state();
                     let span = self.input.cur_span()?;
                     let prop = match self.parse().map(DeclarationBlockItem::Declaration) {
@@ -399,13 +392,8 @@ where
                             break;
                         }
 
-                        let ctx = Ctx {
-                            allow_operation_in_value: false,
-                            ..self.ctx
-                        };
-
                         let state = self.input.state();
-                        let parsed = self.with_ctx(ctx).parse_one_value_inner();
+                        let parsed = self.parse_one_value_inner();
                         let value_or_token = match parsed {
                             Ok(value) => value,
                             Err(err) => {

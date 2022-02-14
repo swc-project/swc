@@ -1,0 +1,5 @@
+div {
+    prod: fn(100px);
+    prod: --fn(100px);
+    prod: --fn--fn(100px);
+}

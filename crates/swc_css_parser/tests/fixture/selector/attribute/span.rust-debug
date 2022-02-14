@@ -3250,7 +3250,7 @@ error: Delim { value: '=' }
 41 | :not([foo=")"]) {}
    |          ^
 
-error: Str { value: Atom(')' type=inline), raw: Atom('")"' type=inline) }
+error: String { value: Atom(')' type=inline), raw: Atom('")"' type=inline) }
   --> $DIR/tests/fixture/selector/attribute/input.css:41:11
    |
 41 | :not([foo=")"]) {}

@@ -2147,6 +2147,18 @@ where
 {
     noop_visit_type!();
 
+    fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
+        let old = self.is_pat_decl;
+
+        for p in &n.params {
+            self.is_pat_decl = true;
+            p.visit_with(self);
+        }
+
+        n.body.visit_with(self);
+        self.is_pat_decl = old;
+    }
+
     fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
         node.value.visit_with(self);
 

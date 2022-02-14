@@ -45,6 +45,7 @@ impl Storage for ProgramData {
                     e.get_mut().mutated |= var_info.mutated;
 
                     e.get_mut().has_property_access |= var_info.has_property_access;
+                    e.get_mut().has_property_mutation |= var_info.has_property_mutation;
                     e.get_mut().exported |= var_info.exported;
 
                     e.get_mut().declared |= var_info.declared;
@@ -72,6 +73,10 @@ impl Storage for ProgramData {
 
                     e.get_mut().used_as_callee |= var_info.used_as_callee;
                     e.get_mut().used_as_arg |= var_info.used_as_arg;
+
+                    if !var_info.is_fn_local {
+                        e.get_mut().is_fn_local = false;
+                    }
 
                     match kind {
                         ScopeKind::Fn => {

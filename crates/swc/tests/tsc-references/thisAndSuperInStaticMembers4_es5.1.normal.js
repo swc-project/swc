@@ -99,12 +99,12 @@ var C = /*#__PURE__*/ function(B) {
     var _super = _createSuper(C);
     function C() {
         _classCallCheck(this, C);
-        var _thisSuper, _this;
+        var _this;
         _this = _super.apply(this, arguments);
         // these should be unaffected
         _this.x = 1;
         _this.y = _this.x;
-        _this.z = _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(C.prototype)), "f", _thisSuper).call(_thisSuper);
+        _this.z = _get((_assertThisInitialized(_this), _getPrototypeOf(C.prototype)), "f", _this).call(_this);
         return _this;
     }
     return C;
