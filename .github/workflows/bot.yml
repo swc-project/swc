@@ -1,13 +1,11 @@
 name: SWC Bot
 
-# on:
-#   push:
-#     branches:
-#       - main
-#   schedule:
-#     - cron: "0,30 * * * *"
-
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0,30 * * * *"
 
 jobs:
   auto-rebase:
@@ -16,10 +14,9 @@ jobs:
     concurrency: swc-bot-auto-rebase
     steps:
       - uses: actions/checkout@v2
-        # This breaks CI
-        # with:
-        #   repository: "swc-project/swc"
-        #   ref: "main"
+        with:
+          repository: "swc-project/swc"
+          ref: "main"
 
       - uses: actions/setup-node@v2
         with:

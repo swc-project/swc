@@ -14,11 +14,10 @@ const repo = 'swc';
 
     console.log(`Latest commit message: ${latestCommitMessage}`);
 
-    // TODO: Enable this before merging.
-    // if (!latestCommitMessage.startsWith("test(") && !latestCommitMessage.startsWith("chore:")) {
-    //     console.log(`Auto rebase script cannot work because the latest commit may require a version bump`);
-    //     return;
-    // }
+    if (!latestCommitMessage.startsWith("test(") && !latestCommitMessage.startsWith("chore:")) {
+        console.log(`Auto rebase script cannot work because the latest commit may require a version bump`);
+        return;
+    }
 
     const allPrs = await octokit.rest.pulls.list({
         owner,
