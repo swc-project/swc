@@ -16,9 +16,14 @@ jobs:
     concurrency: swc-bot-auto-rebase
     steps:
       - uses: actions/checkout@v2
+        with:
+          repository: "swc-project/swc"
+          ref: "main"
+
       - uses: actions/setup-node@v2
         with:
           node-version: "16"
+
       - name: Install dependencies
         working-directory: scripts/bot
         run: |
