@@ -1862,6 +1862,47 @@ constructor() {
 
 test!(
     syntax(),
+    |_| parameters(Default::default()),
+    issue_3471,
+    "
+class A {
+  a = 1 + ((...a) => a)
+  b = (...b) => b + this 
+  static c = (c = 123) => c + this 
+}
+  ",
+    "
+var _this = this;
+
+class A {
+  a = 1 + function () {
+    for (var _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++) {
+      a[_key] = arguments[_key];
+    }
+
+    return a;
+  };
+  b = (() => {
+    var _this1 = this;
+
+    return function () {
+      for (var _len = arguments.length, b = new Array(_len), _key = 0; _key < _len; _key++) {
+        b[_key] = arguments[_key];
+      }
+
+      return b + _this1;
+    };
+  })();
+  static c = function () {
+    let c = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 123;
+    return c + _this;
+  };
+}
+  "
+);
+
+test!(
+    syntax(),
     |_| tr(Config {
         ignore_function_length: true
     }),
