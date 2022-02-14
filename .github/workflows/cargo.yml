@@ -75,7 +75,7 @@ jobs:
       - name: Run cargo check for all targets
         run: cargo check --color always --all --all-targets
   test:
-    name: Test
+    name: Test - ${{ matrix.settings.crate }} - ${{ matrix.settings.os }}
     runs-on: ${{ matrix.settings.os }}
     strategy:
       fail-fast: false
