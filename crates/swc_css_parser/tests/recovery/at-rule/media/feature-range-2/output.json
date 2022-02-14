@@ -119,7 +119,7 @@
                 "ctxt": 0
               },
               "token": {
-                "Str": {
+                "String": {
                   "value": "width",
                   "raw": "\"width\""
                 }

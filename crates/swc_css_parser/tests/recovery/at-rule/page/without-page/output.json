@@ -104,7 +104,7 @@
               "ctxt": 0
             },
             "token": {
-              "Str": {
+              "String": {
                 "value": "foo",
                 "raw": "\"foo\""
               }

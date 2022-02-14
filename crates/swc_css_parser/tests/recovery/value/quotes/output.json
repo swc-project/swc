@@ -125,7 +125,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "BadStr": {
+                  "BadString": {
                     "value": "tes",
                     "raw": "\"tes"
                   }
@@ -149,7 +149,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "BadStr": {
+                  "BadString": {
                     "value": ";",
                     "raw": "\";"
                   }

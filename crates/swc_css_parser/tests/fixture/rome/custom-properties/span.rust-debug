@@ -107,7 +107,7 @@ error: Value
 2 |     --foo: 'bar';
   |            ^^^^^
 
-error: Str { value: Atom('bar' type=inline), raw: Atom(''bar'' type=inline) }
+error: String { value: Atom('bar' type=inline), raw: Atom(''bar'' type=inline) }
  --> $DIR/tests/fixture/rome/custom-properties/input.css:2:9
   |
 2 |     --foo: 'bar';
@@ -137,7 +137,7 @@ error: Value
 3 |     --lore-ipsum: "foo";
   |                   ^^^^^
 
-error: Str { value: Atom('foo' type=inline), raw: Atom('"foo"' type=inline) }
+error: String { value: Atom('foo' type=inline), raw: Atom('"foo"' type=inline) }
  --> $DIR/tests/fixture/rome/custom-properties/input.css:3:16
   |
 3 |     --lore-ipsum: "foo";
@@ -167,7 +167,7 @@ error: Value
 4 |     --FANCY: "abort";
   |              ^^^^^^^
 
-error: Str { value: Atom('abort' type=inline), raw: Atom('"abort"' type=inline) }
+error: String { value: Atom('abort' type=inline), raw: Atom('"abort"' type=inline) }
  --> $DIR/tests/fixture/rome/custom-properties/input.css:4:11
   |
 4 |     --FANCY: "abort";
@@ -197,7 +197,7 @@ error: Value
 5 |     --test: 1987;
   |             ^^^^
 
-error: Num { value: 1987.0, raw: Atom('1987' type=inline), type_flag: Integer }
+error: Number { value: 1987.0, raw: Atom('1987' type=inline), type_flag: Integer }
  --> $DIR/tests/fixture/rome/custom-properties/input.css:5:10
   |
 5 |     --test: 1987;
@@ -257,7 +257,7 @@ error: Value
 7 |     --number: 37;
   |               ^^
 
-error: Num { value: 37.0, raw: Atom('37' type=inline), type_flag: Integer }
+error: Number { value: 37.0, raw: Atom('37' type=inline), type_flag: Integer }
  --> $DIR/tests/fixture/rome/custom-properties/input.css:7:12
   |
 7 |     --number: 37;

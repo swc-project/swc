@@ -1214,7 +1214,7 @@ where
             Token::RBracket => {
                 punct!(self, span, "]");
             }
-            Token::Num { raw, .. } => {
+            Token::Number { raw, .. } => {
                 self.wr.write_raw(Some(span), raw)?;
             }
             Token::Percentage { raw, .. } => {
@@ -1236,10 +1236,10 @@ where
                 self.wr.write_raw(Some(n.span), raw)?;
                 punct!(self, "(");
             }
-            Token::BadStr { raw, .. } => {
+            Token::BadString { raw, .. } => {
                 self.wr.write_raw(Some(span), raw)?;
             }
-            Token::Str { raw, .. } => {
+            Token::String { raw, .. } => {
                 self.wr.write_raw(Some(span), raw)?;
             }
             Token::Url {
@@ -1321,7 +1321,7 @@ where
                 Token::RBracket => {
                     punct!(self, span, "]");
                 }
-                Token::Num { raw, .. } => {
+                Token::Number { raw, .. } => {
                     self.wr.write_raw(Some(span), raw)?;
                 }
                 Token::Percentage { raw, .. } => {
@@ -1343,10 +1343,10 @@ where
                     self.wr.write_raw(Some(n.span), raw)?;
                     punct!(self, "(");
                 }
-                Token::BadStr { raw, .. } => {
+                Token::BadString { raw, .. } => {
                     self.wr.write_raw(Some(span), raw)?;
                 }
-                Token::Str { raw, .. } => {
+                Token::String { raw, .. } => {
                     self.wr.write_raw(Some(span), raw)?;
                 }
                 Token::Url {

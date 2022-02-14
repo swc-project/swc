@@ -140,7 +140,7 @@
             "ctxt": 0
           },
           "token": {
-            "Str": {
+            "String": {
               "value": "blah",
               "raw": "\"blah\""
             }
