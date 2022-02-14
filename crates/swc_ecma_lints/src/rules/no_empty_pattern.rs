@@ -68,6 +68,9 @@ impl NoEmptyPattern {
                     }
                 });
             }
+            Pat::Rest(RestPat { arg, .. }) => {
+                self.check(arg.as_ref());
+            }
             _ => {}
         }
     }
@@ -80,11 +83,17 @@ impl Visit for NoEmptyPattern {
         self.check(&var_declarator.name);
     }
 
-    fn visit_function(&mut self, function: &Function) {
-        function.params.iter().for_each(|Param { pat, .. }| {
-            self.check(pat);
-        });
+    fn visit_param(&mut self, param: &Param) {
+        self.check(&param.pat);
 
-        function.visit_children_with(self);
+        param.visit_children_with(self);
+    }
+
+    fn visit_catch_clause(&mut self, catch_clause: &CatchClause) {
+        if let Some(param) = &catch_clause.param {
+            self.check(param);
+        }
+
+        catch_clause.visit_children_with(self);
     }
 }
