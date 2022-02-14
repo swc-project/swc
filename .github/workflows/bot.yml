@@ -16,9 +16,10 @@ jobs:
     concurrency: swc-bot-auto-rebase
     steps:
       - uses: actions/checkout@v2
-        with:
-          repository: "swc-project/swc"
-          ref: "main"
+        # This breaks CI
+        # with:
+        #   repository: "swc-project/swc"
+        #   ref: "main"
 
       - uses: actions/setup-node@v2
         with:
