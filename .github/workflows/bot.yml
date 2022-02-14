@@ -15,5 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     concurrency: swc-bot-auto-rebase
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - name: Rebase a PR
+        working-directory: scripts/bot
+        run: |
+          yarn
+          npx ts-node src/auto-rebase.ts
