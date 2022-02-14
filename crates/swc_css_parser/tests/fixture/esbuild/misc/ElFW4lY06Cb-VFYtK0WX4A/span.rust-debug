@@ -40,6 +40,12 @@ error: Ident
 1 | @-moz-document url-prefix() { h1 { color: green } }
   |                ^^^^^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:29
+  |
+1 | @-moz-document url-prefix() { h1 { color: green } }
+  |                             ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Rule
  --> $DIR/tests/fixture/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:31
   |

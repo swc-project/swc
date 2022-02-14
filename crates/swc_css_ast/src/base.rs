@@ -44,6 +44,8 @@ pub enum ComponentValue {
     Value(Value),
     #[tag("DeclarationBlockItem")]
     DeclarationBlockItem(DeclarationBlockItem),
+    #[tag("Rule")]
+    Rule(Rule),
 }
 
 #[ast_node]
