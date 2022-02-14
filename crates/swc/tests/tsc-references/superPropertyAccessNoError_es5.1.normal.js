@@ -147,9 +147,8 @@ var SomeDerivedClass = /*#__PURE__*/ function(SomeBaseClass) {
     var _super = _createSuper(SomeDerivedClass);
     function SomeDerivedClass() {
         _classCallCheck(this, SomeDerivedClass);
-        var _thisSuper;
         var _this = _super.call(this);
-        var x = _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(SomeDerivedClass.prototype)), "func", _thisSuper).call(_thisSuper);
+        var x = _get((_assertThisInitialized(_this), _getPrototypeOf(SomeDerivedClass.prototype)), "func", _this).call(_this);
         var x;
         return _this;
     }

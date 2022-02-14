@@ -739,7 +739,6 @@ impl Take for ParenExpr {
 }
 
 #[ast_node]
-#[allow(variant_size_differences)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Callee {
