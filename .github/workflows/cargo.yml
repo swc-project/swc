@@ -75,101 +75,175 @@ jobs:
       - name: Run cargo check for all targets
         run: cargo check --color always --all --all-targets
   test:
-    name: Test
-    runs-on: ${{ matrix.os }}
+    name: Test - ${{ matrix.settings.crate }} - ${{ matrix.settings.os }}
+    runs-on: ${{ matrix.settings.os }}
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - ubuntu-latest
-          # - macos-10.15
-          - windows-latest
-        crate:
-          - ast_node
-          - enum_kind
-          - from_variant
-          - jsdoc
-          - node
-          - string_enum
-          - swc
-          - swc_atoms
-          - swc_bundler
-          - swc_cli
-          - swc_common
-          - swc_css
-          - swc_css_ast
-          - swc_css_codegen
-          - swc_css_codegen_macros
-          - swc_css_minifier
-          - swc_css_parser
-          - swc_css_utils
-          - swc_css_visit
-          - swc_ecma_ast
-          - swc_ecma_codegen
-          - swc_ecma_codegen_macros
-          - swc_ecma_dep_graph
-          - swc_ecma_ext_transforms
-          - swc_ecma_lints
-          - swc_ecma_loader
-          - swc_ecma_minifier
-          - swc_ecma_parser
-          - swc_ecma_preset_env
-          - swc_ecma_transforms
-          - swc_ecma_transforms_base
-          - swc_ecma_transforms_classes
-          - swc_ecma_transforms_compat
-          - swc_ecma_transforms_macros
-          - swc_ecma_transforms_module
-          - swc_ecma_transforms_optimization
-          - swc_ecma_transforms_proposal
-          - swc_ecma_transforms_react
-          - swc_ecma_transforms_testing
-          - swc_ecma_transforms_typescript
-          - swc_ecma_utils
-          - swc_ecma_visit
-          - swc_ecmascript
-          - swc_eq_ignore_macros
-          - swc_estree_ast
-          - swc_estree_compat
-          - swc_fast_graph
-          - swc_graph_analyzer
-          - swc_macros_common
-          - swc_node_base
-          - swc_node_bundler
-          - swc_node_comments
-          - swc_plugin
-          - swc_plugin_runner
-          - swc_plugin_testing
-          - swc_stylis
-          - swc_timer
-          - swc_visit
-          - swc_visit_macros
-          - swc_webpack_ast
-          - testing
-          - testing_macros
-          - wasm
-        exclude:
-          - os: windows-latest
-            crate: swc_node_bundler
-
-          - os: windows-latest
-            crate: swc_ecma_utils
-
-          - os: windows-latest
-            crate: swc_ecma_visit
-
-          - os: windows-latest
-            crate: swc_visit
-
-          - os: windows-latest
-            crate: swc_visit_macros
-
-          - os: windows-latest
-            crate: testing_macros
-
-        include:
-          - os: macos-latest
-            crate: swc_plugin_runner
+        settings:
+          # Use scripts/github/create-matrix.sh to create this.
+          - crate: ast_node
+            os: ubuntu-latest
+          - crate: enum_kind
+            os: ubuntu-latest
+          - crate: from_variant
+            os: ubuntu-latest
+          - crate: jsdoc
+            os: ubuntu-latest
+          - crate: node
+            os: ubuntu-latest
+          - crate: node_macro_deps
+            os: ubuntu-latest
+          - crate: string_enum
+            os: ubuntu-latest
+          - crate: swc
+            os: ubuntu-latest
+          - crate: swc
+            os: windows-latest
+          - crate: swc_atoms
+            os: ubuntu-latest
+          - crate: swc_bundler
+            os: ubuntu-latest
+          - crate: swc_cli
+            os: ubuntu-latest
+          - crate: swc_cli
+            os: windows-latest
+          - crate: swc_common
+            os: ubuntu-latest
+          - crate: swc_common
+            os: windows-latest
+          - crate: swc_css
+            os: ubuntu-latest
+          - crate: swc_css_ast
+            os: ubuntu-latest
+          - crate: swc_css_codegen
+            os: ubuntu-latest
+          - crate: swc_css_codegen
+            os: windows-latest
+          - crate: swc_css_codegen_macros
+            os: ubuntu-latest
+          - crate: swc_css_minifier
+            os: ubuntu-latest
+          - crate: swc_css_parser
+            os: ubuntu-latest
+          - crate: swc_css_parser
+            os: windows-latest
+          - crate: swc_css_utils
+            os: ubuntu-latest
+          - crate: swc_css_visit
+            os: ubuntu-latest
+          - crate: swc_ecma_ast
+            os: ubuntu-latest
+          - crate: swc_ecma_codegen
+            os: ubuntu-latest
+          - crate: swc_ecma_codegen
+            os: windows-latest
+          - crate: swc_ecma_codegen_macros
+            os: ubuntu-latest
+          - crate: swc_ecma_dep_graph
+            os: ubuntu-latest
+          - crate: swc_ecma_ext_transforms
+            os: ubuntu-latest
+          - crate: swc_ecma_lints
+            os: ubuntu-latest
+          - crate: swc_ecma_loader
+            os: ubuntu-latest
+          - crate: swc_ecma_loader
+            os: windows-latest
+          - crate: swc_ecma_minifier
+            os: ubuntu-latest
+          - crate: swc_ecma_parser
+            os: ubuntu-latest
+          - crate: swc_ecma_parser
+            os: windows-latest
+          - crate: swc_ecma_preset_env
+            os: ubuntu-latest
+          - crate: swc_ecma_preset_env
+            os: windows-latest
+          - crate: swc_ecma_transforms
+            os: ubuntu-latest
+          - crate: swc_ecma_transforms_base
+            os: ubuntu-latest
+          - crate: swc_ecma_transforms_classes
+            os: ubuntu-latest
+          - crate: swc_ecma_transforms_compat
+            os: ubuntu-latest
+          - crate: swc_ecma_transforms_macros
+            os: ubuntu-latest
+          - crate: swc_ecma_transforms_module
+            os: ubuntu-latest
+          - crate: swc_ecma_transforms_module
+            os: windows-latest
+          - crate: swc_ecma_transforms_optimization
+            os: ubuntu-latest
+          - crate: swc_ecma_transforms_proposal
+            os: ubuntu-latest
+          - crate: swc_ecma_transforms_react
+            os: ubuntu-latest
+          - crate: swc_ecma_transforms_testing
+            os: ubuntu-latest
+          - crate: swc_ecma_transforms_testing
+            os: windows-latest
+          - crate: swc_ecma_transforms_typescript
+            os: ubuntu-latest
+          - crate: swc_ecma_utils
+            os: ubuntu-latest
+          - crate: swc_ecma_visit
+            os: ubuntu-latest
+          - crate: swc_ecmascript
+            os: ubuntu-latest
+          - crate: swc_eq_ignore_macros
+            os: ubuntu-latest
+          - crate: swc_estree_ast
+            os: ubuntu-latest
+          - crate: swc_estree_compat
+            os: ubuntu-latest
+          - crate: swc_fast_graph
+            os: ubuntu-latest
+          - crate: swc_graph_analyzer
+            os: ubuntu-latest
+          - crate: swc_macros_common
+            os: ubuntu-latest
+          - crate: swc_node_base
+            os: ubuntu-latest
+          - crate: swc_node_bundler
+            os: ubuntu-latest
+          - crate: swc_node_bundler
+            os: windows-latest
+          - crate: swc_node_comments
+            os: ubuntu-latest
+          - crate: swc_plugin
+            os: ubuntu-latest
+          - crate: swc_plugin
+            os: windows-latest
+          - crate: swc_plugin_macro
+            os: ubuntu-latest
+          - crate: swc_plugin_runner
+            os: ubuntu-latest
+          - crate: swc_plugin_runner
+            os: macos-latest
+          - crate: swc_plugin_runner
+            os: windows-latest
+          - crate: swc_plugin_testing
+            os: ubuntu-latest
+          - crate: swc_plugin_testing
+            os: windows-latest
+          - crate: swc_stylis
+            os: ubuntu-latest
+          - crate: swc_timer
+            os: ubuntu-latest
+          - crate: swc_visit
+            os: ubuntu-latest
+          - crate: swc_visit_macros
+            os: ubuntu-latest
+          - crate: swc_webpack_ast
+            os: ubuntu-latest
+          - crate: testing
+            os: ubuntu-latest
+          - crate: testing_macros
+            os: ubuntu-latest
+          - crate: wasm
+            os: ubuntu-latest
 
     steps:
       - name: Handle line endings
@@ -197,7 +271,7 @@ jobs:
           target: wasm32-wasi
 
       - uses: denoland/setup-deno@v1
-        if: matrix.crate == 'swc_bundler'
+        if: matrix.settings.crate == 'swc_bundler'
         with:
           deno-version: v1.x
 
@@ -229,22 +303,22 @@ jobs:
             ~/.cargo/
             target
             Cargo.lock
-          key: cargo-dev--${{ runner.os }}-${{ matrix.crate }}-${{ hashFiles('**/Cargo.lock') }}
+          key: cargo-dev--${{ runner.os }}-${{ matrix.settings.crate }}-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
-            cargo-dev--${{ runner.os }}-${{ matrix.crate }}
+            cargo-dev--${{ runner.os }}-${{ matrix.settings.crate }}
 
       - name: Run cargo test
         run: |
           jest -v && mocha --version
-          cargo test --color always -p ${{ matrix.crate }}
+          cargo test --color always -p ${{ matrix.settings.crate }}
 
       - name: Run cargo test (swc_ecma_parser)
-        if: matrix.crate == 'swc_ecma_parser'
+        if: matrix.settings.crate == 'swc_ecma_parser'
         run: |
           cargo test --color always -p swc_ecma_parser --features verify
 
       - name: Run cargo test (swc_ecma_transforms)
-        if: matrix.crate == 'swc_ecma_transforms'
+        if: matrix.settings.crate == 'swc_ecma_transforms'
         run: |
           cargo test --color always -p swc_ecma_transforms --all-features
 
@@ -252,10 +326,10 @@ jobs:
         if: runner.os != 'Windows'
         shell: bash
         run: |
-          ./scripts/ci/test-concurrent.sh ${{ matrix.crate }}
+          ./scripts/ci/test-concurrent.sh ${{ matrix.settings.crate }}
 
       - name: Run cargo test (swc, concurrent)
         shell: bash
-        if: matrix.crate == 'swc' && runner.os != 'Windows'
+        if: matrix.settings.crate == 'swc' && runner.os != 'Windows'
         run: |
           cargo test --color always -p swc --features concurrent
