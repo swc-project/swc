@@ -56,6 +56,13 @@ function _inherits(subClass, superClass) {
     });
     if (superClass) _setPrototypeOf(subClass, superClass);
 }
+function _instanceof(left, right) {
+    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
+        return right[Symbol.hasInstance](left);
+    } else {
+        return left instanceof right;
+    }
+}
 function _isNativeFunction(fn) {
     return Function.toString.call(fn).indexOf("[native code]") !== -1;
 }
@@ -126,7 +133,7 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var CustomError = /*#__PURE__*/ function(Error) {
+var CustomError = /*#__PURE__*/ function _target(Error) {
     "use strict";
     _inherits(CustomError, Error);
     var _super = _createSuper(CustomError);
@@ -134,7 +141,7 @@ var CustomError = /*#__PURE__*/ function(Error) {
         _classCallCheck(this, CustomError);
         var _this;
         _this = _super.call(this, message); // 'Error' breaks prototype chain here
-        Object.setPrototypeOf(_assertThisInitialized(_this), _this.constructor.prototype); // restore prototype chain
+        Object.setPrototypeOf(_assertThisInitialized(_this), (_instanceof(this, CustomError) ? this.constructor : void 0).prototype); // restore prototype chain
         return _this;
     }
     return CustomError;
