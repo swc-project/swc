@@ -221,7 +221,7 @@ jobs:
           - crate: swc_plugin_runner
             os: ubuntu-latest
           - crate: swc_plugin_runner
-            os: macosx-latest
+            os: macos-latest
           - crate: swc_plugin_runner
             os: windows-latest
           - crate: swc_plugin_testing

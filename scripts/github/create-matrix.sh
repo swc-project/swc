@@ -3,7 +3,7 @@ set -eu
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-$SCRIPT_DIR/sort.sh $SCRIPT_DIR/list-macosx.txt
+$SCRIPT_DIR/sort.sh $SCRIPT_DIR/list-macos.txt
 $SCRIPT_DIR/sort.sh $SCRIPT_DIR/list-windows.txt
 
 
@@ -21,9 +21,9 @@ do
     echo "- crate: $crate"
     echo "  os: ubuntu-latest"
 
-    if grep -q "^$crate\$" "$SCRIPT_DIR/list-macosx.txt"; then
+    if grep -q "^$crate\$" "$SCRIPT_DIR/list-macos.txt"; then
         echo "- crate: $crate"
-        echo "  os: macosx-latest"
+        echo "  os: macos-latest"
     fi
 
     if grep -q "^$crate\$" "$SCRIPT_DIR/list-windows.txt"; then
