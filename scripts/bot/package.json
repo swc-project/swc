@@ -6,5 +6,8 @@
     "private": true,
     "devDependencies": {
         "typescript": "^4.5.5"
+    },
+    "dependencies": {
+        "@octokit/rest": "^18.12.0"
     }
 }
