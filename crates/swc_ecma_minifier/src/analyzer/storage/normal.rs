@@ -20,7 +20,11 @@ impl Storage for ProgramData {
     }
 
     fn var_or_default(&mut self, id: Id) -> &mut Self::VarData {
-        self.vars.entry(id).or_default()
+        self.vars.entry(id).or_insert_with(|| VarUsageInfo {
+            is_fn_local: true,
+            used_above_decl: true,
+            ..Default::default()
+        })
     }
 
     fn merge(&mut self, kind: ScopeKind, child: Self) {
