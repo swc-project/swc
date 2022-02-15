@@ -91,6 +91,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
             &source_map,
             &lint_config.no_empty_function,
         ));
+
         rules.extend(no_empty_pattern::no_empty_pattern(
             &lint_config.no_empty_pattern,
         ));
