@@ -86,6 +86,12 @@ jobs:
         run: |
           git push --no-verify
 
+      - name: Configure crates.io
+        run: |
+          cargo login $CARGO_TOKEN
+        env:
+          CARGO_TOKEN: ${{ secrets.CARGO_TOKEN }}
+
       - name: Publish crates
         run: |
           cargo mono publish --no-verify
