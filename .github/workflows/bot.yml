@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+  # TODO: Remove this
+  pull_request:
   schedule:
     - cron: "0,30 * * * *"
 
@@ -31,5 +33,31 @@ jobs:
         working-directory: scripts/bot
         run: |
           npx ts-node src/auto-rebase.ts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+  bump-crates:
+    name: Create cargo bump commit
+    runs-on: ubuntu-latest
+    concurrency: swc-bot-cargo-bump
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: "swc-project/swc"
+          ref: "main"
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+
+      - name: Install dependencies
+        working-directory: scripts/bot
+        run: |
+          yarn
+
+      - name: Bump
+        working-directory: scripts/bot
+        run: |
+          npx ts-node src/cargo/manage.ts
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
