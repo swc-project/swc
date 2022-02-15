@@ -33,3 +33,35 @@
         & h1, & h2 { color: blue; }
     }
 }
+
+.class {
+    @supports not (display: grid) {
+        float: right;
+    
+        & .class { color: red }
+    }
+}
+
+.class {
+    color: blue;
+
+    @supports not (display: grid) {
+        float: right;
+    
+        & .class { color: red }
+    }
+}
+
+.class {
+    color: blue;
+
+    &.foo {
+      color: green;
+    }
+
+    @supports not (display: grid) {
+        float: right;
+    
+        & .class { color: red }
+    }
+}

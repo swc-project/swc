@@ -715,7 +715,7 @@ define!({
     pub struct SupportsRule {
         pub span: Span,
         pub condition: SupportsCondition,
-        pub rules: Vec<Rule>,
+        pub block: SimpleBlock,
     }
 
     pub struct SupportsCondition {

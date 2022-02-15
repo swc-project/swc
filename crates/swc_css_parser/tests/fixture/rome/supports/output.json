@@ -62,7 +62,16 @@
           }
         ]
       },
-      "rules": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 30,
+          "end": 33,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     },
     {
       "type": "SupportsRule",
@@ -461,7 +470,16 @@
           }
         ]
       },
-      "rules": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 244,
+          "end": 246,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     },
     {
       "type": "SupportsRule",
@@ -637,7 +655,16 @@
           }
         ]
       },
-      "rules": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 367,
+          "end": 369,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     }
   ]
 }

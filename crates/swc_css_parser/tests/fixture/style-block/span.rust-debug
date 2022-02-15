@@ -6,8 +6,8 @@ error: Stylesheet
 3  | | .foo {
 4  | |     display: grid;
 ...  |
-34 | |     }
-35 | | }
+66 | |     }
+67 | | }
    | |__^
 
 error: Rule
@@ -1360,4 +1360,1133 @@ error: Ident
    |
 33 |         & h1, & h2 { color: blue; }
    |                             ^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/style-block/input.css:37:1
+   |
+37 | / .class {
+38 | |     @supports not (display: grid) {
+39 | |         float: right;
+40 | |     
+41 | |         & .class { color: red }
+42 | |     }
+43 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/style-block/input.css:37:1
+   |
+37 | / .class {
+38 | |     @supports not (display: grid) {
+39 | |         float: right;
+40 | |     
+41 | |         & .class { color: red }
+42 | |     }
+43 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/style-block/input.css:37:1
+   |
+37 | .class {
+   | ^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/style-block/input.css:37:1
+   |
+37 | .class {
+   | ^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:37:1
+   |
+37 | .class {
+   | ^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/style-block/input.css:37:1
+   |
+37 | .class {
+   | ^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/style-block/input.css:37:1
+   |
+37 | .class {
+   | ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:37:2
+   |
+37 | .class {
+   |  ^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:37:8
+   |
+37 |   .class {
+   |  ________^
+38 | |     @supports not (display: grid) {
+39 | |         float: right;
+40 | |     
+41 | |         & .class { color: red }
+42 | |     }
+43 | | }
+   | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:38:5
+   |
+38 | /     @supports not (display: grid) {
+39 | |         float: right;
+40 | |     
+41 | |         & .class { color: red }
+42 | |     }
+   | |_____^
+
+error: AtRule
+  --> $DIR/tests/fixture/style-block/input.css:38:5
+   |
+38 | /     @supports not (display: grid) {
+39 | |         float: right;
+40 | |     
+41 | |         & .class { color: red }
+42 | |     }
+   | |_____^
+
+error: SupportsRule
+  --> $DIR/tests/fixture/style-block/input.css:38:5
+   |
+38 | /     @supports not (display: grid) {
+39 | |         float: right;
+40 | |     
+41 | |         & .class { color: red }
+42 | |     }
+   | |_____^
+
+error: SupportsCondition
+  --> $DIR/tests/fixture/style-block/input.css:38:15
+   |
+38 |     @supports not (display: grid) {
+   |               ^^^^^^^^^^^^^^^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/style-block/input.css:38:15
+   |
+38 |     @supports not (display: grid) {
+   |               ^^^^^^^^^^^^^^^^^^^
+
+error: SupportsNot
+  --> $DIR/tests/fixture/style-block/input.css:38:15
+   |
+38 |     @supports not (display: grid) {
+   |               ^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/style-block/input.css:38:20
+   |
+38 |     @supports not (display: grid) {
+   |                    ^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/style-block/input.css:38:20
+   |
+38 |     @supports not (display: grid) {
+   |                    ^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:38:20
+   |
+38 |     @supports not (display: grid) {
+   |                    ^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:38:20
+   |
+38 |     @supports not (display: grid) {
+   |                    ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:38:20
+   |
+38 |     @supports not (display: grid) {
+   |                    ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/style-block/input.css:38:29
+   |
+38 |     @supports not (display: grid) {
+   |                             ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:38:29
+   |
+38 |     @supports not (display: grid) {
+   |                             ^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:38:35
+   |
+38 |       @supports not (display: grid) {
+   |  ___________________________________^
+39 | |         float: right;
+40 | |     
+41 | |         & .class { color: red }
+42 | |     }
+   | |_____^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:39:9
+   |
+39 |         float: right;
+   |         ^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:39:9
+   |
+39 |         float: right;
+   |         ^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:39:9
+   |
+39 |         float: right;
+   |         ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:39:9
+   |
+39 |         float: right;
+   |         ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/style-block/input.css:39:16
+   |
+39 |         float: right;
+   |                ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:39:16
+   |
+39 |         float: right;
+   |                ^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:41:9
+   |
+41 |         & .class { color: red }
+   |         ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/style-block/input.css:41:9
+   |
+41 |         & .class { color: red }
+   |         ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/style-block/input.css:41:9
+   |
+41 |         & .class { color: red }
+   |         ^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/style-block/input.css:41:9
+   |
+41 |         & .class { color: red }
+   |         ^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:41:9
+   |
+41 |         & .class { color: red }
+   |         ^
+
+error: NestingSelector
+  --> $DIR/tests/fixture/style-block/input.css:41:9
+   |
+41 |         & .class { color: red }
+   |         ^
+
+error: Combinator
+  --> $DIR/tests/fixture/style-block/input.css:41:10
+   |
+41 |         & .class { color: red }
+   |          ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:41:11
+   |
+41 |         & .class { color: red }
+   |           ^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/style-block/input.css:41:11
+   |
+41 |         & .class { color: red }
+   |           ^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/style-block/input.css:41:11
+   |
+41 |         & .class { color: red }
+   |           ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:41:12
+   |
+41 |         & .class { color: red }
+   |            ^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:41:18
+   |
+41 |         & .class { color: red }
+   |                  ^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:41:20
+   |
+41 |         & .class { color: red }
+   |                    ^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:41:20
+   |
+41 |         & .class { color: red }
+   |                    ^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:41:20
+   |
+41 |         & .class { color: red }
+   |                    ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:41:20
+   |
+41 |         & .class { color: red }
+   |                    ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/style-block/input.css:41:27
+   |
+41 |         & .class { color: red }
+   |                           ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:41:27
+   |
+41 |         & .class { color: red }
+   |                           ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/style-block/input.css:45:1
+   |
+45 | / .class {
+46 | |     color: blue;
+47 | |
+48 | |     @supports not (display: grid) {
+...  |
+52 | |     }
+53 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/style-block/input.css:45:1
+   |
+45 | / .class {
+46 | |     color: blue;
+47 | |
+48 | |     @supports not (display: grid) {
+...  |
+52 | |     }
+53 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/style-block/input.css:45:1
+   |
+45 | .class {
+   | ^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/style-block/input.css:45:1
+   |
+45 | .class {
+   | ^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:45:1
+   |
+45 | .class {
+   | ^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/style-block/input.css:45:1
+   |
+45 | .class {
+   | ^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/style-block/input.css:45:1
+   |
+45 | .class {
+   | ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:45:2
+   |
+45 | .class {
+   |  ^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:45:8
+   |
+45 |   .class {
+   |  ________^
+46 | |     color: blue;
+47 | |
+48 | |     @supports not (display: grid) {
+...  |
+52 | |     }
+53 | | }
+   | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:46:5
+   |
+46 |     color: blue;
+   |     ^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:46:5
+   |
+46 |     color: blue;
+   |     ^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:46:5
+   |
+46 |     color: blue;
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:46:5
+   |
+46 |     color: blue;
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/style-block/input.css:46:12
+   |
+46 |     color: blue;
+   |            ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:46:12
+   |
+46 |     color: blue;
+   |            ^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:48:5
+   |
+48 | /     @supports not (display: grid) {
+49 | |         float: right;
+50 | |     
+51 | |         & .class { color: red }
+52 | |     }
+   | |_____^
+
+error: AtRule
+  --> $DIR/tests/fixture/style-block/input.css:48:5
+   |
+48 | /     @supports not (display: grid) {
+49 | |         float: right;
+50 | |     
+51 | |         & .class { color: red }
+52 | |     }
+   | |_____^
+
+error: SupportsRule
+  --> $DIR/tests/fixture/style-block/input.css:48:5
+   |
+48 | /     @supports not (display: grid) {
+49 | |         float: right;
+50 | |     
+51 | |         & .class { color: red }
+52 | |     }
+   | |_____^
+
+error: SupportsCondition
+  --> $DIR/tests/fixture/style-block/input.css:48:15
+   |
+48 |     @supports not (display: grid) {
+   |               ^^^^^^^^^^^^^^^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/style-block/input.css:48:15
+   |
+48 |     @supports not (display: grid) {
+   |               ^^^^^^^^^^^^^^^^^^^
+
+error: SupportsNot
+  --> $DIR/tests/fixture/style-block/input.css:48:15
+   |
+48 |     @supports not (display: grid) {
+   |               ^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/style-block/input.css:48:20
+   |
+48 |     @supports not (display: grid) {
+   |                    ^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/style-block/input.css:48:20
+   |
+48 |     @supports not (display: grid) {
+   |                    ^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:48:20
+   |
+48 |     @supports not (display: grid) {
+   |                    ^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:48:20
+   |
+48 |     @supports not (display: grid) {
+   |                    ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:48:20
+   |
+48 |     @supports not (display: grid) {
+   |                    ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/style-block/input.css:48:29
+   |
+48 |     @supports not (display: grid) {
+   |                             ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:48:29
+   |
+48 |     @supports not (display: grid) {
+   |                             ^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:48:35
+   |
+48 |       @supports not (display: grid) {
+   |  ___________________________________^
+49 | |         float: right;
+50 | |     
+51 | |         & .class { color: red }
+52 | |     }
+   | |_____^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:49:9
+   |
+49 |         float: right;
+   |         ^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:49:9
+   |
+49 |         float: right;
+   |         ^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:49:9
+   |
+49 |         float: right;
+   |         ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:49:9
+   |
+49 |         float: right;
+   |         ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/style-block/input.css:49:16
+   |
+49 |         float: right;
+   |                ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:49:16
+   |
+49 |         float: right;
+   |                ^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:51:9
+   |
+51 |         & .class { color: red }
+   |         ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/style-block/input.css:51:9
+   |
+51 |         & .class { color: red }
+   |         ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/style-block/input.css:51:9
+   |
+51 |         & .class { color: red }
+   |         ^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/style-block/input.css:51:9
+   |
+51 |         & .class { color: red }
+   |         ^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:51:9
+   |
+51 |         & .class { color: red }
+   |         ^
+
+error: NestingSelector
+  --> $DIR/tests/fixture/style-block/input.css:51:9
+   |
+51 |         & .class { color: red }
+   |         ^
+
+error: Combinator
+  --> $DIR/tests/fixture/style-block/input.css:51:10
+   |
+51 |         & .class { color: red }
+   |          ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:51:11
+   |
+51 |         & .class { color: red }
+   |           ^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/style-block/input.css:51:11
+   |
+51 |         & .class { color: red }
+   |           ^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/style-block/input.css:51:11
+   |
+51 |         & .class { color: red }
+   |           ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:51:12
+   |
+51 |         & .class { color: red }
+   |            ^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:51:18
+   |
+51 |         & .class { color: red }
+   |                  ^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:51:20
+   |
+51 |         & .class { color: red }
+   |                    ^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:51:20
+   |
+51 |         & .class { color: red }
+   |                    ^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:51:20
+   |
+51 |         & .class { color: red }
+   |                    ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:51:20
+   |
+51 |         & .class { color: red }
+   |                    ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/style-block/input.css:51:27
+   |
+51 |         & .class { color: red }
+   |                           ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:51:27
+   |
+51 |         & .class { color: red }
+   |                           ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/style-block/input.css:55:1
+   |
+55 | / .class {
+56 | |     color: blue;
+57 | |
+58 | |     &.foo {
+...  |
+66 | |     }
+67 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/style-block/input.css:55:1
+   |
+55 | / .class {
+56 | |     color: blue;
+57 | |
+58 | |     &.foo {
+...  |
+66 | |     }
+67 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/style-block/input.css:55:1
+   |
+55 | .class {
+   | ^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/style-block/input.css:55:1
+   |
+55 | .class {
+   | ^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:55:1
+   |
+55 | .class {
+   | ^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/style-block/input.css:55:1
+   |
+55 | .class {
+   | ^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/style-block/input.css:55:1
+   |
+55 | .class {
+   | ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:55:2
+   |
+55 | .class {
+   |  ^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:55:8
+   |
+55 |   .class {
+   |  ________^
+56 | |     color: blue;
+57 | |
+58 | |     &.foo {
+...  |
+66 | |     }
+67 | | }
+   | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:56:5
+   |
+56 |     color: blue;
+   |     ^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:56:5
+   |
+56 |     color: blue;
+   |     ^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:56:5
+   |
+56 |     color: blue;
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:56:5
+   |
+56 |     color: blue;
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/style-block/input.css:56:12
+   |
+56 |     color: blue;
+   |            ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:56:12
+   |
+56 |     color: blue;
+   |            ^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:58:5
+   |
+58 | /     &.foo {
+59 | |       color: green;
+60 | |     }
+   | |_____^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/style-block/input.css:58:5
+   |
+58 | /     &.foo {
+59 | |       color: green;
+60 | |     }
+   | |_____^
+
+error: SelectorList
+  --> $DIR/tests/fixture/style-block/input.css:58:5
+   |
+58 |     &.foo {
+   |     ^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/style-block/input.css:58:5
+   |
+58 |     &.foo {
+   |     ^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:58:5
+   |
+58 |     &.foo {
+   |     ^^^^^
+
+error: NestingSelector
+  --> $DIR/tests/fixture/style-block/input.css:58:5
+   |
+58 |     &.foo {
+   |     ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/style-block/input.css:58:6
+   |
+58 |     &.foo {
+   |      ^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/style-block/input.css:58:6
+   |
+58 |     &.foo {
+   |      ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:58:7
+   |
+58 |     &.foo {
+   |       ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:58:11
+   |
+58 |       &.foo {
+   |  ___________^
+59 | |       color: green;
+60 | |     }
+   | |_____^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:59:7
+   |
+59 |       color: green;
+   |       ^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:59:7
+   |
+59 |       color: green;
+   |       ^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:59:7
+   |
+59 |       color: green;
+   |       ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:59:7
+   |
+59 |       color: green;
+   |       ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/style-block/input.css:59:14
+   |
+59 |       color: green;
+   |              ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:59:14
+   |
+59 |       color: green;
+   |              ^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:62:5
+   |
+62 | /     @supports not (display: grid) {
+63 | |         float: right;
+64 | |     
+65 | |         & .class { color: red }
+66 | |     }
+   | |_____^
+
+error: AtRule
+  --> $DIR/tests/fixture/style-block/input.css:62:5
+   |
+62 | /     @supports not (display: grid) {
+63 | |         float: right;
+64 | |     
+65 | |         & .class { color: red }
+66 | |     }
+   | |_____^
+
+error: SupportsRule
+  --> $DIR/tests/fixture/style-block/input.css:62:5
+   |
+62 | /     @supports not (display: grid) {
+63 | |         float: right;
+64 | |     
+65 | |         & .class { color: red }
+66 | |     }
+   | |_____^
+
+error: SupportsCondition
+  --> $DIR/tests/fixture/style-block/input.css:62:15
+   |
+62 |     @supports not (display: grid) {
+   |               ^^^^^^^^^^^^^^^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/style-block/input.css:62:15
+   |
+62 |     @supports not (display: grid) {
+   |               ^^^^^^^^^^^^^^^^^^^
+
+error: SupportsNot
+  --> $DIR/tests/fixture/style-block/input.css:62:15
+   |
+62 |     @supports not (display: grid) {
+   |               ^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/style-block/input.css:62:20
+   |
+62 |     @supports not (display: grid) {
+   |                    ^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/style-block/input.css:62:20
+   |
+62 |     @supports not (display: grid) {
+   |                    ^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:62:20
+   |
+62 |     @supports not (display: grid) {
+   |                    ^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:62:20
+   |
+62 |     @supports not (display: grid) {
+   |                    ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:62:20
+   |
+62 |     @supports not (display: grid) {
+   |                    ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/style-block/input.css:62:29
+   |
+62 |     @supports not (display: grid) {
+   |                             ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:62:29
+   |
+62 |     @supports not (display: grid) {
+   |                             ^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:62:35
+   |
+62 |       @supports not (display: grid) {
+   |  ___________________________________^
+63 | |         float: right;
+64 | |     
+65 | |         & .class { color: red }
+66 | |     }
+   | |_____^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:63:9
+   |
+63 |         float: right;
+   |         ^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:63:9
+   |
+63 |         float: right;
+   |         ^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:63:9
+   |
+63 |         float: right;
+   |         ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:63:9
+   |
+63 |         float: right;
+   |         ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/style-block/input.css:63:16
+   |
+63 |         float: right;
+   |                ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:63:16
+   |
+63 |         float: right;
+   |                ^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:65:9
+   |
+65 |         & .class { color: red }
+   |         ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/style-block/input.css:65:9
+   |
+65 |         & .class { color: red }
+   |         ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/style-block/input.css:65:9
+   |
+65 |         & .class { color: red }
+   |         ^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/style-block/input.css:65:9
+   |
+65 |         & .class { color: red }
+   |         ^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:65:9
+   |
+65 |         & .class { color: red }
+   |         ^
+
+error: NestingSelector
+  --> $DIR/tests/fixture/style-block/input.css:65:9
+   |
+65 |         & .class { color: red }
+   |         ^
+
+error: Combinator
+  --> $DIR/tests/fixture/style-block/input.css:65:10
+   |
+65 |         & .class { color: red }
+   |          ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:65:11
+   |
+65 |         & .class { color: red }
+   |           ^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/style-block/input.css:65:11
+   |
+65 |         & .class { color: red }
+   |           ^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/style-block/input.css:65:11
+   |
+65 |         & .class { color: red }
+   |           ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:65:12
+   |
+65 |         & .class { color: red }
+   |            ^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:65:18
+   |
+65 |         & .class { color: red }
+   |                  ^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:65:20
+   |
+65 |         & .class { color: red }
+   |                    ^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:65:20
+   |
+65 |         & .class { color: red }
+   |                    ^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:65:20
+   |
+65 |         & .class { color: red }
+   |                    ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:65:20
+   |
+65 |         & .class { color: red }
+   |                    ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/style-block/input.css:65:27
+   |
+65 |         & .class { color: red }
+   |                           ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:65:27
+   |
+65 |         & .class { color: red }
+   |                           ^^^
 
