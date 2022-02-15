@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-  schedule:
-    - cron: "0,30 * * * *"
 
 env:
   GIT_COMMITTER_NAME: "SWC Bot"
