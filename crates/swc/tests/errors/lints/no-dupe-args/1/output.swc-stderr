@@ -1,0 +1,144 @@
+error: disallow duplicate arguments in `function` definitions
+ 
+  |
+1 | function a(a, b, b) {}
+  |                  ^
+  |
+note: Duplicate param 'b'
+ 
+  |
+1 | function a(a, b, b) {}
+  |               ^
+
+error: disallow duplicate arguments in `function` definitions
+ 
+  |
+2 | function b(a, a, a) {}
+  |               ^
+  |
+note: Duplicate param 'a'
+ 
+  |
+2 | function b(a, a, a) {}
+  |            ^
+
+error: disallow duplicate arguments in `function` definitions
+ 
+  |
+2 | function b(a, a, a) {}
+  |                  ^
+  |
+note: Duplicate param 'a'
+ 
+  |
+2 | function b(a, a, a) {}
+  |               ^
+
+error: disallow duplicate arguments in `function` definitions
+ 
+  |
+3 | function c(a, b, a) {}
+  |                  ^
+  |
+note: Duplicate param 'a'
+ 
+  |
+3 | function c(a, b, a) {}
+  |            ^
+
+error: disallow duplicate arguments in `function` definitions
+ 
+  |
+4 | function d(a, b, a, b) {}
+  |                  ^
+  |
+note: Duplicate param 'a'
+ 
+  |
+4 | function d(a, b, a, b) {}
+  |            ^
+
+error: disallow duplicate arguments in `function` definitions
+ 
+  |
+4 | function d(a, b, a, b) {}
+  |                     ^
+  |
+note: Duplicate param 'b'
+ 
+  |
+4 | function d(a, b, a, b) {}
+  |               ^
+
+error: disallow duplicate arguments in `function` definitions
+ 
+  |
+5 | var e = function (a, b, b) {};
+  |                         ^
+  |
+note: Duplicate param 'b'
+ 
+  |
+5 | var e = function (a, b, b) {};
+  |                      ^
+
+error: disallow duplicate arguments in `function` definitions
+ 
+  |
+6 | var f = function (a, a, a) {};
+  |                      ^
+  |
+note: Duplicate param 'a'
+ 
+  |
+6 | var f = function (a, a, a) {};
+  |                   ^
+
+error: disallow duplicate arguments in `function` definitions
+ 
+  |
+6 | var f = function (a, a, a) {};
+  |                         ^
+  |
+note: Duplicate param 'a'
+ 
+  |
+6 | var f = function (a, a, a) {};
+  |                      ^
+
+error: disallow duplicate arguments in `function` definitions
+ 
+  |
+7 | var g = function (a, b, a) {};
+  |                         ^
+  |
+note: Duplicate param 'a'
+ 
+  |
+7 | var g = function (a, b, a) {};
+  |                   ^
+
+error: disallow duplicate arguments in `function` definitions
+ 
+  |
+8 | var h = function (a, b, a, b) {};
+  |                         ^
+  |
+note: Duplicate param 'a'
+ 
+  |
+8 | var h = function (a, b, a, b) {};
+  |                   ^
+
+error: disallow duplicate arguments in `function` definitions
+ 
+  |
+8 | var h = function (a, b, a, b) {};
+  |                            ^
+  |
+note: Duplicate param 'b'
+ 
+  |
+8 | var h = function (a, b, a, b) {};
+  |                      ^
+

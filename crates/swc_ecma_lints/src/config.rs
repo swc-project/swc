@@ -61,6 +61,10 @@ pub struct LintConfig {
 
     #[cfg(feature = "non_critical_lints")]
     #[serde(default)]
+    pub no_dupe_args: RuleConfig<()>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default)]
     pub no_use_before_define: RuleConfig<NoUseBeforeDefineConfig>,
 
     #[cfg(feature = "non_critical_lints")]
