@@ -9,6 +9,10 @@ on:
   schedule:
     - cron: "0,30 * * * *"
 
+env:
+  GIT_COMMITTER_NAME: "SWC Bot"
+  GIT_COMMITTER_EMAIL: "bot@swc.rs"
+
 jobs:
   auto-rebase:
     name: Auto rebase
@@ -50,14 +54,40 @@ jobs:
         with:
           node-version: "16"
 
-      - name: Install dependencies
+      - name: Install node dependencies
         working-directory: scripts/bot
         run: |
           yarn
 
-      - name: Bump
+      - name: Install required binaries
+        run: |
+          cargo install cargo-mono
+          cargo install git-cliff
+
+      - name: Update changelog
+        run: |
+          yarn changelog
+
+      - name: Bump crates
         working-directory: scripts/bot
         run: |
-          npx ts-node src/cargo/manage.ts
+          npx ts-node src/cargo/bump.ts
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Update lockfile
+        run: |
+          cargo metadata --offline --format-version 1 > /dev/null
+
+      - name: Create commit
+        run: |
+          git add -A
+          git commit --author="SWC Bot <bot@swc.rs>" -m 'chore: Publish crates'
+
+      - name: Push back
+        run: |
+          git push --no-verify
+
+      - name: Publish crates
+        run: |
+          cargo mono publish --no-verify
