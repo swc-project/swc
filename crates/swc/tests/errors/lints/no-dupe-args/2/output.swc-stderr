@@ -1,0 +1,96 @@
+error: `b` used as parameter more than once
+ 
+  |
+1 | const foo = (a, b, b) => {};
+  |                    ^
+  |
+note: previous definition of `b` here
+ 
+  |
+1 | const foo = (a, b, b) => {};
+  |                 ^
+
+error: `b` used as parameter more than once
+ 
+  |
+2 | (a, b, b) => {};
+  |        ^
+  |
+note: previous definition of `b` here
+ 
+  |
+2 | (a, b, b) => {};
+  |     ^
+
+error: `b` used as parameter more than once
+ 
+  |
+3 | ((a, b, b) => {})();
+  |         ^
+  |
+note: previous definition of `b` here
+ 
+  |
+3 | ((a, b, b) => {})();
+  |      ^
+
+error: `b` used as parameter more than once
+ 
+  |
+6 |     constructor(a, b, b) {}
+  |                       ^
+  |
+note: previous definition of `b` here
+ 
+  |
+6 |     constructor(a, b, b) {}
+  |                    ^
+
+error: `b` used as parameter more than once
+ 
+  |
+8 |     foo = (a, b, b) => {};
+  |                  ^
+  |
+note: previous definition of `b` here
+ 
+  |
+8 |     foo = (a, b, b) => {};
+  |               ^
+
+error: `b` used as parameter more than once
+  
+   |
+10 |     bar(a, b, b) {}
+   |               ^
+   |
+note: previous definition of `b` here
+  
+   |
+10 |     bar(a, b, b) {}
+   |            ^
+
+error: `b` used as parameter more than once
+  
+   |
+14 |     foo(a, b, b) {},
+   |               ^
+   |
+note: previous definition of `b` here
+  
+   |
+14 |     foo(a, b, b) {},
+   |            ^
+
+error: `b` used as parameter more than once
+  
+   |
+15 |     bar: function (a, b, b) {},
+   |                          ^
+   |
+note: previous definition of `b` here
+  
+   |
+15 |     bar: function (a, b, b) {},
+   |                       ^
+

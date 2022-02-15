@@ -1,142 +1,142 @@
-error: disallow duplicate arguments in `function` definitions
+error: `b` used as parameter more than once
  
   |
 1 | function a(a, b, b) {}
   |                  ^
   |
-note: Duplicate param 'b'
+note: previous definition of `b` here
  
   |
 1 | function a(a, b, b) {}
   |               ^
 
-error: disallow duplicate arguments in `function` definitions
+error: `a` used as parameter more than once
  
   |
 2 | function b(a, a, a) {}
   |               ^
   |
-note: Duplicate param 'a'
+note: previous definition of `a` here
  
   |
 2 | function b(a, a, a) {}
   |            ^
 
-error: disallow duplicate arguments in `function` definitions
+error: `a` used as parameter more than once
  
   |
 2 | function b(a, a, a) {}
   |                  ^
   |
-note: Duplicate param 'a'
+note: previous definition of `a` here
  
   |
 2 | function b(a, a, a) {}
   |               ^
 
-error: disallow duplicate arguments in `function` definitions
+error: `a` used as parameter more than once
  
   |
 3 | function c(a, b, a) {}
   |                  ^
   |
-note: Duplicate param 'a'
+note: previous definition of `a` here
  
   |
 3 | function c(a, b, a) {}
   |            ^
 
-error: disallow duplicate arguments in `function` definitions
+error: `a` used as parameter more than once
  
   |
 4 | function d(a, b, a, b) {}
   |                  ^
   |
-note: Duplicate param 'a'
+note: previous definition of `a` here
  
   |
 4 | function d(a, b, a, b) {}
   |            ^
 
-error: disallow duplicate arguments in `function` definitions
+error: `b` used as parameter more than once
  
   |
 4 | function d(a, b, a, b) {}
   |                     ^
   |
-note: Duplicate param 'b'
+note: previous definition of `b` here
  
   |
 4 | function d(a, b, a, b) {}
   |               ^
 
-error: disallow duplicate arguments in `function` definitions
+error: `b` used as parameter more than once
  
   |
 5 | var e = function (a, b, b) {};
   |                         ^
   |
-note: Duplicate param 'b'
+note: previous definition of `b` here
  
   |
 5 | var e = function (a, b, b) {};
   |                      ^
 
-error: disallow duplicate arguments in `function` definitions
+error: `a` used as parameter more than once
  
   |
 6 | var f = function (a, a, a) {};
   |                      ^
   |
-note: Duplicate param 'a'
+note: previous definition of `a` here
  
   |
 6 | var f = function (a, a, a) {};
   |                   ^
 
-error: disallow duplicate arguments in `function` definitions
+error: `a` used as parameter more than once
  
   |
 6 | var f = function (a, a, a) {};
   |                         ^
   |
-note: Duplicate param 'a'
+note: previous definition of `a` here
  
   |
 6 | var f = function (a, a, a) {};
   |                      ^
 
-error: disallow duplicate arguments in `function` definitions
+error: `a` used as parameter more than once
  
   |
 7 | var g = function (a, b, a) {};
   |                         ^
   |
-note: Duplicate param 'a'
+note: previous definition of `a` here
  
   |
 7 | var g = function (a, b, a) {};
   |                   ^
 
-error: disallow duplicate arguments in `function` definitions
+error: `a` used as parameter more than once
  
   |
 8 | var h = function (a, b, a, b) {};
   |                         ^
   |
-note: Duplicate param 'a'
+note: previous definition of `a` here
  
   |
 8 | var h = function (a, b, a, b) {};
   |                   ^
 
-error: disallow duplicate arguments in `function` definitions
+error: `b` used as parameter more than once
  
   |
 8 | var h = function (a, b, a, b) {};
   |                            ^
   |
-note: Duplicate param 'b'
+note: previous definition of `b` here
  
   |
 8 | var h = function (a, b, a, b) {};
