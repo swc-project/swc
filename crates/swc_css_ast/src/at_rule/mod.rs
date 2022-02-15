@@ -3,7 +3,7 @@ use swc_common::{ast_node, Span};
 
 pub use self::{
     charset::*, color_profile::*, counter_style::*, document::*, font_face::*, import::*,
-    keyframe::*, layer::*, media::*, namespace::*, page::*, property::*, support::*, viewport::*,
+    keyframe::*, layer::*, media::*, namespace::*, nest::*, page::*, property::*, support::*, viewport::*,
 };
 use crate::{DashedIdent, Ident, SimpleBlock, Value};
 
@@ -17,6 +17,7 @@ mod keyframe;
 mod layer;
 mod media;
 mod namespace;
+mod nest;
 mod page;
 mod property;
 mod support;
@@ -54,6 +55,9 @@ pub enum AtRule {
 
     #[tag("NamespaceRule")]
     Namespace(NamespaceRule),
+
+    #[tag("NestRule")]
+    Nest(NestRule),
 
     #[tag("ViewportRule")]
     Viewport(ViewportRule),

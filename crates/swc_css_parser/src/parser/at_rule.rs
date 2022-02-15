@@ -227,6 +227,23 @@ where
                 }
             }
 
+            "nest" => {
+                self.input.skip_ws()?;
+
+                let at_rule_nest: PResult<NestRule> = self.parse();
+
+                match at_rule_nest {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Nest(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
+                }
+            }
+
             "viewport" | "-ms-viewport" => {
                 self.input.skip_ws()?;
 
@@ -682,6 +699,30 @@ where
             span: span!(self, span.lo),
             prefix,
             uri,
+        })
+    }
+}
+
+impl<I> Parse<NestRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<NestRule> {
+        let span = self.input.cur_span()?;
+        let prelude = self.parse()?;
+        let ctx = Ctx {
+            grammar: Grammar::StyleBlock,
+            ..self.ctx
+        };
+
+        self.input.skip_ws()?;
+
+        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+
+        Ok(NestRule {
+            span: span!(self, span.lo),
+            prelude,
+            block,
         })
     }
 }

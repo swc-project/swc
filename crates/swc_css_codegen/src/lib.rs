@@ -85,6 +85,7 @@ where
             AtRule::Page(n) => emit!(self, n),
             AtRule::PageMargin(n) => emit!(self, n),
             AtRule::Namespace(n) => emit!(self, n),
+            AtRule::Nest(n) => emit!(self, n),
             AtRule::Viewport(n) => emit!(self, n),
             AtRule::Document(n) => emit!(self, n),
             AtRule::ColorProfile(n) => emit!(self, n),
@@ -670,6 +671,16 @@ where
     }
 
     #[emitter]
+    fn emit_nest_rule(&mut self, n: &NestRule) -> Result {
+        punct!(self, "@");
+        keyword!(self, "nest");
+        space!(self);
+        emit!(self, n.prelude);
+        formatting_space!(self);
+        emit!(self, n.block);
+    }
+
+    #[emitter]
     fn emit_viewport_rule(&mut self, n: &ViewportRule) -> Result {
         punct!(self, "@");
         keyword!(self, "viewport");
@@ -922,7 +933,7 @@ where
                         space!(self);
                     }
                 }
-                _ => {},
+                _ => {}
             }
         }
 

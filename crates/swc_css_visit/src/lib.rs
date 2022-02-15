@@ -438,6 +438,7 @@ define!({
         Page(PageRule),
         PageMargin(PageMarginRule),
         Namespace(NamespaceRule),
+        Nest(NestRule),
         Viewport(ViewportRule),
         Document(DocumentRule),
         ColorProfile(ColorProfileRule),
@@ -488,6 +489,12 @@ define!({
         pub span: Span,
         pub prefix: Option<Ident>,
         pub uri: NamespaceUri,
+    }
+
+    pub struct NestRule {
+        pub span: Span,
+        pub prelude: SelectorList,
+        pub block: SimpleBlock,
     }
 
     pub struct ViewportRule {
