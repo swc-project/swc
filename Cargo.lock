@@ -2598,7 +2598,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.126.2"
+version = "0.127.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3336,7 +3336,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.44.0"
+version = "0.45.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3438,7 +3438,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.26.1"
+version = "0.27.0"
 dependencies = [
  "once_cell",
  "swc_atoms",
@@ -3450,7 +3450,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_macro"
-version = "0.2.1"
+version = "0.3.0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3459,7 +3459,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.33.0"
+version = "0.34.0"
 dependencies = [
  "anyhow",
  "libloading",
@@ -3527,7 +3527,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.42.0"
+version = "0.43.0"
 dependencies = [
  "anyhow",
  "rayon",
