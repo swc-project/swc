@@ -3,7 +3,8 @@ use swc_common::{ast_node, Span};
 
 pub use self::{
     charset::*, color_profile::*, counter_style::*, document::*, font_face::*, import::*,
-    keyframe::*, layer::*, media::*, namespace::*, nest::*, page::*, property::*, support::*, viewport::*,
+    keyframe::*, layer::*, media::*, namespace::*, nest::*, page::*, property::*, support::*,
+    viewport::*,
 };
 use crate::{DashedIdent, Ident, SimpleBlock, Value};
 
