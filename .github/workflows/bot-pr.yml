@@ -20,7 +20,7 @@ jobs:
         run: |
           yarn
 
-      - name: Bump
+      - name: Ensure that bump command exists
         working-directory: scripts/bot
         run: |
           npx ts-node src/cargo/ensure-comment.ts
