@@ -82,10 +82,18 @@ fn internal() -> Result<(), Error> {
 
         let program = Serialized::serialize(&program).expect("Should serializable");
         let config = Serialized::serialize(&"{}".to_string()).expect("Should serializable");
+        let context = Serialized::serialize(&"{sourceFileName: 'single_plugin_test'}".to_string())
+            .expect("Should serializable");
 
-        let program_bytes =
-            swc_plugin_runner::apply_js_plugin("internal-test", &path, &mut None, config, program)
-                .expect("Plugin should apply transform");
+        let program_bytes = swc_plugin_runner::apply_js_plugin(
+            "internal-test",
+            &path,
+            &mut None,
+            program,
+            config,
+            context,
+        )
+        .expect("Plugin should apply transform");
 
         let program: Program =
             Serialized::deserialize(&program_bytes).expect("Should able to deserialize");
@@ -119,10 +127,20 @@ fn internal() -> Result<(), Error> {
 
         let program = Serialized::serialize(&program).expect("Should serializable");
         let config = Serialized::serialize(&"{}".to_string()).expect("Should serializable");
+        let context =
+            Serialized::serialize(&"{sourceFileName: 'single_plugin_handler_test'}".to_string())
+                .expect("Should serializable");
 
         let _res = HANDLER.set(&handler, || {
-            swc_plugin_runner::apply_js_plugin("internal-test", &path, &mut None, config, program)
-                .expect("Plugin should apply transform")
+            swc_plugin_runner::apply_js_plugin(
+                "internal-test",
+                &path,
+                &mut None,
+                program,
+                config,
+                context,
+            )
+            .expect("Plugin should apply transform")
         });
 
         Ok(())
@@ -151,8 +169,10 @@ fn internal() -> Result<(), Error> {
             "internal-test",
             &path,
             &mut None,
-            Serialized::serialize(&"{}".to_string()).expect("Should serializable"),
             serialized_program,
+            Serialized::serialize(&"{}".to_string()).expect("Should serializable"),
+            Serialized::serialize(&"{sourceFileName: 'multiple_plugin_test'}".to_string())
+                .expect("Should serializable"),
         )
         .expect("Plugin should apply transform");
 
@@ -161,8 +181,10 @@ fn internal() -> Result<(), Error> {
             "internal-test",
             &path,
             &mut None,
-            Serialized::serialize(&"{}".to_string()).expect("Should serializable"),
             serialized_program,
+            Serialized::serialize(&"{}".to_string()).expect("Should serializable"),
+            Serialized::serialize(&"{sourceFileName: 'multiple_plugin_test2'}".to_string())
+                .expect("Should serializable"),
         )
         .expect("Plugin should apply transform");
 
