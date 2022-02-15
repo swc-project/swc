@@ -181,6 +181,34 @@ target = "{}""#,
         )
         .context("failed to write config toml file")?;
 
+        // Create package.json for npm package publishing.
+        let dist_output_path = format!("target/{}/release/{}.wasm", build_target, name);
+        fs::write(
+            &path.join("package.json"),
+            format!(
+                r#"{{
+    "name": "{}",
+    "version": "0.1.0",
+    "description": "",
+    "main": "{}",
+    "scripts": {{
+        "test": "echo \"Error: no test specified\" && exit 1"
+    }},
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "files": [
+        "{}",
+        "README.md"
+    ]
+}}
+"#,
+                name, dist_output_path, dist_output_path
+            )
+            .as_bytes(),
+        )
+        .context("failed to write Cargo.toml file")?;
+
         // Create entrypoint src file
         let src_path = path.join("src");
         create_dir_all(&src_path)?;

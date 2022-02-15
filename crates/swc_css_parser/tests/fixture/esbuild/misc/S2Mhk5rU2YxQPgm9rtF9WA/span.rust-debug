@@ -52,6 +52,12 @@ error: Str
 1 | @document url("https://www.example.com/") { h1 { color: green } }
   |               ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:43
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |                                           ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Rule
  --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:45
   |

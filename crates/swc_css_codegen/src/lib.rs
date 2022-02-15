@@ -674,7 +674,6 @@ where
         punct!(self, "@");
         keyword!(self, "viewport");
         formatting_space!(self);
-
         emit!(self, n.block);
     }
 
@@ -683,14 +682,9 @@ where
         punct!(self, "@");
         keyword!(self, "document");
         space!(self);
-
         self.emit_list(&n.matching_functions, ListFormat::CommaDelimited)?;
-
         formatting_space!(self);
-
-        punct!(self, "{");
-        self.emit_list(&n.block, ListFormat::NotDelimited)?;
-        punct!(self, "}");
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -892,19 +886,21 @@ where
         let len = n.value.len();
 
         for (idx, node) in n.value.iter().enumerate() {
-            if idx == 0 {
-                if let ComponentValue::DeclarationBlockItem(_) = node {
+            match node {
+                ComponentValue::Rule(_) => {
                     formatting_newline!(self);
                 }
+                ComponentValue::DeclarationBlockItem(_) if idx == 0 => {
+                    formatting_newline!(self);
+                }
+                _ => {}
             }
 
             emit!(self, node);
 
             match node {
-                ComponentValue::Value(_) => {
-                    if ending == ']' && idx != len - 1 {
-                        space!(self);
-                    }
+                ComponentValue::Rule(_) => {
+                    formatting_newline!(self);
                 }
                 ComponentValue::DeclarationBlockItem(i) => match i {
                     DeclarationBlockItem::AtRule(_) => {
@@ -921,6 +917,11 @@ where
                     }
                     DeclarationBlockItem::Invalid(_) => {}
                 },
+                ComponentValue::Value(_) => {
+                    if ending == ']' && idx != len - 1 {
+                        space!(self);
+                    }
+                }
             }
         }
 
@@ -932,6 +933,7 @@ where
         match n {
             ComponentValue::Value(n) => emit!(self, n),
             ComponentValue::DeclarationBlockItem(n) => emit!(self, n),
+            ComponentValue::Rule(n) => emit!(self, n),
         }
     }
 

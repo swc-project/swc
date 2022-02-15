@@ -38,6 +38,9 @@
 - **(css/ast)** Use correct type for `calc` (#3549) ([b311ace](https://github.com/swc-project/swc/commit/b311aced89dbbcb1605312e3ad5b0715e437bcd8))
 
 
+- **(css/ast)** Use `SimpleBlock` for `@document` at-rule (#3564) ([3399702](https://github.com/swc-project/swc/commit/3399702b735cebcf19855b01c5b884cb44e06653))
+
+
 - **(es/lints)** Add this handling support to `no-alert` rule (#3515) ([af82006](https://github.com/swc-project/swc/commit/af8200647bb5f96525bcf3333c7c6889fe69dd5d))
 
 
@@ -46,6 +49,12 @@
 
 - **(es/lints)** Implement `eqeqeq` rule (#3513) ([8d92050](https://github.com/swc-project/swc/commit/8d92050f557690bca6f695bbae173876fd9e53a2))
 
+
+- **(es/lints)** Implement `no-empty-pattern` rule (#3550) ([f9fda27](https://github.com/swc-project/swc/commit/f9fda2743cb549d1af6b9bbb92155da3f60536c2))
+
+
+- **(plugin/runner)** Improve resolver support for npm (#3566) ([d6477a7](https://github.com/swc-project/swc/commit/d6477a76cf088072f5355335f48413fbbc9310c7))
+
 ### Miscellaneous Tasks
 
 
@@ -53,7 +62,7 @@
 - **(ci)** Add a bot for auto-rebasing (#3560) ([b1fc7a9](https://github.com/swc-project/swc/commit/b1fc7a9e3446240e4615a50517e4a13c50c05f4e))
 
 
-- **(ci)** Remove useless tests from the matrix (#3561) ([47a81bd](https://github.com/swc-project/swc/commit/47a81bdb95e11e577afd35c854939151bb8bd668))- **general**: Fix auto-rebase script ([d055711](https://github.com/swc-project/swc/commit/d0557117ce62ea6a9294720689769c4b156c62eb))
+- **(ci)** Remove useless tests from the matrix (#3561) ([47a81bd](https://github.com/swc-project/swc/commit/47a81bdb95e11e577afd35c854939151bb8bd668))- **general**: Fix auto-rebase script ([d055711](https://github.com/swc-project/swc/commit/d0557117ce62ea6a9294720689769c4b156c62eb))- **general**: Fix auto-rebase script again ([d3f1c4e](https://github.com/swc-project/swc/commit/d3f1c4e6025722dbf5dcb493e5a60067b4227341))- **general**: Use `GITHUB_TOKEN` for auto-rebasing ([1c6e9ef](https://github.com/swc-project/swc/commit/1c6e9efeb46251d99831aab56d8b3332af6167bd))- **general**: Fix CLA issue of auto-rebase script ([59233d5](https://github.com/swc-project/swc/commit/59233d5082af625816450691103f95ffd121bd16))
 
 ### Performance
 
@@ -78,6 +87,12 @@
 
 
 - **(css/parser)** Add a test for a custom function name (#3554) ([f252dfb](https://github.com/swc-project/swc/commit/f252dfb885b904ef8386f2004c359a1a2f43b63e))
+
+### Build
+
+
+
+- **(*)** Dedupe `once_cell` (#3567) ([ad6f24a](https://github.com/swc-project/swc/commit/ad6f24ad83ed0086ab7f4e260800df598212be25))
 
 ## [1.2.139] - 2022-02-12
 

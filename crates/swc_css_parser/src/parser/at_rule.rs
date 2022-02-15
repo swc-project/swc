@@ -910,13 +910,11 @@ where
             matching_functions.push(self.parse()?);
         }
 
-        expect!(self, "{");
-
-        let block = self.parse_rule_list(RuleContext {
-            is_top_level: false,
-        })?;
-
-        expect!(self, "}");
+        let ctx = Ctx {
+            in_page_at_rule: true,
+            grammar: Grammar::RuleList,
+        };
+        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
         Ok(DocumentRule {
             span: span!(self, span.lo),
