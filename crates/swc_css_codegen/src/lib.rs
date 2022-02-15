@@ -270,17 +270,8 @@ where
             formatting_space!(self);
         }
 
-        if let Some(rules) = &n.rules {
-            punct!(self, "{");
-            self.emit_list(
-                rules,
-                if self.config.minify {
-                    ListFormat::NotDelimited
-                } else {
-                    ListFormat::NotDelimited | ListFormat::MultiLine
-                },
-            )?;
-            punct!(self, "}");
+        if let Some(block) = &n.block {
+            emit!(self, block);
         } else {
             semi!(self);
         }

@@ -4,7 +4,7 @@ use swc_css_ast::*;
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
-    parser::{Ctx, Grammar, RuleContext},
+    parser::{Ctx, Grammar},
     Parse,
 };
 
@@ -1815,18 +1815,17 @@ where
 
         self.input.skip_ws()?;
 
-        let rules = match prelude {
+        let block = match prelude {
             // Block
-            None | Some(LayerPrelude::Name(LayerName { .. })) => {
-                expect!(self, "{");
+            None | Some(LayerPrelude::Name(LayerName { .. })) if is!(self, "{") => {
+                let ctx = Ctx {
+                    grammar: Grammar::Stylesheet,
+                    ..self.ctx
+                };
+                println!("{:?}", self.input.cur());
+                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
-                let rules = Some(self.parse_rule_list(RuleContext {
-                    is_top_level: false,
-                })?);
-
-                expect!(self, "}");
-
-                rules
+                Some(block)
             }
             // Statement
             Some(LayerPrelude::NameList(LayerNameList { .. })) => {
@@ -1834,12 +1833,18 @@ where
 
                 None
             }
+            _ => {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("'{' delim token or ';'"),
+                ));
+            }
         };
 
         Ok(LayerRule {
             span: span!(self, span.lo),
             prelude,
-            rules,
+            block,
         })
     }
 }

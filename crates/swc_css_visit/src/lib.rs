@@ -565,7 +565,7 @@ define!({
     pub struct LayerRule {
         pub span: Span,
         pub prelude: Option<LayerPrelude>,
-        pub rules: Option<Vec<Rule>>,
+        pub block: Option<SimpleBlock>,
     }
 
     pub struct MediaRule {
