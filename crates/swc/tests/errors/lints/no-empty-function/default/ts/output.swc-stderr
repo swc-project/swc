@@ -1,0 +1,30 @@
+error: Unexpected empty constructor pattern
+ 
+  |
+2 |   private constructor() {}
+  |   ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Unexpected empty method pattern
+ 
+  |
+4 |   private method1() {}
+  |   ^^^^^^^^^^^^^^^^^^^^
+
+error: Unexpected empty method pattern
+ 
+  |
+6 |   protected method2() {}
+  |   ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Unexpected empty method pattern
+ 
+  |
+8 |   public method3() {}
+  |   ^^^^^^^^^^^^^^^^^^^
+
+error: Unexpected empty method pattern
+  
+   |
+14 |       method() {}
+   |       ^^^^^^^^^^^
+
