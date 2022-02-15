@@ -619,18 +619,22 @@ box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #
 --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
 box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
-@media (prefers-reduced-motion: no-preference) {.motion-safe\:shadow-md {
+@media (prefers-reduced-motion: no-preference) {
+.motion-safe\:shadow-md {
 --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color),
         0 2px 4px -2px var(--tw-shadow-color);
 box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}}
-@media (prefers-reduced-motion: reduce) {.motion-reduce\:shadow-md {
+}
+}
+@media (prefers-reduced-motion: reduce) {
+.motion-reduce\:shadow-md {
 --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color),
         0 2px 4px -2px var(--tw-shadow-color);
 box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}}
+}
+}
 .dark .dark\:shadow-md {
 --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
@@ -646,77 +650,101 @@ box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #
 --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
 box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
-@media print {.print\:bg-yellow-300 {
+@media print {
+.print\:bg-yellow-300 {
 --tw-bg-opacity: 1;
 background-color: rgb(253 224 71/ var(--tw-bg-opacity));
-}}
-@media (min-width: 640px) {.sm\:shadow-md {
+}
+}
+@media (min-width: 640px) {
+.sm\:shadow-md {
 --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color),
         0 2px 4px -2px var(--tw-shadow-color);
 box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
+
 .sm\:active\:shadow-md:active {
 --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color),
         0 2px 4px -2px var(--tw-shadow-color);
 box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}}
-@media (min-width: 768px) {.md\:shadow-md {
+}
+}
+@media (min-width: 768px) {
+.md\:shadow-md {
 --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color),
         0 2px 4px -2px var(--tw-shadow-color);
 box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
+
 .group:focus .md\:group-focus\:shadow-md {
 --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color),
         0 2px 4px -2px var(--tw-shadow-color);
 box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}}
-@media (min-width: 1024px) {@keyframes spin {
+}
+}
+@media (min-width: 1024px) {
+@keyframes spin {
 to {
 transform: rotate(360deg);
 }
 }
+
 .lg\:animate-spin {
 animation: spin 1s linear infinite;
 }
+
 .lg\:shadow-md {
 --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color),
         0 2px 4px -2px var(--tw-shadow-color);
 box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
+
 .dark .lg\:dark\:shadow-md {
 --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color),
         0 2px 4px -2px var(--tw-shadow-color);
 box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}}
-@media (min-width: 1280px) {.xl\:shadow-md {
---tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
---tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color),
-        0 2px 4px -2px var(--tw-shadow-color);
-box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}}
-@media (min-width: 1536px) {.\32xl\:shadow-md {
+}
+}
+@media (min-width: 1280px) {
+.xl\:shadow-md {
 --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color),
         0 2px 4px -2px var(--tw-shadow-color);
 box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
-@media (prefers-reduced-motion: no-preference) {.dark .\32xl\:dark\:motion-safe\:focus-within\:shadow-md:focus-within {
+}
+@media (min-width: 1536px) {
+.\32xl\:shadow-md {
+--tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+--tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color),
+        0 2px 4px -2px var(--tw-shadow-color);
+box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+.dark .\32xl\:dark\:motion-safe\:focus-within\:shadow-md:focus-within {
 --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color),
             0 2px 4px -2px var(--tw-shadow-color);
 box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}}}
-@media (orientation: portrait) {.portrait\:bg-yellow-300 {
+}
+}
+}
+@media (orientation: portrait) {
+.portrait\:bg-yellow-300 {
 --tw-bg-opacity: 1;
 background-color: rgb(253 224 71/ var(--tw-bg-opacity));
-}}
-@media (orientation: landscape) {.landscape\:bg-yellow-300 {
+}
+}
+@media (orientation: landscape) {
+.landscape\:bg-yellow-300 {
 --tw-bg-opacity: 1;
 background-color: rgb(253 224 71/ var(--tw-bg-opacity));
-}}
+}
+}

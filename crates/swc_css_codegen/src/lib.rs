@@ -894,6 +894,9 @@ where
 
         for (idx, node) in n.value.iter().enumerate() {
             match node {
+                ComponentValue::StyleBlock(_) if idx == 0 => {
+                    formatting_newline!(self);
+                }
                 ComponentValue::Rule(_) => {
                     formatting_newline!(self);
                 }
@@ -908,6 +911,21 @@ where
             match node {
                 ComponentValue::Rule(_) => {
                     formatting_newline!(self);
+                }
+                ComponentValue::StyleBlock(i) => match i {
+                    StyleBlock::AtRule(_) | StyleBlock::QualifiedRule(_) => {
+                        formatting_newline!(self);
+                    }
+                    StyleBlock::Declaration(_) => {
+                        if idx != len - 1 {
+                            semi!(self);
+                        } else {
+                            formatting_semi!(self);
+                        }
+
+                        formatting_newline!(self);
+                    }
+                    StyleBlock::Invalid(_) => {}
                 }
                 ComponentValue::DeclarationBlockItem(i) => match i {
                     DeclarationBlockItem::AtRule(_) => {
@@ -929,7 +947,6 @@ where
                         space!(self);
                     }
                 }
-                _ => {}
             }
         }
 
