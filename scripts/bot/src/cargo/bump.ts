@@ -1,3 +1,4 @@
+import { exec } from "child_process";
 import { getLatestCommitMesssage } from "../util/git";
 import { parsePrComments } from "./comment-parser";
 
@@ -21,5 +22,11 @@ import { parsePrComments } from "./comment-parser";
 
     for (const action of actions) {
         console.log(action);
+
+        if (action.breaking) {
+            await exec(`cargo mono bump ${action.crate} --breaking`)
+        } else {
+            await exec(`cargo mono bump ${action.crate}`)
+        }
     }
 })()
