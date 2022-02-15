@@ -42,9 +42,9 @@ jobs:
     concurrency: swc-bot-cargo-bump
     steps:
       - uses: actions/checkout@v2
-        with:
-          repository: "swc-project/swc"
-          ref: "main"
+        # with:
+        #   repository: "swc-project/swc"
+        #   ref: "main"
 
       - uses: actions/setup-node@v2
         with:
