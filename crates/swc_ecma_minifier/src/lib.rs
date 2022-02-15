@@ -20,7 +20,7 @@
 
 use mode::Minification;
 use pass::postcompress::postcompress_optimizer;
-use swc_common::{comments::Comments, sync::Lrc, SourceMap, GLOBALS};
+use swc_common::{comments::Comments, sync::Lrc, SourceMap, SyntaxContext, GLOBALS};
 use swc_ecma_ast::Module;
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 use swc_timer::timer;
@@ -64,6 +64,8 @@ pub fn optimize(
     extra: &ExtraOptions,
 ) -> Module {
     let _timer = timer!("minify");
+
+    let top_level_ctxt = SyntaxContext::empty().apply_mark(extra.top_level_mark);
 
     let marks = Marks::new();
 
@@ -149,7 +151,12 @@ pub fn optimize(
         // TODO: base54.reset();
 
         let char_freq_info = compute_char_freq(&m);
-        m.visit_mut_with(&mut name_mangler(mangle.clone(), char_freq_info, marks));
+        m.visit_mut_with(&mut name_mangler(
+            mangle.clone(),
+            char_freq_info,
+            marks,
+            top_level_ctxt,
+        ));
     }
 
     if let Some(property_mangle_options) = options.mangle.as_ref().and_then(|o| o.props.as_ref()) {

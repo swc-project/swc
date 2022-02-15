@@ -23,6 +23,9 @@
 - **(es/minifier)** Fix analyzer (#3557) ([ac1d405](https://github.com/swc-project/swc/commit/ac1d4058f276693f52d5ccec5ccbb4c04f62bc9f))
 
 
+- **(es/minifier)** Disable name mangler if `eval` is used (#3526) ([bfc9897](https://github.com/swc-project/swc/commit/bfc9897e347e2adc6efb5bd66151abdb9cbaa4fa))
+
+
 - **(es/utils)** Keep arguments to `super` call (#3570) ([f67796a](https://github.com/swc-project/swc/commit/f67796a962cfd1e5c33206622c325dfbdd3b4ee2))
 
 ### Documentation

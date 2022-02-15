@@ -2598,7 +2598,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.126.1"
+version = "0.126.2"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2946,7 +2946,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.74.0"
+version = "0.74.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3300,7 +3300,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.114.1"
+version = "0.114.2"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",

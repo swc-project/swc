@@ -7506,7 +7506,7 @@ function p2() {
     "unused": true
 }"###;
 
-    run_exec_test(src, config, true);
+    run_exec_test(src, config, false);
 }
 
 #[test]
