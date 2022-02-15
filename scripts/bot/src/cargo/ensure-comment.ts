@@ -9,6 +9,6 @@ import { parsePrComments } from "./comment-parser";
     const actions = await parsePrComments(prNumber);
 
     if (actions.length === 0) {
-        throw new Error('PR does not have a comment to parse');
+        throw new Error('PR does not have a review comment to parse');
     }
 })()
