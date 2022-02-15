@@ -34,6 +34,7 @@ pub enum Grammar {
     StyleBlock,
     DeclarationList,
     RuleList,
+    Stylesheet,
     DeclarationValue,
 }
 

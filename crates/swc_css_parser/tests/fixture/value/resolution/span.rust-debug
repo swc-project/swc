@@ -118,6 +118,12 @@ error: Ident
 1 | @media print and (min-resolution: 300dpi) {}
   |                                      ^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/value/resolution/input.css:1:43
+  |
+1 | @media print and (min-resolution: 300dpi) {}
+  |                                           ^^
+
 error: Rule
  --> $DIR/tests/fixture/value/resolution/input.css:2:1
   |
@@ -225,6 +231,12 @@ error: Ident
   |
 2 | @media print and (min-resolution: 300dpcm) {}
   |                                      ^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/value/resolution/input.css:2:44
+  |
+2 | @media print and (min-resolution: 300dpcm) {}
+  |                                            ^^
 
 error: Rule
  --> $DIR/tests/fixture/value/resolution/input.css:3:1
@@ -334,6 +346,12 @@ error: Ident
 3 | @media print and (min-resolution: 300dppx) {}
   |                                      ^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/value/resolution/input.css:3:44
+  |
+3 | @media print and (min-resolution: 300dppx) {}
+  |                                            ^^
+
 error: Rule
  --> $DIR/tests/fixture/value/resolution/input.css:4:1
   |
@@ -441,6 +459,12 @@ error: Ident
   |
 4 | @media print and (min-resolution: 300x) {}
   |                                      ^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/value/resolution/input.css:4:41
+  |
+4 | @media print and (min-resolution: 300x) {}
+  |                                         ^^
 
 error: Rule
   --> $DIR/tests/fixture/value/resolution/input.css:6:1

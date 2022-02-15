@@ -1,0 +1,1363 @@
+error: Stylesheet
+  --> $DIR/tests/fixture/style-block/input.css:1:1
+   |
+1  | / .foo { display: grid; }
+2  | |
+3  | | .foo {
+4  | |     display: grid;
+...  |
+34 | |     }
+35 | | }
+   | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/style-block/input.css:1:1
+  |
+1 | .foo { display: grid; }
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/style-block/input.css:1:1
+  |
+1 | .foo { display: grid; }
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/style-block/input.css:1:1
+  |
+1 | .foo { display: grid; }
+  | ^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/style-block/input.css:1:1
+  |
+1 | .foo { display: grid; }
+  | ^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/style-block/input.css:1:1
+  |
+1 | .foo { display: grid; }
+  | ^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/style-block/input.css:1:1
+  |
+1 | .foo { display: grid; }
+  | ^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/style-block/input.css:1:1
+  |
+1 | .foo { display: grid; }
+  | ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/style-block/input.css:1:2
+  |
+1 | .foo { display: grid; }
+  |  ^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/style-block/input.css:1:6
+  |
+1 | .foo { display: grid; }
+  |      ^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/style-block/input.css:1:8
+  |
+1 | .foo { display: grid; }
+  |        ^^^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/style-block/input.css:1:8
+  |
+1 | .foo { display: grid; }
+  |        ^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/style-block/input.css:1:8
+  |
+1 | .foo { display: grid; }
+  |        ^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/style-block/input.css:1:8
+  |
+1 | .foo { display: grid; }
+  |        ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/style-block/input.css:1:17
+  |
+1 | .foo { display: grid; }
+  |                 ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/style-block/input.css:1:17
+  |
+1 | .foo { display: grid; }
+  |                 ^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/style-block/input.css:3:1
+  |
+3 | / .foo {
+4 | |     display: grid;
+5 | |
+6 | |     @media (orientation: landscape) {
+7 | |         grid-auto-flow: column;
+8 | |     }
+9 | | }
+  | |_^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/style-block/input.css:3:1
+  |
+3 | / .foo {
+4 | |     display: grid;
+5 | |
+6 | |     @media (orientation: landscape) {
+7 | |         grid-auto-flow: column;
+8 | |     }
+9 | | }
+  | |_^
+
+error: SelectorList
+ --> $DIR/tests/fixture/style-block/input.css:3:1
+  |
+3 | .foo {
+  | ^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/style-block/input.css:3:1
+  |
+3 | .foo {
+  | ^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/style-block/input.css:3:1
+  |
+3 | .foo {
+  | ^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/style-block/input.css:3:1
+  |
+3 | .foo {
+  | ^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/style-block/input.css:3:1
+  |
+3 | .foo {
+  | ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/style-block/input.css:3:2
+  |
+3 | .foo {
+  |  ^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/style-block/input.css:3:6
+  |
+3 |   .foo {
+  |  ______^
+4 | |     display: grid;
+5 | |
+6 | |     @media (orientation: landscape) {
+7 | |         grid-auto-flow: column;
+8 | |     }
+9 | | }
+  | |_^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/style-block/input.css:4:5
+  |
+4 |     display: grid;
+  |     ^^^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/style-block/input.css:4:5
+  |
+4 |     display: grid;
+  |     ^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/style-block/input.css:4:5
+  |
+4 |     display: grid;
+  |     ^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/style-block/input.css:4:5
+  |
+4 |     display: grid;
+  |     ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/style-block/input.css:4:14
+  |
+4 |     display: grid;
+  |              ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/style-block/input.css:4:14
+  |
+4 |     display: grid;
+  |              ^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/style-block/input.css:6:5
+  |
+6 | /     @media (orientation: landscape) {
+7 | |         grid-auto-flow: column;
+8 | |     }
+  | |_____^
+
+error: AtRule
+ --> $DIR/tests/fixture/style-block/input.css:6:5
+  |
+6 | /     @media (orientation: landscape) {
+7 | |         grid-auto-flow: column;
+8 | |     }
+  | |_____^
+
+error: MediaRule
+ --> $DIR/tests/fixture/style-block/input.css:6:5
+  |
+6 | /     @media (orientation: landscape) {
+7 | |         grid-auto-flow: column;
+8 | |     }
+  | |_____^
+
+error: MediaQueryList
+ --> $DIR/tests/fixture/style-block/input.css:6:12
+  |
+6 |     @media (orientation: landscape) {
+  |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/style-block/input.css:6:12
+  |
+6 |     @media (orientation: landscape) {
+  |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+ --> $DIR/tests/fixture/style-block/input.css:6:12
+  |
+6 |     @media (orientation: landscape) {
+  |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionAllType
+ --> $DIR/tests/fixture/style-block/input.css:6:12
+  |
+6 |     @media (orientation: landscape) {
+  |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+ --> $DIR/tests/fixture/style-block/input.css:6:12
+  |
+6 |     @media (orientation: landscape) {
+  |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+ --> $DIR/tests/fixture/style-block/input.css:6:12
+  |
+6 |     @media (orientation: landscape) {
+  |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+ --> $DIR/tests/fixture/style-block/input.css:6:12
+  |
+6 |     @media (orientation: landscape) {
+  |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureName
+ --> $DIR/tests/fixture/style-block/input.css:6:13
+  |
+6 |     @media (orientation: landscape) {
+  |             ^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/style-block/input.css:6:13
+  |
+6 |     @media (orientation: landscape) {
+  |             ^^^^^^^^^^^
+
+error: MediaFeatureValue
+ --> $DIR/tests/fixture/style-block/input.css:6:26
+  |
+6 |     @media (orientation: landscape) {
+  |                          ^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/style-block/input.css:6:26
+  |
+6 |     @media (orientation: landscape) {
+  |                          ^^^^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/style-block/input.css:6:37
+  |
+6 |       @media (orientation: landscape) {
+  |  _____________________________________^
+7 | |         grid-auto-flow: column;
+8 | |     }
+  | |_____^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/style-block/input.css:7:9
+  |
+7 |         grid-auto-flow: column;
+  |         ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/style-block/input.css:7:9
+  |
+7 |         grid-auto-flow: column;
+  |         ^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/style-block/input.css:7:9
+  |
+7 |         grid-auto-flow: column;
+  |         ^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/style-block/input.css:7:9
+  |
+7 |         grid-auto-flow: column;
+  |         ^^^^^^^^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/style-block/input.css:7:25
+  |
+7 |         grid-auto-flow: column;
+  |                         ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/style-block/input.css:7:25
+  |
+7 |         grid-auto-flow: column;
+  |                         ^^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/style-block/input.css:11:1
+   |
+11 | / .foo {
+12 | |     display: grid;
+13 | |
+14 | |     @media (orientation: landscape) {
+...  |
+20 | |     }
+21 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/style-block/input.css:11:1
+   |
+11 | / .foo {
+12 | |     display: grid;
+13 | |
+14 | |     @media (orientation: landscape) {
+...  |
+20 | |     }
+21 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/style-block/input.css:11:1
+   |
+11 | .foo {
+   | ^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/style-block/input.css:11:1
+   |
+11 | .foo {
+   | ^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:11:1
+   |
+11 | .foo {
+   | ^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/style-block/input.css:11:1
+   |
+11 | .foo {
+   | ^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/style-block/input.css:11:1
+   |
+11 | .foo {
+   | ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:11:2
+   |
+11 | .foo {
+   |  ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:11:6
+   |
+11 |   .foo {
+   |  ______^
+12 | |     display: grid;
+13 | |
+14 | |     @media (orientation: landscape) {
+...  |
+20 | |     }
+21 | | }
+   | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:12:5
+   |
+12 |     display: grid;
+   |     ^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:12:5
+   |
+12 |     display: grid;
+   |     ^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:12:5
+   |
+12 |     display: grid;
+   |     ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:12:5
+   |
+12 |     display: grid;
+   |     ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/style-block/input.css:12:14
+   |
+12 |     display: grid;
+   |              ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:12:14
+   |
+12 |     display: grid;
+   |              ^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:14:5
+   |
+14 | /     @media (orientation: landscape) {
+15 | |         grid-auto-flow: column;
+16 | |
+17 | |         @media (min-inline-size > 1024px) {
+18 | |             max-inline-size: 1024px;
+19 | |         }
+20 | |     }
+   | |_____^
+
+error: AtRule
+  --> $DIR/tests/fixture/style-block/input.css:14:5
+   |
+14 | /     @media (orientation: landscape) {
+15 | |         grid-auto-flow: column;
+16 | |
+17 | |         @media (min-inline-size > 1024px) {
+18 | |             max-inline-size: 1024px;
+19 | |         }
+20 | |     }
+   | |_____^
+
+error: MediaRule
+  --> $DIR/tests/fixture/style-block/input.css:14:5
+   |
+14 | /     @media (orientation: landscape) {
+15 | |         grid-auto-flow: column;
+16 | |
+17 | |         @media (min-inline-size > 1024px) {
+18 | |             max-inline-size: 1024px;
+19 | |         }
+20 | |     }
+   | |_____^
+
+error: MediaQueryList
+  --> $DIR/tests/fixture/style-block/input.css:14:12
+   |
+14 |     @media (orientation: landscape) {
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/style-block/input.css:14:12
+   |
+14 |     @media (orientation: landscape) {
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+  --> $DIR/tests/fixture/style-block/input.css:14:12
+   |
+14 |     @media (orientation: landscape) {
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionAllType
+  --> $DIR/tests/fixture/style-block/input.css:14:12
+   |
+14 |     @media (orientation: landscape) {
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/style-block/input.css:14:12
+   |
+14 |     @media (orientation: landscape) {
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/style-block/input.css:14:12
+   |
+14 |     @media (orientation: landscape) {
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+  --> $DIR/tests/fixture/style-block/input.css:14:12
+   |
+14 |     @media (orientation: landscape) {
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureName
+  --> $DIR/tests/fixture/style-block/input.css:14:13
+   |
+14 |     @media (orientation: landscape) {
+   |             ^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:14:13
+   |
+14 |     @media (orientation: landscape) {
+   |             ^^^^^^^^^^^
+
+error: MediaFeatureValue
+  --> $DIR/tests/fixture/style-block/input.css:14:26
+   |
+14 |     @media (orientation: landscape) {
+   |                          ^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:14:26
+   |
+14 |     @media (orientation: landscape) {
+   |                          ^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:14:37
+   |
+14 |       @media (orientation: landscape) {
+   |  _____________________________________^
+15 | |         grid-auto-flow: column;
+16 | |
+17 | |         @media (min-inline-size > 1024px) {
+18 | |             max-inline-size: 1024px;
+19 | |         }
+20 | |     }
+   | |_____^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:15:9
+   |
+15 |         grid-auto-flow: column;
+   |         ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:15:9
+   |
+15 |         grid-auto-flow: column;
+   |         ^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:15:9
+   |
+15 |         grid-auto-flow: column;
+   |         ^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:15:9
+   |
+15 |         grid-auto-flow: column;
+   |         ^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/style-block/input.css:15:25
+   |
+15 |         grid-auto-flow: column;
+   |                         ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:15:25
+   |
+15 |         grid-auto-flow: column;
+   |                         ^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:17:9
+   |
+17 | /         @media (min-inline-size > 1024px) {
+18 | |             max-inline-size: 1024px;
+19 | |         }
+   | |_________^
+
+error: AtRule
+  --> $DIR/tests/fixture/style-block/input.css:17:9
+   |
+17 | /         @media (min-inline-size > 1024px) {
+18 | |             max-inline-size: 1024px;
+19 | |         }
+   | |_________^
+
+error: MediaRule
+  --> $DIR/tests/fixture/style-block/input.css:17:9
+   |
+17 | /         @media (min-inline-size > 1024px) {
+18 | |             max-inline-size: 1024px;
+19 | |         }
+   | |_________^
+
+error: MediaQueryList
+  --> $DIR/tests/fixture/style-block/input.css:17:16
+   |
+17 |         @media (min-inline-size > 1024px) {
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/style-block/input.css:17:16
+   |
+17 |         @media (min-inline-size > 1024px) {
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+  --> $DIR/tests/fixture/style-block/input.css:17:16
+   |
+17 |         @media (min-inline-size > 1024px) {
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionAllType
+  --> $DIR/tests/fixture/style-block/input.css:17:16
+   |
+17 |         @media (min-inline-size > 1024px) {
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/style-block/input.css:17:16
+   |
+17 |         @media (min-inline-size > 1024px) {
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/style-block/input.css:17:16
+   |
+17 |         @media (min-inline-size > 1024px) {
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureRange
+  --> $DIR/tests/fixture/style-block/input.css:17:16
+   |
+17 |         @media (min-inline-size > 1024px) {
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureValue
+  --> $DIR/tests/fixture/style-block/input.css:17:17
+   |
+17 |         @media (min-inline-size > 1024px) {
+   |                 ^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:17:17
+   |
+17 |         @media (min-inline-size > 1024px) {
+   |                 ^^^^^^^^^^^^^^^
+
+error: MediaFeatureValue
+  --> $DIR/tests/fixture/style-block/input.css:17:35
+   |
+17 |         @media (min-inline-size > 1024px) {
+   |                                   ^^^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/style-block/input.css:17:35
+   |
+17 |         @media (min-inline-size > 1024px) {
+   |                                   ^^^^^^
+
+error: Length
+  --> $DIR/tests/fixture/style-block/input.css:17:35
+   |
+17 |         @media (min-inline-size > 1024px) {
+   |                                   ^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/style-block/input.css:17:35
+   |
+17 |         @media (min-inline-size > 1024px) {
+   |                                   ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:17:39
+   |
+17 |         @media (min-inline-size > 1024px) {
+   |                                       ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:17:43
+   |
+17 |           @media (min-inline-size > 1024px) {
+   |  ___________________________________________^
+18 | |             max-inline-size: 1024px;
+19 | |         }
+   | |_________^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:18:13
+   |
+18 |             max-inline-size: 1024px;
+   |             ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:18:13
+   |
+18 |             max-inline-size: 1024px;
+   |             ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:18:13
+   |
+18 |             max-inline-size: 1024px;
+   |             ^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:18:13
+   |
+18 |             max-inline-size: 1024px;
+   |             ^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/style-block/input.css:18:30
+   |
+18 |             max-inline-size: 1024px;
+   |                              ^^^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/style-block/input.css:18:30
+   |
+18 |             max-inline-size: 1024px;
+   |                              ^^^^^^
+
+error: Length
+  --> $DIR/tests/fixture/style-block/input.css:18:30
+   |
+18 |             max-inline-size: 1024px;
+   |                              ^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/style-block/input.css:18:30
+   |
+18 |             max-inline-size: 1024px;
+   |                              ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:18:34
+   |
+18 |             max-inline-size: 1024px;
+   |                                  ^^
+
+error: Rule
+  --> $DIR/tests/fixture/style-block/input.css:23:1
+   |
+23 | / @media (orientation: landscape) {
+24 | |     & {
+25 | |         grid-auto-flow: column;
+26 | |     }
+27 | | }
+   | |_^
+
+error: AtRule
+  --> $DIR/tests/fixture/style-block/input.css:23:1
+   |
+23 | / @media (orientation: landscape) {
+24 | |     & {
+25 | |         grid-auto-flow: column;
+26 | |     }
+27 | | }
+   | |_^
+
+error: MediaRule
+  --> $DIR/tests/fixture/style-block/input.css:23:1
+   |
+23 | / @media (orientation: landscape) {
+24 | |     & {
+25 | |         grid-auto-flow: column;
+26 | |     }
+27 | | }
+   | |_^
+
+error: MediaQueryList
+  --> $DIR/tests/fixture/style-block/input.css:23:8
+   |
+23 | @media (orientation: landscape) {
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/style-block/input.css:23:8
+   |
+23 | @media (orientation: landscape) {
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+  --> $DIR/tests/fixture/style-block/input.css:23:8
+   |
+23 | @media (orientation: landscape) {
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionAllType
+  --> $DIR/tests/fixture/style-block/input.css:23:8
+   |
+23 | @media (orientation: landscape) {
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/style-block/input.css:23:8
+   |
+23 | @media (orientation: landscape) {
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/style-block/input.css:23:8
+   |
+23 | @media (orientation: landscape) {
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+  --> $DIR/tests/fixture/style-block/input.css:23:8
+   |
+23 | @media (orientation: landscape) {
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureName
+  --> $DIR/tests/fixture/style-block/input.css:23:9
+   |
+23 | @media (orientation: landscape) {
+   |         ^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:23:9
+   |
+23 | @media (orientation: landscape) {
+   |         ^^^^^^^^^^^
+
+error: MediaFeatureValue
+  --> $DIR/tests/fixture/style-block/input.css:23:22
+   |
+23 | @media (orientation: landscape) {
+   |                      ^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:23:22
+   |
+23 | @media (orientation: landscape) {
+   |                      ^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:23:33
+   |
+23 |   @media (orientation: landscape) {
+   |  _________________________________^
+24 | |     & {
+25 | |         grid-auto-flow: column;
+26 | |     }
+27 | | }
+   | |_^
+
+error: Rule
+  --> $DIR/tests/fixture/style-block/input.css:24:5
+   |
+24 | /     & {
+25 | |         grid-auto-flow: column;
+26 | |     }
+   | |_____^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/style-block/input.css:24:5
+   |
+24 | /     & {
+25 | |         grid-auto-flow: column;
+26 | |     }
+   | |_____^
+
+error: SelectorList
+  --> $DIR/tests/fixture/style-block/input.css:24:5
+   |
+24 |     & {
+   |     ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/style-block/input.css:24:5
+   |
+24 |     & {
+   |     ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:24:5
+   |
+24 |     & {
+   |     ^
+
+error: NestingSelector
+  --> $DIR/tests/fixture/style-block/input.css:24:5
+   |
+24 |     & {
+   |     ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:24:7
+   |
+24 |       & {
+   |  _______^
+25 | |         grid-auto-flow: column;
+26 | |     }
+   | |_____^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:25:9
+   |
+25 |         grid-auto-flow: column;
+   |         ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:25:9
+   |
+25 |         grid-auto-flow: column;
+   |         ^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:25:9
+   |
+25 |         grid-auto-flow: column;
+   |         ^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:25:9
+   |
+25 |         grid-auto-flow: column;
+   |         ^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/style-block/input.css:25:25
+   |
+25 |         grid-auto-flow: column;
+   |                         ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:25:25
+   |
+25 |         grid-auto-flow: column;
+   |                         ^^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/style-block/input.css:29:1
+   |
+29 | / .foo {
+30 | |     color: red;
+31 | |
+32 | |     @media (min-width: 480px) {
+33 | |         & h1, & h2 { color: blue; }
+34 | |     }
+35 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/style-block/input.css:29:1
+   |
+29 | / .foo {
+30 | |     color: red;
+31 | |
+32 | |     @media (min-width: 480px) {
+33 | |         & h1, & h2 { color: blue; }
+34 | |     }
+35 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/style-block/input.css:29:1
+   |
+29 | .foo {
+   | ^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/style-block/input.css:29:1
+   |
+29 | .foo {
+   | ^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:29:1
+   |
+29 | .foo {
+   | ^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/style-block/input.css:29:1
+   |
+29 | .foo {
+   | ^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/style-block/input.css:29:1
+   |
+29 | .foo {
+   | ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:29:2
+   |
+29 | .foo {
+   |  ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:29:6
+   |
+29 |   .foo {
+   |  ______^
+30 | |     color: red;
+31 | |
+32 | |     @media (min-width: 480px) {
+33 | |         & h1, & h2 { color: blue; }
+34 | |     }
+35 | | }
+   | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:30:5
+   |
+30 |     color: red;
+   |     ^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:30:5
+   |
+30 |     color: red;
+   |     ^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:30:5
+   |
+30 |     color: red;
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:30:5
+   |
+30 |     color: red;
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/style-block/input.css:30:12
+   |
+30 |     color: red;
+   |            ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:30:12
+   |
+30 |     color: red;
+   |            ^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:32:5
+   |
+32 | /     @media (min-width: 480px) {
+33 | |         & h1, & h2 { color: blue; }
+34 | |     }
+   | |_____^
+
+error: AtRule
+  --> $DIR/tests/fixture/style-block/input.css:32:5
+   |
+32 | /     @media (min-width: 480px) {
+33 | |         & h1, & h2 { color: blue; }
+34 | |     }
+   | |_____^
+
+error: MediaRule
+  --> $DIR/tests/fixture/style-block/input.css:32:5
+   |
+32 | /     @media (min-width: 480px) {
+33 | |         & h1, & h2 { color: blue; }
+34 | |     }
+   | |_____^
+
+error: MediaQueryList
+  --> $DIR/tests/fixture/style-block/input.css:32:12
+   |
+32 |     @media (min-width: 480px) {
+   |            ^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/style-block/input.css:32:12
+   |
+32 |     @media (min-width: 480px) {
+   |            ^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+  --> $DIR/tests/fixture/style-block/input.css:32:12
+   |
+32 |     @media (min-width: 480px) {
+   |            ^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionAllType
+  --> $DIR/tests/fixture/style-block/input.css:32:12
+   |
+32 |     @media (min-width: 480px) {
+   |            ^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/style-block/input.css:32:12
+   |
+32 |     @media (min-width: 480px) {
+   |            ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/style-block/input.css:32:12
+   |
+32 |     @media (min-width: 480px) {
+   |            ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+  --> $DIR/tests/fixture/style-block/input.css:32:12
+   |
+32 |     @media (min-width: 480px) {
+   |            ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureName
+  --> $DIR/tests/fixture/style-block/input.css:32:13
+   |
+32 |     @media (min-width: 480px) {
+   |             ^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:32:13
+   |
+32 |     @media (min-width: 480px) {
+   |             ^^^^^^^^^
+
+error: MediaFeatureValue
+  --> $DIR/tests/fixture/style-block/input.css:32:24
+   |
+32 |     @media (min-width: 480px) {
+   |                        ^^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/style-block/input.css:32:24
+   |
+32 |     @media (min-width: 480px) {
+   |                        ^^^^^
+
+error: Length
+  --> $DIR/tests/fixture/style-block/input.css:32:24
+   |
+32 |     @media (min-width: 480px) {
+   |                        ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/style-block/input.css:32:24
+   |
+32 |     @media (min-width: 480px) {
+   |                        ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:32:27
+   |
+32 |     @media (min-width: 480px) {
+   |                           ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:32:31
+   |
+32 |       @media (min-width: 480px) {
+   |  _______________________________^
+33 | |         & h1, & h2 { color: blue; }
+34 | |     }
+   | |_____^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:33:9
+   |
+33 |         & h1, & h2 { color: blue; }
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/style-block/input.css:33:9
+   |
+33 |         & h1, & h2 { color: blue; }
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/style-block/input.css:33:9
+   |
+33 |         & h1, & h2 { color: blue; }
+   |         ^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/style-block/input.css:33:9
+   |
+33 |         & h1, & h2 { color: blue; }
+   |         ^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:33:9
+   |
+33 |         & h1, & h2 { color: blue; }
+   |         ^
+
+error: NestingSelector
+  --> $DIR/tests/fixture/style-block/input.css:33:9
+   |
+33 |         & h1, & h2 { color: blue; }
+   |         ^
+
+error: Combinator
+  --> $DIR/tests/fixture/style-block/input.css:33:10
+   |
+33 |         & h1, & h2 { color: blue; }
+   |          ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:33:11
+   |
+33 |         & h1, & h2 { color: blue; }
+   |           ^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/style-block/input.css:33:11
+   |
+33 |         & h1, & h2 { color: blue; }
+   |           ^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/style-block/input.css:33:11
+   |
+33 |         & h1, & h2 { color: blue; }
+   |           ^^
+
+error: WqName
+  --> $DIR/tests/fixture/style-block/input.css:33:11
+   |
+33 |         & h1, & h2 { color: blue; }
+   |           ^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:33:11
+   |
+33 |         & h1, & h2 { color: blue; }
+   |           ^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/style-block/input.css:33:15
+   |
+33 |         & h1, & h2 { color: blue; }
+   |               ^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:33:15
+   |
+33 |         & h1, & h2 { color: blue; }
+   |               ^
+
+error: NestingSelector
+  --> $DIR/tests/fixture/style-block/input.css:33:15
+   |
+33 |         & h1, & h2 { color: blue; }
+   |               ^
+
+error: Combinator
+  --> $DIR/tests/fixture/style-block/input.css:33:16
+   |
+33 |         & h1, & h2 { color: blue; }
+   |                ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:33:17
+   |
+33 |         & h1, & h2 { color: blue; }
+   |                 ^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/style-block/input.css:33:17
+   |
+33 |         & h1, & h2 { color: blue; }
+   |                 ^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/style-block/input.css:33:17
+   |
+33 |         & h1, & h2 { color: blue; }
+   |                 ^^
+
+error: WqName
+  --> $DIR/tests/fixture/style-block/input.css:33:17
+   |
+33 |         & h1, & h2 { color: blue; }
+   |                 ^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:33:17
+   |
+33 |         & h1, & h2 { color: blue; }
+   |                 ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:33:20
+   |
+33 |         & h1, & h2 { color: blue; }
+   |                    ^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:33:22
+   |
+33 |         & h1, & h2 { color: blue; }
+   |                      ^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:33:22
+   |
+33 |         & h1, & h2 { color: blue; }
+   |                      ^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:33:22
+   |
+33 |         & h1, & h2 { color: blue; }
+   |                      ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:33:22
+   |
+33 |         & h1, & h2 { color: blue; }
+   |                      ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/style-block/input.css:33:29
+   |
+33 |         & h1, & h2 { color: blue; }
+   |                             ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:33:29
+   |
+33 |         & h1, & h2 { color: blue; }
+   |                             ^^^^
+

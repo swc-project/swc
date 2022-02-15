@@ -410,6 +410,12 @@ error: Ident
 23 | @media/* comment */screen/* comment */{}
    |                    ^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/comment/input.css:23:39
+   |
+23 | @media/* comment */screen/* comment */{}
+   |                                       ^^
+
 error: Rule
   --> $DIR/tests/fixture/comment/input.css:24:1
    |
@@ -445,4 +451,10 @@ error: Ident
    |
 24 | @media /* comment */ screen /* comment */ {}
    |                      ^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/comment/input.css:24:43
+   |
+24 | @media /* comment */ screen /* comment */ {}
+   |                                           ^^
 

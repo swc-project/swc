@@ -510,6 +510,17 @@ error: Ident
 12 |     @media screen and (min-width: 900px) {
    |                                      ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:42
+   |
+12 |       @media screen and (min-width: 900px) {
+   |  __________________________________________^
+13 | |         article {
+14 | |             display: flex;
+15 | |         }
+16 | |     }
+   | |_____^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:13:9
    |

@@ -22,11 +22,11 @@ error: Expected whitespace, semicolon, EOF, at-keyword or ident token
 14 | .selector { [;property: value;]; }
    |                               ^
 
-error: Expected "{"
-  --> $DIR/tests/recovery/hacks/input.css:16:12
+error: Expected '{' delim token
+  --> $DIR/tests/recovery/hacks/input.css:16:8
    |
 16 | @media \\0 screen {}
-   |            ^^^^^^
+   |        ^^^
 
 error: Expected whitespace, semicolon, EOF, at-keyword or ident token
    --> $DIR/tests/recovery/hacks/input.css:104:5
@@ -196,11 +196,11 @@ error: Expected whitespace, semicolon, EOF, at-keyword or ident token
 226 | .selector { [;property: value;]; }
     |                               ^
 
-error: Expected "{"
-   --> $DIR/tests/recovery/hacks/input.css:241:12
+error: Expected '{' delim token
+   --> $DIR/tests/recovery/hacks/input.css:241:8
     |
 241 | @media \\0 screen {}
-    |            ^^^^^^
+    |        ^^^
 
 error: Expected whitespace, semicolon, EOF, at-keyword or ident token
    --> $DIR/tests/recovery/hacks/input.css:244:5

@@ -571,7 +571,7 @@ define!({
     pub struct MediaRule {
         pub span: Span,
         pub media: Option<MediaQueryList>,
-        pub rules: Vec<Rule>,
+        pub block: SimpleBlock,
     }
 
     pub struct MediaQueryList {

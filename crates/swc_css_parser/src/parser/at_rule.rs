@@ -1008,18 +1008,28 @@ where
             None
         };
 
-        expect!(self, "{");
+        self.input.skip_ws()?;
 
-        let rules = self.parse_rule_list(RuleContext {
-            is_top_level: false,
-        })?;
+        if !is!(self, "{") {
+            return Err(Error::new(span, ErrorKind::Expected("'{' delim token")));
+        }
 
-        expect!(self, "}");
+        let ctx = match self.ctx.grammar {
+            Grammar::StyleBlock => Ctx {
+                grammar: Grammar::StyleBlock,
+                ..self.ctx
+            },
+            _ => Ctx {
+                grammar: Grammar::Stylesheet,
+                ..self.ctx
+            },
+        };
+        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
         Ok(MediaRule {
             span: span!(self, span.lo),
             media,
-            rules,
+            block,
         })
     }
 }

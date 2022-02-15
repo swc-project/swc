@@ -1,6 +1,6 @@
-error: Expected "{"
- --> $DIR/tests/recovery/at-rule/media/condition-1/input.css:1:41
+error: Expected '{' delim token
+ --> $DIR/tests/recovery/at-rule/media/condition-1/input.css:1:8
   |
 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
-  |                                         ^^^^^^^
+  |        ^
 

@@ -366,7 +366,8 @@ where
 
                         simple_block.value.extend(style_blocks);
                     }
-                    Grammar::RuleList => {
+                    // TODO improve grammar validation
+                    Grammar::RuleList | Grammar::Stylesheet => {
                         let rule_list = self.parse_rule_list(RuleContext {
                             is_top_level: false,
                         })?;

@@ -151,8 +151,6 @@ where
         let start_pos = span.lo;
 
         let mut nesting_selector = None;
-
-        println!("{:?}", self.input.cur());
         
         // TODO: move under option, because it is draft
         // TODO validate list of selector, each should start with `&`
