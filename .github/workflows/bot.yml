@@ -1,0 +1,35 @@
+name: SWC Bot
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0,30 * * * *"
+
+jobs:
+  auto-rebase:
+    name: Auto rebase
+    runs-on: ubuntu-latest
+    concurrency: swc-bot-auto-rebase
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: "swc-project/swc"
+          ref: "main"
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+
+      - name: Install dependencies
+        working-directory: scripts/bot
+        run: |
+          yarn
+
+      - name: Rebase a PR
+        working-directory: scripts/bot
+        run: |
+          npx ts-node src/auto-rebase.ts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}

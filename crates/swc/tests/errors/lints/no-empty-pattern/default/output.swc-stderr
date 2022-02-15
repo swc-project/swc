@@ -1,0 +1,78 @@
+error: Unexpected empty object pattern
+ 
+  |
+1 | var {} = foo;
+  |     ^^
+
+error: Unexpected empty array pattern
+ 
+  |
+2 | var [] = foo;
+  |     ^^
+
+error: Unexpected empty object pattern
+ 
+  |
+3 | var {a: {}} = foo;
+  |         ^^
+
+error: Unexpected empty array pattern
+ 
+  |
+4 | var {a: []} = foo;
+  |         ^^
+
+error: Unexpected empty object pattern
+ 
+  |
+5 | var {a: {a: {}}} = foo;
+  |             ^^
+
+error: Unexpected empty array pattern
+ 
+  |
+6 | var [...[]] = foo;
+  |         ^^
+
+error: Unexpected empty object pattern
+ 
+  |
+7 | function foo1({}) {}
+  |               ^^
+
+error: Unexpected empty array pattern
+ 
+  |
+8 | function foo2([]) {}
+  |               ^^
+
+error: Unexpected empty object pattern
+ 
+  |
+9 | function foo3({a: {}}) {}
+  |                   ^^
+
+error: Unexpected empty array pattern
+  
+   |
+10 | function foo4({a: []}) {}
+   |                   ^^
+
+error: Unexpected empty object pattern
+  
+   |
+18 | try {} catch ({}) {}
+   |               ^^
+
+error: Unexpected empty object pattern
+  
+   |
+21 |   constructor({}) {}
+   |               ^^
+
+error: Unexpected empty object pattern
+  
+   |
+23 |   method({}) {}
+   |          ^^
+

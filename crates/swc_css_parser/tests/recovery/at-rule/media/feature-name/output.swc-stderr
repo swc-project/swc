@@ -1,4 +1,4 @@
-error: Expected number, dimension, identifier or ration value
+error: Expected number, ident or dimension token
  --> $DIR/tests/recovery/at-rule/media/feature-name/input.css:1:9
   |
 1 | @media ("min-width": 20px) {}

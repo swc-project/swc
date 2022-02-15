@@ -65,7 +65,7 @@ where
                 // <at-keyword-token>
                 // Reconsume the current input token. Consume an at-rule, and append the returned
                 // value to the list of rules.
-                Token::AtKeyword { .. } => {
+                tok!("@") => {
                     rules.push(Rule::AtRule(self.parse_at_rule(Default::default())?));
                 }
                 // anything else
@@ -281,12 +281,12 @@ where
                 tok!(";") => {
                     bump!(self);
                 }
-                Token::AtKeyword { .. } => {
+                tok!("@") => {
                     declarations.push(DeclarationBlockItem::AtRule(
                         self.parse_at_rule(Default::default())?,
                     ));
                 }
-                Token::Ident { .. } => {
+                tok!("ident") => {
                     let state = self.input.state();
                     let span = self.input.cur_span()?;
                     let prop = match self.parse().map(DeclarationBlockItem::Declaration) {

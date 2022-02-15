@@ -1000,7 +1000,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Str": {
+                  "String": {
                     "value": "http://www.example.com/pinkish.gif",
                     "raw": "\"http://www.example.com/pinkish.gif\""
                   }

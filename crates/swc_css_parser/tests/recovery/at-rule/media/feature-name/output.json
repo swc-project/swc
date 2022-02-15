@@ -63,7 +63,7 @@
                 "ctxt": 0
               },
               "token": {
-                "Str": {
+                "String": {
                   "value": "min-width",
                   "raw": "\"min-width\""
                 }

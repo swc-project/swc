@@ -634,7 +634,7 @@ error: Delim { value: '=' }
 8 | input:not([type='submit']) {}
   |                ^
 
-error: Str { value: Atom('submit' type=inline), raw: Atom(''submit'' type=dynamic) }
+error: String { value: Atom('submit' type=inline), raw: Atom(''submit'' type=dynamic) }
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:17
   |
 8 | input:not([type='submit']) {}
@@ -760,7 +760,7 @@ error: Function { value: Atom('nth-child' type=dynamic), raw: Atom('nth-child' t
 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
   |                   ^^^^^^^^^^
 
-error: Num { value: 5.0, raw: Atom('5' type=inline), type_flag: Integer }
+error: Number { value: 5.0, raw: Atom('5' type=inline), type_flag: Integer }
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:29
   |
 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
@@ -820,7 +820,7 @@ error: Function { value: Atom('nth-child' type=dynamic), raw: Atom('nth-child' t
 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
   |                                            ^^^^^^^^^^
 
-error: Num { value: 6.0, raw: Atom('6' type=inline), type_flag: Integer }
+error: Number { value: 6.0, raw: Atom('6' type=inline), type_flag: Integer }
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:54
   |
 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}

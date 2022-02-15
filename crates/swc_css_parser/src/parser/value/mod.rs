@@ -165,7 +165,7 @@ where
 
             tok!(";") => return Ok(Value::Delimiter(self.parse()?)),
 
-            tok!("str") => return Ok(Value::Str(self.parse()?)),
+            tok!("string") => return Ok(Value::Str(self.parse()?)),
 
             tok!("url") => return Ok(Value::Url(self.parse()?)),
 
@@ -181,13 +181,13 @@ where
 
             tok!("dimension") => return Ok(Value::Dimension(self.parse()?)),
 
-            tok!("num") => return Ok(Value::Number(self.parse()?)),
+            tok!("number") => return Ok(Value::Number(self.parse()?)),
 
             Token::Ident { value, .. } => {
                 if value.starts_with("--") {
                     return Ok(Value::DashedIdent(self.parse()?));
                 } else if &*value.to_ascii_lowercase() == "u"
-                    && peeked_is_one_of!(self, "+", Num, Dimension)
+                    && peeked_is_one_of!(self, "+", "number", "dimension")
                 {
                     return Ok(Value::Urange(self.parse()?));
                 }
@@ -360,14 +360,14 @@ where
     fn parse(&mut self) -> PResult<Number> {
         let span = self.input.cur_span()?;
 
-        if !is!(self, Num) {
+        if !is!(self, Number) {
             return Err(Error::new(span, ErrorKind::ExpectedNumber));
         }
 
         let value = bump!(self);
 
         match value {
-            Token::Num { value, raw, .. } => Ok(Number { span, value, raw }),
+            Token::Number { value, raw, .. } => Ok(Number { span, value, raw }),
             _ => {
                 unreachable!()
             }
@@ -925,12 +925,12 @@ where
     fn parse(&mut self) -> PResult<Str> {
         let span = self.input.cur_span()?;
 
-        if !is!(self, Str) {
-            return Err(Error::new(span, ErrorKind::Expected("Str")));
+        if !is!(self, "string") {
+            return Err(Error::new(span, ErrorKind::Expected("string token")));
         }
 
         match bump!(self) {
-            Token::Str { value, raw } => Ok(Str { span, value, raw }),
+            Token::String { value, raw } => Ok(Str { span, value, raw }),
             _ => {
                 unreachable!()
             }
@@ -1006,7 +1006,7 @@ where
                 self.input.skip_ws()?;
 
                 let value = match cur!(self) {
-                    tok!("str") => Some(UrlValue::Str(self.parse()?)),
+                    tok!("string") => Some(UrlValue::Str(self.parse()?)),
                     _ => None,
                 };
 
@@ -1408,9 +1408,9 @@ where
             // u <number-token> '?'*
             // u <number-token> <dimension-token>
             // u <number-token> <number-token>
-            tok!("num") => {
+            tok!("number") => {
                 let number = match bump!(self) {
-                    Token::Num { raw, .. } => raw,
+                    Token::Number { raw, .. } => raw,
                     _ => {
                         unreachable!();
                     }
@@ -1459,9 +1459,9 @@ where
                         urange.push_str(&dimension.0);
                         urange.push_str(&dimension.1);
                     }
-                    tok!("num") => {
+                    tok!("number") => {
                         let number = match bump!(self) {
-                            Token::Num { raw, .. } => raw,
+                            Token::Number { raw, .. } => raw,
                             _ => {
                                 unreachable!();
                             }
@@ -1710,7 +1710,7 @@ where
 {
     fn parse(&mut self) -> PResult<CalcValue> {
         match cur!(self) {
-            tok!("num") => Ok(CalcValue::Number(self.parse()?)),
+            tok!("number") => Ok(CalcValue::Number(self.parse()?)),
             tok!("dimension") => Ok(CalcValue::Dimension(self.parse()?)),
             tok!("percentage") => Ok(CalcValue::Percentage(self.parse()?)),
             Token::Ident { value, .. } => {

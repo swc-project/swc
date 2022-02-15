@@ -382,7 +382,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Num": {
+                  "Number": {
                     "value": 1.0,
                     "raw": "1",
                     "type": "integer"
@@ -613,7 +613,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Num": {
+                  "Number": {
                     "value": 1.0,
                     "raw": "1",
                     "type": "integer"
@@ -737,7 +737,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Num": {
+                  "Number": {
                     "value": 1.0,
                     "raw": "1",
                     "type": "integer"
@@ -791,7 +791,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Num": {
+                  "Number": {
                     "value": 1.0,
                     "raw": "1",
                     "type": "integer"
@@ -894,7 +894,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Str": {
+                  "String": {
                     "value": "single quoted string",
                     "raw": "'single quoted string'"
                   }
@@ -929,7 +929,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Str": {
+                  "String": {
                     "value": "double quoted string",
                     "raw": "\"double quoted string\""
                   }
@@ -973,7 +973,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Num": {
+                  "Number": {
                     "value": 1.0,
                     "raw": "1",
                     "type": "integer"
@@ -1010,7 +1010,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Num": {
+                  "Number": {
                     "value": 2.0,
                     "raw": "2",
                     "type": "integer"
@@ -1047,7 +1047,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Num": {
+                  "Number": {
                     "value": 3.0,
                     "raw": "3",
                     "type": "integer"
@@ -1179,7 +1179,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Num": {
+                  "Number": {
                     "value": 1.0,
                     "raw": "1",
                     "type": "integer"
@@ -1216,7 +1216,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Num": {
+                  "Number": {
                     "value": 2.0,
                     "raw": "2",
                     "type": "integer"
@@ -1253,7 +1253,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Num": {
+                  "Number": {
                     "value": 3.0,
                     "raw": "3",
                     "type": "integer"
@@ -1385,7 +1385,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Num": {
+                  "Number": {
                     "value": 1.0,
                     "raw": "1",
                     "type": "integer"
@@ -1422,7 +1422,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Num": {
+                  "Number": {
                     "value": 2.0,
                     "raw": "2",
                     "type": "integer"
@@ -1459,7 +1459,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Num": {
+                  "Number": {
                     "value": 3.0,
                     "raw": "3",
                     "type": "integer"
@@ -1591,7 +1591,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Num": {
+                  "Number": {
                     "value": 1.0,
                     "raw": "1",
                     "type": "integer"
@@ -1628,7 +1628,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Str": {
+                  "String": {
                     "value": "2",
                     "raw": "\"2\""
                   }
@@ -1673,7 +1673,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Str": {
+                  "String": {
                     "value": "three",
                     "raw": "\"three\""
                   }
@@ -1718,7 +1718,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Str": {
+                  "String": {
                     "value": "a",
                     "raw": "\"a\""
                   }
@@ -1741,7 +1741,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Num": {
+                  "Number": {
                     "value": 1.0,
                     "raw": "1",
                     "type": "integer"
@@ -1805,7 +1805,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Num": {
+                  "Number": {
                     "value": 4.0,
                     "raw": "4",
                     "type": "integer"
@@ -2613,7 +2613,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Num": {
+                  "Number": {
                     "value": 0.0,
                     "raw": "0",
                     "type": "integer"
@@ -2686,7 +2686,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Num": {
+                  "Number": {
                     "value": 0.0,
                     "raw": "0",
                     "type": "integer"
@@ -3038,7 +3038,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Num": {
+                  "Number": {
                     "value": 1.0,
                     "raw": "1",
                     "type": "integer"

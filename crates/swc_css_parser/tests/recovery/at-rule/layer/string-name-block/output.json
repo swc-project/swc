@@ -45,7 +45,7 @@
             "ctxt": 0
           },
           "token": {
-            "Str": {
+            "String": {
               "value": "framework",
               "raw": "\"framework\""
             }

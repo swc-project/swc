@@ -98,7 +98,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Str": {
+                  "String": {
                     "value": "bar",
                     "raw": "'bar'"
                   }
@@ -133,7 +133,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Str": {
+                  "String": {
                     "value": "foo",
                     "raw": "\"foo\""
                   }
@@ -168,7 +168,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Str": {
+                  "String": {
                     "value": "abort",
                     "raw": "\"abort\""
                   }
@@ -203,7 +203,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Num": {
+                  "Number": {
                     "value": 1987.0,
                     "raw": "1987",
                     "type": "integer"
@@ -274,7 +274,7 @@
                   "ctxt": 0
                 },
                 "token": {
-                  "Num": {
+                  "Number": {
                     "value": 37.0,
                     "raw": "37",
                     "type": "integer"

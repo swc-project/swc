@@ -77,12 +77,12 @@ var CBase = function() {
     });
     function C() {
         _classCallCheck(this, C);
-        var _thisSuper, _this = _super.call(this, {
+        var _this = _super.call(this, {
             method: function(p) {
                 p.length;
             }
         });
-        return _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(C.prototype)), "foo", _thisSuper).call(_thisSuper, {
+        return _get((_assertThisInitialized(_this), _getPrototypeOf(C.prototype)), "foo", _this).call(_this, {
             method: function(p) {
                 p.length;
             }
