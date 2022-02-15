@@ -488,7 +488,7 @@ where
 
         // Otherwise, create a <number-token> with the same value and type flag as
         // number, and return it.
-        Ok(Token::Num {
+        Ok(Token::Number {
             value: number.0,
             raw: number.1.into(),
             type_flag: number.2,
@@ -601,7 +601,7 @@ where
                 // EOF
                 // This is a parse error. Return the <string-token>.
                 None => {
-                    return Ok(Token::Str {
+                    return Ok(Token::String {
                         value: value.into(),
                         raw: raw.into(),
                     })
@@ -613,7 +613,7 @@ where
                 Some(c) if is_newline(c) => {
                     self.reconsume();
 
-                    return Ok(Token::BadStr {
+                    return Ok(Token::BadString {
                         value: value.into(),
                         raw: raw.into(),
                     });
@@ -655,7 +655,7 @@ where
             }
         }
 
-        Ok(Token::Str {
+        Ok(Token::String {
             value: value.into(),
             raw: raw.into(),
         })

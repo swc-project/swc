@@ -180,7 +180,10 @@ foo(1, 2, 3);"#
 
 test!(
     syntax(),
-    |t| chain!(classes(Some(t.comments.clone())), tr(Default::default())),
+    |t| chain!(
+        classes(Some(t.comments.clone()), Default::default()),
+        tr(Default::default())
+    ),
     default_iife_4253,
     r#"class Ref {
   constructor(id = ++Ref.nextID) {
@@ -216,7 +219,10 @@ expect(new Ref().id).toBe(2);"#
 
 test!(
     syntax(),
-    |t| chain!(classes(Some(t.comments.clone())), tr(Default::default())),
+    |t| chain!(
+        classes(Some(t.comments.clone()), Default::default()),
+        tr(Default::default())
+    ),
     default_iife_self,
     r#"class Ref {
   constructor(ref = Ref) {
@@ -1245,7 +1251,7 @@ test!(
     syntax(),
     |t| chain!(
         tr(Default::default()),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         spread(Default::default())
     ),
     rest_nested_iife,
@@ -1858,6 +1864,47 @@ constructor() {
 
 }
 "
+);
+
+test!(
+    syntax(),
+    |_| parameters(Default::default()),
+    issue_3471,
+    "
+class A {
+  a = 1 + ((...a) => a)
+  b = (...b) => b + this 
+  static c = (c = 123) => c + this 
+}
+  ",
+    "
+var _this = this;
+
+class A {
+  a = 1 + function () {
+    for (var _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++) {
+      a[_key] = arguments[_key];
+    }
+
+    return a;
+  };
+  b = (() => {
+    var _this1 = this;
+
+    return function () {
+      for (var _len = arguments.length, b = new Array(_len), _key = 0; _key < _len; _key++) {
+        b[_key] = arguments[_key];
+      }
+
+      return b + _this1;
+    };
+  })();
+  static c = function () {
+    let c = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 123;
+    return c + _this;
+  };
+}
+  "
 );
 
 test!(

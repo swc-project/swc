@@ -55,10 +55,10 @@ var ref, ref1, C = function(B) {
         return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : _assertThisInitialized(self);
     });
     function C() {
-        var _thisSuper, _this;
+        var _this;
         return !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, C), _this = _super.apply(this, arguments), _this.x = 1, _this.y = _this.x, _this.z = _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(C.prototype)), "f", _thisSuper).call(_thisSuper), _this;
+        }(this, C), _this = _super.apply(this, arguments), _this.x = 1, _this.y = _this.x, _this.z = _get((_assertThisInitialized(_this), _getPrototypeOf(C.prototype)), "f", _this).call(_this), _this;
     }
     return C;
 }(B);

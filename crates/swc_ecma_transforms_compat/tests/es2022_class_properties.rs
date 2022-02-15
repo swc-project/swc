@@ -32,7 +32,7 @@ fn tr(t: &Tester) -> impl Fold {
         resolver(),
         function_name(),
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         block_scoping(),
         reserved_words(false),
     )
@@ -923,12 +923,11 @@ function (A) {
   var _super = _createSuper(B);
   function B() {
     _classCallCheck(this, B);
-    var _thisSuper, _this;
+    var _this;
 
     _this = _super.apply(this, arguments);
-    _defineProperty(_assertThisInitialized(_this), 'foo', _get((_thisSuper = \
-     _assertThisInitialized(_this), _getPrototypeOf(B.prototype)), 'foo', \
-     _thisSuper).call(_thisSuper));
+    _defineProperty(_assertThisInitialized(_this), 'foo', _get((_assertThisInitialized(_this), \
+     _getPrototypeOf(B.prototype)), 'foo', _this).call(_this));
     return _this;
   }
 
@@ -1812,13 +1811,13 @@ function (A) {
   var _super = _createSuper(B);
   function B() {
     _classCallCheck(this, B);
-    var _thisSuper, _this;
+    var _this;
 
     _this = _super.apply(this, arguments);
 
     _foo.set(_assertThisInitialized(_this), {
       writable: true,
-      value: _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(B.prototype)), "foo", _thisSuper).call(_thisSuper)
+      value: _get((_assertThisInitialized(_this), _getPrototypeOf(B.prototype)), "foo", _this).call(_this)
     });
 
     return _this;
@@ -1930,10 +1929,9 @@ var Outer = function (Hello) {
   var _super = _createSuper(Outer);
   function Outer() {
     _classCallCheck(this, Outer);
-    var _thisSuper;
     var _this = _super.call(this);
 
-    var _ref = _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(Outer.prototype)), "toString", _thisSuper).call(_thisSuper);
+    var _ref = _get((_assertThisInitialized(_this), _getPrototypeOf(Outer.prototype)), "toString", _this).call(_this);
 
     var Inner = function Inner() {
       _classCallCheck(this, Inner);
@@ -2876,7 +2874,7 @@ test!(
     |t| chain!(
         resolver(),
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone()))
+        classes(Some(t.comments.clone()), Default::default())
     ),
     issue_342,
     "class Foo {
@@ -3197,7 +3195,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
     private_destructuring_object_pattern_1,
@@ -3391,7 +3389,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
     private_destructuring_array_pattern,
@@ -3544,7 +3542,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
     private_destructuring_array_pattern_1,
@@ -3755,7 +3753,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone()))
+        classes(Some(t.comments.clone()), Default::default())
     ),
     static_property_tdz_edgest_case,
     r#"
@@ -3784,7 +3782,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone()))
+        classes(Some(t.comments.clone()), Default::default())
     ),
     static_property_tdz_false_alarm,
     r#"
@@ -4127,7 +4125,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
     private_canonical,
@@ -4271,7 +4269,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
     private_destructuring_array_pattern_3,
@@ -4333,7 +4331,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
     private_destructuring_array_pattern_2,
@@ -4454,7 +4452,7 @@ test!(
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
         exponentation(),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         block_scoping(),
     ),
     private_instance,
@@ -4486,7 +4484,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone()))
+        classes(Some(t.comments.clone()), Default::default())
     ),
     static_property_tdz_general,
     r#"
@@ -4674,7 +4672,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
     public_computed_without_block,
@@ -4726,7 +4724,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
     public_static_super,

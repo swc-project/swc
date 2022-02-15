@@ -319,7 +319,7 @@
                 "ctxt": 0
               },
               "token": {
-                "Num": {
+                "Number": {
                   "value": 1.0,
                   "raw": "1",
                   "type": "integer"

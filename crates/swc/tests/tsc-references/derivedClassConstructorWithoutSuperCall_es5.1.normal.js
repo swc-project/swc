@@ -111,7 +111,7 @@ var Derived3 = /*#__PURE__*/ function(Base2) {
         _classCallCheck(this, Derived3);
         var _this;
         var r = function r() {
-            _this = _super.call(this);
+            super();
         } // error
         ;
         return _possibleConstructorReturn(_this);

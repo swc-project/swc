@@ -21,8 +21,6 @@ pub type PResult<T> = Result<T, Error>;
 
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct ParserConfig {
-    pub parse_values: bool,
-
     /// If this is `true`, **wrong** comments starting with `//` will be treated
     /// as a comment.
     ///
@@ -33,6 +31,7 @@ pub struct ParserConfig {
 
 #[derive(Debug, Clone, Copy)]
 pub enum Grammar {
+    RuleList,
     DeclarationList,
     DeclarationValue,
 }
@@ -48,8 +47,6 @@ struct Ctx {
     grammar: Grammar,
 
     in_page_at_rule: bool,
-
-    allow_operation_in_value: bool,
 }
 
 #[derive(Debug)]

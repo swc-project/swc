@@ -5,12 +5,6 @@ error: Expected Declaration value
   |                                                ^
 
 error: Expected Declaration value
- --> $DIR/tests/errors/rome/invalid/grid/repeat/unclosed-lint-name/input.css:2:46
-  |
-2 |     grid-template-columns: repeat(4, [col-start);
-  |                                                 ^
-
-error: Expected Declaration value
  --> $DIR/tests/errors/rome/invalid/grid/repeat/unclosed-lint-name/input.css:3:1
   |
 3 | }

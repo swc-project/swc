@@ -1,5 +1,6 @@
 use std::iter;
 
+use serde::Deserialize;
 use swc_common::{comments::Comments, util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
@@ -17,7 +18,7 @@ use tracing::debug;
 use self::{
     constructor::{
         constructor_fn, make_possible_return_value, replace_this_in_constructor, ConstructorFolder,
-        ReturningMode, SuperCallFinder, SuperFoldingMode, VarRenamer,
+        ReturningMode, SuperCallFinder, SuperFoldingMode,
     },
     prop_name::HashKey,
 };
@@ -25,13 +26,14 @@ use self::{
 mod constructor;
 mod prop_name;
 
-pub fn classes<C>(comments: Option<C>) -> impl Fold + VisitMut
+pub fn classes<C>(comments: Option<C>, config: Config) -> impl Fold + VisitMut
 where
     C: Comments,
 {
     as_folder(Classes {
         in_strict: false,
         comments,
+        config,
     })
 }
 
@@ -75,10 +77,24 @@ where
 {
     in_strict: bool,
     comments: Option<C>,
+    config: Config,
+}
+
+#[derive(Debug, Clone, Copy, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Config {
+    #[serde(default)]
+    pub constant_super: bool,
+    #[serde(default)]
+    pub no_class_calls: bool,
+    #[serde(default)]
+    pub set_class_methods: bool,
+    #[serde(default)]
+    pub super_is_callable_constructor: bool,
 }
 
 struct Data {
-    key_prop: Box<Prop>,
+    key_prop: Box<PropName>,
     method: Option<Box<Expr>>,
     set: Option<Box<Expr>>,
     get: Option<Box<Expr>>,
@@ -437,30 +453,33 @@ where
             );
         }
 
-        let super_var = super_class_ident.as_ref().map(|_| {
+        let super_var = super_class_ident.as_ref().map(|super_class| {
             let var = private_ident!("_super");
             let mut class_name_sym = class_name.clone();
             class_name_sym.span = DUMMY_SP;
             class_name_sym.span.ctxt = class_name.span.ctxt;
 
-            stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                declare: Default::default(),
-                decls: vec![VarDeclarator {
+            if !self.config.super_is_callable_constructor {
+                stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
-                    name: var.clone().into(),
-                    init: Some(Box::new(Expr::Call(CallExpr {
+                    kind: VarDeclKind::Var,
+                    declare: Default::default(),
+                    decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        callee: helper!(create_super, "createSuper"),
-                        args: vec![class_name_sym.as_arg()],
-                        type_args: Default::default(),
-                    }))),
-                    definite: Default::default(),
-                }],
-            })));
-
-            var
+                        name: var.clone().into(),
+                        init: Some(Box::new(Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: helper!(create_super, "createSuper"),
+                            args: vec![class_name_sym.as_arg()],
+                            type_args: Default::default(),
+                        }))),
+                        definite: Default::default(),
+                    }],
+                })));
+                var
+            } else {
+                super_class.clone()
+            }
         });
 
         // Marker for `_this`
@@ -473,10 +492,11 @@ where
                 constructor.unwrap_or_else(|| default_constructor(super_class_ident.is_some()));
 
             // Rename variables to avoid conflicting with class name
-            constructor.body.visit_mut_with(&mut VarRenamer {
-                mark: Mark::fresh(Mark::root()),
-                class_name: &class_name.sym,
-            });
+            // TODO: bring it back once we have a proper private ident
+            // constructor.body.visit_mut_with(&mut VarRenamer {
+            //     mark: Mark::fresh(Mark::root()),
+            //     class_name: &class_name.sym,
+            // });
 
             // Black magic to detect injected constructor.
             let is_constructor_default = constructor.span.is_dummy();
@@ -529,14 +549,10 @@ where
                     } else {
                         mode
                     },
-                    vars: &mut vars,
-                    // This if expression is required to handle super() call in all case
-                    cur_this_super: None,
                     mark: this_mark,
                     is_constructor_default,
                     super_var,
                     ignore_return: false,
-                    in_injected_define_property_call: false,
                 });
 
                 insert_this |= (mode == None && !is_always_initialized)
@@ -589,6 +605,7 @@ where
             // Handle `super.XX`
             body = self.handle_super_access(
                 &class_name,
+                &super_class_ident,
                 body,
                 if is_this_declared {
                     Some(this_mark)
@@ -598,7 +615,9 @@ where
             );
 
             // inject _classCallCheck(this, Bar);
-            inject_class_call_check(&mut body, class_name.clone());
+            if !self.config.no_class_calls {
+                inject_class_call_check(&mut body, class_name.clone());
+            }
 
             stmts.push(Stmt::Decl(Decl::Fn(FnDecl {
                 ident: class_name.clone(),
@@ -615,7 +634,7 @@ where
 
         // convert class methods
         // stmts.extend(self.fold_class_methods(class_name.clone(), priv_methods));
-        stmts.extend(self.fold_class_methods(class_name.clone(), methods));
+        stmts.extend(self.fold_class_methods(&class_name, &super_class_ident, methods));
 
         if stmts.first().map(|v| !v.is_use_strict()).unwrap_or(false) && !self.in_strict {
             prepend(
@@ -668,6 +687,7 @@ where
     fn handle_super_access(
         &mut self,
         class_name: &Ident,
+        super_class_ident: &Option<Ident>,
         mut body: Vec<Stmt>,
         this_mark: Option<Mark>,
     ) -> Vec<Stmt> {
@@ -682,6 +702,8 @@ where
             in_nested_scope: false,
             in_injected_define_property_call: false,
             this_alias_mark: None,
+            constant_super: self.config.constant_super,
+            super_class: super_class_ident,
         };
 
         body.visit_mut_with(&mut folder);
@@ -718,33 +740,63 @@ where
         body
     }
 
-    fn fold_class_methods(&mut self, class_name: Ident, methods: Vec<ClassMethod>) -> Vec<Stmt> {
+    fn fold_class_methods(
+        &mut self,
+        class_name: &Ident,
+        super_class_ident: &Option<Ident>,
+        methods: Vec<ClassMethod>,
+    ) -> Vec<Stmt> {
         if methods.is_empty() {
             return vec![];
         }
 
         /// { key: "prop" }
-        fn mk_key_prop(key: &PropName) -> Prop {
-            Prop::KeyValue(KeyValueProp {
+        fn mk_key_prop(key: PropName) -> Box<Prop> {
+            Box::new(Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(quote_ident!(key.span(), "key")),
-                value: match *key {
-                    PropName::Ident(ref i) => {
-                        Box::new(Expr::Lit(Lit::Str(quote_str!(i.span, i.sym.clone()))))
-                    }
-                    PropName::Str(ref s) => Box::new(Expr::Lit(Lit::Str(s.clone()))),
+                value: match key {
+                    PropName::Ident(i) => Box::new(Expr::Lit(Lit::Str(quote_str!(i.span, i.sym)))),
+                    PropName::Str(s) => Box::new(Expr::Lit(Lit::Str(s))),
                     PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(n))),
-                    PropName::BigInt(ref b) => Box::new(Expr::Lit(
+                    PropName::BigInt(b) => Box::new(Expr::Lit(
                         Str {
                             span: b.span,
-                            value: format!("{}", b.value).into(),
+                            value: b.value.to_string().into(),
                             has_escape: false,
                             kind: Default::default(),
                         }
                         .into(),
                     )),
-                    PropName::Computed(ref c) => c.expr.clone(),
+                    PropName::Computed(c) => c.expr,
                 },
-            })
+            }))
+        }
+
+        fn mk_key_prop_member(key: PropName) -> MemberProp {
+            match key {
+                PropName::Ident(i) => MemberProp::Ident(i),
+                PropName::Str(s) => MemberProp::Computed(ComputedPropName {
+                    span: s.span,
+                    expr: Box::new(Expr::Lit(Lit::Str(s))),
+                }),
+                PropName::Num(n) => MemberProp::Computed(ComputedPropName {
+                    span: n.span,
+                    expr: Box::new(Expr::Lit(Lit::Num(n))),
+                }),
+                PropName::BigInt(b) => MemberProp::Computed(ComputedPropName {
+                    span: b.span,
+                    expr: Box::new(Expr::Lit(
+                        Str {
+                            span: b.span,
+                            value: b.value.to_string().into(),
+                            has_escape: false,
+                            kind: Default::default(),
+                        }
+                        .into(),
+                    )),
+                }),
+                PropName::Computed(c) => MemberProp::Computed(c),
+            }
         }
 
         fn mk_arg_obj_for_create_class(props: IndexMap<HashKey, Data>) -> ExprOrSpread {
@@ -756,7 +808,7 @@ where
                 elems: props
                     .into_iter()
                     .map(|(_, data)| {
-                        let mut props = vec![PropOrSpread::Prop(data.key_prop)];
+                        let mut props = vec![PropOrSpread::Prop(mk_key_prop(*data.key_prop))];
 
                         macro_rules! add {
                             ($field:expr, $kind:expr, $s:literal) => {{
@@ -814,7 +866,7 @@ where
 
         for mut m in methods {
             let key = HashKey::from(&m.key);
-            let key_prop = Box::new(mk_key_prop(&m.key));
+            let key_prop = Box::new(m.key.clone());
             let computed = matches!(m.key, PropName::Computed(..));
             let prop_name = prop_name_to_expr(m.key);
 
@@ -826,7 +878,7 @@ where
 
             let mut vars = vec![];
             let mut folder = SuperFieldAccessFolder {
-                class_name: &class_name,
+                class_name,
                 vars: &mut vars,
                 constructor_this_mark: None,
                 is_static: m.is_static,
@@ -834,6 +886,8 @@ where
                 in_nested_scope: false,
                 in_injected_define_property_call: false,
                 this_alias_mark: None,
+                constant_super: self.config.constant_super,
+                super_class: super_class_ident,
             };
             m.function.visit_mut_with(&mut folder);
 
@@ -894,18 +948,87 @@ where
             }
         }
 
-        if props.is_empty() && static_props.is_empty() {
-            return vec![];
+        let mut res = Vec::new();
+
+        if self.config.set_class_methods {
+            let proto = private_ident!("_proto");
+            props.retain(|_, v| {
+                if let Some(method) = v.method.take() {
+                    if res.is_empty() {
+                        res.push(Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            declare: false,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: proto.clone().into(),
+                                init: Some(Box::new(
+                                    class_name.clone().make_member(quote_ident!("prototype")),
+                                )),
+                                definite: false,
+                            }],
+                        })))
+                    }
+                    let span = method.span();
+                    let prop = *v.key_prop.clone();
+                    res.push(Stmt::Expr(ExprStmt {
+                        span,
+                        expr: Box::new(Expr::Assign(AssignExpr {
+                            span,
+                            op: op!("="),
+                            left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                                span,
+                                obj: Box::new(proto.clone().into()),
+                                prop: mk_key_prop_member(prop),
+                            }))),
+                            right: method,
+                        })),
+                    }));
+                    !(v.get.is_none() && v.set.is_none())
+                } else {
+                    true
+                }
+            });
+
+            static_props.retain(|_, v| {
+                if let Some(method) = v.method.take() {
+                    let span = method.span();
+                    let prop = *v.key_prop.clone();
+                    res.push(Stmt::Expr(ExprStmt {
+                        span,
+                        expr: Box::new(Expr::Assign(AssignExpr {
+                            span,
+                            op: op!("="),
+                            left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                                span,
+                                obj: Box::new(class_name.clone().into()),
+                                prop: mk_key_prop_member(prop),
+                            }))),
+                            right: method,
+                        })),
+                    }));
+                    !(v.get.is_none() && v.set.is_none())
+                } else {
+                    true
+                }
+            })
         }
-        vec![mk_create_class_call(
-            class_name,
+
+        if props.is_empty() && static_props.is_empty() {
+            return res;
+        }
+
+        res.push(mk_create_class_call(
+            class_name.clone(),
             mk_arg_obj_for_create_class(props),
             if static_props.is_empty() {
                 None
             } else {
                 Some(mk_arg_obj_for_create_class(static_props))
             },
-        )]
+        ));
+
+        res
     }
 }
 

@@ -8100,8 +8100,8 @@
             "use strict";
             var ArrayBufferViewCore = __webpack_require__(4351), aTypedArray = ArrayBufferViewCore.aTypedArray, exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod, floor = Math.floor;
             exportTypedArrayMethod("reverse", function() {
-                for(var value, length = aTypedArray(this).length, middle = floor(length / 2), index = 0; index < middle;)value = this[index], this[index++] = this[--length], this[length] = value;
-                return this;
+                for(var value, that = this, length = aTypedArray(that).length, middle = floor(length / 2), index = 0; index < middle;)value = that[index], that[index++] = that[--length], that[length] = value;
+                return that;
             });
         },
         17945: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {

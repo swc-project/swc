@@ -99,7 +99,7 @@
                 "ctxt": 0
               },
               "token": {
-                "Num": {
+                "Number": {
                   "value": 12.0,
                   "raw": "12",
                   "type": "integer"

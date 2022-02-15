@@ -4375,7 +4375,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
     ),
     issue_823_3,
     "import {Debounce} from 'lodash-decorators';
@@ -5145,7 +5145,7 @@ test!(
             ..Default::default()
         }),
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone()),)
+        classes(Some(t.comments.clone()), Default::default())
     ),
     decorators_legacy_interop_local_define_property,
     r#"
@@ -5301,7 +5301,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         function_name(),
     ),
     function_name_function_assignment,
@@ -5362,7 +5362,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         function_name(),
     ),
     function_name_shorthand_property,
@@ -5423,7 +5423,7 @@ test!(
     |t| chain!(
         resolver(),
         function_name(),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
@@ -5484,7 +5484,7 @@ test!(
     |t| chain!(
         resolver(),
         function_name(),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
@@ -5552,7 +5552,7 @@ test!(
             ..Default::default()
         }),
         function_name(),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
     ),
     function_name_global,
     r#"
@@ -5592,7 +5592,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         function_name(),
         common_js(Mark::fresh(Mark::root()), Default::default(), None),
     ),
@@ -5642,7 +5642,7 @@ test!(
     |t| chain!(
         resolver(),
         function_name(),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()

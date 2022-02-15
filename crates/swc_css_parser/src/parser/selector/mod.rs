@@ -533,7 +533,7 @@ where
 
                 Ok(AttributeSelectorValue::Ident(ident))
             }
-            tok!("str") => {
+            tok!("string") => {
                 let string = self.parse()?;
 
                 Ok(AttributeSelectorValue::Str(string))
@@ -712,9 +712,9 @@ where
                     NthValue::Ident(ident)
                 }
             // <integer>
-            Token::Num { .. } => {
-                let num = match bump!(self) {
-                    Token::Num { value, raw, .. } => (value, raw),
+            tok!("number") => {
+                let number = match bump!(self) {
+                    Token::Number { value, raw, .. } => (value, raw),
                     _ => {
                         unreachable!();
                     }
@@ -724,8 +724,8 @@ where
                     span: span!(self, span.lo),
                     a: None,
                     a_raw: None,
-                    b: Some(num.0 as i32),
-                    b_raw: Some(num.1),
+                    b: Some(number.0 as i32),
+                    b_raw: Some(number.1),
                 })
             }
             // '+'? n
@@ -738,13 +738,13 @@ where
             // -n <signed-integer>
             // -n- <signless-integer>
             // -n ['+' | '-'] <signless-integer>
-            Token::Ident { .. } | Token::Delim { value: '+' } |
+            tok!("ident") | tok!("+") |
             // <n-dimension>
             // <ndashdigit-dimension>
             // <ndash-dimension> <signless-integer>
             // <n-dimension> <signed-integer>
             // <n-dimension> ['+' | '-'] <signless-integer>
-            Token::Dimension { .. } => {
+            tok!("dimension") => {
                 let mut has_plus_sign = false;
 
                 // '+' n
@@ -785,7 +785,7 @@ where
 
                         n_value = if has_minus_sign { ident_value[1..].to_string() } else { ident_value.to_string() };
                     }
-                    Token::Dimension { .. } => {
+                    tok!("dimension") => {
                         let dimension = match bump!(self) {
                             Token::Dimension { value, raw_value, unit, .. } => (value, raw_value, unit),
                             _ => {
@@ -823,40 +823,40 @@ where
                     // '+'? n <signed-integer>
                     // -n <signed-integer>
                     // <n-dimension> <signed-integer>
-                    Token::Num { .. } if dash_after_n == None => {
-                        let num = match bump!(self) {
-                            Token::Num { value, raw, .. } => (value, raw),
+                    tok!("number") if dash_after_n == None => {
+                        let number = match bump!(self) {
+                            Token::Number { value, raw, .. } => (value, raw),
                             _ => {
                                 unreachable!();
                             }
                         };
 
-                        b = Some(num.0 as i32);
-                        b_raw = Some(num.1);
+                        b = Some(number.0 as i32);
+                        b_raw = Some(number.1);
                     }
                     // -n- <signless-integer>
                     // '+'? n- <signless-integer>
                     // <ndash-dimension> <signless-integer>
-                    Token::Num { .. } if dash_after_n == Some('-') => {
-                        let num = match bump!(self) {
-                            Token::Num { value, raw, .. } => (value, raw),
+                    tok!("number") if dash_after_n == Some('-') => {
+                        let number = match bump!(self) {
+                            Token::Number { value, raw, .. } => (value, raw),
                             _ => {
                                 unreachable!();
                             }
                         };
 
-                        b = Some(-num.0 as i32);
+                        b = Some(-number.0 as i32);
 
                         let mut b_raw_str = String::new();
 
                         b_raw_str.push_str("- ");
-                        b_raw_str.push_str(&num.1);
+                        b_raw_str.push_str(&number.1);
                         b_raw = Some(b_raw_str.into());
                     }
                     // '+'? n ['+' | '-'] <signless-integer>
                     // -n ['+' | '-'] <signless-integer>
                     // <n-dimension> ['+' | '-'] <signless-integer>
-                    Token::Delim { value: '-', .. } | Token::Delim { value: '+', .. } => {
+                    tok!("-") | tok!("+") => {
                         let (b_sign, b_sign_raw) = match bump!(self) {
                             Token::Delim { value, .. } => (if value == '-' { -1 } else { 1 }, value),
                             _ => {
@@ -866,21 +866,21 @@ where
 
                         self.input.skip_ws()?;
 
-                        let num = match bump!(self) {
-                            Token::Num { value, raw, .. } => (value, raw),
+                        let number = match bump!(self) {
+                            Token::Number { value, raw, .. } => (value, raw),
                             _ => {
                                 return Err(Error::new(span, ErrorKind::Expected("Num")));
                             }
                         };
 
-                        b = Some(b_sign * num.0 as i32);
+                        b = Some(b_sign * number.0 as i32);
 
                         let mut b_raw_str = String::new();
 
                         b_raw_str.push(' ');
                         b_raw_str.push(b_sign_raw);
                         b_raw_str.push(' ');
-                        b_raw_str.push_str(&num.1);
+                        b_raw_str.push_str(&number.1);
                         b_raw = Some(b_raw_str.into());
                     }
                     // '+'? <ndashdigit-ident>
