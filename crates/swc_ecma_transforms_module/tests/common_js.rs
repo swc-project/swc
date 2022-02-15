@@ -4444,7 +4444,7 @@ test!(
     |t| chain!(
         resolver(),
         block_scoping(),
-        classes(Some(t.comments.clone()),),
+        classes(Some(t.comments.clone()), Default::default()),
         destructuring(Default::default()),
         common_js(Mark::fresh(Mark::root()), Default::default(), None)
     ),
@@ -4573,7 +4573,7 @@ console.log(props);
 test!(
     syntax(),
     |t| chain!(
-        classes(Some(t.comments.clone()),),
+        classes(Some(t.comments.clone()), Default::default()),
         parameters(Default::default()),
         destructuring(Default::default()),
         block_scoping(),

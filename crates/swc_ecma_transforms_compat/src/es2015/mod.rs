@@ -50,7 +50,7 @@ where
     chain!(
         block_scoped_functions(),
         template_literal(c.template_literal),
-        classes(comments),
+        classes(comments, c.classes),
         new_target(),
         spread(c.spread),
         // https://github.com/Microsoft/TypeScript/issues/5441
@@ -72,6 +72,9 @@ where
 #[derive(Debug, Clone, Default, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Config {
+    #[serde(default)]
+    pub classes: classes::Config,
+
     #[serde(flatten)]
     pub computed_props: computed_props::Config,
 

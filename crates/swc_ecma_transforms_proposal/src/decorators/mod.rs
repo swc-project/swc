@@ -327,6 +327,9 @@ impl Decorators {
                     in_nested_scope: false,
                     in_injected_define_property_call: false,
                     this_alias_mark: None,
+                    // TODO: loose mode
+                    constant_super: false,
+                    super_class: &None,
                 });
 
                 let method = method.fold_with(&mut folder);

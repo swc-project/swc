@@ -229,6 +229,12 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                         self.top_level_mark,
                         comments,
                         compat::es2015::Config {
+                            classes: compat::es2015::classes::Config {
+                                constant_super: self.loose,
+                                no_class_calls: self.loose,
+                                set_class_methods: self.loose,
+                                super_is_callable_constructor: self.loose
+                            },
                             computed_props: compat::es2015::computed_props::Config {
                                 loose: self.loose
                             },

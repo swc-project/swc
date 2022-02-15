@@ -32,7 +32,7 @@ fn tr(t: &Tester) -> impl Fold {
         resolver(),
         function_name(),
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         block_scoping(),
         reserved_words(false),
     )
@@ -2874,7 +2874,7 @@ test!(
     |t| chain!(
         resolver(),
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone()))
+        classes(Some(t.comments.clone()), Default::default())
     ),
     issue_342,
     "class Foo {
@@ -3195,7 +3195,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
     private_destructuring_object_pattern_1,
@@ -3389,7 +3389,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
     private_destructuring_array_pattern,
@@ -3542,7 +3542,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
     private_destructuring_array_pattern_1,
@@ -3753,7 +3753,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone()))
+        classes(Some(t.comments.clone()), Default::default())
     ),
     static_property_tdz_edgest_case,
     r#"
@@ -3782,7 +3782,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone()))
+        classes(Some(t.comments.clone()), Default::default())
     ),
     static_property_tdz_false_alarm,
     r#"
@@ -4125,7 +4125,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
     private_canonical,
@@ -4269,7 +4269,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
     private_destructuring_array_pattern_3,
@@ -4331,7 +4331,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
     private_destructuring_array_pattern_2,
@@ -4452,7 +4452,7 @@ test!(
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
         exponentation(),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         block_scoping(),
     ),
     private_instance,
@@ -4484,7 +4484,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone()))
+        classes(Some(t.comments.clone()), Default::default())
     ),
     static_property_tdz_general,
     r#"
@@ -4672,7 +4672,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
     public_computed_without_block,
@@ -4724,7 +4724,7 @@ test!(
     syntax(),
     |t| chain!(
         class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
     public_static_super,
