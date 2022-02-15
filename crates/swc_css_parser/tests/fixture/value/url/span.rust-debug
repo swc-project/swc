@@ -89,6 +89,12 @@ error: SimpleBlock
 39 | | }
    | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/value/url/input.css:2:5
+  |
+2 |     background: url(https://example.com/image.png);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/url/input.css:2:5
   |
@@ -137,6 +143,12 @@ error: UrlValueRaw
 2 |     background: url(https://example.com/image.png);
   |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/value/url/input.css:3:5
+  |
+3 |     background: URL(https://example.com/image.png);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/url/input.css:3:5
   |
@@ -184,6 +196,12 @@ error: UrlValueRaw
   |
 3 |     background: URL(https://example.com/image.png);
   |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/url/input.css:4:5
+  |
+4 |     background: \URL(https://example.com/image.png);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/url/input.css:4:5
@@ -233,6 +251,12 @@ error: UrlValueRaw
 4 |     background: \URL(https://example.com/image.png);
   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/value/url/input.css:5:5
+  |
+5 |     background: url("https://example.com/image.png");
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/url/input.css:5:5
   |
@@ -280,6 +304,12 @@ error: Str
   |
 5 |     background: url("https://example.com/image.png");
   |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/url/input.css:6:5
+  |
+6 |     background: url('https://example.com/image.png');
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/url/input.css:6:5
@@ -329,6 +359,12 @@ error: Str
 6 |     background: url('https://example.com/image.png');
   |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/value/url/input.css:7:5
+  |
+7 |     background: URL('https://example.com/image.png');
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/url/input.css:7:5
   |
@@ -376,6 +412,12 @@ error: Str
   |
 7 |     background: URL('https://example.com/image.png');
   |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/url/input.css:8:5
+  |
+8 |     background: \URL('https://example.com/image.png');
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/url/input.css:8:5
@@ -425,6 +467,12 @@ error: Str
 8 |     background: \URL('https://example.com/image.png');
   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/value/url/input.css:9:5
+  |
+9 |     background: url(data:image/png;base64,iRxVB0);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/url/input.css:9:5
   |
@@ -473,6 +521,12 @@ error: UrlValueRaw
 9 |     background: url(data:image/png;base64,iRxVB0);
   |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/value/url/input.css:10:5
+   |
+10 |     background: url(#IDofSVGpath);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/value/url/input.css:10:5
    |
@@ -520,6 +574,12 @@ error: UrlValueRaw
    |
 10 |     background: url(#IDofSVGpath);
    |                     ^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/url/input.css:13:5
+   |
+13 |     background: url("//aa.com/img.svg" prefetch);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/value/url/input.css:13:5
@@ -580,6 +640,12 @@ error: Ident
    |
 13 |     background: url("//aa.com/img.svg" prefetch);
    |                                        ^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/url/input.css:14:5
+   |
+14 |     background: url("//aa.com/img.svg" foo bar baz func(test));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/value/url/input.css:14:5
@@ -695,6 +761,12 @@ error: Ident
 14 |     background: url("//aa.com/img.svg" foo bar baz func(test));
    |                                                         ^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/value/url/input.css:15:5
+   |
+15 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/value/url/input.css:15:5
    |
@@ -803,6 +875,12 @@ error: DashedIdent
 15 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
    |                                                                      ^^^^^^^^^^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/value/url/input.css:17:5
+   |
+17 |     background: url();
+   |     ^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/value/url/input.css:17:5
    |
@@ -851,6 +929,12 @@ error: UrlValueRaw
 17 |     background: url();
    |                     ^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/value/url/input.css:18:5
+   |
+18 |     background: url("");
+   |     ^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/value/url/input.css:18:5
    |
@@ -899,6 +983,12 @@ error: Str
 18 |     background: url("");
    |                     ^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/value/url/input.css:19:5
+   |
+19 |     background: url('');
+   |     ^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/value/url/input.css:19:5
    |
@@ -946,6 +1036,12 @@ error: Str
    |
 19 |     background: url('');
    |                     ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/url/input.css:21:5
+   |
+21 |     --foo: "http://www.example.com/pinkish.gif";
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/value/url/input.css:21:5
@@ -977,6 +1073,12 @@ error: String { value: Atom('http://www.example.com/pinkish.gif' type=dynamic), 
 21 |     --foo: "http://www.example.com/pinkish.gif";
    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/value/url/input.css:23:5
+   |
+23 |     background: src("http://www.example.com/pinkish.gif");
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/value/url/input.css:23:5
    |
@@ -1025,6 +1127,12 @@ error: Str
 23 |     background: src("http://www.example.com/pinkish.gif");
    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/value/url/input.css:24:5
+   |
+24 |     background: SRC("http://www.example.com/pinkish.gif");
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/value/url/input.css:24:5
    |
@@ -1072,6 +1180,12 @@ error: Str
    |
 24 |     background: SRC("http://www.example.com/pinkish.gif");
    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/url/input.css:25:5
+   |
+25 |     background: src(var(--foo));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/value/url/input.css:25:5
@@ -1139,6 +1253,12 @@ error: DashedIdent
 25 |     background: src(var(--foo));
    |                         ^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/value/url/input.css:26:5
+   |
+26 |     background: url(   https://example.com/image.png   );
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/value/url/input.css:26:5
    |
@@ -1187,6 +1307,12 @@ error: UrlValueRaw
 26 |     background: url(   https://example.com/image.png   );
    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/value/url/input.css:27:5
+   |
+27 |     background: u\rl(   https://example.com/image.png   );
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/value/url/input.css:27:5
    |
@@ -1234,6 +1360,14 @@ error: UrlValueRaw
    |
 27 |     background: u\rl(   https://example.com/image.png   );
    |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/url/input.css:28:5
+   |
+28 | /     background: url(   
+29 | |                     https://example.com/image.png   
+30 | |     );
+   | |_____^
 
 error: Declaration
   --> $DIR/tests/fixture/value/url/input.css:28:5
@@ -1296,6 +1430,18 @@ error: UrlValueRaw
 29 | |                     https://example.com/image.png   
 30 | |     );
    | |____^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/url/input.css:31:5
+   |
+31 | /     background: url(
+32 | |
+33 | |
+34 | | https://example.com/image.png
+35 | |
+36 | |
+37 | | );
+   | |_^
 
 error: Declaration
   --> $DIR/tests/fixture/value/url/input.css:31:5
@@ -1378,6 +1524,12 @@ error: UrlValueRaw
 36 | |
 37 | | );
    | |_
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/url/input.css:38:5
+   |
+38 |     background: URL(https://example.com/ima\)ge.png);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/value/url/input.css:38:5

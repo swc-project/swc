@@ -64,6 +64,12 @@ error: SimpleBlock
 1 | a { color: tUrQuOiSe }
   |   ^^^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/vCiwe_ipn8ReAa4wyU52Ng/input.css:1:5
+  |
+1 | a { color: tUrQuOiSe }
+  |     ^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/vCiwe_ipn8ReAa4wyU52Ng/input.css:1:5
   |

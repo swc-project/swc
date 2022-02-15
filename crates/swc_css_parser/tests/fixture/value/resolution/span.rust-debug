@@ -515,6 +515,14 @@ error: SimpleBlock
 13 | | }
    | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/value/resolution/input.css:7:5
+  |
+7 | /     background-image: -webkit-image-set(
+8 | |             url("small-balloons.jpg") 1x,
+9 | |             url("large-balloons.jpg") 2x);
+  | |_________________________________________^
+
 error: Declaration
  --> $DIR/tests/fixture/value/resolution/input.css:7:5
   |
@@ -690,6 +698,14 @@ error: Ident
   |
 9 |             url("large-balloons.jpg") 2x);
   |                                        ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/resolution/input.css:10:5
+   |
+10 | /     background-image: image-set(
+11 | |             url("small-balloons.jpg") 1x,
+12 | |             url("large-balloons.jpg") 2x);
+   | |_________________________________________^
 
 error: Declaration
   --> $DIR/tests/fixture/value/resolution/input.css:10:5

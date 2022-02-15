@@ -922,6 +922,7 @@ where
                         space!(self);
                     }
                 }
+                _ => {},
             }
         }
 
@@ -931,9 +932,20 @@ where
     #[emitter]
     fn emit_component_value(&mut self, n: &ComponentValue) -> Result {
         match n {
-            ComponentValue::Value(n) => emit!(self, n),
+            ComponentValue::StyleBlock(n) => emit!(self, n),
             ComponentValue::DeclarationBlockItem(n) => emit!(self, n),
             ComponentValue::Rule(n) => emit!(self, n),
+            ComponentValue::Value(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_style_block(&mut self, n: &StyleBlock) -> Result {
+        match n {
+            StyleBlock::AtRule(n) => emit!(self, n),
+            StyleBlock::Declaration(n) => emit!(self, n),
+            StyleBlock::QualifiedRule(n) => emit!(self, n),
+            StyleBlock::Invalid(n) => emit!(self, n),
         }
     }
 

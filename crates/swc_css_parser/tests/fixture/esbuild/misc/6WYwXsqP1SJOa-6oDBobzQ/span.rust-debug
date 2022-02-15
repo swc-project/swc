@@ -64,6 +64,12 @@ error: SimpleBlock
 1 | a { color: white }
   |   ^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/6WYwXsqP1SJOa-6oDBobzQ/input.css:1:5
+  |
+1 | a { color: white }
+  |     ^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/6WYwXsqP1SJOa-6oDBobzQ/input.css:1:5
   |

@@ -7244,6 +7244,37 @@
         "name": "{",
         "value": [
           {
+            "type": "Declaration",
+            "span": {
+              "start": 2567,
+              "end": 2577,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 2567,
+                "end": 2572,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 2574,
+                  "end": 2577,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          },
+          {
             "type": "Tokens",
             "span": {
               "start": 2545,
@@ -7315,37 +7346,6 @@
                 }
               }
             ]
-          },
-          {
-            "type": "Declaration",
-            "span": {
-              "start": 2567,
-              "end": 2577,
-              "ctxt": 0
-            },
-            "name": {
-              "type": "Ident",
-              "span": {
-                "start": 2567,
-                "end": 2572,
-                "ctxt": 0
-              },
-              "value": "color",
-              "raw": "color"
-            },
-            "value": [
-              {
-                "type": "Ident",
-                "span": {
-                  "start": 2574,
-                  "end": 2577,
-                  "ctxt": 0
-                },
-                "value": "red",
-                "raw": "red"
-              }
-            ],
-            "important": null
           }
         ]
       }
@@ -8278,6 +8278,37 @@
         "name": "{",
         "value": [
           {
+            "type": "Declaration",
+            "span": {
+              "start": 2885,
+              "end": 2895,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 2885,
+                "end": 2890,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 2892,
+                  "end": 2895,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          },
+          {
             "type": "UnknownAtRule",
             "span": {
               "start": 2863,
@@ -8333,37 +8364,6 @@
               }
             ],
             "block": null
-          },
-          {
-            "type": "Declaration",
-            "span": {
-              "start": 2885,
-              "end": 2895,
-              "ctxt": 0
-            },
-            "name": {
-              "type": "Ident",
-              "span": {
-                "start": 2885,
-                "end": 2890,
-                "ctxt": 0
-              },
-              "value": "color",
-              "raw": "color"
-            },
-            "value": [
-              {
-                "type": "Ident",
-                "span": {
-                  "start": 2892,
-                  "end": 2895,
-                  "ctxt": 0
-                },
-                "value": "red",
-                "raw": "red"
-              }
-            ],
-            "important": null
           }
         ]
       }

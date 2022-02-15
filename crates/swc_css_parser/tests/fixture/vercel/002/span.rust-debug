@@ -67,6 +67,12 @@ error: SimpleBlock
 3 | | }
   | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/vercel/002/input.css:2:5
+  |
+2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/vercel/002/input.css:2:5
   |

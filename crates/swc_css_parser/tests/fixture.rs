@@ -342,6 +342,8 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(QualifiedRule, visit_qualified_rule);
 
+    mtd!(StyleBlock, visit_style_block);
+
     mtd!(Stylesheet, visit_stylesheet);
 
     mtd!(Ident, visit_ident);

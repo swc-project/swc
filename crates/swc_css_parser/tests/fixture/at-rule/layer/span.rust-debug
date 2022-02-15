@@ -556,6 +556,12 @@ error: SimpleBlock
 17 | .sidebar { animation: slide-left 300ms; }
    |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:17:12
+   |
+17 | .sidebar { animation: slide-left 300ms; }
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/layer/input.css:17:12
    |
@@ -760,6 +766,12 @@ error: SimpleBlock
 23 |     strong { font-weight: bold; }
    |            ^^^^^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:23:14
+   |
+23 |     strong { font-weight: bold; }
+   |              ^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/layer/input.css:23:14
    |
@@ -897,6 +909,12 @@ error: SimpleBlock
    |
 27 |     .title { font-weight: 100; }
    |            ^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:27:14
+   |
+27 |     .title { font-weight: 100; }
+   |              ^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/at-rule/layer/input.css:27:14
@@ -1066,6 +1084,12 @@ error: SimpleBlock
 30 |         h1, h2 { color: maroon; }
    |                ^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:30:18
+   |
+30 |         h1, h2 { color: maroon; }
+   |                  ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/layer/input.css:30:18
    |
@@ -1197,6 +1221,12 @@ error: SimpleBlock
    |
 35 |     [hidden] { display: none; }
    |              ^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:35:16
+   |
+35 |     [hidden] { display: none; }
+   |                ^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/at-rule/layer/input.css:35:16
@@ -1384,6 +1414,12 @@ error: SimpleBlock
 40 |         p { margin-block: 0.75em; }
    |           ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:40:13
+   |
+40 |         p { margin-block: 0.75em; }
+   |             ^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/layer/input.css:40:13
    |
@@ -1534,6 +1570,12 @@ error: SimpleBlock
 44 |         p { color: #222; }
    |           ^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:44:13
+   |
+44 |         p { color: #222; }
+   |             ^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/layer/input.css:44:13
    |
@@ -1674,6 +1716,12 @@ error: SimpleBlock
    |
 50 |     blockquote { color: rebeccapurple; }
    |                ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:50:18
+   |
+50 |     blockquote { color: rebeccapurple; }
+   |                  ^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/at-rule/layer/input.css:50:18

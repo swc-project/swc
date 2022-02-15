@@ -81,6 +81,12 @@ error: SimpleBlock
 4 | | }
   | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/comment/input.css:3:14
+  |
+3 | /* comment */color/* comment */:/* comment */red/* comment */;
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/comment/input.css:3:14
   |
@@ -190,6 +196,12 @@ error: SimpleBlock
 15 | | }
    | |_^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/comment/input.css:11:5
+   |
+11 |     color: black;
+   |     ^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/comment/input.css:11:5
    |
@@ -219,6 +231,12 @@ error: Ident
    |
 11 |     color: black;
    |            ^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/comment/input.css:13:5
+   |
+13 |     background: red;
+   |     ^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/comment/input.css:13:5
@@ -319,6 +337,12 @@ error: SimpleBlock
 20 | |     /* c */
 21 | | }
    | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/comment/input.css:19:5
+   |
+19 |     color: black;
+   |     ^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/comment/input.css:19:5

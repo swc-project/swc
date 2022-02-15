@@ -77,6 +77,12 @@ error: SimpleBlock
 4 | | }
   | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/declaration-list/input.css:2:5
+  |
+2 |     prop1: value;
+  |     ^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/declaration-list/input.css:2:5
   |
@@ -106,6 +112,12 @@ error: Ident
   |
 2 |     prop1: value;
   |            ^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/declaration-list/input.css:3:5
+  |
+3 |     prop2: value;
+  |     ^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/declaration-list/input.css:3:5

@@ -31,6 +31,7 @@ define!({
         Value(Value),
         DeclarationBlockItem(DeclarationBlockItem),
         Rule(Rule),
+        StyleBlock(StyleBlock),
     }
 
     pub struct Ident {
@@ -84,6 +85,13 @@ define!({
         pub span: Span,
         pub prelude: SelectorList,
         pub block: SimpleBlock,
+    }
+
+    pub enum StyleBlock {
+        AtRule(AtRule),
+        Declaration(Declaration),
+        QualifiedRule(QualifiedRule),
+        Invalid(Tokens),
     }
 
     pub enum DeclarationBlockItem {

@@ -161,6 +161,12 @@ error: SimpleBlock
 4 | |     }
   | |_____^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/at-rule/supports/input.css:3:9
+  |
+3 |         display: grid;
+  |         ^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/at-rule/supports/input.css:3:9
   |
@@ -347,6 +353,12 @@ error: SimpleBlock
 9  | |         color: blue;
 10 | |     }
    | |_____^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/at-rule/supports/input.css:9:9
+  |
+9 |         color: blue;
+  |         ^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/at-rule/supports/input.css:9:9
@@ -564,6 +576,12 @@ error: SimpleBlock
 14 | |             display: flex;
 15 | |         }
    | |_________^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/supports/input.css:14:13
+   |
+14 |             display: flex;
+   |             ^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/at-rule/supports/input.css:14:13

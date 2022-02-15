@@ -148,6 +148,12 @@ error: SimpleBlock
 4 | |     }
   | |_____^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/at-rule/document/input.css:3:9
+  |
+3 |         color: green;
+  |         ^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/at-rule/document/input.css:3:9
   |
@@ -443,6 +449,12 @@ error: SimpleBlock
 11 | |     }
    | |_____^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/at-rule/document/input.css:9:9
+  |
+9 |         color: purple;
+  |         ^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/at-rule/document/input.css:9:9
   |
@@ -472,6 +484,12 @@ error: Ident
   |
 9 |         color: purple;
   |                ^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/document/input.css:10:9
+   |
+10 |         background: yellow;
+   |         ^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/at-rule/document/input.css:10:9

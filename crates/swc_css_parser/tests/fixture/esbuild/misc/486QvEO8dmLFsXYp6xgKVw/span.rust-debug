@@ -64,6 +64,12 @@ error: SimpleBlock
 1 | a { value: #\30hash }
   |   ^^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/486QvEO8dmLFsXYp6xgKVw/input.css:1:5
+  |
+1 | a { value: #\30hash }
+  |     ^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/486QvEO8dmLFsXYp6xgKVw/input.css:1:5
   |

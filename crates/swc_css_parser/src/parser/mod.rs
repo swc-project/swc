@@ -31,8 +31,9 @@ pub struct ParserConfig {
 
 #[derive(Debug, Clone, Copy)]
 pub enum Grammar {
-    RuleList,
+    StyleBlock,
     DeclarationList,
+    RuleList,
     DeclarationValue,
 }
 
