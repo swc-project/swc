@@ -457,6 +457,9 @@ impl ClassProperties {
                             in_injected_define_property_call: false,
                             in_nested_scope: false,
                             this_alias_mark: None,
+                            // TODO: add loose mode
+                            constant_super: false,
+                            super_class: &None,
                         });
                         value.visit_mut_with(&mut ThisInStaticFolder {
                             ident: class_ident.clone(),

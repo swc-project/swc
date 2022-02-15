@@ -70,6 +70,17 @@ error: Str
 1 | @document url("https://www.example.com/") {
   |               ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/document/input.css:1:43
+  |
+1 |   @document url("https://www.example.com/") {
+  |  ___________________________________________^
+2 | |     h1 {
+3 | |         color: green;
+4 | |     }
+5 | | }
+  | |_^
+
 error: Rule
  --> $DIR/tests/fixture/at-rule/document/input.css:2:5
   |
@@ -350,6 +361,18 @@ error: Str
 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
   |                                                                                                                                     ^^^^^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/document/input.css:7:145
+   |
+7  |   @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   |  _________________________________________________________________________________________________________________________________________________^
+8  | |     body {
+9  | |         color: purple;
+10 | |         background: yellow;
+11 | |     }
+12 | | }
+   | |_^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/document/input.css:8:5
    |
@@ -528,6 +551,12 @@ error: UrlValueRaw
 14 | @document url(https://www.example.com/) {}
    |               ^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/document/input.css:14:41
+   |
+14 | @document url(https://www.example.com/) {}
+   |                                         ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/document/input.css:15:1
    |
@@ -576,6 +605,12 @@ error: Str
 15 | @-moz-document url("https://www.example.com/") {}
    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/document/input.css:15:48
+   |
+15 | @-moz-document url("https://www.example.com/") {}
+   |                                                ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/document/input.css:16:1
    |
@@ -623,4 +658,10 @@ error: Str
    |
 16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
    |                                           ^^^^^^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/document/input.css:16:68
+   |
+16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
+   |                                                                    ^^
 

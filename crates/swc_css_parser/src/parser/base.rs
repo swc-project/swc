@@ -224,6 +224,15 @@ where
                 // Reconsume the current input token. Consume a component value and append it to the
                 // value of the block.
                 _ => match self.ctx.grammar {
+                    Grammar::RuleList => {
+                        let rule_list = self.parse_rule_list(RuleContext {
+                            is_top_level: false,
+                        })?;
+                        let rule_list: Vec<ComponentValue> =
+                            rule_list.into_iter().map(ComponentValue::Rule).collect();
+
+                        simple_block.value.extend(rule_list);
+                    }
                     Grammar::DeclarationList => {
                         let declaration_list: Vec<DeclarationBlockItem> = self.parse()?;
                         let declaration_list: Vec<ComponentValue> = declaration_list

@@ -161,7 +161,19 @@ where
         }),
         true
     );
-    let pass = add!(pass, Classes, es2015::classes(comments));
+    let pass = add!(
+        pass,
+        Classes,
+        es2015::classes(
+            comments,
+            es2015::classes::Config {
+                constant_super: loose,
+                no_class_calls: loose,
+                set_class_methods: loose,
+                super_is_callable_constructor: loose,
+            }
+        )
+    );
     let pass = add!(
         pass,
         Spread,

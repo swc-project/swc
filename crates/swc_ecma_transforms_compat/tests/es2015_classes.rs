@@ -5,7 +5,7 @@ use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_compat::{
     es2015,
-    es2015::{arrow, block_scoping, classes, spread},
+    es2015::{arrow, block_scoping, classes, classes::Config, spread},
     es2016, es2017, es2018, es2022,
     es2022::class_properties,
 };
@@ -17,13 +17,13 @@ fn syntax() -> Syntax {
 }
 
 fn tr(tester: &Tester) -> impl Fold {
-    classes(Some(tester.comments.clone()))
+    classes(Some(tester.comments.clone()), Default::default())
 }
 
 fn spec_tr(tester: &Tester) -> impl Fold {
     chain!(
         resolver(),
-        classes(Some(tester.comments.clone())),
+        classes(Some(tester.comments.clone()), Default::default()),
         spread(spread::Config {
             ..Default::default()
         }),
@@ -1578,16 +1578,16 @@ function (Base) {
   _createClass(Obj, [{
     key: "update",
     value: function update() {
-      var _ref, _superRef;
+      var _prop, _super_prop;
 
-      _set(_getPrototypeOf(Obj.prototype), _ref = proper.prop, (_superRef = +_get(_getPrototypeOf(Obj.prototype), _ref, this)) + 1, this, true), _superRef;
+      _set(_getPrototypeOf(Obj.prototype), _prop = proper.prop, (_super_prop = +_get(_getPrototypeOf(Obj.prototype), _prop, this)) + 1, this, true), _super_prop;
     }
   }, {
     key: "update2",
     value: function update2() {
-      var _ref, _superRef;
+      var _i, _super_i
 
-      _set(_getPrototypeOf(Obj.prototype), _ref = i, (_superRef = +_get(_getPrototypeOf(Obj.prototype), _ref, this)) + 1, this, true), _superRef;
+      _set(_getPrototypeOf(Obj.prototype), _i = i, (_super_i = +_get(_getPrototypeOf(Obj.prototype), _i, this)) + 1, this, true), _super_i;
     }
   }]);
 
@@ -4289,16 +4289,16 @@ function (Base) {
   _createClass(Obj, [{
     key: "assign",
     value: function assign() {
-      var _ref;
+      var _prop;
 
-      _set(_getPrototypeOf(Obj.prototype), _ref = proper.prop, _get(_getPrototypeOf(Obj.prototype), _ref, this) + 1, this, true);
+      _set(_getPrototypeOf(Obj.prototype), _prop = proper.prop, _get(_getPrototypeOf(Obj.prototype), _prop, this) + 1, this, true);
     }
   }, {
     key: "assign2",
     value: function assign2() {
-      var _ref;
+      var _i;
 
-      _set(_getPrototypeOf(Obj.prototype), _ref = i, _get(_getPrototypeOf(Obj.prototype), _ref, this) + 1, this, true);
+      _set(_getPrototypeOf(Obj.prototype), _i = i, _get(_getPrototypeOf(Obj.prototype), _i, this) + 1, this, true);
     }
   }]);
 
@@ -4953,7 +4953,10 @@ test!(
 
 test!(
     syntax(),
-    |t| chain!(resolver(), classes(Some(t.comments.clone()))),
+    |t| chain!(
+        resolver(),
+        classes(Some(t.comments.clone()), Default::default())
+    ),
     duplicate_ident,
     r#"
 class Foo extends Bar {
@@ -5249,7 +5252,10 @@ function (Array) {
 // extend_builtins_imported_babel_plugin_transform_builtin_classes
 test_exec!(
     syntax(),
-    |t| chain!(classes(Some(t.comments.clone())), block_scoping()),
+    |t| chain!(
+        classes(Some(t.comments.clone()), Default::default()),
+        block_scoping()
+    ),
     extend_builtins_imported_babel_plugin_transform_builtin_classes_exec,
     r#"
 // Imported from
@@ -5550,7 +5556,10 @@ expect(obj.test).toBe(3);
 // extend_builtins_spec
 test_exec!(
     syntax(),
-    |t| chain!(classes(Some(t.comments.clone())), block_scoping()),
+    |t| chain!(
+        classes(Some(t.comments.clone()), Default::default()),
+        block_scoping()
+    ),
     extend_builtins_spec_exec,
     r#"
 class List extends Array {}
@@ -6087,7 +6096,10 @@ expect(obj.test).toBe(3);
 // extend_builtins_builtin_objects_throw_when_wrapped
 test_exec!(
     syntax(),
-    |t| chain!(classes(Some(t.comments.clone())), block_scoping()),
+    |t| chain!(
+        classes(Some(t.comments.clone()), Default::default()),
+        block_scoping()
+    ),
     extend_builtins_builtin_objects_throw_when_wrapped_exec,
     r#"
 // JSON is wrapped because it starts with an uppercase letter, but it
@@ -6136,7 +6148,10 @@ test_exec!(
     // Just don't do this.
     ignore,
     syntax(),
-    |t| chain!(classes(Some(t.comments.clone())), block_scoping()),
+    |t| chain!(
+        classes(Some(t.comments.clone()), Default::default()),
+        block_scoping()
+    ),
     extend_builtins_overwritten_null_exec,
     r#"
 var env = {
@@ -6157,7 +6172,10 @@ test_exec!(
     // Just don't do this. With is evil.
     ignore,
     syntax(),
-    |t| chain!(classes(Some(t.comments.clone())), block_scoping()),
+    |t| chain!(
+        classes(Some(t.comments.clone()), Default::default()),
+        block_scoping()
+    ),
     extend_builtins_super_called_exec,
     r#"
 var called = false;
@@ -6181,7 +6199,7 @@ with (env) {
 
 test_exec!(
     syntax(),
-    |t| classes(Some(t.comments.clone())),
+    |t| classes(Some(t.comments.clone()), Default::default()),
     issue_846,
     r#"
 class SomeClass {
@@ -6204,7 +6222,7 @@ expect(obj.anotherMethod()).toBe(2);
 
 test!(
     syntax(),
-    |t| classes(Some(t.comments.clone())),
+    |t| classes(Some(t.comments.clone()), Default::default()),
     issue_1490_1,
     "
     class ColouredCanvasElement extends CanvasElement {
@@ -6238,7 +6256,7 @@ test!(
 
 test!(
     syntax(),
-    |t| classes(Some(t.comments.clone())),
+    |t| classes(Some(t.comments.clone()), Default::default()),
     issue_1490_2,
     "
   class ColouredCanvasElement extends CanvasElement {
@@ -6272,7 +6290,7 @@ test!(
 
 test!(
     syntax(),
-    |t| classes(Some(t.comments.clone())),
+    |t| classes(Some(t.comments.clone()), Default::default()),
     super_binding,
     "
   class Foo {}
@@ -6310,7 +6328,7 @@ test!(
 
 test_exec!(
     syntax(),
-    |t| classes(Some(t.comments.clone())),
+    |t| classes(Some(t.comments.clone()), Default::default()),
     super_binding_exec,
     "
   class Foo {}
@@ -6326,7 +6344,7 @@ test_exec!(
 
 test!(
     syntax(),
-    |t| classes(Some(t.comments.clone())),
+    |t| classes(Some(t.comments.clone()), Default::default()),
     issue_1617_1,
     "
     class A extends B {
@@ -6359,7 +6377,7 @@ test!(
 
 test!(
     syntax(),
-    |t| classes(Some(t.comments.clone())),
+    |t| classes(Some(t.comments.clone()), Default::default()),
     issue_1617_2,
     "
   class A extends B {
@@ -6392,7 +6410,7 @@ test!(
 
 test!(
     syntax(),
-    |t| classes(Some(t.comments.clone())),
+    |t| classes(Some(t.comments.clone()), Default::default()),
     issue_1660_1,
     "
     class A {
@@ -6409,13 +6427,15 @@ test!(
 
 test!(
     syntax(),
-    |t| classes(Some(t.comments.clone())),
+    |t| classes(Some(t.comments.clone()), Default::default()),
     constructor_super_update,
     "
-class A extends B{
+class A extends B {
   constructor() {
     super.foo ++;
     super.bar += 123;
+    super[baz] --;
+    super[quz] -= 456;
   }
 }
   ",
@@ -6426,10 +6446,12 @@ let A = function(B) {
   var _super = _createSuper(A);
   function A() {
       _classCallCheck(this, A);
-      var _ref, _superRef, _ref1;
+      var _super_foo, _baz, _super_baz, _quz;
       var _this;
-      _set((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), _ref = "foo", (_superRef = +_get((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), _ref, _this)) + 1, _this, true), _superRef;
-      _set((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), _ref1 = "bar", _get((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), _ref1, _this) + 123, _this, true);
+      _set((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), "foo", (_super_foo = +_get((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), "foo", _this)) + 1, _this, true), _super_foo;
+      _set((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), "bar", _get((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), "bar", _this) + 123, _this, true);
+      _set((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), _baz = baz, (_super_baz = +_get((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), _baz, _this)) - 1, _this, true), _super_baz;
+      _set((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), _quz = quz, _get((_assertThisInitialized(_this), _getPrototypeOf(A.prototype)), _quz, _this) - 456, _this, true);
       return _possibleConstructorReturn(_this);
   }
   return A;
@@ -6439,7 +6461,41 @@ let A = function(B) {
 
 test!(
     syntax(),
-    |t| classes(Some(t.comments.clone())),
+    |t| classes(Some(t.comments.clone()), Default::default()),
+    prefix_super_update,
+    "
+class A extends B {
+  foo() {
+    --super[baz];
+  }
+}
+",
+    r#"
+let A = function(B) {
+  "use strict";
+  _inherits(A, B);
+  var _super = _createSuper(A);
+  function A() {
+      _classCallCheck(this, A);
+      return _super.apply(this, arguments);
+  }
+  _createClass(A, [
+    {
+        key: "foo",
+        value: function foo() {
+            var _baz;
+            _set(_getPrototypeOf(A.prototype), _baz = baz, _get(_getPrototypeOf(A.prototype), _baz, this) - 1, this, true);
+        }
+    }
+  ]);
+  return A;
+}(B);
+"#
+);
+
+test!(
+    syntax(),
+    |t| classes(Some(t.comments.clone()), Default::default()),
     issue_1660_2,
     "
     const foo = class {run(){}};
@@ -6464,7 +6520,7 @@ test!(
 
 test!(
     syntax(),
-    |t| classes(Some(t.comments.clone())),
+    |t| classes(Some(t.comments.clone()), Default::default()),
     issue_1660_3,
     "
     console.log(class { run() { } });
@@ -6713,7 +6769,7 @@ fn exec(input: PathBuf) {
         |t| {
             chain!(
                 class_properties(class_properties::Config { loose: false }),
-                classes(Some(t.comments.clone()))
+                classes(Some(t.comments.clone()), Default::default())
             )
         },
         &src,
@@ -6729,10 +6785,536 @@ fn fixture(input: PathBuf) {
         &|t| {
             chain!(
                 class_properties(class_properties::Config { loose: false }),
-                classes(Some(t.comments.clone()))
+                classes(Some(t.comments.clone()), Default::default())
             )
         },
         &input,
         &output,
     );
 }
+
+test!(
+    syntax(),
+    |t| classes(
+        Some(t.comments.clone()),
+        Config {
+            constant_super: true,
+            ..Default::default()
+        }
+    ),
+    constant_super_class,
+    r#"
+class Test extends Foo {
+  constructor() {
+    woops.super.test();
+    super();
+    super.test();
+
+    super(...arguments);
+    super("test", ...arguments);
+
+    super.test(...arguments);
+    super.test("test", ...arguments);
+  }
+}
+"#,
+    r#"
+let Test = /*#__PURE__*/function (Foo) {
+"use strict";
+
+_inherits(Test, Foo);
+
+var _super = _createSuper(Test);
+
+function Test() {
+  _classCallCheck(this, Test);
+  var _this;
+  woops.super.test();
+  _this = _super.call(this);
+  Foo.prototype.test.call(_assertThisInitialized(_this));
+  _this = _super.call(this, ...arguments);
+  _this = _super.call(this, "test", ...arguments);
+  Foo.prototype.test.apply(_assertThisInitialized(_this), arguments);
+  Foo.prototype.test.call(_assertThisInitialized(_this), "test", ...arguments);
+  return _this;
+}
+
+return Test;
+}(Foo);
+"#
+);
+
+test!(
+    syntax(),
+    |t| classes(
+        Some(t.comments.clone()),
+        Config {
+            constant_super: true,
+            ..Default::default()
+        }
+    ),
+    constant_super_property,
+    r#"
+class Test extends Foo {
+  constructor() {
+    super();
+    super.test;
+    super.test.whatever;
+  }
+}
+"#,
+    r#"
+let Test = /*#__PURE__*/function (Foo) {
+  "use strict";
+
+  _inherits(Test, Foo);
+
+  var _super = _createSuper(Test);
+
+  function Test() {
+    _classCallCheck(this, Test);
+    var _this = _super.call(this);
+    Foo.prototype.test;
+    Foo.prototype.test.whatever;
+    return _this;
+  }
+
+  return Test;
+}(Foo);
+"#
+);
+
+test!(
+    syntax(),
+    |t| classes(
+        Some(t.comments.clone()),
+        Config {
+            constant_super: true,
+            ..Default::default()
+        }
+    ),
+    constant_super_call,
+    r#"
+class Test extends Foo {
+  constructor() {
+    super();
+    super.test.whatever();
+    super.test();
+  }
+
+  static test() {
+    return super.wow();
+  }
+}
+"#,
+    r#"
+let Test = /*#__PURE__*/function (Foo) {
+  "use strict";
+
+  _inherits(Test, Foo);
+
+  var _super = _createSuper(Test);
+
+  function Test() {
+    _classCallCheck(this, Test);
+    var _this = _super.call(this);
+
+    Foo.prototype.test.whatever();
+
+    Foo.prototype.test.call(_assertThisInitialized(_this));
+
+    return _this;
+  }
+
+  _createClass(Test, null, [{
+    key: "test",
+    value: function test() {
+      return Foo.wow.call(this);
+    }
+  }]);
+  return Test;
+}(Foo);
+"#
+);
+
+test!(
+    syntax(),
+    |t| classes(
+        Some(t.comments.clone()),
+        Config {
+            constant_super: true,
+            ..Default::default()
+        }
+    ),
+    constant_super_default,
+    r#"
+class Test {
+  constructor() {
+    super.hasOwnProperty("test");
+    return super.constructor;
+  }
+
+  static test() {
+    return super.constructor;
+  }
+}
+"#,
+    r#"
+let Test = /*#__PURE__*/function () {
+  "use strict";
+
+  function Test() {
+    _classCallCheck(this, Test);
+    Object.prototype.hasOwnProperty.call(this, "test");
+    return Object.prototype.constructor;
+  }
+
+  _createClass(Test, null, [{
+    key: "test",
+    value: function test() {
+      return Function.prototype.constructor;
+    }
+  }]);
+  return Test;
+}();
+"#
+);
+
+test!(
+    syntax(),
+    |t| classes(
+        Some(t.comments.clone()),
+        Config {
+            constant_super: true,
+            ..Default::default()
+        }
+    ),
+    constant_super_update,
+    r#"
+class A extends B {
+  constructor() {
+    super.foo ++;
+    super.bar += 123;
+    super[baz] --;
+    super[quz] -= 456
+  }
+}
+"#,
+    r#"
+let A = function(B) {
+  "use strict";
+  _inherits(A, B);
+  var _super = _createSuper(A);
+  function A() {
+    _classCallCheck(this, A);
+    var _super_foo, _baz, _super_baz, _quz;
+    var _this;
+    _this.foo = (_super_foo = +B.prototype.foo) + 1, _super_foo;
+    _this.bar = B.prototype.bar + 123;
+    _this[_baz = baz] = (_super_baz = +B.prototype[_baz]) - 1, _super_baz;
+    _this[_quz = quz] = B.prototype[_quz] - 456;
+    return _possibleConstructorReturn(_this);
+  }
+  return A;
+}(B);
+"#
+);
+
+test!(
+    syntax(),
+    |t| classes(
+        Some(t.comments.clone()),
+        Config {
+            no_class_calls: true,
+            ..Default::default()
+        }
+    ),
+    no_class_call,
+    "class A {}",
+    r#"
+let A = function A() {
+  "use strict";
+};
+"#
+);
+
+test!(
+    syntax(),
+    |t| classes(
+        Some(t.comments.clone()),
+        Config {
+            no_class_calls: true,
+            ..Default::default()
+        }
+    ),
+    no_class_call_constructor,
+    r#"
+class A {
+  constructor() {
+    console.log('a');
+  }
+}
+
+class B {
+  b() {
+    console.log('b');
+  }
+}
+"#,
+    r#"
+let A = function A() {
+  "use strict";
+
+  console.log('a');
+};
+
+let B = /*#__PURE__*/function () {
+  "use strict";
+
+  function B() {}
+
+  _createClass(B, [{
+    key: "b",
+    value: function b() {
+      console.log('b');
+    }
+  }]);
+  return B;
+}();
+"#
+);
+
+test!(
+    syntax(),
+    |t| classes(
+        Some(t.comments.clone()),
+        Config {
+            no_class_calls: true,
+            ..Default::default()
+        }
+    ),
+    no_class_call_super,
+    r#"
+class B {}
+
+class A extends B {
+  constructor(track) {
+    if (track !== undefined) super(track);
+    else super();
+  }
+}
+"#,
+    r#"
+let B = function B() {
+  "use strict";
+};
+
+let A = /*#__PURE__*/function (B) {
+  "use strict";
+
+  _inherits(A, B);
+
+  var _super = _createSuper(A);
+
+  function A(track) {
+    var _this;
+
+    if (track !== undefined) _this = _super.call(this, track);else _this = _super.call(this);
+    return _possibleConstructorReturn(_this);
+  }
+
+  return A;
+}(B);
+"#
+);
+
+test!(
+    syntax(),
+    |t| classes(
+        Some(t.comments.clone()),
+        Config {
+            set_class_methods: true,
+            ..Default::default()
+        }
+    ),
+    set_method_literal_key,
+    r#"
+class Foo {
+  "bar"() {
+  }
+}
+"#,
+    r#"
+let Foo = /*#__PURE__*/function () {
+  "use strict";
+
+  function Foo() {
+    _classCallCheck(this, Foo);
+  }
+
+  var _proto = Foo.prototype;
+
+  _proto["bar"] = function bar() {};
+
+  return Foo;
+}();
+"#
+);
+
+test!(
+    syntax(),
+    |t| classes(
+        Some(t.comments.clone()),
+        Config {
+            set_class_methods: true,
+            ..Default::default()
+        }
+    ),
+    set_method_static,
+    r#"
+class Test {
+  a() {}
+  static b() {}
+  c() {}
+}
+"#,
+    r#"
+let Test = /*#__PURE__*/function () {
+  "use strict";
+
+  function Test() {
+    _classCallCheck(this, Test);
+  }
+
+  var _proto = Test.prototype;
+
+  _proto.a = function a() {};
+
+  _proto.c = function c() {};
+
+  Test.b = function b() {};
+
+  return Test;
+}();
+"#
+);
+
+test!(
+    syntax(),
+    |t| classes(
+        Some(t.comments.clone()),
+        Config {
+            set_class_methods: true,
+            ..Default::default()
+        }
+    ),
+    set_method_getter_setter,
+    r#"
+class Test extends Foo {
+  "foo"() {}
+  
+  get foo() {}
+  
+  set foo(a) {}
+}
+"#,
+    r#"
+let Test = /*#__PURE__*/function (Foo) {
+  "use strict";
+
+  _inherits(Test, Foo);
+
+  var _super = _createSuper(Test);
+
+  function Test() {
+    _classCallCheck(this, Test);
+    return _super.apply(this, arguments);
+  }
+
+  var _proto = Test.prototype;
+
+  _proto["foo"] = function foo() {};
+
+  _createClass(Test, [
+    {
+      key: "foo",
+      get: function () {},
+      set: function (a) {}
+    }
+  ]);
+
+  return Test;
+}(Foo);
+"#
+);
+
+test!(
+    syntax(),
+    |t| classes(
+        Some(t.comments.clone()),
+        Config {
+            super_is_callable_constructor: true,
+            ..Default::default()
+        }
+    ),
+    super_callable,
+    r#"
+class BaseController extends Chaplin.Controller { }
+
+class BaseController2 extends Chaplin.Controller.Another { }
+"#,
+    r#"
+let BaseController = /*#__PURE__*/function (_Controller) {
+  "use strict";
+
+  _inherits(BaseController, _Controller);
+
+  function BaseController() {
+    _classCallCheck(this, BaseController);
+    return _Controller.apply(this, arguments);
+  }
+
+  return BaseController;
+}(Chaplin.Controller);
+
+let BaseController2 = /*#__PURE__*/function (_Another) {
+  "use strict";
+
+  _inherits(BaseController2, _Another);
+
+  function BaseController2() {
+    _classCallCheck(this, BaseController2);
+    return _Another.apply(this, arguments);
+  }
+
+  return BaseController2;
+}(Chaplin.Controller.Another);
+"#
+);
+
+test!(
+    syntax(),
+    |t| classes(
+        Some(t.comments.clone()),
+        Config {
+            super_is_callable_constructor: true,
+            ..Default::default()
+        }
+    ),
+    super_callable_super,
+    r#"class Test extends Foo { }"#,
+    r#"
+let Test = /*#__PURE__*/function (Foo) {
+  "use strict";
+
+  _inherits(Test, Foo);
+
+  function Test() {
+    _classCallCheck(this, Test);
+    return Foo.apply(this, arguments);
+  }
+
+  return Test;
+}(Foo);
+"#
+);

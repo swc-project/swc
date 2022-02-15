@@ -30,6 +30,7 @@ define!({
     pub enum ComponentValue {
         Value(Value),
         DeclarationBlockItem(DeclarationBlockItem),
+        Rule(Rule),
     }
 
     pub struct Ident {
@@ -501,7 +502,7 @@ define!({
     pub struct DocumentRule {
         pub span: Span,
         pub matching_functions: Vec<DocumentRuleMatchingFunction>,
-        pub block: Vec<Rule>,
+        pub block: SimpleBlock,
     }
 
     pub enum DocumentRuleMatchingFunction {

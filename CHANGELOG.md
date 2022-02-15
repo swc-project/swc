@@ -38,6 +38,12 @@
 - **(css/ast)** Use correct type for `calc` (#3549) ([b311ace](https://github.com/swc-project/swc/commit/b311aced89dbbcb1605312e3ad5b0715e437bcd8))
 
 
+- **(css/ast)** Use `SimpleBlock` for `@document` at-rule (#3564) ([3399702](https://github.com/swc-project/swc/commit/3399702b735cebcf19855b01c5b884cb44e06653))
+
+
+- **(es/compat)** Add loose mode for `classes` (#3474) ([0f7a997](https://github.com/swc-project/swc/commit/0f7a99787f78a1b010a20fc042c4c565959557ad))
+
+
 - **(es/lints)** Add this handling support to `no-alert` rule (#3515) ([af82006](https://github.com/swc-project/swc/commit/af8200647bb5f96525bcf3333c7c6889fe69dd5d))
 
 

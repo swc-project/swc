@@ -75,7 +75,10 @@ fn fixture(input: PathBuf) {
                     }
 
                     "transform-classes" => {
-                        pass = Box::new(chain!(pass, classes(Some(t.comments.clone()))));
+                        pass = Box::new(chain!(
+                            pass,
+                            classes(Some(t.comments.clone()), Default::default())
+                        ));
                     }
 
                     _ => {

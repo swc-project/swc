@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_ecma_transforms_module"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.77.0"
+version = "0.78.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
@@ -26,6 +26,6 @@ swc_ecma_utils = {version = "0.65.0", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.51.0", path = "../swc_ecma_visit"}
 
 [dev-dependencies]
-swc_ecma_transforms_compat = {version = "0.69.0", path = "../swc_ecma_transforms_compat"}
+swc_ecma_transforms_compat = {version = "0.70.0", path = "../swc_ecma_transforms_compat"}
 swc_ecma_transforms_testing = {version = "0.60.0", path = "../swc_ecma_transforms_testing"}
 testing = {version = "0.18.0", path = "../testing/"}

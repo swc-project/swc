@@ -1,12 +1,12 @@
 use swc_common::{ast_node, Span};
 
-use crate::{Function, Rule, Url};
+use crate::{Function, SimpleBlock, Url};
 
 #[ast_node("DocumentRule")]
 pub struct DocumentRule {
     pub span: Span,
     pub matching_functions: Vec<DocumentRuleMatchingFunction>,
-    pub block: Vec<Rule>,
+    pub block: SimpleBlock,
 }
 
 #[ast_node]
