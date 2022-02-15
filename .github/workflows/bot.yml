@@ -82,7 +82,9 @@ jobs:
 
       - name: Push back
         run: |
-          git push --no-verify
+          git push https://$GITHUB_TOKEN@github.com/swc-project/swc.git --no-verify
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Configure crates.io
         run: |
