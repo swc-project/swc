@@ -320,9 +320,7 @@ where
             formatting_space!(self);
         }
 
-        punct!(self, "{");
-        self.emit_list(&n.rules, ListFormat::NotDelimited | ListFormat::MultiLine)?;
-        punct!(self, "}");
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -507,9 +505,7 @@ where
 
         emit!(self, n.condition);
         formatting_space!(self);
-        punct!(self, "{");
-        self.emit_list(&n.rules, ListFormat::NotDelimited)?;
-        punct!(self, "}");
+        emit!(self, n.block);
     }
 
     #[emitter]
