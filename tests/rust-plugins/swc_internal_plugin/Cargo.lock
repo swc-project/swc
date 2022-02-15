@@ -712,7 +712,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.65.3"
+version = "0.65.4"
 dependencies = [
  "is-macro",
  "num-bigint",
@@ -766,7 +766,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.25.0"
+version = "0.26.1"
 dependencies = [
  "once_cell",
  "swc_atoms",
@@ -778,7 +778,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_macro"
-version = "0.1.0"
+version = "0.2.1"
 dependencies = [
  "proc-macro2",
  "quote",

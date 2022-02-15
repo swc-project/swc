@@ -60,7 +60,11 @@ use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
 use swc_ecma_visit::{Fold, VisitMutWith};
 
 use self::util::BoolOrObject;
-use crate::{builder::PassBuilder, plugin::PluginConfig, SwcComments, SwcImportResolver};
+use crate::{
+    builder::PassBuilder,
+    plugin::{PluginConfig, PluginContext},
+    SwcComments, SwcImportResolver,
+};
 
 #[cfg(test)]
 mod tests;
@@ -425,6 +429,15 @@ impl Options {
             NodeModulesResolver::new(TargetEnv::Node, Default::default(), true),
         );
 
+        let transform_filename = match base {
+            FileName::Real(path) => path.as_os_str().to_str().map(String::from),
+            _ => None,
+        };
+
+        let plugin_context = PluginContext {
+            filename: transform_filename,
+        };
+
         let pass = chain!(
             lint_to_fold(swc_ecma_lints::rules::all(LintParams {
                 program: &program,
@@ -457,7 +470,7 @@ impl Options {
                 ),
                 syntax.typescript()
             ),
-            crate::plugin::plugins(plugin_resolver, experimental),
+            crate::plugin::plugins(plugin_resolver, experimental, plugin_context),
             custom_before_pass(&program),
             // handle jsx
             Optional::new(
