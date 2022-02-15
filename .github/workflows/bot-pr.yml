@@ -3,6 +3,7 @@ name: PR Maintenance
 on:
   push:
   pull_request:
+  pull_request_review:
 
 jobs:
   ensure-comment:
