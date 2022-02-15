@@ -169,6 +169,18 @@
               "raw": "slide-left"
             },
             "blocks": [
+            "value": "slide-left",
+            "raw": "slide-left"
+          },
+          "block": {
+            "type": "SimpleBlock",
+            "span": {
+              "start": 98,
+              "end": 171,
+              "ctxt": 0
+            },
+            "name": "{",
+            "value": [
               {
                 "span": {
                   "start": 108,
@@ -313,6 +325,8 @@
           }
         ]
       }
+        }
+      ]
     },
     {
       "type": "LayerRule",
@@ -368,6 +382,18 @@
               "raw": "slide-left"
             },
             "blocks": [
+            "value": "slide-left",
+            "raw": "slide-left"
+          },
+          "block": {
+            "type": "SimpleBlock",
+            "span": {
+              "start": 220,
+              "end": 295,
+              "ctxt": 0
+            },
+            "name": "{",
+            "value": [
               {
                 "span": {
                   "start": 230,
@@ -502,6 +528,8 @@
           }
         ]
       }
+        }
+      ]
     },
     {
       "type": "QualifiedRule",

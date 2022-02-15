@@ -28,3 +28,9 @@ error: CustomIdent
 1 | @-moz-keyframes name {}
   |                 ^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/D6tjKw383eOL-bbWEm1-4w/input.css:1:22
+  |
+1 | @-moz-keyframes name {}
+  |                      ^^
+

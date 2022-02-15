@@ -199,20 +199,7 @@ where
 
         emit!(self, n.name);
         formatting_space!(self);
-        punct!(self, "{");
-        formatting_newline!(self);
-
-        self.emit_list(
-            &n.blocks,
-            if self.config.minify {
-                ListFormat::NotDelimited
-            } else {
-                ListFormat::MultiLine
-            },
-        )?;
-
-        formatting_newline!(self);
-        punct!(self, "}");
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -889,6 +876,7 @@ where
                     formatting_newline!(self);
                 }
                 ComponentValue::Rule(_) => {
+                ComponentValue::Rule(_) | ComponentValue::KeyframeBlock(_) => {
                     formatting_newline!(self);
                 }
                 ComponentValue::DeclarationBlockItem(_) if idx == 0 => {
@@ -918,6 +906,11 @@ where
                     }
                     StyleBlock::Invalid(_) => {}
                 },
+                ComponentValue::KeyframeBlock(_) => {
+                    if idx == len - 1 {
+                        formatting_newline!(self);
+                    }
+                }
                 ComponentValue::DeclarationBlockItem(i) => match i {
                     DeclarationBlockItem::AtRule(_) => {
                         formatting_newline!(self);
@@ -961,6 +954,7 @@ where
             StyleBlock::Declaration(n) => emit!(self, n),
             StyleBlock::QualifiedRule(n) => emit!(self, n),
             StyleBlock::Invalid(n) => emit!(self, n),
+            ComponentValue::KeyframeBlock(n) => emit!(self, n),
         }
     }
 

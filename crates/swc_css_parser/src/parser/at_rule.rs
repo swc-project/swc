@@ -511,11 +511,16 @@ where
 
         self.input.skip_ws()?;
 
+        let span_block = self.input.cur_span()?;
+        let mut block = SimpleBlock {
+            span: Default::default(),
+            name: '{',
+            value: vec![],
+        };
+
         expect!(self, "{");
 
         self.input.skip_ws()?;
-
-        let mut blocks = vec![];
 
         loop {
             if is!(self, "}") {
@@ -524,19 +529,23 @@ where
 
             self.input.skip_ws()?;
 
-            let block = self.parse()?;
+            let keyframe_block: KeyframeBlock = self.parse()?;
 
-            blocks.push(block);
+            block
+                .value
+                .push(ComponentValue::KeyframeBlock(keyframe_block));
 
             self.input.skip_ws()?;
         }
 
         expect!(self, "}");
 
+        block.span = span!(self, span_block.lo);
+
         Ok(KeyframesRule {
             span: span!(self, span.lo),
             name,
-            blocks,
+            block,
         })
     }
 }

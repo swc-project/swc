@@ -23,98 +23,107 @@
         "value": "test",
         "raw": "test"
       },
-      "blocks": [
-        {
-          "span": {
-            "start": 18,
-            "end": 37,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Ident",
-              "span": {
-                "start": 18,
-                "end": 22,
-                "ctxt": 0
-              },
-              "value": "from",
-              "raw": "from"
-            }
-          ],
-          "block": {
-            "type": "SimpleBlock",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 16,
+          "end": 45,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
             "span": {
-              "start": 23,
+              "start": 18,
               "end": 37,
               "ctxt": 0
             },
-            "name": "{",
-            "value": [
+            "prelude": [
               {
-                "type": "Declaration",
+                "type": "Ident",
                 "span": {
-                  "start": 25,
-                  "end": 35,
+                  "start": 18,
+                  "end": 22,
                   "ctxt": 0
                 },
-                "name": {
-                  "type": "Ident",
-                  "span": {
-                    "start": 25,
-                    "end": 30,
-                    "ctxt": 0
-                  },
-                  "value": "color",
-                  "raw": "color"
-                },
-                "value": [
-                  {
-                    "type": "Ident",
-                    "span": {
-                      "start": 32,
-                      "end": 35,
-                      "ctxt": 0
-                    },
-                    "value": "red",
-                    "raw": "red"
-                  }
-                ],
-                "important": null
+                "value": "from",
+                "raw": "from"
               }
-            ]
-          }
-        },
-        {
-          "span": {
-            "start": 38,
-            "end": 43,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Ident",
+            ],
+            "block": {
+              "type": "SimpleBlock",
               "span": {
-                "start": 38,
-                "end": 40,
+                "start": 23,
+                "end": 37,
                 "ctxt": 0
               },
-              "value": "to",
-              "raw": "to"
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 25,
+                    "end": 35,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 25,
+                      "end": 30,
+                      "ctxt": 0
+                    },
+                    "value": "color",
+                    "raw": "color"
+                  },
+                  "value": [
+                    {
+                      "type": "Ident",
+                      "span": {
+                        "start": 32,
+                        "end": 35,
+                        "ctxt": 0
+                      },
+                      "value": "red",
+                      "raw": "red"
+                    }
+                  ],
+                  "important": null
+                }
+              ]
             }
-          ],
-          "block": {
-            "type": "SimpleBlock",
+          },
+          {
             "span": {
-              "start": 41,
+              "start": 38,
               "end": 43,
               "ctxt": 0
             },
-            "name": "{",
-            "value": []
+            "prelude": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 38,
+                  "end": 40,
+                  "ctxt": 0
+                },
+                "value": "to",
+                "raw": "to"
+              }
+            ],
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 41,
+                "end": 43,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": []
+            }
           }
-        }
-      ]
+        ]
+      }
     }
   ]
 }
