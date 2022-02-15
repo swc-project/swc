@@ -9,7 +9,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.124.7"
+version = "0.124.8"
 
 [lib]
 name = "swc"
@@ -39,7 +39,7 @@ dashmap = "4.0.2"
 either = "1"
 indexmap = {version = "1", features = ["serde"]}
 lru = "0.7.1"
-once_cell = "1"
+once_cell = "1.9.0"
 pathdiff = "0.2.0"
 regex = "1"
 serde = {version = "1", features = ["derive"]}

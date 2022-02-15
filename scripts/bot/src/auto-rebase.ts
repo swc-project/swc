@@ -35,10 +35,11 @@ const repo = 'swc';
 
     const pr = autoMergePrs[0];
 
-    await octokit.rest.repos.mergeUpstream({
-        owner: pr.head.repo.owner.login,
-        repo: pr.head.repo.name,
-        branch: pr.head.ref,
+    await octokit.rest.pulls.updateBranch({
+        owner,
+        repo,
+        pull_number: pr.number,
+        expected_head_sha: pr.head.sha
     });
 
     console.log(`Updated PR ${pr.number} to merge upstream`);
