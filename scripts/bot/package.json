@@ -10,6 +10,7 @@
         "typescript": "^4.5.5"
     },
     "dependencies": {
-        "@octokit/rest": "^18.12.0"
+        "@octokit/rest": "^18.12.0",
+        "yaml": "^1.10.2"
     }
 }
