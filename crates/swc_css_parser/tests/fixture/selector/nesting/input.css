@@ -43,15 +43,13 @@ table.colortable {
 /*    && { padding: 2ch; }*/
 /*}*/
 
-/* TODO fix me */
-/*.error, #404 {*/
-/*    &:hover > .baz { color: red; }*/
-/*}*/
+.error, #test {
+    &:hover > .baz { color: red; }
+}
 
-/* TODO fix me */
-/*.foo {*/
-/*    &:is(.bar, &.baz) { color: red; }*/
-/*}*/
+.foo {
+    &:is(.bar, &.baz) { color: red; }
+}
 
 figure {
     margin: 0;

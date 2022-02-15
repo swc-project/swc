@@ -6,8 +6,8 @@ error: Stylesheet
 3  | |         text-align: center;
 4  | |         &.c { text-transform:uppercase }
 ...  |
-70 | |     &__bar { color: red; }
-71 | | }
+68 | |     &__bar { color: red; }
+69 | | }
    | |__^
 
 error: Rule
@@ -1918,675 +1918,1091 @@ error: Ident
    |                   ^^
 
 error: Rule
-  --> $DIR/tests/fixture/selector/nesting/input.css:56:1
+  --> $DIR/tests/fixture/selector/nesting/input.css:46:1
    |
-56 | / figure {
-57 | |     margin: 0;
-58 | |
-59 | |     & > figcaption {
-...  |
-65 | |     }
-66 | | }
+46 | / .error, #test {
+47 | |     &:hover > .baz { color: red; }
+48 | | }
    | |_^
 
 error: QualifiedRule
-  --> $DIR/tests/fixture/selector/nesting/input.css:56:1
+  --> $DIR/tests/fixture/selector/nesting/input.css:46:1
    |
-56 | / figure {
-57 | |     margin: 0;
-58 | |
-59 | |     & > figcaption {
-...  |
-65 | |     }
-66 | | }
+46 | / .error, #test {
+47 | |     &:hover > .baz { color: red; }
+48 | | }
    | |_^
 
 error: SelectorList
-  --> $DIR/tests/fixture/selector/nesting/input.css:56:1
+  --> $DIR/tests/fixture/selector/nesting/input.css:46:1
    |
-56 | figure {
-   | ^^^^^^
+46 | .error, #test {
+   | ^^^^^^^^^^^^^
 
 error: ComplexSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:56:1
+  --> $DIR/tests/fixture/selector/nesting/input.css:46:1
    |
-56 | figure {
+46 | .error, #test {
    | ^^^^^^
 
 error: CompoundSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:56:1
+  --> $DIR/tests/fixture/selector/nesting/input.css:46:1
    |
-56 | figure {
+46 | .error, #test {
    | ^^^^^^
 
-error: TypeSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:56:1
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:46:1
    |
-56 | figure {
+46 | .error, #test {
    | ^^^^^^
 
-error: TagNameSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:56:1
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:46:1
    |
-56 | figure {
-   | ^^^^^^
-
-error: WqName
-  --> $DIR/tests/fixture/selector/nesting/input.css:56:1
-   |
-56 | figure {
+46 | .error, #test {
    | ^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/selector/nesting/input.css:56:1
+  --> $DIR/tests/fixture/selector/nesting/input.css:46:2
    |
-56 | figure {
-   | ^^^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/selector/nesting/input.css:56:8
-   |
-56 |   figure {
-   |  ________^
-57 | |     margin: 0;
-58 | |
-59 | |     & > figcaption {
-...  |
-65 | |     }
-66 | | }
-   | |_^
-
-error: StyleBlock
-  --> $DIR/tests/fixture/selector/nesting/input.css:57:5
-   |
-57 |     margin: 0;
-   |     ^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/selector/nesting/input.css:57:5
-   |
-57 |     margin: 0;
-   |     ^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/selector/nesting/input.css:57:5
-   |
-57 |     margin: 0;
-   |     ^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/selector/nesting/input.css:57:5
-   |
-57 |     margin: 0;
-   |     ^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/selector/nesting/input.css:57:13
-   |
-57 |     margin: 0;
-   |             ^
-
-error: Number
-  --> $DIR/tests/fixture/selector/nesting/input.css:57:13
-   |
-57 |     margin: 0;
-   |             ^
-
-error: StyleBlock
-  --> $DIR/tests/fixture/selector/nesting/input.css:59:5
-   |
-59 | /     & > figcaption {
-60 | |         background: hsl(0 0% 0% / 50%);
-61 | |
-62 | |         & > p {
-63 | |               font-size: .9rem;
-64 | |         }
-65 | |     }
-   | |_____^
-
-error: QualifiedRule
-  --> $DIR/tests/fixture/selector/nesting/input.css:59:5
-   |
-59 | /     & > figcaption {
-60 | |         background: hsl(0 0% 0% / 50%);
-61 | |
-62 | |         & > p {
-63 | |               font-size: .9rem;
-64 | |         }
-65 | |     }
-   | |_____^
-
-error: SelectorList
-  --> $DIR/tests/fixture/selector/nesting/input.css:59:5
-   |
-59 |     & > figcaption {
-   |     ^^^^^^^^^^^^^^
+46 | .error, #test {
+   |  ^^^^^
 
 error: ComplexSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:59:5
+  --> $DIR/tests/fixture/selector/nesting/input.css:46:9
    |
-59 |     & > figcaption {
-   |     ^^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:59:5
-   |
-59 |     & > figcaption {
-   |     ^
-
-error: NestingSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:59:5
-   |
-59 |     & > figcaption {
-   |     ^
-
-error: Combinator
-  --> $DIR/tests/fixture/selector/nesting/input.css:59:7
-   |
-59 |     & > figcaption {
-   |       ^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:59:9
-   |
-59 |     & > figcaption {
-   |         ^^^^^^^^^^
-
-error: TypeSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:59:9
-   |
-59 |     & > figcaption {
-   |         ^^^^^^^^^^
-
-error: TagNameSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:59:9
-   |
-59 |     & > figcaption {
-   |         ^^^^^^^^^^
-
-error: WqName
-  --> $DIR/tests/fixture/selector/nesting/input.css:59:9
-   |
-59 |     & > figcaption {
-   |         ^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/selector/nesting/input.css:59:9
-   |
-59 |     & > figcaption {
-   |         ^^^^^^^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/selector/nesting/input.css:59:20
-   |
-59 |       & > figcaption {
-   |  ____________________^
-60 | |         background: hsl(0 0% 0% / 50%);
-61 | |
-62 | |         & > p {
-63 | |               font-size: .9rem;
-64 | |         }
-65 | |     }
-   | |_____^
-
-error: StyleBlock
-  --> $DIR/tests/fixture/selector/nesting/input.css:60:9
-   |
-60 |         background: hsl(0 0% 0% / 50%);
-   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/selector/nesting/input.css:60:9
-   |
-60 |         background: hsl(0 0% 0% / 50%);
-   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/selector/nesting/input.css:60:9
-   |
-60 |         background: hsl(0 0% 0% / 50%);
-   |         ^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/selector/nesting/input.css:60:9
-   |
-60 |         background: hsl(0 0% 0% / 50%);
-   |         ^^^^^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/selector/nesting/input.css:60:21
-   |
-60 |         background: hsl(0 0% 0% / 50%);
-   |                     ^^^^^^^^^^^^^^^^^^
-
-error: Function
-  --> $DIR/tests/fixture/selector/nesting/input.css:60:21
-   |
-60 |         background: hsl(0 0% 0% / 50%);
-   |                     ^^^^^^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/selector/nesting/input.css:60:21
-   |
-60 |         background: hsl(0 0% 0% / 50%);
-   |                     ^^^
-
-error: Value
-  --> $DIR/tests/fixture/selector/nesting/input.css:60:25
-   |
-60 |         background: hsl(0 0% 0% / 50%);
-   |                         ^
-
-error: Number
-  --> $DIR/tests/fixture/selector/nesting/input.css:60:25
-   |
-60 |         background: hsl(0 0% 0% / 50%);
-   |                         ^
-
-error: Value
-  --> $DIR/tests/fixture/selector/nesting/input.css:60:27
-   |
-60 |         background: hsl(0 0% 0% / 50%);
-   |                           ^^
-
-error: Percentage
-  --> $DIR/tests/fixture/selector/nesting/input.css:60:27
-   |
-60 |         background: hsl(0 0% 0% / 50%);
-   |                           ^^
-
-error: Number
-  --> $DIR/tests/fixture/selector/nesting/input.css:60:27
-   |
-60 |         background: hsl(0 0% 0% / 50%);
-   |                           ^
-
-error: Value
-  --> $DIR/tests/fixture/selector/nesting/input.css:60:30
-   |
-60 |         background: hsl(0 0% 0% / 50%);
-   |                              ^^
-
-error: Percentage
-  --> $DIR/tests/fixture/selector/nesting/input.css:60:30
-   |
-60 |         background: hsl(0 0% 0% / 50%);
-   |                              ^^
-
-error: Number
-  --> $DIR/tests/fixture/selector/nesting/input.css:60:30
-   |
-60 |         background: hsl(0 0% 0% / 50%);
-   |                              ^
-
-error: Value
-  --> $DIR/tests/fixture/selector/nesting/input.css:60:33
-   |
-60 |         background: hsl(0 0% 0% / 50%);
-   |                                 ^
-
-error: Delimiter
-  --> $DIR/tests/fixture/selector/nesting/input.css:60:33
-   |
-60 |         background: hsl(0 0% 0% / 50%);
-   |                                 ^
-
-error: Value
-  --> $DIR/tests/fixture/selector/nesting/input.css:60:35
-   |
-60 |         background: hsl(0 0% 0% / 50%);
-   |                                   ^^^
-
-error: Percentage
-  --> $DIR/tests/fixture/selector/nesting/input.css:60:35
-   |
-60 |         background: hsl(0 0% 0% / 50%);
-   |                                   ^^^
-
-error: Number
-  --> $DIR/tests/fixture/selector/nesting/input.css:60:35
-   |
-60 |         background: hsl(0 0% 0% / 50%);
-   |                                   ^^
-
-error: StyleBlock
-  --> $DIR/tests/fixture/selector/nesting/input.css:62:9
-   |
-62 | /         & > p {
-63 | |               font-size: .9rem;
-64 | |         }
-   | |_________^
-
-error: QualifiedRule
-  --> $DIR/tests/fixture/selector/nesting/input.css:62:9
-   |
-62 | /         & > p {
-63 | |               font-size: .9rem;
-64 | |         }
-   | |_________^
-
-error: SelectorList
-  --> $DIR/tests/fixture/selector/nesting/input.css:62:9
-   |
-62 |         & > p {
-   |         ^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:62:9
-   |
-62 |         & > p {
+46 | .error, #test {
    |         ^^^^^
 
 error: CompoundSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:62:9
+  --> $DIR/tests/fixture/selector/nesting/input.css:46:9
    |
-62 |         & > p {
-   |         ^
+46 | .error, #test {
+   |         ^^^^^
 
-error: NestingSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:62:9
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:46:9
    |
-62 |         & > p {
-   |         ^
+46 | .error, #test {
+   |         ^^^^^
 
-error: Combinator
-  --> $DIR/tests/fixture/selector/nesting/input.css:62:11
+error: IdSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:46:9
    |
-62 |         & > p {
-   |           ^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:62:13
-   |
-62 |         & > p {
-   |             ^
-
-error: TypeSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:62:13
-   |
-62 |         & > p {
-   |             ^
-
-error: TagNameSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:62:13
-   |
-62 |         & > p {
-   |             ^
-
-error: WqName
-  --> $DIR/tests/fixture/selector/nesting/input.css:62:13
-   |
-62 |         & > p {
-   |             ^
+46 | .error, #test {
+   |         ^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/selector/nesting/input.css:62:13
+  --> $DIR/tests/fixture/selector/nesting/input.css:46:9
    |
-62 |         & > p {
-   |             ^
+46 | .error, #test {
+   |         ^^^^^
 
 error: SimpleBlock
-  --> $DIR/tests/fixture/selector/nesting/input.css:62:15
+  --> $DIR/tests/fixture/selector/nesting/input.css:46:15
    |
-62 |           & > p {
+46 |   .error, #test {
    |  _______________^
-63 | |               font-size: .9rem;
-64 | |         }
-   | |_________^
+47 | |     &:hover > .baz { color: red; }
+48 | | }
+   | |_^
 
 error: StyleBlock
-  --> $DIR/tests/fixture/selector/nesting/input.css:63:15
+  --> $DIR/tests/fixture/selector/nesting/input.css:47:5
    |
-63 |               font-size: .9rem;
-   |               ^^^^^^^^^^^^^^^^
+47 |     &:hover > .baz { color: red; }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/nesting/input.css:47:5
+   |
+47 |     &:hover > .baz { color: red; }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/nesting/input.css:47:5
+   |
+47 |     &:hover > .baz { color: red; }
+   |     ^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:47:5
+   |
+47 |     &:hover > .baz { color: red; }
+   |     ^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:47:5
+   |
+47 |     &:hover > .baz { color: red; }
+   |     ^^^^^^^
+
+error: NestingSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:47:5
+   |
+47 |     &:hover > .baz { color: red; }
+   |     ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:47:6
+   |
+47 |     &:hover > .baz { color: red; }
+   |      ^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:47:6
+   |
+47 |     &:hover > .baz { color: red; }
+   |      ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/nesting/input.css:47:7
+   |
+47 |     &:hover > .baz { color: red; }
+   |       ^^^^^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/nesting/input.css:47:13
+   |
+47 |     &:hover > .baz { color: red; }
+   |             ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:47:15
+   |
+47 |     &:hover > .baz { color: red; }
+   |               ^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:47:15
+   |
+47 |     &:hover > .baz { color: red; }
+   |               ^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:47:15
+   |
+47 |     &:hover > .baz { color: red; }
+   |               ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/nesting/input.css:47:16
+   |
+47 |     &:hover > .baz { color: red; }
+   |                ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/nesting/input.css:47:20
+   |
+47 |     &:hover > .baz { color: red; }
+   |                    ^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/selector/nesting/input.css:47:22
+   |
+47 |     &:hover > .baz { color: red; }
+   |                      ^^^^^^^^^^
 
 error: Declaration
-  --> $DIR/tests/fixture/selector/nesting/input.css:63:15
+  --> $DIR/tests/fixture/selector/nesting/input.css:47:22
    |
-63 |               font-size: .9rem;
-   |               ^^^^^^^^^^^^^^^^
+47 |     &:hover > .baz { color: red; }
+   |                      ^^^^^^^^^^
 
 error: DeclarationName
-  --> $DIR/tests/fixture/selector/nesting/input.css:63:15
+  --> $DIR/tests/fixture/selector/nesting/input.css:47:22
    |
-63 |               font-size: .9rem;
-   |               ^^^^^^^^^
+47 |     &:hover > .baz { color: red; }
+   |                      ^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/selector/nesting/input.css:63:15
+  --> $DIR/tests/fixture/selector/nesting/input.css:47:22
    |
-63 |               font-size: .9rem;
-   |               ^^^^^^^^^
+47 |     &:hover > .baz { color: red; }
+   |                      ^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/selector/nesting/input.css:63:26
+  --> $DIR/tests/fixture/selector/nesting/input.css:47:29
    |
-63 |               font-size: .9rem;
-   |                          ^^^^^
-
-error: Dimension
-  --> $DIR/tests/fixture/selector/nesting/input.css:63:26
-   |
-63 |               font-size: .9rem;
-   |                          ^^^^^
-
-error: Length
-  --> $DIR/tests/fixture/selector/nesting/input.css:63:26
-   |
-63 |               font-size: .9rem;
-   |                          ^^^^^
-
-error: Number
-  --> $DIR/tests/fixture/selector/nesting/input.css:63:26
-   |
-63 |               font-size: .9rem;
-   |                          ^^
+47 |     &:hover > .baz { color: red; }
+   |                             ^^^
 
 error: Ident
-  --> $DIR/tests/fixture/selector/nesting/input.css:63:28
+  --> $DIR/tests/fixture/selector/nesting/input.css:47:29
    |
-63 |               font-size: .9rem;
-   |                            ^^^
+47 |     &:hover > .baz { color: red; }
+   |                             ^^^
 
 error: Rule
-  --> $DIR/tests/fixture/selector/nesting/input.css:68:1
+  --> $DIR/tests/fixture/selector/nesting/input.css:50:1
    |
-68 | / .foo {
-69 | |     color: blue;
-70 | |     &__bar { color: red; }
-71 | | }
+50 | / .foo {
+51 | |     &:is(.bar, &.baz) { color: red; }
+52 | | }
    | |_^
 
 error: QualifiedRule
-  --> $DIR/tests/fixture/selector/nesting/input.css:68:1
+  --> $DIR/tests/fixture/selector/nesting/input.css:50:1
    |
-68 | / .foo {
-69 | |     color: blue;
-70 | |     &__bar { color: red; }
-71 | | }
+50 | / .foo {
+51 | |     &:is(.bar, &.baz) { color: red; }
+52 | | }
    | |_^
 
 error: SelectorList
-  --> $DIR/tests/fixture/selector/nesting/input.css:68:1
+  --> $DIR/tests/fixture/selector/nesting/input.css:50:1
    |
-68 | .foo {
+50 | .foo {
    | ^^^^
 
 error: ComplexSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:68:1
+  --> $DIR/tests/fixture/selector/nesting/input.css:50:1
    |
-68 | .foo {
+50 | .foo {
    | ^^^^
 
 error: CompoundSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:68:1
+  --> $DIR/tests/fixture/selector/nesting/input.css:50:1
    |
-68 | .foo {
+50 | .foo {
    | ^^^^
 
 error: SubclassSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:68:1
+  --> $DIR/tests/fixture/selector/nesting/input.css:50:1
    |
-68 | .foo {
+50 | .foo {
    | ^^^^
 
 error: ClassSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:68:1
+  --> $DIR/tests/fixture/selector/nesting/input.css:50:1
    |
-68 | .foo {
+50 | .foo {
    | ^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/selector/nesting/input.css:68:2
+  --> $DIR/tests/fixture/selector/nesting/input.css:50:2
    |
-68 | .foo {
+50 | .foo {
    |  ^^^
 
 error: SimpleBlock
-  --> $DIR/tests/fixture/selector/nesting/input.css:68:6
+  --> $DIR/tests/fixture/selector/nesting/input.css:50:6
    |
-68 |   .foo {
+50 |   .foo {
    |  ______^
-69 | |     color: blue;
-70 | |     &__bar { color: red; }
-71 | | }
+51 | |     &:is(.bar, &.baz) { color: red; }
+52 | | }
    | |_^
 
 error: StyleBlock
-  --> $DIR/tests/fixture/selector/nesting/input.css:69:5
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:5
    |
-69 |     color: blue;
+51 |     &:is(.bar, &.baz) { color: red; }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:5
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:5
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |     ^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:5
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |     ^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:5
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |     ^^^^^^^^^^^^^^^^^
+
+error: NestingSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:5
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |     ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:6
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |      ^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:6
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |      ^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:7
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |       ^^
+
+error: Delim { value: '.' }
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:10
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |          ^
+
+error: Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:11
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |           ^^^
+
+error: Comma
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:14
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |              ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:15
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |               ^
+
+error: Delim { value: '&' }
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:16
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |                ^
+
+error: Delim { value: '.' }
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:17
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |                 ^
+
+error: Ident { value: Atom('baz' type=inline), raw: Atom('baz' type=inline) }
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:18
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |                  ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:23
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |                       ^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:25
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |                         ^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:25
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |                         ^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:25
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |                         ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:25
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |                         ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:32
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |                                ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:32
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |                                ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/nesting/input.css:54:1
+   |
+54 | / figure {
+55 | |     margin: 0;
+56 | |
+57 | |     & > figcaption {
+...  |
+63 | |     }
+64 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/nesting/input.css:54:1
+   |
+54 | / figure {
+55 | |     margin: 0;
+56 | |
+57 | |     & > figcaption {
+...  |
+63 | |     }
+64 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/nesting/input.css:54:1
+   |
+54 | figure {
+   | ^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:54:1
+   |
+54 | figure {
+   | ^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:54:1
+   |
+54 | figure {
+   | ^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:54:1
+   |
+54 | figure {
+   | ^^^^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:54:1
+   |
+54 | figure {
+   | ^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/nesting/input.css:54:1
+   |
+54 | figure {
+   | ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/nesting/input.css:54:1
+   |
+54 | figure {
+   | ^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/nesting/input.css:54:8
+   |
+54 |   figure {
+   |  ________^
+55 | |     margin: 0;
+56 | |
+57 | |     & > figcaption {
+...  |
+63 | |     }
+64 | | }
+   | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/selector/nesting/input.css:55:5
+   |
+55 |     margin: 0;
+   |     ^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/selector/nesting/input.css:55:5
+   |
+55 |     margin: 0;
+   |     ^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/selector/nesting/input.css:55:5
+   |
+55 |     margin: 0;
+   |     ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/nesting/input.css:55:5
+   |
+55 |     margin: 0;
+   |     ^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/selector/nesting/input.css:55:13
+   |
+55 |     margin: 0;
+   |             ^
+
+error: Number
+  --> $DIR/tests/fixture/selector/nesting/input.css:55:13
+   |
+55 |     margin: 0;
+   |             ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/selector/nesting/input.css:57:5
+   |
+57 | /     & > figcaption {
+58 | |         background: hsl(0 0% 0% / 50%);
+59 | |
+60 | |         & > p {
+61 | |               font-size: .9rem;
+62 | |         }
+63 | |     }
+   | |_____^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/nesting/input.css:57:5
+   |
+57 | /     & > figcaption {
+58 | |         background: hsl(0 0% 0% / 50%);
+59 | |
+60 | |         & > p {
+61 | |               font-size: .9rem;
+62 | |         }
+63 | |     }
+   | |_____^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/nesting/input.css:57:5
+   |
+57 |     & > figcaption {
+   |     ^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:57:5
+   |
+57 |     & > figcaption {
+   |     ^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:57:5
+   |
+57 |     & > figcaption {
+   |     ^
+
+error: NestingSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:57:5
+   |
+57 |     & > figcaption {
+   |     ^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/nesting/input.css:57:7
+   |
+57 |     & > figcaption {
+   |       ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:57:9
+   |
+57 |     & > figcaption {
+   |         ^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:57:9
+   |
+57 |     & > figcaption {
+   |         ^^^^^^^^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:57:9
+   |
+57 |     & > figcaption {
+   |         ^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/nesting/input.css:57:9
+   |
+57 |     & > figcaption {
+   |         ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/nesting/input.css:57:9
+   |
+57 |     & > figcaption {
+   |         ^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/nesting/input.css:57:20
+   |
+57 |       & > figcaption {
+   |  ____________________^
+58 | |         background: hsl(0 0% 0% / 50%);
+59 | |
+60 | |         & > p {
+61 | |               font-size: .9rem;
+62 | |         }
+63 | |     }
+   | |_____^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/selector/nesting/input.css:58:9
+   |
+58 |         background: hsl(0 0% 0% / 50%);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/selector/nesting/input.css:58:9
+   |
+58 |         background: hsl(0 0% 0% / 50%);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/selector/nesting/input.css:58:9
+   |
+58 |         background: hsl(0 0% 0% / 50%);
+   |         ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/nesting/input.css:58:9
+   |
+58 |         background: hsl(0 0% 0% / 50%);
+   |         ^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/selector/nesting/input.css:58:21
+   |
+58 |         background: hsl(0 0% 0% / 50%);
+   |                     ^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/selector/nesting/input.css:58:21
+   |
+58 |         background: hsl(0 0% 0% / 50%);
+   |                     ^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/nesting/input.css:58:21
+   |
+58 |         background: hsl(0 0% 0% / 50%);
+   |                     ^^^
+
+error: Value
+  --> $DIR/tests/fixture/selector/nesting/input.css:58:25
+   |
+58 |         background: hsl(0 0% 0% / 50%);
+   |                         ^
+
+error: Number
+  --> $DIR/tests/fixture/selector/nesting/input.css:58:25
+   |
+58 |         background: hsl(0 0% 0% / 50%);
+   |                         ^
+
+error: Value
+  --> $DIR/tests/fixture/selector/nesting/input.css:58:27
+   |
+58 |         background: hsl(0 0% 0% / 50%);
+   |                           ^^
+
+error: Percentage
+  --> $DIR/tests/fixture/selector/nesting/input.css:58:27
+   |
+58 |         background: hsl(0 0% 0% / 50%);
+   |                           ^^
+
+error: Number
+  --> $DIR/tests/fixture/selector/nesting/input.css:58:27
+   |
+58 |         background: hsl(0 0% 0% / 50%);
+   |                           ^
+
+error: Value
+  --> $DIR/tests/fixture/selector/nesting/input.css:58:30
+   |
+58 |         background: hsl(0 0% 0% / 50%);
+   |                              ^^
+
+error: Percentage
+  --> $DIR/tests/fixture/selector/nesting/input.css:58:30
+   |
+58 |         background: hsl(0 0% 0% / 50%);
+   |                              ^^
+
+error: Number
+  --> $DIR/tests/fixture/selector/nesting/input.css:58:30
+   |
+58 |         background: hsl(0 0% 0% / 50%);
+   |                              ^
+
+error: Value
+  --> $DIR/tests/fixture/selector/nesting/input.css:58:33
+   |
+58 |         background: hsl(0 0% 0% / 50%);
+   |                                 ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/selector/nesting/input.css:58:33
+   |
+58 |         background: hsl(0 0% 0% / 50%);
+   |                                 ^
+
+error: Value
+  --> $DIR/tests/fixture/selector/nesting/input.css:58:35
+   |
+58 |         background: hsl(0 0% 0% / 50%);
+   |                                   ^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/selector/nesting/input.css:58:35
+   |
+58 |         background: hsl(0 0% 0% / 50%);
+   |                                   ^^^
+
+error: Number
+  --> $DIR/tests/fixture/selector/nesting/input.css:58:35
+   |
+58 |         background: hsl(0 0% 0% / 50%);
+   |                                   ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/selector/nesting/input.css:60:9
+   |
+60 | /         & > p {
+61 | |               font-size: .9rem;
+62 | |         }
+   | |_________^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/nesting/input.css:60:9
+   |
+60 | /         & > p {
+61 | |               font-size: .9rem;
+62 | |         }
+   | |_________^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/nesting/input.css:60:9
+   |
+60 |         & > p {
+   |         ^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:60:9
+   |
+60 |         & > p {
+   |         ^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:60:9
+   |
+60 |         & > p {
+   |         ^
+
+error: NestingSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:60:9
+   |
+60 |         & > p {
+   |         ^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/nesting/input.css:60:11
+   |
+60 |         & > p {
+   |           ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:60:13
+   |
+60 |         & > p {
+   |             ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:60:13
+   |
+60 |         & > p {
+   |             ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:60:13
+   |
+60 |         & > p {
+   |             ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/nesting/input.css:60:13
+   |
+60 |         & > p {
+   |             ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/nesting/input.css:60:13
+   |
+60 |         & > p {
+   |             ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/nesting/input.css:60:15
+   |
+60 |           & > p {
+   |  _______________^
+61 | |               font-size: .9rem;
+62 | |         }
+   | |_________^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/selector/nesting/input.css:61:15
+   |
+61 |               font-size: .9rem;
+   |               ^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/selector/nesting/input.css:61:15
+   |
+61 |               font-size: .9rem;
+   |               ^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/selector/nesting/input.css:61:15
+   |
+61 |               font-size: .9rem;
+   |               ^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/nesting/input.css:61:15
+   |
+61 |               font-size: .9rem;
+   |               ^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/selector/nesting/input.css:61:26
+   |
+61 |               font-size: .9rem;
+   |                          ^^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/selector/nesting/input.css:61:26
+   |
+61 |               font-size: .9rem;
+   |                          ^^^^^
+
+error: Length
+  --> $DIR/tests/fixture/selector/nesting/input.css:61:26
+   |
+61 |               font-size: .9rem;
+   |                          ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/selector/nesting/input.css:61:26
+   |
+61 |               font-size: .9rem;
+   |                          ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/nesting/input.css:61:28
+   |
+61 |               font-size: .9rem;
+   |                            ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/nesting/input.css:66:1
+   |
+66 | / .foo {
+67 | |     color: blue;
+68 | |     &__bar { color: red; }
+69 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/nesting/input.css:66:1
+   |
+66 | / .foo {
+67 | |     color: blue;
+68 | |     &__bar { color: red; }
+69 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/nesting/input.css:66:1
+   |
+66 | .foo {
+   | ^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:66:1
+   |
+66 | .foo {
+   | ^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:66:1
+   |
+66 | .foo {
+   | ^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:66:1
+   |
+66 | .foo {
+   | ^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:66:1
+   |
+66 | .foo {
+   | ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/nesting/input.css:66:2
+   |
+66 | .foo {
+   |  ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/nesting/input.css:66:6
+   |
+66 |   .foo {
+   |  ______^
+67 | |     color: blue;
+68 | |     &__bar { color: red; }
+69 | | }
+   | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/selector/nesting/input.css:67:5
+   |
+67 |     color: blue;
    |     ^^^^^^^^^^^
 
 error: Declaration
-  --> $DIR/tests/fixture/selector/nesting/input.css:69:5
+  --> $DIR/tests/fixture/selector/nesting/input.css:67:5
    |
-69 |     color: blue;
+67 |     color: blue;
    |     ^^^^^^^^^^^
 
 error: DeclarationName
-  --> $DIR/tests/fixture/selector/nesting/input.css:69:5
+  --> $DIR/tests/fixture/selector/nesting/input.css:67:5
    |
-69 |     color: blue;
+67 |     color: blue;
    |     ^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/selector/nesting/input.css:69:5
+  --> $DIR/tests/fixture/selector/nesting/input.css:67:5
    |
-69 |     color: blue;
+67 |     color: blue;
    |     ^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/selector/nesting/input.css:69:12
+  --> $DIR/tests/fixture/selector/nesting/input.css:67:12
    |
-69 |     color: blue;
+67 |     color: blue;
    |            ^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/selector/nesting/input.css:69:12
+  --> $DIR/tests/fixture/selector/nesting/input.css:67:12
    |
-69 |     color: blue;
+67 |     color: blue;
    |            ^^^^
 
 error: StyleBlock
-  --> $DIR/tests/fixture/selector/nesting/input.css:70:5
+  --> $DIR/tests/fixture/selector/nesting/input.css:68:5
    |
-70 |     &__bar { color: red; }
+68 |     &__bar { color: red; }
    |     ^^^^^^^^^^^^^^^^^^^^^^
 
 error: QualifiedRule
-  --> $DIR/tests/fixture/selector/nesting/input.css:70:5
+  --> $DIR/tests/fixture/selector/nesting/input.css:68:5
    |
-70 |     &__bar { color: red; }
+68 |     &__bar { color: red; }
    |     ^^^^^^^^^^^^^^^^^^^^^^
 
 error: SelectorList
-  --> $DIR/tests/fixture/selector/nesting/input.css:70:5
+  --> $DIR/tests/fixture/selector/nesting/input.css:68:5
    |
-70 |     &__bar { color: red; }
+68 |     &__bar { color: red; }
    |     ^^^^^^
 
 error: ComplexSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:70:5
+  --> $DIR/tests/fixture/selector/nesting/input.css:68:5
    |
-70 |     &__bar { color: red; }
+68 |     &__bar { color: red; }
    |     ^^^^^^
 
 error: CompoundSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:70:5
+  --> $DIR/tests/fixture/selector/nesting/input.css:68:5
    |
-70 |     &__bar { color: red; }
+68 |     &__bar { color: red; }
    |     ^^^^^^
 
 error: NestingSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:70:5
+  --> $DIR/tests/fixture/selector/nesting/input.css:68:5
    |
-70 |     &__bar { color: red; }
+68 |     &__bar { color: red; }
    |     ^
 
 error: TypeSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:70:6
+  --> $DIR/tests/fixture/selector/nesting/input.css:68:6
    |
-70 |     &__bar { color: red; }
+68 |     &__bar { color: red; }
    |      ^^^^^
 
 error: TagNameSelector
-  --> $DIR/tests/fixture/selector/nesting/input.css:70:6
+  --> $DIR/tests/fixture/selector/nesting/input.css:68:6
    |
-70 |     &__bar { color: red; }
+68 |     &__bar { color: red; }
    |      ^^^^^
 
 error: WqName
-  --> $DIR/tests/fixture/selector/nesting/input.css:70:6
+  --> $DIR/tests/fixture/selector/nesting/input.css:68:6
    |
-70 |     &__bar { color: red; }
+68 |     &__bar { color: red; }
    |      ^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/selector/nesting/input.css:70:6
+  --> $DIR/tests/fixture/selector/nesting/input.css:68:6
    |
-70 |     &__bar { color: red; }
+68 |     &__bar { color: red; }
    |      ^^^^^
 
 error: SimpleBlock
-  --> $DIR/tests/fixture/selector/nesting/input.css:70:12
+  --> $DIR/tests/fixture/selector/nesting/input.css:68:12
    |
-70 |     &__bar { color: red; }
+68 |     &__bar { color: red; }
    |            ^^^^^^^^^^^^^^^
 
 error: StyleBlock
-  --> $DIR/tests/fixture/selector/nesting/input.css:70:14
+  --> $DIR/tests/fixture/selector/nesting/input.css:68:14
    |
-70 |     &__bar { color: red; }
+68 |     &__bar { color: red; }
    |              ^^^^^^^^^^
 
 error: Declaration
-  --> $DIR/tests/fixture/selector/nesting/input.css:70:14
+  --> $DIR/tests/fixture/selector/nesting/input.css:68:14
    |
-70 |     &__bar { color: red; }
+68 |     &__bar { color: red; }
    |              ^^^^^^^^^^
 
 error: DeclarationName
-  --> $DIR/tests/fixture/selector/nesting/input.css:70:14
+  --> $DIR/tests/fixture/selector/nesting/input.css:68:14
    |
-70 |     &__bar { color: red; }
+68 |     &__bar { color: red; }
    |              ^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/selector/nesting/input.css:70:14
+  --> $DIR/tests/fixture/selector/nesting/input.css:68:14
    |
-70 |     &__bar { color: red; }
+68 |     &__bar { color: red; }
    |              ^^^^^
 
 error: Value
-  --> $DIR/tests/fixture/selector/nesting/input.css:70:21
+  --> $DIR/tests/fixture/selector/nesting/input.css:68:21
    |
-70 |     &__bar { color: red; }
+68 |     &__bar { color: red; }
    |                     ^^^
 
 error: Ident
-  --> $DIR/tests/fixture/selector/nesting/input.css:70:21
+  --> $DIR/tests/fixture/selector/nesting/input.css:68:21
    |
-70 |     &__bar { color: red; }
+68 |     &__bar { color: red; }
    |                     ^^^
 

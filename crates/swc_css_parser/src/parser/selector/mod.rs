@@ -152,6 +152,8 @@ where
 
         let mut nesting_selector = None;
 
+        println!("{:?}", self.input.cur());
+        
         // TODO: move under option, because it is draft
         // TODO validate list of selector, each should start with `&`
         // This is an extension: https://drafts.csswg.org/css-nesting-1/
