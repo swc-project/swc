@@ -926,7 +926,7 @@ where
                         formatting_newline!(self);
                     }
                     StyleBlock::Invalid(_) => {}
-                }
+                },
                 ComponentValue::DeclarationBlockItem(i) => match i {
                     DeclarationBlockItem::AtRule(_) => {
                         formatting_newline!(self);
