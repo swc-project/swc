@@ -65,3 +65,12 @@
         & .class { color: red }
     }
 }
+
+/* Legacy stuff, but allowed by spec */
+.class {
+    color: red;
+
+    @document url("https://www.example.com/") {
+        color: green;
+    }
+}

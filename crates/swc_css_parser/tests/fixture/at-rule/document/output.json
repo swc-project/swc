@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 464,
+    "end": 620,
     "ctxt": 0
   },
   "rules": [
@@ -618,6 +618,313 @@
         },
         "name": "{",
         "value": []
+      }
+    },
+    {
+      "type": "DocumentRule",
+      "span": {
+        "start": 465,
+        "end": 619,
+        "ctxt": 0
+      },
+      "matchingFunctions": [
+        {
+          "type": "Url",
+          "span": {
+            "start": 475,
+            "end": 506,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 475,
+              "end": 478,
+              "ctxt": 0
+            },
+            "value": "url",
+            "raw": "url"
+          },
+          "value": {
+            "type": "String",
+            "span": {
+              "start": 479,
+              "end": 505,
+              "ctxt": 0
+            },
+            "value": "https://www.example.com/",
+            "raw": "\"https://www.example.com/\""
+          },
+          "modifiers": []
+        }
+      ],
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 507,
+          "end": 619,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "MediaRule",
+            "span": {
+              "start": 513,
+              "end": 617,
+              "ctxt": 0
+            },
+            "media": {
+              "type": "MediaQueryList",
+              "span": {
+                "start": 520,
+                "end": 549,
+                "ctxt": 0
+              },
+              "queries": [
+                {
+                  "type": "MediaQuery",
+                  "span": {
+                    "start": 520,
+                    "end": 549,
+                    "ctxt": 0
+                  },
+                  "modifier": null,
+                  "mediaType": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 520,
+                      "end": 526,
+                      "ctxt": 0
+                    },
+                    "value": "screen",
+                    "raw": "screen"
+                  },
+                  "condition": {
+                    "type": "MediaConditionWithoutOr",
+                    "span": {
+                      "start": 531,
+                      "end": 549,
+                      "ctxt": 0
+                    },
+                    "conditions": [
+                      {
+                        "type": "MediaFeaturePlain",
+                        "span": {
+                          "start": 531,
+                          "end": 549,
+                          "ctxt": 0
+                        },
+                        "name": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 532,
+                            "end": 541,
+                            "ctxt": 0
+                          },
+                          "value": "min-width",
+                          "raw": "min-width"
+                        },
+                        "value": {
+                          "type": "Length",
+                          "span": {
+                            "start": 543,
+                            "end": 548,
+                            "ctxt": 0
+                          },
+                          "value": {
+                            "type": "Number",
+                            "span": {
+                              "start": 543,
+                              "end": 546,
+                              "ctxt": 0
+                            },
+                            "value": 900.0,
+                            "raw": "900"
+                          },
+                          "unit": {
+                            "type": "Ident",
+                            "span": {
+                              "start": 546,
+                              "end": 548,
+                              "ctxt": 0
+                            },
+                            "value": "px",
+                            "raw": "px"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 550,
+                "end": 617,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
+                  "type": "QualifiedRule",
+                  "span": {
+                    "start": 560,
+                    "end": 611,
+                    "ctxt": 0
+                  },
+                  "prelude": {
+                    "type": "SelectorList",
+                    "span": {
+                      "start": 560,
+                      "end": 567,
+                      "ctxt": 0
+                    },
+                    "children": [
+                      {
+                        "type": "ComplexSelector",
+                        "span": {
+                          "start": 560,
+                          "end": 567,
+                          "ctxt": 0
+                        },
+                        "children": [
+                          {
+                            "type": "CompoundSelector",
+                            "span": {
+                              "start": 560,
+                              "end": 567,
+                              "ctxt": 0
+                            },
+                            "nestingSelector": null,
+                            "typeSelector": {
+                              "type": "TagNameSelector",
+                              "span": {
+                                "start": 560,
+                                "end": 567,
+                                "ctxt": 0
+                              },
+                              "name": {
+                                "type": "WqName",
+                                "span": {
+                                  "start": 560,
+                                  "end": 567,
+                                  "ctxt": 0
+                                },
+                                "prefix": null,
+                                "value": {
+                                  "type": "Ident",
+                                  "span": {
+                                    "start": 560,
+                                    "end": 567,
+                                    "ctxt": 0
+                                  },
+                                  "value": "article",
+                                  "raw": "article"
+                                }
+                              }
+                            },
+                            "subclassSelectors": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "block": {
+                    "type": "SimpleBlock",
+                    "span": {
+                      "start": 568,
+                      "end": 611,
+                      "ctxt": 0
+                    },
+                    "name": "{",
+                    "value": [
+                      {
+                        "type": "Declaration",
+                        "span": {
+                          "start": 582,
+                          "end": 600,
+                          "ctxt": 0
+                        },
+                        "name": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 582,
+                            "end": 589,
+                            "ctxt": 0
+                          },
+                          "value": "padding",
+                          "raw": "padding"
+                        },
+                        "value": [
+                          {
+                            "type": "Length",
+                            "span": {
+                              "start": 591,
+                              "end": 595,
+                              "ctxt": 0
+                            },
+                            "value": {
+                              "type": "Number",
+                              "span": {
+                                "start": 591,
+                                "end": 592,
+                                "ctxt": 0
+                              },
+                              "value": 1.0,
+                              "raw": "1"
+                            },
+                            "unit": {
+                              "type": "Ident",
+                              "span": {
+                                "start": 592,
+                                "end": 595,
+                                "ctxt": 0
+                              },
+                              "value": "rem",
+                              "raw": "rem"
+                            }
+                          },
+                          {
+                            "type": "Length",
+                            "span": {
+                              "start": 596,
+                              "end": 600,
+                              "ctxt": 0
+                            },
+                            "value": {
+                              "type": "Number",
+                              "span": {
+                                "start": 596,
+                                "end": 597,
+                                "ctxt": 0
+                              },
+                              "value": 3.0,
+                              "raw": "3"
+                            },
+                            "unit": {
+                              "type": "Ident",
+                              "span": {
+                                "start": 597,
+                                "end": 600,
+                                "ctxt": 0
+                              },
+                              "value": "rem",
+                              "raw": "rem"
+                            }
+                          }
+                        ],
+                        "important": null
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
       }
     }
   ]

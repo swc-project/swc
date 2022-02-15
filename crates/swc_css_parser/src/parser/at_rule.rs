@@ -960,10 +960,15 @@ where
 
             matching_functions.push(self.parse()?);
         }
-
-        let ctx = Ctx {
-            in_page_at_rule: true,
-            grammar: Grammar::RuleList,
+        let ctx = match self.ctx.grammar {
+            Grammar::StyleBlock => Ctx {
+                grammar: Grammar::StyleBlock,
+                ..self.ctx
+            },
+            _ => Ctx {
+                grammar: Grammar::Stylesheet,
+                ..self.ctx
+            },
         };
         let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 

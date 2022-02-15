@@ -6,8 +6,8 @@ error: Stylesheet
 3  | | .foo {
 4  | |     display: grid;
 ...  |
-66 | |     }
-67 | | }
+75 | |     }
+76 | | }
    | |__^
 
 error: Rule
@@ -2489,4 +2489,212 @@ error: Ident
    |
 65 |         & .class { color: red }
    |                           ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/style-block/input.css:70:1
+   |
+70 | / .class {
+71 | |     color: red;
+72 | |
+73 | |     @document url("https://www.example.com/") {
+74 | |         color: green;
+75 | |     }
+76 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/style-block/input.css:70:1
+   |
+70 | / .class {
+71 | |     color: red;
+72 | |
+73 | |     @document url("https://www.example.com/") {
+74 | |         color: green;
+75 | |     }
+76 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/style-block/input.css:70:1
+   |
+70 | .class {
+   | ^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/style-block/input.css:70:1
+   |
+70 | .class {
+   | ^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:70:1
+   |
+70 | .class {
+   | ^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/style-block/input.css:70:1
+   |
+70 | .class {
+   | ^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/style-block/input.css:70:1
+   |
+70 | .class {
+   | ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:70:2
+   |
+70 | .class {
+   |  ^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:70:8
+   |
+70 |   .class {
+   |  ________^
+71 | |     color: red;
+72 | |
+73 | |     @document url("https://www.example.com/") {
+74 | |         color: green;
+75 | |     }
+76 | | }
+   | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:71:5
+   |
+71 |     color: red;
+   |     ^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:71:5
+   |
+71 |     color: red;
+   |     ^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:71:5
+   |
+71 |     color: red;
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:71:5
+   |
+71 |     color: red;
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/style-block/input.css:71:12
+   |
+71 |     color: red;
+   |            ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:71:12
+   |
+71 |     color: red;
+   |            ^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:73:5
+   |
+73 | /     @document url("https://www.example.com/") {
+74 | |         color: green;
+75 | |     }
+   | |_____^
+
+error: AtRule
+  --> $DIR/tests/fixture/style-block/input.css:73:5
+   |
+73 | /     @document url("https://www.example.com/") {
+74 | |         color: green;
+75 | |     }
+   | |_____^
+
+error: DocumentRule
+  --> $DIR/tests/fixture/style-block/input.css:73:5
+   |
+73 | /     @document url("https://www.example.com/") {
+74 | |         color: green;
+75 | |     }
+   | |_____^
+
+error: DocumentRuleMatchingFunction
+  --> $DIR/tests/fixture/style-block/input.css:73:15
+   |
+73 |     @document url("https://www.example.com/") {
+   |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Url
+  --> $DIR/tests/fixture/style-block/input.css:73:15
+   |
+73 |     @document url("https://www.example.com/") {
+   |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:73:15
+   |
+73 |     @document url("https://www.example.com/") {
+   |               ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/style-block/input.css:73:19
+   |
+73 |     @document url("https://www.example.com/") {
+   |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/style-block/input.css:73:19
+   |
+73 |     @document url("https://www.example.com/") {
+   |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:73:47
+   |
+73 |       @document url("https://www.example.com/") {
+   |  _______________________________________________^
+74 | |         color: green;
+75 | |     }
+   | |_____^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:74:9
+   |
+74 |         color: green;
+   |         ^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:74:9
+   |
+74 |         color: green;
+   |         ^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:74:9
+   |
+74 |         color: green;
+   |         ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:74:9
+   |
+74 |         color: green;
+   |         ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/style-block/input.css:74:16
+   |
+74 |         color: green;
+   |                ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:74:16
+   |
+74 |         color: green;
+   |                ^^^^^
 
