@@ -431,6 +431,7 @@ impl Options {
 
         let transform_filename = match base {
             FileName::Real(path) => path.as_os_str().to_str().map(String::from),
+            FileName::Custom(filename) => Some(filename.to_owned()),
             _ => None,
         };
 
