@@ -64,6 +64,12 @@ error: SimpleBlock
 1 | a { box-shadow: rebeccapurple , yellow , black }
   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/value/mixed-separator-01/input.css:1:5
+  |
+1 | a { box-shadow: rebeccapurple , yellow , black }
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/value/mixed-separator-01/input.css:1:5
   |

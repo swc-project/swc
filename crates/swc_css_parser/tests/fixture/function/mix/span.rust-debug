@@ -81,6 +81,12 @@ error: SimpleBlock
 5 | | }
   | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/function/mix/input.css:3:5
+  |
+3 |     opacity: mix( 70% by ease ; 0% ; 100% );
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/function/mix/input.css:3:5
   |
@@ -218,6 +224,12 @@ error: Number
   |
 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
   |                                      ^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/function/mix/input.css:4:5
+  |
+4 |     opacity: mix(70%;0%;100%);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/function/mix/input.css:4:5

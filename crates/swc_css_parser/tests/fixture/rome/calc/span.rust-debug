@@ -83,6 +83,12 @@ error: SimpleBlock
 10 | | }
    | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/calc/input.css:2:2
+  |
+2 |     width: calc(2px);
+  |     ^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/rome/calc/input.css:2:2
   |
@@ -178,6 +184,12 @@ error: Ident
   |
 2 |     width: calc(2px);
   |                  ^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/calc/input.css:3:2
+  |
+3 |     width: calc(2px + 1px);
+  |     ^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/calc/input.css:3:2
@@ -335,6 +347,12 @@ error: Ident
 3 |     width: calc(2px + 1px);
   |                        ^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/calc/input.css:4:2
+  |
+4 |     width: calc(2em + 1%);
+  |     ^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/rome/calc/input.css:4:2
   |
@@ -478,6 +496,12 @@ error: Number
   |
 4 |     width: calc(2em + 1%);
   |                       ^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/calc/input.css:5:2
+  |
+5 |     width: calc(2em * 2% * 3px);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/calc/input.css:5:2
@@ -659,6 +683,12 @@ error: Ident
 5 |     width: calc(2em * 2% * 3px);
   |                             ^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/calc/input.css:6:2
+  |
+6 |     width: calc(2em / 2 / 3);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/rome/calc/input.css:6:2
   |
@@ -814,6 +844,12 @@ error: Number
   |
 6 |     width: calc(2em / 2 / 3);
   |                           ^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/calc/input.css:7:2
+  |
+7 |     width: calc(2em / (2 - 3) / (2 - 6));
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/calc/input.css:7:2
@@ -1115,6 +1151,12 @@ error: Number
 7 |     width: calc(2em / (2 - 3) / (2 - 6));
   |                                      ^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/calc/input.css:8:2
+  |
+8 |     width: calc(2em * 2 + 3);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/rome/calc/input.css:8:2
   |
@@ -1282,6 +1324,12 @@ error: Number
   |
 8 |     width: calc(2em * 2 + 3);
   |                           ^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/calc/input.css:9:2
+  |
+9 |     width: calc(2em * 2 - 3 + 3em / 5);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/calc/input.css:9:2

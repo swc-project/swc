@@ -18,7 +18,7 @@ pub enum Rule {
     #[tag("Tokens")]
     Invalid(Tokens),
 
-    #[tag("*")]
+    #[tag("AtRule")]
     AtRule(AtRule),
 }
 
@@ -27,6 +27,18 @@ pub struct QualifiedRule {
     pub span: Span,
     pub prelude: SelectorList,
     pub block: SimpleBlock,
+}
+
+#[ast_node]
+pub enum StyleBlock {
+    #[tag("AtRule")]
+    AtRule(AtRule),
+    #[tag("Declaration")]
+    Declaration(Declaration),
+    #[tag("QualifiedRule")]
+    QualifiedRule(QualifiedRule),
+    #[tag("Tokens")]
+    Invalid(Tokens),
 }
 
 #[ast_node("SimpleBlock")]
@@ -46,6 +58,8 @@ pub enum ComponentValue {
     DeclarationBlockItem(DeclarationBlockItem),
     #[tag("Rule")]
     Rule(Rule),
+    #[tag("StyleBlock")]
+    StyleBlock(StyleBlock),
 }
 
 #[ast_node]

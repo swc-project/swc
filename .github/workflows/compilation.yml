@@ -36,9 +36,11 @@ jobs:
             ~/.cargo/
           key: ${{ runner.os }}-cargo-compiliation
 
-      - name: Install cargo hack
-        run: |
-          cargo install cargo-hack --version 0.5.7
+      - name: Install cargo-hack
+        uses: baptiste0928/cargo-install@v1.1.0
+        with:
+          crate: cargo-hack
+          version: "0.5.7"
 
       - name: Check swc_common
         run: |

@@ -83,6 +83,12 @@ error: SimpleBlock
 8 | | }
   | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/functions/input.css:2:2
+  |
+2 |     --fancy: 2px;
+  |     ^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/rome/functions/input.css:2:2
   |
@@ -112,6 +118,12 @@ error: Dimension { value: 2.0, raw_value: Atom('2' type=inline), unit: Atom('px'
   |
 2 |     --fancy: 2px;
   |              ^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/functions/input.css:3:2
+  |
+3 |     border: var(--fancy);
+  |     ^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/functions/input.css:3:2
@@ -160,6 +172,12 @@ error: DashedIdent
   |
 3 |     border: var(--fancy);
   |                 ^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/functions/input.css:4:2
+  |
+4 |     font-size: calc(10px + 5rem);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/functions/input.css:4:2
@@ -317,6 +335,12 @@ error: Ident
 4 |     font-size: calc(10px + 5rem);
   |                             ^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/functions/input.css:5:2
+  |
+5 |     background: url("");
+  |     ^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/rome/functions/input.css:5:2
   |
@@ -365,6 +389,12 @@ error: Str
 5 |     background: url("");
   |                     ^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/functions/input.css:6:2
+  |
+6 |     background: url("something");
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/rome/functions/input.css:6:2
   |
@@ -412,6 +442,12 @@ error: Str
   |
 6 |     background: url("something");
   |                     ^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/functions/input.css:7:2
+  |
+7 |     background: url("./something");
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/functions/input.css:7:2

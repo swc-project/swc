@@ -40,3 +40,9 @@ error: Ident
 1 | @media screen {}
   |        ^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:15
+  |
+1 | @media screen {}
+  |               ^^
+

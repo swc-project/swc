@@ -91,6 +91,14 @@ error: Ident
 1 | @supports not (display: flex) {
   |                         ^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/supports/input.css:1:31
+  |
+1 |   @supports not (display: flex) {
+  |  _______________________________^
+2 | | }
+  | |_^
+
 error: Rule
  --> $DIR/tests/fixture/rome/supports/input.css:4:1
   |
@@ -614,6 +622,12 @@ error: Ident
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
   |                                          ^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/supports/input.css:7:50
+  |
+7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+  |                                                  ^^
+
 error: Rule
   --> $DIR/tests/fixture/rome/supports/input.css:10:1
    |
@@ -870,4 +884,10 @@ error: Ident
    |
 12 |           (transform: rotate(10deg)) {}
    |                                ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/rome/supports/input.css:12:38
+   |
+12 |           (transform: rotate(10deg)) {}
+   |                                      ^^
 

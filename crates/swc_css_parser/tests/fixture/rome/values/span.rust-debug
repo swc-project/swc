@@ -95,6 +95,12 @@ error: SimpleBlock
 3 | | }
   | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/values/input.css:2:2
+  |
+2 |     content: ' content ';
+  |     ^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/rome/values/input.css:2:2
   |
@@ -195,6 +201,12 @@ error: SimpleBlock
 10 | | }
    | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/values/input.css:6:2
+  |
+6 |     opacity: 1e-3;
+  |     ^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/rome/values/input.css:6:2
   |
@@ -225,6 +237,12 @@ error: Number
 6 |     opacity: 1e-3;
   |              ^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/values/input.css:7:2
+  |
+7 |     line-height: 0.2;
+  |     ^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/rome/values/input.css:7:2
   |
@@ -254,6 +272,12 @@ error: Number
   |
 7 |     line-height: 0.2;
   |                  ^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/values/input.css:8:2
+  |
+8 |     width: 20%;
+  |     ^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/values/input.css:8:2
@@ -290,6 +314,12 @@ error: Number
   |
 8 |     width: 20%;
   |            ^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/values/input.css:9:2
+  |
+9 |     margin-top: -5%;
+  |     ^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/values/input.css:9:2
@@ -394,6 +424,12 @@ error: SimpleBlock
 14 | | }
    | |_^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/values/input.css:13:2
+   |
+13 |     color: yellow
+   |     ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/rome/values/input.css:13:2
    |
@@ -494,6 +530,12 @@ error: SimpleBlock
 19 | | }
    | |_^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/values/input.css:17:2
+   |
+17 |     color: yellow;
+   |     ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/rome/values/input.css:17:2
    |
@@ -523,6 +565,12 @@ error: Ident
    |
 17 |     color: yellow;
    |            ^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/values/input.css:18:2
+   |
+18 |     background: none
+   |     ^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/values/input.css:18:2

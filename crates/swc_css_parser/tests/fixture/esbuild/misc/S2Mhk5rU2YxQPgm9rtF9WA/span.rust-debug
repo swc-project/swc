@@ -118,6 +118,12 @@ error: SimpleBlock
 1 | @document url("https://www.example.com/") { h1 { color: green } }
   |                                                ^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:50
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |                                                  ^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:50
   |

@@ -145,6 +145,18 @@ error: Ident
 3 | @layer override {
   |        ^^^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/layer/input.css:3:17
+  |
+3 |   @layer override {
+  |  _________________^
+4 | |     @keyframes slide-left {
+5 | |         from { translate: 0; }
+6 | |         to { translate: -100% 0; }
+7 | |     }
+8 | | }
+  | |_^
+
 error: Rule
  --> $DIR/tests/fixture/at-rule/layer/input.css:4:5
   |
@@ -355,6 +367,18 @@ error: Ident
 10 | @layer framework {
    |        ^^^^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:10:18
+   |
+10 |   @layer framework {
+   |  __________________^
+11 | |     @keyframes slide-left {
+12 | |         from { margin-left: 0; }
+13 | |         to { margin-left: -100%; }
+14 | |     }
+15 | | }
+   | |_^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/layer/input.css:11:5
    |
@@ -556,6 +580,12 @@ error: SimpleBlock
 17 | .sidebar { animation: slide-left 300ms; }
    |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:17:12
+   |
+17 | .sidebar { animation: slide-left 300ms; }
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/layer/input.css:17:12
    |
@@ -634,6 +664,12 @@ error: LayerRule
 19 | @layer { /* layer 1 */ }
    | ^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:19:8
+   |
+19 | @layer { /* layer 1 */ }
+   |        ^^^^^^^^^^^^^^^^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/layer/input.css:20:1
    |
@@ -651,6 +687,12 @@ error: LayerRule
    |
 20 | @layer { /* layer 2 */ }
    | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:20:8
+   |
+20 | @layer { /* layer 2 */ }
+   |        ^^^^^^^^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/layer/input.css:22:1
@@ -699,6 +741,15 @@ error: Ident
    |
 22 | @layer reset.type {
    |              ^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:22:19
+   |
+22 |   @layer reset.type {
+   |  ___________________^
+23 | |     strong { font-weight: bold; }
+24 | | }
+   | |_^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/layer/input.css:23:5
@@ -759,6 +810,12 @@ error: SimpleBlock
    |
 23 |     strong { font-weight: bold; }
    |            ^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:23:14
+   |
+23 |     strong { font-weight: bold; }
+   |              ^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/at-rule/layer/input.css:23:14
@@ -844,6 +901,19 @@ error: Ident
 26 | @layer framework {
    |        ^^^^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:26:18
+   |
+26 |   @layer framework {
+   |  __________________^
+27 | |     .title { font-weight: 100; }
+28 | |
+29 | |     @layer theme {
+30 | |         h1, h2 { color: maroon; }
+31 | |     }
+32 | | }
+   | |_^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/layer/input.css:27:5
    |
@@ -897,6 +967,12 @@ error: SimpleBlock
    |
 27 |     .title { font-weight: 100; }
    |            ^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:27:14
+   |
+27 |     .title { font-weight: 100; }
+   |              ^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/at-rule/layer/input.css:27:14
@@ -969,6 +1045,15 @@ error: Ident
    |
 29 |     @layer theme {
    |            ^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:29:18
+   |
+29 |       @layer theme {
+   |  __________________^
+30 | |         h1, h2 { color: maroon; }
+31 | |     }
+   | |_____^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/layer/input.css:30:9
@@ -1066,6 +1151,12 @@ error: SimpleBlock
 30 |         h1, h2 { color: maroon; }
    |                ^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:30:18
+   |
+30 |         h1, h2 { color: maroon; }
+   |                  ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/layer/input.css:30:18
    |
@@ -1138,6 +1229,15 @@ error: Ident
 34 | @layer reset {
    |        ^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:34:14
+   |
+34 |   @layer reset {
+   |  ______________^
+35 | |     [hidden] { display: none; }
+36 | | }
+   | |_^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/layer/input.css:35:5
    |
@@ -1197,6 +1297,12 @@ error: SimpleBlock
    |
 35 |     [hidden] { display: none; }
    |              ^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:35:16
+   |
+35 |     [hidden] { display: none; }
+   |                ^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/at-rule/layer/input.css:35:16
@@ -1282,6 +1388,19 @@ error: Ident
 38 | @layer framework {
    |        ^^^^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:38:18
+   |
+38 |   @layer framework {
+   |  __________________^
+39 | |     @layer default {
+40 | |         p { margin-block: 0.75em; }
+41 | |     }
+...  |
+45 | |     }
+46 | | }
+   | |_^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/layer/input.css:39:5
    |
@@ -1323,6 +1442,15 @@ error: Ident
    |
 39 |     @layer default {
    |            ^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:39:20
+   |
+39 |       @layer default {
+   |  ____________________^
+40 | |         p { margin-block: 0.75em; }
+41 | |     }
+   | |_____^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/layer/input.css:40:9
@@ -1383,6 +1511,12 @@ error: SimpleBlock
    |
 40 |         p { margin-block: 0.75em; }
    |           ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:40:13
+   |
+40 |         p { margin-block: 0.75em; }
+   |             ^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/at-rule/layer/input.css:40:13
@@ -1474,6 +1608,15 @@ error: Ident
 43 |     @layer theme {
    |            ^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:43:18
+   |
+43 |       @layer theme {
+   |  __________________^
+44 | |         p { color: #222; }
+45 | |     }
+   | |_____^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/layer/input.css:44:9
    |
@@ -1533,6 +1676,12 @@ error: SimpleBlock
    |
 44 |         p { color: #222; }
    |           ^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:44:13
+   |
+44 |         p { color: #222; }
+   |             ^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/at-rule/layer/input.css:44:13
@@ -1615,6 +1764,16 @@ error: Ident
 48 | @layer framework.theme {
    |                  ^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:48:24
+   |
+48 |   @layer framework.theme {
+   |  ________________________^
+49 | |     /* These styles will be added to the theme layer inside the framework layer */
+50 | |     blockquote { color: rebeccapurple; }
+51 | | }
+   | |_^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/layer/input.css:50:5
    |
@@ -1674,6 +1833,12 @@ error: SimpleBlock
    |
 50 |     blockquote { color: rebeccapurple; }
    |                ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:50:18
+   |
+50 |     blockquote { color: rebeccapurple; }
+   |                  ^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/at-rule/layer/input.css:50:18

@@ -64,6 +64,12 @@ error: SimpleBlock
 1 | a { margin: 0 1 0px 1px }
   |   ^^^^^^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:5
+  |
+1 | a { margin: 0 1 0px 1px }
+  |     ^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:5
   |

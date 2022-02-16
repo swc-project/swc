@@ -89,6 +89,12 @@ error: SimpleBlock
 9 | | }
   | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/dimension/basic/input.css:2:5
+  |
+2 |     prop: 10px;
+  |     ^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/dimension/basic/input.css:2:5
   |
@@ -136,6 +142,12 @@ error: Ident
   |
 2 |     prop: 10px;
   |             ^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/dimension/basic/input.css:3:5
+  |
+3 |     prop: .10px;
+  |     ^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/dimension/basic/input.css:3:5
@@ -185,6 +197,12 @@ error: Ident
 3 |     prop: .10px;
   |              ^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/dimension/basic/input.css:4:5
+  |
+4 |     prop: 12.34px;
+  |     ^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/dimension/basic/input.css:4:5
   |
@@ -232,6 +250,12 @@ error: Ident
   |
 4 |     prop: 12.34px;
   |                ^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/dimension/basic/input.css:5:5
+  |
+5 |     prop: 0000.000px;
+  |     ^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/dimension/basic/input.css:5:5
@@ -281,6 +305,12 @@ error: Ident
 5 |     prop: 0000.000px;
   |                   ^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/dimension/basic/input.css:6:5
+  |
+6 |     prop: 1px\\9;
+  |     ^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/dimension/basic/input.css:6:5
   |
@@ -329,6 +359,12 @@ error: Ident
 6 |     prop: 1px\\9;
   |            ^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/dimension/basic/input.css:7:5
+  |
+7 |     prop: 1e;
+  |     ^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/dimension/basic/input.css:7:5
   |
@@ -376,6 +412,12 @@ error: Ident
   |
 7 |     prop: 1e;
   |            ^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/dimension/basic/input.css:8:5
+  |
+8 |     prop: 1unknown;
+  |     ^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/dimension/basic/input.css:8:5

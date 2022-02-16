@@ -64,6 +64,12 @@ error: SimpleBlock
 1 | a { width: -.00; }
   |   ^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/MmOsa9XFdPMS9x4ITbWSzg/input.css:1:5
+  |
+1 | a { width: -.00; }
+  |     ^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/MmOsa9XFdPMS9x4ITbWSzg/input.css:1:5
   |

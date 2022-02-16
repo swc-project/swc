@@ -73,6 +73,12 @@ error: SimpleBlock
 3 | | }
   | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/value/escaped/input.css:2:5
+  |
+2 |     color: \red;
+  |     ^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/escaped/input.css:2:5
   |
