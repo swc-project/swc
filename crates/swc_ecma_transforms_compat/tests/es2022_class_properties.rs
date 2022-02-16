@@ -5553,6 +5553,23 @@ test_exec!(
   "
 );
 
+test_exec!(
+    syntax(),
+    |_| class_properties(class_properties::Config { loose: false }),
+    new_target_in_class_prop,
+    "
+class Foo {
+    bar = new.target;
+    ['baz'] = new.target;
+}
+
+const foo = new Foo();
+
+expect(foo.bar).toBe(undefined);
+expect(foo.baz).toBe(undefined);
+"
+);
+
 test!(
     syntax(),
     |_| class_properties(class_properties::Config { loose: false }),

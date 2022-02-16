@@ -19,7 +19,7 @@ use self::{
         visit_private_in_expr, BrandCheckHandler, Private, PrivateAccessVisitor, PrivateKind,
         PrivateRecord,
     },
-    this_in_static::ThisInStaticFolder,
+    this_in_static::{NewTargetInProp, ThisInStaticFolder},
     used_name::UsedNameCollector,
 };
 
@@ -454,6 +454,8 @@ impl ClassProperties {
 
                     let mut value = prop.value.unwrap_or_else(|| undefined(prop_span));
 
+                    value.visit_mut_with(&mut NewTargetInProp);
+
                     vars.extend(visit_private_in_expr(&mut value, &self.private));
 
                     if prop.is_static {
@@ -514,6 +516,7 @@ impl ClassProperties {
                     );
 
                     if let Some(value) = &mut prop.value {
+                        value.visit_mut_with(&mut NewTargetInProp);
                         vars.extend(visit_private_in_expr(&mut *value, &self.private));
                     }
 
