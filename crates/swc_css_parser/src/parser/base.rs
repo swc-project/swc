@@ -132,7 +132,7 @@ where
                 // qualified rule.
                 tok!("{") => {
                     let ctx = Ctx {
-                        grammar: Grammar::DeclarationList,
+                        grammar: Grammar::StyleBlock,
                         ..self.ctx
                     };
                     let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
@@ -150,6 +150,139 @@ where
                 }
             }
         }
+    }
+}
+
+impl<I> Parse<Vec<StyleBlock>> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Vec<StyleBlock>> {
+        let mut declarations = vec![];
+        let mut rules = vec![];
+
+        loop {
+            // <EOF-token>
+            // Extend decls with rules, then return decls.
+            if is!(self, EOF) {
+                declarations.extend(rules);
+
+                return Ok(declarations);
+            }
+
+            match cur!(self) {
+                // <whitespace-token>
+                // Do nothing.
+                tok!(" ") => {
+                    self.input.skip_ws()?;
+                }
+                // <semicolon-token>
+                // Do nothing.
+                tok!(";") => {
+                    bump!(self);
+                }
+                // <at-keyword-token>
+                // Reconsume the current input token. Consume an at-rule, and append the result to
+                // rules.
+                tok!("@") => {
+                    rules.push(StyleBlock::AtRule(self.parse_at_rule(Default::default())?));
+                }
+                // <ident-token>
+                // Initialize a temporary list initially filled with the current input token. As
+                // long as the next input token is anything other than a <semicolon-token> or
+                // <EOF-token>, consume a component value and append it to the temporary list.
+                // Consume a declaration from the temporary list. If anything was returned, append
+                // it to decls.
+                tok!("ident") => {
+                    let state = self.input.state();
+                    let span = self.input.cur_span()?;
+                    let prop = match self.parse().map(StyleBlock::Declaration) {
+                        Ok(v) => v,
+                        Err(err) => {
+                            self.errors.push(err);
+                            self.input.reset(&state);
+
+                            let mut tokens = vec![];
+
+                            while !is_one_of!(self, EOF, ";", "}") {
+                                tokens.extend(self.input.bump()?);
+                            }
+
+                            StyleBlock::Invalid(Tokens {
+                                span: span!(self, span.lo),
+                                tokens,
+                            })
+                        }
+                    };
+
+                    declarations.push(prop);
+                }
+
+                // <delim-token> with a value of "&" (U+0026 AMPERSAND)
+                // Reconsume the current input token. Consume a qualified rule. If anything was
+                // returned, append it to rules.
+                tok!("&") => {
+                    let state = self.input.state();
+                    let span = self.input.cur_span()?;
+                    let qualified_rule = match self.parse() {
+                        Ok(v) => StyleBlock::QualifiedRule(v),
+                        Err(err) => {
+                            self.errors.push(err);
+                            self.input.reset(&state);
+
+                            let mut tokens = vec![];
+
+                            while !is_one_of!(self, EOF, ";", "}") {
+                                tokens.extend(self.input.bump()?);
+                            }
+
+                            StyleBlock::Invalid(Tokens {
+                                span: span!(self, span.lo),
+                                tokens,
+                            })
+                        }
+                    };
+
+                    rules.push(qualified_rule);
+                }
+
+                // TODO refactor me
+                tok!("}") => {
+                    break;
+                }
+
+                // anything else
+                // This is a parse error. Reconsume the current input token. As long as the next
+                // input token is anything other than a <semicolon-token> or <EOF-token>, consume a
+                // component value and throw away the returned value.
+                _ => {
+                    let span = self.input.cur_span()?;
+
+                    self.errors.push(Error::new(
+                        span,
+                        ErrorKind::Expected(
+                            "whitespace, semicolon, EOF, at-keyword or ident token",
+                        ),
+                    ));
+
+                    let mut tokens = vec![];
+
+                    // TODO fix me
+                    while !is_one_of!(self, EOF, ";", "}") {
+                        tokens.extend(self.input.bump()?);
+                    }
+
+                    declarations.push(StyleBlock::Invalid(Tokens {
+                        span: span!(self, span.lo),
+                        tokens,
+                    }));
+                }
+            }
+        }
+
+        declarations.extend(rules);
+
+        Ok(declarations)
     }
 }
 
@@ -224,7 +357,17 @@ where
                 // Reconsume the current input token. Consume a component value and append it to the
                 // value of the block.
                 _ => match self.ctx.grammar {
-                    Grammar::RuleList => {
+                    Grammar::StyleBlock => {
+                        let style_blocks: Vec<StyleBlock> = self.parse()?;
+                        let style_blocks: Vec<ComponentValue> = style_blocks
+                            .into_iter()
+                            .map(ComponentValue::StyleBlock)
+                            .collect();
+
+                        simple_block.value.extend(style_blocks);
+                    }
+                    // TODO improve grammar validation
+                    Grammar::RuleList | Grammar::Stylesheet => {
                         let rule_list = self.parse_rule_list(RuleContext {
                             is_top_level: false,
                         })?;

@@ -79,6 +79,12 @@ error: SimpleBlock
 3 | | }
   | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/vercel/001/input.css:2:5
+  |
+2 |     margin-right: 0;
+  |     ^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/vercel/001/input.css:2:5
   |

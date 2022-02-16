@@ -1,6 +1,6 @@
 {
     "name": "@swc/core",
-    "version": "1.2.140",
+    "version": "1.2.141",
     "description": "Super-fast alternative for babel",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -47,8 +47,6 @@
         "registry": "https://registry.npmjs.org/",
         "access": "public"
     },
-    "dependencies": {},
-    "optionalDependencies": {},
     "types": "./index.d.ts",
     "scripts": {
         "changelog": "git cliff --output CHANGELOG.md",

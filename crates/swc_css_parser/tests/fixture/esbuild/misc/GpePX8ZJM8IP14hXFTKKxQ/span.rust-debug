@@ -64,6 +64,12 @@ error: SimpleBlock
 1 | a { value: x\,() }
   |   ^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/GpePX8ZJM8IP14hXFTKKxQ/input.css:1:5
+  |
+1 | a { value: x\,() }
+  |     ^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/GpePX8ZJM8IP14hXFTKKxQ/input.css:1:5
   |

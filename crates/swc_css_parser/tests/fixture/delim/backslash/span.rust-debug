@@ -73,6 +73,12 @@ error: SimpleBlock
 3 | | }
   | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/delim/backslash/input.css:2:5
+  |
+2 |     color: \\ red \\ blue;
+  |     ^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/delim/backslash/input.css:2:5
   |

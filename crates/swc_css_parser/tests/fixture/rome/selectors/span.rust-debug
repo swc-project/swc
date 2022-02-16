@@ -512,6 +512,12 @@ error: SimpleBlock
 15 | | }
    | |_^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/selectors/input.css:14:3
+   |
+14 |   color: purple;
+   |   ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/rome/selectors/input.css:14:3
    |
@@ -650,6 +656,12 @@ error: SimpleBlock
 18 | |   color: purple;
 19 | | }
    | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/selectors/input.css:18:3
+   |
+18 |   color: purple;
+   |   ^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/selectors/input.css:18:3
@@ -801,6 +813,12 @@ error: SimpleBlock
 22 | |   color: purple;
 23 | | }
    | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/selectors/input.css:22:3
+   |
+22 |   color: purple;
+   |   ^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/selectors/input.css:22:3
@@ -994,6 +1012,12 @@ error: SimpleBlock
 26 | |     color: purple;
 27 | | }
    | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/selectors/input.css:26:2
+   |
+26 |     color: purple;
+   |     ^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/selectors/input.css:26:2

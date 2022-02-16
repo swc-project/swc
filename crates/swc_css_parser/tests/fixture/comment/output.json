@@ -395,7 +395,16 @@
           }
         ]
       },
-      "rules": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 312,
+          "end": 314,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     },
     {
       "type": "MediaRule",
@@ -434,7 +443,16 @@
           }
         ]
       },
-      "rules": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 357,
+          "end": 359,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     }
   ]
 }

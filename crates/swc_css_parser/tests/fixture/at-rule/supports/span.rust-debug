@@ -94,6 +94,17 @@ error: Ident
 1 | @supports (display: grid) {
   |                     ^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/supports/input.css:1:27
+  |
+1 |   @supports (display: grid) {
+  |  ___________________________^
+2 | |     div {
+3 | |         display: grid;
+4 | |     }
+5 | | }
+  | |_^
+
 error: Rule
  --> $DIR/tests/fixture/at-rule/supports/input.css:2:5
   |
@@ -160,6 +171,12 @@ error: SimpleBlock
 3 | |         display: grid;
 4 | |     }
   | |_____^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/at-rule/supports/input.css:3:9
+  |
+3 |         display: grid;
+  |         ^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/at-rule/supports/input.css:3:9
@@ -281,6 +298,19 @@ error: Ident
 7 | @supports (display: flex) {
   |                     ^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/supports/input.css:7:27
+   |
+7  |   @supports (display: flex) {
+   |  ___________________________^
+8  | |     body {
+9  | |         color: blue;
+10 | |     }
+...  |
+16 | |     }
+17 | | }
+   | |_^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:8:5
    |
@@ -347,6 +377,12 @@ error: SimpleBlock
 9  | |         color: blue;
 10 | |     }
    | |_____^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/at-rule/supports/input.css:9:9
+  |
+9 |         color: blue;
+  |         ^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/at-rule/supports/input.css:9:9
@@ -498,6 +534,17 @@ error: Ident
 12 |     @media screen and (min-width: 900px) {
    |                                      ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:42
+   |
+12 |       @media screen and (min-width: 900px) {
+   |  __________________________________________^
+13 | |         article {
+14 | |             display: flex;
+15 | |         }
+16 | |     }
+   | |_____^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:13:9
    |
@@ -564,6 +611,12 @@ error: SimpleBlock
 14 | |             display: flex;
 15 | |         }
    | |_________^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/supports/input.css:14:13
+   |
+14 |             display: flex;
+   |             ^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/at-rule/supports/input.css:14:13
@@ -667,6 +720,12 @@ error: Ident
 18 | @supports   (   display   :   flex   )   {}
    |                               ^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/supports/input.css:18:42
+   |
+18 | @supports   (   display   :   flex   )   {}
+   |                                          ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:19:1
    |
@@ -745,6 +804,12 @@ error: Ident
 19 | @supports not (display: flex) {}
    |                         ^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/supports/input.css:19:31
+   |
+19 | @supports not (display: flex) {}
+   |                               ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:20:1
    |
@@ -822,6 +887,12 @@ error: Ident
    |
 20 | @SUPPORTS not (display: flex) {}
    |                         ^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/supports/input.css:20:31
+   |
+20 | @SUPPORTS not (display: flex) {}
+   |                               ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:1
@@ -1320,6 +1391,12 @@ error: Ident
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                                                                                                        ^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:176
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                                                                                ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:22:1
@@ -1850,6 +1927,15 @@ error: Ident
 25 |   ( -o-box-shadow: 0 0 2px black inset ) {
    |                                  ^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/supports/input.css:25:42
+   |
+25 |     ( -o-box-shadow: 0 0 2px black inset ) {
+   |  __________________________________________^
+26 | |     
+27 | | }
+   | |_^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:28:1
    |
@@ -2083,6 +2169,12 @@ error: Ident
    |
 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
    |                                                                                            ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:98
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                                                                                  ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:29:1
@@ -2318,6 +2410,12 @@ error: Ident
 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
    |                                                                                           ^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:98
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                                                                                  ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:30:1
    |
@@ -2551,6 +2649,12 @@ error: Ident
    |
 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
    |                                                                                                                                       ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:150
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                                                                                                      ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:31:1
@@ -2786,6 +2890,12 @@ error: Ident
 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
    |                                                                                     ^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:91
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                                                                           ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:32:1
    |
@@ -2876,6 +2986,12 @@ error: Ident
 32 | @supports ((display: flex)) {}
    |                      ^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/supports/input.css:32:29
+   |
+32 | @supports ((display: flex)) {}
+   |                             ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:33:1
    |
@@ -2960,6 +3076,12 @@ error: Ident
 33 | @supports (display: flex !important) {}
    |                           ^^^^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/supports/input.css:33:38
+   |
+33 | @supports (display: flex !important) {}
+   |                                      ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:34:1
    |
@@ -3037,6 +3159,12 @@ error: Ident
    |
 34 | @supports NOT (display: flex) {}
    |                         ^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/supports/input.css:34:31
+   |
+34 | @supports NOT (display: flex) {}
+   |                               ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:35:1
@@ -3272,6 +3400,12 @@ error: Ident
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
    |                                                                                            ^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/supports/input.css:35:98
+   |
+35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
+   |                                                                                                  ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:36:1
    |
@@ -3506,6 +3640,12 @@ error: Ident
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
    |                                                                                           ^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/supports/input.css:36:98
+   |
+36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
+   |                                                                                                  ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:37:1
    |
@@ -3595,4 +3735,10 @@ error: Ident
    |
 37 | @supports (NOT (display: flex)) {}
    |                          ^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/supports/input.css:37:33
+   |
+37 | @supports (NOT (display: flex)) {}
+   |                                 ^^
 

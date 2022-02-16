@@ -85,6 +85,7 @@ where
             AtRule::Page(n) => emit!(self, n),
             AtRule::PageMargin(n) => emit!(self, n),
             AtRule::Namespace(n) => emit!(self, n),
+            AtRule::Nest(n) => emit!(self, n),
             AtRule::Viewport(n) => emit!(self, n),
             AtRule::Document(n) => emit!(self, n),
             AtRule::ColorProfile(n) => emit!(self, n),
@@ -269,17 +270,8 @@ where
             formatting_space!(self);
         }
 
-        if let Some(rules) = &n.rules {
-            punct!(self, "{");
-            self.emit_list(
-                rules,
-                if self.config.minify {
-                    ListFormat::NotDelimited
-                } else {
-                    ListFormat::NotDelimited | ListFormat::MultiLine
-                },
-            )?;
-            punct!(self, "}");
+        if let Some(block) = &n.block {
+            emit!(self, block);
         } else {
             semi!(self);
         }
@@ -319,9 +311,7 @@ where
             formatting_space!(self);
         }
 
-        punct!(self, "{");
-        self.emit_list(&n.rules, ListFormat::NotDelimited | ListFormat::MultiLine)?;
-        punct!(self, "}");
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -506,9 +496,7 @@ where
 
         emit!(self, n.condition);
         formatting_space!(self);
-        punct!(self, "{");
-        self.emit_list(&n.rules, ListFormat::NotDelimited)?;
-        punct!(self, "}");
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -667,6 +655,16 @@ where
 
         emit!(self, n.uri);
         semi!(self);
+    }
+
+    #[emitter]
+    fn emit_nest_rule(&mut self, n: &NestRule) -> Result {
+        punct!(self, "@");
+        keyword!(self, "nest");
+        space!(self);
+        emit!(self, n.prelude);
+        formatting_space!(self);
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -887,6 +885,9 @@ where
 
         for (idx, node) in n.value.iter().enumerate() {
             match node {
+                ComponentValue::StyleBlock(_) if idx == 0 => {
+                    formatting_newline!(self);
+                }
                 ComponentValue::Rule(_) => {
                     formatting_newline!(self);
                 }
@@ -902,6 +903,21 @@ where
                 ComponentValue::Rule(_) => {
                     formatting_newline!(self);
                 }
+                ComponentValue::StyleBlock(i) => match i {
+                    StyleBlock::AtRule(_) | StyleBlock::QualifiedRule(_) => {
+                        formatting_newline!(self);
+                    }
+                    StyleBlock::Declaration(_) => {
+                        if idx != len - 1 {
+                            semi!(self);
+                        } else {
+                            formatting_semi!(self);
+                        }
+
+                        formatting_newline!(self);
+                    }
+                    StyleBlock::Invalid(_) => {}
+                },
                 ComponentValue::DeclarationBlockItem(i) => match i {
                     DeclarationBlockItem::AtRule(_) => {
                         formatting_newline!(self);
@@ -931,9 +947,20 @@ where
     #[emitter]
     fn emit_component_value(&mut self, n: &ComponentValue) -> Result {
         match n {
-            ComponentValue::Value(n) => emit!(self, n),
+            ComponentValue::StyleBlock(n) => emit!(self, n),
             ComponentValue::DeclarationBlockItem(n) => emit!(self, n),
             ComponentValue::Rule(n) => emit!(self, n),
+            ComponentValue::Value(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_style_block(&mut self, n: &StyleBlock) -> Result {
+        match n {
+            StyleBlock::AtRule(n) => emit!(self, n),
+            StyleBlock::Declaration(n) => emit!(self, n),
+            StyleBlock::QualifiedRule(n) => emit!(self, n),
+            StyleBlock::Invalid(n) => emit!(self, n),
         }
     }
 

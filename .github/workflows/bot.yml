@@ -55,43 +55,62 @@ jobs:
         run: |
           yarn
 
-      - name: Install required binaries
-        run: |
-          cargo install cargo-mono
-          cargo install git-cliff
+      - name: Install cargo-mono
+        uses: baptiste0928/cargo-install@v1.1.0
+        with:
+          crate: cargo-mono
+          version: "0.3.1"
 
-      - name: Update changelog
-        run: |
-          yarn changelog
+      - name: Install git-cliff
+        uses: baptiste0928/cargo-install@v1.1.0
+        with:
+          crate: git-cliff
+          version: "0.4.2"
 
       - name: Bump crates
+        id: bump
+        continue-on-error: true
         working-directory: scripts/bot
         run: |
           npx ts-node src/cargo/bump.ts
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
+      - name: Update changelog
+        if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
+        run: |
+          yarn changelog
+
       - name: Update lockfile
+        if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
         run: |
           cargo metadata --format-version 1 > /dev/null
 
       - name: Create commit
+        if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
         run: |
           git add -A
           git commit --author="SWC Bot <bot@swc.rs>" -m 'chore: Publish crates'
 
+      - uses: webfactory/ssh-agent@v0.5.4
+        if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
+        with:
+          ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
+
+      # Push back, using ssh
       - name: Push back
+        if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
         run: |
-          git push https://$GITHUB_TOKEN@github.com/swc-project/swc.git --no-verify
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          git push git@github.com:swc-project/swc.git --no-verify
 
       - name: Configure crates.io
+        if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
         run: |
           cargo login $CARGO_TOKEN
         env:
           CARGO_TOKEN: ${{ secrets.CARGO_TOKEN }}
 
       - name: Publish crates
+        if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
         run: |
           cargo mono publish --no-verify

@@ -153,6 +153,7 @@ where
         let mut nesting_selector = None;
 
         // TODO: move under option, because it is draft
+        // TODO validate list of selector, each should start with `&`
         // This is an extension: https://drafts.csswg.org/css-nesting-1/
         if eat!(self, "&") {
             nesting_selector = Some(NestingSelector {
