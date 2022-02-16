@@ -15,7 +15,10 @@ use swc_ecma_visit::{
 
 use self::{
     class_name_tdz::ClassNameTdzFolder,
-    private_field::{BrandCheckHandler, FieldAccessFolder, Private, PrivateKind, PrivateRecord},
+    private_field::{
+        visit_private_in_expr, BrandCheckHandler, Private, PrivateAccessVisitor, PrivateKind,
+        PrivateRecord,
+    },
     this_in_static::ThisInStaticFolder,
     used_name::UsedNameCollector,
 };
@@ -370,6 +373,8 @@ impl ClassProperties {
                             span: c_span,
                             mut expr,
                         }) => {
+                            vars.extend(visit_private_in_expr(&mut expr, &self.private));
+
                             expr.visit_mut_with(&mut ClassNameTdzFolder {
                                 class_name: &class_ident,
                             });
@@ -410,20 +415,21 @@ impl ClassProperties {
                     }
 
                     let key = match prop.key {
-                        PropName::Ident(ref i) => Box::new(Expr::from(Lit::Str(Str {
+                        PropName::Ident(i) => Box::new(Expr::from(Lit::Str(Str {
                             span: i.span,
-                            value: i.sym.clone(),
+                            value: i.sym,
                             has_escape: false,
                             kind: StrKind::Normal {
                                 contains_quote: false,
                             },
                         }))),
-                        PropName::Num(ref num) => Box::new(Expr::from(*num)),
-                        PropName::Str(ref str) => Box::new(Expr::from(str.clone())),
-                        PropName::BigInt(ref big_int) => Box::new(Expr::from(big_int.clone())),
+                        PropName::Num(num) => Box::new(Expr::from(num)),
+                        PropName::Str(str) => Box::new(Expr::from(str)),
+                        PropName::BigInt(big_int) => Box::new(Expr::from(big_int)),
 
-                        PropName::Computed(key) => {
-                            let (ident, aliased) = if let Expr::Ident(ref i) = *key.expr {
+                        PropName::Computed(mut key) => {
+                            vars.extend(visit_private_in_expr(&mut key.expr, &self.private));
+                            let (ident, aliased) = if let Expr::Ident(i) = &*key.expr {
                                 if used_key_names.contains(&i.sym) {
                                     (alias_ident_for(&key.expr, "_ref"), true)
                                 } else {
@@ -447,6 +453,9 @@ impl ClassProperties {
                     };
 
                     let mut value = prop.value.unwrap_or_else(|| undefined(prop_span));
+
+                    vars.extend(visit_private_in_expr(&mut value, &self.private));
+
                     if prop.is_static {
                         value.visit_mut_with(&mut SuperFieldAccessFolder {
                             class_name: &class_ident,
@@ -503,6 +512,11 @@ impl ClassProperties {
                         // We use `self.mark` for private variables.
                         prop.key.span.apply_mark(self.private.curr_mark()),
                     );
+
+                    if let Some(value) = &mut prop.value {
+                        vars.extend(visit_private_in_expr(&mut *value, &self.private));
+                    }
+
                     prop.value.visit_with(&mut UsedNameCollector {
                         used_names: &mut used_names,
                     });
@@ -708,7 +722,7 @@ impl ClassProperties {
             members.push(ClassMember::Constructor(c));
         }
 
-        private_method_fn_decls.visit_mut_with(&mut FieldAccessFolder {
+        private_method_fn_decls.visit_mut_with(&mut PrivateAccessVisitor {
             private: &self.private,
             vars: vec![],
             in_assign_pat: false,
@@ -716,7 +730,7 @@ impl ClassProperties {
 
         extra_stmts.extend(private_method_fn_decls);
 
-        members.visit_mut_with(&mut FieldAccessFolder {
+        members.visit_mut_with(&mut PrivateAccessVisitor {
             private: &self.private,
             vars: vec![],
             in_assign_pat: false,

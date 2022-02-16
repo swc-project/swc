@@ -15,7 +15,7 @@ class X {
 }
 var _f = {
     writable: true,
-    value: X.#m()
+    value: _classStaticPrivateMethodGet(X, X, m).call(X)
 };
 function m() {
     const X1 = {}; // shadow the class

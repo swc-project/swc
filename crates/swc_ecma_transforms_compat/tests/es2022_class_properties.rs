@@ -5831,6 +5831,34 @@ const a = ()=>{
 "
 );
 
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config { loose: false }),
+    issue_2481,
+    "
+class Foo {
+    static #prop1 = 42;
+    static #prop2 = (() => {
+        console.log(this.#prop1);
+    })();
+}
+",
+    "
+class Foo {
+}
+var _prop1 = {
+    writable: true,
+    value: 42
+};
+var _prop2 = {
+    writable: true,
+    value: (()=>{
+        console.log(_classStaticPrivateFieldSpecGet(Foo, Foo, _prop1));
+    })()
+};
+"
+);
+
 #[testing::fixture("tests/fixture/classes/**/exec.js")]
 fn exec(input: PathBuf) {
     let src = read_to_string(&input).unwrap();
