@@ -1,6 +1,6 @@
 use std::fmt::Debug;
 
-use serde::{Deserialize, Serialize};
+use serde::{de, Deserialize, Deserializer, Serialize};
 
 #[cfg(feature = "non_critical_lints")]
 use crate::rules::non_critical_lints::{
@@ -9,7 +9,7 @@ use crate::rules::non_critical_lints::{
     prefer_regex_literals::PreferRegexLiteralsConfig, quotes::QuotesConfig,
 };
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize)]
 #[serde(rename_all = "lowercase")]
 pub enum LintRuleReaction {
     Off,
@@ -20,6 +20,61 @@ pub enum LintRuleReaction {
 impl Default for LintRuleReaction {
     fn default() -> Self {
         Self::Off
+    }
+}
+
+struct LintRuleReactionVisitor;
+
+impl<'de> de::Visitor<'_> for LintRuleReactionVisitor {
+    type Value = LintRuleReaction;
+
+    fn expecting(&self, _formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+        // TODO: report json schema error
+        unimplemented!()
+    }
+
+    fn visit_i64<E>(self, value: i64) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        match value {
+            1 => Ok(LintRuleReaction::Warning),
+            2 => Ok(LintRuleReaction::Error),
+            _ => Ok(LintRuleReaction::Off),
+        }
+    }
+
+    fn visit_u64<E>(self, value: u64) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        match value {
+            1 => Ok(LintRuleReaction::Warning),
+            2 => Ok(LintRuleReaction::Error),
+            _ => Ok(LintRuleReaction::Off),
+        }
+    }
+
+    fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        match v {
+            "warning" => Ok(LintRuleReaction::Warning),
+            "error" => Ok(LintRuleReaction::Error),
+            _ => Ok(LintRuleReaction::Off),
+        }
+    }
+}
+
+impl<'de> Deserialize<'de> for LintRuleReaction {
+    fn deserialize<D>(deserializer: D) -> Result<LintRuleReaction, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        deserializer
+            .deserialize_any(LintRuleReactionVisitor)
+            .or(Ok(LintRuleReaction::Off))
     }
 }
 
