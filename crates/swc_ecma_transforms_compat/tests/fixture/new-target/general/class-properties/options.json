@@ -1,0 +1,7 @@
+{
+  "plugins": [
+    ["proposal-class-properties", { "loose": false }],
+    "transform-new-target",
+    "transform-arrow-functions"
+  ]
+}

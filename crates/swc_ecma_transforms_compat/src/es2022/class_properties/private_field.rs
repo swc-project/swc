@@ -121,7 +121,7 @@ impl VisitMut for BrandCheckHandler<'_> {
     }
 }
 
-pub(super) struct FieldAccessFolder<'a> {
+pub(super) struct PrivateAccessVisitor<'a> {
     pub vars: Vec<VarDeclarator>,
     pub private: &'a PrivateRecord,
     pub in_assign_pat: bool,
@@ -157,7 +157,7 @@ macro_rules! take_vars {
 }
 
 // super.#sdsa is invalid
-impl<'a> VisitMut for FieldAccessFolder<'a> {
+impl<'a> VisitMut for PrivateAccessVisitor<'a> {
     noop_visit_mut_type!();
 
     take_vars!(visit_mut_function, Function);
@@ -486,7 +486,22 @@ impl<'a> VisitMut for FieldAccessFolder<'a> {
     }
 }
 
-impl<'a> FieldAccessFolder<'a> {
+pub(super) fn visit_private_in_expr(
+    expr: &mut Expr,
+    private: &PrivateRecord,
+) -> Vec<VarDeclarator> {
+    let mut priv_visitor = PrivateAccessVisitor {
+        private,
+        vars: vec![],
+        in_assign_pat: false,
+    };
+
+    expr.visit_mut_with(&mut priv_visitor);
+
+    priv_visitor.vars
+}
+
+impl<'a> PrivateAccessVisitor<'a> {
     /// Returns `(expr, thisObject)`
     ///
     ///   - `obj_alias`: If alias is already declared, this method will use

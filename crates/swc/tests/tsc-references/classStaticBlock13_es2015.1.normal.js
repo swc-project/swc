@@ -18,6 +18,6 @@ var _x = {
 var __ = {
     writable: true,
     value: (()=>{
-        console.log(C.#x);
+        console.log(_classStaticPrivateFieldSpecGet(C, C, _x));
     })()
 };
