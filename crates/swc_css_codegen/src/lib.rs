@@ -875,7 +875,6 @@ where
                 ComponentValue::StyleBlock(_) if idx == 0 => {
                     formatting_newline!(self);
                 }
-                ComponentValue::Rule(_) => {
                 ComponentValue::Rule(_) | ComponentValue::KeyframeBlock(_) => {
                     formatting_newline!(self);
                 }
@@ -944,6 +943,7 @@ where
             ComponentValue::DeclarationBlockItem(n) => emit!(self, n),
             ComponentValue::Rule(n) => emit!(self, n),
             ComponentValue::Value(n) => emit!(self, n),
+            ComponentValue::KeyframeBlock(n) => emit!(self, n),
         }
     }
 
@@ -954,7 +954,6 @@ where
             StyleBlock::Declaration(n) => emit!(self, n),
             StyleBlock::QualifiedRule(n) => emit!(self, n),
             StyleBlock::Invalid(n) => emit!(self, n),
-            ComponentValue::KeyframeBlock(n) => emit!(self, n),
         }
     }
 

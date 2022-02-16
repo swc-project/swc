@@ -168,165 +168,160 @@
               "value": "slide-left",
               "raw": "slide-left"
             },
-            "blocks": [
-            "value": "slide-left",
-            "raw": "slide-left"
-          },
-          "block": {
-            "type": "SimpleBlock",
-            "span": {
-              "start": 98,
-              "end": 171,
-              "ctxt": 0
-            },
-            "name": "{",
-            "value": [
-              {
-                "span": {
-                  "start": 108,
-                  "end": 130,
-                  "ctxt": 0
-                },
-                "prelude": [
-                  {
-                    "type": "Ident",
-                    "span": {
-                      "start": 108,
-                      "end": 112,
-                      "ctxt": 0
-                    },
-                    "value": "from",
-                    "raw": "from"
-                  }
-                ],
-                "block": {
-                  "type": "SimpleBlock",
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 98,
+                "end": 171,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
                   "span": {
-                    "start": 113,
+                    "start": 108,
                     "end": 130,
                     "ctxt": 0
                   },
-                  "name": "{",
-                  "value": [
+                  "prelude": [
                     {
-                      "type": "Declaration",
+                      "type": "Ident",
                       "span": {
-                        "start": 115,
-                        "end": 127,
+                        "start": 108,
+                        "end": 112,
                         "ctxt": 0
                       },
-                      "name": {
-                        "type": "Ident",
-                        "span": {
-                          "start": 115,
-                          "end": 124,
-                          "ctxt": 0
-                        },
-                        "value": "translate",
-                        "raw": "translate"
-                      },
-                      "value": [
-                        {
-                          "type": "Number",
-                          "span": {
-                            "start": 126,
-                            "end": 127,
-                            "ctxt": 0
-                          },
-                          "value": 0.0,
-                          "raw": "0"
-                        }
-                      ],
-                      "important": null
+                      "value": "from",
+                      "raw": "from"
                     }
-                  ]
-                }
-              },
-              {
-                "span": {
-                  "start": 139,
-                  "end": 165,
-                  "ctxt": 0
-                },
-                "prelude": [
-                  {
-                    "type": "Ident",
+                  ],
+                  "block": {
+                    "type": "SimpleBlock",
                     "span": {
-                      "start": 139,
-                      "end": 141,
+                      "start": 113,
+                      "end": 130,
                       "ctxt": 0
                     },
-                    "value": "to",
-                    "raw": "to"
+                    "name": "{",
+                    "value": [
+                      {
+                        "type": "Declaration",
+                        "span": {
+                          "start": 115,
+                          "end": 127,
+                          "ctxt": 0
+                        },
+                        "name": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 115,
+                            "end": 124,
+                            "ctxt": 0
+                          },
+                          "value": "translate",
+                          "raw": "translate"
+                        },
+                        "value": [
+                          {
+                            "type": "Number",
+                            "span": {
+                              "start": 126,
+                              "end": 127,
+                              "ctxt": 0
+                            },
+                            "value": 0.0,
+                            "raw": "0"
+                          }
+                        ],
+                        "important": null
+                      }
+                    ]
                   }
-                ],
-                "block": {
-                  "type": "SimpleBlock",
+                },
+                {
                   "span": {
-                    "start": 142,
+                    "start": 139,
                     "end": 165,
                     "ctxt": 0
                   },
-                  "name": "{",
-                  "value": [
+                  "prelude": [
                     {
-                      "type": "Declaration",
+                      "type": "Ident",
                       "span": {
-                        "start": 144,
-                        "end": 162,
+                        "start": 139,
+                        "end": 141,
                         "ctxt": 0
                       },
-                      "name": {
-                        "type": "Ident",
+                      "value": "to",
+                      "raw": "to"
+                    }
+                  ],
+                  "block": {
+                    "type": "SimpleBlock",
+                    "span": {
+                      "start": 142,
+                      "end": 165,
+                      "ctxt": 0
+                    },
+                    "name": "{",
+                    "value": [
+                      {
+                        "type": "Declaration",
                         "span": {
                           "start": 144,
-                          "end": 153,
+                          "end": 162,
                           "ctxt": 0
                         },
-                        "value": "translate",
-                        "raw": "translate"
-                      },
-                      "value": [
-                        {
-                          "type": "Percentage",
+                        "name": {
+                          "type": "Ident",
                           "span": {
-                            "start": 155,
-                            "end": 160,
+                            "start": 144,
+                            "end": 153,
                             "ctxt": 0
                           },
-                          "value": {
-                            "type": "Number",
+                          "value": "translate",
+                          "raw": "translate"
+                        },
+                        "value": [
+                          {
+                            "type": "Percentage",
                             "span": {
                               "start": 155,
-                              "end": 159,
+                              "end": 160,
                               "ctxt": 0
                             },
-                            "value": -100.0,
-                            "raw": "-100"
-                          }
-                        },
-                        {
-                          "type": "Number",
-                          "span": {
-                            "start": 161,
-                            "end": 162,
-                            "ctxt": 0
+                            "value": {
+                              "type": "Number",
+                              "span": {
+                                "start": 155,
+                                "end": 159,
+                                "ctxt": 0
+                              },
+                              "value": -100.0,
+                              "raw": "-100"
+                            }
                           },
-                          "value": 0.0,
-                          "raw": "0"
-                        }
-                      ],
-                      "important": null
-                    }
-                  ]
+                          {
+                            "type": "Number",
+                            "span": {
+                              "start": 161,
+                              "end": 162,
+                              "ctxt": 0
+                            },
+                            "value": 0.0,
+                            "raw": "0"
+                          }
+                        ],
+                        "important": null
+                      }
+                    ]
+                  }
                 }
-              }
-            ]
+              ]
+            }
           }
         ]
       }
-        }
-      ]
     },
     {
       "type": "LayerRule",
@@ -381,155 +376,150 @@
               "value": "slide-left",
               "raw": "slide-left"
             },
-            "blocks": [
-            "value": "slide-left",
-            "raw": "slide-left"
-          },
-          "block": {
-            "type": "SimpleBlock",
-            "span": {
-              "start": 220,
-              "end": 295,
-              "ctxt": 0
-            },
-            "name": "{",
-            "value": [
-              {
-                "span": {
-                  "start": 230,
-                  "end": 254,
-                  "ctxt": 0
-                },
-                "prelude": [
-                  {
-                    "type": "Ident",
-                    "span": {
-                      "start": 230,
-                      "end": 234,
-                      "ctxt": 0
-                    },
-                    "value": "from",
-                    "raw": "from"
-                  }
-                ],
-                "block": {
-                  "type": "SimpleBlock",
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 220,
+                "end": 295,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
                   "span": {
-                    "start": 235,
+                    "start": 230,
                     "end": 254,
                     "ctxt": 0
                   },
-                  "name": "{",
-                  "value": [
+                  "prelude": [
                     {
-                      "type": "Declaration",
+                      "type": "Ident",
                       "span": {
-                        "start": 237,
-                        "end": 251,
+                        "start": 230,
+                        "end": 234,
                         "ctxt": 0
                       },
-                      "name": {
-                        "type": "Ident",
-                        "span": {
-                          "start": 237,
-                          "end": 248,
-                          "ctxt": 0
-                        },
-                        "value": "margin-left",
-                        "raw": "margin-left"
-                      },
-                      "value": [
-                        {
-                          "type": "Number",
-                          "span": {
-                            "start": 250,
-                            "end": 251,
-                            "ctxt": 0
-                          },
-                          "value": 0.0,
-                          "raw": "0"
-                        }
-                      ],
-                      "important": null
+                      "value": "from",
+                      "raw": "from"
                     }
-                  ]
-                }
-              },
-              {
-                "span": {
-                  "start": 263,
-                  "end": 289,
-                  "ctxt": 0
-                },
-                "prelude": [
-                  {
-                    "type": "Ident",
+                  ],
+                  "block": {
+                    "type": "SimpleBlock",
                     "span": {
-                      "start": 263,
-                      "end": 265,
+                      "start": 235,
+                      "end": 254,
                       "ctxt": 0
                     },
-                    "value": "to",
-                    "raw": "to"
+                    "name": "{",
+                    "value": [
+                      {
+                        "type": "Declaration",
+                        "span": {
+                          "start": 237,
+                          "end": 251,
+                          "ctxt": 0
+                        },
+                        "name": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 237,
+                            "end": 248,
+                            "ctxt": 0
+                          },
+                          "value": "margin-left",
+                          "raw": "margin-left"
+                        },
+                        "value": [
+                          {
+                            "type": "Number",
+                            "span": {
+                              "start": 250,
+                              "end": 251,
+                              "ctxt": 0
+                            },
+                            "value": 0.0,
+                            "raw": "0"
+                          }
+                        ],
+                        "important": null
+                      }
+                    ]
                   }
-                ],
-                "block": {
-                  "type": "SimpleBlock",
+                },
+                {
                   "span": {
-                    "start": 266,
+                    "start": 263,
                     "end": 289,
                     "ctxt": 0
                   },
-                  "name": "{",
-                  "value": [
+                  "prelude": [
                     {
-                      "type": "Declaration",
+                      "type": "Ident",
                       "span": {
-                        "start": 268,
-                        "end": 286,
+                        "start": 263,
+                        "end": 265,
                         "ctxt": 0
                       },
-                      "name": {
-                        "type": "Ident",
+                      "value": "to",
+                      "raw": "to"
+                    }
+                  ],
+                  "block": {
+                    "type": "SimpleBlock",
+                    "span": {
+                      "start": 266,
+                      "end": 289,
+                      "ctxt": 0
+                    },
+                    "name": "{",
+                    "value": [
+                      {
+                        "type": "Declaration",
                         "span": {
                           "start": 268,
-                          "end": 279,
+                          "end": 286,
                           "ctxt": 0
                         },
-                        "value": "margin-left",
-                        "raw": "margin-left"
-                      },
-                      "value": [
-                        {
-                          "type": "Percentage",
+                        "name": {
+                          "type": "Ident",
                           "span": {
-                            "start": 281,
-                            "end": 286,
+                            "start": 268,
+                            "end": 279,
                             "ctxt": 0
                           },
-                          "value": {
-                            "type": "Number",
+                          "value": "margin-left",
+                          "raw": "margin-left"
+                        },
+                        "value": [
+                          {
+                            "type": "Percentage",
                             "span": {
                               "start": 281,
-                              "end": 285,
+                              "end": 286,
                               "ctxt": 0
                             },
-                            "value": -100.0,
-                            "raw": "-100"
+                            "value": {
+                              "type": "Number",
+                              "span": {
+                                "start": 281,
+                                "end": 285,
+                                "ctxt": 0
+                              },
+                              "value": -100.0,
+                              "raw": "-100"
+                            }
                           }
-                        }
-                      ],
-                      "important": null
-                    }
-                  ]
+                        ],
+                        "important": null
+                      }
+                    ]
+                  }
                 }
-              }
-            ]
+              ]
+            }
           }
         ]
       }
-        }
-      ]
     },
     {
       "type": "QualifiedRule",
