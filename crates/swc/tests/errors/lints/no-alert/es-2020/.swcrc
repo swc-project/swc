@@ -2,7 +2,7 @@
     "jsc": {
         "target": "es2020",
         "lints": {
-            "no-alert": ["error"]
+            "noAlert": ["error"]
         }
     }
 }

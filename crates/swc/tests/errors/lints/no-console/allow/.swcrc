@@ -1,10 +1,12 @@
 {
     "jsc": {
         "lints": {
-            "no-console": [
+            "noConsole": [
                 "error",
                 {
-                    "allow": ["warn"]
+                    "allow": [
+                        "warn"
+                    ]
                 }
             ]
         }

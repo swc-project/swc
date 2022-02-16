@@ -1,7 +1,7 @@
 {
     "jsc": {
         "lints": {
-            "dot-notation": [
+            "dotNotation": [
                 "error",
                 {
                     "allowKeywords": false

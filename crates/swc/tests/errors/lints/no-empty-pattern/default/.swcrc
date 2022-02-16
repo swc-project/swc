@@ -1,7 +1,9 @@
 {
     "jsc": {
         "lints": {
-            "no-empty-pattern": ["error"]
+            "noEmptyPattern": [
+                "error"
+            ]
         }
     }
 }

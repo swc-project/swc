@@ -1,12 +1,9 @@
 {
     "jsc": {
         "lints": {
-            "no-use-before-define": [
-                "error",
-                {
-                    "classes": true
-                }
-            ]
+            "noUseBeforeDefine": ["error", {
+                "classes": true
+            }]
         }
     }
 }
