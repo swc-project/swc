@@ -2598,7 +2598,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.127.1"
+version = "0.127.2"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2906,7 +2906,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.14.7"
+version = "0.14.8"
 dependencies = [
  "ahash",
  "auto_impl",

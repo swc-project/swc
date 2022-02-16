@@ -9,7 +9,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.127.1"
+version = "0.127.2"
 
 [lib]
 name = "swc"
@@ -50,7 +50,7 @@ swc_common = {version = "0.17.0", path = "../swc_common", features = ["sourcemap
 swc_ecma_ast = {version = "0.65.3", path = "../swc_ecma_ast"}
 swc_ecma_codegen = {version = "0.90.0", path = "../swc_ecma_codegen"}
 swc_ecma_ext_transforms = {version = "0.51.0", path = "../swc_ecma_ext_transforms"}
-swc_ecma_lints = {version = "0.14.5", path = "../swc_ecma_lints"}
+swc_ecma_lints = {version = "0.14.8", path = "../swc_ecma_lints"}
 swc_ecma_loader = {version = "0.28.0", path = "../swc_ecma_loader", features = ["lru", "node", "tsc"]}
 swc_ecma_minifier = {version = "0.74.1", path = "../swc_ecma_minifier"}
 swc_ecma_parser = {version = "0.88.3", path = "../swc_ecma_parser"}
@@ -88,7 +88,7 @@ version = "2.0.0"
 
 [dev-dependencies]
 rayon = "1"
-swc_ecma_lints = {version = "0.14.5", path = "../swc_ecma_lints", features = ["non_critical_lints"]}
+swc_ecma_lints = {version = "0.14.8", path = "../swc_ecma_lints", features = ["non_critical_lints"]}
 swc_node_base = {version = "0.5.0", path = "../swc_node_base"}
 testing = {version = "0.18.0", path = "../testing"}
 walkdir = "2"
