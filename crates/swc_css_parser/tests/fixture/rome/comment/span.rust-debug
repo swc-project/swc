@@ -78,6 +78,12 @@ error: SimpleBlock
 7 | | }
   | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/comment/input.css:6:2
+  |
+6 |     color: white; /* comment */
+  |     ^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/rome/comment/input.css:6:2
   |
@@ -175,6 +181,12 @@ error: SimpleBlock
 11 | | }
    | |_^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/comment/input.css:10:2
+   |
+10 |     color: /* comment */ white;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/rome/comment/input.css:10:2
    |
@@ -271,6 +283,12 @@ error: SimpleBlock
 14 | |     color: white;
 15 | | }
    | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/comment/input.css:14:2
+   |
+14 |     color: white;
+   |     ^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/comment/input.css:14:2

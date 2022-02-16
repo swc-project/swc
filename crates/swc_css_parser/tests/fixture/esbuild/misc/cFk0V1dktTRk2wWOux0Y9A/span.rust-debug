@@ -82,6 +82,12 @@ error: SimpleBlock
 1 | a:after { content: '\1010101' }
   |         ^^^^^^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/cFk0V1dktTRk2wWOux0Y9A/input.css:1:11
+  |
+1 | a:after { content: '\1010101' }
+  |           ^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/cFk0V1dktTRk2wWOux0Y9A/input.css:1:11
   |

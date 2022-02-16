@@ -4,7 +4,7 @@ use swc_css_ast::*;
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
-    parser::{Ctx, Grammar, RuleContext},
+    parser::{Ctx, Grammar},
     Parse,
 };
 
@@ -220,6 +220,23 @@ where
                         r.span.lo = at_rule_span.lo;
 
                         return Ok(AtRule::Namespace(r));
+                    }
+                    Err(err) => {
+                        self.errors.push(err);
+                    }
+                }
+            }
+
+            "nest" => {
+                self.input.skip_ws()?;
+
+                let at_rule_nest: PResult<NestRule> = self.parse();
+
+                match at_rule_nest {
+                    Ok(mut r) => {
+                        r.span.lo = at_rule_span.lo;
+
+                        return Ok(AtRule::Nest(r));
                     }
                     Err(err) => {
                         self.errors.push(err);
@@ -686,6 +703,30 @@ where
     }
 }
 
+impl<I> Parse<NestRule> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<NestRule> {
+        let span = self.input.cur_span()?;
+        let prelude = self.parse()?;
+        let ctx = Ctx {
+            grammar: Grammar::StyleBlock,
+            ..self.ctx
+        };
+
+        self.input.skip_ws()?;
+
+        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+
+        Ok(NestRule {
+            span: span!(self, span.lo),
+            prelude,
+            block,
+        })
+    }
+}
+
 impl<I> Parse<FontFaceRule> for Parser<I>
 where
     I: ParserInput,
@@ -713,18 +754,28 @@ where
         let span = self.input.cur_span()?;
         let condition = self.parse()?;
 
-        expect!(self, "{");
+        self.input.skip_ws()?;
 
-        let rules = self.parse_rule_list(RuleContext {
-            is_top_level: false,
-        })?;
+        if !is!(self, "{") {
+            return Err(Error::new(span, ErrorKind::Expected("'{' delim token")));
+        }
 
-        expect!(self, "}");
+        let ctx = match self.ctx.grammar {
+            Grammar::StyleBlock => Ctx {
+                grammar: Grammar::StyleBlock,
+                ..self.ctx
+            },
+            _ => Ctx {
+                grammar: Grammar::Stylesheet,
+                ..self.ctx
+            },
+        };
+        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
         Ok(SupportsRule {
             span: span!(self, span.lo),
             condition,
-            rules,
+            block,
         })
     }
 }
@@ -909,10 +960,15 @@ where
 
             matching_functions.push(self.parse()?);
         }
-
-        let ctx = Ctx {
-            in_page_at_rule: true,
-            grammar: Grammar::RuleList,
+        let ctx = match self.ctx.grammar {
+            Grammar::StyleBlock => Ctx {
+                grammar: Grammar::StyleBlock,
+                ..self.ctx
+            },
+            _ => Ctx {
+                grammar: Grammar::Stylesheet,
+                ..self.ctx
+            },
         };
         let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
@@ -967,18 +1023,28 @@ where
             None
         };
 
-        expect!(self, "{");
+        self.input.skip_ws()?;
 
-        let rules = self.parse_rule_list(RuleContext {
-            is_top_level: false,
-        })?;
+        if !is!(self, "{") {
+            return Err(Error::new(span, ErrorKind::Expected("'{' delim token")));
+        }
 
-        expect!(self, "}");
+        let ctx = match self.ctx.grammar {
+            Grammar::StyleBlock => Ctx {
+                grammar: Grammar::StyleBlock,
+                ..self.ctx
+            },
+            _ => Ctx {
+                grammar: Grammar::Stylesheet,
+                ..self.ctx
+            },
+        };
+        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
         Ok(MediaRule {
             span: span!(self, span.lo),
             media,
-            rules,
+            block,
         })
     }
 }
@@ -1749,18 +1815,17 @@ where
 
         self.input.skip_ws()?;
 
-        let rules = match prelude {
+        let block = match prelude {
             // Block
-            None | Some(LayerPrelude::Name(LayerName { .. })) => {
-                expect!(self, "{");
+            None | Some(LayerPrelude::Name(LayerName { .. })) if is!(self, "{") => {
+                let ctx = Ctx {
+                    grammar: Grammar::Stylesheet,
+                    ..self.ctx
+                };
+                println!("{:?}", self.input.cur());
+                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
-                let rules = Some(self.parse_rule_list(RuleContext {
-                    is_top_level: false,
-                })?);
-
-                expect!(self, "}");
-
-                rules
+                Some(block)
             }
             // Statement
             Some(LayerPrelude::NameList(LayerNameList { .. })) => {
@@ -1768,12 +1833,18 @@ where
 
                 None
             }
+            _ => {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("'{' delim token or ';'"),
+                ));
+            }
         };
 
         Ok(LayerRule {
             span: span!(self, span.lo),
             prelude,
-            rules,
+            block,
         })
     }
 }

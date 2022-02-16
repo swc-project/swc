@@ -46,6 +46,12 @@ error: Ident
 1 | @media screen {}
   |        ^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/media/type/input.css:1:15
+  |
+1 | @media screen {}
+  |               ^^
+
 error: Rule
  --> $DIR/tests/fixture/rome/media/type/input.css:2:1
   |
@@ -88,6 +94,12 @@ error: Ident
 2 | @media not screen {}
   |            ^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/media/type/input.css:2:19
+  |
+2 | @media not screen {}
+  |                   ^^
+
 error: Rule
  --> $DIR/tests/fixture/rome/media/type/input.css:3:1
   |
@@ -129,6 +141,12 @@ error: Ident
   |
 3 | @media only screen {}
   |             ^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/media/type/input.css:3:20
+  |
+3 | @media only screen {}
+  |                    ^^
 
 error: Rule
  --> $DIR/tests/fixture/rome/media/type/input.css:4:1
@@ -177,6 +195,12 @@ error: Ident
   |
 4 | @media print, screen {}
   |               ^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/media/type/input.css:4:22
+  |
+4 | @media print, screen {}
+  |                      ^^
 
 error: Rule
  --> $DIR/tests/fixture/rome/media/type/input.css:5:1
@@ -237,6 +261,12 @@ error: Ident
   |
 5 | @media screen, all, print {}
   |                     ^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/media/type/input.css:5:27
+  |
+5 | @media screen, all, print {}
+  |                           ^^
 
 error: Rule
  --> $DIR/tests/fixture/rome/media/type/input.css:6:1
@@ -315,4 +345,10 @@ error: Ident
   |
 6 | @media only screen, not all, only print {}
   |                                   ^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/media/type/input.css:6:41
+  |
+6 | @media only screen, not all, only print {}
+  |                                         ^^
 

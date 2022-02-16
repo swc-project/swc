@@ -64,6 +64,12 @@ error: SimpleBlock
 1 | a { value: url(\61bc) }
   |   ^^^^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:5
+  |
+1 | a { value: url(\61bc) }
+  |     ^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:5
   |

@@ -89,6 +89,12 @@ error: SimpleBlock
 25 | | }
    | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/declaration/input.css:2:5
+  |
+2 |     prop: value;
+  |     ^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/declaration/input.css:2:5
   |
@@ -119,6 +125,12 @@ error: Ident
 2 |     prop: value;
   |           ^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/declaration/input.css:3:5
+  |
+3 |     prop: (value);
+  |     ^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/declaration/input.css:3:5
   |
@@ -160,6 +172,12 @@ error: Ident
   |
 3 |     prop: (value);
   |            ^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/declaration/input.css:4:5
+  |
+4 |     prop: {value};
+  |     ^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/declaration/input.css:4:5
@@ -203,6 +221,12 @@ error: Ident
 4 |     prop: {value};
   |            ^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/declaration/input.css:5:5
+  |
+5 |     prop: [value];
+  |     ^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/declaration/input.css:5:5
   |
@@ -244,6 +268,12 @@ error: Ident
   |
 5 |     prop: [value];
   |            ^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/declaration/input.css:6:5
+  |
+6 |     prop: fn(value);
+  |     ^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/declaration/input.css:6:5
@@ -292,6 +322,12 @@ error: Ident
   |
 6 |     prop: fn(value);
   |              ^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/declaration/input.css:7:5
+  |
+7 |     prop: fn(value)fn(value);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/declaration/input.css:7:5
@@ -371,6 +407,12 @@ error: Ident
 7 |     prop: fn(value)fn(value);
   |                       ^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/declaration/input.css:8:5
+  |
+8 |     prop: value, value;
+  |     ^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/declaration/input.css:8:5
   |
@@ -425,6 +467,12 @@ error: Ident
 8 |     prop: value, value;
   |                  ^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/declaration/input.css:9:5
+  |
+9 |     prop: value ,value;
+  |     ^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/declaration/input.css:9:5
   |
@@ -478,6 +526,12 @@ error: Ident
   |
 9 |     prop: value ,value;
   |                  ^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/declaration/input.css:10:5
+   |
+10 |     prop: value,value;
+   |     ^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/declaration/input.css:10:5
@@ -533,6 +587,12 @@ error: Ident
 10 |     prop: value,value;
    |                 ^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/declaration/input.css:11:5
+   |
+11 |     prop: value , value;
+   |     ^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/declaration/input.css:11:5
    |
@@ -586,6 +646,12 @@ error: Ident
    |
 11 |     prop: value , value;
    |                   ^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/declaration/input.css:12:5
+   |
+12 |     prop: 100%100%;
+   |     ^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/declaration/input.css:12:5
@@ -641,6 +707,12 @@ error: Number
 12 |     prop: 100%100%;
    |               ^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/declaration/input.css:13:5
+   |
+13 |     prop: "string""string";
+   |     ^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/declaration/input.css:13:5
    |
@@ -683,6 +755,12 @@ error: Str
 13 |     prop: "string""string";
    |                   ^^^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/declaration/input.css:14:5
+   |
+14 |     prop: #ccc#ccc;
+   |     ^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/declaration/input.css:14:5
    |
@@ -724,6 +802,12 @@ error: HexColor
    |
 14 |     prop: #ccc#ccc;
    |               ^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/declaration/input.css:15:5
+   |
+15 |     prop: url(value)url(value);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/declaration/input.css:15:5
@@ -803,6 +887,12 @@ error: UrlValueRaw
 15 |     prop: url(value)url(value);
    |                         ^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/declaration/input.css:16:5
+   |
+16 |     prop: (value)(value);
+   |     ^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/declaration/input.css:16:5
    |
@@ -868,6 +958,12 @@ error: Ident
    |
 16 |     prop: (value)(value);
    |                   ^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/declaration/input.css:17:5
+   |
+17 |     prop: {value}{value};
+   |     ^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/declaration/input.css:17:5
@@ -935,6 +1031,12 @@ error: Ident
 17 |     prop: {value}{value};
    |                   ^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/declaration/input.css:18:5
+   |
+18 |     prop: [value][value];
+   |     ^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/declaration/input.css:18:5
    |
@@ -1000,6 +1102,12 @@ error: Ident
    |
 18 |     prop: [value][value];
    |                   ^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/declaration/input.css:19:5
+   |
+19 |     prop: center/1em;
+   |     ^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/declaration/input.css:19:5
@@ -1073,6 +1181,12 @@ error: Ident
 19 |     prop: center/1em;
    |                   ^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/declaration/input.css:20:5
+   |
+20 |     prop: center/ 1em;
+   |     ^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/declaration/input.css:20:5
    |
@@ -1144,6 +1258,12 @@ error: Ident
    |
 20 |     prop: center/ 1em;
    |                    ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/declaration/input.css:21:5
+   |
+21 |     prop: center /1em;
+   |     ^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/declaration/input.css:21:5
@@ -1217,6 +1337,12 @@ error: Ident
 21 |     prop: center /1em;
    |                    ^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/declaration/input.css:22:5
+   |
+22 |     prop: center / 1em;
+   |     ^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/declaration/input.css:22:5
    |
@@ -1289,6 +1415,12 @@ error: Ident
 22 |     prop: center / 1em;
    |                     ^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/declaration/input.css:23:5
+   |
+23 |     c\olor: red;
+   |     ^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/declaration/input.css:23:5
    |
@@ -1318,6 +1450,12 @@ error: Ident
    |
 23 |     c\olor: red;
    |             ^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/declaration/input.css:24:5
+   |
+24 |     prop/**/: big;
+   |     ^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/declaration/input.css:24:5
@@ -1408,6 +1546,12 @@ error: SimpleBlock
    |
 27 | a { color: a/* ; */ b  ; }
    |   ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/declaration/input.css:27:5
+   |
+27 | a { color: a/* ; */ b  ; }
+   |     ^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/declaration/input.css:27:5
@@ -1511,6 +1655,12 @@ error: SimpleBlock
 28 | a{color:black}
    |  ^^^^^^^^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/declaration/input.css:28:3
+   |
+28 | a{color:black}
+   |   ^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/declaration/input.css:28:3
    |
@@ -1610,6 +1760,12 @@ error: SimpleBlock
 32 | |     ; ;
 33 | | }
    | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/declaration/input.css:31:5
+   |
+31 |     color: black;
+   |     ^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/declaration/input.css:31:5

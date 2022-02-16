@@ -77,6 +77,12 @@ error: SimpleBlock
 4 | | }
   | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/value/dimension/input.css:2:5
+  |
+2 |     width: 100\%;
+  |     ^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/dimension/input.css:2:5
   |
@@ -124,6 +130,12 @@ error: Ident
   |
 2 |     width: 100\%;
   |               ^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/dimension/input.css:3:5
+  |
+3 |     width: 100px2p;
+  |     ^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/dimension/input.css:3:5

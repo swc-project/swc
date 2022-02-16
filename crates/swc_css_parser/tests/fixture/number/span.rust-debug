@@ -89,6 +89,12 @@ error: SimpleBlock
 59 | | }
    | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/number/input.css:2:5
+  |
+2 |     property: 10;
+  |     ^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/number/input.css:2:5
   |
@@ -119,6 +125,12 @@ error: Number
 2 |     property: 10;
   |               ^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/number/input.css:3:5
+  |
+3 |     property: +10;
+  |     ^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/number/input.css:3:5
   |
@@ -148,6 +160,12 @@ error: Number
   |
 3 |     property: +10;
   |               ^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/number/input.css:4:5
+  |
+4 |     property: -10;
+  |     ^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/number/input.css:4:5
@@ -179,6 +197,12 @@ error: Number
 4 |     property: -10;
   |               ^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/number/input.css:5:5
+  |
+5 |     property: 0.1;
+  |     ^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/number/input.css:5:5
   |
@@ -208,6 +232,12 @@ error: Number
   |
 5 |     property: 0.1;
   |               ^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/number/input.css:6:5
+  |
+6 |     property: +0.1;
+  |     ^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/number/input.css:6:5
@@ -239,6 +269,12 @@ error: Number
 6 |     property: +0.1;
   |               ^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/number/input.css:7:5
+  |
+7 |     property: -0.1;
+  |     ^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/number/input.css:7:5
   |
@@ -269,6 +305,12 @@ error: Number
 7 |     property: -0.1;
   |               ^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/number/input.css:8:5
+  |
+8 |     property: -.1;
+  |     ^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/number/input.css:8:5
   |
@@ -299,6 +341,12 @@ error: Number
 8 |     property: -.1;
   |               ^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/number/input.css:9:5
+  |
+9 |     property: +.1;
+  |     ^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/number/input.css:9:5
   |
@@ -328,6 +376,12 @@ error: Number
   |
 9 |     property: +.1;
   |               ^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:10:5
+   |
+10 |     property: 0;
+   |     ^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:10:5
@@ -359,6 +413,12 @@ error: Number
 10 |     property: 0;
    |               ^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:11:5
+   |
+11 |     property: 10;
+   |     ^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:11:5
    |
@@ -389,6 +449,12 @@ error: Number
 11 |     property: 10;
    |               ^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:12:5
+   |
+12 |     property: .10;
+   |     ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:12:5
    |
@@ -418,6 +484,12 @@ error: Number
    |
 12 |     property: .10;
    |               ^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:13:5
+   |
+13 |     property: 12.34;
+   |     ^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:13:5
@@ -449,6 +521,12 @@ error: Number
 13 |     property: 12.34;
    |               ^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:14:5
+   |
+14 |     property: 0.1;
+   |     ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:14:5
    |
@@ -478,6 +556,12 @@ error: Number
    |
 14 |     property: 0.1;
    |               ^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:15:5
+   |
+15 |     property: 1.0;
+   |     ^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:15:5
@@ -509,6 +593,12 @@ error: Number
 15 |     property: 1.0;
    |               ^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:16:5
+   |
+16 |     property: 0.0;
+   |     ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:16:5
    |
@@ -539,6 +629,12 @@ error: Number
 16 |     property: 0.0;
    |               ^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:17:5
+   |
+17 |     property: +0.0;
+   |     ^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:17:5
    |
@@ -569,6 +665,12 @@ error: Number
 17 |     property: +0.0;
    |               ^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:18:5
+   |
+18 |     property: -0.0;
+   |     ^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:18:5
    |
@@ -598,6 +700,12 @@ error: Number
    |
 18 |     property: -0.0;
    |               ^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:19:5
+   |
+19 |     property: .0;
+   |     ^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:19:5
@@ -628,6 +736,12 @@ error: Number
    |
 19 |     property: .0;
    |               ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:20:5
+   |
+20 |     property: 1.200000;
+   |     ^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:20:5
@@ -659,6 +773,12 @@ error: Number
 20 |     property: 1.200000;
    |               ^^^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:21:5
+   |
+21 |     property: 1.2e2;
+   |     ^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:21:5
    |
@@ -688,6 +808,12 @@ error: Number
    |
 21 |     property: 1.2e2;
    |               ^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:22:5
+   |
+22 |     property: 1e2;
+   |     ^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:22:5
@@ -719,6 +845,12 @@ error: Number
 22 |     property: 1e2;
    |               ^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:23:5
+   |
+23 |     property: .2e2;
+   |     ^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:23:5
    |
@@ -748,6 +880,12 @@ error: Number
    |
 23 |     property: .2e2;
    |               ^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:24:5
+   |
+24 |     property: 1.2E2;
+   |     ^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:24:5
@@ -779,6 +917,12 @@ error: Number
 24 |     property: 1.2E2;
    |               ^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:25:5
+   |
+25 |     property: 1.2e+2;
+   |     ^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:25:5
    |
@@ -808,6 +952,12 @@ error: Number
    |
 25 |     property: 1.2e+2;
    |               ^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:26:5
+   |
+26 |     property: 1.2e-2;
+   |     ^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:26:5
@@ -839,6 +989,12 @@ error: Number
 26 |     property: 1.2e-2;
    |               ^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:27:5
+   |
+27 |     property: -1;
+   |     ^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:27:5
    |
@@ -868,6 +1024,12 @@ error: Number
    |
 27 |     property: -1;
    |               ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:28:5
+   |
+28 |     property: -1.2;
+   |     ^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:28:5
@@ -899,6 +1061,12 @@ error: Number
 28 |     property: -1.2;
    |               ^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:29:5
+   |
+29 |     property: .2;
+   |     ^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:29:5
    |
@@ -929,6 +1097,12 @@ error: Number
 29 |     property: .2;
    |               ^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:30:5
+   |
+30 |     property: -.2;
+   |     ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:30:5
    |
@@ -959,6 +1133,12 @@ error: Number
 30 |     property: -.2;
    |               ^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:31:5
+   |
+31 |     property: +.2;
+   |     ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:31:5
    |
@@ -988,6 +1168,12 @@ error: Number
    |
 31 |     property: +.2;
    |               ^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:32:5
+   |
+32 |     property: -1.2e3;
+   |     ^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:32:5
@@ -1019,6 +1205,12 @@ error: Number
 32 |     property: -1.2e3;
    |               ^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:33:5
+   |
+33 |     property: 1.75;
+   |     ^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:33:5
    |
@@ -1048,6 +1240,12 @@ error: Number
    |
 33 |     property: 1.75;
    |               ^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:34:5
+   |
+34 |     property: +1.75;
+   |     ^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:34:5
@@ -1079,6 +1277,12 @@ error: Number
 34 |     property: +1.75;
    |               ^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:35:5
+   |
+35 |     property: 1e0;
+   |     ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:35:5
    |
@@ -1108,6 +1312,12 @@ error: Number
    |
 35 |     property: 1e0;
    |               ^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:36:5
+   |
+36 |     property: 1e1;
+   |     ^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:36:5
@@ -1139,6 +1349,12 @@ error: Number
 36 |     property: 1e1;
    |               ^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:37:5
+   |
+37 |     property: 1e+1;
+   |     ^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:37:5
    |
@@ -1169,6 +1385,12 @@ error: Number
 37 |     property: 1e+1;
    |               ^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:38:5
+   |
+38 |     property: 1e-1;
+   |     ^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:38:5
    |
@@ -1198,6 +1420,12 @@ error: Number
    |
 38 |     property: 1e-1;
    |               ^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:39:5
+   |
+39 |     property: 1e-10;
+   |     ^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:39:5
@@ -1228,6 +1456,12 @@ error: Number
    |
 39 |     property: 1e-10;
    |               ^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:40:5
+   |
+40 |     property: 1+2;
+   |     ^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:40:5
@@ -1271,6 +1505,12 @@ error: Number
 40 |     property: 1+2;
    |                ^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:41:5
+   |
+41 |     property: 1-2;
+   |     ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:41:5
    |
@@ -1313,6 +1553,12 @@ error: Number
 41 |     property: 1-2;
    |                ^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:42:5
+   |
+42 |     property: 4.01;
+   |     ^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:42:5
    |
@@ -1342,6 +1588,12 @@ error: Number
    |
 42 |     property: 4.01;
    |               ^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:43:5
+   |
+43 |     property: -456.8;
+   |     ^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:43:5
@@ -1373,6 +1625,12 @@ error: Number
 43 |     property: -456.8;
    |               ^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:44:5
+   |
+44 |     property: .60;
+   |     ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:44:5
    |
@@ -1402,6 +1660,12 @@ error: Number
    |
 44 |     property: .60;
    |               ^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:45:5
+   |
+45 |     property: .0060;
+   |     ^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:45:5
@@ -1433,6 +1697,12 @@ error: Number
 45 |     property: .0060;
    |               ^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:46:5
+   |
+46 |     property: 10e3;
+   |     ^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:46:5
    |
@@ -1462,6 +1732,12 @@ error: Number
    |
 46 |     property: 10e3;
    |               ^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:47:5
+   |
+47 |     property: -3.4e-2;
+   |     ^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:47:5
@@ -1493,6 +1769,12 @@ error: Number
 47 |     property: -3.4e-2;
    |               ^^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:48:5
+   |
+48 |     property: 0.5600000000;
+   |     ^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:48:5
    |
@@ -1523,6 +1805,12 @@ error: Number
 48 |     property: 0.5600000000;
    |               ^^^^^^^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:49:5
+   |
+49 |     property: 10e6;
+   |     ^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:49:5
    |
@@ -1552,6 +1840,12 @@ error: Number
    |
 49 |     property: 10e6;
    |               ^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:50:5
+   |
+50 |     property: 10000000;
+   |     ^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:50:5
@@ -1583,6 +1877,12 @@ error: Number
 50 |     property: 10000000;
    |               ^^^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:51:5
+   |
+51 |     property: 0.0;
+   |     ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:51:5
    |
@@ -1612,6 +1912,12 @@ error: Number
    |
 51 |     property: 0.0;
    |               ^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:52:5
+   |
+52 |     property: -0.0;
+   |     ^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:52:5
@@ -1643,6 +1949,12 @@ error: Number
 52 |     property: -0.0;
    |               ^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:53:5
+   |
+53 |     property: +0.0;
+   |     ^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:53:5
    |
@@ -1673,6 +1985,12 @@ error: Number
 53 |     property: +0.0;
    |               ^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:54:5
+   |
+54 |     property: 1e1;
+   |     ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:54:5
    |
@@ -1702,6 +2020,12 @@ error: Number
    |
 54 |     property: 1e1;
    |               ^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:55:5
+   |
+55 |     property: 1e2;
+   |     ^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:55:5
@@ -1733,6 +2057,12 @@ error: Number
 55 |     property: 1e2;
    |               ^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:56:5
+   |
+56 |     property: 1e3;
+   |     ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:56:5
    |
@@ -1763,6 +2093,12 @@ error: Number
 56 |     property: 1e3;
    |               ^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:57:5
+   |
+57 |     property: 1e4;
+   |     ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:57:5
    |
@@ -1792,6 +2128,12 @@ error: Number
    |
 57 |     property: 1e4;
    |               ^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/number/input.css:58:5
+   |
+58 |     property: 100.1e-6;
+   |     ^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/number/input.css:58:5

@@ -6,9 +6,9 @@ error: Stylesheet
 3  | |         color: green;
 4  | |     }
 ...  |
-15 | | @-moz-document url("https://www.example.com/") {}
-16 | | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
-   | |______________________________________________________________________^
+23 | |     }
+24 | | }
+   | |__^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/document/input.css:1:1
@@ -147,6 +147,12 @@ error: SimpleBlock
 3 | |         color: green;
 4 | |     }
   | |_____^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/at-rule/document/input.css:3:9
+  |
+3 |         color: green;
+  |         ^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/at-rule/document/input.css:3:9
@@ -443,6 +449,12 @@ error: SimpleBlock
 11 | |     }
    | |_____^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/at-rule/document/input.css:9:9
+  |
+9 |         color: purple;
+  |         ^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/at-rule/document/input.css:9:9
   |
@@ -472,6 +484,12 @@ error: Ident
   |
 9 |         color: purple;
   |                ^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/document/input.css:10:9
+   |
+10 |         background: yellow;
+   |         ^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/at-rule/document/input.css:10:9
@@ -664,4 +682,365 @@ error: SimpleBlock
    |
 16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
    |                                                                    ^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/document/input.css:18:1
+   |
+18 | / @document url("https://www.example.com/") {
+19 | |     @media screen and (min-width: 900px) {
+20 | |         article {
+21 | |             padding: 1rem 3rem;
+22 | |         }
+23 | |     }
+24 | | }
+   | |_^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/document/input.css:18:1
+   |
+18 | / @document url("https://www.example.com/") {
+19 | |     @media screen and (min-width: 900px) {
+20 | |         article {
+21 | |             padding: 1rem 3rem;
+22 | |         }
+23 | |     }
+24 | | }
+   | |_^
+
+error: DocumentRule
+  --> $DIR/tests/fixture/at-rule/document/input.css:18:1
+   |
+18 | / @document url("https://www.example.com/") {
+19 | |     @media screen and (min-width: 900px) {
+20 | |         article {
+21 | |             padding: 1rem 3rem;
+22 | |         }
+23 | |     }
+24 | | }
+   | |_^
+
+error: DocumentRuleMatchingFunction
+  --> $DIR/tests/fixture/at-rule/document/input.css:18:11
+   |
+18 | @document url("https://www.example.com/") {
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Url
+  --> $DIR/tests/fixture/at-rule/document/input.css:18:11
+   |
+18 | @document url("https://www.example.com/") {
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/document/input.css:18:11
+   |
+18 | @document url("https://www.example.com/") {
+   |           ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/at-rule/document/input.css:18:15
+   |
+18 | @document url("https://www.example.com/") {
+   |               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/at-rule/document/input.css:18:15
+   |
+18 | @document url("https://www.example.com/") {
+   |               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/document/input.css:18:43
+   |
+18 |   @document url("https://www.example.com/") {
+   |  ___________________________________________^
+19 | |     @media screen and (min-width: 900px) {
+20 | |         article {
+21 | |             padding: 1rem 3rem;
+22 | |         }
+23 | |     }
+24 | | }
+   | |_^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/document/input.css:19:5
+   |
+19 | /     @media screen and (min-width: 900px) {
+20 | |         article {
+21 | |             padding: 1rem 3rem;
+22 | |         }
+23 | |     }
+   | |_____^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/document/input.css:19:5
+   |
+19 | /     @media screen and (min-width: 900px) {
+20 | |         article {
+21 | |             padding: 1rem 3rem;
+22 | |         }
+23 | |     }
+   | |_____^
+
+error: MediaRule
+  --> $DIR/tests/fixture/at-rule/document/input.css:19:5
+   |
+19 | /     @media screen and (min-width: 900px) {
+20 | |         article {
+21 | |             padding: 1rem 3rem;
+22 | |         }
+23 | |     }
+   | |_____^
+
+error: MediaQueryList
+  --> $DIR/tests/fixture/at-rule/document/input.css:19:12
+   |
+19 |     @media screen and (min-width: 900px) {
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/at-rule/document/input.css:19:12
+   |
+19 |     @media screen and (min-width: 900px) {
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/document/input.css:19:12
+   |
+19 |     @media screen and (min-width: 900px) {
+   |            ^^^^^^
+
+error: MediaConditionWithoutOr
+  --> $DIR/tests/fixture/at-rule/document/input.css:19:23
+   |
+19 |     @media screen and (min-width: 900px) {
+   |                       ^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionWithoutOrType
+  --> $DIR/tests/fixture/at-rule/document/input.css:19:23
+   |
+19 |     @media screen and (min-width: 900px) {
+   |                       ^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/at-rule/document/input.css:19:23
+   |
+19 |     @media screen and (min-width: 900px) {
+   |                       ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/at-rule/document/input.css:19:23
+   |
+19 |     @media screen and (min-width: 900px) {
+   |                       ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+  --> $DIR/tests/fixture/at-rule/document/input.css:19:23
+   |
+19 |     @media screen and (min-width: 900px) {
+   |                       ^^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureName
+  --> $DIR/tests/fixture/at-rule/document/input.css:19:24
+   |
+19 |     @media screen and (min-width: 900px) {
+   |                        ^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/document/input.css:19:24
+   |
+19 |     @media screen and (min-width: 900px) {
+   |                        ^^^^^^^^^
+
+error: MediaFeatureValue
+  --> $DIR/tests/fixture/at-rule/document/input.css:19:35
+   |
+19 |     @media screen and (min-width: 900px) {
+   |                                   ^^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/at-rule/document/input.css:19:35
+   |
+19 |     @media screen and (min-width: 900px) {
+   |                                   ^^^^^
+
+error: Length
+  --> $DIR/tests/fixture/at-rule/document/input.css:19:35
+   |
+19 |     @media screen and (min-width: 900px) {
+   |                                   ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/at-rule/document/input.css:19:35
+   |
+19 |     @media screen and (min-width: 900px) {
+   |                                   ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/document/input.css:19:38
+   |
+19 |     @media screen and (min-width: 900px) {
+   |                                      ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/document/input.css:19:42
+   |
+19 |       @media screen and (min-width: 900px) {
+   |  __________________________________________^
+20 | |         article {
+21 | |             padding: 1rem 3rem;
+22 | |         }
+23 | |     }
+   | |_____^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/document/input.css:20:9
+   |
+20 | /         article {
+21 | |             padding: 1rem 3rem;
+22 | |         }
+   | |_________^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/at-rule/document/input.css:20:9
+   |
+20 | /         article {
+21 | |             padding: 1rem 3rem;
+22 | |         }
+   | |_________^
+
+error: SelectorList
+  --> $DIR/tests/fixture/at-rule/document/input.css:20:9
+   |
+20 |         article {
+   |         ^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/at-rule/document/input.css:20:9
+   |
+20 |         article {
+   |         ^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/at-rule/document/input.css:20:9
+   |
+20 |         article {
+   |         ^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/at-rule/document/input.css:20:9
+   |
+20 |         article {
+   |         ^^^^^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/at-rule/document/input.css:20:9
+   |
+20 |         article {
+   |         ^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/at-rule/document/input.css:20:9
+   |
+20 |         article {
+   |         ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/document/input.css:20:9
+   |
+20 |         article {
+   |         ^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/document/input.css:20:17
+   |
+20 |           article {
+   |  _________________^
+21 | |             padding: 1rem 3rem;
+22 | |         }
+   | |_________^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/document/input.css:21:13
+   |
+21 |             padding: 1rem 3rem;
+   |             ^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/document/input.css:21:13
+   |
+21 |             padding: 1rem 3rem;
+   |             ^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/at-rule/document/input.css:21:13
+   |
+21 |             padding: 1rem 3rem;
+   |             ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/document/input.css:21:13
+   |
+21 |             padding: 1rem 3rem;
+   |             ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/document/input.css:21:22
+   |
+21 |             padding: 1rem 3rem;
+   |                      ^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/at-rule/document/input.css:21:22
+   |
+21 |             padding: 1rem 3rem;
+   |                      ^^^^
+
+error: Length
+  --> $DIR/tests/fixture/at-rule/document/input.css:21:22
+   |
+21 |             padding: 1rem 3rem;
+   |                      ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/at-rule/document/input.css:21:22
+   |
+21 |             padding: 1rem 3rem;
+   |                      ^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/document/input.css:21:23
+   |
+21 |             padding: 1rem 3rem;
+   |                       ^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/document/input.css:21:27
+   |
+21 |             padding: 1rem 3rem;
+   |                           ^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/at-rule/document/input.css:21:27
+   |
+21 |             padding: 1rem 3rem;
+   |                           ^^^^
+
+error: Length
+  --> $DIR/tests/fixture/at-rule/document/input.css:21:27
+   |
+21 |             padding: 1rem 3rem;
+   |                           ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/at-rule/document/input.css:21:27
+   |
+21 |             padding: 1rem 3rem;
+   |                           ^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/document/input.css:21:28
+   |
+21 |             padding: 1rem 3rem;
+   |                            ^^^
 
