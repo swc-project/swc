@@ -9,6 +9,7 @@ use crate::{config::LintConfig, rule::Rule};
 mod const_assign;
 mod duplicate_bindings;
 mod duplicate_exports;
+mod no_dupe_args;
 mod utils;
 
 #[cfg(feature = "non_critical_lints")]
@@ -19,7 +20,6 @@ pub(crate) mod non_critical_lints {
     pub mod no_alert;
     pub mod no_console;
     pub mod no_debugger;
-    pub mod no_dupe_args;
     pub mod no_empty_pattern;
     pub mod no_use_before_define;
     pub mod prefer_regex_literals;
@@ -43,6 +43,10 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         duplicate_bindings::duplicate_bindings(),
         duplicate_exports::duplicate_exports(),
     ];
+
+    rules.extend(no_dupe_args::no_dupe_args(
+        &lint_params.lint_config.no_dupe_args,
+    ));
 
     #[cfg(feature = "non_critical_lints")]
     {
@@ -71,8 +75,6 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         ));
 
         rules.extend(no_debugger::no_debugger(&lint_config.no_debugger));
-
-        rules.extend(no_dupe_args::no_dupe_args(&lint_config.no_dupe_args));
 
         rules.extend(quotes::quotes(&source_map, &lint_config.quotes));
 

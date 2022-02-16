@@ -1,7 +1,5 @@
 {
     "jsc": {
-        "lints": {
-            "noDupeArgs": ["error"]
-        }
+        "lints": {}
     }
 }

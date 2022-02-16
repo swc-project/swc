@@ -37,6 +37,10 @@ impl<T: Debug + Clone + Serialize + Default> RuleConfig<T> {
     pub(crate) fn get_rule_config(&self) -> &T {
         &self.1
     }
+
+    pub fn new_default_error() -> Self {
+        Self(LintRuleReaction::Error, T::default())
+    }
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -59,8 +63,7 @@ pub struct LintConfig {
     #[serde(default)]
     pub no_debugger: RuleConfig<()>,
 
-    #[cfg(feature = "non_critical_lints")]
-    #[serde(default)]
+    #[serde(default = "RuleConfig::new_default_error")]
     pub no_dupe_args: RuleConfig<()>,
 
     #[cfg(feature = "non_critical_lints")]
