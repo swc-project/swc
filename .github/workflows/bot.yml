@@ -76,12 +76,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - name: Check git
-        if: steps.bump.outputs.STATUS == '0'
-        run: |
-          echo '::set-output name=SELECTED_COLOR::green'
-
       - name: Cancel if there's no change
+        if: steps.bump.outputs.STATUS == '0'
         uses: andymckay/cancel-action@0.2
 
       - name: Update changelog
