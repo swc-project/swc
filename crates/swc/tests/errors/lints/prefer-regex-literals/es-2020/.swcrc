@@ -2,7 +2,7 @@
     "jsc": {
         "target": "es2020",
         "lints": {
-            "preferRegexLiterals": ["error"]
+            "prefer-regex-literals": ["error"]
         }
     }
 }

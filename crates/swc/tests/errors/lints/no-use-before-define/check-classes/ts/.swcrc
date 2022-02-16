@@ -5,7 +5,7 @@
             "decorators": true
         },
         "lints": {
-            "noUseBeforeDefine": [
+            "no-use-before-define": [
                 "error",
                 {
                     "classes": true

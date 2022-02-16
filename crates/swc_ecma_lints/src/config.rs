@@ -41,7 +41,7 @@ impl<T: Debug + Clone + Serialize + Default> RuleConfig<T> {
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[non_exhaustive]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "kebab-case")]
 pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default)]
