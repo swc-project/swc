@@ -4,18 +4,10 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
 use swc_ecma_visit::{noop_visit_type, Visit};
 
-use crate::{
-    config::{LintRuleReaction, RuleConfig},
-    rule::{visitor_rule, Rule},
-};
+use crate::rule::{visitor_rule, Rule};
 
-pub fn no_dupe_args(config: &RuleConfig<()>) -> Option<Box<dyn Rule>> {
-    let rule_reaction = config.get_rule_reaction();
-
-    match rule_reaction {
-        LintRuleReaction::Off => None,
-        _ => Some(visitor_rule(NoDupeArgs::default())),
-    }
+pub fn no_dupe_args() -> Box<dyn Rule> {
+    visitor_rule(NoDupeArgs::default())
 }
 
 #[derive(Debug, Default)]
