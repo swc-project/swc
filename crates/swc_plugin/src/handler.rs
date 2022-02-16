@@ -1,4 +1,4 @@
-use once_cell::sync::OnceCell;
+use swc_common::sync::OnceCell;
 
 /// Simple substitution for scoped_thread_local with limited interface parity.
 /// The only available fn in this struct is `with`, which is being used for the
