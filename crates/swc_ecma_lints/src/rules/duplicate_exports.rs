@@ -42,6 +42,16 @@ impl Visit for DuplicateExports {
     noop_visit_type!();
 
     fn visit_export_default_decl(&mut self, d: &ExportDefaultDecl) {
+        if matches!(
+            d.decl,
+            DefaultDecl::Fn(FnExpr {
+                function: Function { body: None, .. },
+                ..
+            })
+        ) {
+            return;
+        }
+
         d.visit_children_with(self);
 
         self.add(&Ident::new(js_word!("default"), d.span));
@@ -49,6 +59,16 @@ impl Visit for DuplicateExports {
 
     fn visit_export_default_expr(&mut self, d: &ExportDefaultExpr) {
         d.visit_children_with(self);
+
+        if matches!(
+            &*d.expr,
+            Expr::Fn(FnExpr {
+                function: Function { body: None, .. },
+                ..
+            })
+        ) {
+            return;
+        }
 
         self.add(&Ident::new(js_word!("default"), d.span));
     }
