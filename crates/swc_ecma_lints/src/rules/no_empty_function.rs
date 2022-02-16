@@ -22,6 +22,10 @@ enum FunctionModifiers {
     Getter,
     Setter,
     Async,
+    Private,
+    Protected,
+    Static,
+    Public,
 }
 
 impl FunctionModifiers {
@@ -31,6 +35,10 @@ impl FunctionModifiers {
             FunctionModifiers::Getter => "getter",
             FunctionModifiers::Setter => "setter",
             FunctionModifiers::Async => "async",
+            FunctionModifiers::Private => "private",
+            FunctionModifiers::Protected => "protected",
+            FunctionModifiers::Static => "static",
+            FunctionModifiers::Public => "public",
             FunctionModifiers::Simple | FunctionModifiers::All => {
                 unreachable!();
             }
@@ -45,7 +53,7 @@ pub struct NoEmptyFunctionConfig {
     functions: Option<AHashSet<FunctionModifiers>>,
     arrow_functions: Option<AHashSet<FunctionModifiers>>,
     methods: Option<AHashSet<FunctionModifiers>>,
-    constructors: Option<bool>,
+    constructors: Option<AHashSet<FunctionModifiers>>,
 }
 
 pub fn no_empty_function(
@@ -72,7 +80,7 @@ struct NoEmptyFunction {
     functions: Option<AHashSet<FunctionModifiers>>,
     arrow_functions: Option<AHashSet<FunctionModifiers>>,
     methods: Option<AHashSet<FunctionModifiers>>,
-    check_constructor: bool,
+    constructors: Option<AHashSet<FunctionModifiers>>,
 }
 
 impl Debug for NoEmptyFunction {
@@ -83,16 +91,34 @@ impl Debug for NoEmptyFunction {
             .field("functions", &self.functions)
             .field("arrow_functions", &self.arrow_functions)
             .field("methods", &self.methods)
-            .field("check_constructor", &self.check_constructor)
+            .field("check_constructor", &self.constructors)
             .finish()
     }
 }
 
-fn get_modifiers<const MAX_ATTRS: usize>(
+#[derive(Default)]
+struct FunctionMarkers {
     is_async: bool,
     is_generator: bool,
     is_getter: bool,
     is_setter: bool,
+    is_private: bool,
+    is_static: bool,
+    is_protected: bool,
+    is_public: bool,
+}
+
+fn get_modifiers<const MAX_ATTRS: usize>(
+    FunctionMarkers {
+        is_async,
+        is_generator,
+        is_getter,
+        is_setter,
+        is_private,
+        is_static,
+        is_protected,
+        is_public,
+    }: FunctionMarkers,
 ) -> (usize, [FunctionModifiers; MAX_ATTRS]) {
     let mut modifiers: [FunctionModifiers; MAX_ATTRS] = [FunctionModifiers::Simple; MAX_ATTRS];
     let mut idx: usize = 0;
@@ -104,6 +130,26 @@ fn get_modifiers<const MAX_ATTRS: usize>(
 
     if is_generator {
         modifiers[idx] = FunctionModifiers::Generator;
+        idx += 1;
+    }
+
+    if is_private {
+        modifiers[idx] = FunctionModifiers::Private;
+        idx += 1;
+    }
+
+    if is_static {
+        modifiers[idx] = FunctionModifiers::Static;
+        idx += 1;
+    }
+
+    if is_protected {
+        modifiers[idx] = FunctionModifiers::Protected;
+        idx += 1;
+    }
+
+    if is_public {
+        modifiers[idx] = FunctionModifiers::Public;
         idx += 1;
     }
 
@@ -132,7 +178,7 @@ impl NoEmptyFunction {
             functions: no_empty_function_config.functions.clone(),
             arrow_functions: no_empty_function_config.arrow_functions.clone(),
             methods: no_empty_function_config.methods.clone(),
-            check_constructor: no_empty_function_config.constructors.unwrap_or(true),
+            constructors: no_empty_function_config.constructors.clone(),
         }
     }
 
@@ -172,6 +218,10 @@ impl NoEmptyFunction {
     ) {
         if let Some(allowed) = allowed {
             if allowed.contains(&FunctionModifiers::All) {
+                return;
+            }
+
+            if modifiers.is_empty() && allowed.contains(&FunctionModifiers::Simple) {
                 return;
             }
 
@@ -221,8 +271,11 @@ impl Visit for NoEmptyFunction {
             }
 
             if stmts.is_empty() {
-                let (count, modifiers) =
-                    get_modifiers::<2>(function.is_async, function.is_generator, false, false);
+                let (count, modifiers) = get_modifiers::<2>(FunctionMarkers {
+                    is_async: function.is_async,
+                    is_generator: function.is_generator,
+                    ..Default::default()
+                });
 
                 self.check(
                     function.span,
@@ -245,8 +298,11 @@ impl Visit for NoEmptyFunction {
             }
 
             if stmts.is_empty() {
-                let (count, modifiers) =
-                    get_modifiers::<2>(function.is_async, function.is_generator, false, false);
+                let (count, modifiers) = get_modifiers::<2>(FunctionMarkers {
+                    is_async: function.is_async,
+                    is_generator: function.is_generator,
+                    ..Default::default()
+                });
 
                 self.check(
                     function.span,
@@ -268,8 +324,22 @@ impl Visit for NoEmptyFunction {
                 return;
             }
 
-            if self.check_constructor && stmts.is_empty() {
-                self.emit_report(constructor.span, "constructor", None);
+            if stmts.is_empty() {
+                let (count, modifiers) = get_modifiers::<1>(FunctionMarkers {
+                    is_private: constructor.accessibility.eq(&Some(Accessibility::Private)),
+                    is_public: constructor.accessibility.eq(&Some(Accessibility::Public)),
+                    is_protected: constructor
+                        .accessibility
+                        .eq(&Some(Accessibility::Protected)),
+                    ..Default::default()
+                });
+
+                self.check(
+                    constructor.span,
+                    "constructor",
+                    self.constructors.as_ref(),
+                    &modifiers[0..count],
+                );
             }
         }
 
@@ -285,12 +355,18 @@ impl Visit for NoEmptyFunction {
             }
 
             if stmts.is_empty() {
-                let (count, modifiers) = get_modifiers::<3>(
-                    method.is_async,
-                    method.is_generator,
-                    class_method.kind.eq(&MethodKind::Getter),
-                    class_method.kind.eq(&MethodKind::Setter),
-                );
+                let (count, modifiers) = get_modifiers::<3>(FunctionMarkers {
+                    is_async: method.is_async,
+                    is_generator: method.is_generator,
+                    is_getter: class_method.kind.eq(&MethodKind::Getter),
+                    is_setter: class_method.kind.eq(&MethodKind::Setter),
+                    is_private: class_method.accessibility.eq(&Some(Accessibility::Private)),
+                    is_public: class_method.accessibility.eq(&Some(Accessibility::Public)),
+                    is_protected: class_method
+                        .accessibility
+                        .eq(&Some(Accessibility::Protected)),
+                    ..Default::default()
+                });
 
                 self.check(
                     class_method.span,
@@ -307,6 +383,10 @@ impl Visit for NoEmptyFunction {
     }
 
     fn visit_getter_prop(&mut self, getter_prop: &GetterProp) {
+        if self.consider_comments && self.has_comment_in_body(&getter_prop.span) {
+            return;
+        }
+
         if let Some(BlockStmt { stmts, .. }) = &getter_prop.body {
             if stmts.is_empty() {
                 self.check(
@@ -321,11 +401,15 @@ impl Visit for NoEmptyFunction {
         getter_prop.visit_children_with(self);
     }
 
-    fn visit_setter_prop(&mut self, setter: &SetterProp) {
-        if let Some(BlockStmt { stmts, .. }) = &setter.body {
+    fn visit_setter_prop(&mut self, setter_prop: &SetterProp) {
+        if self.consider_comments && self.has_comment_in_body(&setter_prop.span) {
+            return;
+        }
+
+        if let Some(BlockStmt { stmts, .. }) = &setter_prop.body {
             if stmts.is_empty() {
                 self.check(
-                    setter.span,
+                    setter_prop.span,
                     "method",
                     self.methods.as_ref(),
                     &[FunctionModifiers::Setter],
@@ -333,6 +417,6 @@ impl Visit for NoEmptyFunction {
             }
         }
 
-        setter.visit_children_with(self);
+        setter_prop.visit_children_with(self);
     }
 }
