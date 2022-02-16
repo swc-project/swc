@@ -1424,7 +1424,7 @@ export interface StringLiteral extends Node, HasSpan {
   type: "StringLiteral";
 
   value: string;
-  has_escape: boolean;
+  hasEscape: boolean;
 }
 
 export interface BooleanLiteral extends Node, HasSpan {
