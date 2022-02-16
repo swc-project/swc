@@ -35,10 +35,10 @@ var __ = {
     value: (()=>{
         friendA = {
             getX (obj) {
-                return obj.#x;
+                return _classPrivateFieldGet(obj, _x);
             },
             setX (obj, value) {
-                obj.#x = value;
+                _classPrivateFieldSet(obj, _x, value);
             }
         };
     })()

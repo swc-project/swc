@@ -3,6 +3,12 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
+function _classPrivateFieldGet(receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver).value;
+}
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
@@ -20,7 +26,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 // @target: esnext, es2022, es2015
 var getX;
 var tmp = (getX = function(a) {
-    return a.#x;
+    return _classPrivateFieldGet(a, _x);
 }, "_");
 var A = /*#__PURE__*/ function() {
     "use strict";
