@@ -35,6 +35,9 @@
 
 
 
+- **(css/codegen)** Add tests for custom properties in at-rules (#3596) ([b019165](https://github.com/swc-project/swc/commit/b01916531fe889d1559e0bf6a87777454467ab7a))
+
+
 - **(es/modules)** Add a test for a fixed issue (#3586) ([038e7f8](https://github.com/swc-project/swc/commit/038e7f86698adfbbc2b04d8662e877401d7cf2ea))
 
 
