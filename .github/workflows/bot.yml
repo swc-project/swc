@@ -67,16 +67,26 @@ jobs:
           crate: git-cliff
           version: "0.6.0"
 
-      - name: Update changelog
-        run: |
-          yarn changelog
-
       - name: Bump crates
+        id: bump
         working-directory: scripts/bot
         run: |
           npx ts-node src/cargo/bump.ts
+          echo "::set-output name=STATUS::$?"
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Check git
+        if: steps.bump.outputs.STATUS == '0'
+        run: |
+          echo '::set-output name=SELECTED_COLOR::green'
+
+      - name: Cancel if there's no change
+        uses: andymckay/cancel-action@0.2
+
+      - name: Update changelog
+        run: |
+          yarn changelog
 
       - name: Update lockfile
         run: |
@@ -91,9 +101,10 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
 
+      # Push back, using ssh
       - name: Push back
         run: |
-          git push --no-verify
+          git push git@github.com:swc-project/swc.git --no-verify
 
       - name: Configure crates.io
         run: |
