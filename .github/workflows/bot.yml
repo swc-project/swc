@@ -73,12 +73,11 @@ jobs:
         working-directory: scripts/bot
         run: |
           npx ts-node src/cargo/bump.ts
-          echo "::set-output name=STATUS::$?"
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Cancel if there's no change
-        if: steps.bump.outputs.STATUS != '0'
+        if: steps.bump.outcome != 'success' || steps.bump.conclusion != 'success'
         uses: andymckay/cancel-action@0.2
 
       - name: Update changelog
