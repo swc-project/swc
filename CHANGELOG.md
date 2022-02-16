@@ -32,6 +32,9 @@
 - **(es/modules)** Add a test for a fixed issue (#3586) ([038e7f8](https://github.com/swc-project/swc/commit/038e7f86698adfbbc2b04d8662e877401d7cf2ea))
 
 
+- **(es/parser)** Add a test for #2417 (#3588) ([a2f9c88](https://github.com/swc-project/swc/commit/a2f9c88b629b83532c2bd644fbba0e1f50b61b73))
+
+
 - **(es/typescript)** Add a test for #2670 (#3589) ([f469e65](https://github.com/swc-project/swc/commit/f469e653f861e5ca8789ba1baa4b29f507d0c737))
 
 ## [1.2.141] - 2022-02-16
