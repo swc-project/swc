@@ -55,10 +55,17 @@ jobs:
         run: |
           yarn
 
-      - name: Install required binaries
-        run: |
-          cargo install cargo-mono
-          cargo install git-cliff
+      - name: Install cargo-mono
+        uses: baptiste0928/cargo-install@v1.1.0
+        with:
+          crate: cargo-mono
+          version: "0.3.1"
+
+      - name: Install git-cliff
+        uses: baptiste0928/cargo-install@v1.1.0
+        with:
+          crate: git-cliff
+          version: "0.6.0"
 
       - name: Update changelog
         run: |
