@@ -10,7 +10,7 @@
                 "lib/*"
             ]
         },
-        "baseUrl": "./"
+        "baseUrl": "./src"
     },
     "module": {
         "type": "es6"
