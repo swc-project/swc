@@ -12,7 +12,7 @@ pub fn no_empty_pattern(config: &RuleConfig<()>) -> Option<Box<dyn Rule>> {
 
     match rule_reaction {
         LintRuleReaction::Off => None,
-        _ => Some(visitor_rule(NoEmptyPattern::new(*rule_reaction))),
+        _ => Some(visitor_rule(NoEmptyPattern::new(rule_reaction))),
     }
 }
 
