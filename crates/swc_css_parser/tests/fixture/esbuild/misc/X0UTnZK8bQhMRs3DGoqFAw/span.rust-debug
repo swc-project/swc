@@ -28,6 +28,12 @@ error: CustomIdent
 1 | @keyframes test { from { color: red } to {} }
   |            ^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/X0UTnZK8bQhMRs3DGoqFAw/input.css:1:17
+  |
+1 | @keyframes test { from { color: red } to {} }
+  |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: KeyframeBlock
  --> $DIR/tests/fixture/esbuild/misc/X0UTnZK8bQhMRs3DGoqFAw/input.css:1:19
   |

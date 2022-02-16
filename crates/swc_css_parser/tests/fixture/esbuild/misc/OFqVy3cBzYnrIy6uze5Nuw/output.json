@@ -23,98 +23,107 @@
         "value": "test",
         "raw": "test"
       },
-      "blocks": [
-        {
-          "span": {
-            "start": 18,
-            "end": 25,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Ident",
-              "span": {
-                "start": 18,
-                "end": 22,
-                "ctxt": 0
-              },
-              "value": "from",
-              "raw": "from"
-            }
-          ],
-          "block": {
-            "type": "SimpleBlock",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 16,
+          "end": 45,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
             "span": {
-              "start": 23,
+              "start": 18,
               "end": 25,
               "ctxt": 0
             },
-            "name": "{",
-            "value": []
-          }
-        },
-        {
-          "span": {
-            "start": 26,
-            "end": 43,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Ident",
+            "prelude": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 18,
+                  "end": 22,
+                  "ctxt": 0
+                },
+                "value": "from",
+                "raw": "from"
+              }
+            ],
+            "block": {
+              "type": "SimpleBlock",
               "span": {
-                "start": 26,
-                "end": 28,
+                "start": 23,
+                "end": 25,
                 "ctxt": 0
               },
-              "value": "to",
-              "raw": "to"
+              "name": "{",
+              "value": []
             }
-          ],
-          "block": {
-            "type": "SimpleBlock",
+          },
+          {
             "span": {
-              "start": 29,
+              "start": 26,
               "end": 43,
               "ctxt": 0
             },
-            "name": "{",
-            "value": [
+            "prelude": [
               {
-                "type": "Declaration",
+                "type": "Ident",
                 "span": {
-                  "start": 31,
-                  "end": 41,
+                  "start": 26,
+                  "end": 28,
                   "ctxt": 0
                 },
-                "name": {
-                  "type": "Ident",
+                "value": "to",
+                "raw": "to"
+              }
+            ],
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 29,
+                "end": 43,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
                   "span": {
                     "start": 31,
-                    "end": 36,
+                    "end": 41,
                     "ctxt": 0
                   },
-                  "value": "color",
-                  "raw": "color"
-                },
-                "value": [
-                  {
+                  "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 38,
-                      "end": 41,
+                      "start": 31,
+                      "end": 36,
                       "ctxt": 0
                     },
-                    "value": "red",
-                    "raw": "red"
-                  }
-                ],
-                "important": null
-              }
-            ]
+                    "value": "color",
+                    "raw": "color"
+                  },
+                  "value": [
+                    {
+                      "type": "Ident",
+                      "span": {
+                        "start": 38,
+                        "end": 41,
+                        "ctxt": 0
+                      },
+                      "value": "red",
+                      "raw": "red"
+                    }
+                  ],
+                  "important": null
+                }
+              ]
+            }
           }
-        }
-      ]
+        ]
+      }
     }
   ]
 }
