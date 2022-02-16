@@ -5,12 +5,15 @@
                 "error",
                 {
                     "functions": [
-                        "all"
+                        "simple"
                     ],
                     "methods": [
                         "async"
                     ],
-                    "constructor": false
+                    "constructors": [
+                        "all"
+                    ],
+                    "considerComments": false
                 }
             ]
         }

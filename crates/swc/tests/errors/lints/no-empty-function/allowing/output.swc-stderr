@@ -1,12 +1,12 @@
-error: Unexpected empty constructor pattern
+error: Unexpected empty generator function pattern
  
   |
-4 |     constructor() {}
-  |     ^^^^^^^^^^^^^^^^
+3 | function* foo2() {}
+  | ^^^^^^^^^^^^^^^^^^^
 
 error: Unexpected empty method pattern
- 
-  |
-8 |     method2() {}
-  |     ^^^^^^^^^^^^
+  
+   |
+10 |     method2() {}
+   |     ^^^^^^^^^^^^
 

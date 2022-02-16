@@ -6,6 +6,9 @@ class A {
   protected method2() {}
 
   public method3() {}
+
+  // max markers count
+  public async *method4() {}
 }
 
 class B {
