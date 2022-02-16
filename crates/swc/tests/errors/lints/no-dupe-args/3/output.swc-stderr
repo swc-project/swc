@@ -1,0 +1,36 @@
+error: `a` used as parameter more than once
+ 
+  |
+1 | function foo(a, b, [a]) {}
+  |                     ^
+  |
+note: previous definition of `a` here
+ 
+  |
+1 | function foo(a, b, [a]) {}
+  |              ^
+
+error: `a` used as parameter more than once
+ 
+  |
+2 | function bar(a, b, ...a) {}
+  |                       ^
+  |
+note: previous definition of `a` here
+ 
+  |
+2 | function bar(a, b, ...a) {}
+  |              ^
+
+error: `a` used as parameter more than once
+ 
+  |
+3 | function baz({ a }, b, { c: [a] }) {}
+  |                              ^
+  |
+note: previous definition of `a` here
+ 
+  |
+3 | function baz({ a }, b, { c: [a] }) {}
+  |                ^
+
