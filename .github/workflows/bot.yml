@@ -80,11 +80,13 @@ jobs:
           git add -A
           git commit --author="SWC Bot <bot@swc.rs>" -m 'chore: Publish crates'
 
+      - uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
+
       - name: Push back
         run: |
-          git push https://$GITHUB_TOKEN@github.com/swc-project/swc.git --no-verify
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          git push --no-verify
 
       - name: Configure crates.io
         run: |
