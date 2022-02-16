@@ -1855,6 +1855,12 @@ error: SimpleBlock
 30 | | }
    | |_^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/selector/type/input.css:29:5
+   |
+29 |     color: \\;
+   |     ^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/selector/type/input.css:29:5
    |

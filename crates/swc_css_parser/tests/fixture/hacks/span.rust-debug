@@ -316,6 +316,12 @@ error: SimpleBlock
 4 | .selector { _property: value; }
   |           ^^^^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/hacks/input.css:4:13
+  |
+4 | .selector { _property: value; }
+  |             ^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/hacks/input.css:4:13
   |
@@ -399,6 +405,12 @@ error: SimpleBlock
   |
 5 | .selector { -property: value; }
   |           ^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/hacks/input.css:5:13
+  |
+5 | .selector { -property: value; }
+  |             ^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/hacks/input.css:5:13
@@ -484,6 +496,12 @@ error: SimpleBlock
 6 | .selector { property: value\9; }
   |           ^^^^^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/hacks/input.css:6:13
+  |
+6 | .selector { property: value\9; }
+  |             ^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/hacks/input.css:6:13
   |
@@ -567,6 +585,12 @@ error: SimpleBlock
   |
 7 | .selector { property/*\**/: value\9; }
   |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/hacks/input.css:7:13
+  |
+7 | .selector { property/*\**/: value\9; }
+  |             ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/hacks/input.css:7:13

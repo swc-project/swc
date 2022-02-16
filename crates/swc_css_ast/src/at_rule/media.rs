@@ -1,13 +1,13 @@
 use string_enum::StringEnum;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
-use crate::{Dimension, Ident, Number, Ratio, Rule};
+use crate::{Dimension, Ident, Number, Ratio, SimpleBlock};
 
 #[ast_node("MediaRule")]
 pub struct MediaRule {
     pub span: Span,
     pub media: Option<MediaQueryList>,
-    pub rules: Vec<Rule>,
+    pub block: SimpleBlock,
 }
 
 #[ast_node("MediaQueryList")]

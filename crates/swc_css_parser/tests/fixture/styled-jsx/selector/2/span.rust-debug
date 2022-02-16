@@ -139,6 +139,12 @@ error: SimpleBlock
 3 | | }
   | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:2:5
+  |
+2 |     color: green;
+  |     ^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:2:5
   |

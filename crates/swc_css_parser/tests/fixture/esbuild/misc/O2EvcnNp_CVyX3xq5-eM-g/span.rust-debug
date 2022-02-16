@@ -87,6 +87,14 @@ error: SimpleBlock
 2 | | b' }
   | |____^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:11
+  |
+1 |   a:after { content: 'a\
+  |  ___________^
+2 | | b' }
+  | |__^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:11
   |

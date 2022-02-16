@@ -112,6 +112,12 @@ error: Ident
 1 | @media (min-width: 800px) {}
   |                       ^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/media/condition/input.css:1:27
+  |
+1 | @media (min-width: 800px) {}
+  |                           ^^
+
 error: Rule
  --> $DIR/tests/fixture/rome/media/condition/input.css:2:1
   |
@@ -357,6 +363,12 @@ error: Ident
   |
 2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                                                                     ^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/media/condition/input.css:2:73
+  |
+2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+  |                                                                         ^^
 
 error: Rule
  --> $DIR/tests/fixture/rome/media/condition/input.css:3:1
@@ -676,6 +688,12 @@ error: Ident
 3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                                                                                            ^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/media/condition/input.css:3:96
+  |
+3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+  |                                                                                                ^^
+
 error: Rule
  --> $DIR/tests/fixture/rome/media/condition/input.css:4:1
   |
@@ -783,6 +801,12 @@ error: Ident
   |
 4 | @media not (min-width: 800px) {}
   |                           ^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/media/condition/input.css:4:31
+  |
+4 | @media not (min-width: 800px) {}
+  |                               ^^
 
 error: Rule
  --> $DIR/tests/fixture/rome/media/condition/input.css:5:1
@@ -1048,6 +1072,12 @@ error: Ident
 5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
   |                                                                      ^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:74
+  |
+5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
+  |                                                                          ^^
+
 error: Rule
  --> $DIR/tests/fixture/rome/media/condition/input.css:6:1
   |
@@ -1311,6 +1341,12 @@ error: Ident
   |
 6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
   |                                                                     ^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:74
+  |
+6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
+  |                                                                          ^^
 
 error: Rule
   --> $DIR/tests/fixture/rome/media/condition/input.css:7:1
@@ -1593,6 +1629,19 @@ error: Ident
   |
 7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
   |                                                                      ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/rome/media/condition/input.css:7:74
+   |
+7  |   @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
+   |  __________________________________________________________________________^
+8  | |     a {
+9  | |
+10 | |     }
+...  |
+13 | |     }
+14 | | }
+   | |_^
 
 error: Rule
   --> $DIR/tests/fixture/rome/media/condition/input.css:8:2
@@ -2007,6 +2056,19 @@ error: Ident
    |
 15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
    |                                                                     ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/rome/media/condition/input.css:15:74
+   |
+15 |   @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
+   |  __________________________________________________________________________^
+16 | |     a {
+17 | |
+18 | |     }
+...  |
+21 | |     }
+22 | | }
+   | |_^
 
 error: Rule
   --> $DIR/tests/fixture/rome/media/condition/input.css:16:2

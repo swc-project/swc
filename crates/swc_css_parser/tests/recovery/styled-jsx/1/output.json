@@ -505,215 +505,224 @@
           }
         ]
       },
-      "rules": [
-        {
-          "type": "QualifiedRule",
-          "span": {
-            "start": 308,
-            "end": 413,
-            "ctxt": 0
-          },
-          "prelude": {
-            "type": "SelectorList",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 302,
+          "end": 415,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "QualifiedRule",
             "span": {
               "start": 308,
-              "end": 355,
-              "ctxt": 0
-            },
-            "children": [
-              {
-                "type": "ComplexSelector",
-                "span": {
-                  "start": 308,
-                  "end": 355,
-                  "ctxt": 0
-                },
-                "children": [
-                  {
-                    "type": "CompoundSelector",
-                    "span": {
-                      "start": 308,
-                      "end": 323,
-                      "ctxt": 0
-                    },
-                    "nestingSelector": null,
-                    "typeSelector": null,
-                    "subclassSelectors": [
-                      {
-                        "type": "ClassSelector",
-                        "span": {
-                          "start": 308,
-                          "end": 323,
-                          "ctxt": 0
-                        },
-                        "text": {
-                          "type": "Ident",
-                          "span": {
-                            "start": 309,
-                            "end": 323,
-                            "ctxt": 0
-                          },
-                          "value": "removed-214123",
-                          "raw": "removed-214123"
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "type": "Combinator",
-                    "span": {
-                      "start": 323,
-                      "end": 324,
-                      "ctxt": 0
-                    },
-                    "value": " "
-                  },
-                  {
-                    "type": "CompoundSelector",
-                    "span": {
-                      "start": 324,
-                      "end": 355,
-                      "ctxt": 0
-                    },
-                    "nestingSelector": null,
-                    "typeSelector": null,
-                    "subclassSelectors": [
-                      {
-                        "type": "PseudoClassSelector",
-                        "span": {
-                          "start": 324,
-                          "end": 355,
-                          "ctxt": 0
-                        },
-                        "name": {
-                          "type": "Ident",
-                          "span": {
-                            "start": 325,
-                            "end": 331,
-                            "ctxt": 0
-                          },
-                          "value": "global",
-                          "raw": "global"
-                        },
-                        "children": [
-                          {
-                            "type": "PreservedToken",
-                            "span": {
-                              "start": 332,
-                              "end": 333,
-                              "ctxt": 0
-                            },
-                            "token": {
-                              "Delim": {
-                                "value": ">"
-                              }
-                            }
-                          },
-                          {
-                            "type": "PreservedToken",
-                            "span": {
-                              "start": 333,
-                              "end": 334,
-                              "ctxt": 0
-                            },
-                            "token": {
-                              "WhiteSpace": {
-                                "value": " "
-                              }
-                            }
-                          },
-                          {
-                            "type": "PreservedToken",
-                            "span": {
-                              "start": 334,
-                              "end": 335,
-                              "ctxt": 0
-                            },
-                            "token": {
-                              "Delim": {
-                                "value": "."
-                              }
-                            }
-                          },
-                          {
-                            "type": "PreservedToken",
-                            "span": {
-                              "start": 335,
-                              "end": 354,
-                              "ctxt": 0
-                            },
-                            "token": {
-                              "Ident": {
-                                "value": "removed-214123-item",
-                                "raw": "removed-214123-item"
-                              }
-                            }
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          "block": {
-            "type": "SimpleBlock",
-            "span": {
-              "start": 356,
               "end": 413,
               "ctxt": 0
             },
-            "name": "{",
-            "value": [
-              {
-                "type": "Declaration",
-                "span": {
-                  "start": 366,
-                  "end": 406,
-                  "ctxt": 0
-                },
-                "name": {
-                  "type": "Ident",
+            "prelude": {
+              "type": "SelectorList",
+              "span": {
+                "start": 308,
+                "end": 355,
+                "ctxt": 0
+              },
+              "children": [
+                {
+                  "type": "ComplexSelector",
                   "span": {
-                    "start": 366,
-                    "end": 376,
+                    "start": 308,
+                    "end": 355,
                     "ctxt": 0
                   },
-                  "value": "flex-basis",
-                  "raw": "flex-basis"
-                },
-                "value": [
-                  {
+                  "children": [
+                    {
+                      "type": "CompoundSelector",
+                      "span": {
+                        "start": 308,
+                        "end": 323,
+                        "ctxt": 0
+                      },
+                      "nestingSelector": null,
+                      "typeSelector": null,
+                      "subclassSelectors": [
+                        {
+                          "type": "ClassSelector",
+                          "span": {
+                            "start": 308,
+                            "end": 323,
+                            "ctxt": 0
+                          },
+                          "text": {
+                            "type": "Ident",
+                            "span": {
+                              "start": 309,
+                              "end": 323,
+                              "ctxt": 0
+                            },
+                            "value": "removed-214123",
+                            "raw": "removed-214123"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Combinator",
+                      "span": {
+                        "start": 323,
+                        "end": 324,
+                        "ctxt": 0
+                      },
+                      "value": " "
+                    },
+                    {
+                      "type": "CompoundSelector",
+                      "span": {
+                        "start": 324,
+                        "end": 355,
+                        "ctxt": 0
+                      },
+                      "nestingSelector": null,
+                      "typeSelector": null,
+                      "subclassSelectors": [
+                        {
+                          "type": "PseudoClassSelector",
+                          "span": {
+                            "start": 324,
+                            "end": 355,
+                            "ctxt": 0
+                          },
+                          "name": {
+                            "type": "Ident",
+                            "span": {
+                              "start": 325,
+                              "end": 331,
+                              "ctxt": 0
+                            },
+                            "value": "global",
+                            "raw": "global"
+                          },
+                          "children": [
+                            {
+                              "type": "PreservedToken",
+                              "span": {
+                                "start": 332,
+                                "end": 333,
+                                "ctxt": 0
+                              },
+                              "token": {
+                                "Delim": {
+                                  "value": ">"
+                                }
+                              }
+                            },
+                            {
+                              "type": "PreservedToken",
+                              "span": {
+                                "start": 333,
+                                "end": 334,
+                                "ctxt": 0
+                              },
+                              "token": {
+                                "WhiteSpace": {
+                                  "value": " "
+                                }
+                              }
+                            },
+                            {
+                              "type": "PreservedToken",
+                              "span": {
+                                "start": 334,
+                                "end": 335,
+                                "ctxt": 0
+                              },
+                              "token": {
+                                "Delim": {
+                                  "value": "."
+                                }
+                              }
+                            },
+                            {
+                              "type": "PreservedToken",
+                              "span": {
+                                "start": 335,
+                                "end": 354,
+                                "ctxt": 0
+                              },
+                              "token": {
+                                "Ident": {
+                                  "value": "removed-214123-item",
+                                  "raw": "removed-214123-item"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 356,
+                "end": 413,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 366,
+                    "end": 406,
+                    "ctxt": 0
+                  },
+                  "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 378,
-                      "end": 405,
+                      "start": 366,
+                      "end": 376,
                       "ctxt": 0
                     },
-                    "value": "__styled-jsx-placeholder__3",
-                    "raw": "__styled-jsx-placeholder__3"
+                    "value": "flex-basis",
+                    "raw": "flex-basis"
                   },
-                  {
-                    "type": "PreservedToken",
-                    "span": {
-                      "start": 405,
-                      "end": 406,
-                      "ctxt": 0
+                  "value": [
+                    {
+                      "type": "Ident",
+                      "span": {
+                        "start": 378,
+                        "end": 405,
+                        "ctxt": 0
+                      },
+                      "value": "__styled-jsx-placeholder__3",
+                      "raw": "__styled-jsx-placeholder__3"
                     },
-                    "token": {
-                      "Delim": {
-                        "value": "%"
+                    {
+                      "type": "PreservedToken",
+                      "span": {
+                        "start": 405,
+                        "end": 406,
+                        "ctxt": 0
+                      },
+                      "token": {
+                        "Delim": {
+                          "value": "%"
+                        }
                       }
                     }
-                  }
-                ],
-                "important": null
-              }
-            ]
+                  ],
+                  "important": null
+                }
+              ]
+            }
           }
-        }
-      ]
+        ]
+      }
     },
     {
       "type": "MediaRule",
@@ -752,215 +761,224 @@
           }
         ]
       },
-      "rules": [
-        {
-          "type": "QualifiedRule",
-          "span": {
-            "start": 437,
-            "end": 542,
-            "ctxt": 0
-          },
-          "prelude": {
-            "type": "SelectorList",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 431,
+          "end": 546,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "QualifiedRule",
             "span": {
               "start": 437,
-              "end": 484,
-              "ctxt": 0
-            },
-            "children": [
-              {
-                "type": "ComplexSelector",
-                "span": {
-                  "start": 437,
-                  "end": 484,
-                  "ctxt": 0
-                },
-                "children": [
-                  {
-                    "type": "CompoundSelector",
-                    "span": {
-                      "start": 437,
-                      "end": 452,
-                      "ctxt": 0
-                    },
-                    "nestingSelector": null,
-                    "typeSelector": null,
-                    "subclassSelectors": [
-                      {
-                        "type": "ClassSelector",
-                        "span": {
-                          "start": 437,
-                          "end": 452,
-                          "ctxt": 0
-                        },
-                        "text": {
-                          "type": "Ident",
-                          "span": {
-                            "start": 438,
-                            "end": 452,
-                            "ctxt": 0
-                          },
-                          "value": "removed-214123",
-                          "raw": "removed-214123"
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "type": "Combinator",
-                    "span": {
-                      "start": 452,
-                      "end": 453,
-                      "ctxt": 0
-                    },
-                    "value": " "
-                  },
-                  {
-                    "type": "CompoundSelector",
-                    "span": {
-                      "start": 453,
-                      "end": 484,
-                      "ctxt": 0
-                    },
-                    "nestingSelector": null,
-                    "typeSelector": null,
-                    "subclassSelectors": [
-                      {
-                        "type": "PseudoClassSelector",
-                        "span": {
-                          "start": 453,
-                          "end": 484,
-                          "ctxt": 0
-                        },
-                        "name": {
-                          "type": "Ident",
-                          "span": {
-                            "start": 454,
-                            "end": 460,
-                            "ctxt": 0
-                          },
-                          "value": "global",
-                          "raw": "global"
-                        },
-                        "children": [
-                          {
-                            "type": "PreservedToken",
-                            "span": {
-                              "start": 461,
-                              "end": 462,
-                              "ctxt": 0
-                            },
-                            "token": {
-                              "Delim": {
-                                "value": ">"
-                              }
-                            }
-                          },
-                          {
-                            "type": "PreservedToken",
-                            "span": {
-                              "start": 462,
-                              "end": 463,
-                              "ctxt": 0
-                            },
-                            "token": {
-                              "WhiteSpace": {
-                                "value": " "
-                              }
-                            }
-                          },
-                          {
-                            "type": "PreservedToken",
-                            "span": {
-                              "start": 463,
-                              "end": 464,
-                              "ctxt": 0
-                            },
-                            "token": {
-                              "Delim": {
-                                "value": "."
-                              }
-                            }
-                          },
-                          {
-                            "type": "PreservedToken",
-                            "span": {
-                              "start": 464,
-                              "end": 483,
-                              "ctxt": 0
-                            },
-                            "token": {
-                              "Ident": {
-                                "value": "removed-214123-item",
-                                "raw": "removed-214123-item"
-                              }
-                            }
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          "block": {
-            "type": "SimpleBlock",
-            "span": {
-              "start": 485,
               "end": 542,
               "ctxt": 0
             },
-            "name": "{",
-            "value": [
-              {
-                "type": "Declaration",
-                "span": {
-                  "start": 495,
-                  "end": 535,
-                  "ctxt": 0
-                },
-                "name": {
-                  "type": "Ident",
+            "prelude": {
+              "type": "SelectorList",
+              "span": {
+                "start": 437,
+                "end": 484,
+                "ctxt": 0
+              },
+              "children": [
+                {
+                  "type": "ComplexSelector",
                   "span": {
-                    "start": 495,
-                    "end": 505,
+                    "start": 437,
+                    "end": 484,
                     "ctxt": 0
                   },
-                  "value": "flex-basis",
-                  "raw": "flex-basis"
-                },
-                "value": [
-                  {
+                  "children": [
+                    {
+                      "type": "CompoundSelector",
+                      "span": {
+                        "start": 437,
+                        "end": 452,
+                        "ctxt": 0
+                      },
+                      "nestingSelector": null,
+                      "typeSelector": null,
+                      "subclassSelectors": [
+                        {
+                          "type": "ClassSelector",
+                          "span": {
+                            "start": 437,
+                            "end": 452,
+                            "ctxt": 0
+                          },
+                          "text": {
+                            "type": "Ident",
+                            "span": {
+                              "start": 438,
+                              "end": 452,
+                              "ctxt": 0
+                            },
+                            "value": "removed-214123",
+                            "raw": "removed-214123"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Combinator",
+                      "span": {
+                        "start": 452,
+                        "end": 453,
+                        "ctxt": 0
+                      },
+                      "value": " "
+                    },
+                    {
+                      "type": "CompoundSelector",
+                      "span": {
+                        "start": 453,
+                        "end": 484,
+                        "ctxt": 0
+                      },
+                      "nestingSelector": null,
+                      "typeSelector": null,
+                      "subclassSelectors": [
+                        {
+                          "type": "PseudoClassSelector",
+                          "span": {
+                            "start": 453,
+                            "end": 484,
+                            "ctxt": 0
+                          },
+                          "name": {
+                            "type": "Ident",
+                            "span": {
+                              "start": 454,
+                              "end": 460,
+                              "ctxt": 0
+                            },
+                            "value": "global",
+                            "raw": "global"
+                          },
+                          "children": [
+                            {
+                              "type": "PreservedToken",
+                              "span": {
+                                "start": 461,
+                                "end": 462,
+                                "ctxt": 0
+                              },
+                              "token": {
+                                "Delim": {
+                                  "value": ">"
+                                }
+                              }
+                            },
+                            {
+                              "type": "PreservedToken",
+                              "span": {
+                                "start": 462,
+                                "end": 463,
+                                "ctxt": 0
+                              },
+                              "token": {
+                                "WhiteSpace": {
+                                  "value": " "
+                                }
+                              }
+                            },
+                            {
+                              "type": "PreservedToken",
+                              "span": {
+                                "start": 463,
+                                "end": 464,
+                                "ctxt": 0
+                              },
+                              "token": {
+                                "Delim": {
+                                  "value": "."
+                                }
+                              }
+                            },
+                            {
+                              "type": "PreservedToken",
+                              "span": {
+                                "start": 464,
+                                "end": 483,
+                                "ctxt": 0
+                              },
+                              "token": {
+                                "Ident": {
+                                  "value": "removed-214123-item",
+                                  "raw": "removed-214123-item"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 485,
+                "end": 542,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 495,
+                    "end": 535,
+                    "ctxt": 0
+                  },
+                  "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 507,
-                      "end": 534,
+                      "start": 495,
+                      "end": 505,
                       "ctxt": 0
                     },
-                    "value": "__styled-jsx-placeholder__4",
-                    "raw": "__styled-jsx-placeholder__4"
+                    "value": "flex-basis",
+                    "raw": "flex-basis"
                   },
-                  {
-                    "type": "PreservedToken",
-                    "span": {
-                      "start": 534,
-                      "end": 535,
-                      "ctxt": 0
+                  "value": [
+                    {
+                      "type": "Ident",
+                      "span": {
+                        "start": 507,
+                        "end": 534,
+                        "ctxt": 0
+                      },
+                      "value": "__styled-jsx-placeholder__4",
+                      "raw": "__styled-jsx-placeholder__4"
                     },
-                    "token": {
-                      "Delim": {
-                        "value": "%"
+                    {
+                      "type": "PreservedToken",
+                      "span": {
+                        "start": 534,
+                        "end": 535,
+                        "ctxt": 0
+                      },
+                      "token": {
+                        "Delim": {
+                          "value": "%"
+                        }
                       }
                     }
-                  }
-                ],
-                "important": null
-              }
-            ]
+                  ],
+                  "important": null
+                }
+              ]
+            }
           }
-        }
-      ]
+        ]
+      }
     }
   ]
 }

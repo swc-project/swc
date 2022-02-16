@@ -83,6 +83,12 @@ error: SimpleBlock
 23 | | }
    | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/custom-properties/input.css:2:2
+  |
+2 |     --foo: 'bar';
+  |     ^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/rome/custom-properties/input.css:2:2
   |
@@ -112,6 +118,12 @@ error: String { value: Atom('bar' type=inline), raw: Atom(''bar'' type=inline) }
   |
 2 |     --foo: 'bar';
   |            ^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/custom-properties/input.css:3:2
+  |
+3 |     --lore-ipsum: "foo";
+  |     ^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/custom-properties/input.css:3:2
@@ -143,6 +155,12 @@ error: String { value: Atom('foo' type=inline), raw: Atom('"foo"' type=inline) }
 3 |     --lore-ipsum: "foo";
   |                   ^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/custom-properties/input.css:4:2
+  |
+4 |     --FANCY: "abort";
+  |     ^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/rome/custom-properties/input.css:4:2
   |
@@ -172,6 +190,12 @@ error: String { value: Atom('abort' type=inline), raw: Atom('"abort"' type=inlin
   |
 4 |     --FANCY: "abort";
   |              ^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/custom-properties/input.css:5:2
+  |
+5 |     --test: 1987;
+  |     ^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/custom-properties/input.css:5:2
@@ -203,6 +227,12 @@ error: Number { value: 1987.0, raw: Atom('1987' type=inline), type_flag: Integer
 5 |     --test: 1987;
   |             ^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/custom-properties/input.css:6:2
+  |
+6 |     --percentage: 25%;
+  |     ^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/rome/custom-properties/input.css:6:2
   |
@@ -232,6 +262,12 @@ error: Percentage { value: 25.0, raw: Atom('25' type=inline) }
   |
 6 |     --percentage: 25%;
   |                   ^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/custom-properties/input.css:7:2
+  |
+7 |     --number: 37;
+  |     ^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/custom-properties/input.css:7:2
@@ -263,6 +299,12 @@ error: Number { value: 37.0, raw: Atom('37' type=inline), type_flag: Integer }
 7 |     --number: 37;
   |               ^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/custom-properties/input.css:8:2
+  |
+8 |     --length: 12em;
+  |     ^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/rome/custom-properties/input.css:8:2
   |
@@ -293,6 +335,12 @@ error: Dimension { value: 12.0, raw_value: Atom('12' type=inline), unit: Atom('e
 8 |     --length: 12em;
   |               ^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/custom-properties/input.css:9:2
+  |
+9 |     --time: 75ms;
+  |     ^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/rome/custom-properties/input.css:9:2
   |
@@ -322,6 +370,12 @@ error: Dimension { value: 75.0, raw_value: Atom('75' type=inline), unit: Atom('m
   |
 9 |     --time: 75ms;
   |             ^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/custom-properties/input.css:10:2
+   |
+10 |     --function: foo();
+   |     ^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/custom-properties/input.css:10:2
@@ -364,6 +418,12 @@ error: RParen
    |
 10 |     --function: foo();
    |                     ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/custom-properties/input.css:11:2
+   |
+11 |     --nested-function: foo(bar());
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/custom-properties/input.css:11:2
@@ -431,6 +491,12 @@ error: RParen
 11 |     --nested-function: foo(bar());
    |                                 ^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/custom-properties/input.css:12:2
+   |
+12 |     --parentheses: ( );
+   |     ^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/rome/custom-properties/input.css:12:2
    |
@@ -484,6 +550,12 @@ error: RParen
    |
 12 |     --parentheses: ( );
    |                      ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/custom-properties/input.css:13:2
+   |
+13 |     --braces: { };
+   |     ^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/custom-properties/input.css:13:2
@@ -539,6 +611,12 @@ error: RBrace
 13 |     --braces: { };
    |                 ^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/custom-properties/input.css:14:2
+   |
+14 |     --brackets: [ ];
+   |     ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/rome/custom-properties/input.css:14:2
    |
@@ -593,6 +671,12 @@ error: RBracket
 14 |     --brackets: [ ];
    |                   ^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/custom-properties/input.css:15:2
+   |
+15 |     --at-keyword-unknown: @foobar;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/rome/custom-properties/input.css:15:2
    |
@@ -623,6 +707,12 @@ error: AtKeyword { value: Atom('foobar' type=inline), raw: Atom('foobar' type=in
 15 |     --at-keyword-unknown: @foobar;
    |                           ^^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/custom-properties/input.css:16:2
+   |
+16 |     --at-keyword-known: @media;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/rome/custom-properties/input.css:16:2
    |
@@ -652,6 +742,12 @@ error: AtKeyword { value: Atom('media' type=inline), raw: Atom('media' type=inli
    |
 16 |     --at-keyword-known: @media;
    |                         ^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/custom-properties/input.css:17:2
+   |
+17 |     --at-keyword-unknown-block: @foobar {};
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/custom-properties/input.css:17:2
@@ -719,6 +815,12 @@ error: RBrace
 17 |     --at-keyword-unknown-block: @foobar {};
    |                                          ^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/custom-properties/input.css:18:2
+   |
+18 |     --at-keyword-known-block: @media {};
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/rome/custom-properties/input.css:18:2
    |
@@ -785,6 +887,12 @@ error: RBrace
 18 |     --at-keyword-known-block: @media {};
    |                                       ^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/custom-properties/input.css:19:2
+   |
+19 |     --cdo-at-top-level: <!--;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/rome/custom-properties/input.css:19:2
    |
@@ -815,6 +923,12 @@ error: CDO
 19 |     --cdo-at-top-level: <!--;
    |                         ^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/custom-properties/input.css:20:2
+   |
+20 |     --cdc-at-top-level: -->;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/rome/custom-properties/input.css:20:2
    |
@@ -844,6 +958,12 @@ error: CDC
    |
 20 |     --cdc-at-top-level: -->;
    |                         ^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/custom-properties/input.css:21:2
+   |
+21 |     --cdo-not-top-level: (<!--);
+   |     ^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/custom-properties/input.css:21:2
@@ -898,6 +1018,12 @@ error: RParen
    |
 21 |     --cdo-not-top-level: (<!--);
    |                               ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/custom-properties/input.css:22:2
+   |
+22 |     --cdc-not-top-level: (-->);
+   |     ^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/custom-properties/input.css:22:2

@@ -1,0 +1,999 @@
+error: Stylesheet
+  --> $DIR/tests/fixture/at-rule/nest/input.css:1:1
+   |
+1  | / .foo {
+2  | |     color: red;
+3  | |     @nest & > .bar {
+4  | |         color: blue;
+...  |
+30 | |     }
+31 | | }
+   | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/at-rule/nest/input.css:1:1
+  |
+1 | / .foo {
+2 | |     color: red;
+3 | |     @nest & > .bar {
+4 | |         color: blue;
+5 | |     }
+6 | | }
+  | |_^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/at-rule/nest/input.css:1:1
+  |
+1 | / .foo {
+2 | |     color: red;
+3 | |     @nest & > .bar {
+4 | |         color: blue;
+5 | |     }
+6 | | }
+  | |_^
+
+error: SelectorList
+ --> $DIR/tests/fixture/at-rule/nest/input.css:1:1
+  |
+1 | .foo {
+  | ^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/at-rule/nest/input.css:1:1
+  |
+1 | .foo {
+  | ^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/at-rule/nest/input.css:1:1
+  |
+1 | .foo {
+  | ^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/at-rule/nest/input.css:1:1
+  |
+1 | .foo {
+  | ^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/at-rule/nest/input.css:1:1
+  |
+1 | .foo {
+  | ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/nest/input.css:1:2
+  |
+1 | .foo {
+  |  ^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/nest/input.css:1:6
+  |
+1 |   .foo {
+  |  ______^
+2 | |     color: red;
+3 | |     @nest & > .bar {
+4 | |         color: blue;
+5 | |     }
+6 | | }
+  | |_^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/at-rule/nest/input.css:2:5
+  |
+2 |     color: red;
+  |     ^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/at-rule/nest/input.css:2:5
+  |
+2 |     color: red;
+  |     ^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/at-rule/nest/input.css:2:5
+  |
+2 |     color: red;
+  |     ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/nest/input.css:2:5
+  |
+2 |     color: red;
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/nest/input.css:2:12
+  |
+2 |     color: red;
+  |            ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/nest/input.css:2:12
+  |
+2 |     color: red;
+  |            ^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/at-rule/nest/input.css:3:5
+  |
+3 | /     @nest & > .bar {
+4 | |         color: blue;
+5 | |     }
+  | |_____^
+
+error: AtRule
+ --> $DIR/tests/fixture/at-rule/nest/input.css:3:5
+  |
+3 | /     @nest & > .bar {
+4 | |         color: blue;
+5 | |     }
+  | |_____^
+
+error: SelectorList
+ --> $DIR/tests/fixture/at-rule/nest/input.css:3:11
+  |
+3 |     @nest & > .bar {
+  |           ^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/at-rule/nest/input.css:3:11
+  |
+3 |     @nest & > .bar {
+  |           ^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/at-rule/nest/input.css:3:11
+  |
+3 |     @nest & > .bar {
+  |           ^
+
+error: NestingSelector
+ --> $DIR/tests/fixture/at-rule/nest/input.css:3:11
+  |
+3 |     @nest & > .bar {
+  |           ^
+
+error: Combinator
+ --> $DIR/tests/fixture/at-rule/nest/input.css:3:13
+  |
+3 |     @nest & > .bar {
+  |             ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/at-rule/nest/input.css:3:15
+  |
+3 |     @nest & > .bar {
+  |               ^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/at-rule/nest/input.css:3:15
+  |
+3 |     @nest & > .bar {
+  |               ^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/at-rule/nest/input.css:3:15
+  |
+3 |     @nest & > .bar {
+  |               ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/nest/input.css:3:16
+  |
+3 |     @nest & > .bar {
+  |                ^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/nest/input.css:3:20
+  |
+3 |       @nest & > .bar {
+  |  ____________________^
+4 | |         color: blue;
+5 | |     }
+  | |_____^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/at-rule/nest/input.css:4:9
+  |
+4 |         color: blue;
+  |         ^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/at-rule/nest/input.css:4:9
+  |
+4 |         color: blue;
+  |         ^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/at-rule/nest/input.css:4:9
+  |
+4 |         color: blue;
+  |         ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/nest/input.css:4:9
+  |
+4 |         color: blue;
+  |         ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/nest/input.css:4:16
+  |
+4 |         color: blue;
+  |                ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/nest/input.css:4:16
+  |
+4 |         color: blue;
+  |                ^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/nest/input.css:8:1
+   |
+8  | / .foo {
+9  | |     color: red;
+10 | |     @nest .parent & {
+11 | |         color: blue;
+12 | |     }
+13 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/at-rule/nest/input.css:8:1
+   |
+8  | / .foo {
+9  | |     color: red;
+10 | |     @nest .parent & {
+11 | |         color: blue;
+12 | |     }
+13 | | }
+   | |_^
+
+error: SelectorList
+ --> $DIR/tests/fixture/at-rule/nest/input.css:8:1
+  |
+8 | .foo {
+  | ^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/at-rule/nest/input.css:8:1
+  |
+8 | .foo {
+  | ^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/at-rule/nest/input.css:8:1
+  |
+8 | .foo {
+  | ^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/at-rule/nest/input.css:8:1
+  |
+8 | .foo {
+  | ^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/at-rule/nest/input.css:8:1
+  |
+8 | .foo {
+  | ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/nest/input.css:8:2
+  |
+8 | .foo {
+  |  ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/nest/input.css:8:6
+   |
+8  |   .foo {
+   |  ______^
+9  | |     color: red;
+10 | |     @nest .parent & {
+11 | |         color: blue;
+12 | |     }
+13 | | }
+   | |_^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/at-rule/nest/input.css:9:5
+  |
+9 |     color: red;
+  |     ^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/at-rule/nest/input.css:9:5
+  |
+9 |     color: red;
+  |     ^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/at-rule/nest/input.css:9:5
+  |
+9 |     color: red;
+  |     ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/nest/input.css:9:5
+  |
+9 |     color: red;
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/at-rule/nest/input.css:9:12
+  |
+9 |     color: red;
+  |            ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/at-rule/nest/input.css:9:12
+  |
+9 |     color: red;
+  |            ^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/nest/input.css:10:5
+   |
+10 | /     @nest .parent & {
+11 | |         color: blue;
+12 | |     }
+   | |_____^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/nest/input.css:10:5
+   |
+10 | /     @nest .parent & {
+11 | |         color: blue;
+12 | |     }
+   | |_____^
+
+error: SelectorList
+  --> $DIR/tests/fixture/at-rule/nest/input.css:10:11
+   |
+10 |     @nest .parent & {
+   |           ^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:10:11
+   |
+10 |     @nest .parent & {
+   |           ^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:10:11
+   |
+10 |     @nest .parent & {
+   |           ^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:10:11
+   |
+10 |     @nest .parent & {
+   |           ^^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:10:11
+   |
+10 |     @nest .parent & {
+   |           ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/nest/input.css:10:12
+   |
+10 |     @nest .parent & {
+   |            ^^^^^^
+
+error: Combinator
+  --> $DIR/tests/fixture/at-rule/nest/input.css:10:18
+   |
+10 |     @nest .parent & {
+   |                  ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:10:19
+   |
+10 |     @nest .parent & {
+   |                   ^
+
+error: NestingSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:10:19
+   |
+10 |     @nest .parent & {
+   |                   ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/nest/input.css:10:21
+   |
+10 |       @nest .parent & {
+   |  _____________________^
+11 | |         color: blue;
+12 | |     }
+   | |_____^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/nest/input.css:11:9
+   |
+11 |         color: blue;
+   |         ^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/nest/input.css:11:9
+   |
+11 |         color: blue;
+   |         ^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/at-rule/nest/input.css:11:9
+   |
+11 |         color: blue;
+   |         ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/nest/input.css:11:9
+   |
+11 |         color: blue;
+   |         ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/nest/input.css:11:16
+   |
+11 |         color: blue;
+   |                ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/nest/input.css:11:16
+   |
+11 |         color: blue;
+   |                ^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/nest/input.css:15:1
+   |
+15 | / .foo {
+16 | |     color: red;
+17 | |     @nest :not(&) {
+18 | |         color: blue;
+19 | |     }
+20 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/at-rule/nest/input.css:15:1
+   |
+15 | / .foo {
+16 | |     color: red;
+17 | |     @nest :not(&) {
+18 | |         color: blue;
+19 | |     }
+20 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/at-rule/nest/input.css:15:1
+   |
+15 | .foo {
+   | ^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:15:1
+   |
+15 | .foo {
+   | ^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:15:1
+   |
+15 | .foo {
+   | ^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:15:1
+   |
+15 | .foo {
+   | ^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:15:1
+   |
+15 | .foo {
+   | ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/nest/input.css:15:2
+   |
+15 | .foo {
+   |  ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/nest/input.css:15:6
+   |
+15 |   .foo {
+   |  ______^
+16 | |     color: red;
+17 | |     @nest :not(&) {
+18 | |         color: blue;
+19 | |     }
+20 | | }
+   | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/nest/input.css:16:5
+   |
+16 |     color: red;
+   |     ^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/nest/input.css:16:5
+   |
+16 |     color: red;
+   |     ^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/at-rule/nest/input.css:16:5
+   |
+16 |     color: red;
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/nest/input.css:16:5
+   |
+16 |     color: red;
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/nest/input.css:16:12
+   |
+16 |     color: red;
+   |            ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/nest/input.css:16:12
+   |
+16 |     color: red;
+   |            ^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/nest/input.css:17:5
+   |
+17 | /     @nest :not(&) {
+18 | |         color: blue;
+19 | |     }
+   | |_____^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/nest/input.css:17:5
+   |
+17 | /     @nest :not(&) {
+18 | |         color: blue;
+19 | |     }
+   | |_____^
+
+error: SelectorList
+  --> $DIR/tests/fixture/at-rule/nest/input.css:17:11
+   |
+17 |     @nest :not(&) {
+   |           ^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:17:11
+   |
+17 |     @nest :not(&) {
+   |           ^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:17:11
+   |
+17 |     @nest :not(&) {
+   |           ^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:17:11
+   |
+17 |     @nest :not(&) {
+   |           ^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:17:11
+   |
+17 |     @nest :not(&) {
+   |           ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/nest/input.css:17:12
+   |
+17 |     @nest :not(&) {
+   |            ^^^
+
+error: Delim { value: '&' }
+  --> $DIR/tests/fixture/at-rule/nest/input.css:17:16
+   |
+17 |     @nest :not(&) {
+   |                ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/nest/input.css:17:19
+   |
+17 |       @nest :not(&) {
+   |  ___________________^
+18 | |         color: blue;
+19 | |     }
+   | |_____^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/nest/input.css:18:9
+   |
+18 |         color: blue;
+   |         ^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/nest/input.css:18:9
+   |
+18 |         color: blue;
+   |         ^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/at-rule/nest/input.css:18:9
+   |
+18 |         color: blue;
+   |         ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/nest/input.css:18:9
+   |
+18 |         color: blue;
+   |         ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/nest/input.css:18:16
+   |
+18 |         color: blue;
+   |                ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/nest/input.css:18:16
+   |
+18 |         color: blue;
+   |                ^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/nest/input.css:22:1
+   |
+22 | / .foo {
+23 | |     color: blue;
+24 | |
+25 | |     @nest .bar & {
+...  |
+30 | |     }
+31 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/at-rule/nest/input.css:22:1
+   |
+22 | / .foo {
+23 | |     color: blue;
+24 | |
+25 | |     @nest .bar & {
+...  |
+30 | |     }
+31 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/at-rule/nest/input.css:22:1
+   |
+22 | .foo {
+   | ^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:22:1
+   |
+22 | .foo {
+   | ^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:22:1
+   |
+22 | .foo {
+   | ^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:22:1
+   |
+22 | .foo {
+   | ^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:22:1
+   |
+22 | .foo {
+   | ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/nest/input.css:22:2
+   |
+22 | .foo {
+   |  ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/nest/input.css:22:6
+   |
+22 |   .foo {
+   |  ______^
+23 | |     color: blue;
+24 | |
+25 | |     @nest .bar & {
+...  |
+30 | |     }
+31 | | }
+   | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/nest/input.css:23:5
+   |
+23 |     color: blue;
+   |     ^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/nest/input.css:23:5
+   |
+23 |     color: blue;
+   |     ^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/at-rule/nest/input.css:23:5
+   |
+23 |     color: blue;
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/nest/input.css:23:5
+   |
+23 |     color: blue;
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/nest/input.css:23:12
+   |
+23 |     color: blue;
+   |            ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/nest/input.css:23:12
+   |
+23 |     color: blue;
+   |            ^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/nest/input.css:25:5
+   |
+25 | /     @nest .bar & {
+26 | |         color: red;
+27 | |         &.baz {
+28 | |             color: green;
+29 | |         }
+30 | |     }
+   | |_____^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/nest/input.css:25:5
+   |
+25 | /     @nest .bar & {
+26 | |         color: red;
+27 | |         &.baz {
+28 | |             color: green;
+29 | |         }
+30 | |     }
+   | |_____^
+
+error: SelectorList
+  --> $DIR/tests/fixture/at-rule/nest/input.css:25:11
+   |
+25 |     @nest .bar & {
+   |           ^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:25:11
+   |
+25 |     @nest .bar & {
+   |           ^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:25:11
+   |
+25 |     @nest .bar & {
+   |           ^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:25:11
+   |
+25 |     @nest .bar & {
+   |           ^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:25:11
+   |
+25 |     @nest .bar & {
+   |           ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/nest/input.css:25:12
+   |
+25 |     @nest .bar & {
+   |            ^^^
+
+error: Combinator
+  --> $DIR/tests/fixture/at-rule/nest/input.css:25:15
+   |
+25 |     @nest .bar & {
+   |               ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:25:16
+   |
+25 |     @nest .bar & {
+   |                ^
+
+error: NestingSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:25:16
+   |
+25 |     @nest .bar & {
+   |                ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/nest/input.css:25:18
+   |
+25 |       @nest .bar & {
+   |  __________________^
+26 | |         color: red;
+27 | |         &.baz {
+28 | |             color: green;
+29 | |         }
+30 | |     }
+   | |_____^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/nest/input.css:26:9
+   |
+26 |         color: red;
+   |         ^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/nest/input.css:26:9
+   |
+26 |         color: red;
+   |         ^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/at-rule/nest/input.css:26:9
+   |
+26 |         color: red;
+   |         ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/nest/input.css:26:9
+   |
+26 |         color: red;
+   |         ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/nest/input.css:26:16
+   |
+26 |         color: red;
+   |                ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/nest/input.css:26:16
+   |
+26 |         color: red;
+   |                ^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/nest/input.css:27:9
+   |
+27 | /         &.baz {
+28 | |             color: green;
+29 | |         }
+   | |_________^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/at-rule/nest/input.css:27:9
+   |
+27 | /         &.baz {
+28 | |             color: green;
+29 | |         }
+   | |_________^
+
+error: SelectorList
+  --> $DIR/tests/fixture/at-rule/nest/input.css:27:9
+   |
+27 |         &.baz {
+   |         ^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:27:9
+   |
+27 |         &.baz {
+   |         ^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:27:9
+   |
+27 |         &.baz {
+   |         ^^^^^
+
+error: NestingSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:27:9
+   |
+27 |         &.baz {
+   |         ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:27:10
+   |
+27 |         &.baz {
+   |          ^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:27:10
+   |
+27 |         &.baz {
+   |          ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/nest/input.css:27:11
+   |
+27 |         &.baz {
+   |           ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/nest/input.css:27:15
+   |
+27 |           &.baz {
+   |  _______________^
+28 | |             color: green;
+29 | |         }
+   | |_________^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/at-rule/nest/input.css:28:13
+   |
+28 |             color: green;
+   |             ^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/at-rule/nest/input.css:28:13
+   |
+28 |             color: green;
+   |             ^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/at-rule/nest/input.css:28:13
+   |
+28 |             color: green;
+   |             ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/nest/input.css:28:13
+   |
+28 |             color: green;
+   |             ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/at-rule/nest/input.css:28:20
+   |
+28 |             color: green;
+   |                    ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/nest/input.css:28:20
+   |
+28 |             color: green;
+   |                    ^^^^^
+

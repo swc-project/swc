@@ -47,8 +47,6 @@
         "registry": "https://registry.npmjs.org/",
         "access": "public"
     },
-    "dependencies": {},
-    "optionalDependencies": {},
     "types": "./index.d.ts",
     "scripts": {
         "changelog": "git cliff --output CHANGELOG.md",

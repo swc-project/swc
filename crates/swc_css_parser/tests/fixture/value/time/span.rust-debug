@@ -80,6 +80,12 @@ error: SimpleBlock
 6 | | }
   | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/value/time/input.css:2:5
+  |
+2 |     font-size: 14px;
+  |     ^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/time/input.css:2:5
   |
@@ -128,6 +134,12 @@ error: Ident
 2 |     font-size: 14px;
   |                  ^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/value/time/input.css:3:5
+  |
+3 |     transition-property: font-size;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/time/input.css:3:5
   |
@@ -157,6 +169,12 @@ error: Ident
   |
 3 |     transition-property: font-size;
   |                          ^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/time/input.css:4:5
+  |
+4 |     transition-duration: 4s;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/time/input.css:4:5
@@ -205,6 +223,12 @@ error: Ident
   |
 4 |     transition-duration: 4s;
   |                           ^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/time/input.css:5:5
+  |
+5 |     transition-delay: 2s;
+  |     ^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/time/input.css:5:5
@@ -314,6 +338,12 @@ error: SimpleBlock
 9  | |     transition: width 2s, height 2s, background-color 2s, transform 2s;
 10 | | }
    | |_^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/time/input.css:9:5
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/time/input.css:9:5
@@ -601,6 +631,12 @@ error: SimpleBlock
 15 | | }
    | |_^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/value/time/input.css:13:5
+   |
+13 |     transition-duration: 4s;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/value/time/input.css:13:5
    |
@@ -648,6 +684,12 @@ error: Ident
    |
 13 |     transition-duration: 4s;
    |                           ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/time/input.css:14:5
+   |
+14 |     transition-duration: 4000ms;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/value/time/input.css:14:5
