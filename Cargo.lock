@@ -2721,7 +2721,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.6"
+version = "0.17.7"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3074,7 +3074,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.58.2"
+version = "0.58.3"
 dependencies = [
  "better_scoped_tls",
  "once_cell",
@@ -3342,7 +3342,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_ast"
-version = "0.7.0"
+version = "0.7.1"
 dependencies = [
  "better_scoped_tls",
  "serde",
