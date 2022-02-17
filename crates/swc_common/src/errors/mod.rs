@@ -304,6 +304,17 @@ impl error::Error for ExplicitBug {
 /// A handler deals with errors; certain errors
 /// (fatal, bug, unimpl) may cause immediate exit,
 /// others log errors for later reporting.
+///
+/// # Example
+///
+/// `swc` provides a global-like variable ([HANDLER]) of type `Handler` that can
+/// be used to report errors.
+///
+/// ## Error reporting in swc
+///
+/// ```rust
+/// use swc_common
+/// ```
 pub struct Handler {
     pub flags: HandlerFlags,
 
