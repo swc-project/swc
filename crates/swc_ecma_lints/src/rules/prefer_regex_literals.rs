@@ -44,7 +44,7 @@ pub fn prefer_regex_literals(
     match rule_reaction {
         LintRuleReaction::Off => None,
         _ => Some(visitor_rule(PreferRegexLiterals::new(
-            rule_reaction,
+            *rule_reaction,
             disallow_redundant_wrapping,
             top_level_declared_vars,
             top_level_ctxt,

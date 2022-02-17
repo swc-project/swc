@@ -58,7 +58,7 @@ impl NoUseBeforeDefine {
         scoped_indents.insert(root_scope, Default::default());
 
         Self {
-            expected_reaction: config.get_rule_reaction(),
+            expected_reaction: *config.get_rule_reaction(),
             scoped_indents,
             scope: vec![root_scope],
             scoped_spans: Default::default(),

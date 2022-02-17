@@ -43,7 +43,7 @@ struct Eqeqeq {
 impl Eqeqeq {
     fn new(config: &RuleConfig<EqeqeqConfig>) -> Self {
         Self {
-            expected_reaction: config.get_rule_reaction(),
+            expected_reaction: *config.get_rule_reaction(),
             mode: config.get_rule_config().mode,
         }
     }

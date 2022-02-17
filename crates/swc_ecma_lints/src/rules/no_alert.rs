@@ -25,7 +25,7 @@ pub fn no_alert(
     match rule_reaction {
         LintRuleReaction::Off => None,
         _ => Some(visitor_rule(NoAlert::new(
-            rule_reaction,
+            *rule_reaction,
             top_level_declared_vars,
             top_level_ctxt,
             es_version,
