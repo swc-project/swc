@@ -1,7 +1,6 @@
 use std::sync::atomic::{AtomicBool, Ordering};
 
 use once_cell::sync::Lazy;
-use scoped_tls::scoped_thread_local;
 use swc_common::{FileName, FilePathMapping, Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
@@ -61,7 +60,7 @@ macro_rules! add_to {
     }};
 }
 
-scoped_thread_local!(
+better_scoped_tls::scoped_tls_with_good_error!(
     /// This variable is used to manage helper scripts like `_inherits` from babel.
     ///
     /// The instance contains flags where each flag denotes if a helper script should be injected.
