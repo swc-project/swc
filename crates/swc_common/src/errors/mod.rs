@@ -314,7 +314,6 @@ impl error::Error for ExplicitBug {
 ///
 /// ```rust
 /// use swc_common::errors::HANDLER;
-///
 /// ```
 pub struct Handler {
     pub flags: HandlerFlags,
