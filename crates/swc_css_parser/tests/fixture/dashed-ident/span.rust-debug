@@ -74,6 +74,12 @@ error: SimpleBlock
 4 | | }
   | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/dashed-ident/input.css:2:5
+  |
+2 |     --main-color: #06c;
+  |     ^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/dashed-ident/input.css:2:5
   |
@@ -103,6 +109,12 @@ error: Hash { is_id: false, value: Atom('06c' type=inline), raw: Atom('06c' type
   |
 2 |     --main-color: #06c;
   |                   ^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/dashed-ident/input.css:3:5
+  |
+3 |     --accent-color: #006;
+  |     ^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/dashed-ident/input.css:3:5
@@ -194,6 +206,12 @@ error: SimpleBlock
 7 | |     --fg-color: blue;
 8 | | }
   | |_^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/dashed-ident/input.css:7:5
+  |
+7 |     --fg-color: blue;
+  |     ^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/dashed-ident/input.css:7:5
@@ -321,6 +339,12 @@ error: SimpleBlock
 11 | |     color: var(--main-color);
 12 | | }
    | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/dashed-ident/input.css:11:5
+   |
+11 |     color: var(--main-color);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/dashed-ident/input.css:11:5

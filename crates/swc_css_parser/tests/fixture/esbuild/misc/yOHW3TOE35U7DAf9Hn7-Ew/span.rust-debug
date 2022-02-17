@@ -64,6 +64,12 @@ error: SimpleBlock
 1 | a { value: \2cx() }
   |   ^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/yOHW3TOE35U7DAf9Hn7-Ew/input.css:1:5
+  |
+1 | a { value: \2cx() }
+  |     ^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/yOHW3TOE35U7DAf9Hn7-Ew/input.css:1:5
   |

@@ -1,6 +1,16 @@
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
+function _classPrivateFieldGet(receiver, privateMap) {
+    if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
+    return privateMap.get(receiver).value;
+}
+function _classPrivateFieldSet(receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) throw new TypeError("attempted to set private field on non-instance");
+    var descriptor = privateMap.get(receiver);
+    if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
+    return descriptor.value = value, value;
+}
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
@@ -14,31 +24,23 @@ var friendA, A = function() {
         _classCallCheck(this, A), _x.set(this, {
             writable: !0,
             value: void 0
-        }), (function(receiver, privateMap, value) {
-            if (!privateMap.has(receiver)) throw new TypeError("attempted to set private field on non-instance");
-            var descriptor = privateMap.get(receiver);
-            if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-            descriptor.value = value;
-        })(this, _x, v);
+        }), _classPrivateFieldSet(this, _x, v);
     }
     return Constructor = A, protoProps = [
         {
             key: "getX",
             value: function() {
-                return (function(receiver, privateMap) {
-                    if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-                    return privateMap.get(receiver).value;
-                })(this, _x);
+                return _classPrivateFieldGet(this, _x);
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), A;
 }(), _x = new WeakMap();
 friendA = {
     getX: function(obj) {
-        return obj.#x;
+        return _classPrivateFieldGet(obj, _x);
     },
     setX: function(obj, value) {
-        obj.#x = value;
+        _classPrivateFieldSet(obj, _x, value);
     }
 };
 var B = function(a1) {

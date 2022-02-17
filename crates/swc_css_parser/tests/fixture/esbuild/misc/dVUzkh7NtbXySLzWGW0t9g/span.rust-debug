@@ -64,6 +64,12 @@ error: SimpleBlock
 1 | a { color: red } a { color: green } a { color: red }
   |   ^^^^^^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:5
+  |
+1 | a { color: red } a { color: green } a { color: red }
+  |     ^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:5
   |
@@ -154,6 +160,12 @@ error: SimpleBlock
 1 | a { color: red } a { color: green } a { color: red }
   |                    ^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:22
+  |
+1 | a { color: red } a { color: green } a { color: red }
+  |                      ^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:22
   |
@@ -243,6 +255,12 @@ error: SimpleBlock
   |
 1 | a { color: red } a { color: green } a { color: red }
   |                                       ^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:41
+  |
+1 | a { color: red } a { color: green } a { color: red }
+  |                                         ^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:41

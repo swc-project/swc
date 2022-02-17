@@ -67,6 +67,12 @@ error: SimpleBlock
 3 | | }
   | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/grid/repeat/minmax/input.css:2:2
+  |
+2 |     grid-template-columns: repeat(4, minmax(min-content, 300px));
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/rome/grid/repeat/minmax/input.css:2:2
   |

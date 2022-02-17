@@ -77,6 +77,12 @@ error: SimpleBlock
 4 | | }
   | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/value/frequency/input.css:2:5
+  |
+2 |     prop: 1Hz;
+  |     ^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/frequency/input.css:2:5
   |
@@ -124,6 +130,12 @@ error: Ident
   |
 2 |     prop: 1Hz;
   |            ^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/frequency/input.css:3:5
+  |
+3 |     prop: 1kHz;
+  |     ^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/frequency/input.css:3:5

@@ -5,7 +5,10 @@ function _defineProperties(target, props) {
     }
 }
 var getX, tmp = (getX = function(a) {
-    return a.#x;
+    return (function(receiver, privateMap) {
+        if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
+        return privateMap.get(receiver).value;
+    })(a, _x);
 }, "_"), A = function() {
     "use strict";
     var Constructor, protoProps, staticProps;

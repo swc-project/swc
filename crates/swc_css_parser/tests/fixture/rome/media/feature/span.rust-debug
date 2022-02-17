@@ -88,6 +88,12 @@ error: Ident
 1 | @media screen and (color) {}
   |                    ^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/media/feature/input.css:1:27
+  |
+1 | @media screen and (color) {}
+  |                           ^^
+
 error: Rule
  --> $DIR/tests/fixture/rome/media/feature/input.css:2:1
   |
@@ -171,6 +177,12 @@ error: Ident
   |
 2 | @media only screen and (color) {}
   |                         ^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/media/feature/input.css:2:32
+  |
+2 | @media only screen and (color) {}
+  |                                ^^
 
 error: Rule
  --> $DIR/tests/fixture/rome/media/feature/input.css:3:1
@@ -286,6 +298,12 @@ error: Ident
 3 | @media only screen and (min-width: 800px) {}
   |                                       ^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/media/feature/input.css:3:43
+  |
+3 | @media only screen and (min-width: 800px) {}
+  |                                           ^^
+
 error: Rule
  --> $DIR/tests/fixture/rome/media/feature/input.css:4:1
   |
@@ -393,6 +411,12 @@ error: Ident
   |
 4 | @media screen and (min-width       :          800px        ) {}
   |                                                  ^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/media/feature/input.css:4:62
+  |
+4 | @media screen and (min-width       :          800px        ) {}
+  |                                                              ^^
 
 error: Rule
  --> $DIR/tests/fixture/rome/media/feature/input.css:5:1
@@ -645,6 +669,12 @@ error: Ident
   |
 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                                                                                ^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/media/feature/input.css:5:84
+  |
+5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+  |                                                                                    ^^
 
 error: Rule
  --> $DIR/tests/fixture/rome/media/feature/input.css:6:1
@@ -969,4 +999,10 @@ error: Ident
   |
 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
   |                                                                                                       ^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/media/feature/input.css:6:106
+  |
+6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+  |                                                                                                          ^^
 

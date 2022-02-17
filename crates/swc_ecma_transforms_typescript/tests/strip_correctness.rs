@@ -95,6 +95,8 @@ fn identity(entry: PathBuf) {
         "tsxReactEmitNesting",
         "tsxTypeArgumentsJsxPreserveOutput",
         "unicodeEscapesInJsxtags",
+        // decorator
+        "issue-2417",
     ];
 
     // TODO: Unignore const enum test

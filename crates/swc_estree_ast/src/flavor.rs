@@ -1,6 +1,4 @@
-use scoped_tls::scoped_thread_local;
-
-scoped_thread_local!(static FLAVOR: Flavor);
+better_scoped_tls::scoped_tls!(static FLAVOR: Flavor);
 
 #[repr(u8)]
 #[derive(Debug, Clone, Copy, Eq, PartialEq, Hash)]

@@ -1909,6 +1909,34 @@ class A {
 
 test!(
     syntax(),
+    |_| parameters(Default::default()),
+    issue_3569,
+    "
+export class TableView extends React.Component {
+  constructor(props){
+    super(props);
+    this.getSearchForm = (innerWidth = 0)=>{
+      this.getProps();
+    };
+  }
+}
+",
+    "
+export class TableView extends React.Component {
+  constructor(props){
+    var _this;
+    super(props), _this = this;
+    this.getSearchForm = function () {
+      let innerWidth = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 0;
+      _this.getProps();
+    };
+  }
+}
+"
+);
+
+test!(
+    syntax(),
     |_| tr(Config {
         ignore_function_length: true
     }),

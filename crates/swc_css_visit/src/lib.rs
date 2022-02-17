@@ -31,6 +31,8 @@ define!({
         Value(Value),
         DeclarationBlockItem(DeclarationBlockItem),
         Rule(Rule),
+        StyleBlock(StyleBlock),
+        KeyframeBlock(KeyframeBlock),
     }
 
     pub struct Ident {
@@ -84,6 +86,13 @@ define!({
         pub span: Span,
         pub prelude: SelectorList,
         pub block: SimpleBlock,
+    }
+
+    pub enum StyleBlock {
+        AtRule(AtRule),
+        Declaration(Declaration),
+        QualifiedRule(QualifiedRule),
+        Invalid(Tokens),
     }
 
     pub enum DeclarationBlockItem {
@@ -430,6 +439,7 @@ define!({
         Page(PageRule),
         PageMargin(PageMarginRule),
         Namespace(NamespaceRule),
+        Nest(NestRule),
         Viewport(ViewportRule),
         Document(DocumentRule),
         ColorProfile(ColorProfileRule),
@@ -482,6 +492,12 @@ define!({
         pub uri: NamespaceUri,
     }
 
+    pub struct NestRule {
+        pub span: Span,
+        pub prelude: SelectorList,
+        pub block: SimpleBlock,
+    }
+
     pub struct ViewportRule {
         pub span: Span,
         pub block: SimpleBlock,
@@ -518,7 +534,7 @@ define!({
     pub struct KeyframesRule {
         pub span: Span,
         pub name: KeyframesName,
-        pub blocks: Vec<KeyframeBlock>,
+        pub block: SimpleBlock,
     }
 
     pub struct KeyframeBlock {
@@ -550,13 +566,13 @@ define!({
     pub struct LayerRule {
         pub span: Span,
         pub prelude: Option<LayerPrelude>,
-        pub rules: Option<Vec<Rule>>,
+        pub block: Option<SimpleBlock>,
     }
 
     pub struct MediaRule {
         pub span: Span,
         pub media: Option<MediaQueryList>,
-        pub rules: Vec<Rule>,
+        pub block: SimpleBlock,
     }
 
     pub struct MediaQueryList {
@@ -700,7 +716,7 @@ define!({
     pub struct SupportsRule {
         pub span: Span,
         pub condition: SupportsCondition,
-        pub rules: Vec<Rule>,
+        pub block: SimpleBlock,
     }
 
     pub struct SupportsCondition {

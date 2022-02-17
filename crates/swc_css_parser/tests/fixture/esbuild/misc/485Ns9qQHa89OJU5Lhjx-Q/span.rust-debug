@@ -64,6 +64,12 @@ error: SimpleBlock
 1 | a { value: \69 dent }
   |   ^^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/485Ns9qQHa89OJU5Lhjx-Q/input.css:1:5
+  |
+1 | a { value: \69 dent }
+  |     ^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/485Ns9qQHa89OJU5Lhjx-Q/input.css:1:5
   |

@@ -28,6 +28,12 @@ error: CustomIdent
 1 | @keyframes name{0%,50%{color:red}25%,75%{color:blue}}
   |            ^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/uWMeE1AAowARdci8tkE-cg/input.css:1:16
+  |
+1 | @keyframes name{0%,50%{color:red}25%,75%{color:blue}}
+  |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: KeyframeBlock
  --> $DIR/tests/fixture/esbuild/misc/uWMeE1AAowARdci8tkE-cg/input.css:1:17
   |

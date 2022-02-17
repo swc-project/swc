@@ -1,12 +1,12 @@
 use swc_common::{ast_node, Span};
 
-use crate::{Declaration, Rule};
+use crate::{Declaration, SimpleBlock};
 
 #[ast_node("SupportsRule")]
 pub struct SupportsRule {
     pub span: Span,
     pub condition: SupportsCondition,
-    pub rules: Vec<Rule>,
+    pub block: SimpleBlock,
 }
 
 #[ast_node("SupportsCondition")]
