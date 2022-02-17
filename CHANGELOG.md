@@ -40,6 +40,9 @@
 
 - **(es/lints)** Implement `no-dupe-args` rule (#3574) ([3e29b73](https://github.com/swc-project/swc/commit/3e29b73a2a46b146c735e3ce1e01c0cadd906323))
 
+
+- **(es/lints)** Allow using number as an error level (#3593) ([08c343b](https://github.com/swc-project/swc/commit/08c343b18634ce9cc2af9ff1b2ff1921520fb0dd))
+
 ### Miscellaneous Tasks
 
 
