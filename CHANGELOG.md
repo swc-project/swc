@@ -5,6 +5,9 @@
 
 
 
+- **(css)** Fix recovery mode for functions (#3600) ([5420bcc](https://github.com/swc-project/swc/commit/5420bccc595b7088a8092ebebc589e5532cec55a))
+
+
 - **(es)** Pass `FileName::Custom` to plugins (#3578) ([df69930](https://github.com/swc-project/swc/commit/df69930c7f27127bc4e8268ee14e6cc28c157748))
 
 
@@ -45,6 +48,12 @@
 
 
 - **(es/typescript)** Add a test for #2670 (#3589) ([f469e65](https://github.com/swc-project/swc/commit/f469e653f861e5ca8789ba1baa4b29f507d0c737))
+
+### Build
+
+
+
+- **(swc)** Bump the version of `parking_lot` (#3604) ([5061101](https://github.com/swc-project/swc/commit/50611019992618b0d0a2783ddca4e21bc6e1af69))
 
 ## [1.2.141] - 2022-02-16
 
