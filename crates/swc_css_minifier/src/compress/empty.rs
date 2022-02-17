@@ -15,6 +15,9 @@ impl VisitMut for CompressEmpty {
             Rule::QualifiedRule(QualifiedRule { block, .. })
             | Rule::AtRule(AtRule::FontFace(FontFaceRule { block, .. }))
             | Rule::AtRule(AtRule::Keyframes(KeyframesRule { block, .. }))
+            | Rule::AtRule(AtRule::Layer(LayerRule {
+                block: Some(block), ..
+            }))
             | Rule::AtRule(AtRule::Media(MediaRule { block, .. }))
             | Rule::AtRule(AtRule::Supports(SupportsRule { block, .. }))
             | Rule::AtRule(AtRule::Page(PageRule { block, .. }))
@@ -24,15 +27,6 @@ impl VisitMut for CompressEmpty {
                 if block.value.is_empty() =>
             {
                 return false;
-            }
-            Rule::AtRule(AtRule::Layer(LayerRule { block, .. })) if block.is_some() => {
-                if let Some(block) = block {
-                    if block.value.is_empty() {
-                        return false;
-                    }
-                }
-
-                return true;
             }
             _ => true,
         });
