@@ -14,7 +14,7 @@
 @unknown{}
 @unknown{a: b; c: d;}
 
-/*@unknown x ( a + b ) ;*/
-/*@unknown x ( a - b ) ;*/
+@unknown x ( a + b ) ;
+@unknown x ( a - b ) ;
 @unknown x ( a , b ) ;
 @unknown x( a , b ) ;
