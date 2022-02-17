@@ -4,7 +4,9 @@ use std::{
 };
 
 use swc_common::{FileName, Span};
-use swc_css_ast::{HexColor, ImportantFlag, Number, Str, Stylesheet, UrlValueRaw};
+use swc_css_ast::{
+    HexColor, ImportantFlag, Number, Str, Stylesheet, Token, TokenAndSpan, UrlValueRaw,
+};
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodeGenerator, CodegenConfig, Emit,
@@ -116,10 +118,6 @@ impl VisitMut for NormalizeTest {
         n.raw = "".into();
     }
 
-    fn visit_mut_span(&mut self, n: &mut Span) {
-        *n = Default::default()
-    }
-
     fn visit_mut_str(&mut self, n: &mut Str) {
         n.visit_mut_children_with(self);
 
@@ -132,6 +130,18 @@ impl VisitMut for NormalizeTest {
         n.before = "".into();
         n.after = "".into();
         n.raw = "".into();
+    }
+
+    fn visit_mut_token_and_span(&mut self, n: &mut TokenAndSpan) {
+        n.visit_mut_children_with(self);
+
+        if let Token::WhiteSpace { .. } = &n.token {
+            n.token = Token::WhiteSpace { value: "".into() }
+        }
+    }
+
+    fn visit_mut_span(&mut self, n: &mut Span) {
+        *n = Default::default()
     }
 }
 

@@ -5,6 +5,9 @@
 
 
 
+- **(css)** Fix recovery mode for functions (#3600) ([5420bcc](https://github.com/swc-project/swc/commit/5420bccc595b7088a8092ebebc589e5532cec55a))
+
+
 - **(es)** Pass `FileName::Custom` to plugins (#3578) ([df69930](https://github.com/swc-project/swc/commit/df69930c7f27127bc4e8268ee14e6cc28c157748))
 
 
