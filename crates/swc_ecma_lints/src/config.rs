@@ -72,11 +72,10 @@ pub struct LintConfig {
     pub quotes: RuleConfig<QuotesConfig>,
 
     #[cfg(feature = "non_critical_lints")]
-    #[serde(default)]
+    #[serde(default, alias = "noEmptyFunction")]
     pub no_empty_function: RuleConfig<NoEmptyFunctionConfig>,
 
     #[cfg(feature = "non_critical_lints")]
-    #[serde(default)]
     #[serde(default, alias = "noEmptyPattern")]
     pub no_empty_pattern: RuleConfig<()>,
 
