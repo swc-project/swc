@@ -49,6 +49,12 @@
 
 - **(es/typescript)** Add a test for #2670 (#3589) ([f469e65](https://github.com/swc-project/swc/commit/f469e653f861e5ca8789ba1baa4b29f507d0c737))
 
+### Build
+
+
+
+- **(swc)** Bump the version of `parking_lot` (#3604) ([5061101](https://github.com/swc-project/swc/commit/50611019992618b0d0a2783ddca4e21bc6e1af69))
+
 ## [1.2.141] - 2022-02-16
 
 ### Bug Fixes
