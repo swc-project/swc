@@ -17,7 +17,6 @@ use std::{
     sync::atomic::{AtomicUsize, Ordering::SeqCst},
 };
 
-use scoped_tls::scoped_thread_local;
 #[cfg(feature = "tty-emitter")]
 use termcolor::{Color, ColorSpec};
 
@@ -304,6 +303,43 @@ impl error::Error for ExplicitBug {
 /// A handler deals with errors; certain errors
 /// (fatal, bug, unimpl) may cause immediate exit,
 /// others log errors for later reporting.
+///
+/// # Example
+///
+/// `swc` provides a global-like variable ([HANDLER]) of type `Handler` that can
+/// be used to report errors.
+///
+/// You can refer to [the lint rules](https://github.com/swc-project/swc/tree/main/crates/swc_ecma_lints/src/rules) for other example usages.
+/// All lint rules have code for error reporting.
+///
+/// ## Error reporting in swc
+///
+/// ```rust,ignore
+/// use swc_common::errors::HANDLER;
+///
+/// # fn main() {
+///     HANDLER.with(|handler| {
+///         // You can access the handler for the current file using HANDLER.with.
+///
+///         // We now report an error
+///
+///         // `struct_span_err` creates a builder for a diagnostic.
+///         // The span passed to `struct_span_err` will used to point the problematic code.
+///         //
+///         // You may provide additional information, like a previous declaration of parameter.
+///         handler
+///             .struct_span_err(
+///                 span,
+///                 &format!("`{}` used as parameter more than once", js_word),
+///             )
+///             .span_note(
+///                 old_span,
+///                 &format!("previous definition of `{}` here", js_word),
+///             )
+///             .emit();
+///     });
+/// # }
+/// ```
 pub struct Handler {
     pub flags: HandlerFlags,
 
@@ -899,7 +935,7 @@ impl Level {
     }
 }
 
-scoped_thread_local!(
+better_scoped_tls::scoped_tls!(
     /// Used for error reporting in transform.
     ///
     /// This should be only used for errors from the api which does not returning errors.
@@ -907,5 +943,7 @@ scoped_thread_local!(
     /// e.g.
     ///  - `parser` should not use this.
     ///  - `transforms` should use this to report error, as it does not return [Result].
+    ///
+    /// See [Handler] for actual usage examples.
     pub static HANDLER: Handler
 );

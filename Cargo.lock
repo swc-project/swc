@@ -166,6 +166,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "904dfeac50f3cdaba28fc6f57fdcddb75f49ed61346676a78c4ffe55877802fd"
 
 [[package]]
+name = "better_scoped_tls"
+version = "0.1.0"
+dependencies = [
+ "scoped-tls",
+]
+
+[[package]]
 name = "bitflags"
 version = "1.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2740,13 +2747,14 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.5"
+version = "0.17.7"
 dependencies = [
  "ahash",
  "anyhow",
  "arbitrary",
  "ast_node",
  "atty",
+ "better_scoped_tls",
  "cfg-if 0.1.10",
  "debug_unreachable",
  "either",
@@ -2758,7 +2766,6 @@ dependencies = [
  "rayon",
  "rkyv",
  "rustc-hash",
- "scoped-tls",
  "serde",
  "serde_json",
  "siphasher",
@@ -2942,7 +2949,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.14.10"
+version = "0.14.11"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3093,12 +3100,12 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.58.2"
+version = "0.58.3"
 dependencies = [
+ "better_scoped_tls",
  "once_cell",
  "phf",
  "rayon",
- "scoped-tls",
  "serde",
  "smallvec",
  "swc_atoms",
@@ -3361,9 +3368,9 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_ast"
-version = "0.7.0"
+version = "0.7.1"
 dependencies = [
- "scoped-tls",
+ "better_scoped_tls",
  "serde",
  "serde_json",
  "swc_atoms",
