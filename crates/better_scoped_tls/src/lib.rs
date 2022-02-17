@@ -97,4 +97,13 @@ mod tests {
             println!("S: {}", s);
         })
     }
+    #[test]
+
+    fn valid() {
+        TESTTLS.set(&String::new(), || {
+            TESTTLS.with(|s| {
+                assert_eq!(*s, String::new());
+            })
+        })
+    }
 }
