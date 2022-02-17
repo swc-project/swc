@@ -8,6 +8,6 @@ fn main() -> anyhow::Result<()> {
 
     match &command {
         Command::Plugin(PluginSubcommand::New(options)) => options.execute(),
-        Command::Compile(..) => anyhow::bail!("Compile command is not yet implemented"),
+        Command::Compile(options) => options.execute(),
     }
 }
