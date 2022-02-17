@@ -305,6 +305,188 @@ where
             }
         }
     }
+
+    pub fn parse_function_values(&mut self, function_name: &str) -> PResult<Vec<Value>> {
+        let mut values = vec![];
+
+        match function_name {
+            "calc" | "sin" | "cos" | "tan" | "asin" | "acos" | "atan" | "sqrt" | "exp" | "abs"
+            | "sign" => {
+                self.input.skip_ws()?;
+
+                let calc_sum = Value::CalcSum(self.parse()?);
+
+                values.push(calc_sum);
+
+                self.input.skip_ws()?;
+            }
+            "min" | "max" | "hypot" => {
+                self.input.skip_ws()?;
+
+                let calc_sum = Value::CalcSum(self.parse()?);
+
+                values.push(calc_sum);
+
+                loop {
+                    self.input.skip_ws()?;
+
+                    if is!(self, ",") {
+                        values.push(Value::Delimiter(self.parse()?));
+                    } else {
+                        break;
+                    }
+
+                    self.input.skip_ws()?;
+
+                    let calc_sum = Value::CalcSum(self.parse()?);
+
+                    values.push(calc_sum);
+                }
+            }
+            "clamp" => {
+                self.input.skip_ws()?;
+
+                let calc_sum = Value::CalcSum(self.parse()?);
+
+                values.push(calc_sum);
+
+                self.input.skip_ws()?;
+
+                if is!(self, ",") {
+                    values.push(Value::Delimiter(self.parse()?));
+                } else {
+                    let span = self.input.cur_span()?;
+
+                    return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
+                }
+
+                self.input.skip_ws()?;
+
+                let calc_sum = Value::CalcSum(self.parse()?);
+
+                values.push(calc_sum);
+
+                self.input.skip_ws()?;
+
+                if is!(self, ",") {
+                    values.push(Value::Delimiter(self.parse()?));
+                } else {
+                    let span = self.input.cur_span()?;
+
+                    return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
+                }
+
+                self.input.skip_ws()?;
+
+                let calc_sum = Value::CalcSum(self.parse()?);
+
+                values.push(calc_sum);
+
+                self.input.skip_ws()?;
+            }
+            "round" => {
+                self.input.skip_ws()?;
+
+                if is!(self, "ident") {
+                    // TODO improve me
+                    let rounding_strategy = Value::Ident(self.parse()?);
+
+                    values.push(rounding_strategy);
+
+                    self.input.skip_ws()?;
+
+                    if is!(self, ",") {
+                        values.push(Value::Delimiter(self.parse()?));
+                    } else {
+                        let span = self.input.cur_span()?;
+
+                        return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
+                    }
+
+                    self.input.skip_ws()?;
+                }
+
+                let calc_sum = Value::CalcSum(self.parse()?);
+
+                values.push(calc_sum);
+
+                self.input.skip_ws()?;
+
+                if is!(self, ",") {
+                    values.push(Value::Delimiter(self.parse()?));
+                } else {
+                    let span = self.input.cur_span()?;
+
+                    return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
+                }
+
+                self.input.skip_ws()?;
+
+                let calc_sum = Value::CalcSum(self.parse()?);
+
+                values.push(calc_sum);
+
+                self.input.skip_ws()?;
+            }
+            "mod" | "rem" | "atan2" | "pow" => {
+                self.input.skip_ws()?;
+
+                let calc_sum = Value::CalcSum(self.parse()?);
+
+                values.push(calc_sum);
+
+                self.input.skip_ws()?;
+
+                if is!(self, ",") {
+                    values.push(Value::Delimiter(self.parse()?));
+                } else {
+                    let span = self.input.cur_span()?;
+
+                    return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
+                }
+
+                self.input.skip_ws()?;
+
+                let calc_sum = Value::CalcSum(self.parse()?);
+
+                values.push(calc_sum);
+
+                self.input.skip_ws()?;
+            }
+            "log" => {
+                self.input.skip_ws()?;
+
+                let calc_sum = Value::CalcSum(self.parse()?);
+
+                values.push(calc_sum);
+
+                self.input.skip_ws()?;
+
+                if is!(self, ",") {
+                    values.push(Value::Delimiter(self.parse()?));
+
+                    self.input.skip_ws()?;
+
+                    let calc_sum = Value::CalcSum(self.parse()?);
+
+                    values.push(calc_sum);
+
+                    self.input.skip_ws()?;
+                }
+            }
+            _ => loop {
+                self.input.skip_ws()?;
+
+                if is!(self, ")") {
+                    break;
+                }
+
+                values.push(self.parse_one_value_inner()?);
+            },
+        };
+
+        Ok(values)
+    }
 }
 
 impl<I> Parse<Delimiter> for Parser<I>
@@ -1064,7 +1246,7 @@ where
                 unreachable!()
             }
         };
-        let lowercased_name = &*ident.0.to_ascii_lowercase();
+        let function_name = &*ident.0.to_ascii_lowercase();
         let name = Ident {
             span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
             value: ident.0,
@@ -1100,206 +1282,21 @@ where
                 // returned value to the function’s value.
                 _ => {
                     let state = self.input.state();
+                    let values = self.parse_function_values(function_name);
 
-                    match lowercased_name {
-                        "calc" | "sin" | "cos" | "tan" | "asin" | "acos" | "atan" | "sqrt"
-                        | "exp" | "abs" | "sign" => {
-                            self.input.skip_ws()?;
-
-                            let calc_sum = Value::CalcSum(self.parse()?);
-
-                            function.value.push(calc_sum);
-
-                            self.input.skip_ws()?;
+                    match values {
+                        Ok(values) => {
+                            function.value.extend(values);
                         }
-                        "min" | "max" | "hypot" => {
-                            self.input.skip_ws()?;
+                        Err(err) => {
+                            self.errors.push(err);
+                            self.input.reset(&state);
 
-                            let calc_sum = Value::CalcSum(self.parse()?);
-
-                            function.value.push(calc_sum);
-
-                            loop {
-                                self.input.skip_ws()?;
-
-                                if is!(self, ",") {
-                                    function.value.push(Value::Delimiter(self.parse()?));
-                                } else {
-                                    break;
-                                }
-
-                                self.input.skip_ws()?;
-
-                                let calc_sum = Value::CalcSum(self.parse()?);
-
-                                function.value.push(calc_sum);
-                            }
-                        }
-                        "clamp" => {
-                            self.input.skip_ws()?;
-
-                            let calc_sum = Value::CalcSum(self.parse()?);
-
-                            function.value.push(calc_sum);
-
-                            self.input.skip_ws()?;
-
-                            if is!(self, ",") {
-                                function.value.push(Value::Delimiter(self.parse()?));
-                            } else {
-                                let span = self.input.cur_span()?;
-
-                                return Err(Error::new(
-                                    span,
-                                    ErrorKind::Expected("',' delim token"),
-                                ));
-                            }
-
-                            self.input.skip_ws()?;
-
-                            let calc_sum = Value::CalcSum(self.parse()?);
-
-                            function.value.push(calc_sum);
-
-                            self.input.skip_ws()?;
-
-                            if is!(self, ",") {
-                                function.value.push(Value::Delimiter(self.parse()?));
-                            } else {
-                                let span = self.input.cur_span()?;
-
-                                return Err(Error::new(
-                                    span,
-                                    ErrorKind::Expected("',' delim token"),
-                                ));
-                            }
-
-                            self.input.skip_ws()?;
-
-                            let calc_sum = Value::CalcSum(self.parse()?);
-
-                            function.value.push(calc_sum);
-
-                            self.input.skip_ws()?;
-                        }
-                        "round" => {
-                            self.input.skip_ws()?;
-
-                            if is!(self, "ident") {
-                                // TODO improve me
-                                let rounding_strategy = Value::Ident(self.parse()?);
-
-                                function.value.push(rounding_strategy);
-
-                                self.input.skip_ws()?;
-
-                                if is!(self, ",") {
-                                    function.value.push(Value::Delimiter(self.parse()?));
-                                } else {
-                                    let span = self.input.cur_span()?;
-
-                                    return Err(Error::new(
-                                        span,
-                                        ErrorKind::Expected("',' delim token"),
-                                    ));
-                                }
-
-                                self.input.skip_ws()?;
-                            }
-
-                            let calc_sum = Value::CalcSum(self.parse()?);
-
-                            function.value.push(calc_sum);
-
-                            self.input.skip_ws()?;
-
-                            if is!(self, ",") {
-                                function.value.push(Value::Delimiter(self.parse()?));
-                            } else {
-                                let span = self.input.cur_span()?;
-
-                                return Err(Error::new(
-                                    span,
-                                    ErrorKind::Expected("',' delim token"),
-                                ));
-                            }
-
-                            self.input.skip_ws()?;
-
-                            let calc_sum = Value::CalcSum(self.parse()?);
-
-                            function.value.push(calc_sum);
-
-                            self.input.skip_ws()?;
-                        }
-                        "mod" | "rem" | "atan2" | "pow" => {
-                            self.input.skip_ws()?;
-
-                            let calc_sum = Value::CalcSum(self.parse()?);
-
-                            function.value.push(calc_sum);
-
-                            self.input.skip_ws()?;
-
-                            if is!(self, ",") {
-                                function.value.push(Value::Delimiter(self.parse()?));
-                            } else {
-                                let span = self.input.cur_span()?;
-
-                                return Err(Error::new(
-                                    span,
-                                    ErrorKind::Expected("',' delim token"),
-                                ));
-                            }
-
-                            self.input.skip_ws()?;
-
-                            let calc_sum = Value::CalcSum(self.parse()?);
-
-                            function.value.push(calc_sum);
-
-                            self.input.skip_ws()?;
-                        }
-                        "log" => {
-                            self.input.skip_ws()?;
-
-                            let calc_sum = Value::CalcSum(self.parse()?);
-
-                            function.value.push(calc_sum);
-
-                            self.input.skip_ws()?;
-
-                            if is!(self, ",") {
-                                function.value.push(Value::Delimiter(self.parse()?));
-
-                                self.input.skip_ws()?;
-
-                                let calc_sum = Value::CalcSum(self.parse()?);
-
-                                function.value.push(calc_sum);
-
-                                self.input.skip_ws()?;
-                            }
-                        }
-                        _ => {
-                            let parsed = self.parse_one_value_inner();
-                            let value = match parsed {
-                                Ok(value) => {
-                                    self.input.skip_ws()?;
-
-                                    value
-                                }
-                                Err(err) => {
-                                    self.errors.push(err);
-                                    self.input.reset(&state);
-
-                                    self.parse_component_value()?
-                                }
-                            };
+                            let value = self.parse_component_value()?;
 
                             function.value.push(value);
                         }
-                    };
+                    }
                 }
             }
         }
