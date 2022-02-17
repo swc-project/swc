@@ -81,6 +81,12 @@ error: SimpleBlock
 5 | | }
   | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/function/unknown/input.css:2:5
+  |
+2 |     prod: fn(100px);
+  |     ^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/function/unknown/input.css:2:5
   |
@@ -147,6 +153,12 @@ error: Ident
 2 |     prod: fn(100px);
   |                 ^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/function/unknown/input.css:3:5
+  |
+3 |     prod: --fn(100px);
+  |     ^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/function/unknown/input.css:3:5
   |
@@ -212,6 +224,12 @@ error: Ident
   |
 3 |     prod: --fn(100px);
   |                   ^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/function/unknown/input.css:4:5
+  |
+4 |     prod: --fn--fn(100px);
+  |     ^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/function/unknown/input.css:4:5

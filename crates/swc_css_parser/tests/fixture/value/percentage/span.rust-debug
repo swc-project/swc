@@ -89,6 +89,12 @@ error: SimpleBlock
 13 | | }
    | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/value/percentage/input.css:2:5
+  |
+2 |     width: 0%;
+  |     ^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/percentage/input.css:2:5
   |
@@ -125,6 +131,12 @@ error: Number
 2 |     width: 0%;
   |            ^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/value/percentage/input.css:3:5
+  |
+3 |     width: 0.1%;
+  |     ^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/percentage/input.css:3:5
   |
@@ -161,6 +173,12 @@ error: Number
 3 |     width: 0.1%;
   |            ^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/value/percentage/input.css:4:5
+  |
+4 |     width: 100%;
+  |     ^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/percentage/input.css:4:5
   |
@@ -196,6 +214,12 @@ error: Number
   |
 4 |     width: 100%;
   |            ^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/percentage/input.css:5:5
+  |
+5 |     width: 100.5%;
+  |     ^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/percentage/input.css:5:5
@@ -233,6 +257,12 @@ error: Number
 5 |     width: 100.5%;
   |            ^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/value/percentage/input.css:6:5
+  |
+6 |     width: 100.1000%;
+  |     ^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/percentage/input.css:6:5
   |
@@ -269,6 +299,12 @@ error: Number
 6 |     width: 100.1000%;
   |            ^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/value/percentage/input.css:7:5
+  |
+7 |     width: 1e0%;
+  |     ^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/percentage/input.css:7:5
   |
@@ -304,6 +340,12 @@ error: Number
   |
 7 |     width: 1e0%;
   |            ^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/percentage/input.css:8:5
+  |
+8 |     width: 1e1%;
+  |     ^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/percentage/input.css:8:5
@@ -341,6 +383,12 @@ error: Number
 8 |     width: 1e1%;
   |            ^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/value/percentage/input.css:9:5
+  |
+9 |     width: 1e2%;
+  |     ^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/percentage/input.css:9:5
   |
@@ -376,6 +424,12 @@ error: Number
   |
 9 |     width: 1e2%;
   |            ^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/percentage/input.css:10:5
+   |
+10 |     width: 10e-1%;
+   |     ^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/value/percentage/input.css:10:5
@@ -413,6 +467,12 @@ error: Number
 10 |     width: 10e-1%;
    |            ^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/value/percentage/input.css:11:5
+   |
+11 |     width: 10e-5%;
+   |     ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/value/percentage/input.css:11:5
    |
@@ -448,6 +508,12 @@ error: Number
    |
 11 |     width: 10e-5%;
    |            ^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/percentage/input.css:12:5
+   |
+12 |     width: 10e+2%;
+   |     ^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/value/percentage/input.css:12:5
@@ -555,6 +621,12 @@ error: SimpleBlock
 18 | | }
    | |_^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/value/percentage/input.css:16:5
+   |
+16 |     margin: -5%;
+   |     ^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/value/percentage/input.css:16:5
    |
@@ -590,6 +662,12 @@ error: Number
    |
 16 |     margin: -5%;
    |             ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/percentage/input.css:17:5
+   |
+17 |     margin: -5.5%;
+   |     ^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/value/percentage/input.css:17:5

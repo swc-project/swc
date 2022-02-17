@@ -64,6 +64,12 @@ error: SimpleBlock
 1 | a { value: \66n() }
   |   ^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/36qnNuIUvbIrMnJKDxwE5A/input.css:1:5
+  |
+1 | a { value: \66n() }
+  |     ^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/36qnNuIUvbIrMnJKDxwE5A/input.css:1:5
   |

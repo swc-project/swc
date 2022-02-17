@@ -15,5 +15,7 @@ async function streamToString(stream: Stream): Promise<string> {
 export async function getLatestCommitMesssage(): Promise<string> {
     const { stdout } = await exec('git log -1 --pretty=%B');
 
-    return streamToString(stdout!);
+    const msg = await streamToString(stdout!);
+
+    return msg.trim()
 }

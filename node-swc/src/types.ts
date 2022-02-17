@@ -492,7 +492,21 @@ export interface JscConfig {
 
   experimental?: {
     optimizeHygiene?: boolean,
-    keepImportAssertions?: boolean
+    keepImportAssertions?: boolean,
+    /**
+     * Specify the location where SWC stores its intermidiate cache files.
+     * Currently only transform plugin uses this. If not specified, SWC will
+     * create `.swc` directories.
+     */
+    cacheRoot?: string;
+    /**
+     * List of custom transform plugins written in WebAssembly.
+     * First parameter of tuple indicates the name of the plugin - it can be either
+     * a name of the npm package can be resolved, or absolute path to .wasm binary.
+     *
+     * Second parameter of tuple is JSON based configuration for the plugin.
+     */
+    plugins?: Array<[string, Record<string, any>]>
   },
 
   baseUrl?: string
@@ -1424,7 +1438,7 @@ export interface StringLiteral extends Node, HasSpan {
   type: "StringLiteral";
 
   value: string;
-  has_escape: boolean;
+  hasEscape: boolean;
 }
 
 export interface BooleanLiteral extends Node, HasSpan {

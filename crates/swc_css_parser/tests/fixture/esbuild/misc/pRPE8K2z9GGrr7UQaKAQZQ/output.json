@@ -23,7 +23,16 @@
         "value": "name",
         "raw": "name"
       },
-      "blocks": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 19,
+          "end": 21,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     }
   ]
 }

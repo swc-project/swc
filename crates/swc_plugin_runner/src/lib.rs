@@ -417,7 +417,7 @@ fn load_plugin(
 /// teardown
 struct PluginTransformTracker {
     // Main transform interface plugin exports
-    exported_plugin_transform: wasmer::NativeFunc<(i32, i32, i32, i32), i32>,
+    exported_plugin_transform: wasmer::NativeFunc<(i32, i32, i32, i32, i32, i32), i32>,
     // `__free` function automatically exported via swc_plugin sdk to allow deallocation in guest
     // memory space
     exported_plugin_free: wasmer::NativeFunc<(i32, i32), i32>,
@@ -437,7 +437,9 @@ impl PluginTransformTracker {
         let tracker = PluginTransformTracker {
             exported_plugin_transform: instance
                 .exports
-                .get_native_function::<(i32, i32, i32, i32), i32>("__plugin_process_impl")?,
+                .get_native_function::<(i32, i32, i32, i32, i32, i32), i32>(
+                    "__plugin_process_impl",
+                )?,
             exported_plugin_free: instance
                 .exports
                 .get_native_function::<(i32, i32), i32>("__free")?,
@@ -500,15 +502,19 @@ impl PluginTransformTracker {
         &mut self,
         program: &Serialized,
         config: &Serialized,
+        context: &Serialized,
     ) -> Result<Serialized, Error> {
         let guest_program_ptr = self.write_bytes_into_guest(program)?;
         let config_str_ptr = self.write_bytes_into_guest(config)?;
+        let context_str_ptr = self.write_bytes_into_guest(context)?;
 
         let result = self.exported_plugin_transform.call(
             guest_program_ptr.0,
             guest_program_ptr.1,
             config_str_ptr.0,
             config_str_ptr.1,
+            context_str_ptr.0,
+            context_str_ptr.1,
         )?;
 
         self.read_bytes_from_guest(result)
@@ -529,13 +535,14 @@ pub fn apply_js_plugin(
     plugin_name: &str,
     path: &Path,
     cache: &mut Option<PluginCache>,
-    config_json: Serialized,
     program: Serialized,
+    config_json: Serialized,
+    context_json: Serialized,
 ) -> Result<Serialized, Error> {
     (|| -> Result<_, Error> {
         let mut transform_tracker = PluginTransformTracker::new(path, cache)?;
 
-        transform_tracker.transform(&program, &config_json)
+        transform_tracker.transform(&program, &config_json, &context_json)
     })()
     .with_context(|| {
         format!(

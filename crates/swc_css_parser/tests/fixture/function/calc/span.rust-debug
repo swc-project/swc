@@ -71,6 +71,12 @@ error: SimpleBlock
 3 | | }
   | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/function/calc/input.css:2:5
+  |
+2 |     font-size: calc(100vw / 35);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/function/calc/input.css:2:5
   |
@@ -276,6 +282,12 @@ error: SimpleBlock
 31 | | }
    | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/function/calc/input.css:6:5
+  |
+6 |     --width: calc(10% + 30px);
+  |     ^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/function/calc/input.css:6:5
   |
@@ -378,6 +390,12 @@ error: RParen
 6 |     --width: calc(10% + 30px);
   |                             ^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/function/calc/input.css:8:5
+  |
+8 |     width: calc(0px);
+  |     ^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/function/calc/input.css:8:5
   |
@@ -474,6 +492,12 @@ error: Ident
 8 |     width: calc(0px);
   |                  ^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/function/calc/input.css:9:5
+  |
+9 |     line-height: calc(0);
+  |     ^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/function/calc/input.css:9:5
   |
@@ -551,6 +575,12 @@ error: Number
   |
 9 |     line-height: calc(0);
   |                       ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:10:5
+   |
+10 |     line-height: calc(2 + 3 * 4);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:10:5
@@ -701,6 +731,12 @@ error: Number
    |
 10 |     line-height: calc(2 + 3 * 4);
    |                               ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:11:5
+   |
+11 |     line-height: calc((2 + 3) * 4);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:11:5
@@ -882,6 +918,12 @@ error: Number
 11 |     line-height: calc((2 + 3) * 4);
    |                                 ^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:12:5
+   |
+12 |     line-height: calc(-5 * 0);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:12:5
    |
@@ -989,6 +1031,12 @@ error: Number
    |
 12 |     line-height: calc(-5 * 0);
    |                            ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:13:5
+   |
+13 |     width: calc((100px + 100px));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:13:5
@@ -1170,6 +1218,12 @@ error: Ident
 13 |     width: calc((100px + 100px));
    |                             ^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:14:5
+   |
+14 |     width: calc(   (   100px   +   100px   )   );
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:14:5
    |
@@ -1350,6 +1404,12 @@ error: Ident
 14 |     width: calc(   (   100px   +   100px   )   );
    |                                       ^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:15:5
+   |
+15 |     width: calc(   100px   +    100px   );
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:15:5
    |
@@ -1506,6 +1566,12 @@ error: Ident
 15 |     width: calc(   100px   +    100px   );
    |                                    ^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:16:5
+   |
+16 |     width: calc(500px + 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:16:5
    |
@@ -1650,6 +1716,12 @@ error: Number
 16 |     width: calc(500px + 50%);
    |                         ^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:17:5
+   |
+17 |     width: calc(10% + 20%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:17:5
    |
@@ -1781,6 +1853,12 @@ error: Number
    |
 17 |     width: calc(10% + 20%);
    |                       ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:18:5
+   |
+18 |     width: calc(2pc + 3pt);
+   |     ^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:18:5
@@ -1937,6 +2015,12 @@ error: Ident
    |
 18 |     width: calc(2pc + 3pt);
    |                        ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:19:5
+   |
+19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:19:5
@@ -2232,6 +2316,12 @@ error: Ident
 19 |     width: calc(100% / 3 - 2 * 1em - 2 * 1px);
    |                                           ^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:21:5
+   |
+21 |     width: calc(calc(50px));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:21:5
    |
@@ -2375,6 +2465,12 @@ error: Ident
    |
 21 |     width: calc(calc(50px));
    |                        ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:22:5
+   |
+22 |     width: calc(calc(60%) - 20px);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:22:5
@@ -2568,6 +2664,12 @@ error: Ident
 22 |     width: calc(calc(60%) - 20px);
    |                               ^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:23:5
+   |
+23 |     width: calc(calc(3 * 25%));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:23:5
    |
@@ -2730,6 +2832,12 @@ error: Number
 23 |     width: calc(calc(3 * 25%));
    |                          ^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:24:5
+   |
+24 |     width: calc(2 * var(--width));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:24:5
    |
@@ -2855,6 +2963,12 @@ error: DashedIdent
    |
 24 |     width: calc(2 * var(--width));
    |                         ^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:25:5
+   |
+25 |     width: calc(pow(pow(30px / 1px, 3), 1/3) * 1px);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:25:5
@@ -3282,6 +3396,12 @@ error: Ident
 25 |     width: calc(pow(pow(30px / 1px, 3), 1/3) * 1px);
    |                                                 ^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:26:5
+   |
+26 |     width: calc(infinity);
+   |     ^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:26:5
    |
@@ -3360,6 +3480,12 @@ error: Ident
 26 |     width: calc(infinity);
    |                 ^^^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:27:5
+   |
+27 |     width: calc(InFiNiTy);
+   |     ^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:27:5
    |
@@ -3437,6 +3563,12 @@ error: Ident
    |
 27 |     width: calc(InFiNiTy);
    |                 ^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:28:5
+   |
+28 |     width: calc(-InFiNiTy);
+   |     ^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:28:5
@@ -3516,6 +3648,12 @@ error: Ident
 28 |     width: calc(-InFiNiTy);
    |                 ^^^^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:29:5
+   |
+29 |     width: calc(NaN);
+   |     ^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:29:5
    |
@@ -3593,6 +3731,12 @@ error: Ident
    |
 29 |     width: calc(NaN);
    |                 ^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:30:5
+   |
+30 |     width: calc((1 * 2) * (5px + 20em / 2) - 80% / (3 - 1) + 5px);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:30:5
@@ -4183,6 +4327,12 @@ error: SimpleBlock
 40 | | }
    | |_^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:34:5
+   |
+34 |     font-size: calc(1rem * pow(1.5, -1));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:34:5
    |
@@ -4410,6 +4560,12 @@ error: Number
    |
 34 |     font-size: calc(1rem * pow(1.5, -1));
    |                                     ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:35:5
+   |
+35 |     font-size: calc(1rem * pow(1.5, 0));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:35:5
@@ -4639,6 +4795,12 @@ error: Number
 35 |     font-size: calc(1rem * pow(1.5, 0));
    |                                     ^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:36:5
+   |
+36 |     font-size: calc(1rem * pow(1.5, 1));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:36:5
    |
@@ -4866,6 +5028,12 @@ error: Number
    |
 36 |     font-size: calc(1rem * pow(1.5, 1));
    |                                     ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:37:5
+   |
+37 |     font-size: calc(1rem * pow(1.5, 2));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:37:5
@@ -5095,6 +5263,12 @@ error: Number
 37 |     font-size: calc(1rem * pow(1.5, 2));
    |                                     ^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:38:5
+   |
+38 |     font-size: calc(1rem * pow(1.5, 3));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:38:5
    |
@@ -5322,6 +5496,12 @@ error: Number
    |
 38 |     font-size: calc(1rem * pow(1.5, 3));
    |                                     ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:39:5
+   |
+39 |     font-size: calc(1rem * pow(1.5, 4));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:39:5
@@ -5611,6 +5791,12 @@ error: SimpleBlock
 43 | |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
 44 | | }
    | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:43:5
+   |
+43 |     background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:43:5
@@ -6054,6 +6240,12 @@ error: SimpleBlock
 50 | div { width: calc(100% / 4); }
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:50:7
+   |
+50 | div { width: calc(100% / 4); }
+   |       ^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:50:7
    |
@@ -6227,6 +6419,12 @@ error: SimpleBlock
    |
 51 | div { margin-top: calc(-120% - 4px); }
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:51:7
+   |
+51 | div { margin-top: calc(-120% - 4px); }
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:51:7
@@ -6431,6 +6629,12 @@ error: SimpleBlock
    |
 52 | div { width: calc(50% - ( ( 4% ) * 0.5 ) ); }
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:52:7
+   |
+52 | div { width: calc(50% - ( ( 4% ) * 0.5 ) ); }
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:52:7
@@ -6717,6 +6921,13 @@ error: SimpleBlock
 56 | |     white calc(100% - 20px), silver 100%);
 57 | | }
    | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:55:5
+   |
+55 | /     background-image: linear-gradient(silver 0%, white 20px,
+56 | |     white calc(100% - 20px), silver 100%);
+   | |_________________________________________^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:55:5
@@ -7102,6 +7313,12 @@ error: SimpleBlock
 63 | | }
    | |_^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:62:5
+   |
+62 |     font-size: max(10 * (1vw + 1vh) / 2, 12px);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:62:5
    |
@@ -7483,6 +7700,12 @@ error: SimpleBlock
 67 | |     font-size: clamp(12px, 10 * (1vw + 1vh) / 2, 100px);
 68 | | }
    | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:67:5
+   |
+67 |     font-size: clamp(12px, 10 * (1vw + 1vh) / 2, 100px);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:67:5
@@ -7947,6 +8170,12 @@ error: SimpleBlock
 89 | | }
    | |_^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:71:5
+   |
+71 |     width: mod(18px, 5px);
+   |     ^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:71:5
    |
@@ -8114,6 +8343,12 @@ error: Ident
    |
 71 |     width: mod(18px, 5px);
    |                       ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:72:5
+   |
+72 |     transform: rotate(mod(-140deg, -90deg));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:72:5
@@ -8301,6 +8536,12 @@ error: Ident
 72 |     transform: rotate(mod(-140deg, -90deg));
    |                                       ^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:73:5
+   |
+73 |     transform: rotate(atan2(1, -1));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:73:5
    |
@@ -8451,6 +8692,12 @@ error: Number
 73 |     transform: rotate(atan2(1, -1));
    |                                ^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:74:5
+   |
+74 |     transform: rotate(tan(90deg));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:74:5
    |
@@ -8564,6 +8811,12 @@ error: Ident
    |
 74 |     transform: rotate(tan(90deg));
    |                             ^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:75:5
+   |
+75 |     transform: rotate(atan(tan(90deg)));
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:75:5
@@ -8727,6 +8980,12 @@ error: Ident
 75 |     transform: rotate(atan(tan(90deg)));
    |                                  ^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:76:5
+   |
+76 |     font-size: hypot(2em);
+   |     ^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:76:5
    |
@@ -8823,6 +9082,12 @@ error: Ident
 76 |     font-size: hypot(2em);
    |                       ^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:77:5
+   |
+77 |     font-size: hypot(-2em);
+   |     ^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:77:5
    |
@@ -8918,6 +9183,12 @@ error: Ident
    |
 77 |     font-size: hypot(-2em);
    |                        ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:78:5
+   |
+78 |     font-size: hypot(30px, 40px);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:78:5
@@ -9087,6 +9358,12 @@ error: Ident
 78 |     font-size: hypot(30px, 40px);
    |                              ^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:79:5
+   |
+79 |     background-position: sign(10%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:79:5
    |
@@ -9170,6 +9447,12 @@ error: Number
    |
 79 |     background-position: sign(10%);
    |                               ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:80:5
+   |
+80 |     width: calc(pow(e, pi) - pi);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:80:5
@@ -9393,6 +9676,12 @@ error: Ident
 80 |     width: calc(pow(e, pi) - pi);
    |                              ^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:81:5
+   |
+81 |     width: min(pi, 5, e);
+   |     ^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:81:5
    |
@@ -9579,6 +9868,12 @@ error: Ident
 81 |     width: min(pi, 5, e);
    |                       ^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:82:5
+   |
+82 |     width: log(5);
+   |     ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:82:5
    |
@@ -9656,6 +9951,12 @@ error: Number
    |
 82 |     width: log(5);
    |                ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:83:5
+   |
+83 |     width: log(5, 5);
+   |     ^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:83:5
@@ -9788,6 +10089,12 @@ error: Number
    |
 83 |     width: log(5, 5);
    |                   ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:84:5
+   |
+84 |     width: round(var(--width), 50px);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:84:5
@@ -9956,6 +10263,12 @@ error: Ident
    |
 84 |     width: round(var(--width), 50px);
    |                                  ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:85:5
+   |
+85 |     width: round(nearest, var(--width), 50px);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:85:5
@@ -10149,6 +10462,12 @@ error: Ident
 85 |     width: round(nearest, var(--width), 50px);
    |                                           ^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:86:5
+   |
+86 |     width: round(up, var(--width), 50px);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:86:5
    |
@@ -10341,6 +10660,12 @@ error: Ident
 86 |     width: round(up, var(--width), 50px);
    |                                      ^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:87:5
+   |
+87 |     width: round(down, var(--width), 50px);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:87:5
    |
@@ -10532,6 +10857,12 @@ error: Ident
    |
 87 |     width: round(down, var(--width), 50px);
    |                                        ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:88:5
+   |
+88 |     width: round(to-zero, var(--width), 50px);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:88:5
@@ -10791,6 +11122,12 @@ error: SimpleBlock
 94 | |     width: min(   10px   ,   20px   ,   40px   ,   100px   );
 95 | | }
    | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:92:5
+   |
+92 |     width: min(10px, 20px, 40px, 100px);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:92:5
@@ -11104,6 +11441,12 @@ error: Ident
 92 |     width: min(10px, 20px, 40px, 100px);
    |                                     ^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:93:5
+   |
+93 |     width: max(10px, 20px, 40px, 100px);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:93:5
    |
@@ -11415,6 +11758,12 @@ error: Ident
    |
 93 |     width: max(10px, 20px, 40px, 100px);
    |                                     ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:94:5
+   |
+94 |     width: min(   10px   ,   20px   ,   40px   ,   100px   );
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:94:5
@@ -11789,6 +12138,12 @@ error: SimpleBlock
 99 | | }
    | |_^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/function/calc/input.css:98:5
+   |
+98 |     width: rem(-18px, 5px);
+   |     ^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/function/calc/input.css:98:5
    |
@@ -12021,6 +12376,12 @@ error: SimpleBlock
 104 | | }
     | |_^
 
+error: StyleBlock
+   --> $DIR/tests/fixture/function/calc/input.css:102:5
+    |
+102 |     transform: rotate(sin(45deg));
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
    --> $DIR/tests/fixture/function/calc/input.css:102:5
     |
@@ -12134,6 +12495,12 @@ error: Ident
     |
 102 |     transform: rotate(sin(45deg));
     |                             ^^^
+
+error: StyleBlock
+   --> $DIR/tests/fixture/function/calc/input.css:103:5
+    |
+103 |     transform: rotate(sin(3.14159 / 4));
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
    --> $DIR/tests/fixture/function/calc/input.css:103:5
@@ -12325,6 +12692,12 @@ error: SimpleBlock
 109 | | }
     | |_^
 
+error: StyleBlock
+   --> $DIR/tests/fixture/function/calc/input.css:107:5
+    |
+107 |     transform: rotate(cos(45deg));
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
    --> $DIR/tests/fixture/function/calc/input.css:107:5
     |
@@ -12438,6 +12811,12 @@ error: Ident
     |
 107 |     transform: rotate(cos(45deg));
     |                             ^^^
+
+error: StyleBlock
+   --> $DIR/tests/fixture/function/calc/input.css:108:5
+    |
+108 |     transform: rotate(cos(3.14159 / 4));
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
    --> $DIR/tests/fixture/function/calc/input.css:108:5
@@ -12629,6 +13008,12 @@ error: SimpleBlock
 114 | | }
     | |_^
 
+error: StyleBlock
+   --> $DIR/tests/fixture/function/calc/input.css:112:5
+    |
+112 |     transform: rotate(asin(45deg));
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
    --> $DIR/tests/fixture/function/calc/input.css:112:5
     |
@@ -12742,6 +13127,12 @@ error: Ident
     |
 112 |     transform: rotate(asin(45deg));
     |                              ^^^
+
+error: StyleBlock
+   --> $DIR/tests/fixture/function/calc/input.css:113:5
+    |
+113 |     transform: rotate(asin(pi / 4));
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
    --> $DIR/tests/fixture/function/calc/input.css:113:5
@@ -12933,6 +13324,12 @@ error: SimpleBlock
 119 | | }
     | |_^
 
+error: StyleBlock
+   --> $DIR/tests/fixture/function/calc/input.css:117:5
+    |
+117 |     transform: rotate(acos(45deg));
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
    --> $DIR/tests/fixture/function/calc/input.css:117:5
     |
@@ -13046,6 +13443,12 @@ error: Ident
     |
 117 |     transform: rotate(acos(45deg));
     |                              ^^^
+
+error: StyleBlock
+   --> $DIR/tests/fixture/function/calc/input.css:118:5
+    |
+118 |     transform: rotate(acos(pi / 4));
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
    --> $DIR/tests/fixture/function/calc/input.css:118:5
@@ -13234,6 +13637,12 @@ error: SimpleBlock
 123 | | }
     | |_^
 
+error: StyleBlock
+   --> $DIR/tests/fixture/function/calc/input.css:122:5
+    |
+122 |     transform: rotate(atan(1 / -1));
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
    --> $DIR/tests/fixture/function/calc/input.css:122:5
     |
@@ -13420,6 +13829,12 @@ error: SimpleBlock
 126 | |     transform: rotate(atan2(1, -1));
 127 | | }
     | |_^
+
+error: StyleBlock
+   --> $DIR/tests/fixture/function/calc/input.css:126:5
+    |
+126 |     transform: rotate(atan2(1, -1));
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
    --> $DIR/tests/fixture/function/calc/input.css:126:5
@@ -13632,6 +14047,12 @@ error: SimpleBlock
 131 | | }
     | |_^
 
+error: StyleBlock
+   --> $DIR/tests/fixture/function/calc/input.css:130:5
+    |
+130 |     size: sqrt(250);
+    |     ^^^^^^^^^^^^^^^
+
 error: Declaration
    --> $DIR/tests/fixture/function/calc/input.css:130:5
     |
@@ -13770,6 +14191,12 @@ error: SimpleBlock
 134 | |     size: exp(250 * 2);
 135 | | }
     | |_^
+
+error: StyleBlock
+   --> $DIR/tests/fixture/function/calc/input.css:134:5
+    |
+134 |     size: exp(250 * 2);
+    |     ^^^^^^^^^^^^^^^^^^
 
 error: Declaration
    --> $DIR/tests/fixture/function/calc/input.css:134:5
@@ -13939,6 +14366,12 @@ error: SimpleBlock
 138 | |     background-position: calc(10% * abs(-10%));
 139 | | }
     | |_^
+
+error: StyleBlock
+   --> $DIR/tests/fixture/function/calc/input.css:138:5
+    |
+138 |     background-position: calc(10% * abs(-10%));
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
    --> $DIR/tests/fixture/function/calc/input.css:138:5
@@ -14181,6 +14614,12 @@ error: SimpleBlock
 149 | | }
     | |_^
 
+error: StyleBlock
+   --> $DIR/tests/fixture/function/calc/input.css:142:5
+    |
+142 |     background-position: sign(10%);
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
    --> $DIR/tests/fixture/function/calc/input.css:142:5
     |
@@ -14264,6 +14703,12 @@ error: Number
     |
 142 |     background-position: sign(10%);
     |                               ^^
+
+error: StyleBlock
+   --> $DIR/tests/fixture/function/calc/input.css:143:5
+    |
+143 |     background-position: sign(10% * 2);
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
    --> $DIR/tests/fixture/function/calc/input.css:143:5
@@ -14379,6 +14824,12 @@ error: Number
 143 |     background-position: sign(10% * 2);
     |                                     ^
 
+error: StyleBlock
+   --> $DIR/tests/fixture/function/calc/input.css:144:5
+    |
+144 |     background-position: sign(   10%   *   2   );
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
    --> $DIR/tests/fixture/function/calc/input.css:144:5
     |
@@ -14492,6 +14943,12 @@ error: Number
     |
 144 |     background-position: sign(   10%   *   2   );
     |                                            ^
+
+error: StyleBlock
+   --> $DIR/tests/fixture/function/calc/input.css:145:5
+    |
+145 |     background-position: sign(10%*2);
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
    --> $DIR/tests/fixture/function/calc/input.css:145:5
@@ -14607,6 +15064,12 @@ error: Number
 145 |     background-position: sign(10%*2);
     |                                   ^
 
+error: StyleBlock
+   --> $DIR/tests/fixture/function/calc/input.css:146:5
+    |
+146 |     background-position: sign(   10   +   10   );
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
    --> $DIR/tests/fixture/function/calc/input.css:146:5
     |
@@ -14727,6 +15190,12 @@ error: Number
 146 |     background-position: sign(   10   +   10   );
     |                                           ^^
 
+error: StyleBlock
+   --> $DIR/tests/fixture/function/calc/input.css:147:5
+    |
+147 |     background-position: sign(   10%   );
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
    --> $DIR/tests/fixture/function/calc/input.css:147:5
     |
@@ -14810,6 +15279,12 @@ error: Number
     |
 147 |     background-position: sign(   10%   );
     |                                  ^^
+
+error: StyleBlock
+   --> $DIR/tests/fixture/function/calc/input.css:148:5
+    |
+148 |     width: calc(   (   100px   +   100px   )   *   2   );
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
    --> $DIR/tests/fixture/function/calc/input.css:148:5

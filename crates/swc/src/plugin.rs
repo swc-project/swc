@@ -11,13 +11,37 @@ use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeModulesResolver
 use swc_ecma_transforms::pass::noop;
 use swc_ecma_visit::{noop_fold_type, Fold};
 
+/// A tuple represents a plugin.
+/// First element is a resolvable name to the plugin, second is a JSON object
+/// that represents configuration option for those plugin.
+/// Type of plugin's configuration is up to each plugin - swc/core does not have
+/// strong type and it'll be serialized into plain string when it's passed to
+/// plugin's entrypoint function.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct PluginConfig(String, serde_json::Value);
 
+/// Struct represents arbitary `context` or `state` to be passed to plugin's
+/// entrypoint.
+/// While internally this is strongly typed, it is not exposed as public
+/// interface to plugin's entrypoint but instead will be passed as JSON string.
+/// First, not all of plugins will need to deserialize this - plugin may opt in
+/// to access when it's needed. Secondly, we do not have way to avoid breaking
+/// changes when adding a new property. We may change this to typed
+/// deserialization in the future if we have add-only schema support with
+/// serialization / deserialization.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct PluginContext {
+    /// The path of the file being processed. This includes all of the path as
+    /// much as possible.
+    pub filename: Option<String>,
+}
+
 pub fn plugins(
     resolver: CachingResolver<NodeModulesResolver>,
     config: crate::config::JscExperimental,
+    plugin_context: PluginContext,
 ) -> impl Fold {
     #[cfg(feature = "plugin")]
     {
@@ -28,6 +52,7 @@ pub fn plugins(
             resolver,
             plugins: config.plugins,
             plugin_cache: cache_root,
+            plugin_context,
         }
     }
 
@@ -44,6 +69,7 @@ struct RustPlugins {
     /// swc, as well as cache.
     #[cfg(feature = "plugin")]
     plugin_cache: Option<swc_plugin_runner::resolve::PluginCache>,
+    plugin_context: PluginContext,
 }
 
 impl RustPlugins {
@@ -66,8 +92,12 @@ impl RustPlugins {
         if let Some(plugins) = &self.plugins {
             for p in plugins {
                 let config_json = serde_json::to_string(&p.1)
-                    .context("failed to serialize plugin config as json")?;
-                let config_json = Serialized::serialize(&config_json)?;
+                    .context("Failed to serialize plugin config as json")
+                    .and_then(|value| Serialized::serialize(&value))?;
+
+                let context_json = serde_json::to_string(&self.plugin_context)
+                    .context("Failed to serialize plugin context as json")
+                    .and_then(|value| Serialized::serialize(&value))?;
 
                 let resolved_path = self
                     .resolver
@@ -83,8 +113,9 @@ impl RustPlugins {
                     &p.0,
                     &path,
                     &mut self.plugin_cache,
-                    config_json,
                     serialized,
+                    config_json,
+                    context_json,
                 )?;
             }
         }

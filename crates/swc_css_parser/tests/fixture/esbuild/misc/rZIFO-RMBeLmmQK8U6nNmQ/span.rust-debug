@@ -64,6 +64,12 @@ error: SimpleBlock
 1 | a { color: #11223444 }
   |   ^^^^^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/rZIFO-RMBeLmmQK8U6nNmQ/input.css:1:5
+  |
+1 | a { color: #11223444 }
+  |     ^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/rZIFO-RMBeLmmQK8U6nNmQ/input.css:1:5
   |

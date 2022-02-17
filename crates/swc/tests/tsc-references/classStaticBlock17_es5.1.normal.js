@@ -62,10 +62,10 @@ var __ = {
     value: function() {
         friendA = {
             getX: function getX(obj) {
-                return obj.#x;
+                return _classPrivateFieldGet(obj, _x);
             },
             setX: function setX(obj, value) {
-                obj.#x = value;
+                _classPrivateFieldSet(obj, _x, value);
             }
         };
     }()

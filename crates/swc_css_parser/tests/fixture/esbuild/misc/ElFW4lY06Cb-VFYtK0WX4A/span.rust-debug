@@ -106,6 +106,12 @@ error: SimpleBlock
 1 | @-moz-document url-prefix() { h1 { color: green } }
   |                                  ^^^^^^^^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:36
+  |
+1 | @-moz-document url-prefix() { h1 { color: green } }
+  |                                    ^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:36
   |

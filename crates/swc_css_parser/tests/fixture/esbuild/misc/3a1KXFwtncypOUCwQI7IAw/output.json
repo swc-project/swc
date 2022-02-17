@@ -23,77 +23,86 @@
         "value": "name",
         "raw": "name"
       },
-      "blocks": [
-        {
-          "span": {
-            "start": 18,
-            "end": 37,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Percentage",
-              "span": {
-                "start": 18,
-                "end": 22,
-                "ctxt": 0
-              },
-              "value": {
-                "type": "Number",
-                "span": {
-                  "start": 18,
-                  "end": 21,
-                  "ctxt": 0
-                },
-                "value": 100.0,
-                "raw": "100"
-              }
-            }
-          ],
-          "block": {
-            "type": "SimpleBlock",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 16,
+          "end": 39,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
             "span": {
-              "start": 23,
+              "start": 18,
               "end": 37,
               "ctxt": 0
             },
-            "name": "{",
-            "value": [
+            "prelude": [
               {
-                "type": "Declaration",
+                "type": "Percentage",
                 "span": {
-                  "start": 25,
-                  "end": 35,
+                  "start": 18,
+                  "end": 22,
                   "ctxt": 0
                 },
-                "name": {
-                  "type": "Ident",
+                "value": {
+                  "type": "Number",
                   "span": {
-                    "start": 25,
-                    "end": 30,
+                    "start": 18,
+                    "end": 21,
                     "ctxt": 0
                   },
-                  "value": "color",
-                  "raw": "color"
-                },
-                "value": [
-                  {
+                  "value": 100.0,
+                  "raw": "100"
+                }
+              }
+            ],
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 23,
+                "end": 37,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 25,
+                    "end": 35,
+                    "ctxt": 0
+                  },
+                  "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 32,
-                      "end": 35,
+                      "start": 25,
+                      "end": 30,
                       "ctxt": 0
                     },
-                    "value": "red",
-                    "raw": "red"
-                  }
-                ],
-                "important": null
-              }
-            ]
+                    "value": "color",
+                    "raw": "color"
+                  },
+                  "value": [
+                    {
+                      "type": "Ident",
+                      "span": {
+                        "start": 32,
+                        "end": 35,
+                        "ctxt": 0
+                      },
+                      "value": "red",
+                      "raw": "red"
+                    }
+                  ],
+                  "important": null
+                }
+              ]
+            }
           }
-        }
-      ]
+        ]
+      }
     }
   ]
 }

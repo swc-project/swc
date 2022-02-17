@@ -41,30 +41,30 @@ impl<T: Debug + Clone + Serialize + Default> RuleConfig<T> {
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[non_exhaustive]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "kebab-case")]
 pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
-    #[serde(default)]
+    #[serde(default, alias = "noConsole")]
     pub no_console: RuleConfig<NoConsoleConfig>,
 
     #[cfg(feature = "non_critical_lints")]
-    #[serde(default)]
+    #[serde(default, alias = "preferRegexLiterals")]
     pub prefer_regex_literals: RuleConfig<PreferRegexLiteralsConfig>,
 
     #[cfg(feature = "non_critical_lints")]
-    #[serde(default)]
+    #[serde(default, alias = "noAlert")]
     pub no_alert: RuleConfig<()>,
 
     #[cfg(feature = "non_critical_lints")]
-    #[serde(default)]
+    #[serde(default, alias = "noDebugger")]
     pub no_debugger: RuleConfig<()>,
 
     #[cfg(feature = "non_critical_lints")]
-    #[serde(default)]
+    #[serde(default, alias = "noUseBeforeDefine")]
     pub no_use_before_define: RuleConfig<NoUseBeforeDefineConfig>,
 
     #[cfg(feature = "non_critical_lints")]
-    #[serde(default)]
+    #[serde(default, alias = "dotNotation")]
     pub dot_notation: RuleConfig<DotNotationConfig>,
 
     #[cfg(feature = "non_critical_lints")]
@@ -77,6 +77,7 @@ pub struct LintConfig {
 
     #[cfg(feature = "non_critical_lints")]
     #[serde(default)]
+    #[serde(default, alias = "noEmptyPattern")]
     pub no_empty_pattern: RuleConfig<()>,
 
     #[cfg(feature = "non_critical_lints")]

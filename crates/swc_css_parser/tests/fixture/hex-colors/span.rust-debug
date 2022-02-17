@@ -89,6 +89,12 @@ error: SimpleBlock
 13 | | }
    | |_^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/hex-colors/input.css:2:3
+  |
+2 |   color: #000000;
+  |   ^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/hex-colors/input.css:2:3
   |
@@ -118,6 +124,12 @@ error: HexColor
   |
 2 |   color: #000000;
   |          ^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/hex-colors/input.css:3:3
+  |
+3 |   color: #ffffff;
+  |   ^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/hex-colors/input.css:3:3
@@ -149,6 +161,12 @@ error: HexColor
 3 |   color: #ffffff;
   |          ^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/hex-colors/input.css:4:3
+  |
+4 |   color: #FFFFFF;
+  |   ^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/hex-colors/input.css:4:3
   |
@@ -179,6 +197,12 @@ error: HexColor
 4 |   color: #FFFFFF;
   |          ^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/hex-colors/input.css:5:3
+  |
+5 |   color: #0000ffcc;
+  |   ^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/hex-colors/input.css:5:3
   |
@@ -208,6 +232,12 @@ error: HexColor
   |
 5 |   color: #0000ffcc;
   |          ^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/hex-colors/input.css:6:3
+  |
+6 |   color: #0000FFCC;
+  |   ^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/hex-colors/input.css:6:3
@@ -239,6 +269,12 @@ error: HexColor
 6 |   color: #0000FFCC;
   |          ^^^^^^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/hex-colors/input.css:7:3
+  |
+7 |   color: #000;
+  |   ^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/hex-colors/input.css:7:3
   |
@@ -268,6 +304,12 @@ error: HexColor
   |
 7 |   color: #000;
   |          ^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/hex-colors/input.css:8:3
+  |
+8 |   color: #fff;
+  |   ^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/hex-colors/input.css:8:3
@@ -299,6 +341,12 @@ error: HexColor
 8 |   color: #fff;
   |          ^^^^
 
+error: StyleBlock
+ --> $DIR/tests/fixture/hex-colors/input.css:9:3
+  |
+9 |   color: #FFF;
+  |   ^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/hex-colors/input.css:9:3
   |
@@ -329,6 +377,12 @@ error: HexColor
 9 |   color: #FFF;
   |          ^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/hex-colors/input.css:10:3
+   |
+10 |   color: #0000;
+   |   ^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/hex-colors/input.css:10:3
    |
@@ -359,6 +413,12 @@ error: HexColor
 10 |   color: #0000;
    |          ^^^^^
 
+error: StyleBlock
+  --> $DIR/tests/fixture/hex-colors/input.css:11:3
+   |
+11 |   color: #ffff;
+   |   ^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/hex-colors/input.css:11:3
    |
@@ -388,6 +448,12 @@ error: HexColor
    |
 11 |   color: #ffff;
    |          ^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/hex-colors/input.css:12:3
+   |
+12 |   color: #FFFF;
+   |   ^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/hex-colors/input.css:12:3
