@@ -25,3 +25,7 @@ a { b: c!important }
        color: red !important;
     }
 }
+
+.foo {
+    color: red !ie;
+}
