@@ -32,6 +32,9 @@
 - **(api/rust)** Improve error messages for wrong usages of scoped thread-local variables (#3606) ([798ef13](https://github.com/swc-project/swc/commit/798ef137069ebb4a5998938bc99866c5b2050437))
 
 
+- **(cli)** Initialize compile command (#3602) ([5ed3f3a](https://github.com/swc-project/swc/commit/5ed3f3a503ef01d162b45e0671a85f69b92f360c))
+
+
 - **(css/ast)** Use `SimpleBlock` for `@keyframe`s (#3577) ([a20ed34](https://github.com/swc-project/swc/commit/a20ed34e6b7ebb9b63d51a3e04d5c6e28b013daa))
 
 
