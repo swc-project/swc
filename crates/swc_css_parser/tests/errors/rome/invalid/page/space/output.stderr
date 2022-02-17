@@ -1,9 +1,3 @@
-error: Invalid selector
- --> $DIR/tests/errors/rome/invalid/page/space/input.css:3:14
-  |
-3 |     margin-left: 4cm;
-  |                 ^
-
 error: Expected 'left', 'right', 'first' or 'blank' ident
  --> $DIR/tests/errors/rome/invalid/page/space/input.css:1:11
   |

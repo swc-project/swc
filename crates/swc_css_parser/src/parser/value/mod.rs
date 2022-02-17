@@ -277,11 +277,11 @@ where
                     return Ok(simple_block);
                 }
                 _ => {
-                    let token = self.input.bump()?.unwrap();
+                    let component_value = self.parse_component_value()?;
 
                     simple_block
                         .value
-                        .push(ComponentValue::Value(Value::PreservedToken(token)));
+                        .push(ComponentValue::Value(component_value));
                 }
             }
         }

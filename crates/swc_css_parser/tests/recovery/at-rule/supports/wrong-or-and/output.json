@@ -243,7 +243,7 @@
           "type": "SimpleBlock",
           "span": {
             "start": 68,
-            "end": 93,
+            "end": 94,
             "ctxt": 0
           },
           "name": "(",
@@ -285,46 +285,54 @@
               }
             },
             {
-              "type": "PreservedToken",
+              "type": "Function",
               "span": {
                 "start": 80,
-                "end": 87,
+                "end": 93,
                 "ctxt": 0
               },
-              "token": {
-                "Function": {
-                  "value": "rotate",
-                  "raw": "rotate"
-                }
-              }
-            },
-            {
-              "type": "PreservedToken",
-              "span": {
-                "start": 87,
-                "end": 92,
-                "ctxt": 0
+              "name": {
+                "type": "Ident",
+                "span": {
+                  "start": 80,
+                  "end": 86,
+                  "ctxt": 0
+                },
+                "value": "rotate",
+                "raw": "rotate"
               },
-              "token": {
-                "Dimension": {
-                  "value": 10.0,
-                  "raw_value": "10",
-                  "unit": "deg",
-                  "raw_unit": "deg",
-                  "type": "integer"
+              "value": [
+                {
+                  "type": "Angle",
+                  "span": {
+                    "start": 87,
+                    "end": 92,
+                    "ctxt": 0
+                  },
+                  "value": {
+                    "type": "Number",
+                    "span": {
+                      "start": 87,
+                      "end": 89,
+                      "ctxt": 0
+                    },
+                    "value": 10.0,
+                    "raw": "10"
+                  },
+                  "unit": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 89,
+                      "end": 92,
+                      "ctxt": 0
+                    },
+                    "value": "deg",
+                    "raw": "deg"
+                  }
                 }
-              }
+              ]
             }
           ]
-        },
-        {
-          "type": "PreservedToken",
-          "span": {
-            "start": 93,
-            "end": 94,
-            "ctxt": 0
-          },
-          "token": "RParen"
         },
         {
           "type": "PreservedToken",
