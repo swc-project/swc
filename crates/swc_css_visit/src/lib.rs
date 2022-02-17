@@ -32,6 +32,7 @@ define!({
         DeclarationBlockItem(DeclarationBlockItem),
         Rule(Rule),
         StyleBlock(StyleBlock),
+        KeyframeBlock(KeyframeBlock),
     }
 
     pub struct Ident {
@@ -533,7 +534,7 @@ define!({
     pub struct KeyframesRule {
         pub span: Span,
         pub name: KeyframesName,
-        pub blocks: Vec<KeyframeBlock>,
+        pub block: SimpleBlock,
     }
 
     pub struct KeyframeBlock {

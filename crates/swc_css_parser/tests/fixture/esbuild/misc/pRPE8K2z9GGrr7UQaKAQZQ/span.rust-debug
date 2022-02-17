@@ -28,3 +28,9 @@ error: CustomIdent
 1 | @-o-keyframes name {}
   |               ^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/pRPE8K2z9GGrr7UQaKAQZQ/input.css:1:20
+  |
+1 | @-o-keyframes name {}
+  |                    ^^
+

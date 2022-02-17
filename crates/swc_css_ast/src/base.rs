@@ -1,7 +1,7 @@
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
-use crate::{AtRule, DashedIdent, Ident, SelectorList, Tokens, Value};
+use crate::{AtRule, DashedIdent, Ident, KeyframeBlock, SelectorList, Tokens, Value};
 
 #[ast_node("Stylesheet")]
 pub struct Stylesheet {
@@ -60,6 +60,8 @@ pub enum ComponentValue {
     Rule(Rule),
     #[tag("StyleBlock")]
     StyleBlock(StyleBlock),
+    #[tag("KeyframeBlock")]
+    KeyframeBlock(KeyframeBlock),
 }
 
 #[ast_node]

@@ -6,7 +6,7 @@ use crate::{CustomIdent, Ident, Percentage, SimpleBlock, Str};
 pub struct KeyframesRule {
     pub span: Span,
     pub name: KeyframesName,
-    pub blocks: Vec<KeyframeBlock>,
+    pub block: SimpleBlock,
 }
 
 #[ast_node]

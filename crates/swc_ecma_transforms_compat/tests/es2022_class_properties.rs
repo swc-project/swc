@@ -5553,6 +5553,23 @@ test_exec!(
   "
 );
 
+test_exec!(
+    syntax(),
+    |_| class_properties(class_properties::Config { loose: false }),
+    new_target_in_class_prop,
+    "
+class Foo {
+    bar = new.target;
+    ['baz'] = new.target;
+}
+
+const foo = new Foo();
+
+expect(foo.bar).toBe(undefined);
+expect(foo.baz).toBe(undefined);
+"
+);
+
 test!(
     syntax(),
     |_| class_properties(class_properties::Config { loose: false }),
@@ -5827,6 +5844,34 @@ const a = ()=>{
         }
     }
     return _class;
+};
+"
+);
+
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config { loose: false }),
+    issue_2481,
+    "
+class Foo {
+    static #prop1 = 42;
+    static #prop2 = (() => {
+        console.log(this.#prop1);
+    })();
+}
+",
+    "
+class Foo {
+}
+var _prop1 = {
+    writable: true,
+    value: 42
+};
+var _prop2 = {
+    writable: true,
+    value: (()=>{
+        console.log(_classStaticPrivateFieldSpecGet(Foo, Foo, _prop1));
+    })()
 };
 "
 );
