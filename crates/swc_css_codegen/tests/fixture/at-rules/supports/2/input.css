@@ -1,0 +1,3 @@
+@supports (--foo:    ) {
+    html { background: green; }
+}

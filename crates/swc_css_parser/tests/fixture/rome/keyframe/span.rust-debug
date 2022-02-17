@@ -52,6 +52,19 @@ error: CustomIdent
 1 | @keyframes important1 {
   |            ^^^^^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/keyframe/input.css:1:23
+  |
+1 |   @keyframes important1 {
+  |  _______________________^
+2 | |     from {
+3 | |         margin-top: 50px !important;
+4 | |     }
+... |
+7 | |     }
+8 | | }
+  | |_^
+
 error: KeyframeBlock
  --> $DIR/tests/fixture/rome/keyframe/input.css:2:5
   |
@@ -272,6 +285,19 @@ error: CustomIdent
 10 | @keyframes foo {
    |            ^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/rome/keyframe/input.css:10:16
+   |
+10 |   @keyframes foo {
+   |  ________________^
+11 | |     from {
+12 | |     }
+13 | |     to {
+...  |
+20 | |     }
+21 | | }
+   | |_^
+
 error: KeyframeBlock
   --> $DIR/tests/fixture/rome/keyframe/input.css:11:5
    |
@@ -451,4 +477,12 @@ error: CustomIdent
    |
 23 | @keyframes FOO {
    |            ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/rome/keyframe/input.css:23:16
+   |
+23 |   @keyframes FOO {
+   |  ________________^
+24 | | }
+   | |_^
 

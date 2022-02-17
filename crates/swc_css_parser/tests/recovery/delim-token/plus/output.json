@@ -204,14 +204,32 @@
                 },
                 "value": [
                   {
-                    "type": "Number",
+                    "type": "PreservedToken",
                     "span": {
                       "start": 51,
                       "end": 52,
                       "ctxt": 0
                     },
-                    "value": 1.0,
-                    "raw": "1"
+                    "token": {
+                      "Number": {
+                        "value": 1.0,
+                        "raw": "1",
+                        "type": "integer"
+                      }
+                    }
+                  },
+                  {
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 52,
+                      "end": 53,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
                   },
                   {
                     "type": "PreservedToken",

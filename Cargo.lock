@@ -1175,9 +1175,9 @@ dependencies = [
 
 [[package]]
 name = "lock_api"
-version = "0.4.5"
+version = "0.4.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "712a4d093c9976e24e7dbca41db895dabcbac38eb5f4045393d17a95bdfb1109"
+checksum = "88943dd7ef4a2e5a4bfa2753aaab3013e34ce2533d1996fb18ef591e315e2b3b"
 dependencies = [
  "scopeguard",
 ]
@@ -1674,6 +1674,16 @@ dependencies = [
  "instant",
  "lock_api",
  "parking_lot_core 0.8.0",
+]
+
+[[package]]
+name = "parking_lot"
+version = "0.12.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "87f5ec2493a61ac0506c0f4199f99070cbe83857b0337006a30f3e6719b8ef58"
+dependencies = [
+ "lock_api",
+ "parking_lot_core 0.9.1",
 ]
 
 [[package]]
@@ -2554,7 +2564,7 @@ checksum = "33994d0838dc2d152d17a62adf608a869b5e846b65b389af7f3dbc1de45c5b26"
 dependencies = [
  "lazy_static",
  "new_debug_unreachable",
- "parking_lot",
+ "parking_lot 0.11.1",
  "phf_shared 0.10.0",
  "precomputed-hash",
  "serde",
@@ -2598,7 +2608,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.127.4"
+version = "0.127.5"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2663,7 +2673,7 @@ dependencies = [
  "is-macro",
  "ntest",
  "once_cell",
- "parking_lot",
+ "parking_lot 0.12.0",
  "path-clean",
  "petgraph",
  "radix_fmt",
@@ -2718,7 +2728,7 @@ dependencies = [
  "num-bigint",
  "once_cell",
  "owning_ref",
- "parking_lot",
+ "parking_lot 0.12.0",
  "rayon",
  "rkyv",
  "rustc-hash",
@@ -2738,7 +2748,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.86.0"
+version = "0.87.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -2750,7 +2760,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.78.0"
+version = "0.79.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -2761,7 +2771,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.83.0"
+version = "0.84.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -2787,7 +2797,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.48.1"
+version = "0.49.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2800,7 +2810,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.84.0"
+version = "0.85.1"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2815,7 +2825,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "0.75.0"
+version = "0.76.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2825,7 +2835,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.77.0"
+version = "0.78.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2906,12 +2916,12 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.14.9"
+version = "0.14.10"
 dependencies = [
  "ahash",
  "auto_impl",
  "dashmap",
- "parking_lot",
+ "parking_lot 0.12.0",
  "rayon",
  "regex",
  "serde",
@@ -3091,7 +3101,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.70.0"
+version = "0.70.1"
 dependencies = [
  "ahash",
  "arrayvec 0.7.2",
@@ -3463,7 +3473,7 @@ dependencies = [
  "anyhow",
  "libloading",
  "once_cell",
- "parking_lot",
+ "parking_lot 0.12.0",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -3484,7 +3494,7 @@ version = "0.24.1"
 
 [[package]]
 name = "swc_stylis"
-version = "0.82.0"
+version = "0.83.0"
 dependencies = [
  "swc_atoms",
  "swc_common",

@@ -45,6 +45,7 @@ jobs:
         with:
           repository: "swc-project/swc"
           ref: "main"
+          fetch-depth: 0
 
       - uses: actions/setup-node@v2
         with:

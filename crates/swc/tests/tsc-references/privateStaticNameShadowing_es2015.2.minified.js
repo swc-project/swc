@@ -12,4 +12,4 @@ class X {
 function m() {
     return _classStaticPrivateMethodGet({}, X, m).call(X), 1;
 }
-X.#m();
+_classStaticPrivateMethodGet(X, X, m).call(X);

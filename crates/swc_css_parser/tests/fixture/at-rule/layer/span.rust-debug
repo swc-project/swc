@@ -190,6 +190,16 @@ error: CustomIdent
 4 |     @keyframes slide-left {
   |                ^^^^^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/layer/input.css:4:27
+  |
+4 |       @keyframes slide-left {
+  |  ___________________________^
+5 | |         from { translate: 0; }
+6 | |         to { translate: -100% 0; }
+7 | |     }
+  | |_____^
+
 error: KeyframeBlock
  --> $DIR/tests/fixture/at-rule/layer/input.css:5:9
   |
@@ -411,6 +421,16 @@ error: CustomIdent
    |
 11 |     @keyframes slide-left {
    |                ^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/layer/input.css:11:27
+   |
+11 |       @keyframes slide-left {
+   |  ___________________________^
+12 | |         from { margin-left: 0; }
+13 | |         to { margin-left: -100%; }
+14 | |     }
+   | |_____^
 
 error: KeyframeBlock
   --> $DIR/tests/fixture/at-rule/layer/input.css:12:9

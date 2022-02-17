@@ -1,3 +1,9 @@
+function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
+    if (receiver !== classConstructor) {
+        throw new TypeError("Private static access of wrong provenance");
+    }
+    return descriptor.value;
+}
 // @useDefineForClassFields: false
 // @target: es2015
 class C {
@@ -9,6 +15,6 @@ var _x = {
 var __ = {
     writable: true,
     value: (()=>{
-        C.#x;
+        _classStaticPrivateFieldSpecGet(C, C, _x);
     })()
 };

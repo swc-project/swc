@@ -28,6 +28,12 @@ error: CustomIdent
 1 | @keyframes a\62 c { from {} }
   |            ^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:19
+  |
+1 | @keyframes a\62 c { from {} }
+  |                   ^^^^^^^^^^^
+
 error: KeyframeBlock
  --> $DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:21
   |
