@@ -1,0 +1,12 @@
+{
+    "jsc": {
+        "lints": {
+            "eqeqeq": [
+                2,
+                {
+                    "mode": "always"
+                }
+            ]
+        }
+    }
+}

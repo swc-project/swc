@@ -62,7 +62,7 @@ impl Quotes {
         let quotes_config = config.get_rule_config();
 
         Self {
-            expected_reaction: *config.get_rule_reaction(),
+            expected_reaction: config.get_rule_reaction(),
             prefer: quotes_config.prefer,
             avoid_escape: quotes_config.avoid_escape.unwrap_or(true),
             allow_template_literals: quotes_config.allow_template_literals.unwrap_or(true),
