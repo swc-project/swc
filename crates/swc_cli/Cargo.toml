@@ -14,6 +14,17 @@ path = "./src/main.rs"
 
 [dependencies]
 anyhow = "1.0.53"
-clap = {version = "3.0.14", features = ["derive", "wrap_help"]}
+clap = { version = "3.1.0", features = ["derive", "wrap_help"] }
+walkdir = "2"
+rayon = "1"
+swc = { version = "0.127.1", path = "../swc" }
+swc_common = { version = "0.17.5", path = "../swc_common" }
+relative-path = "1.6.1"
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["unbounded_depth"] }
+
+[dependencies.path-absolutize]
+version = "3.0.11"
+features = ["once_cell_cache"]
 
 [features]
