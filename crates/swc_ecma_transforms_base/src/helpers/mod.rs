@@ -60,7 +60,7 @@ macro_rules! add_to {
     }};
 }
 
-better_scoped_tls::scoped_tls_with_good_error!(
+better_scoped_tls::scoped_tls!(
     /// This variable is used to manage helper scripts like `_inherits` from babel.
     ///
     /// The instance contains flags where each flag denotes if a helper script should be injected.

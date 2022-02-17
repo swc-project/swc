@@ -77,7 +77,7 @@ impl Globals {
     }
 }
 
-better_scoped_tls::scoped_tls_with_good_error!(
+better_scoped_tls::scoped_tls!(
 
     /// Storage for span hygiene data.
     ///

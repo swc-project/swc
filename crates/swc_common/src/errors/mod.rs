@@ -898,7 +898,7 @@ impl Level {
     }
 }
 
-better_scoped_tls::scoped_tls_with_good_error!(
+better_scoped_tls::scoped_tls!(
     /// Used for error reporting in transform.
     ///
     /// This should be only used for errors from the api which does not returning errors.

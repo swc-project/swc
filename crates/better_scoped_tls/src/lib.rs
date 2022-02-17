@@ -7,7 +7,7 @@ pub extern crate scoped_tls;
 ///
 /// This is noop on release builds.
 #[macro_export]
-macro_rules! scoped_tls_with_good_error {
+macro_rules! scoped_tls {
     ($(#[$attrs:meta])* $vis:vis static $name:ident: $ty:ty) => {
         $crate::scoped_tls::scoped_thread_local!(
             static INNER: $ty
@@ -83,7 +83,7 @@ where
 #[cfg(test)]
 mod tests {
 
-    scoped_tls_with_good_error!(
+    scoped_tls!(
         pub static TESTTLS: String
     );
 
