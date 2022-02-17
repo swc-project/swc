@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 27,
+    "end": 29,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "UnknownAtRule",
       "span": {
         "start": 0,
-        "end": 26,
+        "end": 28,
         "ctxt": 0
       },
       "name": {
@@ -69,7 +69,7 @@
         "type": "SimpleBlock",
         "span": {
           "start": 15,
-          "end": 26,
+          "end": 28,
           "ctxt": 0
         },
         "name": "{",
@@ -116,24 +116,39 @@
             }
           },
           {
-            "type": "PreservedToken",
+            "type": "SimpleBlock",
             "span": {
               "start": 21,
-              "end": 22,
+              "end": 26,
               "ctxt": 0
             },
-            "token": "LBrace"
+            "name": "{",
+            "value": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 22,
+                  "end": 25,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": "\n\n\t"
+                  }
+                }
+              }
+            ]
           },
           {
             "type": "PreservedToken",
             "span": {
-              "start": 22,
-              "end": 25,
+              "start": 26,
+              "end": 27,
               "ctxt": 0
             },
             "token": {
               "WhiteSpace": {
-                "value": "\n\n\t"
+                "value": "\n"
               }
             }
           }
