@@ -19,6 +19,8 @@ macro_rules! scoped_tls_with_good_error {
             inner: &INNER,
             #[cfg(debug_assertions)]
             module_path: module_path!(),
+            #[cfg(debug_assertions)]
+            name: stringify!($name),
         };
     };
 }
@@ -34,6 +36,10 @@ where
     #[cfg(debug_assertions)]
     #[doc(hidden)]
     pub module_path: &'static str,
+
+    #[cfg(debug_assertions)]
+    #[doc(hidden)]
+    pub name: &'static str,
 }
 
 impl<T> ScopedKey<T>
@@ -41,6 +47,7 @@ where
     T: 'static,
 {
     /// See [scoped_tls::ScopedKey] for actual documentation.
+    #[cfg_attr(not(debug_assertions), inline(always))]
     pub fn set<F, R>(&'static self, t: &T, f: F) -> R
     where
         F: FnOnce() -> R,
@@ -49,6 +56,7 @@ where
     }
 
     /// See [scoped_tls::ScopedKey] for actual documentation.
+    #[cfg_attr(not(debug_assertions), inline(always))]
     pub fn with<F, R>(&'static self, f: F) -> R
     where
         F: FnOnce(&T) -> R,
@@ -56,13 +64,17 @@ where
         #[cfg(debug_assertions)]
         if !self.inner.is_set() {
             // Override panic message
-            panic!("Module path: {}", self.module_path)
+            panic!(
+                "You should perform this operation in the closure passed to `set` of {}::{}",
+                self.module_path, self.name
+            )
         }
 
         self.inner.with(f)
     }
 
     /// See [scoped_tls::ScopedKey] for actual documentation.
+    #[cfg_attr(not(debug_assertions), inline(always))]
     pub fn is_set(&'static self) -> bool {
         self.inner.is_set()
     }
@@ -77,7 +89,12 @@ mod tests {
 
     #[cfg(debug_assertions)]
     #[test]
-    #[should_panic = "You need to call set on tests::TESTTLS first"]
+    #[should_panic = "You should perform this operation in the closure passed to `set` of \
+                      better_scoped_tls::tests::TESTTLS"]
 
-    fn panic_on_with() {}
+    fn panic_on_with() {
+        TESTTLS.with(|s| {
+            println!("S: {}", s);
+        })
+    }
 }
