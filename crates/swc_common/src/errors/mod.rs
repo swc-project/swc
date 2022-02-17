@@ -315,10 +315,10 @@ impl error::Error for ExplicitBug {
 ///
 /// ## Error reporting in swc
 ///
-/// ```rust
+/// ```rust,ignore
 /// use swc_common::errors::HANDLER;
 ///
-/// #fn main() {
+/// # fn main() {
 ///     HANDLER.with(|handler| {
 ///         // You can access the handler for the current file using HANDLER.with.
 ///
@@ -339,7 +339,7 @@ impl error::Error for ExplicitBug {
 ///             )
 ///             .emit();
 ///     });
-/// #}
+/// # }
 /// ```
 pub struct Handler {
     pub flags: HandlerFlags,
