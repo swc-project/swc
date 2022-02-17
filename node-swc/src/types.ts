@@ -498,7 +498,7 @@ export interface JscConfig {
      * Currently only transform plugin uses this. If not specified, SWC will
      * create `.swc` directories.
      */
-    cacheRoot: string;
+    cacheRoot?: string;
     /**
      * List of custom transform plugins written in WebAssembly.
      * First parameter of tuple indicates the name of the plugin - it can be either
@@ -506,7 +506,7 @@ export interface JscConfig {
      *
      * Second parameter of tuple is JSON based configuration for the plugin.
      */
-    plugins: Array<[string, Record<string, any>]>
+    plugins?: Array<[string, Record<string, any>]>
   },
 
   baseUrl?: string
