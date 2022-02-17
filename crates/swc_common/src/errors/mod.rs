@@ -310,10 +310,36 @@ impl error::Error for ExplicitBug {
 /// `swc` provides a global-like variable ([HANDLER]) of type `Handler` that can
 /// be used to report errors.
 ///
+/// You can refer to [the lint rules](https://github.com/swc-project/swc/tree/main/crates/swc_ecma_lints/src/rules) for other example usages.
+/// All lint rules have code for error reporting.
+///
 /// ## Error reporting in swc
 ///
 /// ```rust
 /// use swc_common::errors::HANDLER;
+///
+/// #fn main() {
+///     HANDLER.with(|handler| {
+///         // You can access the handler for the current file using HANDLER.with.
+///
+///         // We now report an error
+///
+///         // `struct_span_err` creates a builder for a diagnostic.
+///         // The span passed to `struct_span_err` will used to point the problematic code.
+///         //
+///         // You may provide additional information, like a previous declaration of parameter.
+///         handler
+///             .struct_span_err(
+///                 span,
+///                 &format!("`{}` used as parameter more than once", js_word),
+///             )
+///             .span_note(
+///                 old_span,
+///                 &format!("previous definition of `{}` here", js_word),
+///             )
+///             .emit();
+///     });
+/// #}
 /// ```
 pub struct Handler {
     pub flags: HandlerFlags,
