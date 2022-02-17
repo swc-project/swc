@@ -17,7 +17,6 @@ use std::{
     sync::atomic::{AtomicUsize, Ordering::SeqCst},
 };
 
-use scoped_tls::scoped_thread_local;
 #[cfg(feature = "tty-emitter")]
 use termcolor::{Color, ColorSpec};
 
@@ -936,7 +935,7 @@ impl Level {
     }
 }
 
-scoped_thread_local!(
+better_scoped_tls::scoped_tls!(
     /// Used for error reporting in transform.
     ///
     /// This should be only used for errors from the api which does not returning errors.
