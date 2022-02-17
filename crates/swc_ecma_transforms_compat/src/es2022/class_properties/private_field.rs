@@ -8,7 +8,9 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{alias_ident_for, alias_if_required, prepend, quote_ident, ExprFactory};
+use swc_ecma_utils::{
+    alias_ident_for, alias_if_required, prepend, quote_ident, ExprFactory, HANDLER,
+};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 pub(super) struct Private {
@@ -40,21 +42,29 @@ impl PrivateRecord {
         self.0.pop();
     }
 
-    pub fn get(&self, name: &JsWord) -> (Mark, PrivateKind, &Ident) {
+    pub fn get(&self, name: &Ident) -> (Mark, PrivateKind, &Ident) {
         for p in self.0.iter().rev() {
-            if let Some(kind) = p.ident.get(name) {
-                return (p.mark, kind.clone(), &p.class_name);
+            if let Some(kind) = p.ident.get(&name.sym) {
+                return (p.mark, *kind, &p.class_name);
             }
         }
-        // TODO: better error information with span
-        panic!("Private name #{} is not defined.", name);
+
+        let error = format!("private name #{} is not defined.", name.sym);
+        HANDLER.with(|handler| handler.struct_span_err(name.span, &error).emit());
+        (
+            Mark::from_u32(1),
+            PrivateKind::default(),
+            &self.0[0].class_name,
+        )
     }
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Copy, Clone, PartialEq, Default)]
 pub(super) struct PrivateKind {
     pub is_static: bool,
     pub is_method: bool,
+    pub has_getter: bool,
+    pub has_setter: bool,
 }
 
 pub(super) struct BrandCheckHandler<'a> {
@@ -93,7 +103,7 @@ impl VisitMut for BrandCheckHandler<'_> {
 
                 self.names.insert(n.id.sym.clone());
 
-                let (mark, kind, class_name) = self.private.get(&n.id.sym);
+                let (mark, kind, class_name) = self.private.get(&n.id);
 
                 if kind.is_static {
                     *e = Expr::Bin(BinExpr {
@@ -191,7 +201,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
 
                 let obj = arg.obj.clone();
 
-                let (mark, kind, class_name) = self.private.get(&n.id.sym);
+                let (mark, kind, class_name) = self.private.get(&n.id);
                 let ident = Ident::new(format!("_{}", n.id.sym).into(), n.id.span.apply_mark(mark));
 
                 let var = alias_ident_for(&obj, "_ref");
@@ -322,7 +332,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
 
                 let obj = left.obj.clone();
 
-                let (mark, kind, class_name) = self.private.get(&n.id.sym);
+                let (mark, kind, class_name) = self.private.get(&n.id);
                 let ident = Ident::new(format!("_{}", n.id.sym).into(), n.id.span.apply_mark(mark));
 
                 let var = alias_ident_for(&obj, "_ref");
@@ -520,7 +530,7 @@ impl<'a> PrivateAccessVisitor<'a> {
 
         let mut obj = e.obj.take();
 
-        let (mark, kind, class_name) = self.private.get(&n.id.sym);
+        let (mark, kind, class_name) = self.private.get(&n.id);
         let method_name = Ident::new(
             n.id.sym.clone(),
             n.id.span.with_ctxt(SyntaxContext::empty()).apply_mark(mark),
@@ -664,4 +674,16 @@ impl<'a> PrivateAccessVisitor<'a> {
             }
         }
     }
+}
+
+/// only getter and setter in same scope could coexist
+pub(super) fn dup_private_method(kind: &PrivateKind, method: &PrivateMethod) -> bool {
+    if !kind.is_method || kind.is_static != method.is_static || method.kind == MethodKind::Method {
+        return true;
+    }
+
+    !matches!(
+        (method.kind, kind.has_getter, kind.has_setter),
+        (MethodKind::Getter, false, true) | (MethodKind::Setter, true, false)
+    )
 }

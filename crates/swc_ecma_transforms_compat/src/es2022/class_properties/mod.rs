@@ -1,13 +1,17 @@
 #![allow(dead_code)]
 
-use swc_common::{collections::AHashSet, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    util::take::Take,
+    Mark, Spanned, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     alias_ident_for, alias_if_required, constructor::inject_after_super, default_constructor,
-    private_ident, quote_ident, undefined, ExprFactory, ModuleItemLike, StmtLike,
+    private_ident, quote_ident, undefined, ExprFactory, ModuleItemLike, StmtLike, HANDLER,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -16,8 +20,8 @@ use swc_ecma_visit::{
 use self::{
     class_name_tdz::ClassNameTdzFolder,
     private_field::{
-        visit_private_in_expr, BrandCheckHandler, Private, PrivateAccessVisitor, PrivateKind,
-        PrivateRecord,
+        dup_private_method, visit_private_in_expr, BrandCheckHandler, Private,
+        PrivateAccessVisitor, PrivateKind, PrivateRecord,
     },
     this_in_static::{NewTargetInProp, ThisInStaticFolder},
     used_name::UsedNameCollector,
@@ -313,29 +317,64 @@ impl ClassProperties {
         let private = Private {
             mark: Mark::fresh(Mark::root()),
             class_name: class_ident.clone(),
-            ident: class
-                .body
-                .iter()
-                .filter_map(|member| match member {
-                    ClassMember::PrivateMethod(method) => Some((
-                        method.key.id.sym.clone(),
-                        PrivateKind {
-                            is_method: true,
-                            is_static: method.is_static,
-                        },
-                    )),
+            ident: {
+                let mut private_map = AHashMap::default();
 
-                    ClassMember::PrivateProp(prop) => Some((
-                        prop.key.id.sym.clone(),
-                        PrivateKind {
-                            is_method: false,
-                            is_static: prop.is_static,
-                        },
-                    )),
+                for member in class.body.iter() {
+                    match member {
+                        ClassMember::PrivateMethod(method) => {
+                            if let Some(kind) = private_map.get_mut(&method.key.id.sym) {
+                                if dup_private_method(kind, method) {
+                                    let error =
+                                        format!("duplicate private name #{}.", method.key.id.sym);
+                                    HANDLER.with(|handler| {
+                                        handler.struct_span_err(method.key.id.span, &error).emit()
+                                    });
+                                } else {
+                                    match method.kind {
+                                        MethodKind::Getter => kind.has_getter = true,
+                                        MethodKind::Setter => kind.has_setter = true,
+                                        MethodKind::Method => unreachable!(),
+                                    }
+                                }
+                            } else {
+                                private_map.insert(
+                                    method.key.id.sym.clone(),
+                                    PrivateKind {
+                                        is_method: true,
+                                        is_static: method.is_static,
+                                        has_getter: method.kind == MethodKind::Getter,
+                                        has_setter: method.kind == MethodKind::Setter,
+                                    },
+                                );
+                            }
+                        }
 
-                    _ => None,
-                })
-                .collect(),
+                        ClassMember::PrivateProp(prop) => {
+                            if private_map.get(&prop.key.id.sym).is_some() {
+                                let error = format!("duplicate private name #{}.", prop.key.id.sym);
+                                HANDLER.with(|handler| {
+                                    handler.struct_span_err(prop.key.id.span, &error).emit()
+                                });
+                            } else {
+                                private_map.insert(
+                                    prop.key.id.sym.clone(),
+                                    PrivateKind {
+                                        is_method: false,
+                                        is_static: prop.is_static,
+                                        has_getter: false,
+                                        has_setter: false,
+                                    },
+                                );
+                            };
+                        }
+
+                        _ => (),
+                    };
+                }
+
+                private_map
+            },
         };
 
         self.private.push(private);
