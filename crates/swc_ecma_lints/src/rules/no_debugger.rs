@@ -14,7 +14,7 @@ pub fn no_debugger(config: &RuleConfig<()>) -> Option<Box<dyn Rule>> {
 
     match rule_reaction {
         LintRuleReaction::Off => None,
-        _ => Some(visitor_rule(NoDebugger::new(*rule_reaction))),
+        _ => Some(visitor_rule(NoDebugger::new(rule_reaction))),
     }
 }
 

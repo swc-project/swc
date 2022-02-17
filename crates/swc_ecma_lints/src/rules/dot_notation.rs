@@ -69,7 +69,7 @@ impl DotNotation {
         let dot_notation_config = config.get_rule_config();
 
         Self {
-            expected_reaction: *config.get_rule_reaction(),
+            expected_reaction: config.get_rule_reaction(),
             allow_keywords: dot_notation_config.allow_keywords.unwrap_or(true),
             source_map,
             is_module,

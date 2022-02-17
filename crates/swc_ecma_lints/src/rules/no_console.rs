@@ -36,7 +36,7 @@ struct NoConsole {
 impl NoConsole {
     fn new(config: &RuleConfig<NoConsoleConfig>, top_level_ctxt: SyntaxContext) -> Self {
         Self {
-            expected_reaction: *config.get_rule_reaction(),
+            expected_reaction: config.get_rule_reaction(),
             allow: config.get_rule_config().allow.as_ref().map(|method_names| {
                 method_names
                     .iter()
