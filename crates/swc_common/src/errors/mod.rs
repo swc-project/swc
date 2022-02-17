@@ -313,7 +313,8 @@ impl error::Error for ExplicitBug {
 /// ## Error reporting in swc
 ///
 /// ```rust
-/// use swc_common
+/// use swc_common::errors::HANDLER;
+///
 /// ```
 pub struct Handler {
     pub flags: HandlerFlags,
@@ -918,5 +919,7 @@ scoped_thread_local!(
     /// e.g.
     ///  - `parser` should not use this.
     ///  - `transforms` should use this to report error, as it does not return [Result].
+    ///
+    /// See [Handler] for actual usage examples.
     pub static HANDLER: Handler
 );
