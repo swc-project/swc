@@ -14,6 +14,9 @@
 - **(es/compat)** Handle `super` and `new.target` in class properties (#3594) ([3191741](https://github.com/swc-project/swc/commit/31917417e929ab2137143b44c15b95d7c642e71e))
 
 
+- **(es/lints)** Use `kebab-case` for configuration (#3590) ([71a94b1](https://github.com/swc-project/swc/commit/71a94b143ed881eca9097e724f5dd4986241a9b1))
+
+
 - **(node-swc/types)** Fix experimental config options (#3603) ([2b5eba1](https://github.com/swc-project/swc/commit/2b5eba16c3a5e3621b6e66d92db1e0d6c400c9f2))
 
 ### Features
