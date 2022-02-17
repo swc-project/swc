@@ -289,9 +289,21 @@ where
 
     pub fn parse_component_value(&mut self) -> PResult<Value> {
         match cur!(self) {
-            tok!("[") => Ok(Value::SimpleBlock(self.parse_simple_block(']')?)),
-            tok!("(") => Ok(Value::SimpleBlock(self.parse_simple_block(')')?)),
-            tok!("{") => Ok(Value::SimpleBlock(self.parse_simple_block('}')?)),
+            tok!("[") => {
+                self.input.bump()?;
+
+                Ok(Value::SimpleBlock(self.parse_simple_block(']')?))
+            }
+            tok!("(") => {
+                self.input.bump()?;
+
+                Ok(Value::SimpleBlock(self.parse_simple_block(')')?))
+            }
+            tok!("{") => {
+                self.input.bump()?;
+
+                Ok(Value::SimpleBlock(self.parse_simple_block('}')?))
+            }
             tok!("function") => Ok(Value::Function(self.parse()?)),
             _ => {
                 let token = self.input.bump()?;

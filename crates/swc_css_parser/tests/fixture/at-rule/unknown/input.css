@@ -12,8 +12,8 @@
 @unknown a b {}
 @unknown {p:v}
 @unknown x y {p:v}
-/*@unknown x, y x(1) {p:v}*/
-/*@unknown x, y x(1+2) {p:v}*/
+@unknown x, y x(1) {p:v}
+@unknown x, y x(1+2) {p:v}
 @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
 /*@unknown!*test*!x!*test*! y!*test*!{!*test*!p!*test*!:!*test*!v!*test*!}*/
 /*@unknown!*test*!x!*test*!,!*test*!y!*test*! x(!*test*!1!*test*!+!*test*!2!*test*!)!*test*!{!*test*!p!*test*!:!*test*!v!*test*!}*/
@@ -54,3 +54,11 @@
 
     color: red;
 }
+
+@unknown x ( a , b ) ;
+@unknown x ( a , b ) { foo: bar }
+@unknown x( a, b ) { foo: bar }
+/*@unknown x ( a + b ) ;*/
+/*@unknown x ( a - b ) ;*/
+/*@unknown x ( a * b ) ;*/
+/*@unknown x ( a / b ) ;*/

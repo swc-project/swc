@@ -11,3 +11,17 @@ div {
     color: red   !   IMPORTANT;
     color: red   !   iMpOrTaNt;
 }
+
+a { b: c!important }
+
+.class {
+    & div {
+        color: red !important
+    }
+}
+
+.class {
+    & div {
+       color: red !important;
+    }
+}

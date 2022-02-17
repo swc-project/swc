@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 666,
+    "end": 654,
     "ctxt": 0
   },
   "rules": [
@@ -708,82 +708,15 @@
     {
       "type": "UnknownAtRule",
       "span": {
-        "start": 279,
-        "end": 332,
+        "start": 219,
+        "end": 243,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 280,
-          "end": 287,
-          "ctxt": 0
-        },
-        "value": "unknown",
-        "raw": "unknown"
-      },
-      "prelude": [],
-      "block": {
-        "type": "SimpleBlock",
-        "span": {
-          "start": 295,
-          "end": 332,
-          "ctxt": 0
-        },
-        "name": "{",
-        "value": [
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 304,
-              "end": 305,
-              "ctxt": 0
-            },
-            "token": {
-              "Ident": {
-                "value": "p",
-                "raw": "p"
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 313,
-              "end": 314,
-              "ctxt": 0
-            },
-            "token": "Colon"
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 322,
-              "end": 323,
-              "ctxt": 0
-            },
-            "token": {
-              "Ident": {
-                "value": "v",
-                "raw": "v"
-              }
-            }
-          }
-        ]
-      }
-    },
-    {
-      "type": "UnknownAtRule",
-      "span": {
-        "start": 542,
-        "end": 565,
-        "ctxt": 0
-      },
-      "name": {
-        "type": "Ident",
-        "span": {
-          "start": 543,
-          "end": 550,
+          "start": 220,
+          "end": 227,
           "ctxt": 0
         },
         "value": "unknown",
@@ -793,154 +726,21 @@
         {
           "type": "PreservedToken",
           "span": {
-            "start": 550,
-            "end": 552,
+            "start": 227,
+            "end": 228,
             "ctxt": 0
           },
           "token": {
             "WhiteSpace": {
-              "value": "  "
-            }
-          }
-        }
-      ],
-      "block": {
-        "type": "SimpleBlock",
-        "span": {
-          "start": 552,
-          "end": 565,
-          "ctxt": 0
-        },
-        "name": "{",
-        "value": [
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 553,
-              "end": 555,
-              "ctxt": 0
-            },
-            "token": {
-              "WhiteSpace": {
-                "value": "  "
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 555,
-              "end": 556,
-              "ctxt": 0
-            },
-            "token": {
-              "Ident": {
-                "value": "p",
-                "raw": "p"
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 556,
-              "end": 558,
-              "ctxt": 0
-            },
-            "token": {
-              "WhiteSpace": {
-                "value": "  "
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 558,
-              "end": 559,
-              "ctxt": 0
-            },
-            "token": "Colon"
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 559,
-              "end": 561,
-              "ctxt": 0
-            },
-            "token": {
-              "WhiteSpace": {
-                "value": "  "
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 561,
-              "end": 562,
-              "ctxt": 0
-            },
-            "token": {
-              "Ident": {
-                "value": "v",
-                "raw": "v"
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 562,
-              "end": 564,
-              "ctxt": 0
-            },
-            "token": {
-              "WhiteSpace": {
-                "value": "  "
-              }
-            }
-          }
-        ]
-      }
-    },
-    {
-      "type": "UnknownAtRule",
-      "span": {
-        "start": 566,
-        "end": 595,
-        "ctxt": 0
-      },
-      "name": {
-        "type": "Ident",
-        "span": {
-          "start": 567,
-          "end": 574,
-          "ctxt": 0
-        },
-        "value": "unknown",
-        "raw": "unknown"
-      },
-      "prelude": [
-        {
-          "type": "PreservedToken",
-          "span": {
-            "start": 574,
-            "end": 576,
-            "ctxt": 0
-          },
-          "token": {
-            "WhiteSpace": {
-              "value": "  "
+              "value": " "
             }
           }
         },
         {
           "type": "PreservedToken",
           "span": {
-            "start": 576,
-            "end": 577,
+            "start": 228,
+            "end": 229,
             "ctxt": 0
           },
           "token": {
@@ -953,21 +753,30 @@
         {
           "type": "PreservedToken",
           "span": {
-            "start": 577,
-            "end": 579,
+            "start": 229,
+            "end": 230,
+            "ctxt": 0
+          },
+          "token": "Comma"
+        },
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 230,
+            "end": 231,
             "ctxt": 0
           },
           "token": {
             "WhiteSpace": {
-              "value": "  "
+              "value": " "
             }
           }
         },
         {
           "type": "PreservedToken",
           "span": {
-            "start": 579,
-            "end": 580,
+            "start": 231,
+            "end": 232,
             "ctxt": 0
           },
           "token": {
@@ -980,13 +789,56 @@
         {
           "type": "PreservedToken",
           "span": {
-            "start": 580,
-            "end": 582,
+            "start": 232,
+            "end": 233,
             "ctxt": 0
           },
           "token": {
             "WhiteSpace": {
-              "value": "  "
+              "value": " "
+            }
+          }
+        },
+        {
+          "type": "Function",
+          "span": {
+            "start": 233,
+            "end": 237,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 233,
+              "end": 234,
+              "ctxt": 0
+            },
+            "value": "x",
+            "raw": "x"
+          },
+          "value": [
+            {
+              "type": "Number",
+              "span": {
+                "start": 235,
+                "end": 236,
+                "ctxt": 0
+              },
+              "value": 1.0,
+              "raw": "1"
+            }
+          ]
+        },
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 237,
+            "end": 238,
+            "ctxt": 0
+          },
+          "token": {
+            "WhiteSpace": {
+              "value": " "
             }
           }
         }
@@ -994,8 +846,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 582,
-          "end": 595,
+          "start": 238,
+          "end": 243,
           "ctxt": 0
         },
         "name": "{",
@@ -1003,21 +855,8 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 583,
-              "end": 585,
-              "ctxt": 0
-            },
-            "token": {
-              "WhiteSpace": {
-                "value": "  "
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 585,
-              "end": 586,
+              "start": 239,
+              "end": 240,
               "ctxt": 0
             },
             "token": {
@@ -1030,21 +869,8 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 586,
-              "end": 588,
-              "ctxt": 0
-            },
-            "token": {
-              "WhiteSpace": {
-                "value": "  "
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 588,
-              "end": 589,
+              "start": 240,
+              "end": 241,
               "ctxt": 0
             },
             "token": "Colon"
@@ -1052,8 +878,439 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 589,
-              "end": 591,
+              "start": 241,
+              "end": 242,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "v",
+                "raw": "v"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "UnknownAtRule",
+      "span": {
+        "start": 244,
+        "end": 270,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 245,
+          "end": 252,
+          "ctxt": 0
+        },
+        "value": "unknown",
+        "raw": "unknown"
+      },
+      "prelude": [
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 252,
+            "end": 253,
+            "ctxt": 0
+          },
+          "token": {
+            "WhiteSpace": {
+              "value": " "
+            }
+          }
+        },
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 253,
+            "end": 254,
+            "ctxt": 0
+          },
+          "token": {
+            "Ident": {
+              "value": "x",
+              "raw": "x"
+            }
+          }
+        },
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 254,
+            "end": 255,
+            "ctxt": 0
+          },
+          "token": "Comma"
+        },
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 255,
+            "end": 256,
+            "ctxt": 0
+          },
+          "token": {
+            "WhiteSpace": {
+              "value": " "
+            }
+          }
+        },
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 256,
+            "end": 257,
+            "ctxt": 0
+          },
+          "token": {
+            "Ident": {
+              "value": "y",
+              "raw": "y"
+            }
+          }
+        },
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 257,
+            "end": 258,
+            "ctxt": 0
+          },
+          "token": {
+            "WhiteSpace": {
+              "value": " "
+            }
+          }
+        },
+        {
+          "type": "Function",
+          "span": {
+            "start": 258,
+            "end": 264,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 258,
+              "end": 259,
+              "ctxt": 0
+            },
+            "value": "x",
+            "raw": "x"
+          },
+          "value": [
+            {
+              "type": "Number",
+              "span": {
+                "start": 260,
+                "end": 261,
+                "ctxt": 0
+              },
+              "value": 1.0,
+              "raw": "1"
+            },
+            {
+              "type": "Number",
+              "span": {
+                "start": 261,
+                "end": 263,
+                "ctxt": 0
+              },
+              "value": 2.0,
+              "raw": "+2"
+            }
+          ]
+        },
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 264,
+            "end": 265,
+            "ctxt": 0
+          },
+          "token": {
+            "WhiteSpace": {
+              "value": " "
+            }
+          }
+        }
+      ],
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 265,
+          "end": 270,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 266,
+              "end": 267,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "p",
+                "raw": "p"
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 267,
+              "end": 268,
+              "ctxt": 0
+            },
+            "token": "Colon"
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 268,
+              "end": 269,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "v",
+                "raw": "v"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "UnknownAtRule",
+      "span": {
+        "start": 271,
+        "end": 324,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 272,
+          "end": 279,
+          "ctxt": 0
+        },
+        "value": "unknown",
+        "raw": "unknown"
+      },
+      "prelude": [],
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 287,
+          "end": 324,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 296,
+              "end": 297,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "p",
+                "raw": "p"
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 305,
+              "end": 306,
+              "ctxt": 0
+            },
+            "token": "Colon"
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 314,
+              "end": 315,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "v",
+                "raw": "v"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "UnknownAtRule",
+      "span": {
+        "start": 325,
+        "end": 397,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 326,
+          "end": 333,
+          "ctxt": 0
+        },
+        "value": "unknown",
+        "raw": "unknown"
+      },
+      "prelude": [
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 341,
+            "end": 342,
+            "ctxt": 0
+          },
+          "token": {
+            "Ident": {
+              "value": "x",
+              "raw": "x"
+            }
+          }
+        },
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 350,
+            "end": 351,
+            "ctxt": 0
+          },
+          "token": {
+            "WhiteSpace": {
+              "value": " "
+            }
+          }
+        },
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 351,
+            "end": 352,
+            "ctxt": 0
+          },
+          "token": {
+            "Ident": {
+              "value": "y",
+              "raw": "y"
+            }
+          }
+        }
+      ],
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 360,
+          "end": 397,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 369,
+              "end": 370,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "p",
+                "raw": "p"
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 378,
+              "end": 379,
+              "ctxt": 0
+            },
+            "token": "Colon"
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 387,
+              "end": 388,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "v",
+                "raw": "v"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "UnknownAtRule",
+      "span": {
+        "start": 530,
+        "end": 553,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 531,
+          "end": 538,
+          "ctxt": 0
+        },
+        "value": "unknown",
+        "raw": "unknown"
+      },
+      "prelude": [
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 538,
+            "end": 540,
+            "ctxt": 0
+          },
+          "token": {
+            "WhiteSpace": {
+              "value": "  "
+            }
+          }
+        }
+      ],
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 540,
+          "end": 553,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 541,
+              "end": 543,
               "ctxt": 0
             },
             "token": {
@@ -1065,8 +1322,57 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 591,
-              "end": 592,
+              "start": 543,
+              "end": 544,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "p",
+                "raw": "p"
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 544,
+              "end": 546,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": "  "
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 546,
+              "end": 547,
+              "ctxt": 0
+            },
+            "token": "Colon"
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 547,
+              "end": 549,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": "  "
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 549,
+              "end": 550,
               "ctxt": 0
             },
             "token": {
@@ -1079,8 +1385,8 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 592,
-              "end": 594,
+              "start": 550,
+              "end": 552,
               "ctxt": 0
             },
             "token": {
@@ -1095,15 +1401,15 @@
     {
       "type": "UnknownAtRule",
       "span": {
-        "start": 650,
-        "end": 666,
+        "start": 554,
+        "end": 583,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 651,
-          "end": 658,
+          "start": 555,
+          "end": 562,
           "ctxt": 0
         },
         "value": "unknown",
@@ -1113,13 +1419,67 @@
         {
           "type": "PreservedToken",
           "span": {
-            "start": 658,
-            "end": 659,
+            "start": 562,
+            "end": 564,
             "ctxt": 0
           },
           "token": {
             "WhiteSpace": {
-              "value": " "
+              "value": "  "
+            }
+          }
+        },
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 564,
+            "end": 565,
+            "ctxt": 0
+          },
+          "token": {
+            "Ident": {
+              "value": "x",
+              "raw": "x"
+            }
+          }
+        },
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 565,
+            "end": 567,
+            "ctxt": 0
+          },
+          "token": {
+            "WhiteSpace": {
+              "value": "  "
+            }
+          }
+        },
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 567,
+            "end": 568,
+            "ctxt": 0
+          },
+          "token": {
+            "Ident": {
+              "value": "y",
+              "raw": "y"
+            }
+          }
+        },
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 568,
+            "end": 570,
+            "ctxt": 0
+          },
+          "token": {
+            "WhiteSpace": {
+              "value": "  "
             }
           }
         }
@@ -1127,8 +1487,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 659,
-          "end": 666,
+          "start": 570,
+          "end": 583,
           "ctxt": 0
         },
         "name": "{",
@@ -1136,31 +1496,21 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 660,
-              "end": 661,
+              "start": 571,
+              "end": 573,
               "ctxt": 0
             },
             "token": {
-              "Ident": {
-                "value": "s",
-                "raw": "s"
+              "WhiteSpace": {
+                "value": "  "
               }
             }
           },
           {
             "type": "PreservedToken",
             "span": {
-              "start": 661,
-              "end": 662,
-              "ctxt": 0
-            },
-            "token": "LBrace"
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 662,
-              "end": 663,
+              "start": 573,
+              "end": 574,
               "ctxt": 0
             },
             "token": {
@@ -1173,8 +1523,21 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 663,
-              "end": 664,
+              "start": 574,
+              "end": 576,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": "  "
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 576,
+              "end": 577,
               "ctxt": 0
             },
             "token": "Colon"
@@ -1182,8 +1545,138 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 664,
-              "end": 665,
+              "start": 577,
+              "end": 579,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": "  "
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 579,
+              "end": 580,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "v",
+                "raw": "v"
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 580,
+              "end": 582,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": "  "
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "UnknownAtRule",
+      "span": {
+        "start": 638,
+        "end": 654,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 639,
+          "end": 646,
+          "ctxt": 0
+        },
+        "value": "unknown",
+        "raw": "unknown"
+      },
+      "prelude": [
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 646,
+            "end": 647,
+            "ctxt": 0
+          },
+          "token": {
+            "WhiteSpace": {
+              "value": " "
+            }
+          }
+        }
+      ],
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 647,
+          "end": 654,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 648,
+              "end": 649,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "s",
+                "raw": "s"
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 649,
+              "end": 650,
+              "ctxt": 0
+            },
+            "token": "LBrace"
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 650,
+              "end": 651,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "p",
+                "raw": "p"
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 651,
+              "end": 652,
+              "ctxt": 0
+            },
+            "token": "Colon"
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 652,
+              "end": 653,
               "ctxt": 0
             },
             "token": {

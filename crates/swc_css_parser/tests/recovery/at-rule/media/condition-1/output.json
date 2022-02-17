@@ -40,21 +40,12 @@
         {
           "type": "SimpleBlock",
           "span": {
-            "start": 6,
+            "start": 7,
             "end": 21,
             "ctxt": 0
           },
           "name": "(",
           "value": [
-            {
-              "type": "PreservedToken",
-              "span": {
-                "start": 7,
-                "end": 8,
-                "ctxt": 0
-              },
-              "token": "LParen"
-            },
             {
               "type": "PreservedToken",
               "span": {
@@ -150,21 +141,12 @@
         {
           "type": "SimpleBlock",
           "span": {
-            "start": 25,
+            "start": 26,
             "end": 39,
             "ctxt": 0
           },
           "name": "(",
           "value": [
-            {
-              "type": "PreservedToken",
-              "span": {
-                "start": 26,
-                "end": 27,
-                "ctxt": 0
-              },
-              "token": "LParen"
-            },
             {
               "type": "PreservedToken",
               "span": {
@@ -260,21 +242,12 @@
         {
           "type": "SimpleBlock",
           "span": {
-            "start": 47,
+            "start": 48,
             "end": 58,
             "ctxt": 0
           },
           "name": "(",
           "value": [
-            {
-              "type": "PreservedToken",
-              "span": {
-                "start": 48,
-                "end": 49,
-                "ctxt": 0
-              },
-              "token": "LParen"
-            },
             {
               "type": "PreservedToken",
               "span": {
