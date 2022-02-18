@@ -696,6 +696,9 @@ pub struct Config {
 
     #[serde(default)]
     pub error: ErrorConfig,
+
+    #[serde(rename = "$schema")]
+    pub schema: Option<String>,
 }
 
 /// Second argument of `minify`.

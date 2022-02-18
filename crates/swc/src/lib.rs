@@ -1124,7 +1124,7 @@ fn load_swcrc(path: &Path) -> Result<Rc, Error> {
 
     let content = read_to_string(path).context("failed to read config (.swcrc) file")?;
 
-    if let Ok(v) = serde_json::from_str(&content) {
+    if let Ok(v) = serde_json::from_str(content.trim_start_matches('\u{feff}')) {
         return Ok(v);
     }
 
