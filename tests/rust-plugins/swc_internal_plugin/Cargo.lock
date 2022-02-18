@@ -57,6 +57,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cdb031dd78e28731d87d56cc8ffef4a8f36ca26c38fe2de700543e627f8a464a"
 
 [[package]]
+name = "better_scoped_tls"
+version = "0.1.0"
+dependencies = [
+ "scoped-tls",
+]
+
+[[package]]
 name = "bitflags"
 version = "1.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -685,11 +692,12 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.5"
+version = "0.17.7"
 dependencies = [
  "ahash",
  "anyhow",
  "ast_node",
+ "better_scoped_tls",
  "cfg-if 0.1.10",
  "debug_unreachable",
  "either",
@@ -699,7 +707,6 @@ dependencies = [
  "owning_ref",
  "rkyv",
  "rustc-hash",
- "scoped-tls",
  "serde",
  "siphasher",
  "string_cache",
@@ -766,7 +773,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.27.0"
+version = "0.27.1"
 dependencies = [
  "swc_atoms",
  "swc_common",

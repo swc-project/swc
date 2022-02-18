@@ -23,10 +23,16 @@
 - **(node-swc/types)** Fix experimental config options (#3603) ([2b5eba1](https://github.com/swc-project/swc/commit/2b5eba16c3a5e3621b6e66d92db1e0d6c400c9f2))
 
 
+- **(plugin)** Fix caching of wasm modulee (#3616) ([05aecf5](https://github.com/swc-project/swc/commit/05aecf507e9bf46002e0629b159245ff9c0f7b2c))
+
+
 - **(swc_common)** Fix names of proxied functions (#3608) ([e863f9d](https://github.com/swc-project/swc/commit/e863f9dd0486a53c835e9cd08cfa7ab7c31dd087))
 
 ### Documentation
 
+
+
+- **(api/rust)** Fix rustdoc (#3620) ([4d5ba55](https://github.com/swc-project/swc/commit/4d5ba55e8a220155c2bae82d843309ae5731f8a1))
 
 
 - **(swc_common)** Document error reporting using `HANDLER` (#3605) ([9df0d7c](https://github.com/swc-project/swc/commit/9df0d7c854b1ebceb955a0cfe3fc7edb5891c0d0))

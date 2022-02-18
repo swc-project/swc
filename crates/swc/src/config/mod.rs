@@ -439,6 +439,9 @@ impl Options {
             filename: transform_filename,
         };
 
+        #[cfg(feature = "plugin")]
+        swc_plugin_runner::cache::init_plugin_module_cache_once(&experimental.cache_root);
+
         let pass = chain!(
             lint_to_fold(swc_ecma_lints::rules::all(LintParams {
                 program: &program,
