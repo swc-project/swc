@@ -10,6 +10,69 @@ struct CompressSelector {}
 impl CompressSelector {}
 
 impl VisitMut for CompressSelector {
+    fn visit_mut_nth(&mut self, nth: &mut Nth) {
+        nth.visit_mut_children_with(self);
+
+        match &nth.nth {
+            // `2n+1` + `odd`
+            NthValue::AnPlusB(AnPlusB {
+                a: Some(a),
+                b: Some(b),
+                span,
+                ..
+            }) if *a == 2 && *b == 1 => {
+                nth.nth = NthValue::Ident(Ident {
+                    span: *span,
+                    value: "odd".into(),
+                    raw: "odd".into(),
+                });
+            }
+            // `even` + `2n`
+            NthValue::Ident(Ident { value, span, .. }) if &*value.to_lowercase() == "even" => {
+                nth.nth = NthValue::AnPlusB(AnPlusB {
+                    span: *span,
+                    a: Some(2),
+                    a_raw: Some("2".into()),
+                    b: Some(0),
+                    b_raw: Some("".into()),
+                });
+            }
+            // `0n+5` => `5`, `0n-5` => `-5`
+            NthValue::AnPlusB(AnPlusB {
+                a: Some(a),
+                b,
+                b_raw,
+                span,
+                ..
+            }) if *a == 0 => {
+                nth.nth = NthValue::AnPlusB(AnPlusB {
+                    span: *span,
+                    a: None,
+                    a_raw: None,
+                    b: *b,
+                    b_raw: b_raw.clone(),
+                });
+            }
+            // `2n+0` => `2n`, `-2n+0` => `-2n`
+            NthValue::AnPlusB(AnPlusB {
+                a,
+                a_raw,
+                b: Some(b),
+                span,
+                ..
+            }) if *b == 0 => {
+                nth.nth = NthValue::AnPlusB(AnPlusB {
+                    span: *span,
+                    a: *a,
+                    a_raw: a_raw.clone(),
+                    b: None,
+                    b_raw: None,
+                });
+            }
+            _ => {}
+        }
+    }
+
     fn visit_mut_subclass_selector(&mut self, subclass_selector: &mut SubclassSelector) {
         subclass_selector.visit_mut_children_with(self);
 
@@ -30,18 +93,18 @@ impl VisitMut for CompressSelector {
         }
     }
 
-    // fn visit_mut_compound_selector(&mut self, compound_selector: &mut CompoundSelector) {
-    //     compound_selector.visit_mut_children_with(self);
-    // 
-    //     if compound_selector.subclass_selectors.len() > 0 {
-    //         match compound_selector.type_selector { 
-    //             Some(TypeSelector::Universal(_)) => {
-    //                 compound_selector.type_selector = None;
-    //             }
-    //             _ => {}
-    //         }
-    //     }
-    // }
+    fn visit_mut_compound_selector(&mut self, compound_selector: &mut CompoundSelector) {
+        compound_selector.visit_mut_children_with(self);
+
+        if !compound_selector.subclass_selectors.is_empty() {
+            match &compound_selector.type_selector {
+                Some(TypeSelector::Universal(UniversalSelector { prefix: None, .. })) => {
+                    compound_selector.type_selector = None;
+                }
+                _ => {}
+            }
+        }
+    }
 
     fn visit_mut_attribute_selector(&mut self, attribute_selector: &mut AttributeSelector) {
         attribute_selector.visit_mut_children_with(self);
@@ -60,7 +123,6 @@ impl VisitMut for CompressSelector {
             }
 
             let chars = value.chars();
-
             let mut starts_with_hyphen = false;
 
             for (idx, char) in chars.enumerate() {
