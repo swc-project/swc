@@ -51,11 +51,7 @@ impl PrivateRecord {
 
         let error = format!("private name #{} is not defined.", name.sym);
         HANDLER.with(|handler| handler.struct_span_err(name.span, &error).emit());
-        (
-            Mark::from_u32(1),
-            PrivateKind::default(),
-            &self.0[0].class_name,
-        )
+        (Mark::root(), PrivateKind::default(), &self.0[0].class_name)
     }
 }
 
@@ -104,6 +100,10 @@ impl VisitMut for BrandCheckHandler<'_> {
                 self.names.insert(n.id.sym.clone());
 
                 let (mark, kind, class_name) = self.private.get(&n.id);
+
+                if mark == Mark::root() {
+                    return;
+                }
 
                 if kind.is_static {
                     *e = Expr::Bin(BinExpr {
@@ -202,6 +202,10 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 let obj = arg.obj.clone();
 
                 let (mark, kind, class_name) = self.private.get(&n.id);
+                if mark == Mark::root() {
+                    return;
+                }
+
                 let ident = Ident::new(format!("_{}", n.id.sym).into(), n.id.span.apply_mark(mark));
 
                 let var = alias_ident_for(&obj, "_ref");
@@ -333,6 +337,10 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 let obj = left.obj.clone();
 
                 let (mark, kind, class_name) = self.private.get(&n.id);
+                if mark == Mark::root() {
+                    return;
+                }
+
                 let ident = Ident::new(format!("_{}", n.id.sym).into(), n.id.span.apply_mark(mark));
 
                 let var = alias_ident_for(&obj, "_ref");
@@ -531,6 +539,10 @@ impl<'a> PrivateAccessVisitor<'a> {
         let mut obj = e.obj.take();
 
         let (mark, kind, class_name) = self.private.get(&n.id);
+        if mark == Mark::root() {
+            return (Expr::dummy(), None);
+        }
+
         let method_name = Ident::new(
             n.id.sym.clone(),
             n.id.span.with_ctxt(SyntaxContext::empty()).apply_mark(mark),
