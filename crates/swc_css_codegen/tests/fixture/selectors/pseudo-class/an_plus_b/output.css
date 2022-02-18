@@ -172,3 +172,12 @@ color: blue;
 p:nth-child(n + 0) {
 color: blue;
 }
+p:nth-child(5) {
+color: blue;
+}
+p:nth-child(+5) {
+color: blue;
+}
+p:nth-child(-5) {
+color: blue;
+}

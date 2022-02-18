@@ -88,4 +88,15 @@
 :nth-last-col(odd) {}
 :nth-last-col(2n+1) {}
 
+
+p:nth-child(0){}
+p:nth-child(+0){}
+p:nth-child(-0){}
+p:nth-child(1){}
+p:nth-child(+1){}
+p:nth-child(-1){}
+p:nth-child(3){}
+p:nth-child(+3){}
+p:nth-child(-3){}
+
 /*:nth-child(2n+1 of li,.test) {}*/

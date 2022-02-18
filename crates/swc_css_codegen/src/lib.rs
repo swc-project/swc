@@ -1665,7 +1665,7 @@ where
             }
 
             if let Some(b) = &n.b {
-                if *b >= 0 {
+                if *b >= 0 && n.a.is_some() {
                     self.wr.write_raw(None, "+")?;
                 }
 
