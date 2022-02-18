@@ -8,6 +8,7 @@ on:
 jobs:
   rustdoc:
     name: Rustdoc
+    concurrency: swc-docs-rustdoc
     runs-on: macos-latest
 
     steps:
@@ -19,7 +20,7 @@ jobs:
           profile: minimal
 
       - name: Create rustdoc
-        run: cargo doc --all
+        run: cargo doc --all --exclude swc_cli
 
       - name: Create CNAME
         run: |
