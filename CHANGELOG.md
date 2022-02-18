@@ -50,6 +50,9 @@
 - **(css/ast)** Use `SimpleBlock` for `@keyframe`s (#3577) ([a20ed34](https://github.com/swc-project/swc/commit/a20ed34e6b7ebb9b63d51a3e04d5c6e28b013daa))
 
 
+- **(css/codegen)** Improve minification of selectors (#3624) ([8271566](https://github.com/swc-project/swc/commit/8271566d21a6e33ccad40f4f30c50454a723e0f5))
+
+
 - **(css/minifier)** Remove empty qualified rules and at-rules (#3597) ([8c9b154](https://github.com/swc-project/swc/commit/8c9b154e13624110053a14365321c49fc2eec434))
 
 
