@@ -2747,7 +2747,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.7"
+version = "0.17.8"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2830,7 +2830,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.49.1"
+version = "0.49.2"
 dependencies = [
  "swc_atoms",
  "swc_common",
