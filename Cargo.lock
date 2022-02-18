@@ -2633,7 +2633,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.127.5"
+version = "0.128.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2731,7 +2731,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.1.4"
+version = "0.2.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -2747,7 +2747,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.7"
+version = "0.17.8"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3379,7 +3379,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.45.0"
+version = "0.46.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3501,7 +3501,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.34.0"
+version = "0.35.0"
 dependencies = [
  "anyhow",
  "libloading",
@@ -3569,7 +3569,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.43.0"
+version = "0.44.0"
 dependencies = [
  "anyhow",
  "rayon",

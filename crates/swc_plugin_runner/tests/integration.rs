@@ -5,10 +5,11 @@ use std::{
 };
 
 use anyhow::{anyhow, Error};
-use swc_common::{errors::HANDLER, plugin::Serialized, FileName};
+use swc_common::{errors::HANDLER, plugin::Serialized, sync::Lazy, FileName};
 use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, Str};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
 use swc_ecma_visit::{Visit, VisitWith};
+use swc_plugin_runner::cache::PluginModuleCache;
 
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
@@ -85,10 +86,12 @@ fn internal() -> Result<(), Error> {
         let context = Serialized::serialize(&"{sourceFileName: 'single_plugin_test'}".to_string())
             .expect("Should serializable");
 
+        let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
+
         let program_bytes = swc_plugin_runner::apply_js_plugin(
             "internal-test",
             &path,
-            &mut None,
+            &cache,
             program,
             config,
             context,
@@ -131,11 +134,13 @@ fn internal() -> Result<(), Error> {
             Serialized::serialize(&"{sourceFileName: 'single_plugin_handler_test'}".to_string())
                 .expect("Should serializable");
 
+        let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
+
         let _res = HANDLER.set(&handler, || {
             swc_plugin_runner::apply_js_plugin(
                 "internal-test",
                 &path,
-                &mut None,
+                &cache,
                 program,
                 config,
                 context,
@@ -164,11 +169,12 @@ fn internal() -> Result<(), Error> {
         let program = parser.parse_program().unwrap();
 
         let mut serialized_program = Serialized::serialize(&program).expect("Should serializable");
+        let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
 
         serialized_program = swc_plugin_runner::apply_js_plugin(
             "internal-test",
             &path,
-            &mut None,
+            &cache,
             serialized_program,
             Serialized::serialize(&"{}".to_string()).expect("Should serializable"),
             Serialized::serialize(&"{sourceFileName: 'multiple_plugin_test'}".to_string())
@@ -180,7 +186,7 @@ fn internal() -> Result<(), Error> {
         serialized_program = swc_plugin_runner::apply_js_plugin(
             "internal-test",
             &path,
-            &mut None,
+            &cache,
             serialized_program,
             Serialized::serialize(&"{}".to_string()).expect("Should serializable"),
             Serialized::serialize(&"{sourceFileName: 'multiple_plugin_test2'}".to_string())
