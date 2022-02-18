@@ -1,6 +1,36 @@
 p:nth-child(1) {
 color: blue;
 }
+p:nth-child(7) {
+color: blue;
+}
+p:nth-child(5n) {
+color: blue;
+}
+p:nth-child(n + 7) {
+color: blue;
+}
+p:nth-child(3n + 4) {
+color: blue;
+}
+p:nth-child(3n+4) {
+color: blue;
+}
+p:nth-child(-n + 3) {
+color: blue;
+}
+p:nth-child(-n+3) {
+color: blue;
+}
+p:nth-child(n) {
+color: blue;
+}
+p:nth-child(+n) {
+color: blue;
+}
+p:nth-child(-n) {
+color: blue;
+}
 p:NTH-CHILD(1) {
 color: blue;
 }
