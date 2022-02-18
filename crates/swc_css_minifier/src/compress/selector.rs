@@ -1,3 +1,4 @@
+use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -76,13 +77,129 @@ impl VisitMut for CompressSelector {
     fn visit_mut_subclass_selector(&mut self, subclass_selector: &mut SubclassSelector) {
         subclass_selector.visit_mut_children_with(self);
 
-        match subclass_selector {
+        match &subclass_selector {
             SubclassSelector::PseudoElement(PseudoElementSelector { name, span, .. }) => {
                 match &*name.value.to_lowercase() {
                     "before" | "after" | "first-letter" | "first-line" => {
                         *subclass_selector = SubclassSelector::PseudoClass(PseudoClassSelector {
                             span: *span,
                             name: name.clone(),
+                            children: None,
+                        })
+                    }
+                    _ => {}
+                }
+            }
+            SubclassSelector::PseudoClass(PseudoClassSelector {
+                name,
+                children: Some(children),
+                span,
+                ..
+            }) if &*name.value.to_lowercase() == "nth-child" && children.len() == 1 => {
+                match children.get(0) {
+                    Some(PseudoSelectorChildren::Nth(Nth {
+                        nth:
+                            NthValue::AnPlusB(AnPlusB {
+                                a: None,
+                                b: Some(b),
+                                ..
+                            }),
+                        ..
+                    })) if *b == 1 => {
+                        *subclass_selector = SubclassSelector::PseudoClass(PseudoClassSelector {
+                            span: *span,
+                            name: Ident {
+                                span: DUMMY_SP,
+                                value: "first-child".into(),
+                                raw: "first-child".into(),
+                            },
+                            children: None,
+                        })
+                    }
+                    _ => {}
+                }
+            }
+            SubclassSelector::PseudoClass(PseudoClassSelector {
+                name,
+                children: Some(children),
+                span,
+                ..
+            }) if &*name.value.to_lowercase() == "nth-last-child" && children.len() == 1 => {
+                match children.get(0) {
+                    Some(PseudoSelectorChildren::Nth(Nth {
+                        nth:
+                            NthValue::AnPlusB(AnPlusB {
+                                a: None,
+                                b: Some(b),
+                                ..
+                            }),
+                        ..
+                    })) if *b == 1 => {
+                        *subclass_selector = SubclassSelector::PseudoClass(PseudoClassSelector {
+                            span: *span,
+                            name: Ident {
+                                span: DUMMY_SP,
+                                value: "last-child".into(),
+                                raw: "last-child".into(),
+                            },
+                            children: None,
+                        })
+                    }
+                    _ => {}
+                }
+            }
+            SubclassSelector::PseudoClass(PseudoClassSelector {
+                name,
+                children: Some(children),
+                span,
+                ..
+            }) if &*name.value.to_lowercase() == "nth-of-type" && children.len() == 1 => {
+                match children.get(0) {
+                    Some(PseudoSelectorChildren::Nth(Nth {
+                        nth:
+                            NthValue::AnPlusB(AnPlusB {
+                                a: None,
+                                b: Some(b),
+                                ..
+                            }),
+                        ..
+                    })) if *b == 1 => {
+                        *subclass_selector = SubclassSelector::PseudoClass(PseudoClassSelector {
+                            span: *span,
+                            name: Ident {
+                                span: DUMMY_SP,
+                                value: "first-of-type".into(),
+                                raw: "first-of-type".into(),
+                            },
+                            children: None,
+                        })
+                    }
+                    _ => {}
+                }
+            }
+            SubclassSelector::PseudoClass(PseudoClassSelector {
+                name,
+                children: Some(children),
+                span,
+                ..
+            }) if &*name.value.to_lowercase() == "nth-last-of-type" && children.len() == 1 => {
+                match children.get(0) {
+                    Some(PseudoSelectorChildren::Nth(Nth {
+                        nth:
+                            NthValue::AnPlusB(AnPlusB {
+                                a: None,
+                                b: Some(b),
+                                ..
+                            }),
+                        ..
+                    })) if *b == 1 => {
+                        *subclass_selector = SubclassSelector::PseudoClass(PseudoClassSelector {
+                            span: *span,
+                            name: Ident {
+                                span: DUMMY_SP,
+                                value: "last-of-type".into(),
+                                raw: "last-of-type".into(),
+                            },
                             children: None,
                         })
                     }
@@ -96,13 +213,10 @@ impl VisitMut for CompressSelector {
     fn visit_mut_compound_selector(&mut self, compound_selector: &mut CompoundSelector) {
         compound_selector.visit_mut_children_with(self);
 
-        if !compound_selector.subclass_selectors.is_empty() {
-            match &compound_selector.type_selector {
-                Some(TypeSelector::Universal(UniversalSelector { prefix: None, .. })) => {
-                    compound_selector.type_selector = None;
-                }
-                _ => {}
-            }
+        if let Some(TypeSelector::Universal(UniversalSelector { prefix: None, .. })) =
+            &compound_selector.type_selector
+        {
+            compound_selector.type_selector = None;
         }
     }
 
