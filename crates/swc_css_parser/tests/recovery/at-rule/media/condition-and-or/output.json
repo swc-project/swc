@@ -94,21 +94,12 @@
         {
           "type": "SimpleBlock",
           "span": {
-            "start": 17,
+            "start": 18,
             "end": 36,
             "ctxt": 0
           },
           "name": "(",
           "value": [
-            {
-              "type": "PreservedToken",
-              "span": {
-                "start": 18,
-                "end": 19,
-                "ctxt": 0
-              },
-              "token": "LParen"
-            },
             {
               "type": "PreservedToken",
               "span": {
@@ -207,21 +198,12 @@
         {
           "type": "SimpleBlock",
           "span": {
-            "start": 39,
+            "start": 40,
             "end": 59,
             "ctxt": 0
           },
           "name": "(",
           "value": [
-            {
-              "type": "PreservedToken",
-              "span": {
-                "start": 40,
-                "end": 41,
-                "ctxt": 0
-              },
-              "token": "LParen"
-            },
             {
               "type": "PreservedToken",
               "span": {

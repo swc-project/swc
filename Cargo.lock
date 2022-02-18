@@ -166,6 +166,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "904dfeac50f3cdaba28fc6f57fdcddb75f49ed61346676a78c4ffe55877802fd"
 
 [[package]]
+name = "better_scoped_tls"
+version = "0.1.0"
+dependencies = [
+ "scoped-tls",
+]
+
+[[package]]
 name = "bitflags"
 version = "1.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -298,9 +305,9 @@ dependencies = [
 
 [[package]]
 name = "clap"
-version = "3.0.14"
+version = "3.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b63edc3f163b3c71ec8aa23f9bd6070f77edbf3d1d198b164afa90ff00e4ec62"
+checksum = "e5f1fea81f183005ced9e59cdb01737ef2423956dac5a6d731b06b2ecfaa3467"
 dependencies = [
  "atty",
  "bitflags",
@@ -316,9 +323,9 @@ dependencies = [
 
 [[package]]
 name = "clap_derive"
-version = "3.0.14"
+version = "3.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9a1132dc3944b31c20dd8b906b3a9f0a5d0243e092d59171414969657ac6aa85"
+checksum = "5fd1122e63869df2cb309f449da1ad54a7c6dfeb7c7e6ccd8e0825d9eb93bb72"
 dependencies = [
  "heck",
  "proc-macro-error",
@@ -1715,10 +1722,28 @@ dependencies = [
 ]
 
 [[package]]
+name = "path-absolutize"
+version = "3.0.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b288298a7a3a7b42539e3181ba590d32f2d91237b0691ed5f103875c754b3bf5"
+dependencies = [
+ "path-dedot",
+]
+
+[[package]]
 name = "path-clean"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ecba01bf2678719532c5e3059e0b5f0811273d94b397088b82e3bd0a78c78fdd"
+
+[[package]]
+name = "path-dedot"
+version = "3.0.14"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4bfa72956f6be8524f7f7e2b07972dda393cb0008a6df4451f658b7e1bd1af80"
+dependencies = [
+ "once_cell",
+]
 
 [[package]]
 name = "pathdiff"
@@ -2113,9 +2138,9 @@ dependencies = [
 
 [[package]]
 name = "relative-path"
-version = "1.6.0"
+version = "1.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "73d4caf086b102ab49d0525b721594a555ab55c6556086bbe52a430ad26c3bd7"
+checksum = "a49a831dc1e13c9392b660b162333d4cb0033bbbdfe6a1687177e59e89037c86"
 
 [[package]]
 name = "remove_dir_all"
@@ -2320,9 +2345,9 @@ checksum = "388a1df253eca08550bef6c72392cfe7c30914bf41df5269b68cbd6ff8f570a3"
 
 [[package]]
 name = "serde"
-version = "1.0.133"
+version = "1.0.136"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "97565067517b60e2d1ea8b268e59ce036de907ac523ad83a0475da04e818989a"
+checksum = "ce31e24b01e1e524df96f1c2fdd054405f8d7376249a5110886fb4b658484789"
 dependencies = [
  "serde_derive",
 ]
@@ -2350,9 +2375,9 @@ dependencies = [
 
 [[package]]
 name = "serde_derive"
-version = "1.0.133"
+version = "1.0.136"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ed201699328568d8d08208fdd080e3ff594e6c422e438b6705905da01005d537"
+checksum = "08597e7152fcd306f41838ed3e37be9eaeed2b61c42e2117266a554fab4662f9"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2361,9 +2386,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.74"
+version = "1.0.79"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ee2bb9cd061c5865d345bb02ca49fcef1391741b672b54a0bf7b679badec3142"
+checksum = "8e8d9fa5c3b304765ce1fd9c4c8a3de2c8db365a5b91be52f186efc675681d95"
 dependencies = [
  "itoa 1.0.1",
  "ryu",
@@ -2706,21 +2731,30 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.1.3"
+version = "0.1.4"
 dependencies = [
  "anyhow",
  "clap",
+ "path-absolutize",
+ "rayon",
+ "relative-path",
+ "serde",
+ "serde_json",
+ "swc",
+ "swc_common",
+ "walkdir",
 ]
 
 [[package]]
 name = "swc_common"
-version = "0.17.6"
+version = "0.17.7"
 dependencies = [
  "ahash",
  "anyhow",
  "arbitrary",
  "ast_node",
  "atty",
+ "better_scoped_tls",
  "cfg-if 0.1.10",
  "debug_unreachable",
  "either",
@@ -2732,7 +2766,6 @@ dependencies = [
  "rayon",
  "rkyv",
  "rustc-hash",
- "scoped-tls",
  "serde",
  "serde_json",
  "siphasher",
@@ -2797,7 +2830,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.49.0"
+version = "0.49.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2810,7 +2843,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.85.1"
+version = "0.85.2"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2916,7 +2949,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.14.11"
+version = "0.14.12"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3067,12 +3100,12 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.58.2"
+version = "0.58.3"
 dependencies = [
+ "better_scoped_tls",
  "once_cell",
  "phf",
  "rayon",
- "scoped-tls",
  "serde",
  "smallvec",
  "swc_atoms",
@@ -3335,9 +3368,9 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_ast"
-version = "0.7.0"
+version = "0.7.1"
 dependencies = [
- "scoped-tls",
+ "better_scoped_tls",
  "serde",
  "serde_json",
  "swc_atoms",

@@ -1,4 +1,4 @@
-use clap::{AppSettings, Parser, Subcommand};
+use clap::{Parser, Subcommand};
 
 mod compile;
 mod plugin;
@@ -17,9 +17,7 @@ pub enum Command {
 }
 
 #[derive(Parser)]
-#[clap(name = "SWC", version)]
-#[clap(global_setting(AppSettings::PropagateVersion))]
-#[clap(global_setting(AppSettings::UseLongFormatForHelpSubcommand))]
+#[clap(name = "SWC", version, propagate_version = true)]
 pub struct SwcCliOptions {
     #[clap(subcommand)]
     pub command: Command,

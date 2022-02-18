@@ -1,0 +1,74 @@
+table.colortable {
+    & td {
+      text-align:center;
+      &.c { text-transform:uppercase }
+      &:first-child, &:first-child + td { border:1px solid black }
+    }
+
+    & th {
+      text-align:center;
+      background:black;
+      color:white;
+  }
+}
+
+table.colortable {
+    & td {}
+
+    & th {
+      text-align:center;
+      background:black;
+      color:white;
+  }
+}
+
+table.colortable {
+    & td {}
+
+    & th {
+    }
+}
+
+.foo {
+    display: grid;
+
+    @media (orientation: landscape) {}
+}
+
+.foo {
+    @media (orientation: landscape) {}
+}
+
+.foo {
+    @supports (color: red) {}
+}
+
+.foo {
+    @document url("https://www.example.com/") {}
+}
+
+.foo {
+    color: red;
+    @nest & > .bar {}
+}
+
+.foo {
+    @nest & > .bar {}
+}
+
+.foo {
+    color: blue;
+    @nest .bar & {
+        &.baz {
+   
+        }
+    }
+}
+
+.foo {
+    @nest .bar & {
+        &.baz {
+        
+        }
+    }
+}
