@@ -45,13 +45,9 @@ pub fn plugins(
 ) -> impl Fold {
     #[cfg(feature = "plugin")]
     {
-        let cache_root =
-            swc_plugin_runner::resolve::resolve_plugin_cache_root(config.cache_root).ok();
-
         RustPlugins {
             resolver,
             plugins: config.plugins,
-            plugin_cache: cache_root,
             plugin_context,
         }
     }
@@ -65,10 +61,6 @@ pub fn plugins(
 struct RustPlugins {
     resolver: CachingResolver<NodeModulesResolver>,
     plugins: Option<Vec<PluginConfig>>,
-    /// TODO: it is unclear how we'll support plugin itself in wasm target of
-    /// swc, as well as cache.
-    #[cfg(feature = "plugin")]
-    plugin_cache: Option<swc_plugin_runner::resolve::PluginCache>,
     plugin_context: PluginContext,
 }
 
@@ -112,7 +104,7 @@ impl RustPlugins {
                 serialized = swc_plugin_runner::apply_js_plugin(
                     &p.0,
                     &path,
-                    &mut self.plugin_cache,
+                    &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,
                     serialized,
                     config_json,
                     context_json,
