@@ -6,6 +6,8 @@ use self::compress::{
     keyframes::compress_keyframes, time::compress_time,
     angle::compress_angle, empty::compress_empty, keyframes::compress_keyframes, selector::compress_selector,
     time::compress_time,
+    angle::compress_angle, empty::compress_empty, keyframes::compress_keyframes,
+    selector::compress_selector, time::compress_time,
 };
 
 mod compress;
