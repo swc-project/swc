@@ -904,3 +904,7 @@ fn opt_source_file_name_1() {
 fn bom() {
     project("tests/projects/bom")
 }
+#[test]
+fn json_schema() {
+    project("tests/projects/json-schema")
+}
