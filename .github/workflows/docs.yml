@@ -8,6 +8,7 @@ on:
 jobs:
   rustdoc:
     name: Rustdoc
+    concurrency: swc-docs-rustdoc
     runs-on: macos-latest
 
     steps:
