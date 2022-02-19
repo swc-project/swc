@@ -15,7 +15,7 @@ impl VisitMut for CompressSelector {
         nth.visit_mut_children_with(self);
 
         match &nth.nth {
-            // `2n+1` + `odd`
+            // `2n+1` => `odd`
             NthValue::AnPlusB(AnPlusB {
                 a: Some(a),
                 b: Some(b),
@@ -28,7 +28,7 @@ impl VisitMut for CompressSelector {
                     raw: "odd".into(),
                 });
             }
-            // `even` + `2n`
+            // `even` => `2n`
             NthValue::Ident(Ident { value, span, .. }) if &*value.to_lowercase() == "even" => {
                 nth.nth = NthValue::AnPlusB(AnPlusB {
                     span: *span,
