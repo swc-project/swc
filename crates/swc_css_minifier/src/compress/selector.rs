@@ -15,13 +15,13 @@ impl VisitMut for CompressSelector {
         nth.visit_mut_children_with(self);
 
         match &nth.nth {
-            // `2n+1` => `odd`
+            // `2n+1`, `2n-1`, `2n-3`, etc => `odd`
             NthValue::AnPlusB(AnPlusB {
                 a: Some(a),
                 b: Some(b),
                 span,
                 ..
-            }) if *a == 2 && *b == 1 => {
+            }) if *a == 2 && (*b == 1 || b % 2 == -1) => {
                 nth.nth = NthValue::Ident(Ident {
                     span: *span,
                     value: "odd".into(),
