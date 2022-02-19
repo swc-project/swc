@@ -5,7 +5,8 @@ use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use tracing::trace;
 
-use self::scope::{RenameMap, Scope};
+use self::scope::Scope;
+use super::rename_map::RenameMap;
 
 mod scope;
 
@@ -22,7 +23,7 @@ impl Analyzer {
         let preserved_symbols = preserved.iter().cloned().map(|v| v.0).collect();
         self.scope.rename(&mut map, preserved, &preserved_symbols);
 
-        map.into_iter().collect()
+        map.into_map()
     }
 
     fn add_decl(&mut self, id: Id) {

@@ -8,6 +8,7 @@ mod analyzer;
 mod preserver;
 mod private_name;
 mod real_impl;
+mod rename_map;
 
 pub(crate) fn name_mangler(
     options: MangleOptions,

@@ -1,12 +1,8 @@
-use bimap::BiHashMap;
-use rayon::prelude::*;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashSet, util::take::Take};
 use swc_ecma_utils::Id;
 
-use crate::util::base54::incr_base54;
-
-pub(crate) type RenameMap = BiHashMap<Id, JsWord, ahash::RandomState, ahash::RandomState>;
+use crate::{pass::mangle_names::rename_map::RenameMap, util::base54::incr_base54};
 
 #[derive(Debug, Default)]
 pub(crate) struct Scope {
@@ -81,24 +77,21 @@ impl Scope {
     }
 
     fn can_rename(&self, id: &Id, symbol: &JsWord, renamed: &RenameMap) -> bool {
-        if let Some(left) = renamed.get_by_right(symbol) {
-            if *left != *id {
-                return false;
-            }
-        }
+        if let Some(lefts) = renamed.get_by_right(symbol) {
+            for left in lefts {
+                if *left == *id {
+                    continue;
+                }
 
-        if cfg!(target_arch = "wasm32") {
-            for c in self.children.iter() {
-                if !c.can_rename(id, symbol, renamed) {
+                //
+                if self.data.usages.contains(left) || self.data.decls.contains(left) {
                     return false;
                 }
             }
-
-            true
-        } else {
-            self.children
-                .par_iter()
-                .all(|c| c.can_rename(id, symbol, renamed))
         }
+
+        self.children
+            .iter()
+            .all(|c| c.can_rename(id, symbol, renamed))
     }
 }
