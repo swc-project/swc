@@ -108,6 +108,8 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default, alias = "noNew")]
     pub no_new: RuleConfig<()>,
+
+    #[cfg(feature = "non_critical_lints")]
     #[serde(default, alias = "noRestrictedSyntax")]
     pub no_restricted_syntax: RuleConfig<NoRestrictedSyntaxConfig>,
 }

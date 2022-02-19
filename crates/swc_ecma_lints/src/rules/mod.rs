@@ -97,6 +97,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         rules.extend(eqeqeq::eqeqeq(&lint_config.eqeqeq));
 
         rules.extend(no_new::no_new(&lint_config.no_new));
+
         rules.extend(no_restricted_syntax::no_restricted_syntax(
             &lint_config.no_restricted_syntax,
         ));
