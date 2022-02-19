@@ -28,17 +28,32 @@ impl VisitMut for CompressSelector {
                     raw: "odd".into(),
                 });
             }
+            // `2n-0`, `2n-2`, `2n-4`, etc => `2n`
+            NthValue::AnPlusB(AnPlusB {
+                a: Some(a),
+                b: Some(b),
+                span,
+                ..
+            }) if *a == 2 && *b < 0 && b % 2 == 0 => {
+                nth.nth = NthValue::AnPlusB(AnPlusB {
+                    span: *span,
+                    a: Some(2),
+                    a_raw: Some("2".into()),
+                    b: None,
+                    b_raw: None,
+                });
+            }
             // `even` => `2n`
             NthValue::Ident(Ident { value, span, .. }) if &*value.to_lowercase() == "even" => {
                 nth.nth = NthValue::AnPlusB(AnPlusB {
                     span: *span,
                     a: Some(2),
                     a_raw: Some("2".into()),
-                    b: Some(0),
-                    b_raw: Some("".into()),
+                    b: None,
+                    b_raw: None,
                 });
             }
-            // `0n+5` => `5`, `0n-5` => `-5`
+            // `0n+5` => `5`, `0n-5` => `-5`, etc
             NthValue::AnPlusB(AnPlusB {
                 a: Some(a),
                 b,
@@ -54,7 +69,7 @@ impl VisitMut for CompressSelector {
                     b_raw: b_raw.clone(),
                 });
             }
-            // `2n+0` => `2n`, `-2n+0` => `-2n`
+            // `-5n+0` => `-5n`, etc
             NthValue::AnPlusB(AnPlusB {
                 a,
                 a_raw,

@@ -120,6 +120,11 @@ p:nth-child(2n-4){color:blue}
 p:nth-child(2n-5){color:blue}
 p:nth-child(2n-6){color:blue}
 p:nth-child(2n-7){color:blue}
+p:nth-child(2n-8){color:blue}
+p:nth-child(2n-9){color:blue}
+p:nth-child(2n-10){color:blue}
+p:nth-child(2n-0){color:blue}
+p:nth-child(2n+10){color:blue}
 
 p:nth-child(n+8):nth-child(-n+15){color:blue}
 p:nth-last-of-type(2n + 2){color:blue}
