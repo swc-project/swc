@@ -80,6 +80,6 @@ pub struct LintConfig {
     pub eqeqeq: RuleConfig<EqeqeqConfig>,
 
     #[cfg(feature = "non_critical_lints")]
-    #[serde(default)]
+    #[serde(default, alias = "noRestrictedSyntax")]
     pub no_restricted_syntax: RuleConfig<NoRestrictedSyntaxConfig>,
 }
