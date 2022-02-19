@@ -81,16 +81,16 @@ extern "C" {
     // on their side.
     fn __mark_fresh_proxy(mark: u32) -> u32;
     fn __mark_parent_proxy(self_mark: u32) -> u32;
-    fn __mark_is_builtin(self_mark: u32) -> u32;
-    fn __mark_set_builtin(self_mark: u32, is_builtin: u32);
-    fn __syntax_context_apply_mark(self_syntax_context: u32, mark: u32) -> u32;
-    fn __syntax_context_outer(self_mark: u32) -> u32;
+    fn __mark_is_builtin_proxy(self_mark: u32) -> u32;
+    fn __mark_set_builtin_proxy(self_mark: u32, is_builtin: u32);
+    fn __syntax_context_apply_mark_proxy(self_syntax_context: u32, mark: u32) -> u32;
+    fn __syntax_context_outer_proxy(self_mark: u32) -> u32;
 
     // These are proxy fn uses serializable context to pass forward mutated param
     // with return value back to the guest.
-    fn __mark_is_descendant_of(self_mark: u32, ancestor: u32, allocated_ptr: i32);
+    fn __mark_is_descendant_of_proxy(self_mark: u32, ancestor: u32, allocated_ptr: i32);
     fn __mark_least_ancestor(a: u32, b: u32, allocated_ptr: i32);
-    fn __syntax_context_remove_mark(self_mark: u32, allocated_ptr: i32);
+    fn __syntax_context_remove_mark_proxy(self_mark: u32, allocated_ptr: i32);
 
     fn __alloc(size: usize) -> *mut u8;
     fn __free(ptr: *mut u8, size: usize) -> i32;
@@ -145,7 +145,7 @@ impl Mark {
     #[inline]
     pub fn is_builtin(self) -> bool {
         #[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
-        return unsafe { __mark_is_builtin(self.0) != 0 };
+        return unsafe { __mark_is_builtin_proxy(self.0) != 0 };
 
         #[cfg(not(all(feature = "plugin-mode", target_arch = "wasm32")))]
         {
@@ -159,7 +159,7 @@ impl Mark {
     pub fn set_is_builtin(self, is_builtin: bool) {
         #[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
         unsafe {
-            __mark_set_builtin(self.0, is_builtin as u32)
+            __mark_set_builtin_proxy(self.0, is_builtin as u32)
         }
         #[cfg(not(all(feature = "plugin-mode", target_arch = "wasm32")))]
         {
@@ -182,7 +182,7 @@ impl Mark {
         // Calling host proxy fn. Inside of host proxy, host will
         // write the result into allocated context in the guest memory space.
         unsafe {
-            __mark_is_descendant_of(self.0, ancestor.0, ptr as _);
+            __mark_is_descendant_of_proxy(self.0, ancestor.0, ptr as _);
         }
 
         // Deserialize result, assign / return values as needed.
@@ -338,7 +338,7 @@ impl SyntaxContext {
     /// that mark.
     pub fn apply_mark(self, mark: Mark) -> SyntaxContext {
         #[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
-        return unsafe { SyntaxContext(__syntax_context_apply_mark(self.0, mark.0)) };
+        return unsafe { SyntaxContext(__syntax_context_apply_mark_proxy(self.0, mark.0)) };
 
         #[cfg(not(all(feature = "plugin-mode", target_arch = "wasm32")))]
         {
@@ -391,7 +391,7 @@ impl SyntaxContext {
         let ptr = unsafe { __alloc(len) };
 
         unsafe {
-            __syntax_context_remove_mark(self.0, ptr as _);
+            __syntax_context_remove_mark_proxy(self.0, ptr as _);
         }
 
         let raw_result_bytes = unsafe { std::slice::from_raw_parts(ptr, len) };
@@ -545,7 +545,7 @@ impl SyntaxContext {
     #[inline]
     pub fn outer(self) -> Mark {
         #[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
-        return unsafe { Mark(__syntax_context_outer(self.0)) };
+        return unsafe { Mark(__syntax_context_outer_proxy(self.0)) };
 
         #[cfg(not(all(feature = "plugin-mode", target_arch = "wasm32")))]
         HygieneData::with(|data| data.syntax_contexts[self.0 as usize].outer_mark)

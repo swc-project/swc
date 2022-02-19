@@ -35,3 +35,12 @@ background: url(image.png\D799);
 div {
 background: url(foo.img) red;
 }
+* {
+background: url('foo');
+background: url('f o');
+background: url('f  o');
+background: url('foo)');
+background: url('(foo');
+background: url('(foo)');
+background: url('\"foo\"');
+}

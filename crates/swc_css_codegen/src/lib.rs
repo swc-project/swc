@@ -1653,13 +1653,34 @@ where
 
     #[emitter]
     fn emit_an_plus_b(&mut self, n: &AnPlusB) -> Result {
-        if let Some(a_raw) = &n.a_raw {
-            self.wr.write_raw(Some(n.span), a_raw)?;
-            punct!(self, "n");
-        }
+        if self.config.minify {
+            if let Some(a) = &n.a {
+                if *a == -1 {
+                    self.wr.write_raw(None, "-")?;
+                } else if *a != 1 {
+                    self.wr.write_raw(None, &a.to_string())?;
+                }
 
-        if let Some(b_raw) = &n.b_raw {
-            self.wr.write_raw(Some(n.span), b_raw)?;
+                punct!(self, "n");
+            }
+
+            if let Some(b) = &n.b {
+                if *b >= 0 && n.a.is_some() {
+                    self.wr.write_raw(None, "+")?;
+                }
+
+                self.wr.write_raw(None, &b.to_string())?;
+            }
+        } else {
+            if let Some(a_raw) = &n.a_raw {
+                self.wr.write_raw(None, a_raw)?;
+
+                punct!(self, "n");
+            }
+
+            if let Some(b_raw) = &n.b_raw {
+                self.wr.write_raw(None, b_raw)?;
+            }
         }
     }
 

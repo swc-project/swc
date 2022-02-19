@@ -1,14 +1,14 @@
 error: Stylesheet
-  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:1:1
-   |
-1  | / :nth-child(2n+1) {}
-2  | | :nth-child(2n +1) {}
-3  | | :nth-child(2n + 1) {}
-4  | | :nth-child(2n+ 1) {}
-...  |
-90 | |
-91 | | /*:nth-child(2n+1 of li,.test) {}*/
-   | |____________________________________^
+   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:1:1
+    |
+1   | / :nth-child(2n+1) {}
+2   | | :nth-child(2n +1) {}
+3   | | :nth-child(2n + 1) {}
+4   | | :nth-child(2n+ 1) {}
+...   |
+101 | |
+102 | | /*:nth-child(2n+1 of li,.test) {}*/
+    | |____________________________________^
 
 error: Rule
  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:1:1
@@ -5487,4 +5487,814 @@ error: SimpleBlock
    |
 89 | :nth-last-col(2n+1) {}
    |                     ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:92:1
+   |
+92 | p:nth-child(0){}
+   | ^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:92:1
+   |
+92 | p:nth-child(0){}
+   | ^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:92:1
+   |
+92 | p:nth-child(0){}
+   | ^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:92:1
+   |
+92 | p:nth-child(0){}
+   | ^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:92:1
+   |
+92 | p:nth-child(0){}
+   | ^^^^^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:92:1
+   |
+92 | p:nth-child(0){}
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:92:1
+   |
+92 | p:nth-child(0){}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:92:1
+   |
+92 | p:nth-child(0){}
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:92:1
+   |
+92 | p:nth-child(0){}
+   | ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:92:2
+   |
+92 | p:nth-child(0){}
+   |  ^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:92:2
+   |
+92 | p:nth-child(0){}
+   |  ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:92:3
+   |
+92 | p:nth-child(0){}
+   |   ^^^^^^^^^
+
+error: Nth
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:92:13
+   |
+92 | p:nth-child(0){}
+   |             ^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:92:13
+   |
+92 | p:nth-child(0){}
+   |             ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:92:15
+   |
+92 | p:nth-child(0){}
+   |               ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:93:1
+   |
+93 | p:nth-child(+0){}
+   | ^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:93:1
+   |
+93 | p:nth-child(+0){}
+   | ^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:93:1
+   |
+93 | p:nth-child(+0){}
+   | ^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:93:1
+   |
+93 | p:nth-child(+0){}
+   | ^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:93:1
+   |
+93 | p:nth-child(+0){}
+   | ^^^^^^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:93:1
+   |
+93 | p:nth-child(+0){}
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:93:1
+   |
+93 | p:nth-child(+0){}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:93:1
+   |
+93 | p:nth-child(+0){}
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:93:1
+   |
+93 | p:nth-child(+0){}
+   | ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:93:2
+   |
+93 | p:nth-child(+0){}
+   |  ^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:93:2
+   |
+93 | p:nth-child(+0){}
+   |  ^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:93:3
+   |
+93 | p:nth-child(+0){}
+   |   ^^^^^^^^^
+
+error: Nth
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:93:13
+   |
+93 | p:nth-child(+0){}
+   |             ^^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:93:13
+   |
+93 | p:nth-child(+0){}
+   |             ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:93:16
+   |
+93 | p:nth-child(+0){}
+   |                ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:94:1
+   |
+94 | p:nth-child(-0){}
+   | ^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:94:1
+   |
+94 | p:nth-child(-0){}
+   | ^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:94:1
+   |
+94 | p:nth-child(-0){}
+   | ^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:94:1
+   |
+94 | p:nth-child(-0){}
+   | ^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:94:1
+   |
+94 | p:nth-child(-0){}
+   | ^^^^^^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:94:1
+   |
+94 | p:nth-child(-0){}
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:94:1
+   |
+94 | p:nth-child(-0){}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:94:1
+   |
+94 | p:nth-child(-0){}
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:94:1
+   |
+94 | p:nth-child(-0){}
+   | ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:94:2
+   |
+94 | p:nth-child(-0){}
+   |  ^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:94:2
+   |
+94 | p:nth-child(-0){}
+   |  ^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:94:3
+   |
+94 | p:nth-child(-0){}
+   |   ^^^^^^^^^
+
+error: Nth
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:94:13
+   |
+94 | p:nth-child(-0){}
+   |             ^^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:94:13
+   |
+94 | p:nth-child(-0){}
+   |             ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:94:16
+   |
+94 | p:nth-child(-0){}
+   |                ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:95:1
+   |
+95 | p:nth-child(1){}
+   | ^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:95:1
+   |
+95 | p:nth-child(1){}
+   | ^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:95:1
+   |
+95 | p:nth-child(1){}
+   | ^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:95:1
+   |
+95 | p:nth-child(1){}
+   | ^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:95:1
+   |
+95 | p:nth-child(1){}
+   | ^^^^^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:95:1
+   |
+95 | p:nth-child(1){}
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:95:1
+   |
+95 | p:nth-child(1){}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:95:1
+   |
+95 | p:nth-child(1){}
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:95:1
+   |
+95 | p:nth-child(1){}
+   | ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:95:2
+   |
+95 | p:nth-child(1){}
+   |  ^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:95:2
+   |
+95 | p:nth-child(1){}
+   |  ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:95:3
+   |
+95 | p:nth-child(1){}
+   |   ^^^^^^^^^
+
+error: Nth
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:95:13
+   |
+95 | p:nth-child(1){}
+   |             ^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:95:13
+   |
+95 | p:nth-child(1){}
+   |             ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:95:15
+   |
+95 | p:nth-child(1){}
+   |               ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:96:1
+   |
+96 | p:nth-child(+1){}
+   | ^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:96:1
+   |
+96 | p:nth-child(+1){}
+   | ^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:96:1
+   |
+96 | p:nth-child(+1){}
+   | ^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:96:1
+   |
+96 | p:nth-child(+1){}
+   | ^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:96:1
+   |
+96 | p:nth-child(+1){}
+   | ^^^^^^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:96:1
+   |
+96 | p:nth-child(+1){}
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:96:1
+   |
+96 | p:nth-child(+1){}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:96:1
+   |
+96 | p:nth-child(+1){}
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:96:1
+   |
+96 | p:nth-child(+1){}
+   | ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:96:2
+   |
+96 | p:nth-child(+1){}
+   |  ^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:96:2
+   |
+96 | p:nth-child(+1){}
+   |  ^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:96:3
+   |
+96 | p:nth-child(+1){}
+   |   ^^^^^^^^^
+
+error: Nth
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:96:13
+   |
+96 | p:nth-child(+1){}
+   |             ^^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:96:13
+   |
+96 | p:nth-child(+1){}
+   |             ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:96:16
+   |
+96 | p:nth-child(+1){}
+   |                ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:97:1
+   |
+97 | p:nth-child(-1){}
+   | ^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:97:1
+   |
+97 | p:nth-child(-1){}
+   | ^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:97:1
+   |
+97 | p:nth-child(-1){}
+   | ^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:97:1
+   |
+97 | p:nth-child(-1){}
+   | ^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:97:1
+   |
+97 | p:nth-child(-1){}
+   | ^^^^^^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:97:1
+   |
+97 | p:nth-child(-1){}
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:97:1
+   |
+97 | p:nth-child(-1){}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:97:1
+   |
+97 | p:nth-child(-1){}
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:97:1
+   |
+97 | p:nth-child(-1){}
+   | ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:97:2
+   |
+97 | p:nth-child(-1){}
+   |  ^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:97:2
+   |
+97 | p:nth-child(-1){}
+   |  ^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:97:3
+   |
+97 | p:nth-child(-1){}
+   |   ^^^^^^^^^
+
+error: Nth
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:97:13
+   |
+97 | p:nth-child(-1){}
+   |             ^^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:97:13
+   |
+97 | p:nth-child(-1){}
+   |             ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:97:16
+   |
+97 | p:nth-child(-1){}
+   |                ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:98:1
+   |
+98 | p:nth-child(3){}
+   | ^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:98:1
+   |
+98 | p:nth-child(3){}
+   | ^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:98:1
+   |
+98 | p:nth-child(3){}
+   | ^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:98:1
+   |
+98 | p:nth-child(3){}
+   | ^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:98:1
+   |
+98 | p:nth-child(3){}
+   | ^^^^^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:98:1
+   |
+98 | p:nth-child(3){}
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:98:1
+   |
+98 | p:nth-child(3){}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:98:1
+   |
+98 | p:nth-child(3){}
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:98:1
+   |
+98 | p:nth-child(3){}
+   | ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:98:2
+   |
+98 | p:nth-child(3){}
+   |  ^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:98:2
+   |
+98 | p:nth-child(3){}
+   |  ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:98:3
+   |
+98 | p:nth-child(3){}
+   |   ^^^^^^^^^
+
+error: Nth
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:98:13
+   |
+98 | p:nth-child(3){}
+   |             ^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:98:13
+   |
+98 | p:nth-child(3){}
+   |             ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:98:15
+   |
+98 | p:nth-child(3){}
+   |               ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:99:1
+   |
+99 | p:nth-child(+3){}
+   | ^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:99:1
+   |
+99 | p:nth-child(+3){}
+   | ^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:99:1
+   |
+99 | p:nth-child(+3){}
+   | ^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:99:1
+   |
+99 | p:nth-child(+3){}
+   | ^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:99:1
+   |
+99 | p:nth-child(+3){}
+   | ^^^^^^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:99:1
+   |
+99 | p:nth-child(+3){}
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:99:1
+   |
+99 | p:nth-child(+3){}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:99:1
+   |
+99 | p:nth-child(+3){}
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:99:1
+   |
+99 | p:nth-child(+3){}
+   | ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:99:2
+   |
+99 | p:nth-child(+3){}
+   |  ^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:99:2
+   |
+99 | p:nth-child(+3){}
+   |  ^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:99:3
+   |
+99 | p:nth-child(+3){}
+   |   ^^^^^^^^^
+
+error: Nth
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:99:13
+   |
+99 | p:nth-child(+3){}
+   |             ^^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:99:13
+   |
+99 | p:nth-child(+3){}
+   |             ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:99:16
+   |
+99 | p:nth-child(+3){}
+   |                ^^
+
+error: Rule
+   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:100:1
+    |
+100 | p:nth-child(-3){}
+    | ^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:100:1
+    |
+100 | p:nth-child(-3){}
+    | ^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:100:1
+    |
+100 | p:nth-child(-3){}
+    | ^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:100:1
+    |
+100 | p:nth-child(-3){}
+    | ^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:100:1
+    |
+100 | p:nth-child(-3){}
+    | ^^^^^^^^^^^^^^^
+
+error: TypeSelector
+   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:100:1
+    |
+100 | p:nth-child(-3){}
+    | ^
+
+error: TagNameSelector
+   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:100:1
+    |
+100 | p:nth-child(-3){}
+    | ^
+
+error: WqName
+   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:100:1
+    |
+100 | p:nth-child(-3){}
+    | ^
+
+error: Ident
+   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:100:1
+    |
+100 | p:nth-child(-3){}
+    | ^
+
+error: SubclassSelector
+   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:100:2
+    |
+100 | p:nth-child(-3){}
+    |  ^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:100:2
+    |
+100 | p:nth-child(-3){}
+    |  ^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:100:3
+    |
+100 | p:nth-child(-3){}
+    |   ^^^^^^^^^
+
+error: Nth
+   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:100:13
+    |
+100 | p:nth-child(-3){}
+    |             ^^
+
+error: AnPlusB
+   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:100:13
+    |
+100 | p:nth-child(-3){}
+    |             ^^
+
+error: SimpleBlock
+   --> $DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:100:16
+    |
+100 | p:nth-child(-3){}
+    |                ^^
 
