@@ -104,4 +104,8 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default)]
     pub eqeqeq: RuleConfig<EqeqeqConfig>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default, alias = "noNew")]
+    pub no_new: RuleConfig<()>,
 }
