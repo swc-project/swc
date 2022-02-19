@@ -1,12 +1,8 @@
-use rayon::prelude::*;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{
-    collections::{AHashMap, AHashSet},
-    util::take::Take,
-};
+use swc_common::{collections::AHashSet, util::take::Take};
 use swc_ecma_utils::Id;
 
-use crate::util::base54::incr_base54;
+use crate::{pass::mangle_names::rename_map::RenameMap, util::base54::incr_base54};
 
 #[derive(Debug, Default)]
 pub(crate) struct Scope {
@@ -49,7 +45,7 @@ impl Scope {
 
     pub(super) fn rename(
         &mut self,
-        to: &mut AHashMap<Id, JsWord>,
+        to: &mut RenameMap,
         preserved: &AHashSet<Id>,
         preserved_symbols: &AHashSet<JsWord>,
     ) {
@@ -69,7 +65,7 @@ impl Scope {
                 }
 
                 if self.can_rename(&id, &sym, to) {
-                    to.entry(id.clone()).or_insert(sym);
+                    to.insert(id.clone(), sym);
                     break;
                 }
             }
@@ -80,63 +76,22 @@ impl Scope {
         }
     }
 
-    fn can_rename(&self, id: &Id, symbol: &JsWord, renamed: &AHashMap<Id, JsWord>) -> bool {
-        if cfg!(target_arch = "wasm32")
-            || self
-                .data
-                .usages
-                .iter()
-                .chain(self.data.decls.iter())
-                .count()
-                <= 64
-        {
-            for used_id in self.data.usages.iter().chain(self.data.decls.iter()) {
-                if *used_id == *id {
+    fn can_rename(&self, id: &Id, symbol: &JsWord, renamed: &RenameMap) -> bool {
+        if let Some(lefts) = renamed.get_by_right(symbol) {
+            for left in lefts {
+                if *left == *id {
                     continue;
                 }
 
-                if let Some(renamed_id) = renamed.get(used_id) {
-                    if renamed_id == symbol {
-                        return false;
-                    }
-                }
-            }
-        } else {
-            if self
-                .data
-                .usages
-                .par_iter()
-                .chain(self.data.decls.par_iter())
-                .any(|used_id| {
-                    if *used_id == *id {
-                        return false;
-                    }
-
-                    if let Some(renamed_id) = renamed.get(used_id) {
-                        if renamed_id == symbol {
-                            return true;
-                        }
-                    }
-
-                    false
-                })
-            {
-                return false;
-            }
-        }
-
-        if cfg!(target_arch = "wasm32") {
-            for c in self.children.iter() {
-                if !c.can_rename(id, symbol, renamed) {
+                //
+                if self.data.usages.contains(left) || self.data.decls.contains(left) {
                     return false;
                 }
             }
-
-            true
-        } else {
-            self.children
-                .par_iter()
-                .all(|c| c.can_rename(id, symbol, renamed))
         }
+
+        self.children
+            .iter()
+            .all(|c| c.can_rename(id, symbol, renamed))
     }
 }
