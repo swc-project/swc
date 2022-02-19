@@ -2633,7 +2633,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.129.0"
+version = "0.129.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2949,7 +2949,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.14.12"
+version = "0.14.13"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -2989,7 +2989,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.74.1"
+version = "0.74.3"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3343,7 +3343,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.114.2"
+version = "0.114.3"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -4016,7 +4016,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.142"
+version = "1.2.143"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
