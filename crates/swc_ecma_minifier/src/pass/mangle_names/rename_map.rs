@@ -14,6 +14,10 @@ impl RenameMap {
     }
 
     pub fn insert(&mut self, id: Id, sym: JsWord) {
+        if self.map.contains_key(&id) {
+            return;
+        }
+
         self.map.insert(id.clone(), sym.clone());
         self.rev.entry(sym).or_default().push(id);
     }
