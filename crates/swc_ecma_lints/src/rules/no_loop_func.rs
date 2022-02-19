@@ -66,7 +66,7 @@ impl NoLoopFunc {
                 names.join(", ")
             )
         } else {
-            names.sort();
+            names.sort_unstable();
 
             format!(
                 "Function declared in a loop contains unsafe references to variable(s) {}",
