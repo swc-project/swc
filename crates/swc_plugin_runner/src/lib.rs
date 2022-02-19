@@ -1,26 +1,19 @@
-use std::{
-    path::{Path, PathBuf},
-    sync::Arc,
-};
+use std::{path::Path, sync::Arc};
 
 use anyhow::{anyhow, Context, Error};
+use cache::PluginModuleCache;
 use once_cell::sync::Lazy;
 use parking_lot::Mutex;
-use resolve::PluginCache;
 use swc_common::{
-    collections::AHashMap,
     errors::{Diagnostic, HANDLER},
     hygiene::MutableMarkContext,
     plugin::{PluginError, Serialized},
     Mark, SyntaxContext,
 };
-use wasmer::{
-    imports, Array, Exports, Function, Instance, LazyInit, Memory, Module, Store, WasmPtr,
-};
-use wasmer_cache::{Cache, Hash};
+use wasmer::{imports, Array, Exports, Function, Instance, LazyInit, Memory, WasmPtr};
 use wasmer_wasi::{is_wasi_module, WasiState};
 
-pub mod resolve;
+pub mod cache;
 
 fn copy_bytes_into_host(memory: &Memory, bytes_ptr: i32, bytes_ptr_len: i32) -> Vec<u8> {
     let ptr: WasmPtr<u8, Array> = WasmPtr::new(bytes_ptr as _);
@@ -202,94 +195,18 @@ struct HostEnvironment {
     transform_result: Arc<Mutex<Vec<u8>>>,
 }
 
-/// Load plugin from specified path.
-/// If cache is provided, it'll try to load from cache first to avoid
-/// compilation.
-///
-/// Since plugin will be initialized per-file transform, this function tries to
-/// avoid reading filesystem per each initialization via naive in-memory map
-/// which stores raw bytecodes from file. Unlike compiled bytecode cache for the
-/// wasm, this is volatile.
-///
-/// ### Notes
-/// [This code](https://github.com/swc-project/swc/blob/fc4c6708f24cda39640fbbfe56123f2f6eeb2474/crates/swc/src/plugin.rs#L19-L44)
-/// includes previous incorrect attempt to workaround file read issues.
-/// In actual transform, `plugins` is also being called per each transform.
 fn load_plugin(
     plugin_path: &Path,
-    cache: &mut Option<PluginCache>,
+    cache: &Lazy<PluginModuleCache>,
 ) -> Result<(Instance, Arc<Mutex<Vec<u8>>>), Error> {
-    static BYTE_CACHE: Lazy<Mutex<AHashMap<PathBuf, Arc<Vec<u8>>>>> = Lazy::new(Default::default);
-
-    // TODO: This caching streategy does not consider few edge cases.
-    // 1. If process is long-running (devServer) binary change in the middle of
-    // process won't be reflected.
-    // 2. If reading binary fails somehow it won't bail out but keep retry.
-    let module_bytes_key = plugin_path.to_path_buf();
-    let cached_bytes = BYTE_CACHE.lock().get(&module_bytes_key).cloned();
-    let module_bytes = if let Some(cached_bytes) = cached_bytes {
-        cached_bytes
-    } else {
-        let fresh_module_bytes = std::fs::read(plugin_path)
-            .map(Arc::new)
-            .context("Cannot read plugin from specified path")?;
-
-        BYTE_CACHE
-            .lock()
-            .insert(module_bytes_key, fresh_module_bytes.clone());
-
-        fresh_module_bytes
-    };
-
-    // TODO: can we share store instances across each plugin binaries?
-    let wasmer_store = Store::default();
-
-    let load_from_cache = |c: &mut PluginCache, hash: Hash| match c {
-        PluginCache::File(filesystem_cache) => unsafe {
-            filesystem_cache.load(&wasmer_store, hash)
-        },
-    };
-
-    let store_into_cache = |c: &mut PluginCache, hash: Hash, module: &Module| match c {
-        PluginCache::File(filesystem_cache) => filesystem_cache.store(hash, module),
-    };
-
-    let hash = Hash::generate(&module_bytes);
-
-    let load_cold_wasm_bytes =
-        || Module::new(&wasmer_store, module_bytes.as_ref()).context("Cannot compile plugin");
-
-    let module = if let Some(cache) = cache {
-        let cached_module =
-            load_from_cache(cache, hash).context("Failed to load plugin from cache");
-
-        match cached_module {
-            Ok(module) => Ok(module),
-            Err(err) => {
-                let loaded_module = load_cold_wasm_bytes().map_err(|_| err);
-                match &loaded_module {
-                    Ok(module) => {
-                        if let Err(err) = store_into_cache(cache, hash, module) {
-                            loaded_module
-                                .map_err(|_| err)
-                                .context("Failed to store compiled plugin into cache")
-                        } else {
-                            loaded_module
-                        }
-                    }
-                    Err(..) => loaded_module,
-                }
-            }
-        }
-    } else {
-        load_cold_wasm_bytes()
-    };
+    let module = cache.load_module(plugin_path);
 
     return match module {
         Ok(module) => {
+            let wasmer_store = module.store();
             let transform_result: Arc<Mutex<Vec<u8>>> = Arc::new(Mutex::new(vec![]));
             let set_transform_result_fn_decl = Function::new_native_with_env(
-                &wasmer_store,
+                wasmer_store,
                 HostEnvironment {
                     memory: LazyInit::default(),
                     transform_result: transform_result.clone(),
@@ -298,7 +215,7 @@ fn load_plugin(
             );
 
             let emit_diagnostics_fn_decl = Function::new_native_with_env(
-                &wasmer_store,
+                wasmer_store,
                 HostEnvironment {
                     memory: LazyInit::default(),
                     transform_result: transform_result.clone(),
@@ -306,14 +223,13 @@ fn load_plugin(
                 emit_diagnostics,
             );
 
-            let mark_fresh_fn_decl = Function::new_native(&wasmer_store, mark_fresh_proxy);
-            let mark_parent_fn_decl = Function::new_native(&wasmer_store, mark_parent_proxy);
-            let mark_is_builtin_fn_decl =
-                Function::new_native(&wasmer_store, mark_is_builtin_proxy);
+            let mark_fresh_fn_decl = Function::new_native(wasmer_store, mark_fresh_proxy);
+            let mark_parent_fn_decl = Function::new_native(wasmer_store, mark_parent_proxy);
+            let mark_is_builtin_fn_decl = Function::new_native(wasmer_store, mark_is_builtin_proxy);
             let mark_set_builtin_fn_decl =
-                Function::new_native(&wasmer_store, mark_set_builtin_proxy);
+                Function::new_native(wasmer_store, mark_set_builtin_proxy);
             let mark_is_descendant_of_fn_decl = Function::new_native_with_env(
-                &wasmer_store,
+                wasmer_store,
                 HostEnvironment {
                     memory: LazyInit::default(),
                     transform_result: transform_result.clone(),
@@ -322,7 +238,7 @@ fn load_plugin(
             );
 
             let mark_least_ancestor_fn_decl = Function::new_native_with_env(
-                &wasmer_store,
+                wasmer_store,
                 HostEnvironment {
                     memory: LazyInit::default(),
                     transform_result: transform_result.clone(),
@@ -331,9 +247,9 @@ fn load_plugin(
             );
 
             let syntax_context_apply_mark_fn_decl =
-                Function::new_native(&wasmer_store, syntax_context_apply_mark_proxy);
+                Function::new_native(wasmer_store, syntax_context_apply_mark_proxy);
             let syntax_context_remove_mark_fn_decl = Function::new_native_with_env(
-                &wasmer_store,
+                wasmer_store,
                 HostEnvironment {
                     memory: LazyInit::default(),
                     transform_result: transform_result.clone(),
@@ -341,7 +257,7 @@ fn load_plugin(
                 syntax_context_remove_mark_proxy,
             );
             let syntax_context_outer_fn_decl =
-                Function::new_native(&wasmer_store, syntax_context_outer_proxy);
+                Function::new_native(wasmer_store, syntax_context_outer_proxy);
 
             // Plugin binary can be either wasm32-wasi or wasm32-unknown-unknown
             let import_object = if is_wasi_module(&module) {
@@ -431,7 +347,7 @@ struct PluginTransformTracker {
 }
 
 impl PluginTransformTracker {
-    fn new(path: &Path, cache: &mut Option<PluginCache>) -> Result<PluginTransformTracker, Error> {
+    fn new(path: &Path, cache: &Lazy<PluginModuleCache>) -> Result<PluginTransformTracker, Error> {
         let (instance, transform_result) = load_plugin(path, cache)?;
 
         let tracker = PluginTransformTracker {
@@ -534,7 +450,7 @@ impl Drop for PluginTransformTracker {
 pub fn apply_js_plugin(
     plugin_name: &str,
     path: &Path,
-    cache: &mut Option<PluginCache>,
+    cache: &Lazy<PluginModuleCache>,
     program: Serialized,
     config_json: Serialized,
     context_json: Serialized,

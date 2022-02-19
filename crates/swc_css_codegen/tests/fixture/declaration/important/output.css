@@ -10,3 +10,18 @@ color: red !important;
 color: red !IMPORTANT;
 color: red !iMpOrTaNt;
 }
+a {
+b: c !important;
+}
+.class {
+& div {
+color: red !important;
+}
+}
+.class {
+& div {
+color: red !important;
+}
+}
+.foo {
+color: red !ie}
