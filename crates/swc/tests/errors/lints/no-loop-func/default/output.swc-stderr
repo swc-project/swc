@@ -50,7 +50,7 @@ error: Function declared in a loop contains unsafe references to variable a
 61 | |         })
    | |_________^
 
-error: Function declared in a loop contains unsafe references to variable(s) cc, bb, aa, ee
+error: Function declared in a loop contains unsafe references to variable(s) aa, bb, cc, ee
   
    |
 69 |       setTimeout(() => {

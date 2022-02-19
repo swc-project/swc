@@ -54,7 +54,7 @@ impl NoLoopFunc {
     }
 
     fn emit_report(&self, span: Span) {
-        let names = self
+        let mut names = self
             .current_fn_unsafe_vars
             .iter()
             .map(|js_word| (&*js_word) as &str)
@@ -66,6 +66,8 @@ impl NoLoopFunc {
                 names.join(", ")
             )
         } else {
+            names.sort();
+
             format!(
                 "Function declared in a loop contains unsafe references to variable(s) {}",
                 names.join(", ")
