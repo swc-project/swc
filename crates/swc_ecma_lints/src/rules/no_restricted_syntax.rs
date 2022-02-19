@@ -74,7 +74,7 @@ impl NoRestrictedSyntax {
         let rule_config = config.get_rule_config();
 
         Self {
-            expected_reaction: *config.get_rule_reaction(),
+            expected_reaction: config.get_rule_reaction(),
             binary_expr: rule_config.binary_expression.clone(),
             for_in_expression: rule_config.for_in_expression.clone(),
             for_of_expression: rule_config.for_of_expression.clone(),
