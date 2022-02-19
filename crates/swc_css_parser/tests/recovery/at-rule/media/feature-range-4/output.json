@@ -40,21 +40,12 @@
         {
           "type": "SimpleBlock",
           "span": {
-            "start": 6,
+            "start": 7,
             "end": 31,
             "ctxt": 0
           },
           "name": "(",
           "value": [
-            {
-              "type": "PreservedToken",
-              "span": {
-                "start": 7,
-                "end": 8,
-                "ctxt": 0
-              },
-              "token": "LParen"
-            },
             {
               "type": "PreservedToken",
               "span": {

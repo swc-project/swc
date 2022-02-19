@@ -1,0 +1,135 @@
+@media screen and (min-width: 900px) {}
+
+@media screen and (min-width: 900px) {
+    article {}
+}
+
+@supports (display: flex) {}
+
+@supports (display: flex) {
+    @media screen and (min-width: 900px) {}
+}
+
+@supports (display: flex) {
+    @media screen and (min-width: 900px) {
+        article {}
+    }
+}
+
+@keyframes slidein {}
+
+@keyframes slidein {
+    from {}
+
+    to {}
+}
+
+@font-face {  }
+
+@page {
+
+}
+
+@viewport {
+
+}
+
+@document url("https://www.example.com/") {}
+
+@document url("https://www.example.com/") {
+    h1 {}
+}
+
+/* Unsafe to remove this block, because used in declaration */
+@counter-style thumbs {  }
+
+ul {
+    list-style: thumbs;
+}
+
+/* Unsafe to remove this block, because used in declaration */
+@color-profile --swop5c {
+
+}
+
+.header {
+    background-color:   color(--swop5c 0% 70% 20% 0%);
+}
+
+@property --my-color {}
+
+div {
+    color: var(--my-color);
+}
+
+@page :first {
+    color: green;
+
+    @top-left {
+        content: "foo";
+        color: blue;
+    }
+    @top-right {
+        content: "bar";
+    }
+}
+
+@page :first {
+    @top-left {}
+    @top-right {}
+}
+
+@media print {
+    #navigation {}
+
+    @media (max-width: 12cm) {
+        .note {}
+    }
+}
+
+@layer utilities {}
+
+@layer utilities {
+    .padding-sm {
+    
+    }
+
+    .padding-lg {
+    
+    }
+}
+
+@supports not (display: grid) {
+    div {
+    }
+}
+
+@supports (animation-name: test) {
+    @keyframes foo {
+    }
+}
+
+@supports (flex-wrap: wrap) {
+    .foo {}
+
+    @media (min-width: 50em) {
+        .foo {}
+    }
+}
+
+@media (min-width: 50em) {
+    .foo {}
+
+    @supports (flex-wrap: wrap) {
+        .foo {}
+    }
+}
+
+@supports (display: flex) {
+    @font-face {
+      
+    }
+
+    body {  }
+}
+

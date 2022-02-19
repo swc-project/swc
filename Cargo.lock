@@ -2633,7 +2633,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.127.5"
+version = "0.129.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2731,7 +2731,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.1.4"
+version = "0.3.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -2747,7 +2747,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.7"
+version = "0.17.8"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2804,7 +2804,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.84.0"
+version = "0.84.1"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -2830,7 +2830,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.49.0"
+version = "0.49.2"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2843,7 +2843,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.85.1"
+version = "0.85.2"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2949,7 +2949,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.14.11"
+version = "0.14.12"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3134,7 +3134,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.70.1"
+version = "0.70.2"
 dependencies = [
  "ahash",
  "arrayvec 0.7.2",
@@ -3379,7 +3379,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.45.0"
+version = "0.47.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3501,7 +3501,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.34.0"
+version = "0.35.0"
 dependencies = [
  "anyhow",
  "libloading",
@@ -3569,7 +3569,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.43.0"
+version = "0.45.0"
 dependencies = [
  "anyhow",
  "rayon",
@@ -4016,7 +4016,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.141"
+version = "1.2.142"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",

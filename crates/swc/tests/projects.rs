@@ -899,3 +899,12 @@ fn opt_source_file_name_1() {
 
     assert!(map.contains("entry-foo"));
 }
+
+#[test]
+fn bom() {
+    project("tests/projects/bom")
+}
+#[test]
+fn json_schema() {
+    project("tests/projects/json-schema")
+}
