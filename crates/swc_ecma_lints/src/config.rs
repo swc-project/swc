@@ -78,4 +78,8 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default)]
     pub eqeqeq: RuleConfig<EqeqeqConfig>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default, alias = "noLoopFunc")]
+    pub no_loop_func: RuleConfig<()>,
 }

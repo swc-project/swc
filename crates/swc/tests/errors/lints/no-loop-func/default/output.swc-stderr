@@ -1,0 +1,64 @@
+error: Duplicate binding
+  
+   |
+67 | let { aa, bb: { bb }, cc: [cc], ...ee } = obj;
+   |                                    ^^
+   |
+note: ee was declared at here
+  
+   |
+49 |     function ee() {
+   |              ^^
+
+error: Function declared in a loop contains unsafe references to variable i
+  
+   |
+9  | /     function x() {
+10 | |         alert(i);
+11 | |     }
+   | |_____^
+
+error: Function declared in a loop contains unsafe references to variable(s) z, zz
+  
+   |
+29 | /     function x() {
+30 | |         alert(z, zz);
+31 | |     }
+   | |_____^
+
+error: Function declared in a loop contains unsafe references to variable a
+  
+   |
+36 | let a; for (let i in {}) { (function() { a; }); a = 1; }
+   |                             ^^^^^^^^^^^^^^^^^
+
+error: Function declared in a loop contains unsafe references to variable i
+  
+   |
+40 |       setTimeout(() => {
+   |  ________________^
+41 | |         console.log(i);
+42 | |     })
+   | |_____^
+
+error: Function declared in a loop contains unsafe references to variable a
+  
+   |
+59 |           setTimeout(() => {
+   |  ____________________^
+60 | |             a;
+61 | |         })
+   | |_________^
+
+error: Function declared in a loop contains unsafe references to variable(s) cc, bb, aa, ee
+  
+   |
+69 |       setTimeout(() => {
+   |  ________________^
+70 | |         aa;
+71 | |         bb;
+72 | |         cc;
+73 | |         ee;
+74 | |     })
+   | |_____^
+

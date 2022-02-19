@@ -21,6 +21,7 @@ pub(crate) mod non_critical_lints {
     pub mod no_console;
     pub mod no_debugger;
     pub mod no_empty_pattern;
+    pub mod no_loop_func;
     pub mod no_use_before_define;
     pub mod prefer_regex_literals;
     pub mod quotes;
@@ -93,6 +94,8 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         ));
 
         rules.extend(eqeqeq::eqeqeq(&lint_config.eqeqeq));
+
+        rules.extend(no_loop_func::no_loop_func(&lint_config.no_loop_func));
     }
 
     rules
