@@ -1,6 +1,17 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/lints)** Implement `no-restricted-syntax` rule (#3607) ([72343ba](https://github.com/swc-project/swc/commit/72343baf5be311809fe786ee8bbea52515197286))
+
+
+- **(es/minifier)** Treat `!0` as a literal while inlining (#3631) ([d2c9441](https://github.com/swc-project/swc/commit/d2c94416a8735715f37fc680c7b5178bc88239ce))
+
+## [1.2.142] - 2022-02-18
+
 ### Bug Fixes
 
 

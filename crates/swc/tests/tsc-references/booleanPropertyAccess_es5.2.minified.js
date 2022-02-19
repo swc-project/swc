@@ -1,2 +1,1 @@
-var x = !0;
-x.toString(), x.toString();
+(!0).toString(), (!0).toString();

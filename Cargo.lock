@@ -2949,7 +2949,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.14.12"
+version = "0.14.13"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -2989,7 +2989,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.74.1"
+version = "0.74.2"
 dependencies = [
  "ahash",
  "ansi_term",
