@@ -3110,16 +3110,14 @@ fn escape_without_source(v: &str, target: EsVersion, single_quote: bool) -> Stri
             '\u{7f}'..='\u{ff}' => {
                 let _ = write!(buf, "\\x{:x}", c as u8);
             }
-
-            '\u{2028}' => {
-                buf.push_str("\\u2028");
-            }
-            '\u{2029}' => {
-                buf.push_str("\\u2029");
-            }
-
             _ => {
-                buf.push(c);
+                if let '\u{0001}'..='\u{FFFF}' = c {
+                    // if char is unicode up to U+FFFF and it's not been transformed by prior match
+                    // it's still a valid ES5 unicode char so lets keep it as is
+                    let _ = write!(buf, "\\u{:x}", c as u16);
+                } else {
+                    buf.push(c);
+                }
             }
         }
     }
