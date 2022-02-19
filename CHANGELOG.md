@@ -10,6 +10,12 @@
 
 - **(es/minifier)** Treat `!0` as a literal while inlining (#3631) ([d2c9441](https://github.com/swc-project/swc/commit/d2c94416a8735715f37fc680c7b5178bc88239ce))
 
+### Performance
+
+
+
+- **(es/minifier)** Fix performance bug of the mangler (#3633) ([fd0e952](https://github.com/swc-project/swc/commit/fd0e952aec427e86d276b51e8f6659de8f9eac94))
+
 ## [1.2.142] - 2022-02-18
 
 ### Bug Fixes
