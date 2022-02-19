@@ -60,9 +60,7 @@ pub fn no_empty_function(
     source_map: &Arc<SourceMap>,
     config: &RuleConfig<NoEmptyFunctionConfig>,
 ) -> Option<Box<dyn Rule>> {
-    let rule_reaction = config.get_rule_reaction();
-
-    match rule_reaction {
+    match config.get_rule_reaction() {
         LintRuleReaction::Off => None,
         _ => Some(visitor_rule(NoEmptyFunction::new(
             source_map.clone(),
@@ -172,7 +170,7 @@ impl NoEmptyFunction {
 
         Self {
             source_map,
-            expected_reaction: *config.get_rule_reaction(),
+            expected_reaction: config.get_rule_reaction(),
 
             consider_comments: no_empty_function_config.consider_comments.unwrap_or(true),
             functions: no_empty_function_config.functions.clone(),
