@@ -1,0 +1,12 @@
+error: no 'in' expession
+ 
+  |
+1 | 'a' in { a: 10 };
+  | ^^^^^^^^^^^^^^^^
+
+error: no 'in' expession
+ 
+  |
+6 |     if ('a' in { a: 10 }) {}
+  |         ^^^^^^^^^^^^^^^^
+

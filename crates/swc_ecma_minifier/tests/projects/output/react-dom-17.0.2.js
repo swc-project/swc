@@ -25,7 +25,7 @@
         argsWithFormat.unshift("Warning: " + format), Function.prototype.apply.call(console[level], console, argsWithFormat);
     }
     if (!React) throw Error("ReactDOM was loaded before React. Make sure you load the React package before loading ReactDOM.");
-    var enableProfilerTimer = !0, enableFundamentalAPI = !1, enableNewReconciler = !1, allNativeEvents = new Set(), registrationNameDependencies1 = {}, possibleRegistrationNames1 = {};
+    var allNativeEvents = new Set(), registrationNameDependencies1 = {}, possibleRegistrationNames1 = {};
     function registerTwoPhaseEvent(registrationName, dependencies) {
         registerDirectEvent(registrationName, dependencies), registerDirectEvent(registrationName + "Capture", dependencies);
     }
@@ -3245,8 +3245,8 @@
         }();
     }
     function listenToNonDelegatedEvent(domEventName, targetElement) {
-        var isCapturePhaseListener = !1, listenerSet = getEventListenerSet(targetElement), listenerSetKey = getListenerSetKey(domEventName, isCapturePhaseListener);
-        listenerSet.has(listenerSetKey) || (addTrappedEventListener(targetElement, domEventName, 2, isCapturePhaseListener), listenerSet.add(listenerSetKey));
+        var listenerSet = getEventListenerSet(targetElement), listenerSetKey = getListenerSetKey(domEventName, !1);
+        listenerSet.has(listenerSetKey) || (addTrappedEventListener(targetElement, domEventName, 2, !1), listenerSet.add(listenerSetKey));
     }
     var listeningMarker = "_reactListening" + Math.random().toString(36).slice(2);
     function listenToAllSupportedEvents(rootContainerElement) {
@@ -5821,7 +5821,7 @@
         useTransition: throwInvalidHookError,
         useMutableSource: throwInvalidHookError,
         useOpaqueIdentifier: throwInvalidHookError,
-        unstable_isNewReconciler: enableNewReconciler
+        unstable_isNewReconciler: !1
     }, HooksDispatcherOnMountInDEV = null, HooksDispatcherOnMountWithHookTypesInDEV = null, HooksDispatcherOnUpdateInDEV = null, HooksDispatcherOnRerenderInDEV = null, InvalidNestedHooksDispatcherOnMountInDEV = null, InvalidNestedHooksDispatcherOnUpdateInDEV = null, InvalidNestedHooksDispatcherOnRerenderInDEV = null, warnInvalidContextAccess = function() {
         error1("Context can only be read while React is rendering. In classes, you can read it in the render method or getDerivedStateFromProps. In function components, you can read it directly in the function body, but not inside Hooks like useReducer() or useMemo().");
     }, warnInvalidHookAccess = function() {
@@ -5894,7 +5894,7 @@
         useOpaqueIdentifier: function() {
             return currentHookNameInDev = "useOpaqueIdentifier", mountHookTypesDev(), mountOpaqueIdentifier();
         },
-        unstable_isNewReconciler: enableNewReconciler
+        unstable_isNewReconciler: !1
     }, HooksDispatcherOnMountWithHookTypesInDEV = {
         readContext: function(context, observedBits) {
             return readContext(context, observedBits);
@@ -5962,7 +5962,7 @@
         useOpaqueIdentifier: function() {
             return currentHookNameInDev = "useOpaqueIdentifier", updateHookTypesDev(), mountOpaqueIdentifier();
         },
-        unstable_isNewReconciler: enableNewReconciler
+        unstable_isNewReconciler: !1
     }, HooksDispatcherOnUpdateInDEV = {
         readContext: function(context, observedBits) {
             return readContext(context, observedBits);
@@ -6030,7 +6030,7 @@
         useOpaqueIdentifier: function() {
             return currentHookNameInDev = "useOpaqueIdentifier", updateHookTypesDev(), updateOpaqueIdentifier();
         },
-        unstable_isNewReconciler: enableNewReconciler
+        unstable_isNewReconciler: !1
     }, HooksDispatcherOnRerenderInDEV = {
         readContext: function(context, observedBits) {
             return readContext(context, observedBits);
@@ -6098,7 +6098,7 @@
         useOpaqueIdentifier: function() {
             return currentHookNameInDev = "useOpaqueIdentifier", updateHookTypesDev(), rerenderOpaqueIdentifier();
         },
-        unstable_isNewReconciler: enableNewReconciler
+        unstable_isNewReconciler: !1
     }, InvalidNestedHooksDispatcherOnMountInDEV = {
         readContext: function(context, observedBits) {
             return warnInvalidContextAccess(), readContext(context, observedBits);
@@ -6166,7 +6166,7 @@
         useOpaqueIdentifier: function() {
             return currentHookNameInDev = "useOpaqueIdentifier", warnInvalidHookAccess(), mountHookTypesDev(), mountOpaqueIdentifier();
         },
-        unstable_isNewReconciler: enableNewReconciler
+        unstable_isNewReconciler: !1
     }, InvalidNestedHooksDispatcherOnUpdateInDEV = {
         readContext: function(context, observedBits) {
             return warnInvalidContextAccess(), readContext(context, observedBits);
@@ -6234,7 +6234,7 @@
         useOpaqueIdentifier: function() {
             return currentHookNameInDev = "useOpaqueIdentifier", warnInvalidHookAccess(), updateHookTypesDev(), updateOpaqueIdentifier();
         },
-        unstable_isNewReconciler: enableNewReconciler
+        unstable_isNewReconciler: !1
     }, InvalidNestedHooksDispatcherOnRerenderInDEV = {
         readContext: function(context, observedBits) {
             return warnInvalidContextAccess(), readContext(context, observedBits);
@@ -6302,7 +6302,7 @@
         useOpaqueIdentifier: function() {
             return currentHookNameInDev = "useOpaqueIdentifier", warnInvalidHookAccess(), updateHookTypesDev(), rerenderOpaqueIdentifier();
         },
-        unstable_isNewReconciler: enableNewReconciler
+        unstable_isNewReconciler: !1
     };
     var now$1 = unstable_now, commitTime = 0, profilerStartTime = -1;
     function recordCommitTime() {
@@ -7840,7 +7840,7 @@
     }
     function insertOrAppendPlacementNodeIntoContainer(node, before, parent) {
         var tag = node.tag, isHost = 5 === tag || 6 === tag;
-        if (isHost || enableFundamentalAPI) {
+        if (isHost || 0) {
             var container, child, beforeChild, container1, child1, parentNode, stateNode = isHost ? node.stateNode : node.stateNode.instance;
             before ? (container = parent, child = stateNode, beforeChild = before, 8 === container.nodeType ? container.parentNode.insertBefore(child, beforeChild) : container.insertBefore(child, beforeChild)) : (container1 = parent, child1 = stateNode, 8 === container1.nodeType ? (parentNode = container1.parentNode).insertBefore(child1, container1) : (parentNode = container1).appendChild(child1), null == container1._reactRootContainer && null === parentNode.onclick && trapClickOnNonInteractiveElement(parentNode));
         } else if (4 === tag) ;
@@ -7854,7 +7854,7 @@
     }
     function insertOrAppendPlacementNode(node, before, parent) {
         var tag = node.tag, isHost = 5 === tag || 6 === tag;
-        if (isHost || enableFundamentalAPI) {
+        if (isHost || 0) {
             var stateNode = isHost ? node.stateNode : node.stateNode.instance;
             before ? (function(parentInstance, child, beforeChild) {
                 parentInstance.insertBefore(child, beforeChild);
@@ -8271,7 +8271,7 @@
                     workInProgressRootExitStatus = 1, workInProgressRootFatalError = thrownValue, workInProgress1 = null;
                     return;
                 }
-                enableProfilerTimer && 8 & erroredWork.mode && stopProfilerTimerIfRunningAndRecordDelta(erroredWork, !0), throwException(root, erroredWork.return, erroredWork, thrownValue, workInProgressRootRenderLanes), completeUnitOfWork(erroredWork);
+                8 & erroredWork.mode && stopProfilerTimerIfRunningAndRecordDelta(erroredWork, !0), throwException(root, erroredWork.return, erroredWork, thrownValue, workInProgressRootRenderLanes), completeUnitOfWork(erroredWork);
             } catch (yetAnotherThrownValue) {
                 thrownValue = yetAnotherThrownValue, workInProgress1 === erroredWork && null !== erroredWork ? workInProgress1 = erroredWork = erroredWork.return : erroredWork = workInProgress1;
                 continue;
@@ -8524,7 +8524,7 @@
         if (rootDidHavePassiveEffects || finishPendingInteractions(root6, lanes5), remainingLanes1 === SyncLane ? root6 === rootWithNestedUpdates ? nestedUpdateCount++ : (nestedUpdateCount = 0, rootWithNestedUpdates = root6) : nestedUpdateCount = 0, !function(root, priorityLevel) {
             if (injectedHook && "function" == typeof injectedHook.onCommitFiberRoot) try {
                 var didError = (root.current.flags & DidCapture) === DidCapture;
-                enableProfilerTimer ? injectedHook.onCommitFiberRoot(rendererID, root, priorityLevel, didError) : injectedHook.onCommitFiberRoot(rendererID, root, void 0, didError);
+                injectedHook.onCommitFiberRoot(rendererID, root, priorityLevel, didError);
             } catch (err) {
                 hasLoggedError || (hasLoggedError = !0, error1("React instrumentation encountered an error: %s", err));
             }
@@ -9268,7 +9268,7 @@
             var currentParent = findCurrentFiberUsingSlowPath(parent);
             if (!currentParent) return null;
             for(var node = currentParent;;){
-                if (5 === node.tag || 6 === node.tag || enableFundamentalAPI) return node;
+                if (5 === node.tag || 6 === node.tag) return node;
                 if (node.child && 4 !== node.tag) {
                     node.child.return = node, node = node.child;
                     continue;

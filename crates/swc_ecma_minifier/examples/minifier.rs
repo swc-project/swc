@@ -6,7 +6,7 @@ use swc_common::{input::SourceFileInput, sync::Lrc, Mark, SourceMap};
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
     optimize,
-    option::{ExtraOptions, MinifyOptions},
+    option::{ExtraOptions, MangleOptions, MinifyOptions},
 };
 use swc_ecma_parser::{lexer::Lexer, Parser};
 use swc_ecma_transforms::{fixer, hygiene, resolver_with_mark};
@@ -45,7 +45,10 @@ fn main() {
             None,
             &MinifyOptions {
                 compress: Some(Default::default()),
-                mangle: None,
+                mangle: Some(MangleOptions {
+                    top_level: true,
+                    ..Default::default()
+                }),
                 ..Default::default()
             },
             &ExtraOptions { top_level_mark },

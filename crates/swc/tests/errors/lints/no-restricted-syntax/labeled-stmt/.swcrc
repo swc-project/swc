@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "lints": {
+            "noRestrictedSyntax": [
+                "error",
+                {
+                    "LabelStatement": [
+                        {
+                            "message": "no label statement"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

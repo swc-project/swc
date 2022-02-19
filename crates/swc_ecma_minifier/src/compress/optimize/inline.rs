@@ -165,6 +165,9 @@ where
                             Lit::Regex(_) => self.options.unsafe_regexp,
                             _ => false,
                         },
+                        Expr::Unary(UnaryExpr {
+                            op: op!("!"), arg, ..
+                        }) => arg.is_lit(),
                         Expr::This(..) => usage.is_fn_local,
                         Expr::Arrow(arr) => is_arrow_simple_enough(arr),
                         _ => false,

@@ -22,6 +22,7 @@ pub(crate) mod non_critical_lints {
     pub mod no_debugger;
     pub mod no_empty_pattern;
     pub mod no_new;
+    pub mod no_restricted_syntax;
     pub mod no_use_before_define;
     pub mod prefer_regex_literals;
     pub mod quotes;
@@ -96,6 +97,9 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         rules.extend(eqeqeq::eqeqeq(&lint_config.eqeqeq));
 
         rules.extend(no_new::no_new(&lint_config.no_new));
+        rules.extend(no_restricted_syntax::no_restricted_syntax(
+            &lint_config.no_restricted_syntax,
+        ));
     }
 
     rules
