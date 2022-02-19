@@ -46,12 +46,11 @@ while (new C())
 for(new D(); new D(););
 do ;
 while (new D())
-for(var M, N, a = !0; a;);
-do ;
-while (a)
+for(;;);
+for(;;);
 do ;
 while (null)
-for(var c = void 0; c;);
+for(var M, N, c = void 0; c;);
 do ;
 while (c)
 do ;
