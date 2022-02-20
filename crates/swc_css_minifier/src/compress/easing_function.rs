@@ -19,67 +19,48 @@ impl VisitMut for CompressEasingFunction {
                 value: function_value,
                 span,
             }) if &*name.value.to_lowercase() == "cubic-bezier" && function_value.len() == 7 => {
-                match (
+                if let (
+                    Value::Number(Number { value: first, .. }),
+                    Value::Number(Number { value: second, .. }),
+                    Value::Number(Number { value: third, .. }),
+                    Value::Number(Number { value: fourth, .. }),
+                ) = (
                     &function_value[0],
                     &function_value[2],
                     &function_value[4],
                     &function_value[6],
                 ) {
-                    (
-                        Value::Number(Number { value: first, .. }),
-                        Value::Number(Number { value: second, .. }),
-                        Value::Number(Number { value: third, .. }),
-                        Value::Number(Number { value: fourth, .. }),
-                    ) => {
-                        if *first == 0.0 && *second == 0.0 && *third == 1.0 && *fourth == 1.0 {
-                            *value = Value::Ident(Ident {
-                                span: *span,
-                                value: "linear".into(),
-                                raw: "linear".into(),
-                            })
-                        } else if *first == 0.25
-                            && *second == 0.1
-                            && *third == 0.25
-                            && *fourth == 1.0
-                        {
-                            *value = Value::Ident(Ident {
-                                span: *span,
-                                value: "easy".into(),
-                                raw: "easy".into(),
-                            })
-                        } else if *first == 0.42
-                            && *second == 0.0
-                            && *third == 1.0
-                            && *fourth == 1.0
-                        {
-                            *value = Value::Ident(Ident {
-                                span: *span,
-                                value: "ease-in".into(),
-                                raw: "ease-in".into(),
-                            })
-                        } else if *first == 0.0
-                            && *second == 0.0
-                            && *third == 0.58
-                            && *fourth == 1.0
-                        {
-                            *value = Value::Ident(Ident {
-                                span: *span,
-                                value: "ease-out".into(),
-                                raw: "ease-out".into(),
-                            })
-                        } else if *first == 0.42
-                            && *second == 0.0
-                            && *third == 0.58
-                            && *fourth == 1.0
-                        {
-                            *value = Value::Ident(Ident {
-                                span: *span,
-                                value: "ease-in-out".into(),
-                                raw: "ease-in-out".into(),
-                            })
-                        }
+                    if *first == 0.0 && *second == 0.0 && *third == 1.0 && *fourth == 1.0 {
+                        *value = Value::Ident(Ident {
+                            span: *span,
+                            value: "linear".into(),
+                            raw: "linear".into(),
+                        })
+                    } else if *first == 0.25 && *second == 0.1 && *third == 0.25 && *fourth == 1.0 {
+                        *value = Value::Ident(Ident {
+                            span: *span,
+                            value: "easy".into(),
+                            raw: "easy".into(),
+                        })
+                    } else if *first == 0.42 && *second == 0.0 && *third == 1.0 && *fourth == 1.0 {
+                        *value = Value::Ident(Ident {
+                            span: *span,
+                            value: "ease-in".into(),
+                            raw: "ease-in".into(),
+                        })
+                    } else if *first == 0.0 && *second == 0.0 && *third == 0.58 && *fourth == 1.0 {
+                        *value = Value::Ident(Ident {
+                            span: *span,
+                            value: "ease-out".into(),
+                            raw: "ease-out".into(),
+                        })
+                    } else if *first == 0.42 && *second == 0.0 && *third == 0.58 && *fourth == 1.0 {
+                        *value = Value::Ident(Ident {
+                            span: *span,
+                            value: "ease-in-out".into(),
+                            raw: "ease-in-out".into(),
+                        })
                     }
-                    _ => {}
                 }
             }
             Value::Function(Function {

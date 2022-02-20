@@ -5,7 +5,6 @@ var C, a, b, a, b, b, c, d, K, _class = function() {
     "use strict";
     _classCallCheck(this, _class);
 };
-export { _class as default };
 export var A = function() {
     "use strict";
     _classCallCheck(this, A);
@@ -30,3 +29,4 @@ var H = require("./h");
 }(K || (K = {})), module.exports = K;
 var K = require("./k");
 K.One;
+export { _class as default };

@@ -1,1 +1,1 @@
-export { }; // Error
+export { };

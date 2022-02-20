@@ -5,9 +5,8 @@ var C = function() {
     "use strict";
     _classCallCheck(this, C);
 };
-export { C as default };
 var C = function() {
     "use strict";
     _classCallCheck(this, C);
 };
-export { C as default };
+export { C as default, C as default };
