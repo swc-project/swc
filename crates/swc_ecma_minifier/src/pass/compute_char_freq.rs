@@ -22,7 +22,8 @@ pub(crate) fn compute_char_freq(m: &Module) -> CharFreqInfo {
         chars: *BASE54_DEFAULT_CHARS,
     };
 
-    m.visit_with(&mut base54);
+    // TODO: Enable this after implementing more visitor methods.
+    // m.visit_with(&mut base54);
     base54.sort();
 
     base54
