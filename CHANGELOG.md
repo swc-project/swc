@@ -8,6 +8,9 @@
 - **(css/minifier)** Compress selectors (#3623) ([9e691fe](https://github.com/swc-project/swc/commit/9e691fe75b60c73ff3ab2a7939c36f6cea167d06))
 
 
+- **(css/minifier)** Compress declarations (#3649) ([7d15316](https://github.com/swc-project/swc/commit/7d15316ee12506327b25d0ab6aaf972ac687709b))
+
+
 - **(es/lints)** Implement `no-new` rule (#3634) ([7ff4cbc](https://github.com/swc-project/swc/commit/7ff4cbcbe12b26ff54ffa2db9d30592f770132a2))
 
 
