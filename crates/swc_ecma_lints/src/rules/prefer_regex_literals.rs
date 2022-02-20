@@ -7,6 +7,7 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use crate::{
     config::{LintRuleReaction, RuleConfig},
     rule::{visitor_rule, Rule},
+    rules::utils::{extract_arg_val, ArgValue},
 };
 
 const UNEXPECTED_REG_EXP_MESSAGE: &str =
@@ -52,12 +53,6 @@ pub fn prefer_regex_literals(
         ))),
     }
 }
-#[derive(Debug)]
-enum ArgValueType {
-    Str,
-    RegExp,
-    Another,
-}
 
 #[derive(Debug, Default)]
 struct PreferRegexLiterals {
@@ -67,8 +62,8 @@ struct PreferRegexLiterals {
     top_level_declared_vars: AHashSet<Id>,
     allow_global_this: bool,
     call_span: Option<Span>,
-    first_arg: Option<ArgValueType>,
-    second_arg: Option<ArgValueType>,
+    first_arg: Option<ArgValue>,
+    second_arg: Option<ArgValue>,
 }
 
 impl PreferRegexLiterals {
@@ -91,25 +86,6 @@ impl PreferRegexLiterals {
         }
     }
 
-    fn extract_arg_value_type(expr: &Expr) -> ArgValueType {
-        match expr {
-            Expr::Lit(Lit::Str(_)) => ArgValueType::Str,
-            Expr::Lit(Lit::Regex(_)) => ArgValueType::RegExp,
-            Expr::Tpl(Tpl { exprs, .. }) => match exprs.len() {
-                0 => ArgValueType::Str,
-                _ => ArgValueType::Another,
-            },
-            Expr::TaggedTpl(TaggedTpl {
-                tpl: Tpl { exprs, .. },
-                ..
-            }) => match exprs.len() {
-                0 => ArgValueType::Str,
-                _ => ArgValueType::Another,
-            },
-            _ => ArgValueType::Another,
-        }
-    }
-
     fn reset_state(&mut self) {
         self.call_span = None;
         self.first_arg = None;
@@ -120,11 +96,11 @@ impl PreferRegexLiterals {
         self.call_span = Some(call_span);
 
         if let Some(ExprOrSpread { expr, .. }) = args.get(0) {
-            self.first_arg = Some(Self::extract_arg_value_type(expr.as_ref()));
+            self.first_arg = Some(extract_arg_val(expr.as_ref(), true));
         }
 
         if let Some(ExprOrSpread { expr, .. }) = args.get(1) {
-            self.second_arg = Some(Self::extract_arg_value_type(expr.as_ref()));
+            self.second_arg = Some(extract_arg_val(expr.as_ref(), true));
         }
     }
 
@@ -143,18 +119,18 @@ impl PreferRegexLiterals {
     }
 
     fn check(&self, sym: &str) {
-        use ArgValueType::*;
+        use ArgValue::*;
 
         if sym == "RegExp" {
             match (self.first_arg.as_ref(), self.second_arg.as_ref()) {
-                (Some(Str), None) => self.emit_report(UNEXPECTED_REG_EXP_MESSAGE),
-                (Some(Str), Some(Str)) => self.emit_report(UNEXPECTED_REG_EXP_MESSAGE),
-                (Some(RegExp), None) => {
+                (Some(Str(_)), None) => self.emit_report(UNEXPECTED_REG_EXP_MESSAGE),
+                (Some(Str(_)), Some(Str(_))) => self.emit_report(UNEXPECTED_REG_EXP_MESSAGE),
+                (Some(RegExp { .. }), None) => {
                     if self.disallow_redundant_wrapping {
                         self.emit_report(UNEXPECTED_REDUNDANT_REG_EXP_MESSAGE);
                     }
                 }
-                (Some(RegExp), Some(Str)) => {
+                (Some(RegExp { .. }), Some(Str(_))) => {
                     if self.disallow_redundant_wrapping {
                         self.emit_report(UNEXPECTED_REDUNDANT_REG_EXP_WITH_FLAGS_MESSAGE);
                     }
