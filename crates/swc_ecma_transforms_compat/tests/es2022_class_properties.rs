@@ -4150,6 +4150,34 @@ var _fieldFunc = new WeakMap();
 "#
 );
 
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config { loose: false }),
+    private_optional_chain_member,
+    r#"
+class MyClass {
+  #a
+  foo(o) {
+    o?.#a
+  }
+}
+"#,
+    r#"
+class MyClass {
+    foo(o) {
+        o === null || o === void 0 ? void 0 : _classPrivateFieldGet(o, _a);
+    }
+    constructor(){
+        _a.set(this, {
+            writable: true,
+            value: void 0
+        });
+    }
+}
+var _a = new WeakMap();
+"#
+);
+
 // private_canonical
 test!(
     syntax(),
