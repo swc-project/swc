@@ -1,6 +1,6 @@
+use swc_common::util::take::Take;
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
-
 pub fn compress_declaration() -> impl VisitMut {
     CompressDeclaration {}
 }
@@ -79,13 +79,14 @@ impl VisitMut for CompressDeclaration {
                 "font-weight" => {
                     declaration.value = declaration
                         .value
-                        .iter()
+                        .take()
+                        .into_iter()
                         .map(|node| match node {
                             Value::Ident(Ident { value, span, .. })
                                 if value.to_lowercase() == "normal" =>
                             {
                                 Value::Number(Number {
-                                    span: *span,
+                                    span,
                                     value: 400.0,
                                     raw: "400".into(),
                                 })
@@ -94,12 +95,12 @@ impl VisitMut for CompressDeclaration {
                                 if value.to_lowercase() == "bold" =>
                             {
                                 Value::Number(Number {
-                                    span: *span,
+                                    span,
                                     value: 700.0,
                                     raw: "700".into(),
                                 })
                             }
-                            _ => node.clone(),
+                            _ => node,
                         })
                         .collect();
                 }
