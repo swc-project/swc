@@ -9,7 +9,7 @@ CRATES=$(./scripts/cargo/list-crates.sh | \
     jq -r 'select(.features.concurrent != null) | .name')
 
 if [[ "swc" == "$1" ]]; then
-    echo "Skipping swc itslef"
+    echo "Skipping swc itself"
     exit 0
 fi
 
