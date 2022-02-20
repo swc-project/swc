@@ -19,39 +19,39 @@ var i = function(a) {
     return Boolean(a.props.indexId);
 }, l = function(a, b) {
     return a.props.indexId === b;
-}, m = function(a, b) {
-    var c = k(a), d = k(b);
-    return c && !d ? -1 : !c && d ? 1 : 0;
+}, m = function(c, d) {
+    var a = k(c), b = k(d);
+    return a && !b ? -1 : !a && b ? 1 : 0;
 };
 export default function n(e) {
-    var f = e.indexName, g = e.initialState, n = e.searchClient, p = e.resultsState, q = e.stalledSearchDelay, r = function(a) {
-        return C.getWidgets().filter(function(a) {
+    var p = e.indexName, q = e.initialState, g = e.searchClient, n = e.resultsState, z = e.stalledSearchDelay, A = function(a) {
+        return v.getWidgets().filter(function(a) {
             return Boolean(a.getMetadata);
         }).map(function(b) {
             return b.getMetadata(a);
         });
     }, s = function() {
-        var b = C.getWidgets().filter(function(a) {
+        var b = v.getWidgets().filter(function(a) {
             return Boolean(a.getSearchParameters);
         }).filter(function(a) {
             return !i(a) && !k(a);
         }).reduce(function(a, b) {
             return b.getSearchParameters(a);
-        }, B), c = C.getWidgets().filter(function(a) {
+        }, G), c = v.getWidgets().filter(function(a) {
             return Boolean(a.getSearchParameters);
         }).filter(function(a) {
-            var b = i(a) && j(a, f), c = k(a) && l(a, f);
+            var b = i(a) && j(a, p), c = k(a) && l(a, p);
             return b || c;
         }).sort(m).reduce(function(a, b) {
             return b.getSearchParameters(a);
-        }, b), d = C.getWidgets().filter(function(a) {
+        }, b), d = v.getWidgets().filter(function(a) {
             return Boolean(a.getSearchParameters);
         }).filter(function(a) {
-            var b = i(a) && !j(a, f), c = k(a) && !l(a, f);
+            var b = i(a) && !j(a, p), c = k(a) && !l(a, p);
             return b || c;
-        }).sort(m).reduce(function(b, c) {
-            var d = i(c) ? c.props.indexContextValue.targetedIndex : c.props.indexId, e = b[d] || [];
-            return a.objectSpread({}, b, a.defineProperty({}, d, e.concat(c)));
+        }).sort(m).reduce(function(c, b) {
+            var d = i(b) ? b.props.indexContextValue.targetedIndex : b.props.indexId, e = c[d] || [];
+            return a.objectSpread({}, c, a.defineProperty({}, d, e.concat(b)));
         }, {}), e = Object.keys(d).map(function(a) {
             return {
                 parameters: d[a].reduce(function(a, b) {
@@ -64,49 +64,49 @@ export default function n(e) {
             mainParameters: c,
             derivedParameters: e
         };
-    }, t = function() {
-        if (!z) {
-            var a = s(y.state), b = a.mainParameters, c = a.derivedParameters;
-            y.derivedHelpers.slice().forEach(function(a) {
+    }, B = function() {
+        if (!E) {
+            var a = s(r.state), b = a.mainParameters, c = a.derivedParameters;
+            r.derivedHelpers.slice().forEach(function(a) {
                 a.detach();
             }), c.forEach(function(a) {
-                var b = a.indexId, c = a.parameters, d = y.derive(function() {
-                    return c;
+                var b = a.indexId, d = a.parameters, c = r.derive(function() {
+                    return d;
                 });
-                d.on("result", u({
+                c.on("result", t({
                     indexId: b
-                })).on("error", v);
-            }), y.setState(b), y.search();
+                })).on("error", u);
+            }), r.setState(b), r.search();
         }
-    }, u = function(b) {
+    }, t = function(b) {
         var c = b.indexId;
-        return function(b) {
-            var d = G.getState(), e = !y.derivedHelpers.length, f = d.results ? d.results : {};
-            f = !e && f.getFacetByName ? {} : f, f = e ? b.results : a.objectSpread({}, f, a.defineProperty({}, c, b.results));
-            var g = G.getState(), h = g.isSearchStalled;
-            y.hasPendingRequests() || (clearTimeout(A), A = null, h = !1), g.resultsFacetValues;
-            var i = a.objectWithoutProperties(g, [
+        return function(e) {
+            var f = y.getState(), g = !r.derivedHelpers.length, b = f.results ? f.results : {};
+            b = !g && b.getFacetByName ? {} : b, b = g ? e.results : a.objectSpread({}, b, a.defineProperty({}, c, e.results));
+            var d = y.getState(), h = d.isSearchStalled;
+            r.hasPendingRequests() || (clearTimeout(F), F = null, h = !1), d.resultsFacetValues;
+            var i = a.objectWithoutProperties(d, [
                 "resultsFacetValues"
             ]);
-            G.setState(a.objectSpread({}, i, {
-                results: f,
+            y.setState(a.objectSpread({}, i, {
+                results: b,
                 isSearchStalled: h,
                 searching: !1,
                 error: null
             }));
         };
-    }, v = function(b) {
-        var c = b.error, d = G.getState(), e = d.isSearchStalled;
-        y.hasPendingRequests() || (clearTimeout(A), e = !1), d.resultsFacetValues;
-        var f = a.objectWithoutProperties(d, [
+    }, u = function(d) {
+        var e = d.error, b = y.getState(), c = b.isSearchStalled;
+        r.hasPendingRequests() || (clearTimeout(F), c = !1), b.resultsFacetValues;
+        var f = a.objectWithoutProperties(b, [
             "resultsFacetValues"
         ]);
-        G.setState(a.objectSpread({}, f, {
-            isSearchStalled: e,
-            error: c,
+        y.setState(a.objectSpread({}, f, {
+            isSearchStalled: c,
+            error: e,
             searching: !1
         }));
-    }, w = function(b, c) {
+    }, C = function(b, c) {
         if (b.transporter) {
             b.transporter.responsesCache.set({
                 method: "search",
@@ -142,7 +142,7 @@ export default function n(e) {
                 return a.concat(b.rawResults);
             }, [])
         })));
-    }, x = function(b, c) {
+    }, D = function(b, c) {
         if (b.transporter) {
             b.transporter.responsesCache.set({
                 method: "search",
@@ -170,41 +170,41 @@ export default function n(e) {
         b.cache = a.objectSpread({}, b.cache, a.defineProperty({}, d, JSON.stringify({
             results: c.rawResults
         })));
-    }, y = b(n, f, a.objectSpread({}, d));
-    h(n), y.on("search", function() {
-        A || (A = setTimeout(function() {
-            var b = G.getState(), c = b.resultsFacetValues, d = a.objectWithoutProperties(b, [
+    }, r = b(g, p, a.objectSpread({}, d));
+    h(g), r.on("search", function() {
+        F || (F = setTimeout(function() {
+            var b = y.getState(), d = b.resultsFacetValues, c = a.objectWithoutProperties(b, [
                 "resultsFacetValues"
             ]);
-            G.setState(a.objectSpread({}, d, {
+            y.setState(a.objectSpread({}, c, {
                 isSearchStalled: !0
             }));
-        }, q));
-    }).on("result", u({
-        indexId: f
-    })).on("error", v);
-    var z = !1, A = null, B = y.state, C = c(function() {
-        var b = r(G.getState().widgets);
-        G.setState(a.objectSpread({}, G.getState(), {
+        }, z));
+    }).on("result", t({
+        indexId: p
+    })).on("error", u);
+    var E = !1, F = null, G = r.state, v = c(function() {
+        var b = A(y.getState().widgets);
+        y.setState(a.objectSpread({}, y.getState(), {
             metadata: b,
             searching: !0
-        })), t();
+        })), B();
     });
     !function(b, c) {
         if (c && (b.transporter && !b._cacheHydrated || b._useCache && "function" == typeof b.addAlgoliaAgent)) {
             if (b.transporter && !b._cacheHydrated) {
                 b._cacheHydrated = !0;
                 var d = b.search;
-                b.search = function(c) {
-                    for(var e = arguments.length, f = new Array(e > 1 ? e - 1 : 0), g = 1; g < e; g++)f[g - 1] = arguments[g];
-                    var h = c.map(function(b) {
+                b.search = function(g) {
+                    for(var e = arguments.length, f = new Array(e > 1 ? e - 1 : 0), c = 1; c < e; c++)f[c - 1] = arguments[c];
+                    var h = g.map(function(b) {
                         var c, d;
                         return a.objectSpread({}, b, {
-                            params: (c = b.params, d = function(a) {
-                                for(var b = arguments.length, c = new Array(b > 1 ? b - 1 : 0), d = 1; d < b; d++)c[d - 1] = arguments[d];
+                            params: (c = b.params, d = function(c) {
+                                for(var b = arguments.length, d = new Array(b > 1 ? b - 1 : 0), a = 1; a < b; a++)d[a - 1] = arguments[a];
                                 var e = 0;
-                                return a.replace(/%s/g, function() {
-                                    return encodeURIComponent(c[e++]);
+                                return c.replace(/%s/g, function() {
+                                    return encodeURIComponent(d[e++]);
                                 });
                             }, Object.keys(c).map(function(a) {
                                 var b;
@@ -219,65 +219,65 @@ export default function n(e) {
                         ].concat(a.toConsumableArray(f))
                     }, function() {
                         return d.apply(void 0, [
-                            c
+                            g
                         ].concat(a.toConsumableArray(f)));
                     });
                 };
             }
             if (Array.isArray(c.results)) {
-                w(b, c.results);
+                C(b, c.results);
                 return;
             }
-            x(b, c);
+            D(b, c);
         }
-    }(n, p);
-    var D, E, F, G = (E = {
-        widgets: void 0 === g ? {} : g,
-        metadata: o(p),
-        results: (D = p) ? Array.isArray(D.results) ? D.results.reduce(function(c, d) {
-            return a.objectSpread({}, c, a.defineProperty({}, d._internalIndexId, new b.SearchResults(new b.SearchParameters(d.state), d.rawResults)));
-        }, {}) : new b.SearchResults(new b.SearchParameters(D.state), D.rawResults) : null,
+    }(g, n);
+    var f, w, x, y = (w = {
+        widgets: void 0 === q ? {} : q,
+        metadata: o(n),
+        results: (f = n) ? Array.isArray(f.results) ? f.results.reduce(function(d, c) {
+            return a.objectSpread({}, d, a.defineProperty({}, c._internalIndexId, new b.SearchResults(new b.SearchParameters(c.state), c.rawResults)));
+        }, {}) : new b.SearchResults(new b.SearchParameters(f.state), f.rawResults) : null,
         error: null,
         searching: !1,
         isSearchStalled: !0,
         searchingForFacetValues: !1
-    }, F = [], {
+    }, x = [], {
         getState: function() {
-            return E;
+            return w;
         },
         setState: function(a) {
-            E = a, F.forEach(function(a) {
+            w = a, x.forEach(function(a) {
                 return a();
             });
         },
         subscribe: function(a) {
-            return F.push(a), function() {
-                F.splice(F.indexOf(a), 1);
+            return x.push(a), function() {
+                x.splice(x.indexOf(a), 1);
             };
         }
     });
     return {
-        store: G,
-        widgetsManager: C,
+        store: y,
+        widgetsManager: v,
         getWidgetsIds: function() {
-            return G.getState().metadata.reduce(function(a, b) {
+            return y.getState().metadata.reduce(function(a, b) {
                 return void 0 !== b.id ? a.concat(b.id) : a;
             }, []);
         },
         getSearchParameters: s,
         onSearchForFacetValues: function(b) {
-            var c = b.facetName, d = b.query, e = b.maxFacetHits;
-            G.setState(a.objectSpread({}, G.getState(), {
+            var d = b.facetName, e = b.query, c = b.maxFacetHits;
+            y.setState(a.objectSpread({}, y.getState(), {
                 searchingForFacetValues: !0
-            })), y.searchForFacetValues(c, d, Math.max(1, Math.min(void 0 === e ? 10 : e, 100))).then(function(b) {
-                var e;
-                G.setState(a.objectSpread({}, G.getState(), {
+            })), r.searchForFacetValues(d, e, Math.max(1, Math.min(void 0 === c ? 10 : c, 100))).then(function(c) {
+                var b;
+                y.setState(a.objectSpread({}, y.getState(), {
                     error: null,
                     searchingForFacetValues: !1,
-                    resultsFacetValues: a.objectSpread({}, G.getState().resultsFacetValues, (e = {}, a.defineProperty(e, c, b.facetHits), a.defineProperty(e, "query", d), e))
+                    resultsFacetValues: a.objectSpread({}, y.getState().resultsFacetValues, (b = {}, a.defineProperty(b, d, c.facetHits), a.defineProperty(b, "query", e), b))
                 }));
             }, function(b) {
-                G.setState(a.objectSpread({}, G.getState(), {
+                y.setState(a.objectSpread({}, y.getState(), {
                     searchingForFacetValues: !1,
                     error: b
                 }));
@@ -288,32 +288,32 @@ export default function n(e) {
             });
         },
         onExternalStateUpdate: function(b) {
-            var c = r(b);
-            G.setState(a.objectSpread({}, G.getState(), {
+            var c = A(b);
+            y.setState(a.objectSpread({}, y.getState(), {
                 widgets: b,
                 metadata: c,
                 searching: !0
-            })), t();
+            })), B();
         },
         transitionState: function(a) {
-            var b = G.getState().widgets;
-            return C.getWidgets().filter(function(a) {
+            var b = y.getState().widgets;
+            return v.getWidgets().filter(function(a) {
                 return Boolean(a.transitionState);
             }).reduce(function(a, c) {
                 return c.transitionState(b, a);
             }, a);
         },
         updateClient: function(a) {
-            h(a), y.setClient(a), t();
+            h(a), r.setClient(a), B();
         },
         updateIndex: function(a) {
-            B = B.setIndex(a);
+            G = G.setIndex(a);
         },
         clearCache: function() {
-            y.clearCache(), t();
+            r.clearCache(), B();
         },
         skipSearch: function() {
-            z = !0;
+            E = !0;
         }
     };
 };

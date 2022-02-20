@@ -1,28 +1,28 @@
 import * as a from "@swc/helpers";
 Promise.all(assignAll).then(function() {
-    var b = a.asyncToGenerator(function*(a) {
+    var b = a.asyncToGenerator(function*(e) {
         let b = "DELETE FROM \"TABLE\" WHERE \"UUID\" IN ( ";
         for(let c in obj){
-            let d = obj[c];
-            b += `'${d.id}', `;
-            let e = yield listOfUser(d.id);
-            e.forEach((a)=>{
-                insertQuery += `INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES ('${uuidv4()}', '${d.id}', now());`;
+            let a = obj[c];
+            b += `'${a.id}', `;
+            let d = yield listOfUser(a.id);
+            d.forEach((b)=>{
+                insertQuery += `INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES ('${uuidv4()}', '${a.id}', now());`;
             });
         }
     });
-    return function(a) {
+    return function(e) {
         return b.apply(this, arguments);
     };
 }());
-export const listOfUser = function(b) {
-    var c;
-    return new Promise((c = a.asyncToGenerator(function*(a, c) {
-        const d = `Select Distinct id from "TABLE" Where id = '${b}' And user_id IS not null`;
-        postgreSQL.query(d, null, function(b, d) {
-            b ? c(b) : a(d.rows);
+export const listOfUser = function(c) {
+    var b;
+    return new Promise((b = a.asyncToGenerator(function*(b, d) {
+        const a = `Select Distinct id from "TABLE" Where id = '${c}' And user_id IS not null`;
+        postgreSQL.query(a, null, function(a, c) {
+            a ? d(a) : b(c.rows);
         });
-    }), function(a, c) {
-        return c.apply(this, arguments);
+    }), function(b, d) {
+        return b.apply(this, arguments);
     }));
 };
