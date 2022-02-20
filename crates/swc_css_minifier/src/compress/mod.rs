@@ -1,4 +1,5 @@
 pub mod angle;
+pub mod declaration;
 pub mod easing_function;
 pub mod empty;
 pub mod keyframes;
