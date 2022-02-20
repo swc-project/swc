@@ -478,6 +478,37 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 }
             }
 
+            Expr::OptChain(OptChainExpr {
+                base: OptChainBase::Call(call),
+                question_dot_token,
+                span,
+            }) if call.callee.is_member() => {
+                let mut callee = call.callee.take().member().unwrap();
+                callee.visit_mut_with(self);
+                call.args.visit_mut_with(self);
+
+                let (expr, this) = self.visit_mut_private_get(&mut callee, None);
+                if let Some(this) = this {
+                    let args = iter::once(this.as_arg()).chain(call.args.take()).collect();
+                    *e = Expr::Call(CallExpr {
+                        span: *span,
+                        callee: Callee::Expr(Box::new(Expr::OptChain(OptChainExpr {
+                            question_dot_token: *question_dot_token,
+                            span: *span,
+                            base: OptChainBase::Member(MemberExpr {
+                                obj: Box::new(expr),
+                                span: call.span,
+                                prop: MemberProp::Ident(quote_ident!("call")),
+                            }),
+                        }))),
+                        args,
+                        type_args: call.type_args.take(),
+                    });
+                } else {
+                    call.callee = Box::new(expr);
+                }
+            }
+
             Expr::Member(member_expr) => {
                 member_expr.visit_mut_with(self);
                 *e = self.visit_mut_private_get(member_expr, None).0;

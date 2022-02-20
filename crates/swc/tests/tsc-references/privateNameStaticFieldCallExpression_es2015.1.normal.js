@@ -7,9 +7,9 @@ function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor)
 // @target: es2015
 class A {
     test() {
-        var _obj, ref;
+        var ref;
         _classStaticPrivateFieldSpecGet(A, A, _fieldFunc).call(A);
-        (ref = (_obj = _classStaticPrivateFieldSpecGet(A, A, _fieldFunc)).call) === null || ref === void 0 ? void 0 : ref.call(_obj, A);
+        (ref = _classStaticPrivateFieldSpecGet(A, A, _fieldFunc)) === null || ref === void 0 ? void 0 : ref.call(A);
         const func = _classStaticPrivateFieldSpecGet(A, A, _fieldFunc);
         func();
         new (_classStaticPrivateFieldSpecGet(A, A, _fieldFunc))();

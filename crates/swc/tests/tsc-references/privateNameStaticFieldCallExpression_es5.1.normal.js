@@ -127,9 +127,9 @@ var A = // @target: es2015
             key: "test",
             value: function test() {
                 var _instance;
-                var _obj, ref;
+                var ref;
                 _classStaticPrivateFieldSpecGet(A, A, _fieldFunc).call(A);
-                (ref = (_obj = _classStaticPrivateFieldSpecGet(A, A, _fieldFunc)).call) === null || ref === void 0 ? void 0 : ref.call(_obj, A);
+                (ref = _classStaticPrivateFieldSpecGet(A, A, _fieldFunc)) === null || ref === void 0 ? void 0 : ref.call(A);
                 var func = _classStaticPrivateFieldSpecGet(A, A, _fieldFunc);
                 func();
                 new (_classStaticPrivateFieldSpecGet(A, A, _fieldFunc))();
