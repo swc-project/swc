@@ -56,12 +56,16 @@ impl Scope {
         preserved: &AHashSet<Id>,
         preserved_symbols: &AHashSet<JsWord>,
     ) {
+        for child in self.children.iter_mut() {
+            child.rename(f, to, preserved, preserved_symbols);
+        }
+
         let mut n = 0;
         let mut queue = self.data.queue.take();
         queue.sort_by(|a, b| b.1.cmp(&a.1));
 
-        for (id, _) in queue {
-            if preserved.contains(&id) {
+        for (id, cnt) in queue {
+            if cnt == 0 || preserved.contains(&id) {
                 continue;
             }
 
@@ -76,13 +80,11 @@ impl Scope {
 
                 if self.can_rename(&id, &sym, to) {
                     to.insert(id.clone(), sym);
+                    self.data.decls.remove(&id);
+                    self.data.usages.remove(&id);
                     break;
                 }
             }
-        }
-
-        for child in self.children.iter_mut() {
-            child.rename(f, to, preserved, preserved_symbols);
         }
     }
 
