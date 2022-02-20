@@ -1192,7 +1192,7 @@ fn can_be_null(e: &Expr) -> bool {
         Expr::TsAs(TsAsExpr { ref expr, .. })
         | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
         | Expr::TsConstAssertion(TsConstAssertion { ref expr, .. })
-        | Expr::TsExprWithTypeArgs(TsExprWithTypeArgs { ref expr, .. }) => can_be_null(expr),
+        | Expr::TsInstantiation(TsExprWithTypeArgs { ref expr, .. }) => can_be_null(expr),
         Expr::OptChain(ref e) => can_be_null(&e.expr),
 
         Expr::Invalid(..) => unreachable!(),

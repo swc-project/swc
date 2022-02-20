@@ -1215,7 +1215,7 @@ pub trait ExprExt {
             Expr::TsAs(TsAsExpr { ref expr, .. })
             | Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
             | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
-            | Expr::TsExprWithTypeArgs(TsExprWithTypeArgs { ref expr, .. }) => {
+            | Expr::TsInstantiation(TsExprWithTypeArgs { ref expr, .. }) => {
                 expr.may_have_side_effects()
             }
             Expr::OptChain(ref e) => e.expr.may_have_side_effects(),
@@ -2065,7 +2065,7 @@ pub fn extract_side_effects_to(to: &mut Vec<Box<Expr>>, expr: Box<Expr>) {
         | Expr::TsNonNull(TsNonNullExpr { expr, .. })
         | Expr::TsAs(TsAsExpr { expr, .. })
         | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
-        | Expr::TsExprWithTypeArgs(TsExprWithTypeArgs { expr, .. }) => {
+        | Expr::TsInstantiation(TsExprWithTypeArgs { expr, .. }) => {
             extract_side_effects_to(to, expr)
         }
         Expr::OptChain(e) => extract_side_effects_to(to, e.expr),

@@ -663,7 +663,7 @@ define!({
         TsConstAssertion(TsConstAssertion),
         TsNonNull(TsNonNullExpr),
         TsAs(TsAsExpr),
-        TsExprWithTypeArgs(TsExprWithTypeArgs),
+        TsInstantiation(TsExprWithTypeArgs),
         PrivateName(PrivateName),
         OptChain(OptChainExpr),
         Invalid(Invalid),

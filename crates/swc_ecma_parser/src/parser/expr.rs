@@ -577,7 +577,7 @@ impl<'a, I: Tokens> Parser<I> {
             None
         };
         let obj = if type_args.is_some() {
-            Box::new(Expr::TsExprWithTypeArgs(TsExprWithTypeArgs {
+            Box::new(Expr::TsInstantiation(TsExprWithTypeArgs {
                 expr: obj,
                 type_args,
                 span: span!(self, start),
@@ -1195,7 +1195,7 @@ impl<'a, I: Tokens> Parser<I> {
                             prop: MemberProp::Computed(prop),
                         });
                         let expr = if type_args.is_some() {
-                            Expr::TsExprWithTypeArgs(TsExprWithTypeArgs {
+                            Expr::TsInstantiation(TsExprWithTypeArgs {
                                 expr: Box::new(expr),
                                 type_args,
                                 span: span!(self, start),
@@ -1306,7 +1306,7 @@ impl<'a, I: Tokens> Parser<I> {
                     Callee::Expr(obj) => {
                         let expr = Expr::Member(MemberExpr { span, obj, prop });
                         let expr = if type_args.is_some() {
-                            Expr::TsExprWithTypeArgs(TsExprWithTypeArgs {
+                            Expr::TsInstantiation(TsExprWithTypeArgs {
                                 expr: Box::new(expr),
                                 type_args,
                                 span: span!(self, start),
@@ -1332,7 +1332,7 @@ impl<'a, I: Tokens> Parser<I> {
         match obj {
             Callee::Expr(expr) => {
                 let expr = if type_args.is_some() {
-                    Box::new(Expr::TsExprWithTypeArgs(TsExprWithTypeArgs {
+                    Box::new(Expr::TsInstantiation(TsExprWithTypeArgs {
                         expr,
                         type_args,
                         span: span!(self, start),
