@@ -18,7 +18,7 @@ pub struct ScopeData {
     /// Usages in current scope.
     usages: AHashSet<Id>,
 
-    queue: Vec<Id>,
+    queue: Vec<(Id, u32)>,
 }
 
 impl Scope {
@@ -29,8 +29,10 @@ impl Scope {
 
         self.data.decls.insert(id.clone());
         {
-            if !self.data.queue.contains(id) {
-                self.data.queue.push(id.clone());
+            if let Some((_, cnt)) = self.data.queue.iter_mut().find(|(i, _)| *i == *id) {
+                *cnt += 1;
+            } else {
+                self.data.queue.push((id.clone(), 1));
             }
         }
     }
@@ -38,6 +40,10 @@ impl Scope {
     pub(super) fn add_usage(&mut self, id: &Id) {
         if id.0 == js_word!("arguments") {
             return;
+        }
+
+        if let Some((_, cnt)) = self.data.queue.iter_mut().find(|(i, _)| *i == *id) {
+            *cnt += 1;
         }
 
         self.data.usages.insert(id.clone());
@@ -51,7 +57,10 @@ impl Scope {
         preserved_symbols: &AHashSet<JsWord>,
     ) {
         let mut n = 0;
-        for id in self.data.queue.take() {
+        let mut queue = self.data.queue.take();
+        queue.sort_by(|a, b| b.1.cmp(&a.1));
+
+        for (id, _) in queue {
             if preserved.contains(&id) {
                 continue;
             }
