@@ -4,7 +4,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
-use crate::util::base54::incr_base54;
+use crate::util::base54::{incr_base54, BASE54_DEFAULT_CHARS};
 
 pub fn private_name_mangler(keep_private_props: bool) -> impl Fold + VisitMut {
     as_folder(PrivateNameMangler {
@@ -28,7 +28,7 @@ impl PrivateNameMangler {
         let new_sym = if let Some(cached) = self.renamed_private.get(&id) {
             cached.clone()
         } else {
-            let sym = incr_base54(&mut self.private_n).1;
+            let sym = incr_base54(&mut self.private_n, BASE54_DEFAULT_CHARS).1;
 
             let sym: JsWord = sym.into();
 

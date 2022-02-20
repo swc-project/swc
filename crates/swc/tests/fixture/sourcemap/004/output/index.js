@@ -3,7 +3,7 @@
         158
     ],
     {
-        2943: function(a, b, c) {
+        2943: function(c, b, a) {
             "use strict";
             var d = function(a) {
                 var b = a.data;
@@ -11,7 +11,7 @@
                     children: b.foo
                 });
             };
-            c.r(b), c.d(b, {
+            a.r(b), a.d(b, {
                 "__N_SSG": function() {
                     return f;
                 },
@@ -19,7 +19,7 @@
                     return d;
                 }
             });
-            var e = c(4512), f = !0;
+            var e = a(4512), f = !0;
         },
         7139: function(a, b, c) {
             (window.__NEXT_P = window.__NEXT_P || []).push([
