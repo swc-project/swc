@@ -11,6 +11,9 @@
 - **(css/minifier)** Compress declarations (#3649) ([7d15316](https://github.com/swc-project/swc/commit/7d15316ee12506327b25d0ab6aaf972ac687709b))
 
 
+- **(es/ast)** Support TypeScript Instantiation Expression (#3642) ([61e711c](https://github.com/swc-project/swc/commit/61e711c912bc31453a24dce2d1e1d98044aab3df))
+
+
 - **(es/lints)** Implement `no-new` rule (#3634) ([7ff4cbc](https://github.com/swc-project/swc/commit/7ff4cbcbe12b26ff54ffa2db9d30592f770132a2))
 
 
