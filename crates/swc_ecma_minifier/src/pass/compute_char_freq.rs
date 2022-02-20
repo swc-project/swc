@@ -2,7 +2,7 @@ use std::cmp::Ordering;
 
 use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit};
 
 use crate::util::base54::{incr_base54, BASE54_DEFAULT_CHARS};
 
@@ -16,13 +16,14 @@ pub(crate) struct CharFreqInfo {
     chars: [u8; 64],
 }
 
-pub(crate) fn compute_char_freq(m: &Module) -> CharFreqInfo {
+pub(crate) fn compute_char_freq(_m: &Module) -> CharFreqInfo {
     let mut base54 = CharFreqInfo {
         frequency: AHashMap::with_capacity_and_hasher(64, Default::default()),
         chars: *BASE54_DEFAULT_CHARS,
     };
 
-    m.visit_with(&mut base54);
+    // TODO: Implement more visitor methods (or use codegen) and enable this
+    // m.visit_with(&mut base54);
     base54.sort();
 
     base54
