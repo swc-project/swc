@@ -18,10 +18,7 @@ export function func() {}
 export * from "./cls";
 export * from "./func";
 export * from "./cls";
-export { Foo };
 export default ns;
-export { ns };
-export { ns as classContainer };
 var ns = require("./cls");
 module.exports = {
     ns: ns
@@ -32,3 +29,4 @@ var ns = require("./cls");
 module.exports.ns = ns;
 var ns = require("./cls");
 module.exports.names = ns;
+export { Foo, ns, ns as classContainer };

@@ -142,18 +142,14 @@ var G = function() {
     "use strict";
     _classCallCheck(this, G);
 };
-export { G };
 var HH = function() {
     "use strict";
     _classCallCheck(this, HH);
 };
-export { HH as H };
 export var I = function() {
     "use strict";
     _classCallCheck(this, I);
 };
-export { I as II };
-export { J as JJ };
 export var J = function J() {
     "use strict";
     _classCallCheck(this, J);
@@ -244,3 +240,4 @@ export var ExtendsStatics = function(HasStatics) {
         }
     ]), ExtendsStatics;
 }(HasStatics);
+export { G, HH as H, I as II, J as JJ };

@@ -55,7 +55,6 @@ var _class = function() {
     "use strict";
     _classCallCheck(this, _class);
 };
-export { _class as default };
 var C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -548,3 +547,4 @@ var C = function(B) {
     return C;
 }(B);
 _superprop_get_w().call(_this);
+export { _class as default };

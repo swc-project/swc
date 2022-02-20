@@ -3,7 +3,6 @@ export class Reflect {
 export var Baz;
 class _class {
 }
-export { _class as default };
 class C extends B {
 }
 (()=>{
@@ -178,3 +177,4 @@ C._ = super.w();
 class C extends B {
 }
 super.w();
+export { _class as default };

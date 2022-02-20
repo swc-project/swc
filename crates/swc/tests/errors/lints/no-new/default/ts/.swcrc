@@ -1,0 +1,13 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        },
+        "lints": {
+            "no-new": [
+                "error"
+            ]
+        }
+    }
+}

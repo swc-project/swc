@@ -5,10 +5,42 @@
 
 
 
+- **(css/minifier)** Compress selectors (#3623) ([9e691fe](https://github.com/swc-project/swc/commit/9e691fe75b60c73ff3ab2a7939c36f6cea167d06))
+
+
+- **(css/minifier)** Compress declarations (#3649) ([7d15316](https://github.com/swc-project/swc/commit/7d15316ee12506327b25d0ab6aaf972ac687709b))
+
+
+- **(es/lints)** Implement `no-new` rule (#3634) ([7ff4cbc](https://github.com/swc-project/swc/commit/7ff4cbcbe12b26ff54ffa2db9d30592f770132a2))
+
+
+- **(es/minifier)** Merge exports (#3643) ([10adf1e](https://github.com/swc-project/swc/commit/10adf1e548c381d3ff6beef7929d409b1ff1fb60))
+
+
+- **(es/minifier)** Improve name mangler (#3638) ([e9fabd6](https://github.com/swc-project/swc/commit/e9fabd61e883edc9089cd7ddca44fda5e387b3b8))
+
+### Miscellaneous Tasks
+
+
+
+- **(cli)** Improve the plugin template (#3632) ([0f1afcb](https://github.com/swc-project/swc/commit/0f1afcb8963b27bc04145bc3e947f7408c8d9a18))- **general**: Typo (#3646) ([c5f0e87](https://github.com/swc-project/swc/commit/c5f0e87ebf20259eae230c478da200530f9430e0))
+
+## [1.2.143] - 2022-02-19
+
+### Features
+
+
+
 - **(es/lints)** Implement `no-restricted-syntax` rule (#3607) ([72343ba](https://github.com/swc-project/swc/commit/72343baf5be311809fe786ee8bbea52515197286))
 
 
 - **(es/minifier)** Treat `!0` as a literal while inlining (#3631) ([d2c9441](https://github.com/swc-project/swc/commit/d2c94416a8735715f37fc680c7b5178bc88239ce))
+
+### Performance
+
+
+
+- **(es/minifier)** Fix performance bug of the mangler (#3633) ([fd0e952](https://github.com/swc-project/swc/commit/fd0e952aec427e86d276b51e8f6659de8f9eac94))
 
 ## [1.2.142] - 2022-02-18
 
