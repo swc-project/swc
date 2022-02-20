@@ -55,11 +55,11 @@ impl NoBitwise {
                         let allow_binary_ops = allow_binary_ops.as_mut().unwrap();
 
                         match op {
-                            "&" => allow_binary_ops.insert(BinaryOp::BitAnd),
-                            "^" => allow_binary_ops.insert(BinaryOp::BitXor),
-                            "<<" => allow_binary_ops.insert(BinaryOp::LShift),
-                            ">>" => allow_binary_ops.insert(BinaryOp::RShift),
-                            ">>>" => allow_binary_ops.insert(BinaryOp::ZeroFillRShift),
+                            "&" => allow_binary_ops.insert(op!("&")),
+                            "^" => allow_binary_ops.insert(op!("^")),
+                            "<<" => allow_binary_ops.insert(op!("<<")),
+                            ">>" => allow_binary_ops.insert(op!(">>")),
+                            ">>>" => allow_binary_ops.insert(op!(">>>")),
                             _ => false,
                         };
                     }
@@ -71,12 +71,12 @@ impl NoBitwise {
                         let allow_assign_ops = allow_assign_ops.as_mut().unwrap();
 
                         match op {
-                            "|=" => allow_assign_ops.insert(AssignOp::BitOrAssign),
-                            "&=" => allow_assign_ops.insert(AssignOp::BitAndAssign),
-                            "<<=" => allow_assign_ops.insert(AssignOp::LShiftAssign),
-                            ">>=" => allow_assign_ops.insert(AssignOp::RShiftAssign),
-                            ">>>=" => allow_assign_ops.insert(AssignOp::ZeroFillRShiftAssign),
-                            "^=" => allow_assign_ops.insert(AssignOp::BitXorAssign),
+                            "|=" => allow_assign_ops.insert(op!("|=")),
+                            "&=" => allow_assign_ops.insert(op!("&=")),
+                            "<<=" => allow_assign_ops.insert(op!("<<=")),
+                            ">>=" => allow_assign_ops.insert(op!(">>=")),
+                            ">>>=" => allow_assign_ops.insert(op!(">>>=")),
+                            "^=" => allow_assign_ops.insert(op!("^=")),
                             _ => false,
                         };
                     }
@@ -141,7 +141,7 @@ impl Visit for NoBitwise {
     }
 
     fn visit_unary_expr(&mut self, unary_expr: &UnaryExpr) {
-        if let UnaryOp::Tilde = &unary_expr.op {
+        if let op!("~") = &unary_expr.op {
             if self.allow_bitwise_not {
                 return;
             }
