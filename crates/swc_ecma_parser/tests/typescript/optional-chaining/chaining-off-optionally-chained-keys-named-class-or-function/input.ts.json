@@ -32,7 +32,7 @@
             "end": 4,
             "ctxt": 0
           },
-          "expr": {
+          "base": {
             "type": "MemberExpression",
             "span": {
               "start": 0,
@@ -99,7 +99,7 @@
             "end": 19,
             "ctxt": 0
           },
-          "expr": {
+          "base": {
             "type": "MemberExpression",
             "span": {
               "start": 15,
@@ -166,7 +166,7 @@
             "end": 42,
             "ctxt": 0
           },
-          "expr": {
+          "base": {
             "type": "MemberExpression",
             "span": {
               "start": 33,
@@ -185,7 +185,7 @@
                 "end": 37,
                 "ctxt": 0
               },
-              "expr": {
+              "base": {
                 "type": "MemberExpression",
                 "span": {
                   "start": 33,
@@ -257,7 +257,7 @@
           "end": 67,
           "ctxt": 0
         },
-        "expr": {
+        "base": {
           "type": "MemberExpression",
           "span": {
             "start": 53,
@@ -276,7 +276,7 @@
               "end": 57,
               "ctxt": 0
             },
-            "expr": {
+            "base": {
               "type": "MemberExpression",
               "span": {
                 "start": 53,

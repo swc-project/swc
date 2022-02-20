@@ -832,7 +832,17 @@ define!({
     pub struct OptChainExpr {
         pub span: Span,
         pub question_dot_token: Span,
-        pub expr: Box<Expr>,
+        pub base: OptChainBase,
+    }
+    pub enum OptChainBase {
+        Member(MemberExpr),
+        Call(OptCall),
+    }
+    pub struct OptCall {
+        pub span: Span,
+        pub callee: Box<Expr>,
+        pub args: Vec<ExprOrSpread>,
+        pub type_args: Option<TsTypeParamInstantiation>,
     }
     pub struct Function {
         pub params: Vec<Param>,

@@ -283,7 +283,7 @@
                           "end": 182,
                           "ctxt": 0
                         },
-                        "expr": {
+                        "base": {
                           "type": "MemberExpression",
                           "span": {
                             "start": 178,
@@ -518,7 +518,7 @@
                           "end": 278,
                           "ctxt": 0
                         },
-                        "expr": {
+                        "base": {
                           "type": "MemberExpression",
                           "span": {
                             "start": 274,
@@ -753,7 +753,7 @@
                           "end": 374,
                           "ctxt": 0
                         },
-                        "expr": {
+                        "base": {
                           "type": "MemberExpression",
                           "span": {
                             "start": 370,

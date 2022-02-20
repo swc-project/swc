@@ -168,6 +168,7 @@ pub enum SyntaxError {
     ReadOnlyMethod,
     GeneratorConstructor,
     TsBindingPatCannotBeOptional,
+    SuperCallOptional,
 
     TrailingCommaInsideImport,
 
@@ -404,6 +405,7 @@ impl SyntaxError {
             SyntaxError::TsRequiredAfterOptional => {
                 "A required element cannot follow an optional element.".into()
             }
+            SyntaxError::SuperCallOptional => "Super call cannot be optional".into(),
             SyntaxError::TsInvalidParamPropPat => {
                 "Typescript parameter property must be an identifier or assignment pattern".into()
             }

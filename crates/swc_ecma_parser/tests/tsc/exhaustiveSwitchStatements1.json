@@ -6913,7 +6913,7 @@
                   "end": 4093,
                   "ctxt": 0
                 },
-                "expr": {
+                "base": {
                   "type": "MemberExpression",
                   "span": {
                     "start": 4089,
