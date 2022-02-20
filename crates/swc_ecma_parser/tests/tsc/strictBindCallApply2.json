@@ -227,7 +227,8 @@
                 },
                 "value": "fn",
                 "optional": false
-              }
+              },
+              "typeArguments": null
             }
           ]
         }

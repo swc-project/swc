@@ -55,7 +55,8 @@
                   },
                   "value": "c",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -162,7 +163,8 @@
                   },
                   "value": "e",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -269,7 +271,8 @@
                   },
                   "value": "d",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -460,7 +463,8 @@
                         },
                         "value": "f",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   ]
                 }
@@ -595,7 +599,8 @@
                         },
                         "value": "f2",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   ]
                 }
@@ -737,7 +742,8 @@
                           },
                           "value": "f3",
                           "optional": false
-                        }
+                        },
+                        "typeArguments": null
                       }
                     ]
                   }
@@ -885,7 +891,8 @@
                           },
                           "value": "g",
                           "optional": false
-                        }
+                        },
+                        "typeArguments": null
                       }
                     },
                     "typeParams": null
@@ -961,7 +968,8 @@
                     "value": "x",
                     "optional": false
                   }
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -1035,7 +1043,8 @@
                       },
                       "value": "h",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 }
               }
@@ -1171,7 +1180,8 @@
                           },
                           "value": "i",
                           "optional": false
-                        }
+                        },
+                        "typeArguments": null
                       }
                     }
                   }
@@ -1200,7 +1210,8 @@
                       },
                       "value": "x",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 }
               }
@@ -1397,7 +1408,8 @@
                           },
                           "value": "j",
                           "optional": false
-                        }
+                        },
+                        "typeArguments": null
                       },
                       "default": null
                     }
@@ -1569,7 +1581,8 @@
                       },
                       "value": "h2",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 },
                 "isAbstract": false
@@ -1706,7 +1719,8 @@
                           },
                           "value": "i2",
                           "optional": false
-                        }
+                        },
+                        "typeArguments": null
                       }
                     }
                   }
@@ -1735,7 +1749,8 @@
                       },
                       "value": "x",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 },
                 "isAbstract": false
@@ -1933,7 +1948,8 @@
                           },
                           "value": "j2",
                           "optional": false
-                        }
+                        },
+                        "typeArguments": null
                       },
                       "default": null
                     }
@@ -2136,7 +2152,8 @@
                           },
                           "value": "k",
                           "optional": false
-                        }
+                        },
+                        "typeArguments": null
                       }
                     },
                     "readonly": false,
@@ -2201,7 +2218,8 @@
                           },
                           "value": "k",
                           "optional": false
-                        }
+                        },
+                        "typeArguments": null
                       }
                     },
                     "readonly": false,
@@ -2453,7 +2471,8 @@
                             },
                             "value": "hy1",
                             "optional": false
-                          }
+                          },
+                          "typeArguments": null
                         }
                       },
                       "typeParams": null
@@ -2664,7 +2683,8 @@
                                 },
                                 "value": "hy2",
                                 "optional": false
-                              }
+                              },
+                              "typeArguments": null
                             }
                           ]
                         }
@@ -2919,7 +2939,8 @@
                         },
                         "value": "hy3",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     },
                     {
                       "type": "TsTypeLiteral",
@@ -2974,7 +2995,8 @@
                                 },
                                 "value": "hy3",
                                 "optional": false
-                              }
+                              },
+                              "typeArguments": null
                             }
                           },
                           "typeParams": null

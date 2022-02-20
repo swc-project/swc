@@ -8686,7 +8686,8 @@
                                                 },
                                                 "value": "Reflect",
                                                 "optional": false
-                                              }
+                                              },
+                                              "typeArguments": null
                                             },
                                             "indexType": {
                                               "type": "TsTypeReference",
@@ -8760,7 +8761,8 @@
                                                 },
                                                 "value": "Reflect",
                                                 "optional": false
-                                              }
+                                              },
+                                              "typeArguments": null
                                             }
                                           },
                                           "default": null
@@ -9512,7 +9514,8 @@
                                     },
                                     "value": "Reflect",
                                     "optional": false
-                                  }
+                                  },
+                                  "typeArguments": null
                                 }
                               }
                             }
@@ -9626,7 +9629,8 @@
                                               },
                                               "value": "Reflect",
                                               "optional": false
-                                            }
+                                            },
+                                            "typeArguments": null
                                           },
                                           "indexType": {
                                             "type": "TsTypeReference",
@@ -9700,7 +9704,8 @@
                                               },
                                               "value": "Reflect",
                                               "optional": false
-                                            }
+                                            },
+                                            "typeArguments": null
                                           }
                                         },
                                         "default": null
@@ -9835,7 +9840,8 @@
                                             },
                                             "value": "Reflect",
                                             "optional": false
-                                          }
+                                          },
+                                          "typeArguments": null
                                         },
                                         "indexType": {
                                           "type": "TsTypeReference",
@@ -10222,7 +10228,8 @@
                                             },
                                             "value": "Reflect",
                                             "optional": false
-                                          }
+                                          },
+                                          "typeArguments": null
                                         }
                                       },
                                       "default": null
@@ -13037,7 +13044,8 @@
                                       },
                                       "value": "Map",
                                       "optional": false
-                                    }
+                                    },
+                                    "typeArguments": null
                                   }
                                 }
                               },
@@ -13289,7 +13297,8 @@
                                       },
                                       "value": "Set",
                                       "optional": false
-                                    }
+                                    },
+                                    "typeArguments": null
                                   }
                                 }
                               },
@@ -13541,7 +13550,8 @@
                                       },
                                       "value": "WeakMap",
                                       "optional": false
-                                    }
+                                    },
+                                    "typeArguments": null
                                   }
                                 }
                               },

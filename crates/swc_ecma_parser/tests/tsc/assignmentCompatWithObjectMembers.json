@@ -2279,7 +2279,8 @@
                                 },
                                 "value": "a",
                                 "optional": false
-                              }
+                              },
+                              "typeArguments": null
                             }
                           },
                           "typeParams": null
@@ -2379,7 +2380,8 @@
                                 },
                                 "value": "b",
                                 "optional": false
-                              }
+                              },
+                              "typeArguments": null
                             }
                           },
                           "typeParams": null

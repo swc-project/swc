@@ -297,7 +297,8 @@ pub(super) trait ExprExt {
             // typescript
             Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
             | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
-            | Expr::TsAs(TsAsExpr { ref expr, .. }) => {
+            | Expr::TsAs(TsAsExpr { ref expr, .. })
+            | Expr::TsInstantiation(TsExprWithTypeArgs { ref expr, .. }) => {
                 expr.is_valid_simple_assignment_target(strict)
             }
 

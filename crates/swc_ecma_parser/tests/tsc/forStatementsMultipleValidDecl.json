@@ -1329,7 +1329,8 @@
                     },
                     "value": "p",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             },
@@ -1997,7 +1998,8 @@
                     },
                     "value": "fn",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             },
@@ -2503,7 +2505,8 @@
                     },
                     "value": "a",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             },

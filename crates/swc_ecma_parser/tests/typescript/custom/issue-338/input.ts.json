@@ -80,7 +80,8 @@
                   "value": "delete",
                   "optional": false
                 }
-              }
+              },
+              "typeArguments": null
             }
           },
           "definite": false

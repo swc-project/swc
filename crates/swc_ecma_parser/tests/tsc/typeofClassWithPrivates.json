@@ -388,7 +388,8 @@
                   },
                   "value": "C",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -446,7 +447,8 @@
                   },
                   "value": "c",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
