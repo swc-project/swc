@@ -17,6 +17,10 @@ impl VisitMut for Merger {
     noop_visit_mut_type!();
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        let was_module = stmts
+            .iter()
+            .any(|s| matches!(s, ModuleItem::ModuleDecl(..)));
+
         stmts.visit_mut_children_with(self);
 
         // Merge exports
@@ -40,7 +44,7 @@ impl VisitMut for Merger {
         }
 
         // export {}, to preserve module semantics
-        if stmts.iter().all(|s| matches!(s, ModuleItem::Stmt(..))) {
+        if was_module && stmts.iter().all(|s| matches!(s, ModuleItem::Stmt(..))) {
             stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                 NamedExport {
                     src: None,
