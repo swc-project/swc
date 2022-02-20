@@ -863,7 +863,8 @@
                           },
                           "value": "t1",
                           "optional": false
-                        }
+                        },
+                        "typeArguments": null
                       }
                     }
                   }
@@ -2266,7 +2267,8 @@
                           },
                           "value": "t2",
                           "optional": false
-                        }
+                        },
+                        "typeArguments": null
                       }
                     }
                   }
@@ -3738,7 +3740,8 @@
                           },
                           "value": "t3",
                           "optional": false
-                        }
+                        },
+                        "typeArguments": null
                       }
                     }
                   }

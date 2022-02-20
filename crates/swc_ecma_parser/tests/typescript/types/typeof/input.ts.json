@@ -68,7 +68,8 @@
                     "value": "z",
                     "optional": false
                   }
-                }
+                },
+                "typeArguments": null
               }
             }
           },

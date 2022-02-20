@@ -41,7 +41,8 @@
           },
           "value": "varOfAliasedType1",
           "optional": false
-        }
+        },
+        "typeArguments": null
       }
     },
     {
@@ -197,7 +198,8 @@
           },
           "value": "varOfAliasedType2",
           "optional": false
-        }
+        },
+        "typeArguments": null
       }
     },
     {
@@ -364,7 +366,8 @@
           },
           "value": "varOfAliasedType3",
           "optional": false
-        }
+        },
+        "typeArguments": null
       }
     },
     {
@@ -540,7 +543,8 @@
                 },
                 "value": "mul",
                 "optional": false
-              }
+              },
+              "typeArguments": null
             }
           ]
         }
@@ -787,7 +791,8 @@
                 },
                 "value": "f",
                 "optional": false
-              }
+              },
+              "typeArguments": null
             }
           ]
         }

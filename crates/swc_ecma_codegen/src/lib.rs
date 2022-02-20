@@ -635,6 +635,7 @@ where
             Expr::TsNonNull(ref n) => emit!(n),
             Expr::TsTypeAssertion(ref n) => emit!(n),
             Expr::TsConstAssertion(ref n) => emit!(n),
+            Expr::TsExprWithTypeArgs(ref n) => emit!(n),
             Expr::OptChain(ref n) => emit!(n),
             Expr::Invalid(ref n) => emit!(n),
         }

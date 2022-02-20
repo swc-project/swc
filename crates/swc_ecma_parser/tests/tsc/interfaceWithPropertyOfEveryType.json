@@ -935,7 +935,8 @@
                   },
                   "value": "f1",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             },
             "typeParams": null
@@ -985,7 +986,8 @@
                   },
                   "value": "M",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             },
             "typeParams": null

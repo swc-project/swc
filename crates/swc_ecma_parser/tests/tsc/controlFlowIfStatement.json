@@ -1946,7 +1946,8 @@
                                 "value": "p",
                                 "optional": false
                               }
-                            }
+                            },
+                            "typeArguments": null
                           }
                         }
                       },

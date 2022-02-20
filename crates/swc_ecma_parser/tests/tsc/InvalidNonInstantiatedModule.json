@@ -248,7 +248,8 @@
                   },
                   "value": "M",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },

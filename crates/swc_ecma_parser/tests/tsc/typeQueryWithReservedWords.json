@@ -270,7 +270,8 @@
                     "value": "create",
                     "optional": false
                   }
-                }
+                },
+                "typeArguments": null
               }
             },
             "typeParams": null
@@ -346,7 +347,8 @@
                     "value": "delete",
                     "optional": false
                   }
-                }
+                },
+                "typeArguments": null
               }
             },
             "typeParams": null
@@ -422,7 +424,8 @@
                     "value": "var",
                     "optional": false
                   }
-                }
+                },
+                "typeArguments": null
               }
             },
             "typeParams": null

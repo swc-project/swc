@@ -142,7 +142,8 @@
                         },
                         "value": "yield",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   }
                 },

@@ -236,7 +236,8 @@
                         },
                         "value": "anotherModule",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   ]
                 }
@@ -395,7 +396,8 @@
                       },
                       "value": "anotherModule",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 ]
               }

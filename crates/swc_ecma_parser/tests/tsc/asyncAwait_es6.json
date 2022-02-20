@@ -151,7 +151,8 @@
                   },
                   "value": "Promise",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
