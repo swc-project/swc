@@ -6,7 +6,6 @@ var Bar = function(input) {
     "use strict";
     _classCallCheck(this, Bar);
 };
-export { Bar };
 export var x = {
     x: 0,
     y: 0
@@ -26,3 +25,4 @@ export var Bar2 = function(input) {
 export var shim = {
     Bar: Bar2
 };
+export { Bar };

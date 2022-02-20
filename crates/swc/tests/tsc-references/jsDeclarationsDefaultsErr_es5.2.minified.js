@@ -11,8 +11,5 @@ var C = function() {
     "use strict";
     _classCallCheck(this, C);
 };
-export { C as default };
 var x = 12;
-export { x as default }; /**
- * @typedef {string | number} default
- */ 
+export { C as default, x as default };
