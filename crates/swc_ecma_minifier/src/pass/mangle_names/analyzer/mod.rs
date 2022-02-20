@@ -118,6 +118,20 @@ impl Visit for Analyzer {
         })
     }
 
+    fn visit_class_method(&mut self, f: &ClassMethod) {
+        f.key.visit_with(self);
+
+        self.with_scope(|v| {
+            f.function.visit_with(v);
+        })
+    }
+
+    fn visit_constructor(&mut self, f: &Constructor) {
+        self.with_scope(|v| {
+            f.visit_children_with(v);
+        })
+    }
+
     fn visit_default_decl(&mut self, d: &DefaultDecl) {
         match d {
             DefaultDecl::Class(c) => {
