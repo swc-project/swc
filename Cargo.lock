@@ -2900,6 +2900,7 @@ dependencies = [
  "memchr",
  "num-bigint",
  "once_cell",
+ "regex",
  "sourcemap",
  "swc_atoms",
  "swc_common",

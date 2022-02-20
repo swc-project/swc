@@ -507,7 +507,8 @@ where
             }
             StrKind::Synthesized => {
                 let single_quote = false;
-                let value = escape_without_source(&node.value, self.wr.target(), single_quote);
+                let value =
+                    escape_without_source(&node.value, self.wr.target(), single_quote, false);
 
                 (single_quote, value)
             }
@@ -3070,7 +3071,12 @@ fn unescape_tpl_lit(s: &str, is_synthesized: bool) -> String {
     result
 }
 
-fn escape_without_source(v: &str, target: EsVersion, single_quote: bool) -> String {
+fn escape_without_source(
+    v: &str,
+    target: EsVersion,
+    single_quote: bool,
+    emit_non_ascii_as_unicode: bool,
+) -> String {
     let mut buf = String::with_capacity(v.len());
     let mut iter = v.chars().peekable();
 
@@ -3092,7 +3098,6 @@ fn escape_without_source(v: &str, target: EsVersion, single_quote: bool) -> Stri
                     buf.push_str("\\\\")
                 }
             }
-
             '\'' if single_quote => buf.push_str("\\'"),
             '"' if !single_quote => buf.push_str("\\\""),
 
@@ -3110,13 +3115,17 @@ fn escape_without_source(v: &str, target: EsVersion, single_quote: bool) -> Stri
             '\u{7f}'..='\u{ff}' => {
                 let _ = write!(buf, "\\x{:x}", c as u8);
             }
+            '\u{2028}' => {
+                buf.push_str("\\u2028");
+            }
+            '\u{2029}' => {
+                buf.push_str("\\u2029");
+            }
             _ => {
-                if let '\u{0001}'..='\u{FFFF}' = c {
-                    // if char is unicode up to U+FFFF and it's not been transformed by prior match
-                    // it's still a valid ES5 unicode char so lets keep it as is
-                    let _ = write!(buf, "\\u{:x}", c as u16);
-                } else {
+                if !emit_non_ascii_as_unicode || c.is_ascii() {
                     buf.push(c);
+                } else {
+                    let _ = write!(buf, "\\u{:04x}", c as u32);
                 }
             }
         }
@@ -3132,25 +3141,31 @@ fn escape_with_source(
     s: &str,
     single_quote: Option<bool>,
 ) -> String {
-    if target <= EsVersion::Es5 {
-        return escape_without_source(s, target, single_quote.unwrap_or(false));
-    }
-
     if span.is_dummy() {
-        return escape_without_source(s, target, single_quote.unwrap_or(false));
+        return escape_without_source(s, target, single_quote.unwrap_or(false), false);
     }
 
-    //
     let orig = cm.span_to_snippet(span);
     let orig = match orig {
         Ok(orig) => orig,
         Err(v) => {
-            return escape_without_source(s, target, single_quote.unwrap_or(false));
+            return escape_without_source(s, target, single_quote.unwrap_or(false), false);
         }
     };
 
+    if target <= EsVersion::Es5 {
+        let emit_non_ascii_as_unicode = regex::Regex::new(r#"(?i)\\[u]"#).unwrap().is_match(&orig);
+
+        return escape_without_source(
+            s,
+            target,
+            single_quote.unwrap_or(false),
+            emit_non_ascii_as_unicode,
+        );
+    }
+
     if single_quote.is_some() && orig.len() <= 2 {
-        return escape_without_source(s, target, single_quote.unwrap_or(false));
+        return escape_without_source(s, target, single_quote.unwrap_or(false), false);
     }
 
     let mut orig = &*orig;
@@ -3160,7 +3175,7 @@ fn escape_with_source(
     {
         orig = &orig[1..orig.len() - 1];
     } else if single_quote.is_some() {
-        return escape_without_source(s, target, single_quote.unwrap_or(false));
+        return escape_without_source(s, target, single_quote.unwrap_or(false), false);
     }
 
     let mut buf = String::with_capacity(s.len());
