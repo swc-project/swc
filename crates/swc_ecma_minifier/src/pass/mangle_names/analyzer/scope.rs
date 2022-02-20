@@ -56,10 +56,6 @@ impl Scope {
         preserved: &AHashSet<Id>,
         preserved_symbols: &AHashSet<JsWord>,
     ) {
-        for child in self.children.iter_mut() {
-            child.rename(f, to, preserved, preserved_symbols);
-        }
-
         let mut n = 0;
         let mut queue = self.data.queue.take();
         queue.sort_by(|a, b| b.1.cmp(&a.1));
@@ -85,6 +81,10 @@ impl Scope {
                     break;
                 }
             }
+        }
+
+        for child in self.children.iter_mut() {
+            child.rename(f, to, preserved, preserved_symbols);
         }
     }
 
