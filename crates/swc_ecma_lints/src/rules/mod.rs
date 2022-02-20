@@ -26,6 +26,7 @@ pub(crate) mod non_critical_lints {
     pub mod no_use_before_define;
     pub mod prefer_regex_literals;
     pub mod quotes;
+    pub mod radix;
 }
 
 #[cfg(feature = "non_critical_lints")]
@@ -101,6 +102,8 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         rules.extend(no_restricted_syntax::no_restricted_syntax(
             &lint_config.no_restricted_syntax,
         ));
+
+        rules.extend(radix::radix(&program, top_level_ctxt, &lint_config.radix));
     }
 
     rules
