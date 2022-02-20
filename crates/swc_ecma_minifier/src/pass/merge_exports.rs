@@ -38,6 +38,19 @@ impl VisitMut for Merger {
                 },
             )));
         }
+
+        // export {}, to preserve module semantics
+        if stmts.iter().all(|s| matches!(s, ModuleItem::Stmt(..))) {
+            stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                NamedExport {
+                    src: None,
+                    specifiers: Default::default(),
+                    span: DUMMY_SP,
+                    type_only: Default::default(),
+                    asserts: Default::default(),
+                },
+            )));
+        }
     }
 
     fn visit_mut_named_export(&mut self, e: &mut NamedExport) {
