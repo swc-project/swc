@@ -64,12 +64,4 @@ impl VisitMut for Merger {
 
         self.specifiers.append(&mut e.specifiers);
     }
-
-    fn visit_mut_var_decl(&mut self, v: &mut VarDecl) {
-        v.visit_mut_children_with(self);
-
-        if v.kind == VarDeclKind::Const {
-            v.kind = VarDeclKind::Let;
-        }
-    }
 }
