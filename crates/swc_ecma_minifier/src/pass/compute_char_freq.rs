@@ -1,7 +1,8 @@
 use std::cmp::Ordering;
 
 use swc_common::collections::AHashMap;
-use swc_ecma_ast::{IdentExt, Module};
+use swc_ecma_ast::*;
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 /// TODO: Use [u8; 64] instead
 type CharFreq = AHashMap<u8, f32>;
@@ -15,11 +16,16 @@ pub(crate) struct CharFreqInfo {
 
 static CHARS: &[u8; 64] = b"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$_0123456789";
 
-pub(crate) fn compute_char_freq(_: &Module) -> CharFreqInfo {
-    CharFreqInfo {
+pub(crate) fn compute_char_freq(m: &Module) -> CharFreqInfo {
+    let mut base54 = CharFreqInfo {
         frequency: AHashMap::with_capacity_and_hasher(64, Default::default()),
         chars: *CHARS,
-    }
+    };
+
+    m.visit_with(&mut base54);
+    base54.sort();
+
+    base54
 }
 
 impl CharFreqInfo {
@@ -87,5 +93,13 @@ impl CharFreqInfo {
         }
 
         (*init - 1, ret)
+    }
+}
+
+impl Visit for CharFreqInfo {
+    noop_visit_type!();
+
+    fn visit_ident(&mut self, i: &Ident) {
+        self.consider(&i.sym, 1.0);
     }
 }

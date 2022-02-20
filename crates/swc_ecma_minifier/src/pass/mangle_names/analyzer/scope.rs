@@ -2,7 +2,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashSet, util::take::Take};
 use swc_ecma_utils::Id;
 
-use crate::{pass::mangle_names::rename_map::RenameMap, util::base54::incr_base54};
+use crate::pass::{compute_char_freq::CharFreqInfo, mangle_names::rename_map::RenameMap};
 
 #[derive(Debug, Default)]
 pub(crate) struct Scope {
@@ -45,6 +45,7 @@ impl Scope {
 
     pub(super) fn rename(
         &mut self,
+        f: &CharFreqInfo,
         to: &mut RenameMap,
         preserved: &AHashSet<Id>,
         preserved_symbols: &AHashSet<JsWord>,
@@ -56,7 +57,7 @@ impl Scope {
             }
 
             loop {
-                let (_, sym) = incr_base54(&mut n);
+                let (_, sym) = f.incr_base54(&mut n);
 
                 let sym: JsWord = sym.into();
 
@@ -72,7 +73,7 @@ impl Scope {
         }
 
         for child in self.children.iter_mut() {
-            child.rename(to, preserved, preserved_symbols);
+            child.rename(f, to, preserved, preserved_symbols);
         }
     }
 
