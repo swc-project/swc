@@ -32,8 +32,8 @@ use crate::{
     mode::Minification,
     option::{ExtraOptions, MinifyOptions},
     pass::{
-        compute_char_freq::compute_char_freq, expand_names::name_expander, finalizer::finalizer,
-        global_defs, mangle_names::name_mangler, mangle_props::mangle_properties,
+        compute_char_freq::compute_char_freq, expand_names::name_expander, global_defs,
+        mangle_names::name_mangler, mangle_props::mangle_properties, merge_exports::merge_exports,
         postcompress::postcompress_optimizer, precompress::precompress_optimizer,
     },
 };
@@ -162,7 +162,7 @@ pub fn optimize(
         mangle_properties(&mut m, property_mangle_options.clone());
     }
 
-    m.visit_mut_with(&mut finalizer());
+    m.visit_mut_with(&mut merge_exports());
 
     if let Some(ref mut t) = timings {
         t.section("hygiene");

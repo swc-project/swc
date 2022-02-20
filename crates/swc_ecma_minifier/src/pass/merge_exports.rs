@@ -4,17 +4,16 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 ///
 /// - merge exports
-/// - `const` => `let`
-pub(crate) fn finalizer() -> impl VisitMut {
-    Finalizer::default()
+pub(crate) fn merge_exports() -> impl VisitMut {
+    Merger::default()
 }
 
 #[derive(Default)]
-struct Finalizer {
+struct Merger {
     specifiers: Vec<ExportSpecifier>,
 }
 
-impl VisitMut for Finalizer {
+impl VisitMut for Merger {
     noop_visit_mut_type!();
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
