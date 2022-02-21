@@ -80,15 +80,38 @@ where
         T: ModuleItemExt + Take,
         Vec<T>: VisitWith<self::vars::VarWithOutInitCounter>
             + VisitMutWith<self::vars::VarPrepender>
-            + VisitMutWith<self::vars::VarMover>,
+            + VisitMutWith<self::vars::VarMover>
+            + VisitWith<AssertValid>,
     {
         self.remove_dead_branch(stmts);
 
+        if cfg!(debug_assertions) {
+            stmts.visit_with(&mut AssertValid);
+        }
+
         self.drop_unreachable_stmts(stmts);
+
+        if cfg!(debug_assertions) {
+            stmts.visit_with(&mut AssertValid);
+        }
 
         self.drop_useless_blocks(stmts);
 
+        if cfg!(debug_assertions) {
+            stmts.visit_with(&mut AssertValid);
+        }
+
+        self.join_vars(stmts);
+
+        if cfg!(debug_assertions) {
+            stmts.visit_with(&mut AssertValid);
+        }
+
         self.collapse_vars_without_init(stmts);
+
+        if cfg!(debug_assertions) {
+            stmts.visit_with(&mut AssertValid);
+        }
 
         stmts.retain(|s| !matches!(s.as_stmt(), Some(Stmt::Empty(..))));
     }
