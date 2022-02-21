@@ -3124,8 +3124,23 @@ fn escape_without_source(
             _ => {
                 if !emit_non_ascii_as_unicode || c.is_ascii() {
                     buf.push(c);
+                } else if c > '\u{FFFF}' {
+                    // if we've got this far the char isn't reserved and if the callee has specified
+                    // we should output unicode for non-ascii chars then we have
+                    // to make sure we output unicode that is safe for the target
+                    // Es5 does not support code point escapes and so surrograte formula must be
+                    // used
+                    if target <= EsVersion::Es5 {
+                        // https://mathiasbynens.be/notes/javascript-encoding#surrogate-formulae
+                        let h = ((c as u32 - 0x10000) / 0x400) + 0xd800;
+                        let l = (c as u32 - 0x10000) % 0x400 + 0xdc00;
+
+                        let _ = write!(buf, "\\u{:04X}\\u{:04X}", h, l);
+                    } else {
+                        let _ = write!(buf, "\\u{{{:04X}}}", c as u32);
+                    }
                 } else {
-                    let _ = write!(buf, "\\u{:04x}", c as u32);
+                    let _ = write!(buf, "\\u{:04X}", c as u16);
                 }
             }
         }
@@ -3142,6 +3157,7 @@ fn escape_with_source(
     single_quote: Option<bool>,
 ) -> String {
     if span.is_dummy() {
+        println!("dummy");
         return escape_without_source(s, target, single_quote.unwrap_or(false), false);
     }
 

@@ -554,7 +554,7 @@ CONTENT\r
 fn test_escape_without_source() {
     fn es2020(src: &str, expected: &str) {
         assert_eq!(
-            super::escape_without_source(src, EsVersion::Es2020, true),
+            super::escape_without_source(src, EsVersion::Es2020, true, false),
             expected
         )
     }
@@ -612,7 +612,7 @@ fn issue_1619_2() {
 #[test]
 fn issue_1619_3() {
     assert_eq!(
-        escape_without_source("\x00\x31", EsVersion::Es3, true),
+        escape_without_source("\x00\x31", EsVersion::Es3, true, false),
         "\\x001"
     );
 }

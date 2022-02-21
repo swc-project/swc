@@ -9412,8 +9412,8 @@
                 } catch (err) {
                     return (function(input) {
                         for(var replaceMap = {
-                            "%FE%FF": "��",
-                            "%FF%FE": "��"
+                            "%FE%FF": "\uFFFD\uFFFD",
+                            "%FF%FE": "\uFFFD\uFFFD"
                         }, match = multiMatcher.exec(input); match;){
                             try {
                                 replaceMap[match[0]] = decodeURIComponent(match[0]);
@@ -9423,7 +9423,7 @@
                             }
                             match = multiMatcher.exec(input);
                         }
-                        replaceMap["%C2"] = "�";
+                        replaceMap["%C2"] = "\uFFFD\uFFFD";
                         for(var entries = Object.keys(replaceMap), i = 0; i < entries.length; i++){
                             var key = entries[i];
                             input = input.replace(new RegExp(key, "g"), replaceMap[key]);
