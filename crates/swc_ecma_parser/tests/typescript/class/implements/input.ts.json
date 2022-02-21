@@ -39,8 +39,13 @@
             "ctxt": 0
           },
           "expression": {
-            "type": "TsQualifiedName",
-            "left": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 19,
+              "end": 22,
+              "ctxt": 0
+            },
+            "object": {
               "type": "Identifier",
               "span": {
                 "start": 19,
@@ -50,7 +55,7 @@
               "value": "X",
               "optional": false
             },
-            "right": {
+            "property": {
               "type": "Identifier",
               "span": {
                 "start": 21,

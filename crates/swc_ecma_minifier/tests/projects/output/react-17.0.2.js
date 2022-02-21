@@ -598,9 +598,9 @@
     function createElementWithValidation(type, props, children) {
         var validType = isValidElementType(type);
         if (!validType) {
-            var typeString, info = "";
+            var typeString, elementProps, info = "";
             (void 0 === type || "object" == typeof type && null !== type && 0 === Object.keys(type).length) && (info += " You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.");
-            var elementProps, sourceInfo = null != (elementProps = props) ? function(source) {
+            var sourceInfo = null != (elementProps = props) ? function(source) {
                 if (void 0 !== source) {
                     var fileName = source.fileName.replace(/^.*[\\\/]/, ""), lineNumber = source.lineNumber;
                     return "\n\nCheck your code at " + fileName + ":" + lineNumber + ".";
@@ -623,7 +623,7 @@
             null !== fragment.ref && (setCurrentlyValidatingElement$1(fragment), error1("Invalid attribute `ref` supplied to `React.Fragment`."), setCurrentlyValidatingElement$1(null));
         })(element) : validatePropTypes(element), element;
     }
-    var didWarnAboutDeprecatedCreateFactory = !1, enableSchedulerDebugging = !1;
+    var didWarnAboutDeprecatedCreateFactory = !1;
     if ("object" == typeof performance && "function" == typeof performance.now) {
         var localPerformance = performance;
         getCurrentTime = function() {
@@ -755,7 +755,7 @@
     }
     function workLoop(hasTimeRemaining, initialTime) {
         var currentTime = initialTime;
-        for(advanceTimers(currentTime), currentTask = peek(taskQueue); null !== currentTask && !enableSchedulerDebugging;){
+        for(advanceTimers(currentTime), currentTask = peek(taskQueue); null !== currentTask;){
             if (currentTask.expirationTime > currentTime && (!hasTimeRemaining || shouldYieldToHost())) break;
             var callback = currentTask.callback;
             if ("function" == typeof callback) {

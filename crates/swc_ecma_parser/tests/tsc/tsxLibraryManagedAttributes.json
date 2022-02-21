@@ -787,7 +787,8 @@
                 },
                 "value": "checkedType",
                 "optional": false
-              }
+              },
+              "typeArguments": null
             }
           },
           "falseType": {

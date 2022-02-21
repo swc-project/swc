@@ -35,4 +35,3 @@ module.exports = 42, fn = regeneratorRuntime.mark(function _callee() {
         _next(void 0);
     });
 };
-export { };

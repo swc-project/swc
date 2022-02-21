@@ -2470,7 +2470,8 @@
                   },
                   "value": "f",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             },
             "readonly": false,
@@ -2758,7 +2759,8 @@
                   },
                   "value": "c",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             },
             "readonly": false,

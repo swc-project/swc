@@ -4,7 +4,7 @@ function _classCallCheck(instance, Constructor) {
 !function(E) {
     E[E.A = 0] = "A";
 }(E || (E = {})), foo(E.A), foo(1), foo(null), foo2(E.A), foo3(E.A), foo4(E.A), foo5(E.A), foo6(E.A), foo7(E.A), foo8(E.A);
-var A = function() {
+var E, E2, A = function() {
     "use strict";
     _classCallCheck(this, A);
 };
@@ -17,7 +17,7 @@ function f() {}
 foo10(E.A), foo11(E.A), foo12(E.A), (function(E2) {
     E2[E2.A = 0] = "A";
 })(E2 || (E2 = {})), foo13(E.A), (f || (f = {})).bar = 1, foo14(E.A);
-var E, E2, CC = function() {
+var CC = function() {
     "use strict";
     _classCallCheck(this, CC);
 };

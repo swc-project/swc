@@ -136,7 +136,8 @@
             },
             "value": "cb",
             "optional": false
-          }
+          },
+          "typeArguments": null
         }
       }
     },

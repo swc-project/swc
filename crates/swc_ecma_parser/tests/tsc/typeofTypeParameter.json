@@ -130,7 +130,8 @@
                         },
                         "value": "x",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   }
                 },
@@ -188,7 +189,8 @@
                         },
                         "value": "T",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   }
                 },

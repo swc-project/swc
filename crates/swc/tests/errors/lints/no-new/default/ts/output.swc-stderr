@@ -1,0 +1,18 @@
+error: Do not use 'new' for side effects
+ 
+  |
+1 | new A()
+  | ^^^^^^^
+
+error: Do not use 'new' for side effects
+ 
+  |
+4 |     new A()
+  |     ^^^^^^^
+
+error: Do not use 'new' for side effects
+ 
+  |
+9 |         new A();
+  |         ^^^^^^^
+

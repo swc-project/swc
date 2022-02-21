@@ -2046,7 +2046,8 @@
                     },
                     "value": "F",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             },
@@ -2255,7 +2256,8 @@
                     },
                     "value": "F",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             },
@@ -2365,7 +2367,8 @@
                     },
                     "value": "M",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             },
@@ -2592,7 +2595,8 @@
                       "value": "F2",
                       "optional": false
                     }
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             },

@@ -1,6 +1,10 @@
-use swc_ecma_ast::{ClassMember, Function, MethodKind, ParamOrTsParamProp, TsExprWithTypeArgs};
+use swc_ecma_ast::{
+    ClassMember, Expr, Function, MemberExpr, MemberProp, MethodKind, ParamOrTsParamProp,
+    TsExprWithTypeArgs,
+};
 use swc_estree_ast::{
-    ClassBody, ClassBodyEl, ClassImpl, ClassMethodKind, TSExpressionWithTypeArguments,
+    ClassBody, ClassBodyEl, ClassImpl, ClassMethodKind, TSEntityName,
+    TSExpressionWithTypeArguments, TSQualifiedName,
 };
 
 use super::Context;
@@ -183,9 +187,27 @@ impl Swcify for TSExpressionWithTypeArguments {
     type Output = TsExprWithTypeArgs;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
+        // The reason why we have special logic for converting `TSEntityName` here,
+        // instead of updating or using logic of `TSEntityName`,
+        // is that `TSEntityName` can be used somewhere,
+        // if we change its conversion logic, it will break.
+        fn swcify_expr(expr: TSEntityName, ctx: &Context) -> Box<Expr> {
+            match expr {
+                TSEntityName::Id(v) => Box::new(Expr::Ident(v.swcify(ctx).id)),
+                TSEntityName::Qualified(v) => swcify_qualified_name(v, ctx),
+            }
+        }
+        fn swcify_qualified_name(qualified_name: TSQualifiedName, ctx: &Context) -> Box<Expr> {
+            Box::new(Expr::Member(MemberExpr {
+                obj: swcify_expr(*qualified_name.left, ctx),
+                prop: MemberProp::Ident(qualified_name.right.swcify(ctx).id),
+                span: ctx.span(&qualified_name.base),
+            }))
+        }
+
         TsExprWithTypeArgs {
             span: ctx.span(&self.base),
-            expr: self.expression.swcify(ctx),
+            expr: swcify_expr(self.expression, ctx),
             type_args: self.type_parameters.swcify(ctx),
         }
     }

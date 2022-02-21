@@ -26,7 +26,7 @@ impl VisitMut for CompressEmpty {
             | Rule::AtRule(AtRule::Property(PropertyRule { block, .. }))
                 if block.value.is_empty() =>
             {
-                return false;
+                false
             }
             _ => true,
         });
@@ -72,7 +72,7 @@ impl VisitMut for CompressEmpty {
             | ComponentValue::KeyframeBlock(KeyframeBlock { block, .. })
                 if block.value.is_empty() =>
             {
-                return false;
+                false
             }
             _ => true,
         });

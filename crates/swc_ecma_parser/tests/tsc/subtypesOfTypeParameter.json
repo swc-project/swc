@@ -1464,7 +1464,8 @@
                         },
                         "value": "undefined",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   }
                 },
@@ -3973,7 +3974,8 @@
                         },
                         "value": "f",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   }
                 },
@@ -4169,7 +4171,8 @@
                         },
                         "value": "c",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   }
                 },

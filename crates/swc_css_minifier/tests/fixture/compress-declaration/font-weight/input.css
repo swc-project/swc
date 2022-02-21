@@ -1,0 +1,8 @@
+.class1 {font-weight: 1;}
+.class1 {font-weight: 400;}
+.class1 {font-weight: 1000;}
+.class2 {font-weight: normal;}
+.class3 {font-weight: bold;}
+.class3 {font-WEIGHT: BOLD;}
+.class4 {font-weight: normal bold;}
+.class5 {font-weight: 600 bold;}

@@ -850,7 +850,8 @@
                   },
                   "value": "constCall",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -917,7 +918,8 @@
                   },
                   "value": "constType",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -1251,7 +1253,8 @@
             },
             "value": "constCall",
             "optional": false
-          }
+          },
+          "typeArguments": null
         }
       }
     },
@@ -1549,7 +1552,8 @@
                   },
                   "value": "constCall",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             ]
           }
@@ -2608,7 +2612,8 @@
                     "value": "readonlyStaticCall",
                     "optional": false
                   }
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -2706,7 +2711,8 @@
                     "value": "readonlyStaticType",
                     "optional": false
                   }
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -2804,7 +2810,8 @@
                     "value": "readonlyStaticTypeAndCall",
                     "optional": false
                   }
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -2902,7 +2909,8 @@
                     "value": "readwriteStaticCall",
                     "optional": false
                   }
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -3120,7 +3128,8 @@
                     "value": "readonlyCall",
                     "optional": false
                   }
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -3218,7 +3227,8 @@
                     "value": "readwriteCall",
                     "optional": false
                   }
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -3750,7 +3760,8 @@
                     "value": "readonlyType",
                     "optional": false
                   }
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -4334,7 +4345,8 @@
                     "value": "readonlyType",
                     "optional": false
                   }
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -4445,7 +4457,8 @@
                     "value": "readonlyNestedType",
                     "optional": false
                   }
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -5425,7 +5438,8 @@
                   },
                   "value": "s",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           }
@@ -5526,7 +5540,8 @@
                     "value": "s",
                     "optional": false
                   }
-                }
+                },
+                "typeArguments": null
               }
             }
           }
@@ -7653,7 +7668,8 @@
                 },
                 "value": "s",
                 "optional": false
-              }
+              },
+              "typeArguments": null
             }
           ]
         }
@@ -7753,7 +7769,8 @@
                   "value": "s",
                   "optional": false
                 }
-              }
+              },
+              "typeArguments": null
             }
           ]
         }
@@ -7865,7 +7882,8 @@
                   "value": "s",
                   "optional": false
                 }
-              }
+              },
+              "typeArguments": null
             }
           ]
         }
@@ -9065,7 +9083,8 @@
                   },
                   "value": "s",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             },
             "typeParams": null
@@ -9139,7 +9158,8 @@
                         },
                         "value": "s",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   ]
                 }
@@ -9216,7 +9236,8 @@
                         },
                         "value": "s",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   ]
                 }
@@ -9293,7 +9314,8 @@
                         },
                         "value": "s",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   ]
                 }
@@ -9354,7 +9376,8 @@
                       },
                       "value": "s",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 }
               }
@@ -9382,7 +9405,8 @@
                   },
                   "value": "s",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             },
             "typeParams": null
@@ -9865,7 +9889,8 @@
                             },
                             "value": "s",
                             "optional": false
-                          }
+                          },
+                          "typeArguments": null
                         }
                       }
                     }
@@ -9931,7 +9956,8 @@
                       },
                       "value": "s",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 }
               },
@@ -10225,7 +10251,8 @@
                               },
                               "value": "s",
                               "optional": false
-                            }
+                            },
+                            "typeArguments": null
                           }
                         }
                       }
@@ -10291,7 +10318,8 @@
                         },
                         "value": "s",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   }
                 },
@@ -10612,7 +10640,8 @@
                               },
                               "value": "s",
                               "optional": false
-                            }
+                            },
+                            "typeArguments": null
                           }
                         }
                       }

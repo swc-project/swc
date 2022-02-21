@@ -700,7 +700,8 @@
           },
           "value": "x",
           "optional": false
-        }
+        },
+        "typeArguments": null
       }
     },
     {
@@ -851,7 +852,8 @@
           },
           "value": "yy",
           "optional": false
-        }
+        },
+        "typeArguments": null
       }
     },
     {
@@ -1406,7 +1408,8 @@
           },
           "value": "zz",
           "optional": false
-        }
+        },
+        "typeArguments": null
       }
     },
     {

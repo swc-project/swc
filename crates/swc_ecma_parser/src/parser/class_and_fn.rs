@@ -99,12 +99,7 @@ impl<'a, I: Tokens> Parser<I> {
             };
 
             let (mut super_class, mut super_type_params) = if eat!(p, "extends") {
-                let super_class = p.parse_lhs_expr().map(Some)?;
-                let super_type_params = if p.input.syntax().typescript() && is!(p, '<') {
-                    Some(p.parse_ts_type_args()?)
-                } else {
-                    None
-                };
+                let (super_class, super_type_params) = p.parse_super_class()?;
 
                 if p.syntax().typescript() && eat!(p, ',') {
                     let exprs = p.parse_ts_heritage_clause()?;
@@ -114,7 +109,7 @@ impl<'a, I: Tokens> Parser<I> {
                     }
                 }
 
-                (super_class, super_type_params)
+                (Some(super_class), super_type_params)
             } else {
                 (None, None)
             };
@@ -123,10 +118,7 @@ impl<'a, I: Tokens> Parser<I> {
             if eat!(p, "extends") {
                 p.emit_err(p.input.prev_span(), SyntaxError::TS1172);
 
-                p.parse_lhs_expr()?;
-                if p.input.syntax().typescript() && is!(p, '<') {
-                    p.parse_ts_type_args()?;
-                }
+                p.parse_super_class()?;
             };
 
             let implements = if p.input.syntax().typescript() && eat!(p, "implements") {
@@ -148,17 +140,12 @@ impl<'a, I: Tokens> Parser<I> {
             if p.input.syntax().typescript() && eat!(p, "extends") {
                 p.emit_err(p.input.prev_span(), SyntaxError::TS1173);
 
-                let sc = p.parse_lhs_expr()?;
-                let type_params = if p.input.syntax().typescript() && is!(p, '<') {
-                    p.parse_ts_type_args().map(Some)?
-                } else {
-                    None
-                };
+                let (sc, type_params) = p.parse_super_class()?;
 
                 if super_class.is_none() {
                     super_class = Some(sc);
-                    if let Some(tp) = type_params {
-                        super_type_params = Some(tp);
+                    if type_params.is_some() {
+                        super_type_params = type_params;
                     }
                 }
             }
@@ -187,6 +174,26 @@ impl<'a, I: Tokens> Parser<I> {
                 },
             ))
         })
+    }
+
+    fn parse_super_class(&mut self) -> PResult<(Box<Expr>, Option<TsTypeParamInstantiation>)> {
+        let super_class = self.parse_lhs_expr()?;
+        match *super_class {
+            Expr::TsInstantiation(TsExprWithTypeArgs {
+                expr, type_args, ..
+            }) => Ok((expr, type_args)),
+            _ => {
+                // We still need to parse TS type arguments,
+                // because in some cases "super class" returned by `parse_lhs_expr`
+                // may not include `TsExprWithTypeArgs`
+                // but it's a super class with type params, for example, in JSX.
+                if self.syntax().typescript() && is!(self, '<') {
+                    Ok((super_class, self.parse_ts_type_args().map(Some)?))
+                } else {
+                    Ok((super_class, None))
+                }
+            }
+        }
     }
 
     pub(super) fn parse_decorators(&mut self, allow_export: bool) -> PResult<Vec<Decorator>> {

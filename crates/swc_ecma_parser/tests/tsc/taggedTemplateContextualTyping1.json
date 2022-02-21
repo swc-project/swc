@@ -180,7 +180,8 @@
               },
               "value": "x",
               "optional": false
-            }
+            },
+            "typeArguments": null
           }
         }
       }

@@ -7,8 +7,5 @@ Cls.y = "ok";
 export default Cls;
 class C {
 }
-export { C as default };
 const x = 12;
-export { x as default }; /**
- * @typedef {string | number} default
- */ 
+export { C as default, x as default };

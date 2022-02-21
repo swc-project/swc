@@ -32,7 +32,7 @@ var SomeClass = function() {
         {
             key: "method",
             value: function() {
-                for(var ref, c = !1; c;);
+                var ref;
                 "numberVariant" === this.state.type && this.state.data, null === (ref = this.state) || void 0 === ref || ref.data;
             }
         }
