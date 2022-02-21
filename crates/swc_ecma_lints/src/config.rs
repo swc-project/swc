@@ -4,13 +4,10 @@ use serde::{Deserialize, Serialize};
 
 #[cfg(feature = "non_critical_lints")]
 use crate::rules::non_critical_lints::{
-    dot_notation::DotNotationConfig, eqeqeq::EqeqeqConfig, no_console::NoConsoleConfig,
-    no_restricted_syntax::NoRestrictedSyntaxConfig, no_use_before_define::NoUseBeforeDefineConfig,
-    prefer_regex_literals::PreferRegexLiteralsConfig, quotes::QuotesConfig, radix::RadixConfig,
     dot_notation::DotNotationConfig, eqeqeq::EqeqeqConfig, no_bitwise::NoBitwiseConfig,
     no_console::NoConsoleConfig, no_restricted_syntax::NoRestrictedSyntaxConfig,
     no_use_before_define::NoUseBeforeDefineConfig,
-    prefer_regex_literals::PreferRegexLiteralsConfig, quotes::QuotesConfig,
+    prefer_regex_literals::PreferRegexLiteralsConfig, quotes::QuotesConfig, radix::RadixConfig,
 };
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
@@ -120,6 +117,8 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default)]
     pub radix: RuleConfig<RadixConfig>,
+
+    #[cfg(feature = "non_critical_lints")]
     #[serde(default, alias = "noBitwise")]
     pub no_bitwise: RuleConfig<NoBitwiseConfig>,
 }

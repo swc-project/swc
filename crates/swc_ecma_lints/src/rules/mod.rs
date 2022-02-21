@@ -105,6 +105,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         ));
 
         rules.extend(radix::radix(program, top_level_ctxt, &lint_config.radix));
+
         rules.extend(no_bitwise::no_bitwise(&lint_config.no_bitwise));
     }
 
