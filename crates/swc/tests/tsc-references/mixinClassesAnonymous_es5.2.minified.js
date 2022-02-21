@@ -99,7 +99,8 @@ function Tagged(superClass1) {
     }(superClass1);
     return C;
 }
-var _class, Thing1 = Tagged(Derived), Thing2 = Tagged(((_class = function(superClass) {
+Tagged(Derived);
+var _class, Thing2 = Tagged(((_class = function(superClass) {
     "use strict";
     _inherits(_class, superClass);
     var _super = _createSuper(_class);
