@@ -112,3 +112,9 @@ error: Invalid radix parameter, must be an integer between 2 and 36
 46 | parseInt("12", ("abc"));
    | ^^^^^^^^^^^^^^^^^^^^^^^
 
+error: Invalid radix parameter, must be an integer between 2 and 36
+  
+   |
+52 | parseInt("12", 2.4);
+   | ^^^^^^^^^^^^^^^^^^^
+
