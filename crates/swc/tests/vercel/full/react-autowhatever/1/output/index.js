@@ -64,7 +64,7 @@ var b = function(l) {
             }
         }), a && i(b, a);
     }(b, l);
-    var c, f, j, m, n, o = (m = b, n = function() {
+    var m, n, c, f, j, o = (m = b, n = function() {
         if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
