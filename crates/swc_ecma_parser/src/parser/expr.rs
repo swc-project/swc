@@ -576,8 +576,8 @@ impl<'a, I: Tokens> Parser<I> {
         } else {
             None
         };
-        let obj = if type_args.is_some() {
-            Box::new(Expr::TsInstantiation(TsExprWithTypeArgs {
+        let obj = if let Some(type_args) = type_args {
+            Box::new(Expr::TsInstantiation(TsInstantiation {
                 expr: obj,
                 type_args,
                 span: span!(self, start),
@@ -1189,8 +1189,8 @@ impl<'a, I: Tokens> Parser<I> {
                             Expr::Member(expr)
                         };
 
-                        if type_args.is_some() {
-                            Expr::TsInstantiation(TsExprWithTypeArgs {
+                        if let Some(type_args) = type_args {
+                            Expr::TsInstantiation(TsInstantiation {
                                 expr: Box::new(expr),
                                 type_args,
                                 span: span!(self, start),
@@ -1328,8 +1328,8 @@ impl<'a, I: Tokens> Parser<I> {
                         } else {
                             Expr::Member(expr)
                         };
-                        if type_args.is_some() {
-                            Expr::TsInstantiation(TsExprWithTypeArgs {
+                        if let Some(type_args) = type_args {
+                            Expr::TsInstantiation(TsInstantiation {
                                 expr: Box::new(expr),
                                 type_args,
                                 span: span!(self, start),
@@ -1345,8 +1345,8 @@ impl<'a, I: Tokens> Parser<I> {
 
         match obj {
             Callee::Expr(expr) => {
-                let expr = if type_args.is_some() {
-                    Box::new(Expr::TsInstantiation(TsExprWithTypeArgs {
+                let expr = if let Some(type_args) = type_args {
+                    Box::new(Expr::TsInstantiation(TsInstantiation {
                         expr,
                         type_args,
                         span: span!(self, start),
