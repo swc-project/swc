@@ -1220,17 +1220,22 @@ impl<'a, I: Tokens> Parser<I> {
 
         if (question_dot_token.is_some()
             && is!(self, '.')
-            && peeked_is!(self, '(')
+            && (peeked_is!(self, '(') || (self.syntax().typescript() && peeked_is!(self, '<')))
             && eat!(self, '.'))
             || (!no_call && (is!(self, '(')))
         {
+            let type_args = if self.syntax().typescript() && is!(self, '<') {
+                self.parse_ts_type_args().map(Some)?
+            } else {
+                None
+            };
             let args = self.parse_args(obj.is_import())?;
             return Ok((
                 Box::new(wrap!(Expr::Call(CallExpr {
                     span: span!(self, start),
                     callee: obj,
                     args,
-                    type_args: None,
+                    type_args,
                 }))),
                 true,
             ));
