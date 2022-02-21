@@ -3280,7 +3280,7 @@
             }
             return listenerWrapper.bind(null, domEventName, eventSystemFlags, targetContainer);
         }(targetContainer2, domEventName3, eventSystemFlags2), isPassiveListener = void 0;
-        (passiveBrowserEventsSupported && ("touchstart" === domEventName3 || "touchmove" === domEventName3 || "wheel" === domEventName3) && (isPassiveListener = !0), isCapturePhaseListener) ? void 0 !== isPassiveListener ? (target = targetContainer2, eventType = domEventName3, listener = listener4, passive = isPassiveListener, target.addEventListener(eventType, listener, {
+        passiveBrowserEventsSupported && ("touchstart" === domEventName3 || "touchmove" === domEventName3 || "wheel" === domEventName3) && (isPassiveListener = !0), isCapturePhaseListener ? void 0 !== isPassiveListener ? (target = targetContainer2, eventType = domEventName3, listener = listener4, passive = isPassiveListener, target.addEventListener(eventType, listener, {
             capture: !0,
             passive: passive
         })) : (target2 = targetContainer2, eventType1 = domEventName3, listener1 = listener4, target2.addEventListener(eventType1, listener1, !0)) : void 0 !== isPassiveListener ? (target3 = targetContainer2, eventType2 = domEventName3, listener2 = listener4, passive1 = isPassiveListener, target3.addEventListener(eventType2, listener2, {
@@ -5208,9 +5208,9 @@
     function tryHydrate(fiber, nextInstance) {
         switch(fiber.tag){
             case 5:
-                var type = fiber.type;
+                var instance, type, type6 = fiber.type;
                 fiber.pendingProps;
-                var instance, type6, instance5 = (instance = nextInstance, type6 = type, 1 !== instance.nodeType || type6.toLowerCase() !== instance.nodeName.toLowerCase() ? null : instance);
+                var instance5 = (instance = nextInstance, type = type6, 1 !== instance.nodeType || type.toLowerCase() !== instance.nodeName.toLowerCase() ? null : instance);
                 if (null !== instance5) return fiber.stateNode = instance5, !0;
                 return !1;
             case 6:
@@ -9462,9 +9462,9 @@
             };
         })(children1, container, null, key1);
     }
-    if (("function" != typeof Map || null == Map.prototype || "function" != typeof Map.prototype.forEach || "function" != typeof Set || null == Set.prototype || "function" != typeof Set.prototype.clear || "function" != typeof Set.prototype.forEach) && error1("React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"), !function(impl) {
+    if (("function" != typeof Map || null == Map.prototype || "function" != typeof Map.prototype.forEach || "function" != typeof Set || null == Set.prototype || "function" != typeof Set.prototype.clear || "function" != typeof Set.prototype.forEach) && error1("React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"), (function(impl) {
         restoreImpl = impl;
-    }(function(domElement, tag, props16) {
+    })(function(domElement, tag, props16) {
         var element, props14, node, element2, props15, value;
         switch(tag){
             case "input":
@@ -9490,9 +9490,9 @@
                 element2 = domElement, null != (value = (props15 = props16).value) && updateOptions(element2, !!props15.multiple, value, !1);
                 return;
         }
-    }), !function(_batchedUpdatesImpl, _discreteUpdatesImpl, _flushDiscreteUpdatesImpl, _batchedEventUpdatesImpl) {
+    }), (function(_batchedUpdatesImpl, _discreteUpdatesImpl, _flushDiscreteUpdatesImpl, _batchedEventUpdatesImpl) {
         batchedUpdatesImpl = _batchedUpdatesImpl, discreteUpdatesImpl = _discreteUpdatesImpl, flushDiscreteUpdatesImpl = _flushDiscreteUpdatesImpl, batchedEventUpdatesImpl = _batchedEventUpdatesImpl;
-    }(batchedUpdates$1, function(fn, a, b, c, d) {
+    })(batchedUpdates$1, function(fn, a, b, c, d) {
         var prevExecutionContext = executionContext;
         executionContext |= 4;
         try {

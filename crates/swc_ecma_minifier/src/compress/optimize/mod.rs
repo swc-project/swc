@@ -40,7 +40,6 @@ mod hoist_props;
 mod if_return;
 mod iife;
 mod inline;
-mod join_vars;
 mod loops;
 mod ops;
 mod sequences;
@@ -332,12 +331,6 @@ where
         }
 
         self.merge_similar_ifs(stmts);
-
-        if cfg!(debug_assertions) {
-            stmts.visit_with(&mut AssertValid);
-        }
-
-        self.join_vars(stmts);
 
         if cfg!(debug_assertions) {
             stmts.visit_with(&mut AssertValid);

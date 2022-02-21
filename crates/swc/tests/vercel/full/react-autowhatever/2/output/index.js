@@ -60,7 +60,7 @@ var a = function(k) {
             }
         }), a && h(b, a);
     }(a, k);
-    var b, e, i, l, m, n = (l = a, m = function() {
+    var l, m, b, e, i, n = (l = a, m = function() {
         if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;

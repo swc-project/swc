@@ -6384,7 +6384,7 @@
                         };
                     }
                     function _decodeFromBoundingBox(box2) {
-                        var line2, result2, ctx = _canvas.ctx.overlay;
+                        var line2, result2, box1, line1, ctx = _canvas.ctx.overlay;
                         config.debug.drawBoundingBox && ctx && image_debug.a.drawPath(box2, {
                             x: 0,
                             y: 1
@@ -6392,7 +6392,7 @@
                             color: "blue",
                             lineWidth: 2
                         });
-                        var box1, line1, lineLength = Math.sqrt(Math.pow(Math.abs((line1 = line2 = [
+                        var lineLength = Math.sqrt(Math.pow(Math.abs((line1 = line2 = [
                             {
                                 x: ((box1 = box2)[1][0] - box1[0][0]) / 2 + box1[0][0],
                                 y: (box1[1][1] - box1[0][1]) / 2 + box1[0][1]
