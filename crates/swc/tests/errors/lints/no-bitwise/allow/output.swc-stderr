@@ -1,0 +1,6 @@
+error: Unexpected use of '&'
+ 
+  |
+1 | a & b;
+  | ^^^^^
+
