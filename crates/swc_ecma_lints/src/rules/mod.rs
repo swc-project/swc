@@ -18,6 +18,7 @@ pub(crate) mod non_critical_lints {
     pub mod dot_notation;
     pub mod eqeqeq;
     pub mod no_alert;
+    pub mod no_bitwise;
     pub mod no_console;
     pub mod no_debugger;
     pub mod no_empty_pattern;
@@ -104,6 +105,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         ));
 
         rules.extend(radix::radix(program, top_level_ctxt, &lint_config.radix));
+        rules.extend(no_bitwise::no_bitwise(&lint_config.no_bitwise));
     }
 
     rules

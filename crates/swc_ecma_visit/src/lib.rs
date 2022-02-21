@@ -663,6 +663,7 @@ define!({
         TsConstAssertion(TsConstAssertion),
         TsNonNull(TsNonNullExpr),
         TsAs(TsAsExpr),
+        TsInstantiation(TsExprWithTypeArgs),
         PrivateName(PrivateName),
         OptChain(OptChainExpr),
         Invalid(Invalid),
@@ -1570,6 +1571,7 @@ define!({
     pub struct TsTypeQuery {
         pub span: Span,
         pub expr_name: TsTypeQueryExpr,
+        pub type_args: Option<TsTypeParamInstantiation>,
     }
     pub enum TsTypeQueryExpr {
         TsEntityName(TsEntityName),
@@ -1695,7 +1697,7 @@ define!({
     }
     pub struct TsExprWithTypeArgs {
         pub span: Span,
-        pub expr: TsEntityName,
+        pub expr: Box<Expr>,
         pub type_args: Option<TsTypeParamInstantiation>,
     }
     pub struct TsTypeAliasDecl {

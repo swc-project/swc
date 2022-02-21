@@ -4795,7 +4795,8 @@
                   },
                   "value": "f",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           }
@@ -4834,7 +4835,8 @@
             },
             "value": "f",
             "optional": false
-          }
+          },
+          "typeArguments": null
         }
       }
     },

@@ -335,6 +335,7 @@ impl CaseHandler<'_> {
             | Expr::TsConstAssertion(..)
             | Expr::TsNonNull(..)
             | Expr::TsAs(..)
+            | Expr::TsInstantiation(..)
             | Expr::PrivateName(..)
             | Expr::Invalid(..) => e,
 

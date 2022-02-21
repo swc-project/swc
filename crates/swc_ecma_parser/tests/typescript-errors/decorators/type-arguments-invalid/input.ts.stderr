@@ -1,6 +1,0 @@
-error: Expected '(', got 'class'
- --> $DIR/tests/typescript-errors/decorators/type-arguments-invalid/input.ts:2:1
-  |
-2 | class Test {}
-  | ^^^^^
-

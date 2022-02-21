@@ -550,7 +550,8 @@
                   },
                   "value": "E1",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },

@@ -1,9 +1,10 @@
 use swc_ecma_ast::IdentExt;
 
-const CHARS: &[u8] = b"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$_0123456789";
+pub(crate) static BASE54_DEFAULT_CHARS: &[u8; 64] =
+    b"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$_0123456789";
 
 /// Note: This returns `a` for 0.
-pub(crate) fn incr_base54(init: &mut usize) -> (usize, String) {
+pub(crate) fn incr_base54(init: &mut usize, chars: &[u8; 64]) -> (usize, String) {
     let mut n = *init;
 
     *init += 1;
@@ -16,10 +17,10 @@ pub(crate) fn incr_base54(init: &mut usize) -> (usize, String) {
     while n > 0 {
         n -= 1;
 
-        let c = CHARS[n % base] as char;
+        let c = chars[n % base] as char;
 
         if ret.is_empty() && c.is_digit(10) {
-            return incr_base54(init);
+            return incr_base54(init, chars);
         }
 
         ret.push(c);
@@ -30,7 +31,7 @@ pub(crate) fn incr_base54(init: &mut usize) -> (usize, String) {
 
     if ret.is_reserved() || ret.is_reserved_in_strict_bind() || ret.is_reserved_in_strict_mode(true)
     {
-        return incr_base54(init);
+        return incr_base54(init, chars);
     }
 
     (*init - 1, ret)
@@ -39,6 +40,7 @@ pub(crate) fn incr_base54(init: &mut usize) -> (usize, String) {
 #[cfg(test)]
 mod tests {
     use super::incr_base54;
+    use crate::util::base54::BASE54_DEFAULT_CHARS;
     struct Tester {
         n: usize,
     }
@@ -49,7 +51,7 @@ mod tests {
         }
 
         fn gen(&mut self, expected: &str) {
-            let generated = incr_base54(&mut self.n).1;
+            let generated = incr_base54(&mut self.n, BASE54_DEFAULT_CHARS).1;
             assert_eq!(generated, expected);
         }
     }

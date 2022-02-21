@@ -12,7 +12,7 @@ foo3(), (function(x) {
     var obj;
     void 0 === x || (obj = x) && "undefined" != typeof Symbol && obj.constructor === Symbol;
 })(1);
-var C = function() {
+var M, e1, C = function() {
     "use strict";
     _classCallCheck(this, C);
 };
@@ -27,7 +27,7 @@ function m1() {
     };
     M1.C = C1;
 }(M || (M = {})), (m1 || (m1 = {})).y = 2;
-var M, e1, c1 = function(x) {
+var c1 = function(x) {
     "use strict";
     _classCallCheck(this, c1);
 };

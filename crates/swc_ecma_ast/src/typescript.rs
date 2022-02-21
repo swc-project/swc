@@ -486,6 +486,8 @@ pub enum TsThisTypeOrIdent {
 pub struct TsTypeQuery {
     pub span: Span,
     pub expr_name: TsTypeQueryExpr,
+    #[serde(default, rename = "typeArguments")]
+    pub type_args: Option<TsTypeParamInstantiation>,
 }
 
 #[ast_node]
@@ -808,7 +810,7 @@ pub struct TsInterfaceBody {
 pub struct TsExprWithTypeArgs {
     pub span: Span,
     #[serde(rename = "expression")]
-    pub expr: TsEntityName,
+    pub expr: Box<Expr>,
     #[serde(default, rename = "typeArguments")]
     pub type_args: Option<TsTypeParamInstantiation>,
 }

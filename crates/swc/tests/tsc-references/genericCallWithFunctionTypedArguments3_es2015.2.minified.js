@@ -1,3 +1,3 @@
-var b;
+var a;
 function foo4(cb) {}
-foo4(void 0), foo4(b);
+foo4(a), foo4(void 0);

@@ -5822,7 +5822,8 @@
                         },
                         "value": "eventName",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   }
                 },

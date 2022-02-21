@@ -1496,7 +1496,8 @@
                         },
                         "value": "A",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   }
                 }

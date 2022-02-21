@@ -146,7 +146,8 @@
                       },
                       "value": "A3",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 }
               }

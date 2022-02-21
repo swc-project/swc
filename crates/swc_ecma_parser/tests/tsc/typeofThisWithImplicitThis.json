@@ -96,7 +96,8 @@
                           "value": "no",
                           "optional": false
                         }
-                      }
+                      },
+                      "typeArguments": null
                     }
                   }
                 },

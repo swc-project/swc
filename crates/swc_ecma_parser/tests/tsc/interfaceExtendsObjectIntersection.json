@@ -2569,7 +2569,8 @@
           },
           "value": "fx",
           "optional": false
-        }
+        },
+        "typeArguments": null
       }
     },
     {
@@ -2607,7 +2608,8 @@
           },
           "value": "CX",
           "optional": false
-        }
+        },
+        "typeArguments": null
       }
     },
     {
@@ -2645,7 +2647,8 @@
           },
           "value": "EX",
           "optional": false
-        }
+        },
+        "typeArguments": null
       }
     },
     {
@@ -2683,7 +2686,8 @@
           },
           "value": "NX",
           "optional": false
-        }
+        },
+        "typeArguments": null
       }
     },
     {

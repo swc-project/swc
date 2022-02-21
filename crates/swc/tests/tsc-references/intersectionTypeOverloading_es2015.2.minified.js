@@ -1,2 +1,1 @@
-var gf;
-(void 0)("abc"), gf("abc");
+(void 0)("abc"), (void 0)("abc");

@@ -1,0 +1,77 @@
+.class1 {
+    margin: 20px;
+}
+
+.class2 {
+    margin: 20px 21px 22px 23px;
+}
+
+/* 4 -> 3 */
+.class4 {
+    margin: 20px 21px 22px 21px;
+}
+
+/* 4 -> 2 */
+.class5 {
+    margin: 20px 21px 20px 21px;
+}
+
+/* 4 -> 1 */
+.class6 {
+    margin: 20px 20px 20px 20px;
+}
+
+/* 3 -> 2 */
+.class7 {
+    margin: 20px 21px 20px;
+}
+
+/* 3 -> 1 */
+.class8 {
+    margin: 20px 20px 20px;
+}
+
+/* 2 -> 1 */
+.class10 {
+    margin: 20px 20px;
+}
+
+.class11 {
+    margin: 20px 20px 21px;
+}
+
+.class12 {
+    margin: var(--margin);
+}
+
+.class13 {
+    margin: 20px var(--margin);
+}
+
+.class14 {
+    margin: 20px 20px var(--margin);
+}
+
+.class15 {
+    margin: 20px 20px 20px var(--margin);
+}
+
+.class16 {
+    margin: var(--margin);
+}
+
+.class17 {
+    margin: var(--margin) var(--margin);
+}
+
+.class18 {
+    margin: var(--margin) var(--margin) var(--margin) var(--margin);
+}
+
+.class19 {
+    MARGIN: 20PX 20pX 20Px 20px;
+}
+
+.class20 {
+    margin: 20px 3em 20px 3em;
+}

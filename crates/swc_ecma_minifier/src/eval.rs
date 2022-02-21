@@ -224,6 +224,7 @@ impl Evaluator {
                 &serde_json::from_str("{}").unwrap(),
                 self.marks,
                 &data,
+                true,
                 false,
             ));
         }

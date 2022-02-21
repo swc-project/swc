@@ -517,7 +517,8 @@
                       },
                       "value": "globalThis",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 },
                 "indexType": {
@@ -614,7 +615,8 @@
                       },
                       "value": "globalThis",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 },
                 "indexType": {
@@ -711,7 +713,8 @@
                       },
                       "value": "globalThis",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 },
                 "indexType": {
@@ -801,7 +804,8 @@
                     },
                     "value": "globalThis",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             }

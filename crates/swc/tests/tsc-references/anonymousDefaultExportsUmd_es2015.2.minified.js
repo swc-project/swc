@@ -1,4 +1,4 @@
 class _class {
 }
-export { _class as default };
 export default function() {};
+export { _class as default };

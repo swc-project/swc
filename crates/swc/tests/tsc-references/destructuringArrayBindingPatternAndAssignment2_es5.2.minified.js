@@ -64,5 +64,5 @@ var ref8 = _slicedToArray(_toConsumableArray(temp), 2);
 ref8[0], ref8[1];
 var ref9 = _slicedToArray({
     2: !0
-}, 3);
+}, 3); // Error
 ref9[0], ref9[1], ref9[2];

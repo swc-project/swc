@@ -255,7 +255,8 @@
                   },
                   "value": "M",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -1283,7 +1284,8 @@
                     "value": "Point",
                     "optional": false
                   }
-                }
+                },
+                "typeArguments": null
               }
             }
           },
