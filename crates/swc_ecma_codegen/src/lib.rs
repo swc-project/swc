@@ -3160,7 +3160,6 @@ fn escape_with_source(
         Lazy::new(|| regex::Regex::new(r#"(?i)\\[u]"#).unwrap());
 
     if span.is_dummy() {
-        println!("dummy");
         return escape_without_source(s, target, single_quote.unwrap_or(false), false);
     }
 
