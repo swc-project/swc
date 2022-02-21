@@ -21,9 +21,9 @@ pub use self::{
     expr::{
         ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BlockStmtOrExpr, CallExpr, Callee,
         ClassExpr, CondExpr, Expr, ExprOrSpread, FnExpr, Import, MemberExpr, MemberProp,
-        MetaPropExpr, MetaPropKind, NewExpr, ObjectLit, OptChainExpr, ParenExpr, PatOrExpr,
-        PropOrSpread, SeqExpr, SpreadElement, Super, SuperProp, SuperPropExpr, TaggedTpl, ThisExpr,
-        Tpl, TplElement, UnaryExpr, UpdateExpr, YieldExpr,
+        MetaPropExpr, MetaPropKind, NewExpr, ObjectLit, OptCall, OptChainBase, OptChainExpr,
+        ParenExpr, PatOrExpr, PropOrSpread, SeqExpr, SpreadElement, Super, SuperProp,
+        SuperPropExpr, TaggedTpl, ThisExpr, Tpl, TplElement, UnaryExpr, UpdateExpr, YieldExpr,
     },
     function::{Function, Param, ParamOrTsParamProp},
     ident::{BindingIdent, Id, Ident, IdentExt, PrivateName},

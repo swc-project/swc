@@ -281,8 +281,8 @@ where
             _ => return,
         };
 
-        match &mut *opt.expr {
-            Expr::Member(MemberExpr { span, obj, .. }) => {
+        match &mut opt.base {
+            OptChainBase::Member(MemberExpr { span, obj, .. }) => {
                 //
                 if is_pure_undefined_or_null(obj) {
                     self.changed = true;
@@ -295,11 +295,7 @@ where
                 }
             }
 
-            Expr::Call(CallExpr {
-                span,
-                callee: Callee::Expr(callee),
-                ..
-            }) => {
+            OptChainBase::Call(OptCall { span, callee, .. }) => {
                 if is_pure_undefined_or_null(callee) {
                     self.changed = true;
                     tracing::debug!(
@@ -310,8 +306,6 @@ where
                     *e = *undefined(*span);
                 }
             }
-
-            _ => {}
         }
     }
 }

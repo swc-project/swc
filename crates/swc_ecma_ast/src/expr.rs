@@ -1013,7 +1013,87 @@ impl Take for PatOrExpr {
 pub struct OptChainExpr {
     pub span: Span,
     pub question_dot_token: Span,
-    pub expr: Box<Expr>,
+    pub base: OptChainBase,
+}
+
+#[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub enum OptChainBase {
+    #[tag("MemberExpression")]
+    Member(MemberExpr),
+    #[tag("CallExpression")]
+    Call(OptCall),
+}
+
+#[ast_node("CallExpression")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub struct OptCall {
+    pub span: Span,
+
+    pub callee: Box<Expr>,
+
+    #[serde(default, rename = "arguments")]
+    pub args: Vec<ExprOrSpread>,
+
+    #[serde(default, rename = "typeArguments")]
+    pub type_args: Option<TsTypeParamInstantiation>,
+    // pub type_params: Option<TsTypeParamInstantiation>,
+}
+
+impl Take for OptChainBase {
+    fn dummy() -> Self {
+        OptChainBase::Member(Take::dummy())
+    }
+}
+
+impl From<OptChainBase> for Expr {
+    fn from(opt: OptChainBase) -> Self {
+        match opt {
+            OptChainBase::Call(OptCall {
+                span,
+                callee,
+                args,
+                type_args,
+            }) => Self::Call(CallExpr {
+                callee: Callee::Expr(callee),
+                args,
+                span,
+                type_args,
+            }),
+            OptChainBase::Member(member) => Self::Member(member),
+        }
+    }
+}
+
+impl Take for OptCall {
+    fn dummy() -> Self {
+        Self {
+            span: DUMMY_SP,
+            callee: Take::dummy(),
+            args: Vec::new(),
+            type_args: None,
+        }
+    }
+}
+
+impl From<OptCall> for CallExpr {
+    fn from(
+        OptCall {
+            span,
+            callee,
+            args,
+            type_args,
+        }: OptCall,
+    ) -> Self {
+        Self {
+            span,
+            callee: Callee::Expr(callee),
+            args,
+            type_args,
+        }
+    }
 }
 
 test_de!(

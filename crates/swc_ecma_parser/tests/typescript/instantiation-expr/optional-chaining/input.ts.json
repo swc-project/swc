@@ -46,7 +46,7 @@
               "end": 21,
               "ctxt": 0
             },
-            "expr": {
+            "base": {
               "type": "CallExpression",
               "span": {
                 "start": 11,
