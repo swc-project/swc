@@ -290,7 +290,8 @@
                 },
                 "value": "x",
                 "optional": false
-              }
+              },
+              "typeArguments": null
             }
           },
           "isStatic": false,
@@ -371,7 +372,8 @@
                 },
                 "value": "x",
                 "optional": false
-              }
+              },
+              "typeArguments": null
             }
           },
           "isStatic": false,
@@ -461,7 +463,8 @@
                 },
                 "value": "x",
                 "optional": false
-              }
+              },
+              "typeArguments": null
             }
           },
           "isStatic": false,

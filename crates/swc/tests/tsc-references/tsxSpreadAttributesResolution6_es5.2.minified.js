@@ -26,7 +26,7 @@ var React = require("react"), TextComponent = function(_Component) {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(TextComponent, _Component);
-    var Constructor, protoProps, staticProps, Derived, hasNativeReflectConstruct, _super = (Derived = TextComponent, hasNativeReflectConstruct = function() {
+    var Derived, hasNativeReflectConstruct, Constructor, protoProps, staticProps, _super = (Derived = TextComponent, hasNativeReflectConstruct = function() {
         if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;

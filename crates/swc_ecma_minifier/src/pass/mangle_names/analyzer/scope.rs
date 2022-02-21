@@ -2,7 +2,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashSet, util::take::Take};
 use swc_ecma_utils::Id;
 
-use crate::{pass::mangle_names::rename_map::RenameMap, util::base54::incr_base54};
+use crate::pass::{compute_char_freq::CharFreqInfo, mangle_names::rename_map::RenameMap};
 
 #[derive(Debug, Default)]
 pub(crate) struct Scope {
@@ -18,7 +18,7 @@ pub struct ScopeData {
     /// Usages in current scope.
     usages: AHashSet<Id>,
 
-    queue: Vec<Id>,
+    queue: Vec<(Id, u32)>,
 }
 
 impl Scope {
@@ -29,8 +29,10 @@ impl Scope {
 
         self.data.decls.insert(id.clone());
         {
-            if !self.data.queue.contains(id) {
-                self.data.queue.push(id.clone());
+            if let Some((_, cnt)) = self.data.queue.iter_mut().find(|(i, _)| *i == *id) {
+                *cnt += 1;
+            } else {
+                self.data.queue.push((id.clone(), 1));
             }
         }
     }
@@ -40,23 +42,31 @@ impl Scope {
             return;
         }
 
+        if let Some((_, cnt)) = self.data.queue.iter_mut().find(|(i, _)| *i == *id) {
+            *cnt += 1;
+        }
+
         self.data.usages.insert(id.clone());
     }
 
     pub(super) fn rename(
         &mut self,
+        f: &CharFreqInfo,
         to: &mut RenameMap,
         preserved: &AHashSet<Id>,
         preserved_symbols: &AHashSet<JsWord>,
     ) {
         let mut n = 0;
-        for id in self.data.queue.take() {
-            if preserved.contains(&id) {
+        let mut queue = self.data.queue.take();
+        queue.sort_by(|a, b| b.1.cmp(&a.1));
+
+        for (id, cnt) in queue {
+            if cnt == 0 || preserved.contains(&id) {
                 continue;
             }
 
             loop {
-                let (_, sym) = incr_base54(&mut n);
+                let (_, sym) = f.incr_base54(&mut n);
 
                 let sym: JsWord = sym.into();
 
@@ -66,13 +76,15 @@ impl Scope {
 
                 if self.can_rename(&id, &sym, to) {
                     to.insert(id.clone(), sym);
+                    self.data.decls.remove(&id);
+                    self.data.usages.remove(&id);
                     break;
                 }
             }
         }
 
         for child in self.children.iter_mut() {
-            child.rename(to, preserved, preserved_symbols);
+            child.rename(f, to, preserved, preserved_symbols);
         }
     }
 

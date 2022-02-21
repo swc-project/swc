@@ -13,7 +13,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use crate::{
     analyzer::{analyze, ProgramData},
     option::ManglePropertiesOptions,
-    util::base54::incr_base54,
+    util::base54::{incr_base54, BASE54_DEFAULT_CHARS},
 };
 
 pub static JS_ENVIRONMENT_PROPS: Lazy<AHashSet<JsWord>> = Lazy::new(|| {
@@ -86,7 +86,7 @@ impl ManglePropertiesState {
             if let Some(cached) = self.cache.get(name) {
                 Some(cached.clone())
             } else {
-                let sym = incr_base54(&mut self.n).1;
+                let sym = incr_base54(&mut self.n, BASE54_DEFAULT_CHARS).1;
 
                 let mangled_name: JsWord = sym.into();
                 self.cache.insert(name.clone(), mangled_name.clone());

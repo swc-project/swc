@@ -173,7 +173,8 @@
                         },
                         "value": "Derived",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   }
                 }
@@ -379,7 +380,8 @@
                         },
                         "value": "Derived",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   }
                 }

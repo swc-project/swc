@@ -857,7 +857,8 @@
                       },
                       "value": "AB",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   },
                   {
                     "type": "TsKeywordType",
@@ -943,7 +944,8 @@
                       },
                       "value": "BC",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 ]
               }

@@ -196,7 +196,7 @@
                           "end": 178,
                           "ctxt": 0
                         },
-                        "expr": {
+                        "base": {
                           "type": "MemberExpression",
                           "span": {
                             "start": 174,

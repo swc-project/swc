@@ -5,7 +5,7 @@ var Decl = function() {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
     }(this, Decl);
 };
-export { Decl as default };
 Entity();
 var z = new Entity();
 z.p1 + z.p2;
+export { Decl as default };

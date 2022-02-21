@@ -2019,12 +2019,12 @@ Elements.prototype = {
     "button" != el1.type && (propertySetters.type = function(node, value) {
         node.setAttribute("type", value);
     }), el1 = null;
-    var input = document.createElement("input");
+    var div, input = document.createElement("input");
     input.value = "t", input.type = "submit", "t" != input.value && (propertySetters.type = function(node, type) {
         var value = node.value;
         node.type = type, node.value = value;
     }), input = null;
-    var div, pollutesGetAttribute = ((div = document.createElement("div")).random = "attribute", "attribute" == div.getAttribute("random"));
+    var pollutesGetAttribute = ((div = document.createElement("div")).random = "attribute", "attribute" == div.getAttribute("random"));
     Element.implement({
         setProperty: function(name, value) {
             var setter = propertySetters[name.toLowerCase()];

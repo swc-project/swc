@@ -105,7 +105,8 @@
                 },
                 "value": "z",
                 "optional": false
-              }
+              },
+              "typeArguments": null
             }
           },
           "isStatic": false,
@@ -226,7 +227,8 @@
                   "value": "z",
                   "optional": false
                 }
-              }
+              },
+              "typeArguments": null
             }
           },
           "isStatic": false,
@@ -434,7 +436,8 @@
                 },
                 "value": "z",
                 "optional": false
-              }
+              },
+              "typeArguments": null
             }
           },
           "isStatic": false,
@@ -555,7 +558,8 @@
                   "value": "z",
                   "optional": false
                 }
-              }
+              },
+              "typeArguments": null
             }
           },
           "isStatic": false,

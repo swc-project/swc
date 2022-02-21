@@ -291,11 +291,20 @@ impl StartsWithAlphaNum for Expr {
             Expr::TsTypeAssertion(..) => false,
             Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
             | Expr::TsAs(TsAsExpr { ref expr, .. })
-            | Expr::TsConstAssertion(TsConstAssertion { ref expr, .. }) => {
+            | Expr::TsConstAssertion(TsConstAssertion { ref expr, .. })
+            | Expr::TsInstantiation(TsInstantiation { ref expr, .. }) => {
                 expr.starts_with_alpha_num()
             }
 
-            Expr::OptChain(ref e) => e.expr.starts_with_alpha_num(),
+            Expr::OptChain(OptChainExpr {
+                base: OptChainBase::Member(MemberExpr { obj: expr, .. }),
+                ..
+            }) => expr.starts_with_alpha_num(),
+
+            Expr::OptChain(OptChainExpr {
+                base: OptChainBase::Call(OptCall { callee, .. }),
+                ..
+            }) => callee.starts_with_alpha_num(),
 
             Expr::Invalid(..) => true,
         }

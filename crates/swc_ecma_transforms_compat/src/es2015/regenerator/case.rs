@@ -335,13 +335,11 @@ impl CaseHandler<'_> {
             | Expr::TsConstAssertion(..)
             | Expr::TsNonNull(..)
             | Expr::TsAs(..)
+            | Expr::TsInstantiation(..)
             | Expr::PrivateName(..)
             | Expr::Invalid(..) => e,
 
-            Expr::OptChain(e) => Expr::OptChain(OptChainExpr {
-                expr: e.expr.map(|e| self.explode_expr(e, false)),
-                ..e
-            }),
+            Expr::OptChain(..) => unimplemented!("regenerator: optional chain in generator"),
 
             Expr::Await(..) => unimplemented!("regenerator: await in generator"),
 

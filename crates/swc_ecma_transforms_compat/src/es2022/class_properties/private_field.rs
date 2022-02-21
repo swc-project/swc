@@ -9,7 +9,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    alias_ident_for, alias_if_required, prepend, quote_ident, ExprFactory, HANDLER,
+    alias_ident_for, alias_if_required, prepend, quote_ident, undefined, ExprFactory, HANDLER,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
@@ -478,9 +478,85 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 }
             }
 
+            Expr::OptChain(OptChainExpr {
+                base: OptChainBase::Call(call),
+                question_dot_token,
+                span,
+            }) if call.callee.is_member() => {
+                let mut callee = call.callee.take().member().unwrap();
+                callee.visit_mut_with(self);
+                call.args.visit_mut_with(self);
+
+                let (expr, this) = self.visit_mut_private_get(&mut callee, None);
+                if let Some(this) = this {
+                    let args = iter::once(this.as_arg()).chain(call.args.take()).collect();
+                    *e = Expr::Call(CallExpr {
+                        span: *span,
+                        callee: Callee::Expr(Box::new(Expr::OptChain(OptChainExpr {
+                            question_dot_token: *question_dot_token,
+                            span: *span,
+                            base: OptChainBase::Member(MemberExpr {
+                                obj: Box::new(expr),
+                                span: call.span,
+                                prop: MemberProp::Ident(quote_ident!("call")),
+                            }),
+                        }))),
+                        args,
+                        type_args: call.type_args.take(),
+                    });
+                } else {
+                    call.callee = Box::new(expr);
+                }
+            }
+
             Expr::Member(member_expr) => {
-                member_expr.visit_mut_with(self);
+                member_expr.visit_mut_children_with(self);
                 *e = self.visit_mut_private_get(member_expr, None).0;
+            }
+            Expr::OptChain(OptChainExpr {
+                base:
+                    OptChainBase::Member(
+                        member @ MemberExpr {
+                            prop: MemberProp::PrivateName(..),
+                            ..
+                        },
+                    ),
+                span,
+                ..
+            }) => {
+                member.visit_mut_children_with(self);
+                let (ident, aliased) = alias_if_required(&member.obj, "_ref");
+                if aliased {
+                    self.vars.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: ident.clone().into(),
+                        init: None,
+                        definite: false,
+                    });
+                }
+                let (expr, _) = self.visit_mut_private_get(member, None);
+
+                *e = Expr::Cond(CondExpr {
+                    span: *span,
+                    test: Box::new(Expr::Bin(BinExpr {
+                        span: DUMMY_SP,
+                        left: Box::new(Expr::Bin(BinExpr {
+                            span: DUMMY_SP,
+                            left: Box::new(ident.clone().into()),
+                            op: op!("==="),
+                            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                        })),
+                        op: op!("||"),
+                        right: Box::new(Expr::Bin(BinExpr {
+                            span: DUMMY_SP,
+                            left: Box::new(ident.into()),
+                            op: op!("==="),
+                            right: undefined(DUMMY_SP),
+                        })),
+                    })),
+                    cons: undefined(DUMMY_SP),
+                    alt: Box::new(expr),
+                })
             }
             _ => e.visit_mut_children_with(self),
         };

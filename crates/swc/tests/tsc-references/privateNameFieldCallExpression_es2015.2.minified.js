@@ -4,8 +4,8 @@ function _classPrivateFieldGet(receiver, privateMap) {
 }
 class A {
     test() {
-        var _obj, ref, _ref;
-        _classPrivateFieldGet(this, _fieldFunc).call(this), null === (ref = (_obj = _classPrivateFieldGet(this, _fieldFunc)).call) || void 0 === ref || ref.call(_obj, this);
+        var ref, _ref;
+        _classPrivateFieldGet(this, _fieldFunc).call(this), null === (ref = _classPrivateFieldGet(this, _fieldFunc)) || void 0 === ref || ref.call(this);
         const func = _classPrivateFieldGet(this, _fieldFunc);
         func(), new (_classPrivateFieldGet(this, _fieldFunc))();
         const arr = [

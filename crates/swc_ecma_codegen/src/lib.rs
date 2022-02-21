@@ -636,6 +636,7 @@ where
             Expr::TsNonNull(ref n) => emit!(n),
             Expr::TsTypeAssertion(ref n) => emit!(n),
             Expr::TsConstAssertion(ref n) => emit!(n),
+            Expr::TsInstantiation(ref n) => emit!(n),
             Expr::OptChain(ref n) => emit!(n),
             Expr::Invalid(ref n) => emit!(n),
         }
@@ -649,8 +650,8 @@ where
     fn emit_opt_chain(&mut self, n: &OptChainExpr) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        match *n.expr {
-            Expr::Member(ref e) => {
+        match n.base {
+            OptChainBase::Member(ref e) => {
                 emit!(e.obj);
                 punct!("?.");
 
@@ -660,7 +661,7 @@ where
                     MemberProp::PrivateName(p) => emit!(p),
                 }
             }
-            Expr::Call(ref e) => {
+            OptChainBase::Call(ref e) => {
                 emit!(e.callee);
                 punct!("?.");
 
@@ -668,7 +669,6 @@ where
                 self.emit_expr_or_spreads(n.span(), &e.args, ListFormat::CallExpressionArguments)?;
                 punct!(")");
             }
-            _ => {}
         }
     }
 

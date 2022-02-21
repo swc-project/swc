@@ -2018,7 +2018,8 @@
                           },
                           "value": "readSegment",
                           "optional": false
-                        }
+                        },
+                        "typeArguments": null
                       }
                     ]
                   }

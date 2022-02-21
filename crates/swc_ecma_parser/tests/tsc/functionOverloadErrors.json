@@ -1821,7 +1821,8 @@
                 },
                 "value": "window",
                 "optional": false
-              }
+              },
+              "typeArguments": null
             },
             "default": null
           }

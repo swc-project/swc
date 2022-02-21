@@ -39,7 +39,7 @@
               "end": 6,
               "ctxt": 0
             },
-            "expr": {
+            "base": {
               "type": "MemberExpression",
               "span": {
                 "start": 4,

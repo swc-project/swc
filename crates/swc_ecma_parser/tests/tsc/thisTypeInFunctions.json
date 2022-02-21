@@ -9555,7 +9555,8 @@
                         },
                         "value": "Base1",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   }
                 }

@@ -1224,7 +1224,8 @@
                               },
                               "value": "MyTestClass",
                               "optional": false
-                            }
+                            },
+                            "typeArguments": null
                           }
                         }
                       },
@@ -1400,7 +1401,8 @@
                               },
                               "value": "MyTestClass",
                               "optional": false
-                            }
+                            },
+                            "typeArguments": null
                           }
                         }
                       },
@@ -1623,7 +1625,8 @@
                               },
                               "value": "MyTestClass",
                               "optional": false
-                            }
+                            },
+                            "typeArguments": null
                           }
                         }
                       },
@@ -1799,7 +1802,8 @@
                         },
                         "value": "MyTestClass",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   }
                 }
@@ -1908,7 +1912,8 @@
                               },
                               "value": "MyTestClass",
                               "optional": false
-                            }
+                            },
+                            "typeArguments": null
                           }
                         }
                       },
@@ -3469,7 +3474,8 @@
                               },
                               "value": "MyGenericTestClass",
                               "optional": false
-                            }
+                            },
+                            "typeArguments": null
                           }
                         }
                       },
@@ -3645,7 +3651,8 @@
                               },
                               "value": "MyGenericTestClass",
                               "optional": false
-                            }
+                            },
+                            "typeArguments": null
                           }
                         }
                       },
@@ -3868,7 +3875,8 @@
                               },
                               "value": "MyGenericTestClass",
                               "optional": false
-                            }
+                            },
+                            "typeArguments": null
                           }
                         }
                       },
@@ -4044,7 +4052,8 @@
                         },
                         "value": "MyGenericTestClass",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   }
                 }
@@ -4153,7 +4162,8 @@
                               },
                               "value": "MyGenericTestClass",
                               "optional": false
-                            }
+                            },
+                            "typeArguments": null
                           }
                         }
                       },
@@ -5088,7 +5098,8 @@
                               },
                               "value": "globalThis",
                               "optional": false
-                            }
+                            },
+                            "typeArguments": null
                           }
                         }
                       },
@@ -5200,7 +5211,8 @@
                               },
                               "value": "globalThis",
                               "optional": false
-                            }
+                            },
+                            "typeArguments": null
                           }
                         }
                       },
@@ -5361,7 +5373,8 @@
                   },
                   "value": "globalThis",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },

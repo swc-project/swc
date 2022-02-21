@@ -151,7 +151,8 @@
                               "value": "data",
                               "optional": false
                             }
-                          }
+                          },
+                          "typeArguments": null
                         }
                       }
                     },
@@ -407,7 +408,8 @@
                               "value": "data",
                               "optional": false
                             }
-                          }
+                          },
+                          "typeArguments": null
                         }
                       }
                     },
@@ -527,7 +529,8 @@
                               "value": "foo",
                               "optional": false
                             }
-                          }
+                          },
+                          "typeArguments": null
                         }
                       }
                     },
@@ -598,7 +601,8 @@
                             },
                             "value": "this",
                             "optional": false
-                          }
+                          },
+                          "typeArguments": null
                         }
                       }
                     },
@@ -712,7 +716,8 @@
                               "value": "this",
                               "optional": false
                             }
-                          }
+                          },
+                          "typeArguments": null
                         }
                       }
                     },
@@ -836,7 +841,8 @@
                           "value": "no",
                           "optional": false
                         }
-                      }
+                      },
+                      "typeArguments": null
                     }
                   }
                 },
@@ -1029,7 +1035,8 @@
                           "value": "no",
                           "optional": false
                         }
-                      }
+                      },
+                      "typeArguments": null
                     }
                   }
                 },
@@ -1241,7 +1248,8 @@
                           "value": "no",
                           "optional": false
                         }
-                      }
+                      },
+                      "typeArguments": null
                     }
                   }
                 },
@@ -1417,7 +1425,8 @@
                                 "value": "no",
                                 "optional": false
                               }
-                            }
+                            },
+                            "typeArguments": null
                           }
                         }
                       },
@@ -1599,7 +1608,8 @@
                                         "value": "no",
                                         "optional": false
                                       }
-                                    }
+                                    },
+                                    "typeArguments": null
                                   }
                                 }
                               },
@@ -1771,7 +1781,8 @@
                                         "value": "no",
                                         "optional": false
                                       }
-                                    }
+                                    },
+                                    "typeArguments": null
                                   }
                                 }
                               },
@@ -1909,7 +1920,8 @@
                                 "value": "no",
                                 "optional": false
                               }
-                            }
+                            },
+                            "typeArguments": null
                           }
                         }
                       },
@@ -2155,7 +2167,8 @@
                                     },
                                     "value": "this",
                                     "optional": false
-                                  }
+                                  },
+                                  "typeArguments": null
                                 }
                               }
                             },
@@ -2312,7 +2325,8 @@
                                     },
                                     "value": "this",
                                     "optional": false
-                                  }
+                                  },
+                                  "typeArguments": null
                                 }
                               }
                             },
@@ -2546,7 +2560,8 @@
                                       "value": "no",
                                       "optional": false
                                     }
-                                  }
+                                  },
+                                  "typeArguments": null
                                 }
                               }
                             },
@@ -2705,7 +2720,8 @@
                                       "value": "this",
                                       "optional": false
                                     }
-                                  }
+                                  },
+                                  "typeArguments": null
                                 }
                               }
                             },
@@ -3112,7 +3128,8 @@
                                 "value": "a",
                                 "optional": false
                               }
-                            }
+                            },
+                            "typeArguments": null
                           }
                         }
                       },
@@ -3250,7 +3267,8 @@
                                       "value": "a",
                                       "optional": false
                                     }
-                                  }
+                                  },
+                                  "typeArguments": null
                                 }
                               }
                             },
@@ -3360,7 +3378,8 @@
                                       "value": "b",
                                       "optional": false
                                     }
-                                  }
+                                  },
+                                  "typeArguments": null
                                 }
                               }
                             },
@@ -3529,7 +3548,8 @@
                                             "value": "b",
                                             "optional": false
                                           }
-                                        }
+                                        },
+                                        "typeArguments": null
                                       }
                                     }
                                   },
@@ -3835,7 +3855,8 @@
                                 "value": "this",
                                 "optional": false
                               }
-                            }
+                            },
+                            "typeArguments": null
                           }
                         }
                       },
@@ -4157,7 +4178,8 @@
                       },
                       "value": "this",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 }
               ]
@@ -4262,7 +4284,8 @@
                       },
                       "value": "this",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 }
               ]
@@ -4406,7 +4429,8 @@
                       },
                       "value": "this",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 }
               ]
@@ -4551,7 +4575,8 @@
                       },
                       "value": "this",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 }
               ]

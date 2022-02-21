@@ -1,4 +1,4 @@
-var i, b;
-(void 0).valueOf(), i.valueOf(), ({
+var b;
+(void 0).valueOf(), (void 0).valueOf(), ({
     valueOf: ()=>{}
 }).valueOf(), b.valueOf();

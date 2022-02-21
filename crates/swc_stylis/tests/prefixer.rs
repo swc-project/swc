@@ -2,6 +2,7 @@
 //!
 //! License is MIT, which is original license at the time of copying.
 //! Original test authors have copyright for their work.
+#![allow(clippy::needless_update)]
 
 use std::path::PathBuf;
 

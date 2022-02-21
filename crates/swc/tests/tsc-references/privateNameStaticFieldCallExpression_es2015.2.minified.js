@@ -4,8 +4,8 @@ function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor)
 }
 class A {
     test() {
-        var _obj, ref;
-        _classStaticPrivateFieldSpecGet(A, A, _fieldFunc).call(A), null === (ref = (_obj = _classStaticPrivateFieldSpecGet(A, A, _fieldFunc)).call) || void 0 === ref || ref.call(_obj, A);
+        var ref;
+        _classStaticPrivateFieldSpecGet(A, A, _fieldFunc).call(A), null === (ref = _classStaticPrivateFieldSpecGet(A, A, _fieldFunc)) || void 0 === ref || ref.call(A);
         const func = _classStaticPrivateFieldSpecGet(A, A, _fieldFunc);
         func(), new (_classStaticPrivateFieldSpecGet(A, A, _fieldFunc))();
         const arr = [

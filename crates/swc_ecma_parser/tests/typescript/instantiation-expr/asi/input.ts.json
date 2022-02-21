@@ -1,0 +1,274 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 69,
+    "end": 221,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 69,
+        "end": 95,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 75,
+            "end": 94,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 75,
+              "end": 77,
+              "ctxt": 0
+            },
+            "value": "x1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 80,
+              "end": 94,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 80,
+                "end": 81,
+                "ctxt": 0
+              },
+              "value": "f",
+              "optional": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "BooleanLiteral",
+                  "span": {
+                    "start": 89,
+                    "end": 93,
+                    "ctxt": 0
+                  },
+                  "value": true
+                }
+              }
+            ],
+            "typeArguments": {
+              "type": "TsTypeParameterInstantiation",
+              "span": {
+                "start": 81,
+                "end": 87,
+                "ctxt": 0
+              },
+              "params": [
+                {
+                  "type": "TsLiteralType",
+                  "span": {
+                    "start": 82,
+                    "end": 86,
+                    "ctxt": 0
+                  },
+                  "literal": {
+                    "type": "BooleanLiteral",
+                    "span": {
+                      "start": 82,
+                      "end": 86,
+                      "ctxt": 0
+                    },
+                    "value": true
+                  }
+                }
+              ]
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 132,
+        "end": 156,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 138,
+            "end": 155,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 138,
+              "end": 140,
+              "ctxt": 0
+            },
+            "value": "x2",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 143,
+              "end": 155,
+              "ctxt": 0
+            },
+            "operator": ">",
+            "left": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 143,
+                "end": 149,
+                "ctxt": 0
+              },
+              "operator": "<",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 143,
+                  "end": 144,
+                  "ctxt": 0
+                },
+                "value": "f",
+                "optional": false
+              },
+              "right": {
+                "type": "BooleanLiteral",
+                "span": {
+                  "start": 145,
+                  "end": 149,
+                  "ctxt": 0
+                },
+                "value": true
+              }
+            },
+            "right": {
+              "type": "BooleanLiteral",
+              "span": {
+                "start": 151,
+                "end": 155,
+                "ctxt": 0
+              },
+              "value": true
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 196,
+        "end": 215,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 202,
+            "end": 214,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 202,
+              "end": 204,
+              "ctxt": 0
+            },
+            "value": "x3",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "TsInstantiation",
+            "span": {
+              "start": 207,
+              "end": 214,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 207,
+                "end": 208,
+                "ctxt": 0
+              },
+              "value": "f",
+              "optional": false
+            },
+            "typeArguments": {
+              "type": "TsTypeParameterInstantiation",
+              "span": {
+                "start": 208,
+                "end": 214,
+                "ctxt": 0
+              },
+              "params": [
+                {
+                  "type": "TsLiteralType",
+                  "span": {
+                    "start": 209,
+                    "end": 213,
+                    "ctxt": 0
+                  },
+                  "literal": {
+                    "type": "BooleanLiteral",
+                    "span": {
+                      "start": 209,
+                      "end": 213,
+                      "ctxt": 0
+                    },
+                    "value": true
+                  }
+                }
+              ]
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 216,
+        "end": 221,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BooleanLiteral",
+        "span": {
+          "start": 216,
+          "end": 220,
+          "ctxt": 0
+        },
+        "value": true
+      }
+    }
+  ],
+  "interpreter": null
+}

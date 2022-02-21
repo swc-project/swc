@@ -770,7 +770,8 @@
                       },
                       "value": "f1",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   },
                   {
                     "type": "TsTypeQuery",
@@ -788,7 +789,8 @@
                       },
                       "value": "f2",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   },
                   {
                     "type": "TsTypeQuery",
@@ -806,7 +808,8 @@
                       },
                       "value": "f3",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   },
                   {
                     "type": "TsTypeQuery",
@@ -824,7 +827,8 @@
                       },
                       "value": "f4",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   },
                   {
                     "type": "TsTypeQuery",
@@ -842,7 +846,8 @@
                       },
                       "value": "f5",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   },
                   {
                     "type": "TsTypeQuery",
@@ -860,7 +865,8 @@
                       },
                       "value": "f6",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   },
                   {
                     "type": "TsTypeQuery",
@@ -878,7 +884,8 @@
                       },
                       "value": "f7",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 ]
               }

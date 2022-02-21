@@ -247,7 +247,8 @@
                         },
                         "value": "a",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   }
                 }
