@@ -559,6 +559,20 @@ fn test_escape_without_source() {
         )
     }
 
+    fn es2020_nonascii(src: &str, expected: &str) {
+        assert_eq!(
+            super::escape_without_source(src, EsVersion::Es2020, true, true),
+            expected
+        )
+    }
+
+    fn es5(src: &str, expected: &str) {
+        assert_eq!(
+            super::escape_without_source(src, EsVersion::Es5, true, true),
+            expected
+        )
+    }
+
     es2020("abcde", "abcde");
     es2020(
         "\x00\r\n\u{85}\u{2028}\u{2029};",
@@ -576,6 +590,13 @@ fn test_escape_without_source() {
     es2020("\u{1000}", "\u{1000}");
     es2020("\u{ff}", "\\xff");
     es2020("\u{10ffff}", "\u{10ffff}");
+
+    es2020_nonascii("\u{FEFF}abc", "\\uFEFFabc");
+    es2020_nonascii("\u{10ffff}", "\\u{10FFFF}");
+
+    es5("\u{FEFF}abc", "\\uFEFFabc");
+    es5("\u{10ffff}", "\\uDBFF\\uDFFF");
+    es5("\u{FFFF}", "\\uFFFF");
 }
 
 #[test]
