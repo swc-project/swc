@@ -35,6 +35,7 @@ pub(crate) fn pure_optimizer<'a, M>(
     options: &'a CompressOptions,
     marks: Marks,
     mode: &'a M,
+    enable_everything: bool,
     debug_infinite_loop: bool,
 ) -> impl 'a + VisitMut + Repeated
 where
@@ -45,6 +46,7 @@ where
         marks,
         ctx: Default::default(),
         changed: Default::default(),
+        enable_everything,
         mode,
         debug_infinite_loop,
     }
@@ -55,6 +57,8 @@ struct Pure<'a, M> {
     marks: Marks,
     ctx: Ctx,
     changed: bool,
+    enable_everything: bool,
+
     mode: &'a M,
 
     debug_infinite_loop: bool,
@@ -107,10 +111,12 @@ where
             stmts.visit_with(&mut AssertValid);
         }
 
-        self.join_vars(stmts);
+        if self.enable_everything {
+            self.join_vars(stmts);
 
-        if cfg!(debug_assertions) {
-            stmts.visit_with(&mut AssertValid);
+            if cfg!(debug_assertions) {
+                stmts.visit_with(&mut AssertValid);
+            }
         }
 
         stmts.retain(|s| !matches!(s.as_stmt(), Some(Stmt::Empty(..))));
@@ -138,6 +144,7 @@ where
                     marks: self.marks,
                     ctx: self.ctx,
                     changed: false,
+                    enable_everything: self.enable_everything,
                     mode: self.mode,
                     debug_infinite_loop: self.debug_infinite_loop,
                 };
@@ -157,6 +164,7 @@ where
                             ..self.ctx
                         },
                         changed: false,
+                        enable_everything: self.enable_everything,
                         mode: self.mode,
                         debug_infinite_loop: self.debug_infinite_loop,
                     };
