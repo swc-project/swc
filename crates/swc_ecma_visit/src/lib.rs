@@ -1812,7 +1812,6 @@ define!({
         pub expr: Box<Expr>,
         pub type_args: TsTypeParamInstantiation,
     }
-    
 });
 
 #[macro_export]
