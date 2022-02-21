@@ -64,3 +64,47 @@
     transform: rotate(1.57rad);
     transform: rotate(3.1416rad);
 }
+
+.class1 {
+    transform: rotate(0deg);
+}
+
+.class2 {
+    transform: skew(0deg, 0deg);
+}
+
+.class3 {
+    transform: skewX(0deg);
+}
+
+.class4 {
+    transform: skewY(0deg);
+}
+
+.class5 {
+    transform: rotate3d(10, 10, 10, 0deg);
+}
+
+.class6 {
+    transform: rotateX(0deg);
+}
+
+.class7 {
+    transform: rotateY(0deg);
+}
+
+.class8 {
+    transform: rotateZ(0deg);
+}
+
+.class9 {
+    transform: ROTATE(0deg);
+}
+
+.class10 {
+    transform: ROTATE(0DEG);
+}
+
+.class11 {
+    transform: rotate(0rad);
+}
