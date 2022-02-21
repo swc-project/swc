@@ -6,16 +6,28 @@ use swc_css_visit::{VisitMut, VisitMutWith};
 pub fn compress_angle() -> impl VisitMut {
     CompressAngle {
         in_transform_function: false,
+        in_keyframe_block: false,
     }
 }
 
 struct CompressAngle {
     in_transform_function: bool,
+    in_keyframe_block: bool,
 }
 
 impl CompressAngle {}
 
 impl VisitMut for CompressAngle {
+    fn visit_mut_keyframe_block(&mut self, keyframe_block: &mut KeyframeBlock) {
+        let old_in_block = self.in_keyframe_block;
+
+        self.in_keyframe_block = true;
+
+        keyframe_block.visit_mut_children_with(self);
+
+        self.in_keyframe_block = old_in_block;
+    }
+
     fn visit_mut_function(&mut self, function: &mut Function) {
         match &function.name {
             Ident { value, .. }
@@ -72,6 +84,10 @@ impl VisitMut for CompressAngle {
 
     fn visit_mut_angle(&mut self, angle: &mut Angle) {
         angle.visit_mut_children_with(self);
+
+        if self.in_keyframe_block {
+            return;
+        }
 
         let from = match &*angle.unit.value.to_lowercase() {
             "deg" => AngleType::Deg,

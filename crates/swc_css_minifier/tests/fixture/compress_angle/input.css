@@ -108,3 +108,9 @@
 .class11 {
     transform: rotate(0rad);
 }
+
+@keyframes spinner-border {
+    to {
+        transform: rotate(360deg);
+    }
+}
