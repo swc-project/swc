@@ -576,7 +576,7 @@ impl<'a, I: Tokens> Parser<I> {
         } else {
             None
         };
-        let obj = if type_args.is_some() {
+        let obj = if let Some(type_args) = type_args {
             Box::new(Expr::TsInstantiation(TsInstantiation {
                 expr: obj,
                 type_args,
@@ -1178,6 +1178,15 @@ impl<'a, I: Tokens> Parser<I> {
                             span,
                             obj,
                             prop: MemberProp::Computed(prop),
+                        });
+                        let expr = if let Some(type_args) = type_args {
+                            Expr::TsInstantiation(TsInstantiation {
+                                expr: Box::new(expr),
+                                type_args,
+                                span: span!(self, start),
+                            })
+                        } else {
+                            expr
                         };
                         let expr = if let Some(question_dot_token) = question_dot_token {
                             Expr::OptChain(OptChainExpr {
@@ -1321,6 +1330,11 @@ impl<'a, I: Tokens> Parser<I> {
                         let expr = MemberExpr { span, obj, prop };
                         let expr = if let Some(question_dot_token) = question_dot_token {
                             Expr::OptChain(OptChainExpr {
+                        let expr = Expr::Member(MemberExpr { span, obj, prop });
+                        let expr = if let Some(type_args) = type_args {
+                            Expr::TsInstantiation(TsInstantiation {
+                                expr: Box::new(expr),
+                                type_args,
                                 span: span!(self, start),
                                 question_dot_token,
                                 base: OptChainBase::Member(expr),
@@ -1345,8 +1359,8 @@ impl<'a, I: Tokens> Parser<I> {
 
         match obj {
             Callee::Expr(expr) => {
-                let expr = if type_args.is_some() {
-                    Box::new(Expr::TsInstantiation(TsExprWithTypeArgs {
+                let expr = if let Some(type_args) = type_args {
+                    Box::new(Expr::TsInstantiation(TsInstantiation {
                         expr,
                         type_args,
                         span: span!(self, start),
