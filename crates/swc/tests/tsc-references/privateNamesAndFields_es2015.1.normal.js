@@ -1,3 +1,12 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
+}
 function _classPrivateFieldSet(receiver, privateMap, value) {
     if (!privateMap.has(receiver)) {
         throw new TypeError("attempted to set private field on non-instance");
@@ -13,7 +22,7 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
 // @target: es6
 class A {
     constructor(){
-        _foo.set(this, {
+        _classPrivateFieldInit(this, _foo, {
             writable: true,
             value: void 0
         });
@@ -24,7 +33,7 @@ var _foo = new WeakMap();
 class B extends A {
     constructor(){
         super();
-        _foo1.set(this, {
+        _classPrivateFieldInit(this, _foo1, {
             writable: true,
             value: void 0
         });

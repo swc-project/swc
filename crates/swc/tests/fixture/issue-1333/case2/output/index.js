@@ -7,11 +7,20 @@ var _utils = require("../../utils");
 var _connection = require("./connection");
 var _serialization = require("./serialization");
 var _compression = require("./compression");
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classPrivateFieldGet(receiver, privateMap) {
     if (!privateMap.has(receiver)) {
         throw new TypeError("attempted to get private field on non-instance");
     }
     return privateMap.get(receiver).value;
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
 }
 function _classPrivateFieldSet(receiver, privateMap, value) {
     if (!privateMap.has(receiver)) {
@@ -333,59 +342,59 @@ class Shard extends _utils.Emitter {
      * @param {number} id The ID of this shard.
      */ constructor(manager, id){
         super();
-        /**
+        _classPrivateFieldInit(this, /**
      * The serialization handler.
      * @type {Serialization}
-     */ _serialization1.set(this, {
+     */ _serialization1, {
             writable: true,
             value: void 0
         });
-        /**
+        _classPrivateFieldInit(this, /**
      * The compression handler.
      * @type {Compression}
-     */ _compression1.set(this, {
+     */ _compression1, {
             writable: true,
             value: void 0
         });
-        /**
+        _classPrivateFieldInit(this, /**
      * The current sequence.
      * @type {number}
-     */ _seq.set(this, {
+     */ _seq, {
             writable: true,
             value: void 0
         });
-        /**
+        _classPrivateFieldInit(this, /**
      * The shard sequence when the websocket last closed.
      * @type {number}
-     */ _closingSeq.set(this, {
+     */ _closingSeq, {
             writable: true,
             value: void 0
         });
-        /**
+        _classPrivateFieldInit(this, /**
      * The rate-limit bucket.
      * @type {Bucket}
-     */ _bucket.set(this, {
+     */ _bucket, {
             writable: true,
             value: void 0
         });
-        /**
+        _classPrivateFieldInit(this, /**
      * The rate-limit bucket for presence updates.
      * @type {Bucket}
-     */ _presenceBucket.set(this, {
+     */ _presenceBucket, {
             writable: true,
             value: void 0
         });
-        /**
+        _classPrivateFieldInit(this, /**
      * The current connection.
      * @type {WebSocket}
-     */ _ws1.set(this, {
+     */ _ws1, {
             writable: true,
             value: void 0
         });
-        /**
+        _classPrivateFieldInit(this, /**
      * Packets that are waiting to be sent.
      * @type {DiscordPacket[]}
-     */ _queue.set(this, {
+     */ _queue, {
             writable: true,
             value: void 0
         });

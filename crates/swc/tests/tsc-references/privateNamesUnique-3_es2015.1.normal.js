@@ -1,3 +1,12 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
+}
 function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
     if (receiver !== classConstructor) {
         throw new TypeError("Private static access of wrong provenance");
@@ -7,7 +16,7 @@ function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor)
 // @target: es2015
 class A {
     constructor(){
-        _foo.set(this, {
+        _classPrivateFieldInit(this, _foo, {
             writable: true,
             value: 1
         });

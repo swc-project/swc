@@ -1,7 +1,20 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
+}
+function _classPrivateMethodInit(obj, privateSet) {
+    _checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
 }
 // @strict: true
 // @target: es6
@@ -19,11 +32,11 @@ function Field() {
     var A_Field_Field = function A_Field_Field() {
         "use strict";
         _classCallCheck(this, A_Field_Field);
-        _foo.set(this, {
+        _classPrivateFieldInit(this, _foo, {
             writable: true,
             value: "foo"
         });
-        _foo.set(this, {
+        _classPrivateFieldInit(this, _foo, {
             writable: true,
             value: "foo"
         });
@@ -34,39 +47,39 @@ function Field() {
     var A_Field_Method = function A_Field_Method() {
         "use strict";
         _classCallCheck(this, A_Field_Method);
-        _foo1.set(this, {
+        _classPrivateFieldInit(this, _foo1, {
             writable: true,
             value: "foo"
         });
-        _foo1.add(this);
+        _classPrivateMethodInit(this, _foo1);
     };
     var _foo1 = new WeakMap();
     var _foo2 = new WeakSet();
     var A_Field_Getter = function A_Field_Getter() {
         "use strict";
         _classCallCheck(this, A_Field_Getter);
-        _foo2.set(this, {
+        _classPrivateFieldInit(this, _foo2, {
             writable: true,
             value: "foo"
         });
-        _foo2.add(this);
+        _classPrivateMethodInit(this, _foo2);
     };
     var _foo2 = new WeakMap();
     var _foo3 = new WeakSet();
     var A_Field_Setter = function A_Field_Setter() {
         "use strict";
         _classCallCheck(this, A_Field_Setter);
-        _foo3.set(this, {
+        _classPrivateFieldInit(this, _foo3, {
             writable: true,
             value: "foo"
         });
-        _foo3.add(this);
+        _classPrivateMethodInit(this, _foo3);
     };
     var _foo3 = new WeakMap();
     var A_Field_StaticField = function A_Field_StaticField() {
         "use strict";
         _classCallCheck(this, A_Field_StaticField);
-        _foo4.set(this, {
+        _classPrivateFieldInit(this, _foo4, {
             writable: true,
             value: "foo"
         });
@@ -79,7 +92,7 @@ function Field() {
     var A_Field_StaticMethod = function A_Field_StaticMethod() {
         "use strict";
         _classCallCheck(this, A_Field_StaticMethod);
-        _foo5.set(this, {
+        _classPrivateFieldInit(this, _foo5, {
             writable: true,
             value: "foo"
         });
@@ -88,7 +101,7 @@ function Field() {
     var A_Field_StaticGetter = function A_Field_StaticGetter() {
         "use strict";
         _classCallCheck(this, A_Field_StaticGetter);
-        _foo6.set(this, {
+        _classPrivateFieldInit(this, _foo6, {
             writable: true,
             value: "foo"
         });
@@ -97,7 +110,7 @@ function Field() {
     var A_Field_StaticSetter = function A_Field_StaticSetter() {
         "use strict";
         _classCallCheck(this, A_Field_StaticSetter);
-        _foo7.set(this, {
+        _classPrivateFieldInit(this, _foo7, {
             writable: true,
             value: "foo"
         });
@@ -127,8 +140,8 @@ function Method() {
     var A_Method_Field = function A_Method_Field() {
         "use strict";
         _classCallCheck(this, A_Method_Field);
-        _foo.add(this);
-        _foo.set(this, {
+        _classPrivateMethodInit(this, _foo);
+        _classPrivateFieldInit(this, _foo, {
             writable: true,
             value: "foo"
         });
@@ -138,28 +151,28 @@ function Method() {
     var A_Method_Method = function A_Method_Method() {
         "use strict";
         _classCallCheck(this, A_Method_Method);
-        _foo8.add(this);
-        _foo8.add(this);
+        _classPrivateMethodInit(this, _foo8);
+        _classPrivateMethodInit(this, _foo8);
     };
     var _foo9 = new WeakSet(), _foo9 = new WeakSet();
     var A_Method_Getter = function A_Method_Getter() {
         "use strict";
         _classCallCheck(this, A_Method_Getter);
-        _foo9.add(this);
-        _foo9.add(this);
+        _classPrivateMethodInit(this, _foo9);
+        _classPrivateMethodInit(this, _foo9);
     };
     var _foo10 = new WeakSet(), _foo10 = new WeakSet();
     var A_Method_Setter = function A_Method_Setter() {
         "use strict";
         _classCallCheck(this, A_Method_Setter);
-        _foo10.add(this);
-        _foo10.add(this);
+        _classPrivateMethodInit(this, _foo10);
+        _classPrivateMethodInit(this, _foo10);
     };
     var _foo11 = new WeakSet();
     var A_Method_StaticField = function A_Method_StaticField() {
         "use strict";
         _classCallCheck(this, A_Method_StaticField);
-        _foo11.add(this);
+        _classPrivateMethodInit(this, _foo11);
     };
     var _foo11 = {
         writable: true,
@@ -169,19 +182,19 @@ function Method() {
     var A_Method_StaticMethod = function A_Method_StaticMethod() {
         "use strict";
         _classCallCheck(this, A_Method_StaticMethod);
-        _foo12.add(this);
+        _classPrivateMethodInit(this, _foo12);
     };
     var _foo13 = new WeakSet();
     var A_Method_StaticGetter = function A_Method_StaticGetter() {
         "use strict";
         _classCallCheck(this, A_Method_StaticGetter);
-        _foo13.add(this);
+        _classPrivateMethodInit(this, _foo13);
     };
     var _foo14 = new WeakSet();
     var A_Method_StaticSetter = function A_Method_StaticSetter() {
         "use strict";
         _classCallCheck(this, A_Method_StaticSetter);
-        _foo14.add(this);
+        _classPrivateMethodInit(this, _foo14);
     };
 }
 function Getter() {
@@ -224,8 +237,8 @@ function Getter() {
     var A_Getter_Field = function A_Getter_Field() {
         "use strict";
         _classCallCheck(this, A_Getter_Field);
-        _foo.add(this);
-        _foo.set(this, {
+        _classPrivateMethodInit(this, _foo);
+        _classPrivateFieldInit(this, _foo, {
             writable: true,
             value: "foo"
         });
@@ -235,46 +248,46 @@ function Getter() {
     var A_Getter_Method = function A_Getter_Method() {
         "use strict";
         _classCallCheck(this, A_Getter_Method);
-        _foo15.add(this);
-        _foo15.add(this);
+        _classPrivateMethodInit(this, _foo15);
+        _classPrivateMethodInit(this, _foo15);
     };
     var _foo16 = new WeakSet(), _foo16 = new WeakSet();
     var A_Getter_Getter = function A_Getter_Getter() {
         "use strict";
         _classCallCheck(this, A_Getter_Getter);
-        _foo16.add(this);
-        _foo16.add(this);
+        _classPrivateMethodInit(this, _foo16);
+        _classPrivateMethodInit(this, _foo16);
     };
     var _foo17 = new WeakSet(), _foo17 = new WeakSet();
     var A_Getter_Setter = function A_Getter_Setter() {
         "use strict";
         _classCallCheck(this, A_Getter_Setter);
-        _foo17.add(this);
-        _foo17.add(this);
+        _classPrivateMethodInit(this, _foo17);
+        _classPrivateMethodInit(this, _foo17);
     };
     var _foo18 = new WeakSet();
     var A_Getter_StaticField = function A_Getter_StaticField() {
         "use strict";
         _classCallCheck(this, A_Getter_StaticField);
-        _foo18.add(this);
+        _classPrivateMethodInit(this, _foo18);
     };
     var _foo19 = new WeakSet();
     var A_Getter_StaticMethod = function A_Getter_StaticMethod() {
         "use strict";
         _classCallCheck(this, A_Getter_StaticMethod);
-        _foo19.add(this);
+        _classPrivateMethodInit(this, _foo19);
     };
     var _foo20 = new WeakSet();
     var A_Getter_StaticGetter = function A_Getter_StaticGetter() {
         "use strict";
         _classCallCheck(this, A_Getter_StaticGetter);
-        _foo20.add(this);
+        _classPrivateMethodInit(this, _foo20);
     };
     var _foo21 = new WeakSet();
     var A_Getter_StaticSetter = function A_Getter_StaticSetter() {
         "use strict";
         _classCallCheck(this, A_Getter_StaticSetter);
-        _foo21.add(this);
+        _classPrivateMethodInit(this, _foo21);
     };
 }
 function Setter() {
@@ -300,8 +313,8 @@ function Setter() {
     var A_Setter_Field = function A_Setter_Field() {
         "use strict";
         _classCallCheck(this, A_Setter_Field);
-        _foo.add(this);
-        _foo.set(this, {
+        _classPrivateMethodInit(this, _foo);
+        _classPrivateFieldInit(this, _foo, {
             writable: true,
             value: "foo"
         });
@@ -311,28 +324,28 @@ function Setter() {
     var A_Setter_Method = function A_Setter_Method() {
         "use strict";
         _classCallCheck(this, A_Setter_Method);
-        _foo22.add(this);
-        _foo22.add(this);
+        _classPrivateMethodInit(this, _foo22);
+        _classPrivateMethodInit(this, _foo22);
     };
     var _foo23 = new WeakSet(), _foo23 = new WeakSet();
     var A_Setter_Getter = function A_Setter_Getter() {
         "use strict";
         _classCallCheck(this, A_Setter_Getter);
-        _foo23.add(this);
-        _foo23.add(this);
+        _classPrivateMethodInit(this, _foo23);
+        _classPrivateMethodInit(this, _foo23);
     };
     var _foo24 = new WeakSet(), _foo24 = new WeakSet();
     var A_Setter_Setter = function A_Setter_Setter() {
         "use strict";
         _classCallCheck(this, A_Setter_Setter);
-        _foo24.add(this);
-        _foo24.add(this);
+        _classPrivateMethodInit(this, _foo24);
+        _classPrivateMethodInit(this, _foo24);
     };
     var _foo25 = new WeakSet();
     var A_Setter_StaticField = function A_Setter_StaticField() {
         "use strict";
         _classCallCheck(this, A_Setter_StaticField);
-        _foo25.add(this);
+        _classPrivateMethodInit(this, _foo25);
     };
     var _foo25 = {
         writable: true,
@@ -342,19 +355,19 @@ function Setter() {
     var A_Setter_StaticMethod = function A_Setter_StaticMethod() {
         "use strict";
         _classCallCheck(this, A_Setter_StaticMethod);
-        _foo26.add(this);
+        _classPrivateMethodInit(this, _foo26);
     };
     var _foo27 = new WeakSet();
     var A_Setter_StaticGetter = function A_Setter_StaticGetter() {
         "use strict";
         _classCallCheck(this, A_Setter_StaticGetter);
-        _foo27.add(this);
+        _classPrivateMethodInit(this, _foo27);
     };
     var _foo28 = new WeakSet();
     var A_Setter_StaticSetter = function A_Setter_StaticSetter() {
         "use strict";
         _classCallCheck(this, A_Setter_StaticSetter);
-        _foo28.add(this);
+        _classPrivateMethodInit(this, _foo28);
     };
 }
 function StaticField() {
@@ -371,7 +384,7 @@ function StaticField() {
     var A_StaticField_Field = function A_StaticField_Field() {
         "use strict";
         _classCallCheck(this, A_StaticField_Field);
-        _foo.set(this, {
+        _classPrivateFieldInit(this, _foo, {
             writable: true,
             value: "foo"
         });
@@ -385,7 +398,7 @@ function StaticField() {
     var A_StaticField_Method = function A_StaticField_Method() {
         "use strict";
         _classCallCheck(this, A_StaticField_Method);
-        _foo29.add(this);
+        _classPrivateMethodInit(this, _foo29);
     };
     var _foo29 = {
         writable: true,
@@ -395,7 +408,7 @@ function StaticField() {
     var A_StaticField_Getter = function A_StaticField_Getter() {
         "use strict";
         _classCallCheck(this, A_StaticField_Getter);
-        _foo30.add(this);
+        _classPrivateMethodInit(this, _foo30);
     };
     var _foo30 = {
         writable: true,
@@ -405,7 +418,7 @@ function StaticField() {
     var A_StaticField_Setter = function A_StaticField_Setter() {
         "use strict";
         _classCallCheck(this, A_StaticField_Setter);
-        _foo31.add(this);
+        _classPrivateMethodInit(this, _foo31);
     };
     var _foo31 = {
         writable: true,
@@ -470,7 +483,7 @@ function StaticMethod() {
     var A_StaticMethod_Field = function A_StaticMethod_Field() {
         "use strict";
         _classCallCheck(this, A_StaticMethod_Field);
-        _foo.set(this, {
+        _classPrivateFieldInit(this, _foo, {
             writable: true,
             value: "foo"
         });
@@ -480,19 +493,19 @@ function StaticMethod() {
     var A_StaticMethod_Method = function A_StaticMethod_Method() {
         "use strict";
         _classCallCheck(this, A_StaticMethod_Method);
-        _foo36.add(this);
+        _classPrivateMethodInit(this, _foo36);
     };
     var _foo37 = new WeakSet();
     var A_StaticMethod_Getter = function A_StaticMethod_Getter() {
         "use strict";
         _classCallCheck(this, A_StaticMethod_Getter);
-        _foo37.add(this);
+        _classPrivateMethodInit(this, _foo37);
     };
     var _foo38 = new WeakSet();
     var A_StaticMethod_Setter = function A_StaticMethod_Setter() {
         "use strict";
         _classCallCheck(this, A_StaticMethod_Setter);
-        _foo38.add(this);
+        _classPrivateMethodInit(this, _foo38);
     };
     var A_StaticMethod_StaticField = function A_StaticMethod_StaticField() {
         "use strict";
@@ -554,7 +567,7 @@ function StaticGetter() {
     var A_StaticGetter_Field = function A_StaticGetter_Field() {
         "use strict";
         _classCallCheck(this, A_StaticGetter_Field);
-        _foo.set(this, {
+        _classPrivateFieldInit(this, _foo, {
             writable: true,
             value: "foo"
         });
@@ -564,19 +577,19 @@ function StaticGetter() {
     var A_StaticGetter_Method = function A_StaticGetter_Method() {
         "use strict";
         _classCallCheck(this, A_StaticGetter_Method);
-        _foo40.add(this);
+        _classPrivateMethodInit(this, _foo40);
     };
     var _foo41 = new WeakSet();
     var A_StaticGetter_Getter = function A_StaticGetter_Getter() {
         "use strict";
         _classCallCheck(this, A_StaticGetter_Getter);
-        _foo41.add(this);
+        _classPrivateMethodInit(this, _foo41);
     };
     var _foo42 = new WeakSet();
     var A_StaticGetter_Setter = function A_StaticGetter_Setter() {
         "use strict";
         _classCallCheck(this, A_StaticGetter_Setter);
-        _foo42.add(this);
+        _classPrivateMethodInit(this, _foo42);
     };
     var A_StaticGetter_StaticField = function A_StaticGetter_StaticField() {
         "use strict";
@@ -617,7 +630,7 @@ function StaticSetter() {
     var A_StaticSetter_Field = function A_StaticSetter_Field() {
         "use strict";
         _classCallCheck(this, A_StaticSetter_Field);
-        _foo.set(this, {
+        _classPrivateFieldInit(this, _foo, {
             writable: true,
             value: "foo"
         });
@@ -627,19 +640,19 @@ function StaticSetter() {
     var A_StaticSetter_Method = function A_StaticSetter_Method() {
         "use strict";
         _classCallCheck(this, A_StaticSetter_Method);
-        _foo43.add(this);
+        _classPrivateMethodInit(this, _foo43);
     };
     var _foo44 = new WeakSet();
     var A_StaticSetter_Getter = function A_StaticSetter_Getter() {
         "use strict";
         _classCallCheck(this, A_StaticSetter_Getter);
-        _foo44.add(this);
+        _classPrivateMethodInit(this, _foo44);
     };
     var _foo45 = new WeakSet();
     var A_StaticSetter_Setter = function A_StaticSetter_Setter() {
         "use strict";
         _classCallCheck(this, A_StaticSetter_Setter);
-        _foo45.add(this);
+        _classPrivateMethodInit(this, _foo45);
     };
     var A_StaticSetter_StaticField = function A_StaticSetter_StaticField() {
         "use strict";

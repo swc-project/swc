@@ -1,3 +1,8 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
@@ -8,6 +13,10 @@ function _classPrivateFieldGet(receiver, privateMap) {
         throw new TypeError("attempted to get private field on non-instance");
     }
     return privateMap.get(receiver).value;
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
 }
 function _classPrivateFieldSet(receiver, privateMap, value) {
     if (!privateMap.has(receiver)) {
@@ -23,19 +32,19 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
 var C1 = function C1() {
     "use strict";
     _classCallCheck(this, C1);
-    _f.set(this, {
+    _classPrivateFieldInit(this, _f, {
         writable: true,
         value: void 0 //Error
     });
-    _g.set(this, {
+    _classPrivateFieldInit(this, _g, {
         writable: true,
         value: void 0
     });
-    _h.set(this, {
+    _classPrivateFieldInit(this, _h, {
         writable: true,
         value: void 0 //Error
     });
-    _i.set(this, {
+    _classPrivateFieldInit(this, _i, {
         writable: true,
         value: void 0
     });
@@ -51,15 +60,15 @@ var C3 = function C3() {
 var C4 = function C4() {
     "use strict";
     _classCallCheck(this, C4);
-    _d.set(this, {
+    _classPrivateFieldInit(this, _d, {
         writable: true,
         value: 0
     });
-    _e.set(this, {
+    _classPrivateFieldInit(this, _e, {
         writable: true,
         value: 0
     });
-    _f1.set(this, {
+    _classPrivateFieldInit(this, _f1, {
         writable: true,
         value: "abc"
     });
@@ -74,7 +83,7 @@ var _f1 = new WeakMap();
 var C5 = function C5() {
     "use strict";
     _classCallCheck(this, C5);
-    _b.set(this, {
+    _classPrivateFieldInit(this, _b, {
         writable: true,
         value: void 0
     });
@@ -85,7 +94,7 @@ var _b = new WeakMap();
 var C6 = function C6(cond) {
     "use strict";
     _classCallCheck(this, C6);
-    _b1.set(this, {
+    _classPrivateFieldInit(this, _b1, {
         writable: true,
         value: void 0
     });
@@ -99,7 +108,7 @@ var _b1 = new WeakMap();
 var C7 = function C7(cond) {
     "use strict";
     _classCallCheck(this, C7);
-    _b2.set(this, {
+    _classPrivateFieldInit(this, _b2, {
         writable: true,
         value: void 0
     });
@@ -123,7 +132,7 @@ var C9 = function C9() {
 var C10 = function C10() {
     "use strict";
     _classCallCheck(this, C10);
-    _d1.set(this, {
+    _classPrivateFieldInit(this, _d1, {
         writable: true,
         value: void 0
     });
@@ -139,7 +148,7 @@ var _d1 = new WeakMap();
 var C11 = function C11() {
     "use strict";
     _classCallCheck(this, C11);
-    _b3.set(this, {
+    _classPrivateFieldInit(this, _b3, {
         writable: true,
         value: void 0
     });

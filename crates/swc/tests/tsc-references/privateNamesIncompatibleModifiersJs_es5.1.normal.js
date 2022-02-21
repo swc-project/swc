@@ -1,7 +1,20 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
+}
+function _classPrivateMethodInit(obj, privateSet) {
+    _checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
 }
 var /**
      * @public
@@ -13,45 +26,45 @@ var /**
 var A = function A() {
     "use strict";
     _classCallCheck(this, A);
-    /**
+    _classPrivateFieldInit(this, /**
      * @public
-     */ _a.set(this, {
+     */ _a, {
         writable: true,
         value: 1
     });
-    /**
+    _classPrivateFieldInit(this, /**
      * @private
-     */ _b.set(this, {
+     */ _b, {
         writable: true,
         value: 1
     });
-    /**
+    _classPrivateFieldInit(this, /**
      * @protected
-     */ _c.set(this, {
+     */ _c, {
         writable: true,
         value: 1
     });
-    _aMethod.add(this);
-    _bMethod.add(this);
-    _cMethod.add(this);
+    _classPrivateMethodInit(this, _aMethod);
+    _classPrivateMethodInit(this, _bMethod);
+    _classPrivateMethodInit(this, _cMethod);
     /**
      * @public
-     */ _aProp.add(this);
+     */ _classPrivateMethodInit(this, _aProp);
     /**
      * @public
-     */ _aProp.add(this);
+     */ _classPrivateMethodInit(this, _aProp);
     /**
      * @private
-     */ _bProp.add(this);
+     */ _classPrivateMethodInit(this, _bProp);
     /**
      * @private
-     */ _bProp.add(this);
+     */ _classPrivateMethodInit(this, _bProp);
     /**
     * @protected
-    */ _cProp.add(this);
+    */ _classPrivateMethodInit(this, _cProp);
     /**
      * @protected
-     */ _cProp.add(this);
+     */ _classPrivateMethodInit(this, _cProp);
 };
 var _a = new WeakMap();
 var _b = new WeakMap();

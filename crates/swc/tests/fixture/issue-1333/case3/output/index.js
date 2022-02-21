@@ -6,11 +6,20 @@ var _nodeFetch = _interopRequireDefault(require("node-fetch"));
 var _abortSignal = require("./misc/AbortSignal");
 var _errors = require("../../errors");
 var _utils = require("../../utils");
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classPrivateFieldGet(receiver, privateMap) {
     if (!privateMap.has(receiver)) {
         throw new TypeError("attempted to get private field on non-instance");
     }
     return privateMap.get(receiver).value;
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
 }
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -177,10 +186,10 @@ class RequestHandler {
      * @param {Rest} rest The REST Manager.
      * @param {string} id The ID of this request handler.
      */ constructor(rest, id){
-        /**
+        _classPrivateFieldInit(this, /**
      * Used for sequential requests.
      * @type {AsyncQueue}
-     */ _queue.set(this, {
+     */ _queue, {
             writable: true,
             value: new _utils.AsyncQueue()
         });

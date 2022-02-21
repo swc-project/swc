@@ -1,8 +1,17 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classPrivateFieldGet(receiver, privateMap) {
     if (!privateMap.has(receiver)) {
         throw new TypeError("attempted to get private field on non-instance");
     }
     return privateMap.get(receiver).value;
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
 }
 function _classPrivateMethodGet(receiver, privateSet, fn) {
     if (!privateSet.has(receiver)) {
@@ -10,16 +19,20 @@ function _classPrivateMethodGet(receiver, privateSet, fn) {
     }
     return fn;
 }
+function _classPrivateMethodInit(obj, privateSet) {
+    _checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
+}
 // @noUnusedLocals:true 
 // @noEmit: true
 // @target: es2015
 export class A {
     constructor(){
-        _used.set(this, {
+        _classPrivateFieldInit(this, _used, {
             writable: true,
             value: "used"
         });
-        _unused.set(this, {
+        _classPrivateFieldInit(this, _unused, {
             writable: true,
             value: "unused"
         });
@@ -31,8 +44,8 @@ var _unused = new WeakMap();
 var _used1 = new WeakSet(), _unused1 = new WeakSet();
 export class A2 {
     constructor(){
-        _used1.add(this);
-        _unused1.add(this);
+        _classPrivateMethodInit(this, _used1);
+        _classPrivateMethodInit(this, _unused1);
         console.log(_classPrivateMethodGet(this, _used1, used).call(this));
     }
 }
@@ -41,10 +54,10 @@ function unused() {}
 var _used2 = new WeakSet(), _used2 = new WeakSet(), _unused2 = new WeakSet(), _unused2 = new WeakSet();
 export class A3 {
     constructor(){
-        _used2.add(this);
-        _used2.add(this);
-        _unused2.add(this);
-        _unused2.add(this);
+        _classPrivateMethodInit(this, _used2);
+        _classPrivateMethodInit(this, _used2);
+        _classPrivateMethodInit(this, _unused2);
+        _classPrivateMethodInit(this, _unused2);
         console.log(_classPrivateMethodGet(this, _used2, used1));
     }
 }

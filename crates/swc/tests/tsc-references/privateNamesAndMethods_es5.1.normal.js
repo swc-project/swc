@@ -117,6 +117,11 @@ function _asyncToGenerator(fn) {
 function _AwaitValue(value) {
     this.wrapped = value;
 }
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
@@ -127,6 +132,10 @@ function _classPrivateFieldGet(receiver, privateMap) {
         throw new TypeError("attempted to get private field on non-instance");
     }
     return privateMap.get(receiver).value;
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
 }
 function _classPrivateFieldSet(receiver, privateMap, value) {
     if (!privateMap.has(receiver)) {
@@ -144,6 +153,10 @@ function _classPrivateMethodGet(receiver, privateSet, fn) {
         throw new TypeError("attempted to get private field on non-instance");
     }
     return fn;
+}
+function _classPrivateMethodInit(obj, privateSet) {
+    _checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
 }
 function _getPrototypeOf(o) {
     _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
@@ -216,15 +229,15 @@ var A = function A() {
     "use strict";
     _classCallCheck(this, A);
     var _this_quux;
-    _foo.add(this);
-    _bar.add(this);
-    _baz.add(this);
-    __quux.set(this, {
+    _classPrivateMethodInit(this, _foo);
+    _classPrivateMethodInit(this, _bar);
+    _classPrivateMethodInit(this, _baz);
+    _classPrivateFieldInit(this, __quux, {
         writable: true,
         value: void 0
     });
-    _quux.add(this);
-    _quux.add(this);
+    _classPrivateMethodInit(this, _quux);
+    _classPrivateMethodInit(this, _quux);
     _classPrivateMethodGet(this, _foo, foo).call(this, 30);
     _classPrivateMethodGet(this, _bar, bar).call(this, 30);
     _classPrivateMethodGet(this, _baz, baz).call(this, 30);
@@ -280,7 +293,7 @@ var B = /*#__PURE__*/ function(A) {
         _classCallCheck(this, B);
         var _this;
         _this = _super.call(this);
-        _foo1.add(_assertThisInitialized(_this));
+        _classPrivateMethodInit(_assertThisInitialized(_this), _foo1);
         _classPrivateMethodGet(_this, _foo1, foo1).call(_assertThisInitialized(_this), "str");
         return _this;
     }

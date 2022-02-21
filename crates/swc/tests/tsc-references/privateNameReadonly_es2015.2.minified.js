@@ -10,7 +10,10 @@ const C = function() {
             }(this, _bar, console.log("should log this then throw"));
         }
         constructor(){
-            _bar.add(this);
+            var obj, privateSet;
+            obj = this, (function(obj, privateCollection) {
+                if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+            })(obj, privateSet = _bar), privateSet.add(obj);
         }
     };
 }();

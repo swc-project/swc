@@ -80,6 +80,11 @@ function _classPrivateMethodGet(receiver, privateSet, fn) {
     if (!privateSet.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
     return fn;
 }
+function _classPrivateMethodInit(obj, privateSet) {
+    !function(obj, privateCollection) {
+        if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }(obj, privateSet), privateSet.add(obj);
+}
 "function" == typeof Symbol && Symbol.asyncIterator && (AsyncGenerator.prototype[Symbol.asyncIterator] = function() {
     return this;
 }), AsyncGenerator.prototype.next = function(arg) {
@@ -124,7 +129,7 @@ const C = function() {
             })();
         }
         constructor(){
-            _bar.add(this), _baz.add(this), _qux.add(this);
+            _classPrivateMethodInit(this, _bar), _classPrivateMethodInit(this, _baz), _classPrivateMethodInit(this, _qux);
         }
     };
 }();

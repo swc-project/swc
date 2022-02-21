@@ -1,3 +1,8 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
@@ -13,6 +18,10 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
     }
     descriptor.value = value;
     return value;
+}
+function _classPrivateMethodInit(obj, privateSet) {
+    _checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
 }
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
@@ -34,7 +43,7 @@ var C = // @target: es2019
     "use strict";
     function C() {
         _classCallCheck(this, C);
-        _foo.add(this);
+        _classPrivateMethodInit(this, _foo);
     }
     _createClass(C, [
         {

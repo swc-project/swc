@@ -21,10 +21,13 @@ var friendA, A = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function A(v) {
-        _classCallCheck(this, A), _x.set(this, {
+        var obj, privateMap, value;
+        _classCallCheck(this, A), obj = this, value = {
             writable: !0,
             value: void 0
-        }), _classPrivateFieldSet(this, _x, v);
+        }, (function(obj, privateCollection) {
+            if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+        })(obj, privateMap = _x), privateMap.set(obj, value), _classPrivateFieldSet(this, _x, v);
     }
     return Constructor = A, protoProps = [
         {
