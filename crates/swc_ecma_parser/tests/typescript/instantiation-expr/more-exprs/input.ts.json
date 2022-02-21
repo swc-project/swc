@@ -22,7 +22,7 @@
         },
         "expressions": [
           {
-            "type": "TsExpressionWithTypeArguments",
+            "type": "TsInstantiation",
             "span": {
               "start": 0,
               "end": 4,
@@ -69,7 +69,7 @@
             }
           },
           {
-            "type": "TsExpressionWithTypeArguments",
+            "type": "TsInstantiation",
             "span": {
               "start": 6,
               "end": 10,
@@ -136,7 +136,7 @@
           {
             "spread": null,
             "expression": {
-              "type": "TsExpressionWithTypeArguments",
+              "type": "TsInstantiation",
               "span": {
                 "start": 13,
                 "end": 17,
@@ -201,7 +201,7 @@
           "ctxt": 0
         },
         "test": {
-          "type": "TsExpressionWithTypeArguments",
+          "type": "TsInstantiation",
           "span": {
             "start": 20,
             "end": 24,
@@ -248,7 +248,7 @@
           }
         },
         "consequent": {
-          "type": "TsExpressionWithTypeArguments",
+          "type": "TsInstantiation",
           "span": {
             "start": 27,
             "end": 31,
@@ -295,7 +295,7 @@
           }
         },
         "alternate": {
-          "type": "TsExpressionWithTypeArguments",
+          "type": "TsInstantiation",
           "span": {
             "start": 34,
             "end": 38,
@@ -359,7 +359,7 @@
         },
         "operator": "^",
         "left": {
-          "type": "TsExpressionWithTypeArguments",
+          "type": "TsInstantiation",
           "span": {
             "start": 40,
             "end": 44,
@@ -406,7 +406,7 @@
           }
         },
         "right": {
-          "type": "TsExpressionWithTypeArguments",
+          "type": "TsInstantiation",
           "span": {
             "start": 47,
             "end": 51,
@@ -470,7 +470,7 @@
         },
         "operator": "&",
         "left": {
-          "type": "TsExpressionWithTypeArguments",
+          "type": "TsInstantiation",
           "span": {
             "start": 53,
             "end": 57,
@@ -517,7 +517,7 @@
           }
         },
         "right": {
-          "type": "TsExpressionWithTypeArguments",
+          "type": "TsInstantiation",
           "span": {
             "start": 60,
             "end": 64,
@@ -581,7 +581,7 @@
         },
         "operator": "|",
         "left": {
-          "type": "TsExpressionWithTypeArguments",
+          "type": "TsInstantiation",
           "span": {
             "start": 66,
             "end": 70,
@@ -628,7 +628,7 @@
           }
         },
         "right": {
-          "type": "TsExpressionWithTypeArguments",
+          "type": "TsInstantiation",
           "span": {
             "start": 73,
             "end": 77,
@@ -692,7 +692,7 @@
         },
         "operator": "&&",
         "left": {
-          "type": "TsExpressionWithTypeArguments",
+          "type": "TsInstantiation",
           "span": {
             "start": 79,
             "end": 83,
@@ -739,7 +739,7 @@
           }
         },
         "right": {
-          "type": "TsExpressionWithTypeArguments",
+          "type": "TsInstantiation",
           "span": {
             "start": 87,
             "end": 91,
@@ -803,7 +803,7 @@
         },
         "operator": "||",
         "left": {
-          "type": "TsExpressionWithTypeArguments",
+          "type": "TsInstantiation",
           "span": {
             "start": 93,
             "end": 97,
@@ -850,7 +850,7 @@
           }
         },
         "right": {
-          "type": "TsExpressionWithTypeArguments",
+          "type": "TsInstantiation",
           "span": {
             "start": 101,
             "end": 105,
@@ -914,7 +914,7 @@
             "ctxt": 0
           },
           "expression": {
-            "type": "TsExpressionWithTypeArguments",
+            "type": "TsInstantiation",
             "span": {
               "start": 109,
               "end": 113,
@@ -979,7 +979,7 @@
         },
         "operator": "??",
         "left": {
-          "type": "TsExpressionWithTypeArguments",
+          "type": "TsInstantiation",
           "span": {
             "start": 116,
             "end": 120,
@@ -1026,7 +1026,7 @@
           }
         },
         "right": {
-          "type": "TsExpressionWithTypeArguments",
+          "type": "TsInstantiation",
           "span": {
             "start": 124,
             "end": 128,
@@ -1090,7 +1090,7 @@
         },
         "operator": "==",
         "left": {
-          "type": "TsExpressionWithTypeArguments",
+          "type": "TsInstantiation",
           "span": {
             "start": 130,
             "end": 134,
@@ -1137,7 +1137,7 @@
           }
         },
         "right": {
-          "type": "TsExpressionWithTypeArguments",
+          "type": "TsInstantiation",
           "span": {
             "start": 138,
             "end": 142,
@@ -1201,7 +1201,7 @@
         },
         "operator": "===",
         "left": {
-          "type": "TsExpressionWithTypeArguments",
+          "type": "TsInstantiation",
           "span": {
             "start": 144,
             "end": 148,
@@ -1248,7 +1248,7 @@
           }
         },
         "right": {
-          "type": "TsExpressionWithTypeArguments",
+          "type": "TsInstantiation",
           "span": {
             "start": 153,
             "end": 157,
@@ -1312,7 +1312,7 @@
         },
         "operator": "!=",
         "left": {
-          "type": "TsExpressionWithTypeArguments",
+          "type": "TsInstantiation",
           "span": {
             "start": 159,
             "end": 163,
@@ -1359,7 +1359,7 @@
           }
         },
         "right": {
-          "type": "TsExpressionWithTypeArguments",
+          "type": "TsInstantiation",
           "span": {
             "start": 167,
             "end": 171,
@@ -1423,7 +1423,7 @@
         },
         "operator": "!==",
         "left": {
-          "type": "TsExpressionWithTypeArguments",
+          "type": "TsInstantiation",
           "span": {
             "start": 173,
             "end": 177,
@@ -1470,7 +1470,7 @@
           }
         },
         "right": {
-          "type": "TsExpressionWithTypeArguments",
+          "type": "TsInstantiation",
           "span": {
             "start": 182,
             "end": 186,

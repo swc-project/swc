@@ -42,7 +42,7 @@
               "ctxt": 0
             },
             "callee": {
-              "type": "TsExpressionWithTypeArguments",
+              "type": "TsInstantiation",
               "span": {
                 "start": 13,
                 "end": 23,
@@ -114,7 +114,7 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "TsExpressionWithTypeArguments",
+            "type": "TsInstantiation",
             "span": {
               "start": 37,
               "end": 46,
@@ -183,7 +183,7 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "TsExpressionWithTypeArguments",
+            "type": "TsInstantiation",
             "span": {
               "start": 59,
               "end": 70,
@@ -277,7 +277,7 @@
               "ctxt": 0
             },
             "object": {
-              "type": "TsExpressionWithTypeArguments",
+              "type": "TsInstantiation",
               "span": {
                 "start": 83,
                 "end": 92,
@@ -357,7 +357,7 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "TsExpressionWithTypeArguments",
+            "type": "TsInstantiation",
             "span": {
               "start": 107,
               "end": 126,
@@ -371,7 +371,7 @@
                 "ctxt": 0
               },
               "object": {
-                "type": "TsExpressionWithTypeArguments",
+                "type": "TsInstantiation",
                 "span": {
                   "start": 107,
                   "end": 116,
@@ -471,7 +471,7 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "TsExpressionWithTypeArguments",
+            "type": "TsInstantiation",
             "span": {
               "start": 139,
               "end": 153,
@@ -570,7 +570,7 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "TsExpressionWithTypeArguments",
+            "type": "TsInstantiation",
             "span": {
               "start": 166,
               "end": 185,
@@ -584,7 +584,7 @@
                 "ctxt": 0
               },
               "expression": {
-                "type": "TsExpressionWithTypeArguments",
+                "type": "TsInstantiation",
                 "span": {
                   "start": 167,
                   "end": 176,

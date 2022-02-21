@@ -35,6 +35,10 @@ impl VisitMut for TsRemover {
                 *e = *expr.expr.take();
             }
 
+            Expr::TsInstantiation(expr) => {
+                *e = *expr.expr.take();
+            }
+
             _ => {}
         }
     }

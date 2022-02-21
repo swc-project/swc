@@ -663,7 +663,7 @@ define!({
         TsConstAssertion(TsConstAssertion),
         TsNonNull(TsNonNullExpr),
         TsAs(TsAsExpr),
-        TsInstantiation(TsExprWithTypeArgs),
+        TsInstantiation(TsInstantiation),
         PrivateName(PrivateName),
         OptChain(OptChainExpr),
         Invalid(Invalid),
@@ -1805,6 +1805,12 @@ define!({
     pub struct TsConstAssertion {
         pub span: Span,
         pub expr: Box<Expr>,
+    }
+
+    pub struct TsInstantiation {
+        pub span: Span,
+        pub expr: Box<Expr>,
+        pub type_args: TsTypeParamInstantiation,
     }
 });
 

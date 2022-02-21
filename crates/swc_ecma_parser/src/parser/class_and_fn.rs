@@ -179,9 +179,9 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_super_class(&mut self) -> PResult<(Box<Expr>, Option<TsTypeParamInstantiation>)> {
         let super_class = self.parse_lhs_expr()?;
         match *super_class {
-            Expr::TsInstantiation(TsExprWithTypeArgs {
+            Expr::TsInstantiation(TsInstantiation {
                 expr, type_args, ..
-            }) => Ok((expr, type_args)),
+            }) => Ok((expr, Some(type_args))),
             _ => {
                 // We still need to parse TS type arguments,
                 // because in some cases "super class" returned by `parse_lhs_expr`

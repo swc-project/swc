@@ -15,7 +15,7 @@ use crate::{
     prop::Prop,
     stmt::BlockStmt,
     typescript::{
-        TsAsExpr, TsConstAssertion, TsExprWithTypeArgs, TsNonNullExpr, TsTypeAnn, TsTypeAssertion,
+        TsAsExpr, TsConstAssertion, TsInstantiation, TsNonNullExpr, TsTypeAnn, TsTypeAssertion,
         TsTypeParamDecl, TsTypeParamInstantiation,
     },
     ComputedPropName, Invalid,
@@ -147,8 +147,8 @@ pub enum Expr {
     #[tag("TsAsExpression")]
     TsAs(TsAsExpr),
 
-    #[tag("TsExpressionWithTypeArguments")]
-    TsInstantiation(TsExprWithTypeArgs),
+    #[tag("TsInstantiation")]
+    TsInstantiation(TsInstantiation),
 
     #[tag("PrivateName")]
     PrivateName(PrivateName),

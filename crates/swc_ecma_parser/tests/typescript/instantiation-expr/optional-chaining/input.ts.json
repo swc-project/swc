@@ -54,7 +54,7 @@
                 "ctxt": 0
               },
               "callee": {
-                "type": "TsExpressionWithTypeArguments",
+                "type": "TsInstantiation",
                 "span": {
                   "start": 11,
                   "end": 20,
