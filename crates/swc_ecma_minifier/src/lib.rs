@@ -137,6 +137,7 @@ pub fn optimize(
             options,
             marks,
             &Minification,
+            true,
             false,
         )));
     }
