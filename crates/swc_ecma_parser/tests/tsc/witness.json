@@ -2569,7 +2569,8 @@
                   },
                   "value": "fnArg1",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           }
@@ -2698,7 +2699,8 @@
                                 },
                                 "value": "fnArg1",
                                 "optional": false
-                              }
+                              },
+                              "typeArguments": null
                             }
                           }
                         },

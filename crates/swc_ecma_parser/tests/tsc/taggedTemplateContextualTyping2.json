@@ -180,7 +180,8 @@
               },
               "value": "x",
               "optional": false
-            }
+            },
+            "typeArguments": null
           }
         }
       }
@@ -379,7 +380,8 @@
               },
               "value": "x",
               "optional": false
-            }
+            },
+            "typeArguments": null
           }
         }
       }

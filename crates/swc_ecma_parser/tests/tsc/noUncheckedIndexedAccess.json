@@ -2386,7 +2386,8 @@
                     },
                     "value": "strMap",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               },
               "indexType": {
@@ -2478,7 +2479,8 @@
                     },
                     "value": "strMap",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               },
               "indexType": {
@@ -2583,7 +2585,8 @@
                     },
                     "value": "strMap",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               },
               "indexType": {
@@ -2720,7 +2723,8 @@
                     },
                     "value": "strMap",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               },
               "indexType": {
@@ -2812,7 +2816,8 @@
                     },
                     "value": "strMap",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               },
               "indexType": {
@@ -6245,7 +6250,8 @@
                         },
                         "value": "myRecord1",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   },
                   "default": null
@@ -6435,7 +6441,8 @@
                         },
                         "value": "myRecord1",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   },
                   "default": null
@@ -6746,7 +6753,8 @@
                         },
                         "value": "myRecord2",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   },
                   "default": null

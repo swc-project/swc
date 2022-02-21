@@ -40,14 +40,10 @@ export class F {
 }
 class G {
 }
-export { G };
 class HH {
 }
-export { HH as H };
 export class I {
 }
-export { I as II };
-export { J as JJ };
 export class J {
 }
 export class K {
@@ -84,3 +80,4 @@ export class HasStatics {
 export class ExtendsStatics extends HasStatics {
     static also() {}
 }
+export { G, HH as H, I as II, J as JJ };

@@ -164,7 +164,8 @@
                   },
                   "value": "cb",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -768,7 +769,8 @@
                   },
                   "value": "cb",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },

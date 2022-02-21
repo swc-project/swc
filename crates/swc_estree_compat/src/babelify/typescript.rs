@@ -3,19 +3,20 @@ use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
 use swc_common::Spanned;
 use swc_ecma_ast::{
-    Accessibility, Pat, TruePlusMinus, TsArrayType, TsAsExpr, TsCallSignatureDecl,
-    TsConditionalType, TsConstAssertion, TsConstructSignatureDecl, TsConstructorType, TsEntityName,
-    TsEnumDecl, TsEnumMember, TsEnumMemberId, TsExportAssignment, TsExprWithTypeArgs,
-    TsExternalModuleRef, TsFnOrConstructorType, TsFnParam, TsFnType, TsImportEqualsDecl,
-    TsImportType, TsIndexSignature, TsIndexedAccessType, TsInferType, TsInterfaceBody,
-    TsInterfaceDecl, TsIntersectionType, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType,
-    TsMappedType, TsMethodSignature, TsModuleBlock, TsModuleDecl, TsModuleName, TsModuleRef,
-    TsNamespaceBody, TsNamespaceDecl, TsNamespaceExportDecl, TsNonNullExpr, TsOptionalType,
-    TsParamProp, TsParamPropParam, TsParenthesizedType, TsPropertySignature, TsQualifiedName,
-    TsRestType, TsThisType, TsThisTypeOrIdent, TsTplLitType, TsTupleElement, TsTupleType, TsType,
-    TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeElement, TsTypeLit, TsTypeOperator,
-    TsTypeOperatorOp, TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation, TsTypePredicate,
-    TsTypeQuery, TsTypeQueryExpr, TsTypeRef, TsUnionOrIntersectionType, TsUnionType,
+    Accessibility, Expr, MemberProp, Pat, TruePlusMinus, TsArrayType, TsAsExpr,
+    TsCallSignatureDecl, TsConditionalType, TsConstAssertion, TsConstructSignatureDecl,
+    TsConstructorType, TsEntityName, TsEnumDecl, TsEnumMember, TsEnumMemberId, TsExportAssignment,
+    TsExprWithTypeArgs, TsExternalModuleRef, TsFnOrConstructorType, TsFnParam, TsFnType,
+    TsImportEqualsDecl, TsImportType, TsIndexSignature, TsIndexedAccessType, TsInferType,
+    TsInterfaceBody, TsInterfaceDecl, TsIntersectionType, TsKeywordType, TsKeywordTypeKind, TsLit,
+    TsLitType, TsMappedType, TsMethodSignature, TsModuleBlock, TsModuleDecl, TsModuleName,
+    TsModuleRef, TsNamespaceBody, TsNamespaceDecl, TsNamespaceExportDecl, TsNonNullExpr,
+    TsOptionalType, TsParamProp, TsParamPropParam, TsParenthesizedType, TsPropertySignature,
+    TsQualifiedName, TsRestType, TsThisType, TsThisTypeOrIdent, TsTplLitType, TsTupleElement,
+    TsTupleType, TsType, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeElement, TsTypeLit,
+    TsTypeOperator, TsTypeOperatorOp, TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation,
+    TsTypePredicate, TsTypeQuery, TsTypeQueryExpr, TsTypeRef, TsUnionOrIntersectionType,
+    TsUnionType,
 };
 use swc_estree_ast::{
     Access, ArrayPattern, IdOrRest, IdOrString, Identifier, ObjectPattern, RestElement,
@@ -832,9 +833,23 @@ impl Babelify for TsExprWithTypeArgs {
     type Output = TSExpressionWithTypeArguments;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
+        fn babelify_expr(expr: Expr, ctx: &Context) -> TSEntityName {
+            match expr {
+                Expr::Ident(id) => TSEntityName::Id(id.babelify(ctx)),
+                Expr::Member(e) => TSEntityName::Qualified(TSQualifiedName {
+                    base: ctx.base(e.span),
+                    left: Box::new(babelify_expr(*e.obj, ctx)),
+                    right: match e.prop {
+                        MemberProp::Ident(id) => id.babelify(ctx),
+                        _ => unreachable!(),
+                    },
+                }),
+                _ => unreachable!(),
+            }
+        }
         TSExpressionWithTypeArguments {
             base: ctx.base(self.span),
-            expression: self.expr.babelify(ctx),
+            expression: babelify_expr(*self.expr, ctx),
             type_parameters: self.type_args.map(|arg| arg.babelify(ctx)),
         }
     }

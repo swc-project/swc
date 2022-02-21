@@ -241,7 +241,8 @@
                               },
                               "value": "s",
                               "optional": false
-                            }
+                            },
+                            "typeArguments": null
                           }
                         }
                       }
@@ -307,7 +308,8 @@
                         },
                         "value": "s",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   }
                 },
@@ -609,7 +611,8 @@
                                 },
                                 "value": "s",
                                 "optional": false
-                              }
+                              },
+                              "typeArguments": null
                             }
                           }
                         }
@@ -675,7 +678,8 @@
                           },
                           "value": "s",
                           "optional": false
-                        }
+                        },
+                        "typeArguments": null
                       }
                     }
                   },
@@ -1004,7 +1008,8 @@
                                 },
                                 "value": "s",
                                 "optional": false
-                              }
+                              },
+                              "typeArguments": null
                             }
                           }
                         }

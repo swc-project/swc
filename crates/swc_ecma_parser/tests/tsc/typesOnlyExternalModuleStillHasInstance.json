@@ -347,7 +347,8 @@
                   },
                   "value": "foo0",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },

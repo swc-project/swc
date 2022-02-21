@@ -619,7 +619,8 @@
                                 },
                                 "value": "x",
                                 "optional": false
-                              }
+                              },
+                              "typeArguments": null
                             }
                           },
                           {
@@ -645,7 +646,8 @@
                                 },
                                 "value": "y",
                                 "optional": false
-                              }
+                              },
+                              "typeArguments": null
                             }
                           }
                         ]

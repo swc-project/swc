@@ -463,7 +463,8 @@
                   },
                   "value": "A",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -559,7 +560,8 @@
                   },
                   "value": "I",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },

@@ -757,7 +757,8 @@
                       },
                       "value": "M1",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   },
                   {
                     "type": "TsTypeQuery",
@@ -775,7 +776,8 @@
                       },
                       "value": "C1",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 ]
               }
@@ -843,7 +845,8 @@
                       },
                       "value": "C1",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   },
                   {
                     "type": "TsTypeQuery",
@@ -861,7 +864,8 @@
                       },
                       "value": "M1",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 ]
               }
@@ -929,7 +933,8 @@
                       },
                       "value": "M2",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   },
                   {
                     "type": "TsTypeQuery",
@@ -947,7 +952,8 @@
                       },
                       "value": "M1",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   },
                   {
                     "type": "TsTypeQuery",
@@ -965,7 +971,8 @@
                       },
                       "value": "C1",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 ]
               }
@@ -1033,7 +1040,8 @@
                       },
                       "value": "C1",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   },
                   {
                     "type": "TsTypeQuery",
@@ -1051,7 +1059,8 @@
                       },
                       "value": "M1",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   },
                   {
                     "type": "TsTypeQuery",
@@ -1069,7 +1078,8 @@
                       },
                       "value": "M2",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 ]
               }
@@ -1137,7 +1147,8 @@
                       },
                       "value": "M1",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   },
                   {
                     "type": "TsTypeQuery",
@@ -1155,7 +1166,8 @@
                       },
                       "value": "M2",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 ]
               }

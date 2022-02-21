@@ -447,7 +447,8 @@
               },
               "value": "sym1",
               "optional": false
-            }
+            },
+            "typeArguments": null
           }
         ]
       }
@@ -495,7 +496,8 @@
               },
               "value": "sym1",
               "optional": false
-            }
+            },
+            "typeArguments": null
           },
           {
             "type": "TsKeywordType",
@@ -522,7 +524,8 @@
               },
               "value": "sym2",
               "optional": false
-            }
+            },
+            "typeArguments": null
           }
         ]
       }
@@ -636,7 +639,8 @@
               },
               "value": "sym1",
               "optional": false
-            }
+            },
+            "typeArguments": null
           }
         ]
       }

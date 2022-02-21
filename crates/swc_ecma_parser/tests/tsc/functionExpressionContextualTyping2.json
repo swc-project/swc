@@ -185,7 +185,8 @@
                       },
                       "value": "a0",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   },
                   {
                     "type": "TsParenthesizedType",

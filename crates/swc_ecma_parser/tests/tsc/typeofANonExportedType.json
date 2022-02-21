@@ -103,7 +103,8 @@
                     },
                     "value": "x",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             },
@@ -238,7 +239,8 @@
                     },
                     "value": "y",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             },
@@ -502,7 +504,8 @@
                     },
                     "value": "C",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             },
@@ -568,7 +571,8 @@
                     },
                     "value": "c",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             },
@@ -634,7 +638,8 @@
                     },
                     "value": "c2",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             },
@@ -898,7 +903,8 @@
                     },
                     "value": "i",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             },
@@ -964,7 +970,8 @@
                     },
                     "value": "i2",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             },
@@ -1194,7 +1201,8 @@
                     },
                     "value": "M",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             },
@@ -1273,7 +1281,8 @@
                       "value": "foo",
                       "optional": false
                     }
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             },
@@ -1370,7 +1379,8 @@
                     },
                     "value": "Z",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             },
@@ -1449,7 +1459,8 @@
                       "value": "foo",
                       "optional": false
                     }
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             },
@@ -1556,7 +1567,8 @@
                     },
                     "value": "E",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             },
@@ -1635,7 +1647,8 @@
                       "value": "A",
                       "optional": false
                     }
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             },
@@ -1701,7 +1714,8 @@
                     },
                     "value": "r12",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             },
@@ -1960,7 +1974,8 @@
                     },
                     "value": "foo",
                     "optional": false
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             },

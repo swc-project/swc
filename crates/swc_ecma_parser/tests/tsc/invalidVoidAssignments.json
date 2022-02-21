@@ -278,7 +278,8 @@
                   },
                   "value": "undefined",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },

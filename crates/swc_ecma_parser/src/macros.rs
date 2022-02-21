@@ -13,6 +13,12 @@ macro_rules! tok {
     ('&') => {
         crate::token::Token::BinOp(crate::token::BinOpToken::BitAnd)
     };
+    ('|') => {
+        crate::token::Token::BinOp(crate::token::BinOpToken::BitOr)
+    };
+    ('^') => {
+        crate::token::Token::BinOp(crate::token::BinOpToken::BitXor)
+    };
     ('+') => {
         crate::token::Token::BinOp(crate::token::BinOpToken::Add)
     };
@@ -28,6 +34,12 @@ macro_rules! tok {
     ('!') => {
         crate::token::Token::Bang
     };
+    ("&&") => {
+        crate::token::Token::BinOp(crate::token::BinOpToken::LogicalAnd)
+    };
+    ("||") => {
+        crate::token::Token::BinOp(crate::token::BinOpToken::LogicalOr)
+    };
     ("&&=") => {
         crate::token::Token::AssignOp(crate::token::AssignOpToken::AndAssign)
     };
@@ -38,8 +50,17 @@ macro_rules! tok {
         crate::token::Token::AssignOp(crate::token::AssignOpToken::NullishAssign)
     };
 
-    ('|') => {
-        crate::token::Token::BinOp(crate::token::BinOpToken::BitOr)
+    ("==") => {
+        crate::token::Token::BinOp(crate::token::BinOpToken::EqEq)
+    };
+    ("===") => {
+        crate::token::Token::BinOp(crate::token::BinOpToken::EqEqEq)
+    };
+    ("!=") => {
+        crate::token::Token::BinOp(crate::token::BinOpToken::NotEq)
+    };
+    ("!==") => {
+        crate::token::Token::BinOp(crate::token::BinOpToken::NotEqEq)
     };
 
     (',') => {
