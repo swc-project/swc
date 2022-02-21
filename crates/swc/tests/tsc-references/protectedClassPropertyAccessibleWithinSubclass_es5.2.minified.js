@@ -32,7 +32,7 @@ var B = function() {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(C, B1);
-    var Constructor, protoProps, staticProps, Derived, hasNativeReflectConstruct, _super = (Derived = C, hasNativeReflectConstruct = function() {
+    var Derived, hasNativeReflectConstruct, Constructor, protoProps, staticProps, _super = (Derived = C, hasNativeReflectConstruct = function() {
         if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;

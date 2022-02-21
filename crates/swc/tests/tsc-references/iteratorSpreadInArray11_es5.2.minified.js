@@ -1,3 +1,4 @@
+var iter;
 function _arrayLikeToArray(arr, len) {
     (null == len || len > arr.length) && (len = arr.length);
     for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
@@ -6,8 +7,8 @@ function _arrayLikeToArray(arr, len) {
 !function(arr) {
     return (function(arr) {
         if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-    })(arr) || (function(iter) {
-        if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
+    })(arr) || (function(iter1) {
+        if ("undefined" != typeof Symbol && null != iter1[Symbol.iterator] || null != iter1["@@iterator"]) return Array.from(iter1);
     })(arr) || (function(o, minLen) {
         if (o) {
             if ("string" == typeof o) return _arrayLikeToArray(o, minLen);
@@ -18,4 +19,4 @@ function _arrayLikeToArray(arr, len) {
     })(arr) || (function() {
         throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
     })();
-}(void 0);
+}(iter);

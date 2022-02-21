@@ -18,7 +18,8 @@
 #![allow(clippy::vec_box)]
 #![allow(unstable_name_collisions)]
 
-use swc_common::{comments::Comments, sync::Lrc, SourceMap, SyntaxContext, GLOBALS};
+use compress::pure_optimizer;
+use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, SyntaxContext, GLOBALS};
 use swc_ecma_ast::Module;
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 use swc_timer::timer;
@@ -132,6 +133,13 @@ pub fn optimize(
         let _timer = timer!("postcompress");
 
         m.visit_mut_with(&mut postcompress_optimizer(options));
+        m.visit_mut_with(&mut Repeat::new(pure_optimizer(
+            options,
+            marks,
+            &Minification,
+            true,
+            false,
+        )));
     }
 
     if let Some(ref mut _t) = timings {

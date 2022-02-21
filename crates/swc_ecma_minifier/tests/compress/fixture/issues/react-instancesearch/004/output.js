@@ -183,7 +183,7 @@ export default function createInstantSearchManager(param1) {
     }).on("result", handleSearchSuccess({
         indexId: indexName
     })).on("error", handleSearchError);
-    var skip = !1, stalledSearchTimer = null, initialSearchParameters = helper.state, widgetsManager = createWidgetsManager(function() {
+    var results1, state1, listeners, skip = !1, stalledSearchTimer = null, initialSearchParameters = helper.state, widgetsManager = createWidgetsManager(function() {
         var metadata = getMetadata(store.getState().widgets);
         store.setState(swcHelpers.objectSpread({}, store.getState(), {
             metadata: metadata,
@@ -231,7 +231,7 @@ export default function createInstantSearchManager(param1) {
             hydrateSearchClientWithSingleIndexRequest(client, results);
         }
     }(searchClient, resultsState);
-    var results1, state1, listeners, store = (state1 = {
+    var store = (state1 = {
         widgets: void 0 === _initialState ? {} : _initialState,
         metadata: hydrateMetadata(resultsState),
         results: (results1 = resultsState) ? Array.isArray(results1.results) ? results1.results.reduce(function(acc, result) {

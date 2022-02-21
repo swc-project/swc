@@ -40,7 +40,6 @@ mod hoist_props;
 mod if_return;
 mod iife;
 mod inline;
-mod join_vars;
 mod loops;
 mod ops;
 mod sequences;
@@ -332,12 +331,6 @@ where
         }
 
         self.merge_similar_ifs(stmts);
-
-        if cfg!(debug_assertions) {
-            stmts.visit_with(&mut AssertValid);
-        }
-
-        self.join_vars(stmts);
 
         if cfg!(debug_assertions) {
             stmts.visit_with(&mut AssertValid);
@@ -2741,8 +2734,13 @@ where
         }
 
         for v in vars.iter_mut() {
+            let was_value_none = v.init.is_none();
+
             self.drop_unused_var_declarator(v, true);
             if v.name.is_invalid() {
+                continue;
+            }
+            if was_value_none {
                 continue;
             }
 
@@ -2750,8 +2748,13 @@ where
         }
 
         for v in vars.iter_mut().rev() {
+            let was_value_none = v.init.is_none();
+
             self.drop_unused_var_declarator(v, false);
             if v.name.is_invalid() {
+                continue;
+            }
+            if was_value_none {
                 continue;
             }
 

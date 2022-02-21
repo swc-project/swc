@@ -598,9 +598,9 @@
     function createElementWithValidation(type, props, children) {
         var validType = isValidElementType(type);
         if (!validType) {
-            var typeString, info = "";
+            var typeString, elementProps, info = "";
             (void 0 === type || "object" == typeof type && null !== type && 0 === Object.keys(type).length) && (info += " You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.");
-            var elementProps, sourceInfo = null != (elementProps = props) ? function(source) {
+            var sourceInfo = null != (elementProps = props) ? function(source) {
                 if (void 0 !== source) {
                     var fileName = source.fileName.replace(/^.*[\\\/]/, ""), lineNumber = source.lineNumber;
                     return "\n\nCheck your code at " + fileName + ":" + lineNumber + ".";
