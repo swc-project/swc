@@ -148,7 +148,7 @@ pub enum Expr {
     TsAs(TsAsExpr),
 
     #[tag("TsExpressionWithTypeArguments")]
-    TsInstantiation(TsExprWithTypeArgs),
+    TsInstantiation(TsInstantiation),
 
     #[tag("PrivateName")]
     PrivateName(PrivateName),
