@@ -590,9 +590,10 @@ impl ClassProperties {
                     } else {
                         constructor_exprs.push(Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
-                            callee: ident.clone().make_member(quote_ident!("set")).as_callee(),
+                            callee: helper!(class_private_field_init, "classPrivateFieldInit"),
                             args: vec![
                                 ThisExpr { span: DUMMY_SP }.as_arg(),
+                                ident.clone().as_arg(),
                                 ObjectLit {
                                     span: DUMMY_SP,
                                     props: vec![
@@ -732,11 +733,11 @@ impl ClassProperties {
                         // weak set.
                         constructor_exprs.push(Box::new(Expr::Call(CallExpr {
                             span: prop_span,
-                            callee: weak_coll_var
-                                .clone()
-                                .make_member(quote_ident!("add"))
-                                .as_callee(),
-                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                            callee: helper!(class_private_method_init, "classPrivateMethodInit"),
+                            args: vec![
+                                ThisExpr { span: DUMMY_SP }.as_arg(),
+                                weak_coll_var.clone().as_arg(),
+                            ],
                             type_args: Default::default(),
                         })));
                     }
