@@ -46,6 +46,12 @@
 
 - **(es/minifier)** Parallelize `join_vars` (#3655) ([da2c77d](https://github.com/swc-project/swc/commit/da2c77d9afe179b4f4f0ca1921294ba311f9306e))
 
+### Refactor
+
+
+
+- **(es/ast)** Change definition of optional chaining expressions (#3645) ([2cb66ae](https://github.com/swc-project/swc/commit/2cb66ae075ba45968f302d5cd756b0ce0dbcee41))
+
 ## [1.2.143] - 2022-02-19
 
 ### Features
