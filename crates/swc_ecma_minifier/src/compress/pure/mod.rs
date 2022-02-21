@@ -101,13 +101,13 @@ where
             stmts.visit_with(&mut AssertValid);
         }
 
-        self.join_vars(stmts);
+        self.collapse_vars_without_init(stmts);
 
         if cfg!(debug_assertions) {
             stmts.visit_with(&mut AssertValid);
         }
 
-        self.collapse_vars_without_init(stmts);
+        self.join_vars(stmts);
 
         if cfg!(debug_assertions) {
             stmts.visit_with(&mut AssertValid);
