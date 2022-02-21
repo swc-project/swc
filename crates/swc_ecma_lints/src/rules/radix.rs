@@ -20,7 +20,7 @@ const OBJ_NAMES: &[&str] = &["Number", "globalThis"];
 const MISSING_PARAMS_MESSAGE: &str = "Missing parameters";
 const REDUNDANT_RADIX_MESSAGE: &str = "Redundant radix parameter";
 const MISSING_RADIX_MESSAGE: &str = "Missing radix parameter";
-const INVLID_RADIX_MESSAGE: &str = "Invalid radix parameter, must be an integer between 2 and 36";
+const INVALID_RADIX_MESSAGE: &str = "Invalid radix parameter, must be an integer between 2 and 36";
 const ADD_10_RADIX_MESSAGE: &str = "Add radix parameter `10` for parsing decimal numbers";
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
@@ -165,8 +165,8 @@ impl Radix {
                 match &extract_arg_val(expr.as_ref(), self.check_parens) {
                     ArgValue::Ident => {}
                     ArgValue::Number(radix) => {
-                        if !(2f64..=36f64).contains(radix) {
-                            self.emit_report(call_span, INVLID_RADIX_MESSAGE, None);
+                        if radix.fract() != 0.0 || !(2f64..=36f64).contains(radix) {
+                            self.emit_report(call_span, INVALID_RADIX_MESSAGE, None);
 
                             return;
                         }
@@ -178,7 +178,7 @@ impl Radix {
                         }
                     }
                     _ => {
-                        self.emit_report(call_span, INVLID_RADIX_MESSAGE, None);
+                        self.emit_report(call_span, INVALID_RADIX_MESSAGE, None);
                     }
                 };
             }
