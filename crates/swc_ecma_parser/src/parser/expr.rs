@@ -1179,23 +1179,24 @@ impl<'a, I: Tokens> Parser<I> {
                             obj,
                             prop: MemberProp::Computed(prop),
                         };
-                        if let Some(question_dot_token) = question_dot_token {
+                        let expr = if let Some(question_dot_token) = question_dot_token {
                             Expr::OptChain(OptChainExpr {
                                 span,
                                 question_dot_token,
                                 base: OptChainBase::Member(expr),
                             })
                         } else {
-                            let expr = Expr::Member(expr);
-                            if type_args.is_some() {
-                                Expr::TsInstantiation(TsExprWithTypeArgs {
-                                    expr: Box::new(expr),
-                                    type_args,
-                                    span: span!(self, start),
-                                })
-                            } else {
-                                expr
-                            }
+                            Expr::Member(expr)
+                        };
+
+                        if type_args.is_some() {
+                            Expr::TsInstantiation(TsExprWithTypeArgs {
+                                expr: Box::new(expr),
+                                type_args,
+                                span: span!(self, start),
+                            })
+                        } else {
+                            expr
                         }
                     }
                 }),
@@ -1318,23 +1319,23 @@ impl<'a, I: Tokens> Parser<I> {
                     }
                     Callee::Expr(obj) => {
                         let expr = MemberExpr { span, obj, prop };
-                        if let Some(question_dot_token) = question_dot_token {
+                        let expr = if let Some(question_dot_token) = question_dot_token {
                             Expr::OptChain(OptChainExpr {
                                 span: span!(self, start),
                                 question_dot_token,
                                 base: OptChainBase::Member(expr),
                             })
                         } else {
-                            let expr = Expr::Member(expr);
-                            if type_args.is_some() {
-                                Expr::TsInstantiation(TsExprWithTypeArgs {
-                                    expr: Box::new(expr),
-                                    type_args,
-                                    span: span!(self, start),
-                                })
-                            } else {
-                                expr
-                            }
+                            Expr::Member(expr)
+                        };
+                        if type_args.is_some() {
+                            Expr::TsInstantiation(TsExprWithTypeArgs {
+                                expr: Box::new(expr),
+                                type_args,
+                                span: span!(self, start),
+                            })
+                        } else {
+                            expr
                         }
                     }
                 }),

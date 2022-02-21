@@ -1044,7 +1044,7 @@ pub struct OptCall {
 
 impl Take for OptChainBase {
     fn dummy() -> Self {
-        OptChainBase::Member(MemberExpr::dummy())
+        OptChainBase::Member(Take::dummy())
     }
 }
 
@@ -1071,7 +1071,7 @@ impl Take for OptCall {
     fn dummy() -> Self {
         Self {
             span: DUMMY_SP,
-            callee: Expr::dummy().into(),
+            callee: Take::dummy(),
             args: Vec::new(),
             type_args: None,
         }
