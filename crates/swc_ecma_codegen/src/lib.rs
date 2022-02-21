@@ -3156,6 +3156,9 @@ fn escape_with_source(
     s: &str,
     single_quote: Option<bool>,
 ) -> String {
+    static UNICODE_CODEPOINT: Lazy<regex::Regex> =
+        Lazy::new(|| regex::Regex::new(r#"(?i)\\[u]"#).unwrap());
+
     if span.is_dummy() {
         println!("dummy");
         return escape_without_source(s, target, single_quote.unwrap_or(false), false);
@@ -3170,7 +3173,7 @@ fn escape_with_source(
     };
 
     if target <= EsVersion::Es5 {
-        let emit_non_ascii_as_unicode = regex::Regex::new(r#"(?i)\\[u]"#).unwrap().is_match(&orig);
+        let emit_non_ascii_as_unicode = UNICODE_CODEPOINT.is_match(&orig);
 
         return escape_without_source(
             s,
