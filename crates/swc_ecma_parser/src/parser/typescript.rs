@@ -943,11 +943,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         match *expr {
-            Expr::TsInstantiation(v) => Ok(TsExprWithTypeArgs {
-                span: v.span,
-                expr: v.expr,
-                type_args: Some(v.type_args),
-            }),
+            Expr::TsInstantiation(ts_expr_with_type_args) => Ok(ts_expr_with_type_args),
             _ => {
                 let type_args = if is!(self, '<') {
                     Some(self.parse_ts_type_args()?)
