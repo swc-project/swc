@@ -204,7 +204,7 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "TsExpressionWithTypeArguments",
+            "type": "TsInstantiation",
             "span": {
               "start": 207,
               "end": 214,
