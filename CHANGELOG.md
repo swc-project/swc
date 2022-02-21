@@ -5,6 +5,9 @@
 
 
 
+- **(es/ast)** Fix definition of `Expr::TsInstantiation` (#3657) ([68a1551](https://github.com/swc-project/swc/commit/68a155165bd04530e97ef62ecede617d954fa98d))
+
+
 - **(es/parser)** Allow type arguments inside optional chaining (#3653) ([581b63c](https://github.com/swc-project/swc/commit/581b63cf3640f5cfc35a09819dd927c87a7db2b7))
 
 ### Features
