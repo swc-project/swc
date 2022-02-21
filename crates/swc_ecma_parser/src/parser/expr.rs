@@ -577,7 +577,7 @@ impl<'a, I: Tokens> Parser<I> {
             None
         };
         let obj = if type_args.is_some() {
-            Box::new(Expr::TsInstantiation(TsExprWithTypeArgs {
+            Box::new(Expr::TsInstantiation(TsInstantiation {
                 expr: obj,
                 type_args,
                 span: span!(self, start),
