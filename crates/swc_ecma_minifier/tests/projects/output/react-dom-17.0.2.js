@@ -7232,7 +7232,8 @@
                                     returnFiber.stateNode.containerInfo, warnForUnmatchedText(textInstance1, textContent);
                                     break;
                                 case 5:
-                                    var parentProps, textInstance2, text3, parentType = returnFiber.type, parentProps3 = returnFiber.memoizedProps;
+                                    returnFiber.type;
+                                    var parentProps, textInstance2, text3, parentProps3 = returnFiber.memoizedProps;
                                     returnFiber.stateNode, parentProps = parentProps3, textInstance2 = textInstance1, text3 = textContent, !0 !== parentProps[SUPPRESS_HYDRATION_WARNING$1] && warnForUnmatchedText(textInstance2, text3);
                                     break;
                             }

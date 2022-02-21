@@ -9,7 +9,7 @@ struct CompressDeclaration {}
 
 impl CompressDeclaration {
     fn is_same_dimension_length_nodes(
-        &mut self,
+        &self,
         node_1: Option<&Value>,
         node_2: Option<&Value>,
     ) -> bool {

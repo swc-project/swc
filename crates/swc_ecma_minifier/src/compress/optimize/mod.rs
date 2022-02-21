@@ -2741,8 +2741,13 @@ where
         }
 
         for v in vars.iter_mut() {
+            let was_value_none = v.init.is_none();
+
             self.drop_unused_var_declarator(v, true);
             if v.name.is_invalid() {
+                continue;
+            }
+            if was_value_none {
                 continue;
             }
 
@@ -2750,8 +2755,13 @@ where
         }
 
         for v in vars.iter_mut().rev() {
+            let was_value_none = v.init.is_none();
+
             self.drop_unused_var_declarator(v, false);
             if v.name.is_invalid() {
+                continue;
+            }
+            if was_value_none {
                 continue;
             }
 

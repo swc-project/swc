@@ -1,3 +1,5 @@
+#![deny(clippy::all)]
+
 use swc_css_ast::*;
 use swc_css_visit::VisitMutWith;
 
