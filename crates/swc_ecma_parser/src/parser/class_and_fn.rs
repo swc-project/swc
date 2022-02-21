@@ -179,7 +179,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_super_class(&mut self) -> PResult<(Box<Expr>, Option<TsTypeParamInstantiation>)> {
         let super_class = self.parse_lhs_expr()?;
         match *super_class {
-            Expr::TsInstantiation(TsExprWithTypeArgs {
+            Expr::TsInstantiation(TsInstantiation {
                 expr, type_args, ..
             }) => Ok((expr, type_args)),
             _ => {
