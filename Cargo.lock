@@ -1853,6 +1853,21 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "925383efa346730478fb4838dbe9137d2a47675ad789c546d150a6e1dd4ab31c"
 
 [[package]]
+name = "preset_env_base"
+version = "0.1.0"
+dependencies = [
+ "ahash",
+ "anyhow",
+ "browserslist-rs",
+ "dashmap",
+ "from_variant",
+ "once_cell",
+ "semver 1.0.4",
+ "serde",
+ "st-map",
+]
+
+[[package]]
 name = "pretty_assertions"
 version = "0.7.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3040,10 +3055,10 @@ version = "0.93.2"
 dependencies = [
  "ahash",
  "anyhow",
- "browserslist-rs",
  "dashmap",
  "indexmap",
  "once_cell",
+ "preset_env_base",
  "pretty_assertions",
  "semver 1.0.4",
  "serde",

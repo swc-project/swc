@@ -5,7 +5,7 @@
     "homepage": "https://swc.rs",
     "main": "./index.js",
     "author": "강동윤 <kdy1997.dev@gmail.com>",
-    "license": "Apache-2.0 AND MIT",
+    "license": "Apache-2.0",
     "keywords": [
         "swc",
         "swcpack",
