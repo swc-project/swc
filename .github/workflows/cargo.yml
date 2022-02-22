@@ -218,6 +218,36 @@ jobs:
             os: ubuntu-latest
           - crate: swc_plugin
             os: ubuntu-latest
+          - crate: swc_plugin
+            os: windows-latest
+          - crate: swc_plugin_macro
+            os: ubuntu-latest
+          - crate: swc_plugin_runner
+            os: ubuntu-latest
+          - crate: swc_plugin_runner
+            os: macos-latest
+          - crate: swc_plugin_runner
+            os: windows-latest
+          - crate: swc_plugin_testing
+            os: ubuntu-latest
+          - crate: swc_plugin_testing
+            os: windows-latest
+          - crate: swc_stylis
+            os: ubuntu-latest
+          - crate: swc_timer
+            os: ubuntu-latest
+          - crate: swc_visit
+            os: ubuntu-latest
+          - crate: swc_visit_macros
+            os: ubuntu-latest
+          - crate: swc_webpack_ast
+            os: ubuntu-latest
+          - crate: testing
+            os: ubuntu-latest
+          - crate: testing_macros
+            os: ubuntu-latest
+          - crate: wasm
+            os: ubuntu-latest
 
     steps:
       - name: Handle line endings
