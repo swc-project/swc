@@ -38,4 +38,4 @@ jobs:
 
       - name: Check
         run: |
-          cargo clippy --all
+          cargo clippy --all --deny explicit_deref_methods
