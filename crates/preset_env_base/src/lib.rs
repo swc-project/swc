@@ -1,10 +1,9 @@
 use anyhow::Error;
 use serde::Deserialize;
 use st_map::StaticMap;
+use version::Version;
 
-pub use self::version::Version;
-
-mod version;
+pub mod version;
 
 /// A map without allocation.
 #[derive(Debug, Default, Deserialize, Clone, Copy, StaticMap)]

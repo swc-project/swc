@@ -1,9 +1,15 @@
+//! Module for browser versions
+
 use std::{cmp, cmp::Ordering, fmt, str::FromStr};
 
 use serde::{de, de::Visitor, Deserialize, Deserializer};
 
 use crate::Versions;
 
+/// A version of a browser.
+///
+/// This is similar to semver, but this assumes a production build. (No tag like
+/// `alpha`)
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Version {
     pub major: u16,
