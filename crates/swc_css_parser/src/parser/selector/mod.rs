@@ -17,7 +17,7 @@ where
 
         let child = self.parse()?;
         let mut children = vec![child];
-        
+
         loop {
             self.input.skip_ws()?;
 
@@ -589,10 +589,10 @@ where
             let state = self.input.state();
             let mut parse_pseudo_class_children = || -> PResult<Vec<PseudoSelectorChildren>> {
                 let mut children = vec![];
-                
+
                 match &*names.0.to_ascii_lowercase() {
-                    "nth-child" | "nth-last-child" | "nth-of-type" | "nth-last-of-type" | "nth-col"
-                    | "nth-last-col" => {
+                    "nth-child" | "nth-last-child" | "nth-of-type" | "nth-last-of-type"
+                    | "nth-col" | "nth-last-col" => {
                         self.input.skip_ws()?;
 
                         let an_plus_b = self.parse()?;
@@ -628,7 +628,7 @@ where
                         return Err(Error::new(span, ErrorKind::Ignore));
                     }
                 };
-                
+
                 Ok(children)
             };
             let children = match parse_pseudo_class_children() {
@@ -637,7 +637,7 @@ where
                     if *err.kind() != ErrorKind::Ignore {
                         self.errors.push(err);
                     }
-                   
+
                     self.input.reset(&state);
 
                     let any_value = self.parse_any_value()?;
@@ -672,7 +672,10 @@ where
         } else {
             let span = self.input.cur_span()?;
 
-            Err(Error::new(span, ErrorKind::Expected("function or ident tokens")))
+            Err(Error::new(
+                span,
+                ErrorKind::Expected("function or ident tokens"),
+            ))
         }
     }
 }
@@ -742,7 +745,7 @@ where
                     let ident: Ident = self.parse()?;
 
 
-                    Ok(AnPlusB {  
+                    Ok(AnPlusB {
                         span: span!(self, span.lo),
                         value: AnPlusBValue::Ident(ident),
                     })
@@ -755,7 +758,7 @@ where
                         unreachable!();
                     }
                 };
-                
+
                 let an_plus_b_notation = AnPlusBNotation {
                     span: span!(self, span.lo),
                     a: None,
