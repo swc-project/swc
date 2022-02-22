@@ -437,6 +437,7 @@ impl Options {
 
         let plugin_context = PluginContext {
             filename: transform_filename,
+            env_name: self.env_name,
         };
 
         #[cfg(feature = "plugin")]
