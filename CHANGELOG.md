@@ -67,6 +67,12 @@
 
 - **(es/ast)** Change definition of optional chaining expressions (#3645) ([2cb66ae](https://github.com/swc-project/swc/commit/2cb66ae075ba45968f302d5cd756b0ce0dbcee41))
 
+### Build
+
+
+
+- **(swc)** Remove unused dependencies (#3673) ([210f17a](https://github.com/swc-project/swc/commit/210f17af8c028dd9742a2e0ff46ce3b3869c6064))
+
 ## [1.2.143] - 2022-02-19
 
 ### Features
