@@ -27,7 +27,6 @@ swc_ecma_ast = {version = "0.68.0", path = "../swc_ecma_ast"}
 swc_ecma_transforms = {version = "0.120.0", path = "../swc_ecma_transforms", features = ["compat", "proposal"]}
 swc_ecma_utils = {version = "0.68.0", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.54.0", path = "../swc_ecma_visit"}
-walkdir = "2"
 
 [dev-dependencies]
 pretty_assertions = "0.7.2"
