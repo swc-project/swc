@@ -20,6 +20,9 @@
 - **(css/minifier)** Compress declarations (#3649) ([7d15316](https://github.com/swc-project/swc/commit/7d15316ee12506327b25d0ab6aaf972ac687709b))
 
 
+- **(css/minifier)** Compress degrees to zero (#3664) ([0b5f554](https://github.com/swc-project/swc/commit/0b5f5544c60136bde3bd07c9c75459086cf4b0d5))
+
+
 - **(es/ast)** Support TypeScript Instantiation Expression (#3642) ([61e711c](https://github.com/swc-project/swc/commit/61e711c912bc31453a24dce2d1e1d98044aab3df))
 
 
