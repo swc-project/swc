@@ -641,22 +641,18 @@ impl<'a, I: Tokens> Parser<I> {
                                 },
 
                                 PropOrSpread::Spread(SpreadElement { dot3_token, expr }) => {
-                                    if idx != len - 1 && self.syntax().early_errors() {
-                                        syntax_error!(self, span, SyntaxError::NonLastRestParam)
-                                    } else {
-                                        Ok(ObjectPatProp::Rest(RestPat {
-                                            span,
-                                            dot3_token,
-                                            // FIXME: is BindingPat correct?
-                                            arg: Box::new(
-                                                self.reparse_expr_as_pat(
-                                                    PatType::BindingPat,
-                                                    expr,
-                                                )?,
-                                            ),
-                                            type_ann: None,
-                                        }))
-                                    }
+                                    if idx != len - 1 {
+                                        self.emit_err(span, SyntaxError::NonLastRestParam)
+                                    };
+                                    Ok(ObjectPatProp::Rest(RestPat {
+                                        span,
+                                        dot3_token,
+                                        // FIXME: is BindingPat correct?
+                                        arg: Box::new(
+                                            self.reparse_expr_as_pat(PatType::BindingPat, expr)?,
+                                        ),
+                                        type_ann: None,
+                                    }))
                                 }
                             }
                         })
