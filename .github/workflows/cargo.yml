@@ -22,11 +22,6 @@ jobs:
     name: Check license
     runs-on: ubuntu-latest
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
-        with:
-          access_token: ${{ github.token }}
-
       - uses: actions/checkout@v2
 
       - name: Install Rust
@@ -53,11 +48,6 @@ jobs:
           - macos-10.15
           - windows-latest
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
-        with:
-          access_token: ${{ github.token }}
-
       - uses: actions/checkout@v2
         with:
           submodules: true
@@ -258,11 +248,6 @@ jobs:
             os: ubuntu-latest
 
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
-        with:
-          access_token: ${{ github.token }}
-
       - name: Handle line endings
         shell: bash
         if: runner.os == 'Windows'
