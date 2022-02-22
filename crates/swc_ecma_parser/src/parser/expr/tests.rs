@@ -494,6 +494,17 @@ fn super_expr_computed() {
     );
 }
 
+#[test]
+fn issue_3672() {
+    test_parser(
+        "report({
+    fix: fixable ? null : (): RuleFix => {},
+});",
+        Syntax::Typescript(Default::default()),
+        |p| p.parse_module(),
+    );
+}
+
 #[bench]
 fn bench_new_expr_ts(b: &mut Bencher) {
     bench_parser(
