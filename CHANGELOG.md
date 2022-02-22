@@ -41,6 +41,9 @@
 - **(es/lints)** Add `no-loop-func` rule (#3630) ([f4af363](https://github.com/swc-project/swc/commit/f4af3634de94076e571836a65b491210e096b2b8))
 
 
+- **(es/lints)** Implement `no-empty-function` rule (#3565) ([319d501](https://github.com/swc-project/swc/commit/319d501f1733febb5861b55782dc5fe742015d2f))
+
+
 - **(es/minifier)** Merge exports (#3643) ([10adf1e](https://github.com/swc-project/swc/commit/10adf1e548c381d3ff6beef7929d409b1ff1fb60))
 
 
