@@ -190,20 +190,17 @@ target = "{}""#,
     "name": "{}",
     "version": "0.1.0",
     "description": "",
-    "main": "{}",
-    "scripts": {{
-        "test": "echo \"Error: no test specified\" && exit 1"
-    }},
-    "keywords": [],
     "author": "",
     "license": "ISC",
-    "files": [
-        "{}",
-        "README.md"
-    ]
+    "keywords": ["swc-plugin"],
+    "main": "{}",
+    "scripts": {{
+        "prepublishOnly": "cargo build --release"
+    }},
+    "files": []
 }}
 "#,
-                name, dist_output_path, dist_output_path
+                name, dist_output_path
             )
             .as_bytes(),
         )
