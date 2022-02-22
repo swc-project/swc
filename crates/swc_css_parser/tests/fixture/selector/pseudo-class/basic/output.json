@@ -1990,24 +1990,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 447,
                           "end": 448,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 447,
-                            "end": 448,
-                            "ctxt": 0
-                          },
-                          "a": null,
-                          "aRaw": null,
-                          "b": 2,
-                          "bRaw": "2"
-                        }
+                        "a": null,
+                        "aRaw": null,
+                        "b": 2,
+                        "bRaw": "2"
                       }
                     ]
                   }

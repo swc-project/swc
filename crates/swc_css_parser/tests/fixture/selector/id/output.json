@@ -2865,24 +2865,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 730,
                           "end": 734,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 730,
-                            "end": 734,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }

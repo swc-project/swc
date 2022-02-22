@@ -210,14 +210,8 @@ pub enum PseudoSelectorChildren {
     PreservedToken(TokenAndSpan),
 }
 
-#[ast_node("AnPlusB")]
-pub struct AnPlusB {
-    pub span: Span,
-    pub value: AnPlusBValue,
-}
-
 #[ast_node]
-pub enum AnPlusBValue {
+pub enum AnPlusB {
     #[tag("Ident")]
     Ident(Ident),
     #[tag("AnPlusBNotation")]

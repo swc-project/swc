@@ -376,12 +376,7 @@ define!({
         PreservedToken(TokenAndSpan),
     }
 
-    pub struct AnPlusB {
-        pub span: Span,
-        pub value: AnPlusBValue,
-    }
-
-    pub enum AnPlusBValue {
+    pub enum AnPlusB {
         Ident(Ident),
         AnPlusBNotation(AnPlusBNotation),
     }

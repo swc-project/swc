@@ -742,13 +742,7 @@ where
             if &(*value).to_ascii_lowercase() == "odd"
                 || &(*value).to_ascii_lowercase() == "even" =>
                 {
-                    let ident: Ident = self.parse()?;
-
-
-                    Ok(AnPlusB {
-                        span: span!(self, span.lo),
-                        value: AnPlusBValue::Ident(ident),
-                    })
+                    Ok(AnPlusB::Ident(self.parse()?))
                 }
             // <integer>
             tok!("number") => {
@@ -759,18 +753,13 @@ where
                     }
                 };
 
-                let an_plus_b_notation = AnPlusBNotation {
+                Ok(AnPlusB::AnPlusBNotation(AnPlusBNotation {
                     span: span!(self, span.lo),
                     a: None,
                     a_raw: None,
                     b: Some(number.0 as i32),
                     b_raw: Some(number.1),
-                };
-
-                Ok(AnPlusB {
-                    span: span!(self, span.lo),
-                    value: AnPlusBValue::AnPlusBNotation(an_plus_b_notation)
-                })
+                }))
             }
             // '+'? n
             // '+'? <ndashdigit-ident>
@@ -956,18 +945,13 @@ where
                     }
                 }
 
-                let an_plus_b_notation = AnPlusBNotation {
+                Ok(AnPlusB::AnPlusBNotation(AnPlusBNotation {
                     span: span!(self, span.lo),
                     a,
                     a_raw,
                     b,
                     b_raw,
-                };
-
-                Ok(AnPlusB {
-                   span: span!(self, span.lo),
-                   value: AnPlusBValue::AnPlusBNotation(an_plus_b_notation)
-                })
+                }))
             }
             _ => {
                 return Err(Error::new(span, ErrorKind::InvalidAnPlusBMicrosyntax));

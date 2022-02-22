@@ -1649,14 +1649,9 @@ where
 
     #[emitter]
     fn emit_an_plus_b(&mut self, n: &AnPlusB) -> Result {
-        emit!(self, n.value);
-    }
-
-    #[emitter]
-    fn emit_an_plus_b_value(&mut self, n: &AnPlusBValue) -> Result {
-        match &n {
-            AnPlusBValue::AnPlusBNotation(n) => emit!(self, n),
-            AnPlusBValue::Ident(n) => emit!(self, n),
+        match n {
+            AnPlusB::Ident(n) => emit!(self, n),
+            AnPlusB::AnPlusBNotation(n) => emit!(self, n),
         }
     }
 

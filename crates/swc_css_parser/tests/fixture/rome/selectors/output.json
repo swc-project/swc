@@ -1265,24 +1265,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 280,
                           "end": 281,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 280,
-                            "end": 281,
-                            "ctxt": 0
-                          },
-                          "a": null,
-                          "aRaw": null,
-                          "b": 2,
-                          "bRaw": "2"
-                        }
+                        "a": null,
+                        "aRaw": null,
+                        "b": 2,
+                        "bRaw": "2"
                       }
                     ]
                   }

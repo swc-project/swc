@@ -58,24 +58,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 11,
                           "end": 15,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 11,
-                            "end": 15,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }
@@ -148,24 +140,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 31,
                           "end": 36,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 31,
-                            "end": 36,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }
@@ -238,24 +222,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 52,
                           "end": 58,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 52,
-                            "end": 58,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": 1,
-                          "bRaw": " + 1"
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": " + 1"
                       }
                     ]
                   }
@@ -328,24 +304,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 74,
                           "end": 79,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 74,
-                            "end": 79,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": 1,
-                          "bRaw": " + 1"
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": " + 1"
                       }
                     ]
                   }
@@ -418,24 +386,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 95,
                           "end": 99,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 95,
-                            "end": 99,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": -1,
-                          "bRaw": "-1"
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": -1,
+                        "bRaw": "-1"
                       }
                     ]
                   }
@@ -508,24 +468,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 115,
                           "end": 120,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 115,
-                            "end": 120,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": -1,
-                          "bRaw": "-1"
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": -1,
+                        "bRaw": "-1"
                       }
                     ]
                   }
@@ -598,24 +550,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 136,
                           "end": 141,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 136,
-                            "end": 141,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": -1,
-                          "bRaw": "- 1"
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": -1,
+                        "bRaw": "- 1"
                       }
                     ]
                   }
@@ -688,24 +632,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 157,
                           "end": 163,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 157,
-                            "end": 163,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": -1,
-                          "bRaw": " - 1"
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": -1,
+                        "bRaw": " - 1"
                       }
                     ]
                   }
@@ -778,24 +714,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 179,
                           "end": 184,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 179,
-                            "end": 184,
-                            "ctxt": 0
-                          },
-                          "a": -2,
-                          "aRaw": "-2",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": -2,
+                        "aRaw": "-2",
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }
@@ -868,24 +796,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 200,
                           "end": 206,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 200,
-                            "end": 206,
-                            "ctxt": 0
-                          },
-                          "a": -2,
-                          "aRaw": "-2",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": -2,
+                        "aRaw": "-2",
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }
@@ -958,24 +878,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 222,
                           "end": 229,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 222,
-                            "end": 229,
-                            "ctxt": 0
-                          },
-                          "a": -2,
-                          "aRaw": "-2",
-                          "b": 1,
-                          "bRaw": " + 1"
-                        }
+                        "a": -2,
+                        "aRaw": "-2",
+                        "b": 1,
+                        "bRaw": " + 1"
                       }
                     ]
                   }
@@ -1048,24 +960,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 245,
                           "end": 251,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 245,
-                            "end": 251,
-                            "ctxt": 0
-                          },
-                          "a": -2,
-                          "aRaw": "-2",
-                          "b": 1,
-                          "bRaw": " + 1"
-                        }
+                        "a": -2,
+                        "aRaw": "-2",
+                        "b": 1,
+                        "bRaw": " + 1"
                       }
                     ]
                   }
@@ -1138,24 +1042,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 267,
                           "end": 272,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 267,
-                            "end": 272,
-                            "ctxt": 0
-                          },
-                          "a": -2,
-                          "aRaw": "-2",
-                          "b": -1,
-                          "bRaw": "-1"
-                        }
+                        "a": -2,
+                        "aRaw": "-2",
+                        "b": -1,
+                        "bRaw": "-1"
                       }
                     ]
                   }
@@ -1228,24 +1124,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 288,
                           "end": 294,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 288,
-                            "end": 294,
-                            "ctxt": 0
-                          },
-                          "a": -2,
-                          "aRaw": "-2",
-                          "b": -1,
-                          "bRaw": "-1"
-                        }
+                        "a": -2,
+                        "aRaw": "-2",
+                        "b": -1,
+                        "bRaw": "-1"
                       }
                     ]
                   }
@@ -1318,24 +1206,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 310,
                           "end": 317,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 310,
-                            "end": 317,
-                            "ctxt": 0
-                          },
-                          "a": -2,
-                          "aRaw": "-2",
-                          "b": -1,
-                          "bRaw": " - 1"
-                        }
+                        "a": -2,
+                        "aRaw": "-2",
+                        "b": -1,
+                        "bRaw": " - 1"
                       }
                     ]
                   }
@@ -1408,24 +1288,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 333,
                           "end": 338,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 333,
-                            "end": 338,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "+2",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": 2,
+                        "aRaw": "+2",
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }
@@ -1498,24 +1370,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 354,
                           "end": 360,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 354,
-                            "end": 360,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "+2",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": 2,
+                        "aRaw": "+2",
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }
@@ -1588,24 +1452,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 376,
                           "end": 383,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 376,
-                            "end": 383,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "+2",
-                          "b": 1,
-                          "bRaw": " + 1"
-                        }
+                        "a": 2,
+                        "aRaw": "+2",
+                        "b": 1,
+                        "bRaw": " + 1"
                       }
                     ]
                   }
@@ -1678,24 +1534,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 399,
                           "end": 405,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 399,
-                            "end": 405,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "+2",
-                          "b": 1,
-                          "bRaw": " + 1"
-                        }
+                        "a": 2,
+                        "aRaw": "+2",
+                        "b": 1,
+                        "bRaw": " + 1"
                       }
                     ]
                   }
@@ -1768,24 +1616,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 421,
                           "end": 426,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 421,
-                            "end": 426,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "+2",
-                          "b": -1,
-                          "bRaw": "-1"
-                        }
+                        "a": 2,
+                        "aRaw": "+2",
+                        "b": -1,
+                        "bRaw": "-1"
                       }
                     ]
                   }
@@ -1858,24 +1698,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 442,
                           "end": 448,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 442,
-                            "end": 448,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "+2",
-                          "b": -1,
-                          "bRaw": "-1"
-                        }
+                        "a": 2,
+                        "aRaw": "+2",
+                        "b": -1,
+                        "bRaw": "-1"
                       }
                     ]
                   }
@@ -1948,24 +1780,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 464,
                           "end": 470,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 464,
-                            "end": 470,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "+2",
-                          "b": -1,
-                          "bRaw": "- 1"
-                        }
+                        "a": 2,
+                        "aRaw": "+2",
+                        "b": -1,
+                        "bRaw": "- 1"
                       }
                     ]
                   }
@@ -2038,24 +1862,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 486,
                           "end": 493,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 486,
-                            "end": 493,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "+2",
-                          "b": -1,
-                          "bRaw": " - 1"
-                        }
+                        "a": 2,
+                        "aRaw": "+2",
+                        "b": -1,
+                        "bRaw": " - 1"
                       }
                     ]
                   }
@@ -2128,24 +1944,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 509,
                           "end": 512,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 509,
-                            "end": 512,
-                            "ctxt": 0
-                          },
-                          "a": 1,
-                          "aRaw": "",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": 1,
+                        "aRaw": "",
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }
@@ -2218,24 +2026,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 528,
                           "end": 532,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 528,
-                            "end": 532,
-                            "ctxt": 0
-                          },
-                          "a": 1,
-                          "aRaw": "",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": 1,
+                        "aRaw": "",
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }
@@ -2308,24 +2108,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 548,
                           "end": 553,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 548,
-                            "end": 553,
-                            "ctxt": 0
-                          },
-                          "a": 1,
-                          "aRaw": "",
-                          "b": 1,
-                          "bRaw": " + 1"
-                        }
+                        "a": 1,
+                        "aRaw": "",
+                        "b": 1,
+                        "bRaw": " + 1"
                       }
                     ]
                   }
@@ -2398,24 +2190,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 569,
                           "end": 573,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 569,
-                            "end": 573,
-                            "ctxt": 0
-                          },
-                          "a": 1,
-                          "aRaw": "",
-                          "b": 1,
-                          "bRaw": " + 1"
-                        }
+                        "a": 1,
+                        "aRaw": "",
+                        "b": 1,
+                        "bRaw": " + 1"
                       }
                     ]
                   }
@@ -2488,24 +2272,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 589,
                           "end": 592,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 589,
-                            "end": 592,
-                            "ctxt": 0
-                          },
-                          "a": 1,
-                          "aRaw": "",
-                          "b": -1,
-                          "bRaw": "-1"
-                        }
+                        "a": 1,
+                        "aRaw": "",
+                        "b": -1,
+                        "bRaw": "-1"
                       }
                     ]
                   }
@@ -2578,24 +2354,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 608,
                           "end": 612,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 608,
-                            "end": 612,
-                            "ctxt": 0
-                          },
-                          "a": 1,
-                          "aRaw": "",
-                          "b": -1,
-                          "bRaw": "-1"
-                        }
+                        "a": 1,
+                        "aRaw": "",
+                        "b": -1,
+                        "bRaw": "-1"
                       }
                     ]
                   }
@@ -2668,24 +2436,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 628,
                           "end": 632,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 628,
-                            "end": 632,
-                            "ctxt": 0
-                          },
-                          "a": 1,
-                          "aRaw": "",
-                          "b": -1,
-                          "bRaw": "- 1"
-                        }
+                        "a": 1,
+                        "aRaw": "",
+                        "b": -1,
+                        "bRaw": "- 1"
                       }
                     ]
                   }
@@ -2758,24 +2518,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 648,
                           "end": 653,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 648,
-                            "end": 653,
-                            "ctxt": 0
-                          },
-                          "a": 1,
-                          "aRaw": "",
-                          "b": -1,
-                          "bRaw": " - 1"
-                        }
+                        "a": 1,
+                        "aRaw": "",
+                        "b": -1,
+                        "bRaw": " - 1"
                       }
                     ]
                   }
@@ -2848,24 +2600,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 669,
                           "end": 673,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 669,
-                            "end": 673,
-                            "ctxt": 0
-                          },
-                          "a": -1,
-                          "aRaw": "-",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": -1,
+                        "aRaw": "-",
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }
@@ -2938,24 +2682,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 689,
                           "end": 694,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 689,
-                            "end": 694,
-                            "ctxt": 0
-                          },
-                          "a": -1,
-                          "aRaw": "-",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": -1,
+                        "aRaw": "-",
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }
@@ -3028,24 +2764,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 710,
                           "end": 716,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 710,
-                            "end": 716,
-                            "ctxt": 0
-                          },
-                          "a": -1,
-                          "aRaw": "-",
-                          "b": 1,
-                          "bRaw": " + 1"
-                        }
+                        "a": -1,
+                        "aRaw": "-",
+                        "b": 1,
+                        "bRaw": " + 1"
                       }
                     ]
                   }
@@ -3118,24 +2846,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 732,
                           "end": 737,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 732,
-                            "end": 737,
-                            "ctxt": 0
-                          },
-                          "a": -1,
-                          "aRaw": "-",
-                          "b": 1,
-                          "bRaw": " + 1"
-                        }
+                        "a": -1,
+                        "aRaw": "-",
+                        "b": 1,
+                        "bRaw": " + 1"
                       }
                     ]
                   }
@@ -3208,24 +2928,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 753,
                           "end": 757,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 753,
-                            "end": 757,
-                            "ctxt": 0
-                          },
-                          "a": -1,
-                          "aRaw": "-",
-                          "b": -1,
-                          "bRaw": "-1"
-                        }
+                        "a": -1,
+                        "aRaw": "-",
+                        "b": -1,
+                        "bRaw": "-1"
                       }
                     ]
                   }
@@ -3298,24 +3010,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 773,
                           "end": 778,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 773,
-                            "end": 778,
-                            "ctxt": 0
-                          },
-                          "a": -1,
-                          "aRaw": "-",
-                          "b": -1,
-                          "bRaw": "-1"
-                        }
+                        "a": -1,
+                        "aRaw": "-",
+                        "b": -1,
+                        "bRaw": "-1"
                       }
                     ]
                   }
@@ -3388,24 +3092,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 794,
                           "end": 799,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 794,
-                            "end": 799,
-                            "ctxt": 0
-                          },
-                          "a": -1,
-                          "aRaw": "-",
-                          "b": -1,
-                          "bRaw": "- 1"
-                        }
+                        "a": -1,
+                        "aRaw": "-",
+                        "b": -1,
+                        "bRaw": "- 1"
                       }
                     ]
                   }
@@ -3478,24 +3174,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 815,
                           "end": 821,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 815,
-                            "end": 821,
-                            "ctxt": 0
-                          },
-                          "a": -1,
-                          "aRaw": "-",
-                          "b": -1,
-                          "bRaw": " - 1"
-                        }
+                        "a": -1,
+                        "aRaw": "-",
+                        "b": -1,
+                        "bRaw": " - 1"
                       }
                     ]
                   }
@@ -3568,24 +3256,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 837,
                           "end": 841,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 837,
-                            "end": 841,
-                            "ctxt": 0
-                          },
-                          "a": 1,
-                          "aRaw": "+",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": 1,
+                        "aRaw": "+",
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }
@@ -3658,24 +3338,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 857,
                           "end": 862,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 857,
-                            "end": 862,
-                            "ctxt": 0
-                          },
-                          "a": 1,
-                          "aRaw": "+",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": 1,
+                        "aRaw": "+",
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }
@@ -3748,24 +3420,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 878,
                           "end": 884,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 878,
-                            "end": 884,
-                            "ctxt": 0
-                          },
-                          "a": 1,
-                          "aRaw": "+",
-                          "b": 1,
-                          "bRaw": " + 1"
-                        }
+                        "a": 1,
+                        "aRaw": "+",
+                        "b": 1,
+                        "bRaw": " + 1"
                       }
                     ]
                   }
@@ -3838,24 +3502,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 900,
                           "end": 905,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 900,
-                            "end": 905,
-                            "ctxt": 0
-                          },
-                          "a": 1,
-                          "aRaw": "+",
-                          "b": 1,
-                          "bRaw": " + 1"
-                        }
+                        "a": 1,
+                        "aRaw": "+",
+                        "b": 1,
+                        "bRaw": " + 1"
                       }
                     ]
                   }
@@ -3928,24 +3584,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 921,
                           "end": 925,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 921,
-                            "end": 925,
-                            "ctxt": 0
-                          },
-                          "a": 1,
-                          "aRaw": "+",
-                          "b": -1,
-                          "bRaw": "-1"
-                        }
+                        "a": 1,
+                        "aRaw": "+",
+                        "b": -1,
+                        "bRaw": "-1"
                       }
                     ]
                   }
@@ -4018,24 +3666,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 941,
                           "end": 946,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 941,
-                            "end": 946,
-                            "ctxt": 0
-                          },
-                          "a": 1,
-                          "aRaw": "+",
-                          "b": -1,
-                          "bRaw": "-1"
-                        }
+                        "a": 1,
+                        "aRaw": "+",
+                        "b": -1,
+                        "bRaw": "-1"
                       }
                     ]
                   }
@@ -4108,24 +3748,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 962,
                           "end": 967,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 962,
-                            "end": 967,
-                            "ctxt": 0
-                          },
-                          "a": 1,
-                          "aRaw": "+",
-                          "b": -1,
-                          "bRaw": "- 1"
-                        }
+                        "a": 1,
+                        "aRaw": "+",
+                        "b": -1,
+                        "bRaw": "- 1"
                       }
                     ]
                   }
@@ -4198,24 +3830,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 983,
                           "end": 989,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 983,
-                            "end": 989,
-                            "ctxt": 0
-                          },
-                          "a": 1,
-                          "aRaw": "+",
-                          "b": -1,
-                          "bRaw": " - 1"
-                        }
+                        "a": 1,
+                        "aRaw": "+",
+                        "b": -1,
+                        "bRaw": " - 1"
                       }
                     ]
                   }
@@ -4288,24 +3912,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1005,
                           "end": 1006,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1005,
-                            "end": 1006,
-                            "ctxt": 0
-                          },
-                          "a": 1,
-                          "aRaw": "",
-                          "b": null,
-                          "bRaw": null
-                        }
+                        "a": 1,
+                        "aRaw": "",
+                        "b": null,
+                        "bRaw": null
                       }
                     ]
                   }
@@ -4378,24 +3994,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1022,
                           "end": 1024,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1022,
-                            "end": 1024,
-                            "ctxt": 0
-                          },
-                          "a": -1,
-                          "aRaw": "-",
-                          "b": null,
-                          "bRaw": null
-                        }
+                        "a": -1,
+                        "aRaw": "-",
+                        "b": null,
+                        "bRaw": null
                       }
                     ]
                   }
@@ -4468,24 +4076,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1040,
                           "end": 1042,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1040,
-                            "end": 1042,
-                            "ctxt": 0
-                          },
-                          "a": 1,
-                          "aRaw": "+",
-                          "b": null,
-                          "bRaw": null
-                        }
+                        "a": 1,
+                        "aRaw": "+",
+                        "b": null,
+                        "bRaw": null
                       }
                     ]
                   }
@@ -4558,24 +4158,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1058,
                           "end": 1060,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1058,
-                            "end": 1060,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": null,
-                          "bRaw": null
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": null,
+                        "bRaw": null
                       }
                     ]
                   }
@@ -4648,24 +4240,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1076,
                           "end": 1079,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1076,
-                            "end": 1079,
-                            "ctxt": 0
-                          },
-                          "a": -2,
-                          "aRaw": "-2",
-                          "b": null,
-                          "bRaw": null
-                        }
+                        "a": -2,
+                        "aRaw": "-2",
+                        "b": null,
+                        "bRaw": null
                       }
                     ]
                   }
@@ -4738,24 +4322,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1095,
                           "end": 1098,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1095,
-                            "end": 1098,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "+2",
-                          "b": null,
-                          "bRaw": null
-                        }
+                        "a": 2,
+                        "aRaw": "+2",
+                        "b": null,
+                        "bRaw": null
                       }
                     ]
                   }
@@ -4828,24 +4404,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1114,
                           "end": 1115,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1114,
-                            "end": 1115,
-                            "ctxt": 0
-                          },
-                          "a": 1,
-                          "aRaw": "",
-                          "b": null,
-                          "bRaw": null
-                        }
+                        "a": 1,
+                        "aRaw": "",
+                        "b": null,
+                        "bRaw": null
                       }
                     ]
                   }
@@ -4918,24 +4486,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1131,
                           "end": 1133,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1131,
-                            "end": 1133,
-                            "ctxt": 0
-                          },
-                          "a": -1,
-                          "aRaw": "-",
-                          "b": null,
-                          "bRaw": null
-                        }
+                        "a": -1,
+                        "aRaw": "-",
+                        "b": null,
+                        "bRaw": null
                       }
                     ]
                   }
@@ -5008,24 +4568,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1149,
                           "end": 1151,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1149,
-                            "end": 1151,
-                            "ctxt": 0
-                          },
-                          "a": 1,
-                          "aRaw": "+",
-                          "b": null,
-                          "bRaw": null
-                        }
+                        "a": 1,
+                        "aRaw": "+",
+                        "b": null,
+                        "bRaw": null
                       }
                     ]
                   }
@@ -5098,24 +4650,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1167,
                           "end": 1169,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1167,
-                            "end": 1169,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": null,
-                          "bRaw": null
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": null,
+                        "bRaw": null
                       }
                     ]
                   }
@@ -5188,24 +4732,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1185,
                           "end": 1188,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1185,
-                            "end": 1188,
-                            "ctxt": 0
-                          },
-                          "a": -2,
-                          "aRaw": "-2",
-                          "b": null,
-                          "bRaw": null
-                        }
+                        "a": -2,
+                        "aRaw": "-2",
+                        "b": null,
+                        "bRaw": null
                       }
                     ]
                   }
@@ -5278,24 +4814,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1204,
                           "end": 1207,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1204,
-                            "end": 1207,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "+2",
-                          "b": null,
-                          "bRaw": null
-                        }
+                        "a": 2,
+                        "aRaw": "+2",
+                        "b": null,
+                        "bRaw": null
                       }
                     ]
                   }
@@ -5368,24 +4896,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1223,
                           "end": 1224,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1223,
-                            "end": 1224,
-                            "ctxt": 0
-                          },
-                          "a": null,
-                          "aRaw": null,
-                          "b": 1,
-                          "bRaw": "1"
-                        }
+                        "a": null,
+                        "aRaw": null,
+                        "b": 1,
+                        "bRaw": "1"
                       }
                     ]
                   }
@@ -5458,24 +4978,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1240,
                           "end": 1242,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1240,
-                            "end": 1242,
-                            "ctxt": 0
-                          },
-                          "a": null,
-                          "aRaw": null,
-                          "b": -1,
-                          "bRaw": "-1"
-                        }
+                        "a": null,
+                        "aRaw": null,
+                        "b": -1,
+                        "bRaw": "-1"
                       }
                     ]
                   }
@@ -5548,24 +5060,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1258,
                           "end": 1260,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1258,
-                            "end": 1260,
-                            "ctxt": 0
-                          },
-                          "a": null,
-                          "aRaw": null,
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": null,
+                        "aRaw": null,
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }
@@ -5638,24 +5142,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1276,
                           "end": 1292,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1276,
-                            "end": 1292,
-                            "ctxt": 0
-                          },
-                          "a": 123456,
-                          "aRaw": "123456",
-                          "b": -12345678,
-                          "bRaw": "-12345678"
-                        }
+                        "a": 123456,
+                        "aRaw": "123456",
+                        "b": -12345678,
+                        "bRaw": "-12345678"
                       }
                     ]
                   }
@@ -5728,24 +5224,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1309,
                           "end": 1313,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1309,
-                            "end": 1313,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }
@@ -5818,24 +5306,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1329,
                           "end": 1333,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1329,
-                            "end": 1333,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }
@@ -5908,22 +5388,14 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "Ident",
                         "span": {
                           "start": 1350,
                           "end": 1353,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "Ident",
-                          "span": {
-                            "start": 1350,
-                            "end": 1353,
-                            "ctxt": 0
-                          },
-                          "value": "odd",
-                          "raw": "odd"
-                        }
+                        "value": "odd",
+                        "raw": "odd"
                       }
                     ]
                   }
@@ -5996,22 +5468,14 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "Ident",
                         "span": {
                           "start": 1369,
                           "end": 1372,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "Ident",
-                          "span": {
-                            "start": 1369,
-                            "end": 1372,
-                            "ctxt": 0
-                          },
-                          "value": "ODD",
-                          "raw": "ODD"
-                        }
+                        "value": "ODD",
+                        "raw": "ODD"
                       }
                     ]
                   }
@@ -6084,22 +5548,14 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "Ident",
                         "span": {
                           "start": 1388,
                           "end": 1391,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "Ident",
-                          "span": {
-                            "start": 1388,
-                            "end": 1391,
-                            "ctxt": 0
-                          },
-                          "value": "oDd",
-                          "raw": "oDd"
-                        }
+                        "value": "oDd",
+                        "raw": "oDd"
                       }
                     ]
                   }
@@ -6172,22 +5628,14 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "Ident",
                         "span": {
                           "start": 1407,
                           "end": 1411,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "Ident",
-                          "span": {
-                            "start": 1407,
-                            "end": 1411,
-                            "ctxt": 0
-                          },
-                          "value": "even",
-                          "raw": "even"
-                        }
+                        "value": "even",
+                        "raw": "even"
                       }
                     ]
                   }
@@ -6260,22 +5708,14 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "Ident",
                         "span": {
                           "start": 1427,
                           "end": 1431,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "Ident",
-                          "span": {
-                            "start": 1427,
-                            "end": 1431,
-                            "ctxt": 0
-                          },
-                          "value": "eVeN",
-                          "raw": "eVeN"
-                        }
+                        "value": "eVeN",
+                        "raw": "eVeN"
                       }
                     ]
                   }
@@ -6348,22 +5788,14 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "Ident",
                         "span": {
                           "start": 1447,
                           "end": 1451,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "Ident",
-                          "span": {
-                            "start": 1447,
-                            "end": 1451,
-                            "ctxt": 0
-                          },
-                          "value": "EVEN",
-                          "raw": "EVEN"
-                        }
+                        "value": "EVEN",
+                        "raw": "EVEN"
                       }
                     ]
                   }
@@ -6436,24 +5868,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1476,
                           "end": 1496,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1476,
-                            "end": 1496,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": 1,
-                          "bRaw": " + 1"
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": " + 1"
                       }
                     ]
                   }
@@ -6526,24 +5950,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1533,
                           "end": 1554,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1533,
-                            "end": 1554,
-                            "ctxt": 0
-                          },
-                          "a": 3,
-                          "aRaw": "+3",
-                          "b": -2,
-                          "bRaw": " - 2"
-                        }
+                        "a": 3,
+                        "aRaw": "+3",
+                        "b": -2,
+                        "bRaw": " - 2"
                       }
                     ]
                   }
@@ -6616,24 +6032,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1581,
                           "end": 1589,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1581,
-                            "end": 1589,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": 1,
-                          "bRaw": " + 1"
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": " + 1"
                       }
                     ]
                   }
@@ -6706,24 +6114,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1614,
                           "end": 1623,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1614,
-                            "end": 1623,
-                            "ctxt": 0
-                          },
-                          "a": 3,
-                          "aRaw": "+3",
-                          "b": -2,
-                          "bRaw": " - 2"
-                        }
+                        "a": 3,
+                        "aRaw": "+3",
+                        "b": -2,
+                        "bRaw": " - 2"
                       }
                     ]
                   }
@@ -6796,24 +6196,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1642,
                           "end": 1647,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1642,
-                            "end": 1647,
-                            "ctxt": 0
-                          },
-                          "a": -2,
-                          "aRaw": "-2",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": -2,
+                        "aRaw": "-2",
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }
@@ -6886,24 +6278,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1668,
                           "end": 1672,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1668,
-                            "end": 1672,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }
@@ -6976,24 +6360,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1690,
                           "end": 1694,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1690,
-                            "end": 1694,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }
@@ -7066,24 +6442,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1717,
                           "end": 1721,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1717,
-                            "end": 1721,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }
@@ -7156,22 +6524,14 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "Ident",
                         "span": {
                           "start": 1736,
                           "end": 1739,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "Ident",
-                          "span": {
-                            "start": 1736,
-                            "end": 1739,
-                            "ctxt": 0
-                          },
-                          "value": "odd",
-                          "raw": "odd"
-                        }
+                        "value": "odd",
+                        "raw": "odd"
                       }
                     ]
                   }
@@ -7244,24 +6604,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1753,
                           "end": 1757,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1753,
-                            "end": 1757,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }
@@ -7334,22 +6686,14 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "Ident",
                         "span": {
                           "start": 1776,
                           "end": 1779,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "Ident",
-                          "span": {
-                            "start": 1776,
-                            "end": 1779,
-                            "ctxt": 0
-                          },
-                          "value": "odd",
-                          "raw": "odd"
-                        }
+                        "value": "odd",
+                        "raw": "odd"
                       }
                     ]
                   }
@@ -7422,24 +6766,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1798,
                           "end": 1802,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1798,
-                            "end": 1802,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }
@@ -7538,24 +6874,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1821,
                           "end": 1822,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1821,
-                            "end": 1822,
-                            "ctxt": 0
-                          },
-                          "a": null,
-                          "aRaw": null,
-                          "b": 0,
-                          "bRaw": "0"
-                        }
+                        "a": null,
+                        "aRaw": null,
+                        "b": 0,
+                        "bRaw": "0"
                       }
                     ]
                   }
@@ -7654,24 +6982,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1838,
                           "end": 1840,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1838,
-                            "end": 1840,
-                            "ctxt": 0
-                          },
-                          "a": null,
-                          "aRaw": null,
-                          "b": 0,
-                          "bRaw": "+0"
-                        }
+                        "a": null,
+                        "aRaw": null,
+                        "b": 0,
+                        "bRaw": "+0"
                       }
                     ]
                   }
@@ -7770,24 +7090,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1856,
                           "end": 1858,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1856,
-                            "end": 1858,
-                            "ctxt": 0
-                          },
-                          "a": null,
-                          "aRaw": null,
-                          "b": 0,
-                          "bRaw": "-0"
-                        }
+                        "a": null,
+                        "aRaw": null,
+                        "b": 0,
+                        "bRaw": "-0"
                       }
                     ]
                   }
@@ -7886,24 +7198,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1874,
                           "end": 1875,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1874,
-                            "end": 1875,
-                            "ctxt": 0
-                          },
-                          "a": null,
-                          "aRaw": null,
-                          "b": 1,
-                          "bRaw": "1"
-                        }
+                        "a": null,
+                        "aRaw": null,
+                        "b": 1,
+                        "bRaw": "1"
                       }
                     ]
                   }
@@ -8002,24 +7306,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1891,
                           "end": 1893,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1891,
-                            "end": 1893,
-                            "ctxt": 0
-                          },
-                          "a": null,
-                          "aRaw": null,
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": null,
+                        "aRaw": null,
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }
@@ -8118,24 +7414,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1909,
                           "end": 1911,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1909,
-                            "end": 1911,
-                            "ctxt": 0
-                          },
-                          "a": null,
-                          "aRaw": null,
-                          "b": -1,
-                          "bRaw": "-1"
-                        }
+                        "a": null,
+                        "aRaw": null,
+                        "b": -1,
+                        "bRaw": "-1"
                       }
                     ]
                   }
@@ -8234,24 +7522,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1927,
                           "end": 1928,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1927,
-                            "end": 1928,
-                            "ctxt": 0
-                          },
-                          "a": null,
-                          "aRaw": null,
-                          "b": 3,
-                          "bRaw": "3"
-                        }
+                        "a": null,
+                        "aRaw": null,
+                        "b": 3,
+                        "bRaw": "3"
                       }
                     ]
                   }
@@ -8350,24 +7630,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1944,
                           "end": 1946,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1944,
-                            "end": 1946,
-                            "ctxt": 0
-                          },
-                          "a": null,
-                          "aRaw": null,
-                          "b": 3,
-                          "bRaw": "+3"
-                        }
+                        "a": null,
+                        "aRaw": null,
+                        "b": 3,
+                        "bRaw": "+3"
                       }
                     ]
                   }
@@ -8466,24 +7738,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1962,
                           "end": 1964,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1962,
-                            "end": 1964,
-                            "ctxt": 0
-                          },
-                          "a": null,
-                          "aRaw": null,
-                          "b": -3,
-                          "bRaw": "-3"
-                        }
+                        "a": null,
+                        "aRaw": null,
+                        "b": -3,
+                        "bRaw": "-3"
                       }
                     ]
                   }
@@ -8556,24 +7820,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 1980,
                           "end": 1984,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 1980,
-                            "end": 1984,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": "+1"
                       },
                       {
                         "type": "Ident",
@@ -8713,24 +7969,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 2009,
                           "end": 2013,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 2009,
-                            "end": 2013,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": "+1"
                       },
                       {
                         "type": "Ident",
@@ -8870,24 +8118,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 2038,
                           "end": 2042,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 2038,
-                            "end": 2042,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": "+1"
                       },
                       {
                         "type": "Ident",
@@ -9067,24 +8307,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 2070,
                           "end": 2074,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 2070,
-                            "end": 2074,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": 1,
-                          "bRaw": "+1"
-                        }
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": "+1"
                       },
                       {
                         "type": "Ident",
@@ -9264,24 +8496,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 2103,
                           "end": 2107,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 2103,
-                            "end": 2107,
-                            "ctxt": 0
-                          },
-                          "a": -1,
-                          "aRaw": "-",
-                          "b": 3,
-                          "bRaw": "+3"
-                        }
+                        "a": -1,
+                        "aRaw": "-",
+                        "b": 3,
+                        "bRaw": "+3"
                       },
                       {
                         "type": "Ident",
@@ -9466,22 +8690,14 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "Ident",
                         "span": {
                           "start": 2141,
                           "end": 2145,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "Ident",
-                          "span": {
-                            "start": 2141,
-                            "end": 2145,
-                            "ctxt": 0
-                          },
-                          "value": "even",
-                          "raw": "even"
-                        }
+                        "value": "even",
+                        "raw": "even"
                       },
                       {
                         "type": "Ident",

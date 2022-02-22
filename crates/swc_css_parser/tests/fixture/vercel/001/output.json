@@ -58,24 +58,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 11,
                           "end": 13,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 11,
-                            "end": 13,
-                            "ctxt": 0
-                          },
-                          "a": 4,
-                          "aRaw": "4",
-                          "b": null,
-                          "bRaw": null
-                        }
+                        "a": 4,
+                        "aRaw": "4",
+                        "b": null,
+                        "bRaw": null
                       }
                     ]
                   }

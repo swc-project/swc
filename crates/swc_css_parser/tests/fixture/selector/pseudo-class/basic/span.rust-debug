@@ -1552,12 +1552,6 @@ error: AnPlusB
 17 | div :nth-child(2) {}
    |                ^
 
-error: AnPlusBValue
-  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:16
-   |
-17 | div :nth-child(2) {}
-   |                ^
-
 error: AnPlusBNotation
   --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:16
    |

@@ -6345,24 +6345,16 @@
                     },
                     "children": [
                       {
-                        "type": "AnPlusB",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 2207,
                           "end": 2208,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "AnPlusBNotation",
-                          "span": {
-                            "start": 2207,
-                            "end": 2208,
-                            "ctxt": 0
-                          },
-                          "a": null,
-                          "aRaw": null,
-                          "b": 1,
-                          "bRaw": "1"
-                        }
+                        "a": null,
+                        "aRaw": null,
+                        "b": 1,
+                        "bRaw": "1"
                       }
                     ]
                   }
