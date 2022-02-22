@@ -141,10 +141,10 @@ var A = // @target: es2015
             key: "test",
             value: function test() {
                 var _instance;
-                var _obj, ref;
+                var ref;
                 var _ref;
                 _classPrivateFieldGet(this, _fieldFunc).call(this);
-                (ref = (_obj = _classPrivateFieldGet(this, _fieldFunc)).call) === null || ref === void 0 ? void 0 : ref.call(_obj, this);
+                (ref = _classPrivateFieldGet(this, _fieldFunc)) === null || ref === void 0 ? void 0 : ref.call(this);
                 var func = _classPrivateFieldGet(this, _fieldFunc);
                 func();
                 new (_classPrivateFieldGet(this, _fieldFunc))();

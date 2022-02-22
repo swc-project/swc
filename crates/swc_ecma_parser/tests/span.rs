@@ -552,6 +552,16 @@ impl Visit for Shower<'_> {
         n.visit_children_with(self)
     }
 
+    fn visit_opt_chain_base(&mut self, n: &OptChainBase) {
+        self.show("OptChainBase", n);
+        n.visit_children_with(self)
+    }
+
+    fn visit_opt_call(&mut self, n: &OptCall) {
+        self.show("OptCall", n);
+        n.visit_children_with(self)
+    }
+
     fn visit_param(&mut self, n: &Param) {
         self.show("Param", n);
         n.visit_children_with(self)

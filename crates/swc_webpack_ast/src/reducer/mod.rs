@@ -531,10 +531,7 @@ impl ReduceAst {
             | Expr::Await(AwaitExpr { arg: inner, .. }, ..)
             | Expr::Yield(YieldExpr {
                 arg: Some(inner), ..
-            })
-            | Expr::OptChain(OptChainExpr { expr: inner, .. }) => {
-                self.is_safe_to_flatten_test(inner)
-            }
+            }) => self.is_safe_to_flatten_test(inner),
 
             Expr::Bin(e) => {
                 self.is_safe_to_flatten_test(&e.left) && self.is_safe_to_flatten_test(&e.right)
@@ -550,9 +547,17 @@ impl ReduceAst {
                 callee: Callee::Expr(callee),
                 ..
             })
-            | Expr::New(NewExpr { callee, .. }) => self.is_safe_to_flatten_test(callee),
+            | Expr::New(NewExpr { callee, .. })
+            | Expr::OptChain(OptChainExpr {
+                base: OptChainBase::Call(OptCall { callee, .. }),
+                ..
+            }) => self.is_safe_to_flatten_test(callee),
 
-            Expr::Member(MemberExpr { obj, .. }) => self.is_safe_to_flatten_test(obj),
+            Expr::Member(MemberExpr { obj, .. })
+            | Expr::OptChain(OptChainExpr {
+                base: OptChainBase::Member(MemberExpr { obj, .. }, ..),
+                ..
+            }) => self.is_safe_to_flatten_test(obj),
 
             _ => true,
         }
@@ -783,7 +788,7 @@ impl VisitMut for ReduceAst {
             }
 
             Expr::OptChain(opt) => {
-                *e = *opt.expr.take();
+                *e = opt.base.take().into();
             }
 
             Expr::Await(expr) => {

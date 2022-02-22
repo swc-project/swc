@@ -93,8 +93,8 @@ var A = function() {
         {
             key: "test",
             value: function() {
-                _classStaticPrivateFieldSpecGet(A, A, _fieldFunc).call(A), null === (ref = (_obj = _classStaticPrivateFieldSpecGet(A, A, _fieldFunc)).call) || void 0 === ref || ref.call(_obj, A), _classStaticPrivateFieldSpecGet(A, A, _fieldFunc)(), new (_classStaticPrivateFieldSpecGet(A, A, _fieldFunc))();
-                var _instance, _obj, ref, arr = [
+                _classStaticPrivateFieldSpecGet(A, A, _fieldFunc).call(A), null === (ref = _classStaticPrivateFieldSpecGet(A, A, _fieldFunc)) || void 0 === ref || ref.call(A), _classStaticPrivateFieldSpecGet(A, A, _fieldFunc)(), new (_classStaticPrivateFieldSpecGet(A, A, _fieldFunc))();
+                var _instance, ref, arr = [
                     1,
                     2
                 ];

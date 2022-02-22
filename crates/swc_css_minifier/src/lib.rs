@@ -13,12 +13,10 @@ mod compress;
 
 pub fn minify(stylesheet: &mut Stylesheet) {
     stylesheet.visit_mut_with(&mut compress_empty());
+    stylesheet.visit_mut_with(&mut compress_angle());
+    stylesheet.visit_mut_with(&mut compress_time());
+    stylesheet.visit_mut_with(&mut compress_easing_function());
+    stylesheet.visit_mut_with(&mut compress_declaration());
     stylesheet.visit_mut_with(&mut compress_selector());
     stylesheet.visit_mut_with(&mut compress_keyframes());
-    stylesheet.visit_mut_with(&mut compress_easing_function());
-    stylesheet.visit_mut_with(&mut compress_time());
-    stylesheet.visit_mut_with(&mut compress_angle());
-    stylesheet.visit_mut_with(&mut compress_declaration());
-    stylesheet.visit_mut_with(&mut compress_keyframes());
-    stylesheet.visit_mut_with(&mut compress_empty());
 }

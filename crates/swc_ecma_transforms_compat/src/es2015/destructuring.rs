@@ -1152,6 +1152,8 @@ fn can_be_null(e: &Expr) -> bool {
         | Expr::Member(..)
         | Expr::SuperProp(..)
         | Expr::Call(..)
+        // an opt chain is either a member or a call
+        | Expr::OptChain(..)
         | Expr::New(..)
         | Expr::Yield(..)
         | Expr::Await(..)
@@ -1192,8 +1194,7 @@ fn can_be_null(e: &Expr) -> bool {
         Expr::TsAs(TsAsExpr { ref expr, .. })
         | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
         | Expr::TsConstAssertion(TsConstAssertion { ref expr, .. })
-        | Expr::TsInstantiation(TsExprWithTypeArgs { ref expr, .. }) => can_be_null(expr),
-        Expr::OptChain(ref e) => can_be_null(&e.expr),
+        | Expr::TsInstantiation(TsInstantiation { ref expr, .. }) => can_be_null(expr),
 
         Expr::Invalid(..) => unreachable!(),
     }

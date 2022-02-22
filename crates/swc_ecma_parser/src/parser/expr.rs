@@ -576,8 +576,8 @@ impl<'a, I: Tokens> Parser<I> {
         } else {
             None
         };
-        let obj = if type_args.is_some() {
-            Box::new(Expr::TsInstantiation(TsExprWithTypeArgs {
+        let obj = if let Some(type_args) = type_args {
+            Box::new(Expr::TsInstantiation(TsInstantiation {
                 expr: obj,
                 type_args,
                 span: span!(self, start),
@@ -1123,21 +1123,6 @@ impl<'a, I: Tokens> Parser<I> {
                 None
             };
 
-        /// Wrap with optional chaining
-        macro_rules! wrap {
-            ($e:expr) => {{
-                if let Some(question_dot_token) = question_dot_token {
-                    Expr::OptChain(OptChainExpr {
-                        span: span!(self, start),
-                        question_dot_token,
-                        expr: Box::new($e),
-                    })
-                } else {
-                    $e
-                }
-            }};
-        }
-
         // $obj[name()]
         if !no_computed_member
             && ((question_dot_token.is_some()
@@ -1189,25 +1174,26 @@ impl<'a, I: Tokens> Parser<I> {
                         }
                     }
                     Callee::Expr(obj) => {
-                        let expr = Expr::Member(MemberExpr {
+                        let expr = MemberExpr {
                             span,
                             obj,
                             prop: MemberProp::Computed(prop),
-                        });
-                        let expr = if type_args.is_some() {
-                            Expr::TsInstantiation(TsExprWithTypeArgs {
+                        };
+                        let expr = if let Some(question_dot_token) = question_dot_token {
+                            Expr::OptChain(OptChainExpr {
+                                span,
+                                question_dot_token,
+                                base: OptChainBase::Member(expr),
+                            })
+                        } else {
+                            Expr::Member(expr)
+                        };
+
+                        if let Some(type_args) = type_args {
+                            Expr::TsInstantiation(TsInstantiation {
                                 expr: Box::new(expr),
                                 type_args,
                                 span: span!(self, start),
-                            })
-                        } else {
-                            expr
-                        };
-                        if let Some(question_dot_token) = question_dot_token {
-                            Expr::OptChain(OptChainExpr {
-                                span: span!(self, start),
-                                question_dot_token,
-                                expr: Box::new(expr),
                             })
                         } else {
                             expr
@@ -1230,15 +1216,38 @@ impl<'a, I: Tokens> Parser<I> {
                 None
             };
             let args = self.parse_args(obj.is_import())?;
-            return Ok((
-                Box::new(wrap!(Expr::Call(CallExpr {
-                    span: span!(self, start),
-                    callee: obj,
-                    args,
-                    type_args,
-                }))),
-                true,
-            ));
+            let span = span!(self, start);
+            return if let Some(question_dot_token) = question_dot_token {
+                match obj {
+                    Callee::Super(_) | Callee::Import(_) => {
+                        syntax_error!(self, self.input.cur_span(), SyntaxError::SuperCallOptional)
+                    }
+                    Callee::Expr(callee) => Ok((
+                        Box::new(Expr::OptChain(OptChainExpr {
+                            span,
+                            question_dot_token,
+                            base: OptChainBase::Call(OptCall {
+                                span: span!(self, start),
+                                callee,
+                                args,
+                                type_args,
+                            }),
+                        })),
+                        true,
+                    )),
+                }
+            } else {
+                Ok((
+                    Expr::Call(CallExpr {
+                        span: span!(self, start),
+                        callee: obj,
+                        args,
+                        type_args: None,
+                    })
+                    .into(),
+                    true,
+                ))
+            };
         }
 
         // member expression
@@ -1309,21 +1318,21 @@ impl<'a, I: Tokens> Parser<I> {
                         }
                     }
                     Callee::Expr(obj) => {
-                        let expr = Expr::Member(MemberExpr { span, obj, prop });
-                        let expr = if type_args.is_some() {
-                            Expr::TsInstantiation(TsExprWithTypeArgs {
-                                expr: Box::new(expr),
-                                type_args,
-                                span: span!(self, start),
-                            })
-                        } else {
-                            expr
-                        };
-                        if let Some(question_dot_token) = question_dot_token {
+                        let expr = MemberExpr { span, obj, prop };
+                        let expr = if let Some(question_dot_token) = question_dot_token {
                             Expr::OptChain(OptChainExpr {
                                 span: span!(self, start),
                                 question_dot_token,
+                                base: OptChainBase::Member(expr),
+                            })
+                        } else {
+                            Expr::Member(expr)
+                        };
+                        if let Some(type_args) = type_args {
+                            Expr::TsInstantiation(TsInstantiation {
                                 expr: Box::new(expr),
+                                type_args,
+                                span: span!(self, start),
                             })
                         } else {
                             expr
@@ -1336,8 +1345,8 @@ impl<'a, I: Tokens> Parser<I> {
 
         match obj {
             Callee::Expr(expr) => {
-                let expr = if type_args.is_some() {
-                    Box::new(Expr::TsInstantiation(TsExprWithTypeArgs {
+                let expr = if let Some(type_args) = type_args {
+                    Box::new(Expr::TsInstantiation(TsInstantiation {
                         expr,
                         type_args,
                         span: span!(self, start),
