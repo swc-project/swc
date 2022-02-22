@@ -38,4 +38,4 @@ jobs:
 
       - name: Check
         run: |
-          cargo clippy --all --deny explicit_deref_methods --deny explicit_into_iter_loop
+          ./scripts/clippy.sh
