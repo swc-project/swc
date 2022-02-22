@@ -138,6 +138,7 @@ define!({
 
     pub enum Color {
         HexColor(HexColor),
+        Function(Function),
     }
 
     pub struct HexColor {
