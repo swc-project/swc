@@ -18,3 +18,6 @@ background: url("starsolid.gif") #99f repeat-y fixed;
 background: url("starsolid.gif") repeat-y fixed #99f;
 background: url("starsolid.gif") repeat-y 12 #99f;
 }
+.foo {
+border: thick double #32a1ce;
+}

@@ -1,0 +1,5690 @@
+error: Stylesheet
+  --> $DIR/tests/fixture/value/color/input.css:1:1
+   |
+1  | / .hex-color {
+2  | |     color: #00ff00;
+3  | |     color: #0000ffcc;
+4  | |     color: #123;
+...  |
+78 | |     color: color(xyz-d65 0.472 0.372 0.131);
+79 | | }
+   | |_^
+
+error: Rule
+ --> $DIR/tests/fixture/value/color/input.css:1:1
+  |
+1 | / .hex-color {
+2 | |     color: #00ff00;
+3 | |     color: #0000ffcc;
+4 | |     color: #123;
+5 | |     color: #123c;
+6 | | }
+  | |_^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/value/color/input.css:1:1
+  |
+1 | / .hex-color {
+2 | |     color: #00ff00;
+3 | |     color: #0000ffcc;
+4 | |     color: #123;
+5 | |     color: #123c;
+6 | | }
+  | |_^
+
+error: SelectorList
+ --> $DIR/tests/fixture/value/color/input.css:1:1
+  |
+1 | .hex-color {
+  | ^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/value/color/input.css:1:1
+  |
+1 | .hex-color {
+  | ^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/value/color/input.css:1:1
+  |
+1 | .hex-color {
+  | ^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/value/color/input.css:1:1
+  |
+1 | .hex-color {
+  | ^^^^^^^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/value/color/input.css:1:1
+  |
+1 | .hex-color {
+  | ^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/color/input.css:1:2
+  |
+1 | .hex-color {
+  |  ^^^^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/value/color/input.css:1:12
+  |
+1 |   .hex-color {
+  |  ____________^
+2 | |     color: #00ff00;
+3 | |     color: #0000ffcc;
+4 | |     color: #123;
+5 | |     color: #123c;
+6 | | }
+  | |_^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/color/input.css:2:5
+  |
+2 |     color: #00ff00;
+  |     ^^^^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/color/input.css:2:5
+  |
+2 |     color: #00ff00;
+  |     ^^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/color/input.css:2:5
+  |
+2 |     color: #00ff00;
+  |     ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/color/input.css:2:5
+  |
+2 |     color: #00ff00;
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/color/input.css:2:12
+  |
+2 |     color: #00ff00;
+  |            ^^^^^^^
+
+error: Color
+ --> $DIR/tests/fixture/value/color/input.css:2:12
+  |
+2 |     color: #00ff00;
+  |            ^^^^^^^
+
+error: HexColor
+ --> $DIR/tests/fixture/value/color/input.css:2:12
+  |
+2 |     color: #00ff00;
+  |            ^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/color/input.css:3:5
+  |
+3 |     color: #0000ffcc;
+  |     ^^^^^^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/color/input.css:3:5
+  |
+3 |     color: #0000ffcc;
+  |     ^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/color/input.css:3:5
+  |
+3 |     color: #0000ffcc;
+  |     ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/color/input.css:3:5
+  |
+3 |     color: #0000ffcc;
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/color/input.css:3:12
+  |
+3 |     color: #0000ffcc;
+  |            ^^^^^^^^^
+
+error: Color
+ --> $DIR/tests/fixture/value/color/input.css:3:12
+  |
+3 |     color: #0000ffcc;
+  |            ^^^^^^^^^
+
+error: HexColor
+ --> $DIR/tests/fixture/value/color/input.css:3:12
+  |
+3 |     color: #0000ffcc;
+  |            ^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/color/input.css:4:5
+  |
+4 |     color: #123;
+  |     ^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/color/input.css:4:5
+  |
+4 |     color: #123;
+  |     ^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/color/input.css:4:5
+  |
+4 |     color: #123;
+  |     ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/color/input.css:4:5
+  |
+4 |     color: #123;
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/color/input.css:4:12
+  |
+4 |     color: #123;
+  |            ^^^^
+
+error: Color
+ --> $DIR/tests/fixture/value/color/input.css:4:12
+  |
+4 |     color: #123;
+  |            ^^^^
+
+error: HexColor
+ --> $DIR/tests/fixture/value/color/input.css:4:12
+  |
+4 |     color: #123;
+  |            ^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/color/input.css:5:5
+  |
+5 |     color: #123c;
+  |     ^^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/color/input.css:5:5
+  |
+5 |     color: #123c;
+  |     ^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/color/input.css:5:5
+  |
+5 |     color: #123c;
+  |     ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/color/input.css:5:5
+  |
+5 |     color: #123c;
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/color/input.css:5:12
+  |
+5 |     color: #123c;
+  |            ^^^^^
+
+error: Color
+ --> $DIR/tests/fixture/value/color/input.css:5:12
+  |
+5 |     color: #123c;
+  |            ^^^^^
+
+error: HexColor
+ --> $DIR/tests/fixture/value/color/input.css:5:12
+  |
+5 |     color: #123c;
+  |            ^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/value/color/input.css:8:1
+   |
+8  | / .rgb {
+9  | |     color: rgb(255, 165, 0);
+10 | |     color: rgb(255,165,0);
+11 | |     color: rGb(255,165,0);
+...  |
+17 | |     color: rgb(48% 100% 100% / 50%);
+18 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/value/color/input.css:8:1
+   |
+8  | / .rgb {
+9  | |     color: rgb(255, 165, 0);
+10 | |     color: rgb(255,165,0);
+11 | |     color: rGb(255,165,0);
+...  |
+17 | |     color: rgb(48% 100% 100% / 50%);
+18 | | }
+   | |_^
+
+error: SelectorList
+ --> $DIR/tests/fixture/value/color/input.css:8:1
+  |
+8 | .rgb {
+  | ^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/value/color/input.css:8:1
+  |
+8 | .rgb {
+  | ^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/value/color/input.css:8:1
+  |
+8 | .rgb {
+  | ^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/value/color/input.css:8:1
+  |
+8 | .rgb {
+  | ^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/value/color/input.css:8:1
+  |
+8 | .rgb {
+  | ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/color/input.css:8:2
+  |
+8 | .rgb {
+  |  ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/value/color/input.css:8:6
+   |
+8  |   .rgb {
+   |  ______^
+9  | |     color: rgb(255, 165, 0);
+10 | |     color: rgb(255,165,0);
+11 | |     color: rGb(255,165,0);
+...  |
+17 | |     color: rgb(48% 100% 100% / 50%);
+18 | | }
+   | |_^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/color/input.css:9:5
+  |
+9 |     color: rgb(255, 165, 0);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/color/input.css:9:5
+  |
+9 |     color: rgb(255, 165, 0);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/color/input.css:9:5
+  |
+9 |     color: rgb(255, 165, 0);
+  |     ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/color/input.css:9:5
+  |
+9 |     color: rgb(255, 165, 0);
+  |     ^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/color/input.css:9:12
+  |
+9 |     color: rgb(255, 165, 0);
+  |            ^^^^^^^^^^^^^^^^
+
+error: Color
+ --> $DIR/tests/fixture/value/color/input.css:9:12
+  |
+9 |     color: rgb(255, 165, 0);
+  |            ^^^^^^^^^^^^^^^^
+
+error: Function
+ --> $DIR/tests/fixture/value/color/input.css:9:12
+  |
+9 |     color: rgb(255, 165, 0);
+  |            ^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/color/input.css:9:12
+  |
+9 |     color: rgb(255, 165, 0);
+  |            ^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/color/input.css:9:16
+  |
+9 |     color: rgb(255, 165, 0);
+  |                ^^^
+
+error: Number
+ --> $DIR/tests/fixture/value/color/input.css:9:16
+  |
+9 |     color: rgb(255, 165, 0);
+  |                ^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/color/input.css:9:19
+  |
+9 |     color: rgb(255, 165, 0);
+  |                   ^
+
+error: Delimiter
+ --> $DIR/tests/fixture/value/color/input.css:9:19
+  |
+9 |     color: rgb(255, 165, 0);
+  |                   ^
+
+error: Value
+ --> $DIR/tests/fixture/value/color/input.css:9:21
+  |
+9 |     color: rgb(255, 165, 0);
+  |                     ^^^
+
+error: Number
+ --> $DIR/tests/fixture/value/color/input.css:9:21
+  |
+9 |     color: rgb(255, 165, 0);
+  |                     ^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/color/input.css:9:24
+  |
+9 |     color: rgb(255, 165, 0);
+  |                        ^
+
+error: Delimiter
+ --> $DIR/tests/fixture/value/color/input.css:9:24
+  |
+9 |     color: rgb(255, 165, 0);
+  |                        ^
+
+error: Value
+ --> $DIR/tests/fixture/value/color/input.css:9:26
+  |
+9 |     color: rgb(255, 165, 0);
+  |                          ^
+
+error: Number
+ --> $DIR/tests/fixture/value/color/input.css:9:26
+  |
+9 |     color: rgb(255, 165, 0);
+  |                          ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:10:5
+   |
+10 |     color: rgb(255,165,0);
+   |     ^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:10:5
+   |
+10 |     color: rgb(255,165,0);
+   |     ^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:10:5
+   |
+10 |     color: rgb(255,165,0);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:10:5
+   |
+10 |     color: rgb(255,165,0);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:10:12
+   |
+10 |     color: rgb(255,165,0);
+   |            ^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:10:12
+   |
+10 |     color: rgb(255,165,0);
+   |            ^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:10:12
+   |
+10 |     color: rgb(255,165,0);
+   |            ^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:10:12
+   |
+10 |     color: rgb(255,165,0);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:10:16
+   |
+10 |     color: rgb(255,165,0);
+   |                ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:10:16
+   |
+10 |     color: rgb(255,165,0);
+   |                ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:10:19
+   |
+10 |     color: rgb(255,165,0);
+   |                   ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:10:19
+   |
+10 |     color: rgb(255,165,0);
+   |                   ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:10:20
+   |
+10 |     color: rgb(255,165,0);
+   |                    ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:10:20
+   |
+10 |     color: rgb(255,165,0);
+   |                    ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:10:23
+   |
+10 |     color: rgb(255,165,0);
+   |                       ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:10:23
+   |
+10 |     color: rgb(255,165,0);
+   |                       ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:10:24
+   |
+10 |     color: rgb(255,165,0);
+   |                        ^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:10:24
+   |
+10 |     color: rgb(255,165,0);
+   |                        ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:11:5
+   |
+11 |     color: rGb(255,165,0);
+   |     ^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:11:5
+   |
+11 |     color: rGb(255,165,0);
+   |     ^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:11:5
+   |
+11 |     color: rGb(255,165,0);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:11:5
+   |
+11 |     color: rGb(255,165,0);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:11:12
+   |
+11 |     color: rGb(255,165,0);
+   |            ^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:11:12
+   |
+11 |     color: rGb(255,165,0);
+   |            ^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:11:12
+   |
+11 |     color: rGb(255,165,0);
+   |            ^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:11:12
+   |
+11 |     color: rGb(255,165,0);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:11:16
+   |
+11 |     color: rGb(255,165,0);
+   |                ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:11:16
+   |
+11 |     color: rGb(255,165,0);
+   |                ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:11:19
+   |
+11 |     color: rGb(255,165,0);
+   |                   ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:11:19
+   |
+11 |     color: rGb(255,165,0);
+   |                   ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:11:20
+   |
+11 |     color: rGb(255,165,0);
+   |                    ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:11:20
+   |
+11 |     color: rGb(255,165,0);
+   |                    ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:11:23
+   |
+11 |     color: rGb(255,165,0);
+   |                       ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:11:23
+   |
+11 |     color: rGb(255,165,0);
+   |                       ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:11:24
+   |
+11 |     color: rGb(255,165,0);
+   |                        ^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:11:24
+   |
+11 |     color: rGb(255,165,0);
+   |                        ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:12:5
+   |
+12 |     color: rgb(0 255 0);
+   |     ^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:12:5
+   |
+12 |     color: rgb(0 255 0);
+   |     ^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:12:5
+   |
+12 |     color: rgb(0 255 0);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:12:5
+   |
+12 |     color: rgb(0 255 0);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:12:12
+   |
+12 |     color: rgb(0 255 0);
+   |            ^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:12:12
+   |
+12 |     color: rgb(0 255 0);
+   |            ^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:12:12
+   |
+12 |     color: rgb(0 255 0);
+   |            ^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:12:12
+   |
+12 |     color: rgb(0 255 0);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:12:16
+   |
+12 |     color: rgb(0 255 0);
+   |                ^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:12:16
+   |
+12 |     color: rgb(0 255 0);
+   |                ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:12:18
+   |
+12 |     color: rgb(0 255 0);
+   |                  ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:12:18
+   |
+12 |     color: rgb(0 255 0);
+   |                  ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:12:22
+   |
+12 |     color: rgb(0 255 0);
+   |                      ^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:12:22
+   |
+12 |     color: rgb(0 255 0);
+   |                      ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:13:5
+   |
+13 |     color: rgb(0%100%0%);
+   |     ^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:13:5
+   |
+13 |     color: rgb(0%100%0%);
+   |     ^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:13:5
+   |
+13 |     color: rgb(0%100%0%);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:13:5
+   |
+13 |     color: rgb(0%100%0%);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:13:12
+   |
+13 |     color: rgb(0%100%0%);
+   |            ^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:13:12
+   |
+13 |     color: rgb(0%100%0%);
+   |            ^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:13:12
+   |
+13 |     color: rgb(0%100%0%);
+   |            ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:13:12
+   |
+13 |     color: rgb(0%100%0%);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:13:16
+   |
+13 |     color: rgb(0%100%0%);
+   |                ^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:13:16
+   |
+13 |     color: rgb(0%100%0%);
+   |                ^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:13:16
+   |
+13 |     color: rgb(0%100%0%);
+   |                ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:13:18
+   |
+13 |     color: rgb(0%100%0%);
+   |                  ^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:13:18
+   |
+13 |     color: rgb(0%100%0%);
+   |                  ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:13:18
+   |
+13 |     color: rgb(0%100%0%);
+   |                  ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:13:22
+   |
+13 |     color: rgb(0%100%0%);
+   |                      ^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:13:22
+   |
+13 |     color: rgb(0%100%0%);
+   |                      ^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:13:22
+   |
+13 |     color: rgb(0%100%0%);
+   |                      ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:14:5
+   |
+14 |     color: rgb(29 164 192 / 95%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:14:5
+   |
+14 |     color: rgb(29 164 192 / 95%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:14:5
+   |
+14 |     color: rgb(29 164 192 / 95%);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:14:5
+   |
+14 |     color: rgb(29 164 192 / 95%);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:14:12
+   |
+14 |     color: rgb(29 164 192 / 95%);
+   |            ^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:14:12
+   |
+14 |     color: rgb(29 164 192 / 95%);
+   |            ^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:14:12
+   |
+14 |     color: rgb(29 164 192 / 95%);
+   |            ^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:14:12
+   |
+14 |     color: rgb(29 164 192 / 95%);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:14:16
+   |
+14 |     color: rgb(29 164 192 / 95%);
+   |                ^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:14:16
+   |
+14 |     color: rgb(29 164 192 / 95%);
+   |                ^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:14:19
+   |
+14 |     color: rgb(29 164 192 / 95%);
+   |                   ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:14:19
+   |
+14 |     color: rgb(29 164 192 / 95%);
+   |                   ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:14:23
+   |
+14 |     color: rgb(29 164 192 / 95%);
+   |                       ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:14:23
+   |
+14 |     color: rgb(29 164 192 / 95%);
+   |                       ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:14:27
+   |
+14 |     color: rgb(29 164 192 / 95%);
+   |                           ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:14:27
+   |
+14 |     color: rgb(29 164 192 / 95%);
+   |                           ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:14:29
+   |
+14 |     color: rgb(29 164 192 / 95%);
+   |                             ^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:14:29
+   |
+14 |     color: rgb(29 164 192 / 95%);
+   |                             ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:14:29
+   |
+14 |     color: rgb(29 164 192 / 95%);
+   |                             ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:15:5
+   |
+15 |     color: rgb(123 255 255 / .5);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:15:5
+   |
+15 |     color: rgb(123 255 255 / .5);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:15:5
+   |
+15 |     color: rgb(123 255 255 / .5);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:15:5
+   |
+15 |     color: rgb(123 255 255 / .5);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:15:12
+   |
+15 |     color: rgb(123 255 255 / .5);
+   |            ^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:15:12
+   |
+15 |     color: rgb(123 255 255 / .5);
+   |            ^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:15:12
+   |
+15 |     color: rgb(123 255 255 / .5);
+   |            ^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:15:12
+   |
+15 |     color: rgb(123 255 255 / .5);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:15:16
+   |
+15 |     color: rgb(123 255 255 / .5);
+   |                ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:15:16
+   |
+15 |     color: rgb(123 255 255 / .5);
+   |                ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:15:20
+   |
+15 |     color: rgb(123 255 255 / .5);
+   |                    ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:15:20
+   |
+15 |     color: rgb(123 255 255 / .5);
+   |                    ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:15:24
+   |
+15 |     color: rgb(123 255 255 / .5);
+   |                        ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:15:24
+   |
+15 |     color: rgb(123 255 255 / .5);
+   |                        ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:15:28
+   |
+15 |     color: rgb(123 255 255 / .5);
+   |                            ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:15:28
+   |
+15 |     color: rgb(123 255 255 / .5);
+   |                            ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:15:30
+   |
+15 |     color: rgb(123 255 255 / .5);
+   |                              ^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:15:30
+   |
+15 |     color: rgb(123 255 255 / .5);
+   |                              ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:16:5
+   |
+16 |     color: rgb(123 255 255 / 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:16:5
+   |
+16 |     color: rgb(123 255 255 / 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:16:5
+   |
+16 |     color: rgb(123 255 255 / 50%);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:16:5
+   |
+16 |     color: rgb(123 255 255 / 50%);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:16:12
+   |
+16 |     color: rgb(123 255 255 / 50%);
+   |            ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:16:12
+   |
+16 |     color: rgb(123 255 255 / 50%);
+   |            ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:16:12
+   |
+16 |     color: rgb(123 255 255 / 50%);
+   |            ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:16:12
+   |
+16 |     color: rgb(123 255 255 / 50%);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:16:16
+   |
+16 |     color: rgb(123 255 255 / 50%);
+   |                ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:16:16
+   |
+16 |     color: rgb(123 255 255 / 50%);
+   |                ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:16:20
+   |
+16 |     color: rgb(123 255 255 / 50%);
+   |                    ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:16:20
+   |
+16 |     color: rgb(123 255 255 / 50%);
+   |                    ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:16:24
+   |
+16 |     color: rgb(123 255 255 / 50%);
+   |                        ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:16:24
+   |
+16 |     color: rgb(123 255 255 / 50%);
+   |                        ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:16:28
+   |
+16 |     color: rgb(123 255 255 / 50%);
+   |                            ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:16:28
+   |
+16 |     color: rgb(123 255 255 / 50%);
+   |                            ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:16:30
+   |
+16 |     color: rgb(123 255 255 / 50%);
+   |                              ^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:16:30
+   |
+16 |     color: rgb(123 255 255 / 50%);
+   |                              ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:16:30
+   |
+16 |     color: rgb(123 255 255 / 50%);
+   |                              ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:17:5
+   |
+17 |     color: rgb(48% 100% 100% / 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:17:5
+   |
+17 |     color: rgb(48% 100% 100% / 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:17:5
+   |
+17 |     color: rgb(48% 100% 100% / 50%);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:17:5
+   |
+17 |     color: rgb(48% 100% 100% / 50%);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:17:12
+   |
+17 |     color: rgb(48% 100% 100% / 50%);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:17:12
+   |
+17 |     color: rgb(48% 100% 100% / 50%);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:17:12
+   |
+17 |     color: rgb(48% 100% 100% / 50%);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:17:12
+   |
+17 |     color: rgb(48% 100% 100% / 50%);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:17:16
+   |
+17 |     color: rgb(48% 100% 100% / 50%);
+   |                ^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:17:16
+   |
+17 |     color: rgb(48% 100% 100% / 50%);
+   |                ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:17:16
+   |
+17 |     color: rgb(48% 100% 100% / 50%);
+   |                ^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:17:20
+   |
+17 |     color: rgb(48% 100% 100% / 50%);
+   |                    ^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:17:20
+   |
+17 |     color: rgb(48% 100% 100% / 50%);
+   |                    ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:17:20
+   |
+17 |     color: rgb(48% 100% 100% / 50%);
+   |                    ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:17:25
+   |
+17 |     color: rgb(48% 100% 100% / 50%);
+   |                         ^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:17:25
+   |
+17 |     color: rgb(48% 100% 100% / 50%);
+   |                         ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:17:25
+   |
+17 |     color: rgb(48% 100% 100% / 50%);
+   |                         ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:17:30
+   |
+17 |     color: rgb(48% 100% 100% / 50%);
+   |                              ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:17:30
+   |
+17 |     color: rgb(48% 100% 100% / 50%);
+   |                              ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:17:32
+   |
+17 |     color: rgb(48% 100% 100% / 50%);
+   |                                ^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:17:32
+   |
+17 |     color: rgb(48% 100% 100% / 50%);
+   |                                ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:17:32
+   |
+17 |     color: rgb(48% 100% 100% / 50%);
+   |                                ^^
+
+error: Rule
+  --> $DIR/tests/fixture/value/color/input.css:20:1
+   |
+20 | / .rgba {
+21 | |     color: rgba(255, 0, 0, 100%);
+22 | |     color: rgba(255, 255, 0, 1);
+23 | |     color: rgba(255, 255, 0, 0.8);
+24 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/value/color/input.css:20:1
+   |
+20 | / .rgba {
+21 | |     color: rgba(255, 0, 0, 100%);
+22 | |     color: rgba(255, 255, 0, 1);
+23 | |     color: rgba(255, 255, 0, 0.8);
+24 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/value/color/input.css:20:1
+   |
+20 | .rgba {
+   | ^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/value/color/input.css:20:1
+   |
+20 | .rgba {
+   | ^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/value/color/input.css:20:1
+   |
+20 | .rgba {
+   | ^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/value/color/input.css:20:1
+   |
+20 | .rgba {
+   | ^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/value/color/input.css:20:1
+   |
+20 | .rgba {
+   | ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:20:2
+   |
+20 | .rgba {
+   |  ^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/value/color/input.css:20:7
+   |
+20 |   .rgba {
+   |  _______^
+21 | |     color: rgba(255, 0, 0, 100%);
+22 | |     color: rgba(255, 255, 0, 1);
+23 | |     color: rgba(255, 255, 0, 0.8);
+24 | | }
+   | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:21:5
+   |
+21 |     color: rgba(255, 0, 0, 100%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:21:5
+   |
+21 |     color: rgba(255, 0, 0, 100%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:21:5
+   |
+21 |     color: rgba(255, 0, 0, 100%);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:21:5
+   |
+21 |     color: rgba(255, 0, 0, 100%);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:21:12
+   |
+21 |     color: rgba(255, 0, 0, 100%);
+   |            ^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:21:12
+   |
+21 |     color: rgba(255, 0, 0, 100%);
+   |            ^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:21:12
+   |
+21 |     color: rgba(255, 0, 0, 100%);
+   |            ^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:21:12
+   |
+21 |     color: rgba(255, 0, 0, 100%);
+   |            ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:21:17
+   |
+21 |     color: rgba(255, 0, 0, 100%);
+   |                 ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:21:17
+   |
+21 |     color: rgba(255, 0, 0, 100%);
+   |                 ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:21:20
+   |
+21 |     color: rgba(255, 0, 0, 100%);
+   |                    ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:21:20
+   |
+21 |     color: rgba(255, 0, 0, 100%);
+   |                    ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:21:22
+   |
+21 |     color: rgba(255, 0, 0, 100%);
+   |                      ^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:21:22
+   |
+21 |     color: rgba(255, 0, 0, 100%);
+   |                      ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:21:23
+   |
+21 |     color: rgba(255, 0, 0, 100%);
+   |                       ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:21:23
+   |
+21 |     color: rgba(255, 0, 0, 100%);
+   |                       ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:21:25
+   |
+21 |     color: rgba(255, 0, 0, 100%);
+   |                         ^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:21:25
+   |
+21 |     color: rgba(255, 0, 0, 100%);
+   |                         ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:21:26
+   |
+21 |     color: rgba(255, 0, 0, 100%);
+   |                          ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:21:26
+   |
+21 |     color: rgba(255, 0, 0, 100%);
+   |                          ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:21:28
+   |
+21 |     color: rgba(255, 0, 0, 100%);
+   |                            ^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:21:28
+   |
+21 |     color: rgba(255, 0, 0, 100%);
+   |                            ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:21:28
+   |
+21 |     color: rgba(255, 0, 0, 100%);
+   |                            ^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:22:5
+   |
+22 |     color: rgba(255, 255, 0, 1);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:22:5
+   |
+22 |     color: rgba(255, 255, 0, 1);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:22:5
+   |
+22 |     color: rgba(255, 255, 0, 1);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:22:5
+   |
+22 |     color: rgba(255, 255, 0, 1);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:22:12
+   |
+22 |     color: rgba(255, 255, 0, 1);
+   |            ^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:22:12
+   |
+22 |     color: rgba(255, 255, 0, 1);
+   |            ^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:22:12
+   |
+22 |     color: rgba(255, 255, 0, 1);
+   |            ^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:22:12
+   |
+22 |     color: rgba(255, 255, 0, 1);
+   |            ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:22:17
+   |
+22 |     color: rgba(255, 255, 0, 1);
+   |                 ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:22:17
+   |
+22 |     color: rgba(255, 255, 0, 1);
+   |                 ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:22:20
+   |
+22 |     color: rgba(255, 255, 0, 1);
+   |                    ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:22:20
+   |
+22 |     color: rgba(255, 255, 0, 1);
+   |                    ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:22:22
+   |
+22 |     color: rgba(255, 255, 0, 1);
+   |                      ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:22:22
+   |
+22 |     color: rgba(255, 255, 0, 1);
+   |                      ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:22:25
+   |
+22 |     color: rgba(255, 255, 0, 1);
+   |                         ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:22:25
+   |
+22 |     color: rgba(255, 255, 0, 1);
+   |                         ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:22:27
+   |
+22 |     color: rgba(255, 255, 0, 1);
+   |                           ^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:22:27
+   |
+22 |     color: rgba(255, 255, 0, 1);
+   |                           ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:22:28
+   |
+22 |     color: rgba(255, 255, 0, 1);
+   |                            ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:22:28
+   |
+22 |     color: rgba(255, 255, 0, 1);
+   |                            ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:22:30
+   |
+22 |     color: rgba(255, 255, 0, 1);
+   |                              ^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:22:30
+   |
+22 |     color: rgba(255, 255, 0, 1);
+   |                              ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:23:5
+   |
+23 |     color: rgba(255, 255, 0, 0.8);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:23:5
+   |
+23 |     color: rgba(255, 255, 0, 0.8);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:23:5
+   |
+23 |     color: rgba(255, 255, 0, 0.8);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:23:5
+   |
+23 |     color: rgba(255, 255, 0, 0.8);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:23:12
+   |
+23 |     color: rgba(255, 255, 0, 0.8);
+   |            ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:23:12
+   |
+23 |     color: rgba(255, 255, 0, 0.8);
+   |            ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:23:12
+   |
+23 |     color: rgba(255, 255, 0, 0.8);
+   |            ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:23:12
+   |
+23 |     color: rgba(255, 255, 0, 0.8);
+   |            ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:23:17
+   |
+23 |     color: rgba(255, 255, 0, 0.8);
+   |                 ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:23:17
+   |
+23 |     color: rgba(255, 255, 0, 0.8);
+   |                 ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:23:20
+   |
+23 |     color: rgba(255, 255, 0, 0.8);
+   |                    ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:23:20
+   |
+23 |     color: rgba(255, 255, 0, 0.8);
+   |                    ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:23:22
+   |
+23 |     color: rgba(255, 255, 0, 0.8);
+   |                      ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:23:22
+   |
+23 |     color: rgba(255, 255, 0, 0.8);
+   |                      ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:23:25
+   |
+23 |     color: rgba(255, 255, 0, 0.8);
+   |                         ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:23:25
+   |
+23 |     color: rgba(255, 255, 0, 0.8);
+   |                         ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:23:27
+   |
+23 |     color: rgba(255, 255, 0, 0.8);
+   |                           ^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:23:27
+   |
+23 |     color: rgba(255, 255, 0, 0.8);
+   |                           ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:23:28
+   |
+23 |     color: rgba(255, 255, 0, 0.8);
+   |                            ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:23:28
+   |
+23 |     color: rgba(255, 255, 0, 0.8);
+   |                            ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:23:30
+   |
+23 |     color: rgba(255, 255, 0, 0.8);
+   |                              ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:23:30
+   |
+23 |     color: rgba(255, 255, 0, 0.8);
+   |                              ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/value/color/input.css:26:1
+   |
+26 | / .hsl {
+27 | |     color: hsl(38.824 100% 50%);
+28 | |     color: HsL(39 100% 50%);
+29 | |     color: hsl(100deg, 100%, 50%);
+...  |
+33 | |     color: hsl(100 100% 50% / .8);
+34 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/value/color/input.css:26:1
+   |
+26 | / .hsl {
+27 | |     color: hsl(38.824 100% 50%);
+28 | |     color: HsL(39 100% 50%);
+29 | |     color: hsl(100deg, 100%, 50%);
+...  |
+33 | |     color: hsl(100 100% 50% / .8);
+34 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/value/color/input.css:26:1
+   |
+26 | .hsl {
+   | ^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/value/color/input.css:26:1
+   |
+26 | .hsl {
+   | ^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/value/color/input.css:26:1
+   |
+26 | .hsl {
+   | ^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/value/color/input.css:26:1
+   |
+26 | .hsl {
+   | ^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/value/color/input.css:26:1
+   |
+26 | .hsl {
+   | ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:26:2
+   |
+26 | .hsl {
+   |  ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/value/color/input.css:26:6
+   |
+26 |   .hsl {
+   |  ______^
+27 | |     color: hsl(38.824 100% 50%);
+28 | |     color: HsL(39 100% 50%);
+29 | |     color: hsl(100deg, 100%, 50%);
+...  |
+33 | |     color: hsl(100 100% 50% / .8);
+34 | | }
+   | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:27:5
+   |
+27 |     color: hsl(38.824 100% 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:27:5
+   |
+27 |     color: hsl(38.824 100% 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:27:5
+   |
+27 |     color: hsl(38.824 100% 50%);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:27:5
+   |
+27 |     color: hsl(38.824 100% 50%);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:27:12
+   |
+27 |     color: hsl(38.824 100% 50%);
+   |            ^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:27:12
+   |
+27 |     color: hsl(38.824 100% 50%);
+   |            ^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:27:12
+   |
+27 |     color: hsl(38.824 100% 50%);
+   |            ^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:27:12
+   |
+27 |     color: hsl(38.824 100% 50%);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:27:16
+   |
+27 |     color: hsl(38.824 100% 50%);
+   |                ^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:27:16
+   |
+27 |     color: hsl(38.824 100% 50%);
+   |                ^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:27:23
+   |
+27 |     color: hsl(38.824 100% 50%);
+   |                       ^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:27:23
+   |
+27 |     color: hsl(38.824 100% 50%);
+   |                       ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:27:23
+   |
+27 |     color: hsl(38.824 100% 50%);
+   |                       ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:27:28
+   |
+27 |     color: hsl(38.824 100% 50%);
+   |                            ^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:27:28
+   |
+27 |     color: hsl(38.824 100% 50%);
+   |                            ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:27:28
+   |
+27 |     color: hsl(38.824 100% 50%);
+   |                            ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:28:5
+   |
+28 |     color: HsL(39 100% 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:28:5
+   |
+28 |     color: HsL(39 100% 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:28:5
+   |
+28 |     color: HsL(39 100% 50%);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:28:5
+   |
+28 |     color: HsL(39 100% 50%);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:28:12
+   |
+28 |     color: HsL(39 100% 50%);
+   |            ^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:28:12
+   |
+28 |     color: HsL(39 100% 50%);
+   |            ^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:28:12
+   |
+28 |     color: HsL(39 100% 50%);
+   |            ^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:28:12
+   |
+28 |     color: HsL(39 100% 50%);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:28:16
+   |
+28 |     color: HsL(39 100% 50%);
+   |                ^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:28:16
+   |
+28 |     color: HsL(39 100% 50%);
+   |                ^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:28:19
+   |
+28 |     color: HsL(39 100% 50%);
+   |                   ^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:28:19
+   |
+28 |     color: HsL(39 100% 50%);
+   |                   ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:28:19
+   |
+28 |     color: HsL(39 100% 50%);
+   |                   ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:28:24
+   |
+28 |     color: HsL(39 100% 50%);
+   |                        ^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:28:24
+   |
+28 |     color: HsL(39 100% 50%);
+   |                        ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:28:24
+   |
+28 |     color: HsL(39 100% 50%);
+   |                        ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:29:5
+   |
+29 |     color: hsl(100deg, 100%, 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:29:5
+   |
+29 |     color: hsl(100deg, 100%, 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:29:5
+   |
+29 |     color: hsl(100deg, 100%, 50%);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:29:5
+   |
+29 |     color: hsl(100deg, 100%, 50%);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:29:12
+   |
+29 |     color: hsl(100deg, 100%, 50%);
+   |            ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:29:12
+   |
+29 |     color: hsl(100deg, 100%, 50%);
+   |            ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:29:12
+   |
+29 |     color: hsl(100deg, 100%, 50%);
+   |            ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:29:12
+   |
+29 |     color: hsl(100deg, 100%, 50%);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:29:16
+   |
+29 |     color: hsl(100deg, 100%, 50%);
+   |                ^^^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/value/color/input.css:29:16
+   |
+29 |     color: hsl(100deg, 100%, 50%);
+   |                ^^^^^^
+
+error: Angle
+  --> $DIR/tests/fixture/value/color/input.css:29:16
+   |
+29 |     color: hsl(100deg, 100%, 50%);
+   |                ^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:29:16
+   |
+29 |     color: hsl(100deg, 100%, 50%);
+   |                ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:29:19
+   |
+29 |     color: hsl(100deg, 100%, 50%);
+   |                   ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:29:22
+   |
+29 |     color: hsl(100deg, 100%, 50%);
+   |                      ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:29:22
+   |
+29 |     color: hsl(100deg, 100%, 50%);
+   |                      ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:29:24
+   |
+29 |     color: hsl(100deg, 100%, 50%);
+   |                        ^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:29:24
+   |
+29 |     color: hsl(100deg, 100%, 50%);
+   |                        ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:29:24
+   |
+29 |     color: hsl(100deg, 100%, 50%);
+   |                        ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:29:28
+   |
+29 |     color: hsl(100deg, 100%, 50%);
+   |                            ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:29:28
+   |
+29 |     color: hsl(100deg, 100%, 50%);
+   |                            ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:29:30
+   |
+29 |     color: hsl(100deg, 100%, 50%);
+   |                              ^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:29:30
+   |
+29 |     color: hsl(100deg, 100%, 50%);
+   |                              ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:29:30
+   |
+29 |     color: hsl(100deg, 100%, 50%);
+   |                              ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:30:5
+   |
+30 |     color: hsl(100, 100%, 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:30:5
+   |
+30 |     color: hsl(100, 100%, 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:30:5
+   |
+30 |     color: hsl(100, 100%, 50%);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:30:5
+   |
+30 |     color: hsl(100, 100%, 50%);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:30:12
+   |
+30 |     color: hsl(100, 100%, 50%);
+   |            ^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:30:12
+   |
+30 |     color: hsl(100, 100%, 50%);
+   |            ^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:30:12
+   |
+30 |     color: hsl(100, 100%, 50%);
+   |            ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:30:12
+   |
+30 |     color: hsl(100, 100%, 50%);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:30:16
+   |
+30 |     color: hsl(100, 100%, 50%);
+   |                ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:30:16
+   |
+30 |     color: hsl(100, 100%, 50%);
+   |                ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:30:19
+   |
+30 |     color: hsl(100, 100%, 50%);
+   |                   ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:30:19
+   |
+30 |     color: hsl(100, 100%, 50%);
+   |                   ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:30:21
+   |
+30 |     color: hsl(100, 100%, 50%);
+   |                     ^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:30:21
+   |
+30 |     color: hsl(100, 100%, 50%);
+   |                     ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:30:21
+   |
+30 |     color: hsl(100, 100%, 50%);
+   |                     ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:30:25
+   |
+30 |     color: hsl(100, 100%, 50%);
+   |                         ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:30:25
+   |
+30 |     color: hsl(100, 100%, 50%);
+   |                         ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:30:27
+   |
+30 |     color: hsl(100, 100%, 50%);
+   |                           ^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:30:27
+   |
+30 |     color: hsl(100, 100%, 50%);
+   |                           ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:30:27
+   |
+30 |     color: hsl(100, 100%, 50%);
+   |                           ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:31:5
+   |
+31 |     color: hsl(100 100% 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:31:5
+   |
+31 |     color: hsl(100 100% 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:31:5
+   |
+31 |     color: hsl(100 100% 50%);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:31:5
+   |
+31 |     color: hsl(100 100% 50%);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:31:12
+   |
+31 |     color: hsl(100 100% 50%);
+   |            ^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:31:12
+   |
+31 |     color: hsl(100 100% 50%);
+   |            ^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:31:12
+   |
+31 |     color: hsl(100 100% 50%);
+   |            ^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:31:12
+   |
+31 |     color: hsl(100 100% 50%);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:31:16
+   |
+31 |     color: hsl(100 100% 50%);
+   |                ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:31:16
+   |
+31 |     color: hsl(100 100% 50%);
+   |                ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:31:20
+   |
+31 |     color: hsl(100 100% 50%);
+   |                    ^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:31:20
+   |
+31 |     color: hsl(100 100% 50%);
+   |                    ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:31:20
+   |
+31 |     color: hsl(100 100% 50%);
+   |                    ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:31:25
+   |
+31 |     color: hsl(100 100% 50%);
+   |                         ^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:31:25
+   |
+31 |     color: hsl(100 100% 50%);
+   |                         ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:31:25
+   |
+31 |     color: hsl(100 100% 50%);
+   |                         ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:32:5
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:32:5
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:32:5
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:32:5
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:32:12
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:32:12
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:32:12
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:32:12
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:32:16
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |                ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:32:16
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |                ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:32:19
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |                   ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:32:19
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |                   ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:32:21
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |                     ^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:32:21
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |                     ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:32:21
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |                     ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:32:25
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |                         ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:32:25
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |                         ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:32:27
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |                           ^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:32:27
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |                           ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:32:27
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |                           ^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:32:30
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |                              ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:32:30
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |                              ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:32:32
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |                                ^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:32:32
+   |
+32 |     color: hsl(100, 100%, 50%, .8);
+   |                                ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:33:5
+   |
+33 |     color: hsl(100 100% 50% / .8);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:33:5
+   |
+33 |     color: hsl(100 100% 50% / .8);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:33:5
+   |
+33 |     color: hsl(100 100% 50% / .8);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:33:5
+   |
+33 |     color: hsl(100 100% 50% / .8);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:33:12
+   |
+33 |     color: hsl(100 100% 50% / .8);
+   |            ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:33:12
+   |
+33 |     color: hsl(100 100% 50% / .8);
+   |            ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:33:12
+   |
+33 |     color: hsl(100 100% 50% / .8);
+   |            ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:33:12
+   |
+33 |     color: hsl(100 100% 50% / .8);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:33:16
+   |
+33 |     color: hsl(100 100% 50% / .8);
+   |                ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:33:16
+   |
+33 |     color: hsl(100 100% 50% / .8);
+   |                ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:33:20
+   |
+33 |     color: hsl(100 100% 50% / .8);
+   |                    ^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:33:20
+   |
+33 |     color: hsl(100 100% 50% / .8);
+   |                    ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:33:20
+   |
+33 |     color: hsl(100 100% 50% / .8);
+   |                    ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:33:25
+   |
+33 |     color: hsl(100 100% 50% / .8);
+   |                         ^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:33:25
+   |
+33 |     color: hsl(100 100% 50% / .8);
+   |                         ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:33:25
+   |
+33 |     color: hsl(100 100% 50% / .8);
+   |                         ^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:33:29
+   |
+33 |     color: hsl(100 100% 50% / .8);
+   |                             ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:33:29
+   |
+33 |     color: hsl(100 100% 50% / .8);
+   |                             ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:33:31
+   |
+33 |     color: hsl(100 100% 50% / .8);
+   |                               ^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:33:31
+   |
+33 |     color: hsl(100 100% 50% / .8);
+   |                               ^^
+
+error: Rule
+  --> $DIR/tests/fixture/value/color/input.css:36:1
+   |
+36 | / .hsla {
+37 | |     color: hsla(100, 100%, 50%, .8);
+38 | |     color: hsla(100 100% 50% / .8);
+39 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/value/color/input.css:36:1
+   |
+36 | / .hsla {
+37 | |     color: hsla(100, 100%, 50%, .8);
+38 | |     color: hsla(100 100% 50% / .8);
+39 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/value/color/input.css:36:1
+   |
+36 | .hsla {
+   | ^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/value/color/input.css:36:1
+   |
+36 | .hsla {
+   | ^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/value/color/input.css:36:1
+   |
+36 | .hsla {
+   | ^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/value/color/input.css:36:1
+   |
+36 | .hsla {
+   | ^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/value/color/input.css:36:1
+   |
+36 | .hsla {
+   | ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:36:2
+   |
+36 | .hsla {
+   |  ^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/value/color/input.css:36:7
+   |
+36 |   .hsla {
+   |  _______^
+37 | |     color: hsla(100, 100%, 50%, .8);
+38 | |     color: hsla(100 100% 50% / .8);
+39 | | }
+   | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:37:5
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:37:5
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:37:5
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:37:5
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:37:12
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:37:12
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:37:12
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:37:12
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |            ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:37:17
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |                 ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:37:17
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |                 ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:37:20
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |                    ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:37:20
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |                    ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:37:22
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |                      ^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:37:22
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |                      ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:37:22
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |                      ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:37:26
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |                          ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:37:26
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |                          ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:37:28
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |                            ^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:37:28
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |                            ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:37:28
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |                            ^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:37:31
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |                               ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:37:31
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |                               ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:37:33
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |                                 ^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:37:33
+   |
+37 |     color: hsla(100, 100%, 50%, .8);
+   |                                 ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:38:5
+   |
+38 |     color: hsla(100 100% 50% / .8);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:38:5
+   |
+38 |     color: hsla(100 100% 50% / .8);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:38:5
+   |
+38 |     color: hsla(100 100% 50% / .8);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:38:5
+   |
+38 |     color: hsla(100 100% 50% / .8);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:38:12
+   |
+38 |     color: hsla(100 100% 50% / .8);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:38:12
+   |
+38 |     color: hsla(100 100% 50% / .8);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:38:12
+   |
+38 |     color: hsla(100 100% 50% / .8);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:38:12
+   |
+38 |     color: hsla(100 100% 50% / .8);
+   |            ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:38:17
+   |
+38 |     color: hsla(100 100% 50% / .8);
+   |                 ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:38:17
+   |
+38 |     color: hsla(100 100% 50% / .8);
+   |                 ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:38:21
+   |
+38 |     color: hsla(100 100% 50% / .8);
+   |                     ^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:38:21
+   |
+38 |     color: hsla(100 100% 50% / .8);
+   |                     ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:38:21
+   |
+38 |     color: hsla(100 100% 50% / .8);
+   |                     ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:38:26
+   |
+38 |     color: hsla(100 100% 50% / .8);
+   |                          ^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:38:26
+   |
+38 |     color: hsla(100 100% 50% / .8);
+   |                          ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:38:26
+   |
+38 |     color: hsla(100 100% 50% / .8);
+   |                          ^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:38:30
+   |
+38 |     color: hsla(100 100% 50% / .8);
+   |                              ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:38:30
+   |
+38 |     color: hsla(100 100% 50% / .8);
+   |                              ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:38:32
+   |
+38 |     color: hsla(100 100% 50% / .8);
+   |                                ^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:38:32
+   |
+38 |     color: hsla(100 100% 50% / .8);
+   |                                ^^
+
+error: Rule
+  --> $DIR/tests/fixture/value/color/input.css:41:1
+   |
+41 | / .hwb {
+42 | |     color: hwb(194 0% 0%);
+43 | |     color: hwb(194 0% 0% / 50%);
+44 | |     color: hwb(194 0% 50%);
+45 | |     color: hwb(194 50% 0%);
+46 | |     color: hwb(194 50% 50%);
+47 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/value/color/input.css:41:1
+   |
+41 | / .hwb {
+42 | |     color: hwb(194 0% 0%);
+43 | |     color: hwb(194 0% 0% / 50%);
+44 | |     color: hwb(194 0% 50%);
+45 | |     color: hwb(194 50% 0%);
+46 | |     color: hwb(194 50% 50%);
+47 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/value/color/input.css:41:1
+   |
+41 | .hwb {
+   | ^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/value/color/input.css:41:1
+   |
+41 | .hwb {
+   | ^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/value/color/input.css:41:1
+   |
+41 | .hwb {
+   | ^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/value/color/input.css:41:1
+   |
+41 | .hwb {
+   | ^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/value/color/input.css:41:1
+   |
+41 | .hwb {
+   | ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:41:2
+   |
+41 | .hwb {
+   |  ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/value/color/input.css:41:6
+   |
+41 |   .hwb {
+   |  ______^
+42 | |     color: hwb(194 0% 0%);
+43 | |     color: hwb(194 0% 0% / 50%);
+44 | |     color: hwb(194 0% 50%);
+45 | |     color: hwb(194 50% 0%);
+46 | |     color: hwb(194 50% 50%);
+47 | | }
+   | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:42:5
+   |
+42 |     color: hwb(194 0% 0%);
+   |     ^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:42:5
+   |
+42 |     color: hwb(194 0% 0%);
+   |     ^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:42:5
+   |
+42 |     color: hwb(194 0% 0%);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:42:5
+   |
+42 |     color: hwb(194 0% 0%);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:42:12
+   |
+42 |     color: hwb(194 0% 0%);
+   |            ^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:42:12
+   |
+42 |     color: hwb(194 0% 0%);
+   |            ^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:42:12
+   |
+42 |     color: hwb(194 0% 0%);
+   |            ^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:42:12
+   |
+42 |     color: hwb(194 0% 0%);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:42:16
+   |
+42 |     color: hwb(194 0% 0%);
+   |                ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:42:16
+   |
+42 |     color: hwb(194 0% 0%);
+   |                ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:42:20
+   |
+42 |     color: hwb(194 0% 0%);
+   |                    ^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:42:20
+   |
+42 |     color: hwb(194 0% 0%);
+   |                    ^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:42:20
+   |
+42 |     color: hwb(194 0% 0%);
+   |                    ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:42:23
+   |
+42 |     color: hwb(194 0% 0%);
+   |                       ^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:42:23
+   |
+42 |     color: hwb(194 0% 0%);
+   |                       ^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:42:23
+   |
+42 |     color: hwb(194 0% 0%);
+   |                       ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:43:5
+   |
+43 |     color: hwb(194 0% 0% / 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:43:5
+   |
+43 |     color: hwb(194 0% 0% / 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:43:5
+   |
+43 |     color: hwb(194 0% 0% / 50%);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:43:5
+   |
+43 |     color: hwb(194 0% 0% / 50%);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:43:12
+   |
+43 |     color: hwb(194 0% 0% / 50%);
+   |            ^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:43:12
+   |
+43 |     color: hwb(194 0% 0% / 50%);
+   |            ^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:43:12
+   |
+43 |     color: hwb(194 0% 0% / 50%);
+   |            ^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:43:12
+   |
+43 |     color: hwb(194 0% 0% / 50%);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:43:16
+   |
+43 |     color: hwb(194 0% 0% / 50%);
+   |                ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:43:16
+   |
+43 |     color: hwb(194 0% 0% / 50%);
+   |                ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:43:20
+   |
+43 |     color: hwb(194 0% 0% / 50%);
+   |                    ^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:43:20
+   |
+43 |     color: hwb(194 0% 0% / 50%);
+   |                    ^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:43:20
+   |
+43 |     color: hwb(194 0% 0% / 50%);
+   |                    ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:43:23
+   |
+43 |     color: hwb(194 0% 0% / 50%);
+   |                       ^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:43:23
+   |
+43 |     color: hwb(194 0% 0% / 50%);
+   |                       ^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:43:23
+   |
+43 |     color: hwb(194 0% 0% / 50%);
+   |                       ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:43:26
+   |
+43 |     color: hwb(194 0% 0% / 50%);
+   |                          ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:43:26
+   |
+43 |     color: hwb(194 0% 0% / 50%);
+   |                          ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:43:28
+   |
+43 |     color: hwb(194 0% 0% / 50%);
+   |                            ^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:43:28
+   |
+43 |     color: hwb(194 0% 0% / 50%);
+   |                            ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:43:28
+   |
+43 |     color: hwb(194 0% 0% / 50%);
+   |                            ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:44:5
+   |
+44 |     color: hwb(194 0% 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:44:5
+   |
+44 |     color: hwb(194 0% 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:44:5
+   |
+44 |     color: hwb(194 0% 50%);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:44:5
+   |
+44 |     color: hwb(194 0% 50%);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:44:12
+   |
+44 |     color: hwb(194 0% 50%);
+   |            ^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:44:12
+   |
+44 |     color: hwb(194 0% 50%);
+   |            ^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:44:12
+   |
+44 |     color: hwb(194 0% 50%);
+   |            ^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:44:12
+   |
+44 |     color: hwb(194 0% 50%);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:44:16
+   |
+44 |     color: hwb(194 0% 50%);
+   |                ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:44:16
+   |
+44 |     color: hwb(194 0% 50%);
+   |                ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:44:20
+   |
+44 |     color: hwb(194 0% 50%);
+   |                    ^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:44:20
+   |
+44 |     color: hwb(194 0% 50%);
+   |                    ^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:44:20
+   |
+44 |     color: hwb(194 0% 50%);
+   |                    ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:44:23
+   |
+44 |     color: hwb(194 0% 50%);
+   |                       ^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:44:23
+   |
+44 |     color: hwb(194 0% 50%);
+   |                       ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:44:23
+   |
+44 |     color: hwb(194 0% 50%);
+   |                       ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:45:5
+   |
+45 |     color: hwb(194 50% 0%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:45:5
+   |
+45 |     color: hwb(194 50% 0%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:45:5
+   |
+45 |     color: hwb(194 50% 0%);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:45:5
+   |
+45 |     color: hwb(194 50% 0%);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:45:12
+   |
+45 |     color: hwb(194 50% 0%);
+   |            ^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:45:12
+   |
+45 |     color: hwb(194 50% 0%);
+   |            ^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:45:12
+   |
+45 |     color: hwb(194 50% 0%);
+   |            ^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:45:12
+   |
+45 |     color: hwb(194 50% 0%);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:45:16
+   |
+45 |     color: hwb(194 50% 0%);
+   |                ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:45:16
+   |
+45 |     color: hwb(194 50% 0%);
+   |                ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:45:20
+   |
+45 |     color: hwb(194 50% 0%);
+   |                    ^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:45:20
+   |
+45 |     color: hwb(194 50% 0%);
+   |                    ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:45:20
+   |
+45 |     color: hwb(194 50% 0%);
+   |                    ^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:45:24
+   |
+45 |     color: hwb(194 50% 0%);
+   |                        ^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:45:24
+   |
+45 |     color: hwb(194 50% 0%);
+   |                        ^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:45:24
+   |
+45 |     color: hwb(194 50% 0%);
+   |                        ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:46:5
+   |
+46 |     color: hwb(194 50% 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:46:5
+   |
+46 |     color: hwb(194 50% 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:46:5
+   |
+46 |     color: hwb(194 50% 50%);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:46:5
+   |
+46 |     color: hwb(194 50% 50%);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:46:12
+   |
+46 |     color: hwb(194 50% 50%);
+   |            ^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:46:12
+   |
+46 |     color: hwb(194 50% 50%);
+   |            ^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:46:12
+   |
+46 |     color: hwb(194 50% 50%);
+   |            ^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:46:12
+   |
+46 |     color: hwb(194 50% 50%);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:46:16
+   |
+46 |     color: hwb(194 50% 50%);
+   |                ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:46:16
+   |
+46 |     color: hwb(194 50% 50%);
+   |                ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:46:20
+   |
+46 |     color: hwb(194 50% 50%);
+   |                    ^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:46:20
+   |
+46 |     color: hwb(194 50% 50%);
+   |                    ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:46:20
+   |
+46 |     color: hwb(194 50% 50%);
+   |                    ^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:46:24
+   |
+46 |     color: hwb(194 50% 50%);
+   |                        ^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:46:24
+   |
+46 |     color: hwb(194 50% 50%);
+   |                        ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:46:24
+   |
+46 |     color: hwb(194 50% 50%);
+   |                        ^^
+
+error: Rule
+  --> $DIR/tests/fixture/value/color/input.css:49:1
+   |
+49 | / .lab {
+50 | |     color: lab(29.2345% 39.3825 20.0664);
+51 | |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+52 | |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+53 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/value/color/input.css:49:1
+   |
+49 | / .lab {
+50 | |     color: lab(29.2345% 39.3825 20.0664);
+51 | |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+52 | |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+53 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/value/color/input.css:49:1
+   |
+49 | .lab {
+   | ^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/value/color/input.css:49:1
+   |
+49 | .lab {
+   | ^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/value/color/input.css:49:1
+   |
+49 | .lab {
+   | ^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/value/color/input.css:49:1
+   |
+49 | .lab {
+   | ^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/value/color/input.css:49:1
+   |
+49 | .lab {
+   | ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:49:2
+   |
+49 | .lab {
+   |  ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/value/color/input.css:49:6
+   |
+49 |   .lab {
+   |  ______^
+50 | |     color: lab(29.2345% 39.3825 20.0664);
+51 | |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+52 | |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+53 | | }
+   | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:50:5
+   |
+50 |     color: lab(29.2345% 39.3825 20.0664);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:50:5
+   |
+50 |     color: lab(29.2345% 39.3825 20.0664);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:50:5
+   |
+50 |     color: lab(29.2345% 39.3825 20.0664);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:50:5
+   |
+50 |     color: lab(29.2345% 39.3825 20.0664);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:50:12
+   |
+50 |     color: lab(29.2345% 39.3825 20.0664);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:50:12
+   |
+50 |     color: lab(29.2345% 39.3825 20.0664);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:50:12
+   |
+50 |     color: lab(29.2345% 39.3825 20.0664);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:50:12
+   |
+50 |     color: lab(29.2345% 39.3825 20.0664);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:50:16
+   |
+50 |     color: lab(29.2345% 39.3825 20.0664);
+   |                ^^^^^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:50:16
+   |
+50 |     color: lab(29.2345% 39.3825 20.0664);
+   |                ^^^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:50:16
+   |
+50 |     color: lab(29.2345% 39.3825 20.0664);
+   |                ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:50:25
+   |
+50 |     color: lab(29.2345% 39.3825 20.0664);
+   |                         ^^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:50:25
+   |
+50 |     color: lab(29.2345% 39.3825 20.0664);
+   |                         ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:50:33
+   |
+50 |     color: lab(29.2345% 39.3825 20.0664);
+   |                                 ^^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:50:33
+   |
+50 |     color: lab(29.2345% 39.3825 20.0664);
+   |                                 ^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:51:5
+   |
+51 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:51:5
+   |
+51 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:51:5
+   |
+51 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:51:5
+   |
+51 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:51:12
+   |
+51 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:51:12
+   |
+51 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:51:12
+   |
+51 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:51:12
+   |
+51 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:51:16
+   |
+51 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+   |                ^^^^^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:51:16
+   |
+51 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+   |                ^^^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:51:16
+   |
+51 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+   |                ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:51:25
+   |
+51 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+   |                         ^^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:51:25
+   |
+51 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+   |                         ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:51:33
+   |
+51 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+   |                                 ^^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:51:33
+   |
+51 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+   |                                 ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:51:41
+   |
+51 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+   |                                         ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:51:41
+   |
+51 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+   |                                         ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:51:43
+   |
+51 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+   |                                           ^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:51:43
+   |
+51 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+   |                                           ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:51:43
+   |
+51 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+   |                                           ^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:52:5
+   |
+52 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:52:5
+   |
+52 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:52:5
+   |
+52 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:52:5
+   |
+52 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:52:12
+   |
+52 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:52:12
+   |
+52 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:52:12
+   |
+52 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:52:12
+   |
+52 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:52:16
+   |
+52 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+   |                ^^^^^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:52:16
+   |
+52 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+   |                ^^^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:52:16
+   |
+52 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+   |                ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:52:25
+   |
+52 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+   |                         ^^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:52:25
+   |
+52 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+   |                         ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:52:33
+   |
+52 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+   |                                 ^^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:52:33
+   |
+52 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+   |                                 ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:52:41
+   |
+52 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+   |                                         ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:52:41
+   |
+52 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+   |                                         ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:52:43
+   |
+52 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+   |                                           ^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:52:43
+   |
+52 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+   |                                           ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:52:43
+   |
+52 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+   |                                           ^^
+
+error: Rule
+  --> $DIR/tests/fixture/value/color/input.css:55:1
+   |
+55 | / .lch {
+56 | |     color: lch(52.2345% 72.2 56.2 / 1);
+57 | |     color: lch(29.2345% 44.2 27);
+58 | |     color: lch(29.2345% 44.2 45deg);
+...  |
+61 | |     color: lch(29.2345% 44.2 27 / 50%);
+62 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/value/color/input.css:55:1
+   |
+55 | / .lch {
+56 | |     color: lch(52.2345% 72.2 56.2 / 1);
+57 | |     color: lch(29.2345% 44.2 27);
+58 | |     color: lch(29.2345% 44.2 45deg);
+...  |
+61 | |     color: lch(29.2345% 44.2 27 / 50%);
+62 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/value/color/input.css:55:1
+   |
+55 | .lch {
+   | ^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/value/color/input.css:55:1
+   |
+55 | .lch {
+   | ^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/value/color/input.css:55:1
+   |
+55 | .lch {
+   | ^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/value/color/input.css:55:1
+   |
+55 | .lch {
+   | ^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/value/color/input.css:55:1
+   |
+55 | .lch {
+   | ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:55:2
+   |
+55 | .lch {
+   |  ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/value/color/input.css:55:6
+   |
+55 |   .lch {
+   |  ______^
+56 | |     color: lch(52.2345% 72.2 56.2 / 1);
+57 | |     color: lch(29.2345% 44.2 27);
+58 | |     color: lch(29.2345% 44.2 45deg);
+...  |
+61 | |     color: lch(29.2345% 44.2 27 / 50%);
+62 | | }
+   | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:56:5
+   |
+56 |     color: lch(52.2345% 72.2 56.2 / 1);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:56:5
+   |
+56 |     color: lch(52.2345% 72.2 56.2 / 1);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:56:5
+   |
+56 |     color: lch(52.2345% 72.2 56.2 / 1);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:56:5
+   |
+56 |     color: lch(52.2345% 72.2 56.2 / 1);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:56:12
+   |
+56 |     color: lch(52.2345% 72.2 56.2 / 1);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:56:12
+   |
+56 |     color: lch(52.2345% 72.2 56.2 / 1);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:56:12
+   |
+56 |     color: lch(52.2345% 72.2 56.2 / 1);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:56:12
+   |
+56 |     color: lch(52.2345% 72.2 56.2 / 1);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:56:16
+   |
+56 |     color: lch(52.2345% 72.2 56.2 / 1);
+   |                ^^^^^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:56:16
+   |
+56 |     color: lch(52.2345% 72.2 56.2 / 1);
+   |                ^^^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:56:16
+   |
+56 |     color: lch(52.2345% 72.2 56.2 / 1);
+   |                ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:56:25
+   |
+56 |     color: lch(52.2345% 72.2 56.2 / 1);
+   |                         ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:56:25
+   |
+56 |     color: lch(52.2345% 72.2 56.2 / 1);
+   |                         ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:56:30
+   |
+56 |     color: lch(52.2345% 72.2 56.2 / 1);
+   |                              ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:56:30
+   |
+56 |     color: lch(52.2345% 72.2 56.2 / 1);
+   |                              ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:56:35
+   |
+56 |     color: lch(52.2345% 72.2 56.2 / 1);
+   |                                   ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:56:35
+   |
+56 |     color: lch(52.2345% 72.2 56.2 / 1);
+   |                                   ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:56:37
+   |
+56 |     color: lch(52.2345% 72.2 56.2 / 1);
+   |                                     ^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:56:37
+   |
+56 |     color: lch(52.2345% 72.2 56.2 / 1);
+   |                                     ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:57:5
+   |
+57 |     color: lch(29.2345% 44.2 27);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:57:5
+   |
+57 |     color: lch(29.2345% 44.2 27);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:57:5
+   |
+57 |     color: lch(29.2345% 44.2 27);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:57:5
+   |
+57 |     color: lch(29.2345% 44.2 27);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:57:12
+   |
+57 |     color: lch(29.2345% 44.2 27);
+   |            ^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:57:12
+   |
+57 |     color: lch(29.2345% 44.2 27);
+   |            ^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:57:12
+   |
+57 |     color: lch(29.2345% 44.2 27);
+   |            ^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:57:12
+   |
+57 |     color: lch(29.2345% 44.2 27);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:57:16
+   |
+57 |     color: lch(29.2345% 44.2 27);
+   |                ^^^^^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:57:16
+   |
+57 |     color: lch(29.2345% 44.2 27);
+   |                ^^^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:57:16
+   |
+57 |     color: lch(29.2345% 44.2 27);
+   |                ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:57:25
+   |
+57 |     color: lch(29.2345% 44.2 27);
+   |                         ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:57:25
+   |
+57 |     color: lch(29.2345% 44.2 27);
+   |                         ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:57:30
+   |
+57 |     color: lch(29.2345% 44.2 27);
+   |                              ^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:57:30
+   |
+57 |     color: lch(29.2345% 44.2 27);
+   |                              ^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:58:5
+   |
+58 |     color: lch(29.2345% 44.2 45deg);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:58:5
+   |
+58 |     color: lch(29.2345% 44.2 45deg);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:58:5
+   |
+58 |     color: lch(29.2345% 44.2 45deg);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:58:5
+   |
+58 |     color: lch(29.2345% 44.2 45deg);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:58:12
+   |
+58 |     color: lch(29.2345% 44.2 45deg);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:58:12
+   |
+58 |     color: lch(29.2345% 44.2 45deg);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:58:12
+   |
+58 |     color: lch(29.2345% 44.2 45deg);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:58:12
+   |
+58 |     color: lch(29.2345% 44.2 45deg);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:58:16
+   |
+58 |     color: lch(29.2345% 44.2 45deg);
+   |                ^^^^^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:58:16
+   |
+58 |     color: lch(29.2345% 44.2 45deg);
+   |                ^^^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:58:16
+   |
+58 |     color: lch(29.2345% 44.2 45deg);
+   |                ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:58:25
+   |
+58 |     color: lch(29.2345% 44.2 45deg);
+   |                         ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:58:25
+   |
+58 |     color: lch(29.2345% 44.2 45deg);
+   |                         ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:58:30
+   |
+58 |     color: lch(29.2345% 44.2 45deg);
+   |                              ^^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/value/color/input.css:58:30
+   |
+58 |     color: lch(29.2345% 44.2 45deg);
+   |                              ^^^^^
+
+error: Angle
+  --> $DIR/tests/fixture/value/color/input.css:58:30
+   |
+58 |     color: lch(29.2345% 44.2 45deg);
+   |                              ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:58:30
+   |
+58 |     color: lch(29.2345% 44.2 45deg);
+   |                              ^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:58:32
+   |
+58 |     color: lch(29.2345% 44.2 45deg);
+   |                                ^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:59:5
+   |
+59 |     color: lch(29.2345% 44.2 .5turn);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:59:5
+   |
+59 |     color: lch(29.2345% 44.2 .5turn);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:59:5
+   |
+59 |     color: lch(29.2345% 44.2 .5turn);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:59:5
+   |
+59 |     color: lch(29.2345% 44.2 .5turn);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:59:12
+   |
+59 |     color: lch(29.2345% 44.2 .5turn);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:59:12
+   |
+59 |     color: lch(29.2345% 44.2 .5turn);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:59:12
+   |
+59 |     color: lch(29.2345% 44.2 .5turn);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:59:12
+   |
+59 |     color: lch(29.2345% 44.2 .5turn);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:59:16
+   |
+59 |     color: lch(29.2345% 44.2 .5turn);
+   |                ^^^^^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:59:16
+   |
+59 |     color: lch(29.2345% 44.2 .5turn);
+   |                ^^^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:59:16
+   |
+59 |     color: lch(29.2345% 44.2 .5turn);
+   |                ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:59:25
+   |
+59 |     color: lch(29.2345% 44.2 .5turn);
+   |                         ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:59:25
+   |
+59 |     color: lch(29.2345% 44.2 .5turn);
+   |                         ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:59:30
+   |
+59 |     color: lch(29.2345% 44.2 .5turn);
+   |                              ^^^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/value/color/input.css:59:30
+   |
+59 |     color: lch(29.2345% 44.2 .5turn);
+   |                              ^^^^^^
+
+error: Angle
+  --> $DIR/tests/fixture/value/color/input.css:59:30
+   |
+59 |     color: lch(29.2345% 44.2 .5turn);
+   |                              ^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:59:30
+   |
+59 |     color: lch(29.2345% 44.2 .5turn);
+   |                              ^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:59:32
+   |
+59 |     color: lch(29.2345% 44.2 .5turn);
+   |                                ^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:60:5
+   |
+60 |     color: lch(29.2345% 44.2 27 / 100%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:60:5
+   |
+60 |     color: lch(29.2345% 44.2 27 / 100%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:60:5
+   |
+60 |     color: lch(29.2345% 44.2 27 / 100%);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:60:5
+   |
+60 |     color: lch(29.2345% 44.2 27 / 100%);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:60:12
+   |
+60 |     color: lch(29.2345% 44.2 27 / 100%);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:60:12
+   |
+60 |     color: lch(29.2345% 44.2 27 / 100%);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:60:12
+   |
+60 |     color: lch(29.2345% 44.2 27 / 100%);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:60:12
+   |
+60 |     color: lch(29.2345% 44.2 27 / 100%);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:60:16
+   |
+60 |     color: lch(29.2345% 44.2 27 / 100%);
+   |                ^^^^^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:60:16
+   |
+60 |     color: lch(29.2345% 44.2 27 / 100%);
+   |                ^^^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:60:16
+   |
+60 |     color: lch(29.2345% 44.2 27 / 100%);
+   |                ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:60:25
+   |
+60 |     color: lch(29.2345% 44.2 27 / 100%);
+   |                         ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:60:25
+   |
+60 |     color: lch(29.2345% 44.2 27 / 100%);
+   |                         ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:60:30
+   |
+60 |     color: lch(29.2345% 44.2 27 / 100%);
+   |                              ^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:60:30
+   |
+60 |     color: lch(29.2345% 44.2 27 / 100%);
+   |                              ^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:60:33
+   |
+60 |     color: lch(29.2345% 44.2 27 / 100%);
+   |                                 ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:60:33
+   |
+60 |     color: lch(29.2345% 44.2 27 / 100%);
+   |                                 ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:60:35
+   |
+60 |     color: lch(29.2345% 44.2 27 / 100%);
+   |                                   ^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:60:35
+   |
+60 |     color: lch(29.2345% 44.2 27 / 100%);
+   |                                   ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:60:35
+   |
+60 |     color: lch(29.2345% 44.2 27 / 100%);
+   |                                   ^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:61:5
+   |
+61 |     color: lch(29.2345% 44.2 27 / 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:61:5
+   |
+61 |     color: lch(29.2345% 44.2 27 / 50%);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:61:5
+   |
+61 |     color: lch(29.2345% 44.2 27 / 50%);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:61:5
+   |
+61 |     color: lch(29.2345% 44.2 27 / 50%);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:61:12
+   |
+61 |     color: lch(29.2345% 44.2 27 / 50%);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:61:12
+   |
+61 |     color: lch(29.2345% 44.2 27 / 50%);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:61:12
+   |
+61 |     color: lch(29.2345% 44.2 27 / 50%);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:61:12
+   |
+61 |     color: lch(29.2345% 44.2 27 / 50%);
+   |            ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:61:16
+   |
+61 |     color: lch(29.2345% 44.2 27 / 50%);
+   |                ^^^^^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:61:16
+   |
+61 |     color: lch(29.2345% 44.2 27 / 50%);
+   |                ^^^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:61:16
+   |
+61 |     color: lch(29.2345% 44.2 27 / 50%);
+   |                ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:61:25
+   |
+61 |     color: lch(29.2345% 44.2 27 / 50%);
+   |                         ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:61:25
+   |
+61 |     color: lch(29.2345% 44.2 27 / 50%);
+   |                         ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:61:30
+   |
+61 |     color: lch(29.2345% 44.2 27 / 50%);
+   |                              ^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:61:30
+   |
+61 |     color: lch(29.2345% 44.2 27 / 50%);
+   |                              ^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:61:33
+   |
+61 |     color: lch(29.2345% 44.2 27 / 50%);
+   |                                 ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:61:33
+   |
+61 |     color: lch(29.2345% 44.2 27 / 50%);
+   |                                 ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:61:35
+   |
+61 |     color: lch(29.2345% 44.2 27 / 50%);
+   |                                   ^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:61:35
+   |
+61 |     color: lch(29.2345% 44.2 27 / 50%);
+   |                                   ^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:61:35
+   |
+61 |     color: lch(29.2345% 44.2 27 / 50%);
+   |                                   ^^
+
+error: Rule
+  --> $DIR/tests/fixture/value/color/input.css:64:1
+   |
+64 | / .oklab {
+65 | |     color: oklab(40.101% 0.1147 0.0453);
+66 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/value/color/input.css:64:1
+   |
+64 | / .oklab {
+65 | |     color: oklab(40.101% 0.1147 0.0453);
+66 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/value/color/input.css:64:1
+   |
+64 | .oklab {
+   | ^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/value/color/input.css:64:1
+   |
+64 | .oklab {
+   | ^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/value/color/input.css:64:1
+   |
+64 | .oklab {
+   | ^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/value/color/input.css:64:1
+   |
+64 | .oklab {
+   | ^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/value/color/input.css:64:1
+   |
+64 | .oklab {
+   | ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:64:2
+   |
+64 | .oklab {
+   |  ^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/value/color/input.css:64:8
+   |
+64 |   .oklab {
+   |  ________^
+65 | |     color: oklab(40.101% 0.1147 0.0453);
+66 | | }
+   | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:65:5
+   |
+65 |     color: oklab(40.101% 0.1147 0.0453);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:65:5
+   |
+65 |     color: oklab(40.101% 0.1147 0.0453);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:65:5
+   |
+65 |     color: oklab(40.101% 0.1147 0.0453);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:65:5
+   |
+65 |     color: oklab(40.101% 0.1147 0.0453);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:65:12
+   |
+65 |     color: oklab(40.101% 0.1147 0.0453);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:65:12
+   |
+65 |     color: oklab(40.101% 0.1147 0.0453);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:65:12
+   |
+65 |     color: oklab(40.101% 0.1147 0.0453);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:65:12
+   |
+65 |     color: oklab(40.101% 0.1147 0.0453);
+   |            ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:65:18
+   |
+65 |     color: oklab(40.101% 0.1147 0.0453);
+   |                  ^^^^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:65:18
+   |
+65 |     color: oklab(40.101% 0.1147 0.0453);
+   |                  ^^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:65:18
+   |
+65 |     color: oklab(40.101% 0.1147 0.0453);
+   |                  ^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:65:26
+   |
+65 |     color: oklab(40.101% 0.1147 0.0453);
+   |                          ^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:65:26
+   |
+65 |     color: oklab(40.101% 0.1147 0.0453);
+   |                          ^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:65:33
+   |
+65 |     color: oklab(40.101% 0.1147 0.0453);
+   |                                 ^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:65:33
+   |
+65 |     color: oklab(40.101% 0.1147 0.0453);
+   |                                 ^^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/value/color/input.css:68:1
+   |
+68 | / .oklch {
+69 | |     color: oklch(42.1% 0.192 328.6 / 1);
+70 | |     color: oklch(42.1% 0.192 328.6);
+71 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/value/color/input.css:68:1
+   |
+68 | / .oklch {
+69 | |     color: oklch(42.1% 0.192 328.6 / 1);
+70 | |     color: oklch(42.1% 0.192 328.6);
+71 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/value/color/input.css:68:1
+   |
+68 | .oklch {
+   | ^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/value/color/input.css:68:1
+   |
+68 | .oklch {
+   | ^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/value/color/input.css:68:1
+   |
+68 | .oklch {
+   | ^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/value/color/input.css:68:1
+   |
+68 | .oklch {
+   | ^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/value/color/input.css:68:1
+   |
+68 | .oklch {
+   | ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:68:2
+   |
+68 | .oklch {
+   |  ^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/value/color/input.css:68:8
+   |
+68 |   .oklch {
+   |  ________^
+69 | |     color: oklch(42.1% 0.192 328.6 / 1);
+70 | |     color: oklch(42.1% 0.192 328.6);
+71 | | }
+   | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:69:5
+   |
+69 |     color: oklch(42.1% 0.192 328.6 / 1);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:69:5
+   |
+69 |     color: oklch(42.1% 0.192 328.6 / 1);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:69:5
+   |
+69 |     color: oklch(42.1% 0.192 328.6 / 1);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:69:5
+   |
+69 |     color: oklch(42.1% 0.192 328.6 / 1);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:69:12
+   |
+69 |     color: oklch(42.1% 0.192 328.6 / 1);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:69:12
+   |
+69 |     color: oklch(42.1% 0.192 328.6 / 1);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:69:12
+   |
+69 |     color: oklch(42.1% 0.192 328.6 / 1);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:69:12
+   |
+69 |     color: oklch(42.1% 0.192 328.6 / 1);
+   |            ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:69:18
+   |
+69 |     color: oklch(42.1% 0.192 328.6 / 1);
+   |                  ^^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:69:18
+   |
+69 |     color: oklch(42.1% 0.192 328.6 / 1);
+   |                  ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:69:18
+   |
+69 |     color: oklch(42.1% 0.192 328.6 / 1);
+   |                  ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:69:24
+   |
+69 |     color: oklch(42.1% 0.192 328.6 / 1);
+   |                        ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:69:24
+   |
+69 |     color: oklch(42.1% 0.192 328.6 / 1);
+   |                        ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:69:30
+   |
+69 |     color: oklch(42.1% 0.192 328.6 / 1);
+   |                              ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:69:30
+   |
+69 |     color: oklch(42.1% 0.192 328.6 / 1);
+   |                              ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:69:36
+   |
+69 |     color: oklch(42.1% 0.192 328.6 / 1);
+   |                                    ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:69:36
+   |
+69 |     color: oklch(42.1% 0.192 328.6 / 1);
+   |                                    ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:69:38
+   |
+69 |     color: oklch(42.1% 0.192 328.6 / 1);
+   |                                      ^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:69:38
+   |
+69 |     color: oklch(42.1% 0.192 328.6 / 1);
+   |                                      ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:70:5
+   |
+70 |     color: oklch(42.1% 0.192 328.6);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:70:5
+   |
+70 |     color: oklch(42.1% 0.192 328.6);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:70:5
+   |
+70 |     color: oklch(42.1% 0.192 328.6);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:70:5
+   |
+70 |     color: oklch(42.1% 0.192 328.6);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:70:12
+   |
+70 |     color: oklch(42.1% 0.192 328.6);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:70:12
+   |
+70 |     color: oklch(42.1% 0.192 328.6);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:70:12
+   |
+70 |     color: oklch(42.1% 0.192 328.6);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:70:12
+   |
+70 |     color: oklch(42.1% 0.192 328.6);
+   |            ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:70:18
+   |
+70 |     color: oklch(42.1% 0.192 328.6);
+   |                  ^^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/value/color/input.css:70:18
+   |
+70 |     color: oklch(42.1% 0.192 328.6);
+   |                  ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:70:18
+   |
+70 |     color: oklch(42.1% 0.192 328.6);
+   |                  ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:70:24
+   |
+70 |     color: oklch(42.1% 0.192 328.6);
+   |                        ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:70:24
+   |
+70 |     color: oklch(42.1% 0.192 328.6);
+   |                        ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:70:30
+   |
+70 |     color: oklch(42.1% 0.192 328.6);
+   |                              ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:70:30
+   |
+70 |     color: oklch(42.1% 0.192 328.6);
+   |                              ^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/value/color/input.css:73:1
+   |
+73 | / .color {
+74 | |     color: color(sRGB 0 1 0);
+75 | |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+76 | |     color: color(display-p3 0.823 0.6554 0.2537);
+77 | |     color: color(xyz 0.472 0.372 0.131);
+78 | |     color: color(xyz-d65 0.472 0.372 0.131);
+79 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/value/color/input.css:73:1
+   |
+73 | / .color {
+74 | |     color: color(sRGB 0 1 0);
+75 | |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+76 | |     color: color(display-p3 0.823 0.6554 0.2537);
+77 | |     color: color(xyz 0.472 0.372 0.131);
+78 | |     color: color(xyz-d65 0.472 0.372 0.131);
+79 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/value/color/input.css:73:1
+   |
+73 | .color {
+   | ^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/value/color/input.css:73:1
+   |
+73 | .color {
+   | ^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/value/color/input.css:73:1
+   |
+73 | .color {
+   | ^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/value/color/input.css:73:1
+   |
+73 | .color {
+   | ^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/value/color/input.css:73:1
+   |
+73 | .color {
+   | ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:73:2
+   |
+73 | .color {
+   |  ^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/value/color/input.css:73:8
+   |
+73 |   .color {
+   |  ________^
+74 | |     color: color(sRGB 0 1 0);
+75 | |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+76 | |     color: color(display-p3 0.823 0.6554 0.2537);
+77 | |     color: color(xyz 0.472 0.372 0.131);
+78 | |     color: color(xyz-d65 0.472 0.372 0.131);
+79 | | }
+   | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:74:5
+   |
+74 |     color: color(sRGB 0 1 0);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:74:5
+   |
+74 |     color: color(sRGB 0 1 0);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:74:5
+   |
+74 |     color: color(sRGB 0 1 0);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:74:5
+   |
+74 |     color: color(sRGB 0 1 0);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:74:12
+   |
+74 |     color: color(sRGB 0 1 0);
+   |            ^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:74:12
+   |
+74 |     color: color(sRGB 0 1 0);
+   |            ^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:74:12
+   |
+74 |     color: color(sRGB 0 1 0);
+   |            ^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:74:12
+   |
+74 |     color: color(sRGB 0 1 0);
+   |            ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:74:18
+   |
+74 |     color: color(sRGB 0 1 0);
+   |                  ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:74:18
+   |
+74 |     color: color(sRGB 0 1 0);
+   |                  ^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:74:23
+   |
+74 |     color: color(sRGB 0 1 0);
+   |                       ^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:74:23
+   |
+74 |     color: color(sRGB 0 1 0);
+   |                       ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:74:25
+   |
+74 |     color: color(sRGB 0 1 0);
+   |                         ^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:74:25
+   |
+74 |     color: color(sRGB 0 1 0);
+   |                         ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:74:27
+   |
+74 |     color: color(sRGB 0 1 0);
+   |                           ^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:74:27
+   |
+74 |     color: color(sRGB 0 1 0);
+   |                           ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:75:5
+   |
+75 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:75:5
+   |
+75 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:75:5
+   |
+75 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:75:5
+   |
+75 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:75:12
+   |
+75 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:75:12
+   |
+75 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:75:12
+   |
+75 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:75:12
+   |
+75 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+   |            ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:75:18
+   |
+75 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+   |                  ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:75:18
+   |
+75 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+   |                  ^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:75:29
+   |
+75 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+   |                             ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:75:29
+   |
+75 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+   |                             ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:75:35
+   |
+75 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+   |                                   ^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:75:35
+   |
+75 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+   |                                   ^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:75:42
+   |
+75 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+   |                                          ^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:75:42
+   |
+75 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+   |                                          ^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:75:49
+   |
+75 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+   |                                                 ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/value/color/input.css:75:49
+   |
+75 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+   |                                                 ^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:75:50
+   |
+75 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+   |                                                  ^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:75:50
+   |
+75 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+   |                                                  ^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:76:5
+   |
+76 |     color: color(display-p3 0.823 0.6554 0.2537);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:76:5
+   |
+76 |     color: color(display-p3 0.823 0.6554 0.2537);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:76:5
+   |
+76 |     color: color(display-p3 0.823 0.6554 0.2537);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:76:5
+   |
+76 |     color: color(display-p3 0.823 0.6554 0.2537);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:76:12
+   |
+76 |     color: color(display-p3 0.823 0.6554 0.2537);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:76:12
+   |
+76 |     color: color(display-p3 0.823 0.6554 0.2537);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:76:12
+   |
+76 |     color: color(display-p3 0.823 0.6554 0.2537);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:76:12
+   |
+76 |     color: color(display-p3 0.823 0.6554 0.2537);
+   |            ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:76:18
+   |
+76 |     color: color(display-p3 0.823 0.6554 0.2537);
+   |                  ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:76:18
+   |
+76 |     color: color(display-p3 0.823 0.6554 0.2537);
+   |                  ^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:76:29
+   |
+76 |     color: color(display-p3 0.823 0.6554 0.2537);
+   |                             ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:76:29
+   |
+76 |     color: color(display-p3 0.823 0.6554 0.2537);
+   |                             ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:76:35
+   |
+76 |     color: color(display-p3 0.823 0.6554 0.2537);
+   |                                   ^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:76:35
+   |
+76 |     color: color(display-p3 0.823 0.6554 0.2537);
+   |                                   ^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:76:42
+   |
+76 |     color: color(display-p3 0.823 0.6554 0.2537);
+   |                                          ^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:76:42
+   |
+76 |     color: color(display-p3 0.823 0.6554 0.2537);
+   |                                          ^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:77:5
+   |
+77 |     color: color(xyz 0.472 0.372 0.131);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:77:5
+   |
+77 |     color: color(xyz 0.472 0.372 0.131);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:77:5
+   |
+77 |     color: color(xyz 0.472 0.372 0.131);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:77:5
+   |
+77 |     color: color(xyz 0.472 0.372 0.131);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:77:12
+   |
+77 |     color: color(xyz 0.472 0.372 0.131);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:77:12
+   |
+77 |     color: color(xyz 0.472 0.372 0.131);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:77:12
+   |
+77 |     color: color(xyz 0.472 0.372 0.131);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:77:12
+   |
+77 |     color: color(xyz 0.472 0.372 0.131);
+   |            ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:77:18
+   |
+77 |     color: color(xyz 0.472 0.372 0.131);
+   |                  ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:77:18
+   |
+77 |     color: color(xyz 0.472 0.372 0.131);
+   |                  ^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:77:22
+   |
+77 |     color: color(xyz 0.472 0.372 0.131);
+   |                      ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:77:22
+   |
+77 |     color: color(xyz 0.472 0.372 0.131);
+   |                      ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:77:28
+   |
+77 |     color: color(xyz 0.472 0.372 0.131);
+   |                            ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:77:28
+   |
+77 |     color: color(xyz 0.472 0.372 0.131);
+   |                            ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:77:34
+   |
+77 |     color: color(xyz 0.472 0.372 0.131);
+   |                                  ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:77:34
+   |
+77 |     color: color(xyz 0.472 0.372 0.131);
+   |                                  ^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/color/input.css:78:5
+   |
+78 |     color: color(xyz-d65 0.472 0.372 0.131);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/color/input.css:78:5
+   |
+78 |     color: color(xyz-d65 0.472 0.372 0.131);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/color/input.css:78:5
+   |
+78 |     color: color(xyz-d65 0.472 0.372 0.131);
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:78:5
+   |
+78 |     color: color(xyz-d65 0.472 0.372 0.131);
+   |     ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:78:12
+   |
+78 |     color: color(xyz-d65 0.472 0.372 0.131);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/value/color/input.css:78:12
+   |
+78 |     color: color(xyz-d65 0.472 0.372 0.131);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/value/color/input.css:78:12
+   |
+78 |     color: color(xyz-d65 0.472 0.372 0.131);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:78:12
+   |
+78 |     color: color(xyz-d65 0.472 0.372 0.131);
+   |            ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:78:18
+   |
+78 |     color: color(xyz-d65 0.472 0.372 0.131);
+   |                  ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/color/input.css:78:18
+   |
+78 |     color: color(xyz-d65 0.472 0.372 0.131);
+   |                  ^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:78:26
+   |
+78 |     color: color(xyz-d65 0.472 0.372 0.131);
+   |                          ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:78:26
+   |
+78 |     color: color(xyz-d65 0.472 0.372 0.131);
+   |                          ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:78:32
+   |
+78 |     color: color(xyz-d65 0.472 0.372 0.131);
+   |                                ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:78:32
+   |
+78 |     color: color(xyz-d65 0.472 0.372 0.131);
+   |                                ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/color/input.css:78:38
+   |
+78 |     color: color(xyz-d65 0.472 0.372 0.131);
+   |                                      ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/value/color/input.css:78:38
+   |
+78 |     color: color(xyz-d65 0.472 0.372 0.131);
+   |                                      ^^^^^
+
