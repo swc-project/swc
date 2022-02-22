@@ -608,6 +608,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
             Expr::Object(ObjectLit { span, props }) => {
                 // {}
+                let props_copy = props.clone();
                 Ok(Pat::Object(ObjectPat {
                     span,
                     props: props
@@ -643,15 +644,27 @@ impl<'a, I: Tokens> Parser<I> {
                                 },
 
                                 PropOrSpread::Spread(SpreadElement { dot3_token, expr }) => {
-                                    Ok(ObjectPatProp::Rest(RestPat {
-                                        span,
-                                        dot3_token,
-                                        // FIXME: is BindingPat correct?
-                                        arg: Box::new(
-                                            self.reparse_expr_as_pat(PatType::BindingPat, expr)?,
-                                        ),
-                                        type_ann: None,
-                                    }))
+                                    match props_copy.last() {
+                                        Some(PropOrSpread::Spread(..)) => {
+                                            Ok(ObjectPatProp::Rest(RestPat {
+                                                span,
+                                                dot3_token,
+                                                // FIXME: is BindingPat correct?
+                                                arg: Box::new(self.reparse_expr_as_pat(
+                                                    PatType::BindingPat,
+                                                    expr,
+                                                )?),
+                                                type_ann: None,
+                                            }))
+                                        }
+                                        _ => {
+                                            syntax_error!(
+                                                self,
+                                                span,
+                                                SyntaxError::RestElementNotLast
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         })

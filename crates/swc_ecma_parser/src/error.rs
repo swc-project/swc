@@ -61,6 +61,7 @@ pub enum SyntaxError {
     },
     SetterParamRequired,
     RestPatInSetter,
+    RestElementNotLast,
 
     UnterminatedBlockComment,
     UnterminatedStrLit,
@@ -470,7 +471,7 @@ impl SyntaxError {
                 "A getter or a setter cannot be readonly".into()
             }
             SyntaxError::RestPatInSetter => "Rest pattern is not allowed in setter".into(),
-
+            SyntaxError::RestElementNotLast => "Rest element is not the last".into(),
             SyntaxError::GeneratorConstructor => "A constructor cannot be generator".into(),
 
             SyntaxError::ImportBindingIsString(str) => format!(
