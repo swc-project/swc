@@ -2809,7 +2809,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.84.1"
+version = "0.84.2"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -2835,7 +2835,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.49.5"
+version = "0.49.6"
 dependencies = [
  "swc_atoms",
  "swc_common",
