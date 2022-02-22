@@ -32,6 +32,9 @@
 - **(css/minifier)** Compress transform functions (#3663) ([1afbd1b](https://github.com/swc-project/swc/commit/1afbd1b6e961869b001a03a90a9e24f0fe7304a6))
 
 
+- **(css/minifier)** Compress frequency (#3669) ([9b28d4d](https://github.com/swc-project/swc/commit/9b28d4da792a67275ed5d1e33acafc929f67d86f))
+
+
 - **(es/ast)** Support TypeScript Instantiation Expression (#3642) ([61e711c](https://github.com/swc-project/swc/commit/61e711c912bc31453a24dce2d1e1d98044aab3df))
 
 
