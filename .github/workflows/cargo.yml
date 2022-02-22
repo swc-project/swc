@@ -84,6 +84,8 @@ jobs:
           # Use scripts/github/create-matrix.sh to create this.
           - crate: ast_node
             os: ubuntu-latest
+          - crate: better_scoped_tls
+            os: ubuntu-latest
           - crate: enum_kind
             os: ubuntu-latest
           - crate: from_variant
@@ -93,6 +95,8 @@ jobs:
           - crate: node
             os: ubuntu-latest
           - crate: node_macro_deps
+            os: ubuntu-latest
+          - crate: preset_env_base
             os: ubuntu-latest
           - crate: string_enum
             os: ubuntu-latest
@@ -213,36 +217,6 @@ jobs:
           - crate: swc_node_comments
             os: ubuntu-latest
           - crate: swc_plugin
-            os: ubuntu-latest
-          - crate: swc_plugin
-            os: windows-latest
-          - crate: swc_plugin_macro
-            os: ubuntu-latest
-          - crate: swc_plugin_runner
-            os: ubuntu-latest
-          - crate: swc_plugin_runner
-            os: macos-latest
-          - crate: swc_plugin_runner
-            os: windows-latest
-          - crate: swc_plugin_testing
-            os: ubuntu-latest
-          - crate: swc_plugin_testing
-            os: windows-latest
-          - crate: swc_stylis
-            os: ubuntu-latest
-          - crate: swc_timer
-            os: ubuntu-latest
-          - crate: swc_visit
-            os: ubuntu-latest
-          - crate: swc_visit_macros
-            os: ubuntu-latest
-          - crate: swc_webpack_ast
-            os: ubuntu-latest
-          - crate: testing
-            os: ubuntu-latest
-          - crate: testing_macros
-            os: ubuntu-latest
-          - crate: wasm
             os: ubuntu-latest
 
     steps:
