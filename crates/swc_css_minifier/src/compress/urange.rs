@@ -12,14 +12,14 @@ impl CompressUrange {
         let mut result = String::new();
         let mut is_leading = true;
 
-        for char in value.chars() {
-            if char == '0' && is_leading {
+        for c in value.chars() {
+            if c == '0' && is_leading {
                 continue;
             }
 
             is_leading = false;
 
-            result.push(char);
+            result.push(c);
         }
 
         result
@@ -29,11 +29,11 @@ impl CompressUrange {
         let mut minified = String::new();
         let mut question_counter = 0;
 
-        for (idx, start_char) in start.chars().enumerate() {
-            if let Some(end_char) = &end.chars().nth(idx) {
-                if start_char.eq_ignore_ascii_case(end_char) && question_counter == 0 {
-                    minified.push(start_char);
-                } else if start_char == '0' && end_char.eq_ignore_ascii_case(&'f') {
+        for (idx, start_c) in start.chars().enumerate() {
+            if let Some(end_c) = &end.chars().nth(idx) {
+                if start_c.eq_ignore_ascii_case(end_c) && question_counter == 0 {
+                    minified.push(start_c);
+                } else if start_c == '0' && end_c.eq_ignore_ascii_case(&'f') {
                     question_counter += 1;
 
                     minified.push('?')
