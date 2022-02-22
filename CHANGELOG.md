@@ -26,6 +26,9 @@
 - **(css/minifier)** Compress degrees to zero (#3664) ([0b5f554](https://github.com/swc-project/swc/commit/0b5f5544c60136bde3bd07c9c75459086cf4b0d5))
 
 
+- **(css/minifier)** Compress urls (#3666) ([fab6473](https://github.com/swc-project/swc/commit/fab6473183e6c3c4a8541e0146514da1264a2db6))
+
+
 - **(es/ast)** Support TypeScript Instantiation Expression (#3642) ([61e711c](https://github.com/swc-project/swc/commit/61e711c912bc31453a24dce2d1e1d98044aab3df))
 
 
