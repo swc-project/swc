@@ -22,6 +22,7 @@ swc_common = { version = "0.17.5", path = "../swc_common" }
 relative-path = "1.6.1"
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["unbounded_depth"] }
+atty = "0.2.14"
 
 [dependencies.path-absolutize]
 version = "3.0.11"
