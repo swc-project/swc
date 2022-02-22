@@ -221,3 +221,11 @@
 .class56 {
     transform: skew(12deg, 20deg);
 }
+
+.class57 {
+    transform: skew(0deg, 10deg);
+}
+
+.class58 {
+    transform: rotate3d(1, 0, 0, 0deg);
+}

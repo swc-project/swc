@@ -7,8 +7,7 @@ use self::compress::{
     angle::compress_angle, declaration::compress_declaration,
     easing_function::compress_easing_function, empty::compress_empty,
     keyframes::compress_keyframes, selector::compress_selector, time::compress_time,
-    url::compress_url,
-    transform_function::compress_transform_function,
+    transform_function::compress_transform_function, url::compress_url,
 };
 
 mod compress;
