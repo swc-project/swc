@@ -10,3 +10,15 @@ error: Expected whitespace, semicolon, EOF, at-keyword or ident token
 3 |     background: url(var(--foo));
   |                               ^
 
+error: Expected Declaration value
+  --> $DIR/tests/recovery/value/url/input.css:13:17
+   |
+13 |     background: url(image.png param(var(--url)));
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+  --> $DIR/tests/recovery/value/url/input.css:13:47
+   |
+13 |     background: url(image.png param(var(--url)));
+   |                                               ^
+

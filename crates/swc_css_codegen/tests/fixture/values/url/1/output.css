@@ -17,7 +17,7 @@ background: url('');
 --foo: "http://www.example.com/pinkish.gif";
 background: src("http://www.example.com/pinkish.gif");
 background: SRC("http://www.example.com/pinkish.gif");
-background: src( var(--foo));
+background: src(var(--foo));
 background: url(   https://example.com/image.png   );
 background: u\rl(   https://example.com/image.png   );
 background: url(   
@@ -43,4 +43,10 @@ background: url('foo)');
 background: url('(foo');
 background: url('(foo)');
 background: url('\"foo\"');
+}
+.bar {
+background: url(http://example.com/image.svg param(--color var(--primary-color);
+))}
+.baz {
+background: url("http://example.com/image.svg" param(--color var(--primary-color)));
 }
