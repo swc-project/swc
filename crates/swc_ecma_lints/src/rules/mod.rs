@@ -21,6 +21,7 @@ pub(crate) mod non_critical_lints {
     pub mod no_bitwise;
     pub mod no_console;
     pub mod no_debugger;
+    pub mod no_empty_function;
     pub mod no_empty_pattern;
     pub mod no_loop_func;
     pub mod no_new;
@@ -90,6 +91,11 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
             program,
             &source_map,
             &lint_config.dot_notation,
+        ));
+
+        rules.extend(no_empty_function::no_empty_function(
+            &source_map,
+            &lint_config.no_empty_function,
         ));
 
         rules.extend(no_empty_pattern::no_empty_pattern(

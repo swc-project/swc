@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 292,
+    "end": 352,
     "ctxt": 0
   },
   "rules": [
@@ -460,6 +460,140 @@
               }
             ],
             "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 293,
+        "end": 351,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 293,
+          "end": 297,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 293,
+              "end": 297,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 293,
+                  "end": 297,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 293,
+                      "end": 297,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 294,
+                        "end": 297,
+                        "ctxt": 0
+                      },
+                      "value": "foo",
+                      "raw": "foo"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 298,
+          "end": 351,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 304,
+              "end": 346,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 304,
+                "end": 314,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 316,
+                  "end": 346,
+                  "ctxt": 0
+                },
+                "token": {
+                  "BadUrl": {
+                    "name": "url",
+                    "raw_name": "url",
+                    "value": "image.png param(var(--url",
+                    "raw_value": "image.png param(var(--url"
+                  }
+                }
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Tokens",
+            "span": {
+              "start": 346,
+              "end": 348,
+              "ctxt": 0
+            },
+            "tokens": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 346,
+                  "end": 347,
+                  "ctxt": 0
+                },
+                "token": "RParen"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 347,
+                  "end": 348,
+                  "ctxt": 0
+                },
+                "token": "RParen"
+              }
+            ]
           }
         ]
       }

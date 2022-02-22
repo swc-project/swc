@@ -8,3 +8,7 @@ div {
     background: url(image.png\11FFFF);
     color: red;
 }
+
+.foo {
+    background: url(image.png param(var(--url)));
+}
