@@ -12,6 +12,9 @@
         "swc.linux-x64-gnu.node",
         "swc"
     ],
+    "bin": {
+        "swcx": "swc"
+    },
     "description": "Super-fast alternative for babel",
     "keywords": [
         "swc",
