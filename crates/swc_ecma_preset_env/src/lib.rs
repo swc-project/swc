@@ -4,19 +4,11 @@
 
 use std::path::PathBuf;
 
-use anyhow::{Context, Error};
-use dashmap::DashMap;
-use once_cell::sync::Lazy;
-use preset_env_base::query::{targets_to_versions, Query, Targets};
-pub use preset_env_base::{version::Version, BrowserData, Versions};
+use preset_env_base::query::{targets_to_versions, Query};
+pub use preset_env_base::{query::Targets, version::Version, BrowserData, Versions};
 use serde::Deserialize;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{
-    chain,
-    collections::{AHashMap, AHashSet},
-    comments::Comments,
-    FromVariant, Mark, DUMMY_SP,
-};
+use swc_common::{chain, collections::AHashSet, comments::Comments, FromVariant, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
     compat::{bugfixes, es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, es3},

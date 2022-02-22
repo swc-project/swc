@@ -1,3 +1,5 @@
+#![deny(clippy::all)]
+
 use std::collections::HashMap;
 
 use anyhow::{Context, Error};
@@ -22,6 +24,7 @@ pub enum Targets {
 
 #[derive(Debug, Clone, Copy, Deserialize)]
 pub struct EsModules {
+    #[allow(dead_code)]
     esmodules: bool,
 }
 
