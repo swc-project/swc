@@ -1867,6 +1867,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "browserslist-rs",
+ "from_variant",
  "semver 1.0.4",
  "serde",
  "st-map",

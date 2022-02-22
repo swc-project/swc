@@ -4,6 +4,7 @@ use st_map::StaticMap;
 
 use self::version::Version;
 
+pub mod query;
 pub mod version;
 
 /// A map without allocation.
