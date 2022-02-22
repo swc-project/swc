@@ -58,13 +58,19 @@ error: Ident
 1 | :nth-child(4n) {
   |  ^^^^^^^^^
 
-error: Nth
+error: AnPlusB
  --> $DIR/tests/fixture/vercel/001/input.css:1:12
   |
 1 | :nth-child(4n) {
   |            ^^
 
-error: AnPlusB
+error: AnPlusBValue
+ --> $DIR/tests/fixture/vercel/001/input.css:1:12
+  |
+1 | :nth-child(4n) {
+  |            ^^
+
+error: AnPlusBNotation
  --> $DIR/tests/fixture/vercel/001/input.css:1:12
   |
 1 | :nth-child(4n) {

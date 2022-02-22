@@ -11,31 +11,31 @@ struct CompressSelector {}
 impl CompressSelector {}
 
 impl VisitMut for CompressSelector {
-    fn visit_mut_nth(&mut self, nth: &mut Nth) {
-        nth.visit_mut_children_with(self);
+    fn visit_mut_an_plus_b_value(&mut self, an_plus_b_value: &mut AnPlusBValue) {
+        an_plus_b_value.visit_mut_children_with(self);
 
-        match &nth.nth {
+        match &an_plus_b_value {
             // `2n+1`, `2n-1`, `2n-3`, etc => `odd`
-            NthValue::AnPlusB(AnPlusB {
+            AnPlusBValue::AnPlusBNotation(AnPlusBNotation {
                 a: Some(a),
                 b: Some(b),
                 span,
                 ..
             }) if *a == 2 && (*b == 1 || b % 2 == -1) => {
-                nth.nth = NthValue::Ident(Ident {
+                *an_plus_b_value = AnPlusBValue::Ident(Ident {
                     span: *span,
                     value: "odd".into(),
                     raw: "odd".into(),
                 });
             }
             // `2n-0`, `2n-2`, `2n-4`, etc => `2n`
-            NthValue::AnPlusB(AnPlusB {
+            AnPlusBValue::AnPlusBNotation(AnPlusBNotation {
                 a: Some(a),
                 b: Some(b),
                 span,
                 ..
             }) if *a == 2 && *b < 0 && b % 2 == 0 => {
-                nth.nth = NthValue::AnPlusB(AnPlusB {
+                *an_plus_b_value = AnPlusBValue::AnPlusBNotation(AnPlusBNotation {
                     span: *span,
                     a: Some(2),
                     a_raw: Some("2".into()),
@@ -44,8 +44,8 @@ impl VisitMut for CompressSelector {
                 });
             }
             // `even` => `2n`
-            NthValue::Ident(Ident { value, span, .. }) if &*value.to_lowercase() == "even" => {
-                nth.nth = NthValue::AnPlusB(AnPlusB {
+            AnPlusBValue::Ident(Ident { value, span, .. }) if &*value.to_lowercase() == "even" => {
+                *an_plus_b_value = AnPlusBValue::AnPlusBNotation(AnPlusBNotation {
                     span: *span,
                     a: Some(2),
                     a_raw: Some("2".into()),
@@ -54,14 +54,14 @@ impl VisitMut for CompressSelector {
                 });
             }
             // `0n+5` => `5`, `0n-5` => `-5`, etc
-            NthValue::AnPlusB(AnPlusB {
+            AnPlusBValue::AnPlusBNotation(AnPlusBNotation {
                 a: Some(a),
                 b,
                 b_raw,
                 span,
                 ..
             }) if *a == 0 => {
-                nth.nth = NthValue::AnPlusB(AnPlusB {
+                *an_plus_b_value = AnPlusBValue::AnPlusBNotation(AnPlusBNotation {
                     span: *span,
                     a: None,
                     a_raw: None,
@@ -70,14 +70,14 @@ impl VisitMut for CompressSelector {
                 });
             }
             // `-5n+0` => `-5n`, etc
-            NthValue::AnPlusB(AnPlusB {
+            AnPlusBValue::AnPlusBNotation(AnPlusBNotation {
                 a,
                 a_raw,
                 b: Some(b),
                 span,
                 ..
             }) if *b == 0 => {
-                nth.nth = NthValue::AnPlusB(AnPlusB {
+                *an_plus_b_value = AnPlusBValue::AnPlusBNotation(AnPlusBNotation {
                     span: *span,
                     a: *a,
                     a_raw: a_raw.clone(),
@@ -112,9 +112,9 @@ impl VisitMut for CompressSelector {
                 ..
             }) if &*name.value.to_lowercase() == "nth-child" && children.len() == 1 => {
                 match children.get(0) {
-                    Some(PseudoSelectorChildren::Nth(Nth {
-                        nth:
-                            NthValue::AnPlusB(AnPlusB {
+                    Some(PseudoSelectorChildren::AnPlusB(AnPlusB {
+                        value:
+                            AnPlusBValue::AnPlusBNotation(AnPlusBNotation {
                                 a: None,
                                 b: Some(b),
                                 ..
@@ -141,9 +141,9 @@ impl VisitMut for CompressSelector {
                 ..
             }) if &*name.value.to_lowercase() == "nth-last-child" && children.len() == 1 => {
                 match children.get(0) {
-                    Some(PseudoSelectorChildren::Nth(Nth {
-                        nth:
-                            NthValue::AnPlusB(AnPlusB {
+                    Some(PseudoSelectorChildren::AnPlusB(AnPlusB {
+                        value:
+                            AnPlusBValue::AnPlusBNotation(AnPlusBNotation {
                                 a: None,
                                 b: Some(b),
                                 ..
@@ -170,9 +170,9 @@ impl VisitMut for CompressSelector {
                 ..
             }) if &*name.value.to_lowercase() == "nth-of-type" && children.len() == 1 => {
                 match children.get(0) {
-                    Some(PseudoSelectorChildren::Nth(Nth {
-                        nth:
-                            NthValue::AnPlusB(AnPlusB {
+                    Some(PseudoSelectorChildren::AnPlusB(AnPlusB {
+                        value:
+                            AnPlusBValue::AnPlusBNotation(AnPlusBNotation {
                                 a: None,
                                 b: Some(b),
                                 ..
@@ -199,9 +199,9 @@ impl VisitMut for CompressSelector {
                 ..
             }) if &*name.value.to_lowercase() == "nth-last-of-type" && children.len() == 1 => {
                 match children.get(0) {
-                    Some(PseudoSelectorChildren::Nth(Nth {
-                        nth:
-                            NthValue::AnPlusB(AnPlusB {
+                    Some(PseudoSelectorChildren::AnPlusB(AnPlusB {
+                        value:
+                            AnPlusBValue::AnPlusBNotation(AnPlusBNotation {
                                 a: None,
                                 b: Some(b),
                                 ..

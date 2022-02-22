@@ -1,4 +1,4 @@
-error: Invalid selector
+error: Expected function or ident tokens
  --> $DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:2:11
   |
 2 |     color: teal;

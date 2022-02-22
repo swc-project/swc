@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 2005,
+    "end": 2168,
     "ctxt": 0
   },
   "rules": [
@@ -58,14 +58,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 11,
                           "end": 15,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 11,
                             "end": 15,
@@ -75,8 +75,7 @@
                           "aRaw": "2",
                           "b": 1,
                           "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -149,14 +148,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 31,
                           "end": 36,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 31,
                             "end": 36,
@@ -166,8 +165,7 @@
                           "aRaw": "2",
                           "b": 1,
                           "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -240,14 +238,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 52,
                           "end": 58,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 52,
                             "end": 58,
@@ -257,8 +255,7 @@
                           "aRaw": "2",
                           "b": 1,
                           "bRaw": " + 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -331,14 +328,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 74,
                           "end": 79,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 74,
                             "end": 79,
@@ -348,8 +345,7 @@
                           "aRaw": "2",
                           "b": 1,
                           "bRaw": " + 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -422,14 +418,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 95,
                           "end": 99,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 95,
                             "end": 99,
@@ -439,8 +435,7 @@
                           "aRaw": "2",
                           "b": -1,
                           "bRaw": "-1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -513,14 +508,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 115,
                           "end": 120,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 115,
                             "end": 120,
@@ -530,8 +525,7 @@
                           "aRaw": "2",
                           "b": -1,
                           "bRaw": "-1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -604,14 +598,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 136,
                           "end": 141,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 136,
                             "end": 141,
@@ -621,8 +615,7 @@
                           "aRaw": "2",
                           "b": -1,
                           "bRaw": "- 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -695,14 +688,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 157,
                           "end": 163,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 157,
                             "end": 163,
@@ -712,8 +705,7 @@
                           "aRaw": "2",
                           "b": -1,
                           "bRaw": " - 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -786,14 +778,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 179,
                           "end": 184,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 179,
                             "end": 184,
@@ -803,8 +795,7 @@
                           "aRaw": "-2",
                           "b": 1,
                           "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -877,14 +868,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 200,
                           "end": 206,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 200,
                             "end": 206,
@@ -894,8 +885,7 @@
                           "aRaw": "-2",
                           "b": 1,
                           "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -968,14 +958,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 222,
                           "end": 229,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 222,
                             "end": 229,
@@ -985,8 +975,7 @@
                           "aRaw": "-2",
                           "b": 1,
                           "bRaw": " + 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -1059,14 +1048,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 245,
                           "end": 251,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 245,
                             "end": 251,
@@ -1076,8 +1065,7 @@
                           "aRaw": "-2",
                           "b": 1,
                           "bRaw": " + 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -1150,14 +1138,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 267,
                           "end": 272,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 267,
                             "end": 272,
@@ -1167,8 +1155,7 @@
                           "aRaw": "-2",
                           "b": -1,
                           "bRaw": "-1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -1241,14 +1228,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 288,
                           "end": 294,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 288,
                             "end": 294,
@@ -1258,8 +1245,7 @@
                           "aRaw": "-2",
                           "b": -1,
                           "bRaw": "-1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -1332,14 +1318,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 310,
                           "end": 317,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 310,
                             "end": 317,
@@ -1349,8 +1335,7 @@
                           "aRaw": "-2",
                           "b": -1,
                           "bRaw": " - 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -1423,14 +1408,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 333,
                           "end": 338,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 333,
                             "end": 338,
@@ -1440,8 +1425,7 @@
                           "aRaw": "+2",
                           "b": 1,
                           "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -1514,14 +1498,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 354,
                           "end": 360,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 354,
                             "end": 360,
@@ -1531,8 +1515,7 @@
                           "aRaw": "+2",
                           "b": 1,
                           "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -1605,14 +1588,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 376,
                           "end": 383,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 376,
                             "end": 383,
@@ -1622,8 +1605,7 @@
                           "aRaw": "+2",
                           "b": 1,
                           "bRaw": " + 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -1696,14 +1678,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 399,
                           "end": 405,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 399,
                             "end": 405,
@@ -1713,8 +1695,7 @@
                           "aRaw": "+2",
                           "b": 1,
                           "bRaw": " + 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -1787,14 +1768,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 421,
                           "end": 426,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 421,
                             "end": 426,
@@ -1804,8 +1785,7 @@
                           "aRaw": "+2",
                           "b": -1,
                           "bRaw": "-1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -1878,14 +1858,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 442,
                           "end": 448,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 442,
                             "end": 448,
@@ -1895,8 +1875,7 @@
                           "aRaw": "+2",
                           "b": -1,
                           "bRaw": "-1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -1969,14 +1948,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 464,
                           "end": 470,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 464,
                             "end": 470,
@@ -1986,8 +1965,7 @@
                           "aRaw": "+2",
                           "b": -1,
                           "bRaw": "- 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -2060,14 +2038,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 486,
                           "end": 493,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 486,
                             "end": 493,
@@ -2077,8 +2055,7 @@
                           "aRaw": "+2",
                           "b": -1,
                           "bRaw": " - 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -2151,14 +2128,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 509,
                           "end": 512,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 509,
                             "end": 512,
@@ -2168,8 +2145,7 @@
                           "aRaw": "",
                           "b": 1,
                           "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -2242,14 +2218,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 528,
                           "end": 532,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 528,
                             "end": 532,
@@ -2259,8 +2235,7 @@
                           "aRaw": "",
                           "b": 1,
                           "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -2333,14 +2308,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 548,
                           "end": 553,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 548,
                             "end": 553,
@@ -2350,8 +2325,7 @@
                           "aRaw": "",
                           "b": 1,
                           "bRaw": " + 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -2424,14 +2398,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 569,
                           "end": 573,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 569,
                             "end": 573,
@@ -2441,8 +2415,7 @@
                           "aRaw": "",
                           "b": 1,
                           "bRaw": " + 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -2515,14 +2488,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 589,
                           "end": 592,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 589,
                             "end": 592,
@@ -2532,8 +2505,7 @@
                           "aRaw": "",
                           "b": -1,
                           "bRaw": "-1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -2606,14 +2578,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 608,
                           "end": 612,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 608,
                             "end": 612,
@@ -2623,8 +2595,7 @@
                           "aRaw": "",
                           "b": -1,
                           "bRaw": "-1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -2697,14 +2668,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 628,
                           "end": 632,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 628,
                             "end": 632,
@@ -2714,8 +2685,7 @@
                           "aRaw": "",
                           "b": -1,
                           "bRaw": "- 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -2788,14 +2758,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 648,
                           "end": 653,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 648,
                             "end": 653,
@@ -2805,8 +2775,7 @@
                           "aRaw": "",
                           "b": -1,
                           "bRaw": " - 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -2879,14 +2848,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 669,
                           "end": 673,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 669,
                             "end": 673,
@@ -2896,8 +2865,7 @@
                           "aRaw": "-",
                           "b": 1,
                           "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -2970,14 +2938,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 689,
                           "end": 694,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 689,
                             "end": 694,
@@ -2987,8 +2955,7 @@
                           "aRaw": "-",
                           "b": 1,
                           "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -3061,14 +3028,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 710,
                           "end": 716,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 710,
                             "end": 716,
@@ -3078,8 +3045,7 @@
                           "aRaw": "-",
                           "b": 1,
                           "bRaw": " + 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -3152,14 +3118,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 732,
                           "end": 737,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 732,
                             "end": 737,
@@ -3169,8 +3135,7 @@
                           "aRaw": "-",
                           "b": 1,
                           "bRaw": " + 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -3243,14 +3208,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 753,
                           "end": 757,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 753,
                             "end": 757,
@@ -3260,8 +3225,7 @@
                           "aRaw": "-",
                           "b": -1,
                           "bRaw": "-1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -3334,14 +3298,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 773,
                           "end": 778,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 773,
                             "end": 778,
@@ -3351,8 +3315,7 @@
                           "aRaw": "-",
                           "b": -1,
                           "bRaw": "-1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -3425,14 +3388,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 794,
                           "end": 799,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 794,
                             "end": 799,
@@ -3442,8 +3405,7 @@
                           "aRaw": "-",
                           "b": -1,
                           "bRaw": "- 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -3516,14 +3478,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 815,
                           "end": 821,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 815,
                             "end": 821,
@@ -3533,8 +3495,7 @@
                           "aRaw": "-",
                           "b": -1,
                           "bRaw": " - 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -3607,14 +3568,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 837,
                           "end": 841,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 837,
                             "end": 841,
@@ -3624,8 +3585,7 @@
                           "aRaw": "+",
                           "b": 1,
                           "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -3698,14 +3658,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 857,
                           "end": 862,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 857,
                             "end": 862,
@@ -3715,8 +3675,7 @@
                           "aRaw": "+",
                           "b": 1,
                           "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -3789,14 +3748,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 878,
                           "end": 884,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 878,
                             "end": 884,
@@ -3806,8 +3765,7 @@
                           "aRaw": "+",
                           "b": 1,
                           "bRaw": " + 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -3880,14 +3838,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 900,
                           "end": 905,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 900,
                             "end": 905,
@@ -3897,8 +3855,7 @@
                           "aRaw": "+",
                           "b": 1,
                           "bRaw": " + 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -3971,14 +3928,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 921,
                           "end": 925,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 921,
                             "end": 925,
@@ -3988,8 +3945,7 @@
                           "aRaw": "+",
                           "b": -1,
                           "bRaw": "-1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -4062,14 +4018,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 941,
                           "end": 946,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 941,
                             "end": 946,
@@ -4079,8 +4035,7 @@
                           "aRaw": "+",
                           "b": -1,
                           "bRaw": "-1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -4153,14 +4108,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 962,
                           "end": 967,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 962,
                             "end": 967,
@@ -4170,8 +4125,7 @@
                           "aRaw": "+",
                           "b": -1,
                           "bRaw": "- 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -4244,14 +4198,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 983,
                           "end": 989,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 983,
                             "end": 989,
@@ -4261,8 +4215,7 @@
                           "aRaw": "+",
                           "b": -1,
                           "bRaw": " - 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -4335,14 +4288,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1005,
                           "end": 1006,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1005,
                             "end": 1006,
@@ -4352,8 +4305,7 @@
                           "aRaw": "",
                           "b": null,
                           "bRaw": null
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -4426,14 +4378,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1022,
                           "end": 1024,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1022,
                             "end": 1024,
@@ -4443,8 +4395,7 @@
                           "aRaw": "-",
                           "b": null,
                           "bRaw": null
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -4517,14 +4468,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1040,
                           "end": 1042,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1040,
                             "end": 1042,
@@ -4534,8 +4485,7 @@
                           "aRaw": "+",
                           "b": null,
                           "bRaw": null
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -4608,14 +4558,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1058,
                           "end": 1060,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1058,
                             "end": 1060,
@@ -4625,8 +4575,7 @@
                           "aRaw": "2",
                           "b": null,
                           "bRaw": null
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -4699,14 +4648,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1076,
                           "end": 1079,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1076,
                             "end": 1079,
@@ -4716,8 +4665,7 @@
                           "aRaw": "-2",
                           "b": null,
                           "bRaw": null
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -4790,14 +4738,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1095,
                           "end": 1098,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1095,
                             "end": 1098,
@@ -4807,8 +4755,7 @@
                           "aRaw": "+2",
                           "b": null,
                           "bRaw": null
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -4881,14 +4828,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1114,
                           "end": 1115,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1114,
                             "end": 1115,
@@ -4898,8 +4845,7 @@
                           "aRaw": "",
                           "b": null,
                           "bRaw": null
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -4972,14 +4918,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1131,
                           "end": 1133,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1131,
                             "end": 1133,
@@ -4989,8 +4935,7 @@
                           "aRaw": "-",
                           "b": null,
                           "bRaw": null
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -5063,14 +5008,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1149,
                           "end": 1151,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1149,
                             "end": 1151,
@@ -5080,8 +5025,7 @@
                           "aRaw": "+",
                           "b": null,
                           "bRaw": null
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -5154,14 +5098,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1167,
                           "end": 1169,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1167,
                             "end": 1169,
@@ -5171,8 +5115,7 @@
                           "aRaw": "2",
                           "b": null,
                           "bRaw": null
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -5245,14 +5188,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1185,
                           "end": 1188,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1185,
                             "end": 1188,
@@ -5262,8 +5205,7 @@
                           "aRaw": "-2",
                           "b": null,
                           "bRaw": null
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -5336,14 +5278,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1204,
                           "end": 1207,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1204,
                             "end": 1207,
@@ -5353,8 +5295,7 @@
                           "aRaw": "+2",
                           "b": null,
                           "bRaw": null
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -5427,14 +5368,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1223,
                           "end": 1224,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1223,
                             "end": 1224,
@@ -5444,8 +5385,7 @@
                           "aRaw": null,
                           "b": 1,
                           "bRaw": "1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -5518,14 +5458,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1240,
                           "end": 1242,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1240,
                             "end": 1242,
@@ -5535,8 +5475,7 @@
                           "aRaw": null,
                           "b": -1,
                           "bRaw": "-1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -5609,14 +5548,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1258,
                           "end": 1260,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1258,
                             "end": 1260,
@@ -5626,8 +5565,7 @@
                           "aRaw": null,
                           "b": 1,
                           "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -5700,14 +5638,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1276,
                           "end": 1292,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1276,
                             "end": 1292,
@@ -5717,8 +5655,7 @@
                           "aRaw": "123456",
                           "b": -12345678,
                           "bRaw": "-12345678"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -5791,14 +5728,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1309,
                           "end": 1313,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1309,
                             "end": 1313,
@@ -5808,8 +5745,7 @@
                           "aRaw": "2",
                           "b": 1,
                           "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -5882,14 +5818,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1329,
                           "end": 1333,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1329,
                             "end": 1333,
@@ -5899,8 +5835,7 @@
                           "aRaw": "2",
                           "b": 1,
                           "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -5973,13 +5908,13 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1350,
                           "end": 1353,
                           "ctxt": 0
                         },
-                        "nth": {
+                        "value": {
                           "type": "Ident",
                           "span": {
                             "start": 1350,
@@ -5988,8 +5923,7 @@
                           },
                           "value": "odd",
                           "raw": "odd"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -6062,13 +5996,13 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1369,
                           "end": 1372,
                           "ctxt": 0
                         },
-                        "nth": {
+                        "value": {
                           "type": "Ident",
                           "span": {
                             "start": 1369,
@@ -6077,8 +6011,7 @@
                           },
                           "value": "ODD",
                           "raw": "ODD"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -6151,13 +6084,13 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1388,
                           "end": 1391,
                           "ctxt": 0
                         },
-                        "nth": {
+                        "value": {
                           "type": "Ident",
                           "span": {
                             "start": 1388,
@@ -6166,8 +6099,7 @@
                           },
                           "value": "oDd",
                           "raw": "oDd"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -6240,13 +6172,13 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1407,
                           "end": 1411,
                           "ctxt": 0
                         },
-                        "nth": {
+                        "value": {
                           "type": "Ident",
                           "span": {
                             "start": 1407,
@@ -6255,8 +6187,7 @@
                           },
                           "value": "even",
                           "raw": "even"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -6329,13 +6260,13 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1427,
                           "end": 1431,
                           "ctxt": 0
                         },
-                        "nth": {
+                        "value": {
                           "type": "Ident",
                           "span": {
                             "start": 1427,
@@ -6344,8 +6275,7 @@
                           },
                           "value": "eVeN",
                           "raw": "eVeN"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -6418,13 +6348,13 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1447,
                           "end": 1451,
                           "ctxt": 0
                         },
-                        "nth": {
+                        "value": {
                           "type": "Ident",
                           "span": {
                             "start": 1447,
@@ -6433,8 +6363,7 @@
                           },
                           "value": "EVEN",
                           "raw": "EVEN"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -6507,14 +6436,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1476,
                           "end": 1496,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1476,
                             "end": 1496,
@@ -6524,8 +6453,7 @@
                           "aRaw": "2",
                           "b": 1,
                           "bRaw": " + 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -6598,14 +6526,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1533,
                           "end": 1554,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1533,
                             "end": 1554,
@@ -6615,8 +6543,7 @@
                           "aRaw": "+3",
                           "b": -2,
                           "bRaw": " - 2"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -6689,14 +6616,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1581,
                           "end": 1589,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1581,
                             "end": 1589,
@@ -6706,8 +6633,7 @@
                           "aRaw": "2",
                           "b": 1,
                           "bRaw": " + 1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -6780,14 +6706,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1614,
                           "end": 1623,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1614,
                             "end": 1623,
@@ -6797,8 +6723,7 @@
                           "aRaw": "+3",
                           "b": -2,
                           "bRaw": " - 2"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -6871,14 +6796,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1642,
                           "end": 1647,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1642,
                             "end": 1647,
@@ -6888,8 +6813,7 @@
                           "aRaw": "-2",
                           "b": 1,
                           "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -6962,14 +6886,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1668,
                           "end": 1672,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1668,
                             "end": 1672,
@@ -6979,8 +6903,7 @@
                           "aRaw": "2",
                           "b": 1,
                           "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -7053,14 +6976,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1690,
                           "end": 1694,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1690,
                             "end": 1694,
@@ -7070,8 +6993,7 @@
                           "aRaw": "2",
                           "b": 1,
                           "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -7144,14 +7066,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1717,
                           "end": 1721,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1717,
                             "end": 1721,
@@ -7161,8 +7083,7 @@
                           "aRaw": "2",
                           "b": 1,
                           "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -7235,13 +7156,13 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1736,
                           "end": 1739,
                           "ctxt": 0
                         },
-                        "nth": {
+                        "value": {
                           "type": "Ident",
                           "span": {
                             "start": 1736,
@@ -7250,8 +7171,7 @@
                           },
                           "value": "odd",
                           "raw": "odd"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -7324,14 +7244,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1753,
                           "end": 1757,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1753,
                             "end": 1757,
@@ -7341,8 +7261,7 @@
                           "aRaw": "2",
                           "b": 1,
                           "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -7415,13 +7334,13 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1776,
                           "end": 1779,
                           "ctxt": 0
                         },
-                        "nth": {
+                        "value": {
                           "type": "Ident",
                           "span": {
                             "start": 1776,
@@ -7430,8 +7349,7 @@
                           },
                           "value": "odd",
                           "raw": "odd"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -7504,14 +7422,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1798,
                           "end": 1802,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1798,
                             "end": 1802,
@@ -7521,8 +7439,7 @@
                           "aRaw": "2",
                           "b": 1,
                           "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -7621,14 +7538,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1821,
                           "end": 1822,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1821,
                             "end": 1822,
@@ -7638,8 +7555,7 @@
                           "aRaw": null,
                           "b": 0,
                           "bRaw": "0"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -7738,14 +7654,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1838,
                           "end": 1840,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1838,
                             "end": 1840,
@@ -7755,8 +7671,7 @@
                           "aRaw": null,
                           "b": 0,
                           "bRaw": "+0"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -7855,14 +7770,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1856,
                           "end": 1858,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1856,
                             "end": 1858,
@@ -7872,8 +7787,7 @@
                           "aRaw": null,
                           "b": 0,
                           "bRaw": "-0"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -7972,14 +7886,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1874,
                           "end": 1875,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1874,
                             "end": 1875,
@@ -7989,8 +7903,7 @@
                           "aRaw": null,
                           "b": 1,
                           "bRaw": "1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -8089,14 +8002,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1891,
                           "end": 1893,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1891,
                             "end": 1893,
@@ -8106,8 +8019,7 @@
                           "aRaw": null,
                           "b": 1,
                           "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -8206,14 +8118,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1909,
                           "end": 1911,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1909,
                             "end": 1911,
@@ -8223,8 +8135,7 @@
                           "aRaw": null,
                           "b": -1,
                           "bRaw": "-1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -8323,14 +8234,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1927,
                           "end": 1928,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1927,
                             "end": 1928,
@@ -8340,8 +8251,7 @@
                           "aRaw": null,
                           "b": 3,
                           "bRaw": "3"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -8440,14 +8350,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1944,
                           "end": 1946,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1944,
                             "end": 1946,
@@ -8457,8 +8367,7 @@
                           "aRaw": null,
                           "b": 3,
                           "bRaw": "+3"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -8557,14 +8466,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 1962,
                           "end": 1964,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 1962,
                             "end": 1964,
@@ -8574,8 +8483,7 @@
                           "aRaw": null,
                           "b": -3,
                           "bRaw": "-3"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }
@@ -8590,6 +8498,1128 @@
         "span": {
           "start": 1965,
           "end": 1967,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 1969,
+        "end": 1994,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 1969,
+          "end": 1991,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 1969,
+              "end": 1991,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 1969,
+                  "end": 1991,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "PseudoClassSelector",
+                    "span": {
+                      "start": 1969,
+                      "end": 1991,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 1970,
+                        "end": 1979,
+                        "ctxt": 0
+                      },
+                      "value": "nth-child",
+                      "raw": "nth-child"
+                    },
+                    "children": [
+                      {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 1980,
+                          "end": 1984,
+                          "ctxt": 0
+                        },
+                        "value": {
+                          "type": "AnPlusBNotation",
+                          "span": {
+                            "start": 1980,
+                            "end": 1984,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        }
+                      },
+                      {
+                        "type": "Ident",
+                        "span": {
+                          "start": 1985,
+                          "end": 1987,
+                          "ctxt": 0
+                        },
+                        "value": "of",
+                        "raw": "of"
+                      },
+                      {
+                        "type": "SelectorList",
+                        "span": {
+                          "start": 1988,
+                          "end": 1990,
+                          "ctxt": 0
+                        },
+                        "children": [
+                          {
+                            "type": "ComplexSelector",
+                            "span": {
+                              "start": 1988,
+                              "end": 1990,
+                              "ctxt": 0
+                            },
+                            "children": [
+                              {
+                                "type": "CompoundSelector",
+                                "span": {
+                                  "start": 1988,
+                                  "end": 1990,
+                                  "ctxt": 0
+                                },
+                                "nestingSelector": null,
+                                "typeSelector": {
+                                  "type": "TagNameSelector",
+                                  "span": {
+                                    "start": 1988,
+                                    "end": 1990,
+                                    "ctxt": 0
+                                  },
+                                  "name": {
+                                    "type": "WqName",
+                                    "span": {
+                                      "start": 1988,
+                                      "end": 1990,
+                                      "ctxt": 0
+                                    },
+                                    "prefix": null,
+                                    "value": {
+                                      "type": "Ident",
+                                      "span": {
+                                        "start": 1988,
+                                        "end": 1990,
+                                        "ctxt": 0
+                                      },
+                                      "value": "li",
+                                      "raw": "li"
+                                    }
+                                  }
+                                },
+                                "subclassSelectors": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 1992,
+          "end": 1994,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 1995,
+        "end": 2026,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 1995,
+          "end": 2023,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 1995,
+              "end": 2023,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 1995,
+                  "end": 2023,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "PseudoClassSelector",
+                    "span": {
+                      "start": 1995,
+                      "end": 2023,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 1996,
+                        "end": 2005,
+                        "ctxt": 0
+                      },
+                      "value": "nth-child",
+                      "raw": "nth-child"
+                    },
+                    "children": [
+                      {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 2009,
+                          "end": 2013,
+                          "ctxt": 0
+                        },
+                        "value": {
+                          "type": "AnPlusBNotation",
+                          "span": {
+                            "start": 2009,
+                            "end": 2013,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        }
+                      },
+                      {
+                        "type": "Ident",
+                        "span": {
+                          "start": 2014,
+                          "end": 2016,
+                          "ctxt": 0
+                        },
+                        "value": "of",
+                        "raw": "of"
+                      },
+                      {
+                        "type": "SelectorList",
+                        "span": {
+                          "start": 2017,
+                          "end": 2019,
+                          "ctxt": 0
+                        },
+                        "children": [
+                          {
+                            "type": "ComplexSelector",
+                            "span": {
+                              "start": 2017,
+                              "end": 2019,
+                              "ctxt": 0
+                            },
+                            "children": [
+                              {
+                                "type": "CompoundSelector",
+                                "span": {
+                                  "start": 2017,
+                                  "end": 2019,
+                                  "ctxt": 0
+                                },
+                                "nestingSelector": null,
+                                "typeSelector": {
+                                  "type": "TagNameSelector",
+                                  "span": {
+                                    "start": 2017,
+                                    "end": 2019,
+                                    "ctxt": 0
+                                  },
+                                  "name": {
+                                    "type": "WqName",
+                                    "span": {
+                                      "start": 2017,
+                                      "end": 2019,
+                                      "ctxt": 0
+                                    },
+                                    "prefix": null,
+                                    "value": {
+                                      "type": "Ident",
+                                      "span": {
+                                        "start": 2017,
+                                        "end": 2019,
+                                        "ctxt": 0
+                                      },
+                                      "value": "li",
+                                      "raw": "li"
+                                    }
+                                  }
+                                },
+                                "subclassSelectors": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 2024,
+          "end": 2026,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 2027,
+        "end": 2058,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 2027,
+          "end": 2055,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 2027,
+              "end": 2055,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 2027,
+                  "end": 2055,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "PseudoClassSelector",
+                    "span": {
+                      "start": 2027,
+                      "end": 2055,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 2028,
+                        "end": 2037,
+                        "ctxt": 0
+                      },
+                      "value": "nth-child",
+                      "raw": "nth-child"
+                    },
+                    "children": [
+                      {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 2038,
+                          "end": 2042,
+                          "ctxt": 0
+                        },
+                        "value": {
+                          "type": "AnPlusBNotation",
+                          "span": {
+                            "start": 2038,
+                            "end": 2042,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        }
+                      },
+                      {
+                        "type": "Ident",
+                        "span": {
+                          "start": 2043,
+                          "end": 2045,
+                          "ctxt": 0
+                        },
+                        "value": "of",
+                        "raw": "of"
+                      },
+                      {
+                        "type": "SelectorList",
+                        "span": {
+                          "start": 2046,
+                          "end": 2054,
+                          "ctxt": 0
+                        },
+                        "children": [
+                          {
+                            "type": "ComplexSelector",
+                            "span": {
+                              "start": 2046,
+                              "end": 2048,
+                              "ctxt": 0
+                            },
+                            "children": [
+                              {
+                                "type": "CompoundSelector",
+                                "span": {
+                                  "start": 2046,
+                                  "end": 2048,
+                                  "ctxt": 0
+                                },
+                                "nestingSelector": null,
+                                "typeSelector": {
+                                  "type": "TagNameSelector",
+                                  "span": {
+                                    "start": 2046,
+                                    "end": 2048,
+                                    "ctxt": 0
+                                  },
+                                  "name": {
+                                    "type": "WqName",
+                                    "span": {
+                                      "start": 2046,
+                                      "end": 2048,
+                                      "ctxt": 0
+                                    },
+                                    "prefix": null,
+                                    "value": {
+                                      "type": "Ident",
+                                      "span": {
+                                        "start": 2046,
+                                        "end": 2048,
+                                        "ctxt": 0
+                                      },
+                                      "value": "li",
+                                      "raw": "li"
+                                    }
+                                  }
+                                },
+                                "subclassSelectors": []
+                              }
+                            ]
+                          },
+                          {
+                            "type": "ComplexSelector",
+                            "span": {
+                              "start": 2049,
+                              "end": 2054,
+                              "ctxt": 0
+                            },
+                            "children": [
+                              {
+                                "type": "CompoundSelector",
+                                "span": {
+                                  "start": 2049,
+                                  "end": 2054,
+                                  "ctxt": 0
+                                },
+                                "nestingSelector": null,
+                                "typeSelector": null,
+                                "subclassSelectors": [
+                                  {
+                                    "type": "ClassSelector",
+                                    "span": {
+                                      "start": 2049,
+                                      "end": 2054,
+                                      "ctxt": 0
+                                    },
+                                    "text": {
+                                      "type": "Ident",
+                                      "span": {
+                                        "start": 2050,
+                                        "end": 2054,
+                                        "ctxt": 0
+                                      },
+                                      "value": "test",
+                                      "raw": "test"
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 2056,
+          "end": 2058,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 2059,
+        "end": 2091,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 2059,
+          "end": 2088,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 2059,
+              "end": 2088,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 2059,
+                  "end": 2088,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "PseudoClassSelector",
+                    "span": {
+                      "start": 2059,
+                      "end": 2088,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 2060,
+                        "end": 2069,
+                        "ctxt": 0
+                      },
+                      "value": "nth-child",
+                      "raw": "nth-child"
+                    },
+                    "children": [
+                      {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 2070,
+                          "end": 2074,
+                          "ctxt": 0
+                        },
+                        "value": {
+                          "type": "AnPlusBNotation",
+                          "span": {
+                            "start": 2070,
+                            "end": 2074,
+                            "ctxt": 0
+                          },
+                          "a": 2,
+                          "aRaw": "2",
+                          "b": 1,
+                          "bRaw": "+1"
+                        }
+                      },
+                      {
+                        "type": "Ident",
+                        "span": {
+                          "start": 2075,
+                          "end": 2077,
+                          "ctxt": 0
+                        },
+                        "value": "of",
+                        "raw": "of"
+                      },
+                      {
+                        "type": "SelectorList",
+                        "span": {
+                          "start": 2078,
+                          "end": 2087,
+                          "ctxt": 0
+                        },
+                        "children": [
+                          {
+                            "type": "ComplexSelector",
+                            "span": {
+                              "start": 2078,
+                              "end": 2080,
+                              "ctxt": 0
+                            },
+                            "children": [
+                              {
+                                "type": "CompoundSelector",
+                                "span": {
+                                  "start": 2078,
+                                  "end": 2080,
+                                  "ctxt": 0
+                                },
+                                "nestingSelector": null,
+                                "typeSelector": {
+                                  "type": "TagNameSelector",
+                                  "span": {
+                                    "start": 2078,
+                                    "end": 2080,
+                                    "ctxt": 0
+                                  },
+                                  "name": {
+                                    "type": "WqName",
+                                    "span": {
+                                      "start": 2078,
+                                      "end": 2080,
+                                      "ctxt": 0
+                                    },
+                                    "prefix": null,
+                                    "value": {
+                                      "type": "Ident",
+                                      "span": {
+                                        "start": 2078,
+                                        "end": 2080,
+                                        "ctxt": 0
+                                      },
+                                      "value": "li",
+                                      "raw": "li"
+                                    }
+                                  }
+                                },
+                                "subclassSelectors": []
+                              }
+                            ]
+                          },
+                          {
+                            "type": "ComplexSelector",
+                            "span": {
+                              "start": 2082,
+                              "end": 2087,
+                              "ctxt": 0
+                            },
+                            "children": [
+                              {
+                                "type": "CompoundSelector",
+                                "span": {
+                                  "start": 2082,
+                                  "end": 2087,
+                                  "ctxt": 0
+                                },
+                                "nestingSelector": null,
+                                "typeSelector": null,
+                                "subclassSelectors": [
+                                  {
+                                    "type": "ClassSelector",
+                                    "span": {
+                                      "start": 2082,
+                                      "end": 2087,
+                                      "ctxt": 0
+                                    },
+                                    "text": {
+                                      "type": "Ident",
+                                      "span": {
+                                        "start": 2083,
+                                        "end": 2087,
+                                        "ctxt": 0
+                                      },
+                                      "value": "test",
+                                      "raw": "test"
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 2089,
+          "end": 2091,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 2092,
+        "end": 2127,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 2092,
+          "end": 2124,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 2092,
+              "end": 2124,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 2092,
+                  "end": 2124,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "PseudoClassSelector",
+                    "span": {
+                      "start": 2092,
+                      "end": 2124,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 2093,
+                        "end": 2102,
+                        "ctxt": 0
+                      },
+                      "value": "nth-child",
+                      "raw": "nth-child"
+                    },
+                    "children": [
+                      {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 2103,
+                          "end": 2107,
+                          "ctxt": 0
+                        },
+                        "value": {
+                          "type": "AnPlusBNotation",
+                          "span": {
+                            "start": 2103,
+                            "end": 2107,
+                            "ctxt": 0
+                          },
+                          "a": -1,
+                          "aRaw": "-",
+                          "b": 3,
+                          "bRaw": "+3"
+                        }
+                      },
+                      {
+                        "type": "Ident",
+                        "span": {
+                          "start": 2108,
+                          "end": 2110,
+                          "ctxt": 0
+                        },
+                        "value": "of",
+                        "raw": "of"
+                      },
+                      {
+                        "type": "SelectorList",
+                        "span": {
+                          "start": 2111,
+                          "end": 2123,
+                          "ctxt": 0
+                        },
+                        "children": [
+                          {
+                            "type": "ComplexSelector",
+                            "span": {
+                              "start": 2111,
+                              "end": 2123,
+                              "ctxt": 0
+                            },
+                            "children": [
+                              {
+                                "type": "CompoundSelector",
+                                "span": {
+                                  "start": 2111,
+                                  "end": 2123,
+                                  "ctxt": 0
+                                },
+                                "nestingSelector": null,
+                                "typeSelector": {
+                                  "type": "TagNameSelector",
+                                  "span": {
+                                    "start": 2111,
+                                    "end": 2113,
+                                    "ctxt": 0
+                                  },
+                                  "name": {
+                                    "type": "WqName",
+                                    "span": {
+                                      "start": 2111,
+                                      "end": 2113,
+                                      "ctxt": 0
+                                    },
+                                    "prefix": null,
+                                    "value": {
+                                      "type": "Ident",
+                                      "span": {
+                                        "start": 2111,
+                                        "end": 2113,
+                                        "ctxt": 0
+                                      },
+                                      "value": "li",
+                                      "raw": "li"
+                                    }
+                                  }
+                                },
+                                "subclassSelectors": [
+                                  {
+                                    "type": "ClassSelector",
+                                    "span": {
+                                      "start": 2113,
+                                      "end": 2123,
+                                      "ctxt": 0
+                                    },
+                                    "text": {
+                                      "type": "Ident",
+                                      "span": {
+                                        "start": 2114,
+                                        "end": 2123,
+                                        "ctxt": 0
+                                      },
+                                      "value": "important",
+                                      "raw": "important"
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 2125,
+          "end": 2127,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 2128,
+        "end": 2167,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 2128,
+          "end": 2164,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 2128,
+              "end": 2164,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 2128,
+                  "end": 2164,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": {
+                  "type": "TagNameSelector",
+                  "span": {
+                    "start": 2128,
+                    "end": 2130,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "WqName",
+                    "span": {
+                      "start": 2128,
+                      "end": 2130,
+                      "ctxt": 0
+                    },
+                    "prefix": null,
+                    "value": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 2128,
+                        "end": 2130,
+                        "ctxt": 0
+                      },
+                      "value": "tr",
+                      "raw": "tr"
+                    }
+                  }
+                },
+                "subclassSelectors": [
+                  {
+                    "type": "PseudoClassSelector",
+                    "span": {
+                      "start": 2130,
+                      "end": 2164,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 2131,
+                        "end": 2140,
+                        "ctxt": 0
+                      },
+                      "value": "nth-child",
+                      "raw": "nth-child"
+                    },
+                    "children": [
+                      {
+                        "type": "AnPlusB",
+                        "span": {
+                          "start": 2141,
+                          "end": 2145,
+                          "ctxt": 0
+                        },
+                        "value": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 2141,
+                            "end": 2145,
+                            "ctxt": 0
+                          },
+                          "value": "even",
+                          "raw": "even"
+                        }
+                      },
+                      {
+                        "type": "Ident",
+                        "span": {
+                          "start": 2146,
+                          "end": 2148,
+                          "ctxt": 0
+                        },
+                        "value": "of",
+                        "raw": "of"
+                      },
+                      {
+                        "type": "SelectorList",
+                        "span": {
+                          "start": 2149,
+                          "end": 2163,
+                          "ctxt": 0
+                        },
+                        "children": [
+                          {
+                            "type": "ComplexSelector",
+                            "span": {
+                              "start": 2149,
+                              "end": 2163,
+                              "ctxt": 0
+                            },
+                            "children": [
+                              {
+                                "type": "CompoundSelector",
+                                "span": {
+                                  "start": 2149,
+                                  "end": 2163,
+                                  "ctxt": 0
+                                },
+                                "nestingSelector": null,
+                                "typeSelector": null,
+                                "subclassSelectors": [
+                                  {
+                                    "type": "PseudoClassSelector",
+                                    "span": {
+                                      "start": 2149,
+                                      "end": 2163,
+                                      "ctxt": 0
+                                    },
+                                    "name": {
+                                      "type": "Ident",
+                                      "span": {
+                                        "start": 2150,
+                                        "end": 2153,
+                                        "ctxt": 0
+                                      },
+                                      "value": "not",
+                                      "raw": "not"
+                                    },
+                                    "children": [
+                                      {
+                                        "type": "SelectorList",
+                                        "span": {
+                                          "start": 2154,
+                                          "end": 2162,
+                                          "ctxt": 0
+                                        },
+                                        "children": [
+                                          {
+                                            "type": "ComplexSelector",
+                                            "span": {
+                                              "start": 2154,
+                                              "end": 2162,
+                                              "ctxt": 0
+                                            },
+                                            "children": [
+                                              {
+                                                "type": "CompoundSelector",
+                                                "span": {
+                                                  "start": 2154,
+                                                  "end": 2162,
+                                                  "ctxt": 0
+                                                },
+                                                "nestingSelector": null,
+                                                "typeSelector": null,
+                                                "subclassSelectors": [
+                                                  {
+                                                    "type": "AttributeSelector",
+                                                    "span": {
+                                                      "start": 2154,
+                                                      "end": 2162,
+                                                      "ctxt": 0
+                                                    },
+                                                    "name": {
+                                                      "type": "WqName",
+                                                      "span": {
+                                                        "start": 2155,
+                                                        "end": 2161,
+                                                        "ctxt": 0
+                                                      },
+                                                      "prefix": null,
+                                                      "value": {
+                                                        "type": "Ident",
+                                                        "span": {
+                                                          "start": 2155,
+                                                          "end": 2161,
+                                                          "ctxt": 0
+                                                        },
+                                                        "value": "hidden",
+                                                        "raw": "hidden"
+                                                      }
+                                                    },
+                                                    "matcher": null,
+                                                    "value": null,
+                                                    "modifier": null
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 2165,
+          "end": 2167,
           "ctxt": 0
         },
         "name": "{",

@@ -2865,14 +2865,14 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusB",
                         "span": {
                           "start": 730,
                           "end": 734,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
+                        "value": {
+                          "type": "AnPlusBNotation",
                           "span": {
                             "start": 730,
                             "end": 734,
@@ -2882,8 +2882,7 @@
                           "aRaw": "2",
                           "b": 1,
                           "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        }
                       }
                     ]
                   }

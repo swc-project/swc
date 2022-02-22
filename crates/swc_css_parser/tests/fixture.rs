@@ -313,6 +313,10 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(PseudoElementSelector, visit_pseudo_element_selector);
 
     mtd!(AnPlusB, visit_an_plus_b);
+    
+    mtd!(AnPlusBValue, visit_an_plus_b_value);
+
+    mtd!(AnPlusBNotation, visit_an_plus_b_notation);
 
     mtd!(Delimiter, visit_delimiter);
 
@@ -335,8 +339,6 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(DeclarationName, visit_declaration_name);
 
     mtd!(ImportantFlag, visit_important_flag);
-
-    mtd!(Nth, visit_nth);
 
     mtd!(Rule, visit_rule);
 

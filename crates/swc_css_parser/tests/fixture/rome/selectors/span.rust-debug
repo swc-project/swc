@@ -1123,13 +1123,19 @@ error: Ident
 29 | p:nth-last-of-type(2) {
    |   ^^^^^^^^^^^^^^^^
 
-error: Nth
+error: AnPlusB
   --> $DIR/tests/fixture/rome/selectors/input.css:29:20
    |
 29 | p:nth-last-of-type(2) {
    |                    ^
 
-error: AnPlusB
+error: AnPlusBValue
+  --> $DIR/tests/fixture/rome/selectors/input.css:29:20
+   |
+29 | p:nth-last-of-type(2) {
+   |                    ^
+
+error: AnPlusBNotation
   --> $DIR/tests/fixture/rome/selectors/input.css:29:20
    |
 29 | p:nth-last-of-type(2) {

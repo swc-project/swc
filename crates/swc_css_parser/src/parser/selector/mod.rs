@@ -17,7 +17,7 @@ where
 
         let child = self.parse()?;
         let mut children = vec![child];
-
+        
         loop {
             self.input.skip_ws()?;
 
@@ -65,7 +65,8 @@ where
 
             self.input.skip_ws()?;
 
-            if is_one_of!(self, EOF, ",", "{") {
+            // TODO should be refactor after grammar parsing
+            if is_one_of!(self, EOF, ",", "{", ")") {
                 break;
             }
 
@@ -585,44 +586,73 @@ where
                 Token::Function { value, raw } => (value, raw),
                 _ => unreachable!(),
             };
+            let state = self.input.state();
+            let mut parse_pseudo_class_children = || -> PResult<Vec<PseudoSelectorChildren>> {
+                let mut children = vec![];
+                
+                match &*names.0.to_ascii_lowercase() {
+                    "nth-child" | "nth-last-child" | "nth-of-type" | "nth-last-of-type" | "nth-col"
+                    | "nth-last-col" => {
+                        self.input.skip_ws()?;
 
-            let mut children = vec![];
+                        let an_plus_b = self.parse()?;
 
-            match &*names.0.to_ascii_lowercase() {
-                "nth-child" | "nth-last-child" | "nth-of-type" | "nth-last-of-type" | "nth-col"
-                | "nth-last-col" => {
-                    let state = self.input.state();
-                    let nth = self.parse();
+                        children.push(PseudoSelectorChildren::AnPlusB(an_plus_b));
 
-                    match nth {
-                        Ok(nth) => children.push(PseudoSelectorChildren::Nth(nth)),
-                        Err(_) => {
-                            self.input.reset(&state);
+                        self.input.skip_ws()?;
 
-                            let any_value = self.parse_any_value()?;
-                            let any_value: Vec<PseudoSelectorChildren> = any_value
-                                .into_iter()
-                                .map(PseudoSelectorChildren::PreservedToken)
-                                .collect();
+                        if is!(self, "ident") {
+                            let of = self.parse()?;
 
-                            children.extend(any_value)
+                            children.push(PseudoSelectorChildren::Ident(of));
+
+                            self.input.skip_ws()?;
+
+                            let selector_list = self.parse()?;
+
+                            children.push(PseudoSelectorChildren::SelectorList(selector_list));
+
+                            self.input.skip_ws()?;
                         }
                     }
-                }
-                _ => {
+                    "not" => {
+                        self.input.skip_ws()?;
+
+                        let selector_list = self.parse()?;
+
+                        children.push(PseudoSelectorChildren::SelectorList(selector_list));
+
+                        self.input.skip_ws()?;
+                    }
+                    _ => {
+                        return Err(Error::new(span, ErrorKind::Ignore));
+                    }
+                };
+                
+                Ok(children)
+            };
+            let children = match parse_pseudo_class_children() {
+                Ok(children) => children,
+                Err(err) => {
+                    if *err.kind() != ErrorKind::Ignore {
+                        self.errors.push(err);
+                    }
+                   
+                    self.input.reset(&state);
+
                     let any_value = self.parse_any_value()?;
                     let any_value: Vec<PseudoSelectorChildren> = any_value
                         .into_iter()
                         .map(PseudoSelectorChildren::PreservedToken)
                         .collect();
 
-                    children.extend(any_value)
+                    any_value
                 }
             };
 
             expect!(self, ")");
 
-            return Ok(PseudoClassSelector {
+            Ok(PseudoClassSelector {
                 span: span!(self, span.lo),
                 name: Ident {
                     span: Span::new(fn_span.lo, fn_span.hi - BytePos(1), Default::default()),
@@ -630,20 +660,20 @@ where
                     raw: names.1,
                 },
                 children: Some(children),
-            });
+            })
         } else if is!(self, Ident) {
             let name = self.parse()?;
 
-            return Ok(PseudoClassSelector {
+            Ok(PseudoClassSelector {
                 span: span!(self, span.lo),
                 name,
                 children: None,
-            });
+            })
+        } else {
+            let span = self.input.cur_span()?;
+
+            Err(Error::new(span, ErrorKind::Expected("function or ident tokens")))
         }
-
-        let span = self.input.cur_span()?;
-
-        return Err(Error::new(span, ErrorKind::InvalidSelector));
     }
 }
 
@@ -694,23 +724,28 @@ where
     }
 }
 
-impl<I> Parse<Nth> for Parser<I>
+impl<I> Parse<AnPlusB> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<Nth> {
+    fn parse(&mut self) -> PResult<AnPlusB> {
         self.input.skip_ws()?;
 
         let span = self.input.cur_span()?;
-        let nth = match cur!(self) {
+
+        match cur!(self) {
             //  odd | even
             Token::Ident { value, .. }
             if &(*value).to_ascii_lowercase() == "odd"
                 || &(*value).to_ascii_lowercase() == "even" =>
                 {
-                    let ident = self.parse()?;
+                    let ident: Ident = self.parse()?;
 
-                    NthValue::Ident(ident)
+
+                    Ok(AnPlusB {  
+                        span: span!(self, span.lo),
+                        value: AnPlusBValue::Ident(ident),
+                    })
                 }
             // <integer>
             tok!("number") => {
@@ -720,13 +755,18 @@ where
                         unreachable!();
                     }
                 };
-
-                NthValue::AnPlusB(AnPlusB {
+                
+                let an_plus_b_notation = AnPlusBNotation {
                     span: span!(self, span.lo),
                     a: None,
                     a_raw: None,
                     b: Some(number.0 as i32),
                     b_raw: Some(number.1),
+                };
+
+                Ok(AnPlusB {
+                    span: span!(self, span.lo),
+                    value: AnPlusBValue::AnPlusBNotation(an_plus_b_notation)
                 })
             }
             // '+'? n
@@ -913,44 +953,22 @@ where
                     }
                 }
 
-                NthValue::AnPlusB(AnPlusB {
+                let an_plus_b_notation = AnPlusBNotation {
                     span: span!(self, span.lo),
                     a,
                     a_raw,
                     b,
                     b_raw,
+                };
+
+                Ok(AnPlusB {
+                   span: span!(self, span.lo),
+                   value: AnPlusBValue::AnPlusBNotation(an_plus_b_notation)
                 })
             }
             _ => {
                 return Err(Error::new(span, ErrorKind::InvalidAnPlusBMicrosyntax));
             }
-        };
-
-        let nth = Nth {
-            span: span!(self, span.lo),
-            nth,
-            selector_list: None,
-        };
-
-        self.input.skip_ws()?;
-
-        // match cur!(self) {
-        //     Token::Ident { value, .. } => {
-        //         match &*value.to_ascii_lowercase() {
-        //             "of" => {
-        //                 bump!(self);
-        //
-        //                 self.input.skip_ws()?;
-        //
-        //                 // TODO: fix me
-        //                 selector_list = Some(self.parse()?);
-        //             }
-        //             _ => {}
-        //         }
-        //     }
-        //     _ => {}
-        // }
-
-        Ok(nth)
+        }
     }
 }

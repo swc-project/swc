@@ -8,7 +8,7 @@ use swc_common::{
 /// Size is same as a size of a pointer.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Error {
-    inner: Box<(Span, ErrorKind)>,
+    pub inner: Box<(Span, ErrorKind)>,
 }
 
 impl Error {
@@ -29,6 +29,7 @@ impl Error {
     pub fn to_diagnostics<'a>(&self, handler: &'a Handler) -> DiagnosticBuilder<'a> {
         let msg: Cow<_> = match self.inner.1 {
             ErrorKind::Eof => "Unexpected end of file".into(),
+            ErrorKind::Ignore => "Not an error".into(),
             ErrorKind::UnexpectedChar(c) => format!("Unexpected charcter `{:?}`", c).into(),
             ErrorKind::UnterminatedUrl => "Unterminated url literal".into(),
             ErrorKind::InvalidEscape => "Invalid escape".into(),
@@ -67,6 +68,7 @@ impl Error {
 #[non_exhaustive]
 pub enum ErrorKind {
     Eof,
+    Ignore,
     /// Lexing error.
     UnexpectedChar(Option<char>),
     /// Lexing error.
