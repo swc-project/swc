@@ -1438,7 +1438,10 @@ where
 
         if let Some(modifiers) = &n.modifiers {
             if !modifiers.is_empty() {
-                formatting_space!(self);
+                if n.value.is_some() {
+                    formatting_space!(self);
+                }
+
                 self.emit_list(modifiers, ListFormat::SpaceDelimited)?;
             }
         }
