@@ -2738,7 +2738,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.8"
+version = "0.17.9"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2884,7 +2884,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.93.0"
+version = "0.93.1"
 dependencies = [
  "bitflags",
  "memchr",
@@ -3036,7 +3036,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.93.1"
+version = "0.93.2"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3490,7 +3490,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.38.0"
+version = "0.38.1"
 dependencies = [
  "anyhow",
  "once_cell",
