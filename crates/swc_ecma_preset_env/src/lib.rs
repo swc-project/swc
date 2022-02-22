@@ -7,9 +7,8 @@ use std::path::PathBuf;
 use anyhow::{Context, Error};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
-pub use preset_env_base::{BrowserData, Version, Versions};
+pub use preset_env_base::{version::Version, BrowserData, Versions};
 use serde::Deserialize;
-use st_map::StaticMap;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     chain,

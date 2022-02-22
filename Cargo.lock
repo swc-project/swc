@@ -3060,6 +3060,7 @@ name = "swc_ecma_preset_env"
 version = "0.93.0"
 dependencies = [
  "ahash",
+ "anyhow",
  "dashmap",
  "indexmap",
  "once_cell",

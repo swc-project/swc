@@ -1,11 +1,11 @@
 use indexmap::IndexSet;
+use preset_env_base::{version::should_enable, Versions};
 use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith};
 
 use super::builtin::BUILTINS;
-use crate::{version::should_enable, Versions};
 
 #[derive(Debug)]
 pub struct Entry {
