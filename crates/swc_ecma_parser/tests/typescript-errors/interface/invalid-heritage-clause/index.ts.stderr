@@ -1,0 +1,6 @@
+error: An interface can only extend an identifier/qualified-name with optional type arguments.
+ --> $DIR/tests/typescript-errors/interface/invalid-heritage-clause/index.ts:1:27
+  |
+1 | interface Derived extends Base?.x {}
+  |                           ^^^^^^^
+

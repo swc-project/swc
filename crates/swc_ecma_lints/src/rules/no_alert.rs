@@ -147,7 +147,11 @@ impl NoAlert {
                     self.prop = Some(ident.sym.clone());
                 }
             }
-            Expr::Member(member_expr) => {
+            Expr::Member(member_expr)
+            | Expr::OptChain(OptChainExpr {
+                base: OptChainBase::Member(member_expr),
+                ..
+            }) => {
                 let MemberExpr { obj, prop, .. } = member_expr;
 
                 match obj.as_ref() {

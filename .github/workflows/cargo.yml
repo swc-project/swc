@@ -84,6 +84,8 @@ jobs:
           # Use scripts/github/create-matrix.sh to create this.
           - crate: ast_node
             os: ubuntu-latest
+          - crate: better_scoped_tls
+            os: ubuntu-latest
           - crate: enum_kind
             os: ubuntu-latest
           - crate: from_variant
@@ -93,6 +95,8 @@ jobs:
           - crate: node
             os: ubuntu-latest
           - crate: node_macro_deps
+            os: ubuntu-latest
+          - crate: preset_env_base
             os: ubuntu-latest
           - crate: string_enum
             os: ubuntu-latest

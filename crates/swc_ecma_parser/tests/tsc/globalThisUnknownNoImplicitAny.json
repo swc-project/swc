@@ -82,7 +82,8 @@
                       },
                       "value": "globalThis",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 ]
               }

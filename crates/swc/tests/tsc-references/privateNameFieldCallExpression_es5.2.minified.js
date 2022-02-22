@@ -103,8 +103,8 @@ var A = function() {
         {
             key: "test",
             value: function() {
-                _classPrivateFieldGet(this, _fieldFunc).call(this), null === (ref = (_obj = _classPrivateFieldGet(this, _fieldFunc)).call) || void 0 === ref || ref.call(_obj, this), _classPrivateFieldGet(this, _fieldFunc)(), new (_classPrivateFieldGet(this, _fieldFunc))();
-                var _instance, _obj, ref, _ref, arr = [
+                _classPrivateFieldGet(this, _fieldFunc).call(this), null === (ref = _classPrivateFieldGet(this, _fieldFunc)) || void 0 === ref || ref.call(this), _classPrivateFieldGet(this, _fieldFunc)(), new (_classPrivateFieldGet(this, _fieldFunc))();
+                var _instance, ref, _ref, arr = [
                     1,
                     2
                 ];

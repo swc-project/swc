@@ -26,7 +26,7 @@ var _this = this, React = require("react"), BigGreeter = function(_Component) {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(BigGreeter, _Component);
-    var Constructor, protoProps, staticProps, Derived, hasNativeReflectConstruct, _super = (Derived = BigGreeter, hasNativeReflectConstruct = function() {
+    var Derived, hasNativeReflectConstruct, Constructor, protoProps, staticProps, _super = (Derived = BigGreeter, hasNativeReflectConstruct = function() {
         if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;

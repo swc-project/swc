@@ -893,7 +893,8 @@
                         },
                         "value": "C",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   ]
                 }

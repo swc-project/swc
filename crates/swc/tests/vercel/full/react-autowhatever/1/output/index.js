@@ -2,69 +2,69 @@
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), exports.default = void 0;
-var a = require("react/jsx-runtime"), b = function(a) {
+var d = require("react/jsx-runtime"), c = function(a) {
     if (a && a.__esModule) return a;
-    var b = {};
+    var c = {};
     if (null != a) {
-        for(var c in a)if (Object.prototype.hasOwnProperty.call(a, c)) {
-            var d = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(a, c) : {};
-            d.get || d.set ? Object.defineProperty(b, c, d) : b[c] = a[c];
+        for(var b in a)if (Object.prototype.hasOwnProperty.call(a, b)) {
+            var d = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(a, b) : {};
+            d.get || d.set ? Object.defineProperty(c, b, d) : c[b] = a[b];
         }
     }
-    return b.default = a, b;
-}(require("react")), c = function(a) {
+    return c.default = a, c;
+}(require("react")), a = function(a) {
     return a && a.__esModule ? a : {
         default: a
     };
 }(require("prop-types"));
-function d(a, b) {
-    for(var c = 0; c < b.length; c++){
-        var d = b[c];
-        d.enumerable = d.enumerable || !1, d.configurable = !0, "value" in d && (d.writable = !0), Object.defineProperty(a, d.key, d);
+function e(d, c) {
+    for(var b = 0; b < c.length; b++){
+        var a = c[b];
+        a.enumerable = a.enumerable || !1, a.configurable = !0, "value" in a && (a.writable = !0), Object.defineProperty(d, a.key, a);
     }
 }
-function e(a, c, d) {
-    return c in a ? Object.defineProperty(a, c, {
-        value: d,
+function f(a, b, c) {
+    return b in a ? Object.defineProperty(a, b, {
+        value: c,
         enumerable: !0,
         configurable: !0,
         writable: !0
-    }) : a[c] = d, a;
-}
-function f(a) {
-    return f = Object.setPrototypeOf ? Object.getPrototypeOf : function f(a) {
-        return a.__proto__ || Object.getPrototypeOf(a);
-    }, f(a);
+    }) : a[b] = c, a;
 }
 function g(a) {
-    for(var c = 1; c < arguments.length; c++){
-        var d = null != arguments[c] ? arguments[c] : {}, f = Object.keys(d);
-        "function" == typeof Object.getOwnPropertySymbols && (f = f.concat(Object.getOwnPropertySymbols(d).filter(function(a) {
-            return Object.getOwnPropertyDescriptor(d, a).enumerable;
-        }))), f.forEach(function(c) {
-            e(a, c, d[c]);
+    return g = Object.setPrototypeOf ? Object.getPrototypeOf : function g(a) {
+        return a.__proto__ || Object.getPrototypeOf(a);
+    }, g(a);
+}
+function h(d) {
+    for(var b = 1; b < arguments.length; b++){
+        var e = null != arguments[b] ? arguments[b] : {}, c = Object.keys(e);
+        "function" == typeof Object.getOwnPropertySymbols && (c = c.concat(Object.getOwnPropertySymbols(e).filter(function(a) {
+            return Object.getOwnPropertyDescriptor(e, a).enumerable;
+        }))), c.forEach(function(b) {
+            f(d, b, e[b]);
         });
     }
-    return a;
+    return d;
 }
-function h(a, b) {
-    return h = Object.setPrototypeOf || function h(a, b) {
+function i(a, b) {
+    return i = Object.setPrototypeOf || function i(a, b) {
         return a.__proto__ = b, a;
-    }, h(a, b);
+    }, i(a, b);
 }
-var i = function(b) {
+var b = function(l) {
     "use strict";
-    !function(a, b) {
-        if ("function" != typeof b && null !== b) throw new TypeError("Super expression must either be null or a function");
-        a.prototype = Object.create(b && b.prototype, {
+    !function(b, a) {
+        if ("function" != typeof a && null !== a) throw new TypeError("Super expression must either be null or a function");
+        b.prototype = Object.create(a && a.prototype, {
             constructor: {
-                value: a,
+                value: b,
                 writable: !0,
                 configurable: !0
             }
-        }), b && h(a, b);
-    }(i, b);
-    var c, e, j, k, l, m = (k = i, l = function() {
+        }), a && i(b, a);
+    }(b, l);
+    var m, n, c, f, j, o = (m = b, n = function() {
         if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
         if (Reflect.construct.sham) return !1;
         if ("function" == typeof Proxy) return !0;
@@ -74,25 +74,25 @@ var i = function(b) {
             return !1;
         }
     }(), function() {
-        var a, b, c, d, e = f(k);
-        if (l) {
-            var g = f(this).constructor;
-            d = Reflect.construct(e, arguments, g);
-        } else d = e.apply(this, arguments);
-        return b = this, (c = d) && ("object" == ((a = c) && "undefined" != typeof Symbol && a.constructor === Symbol ? "symbol" : typeof a) || "function" == typeof c) ? c : (function(b) {
-            if (void 0 === b) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-            return b;
-        })(b);
+        var a, e, b, d, f = g(m);
+        if (n) {
+            var h = g(this).constructor;
+            d = Reflect.construct(f, arguments, h);
+        } else d = f.apply(this, arguments);
+        return e = this, (b = d) && ("object" == ((a = b) && "undefined" != typeof Symbol && a.constructor === Symbol ? "symbol" : typeof a) || "function" == typeof b) ? b : (function(e) {
+            if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            return e;
+        })(e);
     });
-    function i() {
+    function b() {
         var a;
         return !function(a, c) {
             if (!(a instanceof c)) throw new TypeError("Cannot call a class as a function");
-        }(this, i), a = m.apply(this, arguments), a.storeHighlightedItemReference = function(b) {
+        }(this, b), a = o.apply(this, arguments), a.storeHighlightedItemReference = function(b) {
             a.props.onHighlightedItemChange(null === b ? null : b.item);
         }, a;
     }
-    return c = i, e = [
+    return c = b, f = [
         {
             key: "shouldComponentUpdate",
             value: function(a) {
@@ -102,46 +102,46 @@ var i = function(b) {
         {
             key: "render",
             value: function() {
-                var b = this, c = this.props, d = c.items, e = c.itemProps, f = c.renderItem, h = c.renderItemData, i = c.sectionIndex, j = c.highlightedItemIndex, k = c.getItemId, l = c.theme, m = c.keyPrefix, n = null === i ? m : "".concat(m, "section-").concat(i, "-"), o = "function" == typeof e;
-                return a.jsx("ul", g({
+                var j = this, a = this.props, e = a.items, f = a.itemProps, k = a.renderItem, l = a.renderItemData, b = a.sectionIndex, m = a.highlightedItemIndex, n = a.getItemId, g = a.theme, c = a.keyPrefix, i = null === b ? c : "".concat(c, "section-").concat(b, "-"), o = "function" == typeof f;
+                return d.jsx("ul", h({
                     role: "listbox"
-                }, l("".concat(n, "items-list"), "itemsList"), {
-                    children: d.map(function(c, d) {
-                        var m = d === j, p = "".concat(n, "item-").concat(d), q = o ? e({
-                            sectionIndex: i,
-                            itemIndex: d
-                        }) : e, r = g({
-                            id: k(i, d),
-                            "aria-selected": m
-                        }, l(p, "item", 0 === d && "itemFirst", m && "itemHighlighted"), q);
-                        return m && (r.ref = b.storeHighlightedItemReference), a.jsx(Item, g({}, r, {
-                            sectionIndex: i,
-                            isHighlighted: m,
-                            itemIndex: d,
-                            item: c,
-                            renderItem: f,
-                            renderItemData: h
+                }, g("".concat(i, "items-list"), "itemsList"), {
+                    children: e.map(function(p, a) {
+                        var c = a === m, q = "".concat(i, "item-").concat(a), r = o ? f({
+                            sectionIndex: b,
+                            itemIndex: a
+                        }) : f, e = h({
+                            id: n(b, a),
+                            "aria-selected": c
+                        }, g(q, "item", 0 === a && "itemFirst", c && "itemHighlighted"), r);
+                        return c && (e.ref = j.storeHighlightedItemReference), d.jsx(Item, h({}, e, {
+                            sectionIndex: b,
+                            isHighlighted: c,
+                            itemIndex: a,
+                            item: p,
+                            renderItem: k,
+                            renderItemData: l
                         }));
                     })
                 }));
             }
         }
-    ], d(c.prototype, e), j && d(c, j), i;
-}(b.Component);
-exports.default = i, i.propTypes = {
-    items: c.default.array.isRequired,
-    itemProps: c.default.oneOfType([
-        c.default.object,
-        c.default.func
+    ], e(c.prototype, f), j && e(c, j), b;
+}(c.Component);
+exports.default = b, b.propTypes = {
+    items: a.default.array.isRequired,
+    itemProps: a.default.oneOfType([
+        a.default.object,
+        a.default.func
     ]),
-    renderItem: c.default.func.isRequired,
-    renderItemData: c.default.object.isRequired,
-    sectionIndex: c.default.number,
-    highlightedItemIndex: c.default.number,
-    onHighlightedItemChange: c.default.func.isRequired,
-    getItemId: c.default.func.isRequired,
-    theme: c.default.func.isRequired,
-    keyPrefix: c.default.string.isRequired
-}, i.defaultProps = {
+    renderItem: a.default.func.isRequired,
+    renderItemData: a.default.object.isRequired,
+    sectionIndex: a.default.number,
+    highlightedItemIndex: a.default.number,
+    onHighlightedItemChange: a.default.func.isRequired,
+    getItemId: a.default.func.isRequired,
+    theme: a.default.func.isRequired,
+    keyPrefix: a.default.string.isRequired
+}, b.defaultProps = {
     sectionIndex: null
-}, new i();
+}, new b();

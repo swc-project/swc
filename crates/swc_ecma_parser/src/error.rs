@@ -168,6 +168,7 @@ pub enum SyntaxError {
     ReadOnlyMethod,
     GeneratorConstructor,
     TsBindingPatCannotBeOptional,
+    SuperCallOptional,
 
     TrailingCommaInsideImport,
 
@@ -235,6 +236,7 @@ pub enum SyntaxError {
     TS2452,
     TS2483,
     TS2491,
+    TS2499,
     TS2703,
     TS4112,
     TSTypeAnnotationAfterAssign,
@@ -403,6 +405,7 @@ impl SyntaxError {
             SyntaxError::TsRequiredAfterOptional => {
                 "A required element cannot follow an optional element.".into()
             }
+            SyntaxError::SuperCallOptional => "Super call cannot be optional".into(),
             SyntaxError::TsInvalidParamPropPat => {
                 "Typescript parameter property must be an identifier or assignment pattern".into()
             }
@@ -584,6 +587,9 @@ impl SyntaxError {
             }
             SyntaxError::TS2491 => "The left-hand side of a 'for...in' statement cannot be a \
                                     destructuring pattern"
+                .into(),
+            SyntaxError::TS2499 => "An interface can only extend an identifier/qualified-name \
+                                    with optional type arguments."
                 .into(),
             SyntaxError::TS4112 => "This member cannot have an 'override' modifier because its \
                                     containing class does not extend another class."

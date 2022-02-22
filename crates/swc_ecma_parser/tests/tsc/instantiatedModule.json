@@ -255,7 +255,8 @@
                   },
                   "value": "M",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -1018,7 +1019,8 @@
                   },
                   "value": "M2",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -1131,7 +1133,8 @@
                     "value": "Point",
                     "optional": false
                   }
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -1860,7 +1863,8 @@
                   },
                   "value": "M3",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -1973,7 +1977,8 @@
                     "value": "Color",
                     "optional": false
                   }
-                }
+                },
+                "typeArguments": null
               }
             }
           },

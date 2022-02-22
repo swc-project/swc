@@ -1283,7 +1283,8 @@
                     },
                     "qualifier": null,
                     "typeArguments": null
-                  }
+                  },
+                  "typeArguments": null
                 }
               }
             },

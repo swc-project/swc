@@ -1,4 +1,5 @@
 use indexmap::IndexSet;
+use preset_env_base::version::should_enable;
 use swc_atoms::{js_word, JsWord};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -14,7 +15,6 @@ use crate::{
         },
     },
     util::DataMapExt,
-    version::should_enable,
     Versions,
 };
 

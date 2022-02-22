@@ -18,10 +18,13 @@ pub(crate) mod non_critical_lints {
     pub mod dot_notation;
     pub mod eqeqeq;
     pub mod no_alert;
+    pub mod no_bitwise;
     pub mod no_console;
     pub mod no_debugger;
     pub mod no_empty_function;
     pub mod no_empty_pattern;
+    pub mod no_loop_func;
+    pub mod no_new;
     pub mod no_restricted_syntax;
     pub mod no_use_before_define;
     pub mod prefer_regex_literals;
@@ -101,9 +104,15 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
 
         rules.extend(eqeqeq::eqeqeq(&lint_config.eqeqeq));
 
+        rules.extend(no_loop_func::no_loop_func(&lint_config.no_loop_func));
+
+        rules.extend(no_new::no_new(&lint_config.no_new));
+
         rules.extend(no_restricted_syntax::no_restricted_syntax(
             &lint_config.no_restricted_syntax,
         ));
+
+        rules.extend(no_bitwise::no_bitwise(&lint_config.no_bitwise));
     }
 
     rules

@@ -4,7 +4,7 @@ var C = function() {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
     }(this, C);
 };
-export { C as default };
 export default {
     uhoh: "another default"
 };
+export { C as default };

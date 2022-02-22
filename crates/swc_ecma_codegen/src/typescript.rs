@@ -1050,6 +1050,15 @@ where
 
         self.emit_list(n.span, Some(&n.types), ListFormat::UnionTypeConstituents)?;
     }
+
+    #[emitter]
+    fn emit_ts_instantiation(&mut self, n: &TsInstantiation) -> Result {
+        self.emit_leading_comments_of_span(n.span(), false)?;
+
+        emit!(n.expr);
+
+        emit!(n.type_args);
+    }
 }
 
 #[cfg(test)]

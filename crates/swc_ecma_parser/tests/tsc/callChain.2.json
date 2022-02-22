@@ -119,7 +119,7 @@
           "end": 68,
           "ctxt": 0
         },
-        "expr": {
+        "base": {
           "type": "CallExpression",
           "span": {
             "start": 65,
@@ -295,7 +295,7 @@
             "end": 128,
             "ctxt": 0
           },
-          "expr": {
+          "base": {
             "type": "MemberExpression",
             "span": {
               "start": 125,
@@ -532,7 +532,7 @@
             "end": 200,
             "ctxt": 0
           },
-          "expr": {
+          "base": {
             "type": "CallExpression",
             "span": {
               "start": 195,

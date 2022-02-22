@@ -1,4 +1,4 @@
 class A {
 }
-export { A as default };
 new A();
+export { A as default };

@@ -4,16 +4,90 @@ use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 pub fn compress_angle() -> impl VisitMut {
-    CompressAngle {}
+    CompressAngle {
+        in_transform_function: false,
+        in_keyframe_block: false,
+    }
 }
 
-struct CompressAngle {}
+struct CompressAngle {
+    in_transform_function: bool,
+    in_keyframe_block: bool,
+}
 
 impl CompressAngle {}
 
 impl VisitMut for CompressAngle {
+    fn visit_mut_keyframe_block(&mut self, keyframe_block: &mut KeyframeBlock) {
+        let old_in_block = self.in_keyframe_block;
+
+        self.in_keyframe_block = true;
+
+        keyframe_block.visit_mut_children_with(self);
+
+        self.in_keyframe_block = old_in_block;
+    }
+
+    fn visit_mut_function(&mut self, function: &mut Function) {
+        match &function.name {
+            Ident { value, .. }
+                if matches!(
+                    &*value.to_lowercase(),
+                    "rotate"
+                        | "skew"
+                        | "skewx"
+                        | "skewy"
+                        | "rotate3d"
+                        | "rotatex"
+                        | "rotatey"
+                        | "rotatez"
+                ) =>
+            {
+                let old_in_block = self.in_transform_function;
+
+                self.in_transform_function = true;
+
+                function.visit_mut_children_with(self);
+
+                self.in_transform_function = old_in_block;
+            }
+            _ => {
+                function.visit_mut_children_with(self);
+            }
+        }
+    }
+
+    fn visit_mut_value(&mut self, value: &mut Value) {
+        value.visit_mut_children_with(self);
+
+        if self.in_transform_function {
+            match &value {
+                Value::Dimension(Dimension::Angle(Angle {
+                    value:
+                        Number {
+                            value: number_value,
+                            ..
+                        },
+                    span,
+                    ..
+                })) if *number_value == 0.0 => {
+                    *value = Value::Number(Number {
+                        span: *span,
+                        value: 0.0,
+                        raw: "0".into(),
+                    });
+                }
+                _ => {}
+            }
+        }
+    }
+
     fn visit_mut_angle(&mut self, angle: &mut Angle) {
         angle.visit_mut_children_with(self);
+
+        if self.in_keyframe_block {
+            return;
+        }
 
         let from = match &*angle.unit.value.to_lowercase() {
             "deg" => AngleType::Deg,

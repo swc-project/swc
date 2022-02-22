@@ -35,6 +35,12 @@ warning: OptChainExpr
 1 | a?.b?.c
   | ^^^^^^^
 
+warning: OptChainBase
+ --> $DIR/tests/span/js/expr/optional-chaining.js:1:1
+  |
+1 | a?.b?.c
+  | ^^^^^^^
+
 warning: MemberExpr
  --> $DIR/tests/span/js/expr/optional-chaining.js:1:1
   |
@@ -48,6 +54,12 @@ warning: Expr
   | ^^^^
 
 warning: OptChainExpr
+ --> $DIR/tests/span/js/expr/optional-chaining.js:1:1
+  |
+1 | a?.b?.c
+  | ^^^^
+
+warning: OptChainBase
  --> $DIR/tests/span/js/expr/optional-chaining.js:1:1
   |
 1 | a?.b?.c
@@ -113,17 +125,17 @@ warning: OptChainExpr
 2 | A?.['B']?.()
   | ^^^^^^^^^^^^
 
-warning: CallExpr
+warning: OptChainBase
  --> $DIR/tests/span/js/expr/optional-chaining.js:2:1
   |
 2 | A?.['B']?.()
   | ^^^^^^^^^^^^
 
-warning: Callee
+warning: OptCall
  --> $DIR/tests/span/js/expr/optional-chaining.js:2:1
   |
 2 | A?.['B']?.()
-  | ^^^^^^^^
+  | ^^^^^^^^^^^^
 
 warning: Expr
  --> $DIR/tests/span/js/expr/optional-chaining.js:2:1
@@ -132,6 +144,12 @@ warning: Expr
   | ^^^^^^^^
 
 warning: OptChainExpr
+ --> $DIR/tests/span/js/expr/optional-chaining.js:2:1
+  |
+2 | A?.['B']?.()
+  | ^^^^^^^^
+
+warning: OptChainBase
  --> $DIR/tests/span/js/expr/optional-chaining.js:2:1
   |
 2 | A?.['B']?.()

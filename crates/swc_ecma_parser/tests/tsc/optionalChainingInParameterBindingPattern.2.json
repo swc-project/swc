@@ -196,7 +196,7 @@
                           "end": 195,
                           "ctxt": 0
                         },
-                        "expr": {
+                        "base": {
                           "type": "MemberExpression",
                           "span": {
                             "start": 191,
@@ -433,7 +433,7 @@
                           "end": 252,
                           "ctxt": 0
                         },
-                        "expr": {
+                        "base": {
                           "type": "MemberExpression",
                           "span": {
                             "start": 248,

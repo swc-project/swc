@@ -988,7 +988,8 @@
                       },
                       "value": "ab",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   },
                   {
                     "type": "TsTypeReference",
@@ -1094,7 +1095,8 @@
                       },
                       "value": "bc",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 ]
               }

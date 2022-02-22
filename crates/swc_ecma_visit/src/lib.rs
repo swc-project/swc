@@ -663,6 +663,7 @@ define!({
         TsConstAssertion(TsConstAssertion),
         TsNonNull(TsNonNullExpr),
         TsAs(TsAsExpr),
+        TsInstantiation(TsInstantiation),
         PrivateName(PrivateName),
         OptChain(OptChainExpr),
         Invalid(Invalid),
@@ -831,7 +832,17 @@ define!({
     pub struct OptChainExpr {
         pub span: Span,
         pub question_dot_token: Span,
-        pub expr: Box<Expr>,
+        pub base: OptChainBase,
+    }
+    pub enum OptChainBase {
+        Member(MemberExpr),
+        Call(OptCall),
+    }
+    pub struct OptCall {
+        pub span: Span,
+        pub callee: Box<Expr>,
+        pub args: Vec<ExprOrSpread>,
+        pub type_args: Option<TsTypeParamInstantiation>,
     }
     pub struct Function {
         pub params: Vec<Param>,
@@ -1570,6 +1581,7 @@ define!({
     pub struct TsTypeQuery {
         pub span: Span,
         pub expr_name: TsTypeQueryExpr,
+        pub type_args: Option<TsTypeParamInstantiation>,
     }
     pub enum TsTypeQueryExpr {
         TsEntityName(TsEntityName),
@@ -1695,7 +1707,7 @@ define!({
     }
     pub struct TsExprWithTypeArgs {
         pub span: Span,
-        pub expr: TsEntityName,
+        pub expr: Box<Expr>,
         pub type_args: Option<TsTypeParamInstantiation>,
     }
     pub struct TsTypeAliasDecl {
@@ -1793,6 +1805,12 @@ define!({
     pub struct TsConstAssertion {
         pub span: Span,
         pub expr: Box<Expr>,
+    }
+
+    pub struct TsInstantiation {
+        pub span: Span,
+        pub expr: Box<Expr>,
+        pub type_args: TsTypeParamInstantiation,
     }
 });
 

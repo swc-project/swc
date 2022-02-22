@@ -190,20 +190,17 @@ target = "{}""#,
     "name": "{}",
     "version": "0.1.0",
     "description": "",
-    "main": "{}",
-    "scripts": {{
-        "test": "echo \"Error: no test specified\" && exit 1"
-    }},
-    "keywords": [],
     "author": "",
     "license": "ISC",
-    "files": [
-        "{}",
-        "README.md"
-    ]
+    "keywords": ["swc-plugin"],
+    "main": "{}",
+    "scripts": {{
+        "prepublishOnly": "cargo build --release"
+    }},
+    "files": []
 }}
 "#,
-                name, dist_output_path, dist_output_path
+                name, dist_output_path
             )
             .as_bytes(),
         )
@@ -220,6 +217,8 @@ pub struct TransformVisitor;
 
 impl VisitMut for TransformVisitor {
     // Implement necessary visit_mut_* methods for actual custom transform.
+    // A comprehensive list of possible visitor methods can be found here: 
+    // https://rustdoc.swc.rs/swc_ecma_visit/trait.VisitMut.html
 }
 
 /// An example plugin function with macro support.
@@ -251,7 +250,7 @@ pub fn process_transform(program: Program, _plugin_config: String, _context: Str
         .context("failed to write the rust source file")?;
 
         println!(
-            r#"Successfully created {}.
+            r#"✅ Successfully created {}.
 If you haven't, please ensure to add target via "rustup target add {}" "#,
             path.display(),
             build_target
