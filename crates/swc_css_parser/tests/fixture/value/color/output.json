@@ -1,0 +1,5031 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 1730,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 0,
+        "end": 91,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 0,
+          "end": 10,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 0,
+              "end": 10,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 0,
+                  "end": 10,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 0,
+                      "end": 10,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 1,
+                        "end": 10,
+                        "ctxt": 0
+                      },
+                      "value": "hex-color",
+                      "raw": "hex-color"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 11,
+          "end": 91,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 17,
+              "end": 31,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 17,
+                "end": 22,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "HexColor",
+                "span": {
+                  "start": 24,
+                  "end": 31,
+                  "ctxt": 0
+                },
+                "value": "00ff00",
+                "raw": "00ff00"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 37,
+              "end": 53,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 37,
+                "end": 42,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "HexColor",
+                "span": {
+                  "start": 44,
+                  "end": 53,
+                  "ctxt": 0
+                },
+                "value": "0000ffcc",
+                "raw": "0000ffcc"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 59,
+              "end": 70,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 59,
+                "end": 64,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "HexColor",
+                "span": {
+                  "start": 66,
+                  "end": 70,
+                  "ctxt": 0
+                },
+                "value": "123",
+                "raw": "123"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 76,
+              "end": 88,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 76,
+                "end": 81,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "HexColor",
+                "span": {
+                  "start": 83,
+                  "end": 88,
+                  "ctxt": 0
+                },
+                "value": "123c",
+                "raw": "123c"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 93,
+        "end": 375,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 93,
+          "end": 97,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 93,
+              "end": 97,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 93,
+                  "end": 97,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 93,
+                      "end": 97,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 94,
+                        "end": 97,
+                        "ctxt": 0
+                      },
+                      "value": "rgb",
+                      "raw": "rgb"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 98,
+          "end": 375,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 104,
+              "end": 127,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 104,
+                "end": 109,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 111,
+                  "end": 127,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 111,
+                    "end": 114,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 115,
+                      "end": 118,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 118,
+                      "end": 119,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 120,
+                      "end": 123,
+                      "ctxt": 0
+                    },
+                    "value": 165.0,
+                    "raw": "165"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 123,
+                      "end": 124,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 125,
+                      "end": 126,
+                      "ctxt": 0
+                    },
+                    "value": 0.0,
+                    "raw": "0"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 133,
+              "end": 154,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 133,
+                "end": 138,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 140,
+                  "end": 154,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 140,
+                    "end": 143,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 144,
+                      "end": 147,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 147,
+                      "end": 148,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 148,
+                      "end": 151,
+                      "ctxt": 0
+                    },
+                    "value": 165.0,
+                    "raw": "165"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 151,
+                      "end": 152,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 152,
+                      "end": 153,
+                      "ctxt": 0
+                    },
+                    "value": 0.0,
+                    "raw": "0"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 160,
+              "end": 181,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 160,
+                "end": 165,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 167,
+                  "end": 181,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 167,
+                    "end": 170,
+                    "ctxt": 0
+                  },
+                  "value": "rGb",
+                  "raw": "rGb"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 171,
+                      "end": 174,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 174,
+                      "end": 175,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 175,
+                      "end": 178,
+                      "ctxt": 0
+                    },
+                    "value": 165.0,
+                    "raw": "165"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 178,
+                      "end": 179,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 179,
+                      "end": 180,
+                      "ctxt": 0
+                    },
+                    "value": 0.0,
+                    "raw": "0"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 187,
+              "end": 206,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 187,
+                "end": 192,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 194,
+                  "end": 206,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 194,
+                    "end": 197,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 198,
+                      "end": 199,
+                      "ctxt": 0
+                    },
+                    "value": 0.0,
+                    "raw": "0"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 200,
+                      "end": 203,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 204,
+                      "end": 205,
+                      "ctxt": 0
+                    },
+                    "value": 0.0,
+                    "raw": "0"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 212,
+              "end": 232,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 212,
+                "end": 217,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 219,
+                  "end": 232,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 219,
+                    "end": 222,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 223,
+                      "end": 225,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 223,
+                        "end": 224,
+                        "ctxt": 0
+                      },
+                      "value": 0.0,
+                      "raw": "0"
+                    }
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 225,
+                      "end": 229,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 225,
+                        "end": 228,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    }
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 229,
+                      "end": 231,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 229,
+                        "end": 230,
+                        "ctxt": 0
+                      },
+                      "value": 0.0,
+                      "raw": "0"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 238,
+              "end": 266,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 238,
+                "end": 243,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 245,
+                  "end": 266,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 245,
+                    "end": 248,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 249,
+                      "end": 251,
+                      "ctxt": 0
+                    },
+                    "value": 29.0,
+                    "raw": "29"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 252,
+                      "end": 255,
+                      "ctxt": 0
+                    },
+                    "value": 164.0,
+                    "raw": "164"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 256,
+                      "end": 259,
+                      "ctxt": 0
+                    },
+                    "value": 192.0,
+                    "raw": "192"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 260,
+                      "end": 261,
+                      "ctxt": 0
+                    },
+                    "value": "/"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 262,
+                      "end": 265,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 262,
+                        "end": 264,
+                        "ctxt": 0
+                      },
+                      "value": 95.0,
+                      "raw": "95"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 272,
+              "end": 300,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 272,
+                "end": 277,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 279,
+                  "end": 300,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 279,
+                    "end": 282,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 283,
+                      "end": 286,
+                      "ctxt": 0
+                    },
+                    "value": 123.0,
+                    "raw": "123"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 287,
+                      "end": 290,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 291,
+                      "end": 294,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 295,
+                      "end": 296,
+                      "ctxt": 0
+                    },
+                    "value": "/"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 297,
+                      "end": 299,
+                      "ctxt": 0
+                    },
+                    "value": 0.5,
+                    "raw": ".5"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 306,
+              "end": 335,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 306,
+                "end": 311,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 313,
+                  "end": 335,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 313,
+                    "end": 316,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 317,
+                      "end": 320,
+                      "ctxt": 0
+                    },
+                    "value": 123.0,
+                    "raw": "123"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 321,
+                      "end": 324,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 325,
+                      "end": 328,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 329,
+                      "end": 330,
+                      "ctxt": 0
+                    },
+                    "value": "/"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 331,
+                      "end": 334,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 331,
+                        "end": 333,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 341,
+              "end": 372,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 341,
+                "end": 346,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 348,
+                  "end": 372,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 348,
+                    "end": 351,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 352,
+                      "end": 355,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 352,
+                        "end": 354,
+                        "ctxt": 0
+                      },
+                      "value": 48.0,
+                      "raw": "48"
+                    }
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 356,
+                      "end": 360,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 356,
+                        "end": 359,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    }
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 361,
+                      "end": 365,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 361,
+                        "end": 364,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 366,
+                      "end": 367,
+                      "ctxt": 0
+                    },
+                    "value": "/"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 368,
+                      "end": 371,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 368,
+                        "end": 370,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 377,
+        "end": 488,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 377,
+          "end": 382,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 377,
+              "end": 382,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 377,
+                  "end": 382,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 377,
+                      "end": 382,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 378,
+                        "end": 382,
+                        "ctxt": 0
+                      },
+                      "value": "rgba",
+                      "raw": "rgba"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 383,
+          "end": 488,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 389,
+              "end": 417,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 389,
+                "end": 394,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 396,
+                  "end": 417,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 396,
+                    "end": 400,
+                    "ctxt": 0
+                  },
+                  "value": "rgba",
+                  "raw": "rgba"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 401,
+                      "end": 404,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 404,
+                      "end": 405,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 406,
+                      "end": 407,
+                      "ctxt": 0
+                    },
+                    "value": 0.0,
+                    "raw": "0"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 407,
+                      "end": 408,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 409,
+                      "end": 410,
+                      "ctxt": 0
+                    },
+                    "value": 0.0,
+                    "raw": "0"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 410,
+                      "end": 411,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 412,
+                      "end": 416,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 412,
+                        "end": 415,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 423,
+              "end": 450,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 423,
+                "end": 428,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 430,
+                  "end": 450,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 430,
+                    "end": 434,
+                    "ctxt": 0
+                  },
+                  "value": "rgba",
+                  "raw": "rgba"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 435,
+                      "end": 438,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 438,
+                      "end": 439,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 440,
+                      "end": 443,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 443,
+                      "end": 444,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 445,
+                      "end": 446,
+                      "ctxt": 0
+                    },
+                    "value": 0.0,
+                    "raw": "0"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 446,
+                      "end": 447,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 448,
+                      "end": 449,
+                      "ctxt": 0
+                    },
+                    "value": 1.0,
+                    "raw": "1"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 456,
+              "end": 485,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 456,
+                "end": 461,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 463,
+                  "end": 485,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 463,
+                    "end": 467,
+                    "ctxt": 0
+                  },
+                  "value": "rgba",
+                  "raw": "rgba"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 468,
+                      "end": 471,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 471,
+                      "end": 472,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 473,
+                      "end": 476,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 476,
+                      "end": 477,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 478,
+                      "end": 479,
+                      "ctxt": 0
+                    },
+                    "value": 0.0,
+                    "raw": "0"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 479,
+                      "end": 480,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 481,
+                      "end": 484,
+                      "ctxt": 0
+                    },
+                    "value": 0.8,
+                    "raw": "0.8"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 490,
+        "end": 728,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 490,
+          "end": 494,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 490,
+              "end": 494,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 490,
+                  "end": 494,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 490,
+                      "end": 494,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 491,
+                        "end": 494,
+                        "ctxt": 0
+                      },
+                      "value": "hsl",
+                      "raw": "hsl"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 495,
+          "end": 728,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 501,
+              "end": 528,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 501,
+                "end": 506,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 508,
+                  "end": 528,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 508,
+                    "end": 511,
+                    "ctxt": 0
+                  },
+                  "value": "hsl",
+                  "raw": "hsl"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 512,
+                      "end": 518,
+                      "ctxt": 0
+                    },
+                    "value": 38.824,
+                    "raw": "38.824"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 519,
+                      "end": 523,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 519,
+                        "end": 522,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    }
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 524,
+                      "end": 527,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 524,
+                        "end": 526,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 534,
+              "end": 557,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 534,
+                "end": 539,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 541,
+                  "end": 557,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 541,
+                    "end": 544,
+                    "ctxt": 0
+                  },
+                  "value": "HsL",
+                  "raw": "HsL"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 545,
+                      "end": 547,
+                      "ctxt": 0
+                    },
+                    "value": 39.0,
+                    "raw": "39"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 548,
+                      "end": 552,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 548,
+                        "end": 551,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    }
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 553,
+                      "end": 556,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 553,
+                        "end": 555,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 563,
+              "end": 592,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 563,
+                "end": 568,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 570,
+                  "end": 592,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 570,
+                    "end": 573,
+                    "ctxt": 0
+                  },
+                  "value": "hsl",
+                  "raw": "hsl"
+                },
+                "value": [
+                  {
+                    "type": "Angle",
+                    "span": {
+                      "start": 574,
+                      "end": 580,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 574,
+                        "end": 577,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    },
+                    "unit": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 577,
+                        "end": 580,
+                        "ctxt": 0
+                      },
+                      "value": "deg",
+                      "raw": "deg"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 580,
+                      "end": 581,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 582,
+                      "end": 586,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 582,
+                        "end": 585,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 586,
+                      "end": 587,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 588,
+                      "end": 591,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 588,
+                        "end": 590,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 598,
+              "end": 624,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 598,
+                "end": 603,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 605,
+                  "end": 624,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 605,
+                    "end": 608,
+                    "ctxt": 0
+                  },
+                  "value": "hsl",
+                  "raw": "hsl"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 609,
+                      "end": 612,
+                      "ctxt": 0
+                    },
+                    "value": 100.0,
+                    "raw": "100"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 612,
+                      "end": 613,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 614,
+                      "end": 618,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 614,
+                        "end": 617,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 618,
+                      "end": 619,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 620,
+                      "end": 623,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 620,
+                        "end": 622,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 630,
+              "end": 654,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 630,
+                "end": 635,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 637,
+                  "end": 654,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 637,
+                    "end": 640,
+                    "ctxt": 0
+                  },
+                  "value": "hsl",
+                  "raw": "hsl"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 641,
+                      "end": 644,
+                      "ctxt": 0
+                    },
+                    "value": 100.0,
+                    "raw": "100"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 645,
+                      "end": 649,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 645,
+                        "end": 648,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    }
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 650,
+                      "end": 653,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 650,
+                        "end": 652,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 660,
+              "end": 690,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 660,
+                "end": 665,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 667,
+                  "end": 690,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 667,
+                    "end": 670,
+                    "ctxt": 0
+                  },
+                  "value": "hsl",
+                  "raw": "hsl"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 671,
+                      "end": 674,
+                      "ctxt": 0
+                    },
+                    "value": 100.0,
+                    "raw": "100"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 674,
+                      "end": 675,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 676,
+                      "end": 680,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 676,
+                        "end": 679,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 680,
+                      "end": 681,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 682,
+                      "end": 685,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 682,
+                        "end": 684,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 685,
+                      "end": 686,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 687,
+                      "end": 689,
+                      "ctxt": 0
+                    },
+                    "value": 0.8,
+                    "raw": ".8"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 696,
+              "end": 725,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 696,
+                "end": 701,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 703,
+                  "end": 725,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 703,
+                    "end": 706,
+                    "ctxt": 0
+                  },
+                  "value": "hsl",
+                  "raw": "hsl"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 707,
+                      "end": 710,
+                      "ctxt": 0
+                    },
+                    "value": 100.0,
+                    "raw": "100"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 711,
+                      "end": 715,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 711,
+                        "end": 714,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    }
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 716,
+                      "end": 719,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 716,
+                        "end": 718,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 720,
+                      "end": 721,
+                      "ctxt": 0
+                    },
+                    "value": "/"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 722,
+                      "end": 724,
+                      "ctxt": 0
+                    },
+                    "value": 0.8,
+                    "raw": ".8"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 730,
+        "end": 812,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 730,
+          "end": 735,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 730,
+              "end": 735,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 730,
+                  "end": 735,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 730,
+                      "end": 735,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 731,
+                        "end": 735,
+                        "ctxt": 0
+                      },
+                      "value": "hsla",
+                      "raw": "hsla"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 736,
+          "end": 812,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 742,
+              "end": 773,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 742,
+                "end": 747,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 749,
+                  "end": 773,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 749,
+                    "end": 753,
+                    "ctxt": 0
+                  },
+                  "value": "hsla",
+                  "raw": "hsla"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 754,
+                      "end": 757,
+                      "ctxt": 0
+                    },
+                    "value": 100.0,
+                    "raw": "100"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 757,
+                      "end": 758,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 759,
+                      "end": 763,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 759,
+                        "end": 762,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 763,
+                      "end": 764,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 765,
+                      "end": 768,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 765,
+                        "end": 767,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 768,
+                      "end": 769,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 770,
+                      "end": 772,
+                      "ctxt": 0
+                    },
+                    "value": 0.8,
+                    "raw": ".8"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 779,
+              "end": 809,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 779,
+                "end": 784,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 786,
+                  "end": 809,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 786,
+                    "end": 790,
+                    "ctxt": 0
+                  },
+                  "value": "hsla",
+                  "raw": "hsla"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 791,
+                      "end": 794,
+                      "ctxt": 0
+                    },
+                    "value": 100.0,
+                    "raw": "100"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 795,
+                      "end": 799,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 795,
+                        "end": 798,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    }
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 800,
+                      "end": 803,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 800,
+                        "end": 802,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 804,
+                      "end": 805,
+                      "ctxt": 0
+                    },
+                    "value": "/"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 806,
+                      "end": 808,
+                      "ctxt": 0
+                    },
+                    "value": 0.8,
+                    "raw": ".8"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 814,
+        "end": 967,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 814,
+          "end": 818,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 814,
+              "end": 818,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 814,
+                  "end": 818,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 814,
+                      "end": 818,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 815,
+                        "end": 818,
+                        "ctxt": 0
+                      },
+                      "value": "hwb",
+                      "raw": "hwb"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 819,
+          "end": 967,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 825,
+              "end": 846,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 825,
+                "end": 830,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 832,
+                  "end": 846,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 832,
+                    "end": 835,
+                    "ctxt": 0
+                  },
+                  "value": "hwb",
+                  "raw": "hwb"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 836,
+                      "end": 839,
+                      "ctxt": 0
+                    },
+                    "value": 194.0,
+                    "raw": "194"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 840,
+                      "end": 842,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 840,
+                        "end": 841,
+                        "ctxt": 0
+                      },
+                      "value": 0.0,
+                      "raw": "0"
+                    }
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 843,
+                      "end": 845,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 843,
+                        "end": 844,
+                        "ctxt": 0
+                      },
+                      "value": 0.0,
+                      "raw": "0"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 852,
+              "end": 879,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 852,
+                "end": 857,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 859,
+                  "end": 879,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 859,
+                    "end": 862,
+                    "ctxt": 0
+                  },
+                  "value": "hwb",
+                  "raw": "hwb"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 863,
+                      "end": 866,
+                      "ctxt": 0
+                    },
+                    "value": 194.0,
+                    "raw": "194"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 867,
+                      "end": 869,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 867,
+                        "end": 868,
+                        "ctxt": 0
+                      },
+                      "value": 0.0,
+                      "raw": "0"
+                    }
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 870,
+                      "end": 872,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 870,
+                        "end": 871,
+                        "ctxt": 0
+                      },
+                      "value": 0.0,
+                      "raw": "0"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 873,
+                      "end": 874,
+                      "ctxt": 0
+                    },
+                    "value": "/"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 875,
+                      "end": 878,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 875,
+                        "end": 877,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 885,
+              "end": 907,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 885,
+                "end": 890,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 892,
+                  "end": 907,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 892,
+                    "end": 895,
+                    "ctxt": 0
+                  },
+                  "value": "hwb",
+                  "raw": "hwb"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 896,
+                      "end": 899,
+                      "ctxt": 0
+                    },
+                    "value": 194.0,
+                    "raw": "194"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 900,
+                      "end": 902,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 900,
+                        "end": 901,
+                        "ctxt": 0
+                      },
+                      "value": 0.0,
+                      "raw": "0"
+                    }
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 903,
+                      "end": 906,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 903,
+                        "end": 905,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 913,
+              "end": 935,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 913,
+                "end": 918,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 920,
+                  "end": 935,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 920,
+                    "end": 923,
+                    "ctxt": 0
+                  },
+                  "value": "hwb",
+                  "raw": "hwb"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 924,
+                      "end": 927,
+                      "ctxt": 0
+                    },
+                    "value": 194.0,
+                    "raw": "194"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 928,
+                      "end": 931,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 928,
+                        "end": 930,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 932,
+                      "end": 934,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 932,
+                        "end": 933,
+                        "ctxt": 0
+                      },
+                      "value": 0.0,
+                      "raw": "0"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 941,
+              "end": 964,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 941,
+                "end": 946,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 948,
+                  "end": 964,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 948,
+                    "end": 951,
+                    "ctxt": 0
+                  },
+                  "value": "hwb",
+                  "raw": "hwb"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 952,
+                      "end": 955,
+                      "ctxt": 0
+                    },
+                    "value": 194.0,
+                    "raw": "194"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 956,
+                      "end": 959,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 956,
+                        "end": 958,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 960,
+                      "end": 963,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 960,
+                        "end": 962,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 969,
+        "end": 1116,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 969,
+          "end": 973,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 969,
+              "end": 973,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 969,
+                  "end": 973,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 969,
+                      "end": 973,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 970,
+                        "end": 973,
+                        "ctxt": 0
+                      },
+                      "value": "lab",
+                      "raw": "lab"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 974,
+          "end": 1116,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 980,
+              "end": 1016,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 980,
+                "end": 985,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 987,
+                  "end": 1016,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 987,
+                    "end": 990,
+                    "ctxt": 0
+                  },
+                  "value": "lab",
+                  "raw": "lab"
+                },
+                "value": [
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 991,
+                      "end": 999,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 991,
+                        "end": 998,
+                        "ctxt": 0
+                      },
+                      "value": 29.2345,
+                      "raw": "29.2345"
+                    }
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1000,
+                      "end": 1007,
+                      "ctxt": 0
+                    },
+                    "value": 39.3825,
+                    "raw": "39.3825"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1008,
+                      "end": 1015,
+                      "ctxt": 0
+                    },
+                    "value": 20.0664,
+                    "raw": "20.0664"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1022,
+              "end": 1065,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 1022,
+                "end": 1027,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1029,
+                  "end": 1065,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 1029,
+                    "end": 1032,
+                    "ctxt": 0
+                  },
+                  "value": "lab",
+                  "raw": "lab"
+                },
+                "value": [
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 1033,
+                      "end": 1041,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1033,
+                        "end": 1040,
+                        "ctxt": 0
+                      },
+                      "value": 29.2345,
+                      "raw": "29.2345"
+                    }
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1042,
+                      "end": 1049,
+                      "ctxt": 0
+                    },
+                    "value": 39.3825,
+                    "raw": "39.3825"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1050,
+                      "end": 1057,
+                      "ctxt": 0
+                    },
+                    "value": 20.0664,
+                    "raw": "20.0664"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 1058,
+                      "end": 1059,
+                      "ctxt": 0
+                    },
+                    "value": "/"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 1060,
+                      "end": 1064,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1060,
+                        "end": 1063,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1071,
+              "end": 1113,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 1071,
+                "end": 1076,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1078,
+                  "end": 1113,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 1078,
+                    "end": 1081,
+                    "ctxt": 0
+                  },
+                  "value": "lab",
+                  "raw": "lab"
+                },
+                "value": [
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 1082,
+                      "end": 1090,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1082,
+                        "end": 1089,
+                        "ctxt": 0
+                      },
+                      "value": 29.2345,
+                      "raw": "29.2345"
+                    }
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1091,
+                      "end": 1098,
+                      "ctxt": 0
+                    },
+                    "value": 39.3825,
+                    "raw": "39.3825"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1099,
+                      "end": 1106,
+                      "ctxt": 0
+                    },
+                    "value": 20.0664,
+                    "raw": "20.0664"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 1107,
+                      "end": 1108,
+                      "ctxt": 0
+                    },
+                    "value": "/"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 1109,
+                      "end": 1112,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1109,
+                        "end": 1111,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 1118,
+        "end": 1356,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 1118,
+          "end": 1122,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 1118,
+              "end": 1122,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 1118,
+                  "end": 1122,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 1118,
+                      "end": 1122,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 1119,
+                        "end": 1122,
+                        "ctxt": 0
+                      },
+                      "value": "lch",
+                      "raw": "lch"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 1123,
+          "end": 1356,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1129,
+              "end": 1163,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 1129,
+                "end": 1134,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1136,
+                  "end": 1163,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 1136,
+                    "end": 1139,
+                    "ctxt": 0
+                  },
+                  "value": "lch",
+                  "raw": "lch"
+                },
+                "value": [
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 1140,
+                      "end": 1148,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1140,
+                        "end": 1147,
+                        "ctxt": 0
+                      },
+                      "value": 52.2345,
+                      "raw": "52.2345"
+                    }
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1149,
+                      "end": 1153,
+                      "ctxt": 0
+                    },
+                    "value": 72.2,
+                    "raw": "72.2"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1154,
+                      "end": 1158,
+                      "ctxt": 0
+                    },
+                    "value": 56.2,
+                    "raw": "56.2"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 1159,
+                      "end": 1160,
+                      "ctxt": 0
+                    },
+                    "value": "/"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1161,
+                      "end": 1162,
+                      "ctxt": 0
+                    },
+                    "value": 1.0,
+                    "raw": "1"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1169,
+              "end": 1197,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 1169,
+                "end": 1174,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1176,
+                  "end": 1197,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 1176,
+                    "end": 1179,
+                    "ctxt": 0
+                  },
+                  "value": "lch",
+                  "raw": "lch"
+                },
+                "value": [
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 1180,
+                      "end": 1188,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1180,
+                        "end": 1187,
+                        "ctxt": 0
+                      },
+                      "value": 29.2345,
+                      "raw": "29.2345"
+                    }
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1189,
+                      "end": 1193,
+                      "ctxt": 0
+                    },
+                    "value": 44.2,
+                    "raw": "44.2"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1194,
+                      "end": 1196,
+                      "ctxt": 0
+                    },
+                    "value": 27.0,
+                    "raw": "27"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1203,
+              "end": 1234,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 1203,
+                "end": 1208,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1210,
+                  "end": 1234,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 1210,
+                    "end": 1213,
+                    "ctxt": 0
+                  },
+                  "value": "lch",
+                  "raw": "lch"
+                },
+                "value": [
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 1214,
+                      "end": 1222,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1214,
+                        "end": 1221,
+                        "ctxt": 0
+                      },
+                      "value": 29.2345,
+                      "raw": "29.2345"
+                    }
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1223,
+                      "end": 1227,
+                      "ctxt": 0
+                    },
+                    "value": 44.2,
+                    "raw": "44.2"
+                  },
+                  {
+                    "type": "Angle",
+                    "span": {
+                      "start": 1228,
+                      "end": 1233,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1228,
+                        "end": 1230,
+                        "ctxt": 0
+                      },
+                      "value": 45.0,
+                      "raw": "45"
+                    },
+                    "unit": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 1230,
+                        "end": 1233,
+                        "ctxt": 0
+                      },
+                      "value": "deg",
+                      "raw": "deg"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1240,
+              "end": 1272,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 1240,
+                "end": 1245,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1247,
+                  "end": 1272,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 1247,
+                    "end": 1250,
+                    "ctxt": 0
+                  },
+                  "value": "lch",
+                  "raw": "lch"
+                },
+                "value": [
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 1251,
+                      "end": 1259,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1251,
+                        "end": 1258,
+                        "ctxt": 0
+                      },
+                      "value": 29.2345,
+                      "raw": "29.2345"
+                    }
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1260,
+                      "end": 1264,
+                      "ctxt": 0
+                    },
+                    "value": 44.2,
+                    "raw": "44.2"
+                  },
+                  {
+                    "type": "Angle",
+                    "span": {
+                      "start": 1265,
+                      "end": 1271,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1265,
+                        "end": 1267,
+                        "ctxt": 0
+                      },
+                      "value": 0.5,
+                      "raw": ".5"
+                    },
+                    "unit": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 1267,
+                        "end": 1271,
+                        "ctxt": 0
+                      },
+                      "value": "turn",
+                      "raw": "turn"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1278,
+              "end": 1313,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 1278,
+                "end": 1283,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1285,
+                  "end": 1313,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 1285,
+                    "end": 1288,
+                    "ctxt": 0
+                  },
+                  "value": "lch",
+                  "raw": "lch"
+                },
+                "value": [
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 1289,
+                      "end": 1297,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1289,
+                        "end": 1296,
+                        "ctxt": 0
+                      },
+                      "value": 29.2345,
+                      "raw": "29.2345"
+                    }
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1298,
+                      "end": 1302,
+                      "ctxt": 0
+                    },
+                    "value": 44.2,
+                    "raw": "44.2"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1303,
+                      "end": 1305,
+                      "ctxt": 0
+                    },
+                    "value": 27.0,
+                    "raw": "27"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 1306,
+                      "end": 1307,
+                      "ctxt": 0
+                    },
+                    "value": "/"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 1308,
+                      "end": 1312,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1308,
+                        "end": 1311,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1319,
+              "end": 1353,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 1319,
+                "end": 1324,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1326,
+                  "end": 1353,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 1326,
+                    "end": 1329,
+                    "ctxt": 0
+                  },
+                  "value": "lch",
+                  "raw": "lch"
+                },
+                "value": [
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 1330,
+                      "end": 1338,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1330,
+                        "end": 1337,
+                        "ctxt": 0
+                      },
+                      "value": 29.2345,
+                      "raw": "29.2345"
+                    }
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1339,
+                      "end": 1343,
+                      "ctxt": 0
+                    },
+                    "value": 44.2,
+                    "raw": "44.2"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1344,
+                      "end": 1346,
+                      "ctxt": 0
+                    },
+                    "value": 27.0,
+                    "raw": "27"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 1347,
+                      "end": 1348,
+                      "ctxt": 0
+                    },
+                    "value": "/"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 1349,
+                      "end": 1352,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1349,
+                        "end": 1351,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 1358,
+        "end": 1409,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 1358,
+          "end": 1364,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 1358,
+              "end": 1364,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 1358,
+                  "end": 1364,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 1358,
+                      "end": 1364,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 1359,
+                        "end": 1364,
+                        "ctxt": 0
+                      },
+                      "value": "oklab",
+                      "raw": "oklab"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 1365,
+          "end": 1409,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1371,
+              "end": 1406,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 1371,
+                "end": 1376,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1378,
+                  "end": 1406,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 1378,
+                    "end": 1383,
+                    "ctxt": 0
+                  },
+                  "value": "oklab",
+                  "raw": "oklab"
+                },
+                "value": [
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 1384,
+                      "end": 1391,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1384,
+                        "end": 1390,
+                        "ctxt": 0
+                      },
+                      "value": 40.101,
+                      "raw": "40.101"
+                    }
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1392,
+                      "end": 1398,
+                      "ctxt": 0
+                    },
+                    "value": 0.1147,
+                    "raw": "0.1147"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1399,
+                      "end": 1405,
+                      "ctxt": 0
+                    },
+                    "value": 0.0453,
+                    "raw": "0.0453"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 1411,
+        "end": 1499,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 1411,
+          "end": 1417,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 1411,
+              "end": 1417,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 1411,
+                  "end": 1417,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 1411,
+                      "end": 1417,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 1412,
+                        "end": 1417,
+                        "ctxt": 0
+                      },
+                      "value": "oklch",
+                      "raw": "oklch"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 1418,
+          "end": 1499,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1424,
+              "end": 1459,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 1424,
+                "end": 1429,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1431,
+                  "end": 1459,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 1431,
+                    "end": 1436,
+                    "ctxt": 0
+                  },
+                  "value": "oklch",
+                  "raw": "oklch"
+                },
+                "value": [
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 1437,
+                      "end": 1442,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1437,
+                        "end": 1441,
+                        "ctxt": 0
+                      },
+                      "value": 42.1,
+                      "raw": "42.1"
+                    }
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1443,
+                      "end": 1448,
+                      "ctxt": 0
+                    },
+                    "value": 0.192,
+                    "raw": "0.192"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1449,
+                      "end": 1454,
+                      "ctxt": 0
+                    },
+                    "value": 328.6,
+                    "raw": "328.6"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 1455,
+                      "end": 1456,
+                      "ctxt": 0
+                    },
+                    "value": "/"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1457,
+                      "end": 1458,
+                      "ctxt": 0
+                    },
+                    "value": 1.0,
+                    "raw": "1"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1465,
+              "end": 1496,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 1465,
+                "end": 1470,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1472,
+                  "end": 1496,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 1472,
+                    "end": 1477,
+                    "ctxt": 0
+                  },
+                  "value": "oklch",
+                  "raw": "oklch"
+                },
+                "value": [
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 1478,
+                      "end": 1483,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1478,
+                        "end": 1482,
+                        "ctxt": 0
+                      },
+                      "value": 42.1,
+                      "raw": "42.1"
+                    }
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1484,
+                      "end": 1489,
+                      "ctxt": 0
+                    },
+                    "value": 0.192,
+                    "raw": "0.192"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1490,
+                      "end": 1495,
+                      "ctxt": 0
+                    },
+                    "value": 328.6,
+                    "raw": "328.6"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 1501,
+        "end": 1730,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 1501,
+          "end": 1507,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 1501,
+              "end": 1507,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 1501,
+                  "end": 1507,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 1501,
+                      "end": 1507,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 1502,
+                        "end": 1507,
+                        "ctxt": 0
+                      },
+                      "value": "color",
+                      "raw": "color"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 1508,
+          "end": 1730,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1514,
+              "end": 1538,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 1514,
+                "end": 1519,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1521,
+                  "end": 1538,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 1521,
+                    "end": 1526,
+                    "ctxt": 0
+                  },
+                  "value": "color",
+                  "raw": "color"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 1527,
+                      "end": 1531,
+                      "ctxt": 0
+                    },
+                    "value": "sRGB",
+                    "raw": "sRGB"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1532,
+                      "end": 1533,
+                      "ctxt": 0
+                    },
+                    "value": 0.0,
+                    "raw": "0"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1534,
+                      "end": 1535,
+                      "ctxt": 0
+                    },
+                    "value": 1.0,
+                    "raw": "1"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1536,
+                      "end": 1537,
+                      "ctxt": 0
+                    },
+                    "value": 0.0,
+                    "raw": "0"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1544,
+              "end": 1591,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 1544,
+                "end": 1549,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1551,
+                  "end": 1591,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 1551,
+                    "end": 1556,
+                    "ctxt": 0
+                  },
+                  "value": "color",
+                  "raw": "color"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 1557,
+                      "end": 1567,
+                      "ctxt": 0
+                    },
+                    "value": "display-p3",
+                    "raw": "display-p3"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1568,
+                      "end": 1573,
+                      "ctxt": 0
+                    },
+                    "value": 0.823,
+                    "raw": "0.823"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1574,
+                      "end": 1580,
+                      "ctxt": 0
+                    },
+                    "value": 0.6554,
+                    "raw": "0.6554"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1581,
+                      "end": 1587,
+                      "ctxt": 0
+                    },
+                    "value": 0.2537,
+                    "raw": "0.2537"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 1588,
+                      "end": 1589,
+                      "ctxt": 0
+                    },
+                    "value": "/"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1589,
+                      "end": 1590,
+                      "ctxt": 0
+                    },
+                    "value": 1.0,
+                    "raw": "1"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1597,
+              "end": 1641,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 1597,
+                "end": 1602,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1604,
+                  "end": 1641,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 1604,
+                    "end": 1609,
+                    "ctxt": 0
+                  },
+                  "value": "color",
+                  "raw": "color"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 1610,
+                      "end": 1620,
+                      "ctxt": 0
+                    },
+                    "value": "display-p3",
+                    "raw": "display-p3"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1621,
+                      "end": 1626,
+                      "ctxt": 0
+                    },
+                    "value": 0.823,
+                    "raw": "0.823"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1627,
+                      "end": 1633,
+                      "ctxt": 0
+                    },
+                    "value": 0.6554,
+                    "raw": "0.6554"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1634,
+                      "end": 1640,
+                      "ctxt": 0
+                    },
+                    "value": 0.2537,
+                    "raw": "0.2537"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1647,
+              "end": 1682,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 1647,
+                "end": 1652,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1654,
+                  "end": 1682,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 1654,
+                    "end": 1659,
+                    "ctxt": 0
+                  },
+                  "value": "color",
+                  "raw": "color"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 1660,
+                      "end": 1663,
+                      "ctxt": 0
+                    },
+                    "value": "xyz",
+                    "raw": "xyz"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1664,
+                      "end": 1669,
+                      "ctxt": 0
+                    },
+                    "value": 0.472,
+                    "raw": "0.472"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1670,
+                      "end": 1675,
+                      "ctxt": 0
+                    },
+                    "value": 0.372,
+                    "raw": "0.372"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1676,
+                      "end": 1681,
+                      "ctxt": 0
+                    },
+                    "value": 0.131,
+                    "raw": "0.131"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1688,
+              "end": 1727,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 1688,
+                "end": 1693,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1695,
+                  "end": 1727,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 1695,
+                    "end": 1700,
+                    "ctxt": 0
+                  },
+                  "value": "color",
+                  "raw": "color"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 1701,
+                      "end": 1708,
+                      "ctxt": 0
+                    },
+                    "value": "xyz-d65",
+                    "raw": "xyz-d65"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1709,
+                      "end": 1714,
+                      "ctxt": 0
+                    },
+                    "value": 0.472,
+                    "raw": "0.472"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1715,
+                      "end": 1720,
+                      "ctxt": 0
+                    },
+                    "value": 0.372,
+                    "raw": "0.372"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1721,
+                      "end": 1726,
+                      "ctxt": 0
+                    },
+                    "value": 0.131,
+                    "raw": "0.131"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    }
+  ]
+}
