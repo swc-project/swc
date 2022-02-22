@@ -25,8 +25,8 @@ impl VisitMut for CompressUrl {
             let mut escaped = String::new();
             let mut has_escaped = false;
 
-            for char in value.chars() {
-                match char {
+            for c in value.chars() {
+                match c {
                     '(' | ')' | '"' | '\'' => {
                         if has_escaped {
                             return;
@@ -34,18 +34,18 @@ impl VisitMut for CompressUrl {
 
                         has_escaped = true;
                         escaped.push('\\');
-                        escaped.push(char)
+                        escaped.push(c)
                     }
-                    _ if char::is_whitespace(char) => {
+                    _ if c.is_whitespace() => {
                         if has_escaped {
                             return;
                         }
 
                         has_escaped = true;
                         escaped.push('\\');
-                        escaped.push(char)
+                        escaped.push(c)
                     }
-                    _ => escaped.push(char),
+                    _ => escaped.push(c),
                 }
             }
 
