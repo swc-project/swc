@@ -17,6 +17,9 @@
 - **(cli)** Improve the template `package.json` for plugins (#3641) ([f237aee](https://github.com/swc-project/swc/commit/f237aeea79e140e5b6e105304fccfc48960462bf))
 
 
+- **(css/ast)** Improve parsing of colors (#3680) ([003a7b8](https://github.com/swc-project/swc/commit/003a7b85a4b458f50d057af06c9cc6ec69b592da))
+
+
 - **(css/minifier)** Compress selectors (#3623) ([9e691fe](https://github.com/swc-project/swc/commit/9e691fe75b60c73ff3ab2a7939c36f6cea167d06))
 
 
