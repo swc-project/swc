@@ -56,7 +56,7 @@ impl VisitMut for CompressUrange {
     fn visit_mut_urange(&mut self, urange: &mut Urange) {
         urange.visit_mut_children_with(self);
 
-        let str_value = &urange.value[2..urange.value.len()];
+        let str_value = &urange.value[2..];
 
         if !urange.value.contains('-') {
             let mut value = String::new();
