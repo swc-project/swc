@@ -13,10 +13,8 @@ on: [push, pull_request]
 #      - 'trying'
 
 env:
-  CI: 1
   CARGO_INCREMENTAL: 0
   RUST_LOG: "debug"
-  SWC_CACHE_TEST: 1
   DIFF: 0
 
 jobs:
