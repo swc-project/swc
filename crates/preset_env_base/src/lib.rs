@@ -1,7 +1,8 @@
 use anyhow::Error;
 use serde::Deserialize;
 use st_map::StaticMap;
-use version::Version;
+
+use self::version::Version;
 
 pub mod version;
 
@@ -48,11 +49,11 @@ pub struct BrowserData<T: Default> {
 pub type Versions = BrowserData<Option<Version>>;
 
 impl BrowserData<Option<Version>> {
-    pub(crate) fn is_any_target(&self) -> bool {
+    pub fn is_any_target(&self) -> bool {
         self.iter().all(|(_, v)| v.is_none())
     }
 
-    pub(crate) fn parse_versions(distribs: Vec<browserslist::Distrib>) -> Result<Self, Error> {
+    pub fn parse_versions(distribs: Vec<browserslist::Distrib>) -> Result<Self, Error> {
         fn remap(key: &str) -> &str {
             match key {
                 "and_chr" => "chrome",
