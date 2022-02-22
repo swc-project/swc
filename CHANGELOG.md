@@ -67,6 +67,9 @@
 
 - **(es/ast)** Change definition of optional chaining expressions (#3645) ([2cb66ae](https://github.com/swc-project/swc/commit/2cb66ae075ba45968f302d5cd756b0ce0dbcee41))
 
+
+- **(preset-env)** Extract common logic for `browserslist` support (#3674) ([b1d2470](https://github.com/swc-project/swc/commit/b1d24702e3ca857c60b0c91d7f81652fd178ea31))
+
 ### Build
 
 

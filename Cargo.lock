@@ -2639,7 +2639,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.132.0"
+version = "0.133.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2737,7 +2737,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.6.1"
+version = "0.7.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -3051,7 +3051,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.93.2"
+version = "0.94.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3347,7 +3347,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.117.0"
+version = "0.118.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3383,7 +3383,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.50.0"
+version = "0.51.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3572,7 +3572,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.48.0"
+version = "0.49.0"
 dependencies = [
  "anyhow",
  "rayon",
