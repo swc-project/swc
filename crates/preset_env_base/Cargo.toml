@@ -10,3 +10,8 @@ version = "0.1.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+anyhow = "1"
+browserslist-rs = "=0.8.0"
+semver = {version = "1.0.4", features = ["serde"]}
+serde = {version = "1", features = ["derive"]}
+st-map = "0.1.2"

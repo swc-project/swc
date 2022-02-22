@@ -7,7 +7,7 @@ use std::path::PathBuf;
 use anyhow::{Context, Error};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
-pub use preset_env_base::BrowserData;
+pub use preset_env_base::{BrowserData, Version, Versions};
 use serde::Deserialize;
 use st_map::StaticMap;
 use swc_atoms::{js_word, JsWord};
@@ -25,7 +25,7 @@ use swc_ecma_transforms::{
 use swc_ecma_utils::prepend_stmts;
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
-pub use self::{transform_data::Feature, version::Version};
+pub use self::transform_data::Feature;
 
 #[macro_use]
 mod util;
@@ -33,7 +33,6 @@ mod corejs2;
 mod corejs3;
 mod regenerator;
 mod transform_data;
-mod version;
 
 pub fn preset_env<C>(global_mark: Mark, comments: Option<C>, c: Config) -> impl Fold
 where
@@ -410,57 +409,6 @@ pub enum Mode {
     Usage,
     #[serde(rename = "entry")]
     Entry,
-}
-
-pub type Versions = BrowserData<Option<Version>>;
-
-impl BrowserData<Option<Version>> {
-    pub(crate) fn is_any_target(&self) -> bool {
-        self.iter().all(|(_, v)| v.is_none())
-    }
-
-    pub(crate) fn parse_versions(distribs: Vec<browserslist::Distrib>) -> Result<Self, Error> {
-        fn remap(key: &str) -> &str {
-            match key {
-                "and_chr" => "chrome",
-                "and_ff" => "firefox",
-                "ie_mob" => "ie",
-                "ios_saf" => "ios",
-                "op_mob" => "opera",
-                _ => key,
-            }
-        }
-
-        let mut data: Versions = BrowserData::default();
-        for dist in distribs {
-            let browser = dist.name();
-            let browser = remap(browser);
-            let version = dist.version();
-            match &*browser {
-                "and_qq" | "and_uc" | "baidu" | "bb" | "kaios" | "op_mini" => continue,
-
-                _ => {}
-            }
-
-            let version = version
-                .split_once('-')
-                .map(|(version, _)| version)
-                .unwrap_or(version)
-                .parse()
-                .unwrap();
-
-            // lowest version
-            if data[&browser].map(|v| v > version).unwrap_or(true) {
-                for (k, v) in data.iter_mut() {
-                    if browser == k {
-                        *v = Some(version);
-                    }
-                }
-            }
-        }
-
-        Ok(data)
-    }
 }
 
 #[derive(Debug, Clone, Deserialize, Default)]

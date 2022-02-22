@@ -1864,6 +1864,13 @@ checksum = "925383efa346730478fb4838dbe9137d2a47675ad789c546d150a6e1dd4ab31c"
 [[package]]
 name = "preset_env_base"
 version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "browserslist-rs",
+ "semver 1.0.4",
+ "serde",
+ "st-map",
+]
 
 [[package]]
 name = "pretty_assertions"
@@ -3053,8 +3060,6 @@ name = "swc_ecma_preset_env"
 version = "0.93.0"
 dependencies = [
  "ahash",
- "anyhow",
- "browserslist-rs",
  "dashmap",
  "indexmap",
  "once_cell",
