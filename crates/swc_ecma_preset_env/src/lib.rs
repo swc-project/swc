@@ -7,6 +7,7 @@ use std::path::PathBuf;
 use anyhow::{Context, Error};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
+use preset_env_base::query::{targets_to_versions, Query, Targets};
 pub use preset_env_base::{version::Version, BrowserData, Versions};
 use serde::Deserialize;
 use swc_atoms::{js_word, JsWord};
@@ -493,18 +494,4 @@ impl FeatureOrModule {
 
         (features, modules)
     }
-}
-
-#[derive(Debug, Clone, Deserialize, FromVariant)]
-#[serde(untagged)]
-pub enum Targets {
-    Query(Query),
-    EsModules(EsModules),
-    Versions(Versions),
-    HashMap(AHashMap<String, QueryOrVersion>),
-}
-
-#[derive(Debug, Clone, Copy, Deserialize)]
-pub struct EsModules {
-    esmodules: bool,
 }

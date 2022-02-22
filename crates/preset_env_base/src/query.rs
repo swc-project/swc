@@ -1,8 +1,29 @@
+use std::collections::HashMap;
+
 use anyhow::{Context, Error};
+use dashmap::DashMap;
 use from_variant::FromVariant;
+use once_cell::sync::Lazy;
 use serde::Deserialize;
 
-use crate::{version::Version, Versions};
+use crate::{version::Version, BrowserData, Versions};
+
+#[derive(Debug, Clone, Deserialize, FromVariant)]
+#[serde(untagged)]
+pub enum Targets {
+    Query(Query),
+    EsModules(EsModules),
+    Versions(Versions),
+    /// This uses `ahash` directly to reduce build time.
+    ///
+    /// This type is identical to `swc_common::collections::AHashMap`
+    HashMap(HashMap<String, QueryOrVersion, ahash::RandomState>),
+}
+
+#[derive(Debug, Clone, Copy, Deserialize)]
+pub struct EsModules {
+    esmodules: bool,
+}
 
 #[derive(Debug, Clone, Deserialize, FromVariant)]
 #[serde(untagged)]
@@ -70,7 +91,7 @@ impl Query {
     }
 }
 
-fn targets_to_versions(v: Option<Targets>) -> Result<Versions, Error> {
+pub fn targets_to_versions(v: Option<Targets>) -> Result<Versions, Error> {
     match v {
         None => Ok(Default::default()),
         Some(Targets::Versions(v)) => Ok(v),
