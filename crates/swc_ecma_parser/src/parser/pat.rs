@@ -675,10 +675,22 @@ impl<'a, I: Tokens> Parser<I> {
                     }));
                 }
 
-                let len = exprs.len();
-                let mut params = Vec::with_capacity(exprs.len());
+                // Trailing comma may exist. We should remove those commas.
+                let count_of_trailing_comma =
+                    exprs.iter().rev().take_while(|e| e.is_none()).count();
 
-                for expr in exprs.drain(..(len - 1)) {
+                let len = exprs.len();
+                let mut params = Vec::with_capacity(exprs.len() - count_of_trailing_comma);
+
+                // Comma or other pattern cannot follow a rest pattern.
+                let idx_of_rest_not_allowed = if count_of_trailing_comma == 0 {
+                    len - 1
+                } else {
+                    // last element is comma, so rest is not allowed for every pattern element.
+                    len - count_of_trailing_comma
+                };
+
+                for expr in exprs.drain(..idx_of_rest_not_allowed) {
                     match expr {
                         Some(
                             expr @ ExprOrSpread {
@@ -696,35 +708,36 @@ impl<'a, I: Tokens> Parser<I> {
                     }
                 }
 
-                let expr = exprs.into_iter().next().unwrap();
-                let last = match expr {
-                    // Rest
-                    Some(ExprOrSpread {
-                        spread: Some(dot3_token),
-                        expr,
-                    }) => {
-                        // TODO: is BindingPat correct?
-                        let expr_span = expr.span();
-                        self.reparse_expr_as_pat(pat_ty.element(), expr)
-                            .map(|pat| {
-                                Pat::Rest(RestPat {
-                                    span: expr_span,
-                                    dot3_token,
-                                    arg: Box::new(pat),
-                                    type_ann: None,
+                if count_of_trailing_comma == 0 {
+                    let expr = exprs.into_iter().next().unwrap();
+                    let last = match expr {
+                        // Rest
+                        Some(ExprOrSpread {
+                            spread: Some(dot3_token),
+                            expr,
+                        }) => {
+                            // TODO: is BindingPat correct?
+                            let expr_span = expr.span();
+                            self.reparse_expr_as_pat(pat_ty.element(), expr)
+                                .map(|pat| {
+                                    Pat::Rest(RestPat {
+                                        span: expr_span,
+                                        dot3_token,
+                                        arg: Box::new(pat),
+                                        type_ann: None,
+                                    })
                                 })
-                            })
-                            .map(Some)?
-                    }
-                    Some(ExprOrSpread { expr, .. }) => {
-                        // TODO: is BindingPat correct?
-                        self.reparse_expr_as_pat(pat_ty.element(), expr).map(Some)?
-                    }
-                    // TODO: syntax error if last element is ellison and ...rest exists.
-                    None => None,
-                };
-                params.push(last);
-
+                                .map(Some)?
+                        }
+                        Some(ExprOrSpread { expr, .. }) => {
+                            // TODO: is BindingPat correct?
+                            self.reparse_expr_as_pat(pat_ty.element(), expr).map(Some)?
+                        }
+                        // TODO: syntax error if last element is ellison and ...rest exists.
+                        None => None,
+                    };
+                    params.push(last);
+                }
                 Ok(Pat::Array(ArrayPat {
                     span,
                     elems: params,
