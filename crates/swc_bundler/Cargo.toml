@@ -52,7 +52,7 @@ swc_ecma_utils = {version = "0.68.0", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.54.0", path = "../swc_ecma_visit"}
 swc_fast_graph = {version = "0.4.0", path = "../swc_fast_graph/"}
 swc_graph_analyzer = {version = "0.4.0", path = "../swc_graph_analyzer/"}
-tracing = "0.1.28"
+tracing = "0.1.31"
 
 [dev-dependencies]
 hex = "0.4"
