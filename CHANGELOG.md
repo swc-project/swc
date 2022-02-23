@@ -5,6 +5,9 @@
 
 
 
+- **(es/compat)** Throw an error if a private property is initialized multiple times (#3665) ([b6434e5](https://github.com/swc-project/swc/commit/b6434e52e70e79b96a12d48c4cebe2b0f6d8b7f5))
+
+
 - **(es/parser)** Emit an error for non-last rest element in an object pattern (#3675) ([6a9d778](https://github.com/swc-project/swc/commit/6a9d77808b8513246592129e8c9e154f686fa8a9))
 
 
