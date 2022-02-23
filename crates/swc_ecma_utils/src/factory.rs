@@ -5,8 +5,24 @@ use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
 /// Extension methods for [Expr].
+///
+/// Note that many types implements `Into<Expr>` and you can do like
+///
+/// ```rust
+/// use swc_ecma_utils::ExprFactory;
+///
+/// let _args = vec![0f64.as_arg()];
+/// ```
+///
+/// to create literals. Almost all rust core types implements `Into<Expr>`.
 #[allow(clippy::wrong_self_convention)]
 pub trait ExprFactory: Into<Expr> {
+    /// Creates an [ExprOrSpread] using the given [Expr].
+    ///
+    /// This is recommended way to create [ExprOrSpread].
+    ///
+    /// # Example
+    ///
     /// ```rust
     /// use swc_common::DUMMY_SP;
     /// use swc_ecma_ast::*;
