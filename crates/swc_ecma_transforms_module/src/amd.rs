@@ -555,9 +555,7 @@ where
                     None => src.clone(),
                 };
 
-                define_deps_arg
-                    .elems
-                    .push(Some(src.as_arg()));
+                define_deps_arg.elems.push(Some(src.as_arg()));
             }
             factory_params.push(Param {
                 span: DUMMY_SP,
