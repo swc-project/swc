@@ -89,12 +89,12 @@ where
     // static block needs to be placed before class property
     // because it transforms into private static property
     let pass = add!(pass, ClassStaticBlock, es2022::static_blocks());
+    let pass = add!(pass, PrivatePropertyInObject, es2022::private_in_object());
     let pass = add!(
         pass,
         ClassProperties,
         es2022::class_properties(es2022::class_properties::Config { loose })
     );
-    let pass = add!(pass, PrivatePropertyInObject, es2022::private_in_object());
 
     // ES2021
     let pass = add!(
