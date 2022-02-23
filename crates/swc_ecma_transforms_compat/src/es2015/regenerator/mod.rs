@@ -56,9 +56,7 @@ fn require_rt(global_mark: Mark, rt: Ident, src: Option<JsWord>) -> Stmt {
             init: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: quote_ident!(DUMMY_SP.apply_mark(global_mark), "require").as_callee(),
-                args: vec![
-                    quote_str!(src.unwrap_or_else(|| "regenerator-runtime".into())).as_arg(),
-                ],
+                args: vec![src.unwrap_or_else(|| "regenerator-runtime".into()).as_arg()],
                 type_args: Default::default(),
             }))),
             definite: false,
@@ -458,7 +456,7 @@ impl Regenerator {
                                 .make_member(quote_ident!("wrap"))
                                 .as_callee(),
                             args: {
-                                let mut args = vec![Expr::Fn(FnExpr {
+                                let mut args = vec![FnExpr {
                                     ident: Some(inner_name),
                                     function: Function {
                                         params: vec![Param {
@@ -477,7 +475,7 @@ impl Regenerator {
                                         type_params: None,
                                         return_type: None,
                                     },
-                                })
+                                }
                                 .as_arg()];
 
                                 if f.is_generator {
@@ -494,7 +492,7 @@ impl Regenerator {
                                 if uses_this {
                                     args.push(ThisExpr { span: DUMMY_SP }.as_arg())
                                 } else if try_locs_list.is_some() {
-                                    args.push(Lit::Null(Null { span: DUMMY_SP }).as_arg());
+                                    args.push(Null { span: DUMMY_SP }.as_arg());
                                 }
 
                                 if let Some(try_locs_list) = try_locs_list {

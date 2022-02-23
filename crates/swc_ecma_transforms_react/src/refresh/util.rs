@@ -2,6 +2,7 @@ use indexmap::IndexSet;
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 pub trait CollectIdent {
@@ -192,7 +193,7 @@ pub fn make_call_stmt(handle: Ident) -> Stmt {
 pub fn make_call_expr(handle: Ident) -> Expr {
     Expr::Call(CallExpr {
         span: DUMMY_SP,
-        callee: Callee::Expr(Box::new(Expr::Ident(handle))),
+        callee: handle.as_callee(),
         args: Vec::new(),
         type_args: None,
     })

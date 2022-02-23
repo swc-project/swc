@@ -18,7 +18,7 @@ use crate::{
         TsAsExpr, TsConstAssertion, TsInstantiation, TsNonNullExpr, TsTypeAnn, TsTypeAssertion,
         TsTypeParamDecl, TsTypeParamInstantiation,
     },
-    ComputedPropName, Invalid,
+    ComputedPropName, Id, Invalid,
 };
 
 #[ast_node]
@@ -165,6 +165,8 @@ impl Take for Expr {
         Expr::Invalid(Invalid { span: DUMMY_SP })
     }
 }
+
+bridge_expr_from!(Ident, Id);
 
 #[ast_node("ThisExpression")]
 #[derive(Eq, Hash, Copy, EqIgnoreSpan)]
