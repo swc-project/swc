@@ -691,6 +691,7 @@ where
                 let need_delim = match node {
                     Value::SimpleBlock(_)
                     | Value::Function(_)
+                    | Value::Color(Color::Function(_))
                     | Value::Delimiter(_)
                     | Value::Str(_)
                     | Value::Url(_)
@@ -1130,6 +1131,7 @@ where
     fn emit_color(&mut self, n: &Color) -> Result {
         match n {
             Color::HexColor(n) => emit!(self, n),
+            Color::Function(n) => emit!(self, n),
         }
     }
 

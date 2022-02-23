@@ -130,24 +130,19 @@ impl CaseHandler<'_> {
 
                     let elems = locs
                         .into_iter()
-                        .map(|loc| {
-                            loc.map(|loc| ExprOrSpread {
-                                spread: None,
-                                expr: Box::new(loc.to_stmt_index()),
-                            })
-                        })
+                        .map(|loc| loc.map(|loc| loc.to_stmt_index().as_arg()))
                         .collect::<Vec<_>>();
 
                     if elems.is_empty() {
                         return None;
                     }
-                    Some(ExprOrSpread {
-                        spread: None,
-                        expr: Box::new(Expr::Array(ArrayLit {
+                    Some(
+                        ArrayLit {
                             span: DUMMY_SP,
                             elems,
-                        })),
-                    })
+                        }
+                        .as_arg(),
+                    )
                 })
                 .collect(),
         })
@@ -421,16 +416,15 @@ impl CaseHandler<'_> {
                                 me.prop
                             };
 
-                            Callee::Expr(Box::new(
-                                MemberExpr {
-                                    span: me.span,
-                                    obj,
-                                    prop,
-                                }
-                                .make_member(quote_ident!("call")),
-                            ))
+                            MemberExpr {
+                                span: me.span,
+                                obj,
+                                prop,
+                            }
+                            .make_member(quote_ident!("call"))
+                            .as_callee()
                         } else {
-                            Callee::Expr(Box::new(self.explode_expr(Expr::Member(me), false)))
+                            self.explode_expr(Expr::Member(me), false).as_callee()
                         }
                     }
 
@@ -453,7 +447,7 @@ impl CaseHandler<'_> {
                                 // by using the (0, object.property)(...) trick; otherwise, it
                                 // will receive the object of the MemberExpression as its `this`
                                 // object.
-                                Callee::Expr(Box::new(Expr::Seq(SeqExpr {
+                                SeqExpr {
                                     span: DUMMY_SP,
                                     exprs: vec![
                                         Box::new(
@@ -465,9 +459,10 @@ impl CaseHandler<'_> {
                                         ),
                                         Box::new(callee),
                                     ],
-                                })))
+                                }
+                                .as_callee()
                             }
-                            _ => Callee::Expr(Box::new(callee)),
+                            _ => callee.as_callee(),
                         }
                     }
                     Callee::Import(..) => callee,
@@ -788,13 +783,7 @@ impl CaseHandler<'_> {
                                 .as_callee(),
                             args: vec![
                                 arg.unwrap().as_arg(),
-                                Lit::Str(Str {
-                                    span: DUMMY_SP,
-                                    value: name,
-                                    has_escape: false,
-                                    kind: Default::default(),
-                                })
-                                .as_arg(),
+                                name.as_arg(),
                                 after.to_stmt_index().as_arg(),
                             ],
                             type_args: Default::default(),
@@ -919,13 +908,7 @@ impl CaseHandler<'_> {
                         .make_member(quote_ident!("abrupt"))
                         .as_callee(),
                     args: {
-                        let ty_arg = Lit::Str(Str {
-                            span: DUMMY_SP,
-                            value: ty.into(),
-                            has_escape: false,
-                            kind: Default::default(),
-                        })
-                        .as_arg();
+                        let ty_arg = ty.as_arg();
 
                         if ty == "break" || ty == "continue" {
                             if let Some(arg) = target {
