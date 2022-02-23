@@ -2639,7 +2639,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.134.0"
+version = "0.134.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2737,9 +2737,10 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.8.0"
+version = "0.8.1"
 dependencies = [
  "anyhow",
+ "atty",
  "clap",
  "path-absolutize",
  "rayon",
@@ -3027,7 +3028,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.91.0"
+version = "0.91.1"
 dependencies = [
  "either",
  "enum_kind",

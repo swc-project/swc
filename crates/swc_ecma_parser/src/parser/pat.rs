@@ -510,11 +510,7 @@ impl<'a, I: Tokens> Parser<I> {
         self.reparse_expr_as_pat_inner(pat_ty, expr)
     }
 
-    pub(super) fn reparse_expr_as_pat_inner(
-        &mut self,
-        pat_ty: PatType,
-        expr: Box<Expr>,
-    ) -> PResult<Pat> {
+    fn reparse_expr_as_pat_inner(&mut self, pat_ty: PatType, expr: Box<Expr>) -> PResult<Pat> {
         // In dts, we do not reparse.
         debug_assert!(!self.input.syntax().dts());
 
@@ -608,11 +604,13 @@ impl<'a, I: Tokens> Parser<I> {
             }
             Expr::Object(ObjectLit { span, props }) => {
                 // {}
+                let len = props.len();
                 Ok(Pat::Object(ObjectPat {
                     span,
                     props: props
                         .into_iter()
-                        .map(|prop| {
+                        .enumerate()
+                        .map(|(idx, prop)| {
                             let span = prop.span();
                             match prop {
                                 PropOrSpread::Prop(prop) => match *prop {
@@ -643,6 +641,9 @@ impl<'a, I: Tokens> Parser<I> {
                                 },
 
                                 PropOrSpread::Spread(SpreadElement { dot3_token, expr }) => {
+                                    if idx != len - 1 {
+                                        self.emit_err(span, SyntaxError::NonLastRestParam)
+                                    };
                                     Ok(ObjectPatProp::Rest(RestPat {
                                         span,
                                         dot3_token,
