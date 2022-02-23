@@ -1,7 +1,7 @@
-export default function _classPrivateFieldGet(receiver, privateMap) {
-  if (!privateMap.has(receiver)) {
-    throw new TypeError("attempted to get private field on non-instance");
-  }
+import classExtractFieldDescriptor from './_class_extract_field_descriptor';
+import classApplyDescriptorGet from './_class_apply_descriptor_get';
 
-  return privateMap.get(receiver).value;
+export default function _classPrivateFieldGet(receiver, privateMap) {
+  var descriptor = classExtractFieldDescriptor(receiver, privateMap, "get");
+  return classApplyDescriptorGet(receiver, descriptor);
 }

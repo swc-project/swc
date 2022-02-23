@@ -1,14 +1,8 @@
+import classExtractFieldDescriptor from './_class_extract_field_descriptor';
+import classApplyDescriptorSet from './_class_apply_descriptor_set';
+
 export default function _classPrivateFieldSet(receiver, privateMap, value) {
-  if (!privateMap.has(receiver)) {
-    throw new TypeError("attempted to set private field on non-instance");
-  }
-
-  var descriptor = privateMap.get(receiver);
-
-  if (!descriptor.writable) {
-    throw new TypeError("attempted to set read only private field");
-  }
-
-  descriptor.value = value;
+  var descriptor = classExtractFieldDescriptor(receiver, privateMap, "set");
+  classApplyDescriptorSet(receiver, descriptor, value);
   return value;
 }

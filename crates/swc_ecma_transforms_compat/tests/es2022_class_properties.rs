@@ -4380,6 +4380,35 @@ var _client = new WeakMap();
 "#
 );
 
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config { loose: false }),
+    staic_private_destructuring_array_pattern,
+    r#"
+class A {
+  #a = 123
+  foo() {
+    [a().#a] = []
+  }
+}
+"#,
+    r#"
+class A {
+  foo() {
+    [_classPrivateFieldDestructureSet(a(), _a).value] = [];
+  }
+
+  constructor() {
+    _classPrivateFieldInit(this, _a, {
+      writable: true,
+      value: 123
+    });
+  }
+}
+var _a = /*#__PURE__*/ new WeakMap();
+"#
+);
+
 // public_static_super_exec
 test_exec!(
     syntax(),
