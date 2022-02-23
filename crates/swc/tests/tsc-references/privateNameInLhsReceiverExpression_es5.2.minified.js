@@ -1,6 +1,11 @@
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
+function _classPrivateFieldInit(obj, privateMap, value) {
+    !function(obj, privateCollection) {
+        if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }(obj, privateMap), privateMap.set(obj, value);
+}
 function _classPrivateFieldSet(receiver, privateMap, value) {
     if (!privateMap.has(receiver)) throw new TypeError("attempted to set private field on non-instance");
     var descriptor = privateMap.get(receiver);
@@ -17,7 +22,7 @@ var Test = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function Test() {
-        _classCallCheck(this, Test), _y.set(this, {
+        _classCallCheck(this, Test), _classPrivateFieldInit(this, _y, {
             writable: !0,
             value: 123
         });
@@ -28,12 +33,12 @@ var Test = function() {
             value: function(obj) {
                 var _s, _class, _x, _class1, _x1;
                 _classPrivateFieldSet(obj[(new (_class = function() {
-                    _classCallCheck(this, _class), _x.set(this, {
+                    _classCallCheck(this, _class), _classPrivateFieldInit(this, _x, {
                         writable: !0,
                         value: 1
                     }), this.s = "prop";
                 }, _x = new WeakMap(), _class)).s], _y, 1), _classPrivateFieldSet(_s = obj[(new (_class1 = function() {
-                    _classCallCheck(this, _class1), _x1.set(this, {
+                    _classCallCheck(this, _class1), _classPrivateFieldInit(this, _x1, {
                         writable: !0,
                         value: 1
                     }), this.s = "prop";

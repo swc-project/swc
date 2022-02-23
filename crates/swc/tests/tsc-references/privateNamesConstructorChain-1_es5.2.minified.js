@@ -5,6 +5,11 @@ function _assertThisInitialized(self) {
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
+function _classPrivateFieldInit(obj, privateMap, value) {
+    !function(obj, privateCollection) {
+        if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }(obj, privateMap), privateMap.set(obj, value);
+}
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
@@ -25,7 +30,7 @@ var Parent = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function Parent() {
-        _classCallCheck(this, Parent), _foo.set(this, {
+        _classCallCheck(this, Parent), _classPrivateFieldInit(this, _foo, {
             writable: !0,
             value: 3
         });
@@ -78,10 +83,10 @@ var Parent = function() {
     });
     function Child() {
         var _this;
-        return _classCallCheck(this, Child), _this = _super.apply(this, arguments), _foo1.set(_assertThisInitialized(_this), {
+        return _classCallCheck(this, Child), _this = _super.apply(this, arguments), _classPrivateFieldInit(_assertThisInitialized(_this), _foo1, {
             writable: !0,
             value: "foo"
-        }), _bar1.set(_assertThisInitialized(_this), {
+        }), _classPrivateFieldInit(_assertThisInitialized(_this), _bar1, {
             writable: !0,
             value: "bar"
         }), _this;

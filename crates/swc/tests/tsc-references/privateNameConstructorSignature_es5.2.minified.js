@@ -8,12 +8,15 @@ var C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
+        var obj, privateMap, value;
         !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, C), _x.set(this, {
+        }(this, C), obj = this, value = {
             writable: !0,
             value: void 0
-        });
+        }, (function(obj, privateCollection) {
+            if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+        })(obj, privateMap = _x), privateMap.set(obj, value);
     }
     return Constructor = C, protoProps = null, staticProps = [
         {
@@ -23,7 +26,7 @@ var C = function() {
                     if (!privateMap.has(receiver)) throw new TypeError("attempted to set private field on non-instance");
                     var descriptor = privateMap.get(receiver);
                     if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-                    descriptor.value = 10;
+                    descriptor.value = value;
                 })(new C(), _x, 10), new new C()().x = 123;
             }
         }

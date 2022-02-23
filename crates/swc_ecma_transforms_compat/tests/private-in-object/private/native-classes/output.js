@@ -6,7 +6,7 @@ class Foo {
         return _bar.has(this);
     }
     constructor(){
-        _bar.set(this, {
+        _classPrivateFieldInit(this, _bar, {
             writable: true,
             value: "bar"
         });

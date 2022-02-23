@@ -1,3 +1,8 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classPrivateFieldSet(receiver, privateMap, value) {
     if (!privateMap.has(receiver)) {
         throw new TypeError("attempted to set private field on non-instance");
@@ -9,6 +14,10 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
     descriptor.value = value;
     return value;
 }
+function _classPrivateMethodInit(obj, privateSet) {
+    _checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
+}
 // @target: es2015
 const C = function() {
     var _bar = new WeakSet();
@@ -17,7 +26,7 @@ const C = function() {
             _classPrivateFieldSet(this, _bar, console.log("should log this then throw"));
         }
         constructor(){
-            _bar.add(this);
+            _classPrivateMethodInit(this, _bar);
         }
     }
     function bar() {}

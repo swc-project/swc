@@ -1,3 +1,8 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
@@ -20,13 +25,17 @@ function _classPrivateMethodGet(receiver, privateSet, fn) {
     }
     return fn;
 }
+function _classPrivateMethodInit(obj, privateSet) {
+    _checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
+}
 var _prop = new WeakSet(), _prop = new WeakSet(), _roProp = new WeakSet();
 var A1 = function A1(name) {
     "use strict";
     _classCallCheck(this, A1);
-    _prop.add(this);
-    _prop.add(this);
-    _roProp.add(this);
+    _classPrivateMethodInit(this, _prop);
+    _classPrivateMethodInit(this, _prop);
+    _classPrivateMethodInit(this, _roProp);
     _classPrivateFieldSet(this, _prop, "");
     _classPrivateFieldSet(this, _roProp, ""); // Error
     console.log(_classPrivateMethodGet(this, _prop, prop));

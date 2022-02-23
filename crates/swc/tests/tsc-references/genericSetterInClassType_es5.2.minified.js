@@ -31,10 +31,13 @@ function _createClass(Constructor, protoProps, staticProps) {
     var Box = function() {
         "use strict";
         function Box() {
-            _classCallCheck(this, Box), _value.set(this, {
+            var obj, privateMap, value;
+            _classCallCheck(this, Box), obj = this, value = {
                 writable: !0,
                 value: void 0
-            });
+            }, (function(obj, privateCollection) {
+                if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+            })(obj, privateMap = _value), privateMap.set(obj, value);
         }
         return _createClass(Box, [
             {

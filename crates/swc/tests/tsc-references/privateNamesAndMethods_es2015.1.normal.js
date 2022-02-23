@@ -111,11 +111,20 @@ function _asyncToGenerator(fn) {
 function _AwaitValue(value) {
     this.wrapped = value;
 }
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classPrivateFieldGet(receiver, privateMap) {
     if (!privateMap.has(receiver)) {
         throw new TypeError("attempted to get private field on non-instance");
     }
     return privateMap.get(receiver).value;
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
 }
 function _classPrivateFieldSet(receiver, privateMap, value) {
     if (!privateMap.has(receiver)) {
@@ -134,6 +143,10 @@ function _classPrivateMethodGet(receiver, privateSet, fn) {
     }
     return fn;
 }
+function _classPrivateMethodInit(obj, privateSet) {
+    _checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
+}
 function _wrapAsyncGenerator(fn) {
     return function() {
         return new AsyncGenerator(fn.apply(this, arguments));
@@ -146,15 +159,15 @@ var _foo = new WeakSet(), _bar = new WeakSet(), _baz = new WeakSet(), _quux = ne
 class A {
     constructor(){
         var _this_quux;
-        _foo.add(this);
-        _bar.add(this);
-        _baz.add(this);
-        __quux.set(this, {
+        _classPrivateMethodInit(this, _foo);
+        _classPrivateMethodInit(this, _bar);
+        _classPrivateMethodInit(this, _baz);
+        _classPrivateFieldInit(this, __quux, {
             writable: true,
             value: void 0
         });
-        _quux.add(this);
-        _quux.add(this);
+        _classPrivateMethodInit(this, _quux);
+        _classPrivateMethodInit(this, _quux);
         _classPrivateMethodGet(this, _foo, foo).call(this, 30);
         _classPrivateMethodGet(this, _bar, bar).call(this, 30);
         _classPrivateMethodGet(this, _baz, baz).call(this, 30);
@@ -190,7 +203,7 @@ var _foo1 = new WeakSet();
 class B extends A {
     constructor(){
         super();
-        _foo1.add(this);
+        _classPrivateMethodInit(this, _foo1);
         _classPrivateMethodGet(this, _foo1, foo1).call(this, "str");
     }
 }
