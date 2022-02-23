@@ -529,12 +529,12 @@ impl<'a, I: Tokens> Parser<I> {
             && is!(self, "const")
             && peeked_is!(self, "enum")
         {
-            let start = cur_pos!(self);
+            let enum_start = cur_pos!(self);
             assert_and_bump!(self, "const");
             let _ = cur!(self, true);
             assert_and_bump!(self, "enum");
             return self
-                .parse_ts_enum_decl(start, /* is_const */ true)
+                .parse_ts_enum_decl(enum_start, /* is_const */ true)
                 .map(Decl::from)
                 .map(|decl| {
                     ModuleDecl::ExportDecl(ExportDecl {
