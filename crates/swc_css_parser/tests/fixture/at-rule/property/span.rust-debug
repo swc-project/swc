@@ -139,6 +139,12 @@ error: Value
 4 |     initial-value: #c0ffee;
   |                    ^^^^^^^
 
+error: Color
+ --> $DIR/tests/fixture/at-rule/property/input.css:4:20
+  |
+4 |     initial-value: #c0ffee;
+  |                    ^^^^^^^
+
 error: HexColor
  --> $DIR/tests/fixture/at-rule/property/input.css:4:20
   |

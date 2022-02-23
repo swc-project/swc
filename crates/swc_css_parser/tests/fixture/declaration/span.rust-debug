@@ -785,6 +785,12 @@ error: Value
 14 |     prop: #ccc#ccc;
    |           ^^^^
 
+error: Color
+  --> $DIR/tests/fixture/declaration/input.css:14:11
+   |
+14 |     prop: #ccc#ccc;
+   |           ^^^^
+
 error: HexColor
   --> $DIR/tests/fixture/declaration/input.css:14:11
    |
@@ -792,6 +798,12 @@ error: HexColor
    |           ^^^^
 
 error: Value
+  --> $DIR/tests/fixture/declaration/input.css:14:15
+   |
+14 |     prop: #ccc#ccc;
+   |               ^^^^
+
+error: Color
   --> $DIR/tests/fixture/declaration/input.css:14:15
    |
 14 |     prop: #ccc#ccc;
