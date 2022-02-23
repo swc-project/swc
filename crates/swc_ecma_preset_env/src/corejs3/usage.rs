@@ -215,8 +215,8 @@ impl Visit for UsageVisitor {
     fn visit_member_expr(&mut self, e: &MemberExpr) {
         e.obj.visit_with(self);
         if let MemberProp::Computed(c) = &e.prop {
-            if let Expr::Lit(Lit::Str(str)) = &*c.expr {
-                self.add_property_deps(&e.obj, &str.value);
+            if let Expr::Lit(Lit::Str(s)) = &*c.expr {
+                self.add_property_deps(&e.obj, &s.value);
             }
             c.visit_with(self);
         }
