@@ -783,13 +783,7 @@ impl CaseHandler<'_> {
                                 .as_callee(),
                             args: vec![
                                 arg.unwrap().as_arg(),
-                                Lit::Str(Str {
-                                    span: DUMMY_SP,
-                                    value: name,
-                                    has_escape: false,
-                                    kind: Default::default(),
-                                })
-                                .as_arg(),
+                                name.as_arg(),
                                 after.to_stmt_index().as_arg(),
                             ],
                             type_args: Default::default(),
@@ -914,13 +908,7 @@ impl CaseHandler<'_> {
                         .make_member(quote_ident!("abrupt"))
                         .as_callee(),
                     args: {
-                        let ty_arg = Lit::Str(Str {
-                            span: DUMMY_SP,
-                            value: ty.into(),
-                            has_escape: false,
-                            kind: Default::default(),
-                        })
-                        .as_arg();
+                        let ty_arg = ty.as_arg();
 
                         if ty == "break" || ty == "continue" {
                             if let Some(arg) = target {

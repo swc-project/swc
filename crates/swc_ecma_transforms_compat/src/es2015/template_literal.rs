@@ -302,7 +302,7 @@ impl VisitMut for TemplateLiteral {
                                                     elems: quasis
                                                         .iter()
                                                         .cloned()
-                                                        .map(|elem| Lit::Str(elem.raw).as_arg())
+                                                        .map(|elem| elem.raw.as_arg())
                                                         .map(Some)
                                                         .collect(),
                                                 }
@@ -319,7 +319,7 @@ impl VisitMut for TemplateLiteral {
                                                     .take()
                                                     .into_iter()
                                                     .map(|elem| match elem.cooked {
-                                                        Some(cooked) => Lit::Str(cooked).as_arg(),
+                                                        Some(cooked) => cooked.as_arg(),
                                                         None => undefined(DUMMY_SP).as_arg(),
                                                     })
                                                     .map(Some)
@@ -392,12 +392,12 @@ impl VisitMut for TemplateLiteral {
                     span: DUMMY_SP,
                     callee: tag.take().as_callee(),
                     args: iter::once(
-                        Expr::Call(CallExpr {
+                        CallExpr {
                             span: DUMMY_SP,
                             callee: fn_ident.as_callee(),
                             args: vec![],
                             type_args: Default::default(),
-                        })
+                        }
                         .as_arg(),
                     )
                     .chain(exprs.take().into_iter().map(|e| e.as_arg()))
