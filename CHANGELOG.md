@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/parser)** Emit an error for non-last rest element in an object pattern (#3675) ([6a9d778](https://github.com/swc-project/swc/commit/6a9d77808b8513246592129e8c9e154f686fa8a9))
+
 ## [1.2.144] - 2022-02-22
 
 ### Bug Fixes
