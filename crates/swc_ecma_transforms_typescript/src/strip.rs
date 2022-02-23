@@ -411,8 +411,10 @@ where
         } else {
             for m in class.body.iter_mut() {
                 if let ClassMember::ClassProp(m) = m {
-                    if let Some(orig_ident) = &orig_ident {
-                        replace_ident(&mut m.value, orig_ident.to_id(), &ident)
+                    if m.is_static {
+                        if let Some(orig_ident) = &orig_ident {
+                            replace_ident(&mut m.value, orig_ident.to_id(), &ident)
+                        }
                     }
                 }
             }
