@@ -197,34 +197,32 @@ pub struct PseudoElementSelector {
 
 #[ast_node]
 pub enum PseudoSelectorChildren {
-    #[tag("Nth")]
-    Nth(Nth),
-
-    #[tag("TokenAndSpan")]
-    PreservedToken(TokenAndSpan),
-}
-
-#[ast_node("Nth")]
-pub struct Nth {
-    pub span: Span,
-    pub nth: NthValue,
-    pub selector_list: Option<SelectorList>,
-}
-
-#[ast_node("AnPlusB")]
-pub struct AnPlusB {
-    pub span: Span,
-    pub a: Option<i32>,
-    pub a_raw: Option<JsWord>,
-    pub b: Option<i32>,
-    pub b_raw: Option<JsWord>,
-}
-
-#[ast_node]
-pub enum NthValue {
     #[tag("AnPlusB")]
     AnPlusB(AnPlusB),
 
     #[tag("Ident")]
     Ident(Ident),
+
+    #[tag("SelectorList")]
+    SelectorList(SelectorList),
+
+    #[tag("TokenAndSpan")]
+    PreservedToken(TokenAndSpan),
+}
+
+#[ast_node]
+pub enum AnPlusB {
+    #[tag("Ident")]
+    Ident(Ident),
+    #[tag("AnPlusBNotation")]
+    AnPlusBNotation(AnPlusBNotation),
+}
+
+#[ast_node("AnPlusBNotation")]
+pub struct AnPlusBNotation {
+    pub span: Span,
+    pub a: Option<i32>,
+    pub a_raw: Option<JsWord>,
+    pub b: Option<i32>,
+    pub b_raw: Option<JsWord>,
 }

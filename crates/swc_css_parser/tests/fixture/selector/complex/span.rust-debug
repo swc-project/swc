@@ -9110,19 +9110,49 @@ error: Ident
 97 | *[href] *:not(*.green) {}
    |           ^^^
 
-error: Delim { value: '*' }
+error: SelectorList
+  --> $DIR/tests/fixture/selector/complex/input.css:97:15
+   |
+97 | *[href] *:not(*.green) {}
+   |               ^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:97:15
+   |
+97 | *[href] *:not(*.green) {}
+   |               ^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:97:15
+   |
+97 | *[href] *:not(*.green) {}
+   |               ^^^^^^^
+
+error: TypeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:97:15
    |
 97 | *[href] *:not(*.green) {}
    |               ^
 
-error: Delim { value: '.' }
+error: UniversalSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:97:15
+   |
+97 | *[href] *:not(*.green) {}
+   |               ^
+
+error: SubclassSelector
   --> $DIR/tests/fixture/selector/complex/input.css:97:16
    |
 97 | *[href] *:not(*.green) {}
-   |                ^
+   |                ^^^^^^
 
-error: Ident { value: Atom('green' type=inline), raw: Atom('green' type=inline) }
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:97:16
+   |
+97 | *[href] *:not(*.green) {}
+   |                ^^^^^^
+
+error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:97:17
    |
 97 | *[href] *:not(*.green) {}
