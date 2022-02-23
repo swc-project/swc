@@ -19,7 +19,7 @@ use swc_ecma_transforms_module::{
     common_js::common_js,
     hoist::module_hoister,
     import_analysis::import_analyzer,
-    util::{Config, Lazy, Scope},
+    util::{Config, Lazy, LazyObjectConfig, Scope},
 };
 use swc_ecma_transforms_testing::{test, test_exec, test_fixture};
 use swc_ecma_visit::Fold;
@@ -3758,6 +3758,91 @@ function _foo() {
 
 function use() {
   console.log(_foo().default);
+}
+"#
+);
+
+// lazy_import_all_from_object_config
+test!(
+    syntax(),
+    |_| tr(Config {
+        lazy: Lazy::Object(LazyObjectConfig {
+            all_external: true,
+            all_local: true,
+            allowed: vec![],
+        }),
+        ..Default::default()
+    }),
+    lazy_import_all_from_object_config,
+    r#"
+import { local } from "./local";
+import { external } from "external";
+
+function use() {
+  local(external);
+}
+"#,
+    r#"
+"use strict";
+
+function _local() {
+  const data = require("./local");
+  _local = function () {
+    return data;
+  };
+  return data;
+}
+
+function _external() {
+  const data = require("external");
+  _external = function () {
+    return data;
+  };
+  return data;
+}
+
+function use() {
+  _local().local(_external().external);
+}
+"#
+);
+
+// lazy_import_only_allowed_from_object_config
+test!(
+    syntax(),
+    |_| tr(Config {
+        lazy: Lazy::Object(LazyObjectConfig {
+            all_external: false,
+            all_local: false,
+            allowed: vec!["test".into()],
+        }),
+        ..Default::default()
+    }),
+    lazy_import_only_allowed_from_object_config,
+    r#"
+import { local } from "./local";
+import { external } from "external";
+import { test } from "test";
+
+function use() {
+  local(external(test));
+}
+"#,
+    r#"
+"use strict";
+var _local = require("./local");
+var _external = require("external");
+
+function _test() {
+  const data = require("test");
+  _test = function () {
+    return data;
+  };
+  return data;
+}
+
+function use() {
+  (0, _local).local((0, _external).external(_test().test));
 }
 "#
 );

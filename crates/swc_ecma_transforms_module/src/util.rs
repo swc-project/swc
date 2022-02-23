@@ -63,10 +63,19 @@ const fn default_strict_mode() -> bool {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct LazyObjectConfig {
+    pub all_external: bool,
+    pub all_local: bool,
+    pub allowed: Vec<JsWord>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged, deny_unknown_fields, rename_all = "camelCase")]
 pub enum Lazy {
     Bool(bool),
     List(Vec<JsWord>),
+    Object(LazyObjectConfig),
 }
 
 impl Lazy {
@@ -75,6 +84,15 @@ impl Lazy {
             Lazy::Bool(false) => false,
             Lazy::Bool(true) => !src.starts_with('.'),
             Lazy::List(ref srcs) => srcs.contains(src),
+            Lazy::Object(LazyObjectConfig {
+                all_local,
+                all_external,
+                ref allowed,
+            }) => {
+                src.starts_with(".") && all_local
+                    || !src.starts_with(".") && all_external
+                    || allowed.contains(src)
+            }
         }
     }
 }
