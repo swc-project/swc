@@ -189,17 +189,18 @@ impl VisitMut for TemplateLiteral {
                             } else {
                                 Box::new(Expr::Call(CallExpr {
                                     span: span.with_hi(expr_span.hi() + BytePos(1)),
-                                    callee: Callee::Expr(Box::new(Expr::Member(MemberExpr {
+                                    callee: MemberExpr {
                                         span: DUMMY_SP,
                                         obj,
                                         prop: MemberProp::Ident(Ident::new(
                                             js_word!("concat"),
                                             expr_span,
                                         )),
-                                    }))),
+                                    }
+                                    .as_callee(),
                                     args: mem::take(&mut args)
                                         .into_iter()
-                                        .map(|expr| ExprOrSpread { expr, spread: None })
+                                        .map(|expr| expr.as_arg())
                                         .collect(),
                                     type_args: Default::default(),
                                 }))
@@ -229,17 +230,18 @@ impl VisitMut for TemplateLiteral {
                             } else {
                                 Box::new(Expr::Call(CallExpr {
                                     span: span.with_hi(expr_span.hi() + BytePos(1)),
-                                    callee: Callee::Expr(Box::new(Expr::Member(MemberExpr {
+                                    callee: MemberExpr {
                                         span: DUMMY_SP,
                                         obj,
                                         prop: MemberProp::Ident(Ident::new(
                                             js_word!("concat"),
                                             expr_span,
                                         )),
-                                    }))),
+                                    }
+                                    .as_callee(),
                                     args: mem::take(&mut args)
                                         .into_iter()
-                                        .map(|expr| ExprOrSpread { expr, spread: None })
+                                        .map(|expr| expr.as_arg())
                                         .collect(),
                                     type_args: Default::default(),
                                 }))

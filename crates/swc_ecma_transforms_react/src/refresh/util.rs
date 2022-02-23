@@ -192,7 +192,7 @@ pub fn make_call_stmt(handle: Ident) -> Stmt {
 pub fn make_call_expr(handle: Ident) -> Expr {
     Expr::Call(CallExpr {
         span: DUMMY_SP,
-        callee: Callee::Expr(Box::new(Expr::Ident(handle))),
+        callee: handle.as_callee(),
         args: Vec::new(),
         type_args: None,
     })

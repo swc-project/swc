@@ -1,6 +1,6 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend, private_ident};
+use swc_ecma_utils::{prepend, private_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 // Converts destructured parameters with default values to non-shorthand syntax.
@@ -117,19 +117,16 @@ impl Fold for TemplateLiteralCaching {
                 //   tag(_t || (_t = Object`a${0}`), 'hello')
                 Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    callee: Callee::Expr(n.tag),
-                    args: vec![ExprOrSpread {
-                        expr: Box::new(inline_cache),
-                        spread: None,
-                    }]
-                    .into_iter()
-                    .chain(
-                        n.tpl
-                            .exprs
-                            .into_iter()
-                            .map(|expr| ExprOrSpread { expr, spread: None }),
-                    )
-                    .collect(),
+                    callee: n.tag.as_callee(),
+                    args: vec![inline_cache.as_arg()]
+                        .into_iter()
+                        .chain(
+                            n.tpl
+                                .exprs
+                                .into_iter()
+                                .map(|expr| ExprOrSpread { expr, spread: None }),
+                        )
+                        .collect(),
                     type_args: None,
                 })
             }

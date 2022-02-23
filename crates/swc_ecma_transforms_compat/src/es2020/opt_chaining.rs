@@ -242,7 +242,7 @@ impl OptChaining {
                 return Ok(CondExpr {
                     span: DUMMY_SP,
                     alt: Box::new(Expr::Call(CallExpr {
-                        callee: Callee::Expr(expr.alt),
+                        callee: expr.alt.as_callee(),
                         ..e.take()
                     })),
                     ..expr

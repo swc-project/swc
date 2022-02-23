@@ -35,7 +35,7 @@ pub trait ExprFactory: Into<Expr> {
         })
     }
 
-    #[inline]
+    #[inline(always)]
     fn as_callee(self) -> Callee {
         Callee::Expr(Box::new(self.into()))
     }
@@ -66,9 +66,9 @@ pub trait ExprFactory: Into<Expr> {
         Expr::Call(CallExpr {
             span,
             args,
-            callee: Callee::Expr(Box::new(
-                self.make_member(Ident::new(js_word!("call"), span)),
-            )),
+            callee: self
+                .make_member(Ident::new(js_word!("call"), span))
+                .as_callee(),
             type_args: None,
         })
     }
@@ -78,7 +78,7 @@ pub trait ExprFactory: Into<Expr> {
         Expr::Call(CallExpr {
             span,
             args,
-            callee: Callee::Expr(Box::new(self.into())),
+            callee: self.as_callee(),
             type_args: None,
         })
     }

@@ -472,7 +472,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
                 span: DUMMY_SP,
                 expr: Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    callee: Callee::Expr(Box::new(Expr::Ident(quote_ident!(refresh_reg)))),
+                    callee: quote_ident!(refresh_reg).as_callee(),
                     args: vec![
                         ExprOrSpread {
                             spread: None,

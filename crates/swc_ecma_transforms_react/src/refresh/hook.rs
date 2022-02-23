@@ -199,7 +199,7 @@ impl<'a> HookRegister<'a> {
 
         Expr::Call(CallExpr {
             span: DUMMY_SP,
-            callee: Callee::Expr(Box::new(Expr::Ident(handle))),
+            callee: handle.as_callee(),
             args,
             type_args: None,
         })

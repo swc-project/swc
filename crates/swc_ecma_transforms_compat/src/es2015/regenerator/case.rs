@@ -421,16 +421,15 @@ impl CaseHandler<'_> {
                                 me.prop
                             };
 
-                            Callee::Expr(Box::new(
-                                MemberExpr {
-                                    span: me.span,
-                                    obj,
-                                    prop,
-                                }
-                                .make_member(quote_ident!("call")),
-                            ))
+                            MemberExpr {
+                                span: me.span,
+                                obj,
+                                prop,
+                            }
+                            .make_member(quote_ident!("call"))
+                            .as_callee()
                         } else {
-                            Callee::Expr(Box::new(self.explode_expr(Expr::Member(me), false)))
+                            self.explode_expr(Expr::Member(me), false).as_callee()
                         }
                     }
 
@@ -453,7 +452,7 @@ impl CaseHandler<'_> {
                                 // by using the (0, object.property)(...) trick; otherwise, it
                                 // will receive the object of the MemberExpression as its `this`
                                 // object.
-                                Callee::Expr(Box::new(Expr::Seq(SeqExpr {
+                                SeqExpr {
                                     span: DUMMY_SP,
                                     exprs: vec![
                                         Box::new(
@@ -465,9 +464,10 @@ impl CaseHandler<'_> {
                                         ),
                                         Box::new(callee),
                                     ],
-                                })))
+                                }
+                                .as_callee()
                             }
-                            _ => Callee::Expr(Box::new(callee)),
+                            _ => callee.as_callee(),
                         }
                     }
                     Callee::Import(..) => callee,
