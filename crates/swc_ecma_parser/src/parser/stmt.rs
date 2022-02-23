@@ -116,7 +116,9 @@ impl<'a, I: Tokens> Parser<I> {
             return Ok(Stmt::Expr(ExprStmt { span, expr }));
         }
 
-        if self.input.syntax().typescript() && is!(self, "const") && peeked_is!(self, "enum") {
+        let is_typescript = self.input.syntax().typescript();
+
+        if is_typescript && is!(self, "const") && peeked_is!(self, "enum") {
             assert_and_bump!(self, "const");
             assert_and_bump!(self, "enum");
             return self
@@ -270,6 +272,32 @@ impl<'a, I: Tokens> Parser<I> {
                 if is_keyword {
                     let v = self.parse_var_stmt(false)?;
                     return Ok(Stmt::Decl(Decl::Var(v)));
+                }
+            }
+
+            tok!("interface") => {
+                if is_typescript
+                    && peeked_is!(self, IdentName)
+                    && !self.input.has_linebreak_between_cur_and_peeked()
+                {
+                    let start = self.input.cur_pos();
+                    bump!(self);
+                    return Ok(Stmt::Decl(Decl::TsInterface(
+                        self.parse_ts_interface_decl(start)?,
+                    )));
+                }
+            }
+
+            tok!("enum") => {
+                if is_typescript
+                    && peeked_is!(self, IdentName)
+                    && !self.input.has_linebreak_between_cur_and_peeked()
+                {
+                    let start = self.input.cur_pos();
+                    bump!(self);
+                    return Ok(Stmt::Decl(Decl::TsEnum(
+                        self.parse_ts_enum_decl(start, false)?,
+                    )));
                 }
             }
 

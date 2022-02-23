@@ -352,7 +352,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if is!(self, "let")
-            || (self.input.syntax().typescript() && is!(self, IdentName))
+            || (self.input.syntax().typescript() && is_one_of!(self, IdentRef, "await"))
             || is!(self, IdentRef)
         {
             // TODO: Handle [Yield, Await]

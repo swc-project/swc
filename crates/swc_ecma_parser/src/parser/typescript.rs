@@ -937,7 +937,10 @@ impl<I: Tokens> Parser<I> {
 
         let ident = Box::new(Expr::Ident(self.parse_ident_name()?));
         let expr = self.parse_subscripts(Callee::Expr(ident), true, true)?;
-        if !matches!(&*expr, Expr::Ident(..) | Expr::Member(..)) {
+        if !matches!(
+            &*expr,
+            Expr::Ident(..) | Expr::Member(..) | Expr::TsInstantiation(..)
+        ) {
             self.emit_err(span!(self, start), SyntaxError::TS2499);
         }
 
