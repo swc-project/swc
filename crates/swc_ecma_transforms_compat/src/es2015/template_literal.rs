@@ -213,8 +213,8 @@ impl VisitMut for TemplateLiteral {
                                 let len = args.len();
                                 for arg in args {
                                     // for `${asd}a`
-                                    if let Expr::Lit(Lit::Str(str)) = obj.as_ref() {
-                                        if str.value.len() == 0 && len == 2 {
+                                    if let Expr::Lit(Lit::Str(s)) = obj.as_ref() {
+                                        if s.value.len() == 0 && len == 2 {
                                             obj = arg;
                                             continue;
                                         }

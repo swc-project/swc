@@ -452,8 +452,8 @@ where
                                     })
                                 }
                                 PropName::Ident(id) => MemberProp::Ident(id),
-                                PropName::Str(str) => MemberProp::Computed(ComputedPropName {
-                                    expr: Box::new(Expr::Lit(Lit::Str(str))),
+                                PropName::Str(s) => MemberProp::Computed(ComputedPropName {
+                                    expr: Box::new(Expr::Lit(Lit::Str(s))),
                                     span: DUMMY_SP,
                                 }),
                                 PropName::Num(num) => MemberProp::Computed(ComputedPropName {
@@ -510,8 +510,8 @@ where
                                     })
                                 }
                                 PropName::Ident(id) => MemberProp::Ident(id),
-                                PropName::Str(str) => MemberProp::Computed(ComputedPropName {
-                                    expr: Box::new(Expr::Lit(Lit::Str(str))),
+                                PropName::Str(s) => MemberProp::Computed(ComputedPropName {
+                                    expr: Box::new(Expr::Lit(Lit::Str(s))),
                                     span: DUMMY_SP,
                                 }),
                                 PropName::Num(num) => MemberProp::Computed(ComputedPropName {
