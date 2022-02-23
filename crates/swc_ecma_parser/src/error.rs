@@ -473,10 +473,10 @@ impl SyntaxError {
 
             SyntaxError::GeneratorConstructor => "A constructor cannot be generator".into(),
 
-            SyntaxError::ImportBindingIsString(str) => format!(
+            SyntaxError::ImportBindingIsString(s) => format!(
                 "A string literal cannot be used as an imported binding.\n- Did you mean `import \
                  {{ \"{}\" as foo }}`?",
-                str
+                s
             )
             .into(),
 

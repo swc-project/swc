@@ -1059,7 +1059,7 @@ where
     }
 
     #[emitter]
-    fn emit_class_memeber(&mut self, node: &ClassMember) -> Result {
+    fn emit_class_member(&mut self, node: &ClassMember) -> Result {
         match *node {
             ClassMember::Constructor(ref n) => emit!(n),
             ClassMember::ClassProp(ref n) => emit!(n),

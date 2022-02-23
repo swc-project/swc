@@ -463,7 +463,7 @@ impl ClassProperties {
                             },
                         }))),
                         PropName::Num(num) => Box::new(Expr::from(num)),
-                        PropName::Str(str) => Box::new(Expr::from(str)),
+                        PropName::Str(s) => Box::new(Expr::from(s)),
                         PropName::BigInt(big_int) => Box::new(Expr::from(big_int)),
 
                         PropName::Computed(mut key) => {

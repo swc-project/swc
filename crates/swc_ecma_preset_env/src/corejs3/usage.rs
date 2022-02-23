@@ -166,8 +166,8 @@ impl Visit for UsageVisitor {
         if e.op == op!("in") {
             // 'entries' in Object
             // 'entries' in [1, 2, 3]
-            if let Expr::Lit(Lit::Str(str)) = &*e.left {
-                self.add_property_deps(&e.right, &str.value);
+            if let Expr::Lit(Lit::Str(s)) = &*e.left {
+                self.add_property_deps(&e.right, &s.value);
             }
         }
     }
