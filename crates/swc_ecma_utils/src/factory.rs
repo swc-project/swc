@@ -18,7 +18,7 @@ pub trait ExprFactory: Into<Expr> {
     /// });
     /// let _args = vec![first.as_arg()];
     /// ```
-    #[inline]
+    #[cfg_attr(not(debug_assertions), inline(always))]
     fn as_arg(self) -> ExprOrSpread {
         ExprOrSpread {
             expr: Box::new(self.into()),
@@ -27,7 +27,7 @@ pub trait ExprFactory: Into<Expr> {
     }
 
     /// Creates an expression statement with `self`.
-    #[inline]
+    #[cfg_attr(not(debug_assertions), inline(always))]
     fn into_stmt(self) -> Stmt {
         Stmt::Expr(ExprStmt {
             span: DUMMY_SP,
@@ -35,12 +35,12 @@ pub trait ExprFactory: Into<Expr> {
         })
     }
 
-    #[inline(always)]
+    #[cfg_attr(not(debug_assertions), inline(always))]
     fn as_callee(self) -> Callee {
         Callee::Expr(Box::new(self.into()))
     }
 
-    #[inline]
+    #[cfg_attr(not(debug_assertions), inline(always))]
     fn as_iife(self) -> CallExpr {
         CallExpr {
             span: DUMMY_SP,
@@ -50,6 +50,7 @@ pub trait ExprFactory: Into<Expr> {
         }
     }
 
+    #[cfg_attr(not(debug_assertions), inline(always))]
     fn apply(self, span: Span, this: Box<Expr>, args: Vec<ExprOrSpread>) -> Expr {
         let apply = self.make_member(Ident::new(js_word!("apply"), span));
 
@@ -61,7 +62,7 @@ pub trait ExprFactory: Into<Expr> {
         })
     }
 
-    #[inline]
+    #[cfg_attr(not(debug_assertions), inline(always))]
     fn call_fn(self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
         Expr::Call(CallExpr {
             span,
@@ -73,7 +74,7 @@ pub trait ExprFactory: Into<Expr> {
         })
     }
 
-    #[inline]
+    #[cfg_attr(not(debug_assertions), inline(always))]
     fn as_call(self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
         Expr::Call(CallExpr {
             span,
@@ -83,7 +84,7 @@ pub trait ExprFactory: Into<Expr> {
         })
     }
 
-    #[inline]
+    #[cfg_attr(not(debug_assertions), inline(always))]
     fn wrap_with_paren(self) -> Expr {
         let expr = Box::new(self.into());
         let span = expr.span();
@@ -91,7 +92,7 @@ pub trait ExprFactory: Into<Expr> {
     }
 
     /// Creates a binary expr `$self === `
-    #[inline]
+    #[cfg_attr(not(debug_assertions), inline(always))]
     fn make_eq<T>(self, right: T) -> Expr
     where
         T: Into<Expr>,
@@ -100,7 +101,7 @@ pub trait ExprFactory: Into<Expr> {
     }
 
     /// Creates a binary expr `$self $op $rhs`
-    #[inline]
+    #[cfg_attr(not(debug_assertions), inline(always))]
     fn make_bin<T>(self, op: BinaryOp, right: T) -> Expr
     where
         T: Into<Expr>,
@@ -115,7 +116,7 @@ pub trait ExprFactory: Into<Expr> {
         })
     }
 
-    #[inline]
+    #[cfg_attr(not(debug_assertions), inline(always))]
     fn make_member<T>(self, prop: T) -> Expr
     where
         T: Into<Ident>,
@@ -127,7 +128,7 @@ pub trait ExprFactory: Into<Expr> {
         })
     }
 
-    #[inline]
+    #[cfg_attr(not(debug_assertions), inline(always))]
     fn computed_member<T>(self, prop: T) -> Expr
     where
         T: Into<Expr>,
@@ -146,12 +147,13 @@ pub trait ExprFactory: Into<Expr> {
 impl<T: Into<Expr>> ExprFactory for T {}
 
 pub trait IntoIndirectCall: Into<CallExpr> {
+    #[cfg_attr(not(debug_assertions), inline(always))]
     fn into_indirect(self) -> CallExpr {
         let s = self.into();
 
         let callee = Callee::Expr(Box::new(Expr::Seq(SeqExpr {
             span: DUMMY_SP,
-            exprs: vec![Box::new(0_f64.into()), s.callee.expect_expr()],
+            exprs: vec![0f64.into(), s.callee.expect_expr()],
         })));
 
         CallExpr { callee, ..s }
