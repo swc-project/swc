@@ -320,6 +320,8 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(Function, visit_function);
 
+    mtd!(Color, visit_color);
+
     mtd!(HexColor, visit_hex_color);
 
     mtd!(Number, visit_number);
