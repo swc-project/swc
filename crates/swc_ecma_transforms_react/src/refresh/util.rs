@@ -2,6 +2,7 @@ use indexmap::IndexSet;
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 pub trait CollectIdent {

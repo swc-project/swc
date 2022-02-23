@@ -18,7 +18,7 @@ use crate::RefreshOptions;
 // function that use hooks
 struct HookSig {
     handle: Ident,
-    // need to add an extra register, or alreay inlined
+    // need to add an extra register, or already inlined
     hooks: Vec<Hook>,
 }
 
