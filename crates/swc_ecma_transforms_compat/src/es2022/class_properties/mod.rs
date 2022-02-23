@@ -551,7 +551,7 @@ impl ClassProperties {
                     let ident = Ident::new(
                         format!("_{}", prop.key.id.sym).into(),
                         // We use `self.mark` for private variables.
-                        prop.key.span.apply_mark(self.private.curr_mark()),
+                        prop.key.span.apply_mark(self.private.cur_mark()),
                     );
 
                     if let Some(value) = &mut prop.value {
@@ -653,7 +653,7 @@ impl ClassProperties {
                         method
                             .span
                             .with_ctxt(SyntaxContext::empty())
-                            .apply_mark(self.private.curr_mark()),
+                            .apply_mark(self.private.cur_mark()),
                     );
 
                     let should_use_map =
@@ -664,7 +664,7 @@ impl ClassProperties {
                     let weak_coll_var = Ident::new(
                         format!("_{}", method.key.id.sym).into(),
                         // We use `self.mark` for private variables.
-                        method.key.span.apply_mark(self.private.curr_mark()),
+                        method.key.span.apply_mark(self.private.cur_mark()),
                     );
                     method.function.visit_with(&mut UsedNameCollector {
                         used_names: &mut used_names,

@@ -30,7 +30,7 @@ impl PrivateRecord {
         &self.0.last().unwrap().class_name
     }
 
-    pub fn curr_mark(&self) -> Mark {
+    pub fn cur_mark(&self) -> Mark {
         self.0.last().unwrap().mark
     }
 
