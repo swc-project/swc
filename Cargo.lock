@@ -2740,6 +2740,7 @@ name = "swc_cli"
 version = "0.8.0"
 dependencies = [
  "anyhow",
+ "atty",
  "clap",
  "path-absolutize",
  "rayon",
