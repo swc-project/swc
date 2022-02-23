@@ -691,6 +691,7 @@ where
                 let need_delim = match node {
                     Value::SimpleBlock(_)
                     | Value::Function(_)
+                    | Value::Color(Color::Function(_))
                     | Value::Delimiter(_)
                     | Value::Str(_)
                     | Value::Url(_)
@@ -1130,6 +1131,7 @@ where
     fn emit_color(&mut self, n: &Color) -> Result {
         match n {
             Color::HexColor(n) => emit!(self, n),
+            Color::Function(n) => emit!(self, n),
         }
     }
 
@@ -1646,16 +1648,15 @@ where
     }
 
     #[emitter]
-    fn emit_nth(&mut self, n: &Nth) -> Result {
-        emit!(self, n.nth);
-
-        if n.selector_list.is_some() {
-            emit!(self, n.selector_list);
+    fn emit_an_plus_b(&mut self, n: &AnPlusB) -> Result {
+        match n {
+            AnPlusB::Ident(n) => emit!(self, n),
+            AnPlusB::AnPlusBNotation(n) => emit!(self, n),
         }
     }
 
     #[emitter]
-    fn emit_an_plus_b(&mut self, n: &AnPlusB) -> Result {
+    fn emit_an_plus_b_notation(&mut self, n: &AnPlusBNotation) -> Result {
         if self.config.minify {
             if let Some(a) = &n.a {
                 if *a == -1 {
@@ -1688,19 +1689,32 @@ where
     }
 
     #[emitter]
-    fn emit_nth_value(&mut self, n: &NthValue) -> Result {
+    fn emit_pseudo_selector_children(&mut self, n: &PseudoSelectorChildren) -> Result {
         match n {
-            NthValue::AnPlusB(n) => emit!(self, n),
-            NthValue::Ident(n) => emit!(self, n),
+            PseudoSelectorChildren::AnPlusB(n) => emit!(self, n),
+            PseudoSelectorChildren::Ident(n) => emit!(self, n),
+            PseudoSelectorChildren::SelectorList(n) => emit!(self, n),
+            PseudoSelectorChildren::PreservedToken(n) => emit!(self, n),
         }
     }
 
-    #[emitter]
-    fn emit_pseudo_selector_children(&mut self, n: &PseudoSelectorChildren) -> Result {
-        match n {
-            PseudoSelectorChildren::Nth(n) => emit!(self, n),
-            PseudoSelectorChildren::PreservedToken(n) => emit!(self, n),
+    fn emit_list_pseudo_children(&mut self, nodes: &[PseudoSelectorChildren]) -> Result {
+        let len = nodes.len();
+
+        for (idx, node) in nodes.iter().enumerate() {
+            emit!(self, node);
+
+            if idx != len - 1 {
+                match node {
+                    PseudoSelectorChildren::PreservedToken(_) => {}
+                    _ => {
+                        space!(self)
+                    }
+                }
+            }
         }
+
+        Ok(())
     }
 
     #[emitter]
@@ -1710,7 +1724,7 @@ where
 
         if let Some(children) = &n.children {
             punct!(self, "(");
-            self.emit_list(children, ListFormat::NotDelimited)?;
+            self.emit_list_pseudo_children(children)?;
             punct!(self, ")");
         }
     }

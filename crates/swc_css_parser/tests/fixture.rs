@@ -314,11 +314,15 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(AnPlusB, visit_an_plus_b);
 
+    mtd!(AnPlusBNotation, visit_an_plus_b_notation);
+
     mtd!(Delimiter, visit_delimiter);
 
     mtd!(SimpleBlock, visit_simple_block);
 
     mtd!(Function, visit_function);
+
+    mtd!(Color, visit_color);
 
     mtd!(HexColor, visit_hex_color);
 
@@ -333,8 +337,6 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(DeclarationName, visit_declaration_name);
 
     mtd!(ImportantFlag, visit_important_flag);
-
-    mtd!(Nth, visit_nth);
 
     mtd!(Rule, visit_rule);
 

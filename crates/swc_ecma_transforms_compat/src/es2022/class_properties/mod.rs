@@ -463,7 +463,7 @@ impl ClassProperties {
                             },
                         }))),
                         PropName::Num(num) => Box::new(Expr::from(num)),
-                        PropName::Str(str) => Box::new(Expr::from(str)),
+                        PropName::Str(s) => Box::new(Expr::from(s)),
                         PropName::BigInt(big_int) => Box::new(Expr::from(big_int)),
 
                         PropName::Computed(mut key) => {
@@ -551,7 +551,7 @@ impl ClassProperties {
                     let ident = Ident::new(
                         format!("_{}", prop.key.id.sym).into(),
                         // We use `self.mark` for private variables.
-                        prop.key.span.apply_mark(self.private.curr_mark()),
+                        prop.key.span.apply_mark(self.private.cur_mark()),
                     );
 
                     if let Some(value) = &mut prop.value {
@@ -590,9 +590,10 @@ impl ClassProperties {
                     } else {
                         constructor_exprs.push(Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
-                            callee: ident.clone().make_member(quote_ident!("set")).as_callee(),
+                            callee: helper!(class_private_field_init, "classPrivateFieldInit"),
                             args: vec![
                                 ThisExpr { span: DUMMY_SP }.as_arg(),
+                                ident.clone().as_arg(),
                                 ObjectLit {
                                     span: DUMMY_SP,
                                     props: vec![
@@ -653,7 +654,7 @@ impl ClassProperties {
                         method
                             .span
                             .with_ctxt(SyntaxContext::empty())
-                            .apply_mark(self.private.curr_mark()),
+                            .apply_mark(self.private.cur_mark()),
                     );
 
                     let should_use_map =
@@ -664,7 +665,7 @@ impl ClassProperties {
                     let weak_coll_var = Ident::new(
                         format!("_{}", method.key.id.sym).into(),
                         // We use `self.mark` for private variables.
-                        method.key.span.apply_mark(self.private.curr_mark()),
+                        method.key.span.apply_mark(self.private.cur_mark()),
                     );
                     method.function.visit_with(&mut UsedNameCollector {
                         used_names: &mut used_names,
@@ -732,11 +733,11 @@ impl ClassProperties {
                         // weak set.
                         constructor_exprs.push(Box::new(Expr::Call(CallExpr {
                             span: prop_span,
-                            callee: weak_coll_var
-                                .clone()
-                                .make_member(quote_ident!("add"))
-                                .as_callee(),
-                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                            callee: helper!(class_private_method_init, "classPrivateMethodInit"),
+                            args: vec![
+                                ThisExpr { span: DUMMY_SP }.as_arg(),
+                                weak_coll_var.clone().as_arg(),
+                            ],
                             type_args: Default::default(),
                         })));
                     }

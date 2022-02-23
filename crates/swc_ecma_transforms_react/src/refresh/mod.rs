@@ -5,7 +5,7 @@ use swc_common::{
     Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, private_ident, quote_ident, quote_str, Id};
+use swc_ecma_utils::{ident::IdentLike, private_ident, quote_ident, quote_str, ExprFactory, Id};
 use swc_ecma_visit::{as_folder, Fold, Visit, VisitMut, VisitMutWith};
 
 use self::{
@@ -178,10 +178,7 @@ impl<C: Comments> Refresh<C> {
                     let mut first = first_arg.take();
                     if let Some(HocHook { callee, rest_arg }) = &hoc.hook {
                         let span = first.span();
-                        let mut args = vec![ExprOrSpread {
-                            spread: None,
-                            expr: first,
-                        }];
+                        let mut args = vec![first.as_arg()];
                         args.extend(rest_arg.clone());
                         first = Box::new(Expr::Call(CallExpr {
                             span,
@@ -472,17 +469,8 @@ impl<C: Comments> VisitMut for Refresh<C> {
                 span: DUMMY_SP,
                 expr: Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    callee: Callee::Expr(Box::new(Expr::Ident(quote_ident!(refresh_reg)))),
-                    args: vec![
-                        ExprOrSpread {
-                            spread: None,
-                            expr: Box::new(Expr::Ident(handle)),
-                        },
-                        ExprOrSpread {
-                            spread: None,
-                            expr: Box::new(Expr::Lit(Lit::Str(quote_str!(persistent_id.0)))),
-                        },
-                    ],
+                    callee: quote_ident!(refresh_reg).as_callee(),
+                    args: vec![handle.as_arg(), quote_str!(persistent_id.0).as_arg()],
                     type_args: None,
                 })),
             })));
@@ -496,10 +484,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
 
 fn make_hook_reg(expr: &mut Expr, mut hook: HocHook) {
     let span = expr.span();
-    let mut args = vec![ExprOrSpread {
-        spread: None,
-        expr: Box::new(expr.take()),
-    }];
+    let mut args = vec![expr.take().as_arg()];
     args.append(&mut hook.rest_arg);
     *expr = Expr::Call(CallExpr {
         span,

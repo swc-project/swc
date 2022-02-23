@@ -83,6 +83,11 @@ function _classPrivateMethodGet(receiver, privateSet, fn) {
     if (!privateSet.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
     return fn;
 }
+function _classPrivateMethodInit(obj, privateSet) {
+    !function(obj, privateCollection) {
+        if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }(obj, privateSet), privateSet.add(obj);
+}
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
@@ -116,7 +121,7 @@ new (function() {
         function _class() {
             !function(instance, Constructor) {
                 if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-            }(this, _class), _bar.add(this), _baz.add(this), _qux.add(this);
+            }(this, _class), _classPrivateMethodInit(this, _bar), _classPrivateMethodInit(this, _baz), _classPrivateMethodInit(this, _qux);
         }
         return Constructor = _class, protoProps = [
             {

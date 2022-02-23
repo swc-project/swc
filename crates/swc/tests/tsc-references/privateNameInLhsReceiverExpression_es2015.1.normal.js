@@ -1,8 +1,17 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classPrivateFieldGet(receiver, privateMap) {
     if (!privateMap.has(receiver)) {
         throw new TypeError("attempted to get private field on non-instance");
     }
     return privateMap.get(receiver).value;
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
 }
 function _classPrivateFieldSet(receiver, privateMap, value) {
     if (!privateMap.has(receiver)) {
@@ -22,7 +31,7 @@ class Test {
         _classPrivateFieldSet(obj[(new (function() {
             class _class {
                 constructor(){
-                    _x.set(this, {
+                    _classPrivateFieldInit(this, _x, {
                         writable: true,
                         value: 1
                     });
@@ -35,7 +44,7 @@ class Test {
         _classPrivateFieldSet(_s = obj[(new (function() {
             class _class {
                 constructor(){
-                    _x.set(this, {
+                    _classPrivateFieldInit(this, _x, {
                         writable: true,
                         value: 1
                     });
@@ -47,7 +56,7 @@ class Test {
         }())).s], _y, _classPrivateFieldGet(_s, _y) + 1);
     }
     constructor(){
-        _y.set(this, {
+        _classPrivateFieldInit(this, _y, {
             writable: true,
             value: 123
         });

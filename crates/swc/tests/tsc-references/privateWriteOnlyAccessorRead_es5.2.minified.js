@@ -13,6 +13,11 @@ function _classPrivateMethodGet(receiver, privateSet, fn) {
     if (!privateSet.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
     return fn;
 }
+function _classPrivateMethodInit(obj, privateSet) {
+    !function(obj, privateCollection) {
+        if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }(obj, privateSet), privateSet.add(obj);
+}
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
@@ -45,7 +50,7 @@ var _value = new WeakSet(), _valueRest = new WeakSet(), _valueOne = new WeakSet(
     function Test() {
         !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, Test), _value.add(this), _valueRest.add(this), _valueOne.add(this), _valueCompound.add(this);
+        }(this, Test), _classPrivateMethodInit(this, _value), _classPrivateMethodInit(this, _valueRest), _classPrivateMethodInit(this, _valueOne), _classPrivateMethodInit(this, _valueCompound);
     }
     return Constructor = Test, protoProps = [
         {

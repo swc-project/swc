@@ -1,8 +1,17 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classPrivateFieldGet(receiver, privateMap) {
     if (!privateMap.has(receiver)) {
         throw new TypeError("attempted to get private field on non-instance");
     }
     return privateMap.get(receiver).value;
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
 }
 function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
     if (receiver !== classConstructor) {
@@ -18,7 +27,7 @@ class Parent {
         _classStaticPrivateFieldSpecGet(Child, Parent, _bar); // Error: not found
     }
     constructor(){
-        _foo.set(this, {
+        _classPrivateFieldInit(this, _foo, {
             writable: true,
             value: 3
         });
@@ -32,11 +41,11 @@ var _bar = {
 class Child extends Parent {
     constructor(...args){
         super(...args);
-        _foo1.set(this, {
+        _classPrivateFieldInit(this, _foo1, {
             writable: true,
             value: "foo"
         });
-        _bar1.set(this, {
+        _classPrivateFieldInit(this, _bar1, {
             writable: true,
             value: "bar"
         });

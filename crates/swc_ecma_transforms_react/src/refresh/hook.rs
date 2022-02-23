@@ -18,7 +18,7 @@ use crate::RefreshOptions;
 // function that use hooks
 struct HookSig {
     handle: Ident,
-    // need to add an extra register, or alreay inlined
+    // need to add an extra register, or already inlined
     hooks: Vec<Hook>,
 }
 
@@ -157,17 +157,17 @@ impl<'a> HookRegister<'a> {
             let elems = custom_hook_in_scope
                 .into_iter()
                 .map(|hook| {
-                    Some(ExprOrSpread {
-                        spread: None,
-                        expr: Box::new(match hook {
+                    Some(
+                        match hook {
                             HookCall::Ident(ident) => Expr::Ident(ident),
                             HookCall::Member(obj, prop) => Expr::Member(MemberExpr {
                                 span: DUMMY_SP,
                                 obj: Box::new(obj),
                                 prop: MemberProp::Ident(prop),
                             }),
-                        }),
-                    })
+                        }
+                        .as_arg(),
+                    )
                 })
                 .collect();
             args.push(
@@ -199,7 +199,7 @@ impl<'a> HookRegister<'a> {
 
         Expr::Call(CallExpr {
             span: DUMMY_SP,
-            callee: Callee::Expr(Box::new(Expr::Ident(handle))),
+            callee: handle.as_callee(),
             args,
             type_args: None,
         })

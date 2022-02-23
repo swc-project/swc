@@ -1594,7 +1594,31 @@ error: Ident
 23 | * *:not(*) {}
    |     ^^^
 
-error: Delim { value: '*' }
+error: SelectorList
+  --> $DIR/tests/fixture/selector/type/input.css:23:9
+   |
+23 | * *:not(*) {}
+   |         ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/type/input.css:23:9
+   |
+23 | * *:not(*) {}
+   |         ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/type/input.css:23:9
+   |
+23 | * *:not(*) {}
+   |         ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/type/input.css:23:9
+   |
+23 | * *:not(*) {}
+   |         ^
+
+error: UniversalSelector
   --> $DIR/tests/fixture/selector/type/input.css:23:9
    |
 23 | * *:not(*) {}

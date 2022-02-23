@@ -1,3 +1,8 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classPrivateFieldSet(receiver, privateMap, value) {
     if (!privateMap.has(receiver)) {
         throw new TypeError("attempted to set private field on non-instance");
@@ -14,6 +19,10 @@ function _classPrivateMethodGet(receiver, privateSet, fn) {
         throw new TypeError("attempted to get private field on non-instance");
     }
     return fn;
+}
+function _classPrivateMethodInit(obj, privateSet) {
+    _checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
 }
 function _classPrivateFieldDestructureSet(receiver, privateMap) {
     if (!privateMap.has(receiver)) {
@@ -41,7 +50,7 @@ var _method = new WeakSet();
 class A3 {
     constructor(a, b){
         var _b, _this_method;
-        _method.add(this);
+        _classPrivateMethodInit(this, _method);
         _classPrivateFieldSet(this, _method, ()=>{} // Error, not writable 
         );
         _classPrivateFieldSet(a, _method, ()=>{}); // Error, not writable 

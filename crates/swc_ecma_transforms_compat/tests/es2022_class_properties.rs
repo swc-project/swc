@@ -176,7 +176,7 @@ class Foo {
 var _foo = new WeakSet();
 class Foo {
     constructor(){
-        _foo.add(this);
+        _classPrivateMethodInit(this, _foo);
     }
 }
 function foo() {
@@ -214,7 +214,7 @@ function (Parent) {
 
     _this = _super.call(this);
 
-    _scopedFunctionWithThis.set(_assertThisInitialized(_this), {
+    _classPrivateFieldInit(_assertThisInitialized(_this), _scopedFunctionWithThis, {
       writable: true,
       value: () => {
         _this.name = {};
@@ -548,7 +548,7 @@ var C = function C() {
   _classCallCheck(this, C);
   _defineProperty(this, "y", _classPrivateFieldGet(this, _x));
 
-  _x.set(this, {
+  _classPrivateFieldInit(this, _x, {
     writable: true,
     value: void 0
   });
@@ -687,14 +687,14 @@ function (Bar) {
     if (condition) {
       _this = _super.call(this);
 
-      _bar.set(_assertThisInitialized(_this), {
+      _classPrivateFieldInit(_assertThisInitialized(_this), _bar, {
         writable: true,
         value: "foo"
       });
     } else {
       _this = _super.call(this);
 
-      _bar.set(_assertThisInitialized(_this), {
+      _classPrivateFieldInit(_assertThisInitialized(_this), _bar, {
         writable: true,
         value: "foo"
       });
@@ -808,7 +808,7 @@ var Foo = function Foo() {
 
   _classCallCheck(this, Foo);
 
-  _bar.set(this, {
+  _classPrivateFieldInit(this, _bar, {
     writable: true,
     value: void 0
   });
@@ -961,7 +961,7 @@ var Foo = function Foo() {
 
   _classCallCheck(this, Foo);
 
-  _bar.set(this, {
+  _classPrivateFieldInit(this, _bar, {
     writable: true,
     value: foo
   });
@@ -1423,7 +1423,7 @@ function (Bar) {
 
     _this = _super.call(this);
 
-    _bar.set(_assertThisInitialized(_this), {
+    _classPrivateFieldInit(_assertThisInitialized(_this), _bar, {
       writable: true,
       value: "foo"
     });
@@ -1460,7 +1460,7 @@ var Outer = function Outer() {
   _classCallCheck(this, Outer);
   var _this = this;
 
-  _outer.set(this, {
+  _classPrivateFieldInit(this, _outer, {
     writable: true,
     value: void 0
   });
@@ -1508,7 +1508,7 @@ function () {
   function Foo() {
     _classCallCheck(this, Foo);
 
-    _foo.set(this, {
+    _classPrivateFieldInit(this, _foo, {
       writable: true,
       value: 0
     });
@@ -1732,7 +1732,7 @@ var Foo = function Foo() {
 
   _classCallCheck(this, Foo);
 
-  _prop.set(this, {
+  _classPrivateFieldInit(this, _prop, {
     writable: true,
     value: "foo"
   });
@@ -1753,7 +1753,7 @@ function (Foo) {
 
     _this = _super.apply(this, arguments);
 
-    _prop1.set(_assertThisInitialized(_this), {
+    _classPrivateFieldInit(_assertThisInitialized(_this), _prop1, {
       writable: true,
       value: "bar"
     });
@@ -1815,7 +1815,7 @@ function (A) {
 
     _this = _super.apply(this, arguments);
 
-    _foo.set(_assertThisInitialized(_this), {
+    _classPrivateFieldInit(_assertThisInitialized(_this), _foo, {
       writable: true,
       value: _get((_assertThisInitialized(_this), _getPrototypeOf(B.prototype)), "foo", _this).call(_this)
     });
@@ -1852,19 +1852,19 @@ var Foo = function Foo() {
   _classCallCheck(this, Foo);
   _defineProperty(this, "one", _classPrivateFieldGet(this, _private));
 
-  _two.set(this, {
+  _classPrivateFieldInit(this, _two, {
     writable: true,
     value: _classPrivateFieldGet(this, _private)
   });
 
-  _private.set(this, {
+  _classPrivateFieldInit(this, _private, {
     writable: true,
     value: 0
   });
 
   _defineProperty(this, "three", _classPrivateFieldGet(this, _private));
 
-  _four.set(this, {
+  _classPrivateFieldInit(this, _four, {
     writable: true,
     value: _classPrivateFieldGet(this, _private)
   });
@@ -2058,7 +2058,7 @@ function () {
   function Foo() {
     _classCallCheck(this, Foo);
 
-    _foo.set(this, {
+    _classPrivateFieldInit(this, _foo, {
       writable: true,
       value: 0
     });
@@ -2158,12 +2158,12 @@ var Foo = function Foo() {
 
   _classCallCheck(this, Foo);
 
-  _x.set(this, {
+  _classPrivateFieldInit(this, _x, {
     writable: true,
     value: 0
   });
 
-  _y.set(this, {
+  _classPrivateFieldInit(this, _y, {
     writable: true,
     value: _classPrivateFieldGet(this, _x)
   });
@@ -2376,7 +2376,7 @@ var Foo = function () {
   function Foo() {
     _classCallCheck(this, Foo);
 
-    _foo.set(this, {
+    _classPrivateFieldInit(this, _foo, {
       writable: true,
       value: function () {
         return this;
@@ -2456,12 +2456,12 @@ var Foo = function Foo(foo1) {
 
   _classCallCheck(this, Foo);
 
-  _bar.set(this, {
+  _classPrivateFieldInit(this, _bar, {
     writable: true,
     value: this
   });
 
-  _baz.set(this, {
+  _classPrivateFieldInit(this, _baz, {
     writable: true,
     value: foo
   });
@@ -2689,7 +2689,7 @@ function (Bar) {
     var _this;
 
     var _temp;
-    foo((_temp = _this = _super.call(this), _bar.set(_assertThisInitialized(_this), {
+    foo((_temp = _this = _super.call(this), _classPrivateFieldInit(_assertThisInitialized(_this), _bar, {
       writable: true,
       value: "foo"
     }), _temp));
@@ -2771,7 +2771,7 @@ var Foo = function () {
   function Foo() {
     _classCallCheck(this, Foo);
 
-    _x.set(this, {
+    _classPrivateFieldInit(this, _x, {
       writable: true,
       value: 0
     });
@@ -3124,7 +3124,7 @@ function classFactory() {
                 return _classStaticPrivateFieldSpecGet(Foo, Foo, _bar);
             }
             constructor(){
-                _foo.set(this, {
+                _classPrivateFieldInit(this, _foo, {
                     writable: true,
                     value: 'foo'
                 });
@@ -3215,7 +3215,7 @@ var Foo = function Foo(props) {
 
   _classCallCheck(this, Foo);
 
-  _client.set(this, {
+  _classPrivateFieldInit(this, _client, {
     writable: true,
     value: void 0
   });
@@ -3409,7 +3409,7 @@ var Foo = function Foo(props) {
 
   _classCallCheck(this, Foo);
 
-  _client.set(this, {
+  _classPrivateFieldInit(this, _client, {
     writable: true,
     value: void 0
   });
@@ -3495,7 +3495,7 @@ export default class MyClass3 {
 class MyClass {
     constructor(){
         var _this = this;
-        _myAsyncMethod.set(this, {
+        _classPrivateFieldInit(this, _myAsyncMethod, {
             writable: true,
             value: _asyncToGenerator(function*() {
                 console.log(_this);
@@ -3508,7 +3508,7 @@ var _myAsyncMethod = new WeakMap();
     class MyClass2 {
         constructor(){
             var _this = this;
-            _myAsyncMethod2.set(this, {
+            _classPrivateFieldInit(this, _myAsyncMethod2, {
                 writable: true,
                 value: _asyncToGenerator(function*() {
                     console.log(_this);
@@ -3522,7 +3522,7 @@ var _myAsyncMethod = new WeakMap();
 class MyClass3 {
     constructor(){
         var _this = this;
-        _myAsyncMethod1.set(this, {
+        _classPrivateFieldInit(this, _myAsyncMethod1, {
             writable: true,
             value: _asyncToGenerator(function*() {
                 console.log(_this);
@@ -3562,7 +3562,7 @@ var Foo = function Foo(props) {
 
   _classCallCheck(this, Foo);
 
-  _client.set(this, {
+  _classPrivateFieldInit(this, _client, {
     writable: true,
     value: void 0
   });
@@ -3605,6 +3605,27 @@ for(let i=0; i<= 10; ++i) {
   expect(instance[i]).toBe('computed field ' + i);
   expect(instance.getBar()).toBe('private field ' + i);
 }
+"#
+);
+
+test_exec!(
+    syntax(),
+    |_| class_properties(class_properties::Config { loose: false }),
+    private_field_reinitialized,
+    r#"
+class Base {
+  constructor(obj) {
+    return obj;
+  }
+}
+
+class Derived extends Base {
+  #c = 123
+}
+
+const foo = {}
+new Derived(foo)
+expect(() => new Derived(foo)).toThrow()
 "#
 );
 
@@ -4139,7 +4160,7 @@ class A {
         _classPrivateFieldGet(this, _fieldFunc)?.call(this);
     }
     constructor(){
-        _fieldFunc.set(this, {
+        _classPrivateFieldInit(this, _fieldFunc, {
             writable: true,
             value: void 0
         });
@@ -4168,7 +4189,7 @@ class MyClass {
         o === null || o === void 0 ? void 0 : _classPrivateFieldGet(o, _a);
     }
     constructor(){
-        _a.set(this, {
+        _classPrivateFieldInit(this, _a, {
             writable: true,
             value: void 0
         });
@@ -4219,12 +4240,12 @@ function () {
   function Point(x = 0, y = 0) {
     _classCallCheck(this, Point);
 
-    _x.set(this, {
+    _classPrivateFieldInit(this, _x, {
       writable: true,
       value: void 0
     });
 
-    _y.set(this, {
+    _classPrivateFieldInit(this, _y, {
       writable: true,
       value: void 0
     });
@@ -4346,7 +4367,7 @@ var Foo = function Foo(props) {
 
   _classCallCheck(this, Foo);
 
-  _client.set(this, {
+  _classPrivateFieldInit(this, _client, {
     writable: true,
     value: void 0
   });
@@ -4408,7 +4429,7 @@ var Foo = function Foo(props) {
 
   _classCallCheck(this, Foo);
 
-  _client.set(this, {
+  _classPrivateFieldInit(this, _client, {
     writable: true,
     value: void 0
   });
@@ -4526,7 +4547,7 @@ var Foo = function Foo() {
 
   _classCallCheck(this, Foo);
 
-  _bar.set(this, {
+  _classPrivateFieldInit(this, _bar, {
     writable: true,
     value: "foo"
   });
@@ -4709,7 +4730,7 @@ class Foo {
   }
 
   constructor() {
-    _bar.set(this, {
+    _classPrivateFieldInit(this, _bar, {
       writable: true,
       value: "bar"
     });
@@ -4936,7 +4957,7 @@ test!(
           return _classPrivateFieldGet(this, _name);
       }
       constructor(name){
-          _name.set(this, {
+          _classPrivateFieldInit(this, _name, {
               writable: true,
               value: void 0
           });
@@ -4970,7 +4991,7 @@ class Animal {
         return _classPrivateFieldGet(this, _name).toUpperCase();
     }
     constructor(name){
-        _name.set(this, {
+        _classPrivateFieldInit(this, _name, {
             writable: true,
             value: void 0
         });
@@ -5001,11 +5022,11 @@ test!(
      === _ws1.default.OPEN;
       }
       constructor(){
-        _ws.set(this, {
+        _classPrivateFieldInit(this, _ws, {
             writable: true,
             value: void 0
         });
-        _ws2.set(this, {
+        _classPrivateFieldInit(this, _ws2, {
             writable: true,
             value: void 0
         });
@@ -5181,15 +5202,15 @@ test!(
           }
       }
       constructor(){
-          _ws.set(this, {
+          _classPrivateFieldInit(this, _ws, {
               writable: true,
               value: void 0
           });
-          _serialization.set(this, {
+          _classPrivateFieldInit(this, _serialization, {
             writable: true,
             value: void 0
           });
-          _seq.set(this, {
+          _classPrivateFieldInit(this, _seq, {
             writable: true,
             value: void 0
           });
@@ -5245,11 +5266,11 @@ test!(
           }
       }
       constructor(){
-          _ws.set(this, {
+          _classPrivateFieldInit(this, _ws, {
               writable: true,
               value: void 0
           });
-          _serialization.set(this, {
+          _classPrivateFieldInit(this, _serialization, {
             writable: true,
             value: void 0
           });
@@ -5291,11 +5312,11 @@ test!(
           }
       }
       constructor(){
-          _ws.set(this, {
+          _classPrivateFieldInit(this, _ws, {
               writable: true,
               value: void 0
           });
-          _serialization.set(this, {
+          _classPrivateFieldInit(this, _serialization, {
             writable: true,
             value: void 0
           });
@@ -5324,7 +5345,7 @@ test!(
           pak = _classPrivateFieldGet(this, _serialization).decode(raw);
       }
       constructor(){
-        _serialization.set(this, {
+        _classPrivateFieldInit(this, _serialization, {
           writable: true,
           value: void 0
         });
@@ -5352,7 +5373,7 @@ test!(
           _classPrivateFieldGet(this, _serialization).decode(raw);
       }
       constructor(){
-        _serialization.set(this, {
+        _classPrivateFieldInit(this, _serialization, {
           writable: true,
           value: void 0
         });
@@ -5403,8 +5424,8 @@ export class Node {
         _classPrivateMethodGet(this, _bar, bar).call(this, this);
     }
     constructor() {
-        _bar.add(this);
-        _baz.add(this);
+        _classPrivateMethodInit(this, _bar);
+        _classPrivateMethodInit(this, _baz);
     }
 }
 function bar(parent) {
@@ -5437,7 +5458,7 @@ test!(
     var _get = new WeakSet();
     class MyClass {
         constructor(){
-            _get.add(this);
+            _classPrivateMethodInit(this, _get);
             _classPrivateMethodGet(this, _get, get).call(this, foo);
         }
     }
@@ -5505,11 +5526,11 @@ test!(
     var _sssss = new WeakSet();
     class Foo {
         constructor(){
-            _y.set(this, {
+            _classPrivateFieldInit(this, _y, {
                 writable: true,
                 value: void 0
             });
-            _sssss.add(this);
+            _classPrivateMethodInit(this, _sssss);
             this.x = 1;
             _classPrivateFieldSet(this, _y, 2);
             _classPrivateMethodGet(this, _sssss, sssss).call(this);
@@ -5551,7 +5572,7 @@ test!(
             return _classPrivateMethodGet(target, _value, value);
         }
         constructor(){
-            _value.add(this);
+            _classPrivateMethodInit(this, _value);
         }
     }
     function value() {
@@ -5654,8 +5675,8 @@ test!(
     var _tag = new WeakSet();
     class Foo {
         constructor(){
-            _tag.add(this);
-            _tag2.set(this, {
+            _classPrivateMethodInit(this, _tag);
+            _classPrivateFieldInit(this, _tag2, {
                 writable: true,
                 value: _classPrivateMethodGet(this, _tag, tag)
             });
@@ -5782,7 +5803,7 @@ class A {
         E(function() {});
     }
     constructor(){
-      _D.set(this, {
+      _classPrivateFieldInit(this, _D, {
           writable: true,
           value: void 0
       });
@@ -5817,7 +5838,7 @@ class A {
         }
     }
     constructor(){
-      _b.set(this, {
+      _classPrivateFieldInit(this, _b, {
           writable: true,
           value: void 0
       });
@@ -5857,11 +5878,11 @@ class A {
         };
     }
     constructor(){
-        _a.set(this, {
+        _classPrivateFieldInit(this, _a, {
             writable: true,
             value: 'fff'
         });
-        _bar.add(this);
+        _classPrivateMethodInit(this, _bar);
     }
 }
 var _a = new WeakMap();

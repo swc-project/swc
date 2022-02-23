@@ -2,11 +2,11 @@ let Foo = function() {
     "use strict";
     function Foo() {
         _classCallCheck(this, Foo);
-        _foo.set(this, {
+        _classPrivateFieldInit(this, _foo, {
             writable: true,
             value: 1
         });
-        _bar.set(this, {
+        _classPrivateFieldInit(this, _bar, {
             writable: true,
             value: 1
         });
@@ -18,7 +18,7 @@ let Foo = function() {
                 let Nested = function() {
                     function Nested() {
                         _classCallCheck(this, Nested);
-                        _bar1.set(this, {
+                        _classPrivateFieldInit(this, _bar1, {
                             writable: true,
                             value: 2
                         });

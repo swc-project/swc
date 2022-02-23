@@ -2,6 +2,11 @@ function _classPrivateFieldGet(receiver, privateMap) {
     if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
     return privateMap.get(receiver).value;
 }
+function _classPrivateFieldInit(obj, privateMap, value) {
+    !function(obj, privateCollection) {
+        if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }(obj, privateMap), privateMap.set(obj, value);
+}
 class C {
     method() {
         console.log(_classPrivateFieldGet(this, _a)), (function(receiver, privateMap, value) {
@@ -22,13 +27,13 @@ class C {
         }(this, C, _x, "test"));
     }
     constructor(){
-        _a.set(this, {
+        _classPrivateFieldInit(this, _a, {
             writable: !0,
             value: 10
-        }), _b.set(this, {
+        }), _classPrivateFieldInit(this, _b, {
             writable: !0,
             value: void 0
-        }), _something.set(this, {
+        }), _classPrivateFieldInit(this, _something, {
             writable: !0,
             value: ()=>1234
         }), this.a = 123, this.c = "hello";

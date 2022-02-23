@@ -238,10 +238,7 @@ impl BlockScoping {
                 args: args
                     .iter()
                     .cloned()
-                    .map(|i| ExprOrSpread {
-                        spread: None,
-                        expr: Box::new(Expr::Ident(Ident::new(i.0, DUMMY_SP.with_ctxt(i.1)))),
-                    })
+                    .map(|i| Ident::new(i.0, DUMMY_SP.with_ctxt(i.1)).as_arg())
                     .collect(),
                 type_args: None,
             };
@@ -281,10 +278,7 @@ impl BlockScoping {
                                     Expr::Call(CallExpr {
                                         span: Default::default(),
                                         callee,
-                                        args: vec![ExprOrSpread {
-                                            spread: None,
-                                            expr: Box::new(ret.clone().into()),
-                                        }],
+                                        args: vec![ret.clone().as_arg()],
                                         type_args: None,
                                     })
                                     .into()

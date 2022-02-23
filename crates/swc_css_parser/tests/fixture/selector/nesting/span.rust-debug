@@ -2575,6 +2575,12 @@ error: Value
 58 |         background: hsl(0 0% 0% / 50%);
    |                     ^^^^^^^^^^^^^^^^^^
 
+error: Color
+  --> $DIR/tests/fixture/selector/nesting/input.css:58:21
+   |
+58 |         background: hsl(0 0% 0% / 50%);
+   |                     ^^^^^^^^^^^^^^^^^^
+
 error: Function
   --> $DIR/tests/fixture/selector/nesting/input.css:58:21
    |

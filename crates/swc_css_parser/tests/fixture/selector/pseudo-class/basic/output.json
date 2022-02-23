@@ -800,63 +800,83 @@
                     },
                     "children": [
                       {
-                        "type": "PreservedToken",
+                        "type": "SelectorList",
                         "span": {
                           "start": 133,
-                          "end": 134,
-                          "ctxt": 0
-                        },
-                        "token": "LBracket"
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 134,
-                          "end": 138,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Ident": {
-                            "value": "type",
-                            "raw": "type"
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 138,
-                          "end": 139,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "="
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 139,
-                          "end": 147,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "String": {
-                            "value": "submit",
-                            "raw": "'submit'"
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 147,
                           "end": 148,
                           "ctxt": 0
                         },
-                        "token": "RBracket"
+                        "children": [
+                          {
+                            "type": "ComplexSelector",
+                            "span": {
+                              "start": 133,
+                              "end": 148,
+                              "ctxt": 0
+                            },
+                            "children": [
+                              {
+                                "type": "CompoundSelector",
+                                "span": {
+                                  "start": 133,
+                                  "end": 148,
+                                  "ctxt": 0
+                                },
+                                "nestingSelector": null,
+                                "typeSelector": null,
+                                "subclassSelectors": [
+                                  {
+                                    "type": "AttributeSelector",
+                                    "span": {
+                                      "start": 133,
+                                      "end": 148,
+                                      "ctxt": 0
+                                    },
+                                    "name": {
+                                      "type": "WqName",
+                                      "span": {
+                                        "start": 134,
+                                        "end": 138,
+                                        "ctxt": 0
+                                      },
+                                      "prefix": null,
+                                      "value": {
+                                        "type": "Ident",
+                                        "span": {
+                                          "start": 134,
+                                          "end": 138,
+                                          "ctxt": 0
+                                        },
+                                        "value": "type",
+                                        "raw": "type"
+                                      }
+                                    },
+                                    "matcher": {
+                                      "type": "AttributeSelectorMatcher",
+                                      "span": {
+                                        "start": 138,
+                                        "end": 139,
+                                        "ctxt": 0
+                                      },
+                                      "value": "="
+                                    },
+                                    "value": {
+                                      "type": "String",
+                                      "span": {
+                                        "start": 139,
+                                        "end": 147,
+                                        "ctxt": 0
+                                      },
+                                      "value": "submit",
+                                      "raw": "'submit'"
+                                    },
+                                    "modifier": null
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
                       }
                     ]
                   }
@@ -1053,96 +1073,116 @@
                     },
                     "children": [
                       {
-                        "type": "PreservedToken",
+                        "type": "SelectorList",
                         "span": {
                           "start": 189,
-                          "end": 190,
-                          "ctxt": 0
-                        },
-                        "token": "Colon"
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 190,
-                          "end": 194,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Function": {
-                            "value": "has",
-                            "raw": "has"
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 194,
-                          "end": 195,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "*"
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 195,
-                          "end": 196,
-                          "ctxt": 0
-                        },
-                        "token": "Colon"
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 196,
-                          "end": 206,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Function": {
-                            "value": "nth-child",
-                            "raw": "nth-child"
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 206,
-                          "end": 207,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Number": {
-                            "value": 6.0,
-                            "raw": "6",
-                            "type": "integer"
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 207,
-                          "end": 208,
-                          "ctxt": 0
-                        },
-                        "token": "RParen"
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 208,
                           "end": 209,
                           "ctxt": 0
                         },
-                        "token": "RParen"
+                        "children": [
+                          {
+                            "type": "ComplexSelector",
+                            "span": {
+                              "start": 189,
+                              "end": 209,
+                              "ctxt": 0
+                            },
+                            "children": [
+                              {
+                                "type": "CompoundSelector",
+                                "span": {
+                                  "start": 189,
+                                  "end": 209,
+                                  "ctxt": 0
+                                },
+                                "nestingSelector": null,
+                                "typeSelector": null,
+                                "subclassSelectors": [
+                                  {
+                                    "type": "PseudoClassSelector",
+                                    "span": {
+                                      "start": 189,
+                                      "end": 209,
+                                      "ctxt": 0
+                                    },
+                                    "name": {
+                                      "type": "Ident",
+                                      "span": {
+                                        "start": 190,
+                                        "end": 193,
+                                        "ctxt": 0
+                                      },
+                                      "value": "has",
+                                      "raw": "has"
+                                    },
+                                    "children": [
+                                      {
+                                        "type": "PreservedToken",
+                                        "span": {
+                                          "start": 194,
+                                          "end": 195,
+                                          "ctxt": 0
+                                        },
+                                        "token": {
+                                          "Delim": {
+                                            "value": "*"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "type": "PreservedToken",
+                                        "span": {
+                                          "start": 195,
+                                          "end": 196,
+                                          "ctxt": 0
+                                        },
+                                        "token": "Colon"
+                                      },
+                                      {
+                                        "type": "PreservedToken",
+                                        "span": {
+                                          "start": 196,
+                                          "end": 206,
+                                          "ctxt": 0
+                                        },
+                                        "token": {
+                                          "Function": {
+                                            "value": "nth-child",
+                                            "raw": "nth-child"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "type": "PreservedToken",
+                                        "span": {
+                                          "start": 206,
+                                          "end": 207,
+                                          "ctxt": 0
+                                        },
+                                        "token": {
+                                          "Number": {
+                                            "value": 6.0,
+                                            "raw": "6",
+                                            "type": "integer"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "type": "PreservedToken",
+                                        "span": {
+                                          "start": 207,
+                                          "end": 208,
+                                          "ctxt": 0
+                                        },
+                                        "token": "RParen"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
                       }
                     ]
                   }
@@ -1950,25 +1990,16 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 447,
                           "end": 448,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
-                          "span": {
-                            "start": 447,
-                            "end": 448,
-                            "ctxt": 0
-                          },
-                          "a": null,
-                          "aRaw": null,
-                          "b": 2,
-                          "bRaw": "2"
-                        },
-                        "selectorList": null
+                        "a": null,
+                        "aRaw": null,
+                        "b": 2,
+                        "bRaw": "2"
                       }
                     ]
                   }

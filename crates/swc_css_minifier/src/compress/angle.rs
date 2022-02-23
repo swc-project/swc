@@ -15,8 +15,6 @@ struct CompressAngle {
     in_keyframe_block: bool,
 }
 
-impl CompressAngle {}
-
 impl VisitMut for CompressAngle {
     fn visit_mut_keyframe_block(&mut self, keyframe_block: &mut KeyframeBlock) {
         let old_in_block = self.in_keyframe_block;

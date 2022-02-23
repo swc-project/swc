@@ -1727,6 +1727,12 @@ error: Value
 44 |         p { color: #222; }
    |                    ^^^^
 
+error: Color
+  --> $DIR/tests/fixture/at-rule/layer/input.css:44:20
+   |
+44 |         p { color: #222; }
+   |                    ^^^^
+
 error: HexColor
   --> $DIR/tests/fixture/at-rule/layer/input.css:44:20
    |

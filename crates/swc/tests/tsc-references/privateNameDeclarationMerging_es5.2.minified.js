@@ -18,10 +18,13 @@ var D = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
-        _classCallCheck(this, C), _x.set(this, {
+        var obj, privateMap, value;
+        _classCallCheck(this, C), obj = this, value = {
             writable: !0,
             value: void 0
-        });
+        }, (function(obj, privateCollection) {
+            if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+        })(obj, privateMap = _x), privateMap.set(obj, value);
     }
     return Constructor = C, protoProps = [
         {

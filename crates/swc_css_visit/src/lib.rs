@@ -138,6 +138,7 @@ define!({
 
     pub enum Color {
         HexColor(HexColor),
+        Function(Function),
     }
 
     pub struct HexColor {
@@ -369,23 +370,18 @@ define!({
     }
 
     pub enum PseudoSelectorChildren {
-        Nth(Nth),
+        AnPlusB(AnPlusB),
+        Ident(Ident),
+        SelectorList(SelectorList),
         PreservedToken(TokenAndSpan),
     }
 
-    pub struct Nth {
-        pub span: Span,
-        pub nth: NthValue,
-        pub selector_list: Option<SelectorList>,
-    }
-
-    pub enum NthValue {
-        AnPlusB(AnPlusB),
-
+    pub enum AnPlusB {
         Ident(Ident),
+        AnPlusBNotation(AnPlusBNotation),
     }
 
-    pub struct AnPlusB {
+    pub struct AnPlusBNotation {
         pub span: Span,
         pub a: Option<i32>,
         pub a_raw: Option<JsWord>,
