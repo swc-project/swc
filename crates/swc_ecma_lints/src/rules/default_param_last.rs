@@ -1,4 +1,4 @@
-use swc_common::{errors::HANDLER, Span};
+use swc_common::{errors::HANDLER, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -63,24 +63,7 @@ impl Visit for DefaultParamLast {
     }
 
     fn visit_arrow_expr(&mut self, arrow_expr: &ArrowExpr) {
-        self.check(arrow_expr.params.iter().map(|pat| {
-            (
-                pat,
-                match pat {
-                    Pat::Ident(BindingIdent {
-                        id: Ident { span, .. },
-                        ..
-                    }) => span,
-                    Pat::Array(ArrayPat { span, .. }) => span,
-                    Pat::Rest(RestPat { span, .. }) => span,
-                    Pat::Object(ObjectPat { span, .. }) => span,
-                    Pat::Assign(AssignPat { span, .. }) => span,
-                    Pat::Invalid(Invalid { span }) => span,
-                    Pat::Expr(..) => unreachable!(),
-                }
-                .clone(),
-            )
-        }));
+        self.check(arrow_expr.params.iter().map(|pat| (pat, pat.span())));
 
         arrow_expr.visit_children_with(self);
     }
@@ -94,7 +77,7 @@ impl Visit for DefaultParamLast {
                     Pat::Assign(..) | Pat::Rest(..) => true,
                     _ => {
                         if seen {
-                            self.emit_report(span.clone());
+                            self.emit_report(*span);
                         }
                         seen
                     }
@@ -103,7 +86,7 @@ impl Visit for DefaultParamLast {
                     TsParamPropParam::Assign(..) => true,
                     _ => {
                         if seen {
-                            self.emit_report(span.clone());
+                            self.emit_report(*span);
                         }
                         seen
                     }
