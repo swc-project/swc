@@ -5468,6 +5468,41 @@ function baz(child) {}
 
 test!(
     syntax(),
+    |_| class_properties(class_properties::Config { loose: false }),
+    issue_3618,
+    "
+class MyClass {
+  get #a() {}
+  set #a(x) {}
+  static get #b() {}
+  static set #b(x) {}
+}
+",
+    "
+var _a = /*#__PURE__*/ new WeakMap();
+
+class MyClass {
+  constructor() {
+    _classPrivateFieldInit(this, _a, {
+      get: get_a,
+      set: set_a
+    });
+  }
+}
+
+var _b = {
+  get: get_b,
+  set: set_b
+};
+function get_a() {}
+function set_a(x) {}
+function get_b() {}
+function set_b(x) {}
+"
+);
+
+test!(
+    syntax(),
     |_| chain!(
         class_properties(class_properties::Config { loose: false }),
         async_to_generator()
