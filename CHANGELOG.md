@@ -16,6 +16,12 @@
 
 - **(cli)** Support stdin (#3688) ([3cf3b20](https://github.com/swc-project/swc/commit/3cf3b20f15e8ddbb2c32405c71183cfdbbb87835))
 
+### Refactor
+
+
+
+- **(es)** Improve ast apis (#3690) ([135acf3](https://github.com/swc-project/swc/commit/135acf3b42221b8a9e684e39d762ad8481c75f73))
+
 ## [1.2.144] - 2022-02-22
 
 ### Bug Fixes
