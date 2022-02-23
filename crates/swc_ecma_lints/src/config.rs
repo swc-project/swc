@@ -125,4 +125,8 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default, alias = "noBitwise")]
     pub no_bitwise: RuleConfig<NoBitwiseConfig>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default, alias = "defaultParamLast")]
+    pub default_param_last: RuleConfig<()>,
 }

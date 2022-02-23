@@ -243,10 +243,10 @@ impl AssignFolder {
                                     .clone()
                                     .make_member(quote_ident!("slice"))
                                     .as_callee(),
-                                args: vec![Lit::Num(Number {
+                                args: vec![Number {
                                     value: i as f64,
                                     span: dot3_token,
-                                })
+                                }
                                 .as_arg()],
                                 type_args: Default::default(),
                             }))),
