@@ -4,6 +4,7 @@ pub mod easing_function;
 pub mod empty;
 pub mod frequency;
 pub mod keyframes;
+pub mod length;
 pub mod selector;
 pub mod time;
 pub mod transform_function;
