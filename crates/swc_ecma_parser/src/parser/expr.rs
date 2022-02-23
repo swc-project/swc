@@ -572,7 +572,7 @@ impl<'a, I: Tokens> Parser<I> {
         return_if_arrow!(self, obj);
 
         let type_args = if self.syntax().typescript() && is!(self, '<') {
-            self.try_parse_type_args_of_ts_expr_with_type_args()
+            self.try_parse_ts_type_args()
         } else {
             None
         };
@@ -1109,7 +1109,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         let type_args = if self.syntax().typescript() && is!(self, '<') {
-            self.try_parse_type_args_of_ts_expr_with_type_args()
+            self.try_parse_ts_type_args()
         } else {
             None
         };
@@ -1143,7 +1143,7 @@ impl<'a, I: Tokens> Parser<I> {
             };
 
             let type_args = if self.syntax().typescript() && is!(self, '<') {
-                self.try_parse_type_args_of_ts_expr_with_type_args()
+                self.try_parse_ts_type_args()
             } else {
                 None
             };
@@ -1262,7 +1262,7 @@ impl<'a, I: Tokens> Parser<I> {
             debug_assert_eq!(prop.span().hi(), span.hi());
 
             let type_args = if self.syntax().typescript() && is!(self, '<') {
-                self.try_parse_type_args_of_ts_expr_with_type_args()
+                self.try_parse_ts_type_args()
             } else {
                 None
             };

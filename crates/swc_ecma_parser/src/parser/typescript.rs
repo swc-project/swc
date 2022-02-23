@@ -506,9 +506,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub(super) fn try_parse_type_args_of_ts_expr_with_type_args(
-        &mut self,
-    ) -> Option<TsTypeParamInstantiation> {
+    pub(super) fn try_parse_ts_type_args(&mut self) -> Option<TsTypeParamInstantiation> {
         debug_assert!(self.input.syntax().typescript());
 
         self.try_parse_ts(|p| {
@@ -517,6 +515,7 @@ impl<I: Tokens> Parser<I> {
                 p, ',', '.', '?', ')', ']', ':', '&', '|', '^', '}', "??", "==", "===", "!=",
                 "!==", "&&", "||"
             ) || is_exact!(p, ';')
+                || eof!(p)
             {
                 Ok(Some(type_args))
             } else {
