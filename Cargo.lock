@@ -2836,7 +2836,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.50.1"
+version = "0.50.2"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3028,7 +3028,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.91.1"
+version = "0.91.4"
 dependencies = [
  "either",
  "enum_kind",
