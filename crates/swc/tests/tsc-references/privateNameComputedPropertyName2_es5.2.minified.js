@@ -5,10 +5,11 @@ function _defineProperties(target, props) {
     }
 }
 var getX, tmp = (getX = function(a) {
-    return (function(receiver, privateMap) {
+    var receiver, privateMap, descriptor, receiver, descriptor;
+    return (descriptor = descriptor = (function(receiver, privateMap, action) {
         if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-        return privateMap.get(receiver).value;
-    })(a, _x);
+        return privateMap.get(receiver);
+    })(receiver = a, privateMap = _x, "get")).get ? descriptor.get.call(receiver) : descriptor.value;
 }, "_"), A = function() {
     "use strict";
     var Constructor, protoProps, staticProps;

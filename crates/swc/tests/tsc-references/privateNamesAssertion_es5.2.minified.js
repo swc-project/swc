@@ -28,10 +28,11 @@ var Foo = function() {
         {
             key: "m1",
             value: function(v) {
-                (function(receiver, privateMap) {
+                var receiver, privateMap, descriptor, receiver, descriptor;
+                (receiver = this, (descriptor = descriptor = (function(receiver, privateMap, action) {
                     if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-                    return privateMap.get(receiver).value;
-                })(this, _p1).call(this, v);
+                    return privateMap.get(receiver);
+                })(receiver, privateMap = _p1, "get")).get ? descriptor.get.call(receiver) : descriptor.value).call(this, v);
             }
         }
     ]), Foo;

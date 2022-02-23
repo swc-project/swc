@@ -125,11 +125,16 @@ var A = function() {
 };
 function fieldFunc() {
     return function() {
-        !function(receiver, classConstructor, descriptor, value) {
-            if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
-            if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-            return descriptor.value = value, value;
-        }(A, A, _x, 10);
+        var receiver, classConstructor, descriptor, value;
+        receiver = A, classConstructor = A, descriptor = _x, value = 10, _classCheckPrivateStaticAccess(receiver, classConstructor), (function(descriptor, action) {
+            if (void 0 === descriptor) throw new TypeError("attempted to set private static field before its declaration");
+        })(descriptor, "set"), (function(receiver, descriptor, value) {
+            if (descriptor.set) descriptor.set.call(receiver, value);
+            else {
+                if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
+                descriptor.value = value;
+            }
+        })(receiver, descriptor, value);
     };
 }
 function fieldFunc2() {

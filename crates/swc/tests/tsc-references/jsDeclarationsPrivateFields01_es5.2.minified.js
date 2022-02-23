@@ -32,10 +32,11 @@ export var C = function() {
         {
             key: "getWorld",
             value: function() {
-                return (function(receiver, privateMap) {
+                var receiver, privateMap, receiver, descriptor, descriptor;
+                return receiver = this, (descriptor = (function(receiver, privateMap, action) {
                     if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-                    return privateMap.get(receiver).value;
-                })(this, _world);
+                    return privateMap.get(receiver);
+                })(receiver, privateMap = _world, "get")).get ? descriptor.get.call(receiver) : descriptor.value;
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;

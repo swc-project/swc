@@ -3,15 +3,42 @@ function _checkPrivateRedeclaration(obj, privateCollection) {
         throw new TypeError("Cannot initialize the same private elements twice on an object");
     }
 }
-function _classPrivateFieldSet(receiver, privateMap, value1) {
+function _classApplyDescriptorDestructureSet(receiver, descriptor) {
+    if (descriptor.set) {
+        if (!("__destrObj" in descriptor)) {
+            descriptor.__destrObj = {
+                set value (v){
+                    descriptor.set.call(receiver, v);
+                }
+            };
+        }
+        return descriptor.__destrObj;
+    } else {
+        if (!descriptor.writable) {
+            throw new TypeError("attempted to set read only private field");
+        }
+        return descriptor;
+    }
+}
+function _classApplyDescriptorSet(receiver, descriptor, value1) {
+    if (descriptor.set) {
+        descriptor.set.call(receiver, value1);
+    } else {
+        if (!descriptor.writable) {
+            throw new TypeError("attempted to set read only private field");
+        }
+        descriptor.value = value1;
+    }
+}
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
     if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
+        throw new TypeError("attempted to " + action + " private field on non-instance");
     }
-    var descriptor = privateMap.get(receiver);
-    if (!descriptor.writable) {
-        throw new TypeError("attempted to set read only private field");
-    }
-    descriptor.value = value1;
+    return privateMap.get(receiver);
+}
+function _classPrivateFieldSet(receiver, privateMap, value1) {
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
+    _classApplyDescriptorSet(receiver, descriptor, value1);
     return value1;
 }
 function _classPrivateMethodGet(receiver, privateSet, fn) {
@@ -39,25 +66,8 @@ function _extends() {
     return _extends.apply(this, arguments);
 }
 function _classPrivateFieldDestructureSet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    var descriptor = privateMap.get(receiver);
-    if (descriptor.set) {
-        if (!("__destrObj" in descriptor)) {
-            descriptor.__destrObj = {
-                set value (v){
-                    descriptor.set.call(receiver, v);
-                }
-            };
-        }
-        return descriptor.__destrObj;
-    } else {
-        if (!descriptor.writable) {
-            throw new TypeError("attempted to set read only private field");
-        }
-        return descriptor;
-    }
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
+    return _classApplyDescriptorDestructureSet(receiver, descriptor);
 }
 var _value = new WeakSet(), _valueRest = new WeakSet(), _valueOne = new WeakSet(), _valueCompound = new WeakSet();
 // @target: es2015

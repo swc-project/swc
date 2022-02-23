@@ -3,11 +3,19 @@ function _arrayLikeToArray(arr, len) {
     for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
     return arr2;
 }
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) throw new TypeError("attempted to " + action + " private field on non-instance");
+    return privateMap.get(receiver);
+}
 function _classPrivateFieldSet(receiver, privateMap, value1) {
-    if (!privateMap.has(receiver)) throw new TypeError("attempted to set private field on non-instance");
-    var descriptor = privateMap.get(receiver);
-    if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-    return descriptor.value = value1, value1;
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
+    return !function(receiver, descriptor, value1) {
+        if (descriptor.set) descriptor.set.call(receiver, value1);
+        else {
+            if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
+            descriptor.value = value1;
+        }
+    }(receiver, descriptor, value1), value1;
 }
 function _classPrivateMethodGet(receiver, privateSet, fn) {
     if (!privateSet.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
@@ -34,15 +42,16 @@ function _extends() {
     }).apply(this, arguments);
 }
 function _classPrivateFieldDestructureSet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) throw new TypeError("attempted to set private field on non-instance");
-    var descriptor = privateMap.get(receiver);
-    if (descriptor.set) return "__destrObj" in descriptor || (descriptor.__destrObj = {
-        set value (v){
-            descriptor.set.call(receiver, v);
-        }
-    }), descriptor.__destrObj;
-    if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-    return descriptor;
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
+    return (function(receiver, descriptor) {
+        if (descriptor.set) return "__destrObj" in descriptor || (descriptor.__destrObj = {
+            set value (v){
+                descriptor.set.call(receiver, v);
+            }
+        }), descriptor.__destrObj;
+        if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
+        return descriptor;
+    })(receiver, descriptor);
 }
 var _value = new WeakSet(), _valueRest = new WeakSet(), _valueOne = new WeakSet(), _valueCompound = new WeakSet(), Test = function() {
     "use strict";

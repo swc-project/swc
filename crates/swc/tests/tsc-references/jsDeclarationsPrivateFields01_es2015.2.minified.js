@@ -10,10 +10,11 @@ function _classPrivateMethodInit(obj, privateSet) {
 var _calcHello = new WeakSet(), _screamingHello = new WeakSet(), _screamingHello = new WeakSet();
 export class C {
     getWorld() {
-        return (function(receiver, privateMap) {
+        var receiver, privateMap, receiver, descriptor, descriptor;
+        return receiver = this, (descriptor = (function(receiver, privateMap, action) {
             if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-            return privateMap.get(receiver).value;
-        })(this, _world);
+            return privateMap.get(receiver);
+        })(receiver, privateMap = _world, "get")).get ? descriptor.get.call(receiver) : descriptor.value;
     }
     constructor(){
         _classPrivateFieldInit(this, _hello, {

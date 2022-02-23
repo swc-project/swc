@@ -1,16 +1,24 @@
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) throw new TypeError("attempted to " + action + " private field on non-instance");
+    return privateMap.get(receiver);
+}
 function _classPrivateFieldInit(obj, privateMap, value) {
     !function(obj, privateCollection) {
         if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
     }(obj, privateMap), privateMap.set(obj, value);
 }
 function _classPrivateFieldSet(receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) throw new TypeError("attempted to set private field on non-instance");
-    var descriptor = privateMap.get(receiver);
-    if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-    return descriptor.value = value, value;
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
+    return !function(receiver, descriptor, value) {
+        if (descriptor.set) descriptor.set.call(receiver, value);
+        else {
+            if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
+            descriptor.value = value;
+        }
+    }(receiver, descriptor, value), value;
 }
 var C1 = function() {
     "use strict";
@@ -76,11 +84,8 @@ var C1 = function() {
         writable: !0,
         value: void 0
     });
-    var x = this.a;
-    this.a = this.b, this.b = (function(receiver, privateMap) {
-        if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-        return privateMap.get(receiver).value;
-    })(this, _d1), this.b = x, _classPrivateFieldSet(this, _d1, x), this.c;
+    var receiver, privateMap, descriptor, receiver, descriptor, x = this.a;
+    this.a = this.b, receiver = this, this.b = (descriptor = descriptor = _classExtractFieldDescriptor(receiver, privateMap = _d1, "get")).get ? descriptor.get.call(receiver) : descriptor.value, this.b = x, _classPrivateFieldSet(this, _d1, x), this.c;
 }, _d1 = new WeakMap(), C11 = function() {
     "use strict";
     _classCallCheck(this, C11), _classPrivateFieldInit(this, _b3, {

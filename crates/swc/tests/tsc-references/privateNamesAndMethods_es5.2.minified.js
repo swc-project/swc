@@ -71,11 +71,19 @@ function _checkPrivateRedeclaration(obj, privateCollection) {
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) throw new TypeError("attempted to " + action + " private field on non-instance");
+    return privateMap.get(receiver);
+}
 function _classPrivateFieldSet(receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) throw new TypeError("attempted to set private field on non-instance");
-    var descriptor = privateMap.get(receiver);
-    if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-    return descriptor.value = value, value;
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
+    return !function(receiver, descriptor, value) {
+        if (descriptor.set) descriptor.set.call(receiver, value);
+        else {
+            if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
+            descriptor.value = value;
+        }
+    }(receiver, descriptor, value), value;
 }
 function _classPrivateMethodGet(receiver, privateSet, fn) {
     if (!privateSet.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
@@ -160,10 +168,8 @@ function _baz1() {
     })).apply(this, arguments);
 }
 function quux() {
-    return (function(receiver, privateMap) {
-        if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-        return privateMap.get(receiver).value;
-    })(this, __quux);
+    var receiver, privateMap, descriptor, receiver, descriptor;
+    return receiver = this, (descriptor = descriptor = _classExtractFieldDescriptor(receiver, privateMap = __quux, "get")).get ? descriptor.get.call(receiver) : descriptor.value;
 }
 function quux(val) {
     _classPrivateFieldSet(this, __quux, val);
