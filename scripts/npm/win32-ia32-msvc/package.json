@@ -12,6 +12,9 @@
         "swc.win32-ia32-msvc.node",
         "swc.exe"
     ],
+    "bin": {
+        "swcx": "swc.exe"
+    },
     "description": "Super-fast alternative for babel",
     "keywords": [
         "swc",
