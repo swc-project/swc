@@ -254,8 +254,8 @@ impl VisitMut for CompressSelector {
             let chars = value.chars();
             let mut starts_with_hyphen = false;
 
-            for (idx, char) in chars.enumerate() {
-                match char {
+            for (idx, c) in chars.enumerate() {
+                match c {
                     '0'..='9' if idx == 0 || (starts_with_hyphen && idx == 1) => {
                         return;
                     }
@@ -264,7 +264,7 @@ impl VisitMut for CompressSelector {
                             starts_with_hyphen = true;
                         }
                     }
-                    _ if !matches!(char, '-' | '_' | 'a'..='z' | 'A'..='Z' | '0'..='9' | '\u{00a0}'..='\u{10FFFF}') =>
+                    _ if !matches!(c, '-' | '_' | 'a'..='z' | 'A'..='Z' | '0'..='9' | '\u{00a0}'..='\u{10FFFF}') =>
                     {
                         return;
                     }
