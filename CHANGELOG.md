@@ -20,6 +20,9 @@
 - **(cli)** Support stdin (#3688) ([3cf3b20](https://github.com/swc-project/swc/commit/3cf3b20f15e8ddbb2c32405c71183cfdbbb87835))
 
 
+- **(css/minifier)** Compress urange (#3668) ([b1476d2](https://github.com/swc-project/swc/commit/b1476d2ac6b7ff37653192fe7f46de9ae282b8cd))
+
+
 - **(es/lints)** Implement `default-param-last` rule (#3681) ([e252265](https://github.com/swc-project/swc/commit/e252265a3f21a4c0dcef2e9c13aa7365f683b235))
 
 ### Miscellaneous Tasks
