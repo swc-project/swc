@@ -157,17 +157,17 @@ impl<'a> HookRegister<'a> {
             let elems = custom_hook_in_scope
                 .into_iter()
                 .map(|hook| {
-                    Some(ExprOrSpread {
-                        spread: None,
-                        expr: Box::new(match hook {
+                    Some(
+                        match hook {
                             HookCall::Ident(ident) => Expr::Ident(ident),
                             HookCall::Member(obj, prop) => Expr::Member(MemberExpr {
                                 span: DUMMY_SP,
                                 obj: Box::new(obj),
                                 prop: MemberProp::Ident(prop),
                             }),
-                        }),
-                    })
+                        }
+                        .as_arg(),
+                    )
                 })
                 .collect();
             args.push(

@@ -130,24 +130,19 @@ impl CaseHandler<'_> {
 
                     let elems = locs
                         .into_iter()
-                        .map(|loc| {
-                            loc.map(|loc| ExprOrSpread {
-                                spread: None,
-                                expr: Box::new(loc.to_stmt_index()),
-                            })
-                        })
+                        .map(|loc| loc.map(|loc| loc.to_stmt_index().as_arg()))
                         .collect::<Vec<_>>();
 
                     if elems.is_empty() {
                         return None;
                     }
-                    Some(ExprOrSpread {
-                        spread: None,
-                        expr: Box::new(Expr::Array(ArrayLit {
+                    Some(
+                        ArrayLit {
                             span: DUMMY_SP,
                             elems,
-                        })),
-                    })
+                        }
+                        .as_arg(),
+                    )
                 })
                 .collect(),
         })

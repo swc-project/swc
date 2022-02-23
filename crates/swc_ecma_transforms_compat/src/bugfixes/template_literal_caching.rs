@@ -120,12 +120,7 @@ impl Fold for TemplateLiteralCaching {
                     callee: n.tag.as_callee(),
                     args: vec![inline_cache.as_arg()]
                         .into_iter()
-                        .chain(
-                            n.tpl
-                                .exprs
-                                .into_iter()
-                                .map(|expr| ExprOrSpread { expr, spread: None }),
-                        )
+                        .chain(n.tpl.exprs.into_iter().map(|expr| expr.as_arg()))
                         .collect(),
                     type_args: None,
                 })
