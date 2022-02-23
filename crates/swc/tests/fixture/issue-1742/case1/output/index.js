@@ -1,3 +1,8 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
@@ -9,11 +14,19 @@ function _classPrivateFieldGet(receiver, privateMap) {
     }
     return privateMap.get(receiver).value;
 }
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
+}
 function _classPrivateMethodGet(receiver, privateSet, fn) {
     if (!privateSet.has(receiver)) {
         throw new TypeError("attempted to get private field on non-instance");
     }
     return fn;
+}
+function _classPrivateMethodInit(obj, privateSet) {
+    _checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
 }
 function _taggedTemplateLiteral(strings, raw) {
     if (!raw) {
@@ -47,8 +60,8 @@ var _tag = new WeakSet();
 var Foo = function Foo() {
     "use strict";
     _classCallCheck(this, Foo);
-    _tag.add(this);
-    _tag2.set(this, {
+    _classPrivateMethodInit(this, _tag);
+    _classPrivateFieldInit(this, _tag2, {
         writable: true,
         value: _classPrivateMethodGet(this, _tag, tag)
     });

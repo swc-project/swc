@@ -9,10 +9,13 @@ function _defineProperties(target, props) {
 }
 var A = function() {
     "use strict";
-    _classCallCheck(this, A), _foo.set(this, {
+    var obj, privateMap, value;
+    _classCallCheck(this, A), obj = this, value = {
         writable: !0,
         value: 1
-    });
+    }, (function(obj, privateCollection) {
+        if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+    })(obj, privateMap = _foo), privateMap.set(obj, value);
 }, _foo = new WeakMap(), _foo = {
     writable: !0,
     value: !0

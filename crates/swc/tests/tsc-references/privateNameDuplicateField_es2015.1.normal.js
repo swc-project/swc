@@ -1,14 +1,27 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
+}
+function _classPrivateMethodInit(obj, privateSet) {
+    _checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
+}
 // @strict: true
 // @target: es6
 function Field() {
     // Error
     class A_Field_Field {
         constructor(){
-            _foo.set(this, {
+            _classPrivateFieldInit(this, _foo, {
                 writable: true,
                 value: "foo"
             });
-            _foo.set(this, {
+            _classPrivateFieldInit(this, _foo, {
                 writable: true,
                 value: "foo"
             });
@@ -20,11 +33,11 @@ function Field() {
     // Error
     class A_Field_Method {
         constructor(){
-            _foo1.set(this, {
+            _classPrivateFieldInit(this, _foo1, {
                 writable: true,
                 value: "foo"
             });
-            _foo1.add(this);
+            _classPrivateMethodInit(this, _foo1);
         }
     }
     var _foo1 = new WeakMap();
@@ -33,11 +46,11 @@ function Field() {
     // Error
     class A_Field_Getter {
         constructor(){
-            _foo2.set(this, {
+            _classPrivateFieldInit(this, _foo2, {
                 writable: true,
                 value: "foo"
             });
-            _foo2.add(this);
+            _classPrivateMethodInit(this, _foo2);
         }
     }
     var _foo2 = new WeakMap();
@@ -48,11 +61,11 @@ function Field() {
     // Error
     class A_Field_Setter {
         constructor(){
-            _foo3.set(this, {
+            _classPrivateFieldInit(this, _foo3, {
                 writable: true,
                 value: "foo"
             });
-            _foo3.add(this);
+            _classPrivateMethodInit(this, _foo3);
         }
     }
     var _foo3 = new WeakMap();
@@ -60,7 +73,7 @@ function Field() {
     // Error
     class A_Field_StaticField {
         constructor(){
-            _foo4.set(this, {
+            _classPrivateFieldInit(this, _foo4, {
                 writable: true,
                 value: "foo"
             });
@@ -74,7 +87,7 @@ function Field() {
     // Error
     class A_Field_StaticMethod {
         constructor(){
-            _foo5.set(this, {
+            _classPrivateFieldInit(this, _foo5, {
                 writable: true,
                 value: "foo"
             });
@@ -85,7 +98,7 @@ function Field() {
     // Error
     class A_Field_StaticGetter {
         constructor(){
-            _foo6.set(this, {
+            _classPrivateFieldInit(this, _foo6, {
                 writable: true,
                 value: "foo"
             });
@@ -98,7 +111,7 @@ function Field() {
     // Error
     class A_Field_StaticSetter {
         constructor(){
-            _foo7.set(this, {
+            _classPrivateFieldInit(this, _foo7, {
                 writable: true,
                 value: "foo"
             });
@@ -112,8 +125,8 @@ function Method() {
     // Error
     class A_Method_Field {
         constructor(){
-            _foo.add(this);
-            _foo.set(this, {
+            _classPrivateMethodInit(this, _foo);
+            _classPrivateFieldInit(this, _foo, {
                 writable: true,
                 value: "foo"
             });
@@ -125,8 +138,8 @@ function Method() {
     // Error
     class A_Method_Method {
         constructor(){
-            _foo8.add(this);
-            _foo8.add(this);
+            _classPrivateMethodInit(this, _foo8);
+            _classPrivateMethodInit(this, _foo8);
         }
     }
     function foo6() {}
@@ -135,8 +148,8 @@ function Method() {
     // Error
     class A_Method_Getter {
         constructor(){
-            _foo9.add(this);
-            _foo9.add(this);
+            _classPrivateMethodInit(this, _foo9);
+            _classPrivateMethodInit(this, _foo9);
         }
     }
     function foo7() {}
@@ -147,8 +160,8 @@ function Method() {
     // Error
     class A_Method_Setter {
         constructor(){
-            _foo10.add(this);
-            _foo10.add(this);
+            _classPrivateMethodInit(this, _foo10);
+            _classPrivateMethodInit(this, _foo10);
         }
     }
     function foo8() {}
@@ -157,7 +170,7 @@ function Method() {
     // Error
     class A_Method_StaticField {
         constructor(){
-            _foo11.add(this);
+            _classPrivateMethodInit(this, _foo11);
         }
     }
     var _foo11 = {
@@ -169,7 +182,7 @@ function Method() {
     // Error
     class A_Method_StaticMethod {
         constructor(){
-            _foo12.add(this);
+            _classPrivateMethodInit(this, _foo12);
         }
     }
     function foo10() {}
@@ -178,7 +191,7 @@ function Method() {
     // Error
     class A_Method_StaticGetter {
         constructor(){
-            _foo13.add(this);
+            _classPrivateMethodInit(this, _foo13);
         }
     }
     function foo11() {}
@@ -189,7 +202,7 @@ function Method() {
     // Error
     class A_Method_StaticSetter {
         constructor(){
-            _foo14.add(this);
+            _classPrivateMethodInit(this, _foo14);
         }
     }
     function foo12() {}
@@ -200,8 +213,8 @@ function Getter() {
     // Error
     class A_Getter_Field {
         constructor(){
-            _foo.add(this);
-            _foo.set(this, {
+            _classPrivateMethodInit(this, _foo);
+            _classPrivateFieldInit(this, _foo, {
                 writable: true,
                 value: "foo"
             });
@@ -215,8 +228,8 @@ function Getter() {
     // Error
     class A_Getter_Method {
         constructor(){
-            _foo15.add(this);
-            _foo15.add(this);
+            _classPrivateMethodInit(this, _foo15);
+            _classPrivateMethodInit(this, _foo15);
         }
     }
     function foo13() {
@@ -227,8 +240,8 @@ function Getter() {
     // Error
     class A_Getter_Getter {
         constructor(){
-            _foo16.add(this);
-            _foo16.add(this);
+            _classPrivateMethodInit(this, _foo16);
+            _classPrivateMethodInit(this, _foo16);
         }
     }
     function foo14() {
@@ -241,8 +254,8 @@ function Getter() {
     //OK
     class A_Getter_Setter {
         constructor(){
-            _foo17.add(this);
-            _foo17.add(this);
+            _classPrivateMethodInit(this, _foo17);
+            _classPrivateMethodInit(this, _foo17);
         }
     }
     function foo15() {
@@ -253,7 +266,7 @@ function Getter() {
     // Error
     class A_Getter_StaticField {
         constructor(){
-            _foo18.add(this);
+            _classPrivateMethodInit(this, _foo18);
         }
     }
     function foo16() {
@@ -264,7 +277,7 @@ function Getter() {
     // Error
     class A_Getter_StaticMethod {
         constructor(){
-            _foo19.add(this);
+            _classPrivateMethodInit(this, _foo19);
         }
     }
     function foo17() {
@@ -275,7 +288,7 @@ function Getter() {
     // Error
     class A_Getter_StaticGetter {
         constructor(){
-            _foo20.add(this);
+            _classPrivateMethodInit(this, _foo20);
         }
     }
     function foo18() {
@@ -288,7 +301,7 @@ function Getter() {
     // Error
     class A_Getter_StaticSetter {
         constructor(){
-            _foo21.add(this);
+            _classPrivateMethodInit(this, _foo21);
         }
     }
     function foo19() {
@@ -301,8 +314,8 @@ function Setter() {
     // Error
     class A_Setter_Field {
         constructor(){
-            _foo.add(this);
-            _foo.set(this, {
+            _classPrivateMethodInit(this, _foo);
+            _classPrivateFieldInit(this, _foo, {
                 writable: true,
                 value: "foo"
             });
@@ -314,8 +327,8 @@ function Setter() {
     // Error
     class A_Setter_Method {
         constructor(){
-            _foo22.add(this);
-            _foo22.add(this);
+            _classPrivateMethodInit(this, _foo22);
+            _classPrivateMethodInit(this, _foo22);
         }
     }
     function foo20(value) {}
@@ -324,8 +337,8 @@ function Setter() {
     // OK
     class A_Setter_Getter {
         constructor(){
-            _foo23.add(this);
-            _foo23.add(this);
+            _classPrivateMethodInit(this, _foo23);
+            _classPrivateMethodInit(this, _foo23);
         }
     }
     function foo21(value) {}
@@ -336,8 +349,8 @@ function Setter() {
     // Error
     class A_Setter_Setter {
         constructor(){
-            _foo24.add(this);
-            _foo24.add(this);
+            _classPrivateMethodInit(this, _foo24);
+            _classPrivateMethodInit(this, _foo24);
         }
     }
     function foo22(value) {}
@@ -346,7 +359,7 @@ function Setter() {
     // Error
     class A_Setter_StaticField {
         constructor(){
-            _foo25.add(this);
+            _classPrivateMethodInit(this, _foo25);
         }
     }
     var _foo25 = {
@@ -358,7 +371,7 @@ function Setter() {
     // Error
     class A_Setter_StaticMethod {
         constructor(){
-            _foo26.add(this);
+            _classPrivateMethodInit(this, _foo26);
         }
     }
     function foo24(value) {}
@@ -367,7 +380,7 @@ function Setter() {
     // Error
     class A_Setter_StaticGetter {
         constructor(){
-            _foo27.add(this);
+            _classPrivateMethodInit(this, _foo27);
         }
     }
     function foo25(value) {}
@@ -378,7 +391,7 @@ function Setter() {
     // Error
     class A_Setter_StaticSetter {
         constructor(){
-            _foo28.add(this);
+            _classPrivateMethodInit(this, _foo28);
         }
     }
     function foo26(value) {}
@@ -388,7 +401,7 @@ function StaticField() {
     // Error
     class A_StaticField_Field {
         constructor(){
-            _foo.set(this, {
+            _classPrivateFieldInit(this, _foo, {
                 writable: true,
                 value: "foo"
             });
@@ -403,7 +416,7 @@ function StaticField() {
     // Error
     class A_StaticField_Method {
         constructor(){
-            _foo29.add(this);
+            _classPrivateMethodInit(this, _foo29);
         }
     }
     var _foo29 = {
@@ -415,7 +428,7 @@ function StaticField() {
     // Error
     class A_StaticField_Getter {
         constructor(){
-            _foo30.add(this);
+            _classPrivateMethodInit(this, _foo30);
         }
     }
     var _foo30 = {
@@ -429,7 +442,7 @@ function StaticField() {
     // Error
     class A_StaticField_Setter {
         constructor(){
-            _foo31.add(this);
+            _classPrivateMethodInit(this, _foo31);
         }
     }
     var _foo31 = {
@@ -479,7 +492,7 @@ function StaticMethod() {
     // Error
     class A_StaticMethod_Field {
         constructor(){
-            _foo.set(this, {
+            _classPrivateFieldInit(this, _foo, {
                 writable: true,
                 value: "foo"
             });
@@ -491,7 +504,7 @@ function StaticMethod() {
     // Error
     class A_StaticMethod_Method {
         constructor(){
-            _foo36.add(this);
+            _classPrivateMethodInit(this, _foo36);
         }
     }
     function foo32() {}
@@ -500,7 +513,7 @@ function StaticMethod() {
     // Error
     class A_StaticMethod_Getter {
         constructor(){
-            _foo37.add(this);
+            _classPrivateMethodInit(this, _foo37);
         }
     }
     function foo33() {}
@@ -511,7 +524,7 @@ function StaticMethod() {
     // Error
     class A_StaticMethod_Setter {
         constructor(){
-            _foo38.add(this);
+            _classPrivateMethodInit(this, _foo38);
         }
     }
     function foo34() {}
@@ -546,7 +559,7 @@ function StaticGetter() {
     // Error
     class A_StaticGetter_Field {
         constructor(){
-            _foo.set(this, {
+            _classPrivateFieldInit(this, _foo, {
                 writable: true,
                 value: "foo"
             });
@@ -560,7 +573,7 @@ function StaticGetter() {
     // Error
     class A_StaticGetter_Method {
         constructor(){
-            _foo40.add(this);
+            _classPrivateMethodInit(this, _foo40);
         }
     }
     function foo39() {
@@ -571,7 +584,7 @@ function StaticGetter() {
     // Error
     class A_StaticGetter_Getter {
         constructor(){
-            _foo41.add(this);
+            _classPrivateMethodInit(this, _foo41);
         }
     }
     function foo40() {
@@ -584,7 +597,7 @@ function StaticGetter() {
     // Error
     class A_StaticGetter_Setter {
         constructor(){
-            _foo42.add(this);
+            _classPrivateMethodInit(this, _foo42);
         }
     }
     function foo41() {
@@ -626,7 +639,7 @@ function StaticSetter() {
     // Error
     class A_StaticSetter_Field {
         constructor(){
-            _foo.set(this, {
+            _classPrivateFieldInit(this, _foo, {
                 writable: true,
                 value: "foo"
             });
@@ -638,7 +651,7 @@ function StaticSetter() {
     // Error
     class A_StaticSetter_Method {
         constructor(){
-            _foo43.add(this);
+            _classPrivateMethodInit(this, _foo43);
         }
     }
     function foo46(value) {}
@@ -647,7 +660,7 @@ function StaticSetter() {
     // Error
     class A_StaticSetter_Getter {
         constructor(){
-            _foo44.add(this);
+            _classPrivateMethodInit(this, _foo44);
         }
     }
     function foo47(value) {}
@@ -658,7 +671,7 @@ function StaticSetter() {
     // Error
     class A_StaticSetter_Setter {
         constructor(){
-            _foo45.add(this);
+            _classPrivateMethodInit(this, _foo45);
         }
     }
     function foo48(value) {}

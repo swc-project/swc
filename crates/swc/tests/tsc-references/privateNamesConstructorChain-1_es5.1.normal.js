@@ -4,6 +4,11 @@ function _assertThisInitialized(self) {
     }
     return self;
 }
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
@@ -14,6 +19,10 @@ function _classPrivateFieldGet(receiver, privateMap) {
         throw new TypeError("attempted to get private field on non-instance");
     }
     return privateMap.get(receiver).value;
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
 }
 function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
     if (receiver !== classConstructor) {
@@ -100,7 +109,7 @@ var Parent = // @target: es2015
     "use strict";
     function Parent() {
         _classCallCheck(this, Parent);
-        _foo.set(this, {
+        _classPrivateFieldInit(this, _foo, {
             writable: true,
             value: 3
         });
@@ -130,11 +139,11 @@ var Child = /*#__PURE__*/ function(Parent) {
         _classCallCheck(this, Child);
         var _this;
         _this = _super.apply(this, arguments);
-        _foo1.set(_assertThisInitialized(_this), {
+        _classPrivateFieldInit(_assertThisInitialized(_this), _foo1, {
             writable: true,
             value: "foo"
         });
-        _bar1.set(_assertThisInitialized(_this), {
+        _classPrivateFieldInit(_assertThisInitialized(_this), _bar1, {
             writable: true,
             value: "bar"
         });

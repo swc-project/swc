@@ -1,8 +1,17 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classPrivateFieldGet(receiver, privateMap) {
     if (!privateMap.has(receiver)) {
         throw new TypeError("attempted to get private field on non-instance");
     }
     return privateMap.get(receiver).value;
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
 }
 function _classPrivateFieldSet(receiver, privateMap, value) {
     if (!privateMap.has(receiver)) {
@@ -15,6 +24,10 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
     descriptor.value = value;
     return value;
 }
+function _classPrivateMethodInit(obj, privateSet) {
+    _checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
+}
 var _b = new WeakSet(), _c = new WeakSet();
 // @target: es2015
 // @importHelpers: true
@@ -22,12 +35,12 @@ var _b = new WeakSet(), _c = new WeakSet();
 // @filename: main.ts
 export class C {
     constructor(){
-        _a.set(this, {
+        _classPrivateFieldInit(this, _a, {
             writable: true,
             value: 1
         });
-        _b.add(this);
-        _c.add(this);
+        _classPrivateMethodInit(this, _b);
+        _classPrivateMethodInit(this, _c);
     }
 }
 var _a = new WeakMap();

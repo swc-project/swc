@@ -1,8 +1,17 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classPrivateFieldGet(receiver, privateMap) {
     if (!privateMap.has(receiver)) {
         throw new TypeError("attempted to get private field on non-instance");
     }
     return privateMap.get(receiver).value;
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
 }
 function _classPrivateFieldSet(receiver, privateMap, value) {
     if (!privateMap.has(receiver)) {
@@ -21,19 +30,19 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
 // Properties with non-undefined types require initialization
 class C1 {
     constructor(){
-        _f.set(this, {
+        _classPrivateFieldInit(this, _f, {
             writable: true,
             value: void 0 //Error
         });
-        _g.set(this, {
+        _classPrivateFieldInit(this, _g, {
             writable: true,
             value: void 0
         });
-        _h.set(this, {
+        _classPrivateFieldInit(this, _h, {
             writable: true,
             value: void 0 //Error
         });
-        _i.set(this, {
+        _classPrivateFieldInit(this, _i, {
             writable: true,
             value: void 0
         });
@@ -49,15 +58,15 @@ class C3 {
 // Initializer satisfies strict initialization check
 class C4 {
     constructor(){
-        _d.set(this, {
+        _classPrivateFieldInit(this, _d, {
             writable: true,
             value: 0
         });
-        _e.set(this, {
+        _classPrivateFieldInit(this, _e, {
             writable: true,
             value: 0
         });
-        _f1.set(this, {
+        _classPrivateFieldInit(this, _f1, {
             writable: true,
             value: "abc"
         });
@@ -72,7 +81,7 @@ var _f1 = new WeakMap();
 // Assignment in constructor satisfies strict initialization check
 class C5 {
     constructor(){
-        _b.set(this, {
+        _classPrivateFieldInit(this, _b, {
             writable: true,
             value: void 0
         });
@@ -84,7 +93,7 @@ var _b = new WeakMap();
 // All code paths must contain assignment
 class C6 {
     constructor(cond){
-        _b1.set(this, {
+        _classPrivateFieldInit(this, _b1, {
             writable: true,
             value: void 0
         });
@@ -98,7 +107,7 @@ class C6 {
 var _b1 = new WeakMap();
 class C7 {
     constructor(cond){
-        _b2.set(this, {
+        _classPrivateFieldInit(this, _b2, {
             writable: true,
             value: void 0
         });
@@ -122,7 +131,7 @@ class C9 {
 // within their constructor
 class C10 {
     constructor(){
-        _d1.set(this, {
+        _classPrivateFieldInit(this, _d1, {
             writable: true,
             value: void 0
         });
@@ -138,7 +147,7 @@ class C10 {
 var _d1 = new WeakMap();
 class C11 {
     constructor(){
-        _b3.set(this, {
+        _classPrivateFieldInit(this, _b3, {
             writable: true,
             value: void 0
         });

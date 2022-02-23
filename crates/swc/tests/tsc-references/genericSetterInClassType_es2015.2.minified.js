@@ -24,10 +24,13 @@ var Generic;
             }(this, _value, value1);
         }
         constructor(){
-            _value.set(this, {
+            var obj, privateMap, value;
+            obj = this, value = {
                 writable: !0,
                 value: void 0
-            });
+            }, (function(obj, privateCollection) {
+                if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+            })(obj, privateMap = _value), privateMap.set(obj, value);
         }
     }().value = 3;
 }(Generic || (Generic = {}));

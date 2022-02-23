@@ -558,7 +558,7 @@ impl Scope {
                     } else {
                         *expr.fold_with(folder)
                     };
-                    Callee::Expr(Box::new(callee))
+                    callee.as_callee()
                 } else {
                     callee.fold_with(folder)
                 };

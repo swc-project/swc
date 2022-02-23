@@ -1,3 +1,8 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
@@ -8,6 +13,10 @@ function _classPrivateFieldGet(receiver, privateMap) {
         throw new TypeError("attempted to get private field on non-instance");
     }
     return privateMap.get(receiver).value;
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
 }
 function _classPrivateFieldSet(receiver, privateMap, value) {
     if (!privateMap.has(receiver)) {
@@ -56,15 +65,15 @@ var C = // @target: esnext, es2022
     "use strict";
     function C() {
         _classCallCheck(this, C);
-        _a.set(this, {
+        _classPrivateFieldInit(this, _a, {
             writable: true,
             value: 10
         });
-        _b.set(this, {
+        _classPrivateFieldInit(this, _b, {
             writable: true,
             value: void 0
         });
-        _something.set(this, {
+        _classPrivateFieldInit(this, _something, {
             writable: true,
             value: function() {
                 return 1234;

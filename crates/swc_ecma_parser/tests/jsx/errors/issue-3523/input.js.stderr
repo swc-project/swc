@@ -1,0 +1,6 @@
+error: Rest element must be final element
+ --> $DIR/tests/jsx/errors/issue-3523/input.js:3:7
+  |
+3 | for ({...rest, b} of [{}
+  |       ^^^^^^^
+

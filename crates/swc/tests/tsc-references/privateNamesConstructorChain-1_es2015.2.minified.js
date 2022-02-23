@@ -1,3 +1,8 @@
+function _classPrivateFieldInit(obj, privateMap, value) {
+    !function(obj, privateCollection) {
+        if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }(obj, privateMap), privateMap.set(obj, value);
+}
 class Parent {
     accessChildProps() {
         !function(receiver, privateMap) {
@@ -9,7 +14,7 @@ class Parent {
         })(Child, Parent, _bar);
     }
     constructor(){
-        _foo.set(this, {
+        _classPrivateFieldInit(this, _foo, {
             writable: !0,
             value: 3
         });
@@ -21,10 +26,10 @@ var _foo = new WeakMap(), _bar = {
 };
 class Child extends Parent {
     constructor(...args){
-        super(...args), _foo1.set(this, {
+        super(...args), _classPrivateFieldInit(this, _foo1, {
             writable: !0,
             value: "foo"
-        }), _bar1.set(this, {
+        }), _classPrivateFieldInit(this, _bar1, {
             writable: !0,
             value: "bar"
         });

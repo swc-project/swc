@@ -1,3 +1,12 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap), privateMap.set(obj, value);
+}
+function _classPrivateMethodInit(obj, privateSet) {
+    _checkPrivateRedeclaration(obj, privateSet), privateSet.add(obj);
+}
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
@@ -11,13 +20,13 @@ export var C = function() {
     function C() {
         !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, C), _hello.set(this, {
+        }(this, C), _classPrivateFieldInit(this, _hello, {
             writable: !0,
             value: "hello"
-        }), _world.set(this, {
+        }), _classPrivateFieldInit(this, _world, {
             writable: !0,
             value: 100
-        }), _calcHello.add(this), _screamingHello.add(this), _screamingHello.add(this);
+        }), _classPrivateMethodInit(this, _calcHello), _classPrivateMethodInit(this, _screamingHello), _classPrivateMethodInit(this, _screamingHello);
     }
     return Constructor = C, protoProps = [
         {

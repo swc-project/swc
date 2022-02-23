@@ -6,6 +6,11 @@ function _arrayLikeToArray(arr, len) {
 function _arrayWithoutHoles(arr) {
     if (Array.isArray(arr)) return _arrayLikeToArray(arr);
 }
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
@@ -16,6 +21,10 @@ function _classPrivateFieldGet(receiver, privateMap) {
         throw new TypeError("attempted to get private field on non-instance");
     }
     return privateMap.get(receiver).value;
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
 }
 function isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
@@ -120,13 +129,13 @@ var A = // @target: es2015
     "use strict";
     function A() {
         _classCallCheck(this, A);
-        _fieldFunc.set(this, {
+        _classPrivateFieldInit(this, _fieldFunc, {
             writable: true,
             value: function value() {
                 this.x = 10;
             }
         });
-        _fieldFunc2.set(this, {
+        _classPrivateFieldInit(this, _fieldFunc2, {
             writable: true,
             value: function value(a) {
                 for(var _len = arguments.length, b = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){

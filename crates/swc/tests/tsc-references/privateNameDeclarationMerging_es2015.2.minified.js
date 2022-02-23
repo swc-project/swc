@@ -10,7 +10,11 @@ class C {
         _classPrivateFieldGet(d, _x);
     }
     constructor(){
-        _x.set(this, {
+        !function(obj, privateMap, value) {
+            !function(obj, privateCollection) {
+                if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+            }(obj, privateMap), privateMap.set(obj, value);
+        }(this, _x, {
             writable: !0,
             value: void 0
         });

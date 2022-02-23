@@ -65,6 +65,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
 function _AwaitValue(value) {
     this.wrapped = value;
 }
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -77,6 +80,9 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
 function _classPrivateMethodGet(receiver, privateSet, fn) {
     if (!privateSet.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
     return fn;
+}
+function _classPrivateMethodInit(obj, privateSet) {
+    _checkPrivateRedeclaration(obj, privateSet), privateSet.add(obj);
 }
 function _getPrototypeOf(o) {
     return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
@@ -100,10 +106,11 @@ function _setPrototypeOf(o, p) {
 import regeneratorRuntime from "regenerator-runtime";
 var _foo = new WeakSet(), _bar = new WeakSet(), _baz = new WeakSet(), _quux = new WeakSet(), _quux = new WeakSet(), A = function() {
     "use strict";
-    _classCallCheck(this, A), _foo.add(this), _bar.add(this), _baz.add(this), __quux.set(this, {
+    var obj, privateMap, value;
+    _classCallCheck(this, A), _classPrivateMethodInit(this, _foo), _classPrivateMethodInit(this, _bar), _classPrivateMethodInit(this, _baz), obj = this, value = {
         writable: !0,
         value: void 0
-    }), _quux.add(this), _quux.add(this), _classPrivateMethodGet(this, _foo, foo).call(this, 30), _classPrivateMethodGet(this, _bar, bar).call(this, 30), _classPrivateMethodGet(this, _baz, baz).call(this, 30), _classPrivateFieldSet(this, _quux, _classPrivateMethodGet(this, _quux, quux) + 1), _classPrivateFieldSet(this, _quux, +_classPrivateMethodGet(this, _quux, quux) + 1);
+    }, _checkPrivateRedeclaration(obj, privateMap = __quux), privateMap.set(obj, value), _classPrivateMethodInit(this, _quux), _classPrivateMethodInit(this, _quux), _classPrivateMethodGet(this, _foo, foo).call(this, 30), _classPrivateMethodGet(this, _bar, bar).call(this, 30), _classPrivateMethodGet(this, _baz, baz).call(this, 30), _classPrivateFieldSet(this, _quux, _classPrivateMethodGet(this, _quux, quux) + 1), _classPrivateFieldSet(this, _quux, +_classPrivateMethodGet(this, _quux, quux) + 1);
 }, __quux = new WeakMap();
 function foo(a) {}
 function bar(a) {
@@ -192,7 +199,7 @@ var _foo1 = new WeakSet(), B = function(A1) {
     });
     function B() {
         var _this;
-        return _classCallCheck(this, B), _this = _super.call(this), _foo1.add(_assertThisInitialized(_this)), _classPrivateMethodGet(_this, _foo1, foo1).call(_assertThisInitialized(_this), "str"), _this;
+        return _classCallCheck(this, B), _classPrivateMethodInit(_assertThisInitialized(_this = _super.call(this)), _foo1), _classPrivateMethodGet(_this, _foo1, foo1).call(_assertThisInitialized(_this), "str"), _this;
     }
     return B;
 }(A);

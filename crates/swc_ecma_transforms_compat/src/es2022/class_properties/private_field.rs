@@ -30,7 +30,7 @@ impl PrivateRecord {
         &self.0.last().unwrap().class_name
     }
 
-    pub fn curr_mark(&self) -> Mark {
+    pub fn cur_mark(&self) -> Mark {
         self.0.last().unwrap().mark
     }
 
@@ -471,7 +471,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 } else {
                     *e = Expr::Call(CallExpr {
                         span: *span,
-                        callee: Callee::Expr(Box::new(expr)),
+                        callee: expr.as_callee(),
                         args: args.take(),
                         type_args: type_args.take(),
                     });
@@ -492,15 +492,16 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                     let args = iter::once(this.as_arg()).chain(call.args.take()).collect();
                     *e = Expr::Call(CallExpr {
                         span: *span,
-                        callee: Callee::Expr(Box::new(Expr::OptChain(OptChainExpr {
-                            question_dot_token: *question_dot_token,
+                        callee: OptChainExpr {
                             span: *span,
+                            question_dot_token: *question_dot_token,
                             base: OptChainBase::Member(MemberExpr {
-                                obj: Box::new(expr),
                                 span: call.span,
+                                obj: Box::new(expr),
                                 prop: MemberProp::Ident(quote_ident!("call")),
                             }),
-                        }))),
+                        }
+                        .as_callee(),
                         args,
                         type_args: call.type_args.take(),
                     });

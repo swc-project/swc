@@ -1,6 +1,11 @@
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
+function _classPrivateFieldInit(obj, privateMap, value) {
+    !function(obj, privateCollection) {
+        if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }(obj, privateMap), privateMap.set(obj, value);
+}
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
@@ -13,7 +18,7 @@ export var Foo = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function Foo() {
-        _classCallCheck(this, Foo), _x.set(this, {
+        _classCallCheck(this, Foo), _classPrivateFieldInit(this, _x, {
             writable: !0,
             value: void 0
         });
@@ -33,7 +38,7 @@ export var Foo = function() {
 var _x = new WeakMap();
 export var Foo = function() {
     "use strict";
-    _classCallCheck(this, Foo), _x1.set(this, {
+    _classCallCheck(this, Foo), _classPrivateFieldInit(this, _x1, {
         writable: !0,
         value: void 0
     });

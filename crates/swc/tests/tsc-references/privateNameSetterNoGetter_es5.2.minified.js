@@ -9,9 +9,12 @@ var C = function() {
         "use strict";
         var Constructor, protoProps, staticProps;
         function _class() {
+            var obj, privateSet;
             !function(instance, Constructor) {
                 if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-            }(this, _class), _x.add(this);
+            }(this, _class), obj = this, (function(obj, privateCollection) {
+                if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+            })(obj, privateSet = _x), privateSet.add(obj);
         }
         return Constructor = _class, protoProps = [
             {

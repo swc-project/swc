@@ -10,6 +10,10 @@ new class {
         console.log(x);
     }
     constructor(){
-        _foo.add(this);
+        !function(obj, privateSet) {
+            !function(obj, privateCollection) {
+                if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+            }(obj, privateSet), privateSet.add(obj);
+        }(this, _foo);
     }
 }().bar();

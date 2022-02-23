@@ -1,3 +1,12 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
+}
 // @target: esnext, es2022
 // @useDefineForClassFields: true
 class B {
@@ -6,7 +15,7 @@ class A extends B {
     constructor(){
         void 0;
         super();
-        _x.set(this, {
+        _classPrivateFieldInit(this, _x, {
             writable: true,
             value: void 0
         });

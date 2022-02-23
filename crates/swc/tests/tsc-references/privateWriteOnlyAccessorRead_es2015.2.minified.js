@@ -8,6 +8,11 @@ function _classPrivateMethodGet(receiver, privateSet, fn) {
     if (!privateSet.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
     return fn;
 }
+function _classPrivateMethodInit(obj, privateSet) {
+    !function(obj, privateCollection) {
+        if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }(obj, privateSet), privateSet.add(obj);
+}
 function _extends() {
     return (_extends = Object.assign || function(target) {
         for(var i = 1; i < arguments.length; i++){
@@ -60,6 +65,6 @@ new class {
         ], _classPrivateMethodGet(this, _valueOne, valueOne), _classPrivateMethodGet(this, _valueRest, valueRest), _classPrivateFieldSet(this, _valueCompound, _classPrivateMethodGet(this, _valueCompound, valueCompound) + 3);
     }
     constructor(){
-        _value.add(this), _valueRest.add(this), _valueOne.add(this), _valueCompound.add(this);
+        _classPrivateMethodInit(this, _value), _classPrivateMethodInit(this, _valueRest), _classPrivateMethodInit(this, _valueOne), _classPrivateMethodInit(this, _valueCompound);
     }
 }().m();

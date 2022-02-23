@@ -14,12 +14,15 @@ var Box = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function Box(initialValue) {
+        var obj, privateMap, value;
         !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, Box), _value.set(this, {
+        }(this, Box), obj = this, value = {
             writable: !0,
             value: void 0
-        }), _classPrivateFieldSet(this, _value, initialValue);
+        }, (function(obj, privateCollection) {
+            if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+        })(obj, privateMap = _value), privateMap.set(obj, value), _classPrivateFieldSet(this, _value, initialValue);
     }
     return Constructor = Box, protoProps = [
         {

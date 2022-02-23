@@ -18,13 +18,15 @@ var C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
-        var _this_test;
+        var obj, privateMap, value, _this_test;
         for(!function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, C), _test.set(this, {
+        }(this, C), obj = this, value = {
             writable: !0,
             value: 24
-        }), _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) + 1), _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) - 1), _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) + 1), _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) - 1), _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) + 1), _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) - 1), _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) + 1), _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) - 1), _classPrivateFieldSet(this, _test, 0); 10 > _classPrivateFieldGet(this, _test); _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) + 1));
+        }, (function(obj, privateCollection) {
+            if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+        })(obj, privateMap = _test), privateMap.set(obj, value), _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) + 1), _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) - 1), _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) + 1), _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) - 1), _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) + 1), _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) - 1), _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) + 1), _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) - 1), _classPrivateFieldSet(this, _test, 0); 10 > _classPrivateFieldGet(this, _test); _classPrivateFieldSet(this, _test, +_classPrivateFieldGet(this, _test) + 1));
         for(_classPrivateFieldSet(this, _test, 0); 10 > _classPrivateFieldGet(this, _test); _classPrivateFieldSet(this, _test, (_this_test = +_classPrivateFieldGet(this, _test)) + 1), _this_test);
     }
     return Constructor = C, protoProps = [
