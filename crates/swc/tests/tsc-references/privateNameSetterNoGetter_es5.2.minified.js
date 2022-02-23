@@ -20,15 +20,20 @@ var C = function() {
             {
                 key: "m",
                 value: function() {
-                    !function(receiver, privateMap, value) {
-                        if (!privateMap.has(receiver)) throw new TypeError("attempted to set private field on non-instance");
-                        var descriptor = privateMap.get(receiver);
-                        if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-                        return descriptor.value = value, value;
-                    }(this, _x, function(receiver, privateSet, fn) {
+                    var receiver, privateMap, value, descriptor;
+                    receiver = this, privateMap = _x, value = (function(receiver, privateSet, fn) {
                         if (!privateSet.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
                         return fn;
-                    }(this, _x, x) + 2);
+                    })(this, _x, x) + 2, descriptor = (function(receiver, privateMap, action) {
+                        if (!privateMap.has(receiver)) throw new TypeError("attempted to set private field on non-instance");
+                        return privateMap.get(receiver);
+                    })(receiver, privateMap, "set"), (function(receiver, descriptor, value) {
+                        if (descriptor.set) descriptor.set.call(receiver, value);
+                        else {
+                            if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
+                            descriptor.value = value;
+                        }
+                    })(receiver, descriptor, value);
                 }
             }
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), _class;

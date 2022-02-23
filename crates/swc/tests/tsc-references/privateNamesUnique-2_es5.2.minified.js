@@ -27,10 +27,11 @@ export var Foo = function() {
         {
             key: "copy",
             value: function(other) {
-                !function(receiver, privateMap) {
+                var receiver, privateMap, descriptor, receiver, descriptor;
+                (descriptor = descriptor = (function(receiver, privateMap, action) {
                     if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-                    return privateMap.get(receiver).value;
-                }(other, _x);
+                    return privateMap.get(receiver);
+                })(receiver = other, privateMap = _x, "get")).get ? descriptor.get.call(receiver) : descriptor.value;
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Foo;

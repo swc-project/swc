@@ -16,16 +16,17 @@ function _classPrivateMethodInit(obj, privateSet) {
 }
 export var A = function() {
     "use strict";
+    var receiver, privateMap, descriptor, receiver, descriptor;
     _classCallCheck(this, A), _classPrivateFieldInit(this, _used, {
         writable: !0,
         value: "used"
     }), _classPrivateFieldInit(this, _unused, {
         writable: !0,
         value: "unused"
-    }), console.log(function(receiver, privateMap) {
+    }), console.log((receiver = this, (descriptor = descriptor = function(receiver, privateMap, action) {
         if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-        return privateMap.get(receiver).value;
-    }(this, _used));
+        return privateMap.get(receiver);
+    }(receiver, privateMap = _used, "get")).get ? descriptor.get.call(receiver) : descriptor.value));
 };
 var _used = new WeakMap(), _unused = new WeakMap(), _used1 = new WeakSet(), _unused1 = new WeakSet();
 export var A2 = function() {

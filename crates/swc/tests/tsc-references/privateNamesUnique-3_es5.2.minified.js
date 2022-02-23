@@ -29,10 +29,12 @@ var A = function() {
         {
             key: "test",
             value: function(x) {
-                !function(receiver, classConstructor, descriptor) {
+                var receiver, classConstructor, descriptor, receiver, descriptor;
+                receiver = x, classConstructor = B, descriptor = _foo1, (function(receiver, classConstructor) {
                     if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
-                    return descriptor.value;
-                }(x, B, _foo1);
+                })(receiver, classConstructor), (function(descriptor, action) {
+                    if (void 0 === descriptor) throw new TypeError("attempted to get private static field before its declaration");
+                })(descriptor, "get"), (descriptor = descriptor).get ? descriptor.get.call(receiver) : descriptor.value;
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), B;
