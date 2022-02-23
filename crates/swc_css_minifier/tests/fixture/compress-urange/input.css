@@ -1,0 +1,111 @@
+@font-face {
+    unicode-range: U+26;
+}
+
+@font-face {
+    unicode-range: U+0-7F;
+}
+
+@font-face {
+    unicode-range: U+0025-00FF;
+}
+
+@font-face {
+    unicode-range: U+0025-00FF, U+4??;
+}
+
+@font-face {
+    unicode-range: U+100000-10FFFF;
+}
+
+@font-face {
+    unicode-range: U+2b00-2bff;
+}
+
+@font-face {
+    unicode-range: u+2b00-2bff;
+}
+
+@font-face {
+    unicode-range: U+1e00-1eff;
+}
+
+@font-face {
+    unicode-range: U+2125-2128;
+}
+
+@font-face {
+    unicode-range: U+400-4FF;
+}
+
+@font-face {
+    unicode-range: U+0025-00FF, U+4??;
+}
+
+@font-face {
+    unicode-range: U+450-4FF;
+}
+
+@font-face {
+    unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F;
+}
+
+@font-face {
+    unicode-range: U+????;
+}
+
+@font-face {
+    unicode-range: U+0000-FFFF;
+}
+
+@font-face {
+    unicode-range: U+10????;
+}
+
+@font-face {
+    unicode-range: U+100000-10FFFF;
+}
+
+@font-face {
+    unicode-range: U+1e1e?;
+}
+
+@font-face {
+    unicode-range: u+????, U+1????, U+10????;
+}
+
+@font-face {
+    unicode-range: U+0025-0025;
+}
+
+@font-face {
+    unicode-range: U+1e1e0-1E1EF; 
+}
+
+@font-face {
+    unicode-range: U+0025;
+}
+
+@font-face {
+    unicode-range: U+0125;
+}
+
+@font-face {
+    unicode-range: U+0100-FFFF;
+}
+
+@font-face {
+    unicode-range: U+10125;
+}
+
+@font-face {
+    unicode-range: U+450-0004FF;
+}
+
+@font-face {
+    unicode-range: U+000450-4FF;
+}
+
+@font-face {
+    unicode-range: U+000450-0004FF;
+}
