@@ -7,8 +7,8 @@ error: Stylesheet
 4  | | p   
 ...  |
 24 | | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-25 | |
-   | |_^
+25 | | ul li:not(:first-of-type) {}
+   | |_____________________________^
 
 error: Rule
  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:1:1
@@ -912,7 +912,43 @@ error: Ident
 10 | :not(:is(argument)) {}
    |       ^^
 
-error: Ident { value: Atom('argument' type=dynamic), raw: Atom('argument' type=dynamic) }
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:10
+   |
+10 | :not(:is(argument)) {}
+   |          ^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:10
+   |
+10 | :not(:is(argument)) {}
+   |          ^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:10
+   |
+10 | :not(:is(argument)) {}
+   |          ^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:10
+   |
+10 | :not(:is(argument)) {}
+   |          ^^^^^^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:10
+   |
+10 | :not(:is(argument)) {}
+   |          ^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:10
+   |
+10 | :not(:is(argument)) {}
+   |          ^^^^^^^^
+
+error: Ident
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:10
    |
 10 | :not(:is(argument)) {}
@@ -2610,35 +2646,77 @@ error: Ident
 22 | a:where(:not(:hover)) {}
    |   ^^^^^
 
-error: Colon
+error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:22:9
    |
 22 | a:where(:not(:hover)) {}
-   |         ^
+   |         ^^^^^^^^^^^^
 
-error: Function { value: Atom('not' type=static), raw: Atom('not' type=static) }
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:22:9
+   |
+22 | a:where(:not(:hover)) {}
+   |         ^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:22:9
+   |
+22 | a:where(:not(:hover)) {}
+   |         ^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:22:9
+   |
+22 | a:where(:not(:hover)) {}
+   |         ^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:22:9
+   |
+22 | a:where(:not(:hover)) {}
+   |         ^^^^^^^^^^^^
+
+error: Ident
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:22:10
    |
 22 | a:where(:not(:hover)) {}
-   |          ^^^^
+   |          ^^^
 
-error: Colon
+error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:22:14
    |
 22 | a:where(:not(:hover)) {}
-   |              ^
+   |              ^^^^^^
 
-error: Ident { value: Atom('hover' type=inline), raw: Atom('hover' type=inline) }
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:22:14
+   |
+22 | a:where(:not(:hover)) {}
+   |              ^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:22:14
+   |
+22 | a:where(:not(:hover)) {}
+   |              ^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:22:14
+   |
+22 | a:where(:not(:hover)) {}
+   |              ^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:22:14
+   |
+22 | a:where(:not(:hover)) {}
+   |              ^^^^^^
+
+error: Ident
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:22:15
    |
 22 | a:where(:not(:hover)) {}
    |               ^^^^^
-
-error: RParen
-  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:22:20
-   |
-22 | a:where(:not(:hover)) {}
-   |                    ^
 
 error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:22:23
@@ -2754,97 +2832,259 @@ error: Ident
 23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
    |              ^^^
 
-error: Ident { value: Atom('h1' type=inline), raw: Atom('h1' type=inline) }
+error: RelativeSelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:18
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                  ^^^^^^^^^^^^^^^^^^^^^^
+
+error: RelativeSelector
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:18
    |
 23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
    |                  ^^
 
-error: Comma
-  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:20
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:18
    |
 23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-   |                    ^
+   |                  ^^
 
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:21
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:18
    |
 23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-   |                     ^
+   |                  ^^
 
-error: Ident { value: Atom('h2' type=inline), raw: Atom('h2' type=inline) }
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:18
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                  ^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:18
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                  ^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:18
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                  ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:18
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                  ^^
+
+error: RelativeSelector
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:22
    |
 23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
    |                      ^^
 
-error: Comma
-  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:24
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:22
    |
 23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-   |                        ^
+   |                      ^^
 
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:25
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:22
    |
 23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-   |                         ^
+   |                      ^^
 
-error: Ident { value: Atom('h3' type=inline), raw: Atom('h3' type=inline) }
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:22
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                      ^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:22
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                      ^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:22
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                      ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:22
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                      ^^
+
+error: RelativeSelector
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:26
    |
 23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
    |                          ^^
 
-error: Comma
-  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:28
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:26
    |
 23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-   |                            ^
+   |                          ^^
 
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:29
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:26
    |
 23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-   |                             ^
+   |                          ^^
 
-error: Ident { value: Atom('h4' type=inline), raw: Atom('h4' type=inline) }
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:26
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                          ^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:26
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                          ^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:26
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                          ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:26
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                          ^^
+
+error: RelativeSelector
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:30
    |
 23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
    |                              ^^
 
-error: Comma
-  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:32
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:30
    |
 23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-   |                                ^
+   |                              ^^
 
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:33
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:30
    |
 23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-   |                                 ^
+   |                              ^^
 
-error: Ident { value: Atom('h5' type=inline), raw: Atom('h5' type=inline) }
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:30
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                              ^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:30
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                              ^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:30
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                              ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:30
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                              ^^
+
+error: RelativeSelector
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:34
    |
 23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
    |                                  ^^
 
-error: Comma
-  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:36
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:34
    |
 23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-   |                                    ^
+   |                                  ^^
 
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:37
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:34
    |
 23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-   |                                     ^
+   |                                  ^^
 
-error: Ident { value: Atom('h6' type=inline), raw: Atom('h6' type=inline) }
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:34
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                                  ^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:34
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                                  ^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:34
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                                  ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:34
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                                  ^^
+
+error: RelativeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:38
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                                      ^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:38
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                                      ^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:38
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                                      ^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:38
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                                      ^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:38
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                                      ^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:38
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                                      ^^
+
+error: Ident
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:38
    |
 23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
@@ -2928,123 +3168,423 @@ error: Ident
 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
    |         ^^^
 
-error: Colon
+error: RelativeSelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:13
    |
 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-   |             ^
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Function { value: Atom('not' type=static), raw: Atom('not' type=static) }
+error: RelativeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:13
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:13
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:13
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:13
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:13
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:14
    |
 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-   |              ^^^^
+   |              ^^^
 
-error: Ident { value: Atom('h1' type=inline), raw: Atom('h1' type=inline) }
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:18
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |                  ^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:18
    |
 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
    |                  ^^
 
-error: Comma
-  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:20
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:18
    |
 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-   |                    ^
+   |                  ^^
 
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:21
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:18
    |
 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-   |                     ^
+   |                  ^^
 
-error: Ident { value: Atom('h2' type=inline), raw: Atom('h2' type=inline) }
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:18
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |                  ^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:18
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |                  ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:18
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |                  ^^
+
+error: ComplexSelector
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:22
    |
 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
    |                      ^^
 
-error: Comma
-  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:24
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:22
    |
 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-   |                        ^
+   |                      ^^
 
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:25
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:22
    |
 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-   |                         ^
+   |                      ^^
 
-error: Ident { value: Atom('h3' type=inline), raw: Atom('h3' type=inline) }
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:22
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |                      ^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:22
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |                      ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:22
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |                      ^^
+
+error: ComplexSelector
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:26
    |
 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
    |                          ^^
 
-error: Comma
-  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:28
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:26
    |
 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-   |                            ^
+   |                          ^^
 
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:29
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:26
    |
 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-   |                             ^
+   |                          ^^
 
-error: Ident { value: Atom('h4' type=inline), raw: Atom('h4' type=inline) }
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:26
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |                          ^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:26
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |                          ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:26
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |                          ^^
+
+error: ComplexSelector
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:30
    |
 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
    |                              ^^
 
-error: Comma
-  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:32
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:30
    |
 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-   |                                ^
+   |                              ^^
 
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:33
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:30
    |
 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-   |                                 ^
+   |                              ^^
 
-error: Ident { value: Atom('h5' type=inline), raw: Atom('h5' type=inline) }
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:30
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |                              ^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:30
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |                              ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:30
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |                              ^^
+
+error: ComplexSelector
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:34
    |
 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
    |                                  ^^
 
-error: Comma
-  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:36
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:34
    |
 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-   |                                    ^
+   |                                  ^^
 
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:37
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:34
    |
 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-   |                                     ^
+   |                                  ^^
 
-error: Ident { value: Atom('h6' type=inline), raw: Atom('h6' type=inline) }
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:34
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |                                  ^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:34
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |                                  ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:34
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |                                  ^^
+
+error: ComplexSelector
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:38
    |
 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
    |                                      ^^
 
-error: RParen
-  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:40
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:38
    |
 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-   |                                        ^
+   |                                      ^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:38
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |                                      ^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:38
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |                                      ^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:38
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |                                      ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:38
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |                                      ^^
 
 error: SimpleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:43
    |
 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
    |                                           ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:1
+   |
+25 | ul li:not(:first-of-type) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:1
+   |
+25 | ul li:not(:first-of-type) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:1
+   |
+25 | ul li:not(:first-of-type) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:1
+   |
+25 | ul li:not(:first-of-type) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:1
+   |
+25 | ul li:not(:first-of-type) {}
+   | ^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:1
+   |
+25 | ul li:not(:first-of-type) {}
+   | ^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:1
+   |
+25 | ul li:not(:first-of-type) {}
+   | ^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:1
+   |
+25 | ul li:not(:first-of-type) {}
+   | ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:1
+   |
+25 | ul li:not(:first-of-type) {}
+   | ^^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:3
+   |
+25 | ul li:not(:first-of-type) {}
+   |   ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:4
+   |
+25 | ul li:not(:first-of-type) {}
+   |    ^^^^^^^^^^^^^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:4
+   |
+25 | ul li:not(:first-of-type) {}
+   |    ^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:4
+   |
+25 | ul li:not(:first-of-type) {}
+   |    ^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:4
+   |
+25 | ul li:not(:first-of-type) {}
+   |    ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:4
+   |
+25 | ul li:not(:first-of-type) {}
+   |    ^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:6
+   |
+25 | ul li:not(:first-of-type) {}
+   |      ^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:6
+   |
+25 | ul li:not(:first-of-type) {}
+   |      ^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:7
+   |
+25 | ul li:not(:first-of-type) {}
+   |       ^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:11
+   |
+25 | ul li:not(:first-of-type) {}
+   |           ^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:11
+   |
+25 | ul li:not(:first-of-type) {}
+   |           ^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:11
+   |
+25 | ul li:not(:first-of-type) {}
+   |           ^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:11
+   |
+25 | ul li:not(:first-of-type) {}
+   |           ^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:11
+   |
+25 | ul li:not(:first-of-type) {}
+   |           ^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:12
+   |
+25 | ul li:not(:first-of-type) {}
+   |            ^^^^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:27
+   |
+25 | ul li:not(:first-of-type) {}
+   |                           ^^
 

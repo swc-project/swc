@@ -52,6 +52,50 @@ where
     }
 }
 
+impl<I> Parse<RelativeSelectorList> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<RelativeSelectorList> {
+        self.input.skip_ws()?;
+
+        let child = self.parse()?;
+        let mut children = vec![child];
+
+        loop {
+            self.input.skip_ws()?;
+
+            if !eat!(self, ",") {
+                break;
+            }
+
+            self.input.skip_ws()?;
+
+            let child = self.parse()?;
+
+            children.push(child);
+        }
+
+        let start_pos = match children.first() {
+            Some(RelativeSelector { span, .. }) => span.lo,
+            _ => {
+                unreachable!();
+            }
+        };
+        let last_pos = match children.last() {
+            Some(RelativeSelector { span, .. }) => span.hi,
+            _ => {
+                unreachable!();
+            }
+        };
+
+        Ok(RelativeSelectorList {
+            span: Span::new(start_pos, last_pos, Default::default()),
+            children,
+        })
+    }
+}
+
 impl<I> Parse<ComplexSelector> for Parser<I>
 where
     I: ParserInput,
@@ -139,6 +183,36 @@ where
         Ok(Combinator {
             span,
             value: CombinatorValue::Descendant,
+        })
+    }
+}
+
+impl<I> Parse<RelativeSelector> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<RelativeSelector> {
+        let mut combinator = None;
+
+        if is_one_of!(self, ">", "+", "~", "|") {
+            combinator = Some(self.parse()?);
+
+            self.input.skip_ws()?;
+        }
+
+        let complex = self.parse()?;
+        let ComplexSelector { span, .. } = complex;
+
+        let start_pos = match combinator {
+            Some(Combinator { span, .. }) => span.lo,
+            _ => span.lo,
+        };
+        let last_pos = span.hi;
+
+        Ok(RelativeSelector {
+            span: Span::new(start_pos, last_pos, Default::default()),
+            combinator,
+            complex,
         })
     }
 }
@@ -591,6 +665,32 @@ where
                 let mut children = vec![];
 
                 match &*names.0.to_ascii_lowercase() {
+                    // TODO `-moz-any`/`-webkit-any`/`matches`
+                    // :host( <compound-selector> )
+                    // :host-context( <compound-selector> )
+                    // ::slotted( <compound-selector> )
+                    "not" | "is" | "where" => {
+                        self.input.skip_ws()?;
+
+                        let selector_list = self.parse()?;
+
+                        // TODO forgiving
+                        children.push(PseudoSelectorChildren::SelectorList(selector_list));
+
+                        self.input.skip_ws()?;
+                    }
+                    "has" => {
+                        self.input.skip_ws()?;
+
+                        // TODO forgiving
+                        let relative_selector_list = self.parse()?;
+
+                        children.push(PseudoSelectorChildren::RelativeSelectorList(
+                            relative_selector_list,
+                        ));
+
+                        self.input.skip_ws()?;
+                    }
                     "nth-child" | "nth-last-child" | "nth-of-type" | "nth-last-of-type"
                     | "nth-col" | "nth-last-col" => {
                         self.input.skip_ws()?;
@@ -614,15 +714,6 @@ where
 
                             self.input.skip_ws()?;
                         }
-                    }
-                    "not" => {
-                        self.input.skip_ws()?;
-
-                        let selector_list = self.parse()?;
-
-                        children.push(PseudoSelectorChildren::SelectorList(selector_list));
-
-                        self.input.skip_ws()?;
                     }
                     _ => {
                         return Err(Error::new(span, ErrorKind::Ignore));

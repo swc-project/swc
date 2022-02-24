@@ -2249,43 +2249,73 @@ error: Ident
 51 |     &:is(.bar, &.baz) { color: red; }
    |       ^^
 
-error: Delim { value: '.' }
+error: SelectorList
   --> $DIR/tests/fixture/selector/nesting/input.css:51:10
    |
 51 |     &:is(.bar, &.baz) { color: red; }
-   |          ^
+   |          ^^^^^^^^^^^
 
-error: Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:10
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |          ^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:10
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |          ^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:10
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |          ^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:10
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |          ^^^^
+
+error: Ident
   --> $DIR/tests/fixture/selector/nesting/input.css:51:11
    |
 51 |     &:is(.bar, &.baz) { color: red; }
    |           ^^^
 
-error: Comma
-  --> $DIR/tests/fixture/selector/nesting/input.css:51:14
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:16
    |
 51 |     &:is(.bar, &.baz) { color: red; }
-   |              ^
+   |                ^^^^^
 
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/selector/nesting/input.css:51:15
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:16
    |
 51 |     &:is(.bar, &.baz) { color: red; }
-   |               ^
+   |                ^^^^^
 
-error: Delim { value: '&' }
+error: NestingSelector
   --> $DIR/tests/fixture/selector/nesting/input.css:51:16
    |
 51 |     &:is(.bar, &.baz) { color: red; }
    |                ^
 
-error: Delim { value: '.' }
+error: SubclassSelector
   --> $DIR/tests/fixture/selector/nesting/input.css:51:17
    |
 51 |     &:is(.bar, &.baz) { color: red; }
-   |                 ^
+   |                 ^^^^
 
-error: Ident { value: Atom('baz' type=inline), raw: Atom('baz' type=inline) }
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:17
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |                 ^^^^
+
+error: Ident
   --> $DIR/tests/fixture/selector/nesting/input.css:51:18
    |
 51 |     &:is(.bar, &.baz) { color: red; }

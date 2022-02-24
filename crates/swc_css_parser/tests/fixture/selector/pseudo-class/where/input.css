@@ -1,0 +1,11 @@
+:where(ul) li {}
+:where(ul, ol) li {}
+:where(header, main, footer) p:hover {}
+div:where(.cool, .fun) {}
+:where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+*|*:where(:hover, :focus) {}
+*|*:where(*:hover, *:focus) {}
+:where(ul, ol, .lwheret) > [hidden] {}
+:where(p, p:unsupported) {}
+:where(:valid, :unsupported) {}
+a:where(:not(:hover)) {}

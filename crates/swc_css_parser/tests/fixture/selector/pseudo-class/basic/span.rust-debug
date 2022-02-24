@@ -772,35 +772,71 @@ error: Ident
 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
   |             ^^^
 
-error: Delim { value: '*' }
+error: RelativeSelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:17
+  |
+9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
+  |                 ^^^^^^^^^^^^^^
+
+error: RelativeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:17
+  |
+9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
+  |                 ^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:17
+  |
+9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
+  |                 ^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:17
+  |
+9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
+  |                 ^^^^^^^^^^^^^^
+
+error: TypeSelector
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:17
   |
 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
   |                 ^
 
-error: Colon
+error: UniversalSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:17
+  |
+9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
+  |                 ^
+
+error: SubclassSelector
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:18
   |
 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
-  |                  ^
+  |                  ^^^^^^^^^^^^^
 
-error: Function { value: Atom('nth-child' type=dynamic), raw: Atom('nth-child' type=dynamic) }
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:18
+  |
+9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
+  |                  ^^^^^^^^^^^^^
+
+error: Ident
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:19
   |
 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
-  |                   ^^^^^^^^^^
+  |                   ^^^^^^^^^
 
-error: Number { value: 5.0, raw: Atom('5' type=inline), type_flag: Integer }
+error: AnPlusB
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:29
   |
 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
   |                             ^
 
-error: RParen
- --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:30
+error: AnPlusBNotation
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:29
   |
 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
-  |                              ^
+  |                             ^
 
 error: SubclassSelector
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:32
@@ -856,35 +892,71 @@ error: Ident
 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
   |                                      ^^^
 
-error: Delim { value: '*' }
+error: RelativeSelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:42
+  |
+9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
+  |                                          ^^^^^^^^^^^^^^
+
+error: RelativeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:42
+  |
+9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
+  |                                          ^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:42
+  |
+9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
+  |                                          ^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:42
+  |
+9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
+  |                                          ^^^^^^^^^^^^^^
+
+error: TypeSelector
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:42
   |
 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
   |                                          ^
 
-error: Colon
+error: UniversalSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:42
+  |
+9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
+  |                                          ^
+
+error: SubclassSelector
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:43
   |
 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
-  |                                           ^
+  |                                           ^^^^^^^^^^^^^
 
-error: Function { value: Atom('nth-child' type=dynamic), raw: Atom('nth-child' type=dynamic) }
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:43
+  |
+9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
+  |                                           ^^^^^^^^^^^^^
+
+error: Ident
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:44
   |
 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
-  |                                            ^^^^^^^^^^
+  |                                            ^^^^^^^^^
 
-error: Number { value: 6.0, raw: Atom('6' type=inline), type_flag: Integer }
+error: AnPlusB
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:54
   |
 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
   |                                                      ^
 
-error: RParen
- --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:55
+error: AnPlusBNotation
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:54
   |
 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
-  |                                                       ^
+  |                                                      ^
 
 error: SimpleBlock
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:59
@@ -1222,7 +1294,31 @@ error: Ident
 13 | *:is(*) {}
    |   ^^
 
-error: Delim { value: '*' }
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:6
+   |
+13 | *:is(*) {}
+   |      ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:6
+   |
+13 | *:is(*) {}
+   |      ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:6
+   |
+13 | *:is(*) {}
+   |      ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:6
+   |
+13 | *:is(*) {}
+   |      ^
+
+error: UniversalSelector
   --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:6
    |
 13 | *:is(*) {}
