@@ -11467,44 +11467,62 @@
                     },
                     "children": [
                       {
-                        "type": "PreservedToken",
+                        "type": "SelectorList",
                         "span": {
                           "start": 1510,
-                          "end": 1511,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "*"
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 1511,
-                          "end": 1512,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "."
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 1512,
                           "end": 1517,
                           "ctxt": 0
                         },
-                        "token": {
-                          "Ident": {
-                            "value": "green",
-                            "raw": "green"
+                        "children": [
+                          {
+                            "type": "ComplexSelector",
+                            "span": {
+                              "start": 1510,
+                              "end": 1517,
+                              "ctxt": 0
+                            },
+                            "children": [
+                              {
+                                "type": "CompoundSelector",
+                                "span": {
+                                  "start": 1510,
+                                  "end": 1517,
+                                  "ctxt": 0
+                                },
+                                "nestingSelector": null,
+                                "typeSelector": {
+                                  "type": "UniversalSelector",
+                                  "span": {
+                                    "start": 1510,
+                                    "end": 1511,
+                                    "ctxt": 0
+                                  },
+                                  "prefix": null
+                                },
+                                "subclassSelectors": [
+                                  {
+                                    "type": "ClassSelector",
+                                    "span": {
+                                      "start": 1511,
+                                      "end": 1517,
+                                      "ctxt": 0
+                                    },
+                                    "text": {
+                                      "type": "Ident",
+                                      "span": {
+                                        "start": 1512,
+                                        "end": 1517,
+                                        "ctxt": 0
+                                      },
+                                      "value": "green",
+                                      "raw": "green"
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
                           }
-                        }
+                        ]
                       }
                     ]
                   }

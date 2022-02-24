@@ -1,4 +1,4 @@
-error: Invalid selector
+error: Expected function or ident tokens
  --> $DIR/tests/errors/selector/pseudo-class/function/input.css:1:2
   |
 1 | : nth-child(2) {
