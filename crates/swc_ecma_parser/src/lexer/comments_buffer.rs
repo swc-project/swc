@@ -10,7 +10,7 @@ pub struct BufferedComment {
 }
 
 #[derive(Clone)]
-pub enum BufferedCommentKind {
+pub(crate) enum BufferedCommentKind {
     Leading,
     Trailing,
 }
