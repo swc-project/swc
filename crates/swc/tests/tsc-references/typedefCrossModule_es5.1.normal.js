@@ -1,17 +1,17 @@
 // @Filename: mod1.js
 /// <reference path="./commonjs.d.ts"/>
-/** @typedef {{ type: "a", x: 1 }} A */ /** @typedef {{ type: "b", y: 1 }} B */ /** @typedef {A | B} Both */ module.exports = C;
+/** @typedef {A | B} Both */ /** @typedef {{ type: "b", y: 1 }} B */ /** @typedef {A | B} Both */ /** @typedef {{ type: "a", x: 1 }} A */ /** @typedef {A | B} Both */ /** @typedef {{ type: "b", y: 1 }} B */ /** @typedef {A | B} Both */ module.exports = C;
 function C() {
     this.p = 1;
 }
 // @Filename: mod2.js
 /// <reference path="./commonjs.d.ts"/>
-/** @typedef {{ type: "a", x: 1 }} A */ /** @typedef {{ type: "b", y: 1 }} B */ /** @typedef {A | B} Both */ export function C() {
+/** @typedef {A | B} Both */ /** @typedef {{ type: "b", y: 1 }} B */ /** @typedef {A | B} Both */ /** @typedef {{ type: "a", x: 1 }} A */ /** @typedef {A | B} Both */ /** @typedef {{ type: "b", y: 1 }} B */ /** @typedef {A | B} Both */ export function C() {
     this.p = 1;
 }
 // @Filename: mod3.js
 /// <reference path="./commonjs.d.ts"/>
-/** @typedef {{ type: "a", x: 1 }} A */ /** @typedef {{ type: "b", y: 1 }} B */ /** @typedef {A | B} Both */ exports.C = function() {
+/** @typedef {A | B} Both */ /** @typedef {{ type: "b", y: 1 }} B */ /** @typedef {A | B} Both */ /** @typedef {{ type: "a", x: 1 }} A */ /** @typedef {A | B} Both */ /** @typedef {{ type: "b", y: 1 }} B */ /** @typedef {A | B} Both */ exports.C = function() {
     this.p = 1;
 };
 // @Filename: use.js

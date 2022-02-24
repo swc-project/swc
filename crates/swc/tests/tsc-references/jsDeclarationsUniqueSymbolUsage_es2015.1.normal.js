@@ -5,7 +5,11 @@
 // @lib: es2017
 // @filename: a.js
 export const kSymbol = Symbol("my-symbol");
+// @filename: b.js
 /**
+ * @returns {import('./a').WithSymbol} 
+ * @param {import('./a').WithSymbol} value 
+ */ /**
  * @typedef {{[kSymbol]: true}} WithSymbol
  */ // @filename: b.js
 /**

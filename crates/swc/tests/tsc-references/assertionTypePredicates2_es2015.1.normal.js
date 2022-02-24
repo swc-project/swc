@@ -3,7 +3,18 @@
 // @outDir: ./out
 // @filename: assertionTypePredicates2.js
 /**
+ * @param {A} a
+ * @returns { asserts a is B }
+ */ /**
+ * @typedef { A & { y: number } } B
+ */ /**
+ * @param {A} a
+ * @returns { asserts a is B }
+ */ /**
  * @typedef {{ x: number }} A
+ */ /**
+ * @param {A} a
+ * @returns { asserts a is B }
  */ /**
  * @typedef { A & { y: number } } B
  */ /**

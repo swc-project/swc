@@ -74,6 +74,8 @@ var A = function A() {
     _classCallCheck(this, A);
 };
 var B = /**
+ * @constructor
+ */ /**
  * @extends {A}
  */ /**
  * @constructor

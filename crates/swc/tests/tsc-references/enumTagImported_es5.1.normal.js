@@ -2,7 +2,7 @@
 // @checkJs: true
 // @noEmit: true
 // @Filename: type.js
-/** @typedef {import("./mod1").TestEnum} TE */ /** @type {TE} */ var test = 'add';
+/** @type {TE} */ /** @typedef {import("./mod1").TestEnum} TE */ /** @type {TE} */ var test = 'add';
 /** @type {import("./mod1").TestEnum} */ var tost = 'remove';
 /** @type {TestEnum} */ var tist = TestEnum.ADD;
 // @Filename: mod1.js

@@ -9,7 +9,18 @@ function _classCallCheck(instance, Constructor) {
 // @lib: es6
 // @declaration: true
 // @filename: module.js
-/** @typedef {'parseHTML'|'styleLayout'} TaskGroupIds */ /**
+/**
+ * @type {{[P in TaskGroupIds]: {id: P, label: string}}}
+ */ /**
+ * @typedef TaskGroup
+ * @property {TaskGroupIds} id
+ * @property {string} label
+ * @property {string[]} traceEventNames
+ */ /**
+ * @type {{[P in TaskGroupIds]: {id: P, label: string}}}
+ */ /** @typedef {'parseHTML'|'styleLayout'} TaskGroupIds */ /**
+ * @type {{[P in TaskGroupIds]: {id: P, label: string}}}
+ */ /**
  * @typedef TaskGroup
  * @property {TaskGroupIds} id
  * @property {string} label

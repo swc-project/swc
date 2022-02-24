@@ -14,7 +14,7 @@
  * @jsxFrag Fragment
  */ import { Fragment } from "./renderer";
 // @filename: snabbdomy-only-fragment-no-jsx.tsx
-/* @jsx jsx */ /* @jsxfrag null */ import "./renderer";
+/* @jsxfrag null */ /* @jsx jsx */ /* @jsxfrag null */ import "./renderer";
 // @filename: preacty-no-fragment.tsx
 /**
  * @jsx h

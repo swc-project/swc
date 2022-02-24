@@ -13,7 +13,10 @@ const BaseFactory = ()=>{
 BaseFactory.Base = Base;
 module.exports = BaseFactory;
 // @filename: file.js
-/** @typedef {import('./base')} BaseFactory */ /**
+/** @enum {import('./base')} */ /**
+ * @callback BaseFactoryFactory
+ * @param {import('./base')} factory
+ */ /** @enum {import('./base')} */ /** @typedef {import('./base')} BaseFactory */ /** @enum {import('./base')} */ /**
  * @callback BaseFactoryFactory
  * @param {import('./base')} factory
  */ /** @enum {import('./base')} */ const couldntThinkOfAny = {};

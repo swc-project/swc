@@ -9,6 +9,8 @@
     constructor(){}
 }
 /**
+ * @constructor
+ */ /**
  * @extends {A}
  */ /**
  * @constructor

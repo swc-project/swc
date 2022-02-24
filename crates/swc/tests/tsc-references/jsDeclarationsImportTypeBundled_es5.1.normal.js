@@ -5,6 +5,8 @@
 // @declaration: true
 // @filename: folder/mod1.js
 /**
+ * @type {Item};
+ */ /**
  * @typedef {{x: number}} Item
  */ /**
  * @type {Item};

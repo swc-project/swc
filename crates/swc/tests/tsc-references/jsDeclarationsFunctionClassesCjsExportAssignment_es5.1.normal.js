@@ -19,6 +19,8 @@ function _instanceof(left, right) {
 module.exports = Timer;
 // @filename: hook.js
 /**
+ * @param {HookHandler} handle
+ */ /**
  * @typedef {(arg: import("./context")) => void} HookHandler
  */ /**
  * @param {HookHandler} handle
@@ -28,17 +30,76 @@ module.exports = Timer;
 module.exports = Hook;
 // @filename: context.js
 /**
- * Imports
+ * New `Context`
  *
- * @typedef {import("./timer")} Timer
- * @typedef {import("./hook")} Hook
- * @typedef {import("./hook").HookHandler} HookHandler
+ * @class
+ * @param {Input} input
+ */ /**
+ * State type definition
+ *
+ * @typedef {Object} State
+ * @prop {Timer} timer
+ * @prop {Hook} hook
+ */ /**
+ * New `Context`
+ *
+ * @class
+ * @param {Input} input
  */ /**
  * Input type definition
  *
  * @typedef {Object} Input
  * @prop {Timer} timer
  * @prop {Hook} hook
+ */ /**
+ * New `Context`
+ *
+ * @class
+ * @param {Input} input
+ */ /**
+ * State type definition
+ *
+ * @typedef {Object} State
+ * @prop {Timer} timer
+ * @prop {Hook} hook
+ */ /**
+ * New `Context`
+ *
+ * @class
+ * @param {Input} input
+ */ /**
+ * Imports
+ *
+ * @typedef {import("./timer")} Timer
+ * @typedef {import("./hook")} Hook
+ * @typedef {import("./hook").HookHandler} HookHandler
+ */ /**
+ * New `Context`
+ *
+ * @class
+ * @param {Input} input
+ */ /**
+ * State type definition
+ *
+ * @typedef {Object} State
+ * @prop {Timer} timer
+ * @prop {Hook} hook
+ */ /**
+ * New `Context`
+ *
+ * @class
+ * @param {Input} input
+ */ /**
+ * Input type definition
+ *
+ * @typedef {Object} Input
+ * @prop {Timer} timer
+ * @prop {Hook} hook
+ */ /**
+ * New `Context`
+ *
+ * @class
+ * @param {Input} input
  */ /**
  * State type definition
  *
