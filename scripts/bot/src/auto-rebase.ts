@@ -23,7 +23,8 @@ const repo = 'swc';
         owner,
         repo,
         state: 'open',
-        sort: 'long-running'
+        sort: 'long-running',
+        direction: 'desc',
     });
 
     const autoMergePrs = allPrs.data.filter(pr => !!pr.auto_merge);
