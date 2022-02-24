@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.2.145] - 2022-02-24
 
 ### Bug Fixes
 
