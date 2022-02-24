@@ -2,7 +2,7 @@
 // @outDir: bin/
 // @checkJs: true
 // @Filename: callbackTagVariadicType.js
-/** @type {Foo} */ /**
+/**
  * @callback Foo
  * @param {...string} args
  * @returns {number}

@@ -110,8 +110,6 @@ export default Bar;
 // @filename: index5.js
 // merge type alias and const (OK)
 export default 12;
-// @filename: index6.js
-// merge type alias and function (OK)
 /**
  * @typedef {string | number} default
  */ // @filename: index6.js

@@ -13,11 +13,7 @@ var BaseFactory = function() {
 BaseFactory.Base = Base;
 module.exports = BaseFactory;
 // @filename: file.js
-/**
- *
- * @param {InstanceType<BaseFactory["Base"]>} base
- * @returns {InstanceType<BaseFactory["Base"]>}
- */ /** @typedef {typeof import('./base')} BaseFactory */ /**
+/** @typedef {typeof import('./base')} BaseFactory */ /**
  *
  * @param {InstanceType<BaseFactory["Base"]>} base
  * @returns {InstanceType<BaseFactory["Base"]>}

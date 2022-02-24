@@ -32,7 +32,7 @@ import regeneratorRuntime from "regenerator-runtime";
 // @allowJs: true
 // @checkJs: true
 // @Filename: foo.js
-/** @type {FunctionReturningPromise} */ /**
+/**
  * @callback FunctionReturningPromise
  * @returns {Promise<number>}
  */ /** @type {FunctionReturningPromise} */ function testPromise1() {
@@ -61,7 +61,7 @@ var testPromise3 = /** @type {FunctionReturningPromise} */ function testPromise3
 /** @type {FunctionReturningPromise} */ var testPromise4 = function testPromise4() {
     console.log("test");
 };
-/** @type {FunctionReturningNever} */ /**
+/**
  * @callback FunctionReturningNever
  * @returns {never}
  */ /** @type {FunctionReturningNever} */ function testNever1() {}

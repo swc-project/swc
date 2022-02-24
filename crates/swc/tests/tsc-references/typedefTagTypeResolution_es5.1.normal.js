@@ -3,11 +3,7 @@
 // @checkJs: true
 // @Filename: github20832.js
 // #20832
-/**
- * @template U
- * @param {U} x
- * @return {T}
- */ /** @typedef {U} T - should be "error, can't find type named 'U' */ /**
+/** @typedef {U} T - should be "error, can't find type named 'U' */ /**
  * @template U
  * @param {U} x
  * @return {T}
@@ -16,9 +12,6 @@
 }
 /** @type T - should be fine, since T will be any */ var x = 3;
 /**
- * @template V
- * @param {V} vvvvv
- */ /**
  * @callback Cb
  * @param {V} firstParam
  */ /**

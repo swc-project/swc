@@ -3,7 +3,7 @@
 // @checkjs: true
 // @noemit: true
 // @Filename: typedefTagExtraneousProperty.js
-/** @type {Mmap} */ /** @typedef {Object.<string,string>} Mmap
+/** @typedef {Object.<string,string>} Mmap
  * @property {string} ignoreMe - should be ignored
  */ /** @type {Mmap} */ var y = {
     bye: "no"

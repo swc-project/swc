@@ -75,7 +75,7 @@ var Group = /*#__PURE__*/ function() {
         val;
     }
 }
-/** @type {Cb} */ /**
+/**
  * @callback Cb
  * @param {unknown} x
  * @return {x is number}

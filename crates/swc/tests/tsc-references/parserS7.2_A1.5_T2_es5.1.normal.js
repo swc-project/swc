@@ -1,6 +1,5 @@
 // Copyright 2009 the Sputnik authors.  All rights reserved.
 // This code is governed by the BSD license found in the LICENSE file.
-//CHECK#1
 /**
  * NO-BREAK SPACE (U+00A0) between any two tokens is allowed
  *

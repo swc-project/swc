@@ -22,7 +22,6 @@ function _createClass(Constructor, protoProps, staticProps) {
 // @noEmit: true
 // @Filename: test.js
 // @strict: true
-// property assignment
 /** @typedef {{
     status: 'done'
     m(n: number): void
