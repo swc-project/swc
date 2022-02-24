@@ -2620,19 +2620,19 @@
         }
     }), SyntheticMouseEvent = createSyntheticEvent(MouseEventInterface), SyntheticDragEvent = createSyntheticEvent(_assign({}, MouseEventInterface, {
         dataTransfer: 0
-    })), SyntheticFocusEvent = createSyntheticEvent(_assign({}, UIEventInterface, {
+    })), FocusEventInterface = _assign({}, UIEventInterface, {
         relatedTarget: 0
-    })), SyntheticAnimationEvent = createSyntheticEvent(_assign({}, EventInterface, {
+    }), SyntheticFocusEvent = createSyntheticEvent(FocusEventInterface), AnimationEventInterface = _assign({}, EventInterface, {
         animationName: 0,
         elapsedTime: 0,
         pseudoElement: 0
-    })), SyntheticClipboardEvent = createSyntheticEvent(_assign({}, EventInterface, {
+    }), SyntheticAnimationEvent = createSyntheticEvent(AnimationEventInterface), ClipboardEventInterface = _assign({}, EventInterface, {
         clipboardData: function(event) {
             return "clipboardData" in event ? event.clipboardData : window.clipboardData;
         }
-    })), SyntheticCompositionEvent = createSyntheticEvent(_assign({}, EventInterface, {
+    }), SyntheticClipboardEvent = createSyntheticEvent(ClipboardEventInterface), CompositionEventInterface = _assign({}, EventInterface, {
         data: 0
-    })), SyntheticInputEvent = SyntheticCompositionEvent, normalizeKey = {
+    }), SyntheticCompositionEvent = createSyntheticEvent(CompositionEventInterface), SyntheticInputEvent = SyntheticCompositionEvent, normalizeKey = {
         Esc: "Escape",
         Spacebar: " ",
         Left: "ArrowLeft",
@@ -2727,7 +2727,7 @@
         which: function(event) {
             return "keypress" === event.type ? getEventCharCode(event) : "keydown" === event.type || "keyup" === event.type ? event.keyCode : 0;
         }
-    })), SyntheticPointerEvent = createSyntheticEvent(_assign({}, MouseEventInterface, {
+    })), PointerEventInterface = _assign({}, MouseEventInterface, {
         pointerId: 0,
         width: 0,
         height: 0,
@@ -2738,7 +2738,7 @@
         twist: 0,
         pointerType: 0,
         isPrimary: 0
-    })), SyntheticTouchEvent = createSyntheticEvent(_assign({}, UIEventInterface, {
+    }), SyntheticPointerEvent = createSyntheticEvent(PointerEventInterface), TouchEventInterface = _assign({}, UIEventInterface, {
         touches: 0,
         targetTouches: 0,
         changedTouches: 0,
@@ -2747,11 +2747,11 @@
         ctrlKey: 0,
         shiftKey: 0,
         getModifierState: getEventModifierState
-    })), SyntheticTransitionEvent = createSyntheticEvent(_assign({}, EventInterface, {
+    }), SyntheticTouchEvent = createSyntheticEvent(TouchEventInterface), TransitionEventInterface = _assign({}, EventInterface, {
         propertyName: 0,
         elapsedTime: 0,
         pseudoElement: 0
-    })), SyntheticWheelEvent = createSyntheticEvent(_assign({}, MouseEventInterface, {
+    }), SyntheticTransitionEvent = createSyntheticEvent(TransitionEventInterface), WheelEventInterface = _assign({}, MouseEventInterface, {
         deltaX: function(event) {
             return "deltaX" in event ? event.deltaX : "wheelDeltaX" in event ? -event.wheelDeltaX : 0;
         },
@@ -2760,7 +2760,7 @@
         },
         deltaZ: 0,
         deltaMode: 0
-    })), END_KEYCODES = [
+    }), SyntheticWheelEvent = createSyntheticEvent(WheelEventInterface), END_KEYCODES = [
         9,
         13,
         27,
@@ -6387,23 +6387,17 @@
         return updateFunctionComponent(current, workInProgress, Component, nextProps, renderLanes);
     }
     function updateOffscreenComponent(current, workInProgress, renderLanes) {
-        var _subtreeRenderLanes, nextProps = workInProgress.pendingProps, nextChildren = nextProps.children, prevState = null !== current ? current.memoizedState : null;
-        if ("hidden" === nextProps.mode || "unstable-defer-without-hiding" === nextProps.mode) if ((4 & workInProgress.mode) == 0) {
-            var nextState = {
-                baseLanes: NoLanes
-            };
-            workInProgress.memoizedState = nextState, pushRenderLanes(workInProgress, renderLanes);
-        } else if (includesSomeLane(renderLanes, 1073741824)) {
-            var _nextState2 = {
-                baseLanes: NoLanes
-            };
-            workInProgress.memoizedState = _nextState2, pushRenderLanes(workInProgress, null !== prevState ? prevState.baseLanes : renderLanes);
-        } else {
-            nextBaseLanes = null !== prevState ? mergeLanes(prevState.baseLanes, renderLanes) : renderLanes, markSpawnedWork(1073741824), workInProgress.lanes = workInProgress.childLanes = 1073741824;
-            var nextBaseLanes, _nextState = {
+        var nextBaseLanes, _subtreeRenderLanes, nextProps = workInProgress.pendingProps, nextChildren = nextProps.children, prevState = null !== current ? current.memoizedState : null;
+        if ("hidden" === nextProps.mode || "unstable-defer-without-hiding" === nextProps.mode) if ((4 & workInProgress.mode) == 0) workInProgress.memoizedState = {
+            baseLanes: NoLanes
+        }, pushRenderLanes(workInProgress, renderLanes);
+        else {
+            if (!includesSomeLane(renderLanes, 1073741824)) return nextBaseLanes = null !== prevState ? mergeLanes(prevState.baseLanes, renderLanes) : renderLanes, markSpawnedWork(1073741824), workInProgress.lanes = workInProgress.childLanes = 1073741824, workInProgress.memoizedState = {
                 baseLanes: nextBaseLanes
-            };
-            return workInProgress.memoizedState = _nextState, pushRenderLanes(workInProgress, nextBaseLanes), null;
+            }, pushRenderLanes(workInProgress, nextBaseLanes), null;
+            workInProgress.memoizedState = {
+                baseLanes: NoLanes
+            }, pushRenderLanes(workInProgress, null !== prevState ? prevState.baseLanes : renderLanes);
         }
         else null !== prevState ? (_subtreeRenderLanes = mergeLanes(prevState.baseLanes, renderLanes), workInProgress.memoizedState = null) : _subtreeRenderLanes = renderLanes, pushRenderLanes(workInProgress, _subtreeRenderLanes);
         return reconcileChildren(current, workInProgress, nextChildren, renderLanes), workInProgress.child;

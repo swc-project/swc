@@ -621,7 +621,7 @@
             module.exports = isArray;
         },
         function(module, exports, __webpack_require__) {
-            var baseMerge = __webpack_require__(90), merge = __webpack_require__(145)(function(object, source, srcIndex) {
+            var baseMerge = __webpack_require__(90), createAssigner = __webpack_require__(145), merge = createAssigner(function(object, source, srcIndex) {
                 baseMerge(object, source, srcIndex);
             });
             module.exports = merge;
@@ -1234,7 +1234,7 @@
             };
         },
         function(module, exports, __webpack_require__) {
-            var baseAssignValue = __webpack_require__(37), eq = __webpack_require__(26), hasOwnProperty = Object.prototype.hasOwnProperty;
+            var baseAssignValue = __webpack_require__(37), eq = __webpack_require__(26), objectProto = Object.prototype, hasOwnProperty = objectProto.hasOwnProperty;
             module.exports = function(object, key, value) {
                 var objValue = object[key];
                 hasOwnProperty.call(object, key) && eq(objValue, value) && (void 0 !== value || key in object) || baseAssignValue(object, key, value);
@@ -1453,7 +1453,7 @@
             };
         },
         function(module, exports, __webpack_require__) {
-            var basePick = __webpack_require__(229), pick = __webpack_require__(243)(function(object, paths) {
+            var basePick = __webpack_require__(229), flatRest = __webpack_require__(243), pick = flatRest(function(object, paths) {
                 return null == object ? {} : basePick(object, paths);
             });
             module.exports = pick;
@@ -2010,7 +2010,7 @@
             };
         },
         function(module, exports, __webpack_require__) {
-            var baseTimes = __webpack_require__(142), isArguments = __webpack_require__(30), isArray = __webpack_require__(15), isBuffer = __webpack_require__(52), isIndex = __webpack_require__(31), isTypedArray = __webpack_require__(53), hasOwnProperty = Object.prototype.hasOwnProperty;
+            var baseTimes = __webpack_require__(142), isArguments = __webpack_require__(30), isArray = __webpack_require__(15), isBuffer = __webpack_require__(52), isIndex = __webpack_require__(31), isTypedArray = __webpack_require__(53), objectProto = Object.prototype, hasOwnProperty = objectProto.hasOwnProperty;
             module.exports = function(value, inherited) {
                 var isArr = isArray(value), isArg = !isArr && isArguments(value), isBuff = !isArr && !isArg && isBuffer(value), isType = !isArr && !isArg && !isBuff && isTypedArray(value), skipIndexes = isArr || isArg || isBuff || isType, result = skipIndexes ? baseTimes(value.length, String) : [], length = result.length;
                 for(var key in value)(inherited || hasOwnProperty.call(value, key)) && !(skipIndexes && ("length" == key || isBuff && ("offset" == key || "parent" == key) || isType && ("buffer" == key || "byteLength" == key || "byteOffset" == key) || isIndex(key, length))) && result.push(key);
@@ -2024,7 +2024,7 @@
             };
         },
         function(module, exports, __webpack_require__) {
-            var isObject = __webpack_require__(14), isPrototype = __webpack_require__(51), nativeKeysIn = __webpack_require__(144), hasOwnProperty = Object.prototype.hasOwnProperty;
+            var isObject = __webpack_require__(14), isPrototype = __webpack_require__(51), nativeKeysIn = __webpack_require__(144), objectProto = Object.prototype, hasOwnProperty = objectProto.hasOwnProperty;
             module.exports = function(object) {
                 if (!isObject(object)) return nativeKeysIn(object);
                 var isProto = isPrototype(object), result = [];
@@ -4820,13 +4820,10 @@
                             ]), counterPos = 0, isWhite = !1, i = offset; i < this._row.length; i++)if (this._row[i] ^ (isWhite ? 1 : 0)) counter[counterPos]++;
                             else {
                                 if (counterPos === counter.length - 1) {
-                                    if (148 === this._toPattern(counter)) {
-                                        var whiteSpaceMustStart = Math.floor(Math.max(0, patternStart - (i - patternStart) / 4));
-                                        if (this._matchRange(whiteSpaceMustStart, patternStart, 0)) return {
-                                            start: patternStart,
-                                            end: i
-                                        };
-                                    }
+                                    if (148 === this._toPattern(counter) && this._matchRange(Math.floor(Math.max(0, patternStart - (i - patternStart) / 4)), patternStart, 0)) return {
+                                        start: patternStart,
+                                        end: i
+                                    };
                                     patternStart += counter[0] + counter[1];
                                     for(var j = 0; j < 7; j++)counter[j] = counter[j + 2];
                                     counter[7] = 0, counter[8] = 0, counterPos--;
@@ -6149,13 +6146,10 @@
                             ]), counterPos = 0, isWhite = !1, i = offset; i < this._row.length; i++)if (this._row[i] ^ (isWhite ? 1 : 0)) counter[counterPos]++;
                             else {
                                 if (counterPos === counter.length - 1) {
-                                    if (350 === this._toPattern(counter)) {
-                                        var whiteSpaceMustStart = Math.floor(Math.max(0, patternStart - (i - patternStart) / 4));
-                                        if (this._matchRange(whiteSpaceMustStart, patternStart, 0)) return {
-                                            start: patternStart,
-                                            end: i
-                                        };
-                                    }
+                                    if (350 === this._toPattern(counter) && this._matchRange(Math.floor(Math.max(0, patternStart - (i - patternStart) / 4)), patternStart, 0)) return {
+                                        start: patternStart,
+                                        end: i
+                                    };
                                     patternStart += counter[0] + counter[1];
                                     for(var j = 0; j < 4; j++)counter[j] = counter[j + 2];
                                     counter[4] = 0, counter[5] = 0, counterPos--;
@@ -6217,10 +6211,10 @@
                     {
                         key: "_matchCheckChar",
                         value: function(charArray, index, maxWeight) {
-                            var arrayToCheck = charArray.slice(0, index), length = arrayToCheck.length;
-                            return code_93_reader_ALPHABET[arrayToCheck.reduce(function(sum, _char3, i) {
+                            var arrayToCheck = charArray.slice(0, index), length = arrayToCheck.length, weightedSums = arrayToCheck.reduce(function(sum, _char3, i) {
                                 return sum + ((-1 * i + (length - 1)) % maxWeight + 1) * code_93_reader_ALPHABET.indexOf(_char3.charCodeAt(0));
-                            }, 0) % 47] === charArray[index].charCodeAt(0);
+                            }, 0), checkChar = code_93_reader_ALPHABET[weightedSums % 47];
+                            return checkChar === charArray[index].charCodeAt(0);
                         }
                     },
                     {

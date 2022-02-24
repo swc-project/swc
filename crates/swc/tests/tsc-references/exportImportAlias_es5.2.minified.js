@@ -9,10 +9,7 @@ function _classCallCheck(instance, Constructor) {
         _classCallCheck(this, Point), this.x = x, this.y = y;
     };
     A1.Point = Point;
-}(A || (A = {})), (function(C1) {
-    var a = A;
-    C1.a = a;
-})(C || (C = {})), C.a.x, new C.a.Point(0, 0), (function(X1) {
+}(A || (A = {})), (C || (C = {})).a = A, C.a.x, new C.a.Point(0, 0), (function(X1) {
     var Y, Point, Y1 = function() {
         return 42;
     };

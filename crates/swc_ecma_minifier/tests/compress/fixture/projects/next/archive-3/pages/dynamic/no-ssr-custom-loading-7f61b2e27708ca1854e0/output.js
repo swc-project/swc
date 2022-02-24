@@ -320,7 +320,7 @@
         6502: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4512), Hello = (0, __webpack_require__(4652).default)(function() {
+            var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4512), next_dynamic__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4652), Hello = (0, next_dynamic__WEBPACK_IMPORTED_MODULE_1__.default)(function() {
                 return __webpack_require__.e(916).then(__webpack_require__.bind(__webpack_require__, 6974));
             }, {
                 ssr: !1,

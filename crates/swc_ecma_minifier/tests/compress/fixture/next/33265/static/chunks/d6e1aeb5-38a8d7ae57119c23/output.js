@@ -1174,11 +1174,11 @@
                 textTracksToJson: function(tech) {
                     var trackEls = tech.$$("track"), trackObjs = Array.prototype.map.call(trackEls, function(t) {
                         return t.track;
-                    });
-                    return Array.prototype.map.call(trackEls, function(trackEl) {
+                    }), tracks = Array.prototype.map.call(trackEls, function(trackEl) {
                         var json = trackToJson_(trackEl.track);
                         return trackEl.src && (json.src = trackEl.src), json;
-                    }).concat(Array.prototype.filter.call(tech.textTracks(), function(track) {
+                    });
+                    return tracks.concat(Array.prototype.filter.call(tech.textTracks(), function(track) {
                         return -1 === trackObjs.indexOf(track);
                     }).map(trackToJson_));
                 },
@@ -3262,10 +3262,7 @@
                     return "vjs-mute-control " + _Button.prototype.buildCSSClass.call(this);
                 }, _proto.handleClick = function(event) {
                     var vol = this.player_.volume(), lastVolume = this.player_.lastVolume_();
-                    if (0 === vol) {
-                        var volumeToSet = lastVolume < 0.1 ? 0.1 : lastVolume;
-                        this.player_.volume(volumeToSet), this.player_.muted(!1);
-                    } else this.player_.muted(!this.player_.muted());
+                    0 === vol ? (this.player_.volume(lastVolume < 0.1 ? 0.1 : lastVolume), this.player_.muted(!1)) : this.player_.muted(!this.player_.muted());
                 }, _proto.update = function(event) {
                     this.updateIcon_(), this.updateControlText_();
                 }, _proto.updateIcon_ = function() {
@@ -4840,13 +4837,9 @@
                     }
                 }, _proto.duration = function() {
                     var _this5 = this;
-                    if (this.el_.duration === 1 / 0 && IS_ANDROID && IS_CHROME && 0 === this.el_.currentTime) {
-                        var checkProgress1 = function checkProgress() {
-                            _this5.el_.currentTime > 0 && (_this5.el_.duration === 1 / 0 && _this5.trigger("durationchange"), _this5.off("timeupdate", checkProgress));
-                        };
-                        return this.on("timeupdate", checkProgress1), NaN;
-                    }
-                    return this.el_.duration || NaN;
+                    return this.el_.duration === 1 / 0 && IS_ANDROID && IS_CHROME && 0 === this.el_.currentTime ? (this.on("timeupdate", function checkProgress() {
+                        _this5.el_.currentTime > 0 && (_this5.el_.duration === 1 / 0 && _this5.trigger("durationchange"), _this5.off("timeupdate", checkProgress));
+                    }), NaN) : this.el_.duration || NaN;
                 }, _proto.width = function() {
                     return this.el_.offsetWidth;
                 }, _proto.height = function() {
@@ -9044,8 +9037,8 @@
                     var b = this.current708Packet.data[i];
                     return service.setCurrentWindow(7 & b), i;
                 }, Cea708Stream1.prototype.defineWindow = function(i, service) {
-                    var packetData = this.current708Packet.data, b = packetData[i], windowNum = 7 & b;
-                    service.setCurrentWindow(windowNum);
+                    var packetData = this.current708Packet.data, b = packetData[i];
+                    service.setCurrentWindow(7 & b);
                     var win = service.currentWindow;
                     return b = packetData[++i], win.visible = (32 & b) >> 5, win.rowLock = (16 & b) >> 4, win.columnLock = (8 & b) >> 3, win.priority = 7 & b, b = packetData[++i], win.relativePositioning = (128 & b) >> 7, win.anchorVertical = 127 & b, b = packetData[++i], win.anchorHorizontal = b, b = packetData[++i], win.anchorPoint = (240 & b) >> 4, win.rowCount = 15 & b, b = packetData[++i], win.columnCount = 63 & b, b = packetData[++i], win.windowStyle = (56 & b) >> 3, win.penStyle = 7 & b, win.virtualRowCount = win.rowCount + 1, i;
                 }, Cea708Stream1.prototype.setWindowAttributes = function(i, service) {
@@ -12982,10 +12975,9 @@
                     var _this2 = this, segmentInfo = this.chooseNextRequest_();
                     if (segmentInfo) {
                         if (null === this.syncController_.timestampOffsetForTimeline(segmentInfo.timeline)) {
-                            var checkTimestampOffset = function() {
+                            this.syncController_.one("timestampoffset", function() {
                                 _this2.state = "READY", _this2.paused() || _this2.monitorBuffer_();
-                            };
-                            this.syncController_.one("timestampoffset", checkTimestampOffset), this.state = "WAITING_ON_TIMELINE";
+                            }), this.state = "WAITING_ON_TIMELINE";
                             return;
                         }
                         this.loadSegment_(segmentInfo);
@@ -13345,7 +13337,7 @@
                 }, _proto.dispose = function() {
                     this.trigger("dispose"), this.pendingTimelineChanges_ = {}, this.lastTimelineChanges_ = {}, this.off();
                 }, TimelineChangeController;
-            }(videojs.EventTarget), Decrypter1 = factory(transform1(getWorkerString(function() {
+            }(videojs.EventTarget), workerCode = transform1(getWorkerString(function() {
                 function createCommonjsModule(fn, basedir, module) {
                     return fn(module = {
                         path: basedir,
@@ -13521,7 +13513,7 @@
                         ]);
                     });
                 };
-            }))), audioTrackKind_ = function(properties) {
+            })), Decrypter1 = factory(workerCode), audioTrackKind_ = function(properties) {
                 var kind = properties.default ? "main" : "alternative";
                 return properties.characteristics && properties.characteristics.indexOf("public.accessibility.describes-video") >= 0 && (kind = "main-desc"), kind;
             }, stopLoaders = function(segmentLoader, mediaType) {

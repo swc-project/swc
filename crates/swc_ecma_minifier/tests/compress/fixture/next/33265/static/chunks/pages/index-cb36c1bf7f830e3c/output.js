@@ -3202,11 +3202,7 @@
                 void 0 === sidxMapping && (sidxMapping = {}), void 0 === isAudioOnly && (isAudioOnly = !1);
                 var mainPlaylist, formattedPlaylists = playlists.reduce(function(a, playlist) {
                     var role = playlist.attributes.role && playlist.attributes.role.value || "", language = playlist.attributes.lang || "", label = playlist.attributes.label || "main";
-                    if (language && !playlist.attributes.label) {
-                        var roleLabel = role ? " (" + role + ")" : "";
-                        label = "" + playlist.attributes.lang + roleLabel;
-                    }
-                    a[label] || (a[label] = {
+                    language && !playlist.attributes.label && (label = "" + playlist.attributes.lang + (role ? " (" + role + ")" : "")), a[label] || (a[label] = {
                         language: language,
                         autoselect: !0,
                         default: "main" === role,
@@ -3330,15 +3326,15 @@
                     baseUrl: attributes.baseUrl,
                     source: constructTemplateUrl(initialization.sourceURL, templateValues),
                     range: initialization.range
-                });
-                return (attributes2 = attributes, segmentTimeline1 = segmentTimeline, attributes2.duration || segmentTimeline1 ? attributes2.duration ? parseByDuration(attributes2) : parseByTimeline(attributes2, segmentTimeline1) : [
+                }), segments = (attributes2 = attributes, segmentTimeline1 = segmentTimeline, attributes2.duration || segmentTimeline1 ? attributes2.duration ? parseByDuration(attributes2) : parseByTimeline(attributes2, segmentTimeline1) : [
                     {
                         number: attributes2.startNumber || 1,
                         duration: attributes2.sourceDuration,
                         time: 0,
                         timeline: attributes2.periodIndex
                     }
-                ]).map(function(segment) {
+                ]);
+                return segments.map(function(segment) {
                     templateValues.Number = segment.number, templateValues.Time = segment.time;
                     var uri = constructTemplateUrl(attributes.media || "", templateValues), timescale = attributes.timescale || 1, presentationTimeOffset = attributes.presentationTimeOffset || 0, presentationTime = attributes.periodStart + (segment.time - presentationTimeOffset) / timescale, map = {
                         uri: uri,

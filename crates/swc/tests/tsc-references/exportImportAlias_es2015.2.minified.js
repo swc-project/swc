@@ -5,10 +5,7 @@ var A, C, X, Z, K, M;
             this.x = x, this.y = y;
         }
     };
-}(A || (A = {})), (function(C1) {
-    var a = A;
-    C1.a = a;
-})(C || (C = {})), C.a.x, new C.a.Point(0, 0), (function(X1) {
+}(A || (A = {})), (C || (C = {})).a = A, C.a.x, new C.a.Point(0, 0), (function(X1) {
     function Y() {
         return 42;
     }
