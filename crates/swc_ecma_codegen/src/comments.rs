@@ -13,7 +13,7 @@ macro_rules! write_comments {
             match cmt.kind {
                 CommentKind::Line => {
                     if $prefix_space {
-                        $e.wr.write_comment(cmt.span, " ")?;
+                        $e.wr.write_comment(swc_common::DUMMY_SP, " ")?;
                     }
                     $e.wr.write_comment(cmt.span, "//")?;
                     $e.wr.write_comment(cmt.span, &cmt.text)?;
@@ -21,7 +21,7 @@ macro_rules! write_comments {
                 }
                 CommentKind::Block => {
                     if $prefix_space {
-                        $e.wr.write_comment(cmt.span, " ")?;
+                        $e.wr.write_comment(swc_common::DUMMY_SP, " ")?;
                     }
                     $e.wr.write_comment(cmt.span, "/*")?;
                     $e.wr.write_lit(cmt.span, &cmt.text)?;
