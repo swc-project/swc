@@ -845,18 +845,18 @@ where
                 }
 
                 // We can skip some member expressions if the former is not
-                // referenced and side-effect-free initializer.
+                // referenced and the initializer is side-effect-free .
                 //
                 // var _default = ErrorBoundary1;
                 // exports.default = _default;
                 //
                 // In the code above, it's safe to move `_default` **iff**
-                // `_default` is not accessed by the code.
+                // `_default` is not accessed by the `exports.default.
                 //
                 // The exact condition is
                 //
-                //  > exports.default does not modify `_default`
-                //  > initializer of `_default` does not have effect on
+                //  > `exports.default` does not modify `_default`
+                //  > initializer of `_default` does not have any side-effect for
                 // `exports.default`
                 //
                 // but it's not easy to check. So we just check if the
