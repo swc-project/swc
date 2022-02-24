@@ -1729,6 +1729,8 @@ where
             PseudoClassSelectorChildren::PreservedToken(n) => emit!(self, n),
             PseudoClassSelectorChildren::AnPlusB(n) => emit!(self, n),
             PseudoClassSelectorChildren::Ident(n) => emit!(self, n),
+            PseudoClassSelectorChildren::Str(n) => emit!(self, n),
+            PseudoClassSelectorChildren::Delimiter(n) => emit!(self, n),
             PseudoClassSelectorChildren::SelectorList(n) => emit!(self, n),
             PseudoClassSelectorChildren::CompoundSelectorList(n) => emit!(self, n),
             PseudoClassSelectorChildren::RelativeSelectorList(n) => emit!(self, n),
@@ -1748,6 +1750,9 @@ where
             if idx != len - 1 {
                 match node {
                     PseudoClassSelectorChildren::PreservedToken(_) => {}
+                    PseudoClassSelectorChildren::Delimiter(_) => {
+                        formatting_space!(self);
+                    }
                     _ => {
                         space!(self)
                     }

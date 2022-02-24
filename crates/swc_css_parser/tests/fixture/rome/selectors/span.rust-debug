@@ -1205,7 +1205,7 @@ error: PseudoClassSelectorChildren
 32 | :lang(en, ko) {
    |       ^^
 
-error: Ident { value: Atom('en' type=inline), raw: Atom('en' type=inline) }
+error: Ident
   --> $DIR/tests/fixture/rome/selectors/input.css:32:7
    |
 32 | :lang(en, ko) {
@@ -1217,23 +1217,11 @@ error: PseudoClassSelectorChildren
 32 | :lang(en, ko) {
    |         ^
 
-error: Comma
+error: Delimiter
   --> $DIR/tests/fixture/rome/selectors/input.css:32:9
    |
 32 | :lang(en, ko) {
    |         ^
-
-error: PseudoClassSelectorChildren
-  --> $DIR/tests/fixture/rome/selectors/input.css:32:10
-   |
-32 | :lang(en, ko) {
-   |          ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/rome/selectors/input.css:32:10
-   |
-32 | :lang(en, ko) {
-   |          ^
 
 error: PseudoClassSelectorChildren
   --> $DIR/tests/fixture/rome/selectors/input.css:32:11
@@ -1241,7 +1229,7 @@ error: PseudoClassSelectorChildren
 32 | :lang(en, ko) {
    |           ^^
 
-error: Ident { value: Atom('ko' type=inline), raw: Atom('ko' type=inline) }
+error: Ident
   --> $DIR/tests/fixture/rome/selectors/input.css:32:11
    |
 32 | :lang(en, ko) {

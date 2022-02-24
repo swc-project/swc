@@ -845,18 +845,14 @@
                             },
                             "children": [
                               {
-                                "type": "PreservedToken",
+                                "type": "Ident",
                                 "span": {
                                   "start": 136,
                                   "end": 138,
                                   "ctxt": 0
                                 },
-                                "token": {
-                                  "Ident": {
-                                    "value": "en",
-                                    "raw": "en"
-                                  }
-                                }
+                                "value": "en",
+                                "raw": "en"
                               }
                             ]
                           }

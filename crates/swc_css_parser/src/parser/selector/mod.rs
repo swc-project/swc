@@ -728,6 +728,51 @@ where
 
                             self.input.skip_ws()?;
                         }
+                        "lang" => {
+                            let child = match cur!(self) {
+                                tok!("ident") => PseudoClassSelectorChildren::Ident(self.parse()?),
+                                tok!("string") => PseudoClassSelectorChildren::Str(self.parse()?),
+                                _ => {
+                                    return Err(Error::new(
+                                        span,
+                                        ErrorKind::Expected("ident or str tokens"),
+                                    ));
+                                }
+                            };
+
+                            children.push(child);
+
+                            loop {
+                                self.input.skip_ws()?;
+
+                                if is!(self, ",") {
+                                    children.push(PseudoClassSelectorChildren::Delimiter(
+                                        self.parse()?,
+                                    ));
+
+                                    self.input.skip_ws()?;
+                                } else {
+                                    break;
+                                }
+
+                                let child = match cur!(self) {
+                                    tok!("ident") => {
+                                        PseudoClassSelectorChildren::Ident(self.parse()?)
+                                    }
+                                    tok!("string") => {
+                                        PseudoClassSelectorChildren::Str(self.parse()?)
+                                    }
+                                    _ => {
+                                        return Err(Error::new(
+                                            span,
+                                            ErrorKind::Expected("ident or str tokens"),
+                                        ));
+                                    }
+                                };
+
+                                children.push(child);
+                            }
+                        }
                         "current" | "past" | "future" => {
                             self.input.skip_ws()?;
 

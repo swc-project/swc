@@ -395,6 +395,8 @@ define!({
         PreservedToken(TokenAndSpan),
         AnPlusB(AnPlusB),
         Ident(Ident),
+        Str(Str),
+        Delimiter(Delimiter),
         SelectorList(SelectorList),
         CompoundSelectorList(CompoundSelectorList),
         RelativeSelectorList(RelativeSelectorList),

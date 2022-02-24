@@ -736,7 +736,7 @@ error: PseudoClassSelectorChildren
 7 | video::cue(:lang(en)) {}
   |                  ^^
 
-error: Ident { value: Atom('en' type=inline), raw: Atom('en' type=inline) }
+error: Ident
  --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:18
   |
 7 | video::cue(:lang(en)) {}
