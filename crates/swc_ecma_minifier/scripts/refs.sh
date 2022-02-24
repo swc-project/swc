@@ -10,5 +10,6 @@ cargo test -p swc_ecma_minifier -p swc --no-fail-fast || true
 
 # find ../swc/tests/ -type f -empty -delete
 
-
+set +e
 find tests/compress/fixture -type d -exec ./scripts/_/refs/add-analysis-only.sh {} \;
+find tests/terser -type d -exec ./scripts/_/refs/add-analysis-only.sh {} \;
