@@ -371,4 +371,5 @@ jobs:
 
       - name: Check compilation
         if: matrix.settings.check
+        working-directory: "crates/${{ matrix.settings.crate }}"
         run: "${{ matrix.settings.check }}"
