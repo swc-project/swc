@@ -7,7 +7,7 @@ var B, C, DD, E, F, G, H, I, J, K, L;
 }(G || (G = {})), (function(H) {
     H.A = "a", H.B = "b";
 })(H || (H = {})), (function(I) {
-    I[I.A = "a"] = "a", I[I.B = 0] = 0, I[I.C = 1] = "C";
+    I.A = "a", I[I.B = 0] = "B", I[I.C = 1] = "C";
 })(I || (I = {})), (function(J) {
     J[J.A = 1] = "A", J[J.B = 2] = "B", J[J.C = 3] = "C";
 })(J || (J = {})), (function(K) {
