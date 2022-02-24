@@ -980,6 +980,16 @@ where
             None
         };
 
+        if let Some(scope_data) = self
+            .data
+            .as_ref()
+            .and_then(|data| data.scopes.get(&self.ctx.scope))
+        {
+            if scope_data.has_eval_call {
+                return Ok(false);
+            }
+        }
+
         match a {
             Mergable::Var(..) => {}
             Mergable::Expr(a) => {
