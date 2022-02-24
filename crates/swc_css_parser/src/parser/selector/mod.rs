@@ -666,7 +666,16 @@ where
                     let mut children = vec![];
 
                     match &*names.0.to_ascii_lowercase() {
-                        // TODO `-moz-any`/`-webkit-any`/`matches`
+                        "-moz-any" | "-webkit-any" => {
+                            self.input.skip_ws()?;
+
+                            let selector_list = self.parse()?;
+
+                            // TODO fix me
+                            children.push(PseudoClassSelectorChildren::SelectorList(selector_list));
+
+                            self.input.skip_ws()?;
+                        }
                         "dir" => {
                             self.input.skip_ws()?;
 
@@ -676,7 +685,7 @@ where
 
                             self.input.skip_ws()?;
                         }
-                        "not" | "is" | "where" => {
+                        "not" | "is" | "where" | "matches" => {
                             self.input.skip_ws()?;
 
                             let selector_list = self.parse()?;

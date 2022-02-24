@@ -446,117 +446,153 @@ error: PseudoClassSelectorChildren
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:10
   |
 7 | :matches(section, article, aside, nav) h1 {}
-  |          ^^^^^^^
+  |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Ident { value: Atom('section' type=inline), raw: Atom('section' type=inline) }
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:10
+  |
+7 | :matches(section, article, aside, nav) h1 {}
+  |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:10
   |
 7 | :matches(section, article, aside, nav) h1 {}
   |          ^^^^^^^
 
-error: PseudoClassSelectorChildren
- --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:17
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:10
   |
 7 | :matches(section, article, aside, nav) h1 {}
-  |                 ^
+  |          ^^^^^^^
 
-error: Comma
- --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:17
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:10
   |
 7 | :matches(section, article, aside, nav) h1 {}
-  |                 ^
+  |          ^^^^^^^
 
-error: PseudoClassSelectorChildren
- --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:18
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:10
   |
 7 | :matches(section, article, aside, nav) h1 {}
-  |                  ^
+  |          ^^^^^^^
 
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:18
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:10
   |
 7 | :matches(section, article, aside, nav) h1 {}
-  |                  ^
+  |          ^^^^^^^
 
-error: PseudoClassSelectorChildren
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:10
+  |
+7 | :matches(section, article, aside, nav) h1 {}
+  |          ^^^^^^^
+
+error: ComplexSelector
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:19
   |
 7 | :matches(section, article, aside, nav) h1 {}
   |                   ^^^^^^^
 
-error: Ident { value: Atom('article' type=inline), raw: Atom('article' type=inline) }
+error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:19
   |
 7 | :matches(section, article, aside, nav) h1 {}
   |                   ^^^^^^^
 
-error: PseudoClassSelectorChildren
- --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:26
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:19
   |
 7 | :matches(section, article, aside, nav) h1 {}
-  |                          ^
+  |                   ^^^^^^^
 
-error: Comma
- --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:26
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:19
   |
 7 | :matches(section, article, aside, nav) h1 {}
-  |                          ^
+  |                   ^^^^^^^
 
-error: PseudoClassSelectorChildren
- --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:27
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:19
   |
 7 | :matches(section, article, aside, nav) h1 {}
-  |                           ^
+  |                   ^^^^^^^
 
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:27
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:19
   |
 7 | :matches(section, article, aside, nav) h1 {}
-  |                           ^
+  |                   ^^^^^^^
 
-error: PseudoClassSelectorChildren
+error: ComplexSelector
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:28
   |
 7 | :matches(section, article, aside, nav) h1 {}
   |                            ^^^^^
 
-error: Ident { value: Atom('aside' type=inline), raw: Atom('aside' type=inline) }
+error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:28
   |
 7 | :matches(section, article, aside, nav) h1 {}
   |                            ^^^^^
 
-error: PseudoClassSelectorChildren
- --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:33
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:28
   |
 7 | :matches(section, article, aside, nav) h1 {}
-  |                                 ^
+  |                            ^^^^^
 
-error: Comma
- --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:33
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:28
   |
 7 | :matches(section, article, aside, nav) h1 {}
-  |                                 ^
+  |                            ^^^^^
 
-error: PseudoClassSelectorChildren
- --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:34
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:28
   |
 7 | :matches(section, article, aside, nav) h1 {}
-  |                                  ^
+  |                            ^^^^^
 
-error: WhiteSpace { value: Atom(' ' type=inline) }
- --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:34
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:28
   |
 7 | :matches(section, article, aside, nav) h1 {}
-  |                                  ^
+  |                            ^^^^^
 
-error: PseudoClassSelectorChildren
+error: ComplexSelector
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:35
   |
 7 | :matches(section, article, aside, nav) h1 {}
   |                                   ^^^
 
-error: Ident { value: Atom('nav' type=inline), raw: Atom('nav' type=inline) }
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:35
+  |
+7 | :matches(section, article, aside, nav) h1 {}
+  |                                   ^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:35
+  |
+7 | :matches(section, article, aside, nav) h1 {}
+  |                                   ^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:35
+  |
+7 | :matches(section, article, aside, nav) h1 {}
+  |                                   ^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:35
+  |
+7 | :matches(section, article, aside, nav) h1 {}
+  |                                   ^^^
+
+error: Ident
  --> $DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:35
   |
 7 | :matches(section, article, aside, nav) h1 {}
