@@ -299,7 +299,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             false
         };
 
-        let is_for_next = self.state.had_line_break || !self.state.can_have_trailing_comment();
+        let mut is_for_next = self.state.had_line_break || !self.state.can_have_trailing_comment();
 
         while let Some(c) = self.cur() {
             if was_star && c == '/' {
@@ -307,6 +307,12 @@ impl<'a, I: Input> Lexer<'a, I> {
                 self.bump(); // '/'
 
                 let end = self.cur_pos();
+
+                self.skip_space()?;
+
+                if self.input.is_byte(b';') {
+                    is_for_next = false;
+                }
 
                 if let Some(comments) = self.comments_buffer.as_mut() {
                     let src = self.input.slice(slice_start, end);
