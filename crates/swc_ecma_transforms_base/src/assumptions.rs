@@ -70,6 +70,8 @@ pub struct Assumptions {
 
     /// https://babeljs.io/docs/en/assumptions#superiscallableconstructor
     pub super_is_callable_constructor: bool,
+
+    pub ts_enum_is_readonly: bool,
 }
 
 impl Assumptions {
@@ -96,6 +98,7 @@ impl Assumptions {
             set_spread_properties: true,
             skip_for_of_iterator_closing: true,
             super_is_callable_constructor: true,
+            ts_enum_is_readonly: true,
         }
     }
 }
