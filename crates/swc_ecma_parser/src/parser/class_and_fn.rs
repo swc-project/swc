@@ -2,7 +2,7 @@ use either::Either;
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
 
-use super::{ident::MaybeOptionalIdentParser, *};
+use super::*;
 use crate::{error::SyntaxError, lexer::TokenContext, parser::stmt::IsDirective, Tokens};
 
 /// Parser for function expression and function declaration.
