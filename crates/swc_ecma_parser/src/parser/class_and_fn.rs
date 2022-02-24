@@ -84,7 +84,7 @@ impl<'a, I: Tokens> Parser<I> {
         self.strict_mode().parse_with(|p| {
             expect!(p, "class");
 
-            let ident = p.parse_maybe_opt_binding_ident()?;
+            let ident = p.parse_maybe_opt_binding_ident(T::IS_IDENT_REQUIRED)?;
             if p.input.syntax().typescript() {
                 if let Some(span) = ident.invalid_class_name() {
                     p.emit_err(span, SyntaxError::TS2414);
@@ -176,7 +176,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             match cls {
                 Ok(v) => Ok(v),
-                Err(kind) => syntax_error!(self, kind),
+                Err(kind) => syntax_error!(p, kind),
             }
         })
     }
@@ -995,14 +995,14 @@ impl<'a, I: Tokens> Parser<I> {
                 allow_direct_super: false,
                 ..self.ctx()
             })
-            .parse_maybe_opt_binding_ident()?
+            .parse_maybe_opt_binding_ident(T::IS_IDENT_REQUIRED)?
         } else {
             // function declaration does not change context for `BindingIdentifier`.
             self.with_ctx(Context {
                 allow_direct_super: false,
                 ..self.ctx()
             })
-            .parse_maybe_opt_binding_ident()?
+            .parse_maybe_opt_binding_ident(T::IS_IDENT_REQUIRED)?
         };
 
         self.with_ctx(Context {
@@ -1027,15 +1027,23 @@ impl<'a, I: Tokens> Parser<I> {
 
             // let body = p.parse_fn_body(is_async, is_generator)?;
 
-            Ok(T::finish_fn(
-                span!(p, start_of_output_type.unwrap_or(start)),
-                ident,
-                f,
-            ))
+            let f = T::finish_fn(span!(p, start_of_output_type.unwrap_or(start)), ident, f);
+
+            match f {
+                Ok(v) => Ok(v),
+                Err(kind) => syntax_error!(p, kind),
+            }
         })
     }
 
-    fn parse_maybe_opt_binding_ident(&mut self, required: bool) -> PResult<Option<Ident>> {}
+    /// If `required` is `true`, this never returns `None`.
+    fn parse_maybe_opt_binding_ident(&mut self, required: bool) -> PResult<Option<Ident>> {
+        if required || is!(self, BindingIdent) {
+            self.parse_binding_ident().map(|v| v.id).map(Some)
+        } else {
+            Ok(None)
+        }
+    }
 
     /// `parse_args` closure should not eat '(' or ')'.
     pub(super) fn parse_fn_args_body<F>(
@@ -1323,50 +1331,66 @@ impl OutputType for Box<Expr> {
         true
     }
 
-    fn finish_fn(_span: Span, ident: Option<Ident>, function: Function) -> Self {
-        Box::new(Expr::Fn(FnExpr { ident, function }))
+    fn finish_fn(
+        _span: Span,
+        ident: Option<Ident>,
+        function: Function,
+    ) -> Result<Self, SyntaxError> {
+        Ok(Box::new(Expr::Fn(FnExpr { ident, function })))
     }
 
-    fn finish_class(_span: Span, ident: Option<Ident>, class: Class) -> Self {
-        Box::new(Expr::Class(ClassExpr { ident, class }))
+    fn finish_class(_span: Span, ident: Option<Ident>, class: Class) -> Result<Self, SyntaxError> {
+        Ok(Box::new(Expr::Class(ClassExpr { ident, class })))
     }
 }
 
 impl OutputType for ExportDefaultDecl {
     const IS_IDENT_REQUIRED: bool = false;
 
-    fn finish_fn(span: Span, ident: Option<Ident>, function: Function) -> Self {
-        ExportDefaultDecl {
+    fn finish_fn(
+        span: Span,
+        ident: Option<Ident>,
+        function: Function,
+    ) -> Result<Self, SyntaxError> {
+        Ok(ExportDefaultDecl {
             span,
             decl: DefaultDecl::Fn(FnExpr { ident, function }),
-        }
+        })
     }
 
-    fn finish_class(span: Span, ident: Option<Ident>, class: Class) -> Self {
-        ExportDefaultDecl {
+    fn finish_class(span: Span, ident: Option<Ident>, class: Class) -> Result<Self, SyntaxError> {
+        Ok(ExportDefaultDecl {
             span,
             decl: DefaultDecl::Class(ClassExpr { ident, class }),
-        }
+        })
     }
 }
 
 impl OutputType for Decl {
     const IS_IDENT_REQUIRED: bool = true;
 
-    fn finish_fn(_span: Span, ident: Ident, function: Function) -> Self {
-        Decl::Fn(FnDecl {
+    fn finish_fn(
+        _span: Span,
+        ident: Option<Ident>,
+        function: Function,
+    ) -> Result<Self, SyntaxError> {
+        let ident = ident.ok_or(SyntaxError::ExpectedIdent)?;
+
+        Ok(Decl::Fn(FnDecl {
             declare: false,
             ident,
             function,
-        })
+        }))
     }
 
-    fn finish_class(_: Span, ident: Ident, class: Class) -> Self {
-        Decl::Class(ClassDecl {
+    fn finish_class(_: Span, ident: Option<Ident>, class: Class) -> Result<Self, SyntaxError> {
+        let ident = ident.ok_or(SyntaxError::ExpectedIdent)?;
+
+        Ok(Decl::Class(ClassDecl {
             declare: false,
             ident,
             class,
-        })
+        }))
     }
 }
 
