@@ -983,22 +983,21 @@ impl<'a, I: Tokens> Parser<I> {
             }
     }
 
-    fn parse_fn<T>(
+    fn parse_fn_inner(
         &mut self,
-        start_of_output_type: Option<BytePos>,
+        _start_of_output_type: Option<BytePos>,
         start_of_async: Option<BytePos>,
         decorators: Vec<Decorator>,
-    ) -> PResult<T>
-    where
-        T: OutputType,
-    {
+        is_fn_expr: bool,
+        is_ident_required: bool,
+    ) -> PResult<(Option<Ident>, Function)> {
         let start = start_of_async.unwrap_or_else(|| cur_pos!(self));
         assert_and_bump!(self, "function");
         let is_async = start_of_async.is_some();
 
         let is_generator = eat!(self, '*');
 
-        let ident = if T::is_fn_expr() {
+        let ident = if is_fn_expr {
             //
             self.with_ctx(Context {
                 in_async: is_async,
@@ -1006,14 +1005,14 @@ impl<'a, I: Tokens> Parser<I> {
                 allow_direct_super: false,
                 ..self.ctx()
             })
-            .parse_maybe_opt_binding_ident(T::IS_IDENT_REQUIRED)?
+            .parse_maybe_opt_binding_ident(is_ident_required)?
         } else {
             // function declaration does not change context for `BindingIdentifier`.
             self.with_ctx(Context {
                 allow_direct_super: false,
                 ..self.ctx()
             })
-            .parse_maybe_opt_binding_ident(T::IS_IDENT_REQUIRED)?
+            .parse_maybe_opt_binding_ident(is_ident_required)?
         };
 
         self.with_ctx(Context {
@@ -1038,13 +1037,32 @@ impl<'a, I: Tokens> Parser<I> {
 
             // let body = p.parse_fn_body(is_async, is_generator)?;
 
-            let f = T::finish_fn(span!(p, start_of_output_type.unwrap_or(start)), ident, f);
-
-            match f {
-                Ok(v) => Ok(v),
-                Err(kind) => syntax_error!(p, kind),
-            }
+            Ok((ident, f))
         })
+    }
+
+    fn parse_fn<T>(
+        &mut self,
+        start_of_output_type: Option<BytePos>,
+        start_of_async: Option<BytePos>,
+        decorators: Vec<Decorator>,
+    ) -> PResult<T>
+    where
+        T: OutputType,
+    {
+        let start = start_of_async.unwrap_or_else(|| cur_pos!(self));
+        let (ident, f) = self.parse_fn_inner(
+            start_of_output_type,
+            start_of_async,
+            decorators,
+            T::is_fn_expr(),
+            T::IS_IDENT_REQUIRED,
+        )?;
+
+        match T::finish_fn(span!(self, start_of_output_type.unwrap_or(start)), ident, f) {
+            Ok(v) => Ok(v),
+            Err(kind) => syntax_error!(self, kind),
+        }
     }
 
     /// If `required` is `true`, this never returns `None`.
