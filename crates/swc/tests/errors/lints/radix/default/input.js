@@ -50,3 +50,6 @@ parseInt("12", (3));
 
 // requires add radix equals 10
 parseInt("12", 2.4);
+
+// requires add radix equals 10
+parseInt(`12`, `10`);

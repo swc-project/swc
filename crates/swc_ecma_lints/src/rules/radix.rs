@@ -1,9 +1,14 @@
+use std::{
+    fmt::{self, Debug},
+    sync::Arc,
+};
+
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_common::{
     collections::AHashSet,
     errors::{DiagnosticBuilder, HANDLER},
-    Span, SyntaxContext,
+    SourceMap, Span, SyntaxContext,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{collect_decls_with_ctxt, ident::IdentLike};
@@ -46,6 +51,7 @@ pub struct RadixConfig {
 
 pub fn radix(
     program: &Program,
+    source_map: &Arc<SourceMap>,
     top_level_ctxt: SyntaxContext,
     config: &RuleConfig<RadixConfig>,
 ) -> Option<Box<dyn Rule>> {
@@ -54,6 +60,7 @@ pub fn radix(
     match config.get_rule_reaction() {
         LintRuleReaction::Off => None,
         _ => Some(visitor_rule(Radix::new(
+            source_map.clone(),
             top_level_declared_vars,
             top_level_ctxt,
             config,
@@ -61,11 +68,12 @@ pub fn radix(
     }
 }
 
-#[derive(Debug, Default)]
+#[derive(Default)]
 struct Radix {
     expected_reaction: LintRuleReaction,
     top_level_ctxt: SyntaxContext,
     top_level_declared_vars: AHashSet<Id>,
+    source_map: Arc<SourceMap>,
 
     radix_mode: RadixMode,
     check_parens: bool,
@@ -78,8 +86,28 @@ struct Radix {
     prop: Option<JsWord>,
 }
 
+impl Debug for Radix {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("Radix")
+            .field("expected_reaction", &self.expected_reaction)
+            .field("top_level_ctxt", &self.top_level_ctxt)
+            .field("top_level_declared_vars", &self.top_level_declared_vars)
+            .field("radix_mode", &self.radix_mode)
+            .field("check_parens", &self.check_parens)
+            .field("inside_callee", &self.inside_callee)
+            .field("classes_depth", &self.classes_depth)
+            .field("classes_depth", &self.classes_depth)
+            .field("objects_depth", &self.objects_depth)
+            .field("arrow_fns_depth", &self.inside_callee)
+            .field("obj", &self.obj)
+            .field("prop", &self.prop)
+            .finish()
+    }
+}
+
 impl Radix {
     fn new(
+        source_map: Arc<SourceMap>,
         top_level_declared_vars: AHashSet<Id>,
         top_level_ctxt: SyntaxContext,
         config: &RuleConfig<RadixConfig>,
@@ -90,6 +118,7 @@ impl Radix {
             expected_reaction: config.get_rule_reaction(),
             top_level_ctxt,
             top_level_declared_vars,
+            source_map,
 
             radix_mode: rule_config.mode.unwrap_or_default(),
             check_parens: rule_config.check_parens.unwrap_or(true),
@@ -162,7 +191,7 @@ impl Radix {
 
         match call_expr.args.get(1) {
             Some(ExprOrSpread { expr, .. }) => {
-                match &extract_arg_val(expr.as_ref(), self.check_parens) {
+                match &extract_arg_val(&self.source_map, expr.as_ref(), self.check_parens) {
                     ArgValue::Ident => {}
                     ArgValue::Number(radix) => {
                         if radix.fract() != 0.0 || !(2f64..=36f64).contains(radix) {

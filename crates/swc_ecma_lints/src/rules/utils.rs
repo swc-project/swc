@@ -1,8 +1,8 @@
 use std::{fmt::Debug, sync::Arc};
 
 use serde::{Deserialize, Serialize};
-use swc_atoms::{js_word, JsWord};
-use swc_common::SourceMap;
+use swc_atoms::JsWord;
+use swc_common::{SourceMap, Span};
 use swc_ecma_ast::{Expr, Lit, Number, ParenExpr, Regex, Str, TaggedTpl, Tpl};
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
@@ -52,12 +52,20 @@ pub enum ArgValue {
     Other,
 }
 
-pub fn extract_arg_val(expr: &Expr, check_parens: bool) -> ArgValue {
+pub fn extract_arg_val(source_map: &Arc<SourceMap>, expr: &Expr, check_parens: bool) -> ArgValue {
+    fn extract_value_from_tpl(source_map: &Arc<SourceMap>, span: &Span) -> JsWord {
+        let source = source_map.lookup_byte_offset(span.lo);
+        let lo = (span.lo.0 as usize) + 1;
+        let hi = (span.hi.0 as usize) - 1;
+
+        JsWord::from(&source.sf.src[lo..hi])
+    }
+
     match expr {
         Expr::Ident(_) => ArgValue::Ident,
         Expr::Paren(ParenExpr { expr, .. }) => {
             if check_parens {
-                extract_arg_val(expr.as_ref(), check_parens)
+                extract_arg_val(source_map, expr.as_ref(), check_parens)
             } else {
                 ArgValue::Other
             }
@@ -68,21 +76,19 @@ pub fn extract_arg_val(expr: &Expr, check_parens: bool) -> ArgValue {
             exp: exp.clone(),
             flags: flags.clone(),
         },
-        Expr::Tpl(Tpl { exprs, .. }) => {
+        Expr::Tpl(Tpl { span, exprs, .. }) => {
             if exprs.is_empty() {
-                // TODO: extract text from tpl
-                ArgValue::Str(js_word!(""))
+                ArgValue::Str(extract_value_from_tpl(source_map, span))
             } else {
                 ArgValue::Other
             }
         }
         Expr::TaggedTpl(TaggedTpl {
-            tpl: Tpl { exprs, .. },
+            tpl: Tpl { span, exprs, .. },
             ..
         }) => {
             if exprs.is_empty() {
-                // TODO: extract text from tpl
-                ArgValue::Str(js_word!(""))
+                ArgValue::Str(extract_value_from_tpl(source_map, span))
             } else {
                 ArgValue::Other
             }
