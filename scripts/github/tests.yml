@@ -15,7 +15,7 @@ os:
     - swc_plugin
     - swc_plugin_runner
     - swc_plugin_testing
-  mac:
+  macos:
     - swc_plugin_runner
 
 check:

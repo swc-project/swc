@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+set -u
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
@@ -12,17 +12,25 @@ crates=$(\
         | sort \
 )
 
+# yq query syntax is weird, so we have to use jq
+json_str="$(yq -o=json tests.yml)"
+
 for crate in $crates
 do
     echo "- crate: $crate"
     echo "  os: ubuntu-latest"
 
-    if grep -q "^$crate\$" "$SCRIPT_DIR/list-macos.txt"; then
+    
+
+    # echo $json_str | jq -e "select(.os.windows | index(\"$crate\"))"
+
+    
+    if echo $json_str | jq -e "select(.os.macos | index(\"$crate\"))" > /dev/null``; then
         echo "- crate: $crate"
         echo "  os: macos-latest"
     fi
 
-    if grep -q "^$crate\$" "$SCRIPT_DIR/list-windows.txt"; then
+    if echo $json_str | jq -e "select(.os.windows | index(\"$crate\"))" > /dev/null``; then
         echo "- crate: $crate"
         echo "  os: windows-latest"
     fi
