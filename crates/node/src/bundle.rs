@@ -186,6 +186,8 @@ pub(crate) fn bundle(
     conf_items: Buffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<BundleTask>> {
+    crate::util::init_trace_once(false, None)?;
+
     let c: Arc<Compiler> = get_compiler();
 
     let static_items: StaticConfigItem = get_deserialized(&conf_items)?;

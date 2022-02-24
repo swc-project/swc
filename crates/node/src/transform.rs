@@ -101,6 +101,8 @@ pub fn transform(
     options: JsBuffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<TransformTask>> {
+    crate::util::init_trace_once(false, None)?;
+
     let c = get_compiler();
 
     let input = if is_module {
@@ -120,6 +122,8 @@ pub fn transform(
 #[napi]
 #[instrument(skip_all)]
 pub fn transform_sync(s: String, is_module: bool, opts: Buffer) -> napi::Result<TransformOutput> {
+    crate::util::init_trace_once(false, None)?;
+
     let c = get_compiler();
 
     let mut options: Options = get_deserialized(&opts)?;
@@ -158,6 +162,8 @@ pub fn transform_file(
     options: JsBuffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<TransformTask>> {
+    crate::util::init_trace_once(false, None)?;
+
     let c = get_compiler();
 
     let path = clean(&src);
@@ -175,6 +181,8 @@ pub fn transform_file_sync(
     is_module: bool,
     opts: Buffer,
 ) -> napi::Result<TransformOutput> {
+    crate::util::init_trace_once(false, None)?;
+
     let c = get_compiler();
 
     let mut options: Options = get_deserialized(&opts)?;

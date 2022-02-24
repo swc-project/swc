@@ -11,7 +11,6 @@ use std::{env, panic::set_hook, sync::Arc};
 use backtrace::Backtrace;
 use swc::Compiler;
 use swc_common::{self, sync::Lazy, FilePathMapping, SourceMap};
-use tracing_subscriber::EnvFilter;
 
 mod bundle;
 mod minify;
@@ -34,13 +33,6 @@ fn init() {
             println!("Panic: {:?}\nBacktrace: {:?}", panic_info, backtrace);
         }));
     }
-
-    let _ = tracing_subscriber::FmtSubscriber::builder()
-        .without_time()
-        .with_target(false)
-        .with_ansi(true)
-        .with_env_filter(EnvFilter::from_env("SWC_LOG"))
-        .try_init();
 }
 
 fn get_compiler() -> Arc<Compiler> {
