@@ -276,6 +276,8 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(SelectorList, visit_selector_list);
 
+    mtd!(CompoundSelectorList, visit_compound_selector_list);
+
     mtd!(RelativeSelectorList, visit_relative_selector_list);
 
     mtd!(ComplexSelector, visit_complex_selector);

@@ -58,6 +58,12 @@ error: PseudoClassSelectorChildren
 1 | :future(p, li, dt, dd) {}
   |         ^^^^^^^^^^^^^
 
+error: CompoundSelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:9
+  |
+1 | :future(p, li, dt, dd) {}
+  |         ^^^^^^^^^^^^^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:9
   |

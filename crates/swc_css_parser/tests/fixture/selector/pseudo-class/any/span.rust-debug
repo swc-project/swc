@@ -64,6 +64,12 @@ error: PseudoClassSelectorChildren
 1 | :-webkit-any(textarea) {}
   |              ^^^^^^^^
 
+error: CompoundSelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:1:14
+  |
+1 | :-webkit-any(textarea) {}
+  |              ^^^^^^^^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:1:14
   |
@@ -154,6 +160,12 @@ error: PseudoClassSelectorChildren
 2 | :-moz-any(textarea) {}
   |           ^^^^^^^^
 
+error: CompoundSelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:2:11
+  |
+2 | :-moz-any(textarea) {}
+  |           ^^^^^^^^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:2:11
   |
@@ -239,6 +251,12 @@ error: Ident
   |  ^^^^^^^^^^^
 
 error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:14
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |              ^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:14
   |
 3 | :-webkit-any(header, main, footer) p:hover {}
@@ -448,6 +466,12 @@ error: PseudoClassSelectorChildren
 4 | :-moz-any(header, main, footer) p:hover {}
   |           ^^^^^^^^^^^^^^^^^^^^
 
+error: CompoundSelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:11
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |           ^^^^^^^^^^^^^^^^^^^^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:11
   |
@@ -652,6 +676,12 @@ error: PseudoClassSelectorChildren
 5 | :-webkit-any(.class[test]) {}
   |              ^^^^^^^^^^^^
 
+error: CompoundSelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:14
+  |
+5 | :-webkit-any(.class[test]) {}
+  |              ^^^^^^^^^^^^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:14
   |
@@ -760,6 +790,12 @@ error: PseudoClassSelectorChildren
 6 | :-moz-any(.class[test]) {}
   |           ^^^^^^^^^^^^
 
+error: CompoundSelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:11
+  |
+6 | :-moz-any(.class[test]) {}
+  |           ^^^^^^^^^^^^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:11
   |
@@ -863,6 +899,12 @@ error: Ident
   |  ^^^^^^^^^^^
 
 error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:14
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  |              ^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:14
   |
 7 | :-webkit-any(.class[test], .class) {}
@@ -995,6 +1037,12 @@ error: Ident
   |  ^^^^^^^^
 
 error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:11
+  |
+8 | :-moz-any(.class[test], .class) {}
+  |           ^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:11
   |
 8 | :-moz-any(.class[test], .class) {}
@@ -1145,6 +1193,12 @@ error: PseudoClassSelectorChildren
 9 | :-webkit-any(h1),
   |              ^^
 
+error: CompoundSelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:9:14
+  |
+9 | :-webkit-any(h1),
+  |              ^^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:9:14
   |
@@ -1206,6 +1260,12 @@ error: Ident
    |  ^^^^^^^^^^^
 
 error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:10:15
+   |
+10 | :-webkit-any( #div1, b ),
+   |               ^^^^^^^^
+
+error: CompoundSelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:10:15
    |
 10 | :-webkit-any( #div1, b ),
@@ -1301,6 +1361,12 @@ error: PseudoClassSelectorChildren
 11 | :-webkit-any(.foo, #bar),
    |              ^^^^^^^^^^
 
+error: CompoundSelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:11:14
+   |
+11 | :-webkit-any(.foo, #bar),
+   |              ^^^^^^^^^^
+
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:11:14
    |
@@ -1380,6 +1446,12 @@ error: Ident
    |  ^^^^^^^^^^^
 
 error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:14
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |              ^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:14
    |
 12 | :-webkit-any(i,p,:link,span:focus) {
@@ -1659,6 +1731,12 @@ error: PseudoClassSelectorChildren
 16 | #test-last-child :-webkit-any(:last-child),
    |                               ^^^^^^^^^^^
 
+error: CompoundSelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:31
+   |
+16 | #test-last-child :-webkit-any(:last-child),
+   |                               ^^^^^^^^^^^
+
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:31
    |
@@ -1714,6 +1792,12 @@ error: Ident
    |  ^^^^^^^^^^^
 
 error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:17:14
+   |
+17 | :-webkit-any(:link:focus),
+   |              ^^^^^^^^^^^
+
+error: CompoundSelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:17:14
    |
 17 | :-webkit-any(:link:focus),
@@ -1822,6 +1906,12 @@ error: Ident
    |                 ^^^^^^^^^^^
 
 error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:29
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |                             ^^^^^^^^^^^^^^
+
+error: CompoundSelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:29
    |
 18 | #container-div :-webkit-any(:link, :not(a)),
@@ -1978,6 +2068,12 @@ error: Ident
    |    ^^^^^^^^^^^
 
 error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:16
+   |
+19 | h1:-webkit-any(.h1class, #bar) {
+   |                ^^^^^^^^^^^^^^
+
+error: CompoundSelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:16
    |
 19 | h1:-webkit-any(.h1class, #bar) {
