@@ -1017,12 +1017,8 @@ where
                             return Ok(true);
                         }
 
-                        match &**b_left {
-                            Expr::Ident(..) => {}
-
-                            _ => {
-                                return Ok(false);
-                            }
+                        if !self.is_skippable_for_seq(Some(a), b_left) {
+                            return Ok(false);
                         }
                     }
                     PatOrExpr::Pat(b_left) => match &mut **b_left {
@@ -1032,11 +1028,8 @@ where
                                 return Ok(true);
                             }
 
-                            match &**b_left {
-                                Expr::Ident(..) => {}
-                                _ => {
-                                    return Ok(false);
-                                }
+                            if !self.is_skippable_for_seq(Some(a), b_left) {
+                                return Ok(false);
                             }
                         }
                         Pat::Ident(..) => {}
