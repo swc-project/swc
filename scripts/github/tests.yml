@@ -23,26 +23,25 @@ check:
     - "check"
     - "check --no-default-features --features swc_v2"
   swc:
-    - "hack check --feature-powerset --no-dev-deps",
+    - "hack check --feature-powerset --no-dev-deps"
   swc_bundler:
-    - "hack check --feature-powerset --no-dev-deps",
+    - "hack check --feature-powerset --no-dev-deps"
   swc_common:
-    - "hack check --feature-powerset --no-dev-deps",
+    - "hack check --feature-powerset --no-dev-deps"
   swc_ecma_ast:
-    - "hack check --feature-powerset --no-dev-deps",
+    - "hack check --feature-powerset --no-dev-deps"
   swc_ecma_loader:
-    - "hack check --feature-powerset --no-dev-deps",
+    - "hack check --feature-powerset --no-dev-deps"
   swc_ecma_transforms:
-    - "hack check --feature-powerset --no-dev-deps",
+    - "hack check --feature-powerset --no-dev-deps"
   swc_ecma_transforms_base:
-    - "hack check --feature-powerset --no-dev-deps",
+    - "hack check --feature-powerset --no-dev-deps"
   swc_ecma_transforms_compat:
-    - "hack check --feature-powerset --no-dev-deps",
+    - "hack check --feature-powerset --no-dev-deps"
   swc_ecma_transforms_optimization:
-    - "hack check --feature-powerset --no-dev-deps",
+    - "hack check --feature-powerset --no-dev-deps"
   swc_ecma_utils:
-    - "hack check --feature-powerset --no-dev-deps",
+    - "hack check --feature-powerset --no-dev-deps"
   swc_node_bundler:
     - "check"
     - "check --no-default-features --features swc_v2"
-  
