@@ -2900,7 +2900,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.93.1"
+version = "0.93.2"
 dependencies = [
  "bitflags",
  "memchr",
