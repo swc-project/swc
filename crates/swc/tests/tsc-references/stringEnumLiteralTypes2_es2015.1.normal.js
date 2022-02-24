@@ -29,8 +29,8 @@ function f3(a, b) {
     var y = !b;
 }
 function f5(a, b, c) {
-    var z1 = g(Choice.Yes);
-    var z2 = g(Choice.No);
+    var z1 = g("yes");
+    var z2 = g("no");
     var z3 = g(a);
     var z4 = g(b);
     var z5 = g(c);
@@ -40,17 +40,17 @@ function assertNever(x) {
 }
 function f10(x) {
     switch(x){
-        case Choice.Yes:
+        case "yes":
             return "true";
-        case Choice.No:
+        case "no":
             return "false";
     }
 }
 function f11(x) {
     switch(x){
-        case Choice.Yes:
+        case "yes":
             return "true";
-        case Choice.No:
+        case "no":
             return "false";
     }
     return assertNever(x);
@@ -63,7 +63,7 @@ function f12(x) {
     }
 }
 function f13(x) {
-    if (x === Choice.Yes) {
+    if (x === "yes") {
         x;
     } else {
         x;
@@ -71,17 +71,17 @@ function f13(x) {
 }
 function f20(x) {
     switch(x.kind){
-        case Choice.Yes:
+        case "yes":
             return x.a;
-        case Choice.No:
+        case "no":
             return x.b;
     }
 }
 function f21(x) {
     switch(x.kind){
-        case Choice.Yes:
+        case "yes":
             return x.a;
-        case Choice.No:
+        case "no":
             return x.b;
     }
     return assertNever(x);

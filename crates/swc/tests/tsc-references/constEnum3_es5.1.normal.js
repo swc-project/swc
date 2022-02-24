@@ -5,7 +5,7 @@ var TestType;
 })(TestType || (TestType = {}));
 function f1(f) {}
 function f2(f) {}
-f1(TestType.foo);
-f1(TestType.bar);
+f1(0);
+f1(1);
 f2('foo');
 f2('bar');

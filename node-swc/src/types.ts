@@ -640,6 +640,8 @@ export interface TransformConfig {
    * https://swc.rs/docs/configuring-swc.html#jsctransformdecoratormetadata
    */
   decoratorMetadata?: boolean;
+
+  treatConstEnumAsEnum?: boolean;
 }
 
 export interface ReactConfig {
