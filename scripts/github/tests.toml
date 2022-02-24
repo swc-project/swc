@@ -2,7 +2,6 @@
 swc_plugin_runner = true
 
 [os.windows]
-
 swc = true
 swc_cli = true
 swc_common = true
