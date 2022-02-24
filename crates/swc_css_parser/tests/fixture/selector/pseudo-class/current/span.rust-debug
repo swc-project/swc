@@ -1,0 +1,186 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1
+  |
+1 | :current(p, li, dt, dd) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1
+  |
+1 | :current(p, li, dt, dd) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1
+  |
+1 | :current(p, li, dt, dd) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1
+  |
+1 | :current(p, li, dt, dd) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1
+  |
+1 | :current(p, li, dt, dd) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1
+  |
+1 | :current(p, li, dt, dd) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1
+  |
+1 | :current(p, li, dt, dd) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1
+  |
+1 | :current(p, li, dt, dd) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:2
+  |
+1 | :current(p, li, dt, dd) {}
+  |  ^^^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:10
+  |
+1 | :current(p, li, dt, dd) {}
+  |          ^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:10
+  |
+1 | :current(p, li, dt, dd) {}
+  |          ^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:10
+  |
+1 | :current(p, li, dt, dd) {}
+  |          ^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:10
+  |
+1 | :current(p, li, dt, dd) {}
+  |          ^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:10
+  |
+1 | :current(p, li, dt, dd) {}
+  |          ^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:10
+  |
+1 | :current(p, li, dt, dd) {}
+  |          ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:13
+  |
+1 | :current(p, li, dt, dd) {}
+  |             ^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:13
+  |
+1 | :current(p, li, dt, dd) {}
+  |             ^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:13
+  |
+1 | :current(p, li, dt, dd) {}
+  |             ^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:13
+  |
+1 | :current(p, li, dt, dd) {}
+  |             ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:13
+  |
+1 | :current(p, li, dt, dd) {}
+  |             ^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:17
+  |
+1 | :current(p, li, dt, dd) {}
+  |                 ^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:17
+  |
+1 | :current(p, li, dt, dd) {}
+  |                 ^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:17
+  |
+1 | :current(p, li, dt, dd) {}
+  |                 ^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:17
+  |
+1 | :current(p, li, dt, dd) {}
+  |                 ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:17
+  |
+1 | :current(p, li, dt, dd) {}
+  |                 ^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:21
+  |
+1 | :current(p, li, dt, dd) {}
+  |                     ^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:21
+  |
+1 | :current(p, li, dt, dd) {}
+  |                     ^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:21
+  |
+1 | :current(p, li, dt, dd) {}
+  |                     ^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:21
+  |
+1 | :current(p, li, dt, dd) {}
+  |                     ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:21
+  |
+1 | :current(p, li, dt, dd) {}
+  |                     ^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/current/input.css:1:25
+  |
+1 | :current(p, li, dt, dd) {}
+  |                         ^^
+

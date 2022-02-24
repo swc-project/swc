@@ -64,18 +64,6 @@ error: PseudoClassSelectorChildren
 1 | :-webkit-any(textarea) {}
   |              ^^^^^^^^
 
-error: SelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:1:14
-  |
-1 | :-webkit-any(textarea) {}
-  |              ^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:1:14
-  |
-1 | :-webkit-any(textarea) {}
-  |              ^^^^^^^^
-
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:1:14
   |
@@ -161,18 +149,6 @@ error: Ident
   |  ^^^^^^^^
 
 error: PseudoClassSelectorChildren
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:2:11
-  |
-2 | :-moz-any(textarea) {}
-  |           ^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:2:11
-  |
-2 | :-moz-any(textarea) {}
-  |           ^^^^^^^^
-
-error: ComplexSelector
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:2:11
   |
 2 | :-moz-any(textarea) {}
@@ -268,18 +244,6 @@ error: PseudoClassSelectorChildren
 3 | :-webkit-any(header, main, footer) p:hover {}
   |              ^^^^^^^^^^^^^^^^^^^^
 
-error: SelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:14
-  |
-3 | :-webkit-any(header, main, footer) p:hover {}
-  |              ^^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:14
-  |
-3 | :-webkit-any(header, main, footer) p:hover {}
-  |              ^^^^^^
-
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:14
   |
@@ -310,12 +274,6 @@ error: Ident
 3 | :-webkit-any(header, main, footer) p:hover {}
   |              ^^^^^^
 
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:22
-  |
-3 | :-webkit-any(header, main, footer) p:hover {}
-  |                      ^^^^
-
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:22
   |
@@ -345,12 +303,6 @@ error: Ident
   |
 3 | :-webkit-any(header, main, footer) p:hover {}
   |                      ^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:28
-  |
-3 | :-webkit-any(header, main, footer) p:hover {}
-  |                            ^^^^^^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:28
@@ -496,18 +448,6 @@ error: PseudoClassSelectorChildren
 4 | :-moz-any(header, main, footer) p:hover {}
   |           ^^^^^^^^^^^^^^^^^^^^
 
-error: SelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:11
-  |
-4 | :-moz-any(header, main, footer) p:hover {}
-  |           ^^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:11
-  |
-4 | :-moz-any(header, main, footer) p:hover {}
-  |           ^^^^^^
-
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:11
   |
@@ -538,12 +478,6 @@ error: Ident
 4 | :-moz-any(header, main, footer) p:hover {}
   |           ^^^^^^
 
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:19
-  |
-4 | :-moz-any(header, main, footer) p:hover {}
-  |                   ^^^^
-
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:19
   |
@@ -573,12 +507,6 @@ error: Ident
   |
 4 | :-moz-any(header, main, footer) p:hover {}
   |                   ^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:25
-  |
-4 | :-moz-any(header, main, footer) p:hover {}
-  |                         ^^^^^^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:25
@@ -724,18 +652,6 @@ error: PseudoClassSelectorChildren
 5 | :-webkit-any(.class[test]) {}
   |              ^^^^^^^^^^^^
 
-error: SelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:14
-  |
-5 | :-webkit-any(.class[test]) {}
-  |              ^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:14
-  |
-5 | :-webkit-any(.class[test]) {}
-  |              ^^^^^^^^^^^^
-
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:14
   |
@@ -839,18 +755,6 @@ error: Ident
   |  ^^^^^^^^
 
 error: PseudoClassSelectorChildren
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:11
-  |
-6 | :-moz-any(.class[test]) {}
-  |           ^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:11
-  |
-6 | :-moz-any(.class[test]) {}
-  |           ^^^^^^^^^^^^
-
-error: ComplexSelector
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:11
   |
 6 | :-moz-any(.class[test]) {}
@@ -964,18 +868,6 @@ error: PseudoClassSelectorChildren
 7 | :-webkit-any(.class[test], .class) {}
   |              ^^^^^^^^^^^^^^^^^^^^
 
-error: SelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:14
-  |
-7 | :-webkit-any(.class[test], .class) {}
-  |              ^^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:14
-  |
-7 | :-webkit-any(.class[test], .class) {}
-  |              ^^^^^^^^^^^^
-
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:14
   |
@@ -1023,12 +915,6 @@ error: Ident
   |
 7 | :-webkit-any(.class[test], .class) {}
   |                     ^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:28
-  |
-7 | :-webkit-any(.class[test], .class) {}
-  |                            ^^^^^^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:28
@@ -1114,18 +1000,6 @@ error: PseudoClassSelectorChildren
 8 | :-moz-any(.class[test], .class) {}
   |           ^^^^^^^^^^^^^^^^^^^^
 
-error: SelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:11
-  |
-8 | :-moz-any(.class[test], .class) {}
-  |           ^^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:11
-  |
-8 | :-moz-any(.class[test], .class) {}
-  |           ^^^^^^^^^^^^
-
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:11
   |
@@ -1173,12 +1047,6 @@ error: Ident
   |
 8 | :-moz-any(.class[test], .class) {}
   |                  ^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:25
-  |
-8 | :-moz-any(.class[test], .class) {}
-  |                         ^^^^^^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:25
@@ -1277,18 +1145,6 @@ error: PseudoClassSelectorChildren
 9 | :-webkit-any(h1),
   |              ^^
 
-error: SelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:9:14
-  |
-9 | :-webkit-any(h1),
-  |              ^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:9:14
-  |
-9 | :-webkit-any(h1),
-  |              ^^
-
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:9:14
   |
@@ -1355,18 +1211,6 @@ error: PseudoClassSelectorChildren
 10 | :-webkit-any( #div1, b ),
    |               ^^^^^^^^
 
-error: SelectorList
-  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:10:15
-   |
-10 | :-webkit-any( #div1, b ),
-   |               ^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:10:15
-   |
-10 | :-webkit-any( #div1, b ),
-   |               ^^^^^
-
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:10:15
    |
@@ -1390,12 +1234,6 @@ error: Ident
    |
 10 | :-webkit-any( #div1, b ),
    |               ^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:10:22
-   |
-10 | :-webkit-any( #div1, b ),
-   |                      ^
 
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:10:22
@@ -1463,18 +1301,6 @@ error: PseudoClassSelectorChildren
 11 | :-webkit-any(.foo, #bar),
    |              ^^^^^^^^^^
 
-error: SelectorList
-  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:11:14
-   |
-11 | :-webkit-any(.foo, #bar),
-   |              ^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:11:14
-   |
-11 | :-webkit-any(.foo, #bar),
-   |              ^^^^
-
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:11:14
    |
@@ -1498,12 +1324,6 @@ error: Ident
    |
 11 | :-webkit-any(.foo, #bar),
    |               ^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:11:20
-   |
-11 | :-webkit-any(.foo, #bar),
-   |                    ^^^^
 
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:11:20
@@ -1565,18 +1385,6 @@ error: PseudoClassSelectorChildren
 12 | :-webkit-any(i,p,:link,span:focus) {
    |              ^^^^^^^^^^^^^^^^^^^^
 
-error: SelectorList
-  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:14
-   |
-12 | :-webkit-any(i,p,:link,span:focus) {
-   |              ^^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:14
-   |
-12 | :-webkit-any(i,p,:link,span:focus) {
-   |              ^
-
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:14
    |
@@ -1607,12 +1415,6 @@ error: Ident
 12 | :-webkit-any(i,p,:link,span:focus) {
    |              ^
 
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:16
-   |
-12 | :-webkit-any(i,p,:link,span:focus) {
-   |                ^
-
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:16
    |
@@ -1642,12 +1444,6 @@ error: Ident
    |
 12 | :-webkit-any(i,p,:link,span:focus) {
    |                ^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:18
-   |
-12 | :-webkit-any(i,p,:link,span:focus) {
-   |                  ^^^^^
 
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:18
@@ -1672,12 +1468,6 @@ error: Ident
    |
 12 | :-webkit-any(i,p,:link,span:focus) {
    |                   ^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:24
-   |
-12 | :-webkit-any(i,p,:link,span:focus) {
-   |                        ^^^^^^^^^^
 
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:24
@@ -1869,18 +1659,6 @@ error: PseudoClassSelectorChildren
 16 | #test-last-child :-webkit-any(:last-child),
    |                               ^^^^^^^^^^^
 
-error: SelectorList
-  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:31
-   |
-16 | #test-last-child :-webkit-any(:last-child),
-   |                               ^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:31
-   |
-16 | #test-last-child :-webkit-any(:last-child),
-   |                               ^^^^^^^^^^^
-
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:31
    |
@@ -1936,18 +1714,6 @@ error: Ident
    |  ^^^^^^^^^^^
 
 error: PseudoClassSelectorChildren
-  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:17:14
-   |
-17 | :-webkit-any(:link:focus),
-   |              ^^^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:17:14
-   |
-17 | :-webkit-any(:link:focus),
-   |              ^^^^^^^^^^^
-
-error: ComplexSelector
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:17:14
    |
 17 | :-webkit-any(:link:focus),
@@ -2061,18 +1827,6 @@ error: PseudoClassSelectorChildren
 18 | #container-div :-webkit-any(:link, :not(a)),
    |                             ^^^^^^^^^^^^^^
 
-error: SelectorList
-  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:29
-   |
-18 | #container-div :-webkit-any(:link, :not(a)),
-   |                             ^^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:29
-   |
-18 | #container-div :-webkit-any(:link, :not(a)),
-   |                             ^^^^^
-
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:29
    |
@@ -2096,12 +1850,6 @@ error: Ident
    |
 18 | #container-div :-webkit-any(:link, :not(a)),
    |                              ^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:36
-   |
-18 | #container-div :-webkit-any(:link, :not(a)),
-   |                                    ^^^^^^^
 
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:36
@@ -2235,18 +1983,6 @@ error: PseudoClassSelectorChildren
 19 | h1:-webkit-any(.h1class, #bar) {
    |                ^^^^^^^^^^^^^^
 
-error: SelectorList
-  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:16
-   |
-19 | h1:-webkit-any(.h1class, #bar) {
-   |                ^^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:16
-   |
-19 | h1:-webkit-any(.h1class, #bar) {
-   |                ^^^^^^^^
-
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:16
    |
@@ -2270,12 +2006,6 @@ error: Ident
    |
 19 | h1:-webkit-any(.h1class, #bar) {
    |                 ^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:26
-   |
-19 | h1:-webkit-any(.h1class, #bar) {
-   |                          ^^^^
 
 error: CompoundSelector
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:26

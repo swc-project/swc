@@ -1,0 +1,186 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:1
+  |
+1 | :future(p, li, dt, dd) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:1
+  |
+1 | :future(p, li, dt, dd) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:1
+  |
+1 | :future(p, li, dt, dd) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:1
+  |
+1 | :future(p, li, dt, dd) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:1
+  |
+1 | :future(p, li, dt, dd) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:1
+  |
+1 | :future(p, li, dt, dd) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:1
+  |
+1 | :future(p, li, dt, dd) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:1
+  |
+1 | :future(p, li, dt, dd) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:2
+  |
+1 | :future(p, li, dt, dd) {}
+  |  ^^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:9
+  |
+1 | :future(p, li, dt, dd) {}
+  |         ^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:9
+  |
+1 | :future(p, li, dt, dd) {}
+  |         ^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:9
+  |
+1 | :future(p, li, dt, dd) {}
+  |         ^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:9
+  |
+1 | :future(p, li, dt, dd) {}
+  |         ^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:9
+  |
+1 | :future(p, li, dt, dd) {}
+  |         ^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:9
+  |
+1 | :future(p, li, dt, dd) {}
+  |         ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:12
+  |
+1 | :future(p, li, dt, dd) {}
+  |            ^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:12
+  |
+1 | :future(p, li, dt, dd) {}
+  |            ^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:12
+  |
+1 | :future(p, li, dt, dd) {}
+  |            ^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:12
+  |
+1 | :future(p, li, dt, dd) {}
+  |            ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:12
+  |
+1 | :future(p, li, dt, dd) {}
+  |            ^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:16
+  |
+1 | :future(p, li, dt, dd) {}
+  |                ^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:16
+  |
+1 | :future(p, li, dt, dd) {}
+  |                ^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:16
+  |
+1 | :future(p, li, dt, dd) {}
+  |                ^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:16
+  |
+1 | :future(p, li, dt, dd) {}
+  |                ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:16
+  |
+1 | :future(p, li, dt, dd) {}
+  |                ^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:20
+  |
+1 | :future(p, li, dt, dd) {}
+  |                    ^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:20
+  |
+1 | :future(p, li, dt, dd) {}
+  |                    ^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:20
+  |
+1 | :future(p, li, dt, dd) {}
+  |                    ^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:20
+  |
+1 | :future(p, li, dt, dd) {}
+  |                    ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:20
+  |
+1 | :future(p, li, dt, dd) {}
+  |                    ^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/future/input.css:1:24
+  |
+1 | :future(p, li, dt, dd) {}
+  |                        ^^
+

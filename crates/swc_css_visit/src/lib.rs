@@ -286,6 +286,11 @@ define!({
         pub children: Vec<ComplexSelector>,
     }
 
+    pub struct CompoundSelectorList {
+        pub span: Span,
+        pub children: Vec<CompoundSelector>,
+    }
+
     pub struct RelativeSelectorList {
         pub span: Span,
         pub children: Vec<RelativeSelector>,
@@ -391,6 +396,7 @@ define!({
         AnPlusB(AnPlusB),
         Ident(Ident),
         SelectorList(SelectorList),
+        CompoundSelectorList(CompoundSelectorList),
         RelativeSelectorList(RelativeSelectorList),
         CompoundSelector(CompoundSelector),
     }

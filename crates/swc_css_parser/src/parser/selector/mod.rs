@@ -52,6 +52,50 @@ where
     }
 }
 
+impl<I> Parse<CompoundSelectorList> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<CompoundSelectorList> {
+        self.input.skip_ws()?;
+
+        let child = self.parse()?;
+        let mut children = vec![child];
+
+        loop {
+            self.input.skip_ws()?;
+
+            if !eat!(self, ",") {
+                break;
+            }
+
+            self.input.skip_ws()?;
+
+            let child = self.parse()?;
+
+            children.push(child);
+        }
+
+        let start_pos = match children.first() {
+            Some(CompoundSelector { span, .. }) => span.lo,
+            _ => {
+                unreachable!();
+            }
+        };
+        let last_pos = match children.last() {
+            Some(CompoundSelector { span, .. }) => span.hi,
+            _ => {
+                unreachable!();
+            }
+        };
+
+        Ok(CompoundSelectorList {
+            span: Span::new(start_pos, last_pos, Default::default()),
+            children,
+        })
+    }
+}
+
 impl<I> Parse<RelativeSelectorList> for Parser<I>
 where
     I: ParserInput,
@@ -669,10 +713,11 @@ where
                         "-moz-any" | "-webkit-any" => {
                             self.input.skip_ws()?;
 
-                            let selector_list = self.parse()?;
+                            let compound_selector_list = self.parse()?;
 
-                            // TODO fix me
-                            children.push(PseudoClassSelectorChildren::SelectorList(selector_list));
+                            children.push(PseudoClassSelectorChildren::CompoundSelectorList(
+                                compound_selector_list,
+                            ));
 
                             self.input.skip_ws()?;
                         }
@@ -682,6 +727,17 @@ where
                             let ident = self.parse()?;
 
                             children.push(PseudoClassSelectorChildren::Ident(ident));
+
+                            self.input.skip_ws()?;
+                        }
+                        "current" | "past" | "future" => {
+                            self.input.skip_ws()?;
+
+                            let compound_selector_list = self.parse()?;
+
+                            children.push(PseudoClassSelectorChildren::CompoundSelectorList(
+                                compound_selector_list,
+                            ));
 
                             self.input.skip_ws()?;
                         }

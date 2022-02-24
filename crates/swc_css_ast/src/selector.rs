@@ -11,6 +11,12 @@ pub struct SelectorList {
     pub children: Vec<ComplexSelector>,
 }
 
+#[ast_node("CompoundSelectorList")]
+pub struct CompoundSelectorList {
+    pub span: Span,
+    pub children: Vec<CompoundSelector>,
+}
+
 #[ast_node("RelativeSelectorList")]
 pub struct RelativeSelectorList {
     pub span: Span,
@@ -216,6 +222,9 @@ pub enum PseudoClassSelectorChildren {
 
     #[tag("SelectorList")]
     SelectorList(SelectorList),
+
+    #[tag("CompoundSelectorList")]
+    CompoundSelectorList(CompoundSelectorList),
 
     #[tag("RelativeSelectorList")]
     RelativeSelectorList(RelativeSelectorList),
