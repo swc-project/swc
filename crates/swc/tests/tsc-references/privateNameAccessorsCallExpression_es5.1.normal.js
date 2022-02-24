@@ -16,15 +16,15 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
+}
 function _classPrivateMethodGet(receiver, privateSet, fn) {
     if (!privateSet.has(receiver)) {
         throw new TypeError("attempted to get private field on non-instance");
     }
     return fn;
-}
-function _classPrivateMethodInit(obj, privateSet) {
-    _checkPrivateRedeclaration(obj, privateSet);
-    privateSet.add(obj);
 }
 function isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
@@ -124,14 +124,20 @@ function _templateObject1() {
     };
     return data;
 }
-var _fieldFunc = new WeakSet(), _fieldFunc2 = new WeakSet();
+var _fieldFunc = new WeakMap(), _fieldFunc2 = new WeakMap();
 var A = // @target: es2015
 /*#__PURE__*/ function() {
     "use strict";
     function A() {
         _classCallCheck(this, A);
-        _classPrivateMethodInit(this, _fieldFunc);
-        _classPrivateMethodInit(this, _fieldFunc2);
+        _classPrivateFieldInit(this, _fieldFunc, {
+            get: get_fieldFunc,
+            set: void 0
+        });
+        _classPrivateFieldInit(this, _fieldFunc2, {
+            get: get_fieldFunc2,
+            set: void 0
+        });
         this.x = 1;
     }
     _createClass(A, [
@@ -172,12 +178,12 @@ var A = // @target: es2015
     ]);
     return A;
 }();
-function fieldFunc() {
+function get_fieldFunc() {
     return function() {
         this.x = 10;
     };
 }
-function fieldFunc2() {
+function get_fieldFunc2() {
     return function(a) {
         for(var _len = arguments.length, b = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
             b[_key - 1] = arguments[_key];

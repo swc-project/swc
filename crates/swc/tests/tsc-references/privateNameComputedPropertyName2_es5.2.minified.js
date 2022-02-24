@@ -4,7 +4,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var getX, tmp = (getX = function(a) {
+var getX, _x = new WeakMap(), tmp = (getX = function(a) {
     var receiver, privateMap, descriptor, receiver, descriptor;
     return (descriptor = descriptor = (function(receiver, privateMap, action) {
         if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
@@ -30,5 +30,5 @@ var getX, tmp = (getX = function(a) {
             value: function() {}
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), A;
-}(), _x = new WeakMap();
+}();
 console.log(getX(new A));

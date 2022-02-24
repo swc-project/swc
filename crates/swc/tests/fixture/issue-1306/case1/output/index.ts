@@ -57,6 +57,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
+var _name = new WeakMap();
 var Animal = /*#__PURE__*/ function() {
     "use strict";
     function Animal(name) {
@@ -77,4 +78,3 @@ var Animal = /*#__PURE__*/ function() {
     ]);
     return Animal;
 }();
-var _name = new WeakMap();

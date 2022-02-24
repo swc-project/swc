@@ -38,6 +38,7 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
     _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
 }
+var _field = new WeakMap();
 // @target: es2015
 class A {
     static getInstance() {
@@ -77,4 +78,3 @@ class A {
         _classPrivateFieldSet(_ref11 = A.getInstance(), _field, _classPrivateFieldGet(_ref11, _field) ^ 13);
     }
 }
-var _field = new WeakMap();

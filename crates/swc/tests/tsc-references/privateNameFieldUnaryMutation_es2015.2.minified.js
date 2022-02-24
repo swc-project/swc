@@ -16,6 +16,7 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
         }
     }(receiver, descriptor, value), value;
 }
+var _test = new WeakMap();
 class C {
     test() {
         var _ref, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9, _this_test;
@@ -38,4 +39,3 @@ class C {
         for(_classPrivateFieldSet(this, _test, 0); 10 > _classPrivateFieldGet(this, _test); _classPrivateFieldSet(this, _test, (_this_test = +_classPrivateFieldGet(this, _test)) + 1), _this_test);
     }
 }
-var _test = new WeakMap();

@@ -17,12 +17,17 @@ function _classCheckPrivateStaticAccess(receiver, classConstructor) {
 }
 class A1 {
     constructor(name){
-        _classStaticPrivateFieldSpecSet(A1, A1, _prop, ""), _classStaticPrivateFieldSpecSet(A1, A1, _roProp, ""), console.log(_classStaticPrivateMethodGet(A1, A1, prop)), console.log(_classStaticPrivateMethodGet(A1, A1, function() {
-            return "";
-        }));
+        _classStaticPrivateFieldSpecSet(A1, A1, _prop, ""), _classStaticPrivateFieldSpecSet(A1, A1, _roProp, ""), console.log(_classStaticPrivateMethodGet(A1, A1, prop)), console.log(_classStaticPrivateMethodGet(A1, A1, roProp));
     }
 }
-function prop() {
-    return "";
-}
-function prop(param) {}
+var _prop = {
+    get: function() {
+        return "";
+    },
+    set: function(param) {}
+}, _roProp = {
+    get: function() {
+        return "";
+    },
+    set: void 0
+};

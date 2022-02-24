@@ -19,24 +19,3 @@ class A {
         return A;
     }
 }
-var _x = {
-    writable: !0,
-    value: 1
-};
-function fieldFunc() {
-    return function() {
-        var receiver, classConstructor, descriptor, value;
-        receiver = A, classConstructor = A, descriptor = _x, value = 10, _classCheckPrivateStaticAccess(receiver, classConstructor), (function(descriptor, action) {
-            if (void 0 === descriptor) throw new TypeError("attempted to set private static field before its declaration");
-        })(descriptor, "set"), (function(receiver, descriptor, value) {
-            if (descriptor.set) descriptor.set.call(receiver, value);
-            else {
-                if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-                descriptor.value = value;
-            }
-        })(receiver, descriptor, value);
-    };
-}
-function fieldFunc2() {
-    return function(a, ...b) {};
-}

@@ -28,6 +28,7 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
     _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
 }
+var _name = new WeakMap();
 // @strict: true
 // @target: es6
 class A {
@@ -39,4 +40,3 @@ class A {
         _classPrivateFieldSet(this, _name, name);
     }
 }
-var _name = new WeakMap();

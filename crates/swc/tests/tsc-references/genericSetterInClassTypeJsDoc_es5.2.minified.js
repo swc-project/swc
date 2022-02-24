@@ -18,7 +18,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var Box = function() {
+var _value = new WeakMap(), Box = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function Box(initialValue) {
@@ -44,5 +44,5 @@ var Box = function() {
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Box;
-}(), _value = new WeakMap();
+}();
 new Box(3).value = 3;

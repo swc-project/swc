@@ -5,6 +5,7 @@ function _classPrivateFieldInit(obj, privateMap, value) {
 }
 import { Foo as A } from "./a";
 import { Foo as B } from "./b";
+var _x = new WeakMap();
 export class Foo {
     copy(other) {
         var receiver, privateMap, descriptor, receiver, descriptor;
@@ -20,7 +21,7 @@ export class Foo {
         });
     }
 }
-var _x = new WeakMap();
+var _x1 = new WeakMap();
 export class Foo {
     constructor(){
         _classPrivateFieldInit(this, _x1, {
@@ -29,6 +30,5 @@ export class Foo {
         });
     }
 }
-var _x1 = new WeakMap();
 const a = new A(), b = new B();
 a.copy(b); // error

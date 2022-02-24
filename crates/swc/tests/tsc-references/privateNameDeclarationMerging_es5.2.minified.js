@@ -17,7 +17,7 @@ function _defineProperties(target, props) {
 var D = function() {
     "use strict";
     _classCallCheck(this, D);
-}, C = function() {
+}, _x = new WeakMap(), C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
@@ -37,4 +37,4 @@ var D = function() {
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
-}(), _x = new WeakMap();
+}();

@@ -1,3 +1,4 @@
+var _x = new WeakMap();
 class C {
     static test() {
         var receiver, privateMap, value, descriptor;
@@ -25,4 +26,3 @@ class C {
         });
     }
 }
-var _x = new WeakMap();

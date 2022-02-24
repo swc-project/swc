@@ -27,7 +27,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var A = function() {
+var _a = new WeakMap(), _b = new WeakMap(), _c = new WeakMap(), _d = new WeakMap(), _e = new WeakMap(), A = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function A() {
@@ -73,5 +73,5 @@ var A = function() {
             data[_classPrivateFieldGet(this, _e)], console.log(a1, b1, c1, d1);
         })
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), A;
-}(), _a = new WeakMap(), _b = new WeakMap(), _c = new WeakMap(), _d = new WeakMap(), _e = new WeakMap();
+}();
 new A().test();

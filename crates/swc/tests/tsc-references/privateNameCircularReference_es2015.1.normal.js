@@ -24,6 +24,7 @@ function _classPrivateFieldInit(obj, privateMap, value) {
     privateMap.set(obj, value);
 }
 var _key;
+var _foo = new WeakMap(), _bar = new WeakMap();
 // @strict: true
 // @target: es6
 class A {
@@ -40,6 +41,4 @@ class A {
          = this["#baz"];
     }
 }
-var _foo = new WeakMap();
-var _bar = new WeakMap();
 _key = "#baz";

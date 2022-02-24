@@ -28,6 +28,7 @@ function _classCheckPrivateStaticAccess(receiver, classConstructor) {
         throw new TypeError("Private static access of wrong provenance");
     }
 }
+var _foo = new WeakMap();
 // @target: es2015
 class A {
     constructor(){
@@ -37,11 +38,11 @@ class A {
         });
     }
 }
-var _foo = new WeakMap();
 var _foo = {
     writable: true,
     value: true
-};
+} // error (duplicate)
+;
 class B {
     test(x) {
         _classStaticPrivateFieldSpecGet(x, B, _foo1); // error (#foo is a static property on B, not an instance property)

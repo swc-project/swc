@@ -78,6 +78,7 @@ var Generic;
     }();
     var c = new C();
     c.y = c.y;
+    var _value = new WeakMap();
     var Box = /*#__PURE__*/ function() {
         "use strict";
         function Box() {
@@ -100,6 +101,5 @@ var Generic;
         ]);
         return Box;
     }();
-    var _value = new WeakMap();
     new Box().value = 3;
 })(Generic || (Generic = {}));

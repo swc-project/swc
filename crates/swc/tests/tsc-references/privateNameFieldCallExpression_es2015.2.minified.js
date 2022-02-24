@@ -10,6 +10,7 @@ function _classPrivateFieldInit(obj, privateMap, value) {
         if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
     }(obj, privateMap), privateMap.set(obj, value);
 }
+var _fieldFunc = new WeakMap(), _fieldFunc2 = new WeakMap();
 class A {
     test() {
         var ref, _ref;
@@ -37,4 +38,3 @@ class A {
         }), this.x = 1;
     }
 }
-var _fieldFunc = new WeakMap(), _fieldFunc2 = new WeakMap();

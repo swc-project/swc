@@ -18,10 +18,7 @@ function _classPrivateMethodGet(receiver, privateSet, fn) {
     if (!privateSet.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
     return fn;
 }
-function _classPrivateMethodInit(obj, privateSet) {
-    _checkPrivateRedeclaration(obj, privateSet), privateSet.add(obj);
-}
-var A = function() {
+var _foo = new WeakMap(), _bar = new WeakMap(), A = function() {
     "use strict";
     _classCallCheck(this, A), _classPrivateFieldInit(this, _foo, {
         writable: !0,
@@ -30,23 +27,27 @@ var A = function() {
         writable: !0,
         value: 3
     });
-}, _foo = new WeakMap(), _bar = new WeakMap(), _bar1 = new WeakSet(), A2 = function() {
+}, _foo1 = new WeakMap(), _bar1 = new WeakSet(), A2 = function() {
     "use strict";
+    var obj, privateSet;
     _classCallCheck(this, A2), _classPrivateFieldInit(this, _foo1, {
         writable: !0,
         value: _classPrivateMethodGet(this, _bar1, function() {
             return 3;
         }).call(this)
-    }), _classPrivateMethodInit(this, _bar1);
-}, _foo1 = new WeakMap(), _bar2 = new WeakSet(), A3 = function() {
+    }), obj = this, _checkPrivateRedeclaration(obj, privateSet = _bar1), privateSet.add(obj);
+}, _foo2 = new WeakMap(), _bar2 = new WeakMap(), A3 = function() {
     "use strict";
     _classCallCheck(this, A3), _classPrivateFieldInit(this, _foo2, {
         writable: !0,
-        value: _classPrivateMethodGet(this, _bar2, function() {
+        value: _classPrivateMethodGet(this, _bar2, bar)
+    }), _classPrivateFieldInit(this, _bar2, {
+        get: function() {
             return 3;
-        })
-    }), _classPrivateMethodInit(this, _bar2);
-}, _foo2 = new WeakMap(), B = function() {
+        },
+        set: void 0
+    });
+}, _foo3 = new WeakMap(), _bar3 = new WeakMap(), B = function() {
     "use strict";
     _classCallCheck(this, B), _classPrivateFieldInit(this, _foo3, {
         writable: !0,
@@ -55,4 +56,4 @@ var A = function() {
         writable: !0,
         value: _classPrivateFieldGet(this, _foo3)
     });
-}, _foo3 = new WeakMap(), _bar3 = new WeakMap();
+};

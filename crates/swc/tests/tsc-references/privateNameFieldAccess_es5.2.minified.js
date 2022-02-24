@@ -1,4 +1,4 @@
-var A = function() {
+var _myField = new WeakMap(), A = function() {
     "use strict";
     var obj, privateMap, value, receiver, privateMap, descriptor, receiver, descriptor;
     !function(instance, Constructor) {
@@ -12,4 +12,4 @@ var A = function() {
         if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
         return privateMap.get(receiver);
     }(receiver, privateMap = _myField, "get")).get ? descriptor.get.call(receiver) : descriptor.value));
-}, _myField = new WeakMap();
+};

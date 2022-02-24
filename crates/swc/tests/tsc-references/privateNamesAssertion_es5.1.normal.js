@@ -52,6 +52,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
+var _p1 = new WeakMap();
 var Foo = // @strict: true
 // @target: esnext, es2022
 // @useDefineForClassFields: false
@@ -79,7 +80,6 @@ var Foo = // @strict: true
     ]);
     return Foo;
 }();
-var _p1 = new WeakMap();
 var _p11 = new WeakSet();
 var Foo2 = /*#__PURE__*/ function() {
     "use strict";

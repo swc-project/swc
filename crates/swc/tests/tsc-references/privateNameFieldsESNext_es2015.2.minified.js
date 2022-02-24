@@ -27,6 +27,7 @@ function _classPrivateFieldInit(obj, privateMap, value) {
 function _classCheckPrivateStaticAccess(receiver, classConstructor) {
     if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
 }
+var _a = new WeakMap(), _b = new WeakMap(), _something = new WeakMap();
 class C {
     method() {
         var receiver, privateMap, value, descriptor;
@@ -49,10 +50,10 @@ class C {
         }), this.a = 123, this.c = "hello";
     }
 }
-var _a = new WeakMap(), _b = new WeakMap(), _m = {
+var _m = {
     writable: !0,
     value: "test"
 }, _x = {
     writable: !0,
     value: void 0
-}, _something = new WeakMap();
+};

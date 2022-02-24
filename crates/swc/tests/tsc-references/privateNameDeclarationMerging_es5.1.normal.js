@@ -46,6 +46,7 @@ var D = function D() {
     "use strict";
     _classCallCheck(this, D);
 };
+var _x = new WeakMap();
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -68,4 +69,3 @@ var C = /*#__PURE__*/ function() {
     ]);
     return C;
 }();
-var _x = new WeakMap();

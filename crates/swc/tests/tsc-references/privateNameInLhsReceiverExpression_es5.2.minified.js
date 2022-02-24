@@ -26,7 +26,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var Test = function() {
+var _y = new WeakMap(), Test = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function Test() {
@@ -39,19 +39,19 @@ var Test = function() {
         {
             key: "something",
             value: function(obj) {
-                var _s, _class, _x, _class1, _x1, receiver, privateMap, descriptor, receiver, descriptor;
-                _classPrivateFieldSet(obj[(new (_class = function() {
+                var _s, _x, _class, _x1, _class1, receiver, privateMap, descriptor, receiver, descriptor;
+                _classPrivateFieldSet(obj[(new (_x = new WeakMap(), _class = function() {
                     _classCallCheck(this, _class), _classPrivateFieldInit(this, _x, {
                         writable: !0,
                         value: 1
                     }), this.s = "prop";
-                }, _x = new WeakMap(), _class)).s], _y, 1), _classPrivateFieldSet(_s = obj[(new (_class1 = function() {
+                })).s], _y, 1), _classPrivateFieldSet(_s = obj[(new (_x1 = new WeakMap(), _class1 = function() {
                     _classCallCheck(this, _class1), _classPrivateFieldInit(this, _x1, {
                         writable: !0,
                         value: 1
                     }), this.s = "prop";
-                }, _x1 = new WeakMap(), _class1)).s], _y, ((descriptor = descriptor = _classExtractFieldDescriptor(receiver = _s, privateMap = _y, "get")).get ? descriptor.get.call(receiver) : descriptor.value) + 1);
+                })).s], _y, ((descriptor = descriptor = _classExtractFieldDescriptor(receiver = _s, privateMap = _y, "get")).get ? descriptor.get.call(receiver) : descriptor.value) + 1);
             }
         }
     ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Test;
-}(), _y = new WeakMap();
+}();

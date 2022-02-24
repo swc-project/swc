@@ -26,6 +26,7 @@ function _classPrivateFieldInit(obj, privateMap, value) {
 // @filename: main.ts
 import { Foo as A } from "./a";
 import { Foo as B } from "./b";
+var _x = new WeakMap();
 // @target: es2015
 // @filename: a.ts
 export class Foo {
@@ -39,7 +40,7 @@ export class Foo {
         });
     }
 }
-var _x = new WeakMap();
+var _x1 = new WeakMap();
 // @filename: b.ts
 export class Foo {
     constructor(){
@@ -49,7 +50,6 @@ export class Foo {
         });
     }
 }
-var _x1 = new WeakMap();
 const a = new A();
 const b = new B();
 a.copy(b); // error

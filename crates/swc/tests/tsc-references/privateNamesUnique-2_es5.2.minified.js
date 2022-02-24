@@ -14,6 +14,7 @@ function _defineProperties(target, props) {
 }
 import { Foo as A } from "./a";
 import { Foo as B } from "./b";
+var _x = new WeakMap();
 export var Foo = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
@@ -36,7 +37,7 @@ export var Foo = function() {
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Foo;
 }();
-var _x = new WeakMap();
+var _x1 = new WeakMap();
 export var Foo = function() {
     "use strict";
     _classCallCheck(this, Foo), _classPrivateFieldInit(this, _x1, {
@@ -44,5 +45,5 @@ export var Foo = function() {
         value: void 0
     });
 };
-var _x1 = new WeakMap(), a = new A(), b = new B();
+var a = new A(), b = new B();
 a.copy(b); // error

@@ -80,6 +80,7 @@ function _classCheckPrivateStaticAccess(receiver, classConstructor) {
         throw new TypeError("Private static access of wrong provenance");
     }
 }
+var _prop = new WeakMap();
 // @strict: true
 // @target: es6
 class C {
@@ -100,7 +101,6 @@ class C {
         });
     }
 }
-var _prop = new WeakMap();
 var _propStatic = {
     writable: true,
     value: 1

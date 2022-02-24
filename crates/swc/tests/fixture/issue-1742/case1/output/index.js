@@ -66,7 +66,7 @@ function _templateObject1() {
     };
     return data;
 }
-var _tag = new WeakSet();
+var _tag = new WeakSet(), _tag2 = new WeakMap();
 var Foo = function Foo() {
     "use strict";
     _classCallCheck(this, Foo);
@@ -80,7 +80,6 @@ var Foo = function Foo() {
     var receiver2 = _classPrivateFieldGet(this, _tag2).bind(this)(_templateObject1());
     console.log(receiver2 === this);
 };
-var _tag2 = new WeakMap();
 function tag() {
     return this;
 }

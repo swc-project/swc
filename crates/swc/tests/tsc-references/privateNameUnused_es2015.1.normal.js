@@ -33,6 +33,7 @@ function _classPrivateMethodInit(obj, privateSet) {
     _checkPrivateRedeclaration(obj, privateSet);
     privateSet.add(obj);
 }
+var _used = new WeakMap(), _unused = new WeakMap();
 // @noUnusedLocals:true 
 // @noEmit: true
 // @target: es2015
@@ -49,33 +50,35 @@ export class A {
         console.log(_classPrivateFieldGet(this, _used));
     }
 }
-var _used = new WeakMap();
-var _unused = new WeakMap();
 var _used1 = new WeakSet(), _unused1 = new WeakSet();
 export class A2 {
     constructor(){
         _classPrivateMethodInit(this, _used1);
         _classPrivateMethodInit(this, _unused1);
-        console.log(_classPrivateMethodGet(this, _used1, used).call(this));
+        console.log(_classPrivateMethodGet(this, _used1, used1).call(this));
     }
 }
-function used() {}
+function used1() {}
 function unused() {}
-var _used2 = new WeakSet(), _used2 = new WeakSet(), _unused2 = new WeakSet(), _unused2 = new WeakSet();
+var _used2 = new WeakMap(), _unused2 = new WeakMap();
 export class A3 {
     constructor(){
-        _classPrivateMethodInit(this, _used2);
-        _classPrivateMethodInit(this, _used2);
-        _classPrivateMethodInit(this, _unused2);
-        _classPrivateMethodInit(this, _unused2);
-        console.log(_classPrivateMethodGet(this, _used2, used1));
+        _classPrivateFieldInit(this, _used2, {
+            get: get_used,
+            set: set_used
+        });
+        _classPrivateFieldInit(this, _unused2, {
+            get: get_unused,
+            set: set_unused
+        });
+        console.log(_classPrivateMethodGet(this, _used2, used));
     }
 }
-function used1() {
+function get_used() {
     return 0;
 }
-function used1(value) {}
-function unused1() {
+function set_used(value) {}
+function get_unused() {
     return 0;
 }
-function unused1(value) {}
+function set_unused(value) {}

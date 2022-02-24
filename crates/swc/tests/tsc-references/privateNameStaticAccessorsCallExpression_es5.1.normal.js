@@ -182,16 +182,24 @@ var A = // @target: es2015
     ]);
     return A;
 }();
+var _fieldFunc = {
+    get: get_fieldFunc,
+    set: void 0
+};
+var _fieldFunc2 = {
+    get: get_fieldFunc2,
+    set: void 0
+};
 var _x = {
     writable: true,
     value: 1
 };
-function fieldFunc() {
+function get_fieldFunc() {
     return function() {
         _classStaticPrivateFieldSpecSet(A, A, _x, 10);
     };
 }
-function fieldFunc2() {
+function get_fieldFunc2() {
     return function(a) {
         for(var _len = arguments.length, b = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
             b[_key - 1] = arguments[_key];

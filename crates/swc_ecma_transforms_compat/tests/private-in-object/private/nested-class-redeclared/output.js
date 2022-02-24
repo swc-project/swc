@@ -1,3 +1,4 @@
+var _foo = new WeakMap();
 let Foo = function() {
     "use strict";
     function Foo() {
@@ -11,6 +12,7 @@ let Foo = function() {
         {
             key: "test",
             value: function test() {
+                var _foo1 = new WeakMap();
                 let Nested = function() {
                     function Nested() {
                         _classCallCheck(this, Nested);
@@ -29,11 +31,9 @@ let Foo = function() {
                     ]);
                     return Nested;
                 }();
-                var _foo1 = new WeakMap();
                 _foo.has(this);
             }
         }
     ]);
     return Foo;
 }();
-var _foo = new WeakMap();

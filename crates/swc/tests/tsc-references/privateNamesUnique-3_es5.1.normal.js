@@ -47,6 +47,7 @@ function _classCheckPrivateStaticAccess(receiver, classConstructor) {
         throw new TypeError("Private static access of wrong provenance");
     }
 }
+var _foo = new WeakMap();
 var A = function A() {
     "use strict";
     _classCallCheck(this, A);
@@ -55,11 +56,11 @@ var A = function A() {
         value: 1
     });
 };
-var _foo = new WeakMap();
 var _foo = {
     writable: true,
     value: true
-};
+} // error (duplicate)
+;
 var B = /*#__PURE__*/ function() {
     "use strict";
     function B() {

@@ -46,7 +46,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var _calcHello = new WeakSet(), _screamingHello = new WeakSet(), _screamingHello = new WeakSet();
+var _hello = new WeakMap(), _world = new WeakMap(), _calcHello = new WeakSet(), _screamingHello = new WeakMap();
 // @target: esnext
 // @allowJS: true
 // @declaration: true
@@ -65,8 +65,10 @@ export var C = /*#__PURE__*/ function() {
             value: 100
         });
         _classPrivateMethodInit(this, _calcHello);
-        _classPrivateMethodInit(this, _screamingHello);
-        /** @param value {string} */ _classPrivateMethodInit(this, _screamingHello);
+        _classPrivateFieldInit(this, _screamingHello, {
+            get: get_screamingHello,
+            set: /** @param value {string} */ set_screamingHello
+        });
     }
     _createClass(C, [
         {
@@ -78,14 +80,12 @@ export var C = /*#__PURE__*/ function() {
     ]);
     return C;
 }();
-var _hello = new WeakMap();
-var _world = new WeakMap();
 function calcHello() {
     return _classPrivateFieldGet(this, _hello);
 }
-function screamingHello() {
+function get_screamingHello() {
     return _classPrivateFieldGet(this, _hello).toUpperCase();
 }
-function screamingHello(value) {
+function set_screamingHello(value) {
     throw "NO";
 }

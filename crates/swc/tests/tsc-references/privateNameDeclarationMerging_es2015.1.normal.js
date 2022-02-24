@@ -26,6 +26,7 @@ function _classPrivateFieldInit(obj, privateMap, value) {
 // @target: es6
 class D {
 }
+var _x = new WeakMap();
 class C {
     foo() {
         const c = new C();
@@ -40,4 +41,3 @@ class C {
         });
     }
 }
-var _x = new WeakMap();

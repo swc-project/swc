@@ -12,6 +12,7 @@ function _classPrivateFieldInit(obj, privateMap, value) {
     _checkPrivateRedeclaration(obj, privateMap);
     privateMap.set(obj, value);
 }
+var _foo = new WeakMap(), _prop = new WeakMap();
 var A = function A() {
     "use strict";
     _classCallCheck(this, A);
@@ -24,6 +25,4 @@ var A = function A() {
         value: 2
     });
 };
-var _foo = new WeakMap();
-var _prop = new WeakMap();
 A.inst = new A();

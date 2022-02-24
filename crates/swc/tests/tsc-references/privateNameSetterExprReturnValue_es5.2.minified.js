@@ -4,16 +4,19 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var _foo = new WeakSet(), C = function() {
+var _foo = new WeakMap(), C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
-        var obj, privateSet;
+        var obj, privateMap, value;
         !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, C), obj = this, (function(obj, privateCollection) {
+        }(this, C), obj = this, privateMap = _foo, value = {
+            get: void 0,
+            set: set_foo
+        }, (function(obj, privateCollection) {
             if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
-        })(obj, privateSet = _foo), privateSet.add(obj);
+        })(obj, privateMap), privateMap.set(obj, value);
     }
     return Constructor = C, protoProps = [
         {
@@ -34,4 +37,5 @@ var _foo = new WeakSet(), C = function() {
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();
+function set_foo(a) {}
 new C().bar();

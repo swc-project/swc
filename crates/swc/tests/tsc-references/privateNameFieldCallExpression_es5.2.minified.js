@@ -89,7 +89,7 @@ function _templateObject1() {
         return data;
     }, data;
 }
-var A = function() {
+var _fieldFunc = new WeakMap(), _fieldFunc2 = new WeakMap(), A = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function A() {
@@ -135,4 +135,4 @@ var A = function() {
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), A;
-}(), _fieldFunc = new WeakMap(), _fieldFunc2 = new WeakMap();
+}();

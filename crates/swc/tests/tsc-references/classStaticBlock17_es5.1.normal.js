@@ -59,6 +59,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 }
 // @target: es2015
 var friendA;
+var _x = new WeakMap();
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A(v) {
@@ -79,7 +80,6 @@ var A = /*#__PURE__*/ function() {
     ]);
     return A;
 }();
-var _x = new WeakMap();
 var __ = {
     writable: true,
     value: function() {

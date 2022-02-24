@@ -45,9 +45,13 @@ var _a = {
     writable: true,
     value: 1
 };
+var _c = {
+    get: get_c,
+    set: void 0
+};
 function b() {
     _classStaticPrivateFieldSpecSet(this, S, _a, 42);
 }
-function c() {
+function get_c() {
     return _classStaticPrivateMethodGet(S, S, b).call(S);
 }

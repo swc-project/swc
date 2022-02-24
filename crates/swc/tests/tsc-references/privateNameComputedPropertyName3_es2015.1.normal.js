@@ -38,11 +38,12 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
     _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
 }
+var _name = new WeakMap();
 // @target: esnext, es2022, es2015
 class Foo {
     getValue(x) {
         const obj = this;
-        var tmp = _classPrivateFieldGet(obj, _name);
+        var _y = new WeakMap(), tmp = _classPrivateFieldGet(obj, _name);
         class Bar {
             [tmp]() {
                 return x + _classPrivateFieldGet(this, _y);
@@ -54,7 +55,6 @@ class Foo {
                 });
             }
         }
-        var _y = new WeakMap();
         return new Bar()[_classPrivateFieldGet(obj, _name)]();
     }
     constructor(name){
@@ -65,5 +65,4 @@ class Foo {
         _classPrivateFieldSet(this, _name, name);
     }
 }
-var _name = new WeakMap();
 console.log(new Foo("NAME").getValue(100));

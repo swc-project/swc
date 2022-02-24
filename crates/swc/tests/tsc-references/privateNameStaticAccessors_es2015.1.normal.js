@@ -38,10 +38,18 @@ class A1 {
         console.log(_classStaticPrivateMethodGet(A1, A1, roProp));
     }
 }
-function prop() {
+var _prop = {
+    get: get_prop,
+    set: set_prop
+};
+var _roProp = {
+    get: get_roProp,
+    set: void 0
+};
+function get_prop() {
     return "";
 }
-function prop(param) {}
-function roProp() {
+function set_prop(param) {}
+function get_roProp() {
     return "";
 }

@@ -134,6 +134,7 @@ function _templateObject1() {
     };
     return data;
 }
+var _fieldFunc = new WeakMap(), _fieldFunc2 = new WeakMap();
 var A = // @target: es2015
 /*#__PURE__*/ function() {
     "use strict";
@@ -195,5 +196,3 @@ var A = // @target: es2015
     ]);
     return A;
 }();
-var _fieldFunc = new WeakMap();
-var _fieldFunc2 = new WeakMap();

@@ -33,6 +33,7 @@ function _classPrivateMethodInit(obj, privateSet) {
     _checkPrivateRedeclaration(obj, privateSet);
     privateSet.add(obj);
 }
+var _p1 = new WeakMap();
 // @strict: true
 // @target: esnext, es2022
 // @useDefineForClassFields: false
@@ -52,7 +53,6 @@ class Foo {
         });
     }
 }
-var _p1 = new WeakMap();
 var _p11 = new WeakSet();
 class Foo2 {
     m1(v) {

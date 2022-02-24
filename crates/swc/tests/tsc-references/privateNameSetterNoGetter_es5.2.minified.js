@@ -5,16 +5,19 @@ function _defineProperties(target, props) {
     }
 }
 var C = function() {
-    var x = function(x) {}, _x = new WeakSet(), _class = function() {
+    var set_x = function(x) {}, _x = new WeakMap(), _class = function() {
         "use strict";
         var Constructor, protoProps, staticProps;
         function _class() {
-            var obj, privateSet;
+            var obj, privateMap, value;
             !function(instance, Constructor) {
                 if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-            }(this, _class), obj = this, (function(obj, privateCollection) {
+            }(this, _class), obj = this, privateMap = _x, value = {
+                get: void 0,
+                set: set_x
+            }, (function(obj, privateCollection) {
                 if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
-            })(obj, privateSet = _x), privateSet.add(obj);
+            })(obj, privateMap), privateMap.set(obj, value);
         }
         return Constructor = _class, protoProps = [
             {

@@ -243,6 +243,10 @@ var __quux = {
     writable: true,
     value: void 0
 };
+var _quux = {
+    get: get_quux,
+    set: set_quux
+};
 function foo(a) {}
 function bar(a) {
     return _bar.apply(this, arguments);
@@ -276,10 +280,10 @@ function _baz() {
     }));
     return _baz.apply(this, arguments);
 }
-function quux() {
+function get_quux() {
     return _classStaticPrivateFieldSpecGet(this, A, __quux);
 }
-function quux(val) {
+function set_quux(val) {
     _classStaticPrivateFieldSpecSet(this, A, __quux, val);
 }
 var B = /*#__PURE__*/ function(A) {

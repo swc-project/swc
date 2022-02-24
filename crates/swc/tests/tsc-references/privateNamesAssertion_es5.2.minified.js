@@ -13,7 +13,7 @@ function _defineProperties(target, props) {
 function _createClass(Constructor, protoProps, staticProps) {
     return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
 }
-var Foo = function() {
+var _p1 = new WeakMap(), Foo = function() {
     "use strict";
     function Foo() {
         var obj, privateMap, value;
@@ -36,7 +36,7 @@ var Foo = function() {
             }
         }
     ]), Foo;
-}(), _p1 = new WeakMap(), _p11 = new WeakSet(), Foo2 = function() {
+}(), _p11 = new WeakSet(), Foo2 = function() {
     "use strict";
     function Foo2() {
         var obj, privateSet;

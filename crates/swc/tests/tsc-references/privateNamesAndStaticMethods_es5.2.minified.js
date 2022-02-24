@@ -108,6 +108,14 @@ var A = function() {
 }, __quux = {
     writable: !0,
     value: void 0
+}, _quux = {
+    get: function() {
+        var receiver, classConstructor, descriptor, receiver, descriptor;
+        return receiver = this, classConstructor = A, descriptor = __quux, _classCheckPrivateStaticAccess(receiver, classConstructor), _classCheckPrivateStaticFieldDescriptor(descriptor, "get"), (descriptor = descriptor).get ? descriptor.get.call(receiver) : descriptor.value;
+    },
+    set: function(val) {
+        _classStaticPrivateFieldSpecSet(this, A, __quux, val);
+    }
 };
 function foo(a) {}
 function bar(a) {
@@ -136,13 +144,6 @@ function _bar() {
             _next(void 0);
         });
     })).apply(this, arguments);
-}
-function quux() {
-    var receiver, classConstructor, descriptor, receiver, descriptor;
-    return receiver = this, classConstructor = A, descriptor = __quux, _classCheckPrivateStaticAccess(receiver, classConstructor), _classCheckPrivateStaticFieldDescriptor(descriptor, "get"), (descriptor = descriptor).get ? descriptor.get.call(receiver) : descriptor.value;
-}
-function quux(val) {
-    _classStaticPrivateFieldSpecSet(this, A, __quux, val);
 }
 var B = function(A1) {
     "use strict";

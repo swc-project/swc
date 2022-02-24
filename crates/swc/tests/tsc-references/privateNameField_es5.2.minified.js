@@ -1,4 +1,4 @@
-var A = function(name) {
+var _name = new WeakMap(), A = function(name) {
     "use strict";
     var obj, privateMap, value, receiver, privateMap, value, descriptor;
     !function(instance, Constructor) {
@@ -18,4 +18,4 @@ var A = function(name) {
             descriptor.value = value;
         }
     })(receiver, descriptor, value);
-}, _name = new WeakMap();
+};

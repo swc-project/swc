@@ -42,7 +42,7 @@ function _classPrivateMethodInit(obj, privateSet) {
     _checkPrivateRedeclaration(obj, privateSet);
     privateSet.add(obj);
 }
-var _b = new WeakSet(), _c = new WeakSet();
+var _a = new WeakMap(), _b = new WeakSet(), _c = new WeakMap();
 // @target: es2015
 // @importHelpers: true
 // @isolatedModules: true
@@ -54,13 +54,15 @@ export class C {
             value: 1
         });
         _classPrivateMethodInit(this, _b);
-        _classPrivateMethodInit(this, _c);
+        _classPrivateFieldInit(this, _c, {
+            get: void 0,
+            set: set_c
+        });
     }
 }
-var _a = new WeakMap();
 function b() {
     _classPrivateFieldSet(this, _c, 42);
 }
-function c(v) {
+function set_c(v) {
     _classPrivateFieldSet(this, _a, _classPrivateFieldGet(this, _a) + v);
 }

@@ -33,7 +33,7 @@ function _defineProperties(target, props) {
 function _classCheckPrivateStaticAccess(receiver, classConstructor) {
     if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
 }
-var C = function() {
+var _a = new WeakMap(), _b = new WeakMap(), _something = new WeakMap(), C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
@@ -69,10 +69,10 @@ var C = function() {
             }
         }
     ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
-}(), _a = new WeakMap(), _b = new WeakMap(), _m = {
+}(), _m = {
     writable: !0,
     value: "test"
 }, _x = {
     writable: !0,
     value: void 0
-}, _something = new WeakMap();
+};

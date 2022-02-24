@@ -9,15 +9,20 @@ function _classPrivateMethodInit(obj, privateSet) {
 }
 const array = [];
 for(let i = 0; i < 10; ++i)array.push(function() {
-    var _method = new WeakSet(), _accessor = new WeakSet(), _accessor = new WeakSet();
+    var _myField = new WeakMap(), _method = new WeakSet(), _accessor = new WeakMap();
     class C {
         constructor(){
             _classPrivateFieldInit(this, _myField, {
                 writable: !0,
                 value: "hello"
-            }), _classPrivateMethodInit(this, _method), _classPrivateMethodInit(this, _accessor), _classPrivateMethodInit(this, _accessor);
+            }), _classPrivateMethodInit(this, _method), _classPrivateFieldInit(this, _accessor, {
+                get: function() {
+                    return 42;
+                },
+                set: set_accessor
+            });
         }
     }
-    var _myField = new WeakMap();
+    function set_accessor(val) {}
     return C;
 }());

@@ -59,6 +59,7 @@ function _classCheckPrivateStaticAccess(receiver, classConstructor) {
         throw new TypeError("Private static access of wrong provenance");
     }
 }
+var _a = new WeakMap(), _b = new WeakMap(), _something = new WeakMap();
 // @target: esnext, es2022
 // @useDefineForClassFields: false
 class C {
@@ -88,8 +89,6 @@ class C {
         this.c = "hello";
     }
 }
-var _a = new WeakMap();
-var _b = new WeakMap();
 var _m = {
     writable: true,
     value: "test"
@@ -98,4 +97,3 @@ var _x = {
     writable: true,
     value: void 0
 };
-var _something = new WeakMap();

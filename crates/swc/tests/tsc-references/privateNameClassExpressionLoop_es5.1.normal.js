@@ -21,11 +21,11 @@ var array = [];
 for(var i = 0; i < 10; ++i){
     array.push(function() {
         var method = function method() {};
-        var accessor = function accessor() {
+        var get_accessor = function get_accessor() {
             return 42;
         };
-        var accessor = function accessor(val) {};
-        var _method = new WeakSet(), _accessor = new WeakSet(), _accessor = new WeakSet();
+        var set_accessor = function set_accessor(val) {};
+        var _myField = new WeakMap(), _method = new WeakSet(), _accessor = new WeakMap();
         var C = function C() {
             "use strict";
             _classCallCheck(this, C);
@@ -34,10 +34,11 @@ for(var i = 0; i < 10; ++i){
                 value: "hello"
             });
             _classPrivateMethodInit(this, _method);
-            _classPrivateMethodInit(this, _accessor);
-            _classPrivateMethodInit(this, _accessor);
+            _classPrivateFieldInit(this, _accessor, {
+                get: get_accessor,
+                set: set_accessor
+            });
         };
-        var _myField = new WeakMap();
         return C;
     }());
 }

@@ -9,7 +9,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var A = function() {
+var _foo = new WeakMap(), _bar = new WeakMap(), A = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function A() {
@@ -29,4 +29,4 @@ var A = function() {
             value: function() {}
         }
     ], _defineProperties((Constructor = A).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), A;
-}(), _foo = new WeakMap(), _bar = new WeakMap();
+}();

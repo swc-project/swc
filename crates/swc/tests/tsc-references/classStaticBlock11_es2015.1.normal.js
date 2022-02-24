@@ -40,6 +40,7 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
 }
 // @target: esnext, es2022, es2015
 let getX;
+var _x = new WeakMap();
 class C {
     constructor(x){
         _classPrivateFieldInit(this, _x, {
@@ -49,7 +50,6 @@ class C {
         _classPrivateFieldSet(this, _x, x);
     }
 }
-var _x = new WeakMap();
 var __ = {
     writable: true,
     value: (()=>{

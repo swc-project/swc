@@ -96,6 +96,14 @@ class A {
 var __quux = {
     writable: !0,
     value: void 0
+}, _quux = {
+    get: function() {
+        var receiver, classConstructor, descriptor, receiver, descriptor;
+        return receiver = this, classConstructor = A, descriptor = __quux, _classCheckPrivateStaticAccess(receiver, classConstructor), _classCheckPrivateStaticFieldDescriptor(descriptor, "get"), (descriptor = descriptor).get ? descriptor.get.call(receiver) : descriptor.value;
+    },
+    set: function(val) {
+        _classStaticPrivateFieldSpecSet(this, A, __quux, val);
+    }
 };
 function bar(a) {
     return _bar.apply(this, arguments);
@@ -116,13 +124,6 @@ function _bar() {
             });
         };
     })(function*(a) {})).apply(this, arguments);
-}
-function quux() {
-    var receiver, classConstructor, descriptor, receiver, descriptor;
-    return receiver = this, classConstructor = A, descriptor = __quux, _classCheckPrivateStaticAccess(receiver, classConstructor), _classCheckPrivateStaticFieldDescriptor(descriptor, "get"), (descriptor = descriptor).get ? descriptor.get.call(receiver) : descriptor.value;
-}
-function quux(val) {
-    _classStaticPrivateFieldSpecSet(this, A, __quux, val);
 }
 class B extends A {
     constructor(){

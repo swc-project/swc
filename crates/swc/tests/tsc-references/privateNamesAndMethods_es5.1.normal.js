@@ -238,7 +238,7 @@ function _createSuper(Derived) {
     };
 }
 import regeneratorRuntime from "regenerator-runtime";
-var _foo = new WeakSet(), _bar = new WeakSet(), _baz = new WeakSet(), _quux = new WeakSet(), _quux = new WeakSet();
+var _foo = new WeakSet(), _bar = new WeakSet(), _baz = new WeakSet(), __quux = new WeakMap(), _quux = new WeakMap();
 var A = function A() {
     "use strict";
     _classCallCheck(this, A);
@@ -250,15 +250,16 @@ var A = function A() {
         writable: true,
         value: void 0
     });
-    _classPrivateMethodInit(this, _quux);
-    _classPrivateMethodInit(this, _quux);
+    _classPrivateFieldInit(this, _quux, {
+        get: get_quux,
+        set: set_quux
+    });
     _classPrivateMethodGet(this, _foo, foo).call(this, 30);
     _classPrivateMethodGet(this, _bar, bar).call(this, 30);
     _classPrivateMethodGet(this, _baz, baz).call(this, 30);
     _classPrivateFieldSet(this, _quux, _classPrivateMethodGet(this, _quux, quux) + 1);
     _classPrivateFieldSet(this, _quux, (_this_quux = +_classPrivateMethodGet(this, _quux, quux)) + 1), _this_quux;
 };
-var __quux = new WeakMap();
 function foo(a) {}
 function bar(a) {
     return _bar1.apply(this, arguments);
@@ -292,10 +293,10 @@ function _baz1() {
     }));
     return _baz1.apply(this, arguments);
 }
-function quux() {
+function get_quux() {
     return _classPrivateFieldGet(this, __quux);
 }
-function quux(val) {
+function set_quux(val) {
     _classPrivateFieldSet(this, __quux, val);
 }
 var _foo1 = new WeakSet();

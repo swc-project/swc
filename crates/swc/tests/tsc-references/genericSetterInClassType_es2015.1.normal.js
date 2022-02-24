@@ -49,6 +49,7 @@ var Generic;
     }
     var c = new C();
     c.y = c.y;
+    var _value = new WeakMap();
     class Box {
         get value() {
             return _classPrivateFieldGet(this, _value);
@@ -63,6 +64,5 @@ var Generic;
             });
         }
     }
-    var _value = new WeakMap();
     new Box().value = 3;
 })(Generic || (Generic = {}));

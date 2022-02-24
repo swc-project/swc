@@ -45,6 +45,7 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
 }
 // @target: esnext, es2022, es2015
 var getX;
+var _x = new WeakMap();
 var C = function C(x) {
     "use strict";
     _classCallCheck(this, C);
@@ -54,7 +55,6 @@ var C = function C(x) {
     });
     _classPrivateFieldSet(this, _x, x);
 };
-var _x = new WeakMap();
 var __ = {
     writable: true,
     value: function() {

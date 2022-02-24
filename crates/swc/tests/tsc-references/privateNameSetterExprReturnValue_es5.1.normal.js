@@ -24,14 +24,14 @@ function _classExtractFieldDescriptor(receiver, privateMap, action) {
     }
     return privateMap.get(receiver);
 }
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
+}
 function _classPrivateFieldSet(receiver, privateMap, value) {
     var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
     _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
-}
-function _classPrivateMethodInit(obj, privateSet) {
-    _checkPrivateRedeclaration(obj, privateSet);
-    privateSet.add(obj);
 }
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
@@ -47,13 +47,16 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var _foo = new WeakSet();
+var _foo = new WeakMap();
 var C = // @target: es2019
 /*#__PURE__*/ function() {
     "use strict";
     function C() {
         _classCallCheck(this, C);
-        _classPrivateMethodInit(this, _foo);
+        _classPrivateFieldInit(this, _foo, {
+            get: void 0,
+            set: set_foo
+        });
     }
     _createClass(C, [
         {
@@ -66,5 +69,5 @@ var C = // @target: es2019
     ]);
     return C;
 }();
-function foo(a) {}
+function set_foo(a) {}
 new C().bar();

@@ -9,7 +9,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var _brand_check_brand = new WeakSet(), Foo = function() {
+var _brand_check_brand = new WeakSet(), _unused = new WeakMap(), _brand = new WeakMap(), Foo = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function Foo() {
@@ -31,4 +31,4 @@ var _brand_check_brand = new WeakSet(), Foo = function() {
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Foo;
-}(), _unused = new WeakMap(), _brand = new WeakMap();
+}();

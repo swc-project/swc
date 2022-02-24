@@ -4,7 +4,7 @@ function _classCallCheck(instance, Constructor) {
 var A1 = function() {
     "use strict";
     _classCallCheck(this, A1);
-}, C = function() {
+}, _something = new WeakMap(), C = function() {
     "use strict";
     var obj, privateMap, value;
     _classCallCheck(this, C), obj = this, value = {
@@ -13,4 +13,4 @@ var A1 = function() {
     }, (function(obj, privateCollection) {
         if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
     })(obj, privateMap = _something), privateMap.set(obj, value);
-}, _something = new WeakMap();
+};

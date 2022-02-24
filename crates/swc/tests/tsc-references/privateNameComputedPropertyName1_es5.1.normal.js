@@ -70,6 +70,7 @@ function _defineProperty(obj, key, value) {
     }
     return obj;
 }
+var _a = new WeakMap(), _b = new WeakMap(), _c = new WeakMap(), _d = new WeakMap(), _e = new WeakMap();
 var A = // @target: esnext, es2022, es2015
 /*#__PURE__*/ function() {
     "use strict";
@@ -121,9 +122,4 @@ var A = // @target: esnext, es2022, es2015
     ]);
     return A;
 }();
-var _a = new WeakMap();
-var _b = new WeakMap();
-var _c = new WeakMap();
-var _d = new WeakMap();
-var _e = new WeakMap();
 new A().test();

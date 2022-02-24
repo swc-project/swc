@@ -32,7 +32,7 @@ function _createClass(Constructor, protoProps, staticProps) {
         ]), C;
     }(), c = new C();
     c.y = c.y;
-    var Box = function() {
+    var _value = new WeakMap(), Box = function() {
         "use strict";
         function Box() {
             var obj, privateMap, value1;
@@ -62,6 +62,6 @@ function _createClass(Constructor, protoProps, staticProps) {
                 }
             }
         ]), Box;
-    }(), _value = new WeakMap();
+    }();
     new Box().value = 3;
 }(Generic || (Generic = {}));

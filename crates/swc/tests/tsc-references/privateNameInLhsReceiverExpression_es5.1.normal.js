@@ -57,6 +57,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
+var _y = new WeakMap();
 var Test = // @target: es2015
 /*#__PURE__*/ function() {
     "use strict";
@@ -73,6 +74,7 @@ var Test = // @target: es2015
             value: function something(obj) {
                 var _s;
                 _classPrivateFieldSet(obj[(new (function() {
+                    var _x = new WeakMap();
                     var _class = function _class() {
                         _classCallCheck(this, _class);
                         _classPrivateFieldInit(this, _x, {
@@ -81,10 +83,10 @@ var Test = // @target: es2015
                         });
                         this.s = "prop";
                     };
-                    var _x = new WeakMap();
                     return _class;
                 }())).s], _y, 1);
                 _classPrivateFieldSet(_s = obj[(new (function() {
+                    var _x = new WeakMap();
                     var _class = function _class() {
                         _classCallCheck(this, _class);
                         _classPrivateFieldInit(this, _x, {
@@ -93,7 +95,6 @@ var Test = // @target: es2015
                         });
                         this.s = "prop";
                     };
-                    var _x = new WeakMap();
                     return _class;
                 }())).s], _y, _classPrivateFieldGet(_s, _y) + 1);
             }
@@ -101,4 +102,3 @@ var Test = // @target: es2015
     ]);
     return Test;
 }();
-var _y = new WeakMap();

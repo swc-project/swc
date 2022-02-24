@@ -1,16 +1,22 @@
 function _checkPrivateRedeclaration(obj, privateCollection) {
     if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
 }
-function _classPrivateMethodInit(obj, privateSet) {
-    _checkPrivateRedeclaration(obj, privateSet), privateSet.add(obj);
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap), privateMap.set(obj, value);
 }
-var _fooMethod = new WeakSet(), _fooProp = new WeakSet(), _fooProp = new WeakSet(), A = function() {
+var _fooField = new WeakMap(), _fooMethod = new WeakSet(), _fooProp = new WeakMap(), A = function() {
     "use strict";
-    var obj, privateMap, value;
+    var obj, privateSet;
     !function(instance, Constructor) {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, A), obj = this, value = {
+    }(this, A), _classPrivateFieldInit(this, _fooField, {
         writable: !0,
         value: 3
-    }, _checkPrivateRedeclaration(obj, privateMap = _fooField), privateMap.set(obj, value), _classPrivateMethodInit(this, _fooMethod), _classPrivateMethodInit(this, _fooProp), _classPrivateMethodInit(this, _fooProp), this.bar = 3, this.baz = 3;
-}, _fooField = new WeakMap();
+    }), obj = this, _checkPrivateRedeclaration(obj, privateSet = _fooMethod), privateSet.add(obj), _classPrivateFieldInit(this, _fooProp, {
+        get: function() {
+            return 1;
+        },
+        set: set_fooProp
+    }), this.bar = 3, this.baz = 3;
+};
+function set_fooProp(value) {}

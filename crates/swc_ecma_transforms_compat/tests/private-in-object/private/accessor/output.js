@@ -4,7 +4,7 @@ let Foo = function() {
     function Foo() {
         _classCallCheck(this, Foo);
         _classPrivateFieldInit(this, _foo, {
-            get: foo,
+            get: get_foo,
             set: void 0
         });
     }
@@ -18,4 +18,4 @@ let Foo = function() {
     ]);
     return Foo;
 }();
-function foo() {}
+function get_foo() {}

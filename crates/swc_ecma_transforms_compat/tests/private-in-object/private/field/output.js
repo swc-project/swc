@@ -1,3 +1,4 @@
+var _foo = new WeakMap();
 let Foo = function() {
     "use strict";
     function Foo() {
@@ -17,4 +18,3 @@ let Foo = function() {
     ]);
     return Foo;
 }();
-var _foo = new WeakMap();

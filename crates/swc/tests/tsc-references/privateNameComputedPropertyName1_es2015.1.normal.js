@@ -38,6 +38,7 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
     _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
 }
+var _a = new WeakMap(), _b = new WeakMap(), _c = new WeakMap(), _d = new WeakMap(), _e = new WeakMap();
 // @target: esnext, es2022, es2015
 class A {
     test() {
@@ -82,9 +83,4 @@ class A {
         _classPrivateFieldSet(this, _d, 'd');
     }
 }
-var _a = new WeakMap();
-var _b = new WeakMap();
-var _c = new WeakMap();
-var _d = new WeakMap();
-var _e = new WeakMap();
 new A().test();

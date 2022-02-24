@@ -29,6 +29,7 @@ function _classPrivateFieldInit(obj, privateMap, value) {
     privateMap.set(obj, value);
 }
 var _key;
+var _foo = new WeakMap(), _bar = new WeakMap();
 var A = function A() {
     "use strict";
     _classCallCheck(this, A);
@@ -45,6 +46,4 @@ var A = function A() {
     this[_key] // Error (should *not* be private name error)
      = this["#baz"];
 };
-var _foo = new WeakMap();
-var _bar = new WeakMap();
 _key = "#baz";

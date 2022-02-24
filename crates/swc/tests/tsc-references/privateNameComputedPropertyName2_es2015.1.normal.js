@@ -25,7 +25,7 @@ function _classPrivateFieldInit(obj, privateMap, value) {
 }
 // @target: esnext, es2022, es2015
 let getX;
-var tmp = (getX = (a)=>_classPrivateFieldGet(a, _x)
+var _x = new WeakMap(), tmp = (getX = (a)=>_classPrivateFieldGet(a, _x)
 , "_");
 class A {
     [tmp]() {}
@@ -36,5 +36,4 @@ class A {
         });
     }
 }
-var _x = new WeakMap();
 console.log(getX(new A));

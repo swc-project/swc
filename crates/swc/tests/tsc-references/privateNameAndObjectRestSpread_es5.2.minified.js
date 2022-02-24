@@ -50,7 +50,7 @@ function _objectSpread(target) {
 function _classCheckPrivateStaticAccess(receiver, classConstructor) {
     if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
 }
-var C = function() {
+var _prop = new WeakMap(), C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
@@ -72,7 +72,7 @@ var C = function() {
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
-}(), _prop = new WeakMap(), _propStatic = {
+}(), _propStatic = {
     writable: !0,
     value: 1
 };

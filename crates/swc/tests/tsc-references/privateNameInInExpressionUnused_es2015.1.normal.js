@@ -8,6 +8,7 @@ function _classPrivateFieldInit(obj, privateMap, value) {
     privateMap.set(obj, value);
 }
 var _brand_check_brand = new WeakSet();
+var _unused = new WeakMap(), _brand = new WeakMap();
 // @strict: true
 // @noUnusedLocals: true
 // @target: esnext, es2022
@@ -24,8 +25,7 @@ class Foo {
         _classPrivateFieldInit(this, _brand, {
             writable: true,
             value: void _brand_check_brand.add(this)
-        });
+        }) // expect no error
+        ;
     }
 }
-var _unused = new WeakMap();
-var _brand = new WeakMap();

@@ -57,6 +57,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
+var _field = new WeakMap();
 var A = // @target: es2015
 /*#__PURE__*/ function() {
     "use strict";
@@ -104,4 +105,3 @@ var A = // @target: es2015
     ]);
     return A;
 }();
-var _field = new WeakMap();

@@ -27,6 +27,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     return Constructor;
 }
 var _brand_check_brand = new WeakSet();
+var _unused = new WeakMap(), _brand = new WeakMap();
 var Foo = // @strict: true
 // @noUnusedLocals: true
 // @target: esnext, es2022
@@ -41,7 +42,8 @@ var Foo = // @strict: true
         _classPrivateFieldInit(this, _brand, {
             writable: true,
             value: void _brand_check_brand.add(this)
-        });
+        }) // expect no error
+        ;
     }
     _createClass(Foo, [
         {
@@ -54,5 +56,3 @@ var Foo = // @strict: true
     ]);
     return Foo;
 }();
-var _unused = new WeakMap();
-var _brand = new WeakMap();

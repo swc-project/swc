@@ -5,6 +5,7 @@ function _classPrivateFieldGet(receiver, privateMap) {
     }(receiver, privateMap, "get");
     return descriptor.get ? descriptor.get.call(receiver) : descriptor.value;
 }
+var _x = new WeakMap();
 class C {
     foo() {
         const c = new C();
@@ -23,4 +24,3 @@ class C {
         });
     }
 }
-var _x = new WeakMap();

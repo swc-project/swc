@@ -14,6 +14,7 @@ function _classPrivateMethodGet(receiver, privateSet, fn) {
 function _classPrivateMethodInit(obj, privateSet) {
     _checkPrivateRedeclaration(obj, privateSet), privateSet.add(obj);
 }
+var _used = new WeakMap(), _unused = new WeakMap();
 export var A = function() {
     "use strict";
     var receiver, privateMap, descriptor, receiver, descriptor;
@@ -28,18 +29,26 @@ export var A = function() {
         return privateMap.get(receiver);
     }(receiver, privateMap = _used, "get")).get ? descriptor.get.call(receiver) : descriptor.value));
 };
-var _used = new WeakMap(), _unused = new WeakMap(), _used1 = new WeakSet(), _unused1 = new WeakSet();
+var _used1 = new WeakSet(), _unused1 = new WeakSet();
 export var A2 = function() {
     "use strict";
-    _classCallCheck(this, A2), _classPrivateMethodInit(this, _used1), _classPrivateMethodInit(this, _unused1), console.log(_classPrivateMethodGet(this, _used1, used).call(this));
+    _classCallCheck(this, A2), _classPrivateMethodInit(this, _used1), _classPrivateMethodInit(this, _unused1), console.log(_classPrivateMethodGet(this, _used1, used1).call(this));
 };
-function used() {}
-var _used2 = new WeakSet(), _used2 = new WeakSet(), _unused2 = new WeakSet(), _unused2 = new WeakSet();
+function used1() {}
+var _used2 = new WeakMap(), _unused2 = new WeakMap();
 export var A3 = function() {
     "use strict";
-    _classCallCheck(this, A3), _classPrivateMethodInit(this, _used2), _classPrivateMethodInit(this, _used2), _classPrivateMethodInit(this, _unused2), _classPrivateMethodInit(this, _unused2), console.log(_classPrivateMethodGet(this, _used2, used1));
+    _classCallCheck(this, A3), _classPrivateFieldInit(this, _used2, {
+        get: function() {
+            return 0;
+        },
+        set: set_used
+    }), _classPrivateFieldInit(this, _unused2, {
+        get: function() {
+            return 0;
+        },
+        set: set_unused
+    }), console.log(_classPrivateMethodGet(this, _used2, used));
 };
-function used1() {
-    return 0;
-}
-function used1(value) {}
+function set_used(value) {}
+function set_unused(value) {}

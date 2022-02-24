@@ -23,7 +23,7 @@ function _defineProperties(target, props) {
 function _createClass(Constructor, protoProps, staticProps) {
     return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
 }
-var Foo = function() {
+var _name = new WeakMap(), Foo = function() {
     "use strict";
     function Foo(name) {
         var receiver, privateMap, value, descriptor;
@@ -42,7 +42,7 @@ var Foo = function() {
         {
             key: "getValue",
             value: function(x) {
-                var tmp = _classPrivateFieldGet(this, _name), Bar = function() {
+                var _y = new WeakMap(), tmp = _classPrivateFieldGet(this, _name), Bar = function() {
                     function Bar() {
                         _classCallCheck(this, Bar), _classPrivateFieldInit(this, _y, {
                             writable: !0,
@@ -57,10 +57,10 @@ var Foo = function() {
                             }
                         }
                     ]), Bar;
-                }(), _y = new WeakMap();
+                }();
                 return new Bar()[_classPrivateFieldGet(this, _name)]();
             }
         }
     ]), Foo;
-}(), _name = new WeakMap();
+}();
 console.log(new Foo("NAME").getValue(100));

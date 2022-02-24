@@ -38,6 +38,7 @@ function _classCheckPrivateStaticAccess(receiver, classConstructor) {
         throw new TypeError("Private static access of wrong provenance");
     }
 }
+var _foo = new WeakMap();
 // @target: es2015
 class Parent {
     accessChildProps() {
@@ -52,23 +53,23 @@ class Parent {
         });
     }
 }
-var _foo = new WeakMap();
 var _bar = {
     writable: true,
     value: 5
 };
+var _foo1 = new WeakMap(), _bar1 = new WeakMap();
 class Child extends Parent {
     constructor(...args){
         super(...args);
         _classPrivateFieldInit(this, _foo1, {
             writable: true,
             value: "foo"
-        });
+        }) // OK (Child's #foo does not conflict, as `Parent`'s `#foo` is not accessible)
+        ;
         _classPrivateFieldInit(this, _bar1, {
             writable: true,
             value: "bar"
-        });
+        }) // OK
+        ;
     }
 }
-var _foo1 = new WeakMap();
-var _bar1 = new WeakMap();

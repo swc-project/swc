@@ -14,7 +14,7 @@ function _classPrivateFieldInit(obj, privateMap, value) {
 var _name = new WeakMap();
 console.log(new class {
     getValue(x) {
-        var tmp = _classPrivateFieldGet(this, _name), _y = new WeakMap();
+        var _y = new WeakMap(), tmp = _classPrivateFieldGet(this, _name);
         return new class {
             [tmp]() {
                 return x + _classPrivateFieldGet(this, _y);

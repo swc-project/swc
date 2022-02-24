@@ -38,6 +38,7 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
     _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
 }
+var _test = new WeakMap();
 // @target: es2015
 class C {
     test() {
@@ -74,4 +75,3 @@ class C {
         for(_classPrivateFieldSet(this, _test, 0); _classPrivateFieldGet(this, _test) < 10; _classPrivateFieldSet(this, _test, (_this_test8 = +_classPrivateFieldGet(this, _test)) + 1), _this_test8){}
     }
 }
-var _test = new WeakMap();

@@ -18,29 +18,29 @@ function _classPrivateMethodInit(obj, privateSet) {
 }
 var /**
      * @public
+     */ _a = new WeakMap(), /**
+     * @private
+     */ _b = new WeakMap(), /**
+     * @protected
+     */ _c = new WeakMap(), /**
+     * @public
      */ _aMethod = new WeakSet(), /**
      * @private
      */ _bMethod = new WeakSet(), /**
      * @protected
-     */ _cMethod = new WeakSet(), _aProp = new WeakSet(), _aProp = new WeakSet(), _bProp = new WeakSet(), _bProp = new WeakSet(), _cProp = new WeakSet(), _cProp = new WeakSet();
+     */ _cMethod = new WeakSet(), _aProp = new WeakMap(), _bProp = new WeakMap(), _cProp = new WeakMap();
 var A = function A() {
     "use strict";
     _classCallCheck(this, A);
-    _classPrivateFieldInit(this, /**
-     * @public
-     */ _a, {
+    _classPrivateFieldInit(this, _a, {
         writable: true,
         value: 1
     });
-    _classPrivateFieldInit(this, /**
-     * @private
-     */ _b, {
+    _classPrivateFieldInit(this, _b, {
         writable: true,
         value: 1
     });
-    _classPrivateFieldInit(this, /**
-     * @protected
-     */ _c, {
+    _classPrivateFieldInit(this, _c, {
         writable: true,
         value: 1
     });
@@ -49,26 +49,29 @@ var A = function A() {
     _classPrivateMethodInit(this, _cMethod);
     /**
      * @public
-     */ _classPrivateMethodInit(this, _aProp);
-    /**
+     */ _classPrivateFieldInit(this, _aProp, {
+        get: get_aProp,
+        set: /**
      * @public
-     */ _classPrivateMethodInit(this, _aProp);
+     */ set_aProp
+    });
     /**
      * @private
-     */ _classPrivateMethodInit(this, _bProp);
-    /**
+     */ _classPrivateFieldInit(this, _bProp, {
+        get: get_bProp,
+        set: /**
      * @private
-     */ _classPrivateMethodInit(this, _bProp);
+     */ set_bProp
+    });
     /**
     * @protected
-    */ _classPrivateMethodInit(this, _cProp);
-    /**
+    */ _classPrivateFieldInit(this, _cProp, {
+        get: get_cProp,
+        set: /**
      * @protected
-     */ _classPrivateMethodInit(this, _cProp);
+     */ set_cProp
+    });
 };
-var _a = new WeakMap();
-var _b = new WeakMap();
-var _c = new WeakMap();
 function aMethod() {
     return 1;
 }
@@ -78,15 +81,15 @@ function bMethod() {
 function cMethod() {
     return 1;
 }
-function aProp() {
+function get_aProp() {
     return 1;
 }
-function aProp(value) {}
-function bProp() {
+function set_aProp(value) {}
+function get_bProp() {
     return 1;
 }
-function bProp(value) {}
-function cProp() {
+function set_bProp(value) {}
+function get_cProp() {
     return 1;
 }
-function cProp(value) {}
+function set_cProp(value) {}

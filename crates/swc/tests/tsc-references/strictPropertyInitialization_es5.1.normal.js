@@ -43,6 +43,7 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
     _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
 }
+var _f = new WeakMap(), _g = new WeakMap(), _h = new WeakMap(), _i = new WeakMap();
 var C1 = function C1() {
     "use strict";
     _classCallCheck(this, C1);
@@ -63,14 +64,11 @@ var C1 = function C1() {
         value: void 0
     });
 };
-var _f = new WeakMap();
-var _g = new WeakMap();
-var _h = new WeakMap();
-var _i = new WeakMap();
 var C3 = function C3() {
     "use strict";
     _classCallCheck(this, C3);
 };
+var _d = new WeakMap(), _e = new WeakMap(), _f1 = new WeakMap();
 var C4 = function C4() {
     "use strict";
     _classCallCheck(this, C4);
@@ -91,9 +89,7 @@ var C4 = function C4() {
     this.b = 0;
     this.c = "abc";
 };
-var _d = new WeakMap();
-var _e = new WeakMap();
-var _f1 = new WeakMap();
+var _b = new WeakMap();
 var C5 = function C5() {
     "use strict";
     _classCallCheck(this, C5);
@@ -104,7 +100,7 @@ var C5 = function C5() {
     this.a = 0;
     _classPrivateFieldSet(this, _b, 0);
 };
-var _b = new WeakMap();
+var _b1 = new WeakMap();
 var C6 = function C6(cond) {
     "use strict";
     _classCallCheck(this, C6);
@@ -118,7 +114,7 @@ var C6 = function C6(cond) {
     this.a = 0;
     _classPrivateFieldSet(this, _b1, 0);
 };
-var _b1 = new WeakMap();
+var _b2 = new WeakMap();
 var C7 = function C7(cond) {
     "use strict";
     _classCallCheck(this, C7);
@@ -134,7 +130,6 @@ var C7 = function C7(cond) {
     this.a = 0;
     _classPrivateFieldSet(this, _b2, 1);
 };
-var _b2 = new WeakMap();
 var C8 = function C8() {
     "use strict";
     _classCallCheck(this, C8);
@@ -143,6 +138,7 @@ var C9 = function C9() {
     "use strict";
     _classCallCheck(this, C9);
 };
+var _d1 = new WeakMap();
 var C10 = function C10() {
     "use strict";
     _classCallCheck(this, C10);
@@ -158,7 +154,7 @@ var C10 = function C10() {
     _classPrivateFieldSet(this, _d1, x);
     var y = this.c;
 };
-var _d1 = new WeakMap();
+var _b3 = new WeakMap();
 var C11 = function C11() {
     "use strict";
     _classCallCheck(this, C11);
@@ -169,4 +165,3 @@ var C11 = function C11() {
     this.a = someValue();
     _classPrivateFieldSet(this, _b3, someValue());
 };
-var _b3 = new WeakMap();

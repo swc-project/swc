@@ -82,6 +82,7 @@ var B = function B() {
     "use strict";
     _classCallCheck(this, B);
 };
+var _x = new WeakMap();
 var A = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(A, B);
@@ -99,4 +100,3 @@ var A = /*#__PURE__*/ function(B) {
     }
     return A;
 }(B);
-var _x = new WeakMap();

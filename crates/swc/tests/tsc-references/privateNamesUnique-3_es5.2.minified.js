@@ -7,7 +7,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var A = function() {
+var _foo = new WeakMap(), A = function() {
     "use strict";
     var obj, privateMap, value;
     _classCallCheck(this, A), obj = this, value = {
@@ -16,7 +16,7 @@ var A = function() {
     }, (function(obj, privateCollection) {
         if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
     })(obj, privateMap = _foo), privateMap.set(obj, value);
-}, _foo = new WeakMap(), _foo = {
+}, _foo = {
     writable: !0,
     value: !0
 }, B = function() {

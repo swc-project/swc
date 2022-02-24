@@ -24,6 +24,7 @@ function _classPrivateFieldInit(obj, privateMap, value) {
     _checkPrivateRedeclaration(obj, privateMap);
     privateMap.set(obj, value);
 }
+var _ws = new WeakMap(), _ws2 = new WeakMap();
 class Foo {
     get connected() {
         return _classPrivateFieldGet(this, _ws2) && _classPrivateFieldGet(this, _ws).readyState === _ws1.default.OPEN;
@@ -39,5 +40,3 @@ class Foo {
         });
     }
 }
-var _ws = new WeakMap();
-var _ws2 = new WeakMap();

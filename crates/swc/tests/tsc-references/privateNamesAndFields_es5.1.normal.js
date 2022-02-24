@@ -99,6 +99,7 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
+var _foo = new WeakMap();
 var A = function A() {
     "use strict";
     _classCallCheck(this, A);
@@ -108,7 +109,7 @@ var A = function A() {
     });
     _classPrivateFieldSet(this, _foo, 3);
 };
-var _foo = new WeakMap();
+var _foo1 = new WeakMap();
 var B = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(B, A);
@@ -126,4 +127,3 @@ var B = /*#__PURE__*/ function(A) {
     }
     return B;
 }(A);
-var _foo1 = new WeakMap();

@@ -28,6 +28,7 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
     _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
 }
+var _x = new WeakMap();
 class C {
     static test() {
         _classPrivateFieldSet(new C(), _x, 10);
@@ -42,4 +43,3 @@ class C {
         });
     }
 }
-var _x = new WeakMap();

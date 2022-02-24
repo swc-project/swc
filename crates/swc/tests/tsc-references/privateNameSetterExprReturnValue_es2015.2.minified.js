@@ -1,4 +1,4 @@
-var _foo = new WeakSet();
+var _foo = new WeakMap();
 new class {
     bar() {
         var receiver, privateMap, value, descriptor;
@@ -15,10 +15,13 @@ new class {
         console.log(x);
     }
     constructor(){
-        !function(obj, privateSet) {
+        !function(obj, privateMap, value) {
             !function(obj, privateCollection) {
                 if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
-            }(obj, privateSet), privateSet.add(obj);
-        }(this, _foo);
+            }(obj, privateMap), privateMap.set(obj, value);
+        }(this, _foo, {
+            get: void 0,
+            set: function(a) {}
+        });
     }
 }().bar();

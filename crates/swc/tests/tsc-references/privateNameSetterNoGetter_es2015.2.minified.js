@@ -1,6 +1,5 @@
 const C = function() {
-    var _x = new WeakSet();
-    function x(x) {}
+    var _x = new WeakMap();
     return class {
         m() {
             var receiver, privateMap, value, descriptor;
@@ -19,10 +18,13 @@ const C = function() {
             })(receiver, descriptor, value);
         }
         constructor(){
-            var obj, privateSet;
-            obj = this, (function(obj, privateCollection) {
+            var obj, privateMap, value;
+            obj = this, privateMap = _x, value = {
+                get: void 0,
+                set: function(x) {}
+            }, (function(obj, privateCollection) {
                 if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
-            })(obj, privateSet = _x), privateSet.add(obj);
+            })(obj, privateMap), privateMap.set(obj, value);
         }
     };
 }();

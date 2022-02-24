@@ -57,6 +57,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
+var _value = new WeakMap();
 var Box = // @target: esnext
 // @lib: esnext
 // @declaration: true
@@ -89,5 +90,4 @@ var Box = // @target: esnext
     ]);
     return Box;
 }();
-var _value = new WeakMap();
 new Box(3).value = 3;

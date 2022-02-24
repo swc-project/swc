@@ -123,6 +123,7 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
+var _foo = new WeakMap();
 var Parent = // @target: es2015
 /*#__PURE__*/ function() {
     "use strict";
@@ -145,11 +146,11 @@ var Parent = // @target: es2015
     ]);
     return Parent;
 }();
-var _foo = new WeakMap();
 var _bar = {
     writable: true,
     value: 5
 };
+var _foo1 = new WeakMap(), _bar1 = new WeakMap();
 var Child = /*#__PURE__*/ function(Parent) {
     "use strict";
     _inherits(Child, Parent);
@@ -161,14 +162,14 @@ var Child = /*#__PURE__*/ function(Parent) {
         _classPrivateFieldInit(_assertThisInitialized(_this), _foo1, {
             writable: true,
             value: "foo"
-        });
+        }) // OK (Child's #foo does not conflict, as `Parent`'s `#foo` is not accessible)
+        ;
         _classPrivateFieldInit(_assertThisInitialized(_this), _bar1, {
             writable: true,
             value: "bar"
-        });
+        }) // OK
+        ;
         return _this;
     }
     return Child;
 }(Parent);
-var _foo1 = new WeakMap();
-var _bar1 = new WeakMap();

@@ -38,6 +38,7 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
     _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
 }
+var _value = new WeakMap();
 // @target: esnext
 // @lib: esnext
 // @declaration: true
@@ -62,5 +63,4 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
         _classPrivateFieldSet(this, _value, initialValue);
     }
 }
-var _value = new WeakMap();
 new Box(3).value = 3;

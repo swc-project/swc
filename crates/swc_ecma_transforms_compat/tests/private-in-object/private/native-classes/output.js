@@ -1,3 +1,4 @@
+var _bar = new WeakMap();
 class Foo {
     static test() {
         return Foo === Foo;
@@ -16,4 +17,3 @@ var _foo = {
     writable: true,
     value: "foo"
 };
-var _bar = new WeakMap();

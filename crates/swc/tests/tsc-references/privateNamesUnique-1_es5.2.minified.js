@@ -6,17 +6,17 @@ function _classPrivateFieldInit(obj, privateMap, value) {
         if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
     }(obj, privateMap), privateMap.set(obj, value);
 }
-var A = function() {
+var _foo = new WeakMap(), A = function() {
     "use strict";
     _classCallCheck(this, A), _classPrivateFieldInit(this, _foo, {
         writable: !0,
         value: void 0
     });
-}, _foo = new WeakMap(), B = function() {
+}, _foo1 = new WeakMap(), B = function() {
     "use strict";
     _classCallCheck(this, B), _classPrivateFieldInit(this, _foo1, {
         writable: !0,
         value: void 0
     });
-}, _foo1 = new WeakMap();
+};
 new B();
