@@ -918,18 +918,14 @@
                     },
                     "children": [
                       {
-                        "type": "PreservedToken",
+                        "type": "Ident",
                         "span": {
                           "start": 193,
                           "end": 196,
                           "ctxt": 0
                         },
-                        "token": {
-                          "Ident": {
-                            "value": "tab",
-                            "raw": "tab"
-                          }
-                        }
+                        "value": "tab",
+                        "raw": "tab"
                       }
                     ]
                   }

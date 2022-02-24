@@ -387,12 +387,12 @@ define!({
     }
 
     pub enum PseudoClassSelectorChildren {
+        PreservedToken(TokenAndSpan),
         AnPlusB(AnPlusB),
         Ident(Ident),
         SelectorList(SelectorList),
         RelativeSelectorList(RelativeSelectorList),
         CompoundSelector(CompoundSelector),
-        PreservedToken(TokenAndSpan),
     }
 
     pub enum AnPlusB {
@@ -417,6 +417,7 @@ define!({
     pub enum PseudoElementSelectorChildren {
         PreservedToken(TokenAndSpan),
         CompoundSelector(CompoundSelector),
+        Ident(Ident),
     }
 
     pub struct IdSelector {

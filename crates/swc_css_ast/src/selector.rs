@@ -205,6 +205,9 @@ pub struct PseudoClassSelector {
 // TODO rename
 #[ast_node]
 pub enum PseudoClassSelectorChildren {
+    #[tag("TokenAndSpan")]
+    PreservedToken(TokenAndSpan),
+
     #[tag("AnPlusB")]
     AnPlusB(AnPlusB),
 
@@ -219,9 +222,6 @@ pub enum PseudoClassSelectorChildren {
 
     #[tag("CompoundSelector")]
     CompoundSelector(CompoundSelector),
-
-    #[tag("TokenAndSpan")]
-    PreservedToken(TokenAndSpan),
 }
 
 #[ast_node]
@@ -252,6 +252,10 @@ pub struct PseudoElementSelector {
 pub enum PseudoElementSelectorChildren {
     #[tag("TokenAndSpan")]
     PreservedToken(TokenAndSpan),
+
+    #[tag("Ident")]
+    Ident(Ident),
+
     #[tag("CompoundSelector")]
     CompoundSelector(CompoundSelector),
 }

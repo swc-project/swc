@@ -804,6 +804,15 @@ where
                     let mut children = vec![];
 
                     match &*names.0.to_ascii_lowercase() {
+                        "part" => {
+                            self.input.skip_ws()?;
+
+                            let ident = self.parse()?;
+
+                            children.push(PseudoElementSelectorChildren::Ident(ident));
+
+                            self.input.skip_ws()?;
+                        }
                         "slotted" => {
                             self.input.skip_ws()?;
 

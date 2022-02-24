@@ -766,7 +766,7 @@ error: PseudoElementSelectorChildren
 17 | tabbed-custom-element::part(tab) {}
    |                             ^^^
 
-error: Ident { value: Atom('tab' type=inline), raw: Atom('tab' type=inline) }
+error: Ident
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:29
    |
 17 | tabbed-custom-element::part(tab) {}
