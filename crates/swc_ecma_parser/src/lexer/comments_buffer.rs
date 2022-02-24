@@ -3,7 +3,7 @@ use std::{iter::Rev, rc::Rc, vec::IntoIter};
 use swc_common::{comments::Comment, BytePos};
 
 #[derive(Clone)]
-pub struct BufferedComment {
+pub(crate) struct BufferedComment {
     pub kind: BufferedCommentKind,
     pub pos: BytePos,
     pub comment: Comment,
@@ -16,7 +16,7 @@ pub(crate) enum BufferedCommentKind {
 }
 
 #[derive(Clone)]
-pub struct CommentsBuffer {
+pub(crate) struct CommentsBuffer {
     comments: OneDirectionalList<BufferedComment>,
     pending_leading: OneDirectionalList<Comment>,
 }
