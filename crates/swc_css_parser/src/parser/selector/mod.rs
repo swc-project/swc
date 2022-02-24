@@ -744,9 +744,9 @@ where
                         "not" | "is" | "where" | "matches" => {
                             self.input.skip_ws()?;
 
+                            // TODO forgiving parsing
                             let selector_list = self.parse()?;
 
-                            // TODO forgiving
                             children.push(PseudoClassSelectorChildren::SelectorList(selector_list));
 
                             self.input.skip_ws()?;
@@ -754,7 +754,7 @@ where
                         "has" => {
                             self.input.skip_ws()?;
 
-                            // TODO forgiving
+                            // TODO forgiving parsing
                             let relative_selector_list = self.parse()?;
 
                             children.push(PseudoClassSelectorChildren::RelativeSelectorList(
