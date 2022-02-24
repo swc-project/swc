@@ -137,13 +137,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             };
 
             ref_methods.push(ImplItemMethod {
-                attrs: vec![Attribute {
-                    pound_token: def_site(),
-                    style: AttrStyle::Outer,
-                    bracket_token: def_site(),
-                    path: q!({ tracing::instrument }).parse(),
-                    tokens: q!({ (skip_all) }).parse(),
-                }],
+                attrs: vec![],
                 vis: Visibility::Inherited,
                 defaultness: None,
                 sig: sig.clone(),
@@ -155,13 +149,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             // Either
 
             either_methods.push(ImplItemMethod {
-                attrs: vec![Attribute {
-                    pound_token: def_site(),
-                    style: AttrStyle::Outer,
-                    bracket_token: def_site(),
-                    path: q!({ tracing::instrument }).parse(),
-                    tokens: q!({ (skip_all) }).parse(),
-                }],
+                attrs: vec![],
                 vis: Visibility::Inherited,
                 defaultness: None,
                 sig: sig.clone(),
@@ -194,13 +182,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             // Optional
 
             optional_methods.push(ImplItemMethod {
-                attrs: vec![Attribute {
-                    pound_token: def_site(),
-                    style: AttrStyle::Outer,
-                    bracket_token: def_site(),
-                    path: q!({ tracing::instrument }).parse(),
-                    tokens: q!({ (skip_all) }).parse(),
-                }],
+                attrs: vec![],
                 vis: Visibility::Inherited,
                 defaultness: None,
                 sig: sig.clone(),
@@ -242,13 +224,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             // Visit <-> VisitAll using swc_visit::All
 
             visit_all_methods.push(ImplItemMethod {
-                attrs: vec![Attribute {
-                    pound_token: def_site(),
-                    style: AttrStyle::Outer,
-                    bracket_token: def_site(),
-                    path: q!({ tracing::instrument }).parse(),
-                    tokens: q!({ (skip_all) }).parse(),
-                }],
+                attrs: vec![],
                 vis: Visibility::Inherited,
                 defaultness: None,
                 sig: sig.clone(),
@@ -265,22 +241,13 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
     }
 
     methods.iter_mut().for_each(|v| {
-        v.attrs.extend_from_slice(&[
-            Attribute {
-                pound_token: def_site(),
-                style: AttrStyle::Outer,
-                bracket_token: def_site(),
-                path: q!({ allow }).parse(),
-                tokens: q!({ (unused_variables) }).parse(),
-            },
-            Attribute {
-                pound_token: def_site(),
-                style: AttrStyle::Outer,
-                bracket_token: def_site(),
-                path: q!({ tracing::instrument }).parse(),
-                tokens: q!({ (skip_all) }).parse(),
-            },
-        ]);
+        v.attrs.push(Attribute {
+            pound_token: def_site(),
+            style: AttrStyle::Outer,
+            bracket_token: def_site(),
+            path: q!({ allow }).parse(),
+            tokens: q!({ (unused_variables) }).parse(),
+        });
 
         let fn_name = v.sig.ident.clone();
         let default_body = replace(
@@ -326,7 +293,6 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 },
                 {
                     #[allow(unused_variables)]
-                    #[tracing::instrument(skip_all)]
                     pub fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) -> Type {
                         default_body
                     }
@@ -342,7 +308,6 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 },
                 {
                     #[allow(unused_variables)]
-                    #[tracing::instrument(skip_all)]
                     pub fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) {
                         default_body
                     }
@@ -358,7 +323,6 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 },
                 {
                     #[allow(unused_variables)]
-                    #[tracing::instrument(skip_all)]
                     pub fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) {
                         default_body
                     }
