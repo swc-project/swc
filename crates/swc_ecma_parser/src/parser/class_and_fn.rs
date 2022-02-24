@@ -72,19 +72,18 @@ impl<'a, I: Tokens> Parser<I> {
         self.parse_class(start, class_start, decorators)
     }
 
-    fn parse_class<T>(
+    /// Not generic
+    fn parse_class_inner(
         &mut self,
-        start: BytePos,
+        _start: BytePos,
         class_start: BytePos,
         decorators: Vec<Decorator>,
-    ) -> PResult<T>
-    where
-        T: OutputType,
-    {
+        is_ident_required: bool,
+    ) -> PResult<(Option<Ident>, Class)> {
         self.strict_mode().parse_with(|p| {
             expect!(p, "class");
 
-            let ident = p.parse_maybe_opt_binding_ident(T::IS_IDENT_REQUIRED)?;
+            let ident = p.parse_maybe_opt_binding_ident(is_ident_required)?;
             if p.input.syntax().typescript() {
                 if let Some(span) = ident.invalid_class_name() {
                     p.emit_err(span, SyntaxError::TS2414);
@@ -159,8 +158,7 @@ impl<'a, I: Tokens> Parser<I> {
             expect!(p, '}');
             let end = last_pos!(p);
 
-            let cls = T::finish_class(
-                span!(p, start),
+            Ok((
                 ident,
                 Class {
                     span: Span::new(class_start, end, Default::default()),
@@ -172,13 +170,26 @@ impl<'a, I: Tokens> Parser<I> {
                     body,
                     implements,
                 },
-            );
-
-            match cls {
-                Ok(v) => Ok(v),
-                Err(kind) => syntax_error!(p, kind),
-            }
+            ))
         })
+    }
+
+    fn parse_class<T>(
+        &mut self,
+        start: BytePos,
+        class_start: BytePos,
+        decorators: Vec<Decorator>,
+    ) -> PResult<T>
+    where
+        T: OutputType,
+    {
+        let (ident, class) =
+            self.parse_class_inner(start, class_start, decorators, T::IS_IDENT_REQUIRED)?;
+
+        match T::finish_class(span!(self, start), ident, class) {
+            Ok(v) => Ok(v),
+            Err(kind) => syntax_error!(self, kind),
+        }
     }
 
     fn parse_super_class(&mut self) -> PResult<(Box<Expr>, Option<TsTypeParamInstantiation>)> {
