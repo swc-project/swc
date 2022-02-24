@@ -8,7 +8,9 @@ on:
 jobs:
   rustdoc:
     name: Rustdoc
-    concurrency: swc-docs-rustdoc
+    concurrency:
+      group: swc-docs-rustdoc
+      cancel-in-progress: true
     runs-on: macos-latest
 
     steps:
