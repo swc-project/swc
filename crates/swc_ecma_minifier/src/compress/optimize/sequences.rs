@@ -835,6 +835,39 @@ where
                 true
             }
 
+            Expr::Member(MemberExpr {
+                obj,
+                prop: MemberProp::Ident(prop),
+                ..
+            }) => {
+                if !self.is_skippable_for_seq(a, &obj) {
+                    return false;
+                }
+
+                // We can skip some member expressions if the former is not
+                // referenced and side-effect-free initializer.
+                //
+                // var _default = ErrorBoundary1;
+                // exports.default = _default;
+                //
+                // In the code above, it's safe to move `_default` **iff**
+                // `_default` is not accessed by the code.
+                //
+                // The exact condition is
+                //
+                //  > exports.default does not modify `_default`
+                //  > initializer of `_default` does not have effect on
+                // `exports.default`
+                //
+                // but it's not easy to check. So we just check if the
+                // initializer is simple enough and `_default` is not accessed
+                // by other code.
+
+                // TODO(kdy1): Check for side effects and call
+
+                false
+            }
+
             Expr::Lit(..) => true,
             Expr::Unary(UnaryExpr {
                 op: op!("!") | op!("void") | op!("typeof"),
