@@ -1298,13 +1298,6 @@ impl IsInvalidClassName for Option<Ident> {
 trait OutputType: Sized {
     const IS_IDENT_REQUIRED: bool;
 
-    fn is_constructor(ident: &Option<Ident>) -> bool {
-        match *ident {
-            Some(ref i) => i.sym == js_word!("constructor"),
-            _ => false,
-        }
-    }
-
     /// From babel..
     ///
     /// When parsing function expression, the binding identifier is parsed
