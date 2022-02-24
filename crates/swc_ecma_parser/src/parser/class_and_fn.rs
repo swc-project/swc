@@ -1038,10 +1038,10 @@ impl<'a, I: Tokens> Parser<I> {
 
     /// If `required` is `true`, this never returns `None`.
     fn parse_maybe_opt_binding_ident(&mut self, required: bool) -> PResult<Option<Ident>> {
-        if required || is!(self, BindingIdent) {
+        if required {
             self.parse_binding_ident().map(|v| v.id).map(Some)
         } else {
-            Ok(None)
+            self.parse_opt_binding_ident()
         }
     }
 
