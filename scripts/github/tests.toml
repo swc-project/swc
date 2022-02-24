@@ -1,0 +1,20 @@
+[os.mac]
+swc_plugin_runner = true
+
+[os.windows]
+
+swc = true
+swc_cli = true
+swc_common = true
+swc_css_codegen = true
+swc_css_parser = true
+swc_ecma_codegen = true
+swc_ecma_loader = true
+swc_ecma_parser = true
+swc_ecma_preset_env = true
+swc_ecma_transforms_module = true
+swc_ecma_transforms_testing = true
+swc_node_bundler = true
+swc_plugin = true
+swc_plugin_runner = true
+swc_plugin_testing = true
