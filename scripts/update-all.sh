@@ -8,3 +8,4 @@ cargo test -p swc -p swc_ecma_codegen -p swc_ecma_parser -p swc_bundler -p swc_n
 
 git add -A
 git commit -m 'Update test refs'
+git push -u origin "$(git rev-parse --abbrev-ref HEAD)" --no-verify
