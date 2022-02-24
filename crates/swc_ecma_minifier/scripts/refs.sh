@@ -11,4 +11,4 @@ cargo test -p swc_ecma_minifier -p swc --no-fail-fast || true
 # find ../swc/tests/ -type f -empty -delete
 
 
-find tests/compress/fixture -type d
+find tests/compress/fixture -type d -exec ./scripts/_/refs/add-analysis-only.sh {} \;
