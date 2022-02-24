@@ -1506,23 +1506,25 @@ where
 
     #[emitter]
     fn emit_complex_selector(&mut self, n: &ComplexSelector) -> Result {
-        let mut need_space = false;
         for (idx, node) in n.children.iter().enumerate() {
-            if let ComplexSelectorChildren::Combinator(..) = node {
-                need_space = false;
+            emit!(self, node);
+
+            match node {
+                ComplexSelectorChildren::Combinator(Combinator {
+                    value: CombinatorValue::Descendant,
+                    ..
+                }) => {}
+                _ => match n.children.get(idx + 1) {
+                    Some(ComplexSelectorChildren::Combinator(Combinator {
+                        value: CombinatorValue::Descendant,
+                        ..
+                    })) => {}
+                    Some(_) => {
+                        formatting_space!(self);
+                    }
+                    _ => {}
+                },
             }
-
-            if idx != 0 && need_space {
-                need_space = false;
-
-                self.wr.write_space()?;
-            }
-
-            if let ComplexSelectorChildren::CompoundSelector(..) = node {
-                need_space = true;
-            }
-
-            emit!(self, node)
         }
     }
 

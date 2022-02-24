@@ -122,7 +122,7 @@ width: fit-content;
 :where(dialog:not([open])) {
 display: none;
 }
-:where(details>summary:first-of-type) {
+:where(details > summary:first-of-type) {
 display: list-item;
 }
 :where([aria-busy="true" i]) {
