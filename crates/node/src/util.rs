@@ -8,7 +8,9 @@ use napi::Status;
 use serde::de::DeserializeOwned;
 use swc::try_with_handler;
 use swc_common::{errors::Handler, sync::Lrc, SourceMap};
+use tracing::instrument;
 
+#[instrument(skip_all)]
 pub fn try_with<F, Ret>(cm: Lrc<SourceMap>, skip_filename: bool, op: F) -> Result<Ret, Error>
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,

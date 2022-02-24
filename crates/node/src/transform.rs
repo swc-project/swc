@@ -12,6 +12,7 @@ use path_clean::clean;
 use swc::{config::Options, Compiler, TransformOutput};
 use swc_common::FileName;
 use swc_ecma_ast::Program;
+use tracing::instrument;
 
 use crate::{
     get_compiler,
@@ -40,6 +41,7 @@ impl Task for TransformTask {
     type JsValue = TransformOutput;
     type Output = TransformOutput;
 
+    #[instrument(skip_all)]
     fn compute(&mut self) -> napi::Result<Self::Output> {
         let mut options: Options = serde_json::from_slice(self.options.as_ref())?;
         if !options.filename.is_empty() {
@@ -92,6 +94,7 @@ impl Task for TransformTask {
 }
 
 #[napi]
+#[instrument(skip_all)]
 pub fn transform(
     src: String,
     is_module: bool,
@@ -115,6 +118,7 @@ pub fn transform(
 }
 
 #[napi]
+#[instrument(skip_all)]
 pub fn transform_sync(s: String, is_module: bool, opts: Buffer) -> napi::Result<TransformOutput> {
     let c = get_compiler();
 
@@ -147,6 +151,7 @@ pub fn transform_sync(s: String, is_module: bool, opts: Buffer) -> napi::Result<
 }
 
 #[napi]
+#[instrument(skip_all)]
 pub fn transform_file(
     src: String,
     _is_module: bool,
