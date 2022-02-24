@@ -25,7 +25,7 @@ TestSnapshot {
                 exported: false,
                 used_above_decl: false,
                 is_fn_local: true,
-                used_by_nested_fn: true,
+                used_by_nested_fn: false,
                 executed_multiple_time: false,
                 used_in_cond: false,
                 var_kind: None,
@@ -99,7 +99,7 @@ TestSnapshot {
                 exported: false,
                 used_above_decl: false,
                 is_fn_local: true,
-                used_by_nested_fn: true,
+                used_by_nested_fn: false,
                 executed_multiple_time: false,
                 used_in_cond: false,
                 var_kind: None,
@@ -210,7 +210,7 @@ TestSnapshot {
                 exported: false,
                 used_above_decl: false,
                 is_fn_local: true,
-                used_by_nested_fn: true,
+                used_by_nested_fn: false,
                 executed_multiple_time: false,
                 used_in_cond: false,
                 var_kind: Some(
@@ -286,7 +286,7 @@ TestSnapshot {
                 exported: false,
                 used_above_decl: false,
                 is_fn_local: true,
-                used_by_nested_fn: true,
+                used_by_nested_fn: false,
                 executed_multiple_time: false,
                 used_in_cond: false,
                 var_kind: Some(
@@ -362,7 +362,7 @@ TestSnapshot {
                 exported: false,
                 used_above_decl: false,
                 is_fn_local: true,
-                used_by_nested_fn: true,
+                used_by_nested_fn: false,
                 executed_multiple_time: false,
                 used_in_cond: false,
                 var_kind: Some(
@@ -438,7 +438,7 @@ TestSnapshot {
                 exported: false,
                 used_above_decl: false,
                 is_fn_local: true,
-                used_by_nested_fn: true,
+                used_by_nested_fn: false,
                 executed_multiple_time: false,
                 used_in_cond: false,
                 var_kind: Some(
