@@ -80,7 +80,6 @@ impl<'a, I: Tokens> Parser<I> {
     ) -> PResult<T>
     where
         T: OutputType,
-        Self: MaybeOptionalIdentParser<T::Ident>,
     {
         self.strict_mode().parse_with(|p| {
             expect!(p, "class");
@@ -159,7 +158,8 @@ impl<'a, I: Tokens> Parser<I> {
                 .parse_class_body()?;
             expect!(p, '}');
             let end = last_pos!(p);
-            Ok(T::finish_class(
+
+            let cls = T::finish_class(
                 span!(p, start),
                 ident,
                 Class {
@@ -172,7 +172,12 @@ impl<'a, I: Tokens> Parser<I> {
                     body,
                     implements,
                 },
-            ))
+            );
+
+            match cls {
+                Ok(v) => Ok(v),
+                Err(kind) => syntax_error!(self, kind),
+            }
         })
     }
 
@@ -975,8 +980,6 @@ impl<'a, I: Tokens> Parser<I> {
     ) -> PResult<T>
     where
         T: OutputType,
-        Self: MaybeOptionalIdentParser<T::Ident>,
-        T::Ident: Spanned,
     {
         let start = start_of_async.unwrap_or_else(|| cur_pos!(self));
         assert_and_bump!(self, "function");
@@ -1031,6 +1034,8 @@ impl<'a, I: Tokens> Parser<I> {
             ))
         })
     }
+
+    fn parse_maybe_opt_binding_ident(&mut self, required: bool) -> PResult<Option<Ident>> {}
 
     /// `parse_args` closure should not eat '(' or ')'.
     pub(super) fn parse_fn_args_body<F>(
@@ -1282,10 +1287,15 @@ impl IsInvalidClassName for Option<Ident> {
     }
 }
 
-trait OutputType {
-    type Ident: IsInvalidClassName;
+trait OutputType: Sized {
+    const IS_IDENT_REQUIRED: bool;
 
-    fn is_constructor(ident: &Self::Ident) -> bool;
+    fn is_constructor(ident: &Option<Ident>) -> bool {
+        match *ident {
+            Some(ref i) => i.sym == js_word!("constructor"),
+            _ => false,
+        }
+    }
 
     /// From babel..
     ///
@@ -1301,19 +1311,13 @@ trait OutputType {
         false
     }
 
-    fn finish_fn(span: Span, ident: Self::Ident, f: Function) -> Self;
-    fn finish_class(span: Span, ident: Self::Ident, class: Class) -> Self;
+    fn finish_fn(span: Span, ident: Option<Ident>, f: Function) -> Result<Self, SyntaxError>;
+
+    fn finish_class(span: Span, ident: Option<Ident>, class: Class) -> Result<Self, SyntaxError>;
 }
 
 impl OutputType for Box<Expr> {
-    type Ident = Option<Ident>;
-
-    fn is_constructor(ident: &Self::Ident) -> bool {
-        match *ident {
-            Some(ref i) => i.sym == js_word!("constructor"),
-            _ => false,
-        }
-    }
+    const IS_IDENT_REQUIRED: bool = false;
 
     fn is_fn_expr() -> bool {
         true
@@ -1329,14 +1333,7 @@ impl OutputType for Box<Expr> {
 }
 
 impl OutputType for ExportDefaultDecl {
-    type Ident = Option<Ident>;
-
-    fn is_constructor(ident: &Self::Ident) -> bool {
-        match *ident {
-            Some(ref i) => i.sym == js_word!("constructor"),
-            _ => false,
-        }
-    }
+    const IS_IDENT_REQUIRED: bool = false;
 
     fn finish_fn(span: Span, ident: Option<Ident>, function: Function) -> Self {
         ExportDefaultDecl {
@@ -1354,11 +1351,7 @@ impl OutputType for ExportDefaultDecl {
 }
 
 impl OutputType for Decl {
-    type Ident = Ident;
-
-    fn is_constructor(i: &Self::Ident) -> bool {
-        i.sym == js_word!("constructor")
-    }
+    const IS_IDENT_REQUIRED: bool = true;
 
     fn finish_fn(_span: Span, ident: Ident, function: Function) -> Self {
         Decl::Fn(FnDecl {
