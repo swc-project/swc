@@ -43,9 +43,6 @@ impl VisitMut for CompressDeclaration {
 
         if let DeclarationName::Ident(Ident { value, .. }) = &declaration.name {
             match &*value.to_lowercase() {
-                "padding" | "margin" | "inset" | "scroll-margin" | "scroll-padding"
-                    if declaration.value.len() > 1 =>
-                {
                 "display" if declaration.value.len() > 1 => {
                     let mut outside = None;
                     let mut inside = None;
@@ -237,7 +234,9 @@ impl VisitMut for CompressDeclaration {
                         _ => {}
                     }
                 }
-                "padding" | "margin" | "inset" if declaration.value.len() > 1 => {
+                "padding" | "margin" | "inset" | "scroll-margin" | "scroll-padding"
+                    if declaration.value.len() > 1 =>
+                {
                     let top = declaration.value.get(0);
                     let right = declaration
                         .value
