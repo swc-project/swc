@@ -1041,7 +1041,7 @@ impl<'a, I: Tokens> Parser<I> {
         if required {
             self.parse_binding_ident().map(|v| v.id).map(Some)
         } else {
-            self.parse_opt_binding_ident()
+            Ok(self.parse_opt_binding_ident()?.map(|v| v.id))
         }
     }
 
