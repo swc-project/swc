@@ -6,7 +6,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc_cli"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.8.1"
+version = "0.9.0"
 
 [[bin]]
 name = "swc"
@@ -17,7 +17,7 @@ anyhow = "1.0.53"
 clap = { version = "3.1.0", features = ["derive", "wrap_help"] }
 walkdir = "2"
 rayon = "1"
-swc = { version = "0.134.0", path = "../swc" }
+swc = { version = "0.135.0", path = "../swc" }
 swc_common = { version = "0.17.5", path = "../swc_common" }
 relative-path = "1.6.1"
 serde = { version = "1", features = ["derive"] }
