@@ -1,0 +1,297 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1
+  |
+1 | / :host(.special-custom-element) {}
+2 | | :host(   .special-custom-element   ) {}
+3 | | :host(.footer) {}
+4 | | :host {}
+  | |_________^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1
+  |
+1 | :host(.special-custom-element) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1
+  |
+1 | :host(.special-custom-element) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1
+  |
+1 | :host(.special-custom-element) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1
+  |
+1 | :host(.special-custom-element) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1
+  |
+1 | :host(.special-custom-element) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1
+  |
+1 | :host(.special-custom-element) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1
+  |
+1 | :host(.special-custom-element) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:1:2
+  |
+1 | :host(.special-custom-element) {}
+  |  ^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:1:7
+  |
+1 | :host(.special-custom-element) {}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:1:7
+  |
+1 | :host(.special-custom-element) {}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:1:7
+  |
+1 | :host(.special-custom-element) {}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:1:8
+  |
+1 | :host(.special-custom-element) {}
+  |        ^^^^^^^^^^^^^^^^^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:1:32
+  |
+1 | :host(.special-custom-element) {}
+  |                                ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1
+  |
+2 | :host(   .special-custom-element   ) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1
+  |
+2 | :host(   .special-custom-element   ) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1
+  |
+2 | :host(   .special-custom-element   ) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1
+  |
+2 | :host(   .special-custom-element   ) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1
+  |
+2 | :host(   .special-custom-element   ) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1
+  |
+2 | :host(   .special-custom-element   ) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1
+  |
+2 | :host(   .special-custom-element   ) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:2:2
+  |
+2 | :host(   .special-custom-element   ) {}
+  |  ^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:2:10
+  |
+2 | :host(   .special-custom-element   ) {}
+  |          ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:2:10
+  |
+2 | :host(   .special-custom-element   ) {}
+  |          ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:2:10
+  |
+2 | :host(   .special-custom-element   ) {}
+  |          ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:2:11
+  |
+2 | :host(   .special-custom-element   ) {}
+  |           ^^^^^^^^^^^^^^^^^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:2:38
+  |
+2 | :host(   .special-custom-element   ) {}
+  |                                      ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1
+  |
+3 | :host(.footer) {}
+  | ^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1
+  |
+3 | :host(.footer) {}
+  | ^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1
+  |
+3 | :host(.footer) {}
+  | ^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1
+  |
+3 | :host(.footer) {}
+  | ^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1
+  |
+3 | :host(.footer) {}
+  | ^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1
+  |
+3 | :host(.footer) {}
+  | ^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1
+  |
+3 | :host(.footer) {}
+  | ^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:3:2
+  |
+3 | :host(.footer) {}
+  |  ^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:3:7
+  |
+3 | :host(.footer) {}
+  |       ^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:3:7
+  |
+3 | :host(.footer) {}
+  |       ^^^^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:3:7
+  |
+3 | :host(.footer) {}
+  |       ^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:3:8
+  |
+3 | :host(.footer) {}
+  |        ^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:3:16
+  |
+3 | :host(.footer) {}
+  |                ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:4:1
+  |
+4 | :host {}
+  | ^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:4:1
+  |
+4 | :host {}
+  | ^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:4:1
+  |
+4 | :host {}
+  | ^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:4:1
+  |
+4 | :host {}
+  | ^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:4:1
+  |
+4 | :host {}
+  | ^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:4:1
+  |
+4 | :host {}
+  | ^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:4:1
+  |
+4 | :host {}
+  | ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:4:2
+  |
+4 | :host {}
+  |  ^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:4:7
+  |
+4 | :host {}
+  |       ^^
+

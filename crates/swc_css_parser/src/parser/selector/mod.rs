@@ -666,9 +666,7 @@ where
 
                 match &*names.0.to_ascii_lowercase() {
                     // TODO `-moz-any`/`-webkit-any`/`matches`
-                    // :host( <compound-selector> )
-                    // :host-context( <compound-selector> )
-                    // ::slotted( <compound-selector> )
+                    // TODO ::slotted( <compound-selector> )
                     "not" | "is" | "where" => {
                         self.input.skip_ws()?;
 
@@ -714,6 +712,15 @@ where
 
                             self.input.skip_ws()?;
                         }
+                    }
+                    "host" | "host-context" => {
+                        self.input.skip_ws()?;
+
+                        let compound_selector = self.parse()?;
+
+                        children.push(PseudoSelectorChildren::CompoundSelector(compound_selector));
+
+                        self.input.skip_ws()?;
                     }
                     _ => {
                         return Err(Error::new(span, ErrorKind::Ignore));

@@ -385,6 +385,7 @@ define!({
         Ident(Ident),
         SelectorList(SelectorList),
         RelativeSelectorList(RelativeSelectorList),
+        CompoundSelector(CompoundSelector),
         PreservedToken(TokenAndSpan),
     }
 

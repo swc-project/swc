@@ -223,6 +223,9 @@ pub enum PseudoSelectorChildren {
     #[tag("RelativeSelectorList")]
     RelativeSelectorList(RelativeSelectorList),
 
+    #[tag("CompoundSelector")]
+    CompoundSelector(CompoundSelector),
+
     #[tag("TokenAndSpan")]
     PreservedToken(TokenAndSpan),
 }
