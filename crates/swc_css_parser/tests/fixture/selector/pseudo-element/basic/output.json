@@ -464,18 +464,41 @@
                     },
                     "children": [
                       {
-                        "type": "PreservedToken",
+                        "type": "CompoundSelector",
                         "span": {
                           "start": 73,
                           "end": 74,
                           "ctxt": 0
                         },
-                        "token": {
-                          "Ident": {
-                            "value": "b",
-                            "raw": "b"
+                        "nestingSelector": null,
+                        "typeSelector": {
+                          "type": "TagNameSelector",
+                          "span": {
+                            "start": 73,
+                            "end": 74,
+                            "ctxt": 0
+                          },
+                          "name": {
+                            "type": "WqName",
+                            "span": {
+                              "start": 73,
+                              "end": 74,
+                              "ctxt": 0
+                            },
+                            "prefix": null,
+                            "value": {
+                              "type": "Ident",
+                              "span": {
+                                "start": 73,
+                                "end": 74,
+                                "ctxt": 0
+                              },
+                              "value": "b",
+                              "raw": "b"
+                            }
                           }
-                        }
+                        },
+                        "subclassSelectors": []
                       }
                     ]
                   }
@@ -669,19 +692,34 @@
                     },
                     "children": [
                       {
-                        "type": "PreservedToken",
+                        "type": "CompoundSelector",
                         "span": {
                           "start": 119,
                           "end": 126,
                           "ctxt": 0
                         },
-                        "token": {
-                          "Hash": {
-                            "is_id": true,
-                            "value": "scroll",
-                            "raw": "scroll"
+                        "nestingSelector": null,
+                        "typeSelector": null,
+                        "subclassSelectors": [
+                          {
+                            "type": "IdSelector",
+                            "span": {
+                              "start": 119,
+                              "end": 126,
+                              "ctxt": 0
+                            },
+                            "text": {
+                              "type": "Ident",
+                              "span": {
+                                "start": 119,
+                                "end": 126,
+                                "ctxt": 0
+                              },
+                              "value": "scroll",
+                              "raw": "scroll"
+                            }
                           }
-                        }
+                        ]
                       }
                     ]
                   }

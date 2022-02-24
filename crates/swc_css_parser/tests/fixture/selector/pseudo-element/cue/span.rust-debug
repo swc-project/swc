@@ -1,0 +1,750 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:1:1
+  |
+1 | / ::cue {}
+2 | | ::cue(v[voice="Esme"]) {}
+3 | | ::cue(   v[voice="Esme"]   ) {}
+4 | | video::cue {}
+5 | | video::cue(b) {}
+6 | | video::cue(#cue1) {}
+7 | | video::cue(:lang(en)) {}
+  | |________________________^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:1:1
+  |
+1 | ::cue {}
+  | ^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:1:1
+  |
+1 | ::cue {}
+  | ^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:1:1
+  |
+1 | ::cue {}
+  | ^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:1:1
+  |
+1 | ::cue {}
+  | ^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:1:1
+  |
+1 | ::cue {}
+  | ^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:1:1
+  |
+1 | ::cue {}
+  | ^^^^^
+
+error: PseudoElementSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:1:1
+  |
+1 | ::cue {}
+  | ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:1:3
+  |
+1 | ::cue {}
+  |   ^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:1:7
+  |
+1 | ::cue {}
+  |       ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:1
+  |
+2 | ::cue(v[voice="Esme"]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:1
+  |
+2 | ::cue(v[voice="Esme"]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:1
+  |
+2 | ::cue(v[voice="Esme"]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:1
+  |
+2 | ::cue(v[voice="Esme"]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:1
+  |
+2 | ::cue(v[voice="Esme"]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:1
+  |
+2 | ::cue(v[voice="Esme"]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoElementSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:1
+  |
+2 | ::cue(v[voice="Esme"]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:3
+  |
+2 | ::cue(v[voice="Esme"]) {}
+  |   ^^^
+
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:7
+  |
+2 | ::cue(v[voice="Esme"]) {}
+  |       ^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:7
+  |
+2 | ::cue(v[voice="Esme"]) {}
+  |       ^^^^^^^^^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:7
+  |
+2 | ::cue(v[voice="Esme"]) {}
+  |       ^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:7
+  |
+2 | ::cue(v[voice="Esme"]) {}
+  |       ^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:7
+  |
+2 | ::cue(v[voice="Esme"]) {}
+  |       ^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:7
+  |
+2 | ::cue(v[voice="Esme"]) {}
+  |       ^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:8
+  |
+2 | ::cue(v[voice="Esme"]) {}
+  |        ^^^^^^^^^^^^^^
+
+error: AttributeSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:8
+  |
+2 | ::cue(v[voice="Esme"]) {}
+  |        ^^^^^^^^^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:9
+  |
+2 | ::cue(v[voice="Esme"]) {}
+  |         ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:9
+  |
+2 | ::cue(v[voice="Esme"]) {}
+  |         ^^^^^
+
+error: AttributeSelectorMatcher
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:14
+  |
+2 | ::cue(v[voice="Esme"]) {}
+  |              ^
+
+error: AttributeSelectorValue
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:15
+  |
+2 | ::cue(v[voice="Esme"]) {}
+  |               ^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:15
+  |
+2 | ::cue(v[voice="Esme"]) {}
+  |               ^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:24
+  |
+2 | ::cue(v[voice="Esme"]) {}
+  |                        ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:1
+  |
+3 | ::cue(   v[voice="Esme"]   ) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:1
+  |
+3 | ::cue(   v[voice="Esme"]   ) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:1
+  |
+3 | ::cue(   v[voice="Esme"]   ) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:1
+  |
+3 | ::cue(   v[voice="Esme"]   ) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:1
+  |
+3 | ::cue(   v[voice="Esme"]   ) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:1
+  |
+3 | ::cue(   v[voice="Esme"]   ) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoElementSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:1
+  |
+3 | ::cue(   v[voice="Esme"]   ) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:3
+  |
+3 | ::cue(   v[voice="Esme"]   ) {}
+  |   ^^^
+
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:10
+  |
+3 | ::cue(   v[voice="Esme"]   ) {}
+  |          ^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:10
+  |
+3 | ::cue(   v[voice="Esme"]   ) {}
+  |          ^^^^^^^^^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:10
+  |
+3 | ::cue(   v[voice="Esme"]   ) {}
+  |          ^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:10
+  |
+3 | ::cue(   v[voice="Esme"]   ) {}
+  |          ^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:10
+  |
+3 | ::cue(   v[voice="Esme"]   ) {}
+  |          ^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:10
+  |
+3 | ::cue(   v[voice="Esme"]   ) {}
+  |          ^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:11
+  |
+3 | ::cue(   v[voice="Esme"]   ) {}
+  |           ^^^^^^^^^^^^^^
+
+error: AttributeSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:11
+  |
+3 | ::cue(   v[voice="Esme"]   ) {}
+  |           ^^^^^^^^^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:12
+  |
+3 | ::cue(   v[voice="Esme"]   ) {}
+  |            ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:12
+  |
+3 | ::cue(   v[voice="Esme"]   ) {}
+  |            ^^^^^
+
+error: AttributeSelectorMatcher
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:17
+  |
+3 | ::cue(   v[voice="Esme"]   ) {}
+  |                 ^
+
+error: AttributeSelectorValue
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:18
+  |
+3 | ::cue(   v[voice="Esme"]   ) {}
+  |                  ^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:18
+  |
+3 | ::cue(   v[voice="Esme"]   ) {}
+  |                  ^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:30
+  |
+3 | ::cue(   v[voice="Esme"]   ) {}
+  |                              ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:4:1
+  |
+4 | video::cue {}
+  | ^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:4:1
+  |
+4 | video::cue {}
+  | ^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:4:1
+  |
+4 | video::cue {}
+  | ^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:4:1
+  |
+4 | video::cue {}
+  | ^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:4:1
+  |
+4 | video::cue {}
+  | ^^^^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:4:1
+  |
+4 | video::cue {}
+  | ^^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:4:1
+  |
+4 | video::cue {}
+  | ^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:4:1
+  |
+4 | video::cue {}
+  | ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:4:1
+  |
+4 | video::cue {}
+  | ^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:4:6
+  |
+4 | video::cue {}
+  |      ^^^^^
+
+error: PseudoElementSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:4:6
+  |
+4 | video::cue {}
+  |      ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:4:8
+  |
+4 | video::cue {}
+  |        ^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:4:12
+  |
+4 | video::cue {}
+  |            ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:5:1
+  |
+5 | video::cue(b) {}
+  | ^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:5:1
+  |
+5 | video::cue(b) {}
+  | ^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:5:1
+  |
+5 | video::cue(b) {}
+  | ^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:5:1
+  |
+5 | video::cue(b) {}
+  | ^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:5:1
+  |
+5 | video::cue(b) {}
+  | ^^^^^^^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:5:1
+  |
+5 | video::cue(b) {}
+  | ^^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:5:1
+  |
+5 | video::cue(b) {}
+  | ^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:5:1
+  |
+5 | video::cue(b) {}
+  | ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:5:1
+  |
+5 | video::cue(b) {}
+  | ^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:5:6
+  |
+5 | video::cue(b) {}
+  |      ^^^^^^^^
+
+error: PseudoElementSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:5:6
+  |
+5 | video::cue(b) {}
+  |      ^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:5:8
+  |
+5 | video::cue(b) {}
+  |        ^^^
+
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:5:12
+  |
+5 | video::cue(b) {}
+  |            ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:5:12
+  |
+5 | video::cue(b) {}
+  |            ^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:5:12
+  |
+5 | video::cue(b) {}
+  |            ^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:5:12
+  |
+5 | video::cue(b) {}
+  |            ^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:5:12
+  |
+5 | video::cue(b) {}
+  |            ^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:5:12
+  |
+5 | video::cue(b) {}
+  |            ^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:5:15
+  |
+5 | video::cue(b) {}
+  |               ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:6:1
+  |
+6 | video::cue(#cue1) {}
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:6:1
+  |
+6 | video::cue(#cue1) {}
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:6:1
+  |
+6 | video::cue(#cue1) {}
+  | ^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:6:1
+  |
+6 | video::cue(#cue1) {}
+  | ^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:6:1
+  |
+6 | video::cue(#cue1) {}
+  | ^^^^^^^^^^^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:6:1
+  |
+6 | video::cue(#cue1) {}
+  | ^^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:6:1
+  |
+6 | video::cue(#cue1) {}
+  | ^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:6:1
+  |
+6 | video::cue(#cue1) {}
+  | ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:6:1
+  |
+6 | video::cue(#cue1) {}
+  | ^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:6:6
+  |
+6 | video::cue(#cue1) {}
+  |      ^^^^^^^^^^^^
+
+error: PseudoElementSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:6:6
+  |
+6 | video::cue(#cue1) {}
+  |      ^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:6:8
+  |
+6 | video::cue(#cue1) {}
+  |        ^^^
+
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:6:12
+  |
+6 | video::cue(#cue1) {}
+  |            ^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:6:12
+  |
+6 | video::cue(#cue1) {}
+  |            ^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:6:12
+  |
+6 | video::cue(#cue1) {}
+  |            ^^^^^
+
+error: IdSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:6:12
+  |
+6 | video::cue(#cue1) {}
+  |            ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:6:12
+  |
+6 | video::cue(#cue1) {}
+  |            ^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:6:19
+  |
+6 | video::cue(#cue1) {}
+  |                   ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:1
+  |
+7 | video::cue(:lang(en)) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:1
+  |
+7 | video::cue(:lang(en)) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:1
+  |
+7 | video::cue(:lang(en)) {}
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:1
+  |
+7 | video::cue(:lang(en)) {}
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:1
+  |
+7 | video::cue(:lang(en)) {}
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:1
+  |
+7 | video::cue(:lang(en)) {}
+  | ^^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:1
+  |
+7 | video::cue(:lang(en)) {}
+  | ^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:1
+  |
+7 | video::cue(:lang(en)) {}
+  | ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:1
+  |
+7 | video::cue(:lang(en)) {}
+  | ^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:6
+  |
+7 | video::cue(:lang(en)) {}
+  |      ^^^^^^^^^^^^^^^^
+
+error: PseudoElementSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:6
+  |
+7 | video::cue(:lang(en)) {}
+  |      ^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:8
+  |
+7 | video::cue(:lang(en)) {}
+  |        ^^^
+
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:12
+  |
+7 | video::cue(:lang(en)) {}
+  |            ^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:12
+  |
+7 | video::cue(:lang(en)) {}
+  |            ^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:12
+  |
+7 | video::cue(:lang(en)) {}
+  |            ^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:12
+  |
+7 | video::cue(:lang(en)) {}
+  |            ^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:13
+  |
+7 | video::cue(:lang(en)) {}
+  |             ^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:18
+  |
+7 | video::cue(:lang(en)) {}
+  |                  ^^
+
+error: Ident { value: Atom('en' type=inline), raw: Atom('en' type=inline) }
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:18
+  |
+7 | video::cue(:lang(en)) {}
+  |                  ^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:23
+  |
+7 | video::cue(:lang(en)) {}
+  |                       ^^
+

@@ -876,6 +876,17 @@ where
                     let mut children = vec![];
 
                     match &*names.0.to_ascii_lowercase() {
+                        "cue" | "cue-region" => {
+                            self.input.skip_ws()?;
+
+                            let compound_selector = self.parse()?;
+
+                            children.push(PseudoElementSelectorChildren::CompoundSelector(
+                                compound_selector,
+                            ));
+
+                            self.input.skip_ws()?;
+                        }
                         "part" => {
                             self.input.skip_ws()?;
 

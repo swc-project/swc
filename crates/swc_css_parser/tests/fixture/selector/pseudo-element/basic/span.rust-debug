@@ -400,7 +400,31 @@ error: PseudoElementSelectorChildren
 8 | video::cue(b) {}
   |            ^
 
-error: Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:12
+  |
+8 | video::cue(b) {}
+  |            ^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:12
+  |
+8 | video::cue(b) {}
+  |            ^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:12
+  |
+8 | video::cue(b) {}
+  |            ^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:12
+  |
+8 | video::cue(b) {}
+  |            ^
+
+error: Ident
  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:12
   |
 8 | video::cue(b) {}
@@ -568,7 +592,25 @@ error: PseudoElementSelectorChildren
 11 | video::cue-region(#scroll) {}
    |                   ^^^^^^^
 
-error: Hash { is_id: true, value: Atom('scroll' type=inline), raw: Atom('scroll' type=inline) }
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:19
+   |
+11 | video::cue-region(#scroll) {}
+   |                   ^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:19
+   |
+11 | video::cue-region(#scroll) {}
+   |                   ^^^^^^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:19
+   |
+11 | video::cue-region(#scroll) {}
+   |                   ^^^^^^^
+
+error: Ident
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:19
    |
 11 | video::cue-region(#scroll) {}
