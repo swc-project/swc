@@ -28,6 +28,9 @@
 
 - **(es/typescript)** Fix `name` of decorated classes (#3689) ([1e49fcd](https://github.com/swc-project/swc/commit/1e49fcd44daa3107a180f7016d72f8138fb56688))
 
+
+- **(es/typescript)** Support heterogeneous enums (#3721) ([1761cab](https://github.com/swc-project/swc/commit/1761cab6ff1e3989281493adffda07859eb90a0d))
+
 ### Features
 
 
