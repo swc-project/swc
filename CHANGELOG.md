@@ -11,6 +11,18 @@
 - **(es/parser)** Emit an error for non-last rest element in an object pattern (#3675) ([6a9d778](https://github.com/swc-project/swc/commit/6a9d77808b8513246592129e8c9e154f686fa8a9))
 
 
+- **(es/parser)** Allow `Expr::TsInstantiation` in extends clause (#3696) ([d499b8c](https://github.com/swc-project/swc/commit/d499b8c14f0f75fd48fd7f5e4b7ad6e790bf4882))
+
+
+- **(es/parser)** Disallow using reserved words as an expression in typescript (#3697) ([d6522f3](https://github.com/swc-project/swc/commit/d6522f3a37f38aef713c7cbba06349708b56ee27))
+
+
+- **(es/parser)** Fix a typescript instantiation expression followed by EOF (#3699) ([010fe04](https://github.com/swc-project/swc/commit/010fe048c20bc5a0acfbc65fe43cdd38aeae8fc1))
+
+
+- **(es/parser)** Fix the span of an export declaration containing a const enum (#3701) ([4318a2e](https://github.com/swc-project/swc/commit/4318a2e73b1ab7df07da809cf3207268942d77b7))
+
+
 - **(es/typescript)** Fix `name` of decorated classes (#3689) ([1e49fcd](https://github.com/swc-project/swc/commit/1e49fcd44daa3107a180f7016d72f8138fb56688))
 
 ### Features
@@ -23,7 +35,16 @@
 - **(css/minifier)** Compress urange (#3668) ([b1476d2](https://github.com/swc-project/swc/commit/b1476d2ac6b7ff37653192fe7f46de9ae282b8cd))
 
 
+- **(css/minifier)** Compress lengths (#3698) ([7079e88](https://github.com/swc-project/swc/commit/7079e88744ece43ebf82b05a376c5683c8015084))
+
+
+- **(css/minifier)** Compress more properties (#3708) ([cd95ac4](https://github.com/swc-project/swc/commit/cd95ac4caf0af06db9195790707a475938a5fcb7))
+
+
 - **(es/lints)** Implement `default-param-last` rule (#3681) ([e252265](https://github.com/swc-project/swc/commit/e252265a3f21a4c0dcef2e9c13aa7365f683b235))
+
+
+- **(node-swc)** Expose the new `swc_cli` as a binary named `swcx` (#3684) ([9cc094a](https://github.com/swc-project/swc/commit/9cc094ab574940f87f78328e8e1c1a346e62e5bf))
 
 ### Miscellaneous Tasks
 
@@ -33,6 +54,9 @@
 
 ### Refactor
 
+
+
+- **(css/ast)** Fix the type definitions for an plus b syntax (#3682) ([321ee75](https://github.com/swc-project/swc/commit/321ee756d95f287ed4d81a9568da59c637febf19))
 
 
 - **(es)** Improve ast apis (#3690) ([135acf3](https://github.com/swc-project/swc/commit/135acf3b42221b8a9e684e39d762ad8481c75f73))

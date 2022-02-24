@@ -1,0 +1,77 @@
+.class1 {
+    scroll-padding: 20px;
+}
+
+.class2 {
+    scroll-padding: 20px 21px 22px 23px;
+}
+
+/* 4 -> 3 */
+.class4 {
+    scroll-padding: 20px 21px 22px 21px;
+}
+
+/* 4 -> 2 */
+.class5 {
+    scroll-padding: 20px 21px 20px 21px;
+}
+
+/* 4 -> 1 */
+.class6 {
+    scroll-padding: 20px 20px 20px 20px;
+}
+
+/* 3 -> 2 */
+.class7 {
+    scroll-padding: 20px 21px 20px;
+}
+
+/* 3 -> 1 */
+.class8 {
+    scroll-padding: 20px 20px 20px;
+}
+
+/* 2 -> 1 */
+.class10 {
+    scroll-padding: 20px 20px;
+}
+
+.class11 {
+    scroll-padding: 20px 20px 21px;
+}
+
+.class12 {
+    scroll-padding: var(--scroll-padding);
+}
+
+.class13 {
+    scroll-padding: 20px var(--scroll-padding);
+}
+
+.class14 {
+    scroll-padding: 20px 20px var(--scroll-padding);
+}
+
+.class15 {
+    scroll-padding: 20px 20px 20px var(--scroll-padding);
+}
+
+.class16 {
+    scroll-padding: var(--scroll-padding);
+}
+
+.class17 {
+    scroll-padding: var(--scroll-padding) var(--scroll-padding);
+}
+
+.class18 {
+    scroll-padding: var(--scroll-padding) var(--scroll-padding) var(--scroll-padding) var(--scroll-padding);
+}
+
+.class19 {
+    scroll-padding: 20PX 20pX 20Px 20px;
+}
+
+.class20 {
+    scroll-padding: 20px 3em 20px 3em;
+}
