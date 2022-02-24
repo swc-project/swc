@@ -58,6 +58,12 @@ error: Ident
 1 | :where(ul) li {}
   |  ^^^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:8
+  |
+1 | :where(ul) li {}
+  |        ^^
+
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:8
   |
@@ -189,6 +195,12 @@ error: Ident
   |
 2 | :where(ul, ol) li {}
   |  ^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:8
+  |
+2 | :where(ul, ol) li {}
+  |        ^^^^^^
 
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:8
@@ -357,6 +369,12 @@ error: Ident
   |
 3 | :where(header, main, footer) p:hover {}
   |  ^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:8
+  |
+3 | :where(header, main, footer) p:hover {}
+  |        ^^^^^^^^^^^^^^^^^^^^
 
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:8
@@ -604,6 +622,12 @@ error: Ident
 4 | div:where(.cool, .fun) {}
   |     ^^^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:11
+  |
+4 | div:where(.cool, .fun) {}
+  |           ^^^^^^^^^^^
+
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:11
   |
@@ -723,6 +747,12 @@ error: Ident
   |
 5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
   |  ^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:8
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |        ^^^^^^^^^^^^^^^^^
 
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:8
@@ -904,6 +934,12 @@ error: Ident
 5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
   |                            ^^^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:34
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                  ^^^^^^^^^^^^^^^^^
+
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:34
   |
@@ -1083,6 +1119,12 @@ error: Ident
   |
 5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
   |                                                      ^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:60
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                            ^^^^^^^^^^^^^
 
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:60
@@ -1276,6 +1318,12 @@ error: Ident
 6 | *|*:where(:hover, :focus) {}
   |     ^^^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:11
+  |
+6 | *|*:where(:hover, :focus) {}
+  |           ^^^^^^^^^^^^^^
+
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:11
   |
@@ -1420,6 +1468,12 @@ error: Ident
 7 | *|*:where(*:hover, *:focus) {}
   |     ^^^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:11
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  |           ^^^^^^^^^^^^^^^^
+
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:11
   |
@@ -1563,6 +1617,12 @@ error: Ident
   |
 8 | :where(ul, ol, .lwheret) > [hidden] {}
   |  ^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:8
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |        ^^^^^^^^^^^^^^^^
 
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:8
@@ -1762,6 +1822,12 @@ error: Ident
 9 | :where(p, p:unsupported) {}
   |  ^^^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:8
+  |
+9 | :where(p, p:unsupported) {}
+  |        ^^^^^^^^^^^^^^^^
+
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:8
   |
@@ -1912,6 +1978,12 @@ error: Ident
 10 | :where(:valid, :unsupported) {}
    |  ^^^^^
 
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:10:8
+   |
+10 | :where(:valid, :unsupported) {}
+   |        ^^^^^^^^^^^^^^^^^^^^
+
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:10:8
    |
@@ -2056,6 +2128,12 @@ error: Ident
 11 | a:where(:not(:hover)) {}
    |   ^^^^^
 
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:9
+   |
+11 | a:where(:not(:hover)) {}
+   |         ^^^^^^^^^^^^
+
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:9
    |
@@ -2091,6 +2169,12 @@ error: Ident
    |
 11 | a:where(:not(:hover)) {}
    |          ^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:14
+   |
+11 | a:where(:not(:hover)) {}
+   |              ^^^^^^
 
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:14

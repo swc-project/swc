@@ -2249,6 +2249,12 @@ error: Ident
 51 |     &:is(.bar, &.baz) { color: red; }
    |       ^^
 
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/nesting/input.css:51:10
+   |
+51 |     &:is(.bar, &.baz) { color: red; }
+   |          ^^^^^^^^^^^
+
 error: SelectorList
   --> $DIR/tests/fixture/selector/nesting/input.css:51:10
    |

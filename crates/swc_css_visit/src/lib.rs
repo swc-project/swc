@@ -380,7 +380,13 @@ define!({
         pub value: Ident,
     }
 
-    pub enum PseudoSelectorChildren {
+    pub struct PseudoClassSelector {
+        pub span: Span,
+        pub name: Ident,
+        pub children: Option<Vec<PseudoClassSelectorChildren>>,
+    }
+
+    pub enum PseudoClassSelectorChildren {
         AnPlusB(AnPlusB),
         Ident(Ident),
         SelectorList(SelectorList),
@@ -402,16 +408,15 @@ define!({
         pub b_raw: Option<JsWord>,
     }
 
-    pub struct PseudoClassSelector {
-        pub span: Span,
-        pub name: Ident,
-        pub children: Option<Vec<PseudoSelectorChildren>>,
-    }
-
     pub struct PseudoElementSelector {
         pub span: Span,
         pub name: Ident,
-        pub children: Option<Vec<TokenAndSpan>>,
+        pub children: Option<Vec<PseudoElementSelectorChildren>>,
+    }
+
+    pub enum PseudoElementSelectorChildren {
+        PreservedToken(TokenAndSpan),
+        CompoundSelector(CompoundSelector),
     }
 
     pub struct IdSelector {

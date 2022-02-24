@@ -314,11 +314,21 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(PseudoClassSelector, visit_pseudo_class_selector);
 
-    mtd!(PseudoElementSelector, visit_pseudo_element_selector);
+    mtd!(
+        PseudoClassSelectorChildren,
+        visit_pseudo_class_selector_children
+    );
 
     mtd!(AnPlusB, visit_an_plus_b);
 
     mtd!(AnPlusBNotation, visit_an_plus_b_notation);
+
+    mtd!(PseudoElementSelector, visit_pseudo_element_selector);
+
+    mtd!(
+        PseudoElementSelectorChildren,
+        visit_pseudo_element_selector_children
+    );
 
     mtd!(Delimiter, visit_delimiter);
 

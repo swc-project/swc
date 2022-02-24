@@ -58,6 +58,12 @@ error: Ident
 1 | :is(ul) li {}
   |  ^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:1:5
+  |
+1 | :is(ul) li {}
+  |     ^^
+
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:1:5
   |
@@ -189,6 +195,12 @@ error: Ident
   |
 2 | :is(ul, ol) li {}
   |  ^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:2:5
+  |
+2 | :is(ul, ol) li {}
+  |     ^^^^^^
 
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:2:5
@@ -357,6 +369,12 @@ error: Ident
   |
 3 | :is(header, main, footer) p:hover {}
   |  ^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:3:5
+  |
+3 | :is(header, main, footer) p:hover {}
+  |     ^^^^^^^^^^^^^^^^^^^^
 
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:3:5
@@ -604,6 +622,12 @@ error: Ident
 4 | div:is(.cool, .fun) {}
   |     ^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:4:8
+  |
+4 | div:is(.cool, .fun) {}
+  |        ^^^^^^^^^^^
+
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:4:8
   |
@@ -723,6 +747,12 @@ error: Ident
   |
 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
   |  ^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:5:5
+  |
+5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+  |     ^^^^^^^^^^^^^^^^^
 
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:5:5
@@ -904,6 +934,12 @@ error: Ident
 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
   |                         ^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:5:28
+  |
+5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+  |                            ^^^^^^^^^^^^^^^^^
+
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:5:28
   |
@@ -1083,6 +1119,12 @@ error: Ident
   |
 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
   |                                                ^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:5:51
+  |
+5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+  |                                                   ^^^^^^^^^^^^^
 
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:5:51
@@ -1276,6 +1318,12 @@ error: Ident
 6 | *|*:is(:hover, :focus) {}
   |     ^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:6:8
+  |
+6 | *|*:is(:hover, :focus) {}
+  |        ^^^^^^^^^^^^^^
+
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:6:8
   |
@@ -1420,6 +1468,12 @@ error: Ident
 7 | *|*:is(*:hover, *:focus) {}
   |     ^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:7:8
+  |
+7 | *|*:is(*:hover, *:focus) {}
+  |        ^^^^^^^^^^^^^^^^
+
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:7:8
   |
@@ -1563,6 +1617,12 @@ error: Ident
   |
 8 | :is(ul, ol, .list) > [hidden] {}
   |  ^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:8:5
+  |
+8 | :is(ul, ol, .list) > [hidden] {}
+  |     ^^^^^^^^^^^^^
 
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:8:5
@@ -1762,6 +1822,12 @@ error: Ident
 9 | :is(p, p:unsupported) {}
   |  ^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:9:5
+  |
+9 | :is(p, p:unsupported) {}
+  |     ^^^^^^^^^^^^^^^^
+
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:9:5
   |
@@ -1912,6 +1978,12 @@ error: Ident
 10 | :is(:valid, :unsupported) {}
    |  ^^
 
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:10:5
+   |
+10 | :is(:valid, :unsupported) {}
+   |     ^^^^^^^^^^^^^^^^^^^^
+
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:10:5
    |
@@ -2056,6 +2128,12 @@ error: Ident
 11 | a:is(:not(:hover)) {}
    |   ^^
 
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:11:6
+   |
+11 | a:is(:not(:hover)) {}
+   |      ^^^^^^^^^^^^
+
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:11:6
    |
@@ -2091,6 +2169,12 @@ error: Ident
    |
 11 | a:is(:not(:hover)) {}
    |       ^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:11:11
+   |
+11 | a:is(:not(:hover)) {}
+   |           ^^^^^^
 
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:11:11
@@ -2181,6 +2265,12 @@ error: Ident
    |
 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
    |  ^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:14:5
+   |
+14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:14:5
@@ -2361,6 +2451,12 @@ error: Ident
    |
 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
    |                                    ^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:14:39
+   |
+14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+   |                                       ^^^^^^^^^^^^^^^^^^^^^^
 
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/is/input.css:14:39

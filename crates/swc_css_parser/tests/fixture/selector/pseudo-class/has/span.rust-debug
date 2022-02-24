@@ -82,6 +82,12 @@ error: Ident
 1 | a:has(> img) {}
   |   ^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:7
+  |
+1 | a:has(> img) {}
+  |       ^^^^^
+
 error: RelativeSelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:7
   |
@@ -213,6 +219,12 @@ error: Ident
   |
 2 | a:has(   > img   ) {}
   |   ^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:10
+  |
+2 | a:has(   > img   ) {}
+  |          ^^^^^
 
 error: RelativeSelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:10
@@ -346,6 +358,12 @@ error: Ident
 3 | a:has(   >   img   ) {}
   |   ^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:10
+  |
+3 | a:has(   >   img   ) {}
+  |          ^^^^^^^
+
 error: RelativeSelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:10
   |
@@ -477,6 +495,12 @@ error: Ident
   |
 4 | a:has(   >   img   ,   >   img   ) {}
   |   ^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:10
+  |
+4 | a:has(   >   img   ,   >   img   ) {}
+  |          ^^^^^^^^^^^^^^^^^^^^^
 
 error: RelativeSelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:10
@@ -658,6 +682,12 @@ error: Ident
 5 | a:has(   img   ) {}
   |   ^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:10
+  |
+5 | a:has(   img   ) {}
+  |          ^^^
+
 error: RelativeSelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:10
   |
@@ -783,6 +813,12 @@ error: Ident
   |
 6 | dt:has(+ dt) {}
   |    ^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:8
+  |
+6 | dt:has(+ dt) {}
+  |        ^^^^
 
 error: RelativeSelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:8
@@ -916,6 +952,12 @@ error: Ident
 7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
   |         ^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:13
+  |
+7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:13
   |
@@ -951,6 +993,12 @@ error: Ident
   |
 7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
   |              ^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:18
+  |
+7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+  |                  ^^^^^^^^^^^^^^^^^^^^^^
 
 error: RelativeSelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:18
@@ -1288,6 +1336,12 @@ error: Ident
 8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
   |         ^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:13
+  |
+8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: RelativeSelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:13
   |
@@ -1329,6 +1383,12 @@ error: Ident
   |
 8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
   |              ^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:18
+  |
+8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+  |                  ^^^^^^^^^^^^^^^^^^^^^^
 
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:18
@@ -1630,6 +1690,12 @@ error: Ident
 9 | div:has(p) {}
   |     ^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:9
+  |
+9 | div:has(p) {}
+  |         ^
+
 error: RelativeSelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:9
   |
@@ -1750,6 +1816,12 @@ error: Ident
 10 | .header-group:has(h2):has(.subtitle) h2 {}
    |               ^^^
 
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:19
+   |
+10 | .header-group:has(h2):has(.subtitle) h2 {}
+   |                   ^^
+
 error: RelativeSelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:19
    |
@@ -1815,6 +1887,12 @@ error: Ident
    |
 10 | .header-group:has(h2):has(.subtitle) h2 {}
    |                       ^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:27
+   |
+10 | .header-group:has(h2):has(.subtitle) h2 {}
+   |                           ^^^^^^^^^
 
 error: RelativeSelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:27

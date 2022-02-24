@@ -199,18 +199,12 @@ pub struct AttributeSelectorModifier {
 pub struct PseudoClassSelector {
     pub span: Span,
     pub name: Ident,
-    pub children: Option<Vec<PseudoSelectorChildren>>,
+    pub children: Option<Vec<PseudoClassSelectorChildren>>,
 }
 
-#[ast_node("PseudoElementSelector")]
-pub struct PseudoElementSelector {
-    pub span: Span,
-    pub name: Ident,
-    pub children: Option<Vec<TokenAndSpan>>,
-}
-
+// TODO rename
 #[ast_node]
-pub enum PseudoSelectorChildren {
+pub enum PseudoClassSelectorChildren {
     #[tag("AnPlusB")]
     AnPlusB(AnPlusB),
 
@@ -245,4 +239,19 @@ pub struct AnPlusBNotation {
     pub a_raw: Option<JsWord>,
     pub b: Option<i32>,
     pub b_raw: Option<JsWord>,
+}
+
+#[ast_node("PseudoElementSelector")]
+pub struct PseudoElementSelector {
+    pub span: Span,
+    pub name: Ident,
+    pub children: Option<Vec<PseudoElementSelectorChildren>>,
+}
+
+#[ast_node]
+pub enum PseudoElementSelectorChildren {
+    #[tag("TokenAndSpan")]
+    PreservedToken(TokenAndSpan),
+    #[tag("CompoundSelector")]
+    CompoundSelector(CompoundSelector),
 }

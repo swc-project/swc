@@ -52,6 +52,12 @@ error: Ident
 1 | :pseudo(cl\2css) {}
   |  ^^^^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:9
+  |
+1 | :pseudo(cl\2css) {}
+  |         ^^^^^^^
+
 error: Ident { value: Atom('cl,ss' type=inline), raw: Atom('cl\2css' type=inline) }
  --> $DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:9
   |

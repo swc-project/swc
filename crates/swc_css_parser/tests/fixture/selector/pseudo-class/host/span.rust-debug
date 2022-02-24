@@ -55,6 +55,12 @@ error: Ident
 1 | :host(.special-custom-element) {}
   |  ^^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:1:7
+  |
+1 | :host(.special-custom-element) {}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:1:7
   |
@@ -133,6 +139,12 @@ error: Ident
 2 | :host(   .special-custom-element   ) {}
   |  ^^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:2:10
+  |
+2 | :host(   .special-custom-element   ) {}
+  |          ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:2:10
   |
@@ -210,6 +222,12 @@ error: Ident
   |
 3 | :host(.footer) {}
   |  ^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:3:7
+  |
+3 | :host(.footer) {}
+  |       ^^^^^^^
 
 error: CompoundSelector
  --> $DIR/tests/fixture/selector/pseudo-class/host/input.css:3:7

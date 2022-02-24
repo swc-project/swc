@@ -58,6 +58,12 @@ error: Ident
 1 | :not(p) {}
   |  ^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:1:6
+  |
+1 | :not(p) {}
+  |      ^
+
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:1:6
   |
@@ -153,6 +159,12 @@ error: Ident
   |
 2 | :not(   p   ) {}
   |  ^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:2:9
+  |
+2 | :not(   p   ) {}
+  |         ^
 
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:2:9
@@ -263,6 +275,12 @@ error: Ident
   |
 3 | :not(   
   |  ^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:4:1
+  |
+4 | p   
+  | ^
 
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:4:1
@@ -384,6 +402,12 @@ error: Ident
 6 | button:not([DISABLED]) {}
   |        ^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:6:12
+  |
+6 | button:not([DISABLED]) {}
+  |            ^^^^^^^^^^
+
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:6:12
   |
@@ -491,6 +515,12 @@ error: Ident
   |
 7 | *:not(FOO) {}
   |   ^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:7:7
+  |
+7 | *:not(FOO) {}
+  |       ^^^
 
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:7:7
@@ -612,6 +642,12 @@ error: Ident
 8 | html|*:not(:link):not(:visited) {}
   |        ^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:12
+  |
+8 | html|*:not(:link):not(:visited) {}
+  |            ^^^^^
+
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:12
   |
@@ -665,6 +701,12 @@ error: Ident
   |
 8 | html|*:not(:link):not(:visited) {}
   |                   ^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:23
+  |
+8 | html|*:not(:link):not(:visited) {}
+  |                       ^^^^^^^^
 
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:8:23
@@ -774,6 +816,12 @@ error: Ident
 9 | .selector:not(*:root) {}
   |           ^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:9:15
+  |
+9 | .selector:not(*:root) {}
+  |               ^^^^^^
+
 error: SelectorList
  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:9:15
   |
@@ -876,6 +924,12 @@ error: Ident
 10 | :not(:is(argument)) {}
    |  ^^^
 
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:6
+   |
+10 | :not(:is(argument)) {}
+   |      ^^^^^^^^^^^^^
+
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:6
    |
@@ -911,6 +965,12 @@ error: Ident
    |
 10 | :not(:is(argument)) {}
    |       ^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:10
+   |
+10 | :not(:is(argument)) {}
+   |          ^^^^^^^^
 
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:10:10
@@ -1031,6 +1091,12 @@ error: Ident
    |
 11 | p:not(.fancy) {}
    |   ^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:11:7
+   |
+11 | p:not(.fancy) {}
+   |       ^^^^^^
 
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:11:7
@@ -1157,6 +1223,12 @@ error: Ident
    |
 12 | body :not(p) {}
    |       ^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:12:11
+   |
+12 | body :not(p) {}
+   |           ^
 
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:12:11
@@ -1290,6 +1362,12 @@ error: Ident
 13 | body :not(div):not(span) {}
    |       ^^^
 
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:13:11
+   |
+13 | body :not(div):not(span) {}
+   |           ^^^
+
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:13:11
    |
@@ -1349,6 +1427,12 @@ error: Ident
    |
 13 | body :not(div):not(span) {}
    |                ^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:13:20
+   |
+13 | body :not(div):not(span) {}
+   |                    ^^^^
 
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:13:20
@@ -1481,6 +1565,12 @@ error: Ident
    |
 14 | body :not(div, .fancy) {}
    |       ^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:14:11
+   |
+14 | body :not(div, .fancy) {}
+   |           ^^^^^^^^^^^
 
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:14:11
@@ -1643,6 +1733,12 @@ error: Ident
    |
 15 | h2 :not(span.foo) {}
    |     ^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:15:9
+   |
+15 | h2 :not(span.foo) {}
+   |         ^^^^^^^^
 
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:15:9
@@ -1818,6 +1914,12 @@ error: Ident
 16 | body > h2:not(:first-of-type):not(:last-of-type) {}
    |           ^^^
 
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:16:15
+   |
+16 | body > h2:not(:first-of-type):not(:last-of-type) {}
+   |               ^^^^^^^^^^^^^^
+
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:16:15
    |
@@ -1871,6 +1973,12 @@ error: Ident
    |
 16 | body > h2:not(:first-of-type):not(:last-of-type) {}
    |                               ^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:16:35
+   |
+16 | body > h2:not(:first-of-type):not(:last-of-type) {}
+   |                                   ^^^^^^^^^^^^^
 
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:16:35
@@ -1961,6 +2069,12 @@ error: Ident
    |
 17 | :not(em, strong#foo) {}
    |  ^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:17:6
+   |
+17 | :not(em, strong#foo) {}
+   |      ^^^^^^^^^^^^^^
 
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:17:6
@@ -2136,6 +2250,12 @@ error: Ident
 18 | html|*:not(:link):not(:visited) {}
    |        ^^^
 
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:18:12
+   |
+18 | html|*:not(:link):not(:visited) {}
+   |            ^^^^^
+
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:18:12
    |
@@ -2189,6 +2309,12 @@ error: Ident
    |
 18 | html|*:not(:link):not(:visited) {}
    |                   ^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:18:23
+   |
+18 | html|*:not(:link):not(:visited) {}
+   |                       ^^^^^^^^
 
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:18:23
@@ -2291,6 +2417,12 @@ error: Ident
    |
 19 | *:not(FOO) {}
    |   ^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:19:7
+   |
+19 | *:not(FOO) {}
+   |       ^^^
 
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:19:7
@@ -2412,6 +2544,12 @@ error: Ident
 20 | button:not([DISABLED]) {}
    |        ^^^
 
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:20:12
+   |
+20 | button:not([DISABLED]) {}
+   |            ^^^^^^^^^^
+
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:20:12
    |
@@ -2532,6 +2670,12 @@ error: Ident
 21 | a:not(:hover) {}
    |   ^^^
 
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:21:7
+   |
+21 | a:not(:hover) {}
+   |       ^^^^^^
+
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:21:7
    |
@@ -2646,6 +2790,12 @@ error: Ident
 22 | a:where(:not(:hover)) {}
    |   ^^^^^
 
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:22:9
+   |
+22 | a:where(:not(:hover)) {}
+   |         ^^^^^^^^^^^^
+
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:22:9
    |
@@ -2681,6 +2831,12 @@ error: Ident
    |
 22 | a:where(:not(:hover)) {}
    |          ^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:22:14
+   |
+22 | a:where(:not(:hover)) {}
+   |              ^^^^^^
 
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:22:14
@@ -2796,6 +2952,12 @@ error: Ident
 23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
    |         ^^^
 
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:13
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:13
    |
@@ -2831,6 +2993,12 @@ error: Ident
    |
 23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
    |              ^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:18
+   |
+23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   |                  ^^^^^^^^^^^^^^^^^^^^^^
 
 error: RelativeSelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:23:18
@@ -3168,6 +3336,12 @@ error: Ident
 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
    |         ^^^
 
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:13
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: RelativeSelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:13
    |
@@ -3209,6 +3383,12 @@ error: Ident
    |
 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
    |              ^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:18
+   |
+24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   |                  ^^^^^^^^^^^^^^^^^^^^^^
 
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:24:18
@@ -3545,6 +3725,12 @@ error: Ident
    |
 25 | ul li:not(:first-of-type) {}
    |       ^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:11
+   |
+25 | ul li:not(:first-of-type) {}
+   |           ^^^^^^^^^^^^^^
 
 error: SelectorList
   --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:25:11

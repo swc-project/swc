@@ -1594,6 +1594,12 @@ error: Ident
 23 | * *:not(*) {}
    |     ^^^
 
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/type/input.css:23:9
+   |
+23 | * *:not(*) {}
+   |         ^
+
 error: SelectorList
   --> $DIR/tests/fixture/selector/type/input.css:23:9
    |
