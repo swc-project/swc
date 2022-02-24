@@ -245,7 +245,7 @@ impl VisitMut for CompressSelector {
 
     fn visit_mut_compound_selector(&mut self, compound_selector: &mut CompoundSelector) {
         compound_selector.visit_mut_children_with(self);
-        
+
         if self.in_logic_combinator {
             return;
         }
