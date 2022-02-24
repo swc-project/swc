@@ -5,6 +5,9 @@
 
 
 
+- **(es/codegen)** Fix sourcemap of comments (#3723) ([b8b0c92](https://github.com/swc-project/swc/commit/b8b0c920e49c235fb65ca5585d343d2af79f9526))
+
+
 - **(es/compat)** Throw an error if a private property is initialized multiple times (#3665) ([b6434e5](https://github.com/swc-project/swc/commit/b6434e52e70e79b96a12d48c4cebe2b0f6d8b7f5))
 
 
@@ -27,6 +30,9 @@
 
 
 - **(es/typescript)** Fix `name` of decorated classes (#3689) ([1e49fcd](https://github.com/swc-project/swc/commit/1e49fcd44daa3107a180f7016d72f8138fb56688))
+
+
+- **(es/typescript)** Support heterogeneous enums (#3721) ([1761cab](https://github.com/swc-project/swc/commit/1761cab6ff1e3989281493adffda07859eb90a0d))
 
 ### Features
 

@@ -2900,7 +2900,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.93.1"
+version = "0.93.2"
 dependencies = [
  "bitflags",
  "memchr",
@@ -3301,7 +3301,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.85.1"
+version = "0.85.2"
 dependencies = [
  "serde",
  "swc_atoms",
