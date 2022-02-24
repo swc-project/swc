@@ -3,10 +3,14 @@ use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 pub fn compress_selector() -> impl VisitMut {
-    CompressSelector {}
+    CompressSelector {
+        in_logic_combinator: false,
+    }
 }
 
-struct CompressSelector {}
+struct CompressSelector {
+    in_logic_combinator: bool,
+}
 
 impl CompressSelector {}
 
@@ -112,7 +116,7 @@ impl VisitMut for CompressSelector {
                 ..
             }) if &*name.value.to_lowercase() == "nth-child" && children.len() == 1 => {
                 match children.get(0) {
-                    Some(PseudoSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
+                    Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
                         AnPlusBNotation {
                             a: None,
                             b: Some(b),
@@ -139,7 +143,7 @@ impl VisitMut for CompressSelector {
                 ..
             }) if &*name.value.to_lowercase() == "nth-last-child" && children.len() == 1 => {
                 match children.get(0) {
-                    Some(PseudoSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
+                    Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
                         AnPlusBNotation {
                             a: None,
                             b: Some(b),
@@ -166,7 +170,7 @@ impl VisitMut for CompressSelector {
                 ..
             }) if &*name.value.to_lowercase() == "nth-of-type" && children.len() == 1 => {
                 match children.get(0) {
-                    Some(PseudoSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
+                    Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
                         AnPlusBNotation {
                             a: None,
                             b: Some(b),
@@ -193,7 +197,7 @@ impl VisitMut for CompressSelector {
                 ..
             }) if &*name.value.to_lowercase() == "nth-last-of-type" && children.len() == 1 => {
                 match children.get(0) {
-                    Some(PseudoSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
+                    Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
                         AnPlusBNotation {
                             a: None,
                             b: Some(b),
@@ -217,8 +221,34 @@ impl VisitMut for CompressSelector {
         }
     }
 
+    fn visit_mut_pseudo_class_selector(&mut self, pseudo_class_selector: &mut PseudoClassSelector) {
+        match &pseudo_class_selector.name {
+            Ident { value, .. }
+                if matches!(
+                    &*value.to_lowercase(),
+                    "not" | "is" | "where" | "matches" | "-moz-any" | "-webkit-any"
+                ) =>
+            {
+                let old_in_logic_combinator = self.in_logic_combinator;
+
+                self.in_logic_combinator = true;
+
+                pseudo_class_selector.visit_mut_children_with(self);
+
+                self.in_logic_combinator = old_in_logic_combinator;
+            }
+            _ => {
+                pseudo_class_selector.visit_mut_children_with(self);
+            }
+        }
+    }
+
     fn visit_mut_compound_selector(&mut self, compound_selector: &mut CompoundSelector) {
         compound_selector.visit_mut_children_with(self);
+        
+        if self.in_logic_combinator {
+            return;
+        }
 
         if let Some(TypeSelector::Universal(UniversalSelector { prefix: None, .. })) =
             &compound_selector.type_selector
