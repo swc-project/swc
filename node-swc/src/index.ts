@@ -312,6 +312,10 @@ export function minifySync(src: string, opts?: JsMinifyOptions): Output {
  * Currently only chromium's trace event format is supported.
  * (https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview)
  *
+ * This should be called before calling any binding interfaces exported in `@swc/core`, such as
+ * `transform*`, or `parse*` or anything. To avoid breaking changes, each binding fn internally
+ * sets default trace subscriber if not set.
+ *
  * Unlike other configuration, this does not belong to individual api surface using swcrc
  * or api's parameters (`transform(..., {trace})`). This is due to current tracing subscriber
  * can be configured only once for the global scope. Calling `registerGlobalTraceConfig` multiple
@@ -325,7 +329,7 @@ export function __experimental_registerGlobalTraceConfig(traceConfig: {
   type: 'traceEvent',
   fileName?: string
 }) {
-  bindings.init_trace_once(traceConfig.type === 'traceEvent', traceConfig.fileName);
+  bindings.initTraceOnce(traceConfig.type === 'traceEvent', traceConfig.fileName);
 }
 
 export const DEFAULT_EXTENSIONS = Object.freeze([
