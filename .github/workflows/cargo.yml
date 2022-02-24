@@ -335,3 +335,10 @@ jobs:
         if: matrix.settings.crate == 'swc' && runner.os != 'Windows'
         run: |
           cargo test --color always -p swc --features concurrent
+
+      - name: Install cargo-hack
+        uses: baptiste0928/cargo-install@v1.1.0
+        if: matrix.settings.os == 'ubuntu-latest' && matrix.settings.check
+        with:
+          crate: cargo-hack
+          version: "0.5.7"
