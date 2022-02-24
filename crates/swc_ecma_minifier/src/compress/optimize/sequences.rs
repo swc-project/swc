@@ -837,10 +837,10 @@ where
 
             Expr::Member(MemberExpr {
                 obj,
-                prop: MemberProp::Ident(prop),
+                prop: MemberProp::Ident(..),
                 ..
             }) => {
-                if !self.is_skippable_for_seq(a, &obj) {
+                if !self.is_skippable_for_seq(a, obj) {
                     return false;
                 }
 
@@ -863,7 +863,30 @@ where
                 // initializer is simple enough and `_default` is not accessed
                 // by other code.
 
-                // TODO(kdy1): Check for side effects and call
+                match a {
+                    Some(Mergable::Var(VarDeclarator {
+                        init: Some(init), ..
+                    })) => {
+                        // For first, we check if initializer is simple enough.
+                        if !self.is_skippable_for_seq(None, init) {
+                            return false;
+                        }
+                    }
+                    _ => return false,
+                }
+
+                let left_id = a.and_then(|m| m.id());
+                let left_id = if let Some(left_id) = left_id {
+                    left_id
+                } else {
+                    return false;
+                };
+
+                if let Some(usage) = self.data.as_ref().and_then(|data| data.vars.get(&left_id)) {
+                    if !usage.reassigned() {
+                        return true;
+                    }
+                }
 
                 false
             }
