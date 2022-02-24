@@ -988,18 +988,6 @@ where
             .collect::<Result<Vec<_>, _>>()
             .unwrap_or_else(|_| panic!("invalid value for enum is detected"));
 
-        let is_all_str = members
-            .iter()
-            .all(|(_, v)| matches!(v, Expr::Lit(Lit::Str(..))));
-        let no_init_required = is_all_str;
-        let rhs_should_be_name = members.iter().all(|(m, v): &(TsEnumMember, Expr)| match v {
-            Expr::Lit(Lit::Str(s)) => match &m.id {
-                TsEnumMemberId::Ident(i) => i.sym == s.value,
-                TsEnumMemberId::Str(s2) => s2.value == s.value,
-            },
-            _ => true,
-        });
-
         let init = CallExpr {
             span: DUMMY_SP,
             callee: FnExpr {
@@ -1021,6 +1009,15 @@ where
                             .into_iter()
                             .enumerate()
                             .map(|(_, (m, val))| {
+                                let no_init_required = matches!(val, Expr::Lit(Lit::Str(..)));
+                                let rhs_should_be_name = match &val {
+                                    Expr::Lit(Lit::Str(s)) => match &m.id {
+                                        TsEnumMemberId::Ident(i) => i.sym == s.value,
+                                        TsEnumMemberId::Str(s2) => s2.value == s.value,
+                                    },
+                                    _ => true,
+                                };
+
                                 let value = match m.id {
                                     TsEnumMemberId::Str(s) => s,
                                     TsEnumMemberId::Ident(i) => Str {
