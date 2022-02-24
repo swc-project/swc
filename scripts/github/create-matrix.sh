@@ -20,9 +20,15 @@ do
     echo "- crate: $crate"
     echo "  os: ubuntu-latest"
 
-    
+    if echo $json_str | jq -e ".check.$crate" > /dev/null``; then
+        echo "  check: |"
 
-    # echo $json_str | jq -e "select(.os.windows | index(\"$crate\"))"
+        check_commands=$(echo $json_str | jq -e -r ".check.$crate | .[]")
+
+        while IFS= read -r line; do
+            echo "    cargo $line"
+        done <<< "$check_commands"
+    fi
 
     
     if echo $json_str | jq -e "select(.os.macos | index(\"$crate\"))" > /dev/null``; then
