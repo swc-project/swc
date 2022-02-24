@@ -4,18 +4,7 @@
 // @lib: es6
 // @declaration: true
 // @filename: module.js
-/**
- * @type {{[P in TaskGroupIds]: {id: P, label: string}}}
- */ /**
- * @typedef TaskGroup
- * @property {TaskGroupIds} id
- * @property {string} label
- * @property {string[]} traceEventNames
- */ /**
- * @type {{[P in TaskGroupIds]: {id: P, label: string}}}
- */ /** @typedef {'parseHTML'|'styleLayout'} TaskGroupIds */ /**
- * @type {{[P in TaskGroupIds]: {id: P, label: string}}}
- */ /**
+/** @typedef {'parseHTML'|'styleLayout'} TaskGroupIds */ /**
  * @typedef TaskGroup
  * @property {TaskGroupIds} id
  * @property {string} label
@@ -39,12 +28,7 @@ module.exports = {
 };
 // @filename: index.js
 const { taskGroups , taskNameToGroup  } = require('./module.js');
-/** @typedef {{timers: Map<string, TaskNode>}} PriorTaskData */ /**
- * @typedef TaskNode
- * @prop {TaskNode[]} children
- * @prop {TaskNode|undefined} parent
- * @prop {TaskGroup} group
- */ /** @typedef {{timers: Map<string, TaskNode>}} PriorTaskData */ /** @typedef {import('./module.js').TaskGroup} TaskGroup */ /** @typedef {{timers: Map<string, TaskNode>}} PriorTaskData */ /**
+/** @typedef {import('./module.js').TaskGroup} TaskGroup */ /**
  * @typedef TaskNode
  * @prop {TaskNode[]} children
  * @prop {TaskNode|undefined} parent

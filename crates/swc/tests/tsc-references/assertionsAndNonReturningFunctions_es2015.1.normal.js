@@ -3,7 +3,7 @@
 // @noEmit: true
 // @allowUnreachableCode: false
 // @filename: assertionsAndNonReturningFunctions.js
-/** @type {AssertFunc} */ /** @typedef {(check: boolean) => asserts check} AssertFunc */ /** @type {AssertFunc} */ const assert = (check)=>{
+/** @typedef {(check: boolean) => asserts check} AssertFunc */ /** @type {AssertFunc} */ const assert = (check)=>{
     if (!check) throw new Error();
 };
 /** @type {(x: unknown) => asserts x is string } */ function assertIsString(x) {

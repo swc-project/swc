@@ -9,7 +9,7 @@
  * @jsxfrag null
  */ import { h } from "./snabbdom";
 // @filename: mix-n-match.tsx
-/* @jsxFrag Fragment */ /* @jsx h */ /* @jsxFrag Fragment */ import { h } from "./preact";
+/* @jsx h */ /* @jsxFrag Fragment */ import { h } from "./preact";
 /*#__PURE__*/ h(Frag, null, /*#__PURE__*/ h("span", null));
 /*#__PURE__*/ h(Frag, null, /*#__PURE__*/ h("div", null));
 /*#__PURE__*/ h(Frag, null, /*#__PURE__*/ h("div", null));

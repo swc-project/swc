@@ -40,7 +40,7 @@ class Group {
         val;
     }
 }
-/** @type {Cb} */ /**
+/**
  * @callback Cb
  * @param {unknown} x
  * @return {x is number}

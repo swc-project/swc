@@ -11,11 +11,7 @@
  * @type {Object<string,*>}
  */ const myTypes = {
 };
-/** @typedef {myTypes.typeB|Function} myTypes.typeC */ /**
- * @typedef myTypes.typeB
- * @property {myTypes.typeA}    prop1 - Prop 1.
- * @property {string}           prop2 - Prop 2.
- */ /** @typedef {myTypes.typeB|Function} myTypes.typeC */ /** @typedef {string|RegExp|Array<string|RegExp>} myTypes.typeA */ /** @typedef {myTypes.typeB|Function} myTypes.typeC */ /**
+/** @typedef {string|RegExp|Array<string|RegExp>} myTypes.typeA */ /**
  * @typedef myTypes.typeB
  * @property {myTypes.typeA}    prop1 - Prop 1.
  * @property {string}           prop2 - Prop 2.
@@ -28,12 +24,7 @@ const { myTypes  } = require('./file.js');
  * @type {Object<string,*>}
  */ const testFnTypes = {
 };
-/**
- * @function testFn
- * @description A test function.
- * @param {testFnTypes.input} input - Input.
- * @returns {number|null} Result.
- */ /** @typedef {boolean|myTypes.typeC} testFnTypes.input */ /**
+/** @typedef {boolean|myTypes.typeC} testFnTypes.input */ /**
  * @function testFn
  * @description A test function.
  * @param {testFnTypes.input} input - Input.

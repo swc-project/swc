@@ -31,7 +31,7 @@ function _asyncToGenerator(fn) {
 // @allowJs: true
 // @checkJs: true
 // @Filename: foo.js
-/** @type {FunctionReturningPromise} */ /**
+/**
  * @callback FunctionReturningPromise
  * @returns {Promise<number>}
  */ /** @type {FunctionReturningPromise} */ function testPromise1() {
@@ -52,7 +52,7 @@ var testPromise3 = /** @type {FunctionReturningPromise} */ function() {
 /** @type {FunctionReturningPromise} */ var testPromise4 = function() {
     console.log("test");
 };
-/** @type {FunctionReturningNever} */ /**
+/**
  * @callback FunctionReturningNever
  * @returns {never}
  */ /** @type {FunctionReturningNever} */ function testNever1() {}

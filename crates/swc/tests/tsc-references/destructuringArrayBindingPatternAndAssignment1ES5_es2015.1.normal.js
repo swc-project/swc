@@ -1,7 +1,3 @@
-// In a destructuring assignment expression, the type of the expression on the right must be assignable to the assignment target on the left.
-// An expression of type S is considered assignable to an assignment target V if one of the following is true
-// V is an array assignment pattern, S is the type Any or an array-like type (section 3.3.2), and, for each assignment element E in V,
-//      S is the type Any, or
 /* AssignmentPattern:
  *      ObjectAssignmentPattern
  *      ArrayAssignmentPattern

@@ -2,7 +2,7 @@
 // @checkJs: true
 // @noEmit: true
 // @Filename: a.js
-/** @type {Everything<{ a: number, b: 'hi', c: never }, undefined, { c: true, d: 1 }, number, string>} */ /**
+/**
  * @template {{ a: number, b: string }} T,U A Comment
  * @template {{ c: boolean }} V uh ... are comments even supported??
  * @template W

@@ -23,7 +23,7 @@
  * @type {string} idea
  */ var intercessor = 1;
 /** @type {Opp} */ var mistake;
-/** @type {Upp} */ /** @typedef {Object} Upp
+/** @typedef {Object} Upp
  * @property {string} name
  * @property {Object} not
  * @property {string} nested
