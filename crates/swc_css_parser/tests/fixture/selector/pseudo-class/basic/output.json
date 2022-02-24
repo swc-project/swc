@@ -1084,7 +1084,7 @@
                               "ctxt": 0
                             },
                             "combinator": null,
-                            "complex": {
+                            "selector": {
                               "type": "ComplexSelector",
                               "span": {
                                 "start": 169,
@@ -1229,7 +1229,7 @@
                                               "ctxt": 0
                                             },
                                             "combinator": null,
-                                            "complex": {
+                                            "selector": {
                                               "type": "ComplexSelector",
                                               "span": {
                                                 "start": 194,

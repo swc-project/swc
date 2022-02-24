@@ -309,7 +309,7 @@ define!({
     pub struct RelativeSelector {
         pub span: Span,
         pub combinator: Option<Combinator>,
-        pub complex: ComplexSelector,
+        pub selector: ComplexSelector,
     }
 
     pub struct CompoundSelector {

@@ -42,8 +42,7 @@ pub enum ComplexSelectorChildren {
 pub struct RelativeSelector {
     pub span: Span,
     pub combinator: Option<Combinator>,
-    // TODO rename?
-    pub complex: ComplexSelector,
+    pub selector: ComplexSelector,
 }
 
 /// e.g. `foo.c1.c2`
@@ -208,7 +207,6 @@ pub struct PseudoClassSelector {
     pub children: Option<Vec<PseudoClassSelectorChildren>>,
 }
 
-// TODO rename
 #[ast_node]
 pub enum PseudoClassSelectorChildren {
     #[tag("TokenAndSpan")]

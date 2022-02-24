@@ -3647,7 +3647,7 @@
                                               "ctxt": 0
                                             },
                                             "combinator": null,
-                                            "complex": {
+                                            "selector": {
                                               "type": "ComplexSelector",
                                               "span": {
                                                 "start": 488,
@@ -3703,7 +3703,7 @@
                                               "ctxt": 0
                                             },
                                             "combinator": null,
-                                            "complex": {
+                                            "selector": {
                                               "type": "ComplexSelector",
                                               "span": {
                                                 "start": 492,
@@ -3759,7 +3759,7 @@
                                               "ctxt": 0
                                             },
                                             "combinator": null,
-                                            "complex": {
+                                            "selector": {
                                               "type": "ComplexSelector",
                                               "span": {
                                                 "start": 496,
@@ -3815,7 +3815,7 @@
                                               "ctxt": 0
                                             },
                                             "combinator": null,
-                                            "complex": {
+                                            "selector": {
                                               "type": "ComplexSelector",
                                               "span": {
                                                 "start": 500,
@@ -3871,7 +3871,7 @@
                                               "ctxt": 0
                                             },
                                             "combinator": null,
-                                            "complex": {
+                                            "selector": {
                                               "type": "ComplexSelector",
                                               "span": {
                                                 "start": 504,
@@ -3927,7 +3927,7 @@
                                               "ctxt": 0
                                             },
                                             "combinator": null,
-                                            "complex": {
+                                            "selector": {
                                               "type": "ComplexSelector",
                                               "span": {
                                                 "start": 508,
@@ -4097,7 +4097,7 @@
                               "ctxt": 0
                             },
                             "combinator": null,
-                            "complex": {
+                            "selector": {
                               "type": "ComplexSelector",
                               "span": {
                                 "start": 528,

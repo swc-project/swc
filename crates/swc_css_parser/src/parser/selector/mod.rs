@@ -244,19 +244,17 @@ where
             self.input.skip_ws()?;
         }
 
-        let complex = self.parse()?;
-        let ComplexSelector { span, .. } = complex;
-
+        let selector: ComplexSelector = self.parse()?;
         let start_pos = match combinator {
             Some(Combinator { span, .. }) => span.lo,
-            _ => span.lo,
+            _ => selector.span.lo,
         };
-        let last_pos = span.hi;
+        let last_pos = selector.span.hi;
 
         Ok(RelativeSelector {
             span: Span::new(start_pos, last_pos, Default::default()),
             combinator,
-            complex,
+            selector,
         })
     }
 }

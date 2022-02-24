@@ -107,7 +107,7 @@
                               },
                               "value": ">"
                             },
-                            "complex": {
+                            "selector": {
                               "type": "ComplexSelector",
                               "span": {
                                 "start": 8,
@@ -277,7 +277,7 @@
                               },
                               "value": ">"
                             },
-                            "complex": {
+                            "selector": {
                               "type": "ComplexSelector",
                               "span": {
                                 "start": 27,
@@ -447,7 +447,7 @@
                               },
                               "value": ">"
                             },
-                            "complex": {
+                            "selector": {
                               "type": "ComplexSelector",
                               "span": {
                                 "start": 51,
@@ -617,7 +617,7 @@
                               },
                               "value": ">"
                             },
-                            "complex": {
+                            "selector": {
                               "type": "ComplexSelector",
                               "span": {
                                 "start": 75,
@@ -681,7 +681,7 @@
                               },
                               "value": ">"
                             },
-                            "complex": {
+                            "selector": {
                               "type": "ComplexSelector",
                               "span": {
                                 "start": 89,
@@ -843,7 +843,7 @@
                               "ctxt": 0
                             },
                             "combinator": null,
-                            "complex": {
+                            "selector": {
                               "type": "ComplexSelector",
                               "span": {
                                 "start": 109,
@@ -1013,7 +1013,7 @@
                               },
                               "value": "+"
                             },
-                            "complex": {
+                            "selector": {
                               "type": "ComplexSelector",
                               "span": {
                                 "start": 129,
@@ -1219,7 +1219,7 @@
                                               "ctxt": 0
                                             },
                                             "combinator": null,
-                                            "complex": {
+                                            "selector": {
                                               "type": "ComplexSelector",
                                               "span": {
                                                 "start": 153,
@@ -1275,7 +1275,7 @@
                                               "ctxt": 0
                                             },
                                             "combinator": null,
-                                            "complex": {
+                                            "selector": {
                                               "type": "ComplexSelector",
                                               "span": {
                                                 "start": 157,
@@ -1331,7 +1331,7 @@
                                               "ctxt": 0
                                             },
                                             "combinator": null,
-                                            "complex": {
+                                            "selector": {
                                               "type": "ComplexSelector",
                                               "span": {
                                                 "start": 161,
@@ -1387,7 +1387,7 @@
                                               "ctxt": 0
                                             },
                                             "combinator": null,
-                                            "complex": {
+                                            "selector": {
                                               "type": "ComplexSelector",
                                               "span": {
                                                 "start": 165,
@@ -1443,7 +1443,7 @@
                                               "ctxt": 0
                                             },
                                             "combinator": null,
-                                            "complex": {
+                                            "selector": {
                                               "type": "ComplexSelector",
                                               "span": {
                                                 "start": 169,
@@ -1499,7 +1499,7 @@
                                               "ctxt": 0
                                             },
                                             "combinator": null,
-                                            "complex": {
+                                            "selector": {
                                               "type": "ComplexSelector",
                                               "span": {
                                                 "start": 173,
@@ -1669,7 +1669,7 @@
                               "ctxt": 0
                             },
                             "combinator": null,
-                            "complex": {
+                            "selector": {
                               "type": "ComplexSelector",
                               "span": {
                                 "start": 193,
@@ -2118,7 +2118,7 @@
                               "ctxt": 0
                             },
                             "combinator": null,
-                            "complex": {
+                            "selector": {
                               "type": "ComplexSelector",
                               "span": {
                                 "start": 234,
@@ -2272,7 +2272,7 @@
                               "ctxt": 0
                             },
                             "combinator": null,
-                            "complex": {
+                            "selector": {
                               "type": "ComplexSelector",
                               "span": {
                                 "start": 258,
@@ -2358,7 +2358,7 @@
                               "ctxt": 0
                             },
                             "combinator": null,
-                            "complex": {
+                            "selector": {
                               "type": "ComplexSelector",
                               "span": {
                                 "start": 266,
