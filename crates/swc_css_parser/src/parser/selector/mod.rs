@@ -667,6 +667,15 @@ where
 
                     match &*names.0.to_ascii_lowercase() {
                         // TODO `-moz-any`/`-webkit-any`/`matches`
+                        "dir" => {
+                            self.input.skip_ws()?;
+
+                            let ident = self.parse()?;
+
+                            children.push(PseudoClassSelectorChildren::Ident(ident));
+
+                            self.input.skip_ws()?;
+                        }
                         "not" | "is" | "where" => {
                             self.input.skip_ws()?;
 
