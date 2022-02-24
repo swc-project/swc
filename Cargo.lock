@@ -2887,6 +2887,7 @@ dependencies = [
  "swc_common",
  "swc_css_ast",
  "swc_visit",
+ "tracing",
 ]
 
 [[package]]
