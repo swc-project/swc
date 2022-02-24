@@ -835,6 +835,62 @@ where
                 true
             }
 
+            Expr::Member(MemberExpr {
+                obj,
+                prop: MemberProp::Ident(..),
+                ..
+            }) => {
+                if !self.is_skippable_for_seq(a, obj) {
+                    return false;
+                }
+
+                // We can skip some member expressions if the former is not
+                // referenced and side-effect-free initializer.
+                //
+                // var _default = ErrorBoundary1;
+                // exports.default = _default;
+                //
+                // In the code above, it's safe to move `_default` **iff**
+                // `_default` is not accessed by the code.
+                //
+                // The exact condition is
+                //
+                //  > exports.default does not modify `_default`
+                //  > initializer of `_default` does not have effect on
+                // `exports.default`
+                //
+                // but it's not easy to check. So we just check if the
+                // initializer is simple enough and `_default` is not accessed
+                // by other code.
+
+                match a {
+                    Some(Mergable::Var(VarDeclarator {
+                        init: Some(init), ..
+                    })) => {
+                        // For first, we check if initializer is simple enough.
+                        if !self.is_skippable_for_seq(None, init) {
+                            return false;
+                        }
+                    }
+                    _ => return false,
+                }
+
+                let left_id = a.and_then(|m| m.id());
+                let left_id = if let Some(left_id) = left_id {
+                    left_id
+                } else {
+                    return false;
+                };
+
+                if let Some(usage) = self.data.as_ref().and_then(|data| data.vars.get(&left_id)) {
+                    if !usage.reassigned() {
+                        return true;
+                    }
+                }
+
+                false
+            }
+
             Expr::Lit(..) => true,
             Expr::Unary(UnaryExpr {
                 op: op!("!") | op!("void") | op!("typeof"),
@@ -1017,12 +1073,8 @@ where
                             return Ok(true);
                         }
 
-                        match &**b_left {
-                            Expr::Ident(..) => {}
-
-                            _ => {
-                                return Ok(false);
-                            }
+                        if !self.is_skippable_for_seq(Some(a), b_left) {
+                            return Ok(false);
                         }
                     }
                     PatOrExpr::Pat(b_left) => match &mut **b_left {
@@ -1032,11 +1084,8 @@ where
                                 return Ok(true);
                             }
 
-                            match &**b_left {
-                                Expr::Ident(..) => {}
-                                _ => {
-                                    return Ok(false);
-                                }
+                            if !self.is_skippable_for_seq(Some(a), b_left) {
+                                return Ok(false);
                             }
                         }
                         Pat::Ident(..) => {}
@@ -1352,7 +1401,7 @@ where
                     if usage.ref_count != 1 {
                         return Ok(false);
                     }
-                    if usage.reassigned() || !usage.is_fn_local {
+                    if usage.reassigned() {
                         return Ok(false);
                     }
                     if usage.inline_prevented {
