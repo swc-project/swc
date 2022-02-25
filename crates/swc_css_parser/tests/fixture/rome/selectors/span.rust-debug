@@ -1123,6 +1123,12 @@ error: Ident
 29 | p:nth-last-of-type(2) {
    |   ^^^^^^^^^^^^^^^^
 
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/rome/selectors/input.css:29:20
+   |
+29 | p:nth-last-of-type(2) {
+   |                    ^
+
 error: AnPlusB
   --> $DIR/tests/fixture/rome/selectors/input.css:29:20
    |
@@ -1193,25 +1199,37 @@ error: Ident
 32 | :lang(en, ko) {
    |  ^^^^
 
-error: Ident { value: Atom('en' type=inline), raw: Atom('en' type=inline) }
+error: PseudoClassSelectorChildren
   --> $DIR/tests/fixture/rome/selectors/input.css:32:7
    |
 32 | :lang(en, ko) {
    |       ^^
 
-error: Comma
+error: Ident
+  --> $DIR/tests/fixture/rome/selectors/input.css:32:7
+   |
+32 | :lang(en, ko) {
+   |       ^^
+
+error: PseudoClassSelectorChildren
   --> $DIR/tests/fixture/rome/selectors/input.css:32:9
    |
 32 | :lang(en, ko) {
    |         ^
 
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/rome/selectors/input.css:32:10
+error: Delimiter
+  --> $DIR/tests/fixture/rome/selectors/input.css:32:9
    |
 32 | :lang(en, ko) {
-   |          ^
+   |         ^
 
-error: Ident { value: Atom('ko' type=inline), raw: Atom('ko' type=inline) }
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/rome/selectors/input.css:32:11
+   |
+32 | :lang(en, ko) {
+   |           ^^
+
+error: Ident
   --> $DIR/tests/fixture/rome/selectors/input.css:32:11
    |
 32 | :lang(en, ko) {
@@ -1333,11 +1351,23 @@ error: Ident
 38 | ::pseudo-elem(a, b) {
    |   ^^^^^^^^^^^
 
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/rome/selectors/input.css:38:15
+   |
+38 | ::pseudo-elem(a, b) {
+   |               ^
+
 error: Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
   --> $DIR/tests/fixture/rome/selectors/input.css:38:15
    |
 38 | ::pseudo-elem(a, b) {
    |               ^
+
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/rome/selectors/input.css:38:16
+   |
+38 | ::pseudo-elem(a, b) {
+   |                ^
 
 error: Comma
   --> $DIR/tests/fixture/rome/selectors/input.css:38:16
@@ -1345,11 +1375,23 @@ error: Comma
 38 | ::pseudo-elem(a, b) {
    |                ^
 
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/rome/selectors/input.css:38:17
+   |
+38 | ::pseudo-elem(a, b) {
+   |                 ^
+
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/rome/selectors/input.css:38:17
    |
 38 | ::pseudo-elem(a, b) {
    |                 ^
+
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/rome/selectors/input.css:38:18
+   |
+38 | ::pseudo-elem(a, b) {
+   |                  ^
 
 error: Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
   --> $DIR/tests/fixture/rome/selectors/input.css:38:18

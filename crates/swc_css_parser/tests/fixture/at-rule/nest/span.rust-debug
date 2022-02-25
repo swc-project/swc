@@ -610,6 +610,12 @@ error: Ident
 17 |     @nest :not(&) {
    |            ^^^
 
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/at-rule/nest/input.css:17:16
+   |
+17 |     @nest :not(&) {
+   |                ^
+
 error: SelectorList
   --> $DIR/tests/fixture/at-rule/nest/input.css:17:16
    |

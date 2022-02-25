@@ -1,0 +1,642 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:1:1
+  |
+1 | / :lang(\*-Latn) {}
+2 | | :lang("*-Latn") {}
+3 | | html:lang(fr-be) {}
+4 | | html:lang(de) {}
+5 | | html:lang(de, fr) {}
+6 | | :lang(fr-be) > q {}
+7 | | :lang(de) > q {}
+  | |_________________^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:1:1
+  |
+1 | :lang(\*-Latn) {}
+  | ^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:1:1
+  |
+1 | :lang(\*-Latn) {}
+  | ^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:1:1
+  |
+1 | :lang(\*-Latn) {}
+  | ^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:1:1
+  |
+1 | :lang(\*-Latn) {}
+  | ^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:1:1
+  |
+1 | :lang(\*-Latn) {}
+  | ^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:1:1
+  |
+1 | :lang(\*-Latn) {}
+  | ^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:1:1
+  |
+1 | :lang(\*-Latn) {}
+  | ^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:1:2
+  |
+1 | :lang(\*-Latn) {}
+  |  ^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:1:7
+  |
+1 | :lang(\*-Latn) {}
+  |       ^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:1:7
+  |
+1 | :lang(\*-Latn) {}
+  |       ^^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:1:16
+  |
+1 | :lang(\*-Latn) {}
+  |                ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:2:1
+  |
+2 | :lang("*-Latn") {}
+  | ^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:2:1
+  |
+2 | :lang("*-Latn") {}
+  | ^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:2:1
+  |
+2 | :lang("*-Latn") {}
+  | ^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:2:1
+  |
+2 | :lang("*-Latn") {}
+  | ^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:2:1
+  |
+2 | :lang("*-Latn") {}
+  | ^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:2:1
+  |
+2 | :lang("*-Latn") {}
+  | ^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:2:1
+  |
+2 | :lang("*-Latn") {}
+  | ^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:2:2
+  |
+2 | :lang("*-Latn") {}
+  |  ^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:2:7
+  |
+2 | :lang("*-Latn") {}
+  |       ^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:2:7
+  |
+2 | :lang("*-Latn") {}
+  |       ^^^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:2:17
+  |
+2 | :lang("*-Latn") {}
+  |                 ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:3:1
+  |
+3 | html:lang(fr-be) {}
+  | ^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:3:1
+  |
+3 | html:lang(fr-be) {}
+  | ^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:3:1
+  |
+3 | html:lang(fr-be) {}
+  | ^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:3:1
+  |
+3 | html:lang(fr-be) {}
+  | ^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:3:1
+  |
+3 | html:lang(fr-be) {}
+  | ^^^^^^^^^^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:3:1
+  |
+3 | html:lang(fr-be) {}
+  | ^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:3:1
+  |
+3 | html:lang(fr-be) {}
+  | ^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:3:1
+  |
+3 | html:lang(fr-be) {}
+  | ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:3:1
+  |
+3 | html:lang(fr-be) {}
+  | ^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:3:5
+  |
+3 | html:lang(fr-be) {}
+  |     ^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:3:5
+  |
+3 | html:lang(fr-be) {}
+  |     ^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:3:6
+  |
+3 | html:lang(fr-be) {}
+  |      ^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:3:11
+  |
+3 | html:lang(fr-be) {}
+  |           ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:3:11
+  |
+3 | html:lang(fr-be) {}
+  |           ^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:3:18
+  |
+3 | html:lang(fr-be) {}
+  |                  ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:4:1
+  |
+4 | html:lang(de) {}
+  | ^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:4:1
+  |
+4 | html:lang(de) {}
+  | ^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:4:1
+  |
+4 | html:lang(de) {}
+  | ^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:4:1
+  |
+4 | html:lang(de) {}
+  | ^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:4:1
+  |
+4 | html:lang(de) {}
+  | ^^^^^^^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:4:1
+  |
+4 | html:lang(de) {}
+  | ^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:4:1
+  |
+4 | html:lang(de) {}
+  | ^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:4:1
+  |
+4 | html:lang(de) {}
+  | ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:4:1
+  |
+4 | html:lang(de) {}
+  | ^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:4:5
+  |
+4 | html:lang(de) {}
+  |     ^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:4:5
+  |
+4 | html:lang(de) {}
+  |     ^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:4:6
+  |
+4 | html:lang(de) {}
+  |      ^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:4:11
+  |
+4 | html:lang(de) {}
+  |           ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:4:11
+  |
+4 | html:lang(de) {}
+  |           ^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:4:15
+  |
+4 | html:lang(de) {}
+  |               ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:5:1
+  |
+5 | html:lang(de, fr) {}
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:5:1
+  |
+5 | html:lang(de, fr) {}
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:5:1
+  |
+5 | html:lang(de, fr) {}
+  | ^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:5:1
+  |
+5 | html:lang(de, fr) {}
+  | ^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:5:1
+  |
+5 | html:lang(de, fr) {}
+  | ^^^^^^^^^^^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:5:1
+  |
+5 | html:lang(de, fr) {}
+  | ^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:5:1
+  |
+5 | html:lang(de, fr) {}
+  | ^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:5:1
+  |
+5 | html:lang(de, fr) {}
+  | ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:5:1
+  |
+5 | html:lang(de, fr) {}
+  | ^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:5:5
+  |
+5 | html:lang(de, fr) {}
+  |     ^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:5:5
+  |
+5 | html:lang(de, fr) {}
+  |     ^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:5:6
+  |
+5 | html:lang(de, fr) {}
+  |      ^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:5:11
+  |
+5 | html:lang(de, fr) {}
+  |           ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:5:11
+  |
+5 | html:lang(de, fr) {}
+  |           ^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:5:13
+  |
+5 | html:lang(de, fr) {}
+  |             ^
+
+error: Delimiter
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:5:13
+  |
+5 | html:lang(de, fr) {}
+  |             ^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:5:15
+  |
+5 | html:lang(de, fr) {}
+  |               ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:5:15
+  |
+5 | html:lang(de, fr) {}
+  |               ^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:5:19
+  |
+5 | html:lang(de, fr) {}
+  |                   ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:6:1
+  |
+6 | :lang(fr-be) > q {}
+  | ^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:6:1
+  |
+6 | :lang(fr-be) > q {}
+  | ^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:6:1
+  |
+6 | :lang(fr-be) > q {}
+  | ^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:6:1
+  |
+6 | :lang(fr-be) > q {}
+  | ^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:6:1
+  |
+6 | :lang(fr-be) > q {}
+  | ^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:6:1
+  |
+6 | :lang(fr-be) > q {}
+  | ^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:6:1
+  |
+6 | :lang(fr-be) > q {}
+  | ^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:6:2
+  |
+6 | :lang(fr-be) > q {}
+  |  ^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:6:7
+  |
+6 | :lang(fr-be) > q {}
+  |       ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:6:7
+  |
+6 | :lang(fr-be) > q {}
+  |       ^^^^^
+
+error: Combinator
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:6:14
+  |
+6 | :lang(fr-be) > q {}
+  |              ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:6:16
+  |
+6 | :lang(fr-be) > q {}
+  |                ^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:6:16
+  |
+6 | :lang(fr-be) > q {}
+  |                ^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:6:16
+  |
+6 | :lang(fr-be) > q {}
+  |                ^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:6:16
+  |
+6 | :lang(fr-be) > q {}
+  |                ^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:6:16
+  |
+6 | :lang(fr-be) > q {}
+  |                ^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:6:18
+  |
+6 | :lang(fr-be) > q {}
+  |                  ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:7:1
+  |
+7 | :lang(de) > q {}
+  | ^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:7:1
+  |
+7 | :lang(de) > q {}
+  | ^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:7:1
+  |
+7 | :lang(de) > q {}
+  | ^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:7:1
+  |
+7 | :lang(de) > q {}
+  | ^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:7:1
+  |
+7 | :lang(de) > q {}
+  | ^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:7:1
+  |
+7 | :lang(de) > q {}
+  | ^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:7:1
+  |
+7 | :lang(de) > q {}
+  | ^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:7:2
+  |
+7 | :lang(de) > q {}
+  |  ^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:7:7
+  |
+7 | :lang(de) > q {}
+  |       ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:7:7
+  |
+7 | :lang(de) > q {}
+  |       ^^
+
+error: Combinator
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:7:11
+  |
+7 | :lang(de) > q {}
+  |           ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:7:13
+  |
+7 | :lang(de) > q {}
+  |             ^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:7:13
+  |
+7 | :lang(de) > q {}
+  |             ^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:7:13
+  |
+7 | :lang(de) > q {}
+  |             ^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:7:13
+  |
+7 | :lang(de) > q {}
+  |             ^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:7:13
+  |
+7 | :lang(de) > q {}
+  |             ^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/lang/input.css:7:15
+  |
+7 | :lang(de) > q {}
+  |               ^^
+

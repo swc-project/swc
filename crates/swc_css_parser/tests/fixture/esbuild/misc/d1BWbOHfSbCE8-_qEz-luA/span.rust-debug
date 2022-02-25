@@ -76,11 +76,23 @@ error: Ident
 1 | a:b(:c) {}
   |   ^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/esbuild/misc/d1BWbOHfSbCE8-_qEz-luA/input.css:1:5
+  |
+1 | a:b(:c) {}
+  |     ^
+
 error: Colon
  --> $DIR/tests/fixture/esbuild/misc/d1BWbOHfSbCE8-_qEz-luA/input.css:1:5
   |
 1 | a:b(:c) {}
   |     ^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/esbuild/misc/d1BWbOHfSbCE8-_qEz-luA/input.css:1:6
+  |
+1 | a:b(:c) {}
+  |      ^
 
 error: Ident { value: Atom('c' type=inline), raw: Atom('c' type=inline) }
  --> $DIR/tests/fixture/esbuild/misc/d1BWbOHfSbCE8-_qEz-luA/input.css:1:6

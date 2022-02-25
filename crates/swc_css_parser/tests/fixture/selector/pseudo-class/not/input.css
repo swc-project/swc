@@ -22,4 +22,4 @@ a:not(:hover) {}
 a:where(:not(:hover)) {}
 section:not(:has(h1, h2, h3, h4, h5, h6)) {}
 section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-
+ul li:not(:first-of-type) {}

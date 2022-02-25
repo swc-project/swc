@@ -29,18 +29,15 @@ fn handle_func(func: ItemFn) -> TokenStream {
         #[cfg(target_arch = "wasm32")] // Allow testing
         extern "C" {
             fn __set_transform_result(bytes_ptr: i32, bytes_ptr_len: i32);
-            fn __free(bytes_ptr: i32, size: i32) -> i32;
         }
 
 
-        /// Call hosts's imported fn to set transform results, then free allocated memory in guest side.
-        /// When guest calls __set_transform_result host should've completed read guest's memory and allocates its byte
-        /// into host's enviroment so guest can free its memory later.
-        fn set_transform_result_volatile(bytes_ptr: i32, bytes_ptr_len: i32) {
+        /// Call hosts's imported fn to set transform results.
+        /// __set_transform_result is host side imported fn, which read and copies guest's byte into host.
+        fn send_transform_result_to_host(bytes_ptr: i32, bytes_ptr_len: i32) {
             #[cfg(target_arch = "wasm32")] // Allow testing
             unsafe {
                 __set_transform_result(bytes_ptr, bytes_ptr_len);
-                __free(bytes_ptr, bytes_ptr_len);
             }
         }
 
@@ -49,7 +46,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
             let ret = swc_plugin::Serialized::serialize(&plugin_error).expect("Should able to serialize PluginError");
             let ret_ref = ret.as_ref();
 
-            set_transform_result_volatile(
+            send_transform_result_to_host(
                 ret_ref.as_ptr() as _,
                 std::convert::TryInto::try_into(ret_ref.len()).expect("Should able to convert size of PluginError")
             );
@@ -163,7 +160,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
                 return construct_error_ptr(err);
             }
 
-            set_transform_result_volatile(serialized_result.as_ptr() as _, serialized_result_len.expect("Should be an i32"));
+            send_transform_result_to_host(serialized_result.as_ptr() as _, serialized_result_len.expect("Should be an i32"));
             0
         }
     };
