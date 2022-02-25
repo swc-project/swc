@@ -34,7 +34,7 @@ swc_ecma_transforms_classes = {version = "0.50.0", path = "../swc_ecma_transform
 swc_ecma_transforms_macros = {version = "0.3.0", path = "../swc_ecma_transforms_macros"}
 swc_ecma_utils = {version = "0.68.0", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.54.0", path = "../swc_ecma_visit"}
-swc_trace_macro = {versio = "0.1.0", path = "../swc_trace_macro"}
+swc_trace_macro = {version = "0.1.0", path = "../swc_trace_macro"}
 tracing = "0.1.31"
 
 [dev-dependencies]

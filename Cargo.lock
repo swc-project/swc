@@ -3549,6 +3549,7 @@ dependencies = [
  "swc_ecma_parser",
  "swc_ecma_visit",
  "testing",
+ "tracing",
  "wasmer",
  "wasmer-cache",
  "wasmer-wasi",
