@@ -62,7 +62,7 @@ pub fn init_trace_once(
     Ok(())
 }
 
-#[instrument(skip_all)]
+#[instrument(level = "trace", skip_all)]
 pub fn try_with<F, Ret>(cm: Lrc<SourceMap>, skip_filename: bool, op: F) -> Result<Ret, Error>
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,

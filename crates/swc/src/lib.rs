@@ -228,7 +228,7 @@ impl Write for LockedWriter {
 
 /// Try operation with a [Handler] and prints the errors as a [String] wrapped
 /// by [Err].
-#[instrument(skip_all)]
+#[instrument(level = "trace", skip_all)]
 pub fn try_with_handler<F, Ret>(
     cm: Lrc<SourceMap>,
     skip_filename: bool,

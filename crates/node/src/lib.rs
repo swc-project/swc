@@ -48,7 +48,7 @@ pub struct JsCompiler {
 impl JsCompiler {
     #[napi(constructor)]
     #[allow(clippy::new_without_default)]
-    #[tracing::instrument(skip_all)]
+    #[tracing::instrument(level = "trace", skip_all)]
     pub fn new() -> Self {
         Self {
             _compiler: COMPILER.clone(),
