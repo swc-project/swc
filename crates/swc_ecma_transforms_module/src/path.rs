@@ -11,10 +11,10 @@ use swc_atoms::JsWord;
 use swc_common::FileName;
 use swc_ecma_loader::resolve::Resolve;
 
-pub(crate) enum Resolver {
+pub(crate) enum Resolver<'a> {
     Real {
         base: FileName,
-        resolver: Box<dyn ImportResolver>,
+        resolver: &'a dyn ImportResolver,
     },
     Default,
 }
