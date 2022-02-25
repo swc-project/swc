@@ -13,15 +13,15 @@ use swc_ecma_ast::*;
 use swc_ecma_loader::resolve::Resolve;
 use swc_ecma_utils::{quote_ident, ExprFactory};
 
-pub(crate) enum Resolver<'a> {
+pub(crate) enum Resolver {
     Real {
         base: FileName,
-        resolver: &'a dyn ImportResolver,
+        resolver: Box<dyn ImportResolver>,
     },
     Default,
 }
 
-impl Resolver<'_> {
+impl Resolver {
     pub(crate) fn make_require_call(&self, mark: Mark, src: JsWord) -> Expr {
         let src = match self {
             Self::Real { resolver, base } => resolver

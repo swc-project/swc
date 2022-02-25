@@ -35,13 +35,13 @@ pub fn umd(cm: Lrc<SourceMap>, root_mark: Mark, config: Config) -> impl Fold {
     }
 }
 
-pub fn umd_with_resolver<'a>(
-    resolver: &'a dyn ImportResolver,
+pub fn umd_with_resolver(
+    resolver: Box<dyn ImportResolver>,
     base: FileName,
     cm: Lrc<SourceMap>,
     root_mark: Mark,
     config: Config,
-) -> impl 'a + Fold {
+) -> impl Fold {
     Umd {
         config: config.build(cm.clone()),
         root_mark,
@@ -55,7 +55,7 @@ pub fn umd_with_resolver<'a>(
     }
 }
 
-struct Umd<'a> {
+struct Umd {
     cm: Lrc<SourceMap>,
     root_mark: Mark,
     in_top_level: bool,
@@ -63,11 +63,11 @@ struct Umd<'a> {
     scope: RefCell<Scope>,
     exports: Exports,
 
-    resolver: Resolver<'a>,
+    resolver: Resolver,
 }
 
 /// TODO: VisitMut
-impl Fold for Umd<'_> {
+impl Fold for Umd {
     noop_fold_type!();
 
     mark_as_nested!();
@@ -794,7 +794,7 @@ impl Fold for Umd<'_> {
     }
 }
 
-impl ModulePass for Umd<'_> {
+impl ModulePass for Umd {
     fn config(&self) -> &util::Config {
         &self.config.config
     }

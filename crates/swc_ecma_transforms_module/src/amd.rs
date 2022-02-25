@@ -33,11 +33,11 @@ pub fn amd(config: Config) -> impl Fold {
     }
 }
 
-pub fn amd_with_resolver<'a>(
-    resolver: &'a dyn ImportResolver,
+pub fn amd_with_resolver(
+    resolver: Box<dyn ImportResolver>,
     base: FileName,
     config: Config,
-) -> impl 'a + Fold {
+) -> impl Fold {
     Amd {
         config,
         in_top_level: Default::default(),
@@ -48,13 +48,13 @@ pub fn amd_with_resolver<'a>(
     }
 }
 
-struct Amd<'a> {
+struct Amd {
     config: Config,
     in_top_level: bool,
     scope: RefCell<Scope>,
     exports: Exports,
 
-    resolver: Resolver<'a>,
+    resolver: Resolver,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -68,7 +68,7 @@ pub struct Config {
 }
 
 /// TODO: VisitMut
-impl Fold for Amd<'_> {
+impl Fold for Amd {
     noop_fold_type!();
 
     mark_as_nested!();
@@ -656,7 +656,7 @@ impl Fold for Amd<'_> {
     }
 }
 
-impl ModulePass for Amd <'_>{
+impl ModulePass for Amd {
     fn config(&self) -> &util::Config {
         &self.config.config
     }

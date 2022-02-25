@@ -39,13 +39,13 @@ pub fn common_js(
     }
 }
 
-pub fn common_js_with_resolver<'a>(
-    resolver: &'a dyn ImportResolver,
+pub fn common_js_with_resolver(
+    resolver: Box<dyn ImportResolver>,
     base: FileName,
     top_level_mark: Mark,
     config: Config,
     scope: Option<Rc<RefCell<Scope>>>,
-) -> impl 'a + Fold {
+) -> impl Fold {
     let scope = scope.unwrap_or_default();
 
     CommonJs {
@@ -130,16 +130,16 @@ impl Visit for LazyIdentifierVisitor {
     }
 }
 
-struct CommonJs<'a> {
+struct CommonJs {
     top_level_mark: Mark,
     config: Config,
     scope: Rc<RefCell<Scope>>,
     in_top_level: bool,
-    resolver: Resolver<'a>,
+    resolver: Resolver,
 }
 
 /// TODO: VisitMut
-impl Fold for CommonJs<'_> {
+impl Fold for CommonJs {
     noop_fold_type!();
 
     mark_as_nested!();
@@ -883,7 +883,7 @@ impl Fold for CommonJs<'_> {
     }
 }
 
-impl ModulePass for CommonJs<'_> {
+impl ModulePass for CommonJs {
     fn config(&self) -> &Config {
         &self.config
     }
