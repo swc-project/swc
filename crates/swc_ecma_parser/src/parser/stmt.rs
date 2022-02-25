@@ -804,13 +804,12 @@ impl<'a, I: Tokens> Parser<I> {
                 if self.ctx().in_declare {
                     None
                 } else if *kind == VarDeclKind::Const && self.ctx().strict {
-                    let syntax_error = if self.syntax().typescript() {
-                        SyntaxError::TS1155
-                    } else {
-                        SyntaxError::ConstDeclarationsRequireInitialization
-                    };
+                    self.emit_err(
+                        span!(self, start),
+                        SyntaxError::ConstDeclarationsRequireInitialization,
+                    );
 
-                    syntax_error!(self, span!(self, start), syntax_error)
+                    None
                 } else {
                     match name {
                         Pat::Ident(..) => None,
@@ -2244,7 +2243,7 @@ const foo;"#;
     }
 
     #[test]
-    #[should_panic(expected = "'Const declarations' require an initialization value")]
+    #[should_panic(expected = "'const' declarations must be initialized")]
     fn es_error_for_const_declaration_not_initialized() {
         let src = r#"
 "use strict";
