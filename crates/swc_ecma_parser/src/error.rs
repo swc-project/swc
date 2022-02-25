@@ -113,6 +113,7 @@ pub enum SyntaxError {
 
     AwaitStar,
     ReservedWordInObjShorthandOrPat,
+    AssignmentObjectShorthandCoverInitializedName,
 
     NullishCoalescingWithLogicalOp,
 
@@ -334,6 +335,9 @@ impl SyntaxError {
                 "Cannot use a reserved word as a shorthand property".into()
             }
 
+            SyntaxError::AssignmentObjectShorthandCoverInitializedName => {
+                "Invalid shorthand property initializer".into()
+            }
             SyntaxError::MultipleDefault { .. } => {
                 "A switch block cannot have multiple defaults".into()
             }

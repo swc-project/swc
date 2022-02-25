@@ -248,6 +248,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
 
             if eat!(self, '=') {
                 let value = self.include_in_expr(true).parse_assignment_expr()?;
+
                 return Ok(PropOrSpread::Prop(Box::new(Prop::Assign(AssignProp {
                     key: ident,
                     value,

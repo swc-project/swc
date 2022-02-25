@@ -785,6 +785,40 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
             return Ok(Box::new(Expr::Arrow(arrow_expr)));
+        } else {
+            // If there's no arrow function, we have to check there's no
+            // AssignProp in lhs to check against assignment in object literals
+            // like (a, {b = 1} );
+            for expr_or_spread in paren_items.clone().into_iter() {
+                match expr_or_spread {
+                    PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
+                        expr: expr,
+                        spread: _,
+                    }) => match *expr {
+                        Expr::Object(ObjectLit {
+                            span: span,
+                            props: props,
+                        }) => {
+                            for p in props.into_iter() {
+                                match p {
+                                    PropOrSpread::Prop(prop) => match *prop {
+                                        Prop::Assign(..) => {
+                                            self.emit_err(
+                                                    span,
+                                                    SyntaxError::AssignmentObjectShorthandCoverInitializedName,
+                                                );
+                                        }
+                                        _ => {}
+                                    },
+                                    _ => {}
+                                }
+                            }
+                        }
+                        _ => {}
+                    },
+                    _ => {}
+                }
+            }
         }
 
         let expr_or_spreads = paren_items
