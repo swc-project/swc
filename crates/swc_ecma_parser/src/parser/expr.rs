@@ -690,7 +690,6 @@ impl<'a, I: Tokens> Parser<I> {
         if self.syntax().typescript() && self.ctx().in_cond_expr && is!(self, ':') {
             // TODO: Remove clone
             let items_ref = &paren_items;
-            // let colon_pos = cur_pos!(self);
             if let Some(expr) = self.try_parse_ts(|p| {
                 let return_type = p.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
 
