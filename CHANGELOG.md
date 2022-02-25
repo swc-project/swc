@@ -8,6 +8,9 @@
 - **(es/helpers)** Cast the result of the `instanceof` helper to boolean (#3728) ([72c9e6c](https://github.com/swc-project/swc/commit/72c9e6ca2b8186c4b297658bec1ce37912898d9f))
 
 
+- **(es/parser)** Handle trailing comma and bracket after an arrow function in conditional (#3685) ([342dccc](https://github.com/swc-project/swc/commit/342dccce473aa507eabb3eed96485e2ff0674188))
+
+
 - **(plugin/macro)** Do not free guest memory twice (#3732) ([d8b0166](https://github.com/swc-project/swc/commit/d8b01660dcd0bca43993043e8fa6ed33c62894a9))
 
 ### Features
