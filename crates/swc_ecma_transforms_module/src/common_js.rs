@@ -20,9 +20,9 @@ use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, Vis
 pub use super::util::Config;
 use super::util::{
     define_es_module, define_property, has_use_strict, initialize_to_undefined, make_descriptor,
-    make_require_call, use_strict, ModulePass, Scope,
+    use_strict, ModulePass, Scope,
 };
-use crate::path::{ImportResolver, NoopImportResolver, Resolver};
+use crate::path::{ImportResolver, Resolver};
 
 pub fn common_js(
     top_level_mark: Mark,
@@ -39,16 +39,13 @@ pub fn common_js(
     }
 }
 
-pub fn common_js_with_resolver<'a, R>(
-    resolver: R,
+pub fn common_js_with_resolver<'a>(
+    resolver: &'a dyn ImportResolver,
     base: FileName,
     top_level_mark: Mark,
     config: Config,
     scope: Option<Rc<RefCell<Scope>>>,
-) -> impl 'a + Fold
-where
-    R: 'a + ImportResolver,
-{
+) -> impl 'a + Fold {
     let scope = scope.unwrap_or_default();
 
     CommonJs {
@@ -56,10 +53,7 @@ where
         config,
         scope,
         in_top_level: Default::default(),
-        resolver: Resolver::Real {
-            base,
-            resolver: &resolver,
-        },
+        resolver: Resolver::Real { base, resolver },
     }
 }
 
@@ -719,7 +713,9 @@ impl Fold for CommonJs<'_> {
                 self.config.lazy.is_lazy(&src)
             };
 
-            let require = make_require_call(&self.resolver, self.top_level_mark, src.clone());
+            let require = self
+                .resolver
+                .make_require_call(self.top_level_mark, src.clone());
 
             match import {
                 Some(import) => {
