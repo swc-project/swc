@@ -667,6 +667,7 @@ impl<'a, I: Tokens> Parser<I> {
         trace_cur!(self, parse_paren_expr_or_arrow_fn);
 
         let expr_start = async_span.map(|x| x.lo()).unwrap_or_else(|| cur_pos!(self));
+
         // At this point, we can't know if it's parenthesized
         // expression or head of arrow function.
         // But as all patterns of javascript is subset of
