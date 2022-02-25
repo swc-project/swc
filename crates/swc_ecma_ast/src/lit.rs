@@ -306,8 +306,8 @@ impl<'a> arbitrary::Arbitrary<'a> for Regex {
 /// If you are creating a numeric literal with a dummy span, please use
 /// `literal.into()`, instead of creating this struct directly.
 ///
-/// All of `Box<Expr>`, `Expr`, `Lit`, `Number` implements `From<N>` where N is
-/// numeric primitive types.
+/// All of `Box<Expr>`, `Expr`, `Lit`, `Number` implements `From<64>` and
+/// `From<usize>`.
 
 #[ast_node("NumericLiteral")]
 #[derive(Copy, EqIgnoreSpan)]
