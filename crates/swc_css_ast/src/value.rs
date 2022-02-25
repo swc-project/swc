@@ -2,7 +2,7 @@ use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
-use crate::{SimpleBlock, TokenAndSpan};
+use crate::{ComplexSelector, SimpleBlock, TokenAndSpan};
 
 #[ast_node]
 pub enum Value {
@@ -47,6 +47,9 @@ pub enum Value {
 
     #[tag("Urange")]
     Urange(Urange),
+
+    #[tag("ComplexSelector")]
+    ComplexSelector(ComplexSelector),
 
     #[tag("PreservedToken")]
     PreservedToken(TokenAndSpan),

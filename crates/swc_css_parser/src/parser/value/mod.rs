@@ -485,6 +485,15 @@ where
                     self.input.skip_ws()?;
                 }
             }
+            "selector" if self.ctx.in_supports_at_rule => {
+                self.input.skip_ws()?;
+
+                let selector = Value::ComplexSelector(self.parse()?);
+
+                values.push(selector);
+
+                self.input.skip_ws()?;
+            }
             _ => loop {
                 self.input.skip_ws()?;
 
