@@ -156,6 +156,7 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_visit::{noop_visit_type, FoldWith, Visit, VisitMutWith, VisitWith};
 pub use swc_node_comments::SwcComments;
+use tracing::instrument;
 
 pub use crate::builder::PassBuilder;
 use crate::config::{
@@ -227,6 +228,7 @@ impl Write for LockedWriter {
 
 /// Try operation with a [Handler] and prints the errors as a [String] wrapped
 /// by [Err].
+#[instrument(level = "trace", skip_all)]
 pub fn try_with_handler<F, Ret>(
     cm: Lrc<SourceMap>,
     skip_filename: bool,

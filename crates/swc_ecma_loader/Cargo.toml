@@ -31,7 +31,7 @@ regex = {version = "1", optional = true}
 serde = {version = "1", features = ["derive"]}
 serde_json = {version = "1.0.64", optional = true}
 swc_common = {version = "0.17.0", path = "../swc_common"}
-tracing = "0.1.28"
+tracing = "0.1.31"
 
 [dev-dependencies]
 

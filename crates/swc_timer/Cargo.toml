@@ -11,7 +11,7 @@ version = "0.4.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tracing = "0.1"
+tracing = "0.1.31"
 
 [dev-dependencies]
 testing = {version = "0.18.0", path = "../testing"}
