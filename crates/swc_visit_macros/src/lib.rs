@@ -455,7 +455,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                 impl<V, T> VisitWith<V> for Box<T>
                 where
-                    V: Visit,
+                    V: ?Sized + Visit,
                     T: 'static + VisitWith<V>,
                 {
                     fn visit_with(&self, v: &mut V) {
@@ -579,7 +579,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 default_body,
                             },
                             {
-                                impl<V: Visit> VisitWith<V> for [elem_ty] {
+                                impl<V: ?Sized + Visit> VisitWith<V> for [elem_ty] {
                                     fn visit_with(&self, v: &mut V) {
                                         expr
                                     }
@@ -592,7 +592,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         ));
 
                         tokens.push_tokens(&q!(Vars { Type: ty }, {
-                            impl<V: Visit> VisitWith<V> for Type {
+                            impl<V: ?Sized + Visit> VisitWith<V> for Type {
                                 fn visit_with(&self, v: &mut V) {
                                     (**self).visit_with(v)
                                 }
@@ -610,7 +610,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                 default_body,
                             },
                             {
-                                impl<V: Visit> VisitWith<V> for Type {
+                                impl<V: ?Sized + Visit> VisitWith<V> for Type {
                                     fn visit_with(&self, v: &mut V) {
                                         expr
                                     }
@@ -643,7 +643,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             default_body,
                         },
                         {
-                            impl<V: VisitAll> VisitAllWith<V> for Type {
+                            impl<V: ?Sized + VisitAll> VisitAllWith<V> for Type {
                                 fn visit_all_with(&self, v: &mut V) {
                                     let mut all = ::swc_visit::All { visitor: v };
                                     let mut v = &mut all;
@@ -679,7 +679,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             expr,
                         },
                         {
-                            impl<V: VisitMut> VisitMutWith<V> for Type {
+                            impl<V: ?Sized + VisitMut> VisitMutWith<V> for Type {
                                 fn visit_mut_with(&mut self, v: &mut V) {
                                     expr
                                 }
@@ -700,7 +700,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             expr,
                         },
                         {
-                            impl<V: Fold> FoldWith<V> for Type {
+                            impl<V: ?Sized + Fold> FoldWith<V> for Type {
                                 fn fold_with(self, v: &mut V) -> Self {
                                     expr
                                 }
