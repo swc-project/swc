@@ -5,6 +5,9 @@
 
 
 
+- **(es/codegen)** Fix escaping of unicodes in es5 (#3636) ([dba90ea](https://github.com/swc-project/swc/commit/dba90eae875bbaec9911c6dd72d482b75de77982))
+
+
 - **(es/helpers)** Cast the result of the `instanceof` helper to boolean (#3728) ([72c9e6c](https://github.com/swc-project/swc/commit/72c9e6ca2b8186c4b297658bec1ce37912898d9f))
 
 
