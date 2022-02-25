@@ -656,7 +656,7 @@ impl Fold for Amd<'_> {
     }
 }
 
-impl ModulePass for Amd {
+impl ModulePass for Amd <'_>{
     fn config(&self) -> &util::Config {
         &self.config.config
     }
