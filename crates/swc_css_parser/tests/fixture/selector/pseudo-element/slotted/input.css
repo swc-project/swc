@@ -1,0 +1,3 @@
+::slotted(*) {}
+::slotted(span) {}
+::slotted(   span   ) {}

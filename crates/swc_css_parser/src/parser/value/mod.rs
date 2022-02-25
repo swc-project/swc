@@ -343,11 +343,11 @@ where
 
                     if is!(self, ",") {
                         values.push(Value::Delimiter(self.parse()?));
+
+                        self.input.skip_ws()?;
                     } else {
                         break;
                     }
-
-                    self.input.skip_ws()?;
 
                     let calc_sum = Value::CalcSum(self.parse()?);
 
@@ -365,13 +365,13 @@ where
 
                 if is!(self, ",") {
                     values.push(Value::Delimiter(self.parse()?));
+
+                    self.input.skip_ws()?;
                 } else {
                     let span = self.input.cur_span()?;
 
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
-
-                self.input.skip_ws()?;
 
                 let calc_sum = Value::CalcSum(self.parse()?);
 
@@ -381,13 +381,13 @@ where
 
                 if is!(self, ",") {
                     values.push(Value::Delimiter(self.parse()?));
+
+                    self.input.skip_ws()?;
                 } else {
                     let span = self.input.cur_span()?;
 
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
-
-                self.input.skip_ws()?;
 
                 let calc_sum = Value::CalcSum(self.parse()?);
 
@@ -408,13 +408,13 @@ where
 
                     if is!(self, ",") {
                         values.push(Value::Delimiter(self.parse()?));
+
+                        self.input.skip_ws()?;
                     } else {
                         let span = self.input.cur_span()?;
 
                         return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                     }
-
-                    self.input.skip_ws()?;
                 }
 
                 let calc_sum = Value::CalcSum(self.parse()?);
@@ -425,13 +425,13 @@ where
 
                 if is!(self, ",") {
                     values.push(Value::Delimiter(self.parse()?));
+
+                    self.input.skip_ws()?;
                 } else {
                     let span = self.input.cur_span()?;
 
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
-
-                self.input.skip_ws()?;
 
                 let calc_sum = Value::CalcSum(self.parse()?);
 
@@ -450,13 +450,13 @@ where
 
                 if is!(self, ",") {
                     values.push(Value::Delimiter(self.parse()?));
+
+                    self.input.skip_ws()?;
                 } else {
                     let span = self.input.cur_span()?;
 
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
-
-                self.input.skip_ws()?;
 
                 let calc_sum = Value::CalcSum(self.parse()?);
 

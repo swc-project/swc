@@ -1,0 +1,273 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1
+  |
+1 | / :dir(ltr) {}
+2 | | :dir(   ltr   ) {}
+3 | | :dir(rtl) {}
+4 | | :dir(   rtl   ) {}
+  | |___________________^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1
+  |
+1 | :dir(ltr) {}
+  | ^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1
+  |
+1 | :dir(ltr) {}
+  | ^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1
+  |
+1 | :dir(ltr) {}
+  | ^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1
+  |
+1 | :dir(ltr) {}
+  | ^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1
+  |
+1 | :dir(ltr) {}
+  | ^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1
+  |
+1 | :dir(ltr) {}
+  | ^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1
+  |
+1 | :dir(ltr) {}
+  | ^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:2
+  |
+1 | :dir(ltr) {}
+  |  ^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:6
+  |
+1 | :dir(ltr) {}
+  |      ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:6
+  |
+1 | :dir(ltr) {}
+  |      ^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:11
+  |
+1 | :dir(ltr) {}
+  |           ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1
+  |
+2 | :dir(   ltr   ) {}
+  | ^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1
+  |
+2 | :dir(   ltr   ) {}
+  | ^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1
+  |
+2 | :dir(   ltr   ) {}
+  | ^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1
+  |
+2 | :dir(   ltr   ) {}
+  | ^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1
+  |
+2 | :dir(   ltr   ) {}
+  | ^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1
+  |
+2 | :dir(   ltr   ) {}
+  | ^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1
+  |
+2 | :dir(   ltr   ) {}
+  | ^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:2
+  |
+2 | :dir(   ltr   ) {}
+  |  ^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:9
+  |
+2 | :dir(   ltr   ) {}
+  |         ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:9
+  |
+2 | :dir(   ltr   ) {}
+  |         ^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:17
+  |
+2 | :dir(   ltr   ) {}
+  |                 ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1
+  |
+3 | :dir(rtl) {}
+  | ^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1
+  |
+3 | :dir(rtl) {}
+  | ^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1
+  |
+3 | :dir(rtl) {}
+  | ^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1
+  |
+3 | :dir(rtl) {}
+  | ^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1
+  |
+3 | :dir(rtl) {}
+  | ^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1
+  |
+3 | :dir(rtl) {}
+  | ^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1
+  |
+3 | :dir(rtl) {}
+  | ^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:2
+  |
+3 | :dir(rtl) {}
+  |  ^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:6
+  |
+3 | :dir(rtl) {}
+  |      ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:6
+  |
+3 | :dir(rtl) {}
+  |      ^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:11
+  |
+3 | :dir(rtl) {}
+  |           ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1
+  |
+4 | :dir(   rtl   ) {}
+  | ^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1
+  |
+4 | :dir(   rtl   ) {}
+  | ^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1
+  |
+4 | :dir(   rtl   ) {}
+  | ^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1
+  |
+4 | :dir(   rtl   ) {}
+  | ^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1
+  |
+4 | :dir(   rtl   ) {}
+  | ^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1
+  |
+4 | :dir(   rtl   ) {}
+  | ^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1
+  |
+4 | :dir(   rtl   ) {}
+  | ^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:2
+  |
+4 | :dir(   rtl   ) {}
+  |  ^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:9
+  |
+4 | :dir(   rtl   ) {}
+  |         ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:9
+  |
+4 | :dir(   rtl   ) {}
+  |         ^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:17
+  |
+4 | :dir(   rtl   ) {}
+  |                 ^^
+

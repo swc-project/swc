@@ -295,7 +295,7 @@ max-width: var(--width-card-wide);
 input[type="checkbox"], input[type="radio"] {
 display: inline-block;
 }
-input[type="checkbox"]+label, input[type="radio"]+label {
+input[type="checkbox"] + label, input[type="radio"] + label {
 display: inline-block;
 font-weight: normal;
 position: relative;

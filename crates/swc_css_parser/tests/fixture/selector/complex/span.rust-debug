@@ -9110,6 +9110,12 @@ error: Ident
 97 | *[href] *:not(*.green) {}
    |           ^^^
 
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/complex/input.css:97:15
+   |
+97 | *[href] *:not(*.green) {}
+   |               ^^^^^^^
+
 error: SelectorList
   --> $DIR/tests/fixture/selector/complex/input.css:97:15
    |
