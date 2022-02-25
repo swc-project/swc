@@ -134,7 +134,6 @@ use swc_common::{
     chain,
     comments::{Comment, Comments},
     errors::Handler,
-    input::StringInput,
     source_map::SourceMapGenConfig,
     sync::Lrc,
     BytePos, FileName, Globals, Mark, SourceFile, SourceMap, Spanned, GLOBALS,
@@ -145,7 +144,9 @@ use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
 use swc_ecma_minifier::option::{MinifyOptions, TopLevelOptions};
-use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax};
+use swc_ecma_parser::{
+    parse_file_as_module, parse_file_as_program, parse_file_as_script, EsConfig, Syntax,
+};
 use swc_ecma_transforms::{
     fixer,
     helpers::{self, Helpers},
@@ -426,26 +427,48 @@ impl Compiler {
         parse_comments: bool,
     ) -> Result<Program, Error> {
         self.run(|| {
-            let lexer = Lexer::new(
-                syntax,
-                target,
-                StringInput::from(&*fm),
-                if parse_comments {
-                    Some(&self.comments)
-                } else {
-                    None
-                },
-            );
-            let mut parser = Parser::new_from(lexer);
             let mut error = false;
 
+            let mut errors = vec![];
             let program_result = match is_module {
-                IsModule::Bool(true) => parser.parse_module().map(Program::Module),
-                IsModule::Bool(false) => parser.parse_script().map(Program::Script),
-                IsModule::Unknown => parser.parse_program(),
+                IsModule::Bool(true) => parse_file_as_module(
+                    &fm,
+                    syntax,
+                    target,
+                    if parse_comments {
+                        Some(&self.comments)
+                    } else {
+                        None
+                    },
+                    &mut errors,
+                )
+                .map(Program::Module),
+                IsModule::Bool(false) => parse_file_as_script(
+                    &fm,
+                    syntax,
+                    target,
+                    if parse_comments {
+                        Some(&self.comments)
+                    } else {
+                        None
+                    },
+                    &mut errors,
+                )
+                .map(Program::Script),
+                IsModule::Unknown => parse_file_as_program(
+                    &fm,
+                    syntax,
+                    target,
+                    if parse_comments {
+                        Some(&self.comments)
+                    } else {
+                        None
+                    },
+                    &mut errors,
+                ),
             };
 
-            for e in parser.take_errors() {
+            for e in errors {
                 e.into_diagnostic(handler).emit();
                 error = true;
             }
