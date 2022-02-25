@@ -2667,7 +2667,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.137.0"
+version = "0.137.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3549,6 +3549,7 @@ dependencies = [
  "swc_ecma_parser",
  "swc_ecma_visit",
  "testing",
+ "tracing",
  "wasmer",
  "wasmer-cache",
  "wasmer-wasi",
@@ -3599,7 +3600,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit_macros"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "Inflector",
  "pmutil",

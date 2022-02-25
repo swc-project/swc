@@ -53,3 +53,5 @@ pkg/
 
 # Used to see output of babel.
 /lab
+
+*.mm_profdata
