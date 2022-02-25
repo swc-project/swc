@@ -1,13 +1,18 @@
+function _classPrivateFieldInit(obj, privateMap, value) {
+    !function(obj, privateCollection) {
+        if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }(obj, privateMap), privateMap.set(obj, value);
+}
+var _foo = new WeakMap(), _prop = new WeakMap();
 class A {
     constructor(){
-        _foo.set(this, {
+        _classPrivateFieldInit(this, _foo, {
             writable: !0,
             value: 1
-        }), _prop.set(this, {
+        }), _classPrivateFieldInit(this, _prop, {
             writable: !0,
             value: 2
         });
     }
 }
-var _foo = new WeakMap(), _prop = new WeakMap();
 A.inst = new A();

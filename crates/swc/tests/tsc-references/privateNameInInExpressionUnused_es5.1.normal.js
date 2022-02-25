@@ -1,7 +1,16 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
 }
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
@@ -18,6 +27,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     return Constructor;
 }
 var _brand_check_brand = new WeakSet();
+var _unused = new WeakMap(), _brand = new WeakMap();
 var Foo = // @strict: true
 // @noUnusedLocals: true
 // @target: esnext, es2022
@@ -25,14 +35,15 @@ var Foo = // @strict: true
     "use strict";
     function Foo() {
         _classCallCheck(this, Foo);
-        _unused.set(this, {
+        _classPrivateFieldInit(this, _unused, {
             writable: true,
             value: void 0 // expect unused error
         });
-        _brand.set(this, {
+        _classPrivateFieldInit(this, _brand, {
             writable: true,
             value: void _brand_check_brand.add(this)
-        });
+        }) // expect no error
+        ;
     }
     _createClass(Foo, [
         {
@@ -45,5 +56,3 @@ var Foo = // @strict: true
     ]);
     return Foo;
 }();
-var _unused = new WeakMap();
-var _brand = new WeakMap();

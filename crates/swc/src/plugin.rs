@@ -36,6 +36,9 @@ pub struct PluginContext {
     /// The path of the file being processed. This includes all of the path as
     /// much as possible.
     pub filename: Option<String>,
+    /// The current environment resolved as process.env.SWC_ENV ||
+    /// process.env.NODE_ENV || "development"
+    pub env_name: String,
 }
 
 pub fn plugins(

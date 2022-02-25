@@ -64,3 +64,5 @@ deny.toml
 .mocharc.js
 jest.config.js
 cliff.toml
+.kodiak.toml
+clippy.toml

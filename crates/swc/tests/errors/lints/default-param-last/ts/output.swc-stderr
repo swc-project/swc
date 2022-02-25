@@ -1,0 +1,6 @@
+error: Default parameters should be last.
+ 
+  |
+2 |     constructor({ a } = {}, public b) {}
+  |                             ^^^^^^^^
+

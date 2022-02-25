@@ -15,6 +15,7 @@ mod utils;
 #[cfg(feature = "non_critical_lints")]
 #[path = ""]
 pub(crate) mod non_critical_lints {
+    pub mod default_param_last;
     pub mod dot_notation;
     pub mod eqeqeq;
     pub mod no_alert;
@@ -113,6 +114,10 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         ));
 
         rules.extend(no_bitwise::no_bitwise(&lint_config.no_bitwise));
+
+        rules.extend(default_param_last::default_param_last(
+            &lint_config.default_param_last,
+        ));
     }
 
     rules

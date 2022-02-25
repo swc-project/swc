@@ -2865,25 +2865,16 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 730,
                           "end": 734,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
-                          "span": {
-                            "start": 730,
-                            "end": 734,
-                            "ctxt": 0
-                          },
-                          "a": 2,
-                          "aRaw": "2",
-                          "b": 1,
-                          "bRaw": "+1"
-                        },
-                        "selectorList": null
+                        "a": 2,
+                        "aRaw": "2",
+                        "b": 1,
+                        "bRaw": "+1"
                       }
                     ]
                   }

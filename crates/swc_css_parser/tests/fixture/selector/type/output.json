@@ -1930,17 +1930,43 @@
                     },
                     "children": [
                       {
-                        "type": "PreservedToken",
+                        "type": "SelectorList",
                         "span": {
                           "start": 233,
                           "end": 234,
                           "ctxt": 0
                         },
-                        "token": {
-                          "Delim": {
-                            "value": "*"
+                        "children": [
+                          {
+                            "type": "ComplexSelector",
+                            "span": {
+                              "start": 233,
+                              "end": 234,
+                              "ctxt": 0
+                            },
+                            "children": [
+                              {
+                                "type": "CompoundSelector",
+                                "span": {
+                                  "start": 233,
+                                  "end": 234,
+                                  "ctxt": 0
+                                },
+                                "nestingSelector": null,
+                                "typeSelector": {
+                                  "type": "UniversalSelector",
+                                  "span": {
+                                    "start": 233,
+                                    "end": 234,
+                                    "ctxt": 0
+                                  },
+                                  "prefix": null
+                                },
+                                "subclassSelectors": []
+                              }
+                            ]
                           }
-                        }
+                        ]
                       }
                     ]
                   }

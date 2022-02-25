@@ -3,11 +3,24 @@ function _arrayLikeToArray(arr, len) {
     for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
     return arr2;
 }
-function _classPrivateFieldSet(receiver, privateMap, value1) {
-    if (!privateMap.has(receiver)) throw new TypeError("attempted to set private field on non-instance");
-    var descriptor = privateMap.get(receiver);
-    if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-    return descriptor.value = value1, value1;
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) throw new TypeError("attempted to " + action + " private field on non-instance");
+    return privateMap.get(receiver);
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    !function(obj, privateCollection) {
+        if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }(obj, privateMap), privateMap.set(obj, value);
+}
+function _classPrivateFieldSet(receiver, privateMap, value) {
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
+    return !function(receiver, descriptor, value) {
+        if (descriptor.set) descriptor.set.call(receiver, value);
+        else {
+            if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
+            descriptor.value = value;
+        }
+    }(receiver, descriptor, value), value;
 }
 function _classPrivateMethodGet(receiver, privateSet, fn) {
     if (!privateSet.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
@@ -29,23 +42,36 @@ function _extends() {
     }).apply(this, arguments);
 }
 function _classPrivateFieldDestructureSet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) throw new TypeError("attempted to set private field on non-instance");
-    var descriptor = privateMap.get(receiver);
-    if (descriptor.set) return "__destrObj" in descriptor || (descriptor.__destrObj = {
-        set value (v){
-            descriptor.set.call(receiver, v);
-        }
-    }), descriptor.__destrObj;
-    if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-    return descriptor;
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
+    return (function(receiver, descriptor) {
+        if (descriptor.set) return "__destrObj" in descriptor || (descriptor.__destrObj = {
+            set value (v){
+                descriptor.set.call(receiver, v);
+            }
+        }), descriptor.__destrObj;
+        if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
+        return descriptor;
+    })(receiver, descriptor);
 }
-var _value = new WeakSet(), _valueRest = new WeakSet(), _valueOne = new WeakSet(), _valueCompound = new WeakSet(), Test = function() {
+var _value = new WeakMap(), _valueRest = new WeakMap(), _valueOne = new WeakMap(), _valueCompound = new WeakMap(), Test = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function Test() {
         !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, Test), _value.add(this), _valueRest.add(this), _valueOne.add(this), _valueCompound.add(this);
+        }(this, Test), _classPrivateFieldInit(this, _value, {
+            get: void 0,
+            set: set_value
+        }), _classPrivateFieldInit(this, _valueRest, {
+            get: void 0,
+            set: set_valueRest
+        }), _classPrivateFieldInit(this, _valueOne, {
+            get: void 0,
+            set: set_valueOne
+        }), _classPrivateFieldInit(this, _valueCompound, {
+            get: void 0,
+            set: set_valueCompound
+        });
     }
     return Constructor = Test, protoProps = [
         {
@@ -91,8 +117,8 @@ var _value = new WeakSet(), _valueRest = new WeakSet(), _valueOne = new WeakSet(
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Test;
 }();
-function value(v) {}
-function valueRest(v) {}
-function valueOne(v) {}
-function valueCompound(v) {}
+function set_value(v) {}
+function set_valueRest(v) {}
+function set_valueOne(v) {}
+function set_valueCompound(v) {}
 new Test().m();

@@ -23,14 +23,14 @@ impl<'a> VisitMut for ClassNameTdzFolder<'a> {
                             Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
                                 callee: helper!(class_name_tdz_error, "classNameTDZError"),
-                                args: vec![Lit::Str(Str {
+                                args: vec![Str {
                                     span: i.span,
                                     value: i.sym.clone(),
                                     has_escape: false,
                                     kind: StrKind::Normal {
                                         contains_quote: false,
                                     },
-                                })
+                                }
                                 .as_arg()],
 
                                 type_args: Default::default(),

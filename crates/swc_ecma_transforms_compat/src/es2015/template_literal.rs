@@ -189,17 +189,18 @@ impl VisitMut for TemplateLiteral {
                             } else {
                                 Box::new(Expr::Call(CallExpr {
                                     span: span.with_hi(expr_span.hi() + BytePos(1)),
-                                    callee: Callee::Expr(Box::new(Expr::Member(MemberExpr {
+                                    callee: MemberExpr {
                                         span: DUMMY_SP,
                                         obj,
                                         prop: MemberProp::Ident(Ident::new(
                                             js_word!("concat"),
                                             expr_span,
                                         )),
-                                    }))),
+                                    }
+                                    .as_callee(),
                                     args: mem::take(&mut args)
                                         .into_iter()
-                                        .map(|expr| ExprOrSpread { expr, spread: None })
+                                        .map(|expr| expr.as_arg())
                                         .collect(),
                                     type_args: Default::default(),
                                 }))
@@ -212,8 +213,8 @@ impl VisitMut for TemplateLiteral {
                                 let len = args.len();
                                 for arg in args {
                                     // for `${asd}a`
-                                    if let Expr::Lit(Lit::Str(str)) = obj.as_ref() {
-                                        if str.value.len() == 0 && len == 2 {
+                                    if let Expr::Lit(Lit::Str(s)) = obj.as_ref() {
+                                        if s.value.len() == 0 && len == 2 {
                                             obj = arg;
                                             continue;
                                         }
@@ -229,17 +230,18 @@ impl VisitMut for TemplateLiteral {
                             } else {
                                 Box::new(Expr::Call(CallExpr {
                                     span: span.with_hi(expr_span.hi() + BytePos(1)),
-                                    callee: Callee::Expr(Box::new(Expr::Member(MemberExpr {
+                                    callee: MemberExpr {
                                         span: DUMMY_SP,
                                         obj,
                                         prop: MemberProp::Ident(Ident::new(
                                             js_word!("concat"),
                                             expr_span,
                                         )),
-                                    }))),
+                                    }
+                                    .as_callee(),
                                     args: mem::take(&mut args)
                                         .into_iter()
-                                        .map(|expr| ExprOrSpread { expr, spread: None })
+                                        .map(|expr| expr.as_arg())
                                         .collect(),
                                     type_args: Default::default(),
                                 }))
@@ -300,7 +302,7 @@ impl VisitMut for TemplateLiteral {
                                                     elems: quasis
                                                         .iter()
                                                         .cloned()
-                                                        .map(|elem| Lit::Str(elem.raw).as_arg())
+                                                        .map(|elem| elem.raw.as_arg())
                                                         .map(Some)
                                                         .collect(),
                                                 }
@@ -317,7 +319,7 @@ impl VisitMut for TemplateLiteral {
                                                     .take()
                                                     .into_iter()
                                                     .map(|elem| match elem.cooked {
-                                                        Some(cooked) => Lit::Str(cooked).as_arg(),
+                                                        Some(cooked) => cooked.as_arg(),
                                                         None => undefined(DUMMY_SP).as_arg(),
                                                     })
                                                     .map(Some)
@@ -390,12 +392,12 @@ impl VisitMut for TemplateLiteral {
                     span: DUMMY_SP,
                     callee: tag.take().as_callee(),
                     args: iter::once(
-                        Expr::Call(CallExpr {
+                        CallExpr {
                             span: DUMMY_SP,
                             callee: fn_ident.as_callee(),
                             args: vec![],
                             type_args: Default::default(),
-                        })
+                        }
                         .as_arg(),
                     )
                     .chain(exprs.take().into_iter().map(|e| e.as_arg()))

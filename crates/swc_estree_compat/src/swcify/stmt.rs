@@ -655,7 +655,7 @@ impl Swcify for swc_estree_ast::ModuleExportNameType {
             swc_estree_ast::ModuleExportNameType::Ident(ident) => {
                 swc_ecma_ast::ModuleExportName::Ident(ident.swcify(ctx).id)
             }
-            swc_estree_ast::ModuleExportNameType::Str(str) => str.swcify(ctx).into(),
+            swc_estree_ast::ModuleExportNameType::Str(s) => s.swcify(ctx).into(),
         }
     }
 }

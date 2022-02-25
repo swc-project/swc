@@ -111,20 +111,36 @@ function _asyncToGenerator(fn) {
 function _AwaitValue(value) {
     this.wrapped = value;
 }
-function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
-    if (receiver !== classConstructor) {
-        throw new TypeError("Private static access of wrong provenance");
+function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+        return descriptor.get.call(receiver);
     }
     return descriptor.value;
 }
+function _classApplyDescriptorSet(receiver, descriptor, value) {
+    if (descriptor.set) {
+        descriptor.set.call(receiver, value);
+    } else {
+        if (!descriptor.writable) {
+            throw new TypeError("attempted to set read only private field");
+        }
+        descriptor.value = value;
+    }
+}
+function _classCheckPrivateStaticFieldDescriptor(descriptor, action) {
+    if (descriptor === undefined) {
+        throw new TypeError("attempted to " + action + " private static field before its declaration");
+    }
+}
+function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
+    _classCheckPrivateStaticAccess(receiver, classConstructor);
+    _classCheckPrivateStaticFieldDescriptor(descriptor, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
+}
 function _classStaticPrivateFieldSpecSet(receiver, classConstructor, descriptor, value) {
-    if (receiver !== classConstructor) {
-        throw new TypeError("Private static access of wrong provenance");
-    }
-    if (!descriptor.writable) {
-        throw new TypeError("attempted to set read only private field");
-    }
-    descriptor.value = value;
+    _classCheckPrivateStaticAccess(receiver, classConstructor);
+    _classCheckPrivateStaticFieldDescriptor(descriptor, "set");
+    _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
 }
 function _wrapAsyncGenerator(fn) {
@@ -159,6 +175,10 @@ var __quux = {
     writable: true,
     value: void 0
 };
+var _quux = {
+    get: get_quux,
+    set: set_quux
+};
 function foo(a) {}
 function bar(a) {
     return _bar.apply(this, arguments);
@@ -176,10 +196,10 @@ function _baz() {
     });
     return _baz.apply(this, arguments);
 }
-function quux() {
+function get_quux() {
     return _classStaticPrivateFieldSpecGet(this, A, __quux);
 }
-function quux(val) {
+function set_quux(val) {
     _classStaticPrivateFieldSpecSet(this, A, __quux, val);
 }
 class B extends A {

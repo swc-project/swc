@@ -1,11 +1,21 @@
+function _classCheckPrivateStaticFieldDescriptor(descriptor, action) {
+    if (void 0 === descriptor) throw new TypeError("attempted to " + action + " private static field before its declaration");
+}
 function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
-    if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
-    return descriptor.value;
+    var receiver, descriptor;
+    return _classCheckPrivateStaticAccess(receiver, classConstructor), _classCheckPrivateStaticFieldDescriptor(descriptor, "get"), descriptor.get ? descriptor.get.call(receiver) : descriptor.value;
 }
 function _classStaticPrivateFieldSpecSet(receiver, classConstructor, descriptor, value) {
+    return _classCheckPrivateStaticAccess(receiver, classConstructor), _classCheckPrivateStaticFieldDescriptor(descriptor, "set"), !function(receiver, descriptor, value) {
+        if (descriptor.set) descriptor.set.call(receiver, value);
+        else {
+            if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
+            descriptor.value = value;
+        }
+    }(receiver, descriptor, value), value;
+}
+function _classCheckPrivateStaticAccess(receiver, classConstructor) {
     if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
-    if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-    return descriptor.value = value, value;
 }
 class A {
     static getClass() {

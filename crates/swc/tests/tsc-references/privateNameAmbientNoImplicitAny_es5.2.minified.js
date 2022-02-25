@@ -1,9 +1,12 @@
-var B = function() {
+var _prop = new WeakMap(), B = function() {
     "use strict";
+    var obj, privateMap, value;
     !function(instance, Constructor) {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, B), _prop.set(this, {
+    }(this, B), obj = this, value = {
         writable: !0,
         value: void 0
-    });
-}, _prop = new WeakMap();
+    }, (function(obj, privateCollection) {
+        if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+    })(obj, privateMap = _prop), privateMap.set(obj, value);
+};

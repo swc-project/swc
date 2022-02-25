@@ -1,32 +1,50 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-var _method = new WeakSet(), _acc = new WeakSet(), _acc = new WeakSet();
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
+}
+function _classPrivateMethodInit(obj, privateSet) {
+    _checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
+}
+var _field = new WeakMap(), _method = new WeakSet(), _acc = new WeakMap();
 var A = function A() {
     "use strict";
     _classCallCheck(this, A);
-    _field.set(this, {
+    _classPrivateFieldInit(this, _field, {
         writable: true,
         value: 123
     });
-    _method.add(this);
-    _acc.add(this);
-    _acc.add(this);
+    _classPrivateMethodInit(this, _method);
+    _classPrivateFieldInit(this, _acc, {
+        get: get_acc,
+        set: set_acc
+    });
 };
-var _field = new WeakMap();
 var _sField = {
     writable: true,
     value: "hello world"
 };
+var _sAcc = {
+    get: get_sAcc,
+    set: set_sAcc
+};
 function method() {}
 function sMethod() {}
-function acc() {
+function get_acc() {
     return "";
 }
-function acc(x) {}
-function sAcc() {
+function set_acc(x) {}
+function get_sAcc() {
     return 0;
 }
-function sAcc(x) {}
+function set_sAcc(x) {}

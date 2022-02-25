@@ -159,17 +159,3 @@ impl<'a, I: Tokens> Parser<I> {
         Ok(Ident::new(word, span!(self, start)))
     }
 }
-
-pub(super) trait MaybeOptionalIdentParser<Ident> {
-    fn parse_maybe_opt_binding_ident(&mut self) -> PResult<Ident>;
-}
-impl<I: Tokens> MaybeOptionalIdentParser<Ident> for Parser<I> {
-    fn parse_maybe_opt_binding_ident(&mut self) -> PResult<Ident> {
-        self.parse_binding_ident().map(|i| i.id)
-    }
-}
-impl<I: Tokens> MaybeOptionalIdentParser<Option<Ident>> for Parser<I> {
-    fn parse_maybe_opt_binding_ident(&mut self) -> PResult<Option<Ident>> {
-        self.parse_opt_binding_ident().map(|opt| opt.map(|i| i.id))
-    }
-}

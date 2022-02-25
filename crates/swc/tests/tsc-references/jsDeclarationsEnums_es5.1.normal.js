@@ -29,8 +29,8 @@ export var H;
 })(H || (H = {}));
 export var I;
 (function(I) {
-    I[I["A"] = "a"] = "a";
-    I[I["B"] = 0] = 0;
+    I["A"] = "a";
+    I[I["B"] = 0] = "B";
     I[I["C"] = 1] = "C";
 })(I || (I = {}));
 export var J;

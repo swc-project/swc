@@ -114,11 +114,20 @@ function _awaitAsyncGenerator(value) {
 function _AwaitValue(value) {
     this.wrapped = value;
 }
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classPrivateMethodGet(receiver, privateSet, fn) {
     if (!privateSet.has(receiver)) {
         throw new TypeError("attempted to get private field on non-instance");
     }
     return fn;
+}
+function _classPrivateMethodInit(obj, privateSet) {
+    _checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
 }
 function _wrapAsyncGenerator(fn) {
     return function() {
@@ -137,9 +146,9 @@ const C = function() {
             })();
         }
         constructor(){
-            _bar.add(this);
-            _baz.add(this);
-            _qux.add(this);
+            _classPrivateMethodInit(this, _bar);
+            _classPrivateMethodInit(this, _baz);
+            _classPrivateMethodInit(this, _qux);
         }
     }
     function bar() {

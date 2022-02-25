@@ -1,8 +1,9 @@
+var _foo = new WeakMap();
 let Foo = function() {
     "use strict";
     function Foo() {
         _classCallCheck(this, Foo);
-        _foo.set(this, {
+        _classPrivateFieldInit(this, _foo, {
             writable: true,
             value: 1
         });
@@ -31,4 +32,3 @@ let Foo = function() {
     ]);
     return Foo;
 }();
-var _foo = new WeakMap();

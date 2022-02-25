@@ -441,7 +441,7 @@ where
                                                 // export { foo as bar }
                                                 //  -> 'bar'
                                                 let i = exported.unwrap_or(orig);
-                                                Lit::Str(quote_str!(i.span, i.sym)).as_arg()
+                                                quote_str!(i.span, i.sym).as_arg()
                                             },
                                             make_descriptor(value).as_arg(),
                                         ])
@@ -511,10 +511,7 @@ where
                                     Some(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                         KeyValueProp {
                                             key: PropName::Ident(Ident::new(export, DUMMY_SP)),
-                                            value: Box::new(Expr::Lit(Lit::Bool(Bool {
-                                                span: DUMMY_SP,
-                                                value: true,
-                                            }))),
+                                            value: true.into(),
                                         },
                                     ))))
                                 })

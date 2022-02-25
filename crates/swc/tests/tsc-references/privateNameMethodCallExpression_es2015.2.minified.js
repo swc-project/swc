@@ -2,6 +2,11 @@ function _classPrivateMethodGet(receiver, privateSet, fn) {
     if (!privateSet.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
     return fn;
 }
+function _classPrivateMethodInit(obj, privateSet) {
+    !function(obj, privateCollection) {
+        if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }(obj, privateSet), privateSet.add(obj);
+}
 var _method = new WeakSet(), _method2 = new WeakSet();
 class AA {
     test() {
@@ -19,7 +24,7 @@ class AA {
         return new AA();
     }
     constructor(){
-        _method.add(this), _method2.add(this), this.x = 1;
+        _classPrivateMethodInit(this, _method), _classPrivateMethodInit(this, _method2), this.x = 1;
     }
 }
 function method() {

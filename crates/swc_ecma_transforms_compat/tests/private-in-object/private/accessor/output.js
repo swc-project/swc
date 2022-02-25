@@ -3,8 +3,8 @@ let Foo = function() {
     "use strict";
     function Foo() {
         _classCallCheck(this, Foo);
-        _foo.set(this, {
-            get: foo,
+        _classPrivateFieldInit(this, _foo, {
+            get: get_foo,
             set: void 0
         });
     }
@@ -18,5 +18,4 @@ let Foo = function() {
     ]);
     return Foo;
 }();
-function foo() {
-}
+function get_foo() {}

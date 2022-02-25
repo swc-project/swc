@@ -558,7 +558,7 @@ impl Scope {
                     } else {
                         *expr.fold_with(folder)
                     };
-                    Callee::Expr(Box::new(callee))
+                    callee.as_callee()
                 } else {
                     callee.fold_with(folder)
                 };
@@ -861,13 +861,7 @@ pub(super) fn define_es_module(exports: Ident) -> Stmt {
             span: DUMMY_SP,
             props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(quote_ident!("value")),
-                value: Box::new(
-                    Lit::Bool(Bool {
-                        span: DUMMY_SP,
-                        value: true,
-                    })
-                    .into(),
-                ),
+                value: true.into(),
             })))],
         }
         .as_arg(),
@@ -932,13 +926,7 @@ pub(super) fn make_descriptor(get_expr: Box<Expr>) -> ObjectLit {
         props: vec![
             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(quote_ident!("enumerable")),
-                value: Box::new(
-                    Lit::Bool(Bool {
-                        span: DUMMY_SP,
-                        value: true,
-                    })
-                    .into(),
-                ),
+                value: true.into(),
             }))),
             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(quote_ident!("get")),

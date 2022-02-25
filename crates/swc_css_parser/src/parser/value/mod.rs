@@ -169,13 +169,12 @@ where
 
             tok!("url") => return Ok(Value::Url(self.parse()?)),
 
-            Token::Function { value, .. } => {
-                if &*value.to_ascii_lowercase() == "url" || &*value.to_ascii_lowercase() == "src" {
-                    return Ok(Value::Url(self.parse()?));
-                }
-
-                return Ok(Value::Function(self.parse()?));
-            }
+            Token::Function { value, .. } => match &*value.to_ascii_lowercase() {
+                "url" | "src" => return Ok(Value::Url(self.parse()?)),
+                "rgb" | "rgba" | "hsl" | "hsla" | "hwb" | "lab" | "lch" | "oklab" | "oklch"
+                | "color" => return Ok(Value::Color(self.parse()?)),
+                _ => return Ok(Value::Function(self.parse()?)),
+            },
 
             tok!("percentage") => return Ok(Value::Percentage(self.parse()?)),
 
@@ -344,11 +343,11 @@ where
 
                     if is!(self, ",") {
                         values.push(Value::Delimiter(self.parse()?));
+
+                        self.input.skip_ws()?;
                     } else {
                         break;
                     }
-
-                    self.input.skip_ws()?;
 
                     let calc_sum = Value::CalcSum(self.parse()?);
 
@@ -366,13 +365,13 @@ where
 
                 if is!(self, ",") {
                     values.push(Value::Delimiter(self.parse()?));
+
+                    self.input.skip_ws()?;
                 } else {
                     let span = self.input.cur_span()?;
 
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
-
-                self.input.skip_ws()?;
 
                 let calc_sum = Value::CalcSum(self.parse()?);
 
@@ -382,13 +381,13 @@ where
 
                 if is!(self, ",") {
                     values.push(Value::Delimiter(self.parse()?));
+
+                    self.input.skip_ws()?;
                 } else {
                     let span = self.input.cur_span()?;
 
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
-
-                self.input.skip_ws()?;
 
                 let calc_sum = Value::CalcSum(self.parse()?);
 
@@ -409,13 +408,13 @@ where
 
                     if is!(self, ",") {
                         values.push(Value::Delimiter(self.parse()?));
+
+                        self.input.skip_ws()?;
                     } else {
                         let span = self.input.cur_span()?;
 
                         return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                     }
-
-                    self.input.skip_ws()?;
                 }
 
                 let calc_sum = Value::CalcSum(self.parse()?);
@@ -426,13 +425,13 @@ where
 
                 if is!(self, ",") {
                     values.push(Value::Delimiter(self.parse()?));
+
+                    self.input.skip_ws()?;
                 } else {
                     let span = self.input.cur_span()?;
 
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
-
-                self.input.skip_ws()?;
 
                 let calc_sum = Value::CalcSum(self.parse()?);
 
@@ -451,13 +450,13 @@ where
 
                 if is!(self, ",") {
                     values.push(Value::Delimiter(self.parse()?));
+
+                    self.input.skip_ws()?;
                 } else {
                     let span = self.input.cur_span()?;
 
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
-
-                self.input.skip_ws()?;
 
                 let calc_sum = Value::CalcSum(self.parse()?);
 
@@ -1077,6 +1076,30 @@ where
 
         match bump!(self) {
             Token::Hash { value, raw, .. } => Ok(HexColor { span, value, raw }),
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
+impl<I> Parse<Color> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Color> {
+        let span = self.input.cur_span()?;
+
+        if !is_one_of!(self, "#", "function") {
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected("hash or function token"),
+            ));
+        }
+
+        match cur!(self) {
+            tok!("#") => Ok(Color::HexColor(self.parse()?)),
+            tok!("function") => Ok(Color::Function(self.parse()?)),
             _ => {
                 unreachable!()
             }

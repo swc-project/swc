@@ -111,21 +111,44 @@ function _asyncToGenerator(fn) {
 function _AwaitValue(value) {
     this.wrapped = value;
 }
-function _classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
     }
-    return privateMap.get(receiver).value;
+}
+function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+        return descriptor.get.call(receiver);
+    }
+    return descriptor.value;
+}
+function _classApplyDescriptorSet(receiver, descriptor, value) {
+    if (descriptor.set) {
+        descriptor.set.call(receiver, value);
+    } else {
+        if (!descriptor.writable) {
+            throw new TypeError("attempted to set read only private field");
+        }
+        descriptor.value = value;
+    }
+}
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to " + action + " private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
+function _classPrivateFieldGet(receiver, privateMap) {
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
 }
 function _classPrivateFieldSet(receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    var descriptor = privateMap.get(receiver);
-    if (!descriptor.writable) {
-        throw new TypeError("attempted to set read only private field");
-    }
-    descriptor.value = value;
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
+    _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
 }
 function _classPrivateMethodGet(receiver, privateSet, fn) {
@@ -134,27 +157,33 @@ function _classPrivateMethodGet(receiver, privateSet, fn) {
     }
     return fn;
 }
+function _classPrivateMethodInit(obj, privateSet) {
+    _checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
+}
 function _wrapAsyncGenerator(fn) {
     return function() {
         return new AsyncGenerator(fn.apply(this, arguments));
     };
 }
-var _foo = new WeakSet(), _bar = new WeakSet(), _baz = new WeakSet(), _quux = new WeakSet(), _quux = new WeakSet();
+var _foo = new WeakSet(), _bar = new WeakSet(), _baz = new WeakSet(), __quux = new WeakMap(), _quux = new WeakMap();
 // @target: esnext, es2022
 // @lib: esnext, es2022
 // @useDefineForClassFields: false
 class A {
     constructor(){
         var _this_quux;
-        _foo.add(this);
-        _bar.add(this);
-        _baz.add(this);
-        __quux.set(this, {
+        _classPrivateMethodInit(this, _foo);
+        _classPrivateMethodInit(this, _bar);
+        _classPrivateMethodInit(this, _baz);
+        _classPrivateFieldInit(this, __quux, {
             writable: true,
             value: void 0
         });
-        _quux.add(this);
-        _quux.add(this);
+        _classPrivateFieldInit(this, _quux, {
+            get: get_quux,
+            set: set_quux
+        });
         _classPrivateMethodGet(this, _foo, foo).call(this, 30);
         _classPrivateMethodGet(this, _bar, bar).call(this, 30);
         _classPrivateMethodGet(this, _baz, baz).call(this, 30);
@@ -162,7 +191,6 @@ class A {
         _classPrivateFieldSet(this, _quux, (_this_quux = +_classPrivateMethodGet(this, _quux, quux)) + 1), _this_quux;
     }
 }
-var __quux = new WeakMap();
 function foo(a) {}
 function bar(a) {
     return _bar1.apply(this, arguments);
@@ -180,17 +208,17 @@ function _baz1() {
     });
     return _baz1.apply(this, arguments);
 }
-function quux() {
+function get_quux() {
     return _classPrivateFieldGet(this, __quux);
 }
-function quux(val) {
+function set_quux(val) {
     _classPrivateFieldSet(this, __quux, val);
 }
 var _foo1 = new WeakSet();
 class B extends A {
     constructor(){
         super();
-        _foo1.add(this);
+        _classPrivateMethodInit(this, _foo1);
         _classPrivateMethodGet(this, _foo1, foo1).call(this, "str");
     }
 }
