@@ -135,6 +135,7 @@ pub(super) struct PrivateAccessVisitor<'a> {
     pub vars: Vec<VarDeclarator>,
     pub private: &'a PrivateRecord,
     pub in_assign_pat: bool,
+    pub private_as_properties: bool,
 }
 
 macro_rules! take_vars {
@@ -584,11 +585,13 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
 pub(super) fn visit_private_in_expr(
     expr: &mut Expr,
     private: &PrivateRecord,
+    private_as_properties: bool,
 ) -> Vec<VarDeclarator> {
     let mut priv_visitor = PrivateAccessVisitor {
         private,
         vars: vec![],
         in_assign_pat: false,
+        private_as_properties,
     };
 
     expr.visit_mut_with(&mut priv_visitor);
@@ -701,7 +704,9 @@ impl<'a> PrivateAccessVisitor<'a> {
                 );
             }
 
-            let get = if kind.is_method {
+            let get = if self.private_as_properties {
+                helper!(class_private_field_loose_base, "classPrivateFieldLooseBase")
+            } else if kind.is_method {
                 helper!(class_private_method_get, "classPrivateMethodGet")
             } else {
                 helper!(class_private_field_get, "classPrivateFieldGet")
@@ -709,7 +714,7 @@ impl<'a> PrivateAccessVisitor<'a> {
 
             match &*obj {
                 Expr::This(this) => (
-                    if kind.is_method {
+                    if kind.is_method && !self.private_as_properties {
                         CallExpr {
                             span: DUMMY_SP,
                             callee: get,

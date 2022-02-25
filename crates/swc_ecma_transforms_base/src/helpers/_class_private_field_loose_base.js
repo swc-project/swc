@@ -3,5 +3,5 @@ function _classPrivateFieldBase(receiver, privateKey) {
     throw new TypeError("attempted to use private field on non-instance");
   }
 
-  return receiver;
+  return receiver[privateKey];
 }

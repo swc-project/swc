@@ -96,11 +96,7 @@ fn common_reserved_word(b: &mut Bencher) {
 
 #[bench]
 fn es2020(b: &mut Bencher) {
-    run(b, || {
-        swc_ecma_transforms_compat::es2022(swc_ecma_transforms_compat::es2022::Config {
-            loose: false,
-        })
-    });
+    run(b, || swc_ecma_transforms_compat::es2022(Default::default()));
 }
 
 #[bench]

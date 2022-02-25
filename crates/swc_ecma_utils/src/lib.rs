@@ -1617,6 +1617,9 @@ pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
             | Expr::Member(MemberExpr {
                 prop: MemberProp::Ident(ident),
                 ..
+            })
+            | Expr::Class(ClassExpr {
+                ident: Some(ident), ..
             }) => format!("_{}", ident.sym).into(),
             Expr::Member(MemberExpr {
                 prop: MemberProp::Computed(computed),

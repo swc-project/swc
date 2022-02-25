@@ -44,7 +44,7 @@ fn fixture(input: PathBuf) {
             let mut pass: Box<dyn Fold> = Box::new(noop());
 
             for plugin in &options.plugins {
-                let (name, _option) = match plugin {
+                let (name, option) = match plugin {
                     PluginConfig::WithOption(name, config) => (name, config.clone()),
                     PluginConfig::Name(name) => (name, serde_json::Value::Null),
                 };
@@ -53,10 +53,7 @@ fn fixture(input: PathBuf) {
                     "transform-new-target" => {}
 
                     "proposal-class-properties" => {
-                        pass = Box::new(chain!(
-                            pass,
-                            class_properties(class_properties::Config { loose: false })
-                        ));
+                        pass = Box::new(chain!(pass, class_properties(Default::default())));
                     }
 
                     "transform-arrow-functions" => {

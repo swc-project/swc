@@ -49,7 +49,10 @@ pub fn class_properties(config: Config) -> impl Fold + VisitMut {
 
 #[derive(Debug, Clone, Default)]
 pub struct Config {
-    pub loose: bool,
+    pub private_as_properties: bool,
+    pub set_public_fields: bool,
+    pub constant_super: bool,
+    pub no_document_all: bool,
 }
 
 struct ClassProperties {
@@ -404,6 +407,7 @@ impl ClassProperties {
         let mut constructor = None;
         let mut used_names = vec![];
         let mut used_key_names = vec![];
+        let mut super_ident = None;
 
         class.body.visit_mut_with(&mut BrandCheckHandler {
             names: &mut AHashSet::default(),
@@ -421,7 +425,11 @@ impl ClassProperties {
                             span: c_span,
                             mut expr,
                         }) => {
-                            vars.extend(visit_private_in_expr(&mut expr, &self.private));
+                            vars.extend(visit_private_in_expr(
+                                &mut expr,
+                                &self.private,
+                                self.config.private_as_properties,
+                            ));
 
                             expr.visit_mut_with(&mut ClassNameTdzFolder {
                                 class_name: &class_ident,
@@ -476,7 +484,11 @@ impl ClassProperties {
                         PropName::BigInt(big_int) => Expr::from(big_int),
 
                         PropName::Computed(mut key) => {
-                            vars.extend(visit_private_in_expr(&mut key.expr, &self.private));
+                            vars.extend(visit_private_in_expr(
+                                &mut key.expr,
+                                &self.private,
+                                self.config.private_as_properties,
+                            ));
                             let (ident, aliased) = if let Expr::Ident(i) = &*key.expr {
                                 if used_key_names.contains(&i.sym) {
                                     (alias_ident_for(&key.expr, "_ref"), true)
@@ -504,7 +516,11 @@ impl ClassProperties {
 
                     value.visit_mut_with(&mut NewTargetInProp);
 
-                    vars.extend(visit_private_in_expr(&mut value, &self.private));
+                    vars.extend(visit_private_in_expr(
+                        &mut value,
+                        &self.private,
+                        self.config.private_as_properties,
+                    ));
 
                     if prop.is_static {
                         value.visit_mut_with(&mut SuperFieldAccessFolder {
@@ -516,9 +532,8 @@ impl ClassProperties {
                             in_injected_define_property_call: false,
                             in_nested_scope: false,
                             this_alias_mark: None,
-                            // TODO: add loose mode
-                            constant_super: false,
-                            super_class: &None,
+                            constant_super: self.config.constant_super,
+                            super_class: &super_ident,
                         });
                         value.visit_mut_with(&mut ThisInStaticFolder {
                             ident: class_ident.clone(),
@@ -542,7 +557,11 @@ impl ClassProperties {
 
                     if let Some(value) = &mut prop.value {
                         value.visit_mut_with(&mut NewTargetInProp);
-                        vars.extend(visit_private_in_expr(&mut *value, &self.private));
+                        vars.extend(visit_private_in_expr(
+                            &mut *value,
+                            &self.private,
+                            self.config.private_as_properties,
+                        ));
                     }
 
                     prop.value.visit_with(&mut UsedNameCollector {
@@ -691,6 +710,7 @@ impl ClassProperties {
             private: &self.private,
             vars: vec![],
             in_assign_pat: false,
+            private_as_properties: self.config.private_as_properties,
         });
 
         let extra_stmts = extra_inits
@@ -771,6 +791,7 @@ impl ClassProperties {
             private: &self.private,
             vars: vec![],
             in_assign_pat: false,
+            private_as_properties: self.config.private_as_properties,
         });
 
         self.private.pop();

@@ -1824,7 +1824,7 @@ test!(
     |_| {
         let mark = Mark::fresh(Mark::root());
         chain!(
-            es2022(es2022::Config { loose: false }),
+            es2022(Default::default()),
             es2021(),
             es2018(Default::default()),
             es2017(),

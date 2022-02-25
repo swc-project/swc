@@ -1,16 +1,11 @@
 var a = function() {};
 module.exports = (function() {
-    var b, c, d, e = function() {
+    var b = function() {
         "use strict";
-        function e() {}
-        return e.prototype.it = function() {
-            this.bb = new e.MyA();
-        }, e;
+        function b() {}
+        return b.prototype.it = function() {
+            this.bb = new b.MyA();
+        }, b;
     }();
-    return b = e, c = "MyA", d = a, c in b ? Object.defineProperty(b, c, {
-        value: d,
-        enumerable: !0,
-        configurable: !0,
-        writable: !0
-    }) : b[c] = d, e;
+    return b.MyA = a, b;
 })();

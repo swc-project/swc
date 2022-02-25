@@ -47,30 +47,22 @@ fn fixture(input: PathBuf) {
                     PluginConfig::Name(name) => (name, serde_json::Value::Null),
                 };
 
+                let loose = input.to_string_lossy().contains("private-loose");
+
                 match &**name {
                     "proposal-private-property-in-object" => {}
 
                     "proposal-class-properties" => {
                         if !class_props {
                             class_props = true;
-                            pass = Box::new(chain!(
-                                pass,
-                                class_properties(class_properties::Config {
-                                    loose: input.to_string_lossy().contains("private-loose")
-                                })
-                            ));
+                            pass = Box::new(chain!(pass, class_properties(Default::default())));
                         }
                     }
 
                     "proposal-private-methods" => {
                         if !class_props {
                             class_props = true;
-                            pass = Box::new(chain!(
-                                pass,
-                                class_properties(class_properties::Config {
-                                    loose: input.to_string_lossy().contains("private-loose")
-                                })
-                            ));
+                            pass = Box::new(chain!(pass, class_properties(Default::default())));
                         }
                     }
 
