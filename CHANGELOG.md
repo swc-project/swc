@@ -38,6 +38,9 @@
 
 
 
+- **(es/modules)** Reduce usage of generics (#3743) ([1094018](https://github.com/swc-project/swc/commit/1094018153bc7d0373d9b7b533193191f416406d))
+
+
 - **(es/parser)** Reduce usage of generics to reduce binary size (#3726) ([e21579d](https://github.com/swc-project/swc/commit/e21579d84ec287632393480e86032cc228bef0ce))
 
 ### Refactor
