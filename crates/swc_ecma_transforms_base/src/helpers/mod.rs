@@ -3,7 +3,6 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use once_cell::sync::Lazy;
 use swc_common::{FileName, FilePathMapping, Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
 use swc_ecma_utils::{prepend_stmts, quote_ident, quote_str, DropSpan};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -23,24 +22,25 @@ macro_rules! add_to {
             let cm = SourceMap::new(FilePathMapping::empty());
             let code = include_str!(concat!("./_", stringify!($name), ".js"));
             let fm = cm.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
-            let lexer = Lexer::new(
+
+            let stmts = swc_ecma_parser::with_file_parser(
+                &fm,
                 Default::default(),
                 Default::default(),
-                StringInput::from(&*fm),
                 None,
-            );
-            let stmts = Parser::new_from(lexer)
-                .parse_script()
-                .map(|mut script| {
-                    script.body.visit_mut_with(&mut DropSpan {
-                        preserve_ctxt: false,
-                    });
-                    script.body
-                })
-                .map_err(|e| {
-                    unreachable!("Error occurred while parsing error: {:?}", e);
-                })
-                .unwrap();
+                &mut vec![],
+                |p| p.parse_script(),
+            )
+            .map(|mut script| {
+                script.body.visit_mut_with(&mut DropSpan {
+                    preserve_ctxt: false,
+                });
+                script.body
+            })
+            .map_err(|e| {
+                unreachable!("Error occurred while parsing error: {:?}", e);
+            })
+            .unwrap();
             stmts
         });
 
