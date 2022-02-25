@@ -3,11 +3,21 @@ function _checkPrivateRedeclaration(obj, privateCollection) {
         throw new TypeError("Cannot initialize the same private elements twice on an object");
     }
 }
-function _classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
+function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+        return descriptor.get.call(receiver);
     }
-    return privateMap.get(receiver).value;
+    return descriptor.value;
+}
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to " + action + " private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
+function _classPrivateFieldGet(receiver, privateMap) {
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
 }
 function _classPrivateFieldInit(obj, privateMap, value) {
     _checkPrivateRedeclaration(obj, privateMap);
@@ -23,60 +33,63 @@ function _classPrivateMethodInit(obj, privateSet) {
     _checkPrivateRedeclaration(obj, privateSet);
     privateSet.add(obj);
 }
+var _foo = new WeakMap(), _bar = new WeakMap();
 // @target: es2015
 class A {
     constructor(){
         _classPrivateFieldInit(this, _foo, {
             writable: true,
             value: _classPrivateFieldGet(this, _bar)
-        });
+        }) // Error
+        ;
         _classPrivateFieldInit(this, _bar, {
             writable: true,
             value: 3
         });
     }
 }
-var _foo = new WeakMap();
-var _bar = new WeakMap();
-var _bar1 = new WeakSet();
+var _foo1 = new WeakMap(), _bar1 = new WeakSet();
 class A2 {
     constructor(){
         _classPrivateFieldInit(this, _foo1, {
             writable: true,
-            value: _classPrivateMethodGet(this, _bar1, bar).call(this)
-        });
+            value: _classPrivateMethodGet(this, _bar1, bar1).call(this)
+        }) // No Error
+        ;
         _classPrivateMethodInit(this, _bar1);
     }
 }
-var _foo1 = new WeakMap();
-function bar() {
+function bar1() {
     return 3;
 }
-var _bar2 = new WeakSet();
+var _foo2 = new WeakMap(), _bar2 = new WeakMap();
 class A3 {
     constructor(){
         _classPrivateFieldInit(this, _foo2, {
             writable: true,
-            value: _classPrivateMethodGet(this, _bar2, bar1)
+            value: _classPrivateMethodGet(this, _bar2, bar)
+        }) // No Error
+        ;
+        _classPrivateFieldInit(this, _bar2, {
+            get: get_bar,
+            set: void 0
         });
-        _classPrivateMethodInit(this, _bar2);
     }
 }
-var _foo2 = new WeakMap();
-function bar1() {
+function get_bar() {
     return 3;
 }
+var _foo3 = new WeakMap(), _bar3 = new WeakMap();
 class B {
     constructor(){
         _classPrivateFieldInit(this, _foo3, {
             writable: true,
             value: _classPrivateFieldGet(this, _bar3)
-        });
+        }) // Error
+        ;
         _classPrivateFieldInit(this, _bar3, {
             writable: true,
             value: _classPrivateFieldGet(this, _foo3)
         });
     }
 }
-var _foo3 = new WeakMap();
-var _bar3 = new WeakMap();

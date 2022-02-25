@@ -122,30 +122,44 @@ function _checkPrivateRedeclaration(obj, privateCollection) {
         throw new TypeError("Cannot initialize the same private elements twice on an object");
     }
 }
+function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+        return descriptor.get.call(receiver);
+    }
+    return descriptor.value;
+}
+function _classApplyDescriptorSet(receiver, descriptor, value) {
+    if (descriptor.set) {
+        descriptor.set.call(receiver, value);
+    } else {
+        if (!descriptor.writable) {
+            throw new TypeError("attempted to set read only private field");
+        }
+        descriptor.value = value;
+    }
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-function _classPrivateFieldGet(receiver, privateMap) {
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
     if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
+        throw new TypeError("attempted to " + action + " private field on non-instance");
     }
-    return privateMap.get(receiver).value;
+    return privateMap.get(receiver);
+}
+function _classPrivateFieldGet(receiver, privateMap) {
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
 }
 function _classPrivateFieldInit(obj, privateMap, value) {
     _checkPrivateRedeclaration(obj, privateMap);
     privateMap.set(obj, value);
 }
 function _classPrivateFieldSet(receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    var descriptor = privateMap.get(receiver);
-    if (!descriptor.writable) {
-        throw new TypeError("attempted to set read only private field");
-    }
-    descriptor.value = value;
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
+    _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
 }
 function _classPrivateMethodGet(receiver, privateSet, fn) {
@@ -224,7 +238,7 @@ function _createSuper(Derived) {
     };
 }
 import regeneratorRuntime from "regenerator-runtime";
-var _foo = new WeakSet(), _bar = new WeakSet(), _baz = new WeakSet(), _quux = new WeakSet(), _quux = new WeakSet();
+var _foo = new WeakSet(), _bar = new WeakSet(), _baz = new WeakSet(), __quux = new WeakMap(), _quux = new WeakMap();
 var A = function A() {
     "use strict";
     _classCallCheck(this, A);
@@ -236,15 +250,16 @@ var A = function A() {
         writable: true,
         value: void 0
     });
-    _classPrivateMethodInit(this, _quux);
-    _classPrivateMethodInit(this, _quux);
+    _classPrivateFieldInit(this, _quux, {
+        get: get_quux,
+        set: set_quux
+    });
     _classPrivateMethodGet(this, _foo, foo).call(this, 30);
     _classPrivateMethodGet(this, _bar, bar).call(this, 30);
     _classPrivateMethodGet(this, _baz, baz).call(this, 30);
     _classPrivateFieldSet(this, _quux, _classPrivateMethodGet(this, _quux, quux) + 1);
     _classPrivateFieldSet(this, _quux, (_this_quux = +_classPrivateMethodGet(this, _quux, quux)) + 1), _this_quux;
 };
-var __quux = new WeakMap();
 function foo(a) {}
 function bar(a) {
     return _bar1.apply(this, arguments);
@@ -278,10 +293,10 @@ function _baz1() {
     }));
     return _baz1.apply(this, arguments);
 }
-function quux() {
+function get_quux() {
     return _classPrivateFieldGet(this, __quux);
 }
-function quux(val) {
+function set_quux(val) {
     _classPrivateFieldSet(this, __quux, val);
 }
 var _foo1 = new WeakSet();

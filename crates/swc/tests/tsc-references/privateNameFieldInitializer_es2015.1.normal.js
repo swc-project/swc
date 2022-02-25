@@ -7,6 +7,7 @@ function _classPrivateFieldInit(obj, privateMap, value) {
     _checkPrivateRedeclaration(obj, privateMap);
     privateMap.set(obj, value);
 }
+var _field = new WeakMap(), _uninitialized = new WeakMap();
 // @target: es2015
 class A {
     constructor(){
@@ -20,5 +21,3 @@ class A {
         });
     }
 }
-var _field = new WeakMap();
-var _uninitialized = new WeakMap();

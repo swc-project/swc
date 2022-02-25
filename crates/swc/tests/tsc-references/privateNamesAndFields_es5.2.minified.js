@@ -11,10 +11,17 @@ function _classPrivateFieldInit(obj, privateMap, value) {
     }(obj, privateMap), privateMap.set(obj, value);
 }
 function _classPrivateFieldSet(receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) throw new TypeError("attempted to set private field on non-instance");
-    var descriptor = privateMap.get(receiver);
-    if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-    return descriptor.value = value, value;
+    var descriptor = function(receiver, privateMap, action) {
+        if (!privateMap.has(receiver)) throw new TypeError("attempted to set private field on non-instance");
+        return privateMap.get(receiver);
+    }(receiver, privateMap, "set");
+    return !function(receiver, descriptor, value) {
+        if (descriptor.set) descriptor.set.call(receiver, value);
+        else {
+            if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
+            descriptor.value = value;
+        }
+    }(receiver, descriptor, value), value;
 }
 function _getPrototypeOf(o) {
     return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
@@ -26,13 +33,13 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var A = function() {
+var _foo = new WeakMap(), A = function() {
     "use strict";
     _classCallCheck(this, A), _classPrivateFieldInit(this, _foo, {
         writable: !0,
         value: void 0
     }), _classPrivateFieldSet(this, _foo, 3);
-}, _foo = new WeakMap(), B = function(A1) {
+}, _foo1 = new WeakMap(), B = function(A1) {
     "use strict";
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
@@ -69,4 +76,4 @@ var A = function() {
         }), _classPrivateFieldSet(_assertThisInitialized(_this), _foo1, "some string"), _this;
     }
     return B;
-}(A), _foo1 = new WeakMap();
+}(A);

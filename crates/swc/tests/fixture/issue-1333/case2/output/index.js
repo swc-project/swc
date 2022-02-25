@@ -12,25 +12,39 @@ function _checkPrivateRedeclaration(obj, privateCollection) {
         throw new TypeError("Cannot initialize the same private elements twice on an object");
     }
 }
-function _classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
+function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+        return descriptor.get.call(receiver);
     }
-    return privateMap.get(receiver).value;
+    return descriptor.value;
+}
+function _classApplyDescriptorSet(receiver, descriptor, value) {
+    if (descriptor.set) {
+        descriptor.set.call(receiver, value);
+    } else {
+        if (!descriptor.writable) {
+            throw new TypeError("attempted to set read only private field");
+        }
+        descriptor.value = value;
+    }
+}
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to " + action + " private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
+function _classPrivateFieldGet(receiver, privateMap) {
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
 }
 function _classPrivateFieldInit(obj, privateMap, value) {
     _checkPrivateRedeclaration(obj, privateMap);
     privateMap.set(obj, value);
 }
 function _classPrivateFieldSet(receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    var descriptor = privateMap.get(receiver);
-    if (!descriptor.writable) {
-        throw new TypeError("attempted to set read only private field");
-    }
-    descriptor.value = value;
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
+    _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
 }
 function _interopRequireDefault(obj) {
@@ -39,6 +53,31 @@ function _interopRequireDefault(obj) {
     };
 }
 const connectionStates = Object.keys(_ws.default);
+var /**
+     * The serialization handler.
+     * @type {Serialization}
+     */ _serialization1 = new WeakMap(), /**
+     * The compression handler.
+     * @type {Compression}
+     */ _compression1 = new WeakMap(), /**
+     * The current sequence.
+     * @type {number}
+     */ _seq = new WeakMap(), /**
+     * The shard sequence when the websocket last closed.
+     * @type {number}
+     */ _closingSeq = new WeakMap(), /**
+     * The rate-limit bucket.
+     * @type {Bucket}
+     */ _bucket = new WeakMap(), /**
+     * The rate-limit bucket for presence updates.
+     * @type {Bucket}
+     */ _presenceBucket = new WeakMap(), /**
+     * The current connection.
+     * @type {WebSocket}
+     */ _ws1 = new WeakMap(), /**
+     * Packets that are waiting to be sent.
+     * @type {DiscordPacket[]}
+     */ _queue = new WeakMap();
 class Shard extends _utils.Emitter {
     /**
      * The current sequence
@@ -342,59 +381,35 @@ class Shard extends _utils.Emitter {
      * @param {number} id The ID of this shard.
      */ constructor(manager, id){
         super();
-        _classPrivateFieldInit(this, /**
-     * The serialization handler.
-     * @type {Serialization}
-     */ _serialization1, {
+        _classPrivateFieldInit(this, _serialization1, {
             writable: true,
             value: void 0
         });
-        _classPrivateFieldInit(this, /**
-     * The compression handler.
-     * @type {Compression}
-     */ _compression1, {
+        _classPrivateFieldInit(this, _compression1, {
             writable: true,
             value: void 0
         });
-        _classPrivateFieldInit(this, /**
-     * The current sequence.
-     * @type {number}
-     */ _seq, {
+        _classPrivateFieldInit(this, _seq, {
             writable: true,
             value: void 0
         });
-        _classPrivateFieldInit(this, /**
-     * The shard sequence when the websocket last closed.
-     * @type {number}
-     */ _closingSeq, {
+        _classPrivateFieldInit(this, _closingSeq, {
             writable: true,
             value: void 0
         });
-        _classPrivateFieldInit(this, /**
-     * The rate-limit bucket.
-     * @type {Bucket}
-     */ _bucket, {
+        _classPrivateFieldInit(this, _bucket, {
             writable: true,
             value: void 0
         });
-        _classPrivateFieldInit(this, /**
-     * The rate-limit bucket for presence updates.
-     * @type {Bucket}
-     */ _presenceBucket, {
+        _classPrivateFieldInit(this, _presenceBucket, {
             writable: true,
             value: void 0
         });
-        _classPrivateFieldInit(this, /**
-     * The current connection.
-     * @type {WebSocket}
-     */ _ws1, {
+        _classPrivateFieldInit(this, _ws1, {
             writable: true,
             value: void 0
         });
-        _classPrivateFieldInit(this, /**
-     * Packets that are waiting to be sent.
-     * @type {DiscordPacket[]}
-     */ _queue, {
+        _classPrivateFieldInit(this, _queue, {
             writable: true,
             value: void 0
         });
@@ -448,11 +463,3 @@ class Shard extends _utils.Emitter {
  * @property {number} [code=1000] The code to use.
  */ 
 exports.Shard = Shard;
-var _serialization1 = new WeakMap();
-var _compression1 = new WeakMap();
-var _seq = new WeakMap();
-var _closingSeq = new WeakMap();
-var _bucket = new WeakMap();
-var _presenceBucket = new WeakMap();
-var _ws1 = new WeakMap();
-var _queue = new WeakMap();

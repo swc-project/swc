@@ -11,7 +11,7 @@ function _classPrivateMethodInit(obj, privateSet) {
     _checkPrivateRedeclaration(obj, privateSet);
     privateSet.add(obj);
 }
-var _fooMethod = new WeakSet(), _fooProp = new WeakSet(), _fooProp = new WeakSet();
+var _fooField = new WeakMap(), _fooMethod = new WeakSet(), _fooProp = new WeakMap();
 // @strict: true
 // @target: es6
 class A {
@@ -21,18 +21,19 @@ class A {
             value: 3
         });
         _classPrivateMethodInit(this, _fooMethod);
-        _classPrivateMethodInit(this, _fooProp);
-        _classPrivateMethodInit(this, _fooProp);
+        _classPrivateFieldInit(this, _fooProp, {
+            get: get_fooProp,
+            set: set_fooProp
+        });
         this.bar = 3;
         this.baz = 3;
     }
 }
-var _fooField = new WeakMap();
 function fooMethod() {}
-function fooProp() {
+function get_fooProp() {
     return 1;
 }
-function fooProp(value) {}
+function set_fooProp(value) {}
 // `keyof A` should not include '#foo*'
 let k = "bar"; // OK
 k = "baz"; // OK

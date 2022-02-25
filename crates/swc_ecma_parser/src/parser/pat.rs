@@ -359,7 +359,7 @@ impl<'a, I: Tokens> Parser<I> {
         let cnt = params.iter().filter(|p| is_not_this(p)).count();
 
         if cnt != 1 {
-            self.emit_err(key_span, SyntaxError::TS1094);
+            self.emit_err(key_span, SyntaxError::SetterParam);
         }
 
         if !params.is_empty() {

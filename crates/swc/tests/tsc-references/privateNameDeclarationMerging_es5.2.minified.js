@@ -2,8 +2,11 @@ function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
 function _classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-    return privateMap.get(receiver).value;
+    var receiver, descriptor, descriptor = function(receiver, privateMap, action) {
+        if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
+        return privateMap.get(receiver);
+    }(receiver, privateMap, "get");
+    return descriptor.get ? descriptor.get.call(receiver) : descriptor.value;
 }
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
@@ -14,7 +17,7 @@ function _defineProperties(target, props) {
 var D = function() {
     "use strict";
     _classCallCheck(this, D);
-}, C = function() {
+}, _x = new WeakMap(), C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
@@ -34,4 +37,4 @@ var D = function() {
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
-}(), _x = new WeakMap();
+}();

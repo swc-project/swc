@@ -19,19 +19,3 @@ class A {
         return A;
     }
 }
-var _x = {
-    writable: !0,
-    value: 1
-};
-function fieldFunc() {
-    return function() {
-        !function(receiver, classConstructor, descriptor, value) {
-            if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
-            if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-            return descriptor.value = value, value;
-        }(A, A, _x, 10);
-    };
-}
-function fieldFunc2() {
-    return function(a, ...b) {};
-}

@@ -1,6 +1,23 @@
+function _classApplyDescriptorGet(receiver, descriptor) {
+    return descriptor.get ? descriptor.get.call(receiver) : descriptor.value;
+}
+function _classApplyDescriptorSet(receiver, descriptor, value) {
+    if (descriptor.set) descriptor.set.call(receiver, value);
+    else {
+        if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
+        descriptor.value = value;
+    }
+}
+function _classCheckPrivateStaticFieldDescriptor(descriptor, action) {
+    if (void 0 === descriptor) throw new TypeError("attempted to " + action + " private static field before its declaration");
+}
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) throw new TypeError("attempted to " + action + " private field on non-instance");
+    return privateMap.get(receiver);
+}
 function _classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-    return privateMap.get(receiver).value;
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
 }
 function _classPrivateFieldInit(obj, privateMap, value) {
     !function(obj, privateCollection) {
@@ -13,7 +30,10 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var C = function() {
+function _classCheckPrivateStaticAccess(receiver, classConstructor) {
+    if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
+}
+var _a = new WeakMap(), _b = new WeakMap(), _something = new WeakMap(), C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
@@ -36,33 +56,23 @@ var C = function() {
         {
             key: "method",
             value: function() {
-                console.log(_classPrivateFieldGet(this, _a)), (function(receiver, privateMap, value) {
-                    if (!privateMap.has(receiver)) throw new TypeError("attempted to set private field on non-instance");
-                    var descriptor = privateMap.get(receiver);
-                    if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-                    descriptor.value = value;
-                })(this, _a, "hello"), console.log(_classPrivateFieldGet(this, _b));
+                var receiver, privateMap, value, descriptor;
+                console.log(_classPrivateFieldGet(this, _a)), receiver = this, value = "hello", descriptor = _classExtractFieldDescriptor(receiver, privateMap = _a, "set"), _classApplyDescriptorSet(receiver, descriptor, value), console.log(_classPrivateFieldGet(this, _b));
             }
         }
     ], staticProps = [
         {
             key: "test",
             value: function() {
-                console.log(function(receiver, classConstructor, descriptor) {
-                    if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
-                    return descriptor.value;
-                }(this, C, _m)), console.log(function(receiver, classConstructor, descriptor, value) {
-                    if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
-                    if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-                    return descriptor.value = value, value;
-                }(this, C, _x, "test"));
+                var receiver, classConstructor, descriptor, receiver, classConstructor, descriptor, value;
+                console.log((receiver = this, classConstructor = C, descriptor = _m, _classCheckPrivateStaticAccess(receiver, classConstructor), _classCheckPrivateStaticFieldDescriptor(descriptor, "get"), _classApplyDescriptorGet(receiver, descriptor))), console.log((receiver = this, classConstructor = C, descriptor = _x, value = "test", _classCheckPrivateStaticAccess(receiver, classConstructor), _classCheckPrivateStaticFieldDescriptor(descriptor, "set"), _classApplyDescriptorSet(receiver, descriptor, value), value));
             }
         }
     ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
-}(), _a = new WeakMap(), _b = new WeakMap(), _m = {
+}(), _m = {
     writable: !0,
     value: "test"
 }, _x = {
     writable: !0,
     value: void 0
-}, _something = new WeakMap();
+};

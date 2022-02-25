@@ -61,10 +61,17 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
 function _AwaitValue(value) {
     this.wrapped = value;
 }
+function _classCheckPrivateStaticFieldDescriptor(descriptor, action) {
+    if (void 0 === descriptor) throw new TypeError("attempted to " + action + " private static field before its declaration");
+}
 function _classStaticPrivateFieldSpecSet(receiver, classConstructor, descriptor, value) {
-    if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
-    if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-    return descriptor.value = value, value;
+    return _classCheckPrivateStaticAccess(receiver, classConstructor), _classCheckPrivateStaticFieldDescriptor(descriptor, "set"), !function(receiver, descriptor, value) {
+        if (descriptor.set) descriptor.set.call(receiver, value);
+        else {
+            if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
+            descriptor.value = value;
+        }
+    }(receiver, descriptor, value), value;
 }
 function _classStaticPrivateMethodGet(receiver, classConstructor, method) {
     return _classCheckPrivateStaticAccess(receiver, classConstructor), method;
@@ -89,6 +96,14 @@ class A {
 var __quux = {
     writable: !0,
     value: void 0
+}, _quux = {
+    get: function() {
+        var receiver, classConstructor, descriptor, receiver, descriptor;
+        return receiver = this, classConstructor = A, descriptor = __quux, _classCheckPrivateStaticAccess(receiver, classConstructor), _classCheckPrivateStaticFieldDescriptor(descriptor, "get"), (descriptor = descriptor).get ? descriptor.get.call(receiver) : descriptor.value;
+    },
+    set: function(val) {
+        _classStaticPrivateFieldSpecSet(this, A, __quux, val);
+    }
 };
 function bar(a) {
     return _bar.apply(this, arguments);
@@ -109,15 +124,6 @@ function _bar() {
             });
         };
     })(function*(a) {})).apply(this, arguments);
-}
-function quux() {
-    return (function(receiver, classConstructor, descriptor) {
-        if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
-        return descriptor.value;
-    })(this, A, __quux);
-}
-function quux(val) {
-    _classStaticPrivateFieldSpecSet(this, A, __quux, val);
 }
 class B extends A {
     constructor(){

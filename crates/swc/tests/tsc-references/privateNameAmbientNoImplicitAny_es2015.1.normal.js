@@ -7,6 +7,7 @@ function _classPrivateFieldInit(obj, privateMap, value) {
     _checkPrivateRedeclaration(obj, privateMap);
     privateMap.set(obj, value);
 }
+var _prop = new WeakMap();
 class B {
     constructor(){
         _classPrivateFieldInit(this, _prop, {
@@ -15,4 +16,3 @@ class B {
         });
     }
 }
-var _prop = new WeakMap();

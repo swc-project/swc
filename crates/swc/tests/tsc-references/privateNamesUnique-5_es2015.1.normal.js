@@ -7,6 +7,7 @@ function _classPrivateFieldInit(obj, privateMap, value) {
     _checkPrivateRedeclaration(obj, privateMap);
     privateMap.set(obj, value);
 }
+var _foo = new WeakMap();
 // @strict: true
 // @target: es6
 // @strictPropertyInitialization: false
@@ -19,7 +20,7 @@ class A {
         });
     }
 }
-var _foo = new WeakMap();
+var _foo1 = new WeakMap();
 class B {
     constructor(){
         _classPrivateFieldInit(this, _foo1, {
@@ -28,5 +29,4 @@ class B {
         });
     }
 }
-var _foo1 = new WeakMap();
 const b = new B();

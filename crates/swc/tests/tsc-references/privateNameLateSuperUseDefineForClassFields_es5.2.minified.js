@@ -18,7 +18,7 @@ function _setPrototypeOf(o, p) {
 var B = function() {
     "use strict";
     _classCallCheck(this, B);
-}, A = function(B1) {
+}, _x = new WeakMap(), A = function(B1) {
     "use strict";
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
@@ -57,4 +57,4 @@ var B = function() {
         })(obj = _assertThisInitialized(_this = _super.call(this)), privateMap = _x), privateMap.set(obj, value), _this;
     }
     return A;
-}(B), _x = new WeakMap();
+}(B);

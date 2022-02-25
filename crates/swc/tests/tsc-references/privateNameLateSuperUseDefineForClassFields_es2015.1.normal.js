@@ -11,6 +11,7 @@ function _classPrivateFieldInit(obj, privateMap, value) {
 // @useDefineForClassFields: true
 class B {
 }
+var _x = new WeakMap();
 class A extends B {
     constructor(){
         void 0;
@@ -21,4 +22,3 @@ class A extends B {
         });
     }
 }
-var _x = new WeakMap();

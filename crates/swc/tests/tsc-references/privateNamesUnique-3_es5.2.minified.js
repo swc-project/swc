@@ -7,7 +7,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var A = function() {
+var _foo = new WeakMap(), A = function() {
     "use strict";
     var obj, privateMap, value;
     _classCallCheck(this, A), obj = this, value = {
@@ -16,7 +16,7 @@ var A = function() {
     }, (function(obj, privateCollection) {
         if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
     })(obj, privateMap = _foo), privateMap.set(obj, value);
-}, _foo = new WeakMap(), _foo = {
+}, _foo = {
     writable: !0,
     value: !0
 }, B = function() {
@@ -29,10 +29,12 @@ var A = function() {
         {
             key: "test",
             value: function(x) {
-                !function(receiver, classConstructor, descriptor) {
+                var receiver, classConstructor, descriptor, receiver, descriptor;
+                receiver = x, classConstructor = B, descriptor = _foo1, (function(receiver, classConstructor) {
                     if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
-                    return descriptor.value;
-                }(x, B, _foo1);
+                })(receiver, classConstructor), (function(descriptor, action) {
+                    if (void 0 === descriptor) throw new TypeError("attempted to get private static field before its declaration");
+                })(descriptor, "get"), (descriptor = descriptor).get ? descriptor.get.call(receiver) : descriptor.value;
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), B;

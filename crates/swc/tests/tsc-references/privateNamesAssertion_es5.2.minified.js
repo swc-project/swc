@@ -13,7 +13,7 @@ function _defineProperties(target, props) {
 function _createClass(Constructor, protoProps, staticProps) {
     return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
 }
-var Foo = function() {
+var _p1 = new WeakMap(), Foo = function() {
     "use strict";
     function Foo() {
         var obj, privateMap, value;
@@ -28,14 +28,15 @@ var Foo = function() {
         {
             key: "m1",
             value: function(v) {
-                (function(receiver, privateMap) {
+                var receiver, privateMap, descriptor, receiver, descriptor;
+                (receiver = this, (descriptor = descriptor = (function(receiver, privateMap, action) {
                     if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-                    return privateMap.get(receiver).value;
-                })(this, _p1).call(this, v);
+                    return privateMap.get(receiver);
+                })(receiver, privateMap = _p1, "get")).get ? descriptor.get.call(receiver) : descriptor.value).call(this, v);
             }
         }
     ]), Foo;
-}(), _p1 = new WeakMap(), _p11 = new WeakSet(), Foo2 = function() {
+}(), _p11 = new WeakSet(), Foo2 = function() {
     "use strict";
     function Foo2() {
         var obj, privateSet;

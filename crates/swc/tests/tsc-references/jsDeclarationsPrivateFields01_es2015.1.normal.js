@@ -3,11 +3,21 @@ function _checkPrivateRedeclaration(obj, privateCollection) {
         throw new TypeError("Cannot initialize the same private elements twice on an object");
     }
 }
-function _classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
+function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+        return descriptor.get.call(receiver);
     }
-    return privateMap.get(receiver).value;
+    return descriptor.value;
+}
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to " + action + " private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
+function _classPrivateFieldGet(receiver, privateMap) {
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
 }
 function _classPrivateFieldInit(obj, privateMap, value) {
     _checkPrivateRedeclaration(obj, privateMap);
@@ -17,7 +27,7 @@ function _classPrivateMethodInit(obj, privateSet) {
     _checkPrivateRedeclaration(obj, privateSet);
     privateSet.add(obj);
 }
-var _calcHello = new WeakSet(), _screamingHello = new WeakSet(), _screamingHello = new WeakSet();
+var _hello = new WeakMap(), _world = new WeakMap(), _calcHello = new WeakSet(), _screamingHello = new WeakMap();
 // @target: esnext
 // @allowJS: true
 // @declaration: true
@@ -37,18 +47,18 @@ export class C {
             value: 100
         });
         _classPrivateMethodInit(this, _calcHello);
-        _classPrivateMethodInit(this, _screamingHello);
-        /** @param value {string} */ _classPrivateMethodInit(this, _screamingHello);
+        _classPrivateFieldInit(this, _screamingHello, {
+            get: get_screamingHello,
+            set: /** @param value {string} */ set_screamingHello
+        });
     }
 }
-var _hello = new WeakMap();
-var _world = new WeakMap();
 function calcHello() {
     return _classPrivateFieldGet(this, _hello);
 }
-function screamingHello() {
+function get_screamingHello() {
     return _classPrivateFieldGet(this, _hello).toUpperCase();
 }
-function screamingHello(value) {
+function set_screamingHello(value) {
     throw "NO";
 }

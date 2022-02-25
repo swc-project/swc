@@ -13,6 +13,7 @@ function _classPrivateFieldInit(obj, privateMap, value) {
     privateMap.set(obj, value);
 }
 var _class, _class1;
+var _foo = new WeakMap(), _foo2 = new WeakMap();
 var B = function B() {
     "use strict";
     _classCallCheck(this, B);
@@ -30,5 +31,3 @@ var B = function B() {
         }, _class1.otherClass = 123, _class1)
     });
 };
-var _foo = new WeakMap();
-var _foo2 = new WeakMap();

@@ -1,4 +1,4 @@
-var B = function() {
+var _prop = new WeakMap(), B = function() {
     "use strict";
     var obj, privateMap, value;
     !function(instance, Constructor) {
@@ -9,4 +9,4 @@ var B = function() {
     }, (function(obj, privateCollection) {
         if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
     })(obj, privateMap = _prop), privateMap.set(obj, value);
-}, _prop = new WeakMap();
+};

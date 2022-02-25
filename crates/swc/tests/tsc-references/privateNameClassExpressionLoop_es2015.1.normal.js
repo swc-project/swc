@@ -15,7 +15,7 @@ function _classPrivateMethodInit(obj, privateSet) {
 const array = [];
 for(let i = 0; i < 10; ++i){
     array.push(function() {
-        var _method = new WeakSet(), _accessor = new WeakSet(), _accessor = new WeakSet();
+        var _myField = new WeakMap(), _method = new WeakSet(), _accessor = new WeakMap();
         class C {
             constructor(){
                 _classPrivateFieldInit(this, _myField, {
@@ -23,16 +23,17 @@ for(let i = 0; i < 10; ++i){
                     value: "hello"
                 });
                 _classPrivateMethodInit(this, _method);
-                _classPrivateMethodInit(this, _accessor);
-                _classPrivateMethodInit(this, _accessor);
+                _classPrivateFieldInit(this, _accessor, {
+                    get: get_accessor,
+                    set: set_accessor
+                });
             }
         }
-        var _myField = new WeakMap();
         function method() {}
-        function accessor() {
+        function get_accessor() {
             return 42;
         }
-        function accessor(val) {}
+        function set_accessor(val) {}
         return C;
     }());
 }

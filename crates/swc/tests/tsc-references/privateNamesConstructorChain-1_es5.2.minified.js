@@ -2,6 +2,9 @@ function _assertThisInitialized(self) {
     if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
     return self;
 }
+function _classApplyDescriptorGet(receiver, descriptor) {
+    return descriptor.get ? descriptor.get.call(receiver) : descriptor.value;
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -26,7 +29,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var Parent = function() {
+var _foo = new WeakMap(), Parent = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function Parent() {
@@ -39,20 +42,22 @@ var Parent = function() {
         {
             key: "accessChildProps",
             value: function() {
-                (function(receiver, privateMap) {
-                    if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-                    privateMap.get(receiver).value;
-                })(new Child(), _foo), (function(receiver, classConstructor, descriptor) {
+                var receiver, privateMap, descriptor, receiver, classConstructor, descriptor;
+                descriptor = (function(receiver, privateMap, action) {
+                    if (!privateMap.has(receiver)) throw new TypeError("attempted to " + action + " private field on non-instance");
+                    return privateMap.get(receiver);
+                })(receiver = new Child(), privateMap = _foo, "get"), _classApplyDescriptorGet(receiver, descriptor), receiver = Child, classConstructor = Parent, descriptor = _bar, (function(receiver, classConstructor) {
                     if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
-                    descriptor.value;
-                })(Child, Parent, _bar);
+                })(receiver, classConstructor), (function(descriptor, action) {
+                    if (void 0 === descriptor) throw new TypeError("attempted to " + action + " private static field before its declaration");
+                })(descriptor, "get"), _classApplyDescriptorGet(receiver, descriptor);
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Parent;
-}(), _foo = new WeakMap(), _bar = {
+}(), _bar = {
     writable: !0,
     value: 5
-}, Child = function(Parent) {
+}, _foo1 = new WeakMap(), _bar1 = new WeakMap(), Child = function(Parent) {
     "use strict";
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
@@ -92,4 +97,4 @@ var Parent = function() {
         }), _this;
     }
     return Child;
-}(Parent), _foo1 = new WeakMap(), _bar1 = new WeakMap();
+}(Parent);

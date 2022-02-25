@@ -835,7 +835,7 @@ impl<'a, I: Tokens> Parser<I> {
                         let params = p.parse_formal_params()?;
 
                         if params.iter().filter(|p| is_not_this(p)).count() != 0 {
-                            p.emit_err(key_span, SyntaxError::TS1094);
+                            p.emit_err(key_span, SyntaxError::GetterParam);
                         }
 
                         Ok(params)
@@ -859,7 +859,7 @@ impl<'a, I: Tokens> Parser<I> {
                         let params = p.parse_formal_params()?;
 
                         if params.iter().filter(|p| is_not_this(p)).count() != 1 {
-                            p.emit_err(key_span, SyntaxError::TS1094);
+                            p.emit_err(key_span, SyntaxError::SetterParam);
                         }
 
                         if !params.is_empty() {

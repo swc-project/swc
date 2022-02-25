@@ -1,7 +1,9 @@
-export default function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
-  if (receiver !== classConstructor) {
-    throw new TypeError("Private static access of wrong provenance");
-  }
+import classCheckPrivateStaticAccess from './_class_check_private_static_access';
+import classCheckPrivateStaticFieldDescriptor from './_class_check_private_static_access';
+import classApplyDescriptorGet from './_class_apply_descriptor_get';
 
-  return descriptor.value;
+export default function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
+  classCheckPrivateStaticAccess(receiver, classConstructor);
+  classCheckPrivateStaticFieldDescriptor(descriptor, "get");
+  return classApplyDescriptorGet(receiver, descriptor);
 }

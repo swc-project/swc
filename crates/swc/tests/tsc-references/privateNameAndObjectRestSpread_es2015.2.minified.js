@@ -1,10 +1,17 @@
+function _classApplyDescriptorGet(receiver, descriptor) {
+    return descriptor.get ? descriptor.get.call(receiver) : descriptor.value;
+}
 function _classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-    return privateMap.get(receiver).value;
+    var descriptor = function(receiver, privateMap, action) {
+        if (!privateMap.has(receiver)) throw new TypeError("attempted to " + action + " private field on non-instance");
+        return privateMap.get(receiver);
+    }(receiver, privateMap, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
 }
 function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
-    if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
-    return descriptor.value;
+    return _classCheckPrivateStaticAccess(receiver, classConstructor), !function(descriptor, action) {
+        if (void 0 === descriptor) throw new TypeError("attempted to " + action + " private static field before its declaration");
+    }(descriptor, "get"), _classApplyDescriptorGet(receiver, descriptor);
 }
 function _defineProperty(obj, key, value) {
     return key in obj ? Object.defineProperty(obj, key, {
@@ -34,6 +41,10 @@ function _objectSpread(target) {
     }
     return target;
 }
+function _classCheckPrivateStaticAccess(receiver, classConstructor) {
+    if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
+}
+var _prop = new WeakMap();
 class C {
     method(other) {
         const obj = _objectSpread({}, other);
@@ -56,7 +67,7 @@ class C {
         });
     }
 }
-var _prop = new WeakMap(), _propStatic = {
+var _propStatic = {
     writable: !0,
     value: 1
 };

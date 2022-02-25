@@ -3,17 +3,17 @@ function _checkPrivateRedeclaration(obj, privateCollection) {
         throw new TypeError("Cannot initialize the same private elements twice on an object");
     }
 }
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
+}
 function _classPrivateMethodGet(receiver, privateSet, fn) {
     if (!privateSet.has(receiver)) {
         throw new TypeError("attempted to get private field on non-instance");
     }
     return fn;
 }
-function _classPrivateMethodInit(obj, privateSet) {
-    _checkPrivateRedeclaration(obj, privateSet);
-    privateSet.add(obj);
-}
-var _fieldFunc = new WeakSet(), _fieldFunc2 = new WeakSet();
+var _fieldFunc = new WeakMap(), _fieldFunc2 = new WeakMap();
 // @target: es2015
 class A {
     test() {
@@ -35,16 +35,22 @@ class A {
         return new A();
     }
     constructor(){
-        _classPrivateMethodInit(this, _fieldFunc);
-        _classPrivateMethodInit(this, _fieldFunc2);
+        _classPrivateFieldInit(this, _fieldFunc, {
+            get: get_fieldFunc,
+            set: void 0
+        });
+        _classPrivateFieldInit(this, _fieldFunc2, {
+            get: get_fieldFunc2,
+            set: void 0
+        });
         this.x = 1;
     }
 }
-function fieldFunc() {
+function get_fieldFunc() {
     return function() {
         this.x = 10;
     };
 }
-function fieldFunc2() {
+function get_fieldFunc2() {
     return function(a, ...b) {};
 }

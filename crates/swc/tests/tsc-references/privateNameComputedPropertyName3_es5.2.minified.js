@@ -1,9 +1,13 @@
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) throw new TypeError("attempted to " + action + " private field on non-instance");
+    return privateMap.get(receiver);
+}
 function _classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-    return privateMap.get(receiver).value;
+    var receiver, descriptor, descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
+    return descriptor.get ? descriptor.get.call(receiver) : descriptor.value;
 }
 function _classPrivateFieldInit(obj, privateMap, value) {
     !function(obj, privateCollection) {
@@ -19,24 +23,26 @@ function _defineProperties(target, props) {
 function _createClass(Constructor, protoProps, staticProps) {
     return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
 }
-var Foo = function() {
+var _name = new WeakMap(), Foo = function() {
     "use strict";
     function Foo(name) {
+        var receiver, privateMap, value, descriptor;
         _classCallCheck(this, Foo), _classPrivateFieldInit(this, _name, {
             writable: !0,
             value: void 0
-        }), (function(receiver, privateMap, value) {
-            if (!privateMap.has(receiver)) throw new TypeError("attempted to set private field on non-instance");
-            var descriptor = privateMap.get(receiver);
-            if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-            descriptor.value = value;
-        })(this, _name, name);
+        }), receiver = this, privateMap = _name, value = name, descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set"), (function(receiver, descriptor, value) {
+            if (descriptor.set) descriptor.set.call(receiver, value);
+            else {
+                if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
+                descriptor.value = value;
+            }
+        })(receiver, descriptor, value);
     }
     return _createClass(Foo, [
         {
             key: "getValue",
             value: function(x) {
-                var tmp = _classPrivateFieldGet(this, _name), Bar = function() {
+                var _y = new WeakMap(), tmp = _classPrivateFieldGet(this, _name), Bar = function() {
                     function Bar() {
                         _classCallCheck(this, Bar), _classPrivateFieldInit(this, _y, {
                             writable: !0,
@@ -51,10 +57,10 @@ var Foo = function() {
                             }
                         }
                     ]), Bar;
-                }(), _y = new WeakMap();
+                }();
                 return new Bar()[_classPrivateFieldGet(this, _name)]();
             }
         }
     ]), Foo;
-}(), _name = new WeakMap();
+}();
 console.log(new Foo("NAME").getValue(100));

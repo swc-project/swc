@@ -11,12 +11,17 @@ function _classPrivateMethodInit(obj, privateSet) {
     _checkPrivateRedeclaration(obj, privateSet), privateSet.add(obj);
 }
 for(var array = [], i = 0; i < 10; ++i)array.push(function() {
-    var _method = new WeakSet(), _accessor = new WeakSet(), _accessor = new WeakSet(), C = function() {
+    var get_accessor = function() {
+        return 42;
+    }, set_accessor = function(val) {}, _myField = new WeakMap(), _method = new WeakSet(), _accessor = new WeakMap(), C = function() {
         "use strict";
         _classCallCheck(this, C), _classPrivateFieldInit(this, _myField, {
             writable: !0,
             value: "hello"
-        }), _classPrivateMethodInit(this, _method), _classPrivateMethodInit(this, _accessor), _classPrivateMethodInit(this, _accessor);
-    }, _myField = new WeakMap();
+        }), _classPrivateMethodInit(this, _method), _classPrivateFieldInit(this, _accessor, {
+            get: get_accessor,
+            set: set_accessor
+        });
+    };
     return C;
 }());

@@ -4,8 +4,11 @@ function _arrayLikeToArray(arr, len) {
     return arr2;
 }
 function _classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-    return privateMap.get(receiver).value;
+    var receiver, descriptor, descriptor = function(receiver, privateMap, action) {
+        if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
+        return privateMap.get(receiver);
+    }(receiver, privateMap, "get");
+    return descriptor.get ? descriptor.get.call(receiver) : descriptor.value;
 }
 function _classPrivateFieldInit(obj, privateMap, value) {
     !function(obj, privateCollection) {
@@ -86,7 +89,7 @@ function _templateObject1() {
         return data;
     }, data;
 }
-var A = function() {
+var _fieldFunc = new WeakMap(), _fieldFunc2 = new WeakMap(), A = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function A() {
@@ -132,4 +135,4 @@ var A = function() {
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), A;
-}(), _fieldFunc = new WeakMap(), _fieldFunc2 = new WeakMap();
+}();

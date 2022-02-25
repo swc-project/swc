@@ -12,6 +12,7 @@ function _classPrivateFieldInit(obj, privateMap, value) {
     _checkPrivateRedeclaration(obj, privateMap);
     privateMap.set(obj, value);
 }
+var _foo = new WeakMap();
 var A = function A() {
     "use strict";
     _classCallCheck(this, A);
@@ -20,7 +21,7 @@ var A = function A() {
         value: void 0
     });
 };
-var _foo = new WeakMap();
+var _foo1 = new WeakMap();
 var B = function B() {
     "use strict";
     _classCallCheck(this, B);
@@ -29,5 +30,4 @@ var B = function B() {
         value: void 0
     });
 };
-var _foo1 = new WeakMap();
 var b = new B(); // Error: Property #foo is missing

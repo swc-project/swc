@@ -1,4 +1,8 @@
 var Generic;
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) throw new TypeError("attempted to " + action + " private field on non-instance");
+    return privateMap.get(receiver);
+}
 !function(Generic) {
     var c = new class {
         get y() {
@@ -10,27 +14,27 @@ var Generic;
     var _value = new WeakMap();
     new class {
         get value() {
-            return (function(receiver, privateMap) {
-                if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-                return privateMap.get(receiver).value;
-            })(this, _value);
+            var receiver, privateMap, descriptor, receiver, descriptor;
+            return receiver = this, (descriptor = descriptor = _classExtractFieldDescriptor(receiver, privateMap = _value, "get")).get ? descriptor.get.call(receiver) : descriptor.value;
         }
-        set value(value1) {
-            !function(receiver, privateMap, value) {
-                if (!privateMap.has(receiver)) throw new TypeError("attempted to set private field on non-instance");
-                var descriptor = privateMap.get(receiver);
-                if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-                return descriptor.value = value, value;
-            }(this, _value, value1);
+        set value(value) {
+            var receiver, privateMap, value1, descriptor;
+            receiver = this, privateMap = _value, value1 = value, descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set"), (function(receiver, descriptor, value1) {
+                if (descriptor.set) descriptor.set.call(receiver, value1);
+                else {
+                    if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
+                    descriptor.value = value1;
+                }
+            })(receiver, descriptor, value1);
         }
         constructor(){
-            var obj, privateMap, value;
-            obj = this, value = {
+            var obj, privateMap, value1;
+            obj = this, value1 = {
                 writable: !0,
                 value: void 0
             }, (function(obj, privateCollection) {
                 if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
-            })(obj, privateMap = _value), privateMap.set(obj, value);
+            })(obj, privateMap = _value), privateMap.set(obj, value1);
         }
     }().value = 3;
 }(Generic || (Generic = {}));
