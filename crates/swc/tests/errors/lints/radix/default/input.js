@@ -53,3 +53,6 @@ parseInt("12", 2.4);
 
 // requires add radix equals 10
 parseInt(`12`, `10`);
+
+// requires add radix equals 10
+console.log(parseInt('10', '10'));

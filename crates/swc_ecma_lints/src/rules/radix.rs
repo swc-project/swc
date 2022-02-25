@@ -78,7 +78,6 @@ struct Radix {
     radix_mode: RadixMode,
     check_parens: bool,
 
-    inside_callee: bool,
     classes_depth: usize,
     objects_depth: usize,
     arrow_fns_depth: usize,
@@ -94,11 +93,10 @@ impl Debug for Radix {
             .field("top_level_declared_vars", &self.top_level_declared_vars)
             .field("radix_mode", &self.radix_mode)
             .field("check_parens", &self.check_parens)
-            .field("inside_callee", &self.inside_callee)
             .field("classes_depth", &self.classes_depth)
             .field("classes_depth", &self.classes_depth)
             .field("objects_depth", &self.objects_depth)
-            .field("arrow_fns_depth", &self.inside_callee)
+            .field("arrow_fns_depth", &self.arrow_fns_depth)
             .field("obj", &self.obj)
             .field("prop", &self.prop)
             .finish()
@@ -123,7 +121,6 @@ impl Radix {
             radix_mode: rule_config.mode.unwrap_or_default(),
             check_parens: rule_config.check_parens.unwrap_or(true),
 
-            inside_callee: false,
             classes_depth: 0,
             objects_depth: 0,
             arrow_fns_depth: 0,
@@ -168,8 +165,8 @@ impl Radix {
         self.arrow_fns_depth > 0
     }
 
-    fn check(&self, call_span: Span, call_expr: &CallExpr) {
-        if let Some(obj) = &self.obj {
+    fn check(&self, call_expr: &CallExpr, obj: Option<JsWord>, prop: JsWord) {
+        if let Some(obj) = obj {
             let obj: &str = &*obj;
 
             if !OBJ_NAMES.contains(&obj) {
@@ -177,14 +174,12 @@ impl Radix {
             }
         }
 
-        let prop = self.prop.as_ref().unwrap();
-
         if &*prop != "parseInt" {
             return;
         }
 
         if call_expr.args.get(0).is_none() {
-            self.emit_report(call_span, MISSING_PARAMS_MESSAGE, None);
+            self.emit_report(call_expr.span, MISSING_PARAMS_MESSAGE, None);
 
             return;
         }
@@ -195,25 +190,29 @@ impl Radix {
                     ArgValue::Ident => {}
                     ArgValue::Number(radix) => {
                         if radix.fract() != 0.0 || !(2f64..=36f64).contains(radix) {
-                            self.emit_report(call_span, INVALID_RADIX_MESSAGE, None);
+                            self.emit_report(call_expr.span, INVALID_RADIX_MESSAGE, None);
 
                             return;
                         }
 
                         if let RadixMode::AsNeeded = self.radix_mode {
                             if *radix == 10f64 {
-                                self.emit_report(call_span, REDUNDANT_RADIX_MESSAGE, None);
+                                self.emit_report(call_expr.span, REDUNDANT_RADIX_MESSAGE, None);
                             }
                         }
                     }
                     _ => {
-                        self.emit_report(call_span, INVALID_RADIX_MESSAGE, None);
+                        self.emit_report(call_expr.span, INVALID_RADIX_MESSAGE, None);
                     }
                 };
             }
             None => {
                 if let RadixMode::Always = self.radix_mode {
-                    self.emit_report(call_span, MISSING_RADIX_MESSAGE, Some(ADD_10_RADIX_MESSAGE));
+                    self.emit_report(
+                        call_expr.span,
+                        MISSING_RADIX_MESSAGE,
+                        Some(ADD_10_RADIX_MESSAGE),
+                    );
                 }
             }
         }
@@ -231,25 +230,25 @@ impl Radix {
         true
     }
 
-    fn handle_member_prop(&mut self, prop: &MemberProp) {
+    fn extract_prop_value(&mut self, prop: &MemberProp) -> Option<JsWord> {
         match prop {
-            MemberProp::Ident(Ident { sym, .. }) => {
-                self.prop = Some(sym.clone());
-            }
-            MemberProp::Computed(comp) => {
-                if let Expr::Lit(Lit::Str(Str { value, .. })) = comp.expr.as_ref() {
-                    self.prop = Some(value.clone());
+            MemberProp::Ident(Ident { sym, .. }) => Some(sym.clone()),
+            MemberProp::Computed(ComputedPropName { expr, .. }) => {
+                if let Expr::Lit(Lit::Str(Str { value, .. })) = expr.as_ref() {
+                    return Some(value.clone());
                 }
+
+                None
             }
-            _ => {}
+            _ => None,
         }
     }
 
-    fn handle_callee(&mut self, expr: &Expr) {
-        match expr {
+    fn extract_obj_and_prop(&mut self, callee_expr: &Expr) -> (Option<JsWord>, Option<JsWord>) {
+        match callee_expr {
             Expr::Ident(ident) => {
                 if self.is_satisfying_indent(ident) {
-                    self.prop = Some(ident.sym.clone());
+                    return (None, Some(ident.sym.clone()));
                 }
             }
             Expr::Member(member_expr) => {
@@ -258,71 +257,52 @@ impl Radix {
                 match obj.as_ref() {
                     Expr::Ident(obj) => {
                         if !self.is_satisfying_indent(obj) {
-                            return;
+                            return (None, None);
                         }
 
-                        self.obj = Some(obj.sym.clone());
-
-                        self.handle_member_prop(prop);
+                        return (Some(obj.sym.clone()), self.extract_prop_value(prop));
                     }
                     Expr::This(_) => {
                         let inside_arrow_fn = self.is_inside_arrow_fn();
                         let inside_class = self.is_inside_class();
 
                         if inside_arrow_fn && inside_class {
-                            return;
+                            return (None, None);
                         }
 
                         if !inside_arrow_fn && (inside_class || self.is_inside_object()) {
-                            return;
+                            return (None, None);
                         }
 
-                        self.handle_member_prop(prop);
+                        return (None, self.extract_prop_value(prop));
                     }
                     _ => {}
                 }
             }
-            Expr::OptChain(opt_chain) => {
-                opt_chain.visit_children_with(self);
+            Expr::OptChain(OptChainExpr { expr, .. }) => {
+                return self.extract_obj_and_prop(expr.as_ref())
             }
-            Expr::Paren(paren) => {
-                paren.visit_children_with(self);
+            Expr::Paren(ParenExpr { expr, .. }) => {
+                return self.extract_obj_and_prop(expr.as_ref());
             }
             _ => {}
         }
-    }
 
-    fn handle_call(&mut self, call_expr: &CallExpr) {
-        if let Some(callee) = call_expr.callee.as_expr() {
-            self.inside_callee = true;
-
-            callee.visit_with(self);
-
-            self.inside_callee = false;
-        }
-
-        if self.prop.is_some() {
-            self.check(call_expr.span, call_expr);
-
-            self.obj = None;
-            self.prop = None;
-        }
+        (None, None)
     }
 }
 
 impl Visit for Radix {
     noop_visit_type!();
 
-    fn visit_expr(&mut self, expr: &Expr) {
-        if self.inside_callee {
-            self.handle_callee(expr);
-        } else {
-            if let Expr::Call(call_expr) = expr {
-                self.handle_call(call_expr);
+    fn visit_call_expr(&mut self, call_expr: &CallExpr) {
+        if let Callee::Expr(callee_expr) = &call_expr.callee {
+            if let (obj, Some(prop)) = self.extract_obj_and_prop(callee_expr.as_ref()) {
+                self.check(call_expr, obj, prop);
             }
-
-            expr.visit_children_with(self);
         }
+
+        call_expr.args.visit_children_with(self);
     }
 
     fn visit_class(&mut self, class: &Class) {

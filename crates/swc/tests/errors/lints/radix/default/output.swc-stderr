@@ -124,3 +124,9 @@ error: Invalid radix parameter, must be an integer between 2 and 36
 55 | parseInt(`12`, `10`);
    | ^^^^^^^^^^^^^^^^^^^^
 
+error: Invalid radix parameter, must be an integer between 2 and 36
+  
+   |
+58 | console.log(parseInt('10', '10'));
+   |             ^^^^^^^^^^^^^^^^^^^^
+
