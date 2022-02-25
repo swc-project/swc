@@ -540,11 +540,11 @@ impl Fold for Amd<'_> {
 
             {
                 let src = match &self.resolver {
-                    Some((resolver, base)) => resolver
+                    Resolver::Real { resolver, base } => resolver
                         .resolve_import(base, &src)
                         .with_context(|| format!("failed to resolve `{}`", src))
                         .unwrap(),
-                    None => src.clone(),
+                    Resolver::Default => src.clone(),
                 };
 
                 define_deps_arg.elems.push(Some(src.as_arg()));

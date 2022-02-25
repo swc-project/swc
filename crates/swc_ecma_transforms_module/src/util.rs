@@ -4,7 +4,6 @@ use std::{
     iter,
 };
 
-use anyhow::Context;
 use indexmap::{IndexMap, IndexSet};
 use inflector::Inflector;
 use serde::{Deserialize, Serialize};
@@ -12,7 +11,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
     util::take::Take,
-    FileName, Mark, Span, DUMMY_SP,
+    Span, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -20,8 +19,6 @@ use swc_ecma_utils::{
     DestructuringFinder, ExprFactory, Id,
 };
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
-
-use crate::path::ImportResolver;
 
 pub(super) trait ModulePass: Fold {
     fn config(&self) -> &Config;
@@ -794,37 +791,6 @@ impl Scope {
             _ => expr.fold_children_with(folder),
         }
     }
-}
-
-pub(super) fn make_require_call<R>(
-    resolver: &Option<(R, FileName)>,
-    mark: Mark,
-    src: JsWord,
-) -> Expr
-where
-    R: ImportResolver,
-{
-    let src = match resolver {
-        Some((resolver, base)) => resolver
-            .resolve_import(base, &src)
-            .with_context(|| format!("failed to resolve import `{}`", src))
-            .unwrap(),
-        None => src,
-    };
-
-    Expr::Call(CallExpr {
-        span: DUMMY_SP,
-        callee: quote_ident!(DUMMY_SP.apply_mark(mark), "require").as_callee(),
-        args: vec![Lit::Str(Str {
-            span: DUMMY_SP,
-            value: src,
-            has_escape: false,
-            kind: Default::default(),
-        })
-        .as_arg()],
-
-        type_args: Default::default(),
-    })
 }
 
 pub(super) fn local_name_for_src(src: &JsWord) -> JsWord {
