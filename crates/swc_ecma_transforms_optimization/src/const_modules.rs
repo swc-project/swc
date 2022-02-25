@@ -5,7 +5,7 @@ use once_cell::sync::Lazy;
 use swc_atoms::JsWord;
 use swc_common::{errors::HANDLER, sync::Lrc, util::move_map::MoveMap, FileName, SourceMap};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
+use swc_ecma_parser::with_file_parser;
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
@@ -42,26 +42,26 @@ fn parse_option(cm: &SourceMap, name: &str, src: String) -> Arc<Expr> {
         return expr.clone();
     }
 
-    let lexer = Lexer::new(
+    let expr = with_file_parser(
+        &fm,
         Default::default(),
         Default::default(),
-        StringInput::from(&*fm),
         None,
-    );
-    let expr = Parser::new_from(lexer)
-        .parse_expr()
-        .map_err(|e| {
-            if HANDLER.is_set() {
-                HANDLER.with(|h| e.into_diagnostic(h).emit())
-            }
-        })
-        .map(drop_span)
-        .unwrap_or_else(|()| {
-            panic!(
-                "failed to parse jsx option {}: '{}' is not an expression",
-                name, fm.src,
-            )
-        });
+        &mut vec![],
+        |p| p.parse_expr(),
+    )
+    .map_err(|e| {
+        if HANDLER.is_set() {
+            HANDLER.with(|h| e.into_diagnostic(h).emit())
+        }
+    })
+    .map(drop_span)
+    .unwrap_or_else(|()| {
+        panic!(
+            "failed to parse jsx option {}: '{}' is not an expression",
+            name, fm.src,
+        )
+    });
 
     let expr = Arc::new(*expr);
 
