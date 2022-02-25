@@ -13,7 +13,7 @@ pub enum Command {
     #[clap(subcommand)]
     Plugin(PluginSubcommand),
     /// Run SWC's transformer.
-    Compile(CompileOptions),
+    Compile(Box<CompileOptions>),
 }
 
 #[derive(Parser)]
@@ -25,4 +25,5 @@ pub struct SwcCliOptions {
 
 pub trait CommandRunner {
     fn execute(&self) -> anyhow::Result<()>;
+    fn execute_inner(&self) -> anyhow::Result<()>;
 }
