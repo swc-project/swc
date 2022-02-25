@@ -2928,7 +2928,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.93.2"
+version = "0.93.3"
 dependencies = [
  "bitflags",
  "memchr",
@@ -3056,7 +3056,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.91.7"
+version = "0.91.8"
 dependencies = [
  "either",
  "enum_kind",

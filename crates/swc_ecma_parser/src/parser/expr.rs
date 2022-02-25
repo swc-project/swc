@@ -707,7 +707,7 @@ impl<'a, I: Tokens> Parser<I> {
                     params.is_simple_parameter_list(),
                 )?;
 
-                if is_direct_child_of_cond && !is_one_of!(p, ':', ';') {
+                if is_direct_child_of_cond && !is_one_of!(p, ':', ';', ',', ')') {
                     trace_cur!(p, parse_arrow_in_cond__fail);
                     unexpected!(p, "fail")
                 }
