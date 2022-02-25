@@ -3,6 +3,12 @@ extern crate proc_macro;
 use quote::ToTokens;
 use syn::{parse_quote, AttrStyle, Attribute, ImplItem, ItemImpl};
 
+/// Utility proc macro to add `#[tracing::instrument(level = "trace",
+/// skip_all)]` to all methods in an impl block.
+///
+/// This attribute macro is typically applied on an `VisitMut` impl block.
+/// If this is applied, all implemented methods will annotated with the
+/// instrument annotation from `tracing`.
 #[proc_macro_attribute]
 pub fn swc_trace(
     _args: proc_macro::TokenStream,
