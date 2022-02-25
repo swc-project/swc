@@ -34,9 +34,11 @@ pub fn init_trace_once(
     FLUSH_GUARD.get_or_init(|| {
         if enable_chrome_trace {
             let layer = if let Some(trace_out_file) = trace_out_file {
-                ChromeLayerBuilder::new().file(trace_out_file)
-            } else {
                 ChromeLayerBuilder::new()
+                    .file(trace_out_file)
+                    .include_args(true)
+            } else {
+                ChromeLayerBuilder::new().include_args(true)
             };
 
             let (chrome_layer, guard) = layer.build();
