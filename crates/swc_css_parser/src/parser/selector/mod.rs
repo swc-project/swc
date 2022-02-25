@@ -52,6 +52,94 @@ where
     }
 }
 
+impl<I> Parse<CompoundSelectorList> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<CompoundSelectorList> {
+        self.input.skip_ws()?;
+
+        let child = self.parse()?;
+        let mut children = vec![child];
+
+        loop {
+            self.input.skip_ws()?;
+
+            if !eat!(self, ",") {
+                break;
+            }
+
+            self.input.skip_ws()?;
+
+            let child = self.parse()?;
+
+            children.push(child);
+        }
+
+        let start_pos = match children.first() {
+            Some(CompoundSelector { span, .. }) => span.lo,
+            _ => {
+                unreachable!();
+            }
+        };
+        let last_pos = match children.last() {
+            Some(CompoundSelector { span, .. }) => span.hi,
+            _ => {
+                unreachable!();
+            }
+        };
+
+        Ok(CompoundSelectorList {
+            span: Span::new(start_pos, last_pos, Default::default()),
+            children,
+        })
+    }
+}
+
+impl<I> Parse<RelativeSelectorList> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<RelativeSelectorList> {
+        self.input.skip_ws()?;
+
+        let child = self.parse()?;
+        let mut children = vec![child];
+
+        loop {
+            self.input.skip_ws()?;
+
+            if !eat!(self, ",") {
+                break;
+            }
+
+            self.input.skip_ws()?;
+
+            let child = self.parse()?;
+
+            children.push(child);
+        }
+
+        let start_pos = match children.first() {
+            Some(RelativeSelector { span, .. }) => span.lo,
+            _ => {
+                unreachable!();
+            }
+        };
+        let last_pos = match children.last() {
+            Some(RelativeSelector { span, .. }) => span.hi,
+            _ => {
+                unreachable!();
+            }
+        };
+
+        Ok(RelativeSelectorList {
+            span: Span::new(start_pos, last_pos, Default::default()),
+            children,
+        })
+    }
+}
+
 impl<I> Parse<ComplexSelector> for Parser<I>
 where
     I: ParserInput,
@@ -139,6 +227,34 @@ where
         Ok(Combinator {
             span,
             value: CombinatorValue::Descendant,
+        })
+    }
+}
+
+impl<I> Parse<RelativeSelector> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<RelativeSelector> {
+        let mut combinator = None;
+
+        if is_one_of!(self, ">", "+", "~", "|") {
+            combinator = Some(self.parse()?);
+
+            self.input.skip_ws()?;
+        }
+
+        let selector: ComplexSelector = self.parse()?;
+        let start_pos = match combinator {
+            Some(Combinator { span, .. }) => span.lo,
+            _ => selector.span.lo,
+        };
+        let last_pos = selector.span.hi;
+
+        Ok(RelativeSelector {
+            span: Span::new(start_pos, last_pos, Default::default()),
+            combinator,
+            selector,
         })
     }
 }
@@ -587,50 +703,152 @@ where
                 _ => unreachable!(),
             };
             let state = self.input.state();
-            let mut parse_pseudo_class_children = || -> PResult<Vec<PseudoSelectorChildren>> {
-                let mut children = vec![];
+            let mut parse_pseudo_class_children =
+                || -> PResult<Vec<PseudoClassSelectorChildren>> {
+                    let mut children = vec![];
 
-                match &*names.0.to_ascii_lowercase() {
-                    "nth-child" | "nth-last-child" | "nth-of-type" | "nth-last-of-type"
-                    | "nth-col" | "nth-last-col" => {
-                        self.input.skip_ws()?;
-
-                        let an_plus_b = self.parse()?;
-
-                        children.push(PseudoSelectorChildren::AnPlusB(an_plus_b));
-
-                        self.input.skip_ws()?;
-
-                        if is!(self, "ident") {
-                            let of = self.parse()?;
-
-                            children.push(PseudoSelectorChildren::Ident(of));
-
+                    match &*names.0.to_ascii_lowercase() {
+                        "-moz-any" | "-webkit-any" => {
                             self.input.skip_ws()?;
 
-                            let selector_list = self.parse()?;
+                            let compound_selector_list = self.parse()?;
 
-                            children.push(PseudoSelectorChildren::SelectorList(selector_list));
+                            children.push(PseudoClassSelectorChildren::CompoundSelectorList(
+                                compound_selector_list,
+                            ));
 
                             self.input.skip_ws()?;
                         }
-                    }
-                    "not" => {
-                        self.input.skip_ws()?;
+                        "dir" => {
+                            self.input.skip_ws()?;
 
-                        let selector_list = self.parse()?;
+                            let ident = self.parse()?;
 
-                        children.push(PseudoSelectorChildren::SelectorList(selector_list));
+                            children.push(PseudoClassSelectorChildren::Ident(ident));
 
-                        self.input.skip_ws()?;
-                    }
-                    _ => {
-                        return Err(Error::new(span, ErrorKind::Ignore));
-                    }
+                            self.input.skip_ws()?;
+                        }
+                        "lang" => {
+                            let child = match cur!(self) {
+                                tok!("ident") => PseudoClassSelectorChildren::Ident(self.parse()?),
+                                tok!("string") => PseudoClassSelectorChildren::Str(self.parse()?),
+                                _ => {
+                                    return Err(Error::new(
+                                        span,
+                                        ErrorKind::Expected("ident or str tokens"),
+                                    ));
+                                }
+                            };
+
+                            children.push(child);
+
+                            loop {
+                                self.input.skip_ws()?;
+
+                                if is!(self, ",") {
+                                    children.push(PseudoClassSelectorChildren::Delimiter(
+                                        self.parse()?,
+                                    ));
+
+                                    self.input.skip_ws()?;
+                                } else {
+                                    break;
+                                }
+
+                                let child = match cur!(self) {
+                                    tok!("ident") => {
+                                        PseudoClassSelectorChildren::Ident(self.parse()?)
+                                    }
+                                    tok!("string") => {
+                                        PseudoClassSelectorChildren::Str(self.parse()?)
+                                    }
+                                    _ => {
+                                        return Err(Error::new(
+                                            span,
+                                            ErrorKind::Expected("ident or str tokens"),
+                                        ));
+                                    }
+                                };
+
+                                children.push(child);
+                            }
+                        }
+                        "current" | "past" | "future" => {
+                            self.input.skip_ws()?;
+
+                            let compound_selector_list = self.parse()?;
+
+                            children.push(PseudoClassSelectorChildren::CompoundSelectorList(
+                                compound_selector_list,
+                            ));
+
+                            self.input.skip_ws()?;
+                        }
+                        "not" | "is" | "where" | "matches" => {
+                            self.input.skip_ws()?;
+
+                            // TODO forgiving parsing
+                            let selector_list = self.parse()?;
+
+                            children.push(PseudoClassSelectorChildren::SelectorList(selector_list));
+
+                            self.input.skip_ws()?;
+                        }
+                        "has" => {
+                            self.input.skip_ws()?;
+
+                            // TODO forgiving parsing
+                            let relative_selector_list = self.parse()?;
+
+                            children.push(PseudoClassSelectorChildren::RelativeSelectorList(
+                                relative_selector_list,
+                            ));
+
+                            self.input.skip_ws()?;
+                        }
+                        "nth-child" | "nth-last-child" | "nth-of-type" | "nth-last-of-type"
+                        | "nth-col" | "nth-last-col" => {
+                            self.input.skip_ws()?;
+
+                            let an_plus_b = self.parse()?;
+
+                            children.push(PseudoClassSelectorChildren::AnPlusB(an_plus_b));
+
+                            self.input.skip_ws()?;
+
+                            if is!(self, "ident") {
+                                let of = self.parse()?;
+
+                                children.push(PseudoClassSelectorChildren::Ident(of));
+
+                                self.input.skip_ws()?;
+
+                                let selector_list = self.parse()?;
+
+                                children
+                                    .push(PseudoClassSelectorChildren::SelectorList(selector_list));
+
+                                self.input.skip_ws()?;
+                            }
+                        }
+                        "host" | "host-context" => {
+                            self.input.skip_ws()?;
+
+                            let compound_selector = self.parse()?;
+
+                            children.push(PseudoClassSelectorChildren::CompoundSelector(
+                                compound_selector,
+                            ));
+
+                            self.input.skip_ws()?;
+                        }
+                        _ => {
+                            return Err(Error::new(span, ErrorKind::Ignore));
+                        }
+                    };
+
+                    Ok(children)
                 };
-
-                Ok(children)
-            };
             let children = match parse_pseudo_class_children() {
                 Ok(children) => children,
                 Err(err) => {
@@ -641,9 +859,9 @@ where
                     self.input.reset(&state);
 
                     let any_value = self.parse_any_value()?;
-                    let any_value: Vec<PseudoSelectorChildren> = any_value
+                    let any_value: Vec<PseudoClassSelectorChildren> = any_value
                         .into_iter()
-                        .map(PseudoSelectorChildren::PreservedToken)
+                        .map(PseudoClassSelectorChildren::PreservedToken)
                         .collect();
 
                     any_value
@@ -697,12 +915,72 @@ where
                 Token::Function { value, raw } => (value, raw),
                 _ => unreachable!(),
             };
+            let state = self.input.state();
+            let mut parse_pseudo_element_children =
+                || -> PResult<Vec<PseudoElementSelectorChildren>> {
+                    let mut children = vec![];
 
-            let children = self.parse_any_value()?;
+                    match &*names.0.to_ascii_lowercase() {
+                        "cue" | "cue-region" => {
+                            self.input.skip_ws()?;
+
+                            let compound_selector = self.parse()?;
+
+                            children.push(PseudoElementSelectorChildren::CompoundSelector(
+                                compound_selector,
+                            ));
+
+                            self.input.skip_ws()?;
+                        }
+                        "part" => {
+                            self.input.skip_ws()?;
+
+                            let ident = self.parse()?;
+
+                            children.push(PseudoElementSelectorChildren::Ident(ident));
+
+                            self.input.skip_ws()?;
+                        }
+                        "slotted" => {
+                            self.input.skip_ws()?;
+
+                            let compound_selector = self.parse()?;
+
+                            children.push(PseudoElementSelectorChildren::CompoundSelector(
+                                compound_selector,
+                            ));
+
+                            self.input.skip_ws()?;
+                        }
+                        _ => {
+                            return Err(Error::new(span, ErrorKind::Ignore));
+                        }
+                    };
+
+                    Ok(children)
+                };
+            let children = match parse_pseudo_element_children() {
+                Ok(children) => children,
+                Err(err) => {
+                    if *err.kind() != ErrorKind::Ignore {
+                        self.errors.push(err);
+                    }
+
+                    self.input.reset(&state);
+
+                    let any_value = self.parse_any_value()?;
+                    let any_value: Vec<PseudoElementSelectorChildren> = any_value
+                        .into_iter()
+                        .map(PseudoElementSelectorChildren::PreservedToken)
+                        .collect();
+
+                    any_value
+                }
+            };
 
             expect!(self, ")");
 
-            return Ok(PseudoElementSelector {
+            Ok(PseudoElementSelector {
                 span: span!(self, span.lo),
                 name: Ident {
                     span: Span::new(fn_span.lo, fn_span.hi - BytePos(1), Default::default()),
@@ -710,20 +988,20 @@ where
                     raw: names.1,
                 },
                 children: Some(children),
-            });
+            })
         } else if is!(self, Ident) {
             let name = self.parse()?;
 
-            return Ok(PseudoElementSelector {
+            Ok(PseudoElementSelector {
                 span: span!(self, span.lo),
                 name,
                 children: None,
-            });
+            })
+        } else {
+            let span = self.input.cur_span()?;
+
+            Err(Error::new(span, ErrorKind::InvalidSelector))
         }
-
-        let span = self.input.cur_span()?;
-
-        return Err(Error::new(span, ErrorKind::InvalidSelector));
     }
 }
 

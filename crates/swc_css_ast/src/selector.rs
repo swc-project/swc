@@ -3,12 +3,24 @@ use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
-use crate::{Ident, Str, TokenAndSpan};
+use crate::{Delimiter, Ident, Str, TokenAndSpan};
 
 #[ast_node("SelectorList")]
 pub struct SelectorList {
     pub span: Span,
     pub children: Vec<ComplexSelector>,
+}
+
+#[ast_node("CompoundSelectorList")]
+pub struct CompoundSelectorList {
+    pub span: Span,
+    pub children: Vec<CompoundSelector>,
+}
+
+#[ast_node("RelativeSelectorList")]
+pub struct RelativeSelectorList {
+    pub span: Span,
+    pub children: Vec<RelativeSelector>,
 }
 
 #[ast_node("ComplexSelector")]
@@ -24,6 +36,13 @@ pub enum ComplexSelectorChildren {
     CompoundSelector(CompoundSelector),
     #[tag("Combinator")]
     Combinator(Combinator),
+}
+
+#[ast_node("RelativeSelector")]
+pub struct RelativeSelector {
+    pub span: Span,
+    pub combinator: Option<Combinator>,
+    pub selector: ComplexSelector,
 }
 
 /// e.g. `foo.c1.c2`
@@ -185,29 +204,37 @@ pub struct AttributeSelectorModifier {
 pub struct PseudoClassSelector {
     pub span: Span,
     pub name: Ident,
-    pub children: Option<Vec<PseudoSelectorChildren>>,
-}
-
-#[ast_node("PseudoElementSelector")]
-pub struct PseudoElementSelector {
-    pub span: Span,
-    pub name: Ident,
-    pub children: Option<Vec<TokenAndSpan>>,
+    pub children: Option<Vec<PseudoClassSelectorChildren>>,
 }
 
 #[ast_node]
-pub enum PseudoSelectorChildren {
+pub enum PseudoClassSelectorChildren {
+    #[tag("TokenAndSpan")]
+    PreservedToken(TokenAndSpan),
+
     #[tag("AnPlusB")]
     AnPlusB(AnPlusB),
 
     #[tag("Ident")]
     Ident(Ident),
 
+    #[tag("Str")]
+    Str(Str),
+
+    #[tag("Delimiter")]
+    Delimiter(Delimiter),
+
     #[tag("SelectorList")]
     SelectorList(SelectorList),
 
-    #[tag("TokenAndSpan")]
-    PreservedToken(TokenAndSpan),
+    #[tag("CompoundSelectorList")]
+    CompoundSelectorList(CompoundSelectorList),
+
+    #[tag("RelativeSelectorList")]
+    RelativeSelectorList(RelativeSelectorList),
+
+    #[tag("CompoundSelector")]
+    CompoundSelector(CompoundSelector),
 }
 
 #[ast_node]
@@ -225,4 +252,23 @@ pub struct AnPlusBNotation {
     pub a_raw: Option<JsWord>,
     pub b: Option<i32>,
     pub b_raw: Option<JsWord>,
+}
+
+#[ast_node("PseudoElementSelector")]
+pub struct PseudoElementSelector {
+    pub span: Span,
+    pub name: Ident,
+    pub children: Option<Vec<PseudoElementSelectorChildren>>,
+}
+
+#[ast_node]
+pub enum PseudoElementSelectorChildren {
+    #[tag("TokenAndSpan")]
+    PreservedToken(TokenAndSpan),
+
+    #[tag("Ident")]
+    Ident(Ident),
+
+    #[tag("CompoundSelector")]
+    CompoundSelector(CompoundSelector),
 }

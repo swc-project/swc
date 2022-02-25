@@ -56,6 +56,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, InjectVars, VisitMut,
 /// };
 /// console.log(bob.printFriends());
 /// ```
+#[tracing::instrument(level = "trace", skip_all)]
 pub fn arrow() -> impl Fold + VisitMut + InjectVars {
     as_folder(Arrow::default())
 }
@@ -69,6 +70,7 @@ struct Arrow {
 impl VisitMut for Arrow {
     noop_visit_mut_type!();
 
+    #[tracing::instrument(level = "trace", skip_all)]
     fn visit_mut_class(&mut self, c: &mut Class) {
         if c.super_class.is_some() {
             self.in_subclass = true;
@@ -77,6 +79,7 @@ impl VisitMut for Arrow {
         self.in_subclass = false;
     }
 
+    #[tracing::instrument(level = "trace", skip_all)]
     fn visit_mut_constructor(&mut self, c: &mut Constructor) {
         c.params.visit_mut_children_with(self);
 
@@ -105,6 +108,7 @@ impl VisitMut for Arrow {
         }
     }
 
+    #[tracing::instrument(level = "trace", skip_all)]
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         match expr {
             Expr::Arrow(ArrowExpr {
@@ -163,10 +167,12 @@ impl VisitMut for Arrow {
         }
     }
 
+    #[tracing::instrument(level = "trace", skip_all)]
     fn visit_mut_function(&mut self, f: &mut Function) {
         f.visit_mut_children_with(self);
     }
 
+    #[tracing::instrument(level = "trace", skip_all)]
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         stmts.visit_mut_children_with(self);
 
@@ -177,6 +183,7 @@ impl VisitMut for Arrow {
         }
     }
 
+    #[tracing::instrument(level = "trace", skip_all)]
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         let old_rep = self.hoister.take();
 

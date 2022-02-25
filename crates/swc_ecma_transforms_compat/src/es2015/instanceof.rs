@@ -22,7 +22,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 /// ```js
 /// function _instanceof(left, right) {
 ///   if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
-///     return right[Symbol.hasInstance](left);
+///     return !!right[Symbol.hasInstance](left);
 ///   } else {
 ///     return left instanceof right;
 ///   }
