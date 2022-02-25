@@ -42,13 +42,11 @@ mod tests {
     fn declaration_statement() {
         assert_min("var foo;", "var foo");
         assert_min("let foo;", "let foo");
-        assert_min("const foo;", "const foo");
         assert_min("var foo = 10;", "var foo=10");
         assert_min("let foo = 10;", "let foo=10");
         assert_min("const foo = 10;", "const foo=10");
         assert_min("var foo, bar;", "var foo,bar");
         assert_min("let foo, bar;", "let foo,bar");
-        assert_min("const foo, bar;", "const foo,bar");
         assert_min("var foo = 10, bar = 20;", "var foo=10,bar=20");
         assert_min("let foo = 10, bar = 20;", "let foo=10,bar=20");
         assert_min("const foo = 10, bar = 20;", "const foo=10,bar=20");
