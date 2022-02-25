@@ -416,7 +416,7 @@ impl Scope {
         }
     }
 
-    pub(super) fn fold_shorthand_prop(folder: &mut dyn ModulePass, prop: Ident) -> Prop {
+    pub(super) fn fold_shorthand_prop(folder: &mut impl ModulePass, prop: Ident) -> Prop {
         let key = prop.clone();
         let value = Scope::fold_ident(folder, prop);
         match value {
@@ -428,7 +428,7 @@ impl Scope {
         }
     }
 
-    fn fold_ident(folder: &mut dyn ModulePass, i: Ident) -> Result<Expr, Ident> {
+    fn fold_ident(folder: &mut impl ModulePass, i: Ident) -> Result<Expr, Ident> {
         let orig_span = i.span;
         let v = folder.scope().idents.get(&i.to_id()).cloned();
         match v {
@@ -469,7 +469,7 @@ impl Scope {
     }
 
     pub(super) fn fold_expr(
-        folder: &mut dyn ModulePass,
+        folder: &mut impl ModulePass,
         exports: Ident,
         top_level: bool,
         expr: Expr,
