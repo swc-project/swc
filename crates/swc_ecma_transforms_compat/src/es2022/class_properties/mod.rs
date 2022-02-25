@@ -561,50 +561,6 @@ impl ClassProperties {
                     } else {
                         constructor_inits
                             .insert(ident.clone().into(), MemberInit::Private(prop_span, value));
-                    let extra_init = if prop.is_static {
-                        Box::new(Expr::Object(ObjectLit {
-                            span: DUMMY_SP,
-                            props: vec![
-                                PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                                    key: PropName::Ident(quote_ident!("writable")),
-                                    value: true.into(),
-                                }))),
-                                PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                                    key: PropName::Ident(quote_ident!("value")),
-                                    value,
-                                }))),
-                            ],
-                        }))
-                    } else {
-                        constructor_exprs.push(Box::new(Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee: helper!(class_private_field_init, "classPrivateFieldInit"),
-                            args: vec![
-                                ThisExpr { span: DUMMY_SP }.as_arg(),
-                                ident.clone().as_arg(),
-                                ObjectLit {
-                                    span: DUMMY_SP,
-                                    props: vec![
-                                        // writeable: true
-                                        PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                            KeyValueProp {
-                                                key: PropName::Ident(quote_ident!("writable")),
-                                                value: true.into(),
-                                            },
-                                        ))),
-                                        // value: value,
-                                        PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                            KeyValueProp {
-                                                key: PropName::Ident(quote_ident!("value")),
-                                                value,
-                                            },
-                                        ))),
-                                    ],
-                                }
-                                .as_arg(),
-                            ],
-                            type_args: Default::default(),
-                        })));
 
                         vars.push(VarDeclarator {
                             span: DUMMY_SP,
@@ -900,7 +856,7 @@ impl ClassProperties {
                                         PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                             KeyValueProp {
                                                 key: PropName::Ident(quote_ident!("writable")),
-                                                value:true.into(),
+                                                value: true.into(),
                                             },
                                         ))),
                                         // value: value,
