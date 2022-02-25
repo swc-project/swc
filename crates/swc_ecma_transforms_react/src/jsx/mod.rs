@@ -17,7 +17,7 @@ use swc_common::{
     FileName, Mark, SourceMap, Span, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_parser::{Parser, StringInput, Syntax};
+use swc_ecma_parser::{with_file_parser, Syntax};
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     drop_span, member_expr, prepend, private_ident, quote_ident, undefined, ExprFactory,
@@ -135,29 +135,35 @@ pub fn parse_expr_for_jsx(
         return expr.clone();
     }
 
-    let expr = Parser::new(Syntax::default(), StringInput::from(&*fm), None)
-        .parse_expr()
-        .map_err(|e| {
-            if HANDLER.is_set() {
-                HANDLER.with(|h| {
-                    e.into_diagnostic(h)
-                        .note("error detected while parsing option for classic jsx transform")
-                        .emit()
-                })
-            }
-        })
-        .map(drop_span)
-        .map(|mut expr| {
-            apply_mark(&mut expr, top_level_mark);
-            expr
-        })
-        .map(Arc::new)
-        .unwrap_or_else(|()| {
-            panic!(
-                "failed to parse jsx option {}: '{}' is not an expression",
-                name, fm.src,
-            )
-        });
+    let expr = with_file_parser(
+        &fm,
+        Syntax::default(),
+        Default::default(),
+        None,
+        &mut vec![],
+        |p| p.parse_expr(),
+    )
+    .map_err(|e| {
+        if HANDLER.is_set() {
+            HANDLER.with(|h| {
+                e.into_diagnostic(h)
+                    .note("error detected while parsing option for classic jsx transform")
+                    .emit()
+            })
+        }
+    })
+    .map(drop_span)
+    .map(|mut expr| {
+        apply_mark(&mut expr, top_level_mark);
+        expr
+    })
+    .map(Arc::new)
+    .unwrap_or_else(|()| {
+        panic!(
+            "failed to parse jsx option {}: '{}' is not an expression",
+            name, fm.src,
+        )
+    });
 
     CACHE.insert(((*fm.src).clone(), top_level_mark), expr.clone());
 
