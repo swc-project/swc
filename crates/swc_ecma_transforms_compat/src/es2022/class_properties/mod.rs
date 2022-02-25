@@ -42,12 +42,12 @@ mod used_name;
 /// We use custom helper to handle export default class
 pub fn class_properties(config: Config) -> impl Fold + VisitMut {
     as_folder(ClassProperties {
-        config,
+        c: config,
         private: PrivateRecord::new(),
     })
 }
 
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone, Copy, Default)]
 pub struct Config {
     pub private_as_properties: bool,
     pub set_public_fields: bool,
@@ -56,7 +56,7 @@ pub struct Config {
 }
 
 struct ClassProperties {
-    config: Config,
+    c: Config,
     private: PrivateRecord,
 }
 
@@ -425,11 +425,7 @@ impl ClassProperties {
                             span: c_span,
                             mut expr,
                         }) => {
-                            vars.extend(visit_private_in_expr(
-                                &mut expr,
-                                &self.private,
-                                self.config.private_as_properties,
-                            ));
+                            vars.extend(visit_private_in_expr(&mut expr, &self.private, self.c));
 
                             expr.visit_mut_with(&mut ClassNameTdzFolder {
                                 class_name: &class_ident,
@@ -487,7 +483,7 @@ impl ClassProperties {
                             vars.extend(visit_private_in_expr(
                                 &mut key.expr,
                                 &self.private,
-                                self.config.private_as_properties,
+                                self.c,
                             ));
                             let (ident, aliased) = if let Expr::Ident(i) = &*key.expr {
                                 if used_key_names.contains(&i.sym) {
@@ -516,11 +512,7 @@ impl ClassProperties {
 
                     value.visit_mut_with(&mut NewTargetInProp);
 
-                    vars.extend(visit_private_in_expr(
-                        &mut value,
-                        &self.private,
-                        self.config.private_as_properties,
-                    ));
+                    vars.extend(visit_private_in_expr(&mut value, &self.private, self.c));
 
                     if prop.is_static {
                         if let (Some(super_class), None) = (&mut class.super_class, &super_ident) {
@@ -553,7 +545,7 @@ impl ClassProperties {
                             in_injected_define_property_call: false,
                             in_nested_scope: false,
                             this_alias_mark: None,
-                            constant_super: self.config.constant_super,
+                            constant_super: self.c.constant_super,
                             super_class: &super_ident,
                         });
                         value.visit_mut_with(&mut ThisInStaticFolder {
@@ -578,11 +570,7 @@ impl ClassProperties {
 
                     if let Some(value) = &mut prop.value {
                         value.visit_mut_with(&mut NewTargetInProp);
-                        vars.extend(visit_private_in_expr(
-                            &mut *value,
-                            &self.private,
-                            self.config.private_as_properties,
-                        ));
+                        vars.extend(visit_private_in_expr(&mut *value, &self.private, self.c));
                     }
 
                     prop.value.visit_with(&mut UsedNameCollector {
@@ -731,7 +719,7 @@ impl ClassProperties {
             private: &self.private,
             vars: vec![],
             in_assign_pat: false,
-            private_as_properties: self.config.private_as_properties,
+            c: self.c,
         });
 
         let extra_stmts = extra_inits
@@ -812,7 +800,7 @@ impl ClassProperties {
             private: &self.private,
             vars: vec![],
             in_assign_pat: false,
-            private_as_properties: self.config.private_as_properties,
+            c: self.c,
         });
 
         self.private.pop();

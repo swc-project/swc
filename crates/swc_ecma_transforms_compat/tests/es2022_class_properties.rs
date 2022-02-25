@@ -5940,6 +5940,37 @@ _defineProperty(A, 'foo', B.bar)
 "
 );
 
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config {
+        no_document_all: true,
+        ..Default::default()
+    }),
+    private_optional_chain_member_loose,
+    r#"
+class MyClass {
+  #a
+  foo(o) {
+    o?.#a
+  }
+}
+"#,
+    r#"
+var _a = new WeakMap();
+class MyClass {
+  foo(o) {
+    o == null ? void 0 : _classPrivateFieldGet(o, _a);
+  }
+  constructor(){
+    _classPrivateFieldInit(this, _a, {
+      writable: true,
+      value: void 0
+    });
+  }
+}
+"#
+);
+
 test_exec!(
     syntax(),
     |_| class_properties(class_properties::Config {

@@ -9,9 +9,12 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    alias_ident_for, alias_if_required, prepend, quote_ident, undefined, ExprFactory, HANDLER,
+    alias_ident_for, alias_if_required, opt_chain_test, prepend, quote_ident, undefined,
+    ExprFactory, HANDLER,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+
+use super::Config;
 
 pub(super) struct Private {
     pub mark: Mark,
@@ -135,7 +138,7 @@ pub(super) struct PrivateAccessVisitor<'a> {
     pub vars: Vec<VarDeclarator>,
     pub private: &'a PrivateRecord,
     pub in_assign_pat: bool,
-    pub private_as_properties: bool,
+    pub c: Config,
 }
 
 macro_rules! take_vars {
@@ -540,22 +543,12 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
 
                 *e = Expr::Cond(CondExpr {
                     span: *span,
-                    test: Box::new(Expr::Bin(BinExpr {
-                        span: DUMMY_SP,
-                        left: Box::new(Expr::Bin(BinExpr {
-                            span: DUMMY_SP,
-                            left: Box::new(ident.clone().into()),
-                            op: op!("==="),
-                            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-                        })),
-                        op: op!("||"),
-                        right: Box::new(Expr::Bin(BinExpr {
-                            span: DUMMY_SP,
-                            left: Box::new(ident.into()),
-                            op: op!("==="),
-                            right: undefined(DUMMY_SP),
-                        })),
-                    })),
+                    test: Box::new(opt_chain_test(
+                        Box::new(ident.clone().into()),
+                        Box::new(ident.into()),
+                        *span,
+                        self.c.no_document_all,
+                    )),
                     cons: undefined(DUMMY_SP),
                     alt: Box::new(expr),
                 })
@@ -585,13 +578,13 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
 pub(super) fn visit_private_in_expr(
     expr: &mut Expr,
     private: &PrivateRecord,
-    private_as_properties: bool,
+    config: Config,
 ) -> Vec<VarDeclarator> {
     let mut priv_visitor = PrivateAccessVisitor {
         private,
         vars: vec![],
         in_assign_pat: false,
-        private_as_properties,
+        c: config,
     };
 
     expr.visit_mut_with(&mut priv_visitor);
@@ -704,7 +697,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                 );
             }
 
-            let get = if self.private_as_properties {
+            let get = if self.c.private_as_properties {
                 helper!(class_private_field_loose_base, "classPrivateFieldLooseBase")
             } else if kind.is_method {
                 helper!(class_private_method_get, "classPrivateMethodGet")
@@ -714,7 +707,7 @@ impl<'a> PrivateAccessVisitor<'a> {
 
             match &*obj {
                 Expr::This(this) => (
-                    if kind.is_method && !self.private_as_properties {
+                    if kind.is_method && !self.c.private_as_properties {
                         CallExpr {
                             span: DUMMY_SP,
                             callee: get,

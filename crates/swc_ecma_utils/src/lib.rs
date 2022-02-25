@@ -1739,6 +1739,39 @@ pub fn undefined(span: Span) -> Box<Expr> {
     .into()
 }
 
+pub fn opt_chain_test(
+    left: Box<Expr>,
+    right: Box<Expr>,
+    span: Span,
+    no_document_all: bool,
+) -> Expr {
+    if no_document_all {
+        Expr::Bin(BinExpr {
+            span,
+            left,
+            op: op!("=="),
+            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+        })
+    } else {
+        Expr::Bin(BinExpr {
+            span,
+            left: Box::new(Expr::Bin(BinExpr {
+                span: DUMMY_SP,
+                left,
+                op: op!("==="),
+                right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+            })),
+            op: op!("||"),
+            right: Box::new(Expr::Bin(BinExpr {
+                span: DUMMY_SP,
+                left: right,
+                op: op!("==="),
+                right: undefined(DUMMY_SP),
+            })),
+        })
+    }
+}
+
 /// inject `branch` after directives
 #[inline(never)]
 pub fn prepend<T: StmtLike>(stmts: &mut Vec<T>, stmt: T) {
