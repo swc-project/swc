@@ -233,6 +233,15 @@ impl Str {
     }
 }
 
+/// A boolean literal.
+///
+///
+/// # Creation
+///
+/// If you are creating a boolean literal with a dummy span, please use
+/// `true.into()` or `false.into()`, instead of creating this struct directly.
+///
+/// All of `Box<Expr>`, `Expr`, `Lit`, `Bool` implements `From<bool>`.
 #[ast_node("BooleanLiteral")]
 #[derive(Copy, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -288,6 +297,17 @@ impl<'a> arbitrary::Arbitrary<'a> for Regex {
         Ok(Self { span, exp, flags })
     }
 }
+
+/// A numeric literal.
+///
+///
+/// # Creation
+///
+/// If you are creating a numeric literal with a dummy span, please use
+/// `literal.into()`, instead of creating this struct directly.
+///
+/// All of `Box<Expr>`, `Expr`, `Lit`, `Number` implements `From<N>` where N is
+/// numeric primitive types.
 
 #[ast_node("NumericLiteral")]
 #[derive(Copy, EqIgnoreSpan)]
