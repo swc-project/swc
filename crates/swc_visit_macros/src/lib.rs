@@ -446,7 +446,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
         let trait_decl = match mode {
             Mode::Visit => q!({
-                pub trait VisitWith<V: Visit> {
+                pub trait VisitWith<V: ?Sized + Visit> {
                     fn visit_with(&self, v: &mut V);
 
                     /// Visit children nodes of self with `v`
@@ -469,7 +469,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             }),
             Mode::VisitAll => q!({
-                pub trait VisitAllWith<V: VisitAll> {
+                pub trait VisitAllWith<V: ?Sized + VisitAll> {
                     fn visit_all_with(&self, v: &mut V);
 
                     /// Visit children nodes of self with `v`
@@ -478,7 +478,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                 impl<V, T> VisitAllWith<V> for Box<T>
                 where
-                    V: VisitAll,
+                    V: ?Sized + VisitAll,
                     T: 'static + VisitAllWith<V>,
                 {
                     fn visit_all_with(&self, v: &mut V) {
@@ -492,7 +492,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             }),
             Mode::Fold => q!({
-                pub trait FoldWith<V: Fold> {
+                pub trait FoldWith<V: ?Sized + Fold> {
                     fn fold_with(self, v: &mut V) -> Self;
 
                     /// Visit children nodes of self with `v`
@@ -501,7 +501,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                 impl<V, T> FoldWith<V> for Box<T>
                 where
-                    V: Fold,
+                    V: ?Sized + Fold,
                     T: 'static + FoldWith<V>,
                 {
                     fn fold_with(self, v: &mut V) -> Self {
@@ -515,7 +515,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             }),
             Mode::VisitMut => q!({
-                pub trait VisitMutWith<V: VisitMut> {
+                pub trait VisitMutWith<V: ?Sized + VisitMut> {
                     fn visit_mut_with(&mut self, v: &mut V);
 
                     fn visit_mut_children_with(&mut self, v: &mut V);
@@ -523,7 +523,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                 impl<V, T> VisitMutWith<V> for Box<T>
                 where
-                    V: VisitMut,
+                    V: ?Sized + VisitMut,
                     T: 'static + VisitMutWith<V>,
                 {
                     fn visit_mut_with(&mut self, v: &mut V) {
