@@ -5,7 +5,7 @@ use once_cell::sync::Lazy;
 use swc_atoms::JsWord;
 use swc_common::{errors::HANDLER, sync::Lrc, util::move_map::MoveMap, FileName, SourceMap};
 use swc_ecma_ast::*;
-use swc_ecma_parser::with_file_parser;
+use swc_ecma_parser::parse_file_as_expr;
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
@@ -42,13 +42,12 @@ fn parse_option(cm: &SourceMap, name: &str, src: String) -> Arc<Expr> {
         return expr.clone();
     }
 
-    let expr = with_file_parser(
+    let expr = parse_file_as_expr(
         &fm,
         Default::default(),
         Default::default(),
         None,
         &mut vec![],
-        |p| p.parse_expr(),
     )
     .map_err(|e| {
         if HANDLER.is_set() {

@@ -128,7 +128,7 @@ use error::Error;
 use lexer::Lexer;
 use serde::{Deserialize, Serialize};
 use swc_common::{comments::Comments, input::SourceFileInput, SourceFile};
-use swc_ecma_ast::EsVersion;
+use swc_ecma_ast::*;
 
 pub use self::{
     lexer::input::{Input, StringInput},
@@ -398,10 +398,6 @@ where
     })
 }
 
-/// Note: This is reccomended way to parse a file.
-///
-/// This is an alias for [Parser], [Lexer] and [SourceFileInput], but
-/// instantiation of generics occur in `swc_ecma_parser` crate.
 pub fn with_file_parser<T>(
     fm: &SourceFile,
     syntax: Syntax,
@@ -417,4 +413,36 @@ pub fn with_file_parser<T>(
     recovered_errors.append(&mut p.take_errors());
 
     ret
+}
+
+/// Note: This is reccomended way to parse a file.
+///
+/// This is an alias for [Parser], [Lexer] and [SourceFileInput], but
+/// instantiation of generics occur in `swc_ecma_parser` crate.
+pub fn parse_file_as_expr(
+    fm: &SourceFile,
+    syntax: Syntax,
+    target: EsVersion,
+    comments: Option<&dyn Comments>,
+    recovered_errors: &mut Vec<Error>,
+) -> PResult<Box<Expr>> {
+    with_file_parser(fm, syntax, target, comments, recovered_errors, |p| {
+        p.parse_expr()
+    })
+}
+
+/// Note: This is reccomended way to parse a file.
+///
+/// This is an alias for [Parser], [Lexer] and [SourceFileInput], but
+/// instantiation of generics occur in `swc_ecma_parser` crate.
+pub fn parse_file_as_module(
+    fm: &SourceFile,
+    syntax: Syntax,
+    target: EsVersion,
+    comments: Option<&dyn Comments>,
+    recovered_errors: &mut Vec<Error>,
+) -> PResult<Module> {
+    with_file_parser(fm, syntax, target, comments, recovered_errors, |p| {
+        p.parse_module()
+    })
 }

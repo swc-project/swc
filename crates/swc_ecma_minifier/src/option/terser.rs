@@ -5,7 +5,7 @@ use serde_json::Value;
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, sync::Lrc, FileName, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_parser::with_file_parser;
+use swc_ecma_parser::parse_file_as_expr;
 use swc_ecma_utils::drop_span;
 
 use super::{true_by_default, CompressOptions, TopLevelOptions};
@@ -331,13 +331,12 @@ impl TerserCompressorOptions {
                     let parse = |input: String| {
                         let fm = cm.new_source_file(FileName::Anon, input);
 
-                        with_file_parser(
+                        parse_file_as_expr(
                             &fm,
                             Default::default(),
                             Default::default(),
                             None,
                             &mut vec![],
-                            |p| p.parse_expr(),
                         )
                         .map(drop_span)
                         .unwrap_or_else(|err| {

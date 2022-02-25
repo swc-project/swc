@@ -17,7 +17,7 @@ use swc_common::{
     FileName, Mark, SourceMap, Span, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_parser::{with_file_parser, Syntax};
+use swc_ecma_parser::{parse_file_as_expr, Syntax};
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     drop_span, member_expr, prepend, private_ident, quote_ident, undefined, ExprFactory,
@@ -135,13 +135,12 @@ pub fn parse_expr_for_jsx(
         return expr.clone();
     }
 
-    let expr = with_file_parser(
+    let expr = parse_file_as_expr(
         &fm,
         Syntax::default(),
         Default::default(),
         None,
         &mut vec![],
-        |p| p.parse_expr(),
     )
     .map_err(|e| {
         if HANDLER.is_set() {
