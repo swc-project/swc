@@ -3,11 +3,9 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use swc_atoms::JsWord;
-use swc_common::{
-    collections::AHashMap, input::SourceFileInput, sync::Lrc, FileName, SourceMap, DUMMY_SP,
-};
+use swc_common::{collections::AHashMap, sync::Lrc, FileName, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, Parser};
+use swc_ecma_parser::with_file_parser;
 use swc_ecma_utils::drop_span;
 
 use super::{true_by_default, CompressOptions, TopLevelOptions};
@@ -333,15 +331,16 @@ impl TerserCompressorOptions {
                     let parse = |input: String| {
                         let fm = cm.new_source_file(FileName::Anon, input);
 
-                        let lexer = Lexer::new(
+                        with_file_parser(
+                            &fm,
                             Default::default(),
                             Default::default(),
-                            SourceFileInput::from(&*fm),
                             None,
-                        );
-                        let mut parser = Parser::new_from(lexer);
-
-                        parser.parse_expr().map(drop_span).unwrap_or_else(|err| {
+                            &mut vec![],
+                            |p| p.parse_expr(),
+                        )
+                        .map(drop_span)
+                        .unwrap_or_else(|err| {
                             panic!(
                                 "failed to parse `global_defs.{}` of minifier options: {:?}",
                                 k, err
