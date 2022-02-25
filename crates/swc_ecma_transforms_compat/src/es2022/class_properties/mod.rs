@@ -394,9 +394,11 @@ impl ClassProperties {
 
         let has_super = class.super_class.is_some();
 
+        // we need a hash map to avoid generate two init for corresponding getter/setter
         let mut constructor_inits = MemberInitMap::default();
         let mut vars = vec![];
         let mut extra_inits = MemberInitMap::default();
+        // same here
         let mut private_method_fn_decls = vec![];
         let mut members = vec![];
         let mut constructor = None;
