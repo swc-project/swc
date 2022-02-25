@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_common::{errors::HANDLER, sync::Lrc, FileName, SourceMap};
 use swc_ecma_ast::{Expr, Ident};
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_parser::{with_file_parser, Syntax};
 use swc_ecma_utils::quote_ident;
 
 use super::super::util;
@@ -32,20 +32,20 @@ impl Config {
                         let fm = cm
                             .new_source_file(FileName::Custom(format!("<umd-config-{}.js>", s)), s);
 
-                        let lexer = Lexer::new(
+                        with_file_parser(
+                            &fm,
                             Syntax::default(),
                             Default::default(),
-                            StringInput::from(&*fm),
                             None,
-                        );
-                        Parser::new_from(lexer)
-                            .parse_expr()
-                            .map_err(|e| {
-                                if HANDLER.is_set() {
-                                    HANDLER.with(|h| e.into_diagnostic(h).emit())
-                                }
-                            })
-                            .unwrap()
+                            &mut vec![],
+                            |p| p.parse_expr(),
+                        )
+                        .map_err(|e| {
+                            if HANDLER.is_set() {
+                                HANDLER.with(|h| e.into_diagnostic(h).emit())
+                            }
+                        })
+                        .unwrap()
                     };
                     (k, parse(v))
                 })
