@@ -35,3 +35,86 @@
 @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
 @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
 @supports (NOT (display: flex)) {}
+
+@supports selector(col || td) {
+    col.selected || td {
+        background: tan;
+    }
+}
+
+@supports selector(:focus-visible) {
+    a:focus-visible {
+        background: yellow;
+    }
+}
+
+@supports (--element(".minwidth")) {
+    [--self] {
+        background: greenyellow;
+    }
+}
+
+@supports (ident: 1) {
+    * { background: red; }
+}
+
+@supports ((ident: 1)) {
+    * { background: red; }
+}
+
+@supports (ident "str") {
+    * { background: red; }
+}
+
+@supports ((ident "str")) {
+    * { background: red; }
+}
+
+@supports func(10, 20, 40) {
+    * { background: red; }
+}
+
+@supports (func(10, 20, 40)) {
+    * { background: red; }
+}
+
+@supports (   func(   10   ,   20   ,   40   )  ) {
+    * { background: red; }
+}
+
+@supports (animation-name: test) {
+    @-custom-keyframe anim {
+        from {
+            color: black;
+        }
+        to {
+            color: white
+        }
+    }
+}
+
+@supports (--var) {
+    * { background: red; }
+}
+
+@supports (--foo: green) {
+    body {
+        color: var(--varName);
+    }
+}
+
+@supports not selector(:is(a, b)) {
+    ul > li,
+    ol > li {
+        color: red;
+    }
+}
+
+@supports selector(:nth-child(1n of a, b)) {
+    :is(
+      :nth-child(1n of ul, ol) a,
+      details > summary
+  ) {
+      color: red
+    }
+}

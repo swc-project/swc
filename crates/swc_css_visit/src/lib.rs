@@ -116,6 +116,7 @@ define!({
         Delimiter(Delimiter),
         Urange(Urange),
         Url(Url),
+        ComplexSelector(ComplexSelector),
         PreservedToken(TokenAndSpan),
     }
 
@@ -772,10 +773,17 @@ define!({
     pub enum SupportsInParens {
         SupportsCondition(SupportsCondition),
         Feature(SupportsFeature),
+        GeneralEnclosed(GeneralEnclosed),
     }
 
     pub enum SupportsFeature {
         Declaration(Declaration),
+        Function(Function),
+    }
+
+    pub enum GeneralEnclosed {
+        Function(Function),
+        SimpleBlock(SimpleBlock),
     }
 
     pub enum ColorProfileName {
