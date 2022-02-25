@@ -15,7 +15,7 @@ use self::config::BuiltConfig;
 pub use self::config::Config;
 use super::util::{
     self, define_es_module, define_property, has_use_strict, initialize_to_undefined,
-    local_name_for_src, make_descriptor, make_require_call, use_strict, Exports, ModulePass, Scope,
+    local_name_for_src, make_descriptor, use_strict, Exports, ModulePass, Scope,
 };
 use crate::path::{ImportResolver, Resolver};
 
@@ -552,8 +552,11 @@ impl Fold for Umd<'_> {
                 decorators: Default::default(),
                 pat: ident.clone().into(),
             });
-            factory_args
-                .push(make_require_call(&self.resolver, self.root_mark, src.clone()).as_arg());
+            factory_args.push(
+                self.resolver
+                    .make_require_call(self.root_mark, src.clone())
+                    .as_arg(),
+            );
             global_factory_args.push(quote_ident!("global").make_member(global_ident).as_arg());
 
             {
