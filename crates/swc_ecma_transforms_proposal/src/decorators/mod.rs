@@ -357,10 +357,7 @@ impl Decorators {
                         .chain(if method.is_static {
                             Some(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                                 key: PropName::Ident(quote_ident!("static")),
-                                value: Box::new(Expr::Lit(Lit::Bool(Bool {
-                                    value: true,
-                                    span: DUMMY_SP,
-                                }))),
+                                value: true.into(),
                             }))))
                         } else {
                             None
@@ -471,10 +468,7 @@ impl Decorators {
                                     Some(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                         KeyValueProp {
                                             key: PropName::Ident(quote_ident!("static")),
-                                            value: Box::new(Expr::Lit(Lit::Bool(Bool {
-                                                value: true,
-                                                span: DUMMY_SP,
-                                            }))),
+                                            value: true.into(),
                                         },
                                     ))))
                                 } else {

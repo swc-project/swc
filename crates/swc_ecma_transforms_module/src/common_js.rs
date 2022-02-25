@@ -325,12 +325,7 @@ where
                                                             key: PropName::Ident(Ident::new(
                                                                 export, DUMMY_SP,
                                                             )),
-                                                            value: Box::new(Expr::Lit(Lit::Bool(
-                                                                Bool {
-                                                                    span: DUMMY_SP,
-                                                                    value: true,
-                                                                },
-                                                            ))),
+                                                            value: true.into(),
                                                         }),
                                                     )))
                                                 })

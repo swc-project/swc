@@ -144,13 +144,7 @@ impl<'a> HookRegister<'a> {
         }
 
         if should_reset || !custom_hook_in_scope.is_empty() {
-            args.push(
-                Expr::Lit(Lit::Bool(Bool {
-                    span: DUMMY_SP,
-                    value: should_reset,
-                }))
-                .as_arg(),
-            );
+            args.push(should_reset.as_arg());
         }
 
         if !custom_hook_in_scope.is_empty() {

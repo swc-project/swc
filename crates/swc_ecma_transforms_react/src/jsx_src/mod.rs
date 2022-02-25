@@ -62,7 +62,7 @@ impl VisitMut for JsxSrc {
                             }))),
                             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                                 key: PropName::Ident(quote_ident!("columnNumber")),
-                                value: (loc.col.0 + 1),into(),
+                                value: (loc.col.0 + 1).into(),
                             }))),
                         ],
                     }
