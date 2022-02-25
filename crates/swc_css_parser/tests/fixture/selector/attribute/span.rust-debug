@@ -3232,6 +3232,12 @@ error: Ident
 41 | :not([foo=")"]) {}
    |  ^^^
 
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/attribute/input.css:41:6
+   |
+41 | :not([foo=")"]) {}
+   |      ^^^^^^^^^
+
 error: SelectorList
   --> $DIR/tests/fixture/selector/attribute/input.css:41:6
    |
@@ -3345,6 +3351,12 @@ error: Ident
    |
 42 | :not(div/*)*/) { }
    |  ^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/attribute/input.css:42:6
+   |
+42 | :not(div/*)*/) { }
+   |      ^^^
 
 error: SelectorList
   --> $DIR/tests/fixture/selector/attribute/input.css:42:6

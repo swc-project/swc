@@ -1,0 +1,2174 @@
+error: Stylesheet
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:1:1
+   |
+1  | / :-webkit-any(textarea) {}
+2  | | :-moz-any(textarea) {}
+3  | | :-webkit-any(header, main, footer) p:hover {}
+4  | | :-moz-any(header, main, footer) p:hover {}
+...  |
+20 | |     background-color: green;
+21 | | }
+   | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:1:1
+  |
+1 | :-webkit-any(textarea) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:1:1
+  |
+1 | :-webkit-any(textarea) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:1:1
+  |
+1 | :-webkit-any(textarea) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:1:1
+  |
+1 | :-webkit-any(textarea) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:1:1
+  |
+1 | :-webkit-any(textarea) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:1:1
+  |
+1 | :-webkit-any(textarea) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:1:1
+  |
+1 | :-webkit-any(textarea) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:1:2
+  |
+1 | :-webkit-any(textarea) {}
+  |  ^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:1:14
+  |
+1 | :-webkit-any(textarea) {}
+  |              ^^^^^^^^
+
+error: CompoundSelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:1:14
+  |
+1 | :-webkit-any(textarea) {}
+  |              ^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:1:14
+  |
+1 | :-webkit-any(textarea) {}
+  |              ^^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:1:14
+  |
+1 | :-webkit-any(textarea) {}
+  |              ^^^^^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:1:14
+  |
+1 | :-webkit-any(textarea) {}
+  |              ^^^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:1:14
+  |
+1 | :-webkit-any(textarea) {}
+  |              ^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:1:14
+  |
+1 | :-webkit-any(textarea) {}
+  |              ^^^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:1:24
+  |
+1 | :-webkit-any(textarea) {}
+  |                        ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:2:1
+  |
+2 | :-moz-any(textarea) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:2:1
+  |
+2 | :-moz-any(textarea) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:2:1
+  |
+2 | :-moz-any(textarea) {}
+  | ^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:2:1
+  |
+2 | :-moz-any(textarea) {}
+  | ^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:2:1
+  |
+2 | :-moz-any(textarea) {}
+  | ^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:2:1
+  |
+2 | :-moz-any(textarea) {}
+  | ^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:2:1
+  |
+2 | :-moz-any(textarea) {}
+  | ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:2:2
+  |
+2 | :-moz-any(textarea) {}
+  |  ^^^^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:2:11
+  |
+2 | :-moz-any(textarea) {}
+  |           ^^^^^^^^
+
+error: CompoundSelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:2:11
+  |
+2 | :-moz-any(textarea) {}
+  |           ^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:2:11
+  |
+2 | :-moz-any(textarea) {}
+  |           ^^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:2:11
+  |
+2 | :-moz-any(textarea) {}
+  |           ^^^^^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:2:11
+  |
+2 | :-moz-any(textarea) {}
+  |           ^^^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:2:11
+  |
+2 | :-moz-any(textarea) {}
+  |           ^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:2:11
+  |
+2 | :-moz-any(textarea) {}
+  |           ^^^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:2:21
+  |
+2 | :-moz-any(textarea) {}
+  |                     ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:1
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:1
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:1
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:1
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:1
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:1
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:1
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:2
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |  ^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:14
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |              ^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:14
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |              ^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:14
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |              ^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:14
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |              ^^^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:14
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |              ^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:14
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |              ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:14
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |              ^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:22
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |                      ^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:22
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |                      ^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:22
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |                      ^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:22
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |                      ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:22
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |                      ^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:28
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |                            ^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:28
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |                            ^^^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:28
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |                            ^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:28
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |                            ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:28
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |                            ^^^^^^
+
+error: Combinator
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:35
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |                                   ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:36
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |                                    ^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:36
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |                                    ^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:36
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |                                    ^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:36
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |                                    ^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:36
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |                                    ^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:37
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |                                     ^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:37
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |                                     ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:38
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |                                      ^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:3:44
+  |
+3 | :-webkit-any(header, main, footer) p:hover {}
+  |                                            ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:1
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:1
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:1
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:1
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:1
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:1
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:1
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:2
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |  ^^^^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:11
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |           ^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:11
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |           ^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:11
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |           ^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:11
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |           ^^^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:11
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |           ^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:11
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |           ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:11
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |           ^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:19
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |                   ^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:19
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |                   ^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:19
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |                   ^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:19
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |                   ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:19
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |                   ^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:25
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |                         ^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:25
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |                         ^^^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:25
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |                         ^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:25
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |                         ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:25
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |                         ^^^^^^
+
+error: Combinator
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:32
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |                                ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:33
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |                                 ^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:33
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |                                 ^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:33
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |                                 ^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:33
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |                                 ^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:33
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |                                 ^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:34
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |                                  ^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:34
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |                                  ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:35
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |                                   ^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:4:41
+  |
+4 | :-moz-any(header, main, footer) p:hover {}
+  |                                         ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:1
+  |
+5 | :-webkit-any(.class[test]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:1
+  |
+5 | :-webkit-any(.class[test]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:1
+  |
+5 | :-webkit-any(.class[test]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:1
+  |
+5 | :-webkit-any(.class[test]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:1
+  |
+5 | :-webkit-any(.class[test]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:1
+  |
+5 | :-webkit-any(.class[test]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:1
+  |
+5 | :-webkit-any(.class[test]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:2
+  |
+5 | :-webkit-any(.class[test]) {}
+  |  ^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:14
+  |
+5 | :-webkit-any(.class[test]) {}
+  |              ^^^^^^^^^^^^
+
+error: CompoundSelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:14
+  |
+5 | :-webkit-any(.class[test]) {}
+  |              ^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:14
+  |
+5 | :-webkit-any(.class[test]) {}
+  |              ^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:14
+  |
+5 | :-webkit-any(.class[test]) {}
+  |              ^^^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:14
+  |
+5 | :-webkit-any(.class[test]) {}
+  |              ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:15
+  |
+5 | :-webkit-any(.class[test]) {}
+  |               ^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:20
+  |
+5 | :-webkit-any(.class[test]) {}
+  |                    ^^^^^^
+
+error: AttributeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:20
+  |
+5 | :-webkit-any(.class[test]) {}
+  |                    ^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:21
+  |
+5 | :-webkit-any(.class[test]) {}
+  |                     ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:21
+  |
+5 | :-webkit-any(.class[test]) {}
+  |                     ^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:5:28
+  |
+5 | :-webkit-any(.class[test]) {}
+  |                            ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:1
+  |
+6 | :-moz-any(.class[test]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:1
+  |
+6 | :-moz-any(.class[test]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:1
+  |
+6 | :-moz-any(.class[test]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:1
+  |
+6 | :-moz-any(.class[test]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:1
+  |
+6 | :-moz-any(.class[test]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:1
+  |
+6 | :-moz-any(.class[test]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:1
+  |
+6 | :-moz-any(.class[test]) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:2
+  |
+6 | :-moz-any(.class[test]) {}
+  |  ^^^^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:11
+  |
+6 | :-moz-any(.class[test]) {}
+  |           ^^^^^^^^^^^^
+
+error: CompoundSelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:11
+  |
+6 | :-moz-any(.class[test]) {}
+  |           ^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:11
+  |
+6 | :-moz-any(.class[test]) {}
+  |           ^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:11
+  |
+6 | :-moz-any(.class[test]) {}
+  |           ^^^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:11
+  |
+6 | :-moz-any(.class[test]) {}
+  |           ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:12
+  |
+6 | :-moz-any(.class[test]) {}
+  |            ^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:17
+  |
+6 | :-moz-any(.class[test]) {}
+  |                 ^^^^^^
+
+error: AttributeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:17
+  |
+6 | :-moz-any(.class[test]) {}
+  |                 ^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:18
+  |
+6 | :-moz-any(.class[test]) {}
+  |                  ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:18
+  |
+6 | :-moz-any(.class[test]) {}
+  |                  ^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:6:25
+  |
+6 | :-moz-any(.class[test]) {}
+  |                         ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:1
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:1
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:1
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:1
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:1
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:1
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:1
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:2
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  |  ^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:14
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  |              ^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:14
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  |              ^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:14
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  |              ^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:14
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  |              ^^^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:14
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  |              ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:15
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  |               ^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:20
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  |                    ^^^^^^
+
+error: AttributeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:20
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  |                    ^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:21
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  |                     ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:21
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  |                     ^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:28
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  |                            ^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:28
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  |                            ^^^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:28
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  |                            ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:29
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  |                             ^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:7:36
+  |
+7 | :-webkit-any(.class[test], .class) {}
+  |                                    ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:1
+  |
+8 | :-moz-any(.class[test], .class) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:1
+  |
+8 | :-moz-any(.class[test], .class) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:1
+  |
+8 | :-moz-any(.class[test], .class) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:1
+  |
+8 | :-moz-any(.class[test], .class) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:1
+  |
+8 | :-moz-any(.class[test], .class) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:1
+  |
+8 | :-moz-any(.class[test], .class) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:1
+  |
+8 | :-moz-any(.class[test], .class) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:2
+  |
+8 | :-moz-any(.class[test], .class) {}
+  |  ^^^^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:11
+  |
+8 | :-moz-any(.class[test], .class) {}
+  |           ^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:11
+  |
+8 | :-moz-any(.class[test], .class) {}
+  |           ^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:11
+  |
+8 | :-moz-any(.class[test], .class) {}
+  |           ^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:11
+  |
+8 | :-moz-any(.class[test], .class) {}
+  |           ^^^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:11
+  |
+8 | :-moz-any(.class[test], .class) {}
+  |           ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:12
+  |
+8 | :-moz-any(.class[test], .class) {}
+  |            ^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:17
+  |
+8 | :-moz-any(.class[test], .class) {}
+  |                 ^^^^^^
+
+error: AttributeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:17
+  |
+8 | :-moz-any(.class[test], .class) {}
+  |                 ^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:18
+  |
+8 | :-moz-any(.class[test], .class) {}
+  |                  ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:18
+  |
+8 | :-moz-any(.class[test], .class) {}
+  |                  ^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:25
+  |
+8 | :-moz-any(.class[test], .class) {}
+  |                         ^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:25
+  |
+8 | :-moz-any(.class[test], .class) {}
+  |                         ^^^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:25
+  |
+8 | :-moz-any(.class[test], .class) {}
+  |                         ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:26
+  |
+8 | :-moz-any(.class[test], .class) {}
+  |                          ^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:8:33
+  |
+8 | :-moz-any(.class[test], .class) {}
+  |                                 ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:9:1
+   |
+9  | / :-webkit-any(h1),
+10 | | :-webkit-any( #div1, b ),
+11 | | :-webkit-any(.foo, #bar),
+12 | | :-webkit-any(i,p,:link,span:focus) {
+13 | |     background-color: blue;
+14 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:9:1
+   |
+9  | / :-webkit-any(h1),
+10 | | :-webkit-any( #div1, b ),
+11 | | :-webkit-any(.foo, #bar),
+12 | | :-webkit-any(i,p,:link,span:focus) {
+13 | |     background-color: blue;
+14 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:9:1
+   |
+9  | / :-webkit-any(h1),
+10 | | :-webkit-any( #div1, b ),
+11 | | :-webkit-any(.foo, #bar),
+12 | | :-webkit-any(i,p,:link,span:focus) {
+   | |__________________________________^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:9:1
+  |
+9 | :-webkit-any(h1),
+  | ^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:9:1
+  |
+9 | :-webkit-any(h1),
+  | ^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:9:1
+  |
+9 | :-webkit-any(h1),
+  | ^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:9:1
+  |
+9 | :-webkit-any(h1),
+  | ^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:9:2
+  |
+9 | :-webkit-any(h1),
+  |  ^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:9:14
+  |
+9 | :-webkit-any(h1),
+  |              ^^
+
+error: CompoundSelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:9:14
+  |
+9 | :-webkit-any(h1),
+  |              ^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:9:14
+  |
+9 | :-webkit-any(h1),
+  |              ^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:9:14
+  |
+9 | :-webkit-any(h1),
+  |              ^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:9:14
+  |
+9 | :-webkit-any(h1),
+  |              ^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:9:14
+  |
+9 | :-webkit-any(h1),
+  |              ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:9:14
+  |
+9 | :-webkit-any(h1),
+  |              ^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:10:1
+   |
+10 | :-webkit-any( #div1, b ),
+   | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:10:1
+   |
+10 | :-webkit-any( #div1, b ),
+   | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:10:1
+   |
+10 | :-webkit-any( #div1, b ),
+   | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:10:1
+   |
+10 | :-webkit-any( #div1, b ),
+   | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:10:2
+   |
+10 | :-webkit-any( #div1, b ),
+   |  ^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:10:15
+   |
+10 | :-webkit-any( #div1, b ),
+   |               ^^^^^^^^
+
+error: CompoundSelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:10:15
+   |
+10 | :-webkit-any( #div1, b ),
+   |               ^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:10:15
+   |
+10 | :-webkit-any( #div1, b ),
+   |               ^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:10:15
+   |
+10 | :-webkit-any( #div1, b ),
+   |               ^^^^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:10:15
+   |
+10 | :-webkit-any( #div1, b ),
+   |               ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:10:15
+   |
+10 | :-webkit-any( #div1, b ),
+   |               ^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:10:22
+   |
+10 | :-webkit-any( #div1, b ),
+   |                      ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:10:22
+   |
+10 | :-webkit-any( #div1, b ),
+   |                      ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:10:22
+   |
+10 | :-webkit-any( #div1, b ),
+   |                      ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:10:22
+   |
+10 | :-webkit-any( #div1, b ),
+   |                      ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:10:22
+   |
+10 | :-webkit-any( #div1, b ),
+   |                      ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:11:1
+   |
+11 | :-webkit-any(.foo, #bar),
+   | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:11:1
+   |
+11 | :-webkit-any(.foo, #bar),
+   | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:11:1
+   |
+11 | :-webkit-any(.foo, #bar),
+   | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:11:1
+   |
+11 | :-webkit-any(.foo, #bar),
+   | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:11:2
+   |
+11 | :-webkit-any(.foo, #bar),
+   |  ^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:11:14
+   |
+11 | :-webkit-any(.foo, #bar),
+   |              ^^^^^^^^^^
+
+error: CompoundSelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:11:14
+   |
+11 | :-webkit-any(.foo, #bar),
+   |              ^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:11:14
+   |
+11 | :-webkit-any(.foo, #bar),
+   |              ^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:11:14
+   |
+11 | :-webkit-any(.foo, #bar),
+   |              ^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:11:14
+   |
+11 | :-webkit-any(.foo, #bar),
+   |              ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:11:15
+   |
+11 | :-webkit-any(.foo, #bar),
+   |               ^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:11:20
+   |
+11 | :-webkit-any(.foo, #bar),
+   |                    ^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:11:20
+   |
+11 | :-webkit-any(.foo, #bar),
+   |                    ^^^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:11:20
+   |
+11 | :-webkit-any(.foo, #bar),
+   |                    ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:11:20
+   |
+11 | :-webkit-any(.foo, #bar),
+   |                    ^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:1
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:1
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:1
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:1
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:2
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |  ^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:14
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |              ^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:14
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |              ^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:14
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |              ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:14
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |              ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:14
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |              ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:14
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |              ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:14
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |              ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:16
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |                ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:16
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |                ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:16
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |                ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:16
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |                ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:16
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |                ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:18
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |                  ^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:18
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |                  ^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:18
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |                  ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:19
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |                   ^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:24
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |                        ^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:24
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |                        ^^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:24
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |                        ^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:24
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |                        ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:24
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |                        ^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:28
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |                            ^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:28
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |                            ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:29
+   |
+12 | :-webkit-any(i,p,:link,span:focus) {
+   |                             ^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:12:36
+   |
+12 |   :-webkit-any(i,p,:link,span:focus) {
+   |  ____________________________________^
+13 | |     background-color: blue;
+14 | | }
+   | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:13:5
+   |
+13 |     background-color: blue;
+   |     ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:13:5
+   |
+13 |     background-color: blue;
+   |     ^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:13:5
+   |
+13 |     background-color: blue;
+   |     ^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:13:5
+   |
+13 |     background-color: blue;
+   |     ^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:13:23
+   |
+13 |     background-color: blue;
+   |                       ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:13:23
+   |
+13 |     background-color: blue;
+   |                       ^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1
+   |
+16 | / #test-last-child :-webkit-any(:last-child),
+17 | | :-webkit-any(:link:focus),
+18 | | #container-div :-webkit-any(:link, :not(a)),
+19 | | h1:-webkit-any(.h1class, #bar) {
+20 | |     background-color: green;
+21 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1
+   |
+16 | / #test-last-child :-webkit-any(:last-child),
+17 | | :-webkit-any(:link:focus),
+18 | | #container-div :-webkit-any(:link, :not(a)),
+19 | | h1:-webkit-any(.h1class, #bar) {
+20 | |     background-color: green;
+21 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1
+   |
+16 | / #test-last-child :-webkit-any(:last-child),
+17 | | :-webkit-any(:link:focus),
+18 | | #container-div :-webkit-any(:link, :not(a)),
+19 | | h1:-webkit-any(.h1class, #bar) {
+   | |______________________________^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1
+   |
+16 | #test-last-child :-webkit-any(:last-child),
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1
+   |
+16 | #test-last-child :-webkit-any(:last-child),
+   | ^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1
+   |
+16 | #test-last-child :-webkit-any(:last-child),
+   | ^^^^^^^^^^^^^^^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1
+   |
+16 | #test-last-child :-webkit-any(:last-child),
+   | ^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1
+   |
+16 | #test-last-child :-webkit-any(:last-child),
+   | ^^^^^^^^^^^^^^^^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:17
+   |
+16 | #test-last-child :-webkit-any(:last-child),
+   |                 ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:18
+   |
+16 | #test-last-child :-webkit-any(:last-child),
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:18
+   |
+16 | #test-last-child :-webkit-any(:last-child),
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:18
+   |
+16 | #test-last-child :-webkit-any(:last-child),
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:19
+   |
+16 | #test-last-child :-webkit-any(:last-child),
+   |                   ^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:31
+   |
+16 | #test-last-child :-webkit-any(:last-child),
+   |                               ^^^^^^^^^^^
+
+error: CompoundSelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:31
+   |
+16 | #test-last-child :-webkit-any(:last-child),
+   |                               ^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:31
+   |
+16 | #test-last-child :-webkit-any(:last-child),
+   |                               ^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:31
+   |
+16 | #test-last-child :-webkit-any(:last-child),
+   |                               ^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:31
+   |
+16 | #test-last-child :-webkit-any(:last-child),
+   |                               ^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:16:32
+   |
+16 | #test-last-child :-webkit-any(:last-child),
+   |                                ^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:17:1
+   |
+17 | :-webkit-any(:link:focus),
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:17:1
+   |
+17 | :-webkit-any(:link:focus),
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:17:1
+   |
+17 | :-webkit-any(:link:focus),
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:17:1
+   |
+17 | :-webkit-any(:link:focus),
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:17:2
+   |
+17 | :-webkit-any(:link:focus),
+   |  ^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:17:14
+   |
+17 | :-webkit-any(:link:focus),
+   |              ^^^^^^^^^^^
+
+error: CompoundSelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:17:14
+   |
+17 | :-webkit-any(:link:focus),
+   |              ^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:17:14
+   |
+17 | :-webkit-any(:link:focus),
+   |              ^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:17:14
+   |
+17 | :-webkit-any(:link:focus),
+   |              ^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:17:14
+   |
+17 | :-webkit-any(:link:focus),
+   |              ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:17:15
+   |
+17 | :-webkit-any(:link:focus),
+   |               ^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:17:19
+   |
+17 | :-webkit-any(:link:focus),
+   |                   ^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:17:19
+   |
+17 | :-webkit-any(:link:focus),
+   |                   ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:17:20
+   |
+17 | :-webkit-any(:link:focus),
+   |                    ^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:1
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:1
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   | ^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:1
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   | ^^^^^^^^^^^^^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:1
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   | ^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:1
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   | ^^^^^^^^^^^^^^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:15
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |               ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:16
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:16
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:16
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:17
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |                 ^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:29
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |                             ^^^^^^^^^^^^^^
+
+error: CompoundSelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:29
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |                             ^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:29
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |                             ^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:29
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |                             ^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:29
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |                             ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:30
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |                              ^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:36
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |                                    ^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:36
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |                                    ^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:36
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |                                    ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:37
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |                                     ^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:41
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |                                         ^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:41
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |                                         ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:41
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |                                         ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:41
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |                                         ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:41
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |                                         ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:41
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |                                         ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:41
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |                                         ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:18:41
+   |
+18 | #container-div :-webkit-any(:link, :not(a)),
+   |                                         ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:1
+   |
+19 | h1:-webkit-any(.h1class, #bar) {
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:1
+   |
+19 | h1:-webkit-any(.h1class, #bar) {
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:1
+   |
+19 | h1:-webkit-any(.h1class, #bar) {
+   | ^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:1
+   |
+19 | h1:-webkit-any(.h1class, #bar) {
+   | ^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:1
+   |
+19 | h1:-webkit-any(.h1class, #bar) {
+   | ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:1
+   |
+19 | h1:-webkit-any(.h1class, #bar) {
+   | ^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:3
+   |
+19 | h1:-webkit-any(.h1class, #bar) {
+   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:3
+   |
+19 | h1:-webkit-any(.h1class, #bar) {
+   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:4
+   |
+19 | h1:-webkit-any(.h1class, #bar) {
+   |    ^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:16
+   |
+19 | h1:-webkit-any(.h1class, #bar) {
+   |                ^^^^^^^^^^^^^^
+
+error: CompoundSelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:16
+   |
+19 | h1:-webkit-any(.h1class, #bar) {
+   |                ^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:16
+   |
+19 | h1:-webkit-any(.h1class, #bar) {
+   |                ^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:16
+   |
+19 | h1:-webkit-any(.h1class, #bar) {
+   |                ^^^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:16
+   |
+19 | h1:-webkit-any(.h1class, #bar) {
+   |                ^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:17
+   |
+19 | h1:-webkit-any(.h1class, #bar) {
+   |                 ^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:26
+   |
+19 | h1:-webkit-any(.h1class, #bar) {
+   |                          ^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:26
+   |
+19 | h1:-webkit-any(.h1class, #bar) {
+   |                          ^^^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:26
+   |
+19 | h1:-webkit-any(.h1class, #bar) {
+   |                          ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:26
+   |
+19 | h1:-webkit-any(.h1class, #bar) {
+   |                          ^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:19:32
+   |
+19 |   h1:-webkit-any(.h1class, #bar) {
+   |  ________________________________^
+20 | |     background-color: green;
+21 | | }
+   | |_^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:20:5
+   |
+20 |     background-color: green;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:20:5
+   |
+20 |     background-color: green;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:20:5
+   |
+20 |     background-color: green;
+   |     ^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:20:5
+   |
+20 |     background-color: green;
+   |     ^^^^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:20:23
+   |
+20 |     background-color: green;
+   |                       ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:20:23
+   |
+20 |     background-color: green;
+   |                       ^^^^^
+

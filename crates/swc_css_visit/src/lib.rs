@@ -286,6 +286,16 @@ define!({
         pub children: Vec<ComplexSelector>,
     }
 
+    pub struct CompoundSelectorList {
+        pub span: Span,
+        pub children: Vec<CompoundSelector>,
+    }
+
+    pub struct RelativeSelectorList {
+        pub span: Span,
+        pub children: Vec<RelativeSelector>,
+    }
+
     pub struct ComplexSelector {
         pub span: Span,
         pub children: Vec<ComplexSelectorChildren>,
@@ -294,6 +304,12 @@ define!({
     pub enum ComplexSelectorChildren {
         CompoundSelector(CompoundSelector),
         Combinator(Combinator),
+    }
+
+    pub struct RelativeSelector {
+        pub span: Span,
+        pub combinator: Option<Combinator>,
+        pub selector: ComplexSelector,
     }
 
     pub struct CompoundSelector {
@@ -369,11 +385,22 @@ define!({
         pub value: Ident,
     }
 
-    pub enum PseudoSelectorChildren {
+    pub struct PseudoClassSelector {
+        pub span: Span,
+        pub name: Ident,
+        pub children: Option<Vec<PseudoClassSelectorChildren>>,
+    }
+
+    pub enum PseudoClassSelectorChildren {
+        PreservedToken(TokenAndSpan),
         AnPlusB(AnPlusB),
         Ident(Ident),
+        Str(Str),
+        Delimiter(Delimiter),
         SelectorList(SelectorList),
-        PreservedToken(TokenAndSpan),
+        CompoundSelectorList(CompoundSelectorList),
+        RelativeSelectorList(RelativeSelectorList),
+        CompoundSelector(CompoundSelector),
     }
 
     pub enum AnPlusB {
@@ -389,16 +416,16 @@ define!({
         pub b_raw: Option<JsWord>,
     }
 
-    pub struct PseudoClassSelector {
-        pub span: Span,
-        pub name: Ident,
-        pub children: Option<Vec<PseudoSelectorChildren>>,
-    }
-
     pub struct PseudoElementSelector {
         pub span: Span,
         pub name: Ident,
-        pub children: Option<Vec<TokenAndSpan>>,
+        pub children: Option<Vec<PseudoElementSelectorChildren>>,
+    }
+
+    pub enum PseudoElementSelectorChildren {
+        PreservedToken(TokenAndSpan),
+        CompoundSelector(CompoundSelector),
+        Ident(Ident),
     }
 
     pub struct IdSelector {

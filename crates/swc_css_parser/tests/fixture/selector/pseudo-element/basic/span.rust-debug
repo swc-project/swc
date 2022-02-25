@@ -394,7 +394,37 @@ error: Ident
 8 | video::cue(b) {}
   |        ^^^
 
-error: Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:12
+  |
+8 | video::cue(b) {}
+  |            ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:12
+  |
+8 | video::cue(b) {}
+  |            ^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:12
+  |
+8 | video::cue(b) {}
+  |            ^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:12
+  |
+8 | video::cue(b) {}
+  |            ^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:12
+  |
+8 | video::cue(b) {}
+  |            ^
+
+error: Ident
  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:12
   |
 8 | video::cue(b) {}
@@ -556,7 +586,31 @@ error: Ident
 11 | video::cue-region(#scroll) {}
    |        ^^^^^^^^^^
 
-error: Hash { is_id: true, value: Atom('scroll' type=inline), raw: Atom('scroll' type=inline) }
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:19
+   |
+11 | video::cue-region(#scroll) {}
+   |                   ^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:19
+   |
+11 | video::cue-region(#scroll) {}
+   |                   ^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:19
+   |
+11 | video::cue-region(#scroll) {}
+   |                   ^^^^^^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:19
+   |
+11 | video::cue-region(#scroll) {}
+   |                   ^^^^^^^
+
+error: Ident
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:19
    |
 11 | video::cue-region(#scroll) {}
@@ -748,7 +802,13 @@ error: Ident
 17 | tabbed-custom-element::part(tab) {}
    |                        ^^^^
 
-error: Ident { value: Atom('tab' type=inline), raw: Atom('tab' type=inline) }
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:29
+   |
+17 | tabbed-custom-element::part(tab) {}
+   |                             ^^^
+
+error: Ident
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:29
    |
 17 | tabbed-custom-element::part(tab) {}
@@ -916,7 +976,25 @@ error: Ident
 23 | ::slotted(*) {}
    |   ^^^^^^^
 
-error: Delim { value: '*' }
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:11
+   |
+23 | ::slotted(*) {}
+   |           ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:11
+   |
+23 | ::slotted(*) {}
+   |           ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:11
+   |
+23 | ::slotted(*) {}
+   |           ^
+
+error: UniversalSelector
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:11
    |
 23 | ::slotted(*) {}
@@ -976,7 +1054,37 @@ error: Ident
 24 | ::slotted(span) {}
    |   ^^^^^^^
 
-error: Ident { value: Atom('span' type=inline), raw: Atom('span' type=inline) }
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:11
+   |
+24 | ::slotted(span) {}
+   |           ^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:11
+   |
+24 | ::slotted(span) {}
+   |           ^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:11
+   |
+24 | ::slotted(span) {}
+   |           ^^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:11
+   |
+24 | ::slotted(span) {}
+   |           ^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:11
+   |
+24 | ::slotted(span) {}
+   |           ^^^^
+
+error: Ident
   --> $DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:11
    |
 24 | ::slotted(span) {}
