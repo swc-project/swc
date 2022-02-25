@@ -3191,6 +3191,7 @@ dependencies = [
  "swc_ecma_transforms_testing",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "swc_trace_macro",
  "testing",
  "tracing",
 ]
@@ -3579,6 +3580,15 @@ version = "0.4.0"
 dependencies = [
  "testing",
  "tracing",
+]
+
+[[package]]
+name = "swc_trace_macro"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]
