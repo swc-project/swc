@@ -58,17 +58,11 @@ impl VisitMut for JsxSrc {
                             }))),
                             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                                 key: PropName::Ident(quote_ident!("lineNumber")),
-                                value: Box::new(Expr::Lit(Lit::Num(Number {
-                                    span: DUMMY_SP,
-                                    value: loc.line as _,
-                                }))),
+                                value: loc.line.into(),
                             }))),
                             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                                 key: PropName::Ident(quote_ident!("columnNumber")),
-                                value: Box::new(Expr::Lit(Lit::Num(Number {
-                                    span: DUMMY_SP,
-                                    value: (loc.col.0 + 1) as _,
-                                }))),
+                                value: (loc.col.0 + 1),into(),
                             }))),
                         ],
                     }
