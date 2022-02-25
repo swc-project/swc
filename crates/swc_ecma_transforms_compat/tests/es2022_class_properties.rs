@@ -6020,6 +6020,128 @@ expect(inst[9]).toBe(15);
 "#
 );
 
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config {
+        set_public_fields: true,
+        ..Default::default()
+    }),
+    set_public_fields_computed,
+    r#"
+const foo = "foo";
+const bar = () => {};
+const four = 4;
+
+class MyClass {
+  static [one()] = "test";
+  static [2 * 4 + 7] = "247";
+  static [2 * four + 7] = "247";
+  static [2 * four + seven] = "247";
+  [null] = "null";
+  [undefined] = "undefined";
+  [void 0] = "void 0";
+  get ["whatever"]() {}
+  set ["whatever"](value) {}
+  get [computed()]() {}
+  set [computed()](value) {}
+  ["test" + one]() {}
+  static [10]() {}
+  [/regex/] = "regex";
+  [foo] = "foo";
+  [bar] = "bar";
+  [baz] = "baz";
+  [`template`] = "template";
+  [`template${expression}`] = "template-with-expression";
+}
+"#,
+    r#"
+const foo = "foo";
+const bar = ()=>{};
+const four = 4;
+var _ref = one(), _ref1 = 2 * 4 + 7, _ref2 = 2 * four + 7, _ref3 = 2 * four + seven, _ref4 = null, _undefined = undefined, _ref5 = void 0, tmp = "whatever", tmp1 = "whatever", tmp2 = computed(), tmp3 = computed(), tmp4 = "test" + one, tmp5 = 10, _ref6 = /regex/, _foo = foo, _bar = bar, _baz = baz, _ref7 = `template`, _ref8 = `template${expression}`;
+class MyClass {
+    get [tmp]() {}
+    set [tmp1](value) {}
+    get [tmp2]() {}
+    set [tmp3](value) {}
+    [tmp4]() {}
+    static [tmp5]() {}
+    constructor(){
+        this[_ref4] = "null";
+        this[_undefined] = "undefined";
+        this[_ref5] = "void 0";
+        this[_ref6] = "regex";
+        this[_foo] = "foo";
+        this[_bar] = "bar";
+        this[_baz] = "baz";
+        this[_ref7] = "template";
+        this[_ref8] = "template-with-expression";
+    }
+}
+MyClass[_ref] = "test";
+MyClass[_ref1] = "247";
+MyClass[_ref2] = "247";
+MyClass[_ref3] = "247";
+"#
+);
+
+test!(
+    syntax(),
+    |_| chain!(
+        resolver(),
+        class_properties(class_properties::Config {
+            set_public_fields: true,
+            ..Default::default()
+        })
+    ),
+    set_public_constructor_collision,
+    r#"
+var foo = "bar";
+
+class Foo {
+  bar = foo;
+  static bar = baz;
+
+  constructor() {
+    var foo = "foo";
+    var baz = "baz";
+  }
+}
+"#,
+    r#"
+var foo = "bar";
+
+class Foo {
+  constructor() {
+    this.bar = foo;
+    var foo1 = "foo";
+    var baz = "baz";
+  }
+}
+
+Foo.bar = baz;
+"#
+);
+
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config {
+        set_public_fields: true,
+        ..Default::default()
+    }),
+    set_public_static_undefined,
+    r#"
+class Foo {
+  static bar;
+}
+"#,
+    r#"
+class Foo {}
+
+Foo.bar = void 0;
+"#
+);
+
 #[testing::fixture("tests/fixture/classes/**/exec.js")]
 fn exec(input: PathBuf) {
     let src = read_to_string(&input).unwrap();

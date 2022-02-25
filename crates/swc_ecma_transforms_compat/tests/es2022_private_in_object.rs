@@ -55,14 +55,30 @@ fn fixture(input: PathBuf) {
                     "proposal-class-properties" => {
                         if !class_props {
                             class_props = true;
-                            pass = Box::new(chain!(pass, class_properties(Default::default())));
+                            pass = Box::new(chain!(
+                                pass,
+                                class_properties(class_properties::Config {
+                                    set_public_fields: loose,
+                                    constant_super: loose,
+                                    no_document_all: loose,
+                                    private_as_properties: loose
+                                })
+                            ));
                         }
                     }
 
                     "proposal-private-methods" => {
                         if !class_props {
                             class_props = true;
-                            pass = Box::new(chain!(pass, class_properties(Default::default())));
+                            pass = Box::new(chain!(
+                                pass,
+                                class_properties(class_properties::Config {
+                                    set_public_fields: loose,
+                                    constant_super: loose,
+                                    no_document_all: loose,
+                                    private_as_properties: loose
+                                })
+                            ));
                         }
                     }
 

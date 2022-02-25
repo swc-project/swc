@@ -1,13 +1,12 @@
 #![allow(dead_code)]
 
-use indexmap::IndexMap;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     util::take::Take,
-    Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
+    Mark, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, perf::Check};
+use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
@@ -20,6 +19,7 @@ use swc_ecma_visit::{
 
 use self::{
     class_name_tdz::ClassNameTdzFolder,
+    member_init::{MemberInit, MemberInitRecord, PrivAccessor, PrivMethod, PrivProp, PubProp},
     private_field::{
         dup_private_method, visit_private_in_expr, BrandCheckHandler, Private,
         PrivateAccessVisitor, PrivateKind, PrivateRecord,
@@ -29,6 +29,7 @@ use self::{
 };
 
 mod class_name_tdz;
+mod member_init;
 mod private_field;
 mod this_in_static;
 mod used_name;
@@ -59,15 +60,6 @@ struct ClassProperties {
     c: Config,
     private: PrivateRecord,
 }
-
-enum MemberInit {
-    Prop(Span, Box<Expr>),
-    Private(Span, Box<Expr>),
-    PrivMethod(Span),
-    PrivAccessor(Span, Option<Ident>, Option<Ident>),
-}
-
-type MemberInitMap = IndexMap<Expr, MemberInit, ahash::RandomState>;
 
 #[fast_path(ShouldWork)]
 impl VisitMut for ClassProperties {
@@ -397,11 +389,9 @@ impl ClassProperties {
 
         let has_super = class.super_class.is_some();
 
-        // we need a hash map to avoid generate two init for corresponding getter/setter
-        let mut constructor_inits = MemberInitMap::default();
+        let mut constructor_inits = MemberInitRecord::new(self.c);
         let mut vars = vec![];
-        let mut extra_inits = MemberInitMap::default();
-        // same here
+        let mut extra_inits = MemberInitRecord::new(self.c);
         let mut private_method_fn_decls = vec![];
         let mut members = vec![];
         let mut constructor = None;
@@ -466,46 +456,28 @@ impl ClassProperties {
                         });
                     }
 
-                    let key = match prop.key {
-                        PropName::Ident(i) => Expr::from(Lit::Str(Str {
-                            span: i.span,
-                            value: i.sym,
-                            has_escape: false,
-                            kind: StrKind::Normal {
-                                contains_quote: false,
-                            },
-                        })),
-                        PropName::Num(num) => Expr::from(num),
-                        PropName::Str(s) => Expr::from(s),
-                        PropName::BigInt(big_int) => Expr::from(big_int),
-
-                        PropName::Computed(mut key) => {
-                            vars.extend(visit_private_in_expr(
-                                &mut key.expr,
-                                &self.private,
-                                self.c,
-                            ));
-                            let (ident, aliased) = if let Expr::Ident(i) = &*key.expr {
-                                if used_key_names.contains(&i.sym) {
-                                    (alias_ident_for(&key.expr, "_ref"), true)
-                                } else {
-                                    alias_if_required(&key.expr, "_ref")
-                                }
+                    if let PropName::Computed(key) = &mut prop.key {
+                        vars.extend(visit_private_in_expr(&mut key.expr, &self.private, self.c));
+                        let (ident, aliased) = if let Expr::Ident(i) = &*key.expr {
+                            if used_key_names.contains(&i.sym) {
+                                (alias_ident_for(&key.expr, "_ref"), true)
                             } else {
                                 alias_if_required(&key.expr, "_ref")
-                            };
-                            // ident.span = ident.span.apply_mark(Mark::fresh(Mark::root()));
-                            if aliased {
-                                // Handle computed property
-                                vars.push(VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: ident.clone().into(),
-                                    init: Some(key.expr),
-                                    definite: false,
-                                });
                             }
-                            Expr::from(ident)
+                        } else {
+                            alias_if_required(&key.expr, "_ref")
+                        };
+                        // ident.span = ident.span.apply_mark(Mark::fresh(Mark::root()));
+                        if aliased {
+                            // Handle computed property
+                            vars.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: ident.clone().into(),
+                                init: Some(key.expr.take()),
+                                definite: false,
+                            });
                         }
+                        *key.expr = Expr::from(ident);
                     };
 
                     let mut value = prop.value.unwrap_or_else(|| undefined(prop_span));
@@ -553,10 +525,15 @@ impl ClassProperties {
                         });
                     }
 
+                    let init = MemberInit::PubProp(PubProp {
+                        span: prop_span,
+                        name: prop.key,
+                        value,
+                    });
                     if prop.is_static {
-                        extra_inits.insert(key, MemberInit::Prop(prop_span, value));
+                        extra_inits.push(init);
                     } else {
-                        constructor_inits.insert(key, MemberInit::Prop(prop_span, value));
+                        constructor_inits.push(init);
                     }
                 }
                 ClassMember::PrivateProp(mut prop) => {
@@ -584,11 +561,15 @@ impl ClassProperties {
 
                     let value = prop.value.unwrap_or_else(|| undefined(prop_span));
 
+                    let init = MemberInit::PrivProp(PrivProp {
+                        span: prop_span,
+                        name: ident.clone(),
+                        value,
+                    });
                     if prop.is_static {
-                        extra_inits.insert(ident.into(), MemberInit::Private(prop_span, value));
+                        extra_inits.push(init);
                     } else {
-                        constructor_inits
-                            .insert(ident.clone().into(), MemberInit::Private(prop_span, value));
+                        constructor_inits.push(init);
 
                         vars.push(VarDeclarator {
                             span: DUMMY_SP,
@@ -635,21 +616,22 @@ impl ClassProperties {
 
                     let extra_collect = match (method.kind, is_static) {
                         (MethodKind::Getter | MethodKind::Setter, false) => {
-                            let mut inserted = false;
-                            let mut key = weak_coll_var.clone();
-                            key.span = DUMMY_SP.with_ctxt(key.span.ctxt);
-                            let mut entry =
-                                constructor_inits.entry(key.into()).or_insert_with(|| {
-                                    inserted = true;
-                                    MemberInit::PrivAccessor(prop_span, None, None)
-                                });
-                            if let MemberInit::PrivAccessor(_, getter, setter) = &mut entry {
-                                if method.kind == MethodKind::Getter {
-                                    *getter = Some(fn_name.clone())
-                                } else {
-                                    *setter = Some(fn_name.clone())
-                                }
-                            };
+                            let is_getter = method.kind == MethodKind::Getter;
+                            let inserted =
+                                constructor_inits.push(MemberInit::PrivAccessor(PrivAccessor {
+                                    span: prop_span,
+                                    name: weak_coll_var.clone(),
+                                    getter: if is_getter {
+                                        Some(fn_name.clone())
+                                    } else {
+                                        None
+                                    },
+                                    setter: if !is_getter {
+                                        Some(fn_name.clone())
+                                    } else {
+                                        None
+                                    },
+                                }));
 
                             if inserted {
                                 Some(quote_ident!("WeakMap"))
@@ -658,26 +640,29 @@ impl ClassProperties {
                             }
                         }
                         (MethodKind::Getter | MethodKind::Setter, true) => {
-                            let mut key = weak_coll_var.clone();
-                            key.span = DUMMY_SP.with_ctxt(key.span.ctxt);
-                            let mut entry = extra_inits
-                                .entry(key.into())
-                                .or_insert(MemberInit::PrivAccessor(prop_span, None, None));
-                            if let MemberInit::PrivAccessor(_, getter, setter) = &mut entry {
-                                if method.kind == MethodKind::Getter {
-                                    *getter = Some(fn_name.clone())
+                            let is_getter = method.kind == MethodKind::Getter;
+                            extra_inits.push(MemberInit::PrivAccessor(PrivAccessor {
+                                span: prop_span,
+                                name: weak_coll_var.clone(),
+                                getter: if is_getter {
+                                    Some(fn_name.clone())
                                 } else {
-                                    *setter = Some(fn_name.clone())
-                                }
-                            }
+                                    None
+                                },
+                                setter: if !is_getter {
+                                    Some(fn_name.clone())
+                                } else {
+                                    None
+                                },
+                            }));
                             None
                         }
 
                         (MethodKind::Method, false) => {
-                            constructor_inits.insert(
-                                weak_coll_var.clone().into(),
-                                MemberInit::PrivMethod(prop_span),
-                            );
+                            constructor_inits.push(MemberInit::PrivMethod(PrivMethod {
+                                span: prop_span,
+                                name: weak_coll_var.clone(),
+                            }));
                             Some(quote_ident!("WeakSet"))
                         }
                         (MethodKind::Method, true) => None,
@@ -722,79 +707,9 @@ impl ClassProperties {
             c: self.c,
         });
 
-        let extra_stmts = extra_inits
-            .into_iter()
-            .map(|(key, value)| match value {
-                MemberInit::Prop(span, value) => Stmt::Expr(ExprStmt {
-                    span,
-                    expr: Expr::Call(CallExpr {
-                        span,
-                        callee: helper!(define_property, "defineProperty"),
-                        args: vec![class_ident.clone().as_arg(), key.as_arg(), value.as_arg()],
-                        type_args: Default::default(),
-                    })
-                    .into(),
-                }),
-                MemberInit::Private(span, value) => Stmt::Decl(Decl::Var(VarDecl {
-                    span,
-                    kind: VarDeclKind::Var,
-                    decls: vec![VarDeclarator {
-                        span,
-                        name: key.expect_ident().into(),
-                        init: Some(
-                            Expr::Object(ObjectLit {
-                                span,
-                                props: vec![
-                                    PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                                        key: PropName::Ident(quote_ident!("writable")),
-                                        value: true.into(),
-                                    }))),
-                                    PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                                        key: PropName::Ident(quote_ident!("value")),
-                                        value,
-                                    }))),
-                                ],
-                            })
-                            .into(),
-                        ),
-                        definite: false,
-                    }],
-                    declare: false,
-                })),
-                MemberInit::PrivAccessor(span, getter, setter) => Stmt::Decl(Decl::Var(VarDecl {
-                    span,
-                    kind: VarDeclKind::Var,
-                    decls: vec![VarDeclarator {
-                        span,
-                        name: key.expect_ident().into(),
-                        init: Some(
-                            Expr::Object(ObjectLit {
-                                span,
-                                props: vec![
-                                    PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                                        key: PropName::Ident(quote_ident!("get")),
-                                        value: getter
-                                            .map(|id| Box::new(id.into()))
-                                            .unwrap_or_else(|| undefined(DUMMY_SP)),
-                                    }))),
-                                    PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                                        key: PropName::Ident(quote_ident!("set")),
-                                        value: setter
-                                            .map(|id| Box::new(id.into()))
-                                            .unwrap_or_else(|| undefined(DUMMY_SP)),
-                                    }))),
-                                ],
-                            })
-                            .into(),
-                        ),
-                        definite: false,
-                    }],
-                    declare: false,
-                })),
-                MemberInit::PrivMethod(_) => unreachable!(),
-            })
-            .chain(private_method_fn_decls)
-            .collect();
+        let mut extra_stmts = extra_inits.into_init_static(class_ident.clone());
+
+        extra_stmts.extend(private_method_fn_decls);
 
         members.visit_mut_with(&mut PrivateAccessVisitor {
             private: &self.private,
@@ -853,10 +768,10 @@ impl ClassProperties {
         &mut self,
         constructor: Option<Constructor>,
         has_super: bool,
-        constructor_exprs: MemberInitMap,
+        constructor_exprs: MemberInitRecord,
     ) -> Option<Constructor> {
         let constructor = constructor.or_else(|| {
-            if constructor_exprs.is_empty() {
+            if constructor_exprs.record.is_empty() {
                 None
             } else {
                 Some(default_constructor(has_super))
@@ -864,91 +779,7 @@ impl ClassProperties {
         });
 
         if let Some(mut c) = constructor {
-            let constructor_exprs = constructor_exprs
-                .into_iter()
-                .map(|(key, value)| {
-                    let (span, callee, args) = match value {
-                        MemberInit::PrivMethod(span) => (
-                            span,
-                            helper!(class_private_method_init, "classPrivateMethodInit"),
-                            vec![ThisExpr { span: DUMMY_SP }.as_arg(), key.as_arg()],
-                        ),
-                        MemberInit::Private(span, value) => (
-                            span,
-                            helper!(class_private_field_init, "classPrivateFieldInit"),
-                            vec![
-                                ThisExpr { span: DUMMY_SP }.as_arg(),
-                                key.as_arg(),
-                                ObjectLit {
-                                    span: DUMMY_SP,
-                                    props: vec![
-                                        // writeable: true
-                                        PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                            KeyValueProp {
-                                                key: PropName::Ident(quote_ident!("writable")),
-                                                value: true.into(),
-                                            },
-                                        ))),
-                                        // value: value,
-                                        PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                            KeyValueProp {
-                                                key: PropName::Ident(quote_ident!("value")),
-                                                value,
-                                            },
-                                        ))),
-                                    ],
-                                }
-                                .as_arg(),
-                            ],
-                        ),
-                        MemberInit::PrivAccessor(span, getter, setter) => (
-                            span,
-                            helper!(class_private_field_init, "classPrivateFieldInit"),
-                            vec![
-                                ThisExpr { span: DUMMY_SP }.as_arg(),
-                                key.as_arg(),
-                                ObjectLit {
-                                    span: DUMMY_SP,
-                                    props: vec![
-                                        PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                            KeyValueProp {
-                                                key: PropName::Ident(quote_ident!("get")),
-                                                value: getter
-                                                    .map(|id| Box::new(id.into()))
-                                                    .unwrap_or_else(|| undefined(DUMMY_SP)),
-                                            },
-                                        ))),
-                                        PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                            KeyValueProp {
-                                                key: PropName::Ident(quote_ident!("set")),
-                                                value: setter
-                                                    .map(|id| Box::new(id.into()))
-                                                    .unwrap_or_else(|| undefined(DUMMY_SP)),
-                                            },
-                                        ))),
-                                    ],
-                                }
-                                .as_arg(),
-                            ],
-                        ),
-                        MemberInit::Prop(span, value) => (
-                            span,
-                            helper!(define_property, "defineProperty"),
-                            vec![
-                                ThisExpr { span: DUMMY_SP }.as_arg(),
-                                key.as_arg(),
-                                value.as_arg(),
-                            ],
-                        ),
-                    };
-                    Box::new(Expr::Call(CallExpr {
-                        span,
-                        callee,
-                        args,
-                        type_args: Default::default(),
-                    }))
-                })
-                .collect();
+            let constructor_exprs = constructor_exprs.into_init();
             // Prepend properties
             inject_after_super(&mut c, constructor_exprs);
             Some(c)
