@@ -667,7 +667,7 @@ impl<'a, I: Tokens> Parser<I> {
         trace_cur!(self, parse_paren_expr_or_arrow_fn);
 
         let expr_start = async_span.map(|x| x.lo()).unwrap_or_else(|| cur_pos!(self));
-
+        println!("{:?}", &expr_start);
         // At this point, we can't know if it's parenthesized
         // expression or head of arrow function.
         // But as all patterns of javascript is subset of
@@ -688,9 +688,17 @@ impl<'a, I: Tokens> Parser<I> {
         let is_direct_child_of_cond = self.ctx().is_direct_child_of_cond;
 
         // This is slow path. We handle arrow in conditional expression.
+        // so we parse the expression body and then it checks this which passes but
+        // actually we don't want to enter here at all
+        // we want to return expr
+
         if self.syntax().typescript() && self.ctx().in_cond_expr && is!(self, ':') {
+            println!("{:#?}", self.ctx());
+            println!("{:#?}", paren_items);
+            println!("{}", can_be_arrow);
             // TODO: Remove clone
             let items_ref = &paren_items;
+            // let colon_pos = cur_pos!(self);
             if let Some(expr) = self.try_parse_ts(|p| {
                 let return_type = p.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
 
@@ -707,7 +715,7 @@ impl<'a, I: Tokens> Parser<I> {
                     params.is_simple_parameter_list(),
                 )?;
 
-                if is_direct_child_of_cond && !is_one_of!(p, ':', ';', ',') {
+                if is_direct_child_of_cond && !is_one_of!(p, ':', ';', ',', ')') {
                     trace_cur!(p, parse_arrow_in_cond__fail);
                     unexpected!(p, "fail")
                 }
@@ -722,6 +730,7 @@ impl<'a, I: Tokens> Parser<I> {
                     type_params: None,
                 }))))
             }) {
+                println!("{:#?}", &expr);
                 return Ok(expr);
             }
         }
