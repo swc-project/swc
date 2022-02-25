@@ -28,6 +28,12 @@
 
 - **(es/parser)** Reduce usage of generics to reduce binary size (#3726) ([e21579d](https://github.com/swc-project/swc/commit/e21579d84ec287632393480e86032cc228bef0ce))
 
+### Refactor
+
+
+
+- **(es/transforms)** Use recommended ast apis (#3735) ([fd22379](https://github.com/swc-project/swc/commit/fd223793e86f70400a3a69d7f7c8a4775b8abaad))
+
 ## [1.2.145] - 2022-02-24
 
 ### Bug Fixes
