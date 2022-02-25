@@ -20,7 +20,7 @@ use super::util::{
     self, define_es_module, define_property, has_use_strict, initialize_to_undefined,
     local_name_for_src, make_descriptor, use_strict, Exports, ModulePass, Scope,
 };
-use crate::path::{ImportResolver, NoopImportResolver, Resolver};
+use crate::path::{ImportResolver, Resolver};
 
 pub fn amd(config: Config) -> impl Fold {
     Amd {
@@ -29,31 +29,32 @@ pub fn amd(config: Config) -> impl Fold {
         scope: RefCell::new(Default::default()),
         exports: Default::default(),
 
-        resolver: None::<(NoopImportResolver, _)>,
+        resolver: Resolver::Default,
     }
 }
 
-pub fn amd_with_resolver<R>(resolver: R, base: FileName, config: Config) -> impl Fold
-where
-    R: ImportResolver,
-{
+pub fn amd_with_resolver<'a>(
+    resolver: &'a dyn ImportResolver,
+    base: FileName,
+    config: Config,
+) -> impl 'a + Fold {
     Amd {
         config,
         in_top_level: Default::default(),
         scope: Default::default(),
         exports: Default::default(),
 
-        resolver: Some((resolver, base)),
+        resolver: Resolver::Real { base, resolver },
     }
 }
 
-struct Amd {
+struct Amd<'a> {
     config: Config,
     in_top_level: bool,
     scope: RefCell<Scope>,
     exports: Exports,
 
-    resolver: Resolver,
+    resolver: Resolver<'a>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -67,7 +68,7 @@ pub struct Config {
 }
 
 /// TODO: VisitMut
-impl Fold for Amd {
+impl Fold for Amd<'_> {
     noop_fold_type!();
 
     mark_as_nested!();

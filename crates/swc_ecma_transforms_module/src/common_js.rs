@@ -35,19 +35,19 @@ pub fn common_js(
         config,
         scope,
         in_top_level: Default::default(),
-        resolver: None::<(NoopImportResolver, _)>,
+        resolver: Resolver::Default,
     }
 }
 
-pub fn common_js_with_resolver<R>(
+pub fn common_js_with_resolver<'a, R>(
     resolver: R,
     base: FileName,
     top_level_mark: Mark,
     config: Config,
     scope: Option<Rc<RefCell<Scope>>>,
-) -> impl Fold
+) -> impl 'a + Fold
 where
-    R: ImportResolver,
+    R: 'a + ImportResolver,
 {
     let scope = scope.unwrap_or_default();
 
@@ -56,7 +56,10 @@ where
         config,
         scope,
         in_top_level: Default::default(),
-        resolver: Some((resolver, base)),
+        resolver: Resolver::Real {
+            base,
+            resolver: &resolver,
+        },
     }
 }
 
@@ -133,16 +136,16 @@ impl Visit for LazyIdentifierVisitor {
     }
 }
 
-struct CommonJs {
+struct CommonJs<'a> {
     top_level_mark: Mark,
     config: Config,
     scope: Rc<RefCell<Scope>>,
     in_top_level: bool,
-    resolver: Resolver,
+    resolver: Resolver<'a>,
 }
 
 /// TODO: VisitMut
-impl Fold for CommonJs {
+impl Fold for CommonJs<'_> {
     noop_fold_type!();
 
     mark_as_nested!();
@@ -884,7 +887,7 @@ impl Fold for CommonJs {
     }
 }
 
-impl ModulePass for CommonJs {
+impl ModulePass for CommonJs<'_> {
     fn config(&self) -> &Config {
         &self.config
     }

@@ -17,7 +17,7 @@ use super::util::{
     self, define_es_module, define_property, has_use_strict, initialize_to_undefined,
     local_name_for_src, make_descriptor, make_require_call, use_strict, Exports, ModulePass, Scope,
 };
-use crate::path::{ImportResolver, NoopImportResolver, Resolver};
+use crate::path::{ImportResolver, Resolver};
 
 mod config;
 
@@ -31,20 +31,17 @@ pub fn umd(cm: Lrc<SourceMap>, root_mark: Mark, config: Config) -> impl Fold {
         scope: RefCell::new(Default::default()),
         exports: Default::default(),
 
-        resolver: None::<(NoopImportResolver, _)>,
+        resolver: Resolver::Default,
     }
 }
 
-pub fn umd_with_resolver<R>(
-    resolver: R,
+pub fn umd_with_resolver<'a>(
+    resolver: &'a dyn ImportResolver,
     base: FileName,
     cm: Lrc<SourceMap>,
     root_mark: Mark,
     config: Config,
-) -> impl Fold
-where
-    R: ImportResolver,
-{
+) -> impl 'a + Fold {
     Umd {
         config: config.build(cm.clone()),
         root_mark,
@@ -54,11 +51,11 @@ where
         scope: Default::default(),
         exports: Default::default(),
 
-        resolver: Some((resolver, base)),
+        resolver: Resolver::Real { base, resolver },
     }
 }
 
-struct Umd {
+struct Umd<'a> {
     cm: Lrc<SourceMap>,
     root_mark: Mark,
     in_top_level: bool,
@@ -66,11 +63,11 @@ struct Umd {
     scope: RefCell<Scope>,
     exports: Exports,
 
-    resolver: Resolver,
+    resolver: Resolver<'a>,
 }
 
 /// TODO: VisitMut
-impl Fold for Umd {
+impl Fold for Umd<'_> {
     noop_fold_type!();
 
     mark_as_nested!();
@@ -794,7 +791,7 @@ impl Fold for Umd {
     }
 }
 
-impl ModulePass for Umd {
+impl ModulePass for Umd<'_> {
     fn config(&self) -> &util::Config {
         &self.config.config
     }
