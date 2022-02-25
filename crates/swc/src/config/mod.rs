@@ -1660,12 +1660,12 @@ impl Merge for HiddenTransformConfig {
     }
 }
 
-fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> SwcImportResolver {
+fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> Box<SwcImportResolver> {
     static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths), SwcImportResolver, ahash::RandomState>> =
         Lazy::new(Default::default);
 
     if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone())) {
-        return (*cached).clone();
+        return Box::new((*cached).clone());
     }
 
     let r = {
@@ -1682,5 +1682,5 @@ fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> SwcImportResolver 
 
     CACHE.insert((base_url, paths), r.clone());
 
-    r
+    Box::new(r)
 }

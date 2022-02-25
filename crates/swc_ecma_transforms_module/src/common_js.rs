@@ -20,9 +20,9 @@ use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, Vis
 pub use super::util::Config;
 use super::util::{
     define_es_module, define_property, has_use_strict, initialize_to_undefined, make_descriptor,
-    make_require_call, use_strict, ModulePass, Scope,
+    use_strict, ModulePass, Scope,
 };
-use crate::path::{ImportResolver, NoopImportResolver};
+use crate::path::{ImportResolver, Resolver};
 
 pub fn common_js(
     top_level_mark: Mark,
@@ -35,20 +35,17 @@ pub fn common_js(
         config,
         scope,
         in_top_level: Default::default(),
-        resolver: None::<(NoopImportResolver, _)>,
+        resolver: Resolver::Default,
     }
 }
 
-pub fn common_js_with_resolver<R>(
-    resolver: R,
+pub fn common_js_with_resolver(
+    resolver: Box<dyn ImportResolver>,
     base: FileName,
     top_level_mark: Mark,
     config: Config,
     scope: Option<Rc<RefCell<Scope>>>,
-) -> impl Fold
-where
-    R: ImportResolver,
-{
+) -> impl Fold {
     let scope = scope.unwrap_or_default();
 
     CommonJs {
@@ -56,7 +53,7 @@ where
         config,
         scope,
         in_top_level: Default::default(),
-        resolver: Some((resolver, base)),
+        resolver: Resolver::Real { base, resolver },
     }
 }
 
@@ -133,22 +130,16 @@ impl Visit for LazyIdentifierVisitor {
     }
 }
 
-struct CommonJs<P>
-where
-    P: ImportResolver,
-{
+struct CommonJs {
     top_level_mark: Mark,
     config: Config,
     scope: Rc<RefCell<Scope>>,
     in_top_level: bool,
-    resolver: Option<(P, FileName)>,
+    resolver: Resolver,
 }
 
 /// TODO: VisitMut
-impl<P> Fold for CommonJs<P>
-where
-    P: ImportResolver,
-{
+impl Fold for CommonJs {
     noop_fold_type!();
 
     mark_as_nested!();
@@ -722,7 +713,9 @@ where
                 self.config.lazy.is_lazy(&src)
             };
 
-            let require = make_require_call(&self.resolver, self.top_level_mark, src.clone());
+            let require = self
+                .resolver
+                .make_require_call(self.top_level_mark, src.clone());
 
             match import {
                 Some(import) => {
@@ -890,10 +883,7 @@ where
     }
 }
 
-impl<P> ModulePass for CommonJs<P>
-where
-    P: ImportResolver,
-{
+impl ModulePass for CommonJs {
     fn config(&self) -> &Config {
         &self.config
     }
