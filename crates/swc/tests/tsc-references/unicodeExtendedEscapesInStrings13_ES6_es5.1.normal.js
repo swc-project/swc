@@ -1,2 +1,2 @@
 // @target: es6
-var x = "󝷝";
+var x = "\uDB37\uDDDD";

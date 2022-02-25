@@ -2928,7 +2928,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.93.2"
+version = "0.93.3"
 dependencies = [
  "bitflags",
  "memchr",
@@ -3056,7 +3056,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.91.7"
+version = "0.91.8"
 dependencies = [
  "either",
  "enum_kind",
@@ -3167,7 +3167,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.74.0"
+version = "0.74.1"
 dependencies = [
  "ahash",
  "arrayvec 0.7.2",
@@ -3189,6 +3189,7 @@ dependencies = [
  "swc_ecma_transforms_testing",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "swc_trace_macro",
  "testing",
  "tracing",
 ]
@@ -3577,6 +3578,15 @@ version = "0.4.0"
 dependencies = [
  "testing",
  "tracing",
+]
+
+[[package]]
+name = "swc_trace_macro"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]
