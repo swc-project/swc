@@ -523,6 +523,27 @@ impl ClassProperties {
                     ));
 
                     if prop.is_static {
+                        if let (Some(super_class), None) = (&mut class.super_class, &super_ident) {
+                            let (ident, aliased) = alias_if_required(&*super_class, "_ref");
+                            super_ident = Some(ident.clone());
+
+                            if aliased {
+                                vars.push(VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: ident.clone().into(),
+                                    init: None,
+                                    definite: false,
+                                });
+                                let span = super_class.span();
+                                **super_class = Expr::Assign(AssignExpr {
+                                    span,
+                                    op: op!("="),
+                                    left: PatOrExpr::Pat(Box::new(ident.into())),
+                                    right: super_class.take(),
+                                })
+                            }
+                        }
+
                         value.visit_mut_with(&mut SuperFieldAccessFolder {
                             class_name: &class_ident,
                             vars: &mut vars,
