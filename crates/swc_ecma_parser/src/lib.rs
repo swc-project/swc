@@ -124,7 +124,10 @@
 #![allow(clippy::vec_box)]
 #![allow(clippy::wrong_self_convention)]
 
+use error::Error;
+use lexer::Lexer;
 use serde::{Deserialize, Serialize};
+use swc_common::{comments::Comments, input::SourceFileInput, SourceFile};
 use swc_ecma_ast::EsVersion;
 
 pub use self::{
@@ -393,4 +396,25 @@ where
 
         f(handler, (&*fm).into())
     })
+}
+
+/// Note: This is reccomended way to parse a file.
+///
+/// This is an alias for [Parser], [Lexer] and [SourceFileInput], but
+/// instantiation of generics occur in `swc_ecma_parser` crate.
+pub fn with_file_parser<T>(
+    fm: &SourceFile,
+    syntax: Syntax,
+    target: EsVersion,
+    comments: Option<&dyn Comments>,
+    recovered_errors: &mut Vec<Error>,
+    op: impl for<'aa> FnOnce(&mut Parser<Lexer<SourceFileInput<'aa>>>) -> PResult<T>,
+) -> PResult<T> {
+    let lexer = Lexer::new(syntax, target, SourceFileInput::from(fm), comments);
+    let mut p = Parser::new_from(lexer);
+    let ret = op(&mut p);
+
+    recovered_errors.append(&mut p.take_errors());
+
+    ret
 }
