@@ -25,10 +25,7 @@ pub(super) struct Loc {
 impl Loc {
     #[allow(clippy::wrong_self_convention)]
     pub fn to_stmt_index(&self) -> Expr {
-        Expr::Lit(Lit::Num(Number {
-            span: DUMMY_SP,
-            value: self.stmt_index as _,
-        }))
+        self.stmt_index.into()
     }
 
     /// Creates an invalid expression pointing `self`
@@ -841,10 +838,7 @@ impl CaseHandler<'_> {
         for (i, stmt) in stmts.iter_mut().enumerate() {
             let case = SwitchCase {
                 span: DUMMY_SP,
-                test: Some(Box::new(Expr::Lit(Lit::Num(Number {
-                    span: DUMMY_SP,
-                    value: i as _,
-                })))),
+                test: Some(i.into()),
                 cons: vec![],
             };
 
@@ -1595,10 +1589,7 @@ impl VisitMut for InvalidToLit<'_> {
                 if let Some(Loc { stmt_index, .. }) =
                     self.map.iter().find(|loc| loc.id == span.lo.0)
                 {
-                    *e = Expr::Lit(Lit::Num(Number {
-                        span: DUMMY_SP,
-                        value: (*stmt_index) as _,
-                    }));
+                    *e = (*stmt_index).into();
                 }
             }
         }

@@ -376,21 +376,13 @@ impl Regenerator {
         // Intentionally fall through to the "end" case...
         cases.push(SwitchCase {
             span: DUMMY_SP,
-            test: Some(Box::new(Expr::Lit(Lit::Num(Number {
-                span: DUMMY_SP,
-                value: handler.final_loc() as _,
-            })))),
+            test: Some(handler.final_loc().into()),
             // fallthrough
             cons: vec![],
         });
         cases.push(SwitchCase {
             span: DUMMY_SP,
-            test: Some(Box::new(Expr::Lit(Lit::Str(Str {
-                span: DUMMY_SP,
-                value: "end".into(),
-                has_escape: false,
-                kind: Default::default(),
-            })))),
+            test: Some("end".into()),
             cons: vec![ReturnStmt {
                 span: DUMMY_SP,
                 // _ctx.stop()
@@ -406,10 +398,7 @@ impl Regenerator {
 
         let stmts = vec![Stmt::While(WhileStmt {
             span: DUMMY_SP,
-            test: Box::new(Expr::Lit(Lit::Num(Number {
-                span: DUMMY_SP,
-                value: 1.0,
-            }))),
+            test: 1.0.into(),
             body: Box::new(
                 SwitchStmt {
                     span: DUMMY_SP,

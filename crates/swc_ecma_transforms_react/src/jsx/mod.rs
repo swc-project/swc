@@ -406,13 +406,7 @@ where
 
                 let args = if self.development {
                     args.chain(once(undefined(DUMMY_SP).as_arg()))
-                        .chain(once(
-                            Lit::Bool(Bool {
-                                span: DUMMY_SP,
-                                value: use_jsxs,
-                            })
-                            .as_arg(),
-                        ))
+                        .chain(once(use_jsxs.as_arg()))
                         .collect()
                 } else {
                     args.collect()
@@ -552,10 +546,7 @@ where
                                     let value = match attr.value {
                                         Some(v) => jsx_attr_value_to_expr(v)
                                             .expect("empty expression container?"),
-                                        None => Box::new(Expr::Lit(Lit::Bool(Bool {
-                                            span: DUMMY_SP,
-                                            value: true,
-                                        }))),
+                                        None => true.into(),
                                     };
 
                                     // TODO: Check if `i` is a valid identifier.
@@ -593,10 +584,7 @@ where
                                     let value = match attr.value {
                                         Some(v) => jsx_attr_value_to_expr(v)
                                             .expect("empty expression container?"),
-                                        None => Box::new(Expr::Lit(Lit::Bool(Bool {
-                                            span: DUMMY_SP,
-                                            value: true,
-                                        }))),
+                                        None => true.into(),
                                     };
 
                                     let key = Str {
@@ -678,13 +666,7 @@ where
                         None => undefined(DUMMY_SP).as_arg(),
                     };
                     args.chain(once(key))
-                        .chain(once(
-                            Lit::Bool(Bool {
-                                span: DUMMY_SP,
-                                value: use_jsxs,
-                            })
-                            .as_arg(),
-                        ))
+                        .chain(once(use_jsxs.as_arg()))
                         .chain(once(source_props))
                         .chain(once(self_props))
                         .collect()

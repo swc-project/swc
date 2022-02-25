@@ -718,10 +718,7 @@ impl ClassProperties {
                                 props: vec![
                                     PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                                         key: PropName::Ident(quote_ident!("writable")),
-                                        value: Box::new(Expr::Lit(Lit::Bool(Bool {
-                                            span: DUMMY_SP,
-                                            value: true,
-                                        }))),
+                                        value: true.into(),
                                     }))),
                                     PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                                         key: PropName::Ident(quote_ident!("value")),
@@ -859,10 +856,7 @@ impl ClassProperties {
                                         PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                             KeyValueProp {
                                                 key: PropName::Ident(quote_ident!("writable")),
-                                                value: Box::new(Expr::Lit(Lit::Bool(Bool {
-                                                    value: true,
-                                                    span: DUMMY_SP,
-                                                }))),
+                                                value: true.into(),
                                             },
                                         ))),
                                         // value: value,

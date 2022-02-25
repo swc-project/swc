@@ -600,10 +600,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 span: DUMMY_SP,
                 op: op!("="),
                 left: PatOrExpr::Pat(iterator_abrupt_completion.clone().into()),
-                right: Box::new(Expr::Lit(Lit::Bool(Bool {
-                    span: DUMMY_SP,
-                    value: false,
-                }))),
+                right: false.into(),
             }))),
             body: Box::new(Stmt::Block(for_loop_body)),
         });
@@ -622,10 +619,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 span: DUMMY_SP,
                 op: op!("="),
                 left: PatOrExpr::Pat(did_iteration_error.clone().into()),
-                right: Box::new(Expr::Lit(Lit::Bool(Bool {
-                    span: DUMMY_SP,
-                    value: true,
-                }))),
+                right: true.into(),
             })),
         });
         // _iteratorError = err;
@@ -695,7 +689,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     span: DUMMY_SP,
                     op: op!("!="),
                     left: Box::new(iterator.make_member(quote_ident!("return"))),
-                    right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                    right: Null { span: DUMMY_SP }.into(),
                 })),
             })),
             cons: Box::new(Stmt::Block(BlockStmt {
@@ -741,20 +735,14 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 VarDeclarator {
                     span: DUMMY_SP,
                     name: iterator_abrupt_completion.into(),
-                    init: Some(Box::new(Expr::Lit(Lit::Bool(Bool {
-                        span: DUMMY_SP,
-                        value: false,
-                    })))),
+                    init: Some(false.into()),
                     definite: false,
                 },
                 // var _didIteratorError = false;
                 VarDeclarator {
                     span: DUMMY_SP,
                     name: did_iteration_error.into(),
-                    init: Some(Box::new(Expr::Lit(Lit::Bool(Bool {
-                        span: DUMMY_SP,
-                        value: false,
-                    })))),
+                    init: Some(false.into()),
                     definite: false,
                 },
                 // var _iteratorError;
