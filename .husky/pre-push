@@ -3,4 +3,9 @@
 
 # yarn run cspell "**/src/**/*.rs"
 cargo fmt --all -- --check
-cargo clippy
+
+
+if [ -z ${SWC_SKIP_CLIPPY+x} ];
+then
+    cargo clippy
+fi

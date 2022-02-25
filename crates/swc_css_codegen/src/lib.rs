@@ -691,6 +691,7 @@ where
                 let need_delim = match node {
                     Value::SimpleBlock(_)
                     | Value::Function(_)
+                    | Value::Color(Color::Function(_))
                     | Value::Delimiter(_)
                     | Value::Str(_)
                     | Value::Url(_)
@@ -1130,6 +1131,7 @@ where
     fn emit_color(&mut self, n: &Color) -> Result {
         match n {
             Color::HexColor(n) => emit!(self, n),
+            Color::Function(n) => emit!(self, n),
         }
     }
 
@@ -1438,7 +1440,10 @@ where
 
         if let Some(modifiers) = &n.modifiers {
             if !modifiers.is_empty() {
-                formatting_space!(self);
+                if n.value.is_some() {
+                    formatting_space!(self);
+                }
+
                 self.emit_list(modifiers, ListFormat::SpaceDelimited)?;
             }
         }
@@ -1490,25 +1495,48 @@ where
     }
 
     #[emitter]
+    fn emit_compound_selector_list(&mut self, n: &CompoundSelectorList) -> Result {
+        self.emit_list(&n.children, ListFormat::CommaDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_relative_selector_list(&mut self, n: &RelativeSelectorList) -> Result {
+        self.emit_list(&n.children, ListFormat::CommaDelimited)?;
+    }
+
+    #[emitter]
     fn emit_complex_selector(&mut self, n: &ComplexSelector) -> Result {
-        let mut need_space = false;
         for (idx, node) in n.children.iter().enumerate() {
-            if let ComplexSelectorChildren::Combinator(..) = node {
-                need_space = false;
+            emit!(self, node);
+
+            match node {
+                ComplexSelectorChildren::Combinator(Combinator {
+                    value: CombinatorValue::Descendant,
+                    ..
+                }) => {}
+                _ => match n.children.get(idx + 1) {
+                    Some(ComplexSelectorChildren::Combinator(Combinator {
+                        value: CombinatorValue::Descendant,
+                        ..
+                    })) => {}
+                    Some(_) => {
+                        formatting_space!(self);
+                    }
+                    _ => {}
+                },
             }
-
-            if idx != 0 && need_space {
-                need_space = false;
-
-                self.wr.write_space()?;
-            }
-
-            if let ComplexSelectorChildren::CompoundSelector(..) = node {
-                need_space = true;
-            }
-
-            emit!(self, node)
         }
+    }
+
+    #[emitter]
+    fn emit_relative_selector(&mut self, n: &RelativeSelector) -> Result {
+        if let Some(combinator) = &n.combinator {
+            emit!(self, combinator);
+
+            formatting_space!(self);
+        }
+
+        emit!(self, n.selector);
     }
 
     #[emitter]
@@ -1643,16 +1671,15 @@ where
     }
 
     #[emitter]
-    fn emit_nth(&mut self, n: &Nth) -> Result {
-        emit!(self, n.nth);
-
-        if n.selector_list.is_some() {
-            emit!(self, n.selector_list);
+    fn emit_an_plus_b(&mut self, n: &AnPlusB) -> Result {
+        match n {
+            AnPlusB::Ident(n) => emit!(self, n),
+            AnPlusB::AnPlusBNotation(n) => emit!(self, n),
         }
     }
 
     #[emitter]
-    fn emit_an_plus_b(&mut self, n: &AnPlusB) -> Result {
+    fn emit_an_plus_b_notation(&mut self, n: &AnPlusBNotation) -> Result {
         if self.config.minify {
             if let Some(a) = &n.a {
                 if *a == -1 {
@@ -1685,31 +1712,55 @@ where
     }
 
     #[emitter]
-    fn emit_nth_value(&mut self, n: &NthValue) -> Result {
-        match n {
-            NthValue::AnPlusB(n) => emit!(self, n),
-            NthValue::Ident(n) => emit!(self, n),
-        }
-    }
-
-    #[emitter]
-    fn emit_pseudo_selector_children(&mut self, n: &PseudoSelectorChildren) -> Result {
-        match n {
-            PseudoSelectorChildren::Nth(n) => emit!(self, n),
-            PseudoSelectorChildren::PreservedToken(n) => emit!(self, n),
-        }
-    }
-
-    #[emitter]
     fn emit_pseudo_class_selector(&mut self, n: &PseudoClassSelector) -> Result {
         punct!(self, ":");
         emit!(self, n.name);
 
         if let Some(children) = &n.children {
             punct!(self, "(");
-            self.emit_list(children, ListFormat::NotDelimited)?;
+            self.emit_list_pseudo_class_selector_children(children)?;
             punct!(self, ")");
         }
+    }
+
+    #[emitter]
+    fn emit_pseudo_class_selector_children(&mut self, n: &PseudoClassSelectorChildren) -> Result {
+        match n {
+            PseudoClassSelectorChildren::PreservedToken(n) => emit!(self, n),
+            PseudoClassSelectorChildren::AnPlusB(n) => emit!(self, n),
+            PseudoClassSelectorChildren::Ident(n) => emit!(self, n),
+            PseudoClassSelectorChildren::Str(n) => emit!(self, n),
+            PseudoClassSelectorChildren::Delimiter(n) => emit!(self, n),
+            PseudoClassSelectorChildren::SelectorList(n) => emit!(self, n),
+            PseudoClassSelectorChildren::CompoundSelectorList(n) => emit!(self, n),
+            PseudoClassSelectorChildren::RelativeSelectorList(n) => emit!(self, n),
+            PseudoClassSelectorChildren::CompoundSelector(n) => emit!(self, n),
+        }
+    }
+
+    fn emit_list_pseudo_class_selector_children(
+        &mut self,
+        nodes: &[PseudoClassSelectorChildren],
+    ) -> Result {
+        let len = nodes.len();
+
+        for (idx, node) in nodes.iter().enumerate() {
+            emit!(self, node);
+
+            if idx != len - 1 {
+                match node {
+                    PseudoClassSelectorChildren::PreservedToken(_) => {}
+                    PseudoClassSelectorChildren::Delimiter(_) => {
+                        formatting_space!(self);
+                    }
+                    _ => {
+                        space!(self)
+                    }
+                }
+            }
+        }
+
+        Ok(())
     }
 
     #[emitter]
@@ -1720,9 +1771,43 @@ where
 
         if let Some(children) = &n.children {
             punct!(self, "(");
-            self.emit_list(children, ListFormat::NotDelimited)?;
+            self.emit_list_pseudo_element_selector_children(children)?;
             punct!(self, ")");
         }
+    }
+
+    #[emitter]
+    fn emit_pseudo_element_selector_children(
+        &mut self,
+        n: &PseudoElementSelectorChildren,
+    ) -> Result {
+        match n {
+            PseudoElementSelectorChildren::PreservedToken(n) => emit!(self, n),
+            PseudoElementSelectorChildren::Ident(n) => emit!(self, n),
+            PseudoElementSelectorChildren::CompoundSelector(n) => emit!(self, n),
+        }
+    }
+
+    fn emit_list_pseudo_element_selector_children(
+        &mut self,
+        nodes: &[PseudoElementSelectorChildren],
+    ) -> Result {
+        let len = nodes.len();
+
+        for (idx, node) in nodes.iter().enumerate() {
+            emit!(self, node);
+
+            if idx != len - 1 {
+                match node {
+                    PseudoElementSelectorChildren::PreservedToken(_) => {}
+                    _ => {
+                        space!(self)
+                    }
+                }
+            }
+        }
+
+        Ok(())
     }
 
     fn emit_list<N>(&mut self, nodes: &[N], format: ListFormat) -> Result

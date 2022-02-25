@@ -29,9 +29,9 @@ console.log(a, b);
 var a = A;
 var b;
 console.log(a, b);
-C.One;
-var c = C.Two;
-var d = C.Two;
+0;
+var c = 1;
+var d = 1;
 console.log(c, d);
 var c;
 var d;
@@ -56,5 +56,5 @@ K;
 module.exports = K;
 // @Filename: /l.ts
 var K = require('./k');
-K.One; // @Filename: /j.ts
+0; // @Filename: /j.ts
  // Sad face https://github.com/microsoft/TypeScript/blob/6b04f5039429b9d412696fe2febe39ecc69ad365/src/testRunner/compilerRunner.ts#L207

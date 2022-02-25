@@ -110,6 +110,8 @@ pub enum Color {
     // TODO more
     #[tag("HexColor")]
     HexColor(HexColor),
+    #[tag("Function")]
+    Function(Function),
 }
 
 #[ast_node("HexColor")]

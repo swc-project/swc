@@ -4,10 +4,19 @@ function _assertThisInitialized(self) {
     }
     return self;
 }
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
 }
 function _getPrototypeOf(o) {
     _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
@@ -73,6 +82,7 @@ var B = function B() {
     "use strict";
     _classCallCheck(this, B);
 };
+var _x = new WeakMap();
 var A = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(A, B);
@@ -82,7 +92,7 @@ var A = /*#__PURE__*/ function(B) {
         var _this;
         void 0;
         _this = _super.call(this);
-        _x.set(_assertThisInitialized(_this), {
+        _classPrivateFieldInit(_assertThisInitialized(_this), _x, {
             writable: true,
             value: void 0
         });
@@ -90,4 +100,3 @@ var A = /*#__PURE__*/ function(B) {
     }
     return A;
 }(B);
-var _x = new WeakMap();

@@ -78,8 +78,8 @@ where
         let mut dq = 0;
         let mut sq = 0;
 
-        for char in text.chars() {
-            match char {
+        for c in text.chars() {
+            match c {
                 // If the character is NULL (U+0000), then the REPLACEMENT CHARACTER (U+FFFD).
                 '\0' => {
                     new_string.push('\u{FFFD}');
@@ -91,7 +91,7 @@ where
 
                     let b3;
                     let b4;
-                    let char_as_u8 = char as u8;
+                    let char_as_u8 = c as u8;
 
                     let bytes = if char_as_u8 > 0x0f {
                         let high = (char_as_u8 >> 4) as usize;
@@ -101,7 +101,7 @@ where
 
                         &b4[..]
                     } else {
-                        b3 = [b'\\', HEX_DIGITS[char as usize], b' '];
+                        b3 = [b'\\', HEX_DIGITS[c as usize], b' '];
 
                         &b3[..]
                     };
@@ -117,16 +117,16 @@ where
                 '"' => {
                     dq += 1;
 
-                    new_string.push(char);
+                    new_string.push(c);
                 }
                 '\'' => {
                     sq += 1;
 
-                    new_string.push(char);
+                    new_string.push(c);
                 }
                 // Otherwise, the character itself.
                 _ => {
-                    new_string.push(char);
+                    new_string.push(c);
                 }
             };
         }
@@ -145,8 +145,8 @@ where
     }
 
     fn write_raw(&mut self, span: Option<Span>, text: &str) -> Result {
-        for char in text.chars() {
-            self.write_raw_char(span, char)?;
+        for c in text.chars() {
+            self.write_raw_char(span, c)?;
         }
 
         Ok(())

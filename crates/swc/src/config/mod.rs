@@ -53,7 +53,9 @@ use swc_ecma_transforms::{
     proposals::{decorators, export_default_from, import_assertions},
     react,
     resolver::ts_resolver,
-    resolver_with_mark, typescript, Assumptions,
+    resolver_with_mark,
+    typescript::{self, TSEnumConfig},
+    Assumptions,
 };
 use swc_ecma_transforms_compat::es2015::regenerator;
 use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
@@ -437,6 +439,7 @@ impl Options {
 
         let plugin_context = PluginContext {
             filename: transform_filename,
+            env_name: self.env_name.to_owned(),
         };
 
         #[cfg(feature = "plugin")]
@@ -467,6 +470,10 @@ impl Options {
                     typescript::Config {
                         pragma: Some(transform.react.pragma.clone()),
                         pragma_frag: Some(transform.react.pragma_frag.clone()),
+                        ts_enum_config: TSEnumConfig {
+                            treat_const_enum_as_enum: transform.treat_const_enum_as_enum,
+                            ts_enum_is_readonly: assumptions.ts_enum_is_readonly,
+                        },
                         ..Default::default()
                     },
                     comments,
@@ -1169,6 +1176,9 @@ pub struct TransformConfig {
 
     #[serde(default)]
     pub regenerator: regenerator::Config,
+
+    #[serde(default)]
+    pub treat_const_enum_as_enum: bool,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]

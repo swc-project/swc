@@ -3,7 +3,7 @@ let Foo = function() {
     "use strict";
     function Foo() {
         _classCallCheck(this, Foo);
-        _foo.add(this);
+        _classPrivateMethodInit(this, _foo);
     }
     _createClass(Foo, [
         {
@@ -15,5 +15,4 @@ let Foo = function() {
     ]);
     return Foo;
 }();
-function foo() {
-}
+function foo() {}

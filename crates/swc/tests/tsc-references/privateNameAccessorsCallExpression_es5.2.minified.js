@@ -3,6 +3,11 @@ function _arrayLikeToArray(arr, len) {
     for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
     return arr2;
 }
+function _classPrivateFieldInit(obj, privateMap, value) {
+    !function(obj, privateCollection) {
+        if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }(obj, privateMap), privateMap.set(obj, value);
+}
 function _classPrivateMethodGet(receiver, privateSet, fn) {
     if (!privateSet.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
     return fn;
@@ -81,13 +86,19 @@ function _templateObject1() {
         return data;
     }, data;
 }
-var _fieldFunc = new WeakSet(), _fieldFunc2 = new WeakSet(), A = function() {
+var _fieldFunc = new WeakMap(), _fieldFunc2 = new WeakMap(), A = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function A() {
         !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, A), _fieldFunc.add(this), _fieldFunc2.add(this), this.x = 1;
+        }(this, A), _classPrivateFieldInit(this, _fieldFunc, {
+            get: get_fieldFunc,
+            set: void 0
+        }), _classPrivateFieldInit(this, _fieldFunc2, {
+            get: get_fieldFunc2,
+            set: void 0
+        }), this.x = 1;
     }
     return Constructor = A, protoProps = [
         {
@@ -118,12 +129,12 @@ var _fieldFunc = new WeakSet(), _fieldFunc2 = new WeakSet(), A = function() {
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), A;
 }();
-function fieldFunc() {
+function get_fieldFunc() {
     return function() {
         this.x = 10;
     };
 }
-function fieldFunc2() {
+function get_fieldFunc2() {
     return function(a) {
         for(var _len = arguments.length, b = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)b[_key - 1] = arguments[_key];
     };

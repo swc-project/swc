@@ -60,4 +60,4 @@ function _AwaitValue(value) {
     return this._invoke("throw", arg);
 }, AsyncGenerator.prototype.return = function(arg) {
     return this._invoke("return", arg);
-}, new WeakSet(), new WeakSet(), new WeakSet(), new WeakSet(), new WeakSet(), new WeakMap(), new WeakSet();
+}, new WeakSet(), new WeakSet(), new WeakSet(), new WeakMap(), new WeakMap(), new WeakSet();

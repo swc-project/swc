@@ -352,7 +352,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if is!(self, "let")
-            || (self.input.syntax().typescript() && is!(self, IdentName))
+            || (self.input.syntax().typescript() && is_one_of!(self, IdentRef, "await"))
             || is!(self, IdentRef)
         {
             // TODO: Handle [Yield, Await]
@@ -572,7 +572,7 @@ impl<'a, I: Tokens> Parser<I> {
         return_if_arrow!(self, obj);
 
         let type_args = if self.syntax().typescript() && is!(self, '<') {
-            self.try_parse_type_args_of_ts_expr_with_type_args()
+            self.try_parse_ts_type_args()
         } else {
             None
         };
@@ -707,7 +707,7 @@ impl<'a, I: Tokens> Parser<I> {
                     params.is_simple_parameter_list(),
                 )?;
 
-                if is_direct_child_of_cond && !is_one_of!(p, ':', ';') {
+                if is_direct_child_of_cond && !is_one_of!(p, ':', ';', ',', ')') {
                     trace_cur!(p, parse_arrow_in_cond__fail);
                     unexpected!(p, "fail")
                 }
@@ -1109,7 +1109,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         let type_args = if self.syntax().typescript() && is!(self, '<') {
-            self.try_parse_type_args_of_ts_expr_with_type_args()
+            self.try_parse_ts_type_args()
         } else {
             None
         };
@@ -1143,7 +1143,7 @@ impl<'a, I: Tokens> Parser<I> {
             };
 
             let type_args = if self.syntax().typescript() && is!(self, '<') {
-                self.try_parse_type_args_of_ts_expr_with_type_args()
+                self.try_parse_ts_type_args()
             } else {
                 None
             };
@@ -1262,7 +1262,7 @@ impl<'a, I: Tokens> Parser<I> {
             debug_assert_eq!(prop.span().hi(), span.hi());
 
             let type_args = if self.syntax().typescript() && is!(self, '<') {
-                self.try_parse_type_args_of_ts_expr_with_type_args()
+                self.try_parse_ts_type_args()
             } else {
                 None
             };

@@ -1,4 +1,5 @@
 #![recursion_limit = "1024"]
+#![deny(clippy::all)]
 #![allow(clippy::match_like_matches_macro)]
 #![allow(clippy::nonminimal_bool)]
 #![allow(unused_variables)]
@@ -1059,7 +1060,7 @@ where
     }
 
     #[emitter]
-    fn emit_class_memeber(&mut self, node: &ClassMember) -> Result {
+    fn emit_class_member(&mut self, node: &ClassMember) -> Result {
         match *node {
             ClassMember::Constructor(ref n) => emit!(n),
             ClassMember::ClassProp(ref n) => emit!(n),
@@ -1124,7 +1125,7 @@ where
     fn emit_class_method(&mut self, n: &ClassMethod) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        self.emit_accesibility(n.accessibility)?;
+        self.emit_accessibility(n.accessibility)?;
 
         if n.is_static {
             keyword!("static");
@@ -1217,7 +1218,7 @@ where
 
         self.emit_list(n.span, Some(&n.decorators), ListFormat::Decorators)?;
 
-        self.emit_accesibility(n.accessibility)?;
+        self.emit_accessibility(n.accessibility)?;
 
         if n.is_static {
             keyword!("static");
@@ -1258,7 +1259,7 @@ where
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         if n.accessibility != Some(Accessibility::Public) {
-            self.emit_accesibility(n.accessibility)?;
+            self.emit_accessibility(n.accessibility)?;
         }
 
         if n.is_static {
@@ -1296,7 +1297,7 @@ where
         semi!();
     }
 
-    fn emit_accesibility(&mut self, n: Option<Accessibility>) -> Result {
+    fn emit_accessibility(&mut self, n: Option<Accessibility>) -> Result {
         if let Some(a) = n {
             match a {
                 Accessibility::Public => keyword!(self, "public"),
@@ -1313,7 +1314,7 @@ where
     fn emit_class_constructor(&mut self, n: &Constructor) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        self.emit_accesibility(n.accessibility)?;
+        self.emit_accessibility(n.accessibility)?;
 
         keyword!("constructor");
         punct!("(");
@@ -2845,7 +2846,7 @@ where
     pub fn emit_module_export_name(&mut self, node: &ModuleExportName) -> Result {
         match *node {
             ModuleExportName::Ident(ref ident) => emit!(ident),
-            ModuleExportName::Str(ref str) => emit!(str),
+            ModuleExportName::Str(ref s) => emit!(s),
         }
     }
 }

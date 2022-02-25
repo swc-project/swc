@@ -30,7 +30,7 @@ impl PrivateRecord {
         &self.0.last().unwrap().class_name
     }
 
-    pub fn curr_mark(&self) -> Mark {
+    pub fn cur_mark(&self) -> Mark {
         self.0.last().unwrap().mark
     }
 
@@ -471,7 +471,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 } else {
                     *e = Expr::Call(CallExpr {
                         span: *span,
-                        callee: Callee::Expr(Box::new(expr)),
+                        callee: expr.as_callee(),
                         args: args.take(),
                         type_args: type_args.take(),
                     });
@@ -492,15 +492,16 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                     let args = iter::once(this.as_arg()).chain(call.args.take()).collect();
                     *e = Expr::Call(CallExpr {
                         span: *span,
-                        callee: Callee::Expr(Box::new(Expr::OptChain(OptChainExpr {
-                            question_dot_token: *question_dot_token,
+                        callee: OptChainExpr {
                             span: *span,
+                            question_dot_token: *question_dot_token,
                             base: OptChainBase::Member(MemberExpr {
-                                obj: Box::new(expr),
                                 span: call.span,
+                                obj: Box::new(expr),
                                 prop: MemberProp::Ident(quote_ident!("call")),
                             }),
-                        }))),
+                        }
+                        .as_callee(),
                         args,
                         type_args: call.type_args.take(),
                     });
@@ -626,6 +627,25 @@ impl<'a> PrivateAccessVisitor<'a> {
         let ident = Ident::new(format!("_{}", n.id.sym).into(), n.id.span.apply_mark(mark));
 
         if kind.is_static {
+            if self.in_assign_pat {
+                let set = helper!(
+                    class_static_private_field_destructure,
+                    "classStaticPrivateFieldDestructureSet"
+                );
+
+                return (
+                    CallExpr {
+                        span: DUMMY_SP,
+                        callee: set,
+                        args: vec![obj.clone().as_arg(), ident.as_arg()],
+
+                        type_args: Default::default(),
+                    }
+                    .make_member(quote_ident!("value")),
+                    Some(*obj),
+                );
+            }
+
             if kind.is_method {
                 let h = helper!(
                     class_static_private_method_get,
@@ -668,20 +688,17 @@ impl<'a> PrivateAccessVisitor<'a> {
                     "classPrivateFieldDestructureSet"
                 );
 
-                return match &*obj {
-                    Expr::This(this) => (
-                        CallExpr {
-                            span: DUMMY_SP,
-                            callee: set,
-                            args: vec![this.as_arg(), ident.as_arg()],
+                return (
+                    CallExpr {
+                        span: DUMMY_SP,
+                        callee: set,
+                        args: vec![obj.clone().as_arg(), ident.as_arg()],
 
-                            type_args: Default::default(),
-                        }
-                        .make_member(quote_ident!("value")),
-                        Some(Expr::This(*this)),
-                    ),
-                    _ => unimplemented!("destructuring set for object except this"),
-                };
+                        type_args: Default::default(),
+                    }
+                    .make_member(quote_ident!("value")),
+                    Some(*obj),
+                );
             }
 
             let get = if kind.is_method {

@@ -1,8 +1,35 @@
-function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
+function _classApplyDescriptorDestructureSet(receiver, descriptor) {
+    if (descriptor.set) {
+        if (!("__destrObj" in descriptor)) {
+            descriptor.__destrObj = {
+                set value (v){
+                    descriptor.set.call(receiver, v);
+                }
+            };
+        }
+        return descriptor.__destrObj;
+    } else {
+        if (!descriptor.writable) {
+            throw new TypeError("attempted to set read only private field");
+        }
+        return descriptor;
+    }
+}
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to " + action + " private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
+function _classStaticPrivateFieldDestructureSet(receiver, classConstructor, descriptor) {
+    _classCheckPrivateStaticAccess(receiver, classConstructor);
+    _classCheckPrivateStaticFieldDescriptor(descriptor, "set");
+    return _classApplyDescriptorDestructureSet(receiver, descriptor);
+}
+function _classCheckPrivateStaticAccess(receiver, classConstructor) {
     if (receiver !== classConstructor) {
         throw new TypeError("Private static access of wrong provenance");
     }
-    return descriptor.value;
 }
 // @target: esnext, es2022, es2015
 // @useDefineForClassFields: false
@@ -20,32 +47,32 @@ class A {
         ];
     }
     static test(_a) {
-        [_classStaticPrivateFieldSpecGet(_a, A, _field)] = [
+        [_classStaticPrivateFieldDestructureSet(_a, _field).value] = [
             2
         ];
     }
     constructor(){
         this.otherClass = A;
         let y;
-        ({ x: _classStaticPrivateFieldSpecGet(A, A, _field) , y  } = this.testObject());
-        [_classStaticPrivateFieldSpecGet(A, A, _field), y] = this.testArray();
-        ({ a: _classStaticPrivateFieldSpecGet(A, A, _field) , b: [_classStaticPrivateFieldSpecGet(A, A, _field)]  } = {
+        ({ x: _classStaticPrivateFieldDestructureSet(A, _field).value , y  } = this.testObject());
+        [_classStaticPrivateFieldDestructureSet(A, _field).value, y] = this.testArray();
+        ({ a: _classStaticPrivateFieldDestructureSet(A, _field).value , b: [_classStaticPrivateFieldDestructureSet(A, _field).value]  } = {
             a: 1,
             b: [
                 2
             ]
         });
-        [_classStaticPrivateFieldSpecGet(A, A, _field), [_classStaticPrivateFieldSpecGet(A, A, _field)]] = [
+        [_classStaticPrivateFieldDestructureSet(A, _field).value, [_classStaticPrivateFieldDestructureSet(A, _field).value]] = [
             1,
             [
                 2
             ]
         ];
-        ({ a: _classStaticPrivateFieldSpecGet(A, A, _field) = 1 , b: [_classStaticPrivateFieldSpecGet(A, A, _field) = 1]  } = {
+        ({ a: _classStaticPrivateFieldDestructureSet(A, _field).value = 1 , b: [_classStaticPrivateFieldDestructureSet(A, _field).value = 1]  } = {
             b: []
         });
-        [_classStaticPrivateFieldSpecGet(A, A, _field) = 2] = [];
-        [_classStaticPrivateFieldSpecGet(this.otherClass, A, _field) = 2] = [];
+        [_classStaticPrivateFieldDestructureSet(A, _field).value = 2] = [];
+        [_classStaticPrivateFieldDestructureSet(this.otherClass, _field).value = 2] = [];
     }
 }
 var _field = {

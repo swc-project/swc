@@ -20,9 +20,9 @@ console.log(a, b);
 const a = A;
 let b;
 console.log(a, b);
-C.One;
-let c = C.Two;
-let d = C.Two;
+0;
+let c = 1;
+let d = 1;
 console.log(c, d);
 let c;
 let d;
@@ -46,5 +46,5 @@ K;
 module.exports = K;
 // @Filename: /l.ts
 const K = require('./k');
-K.One; // @Filename: /j.ts
+0; // @Filename: /j.ts
  // Sad face https://github.com/microsoft/TypeScript/blob/6b04f5039429b9d412696fe2febe39ecc69ad365/src/testRunner/compilerRunner.ts#L207

@@ -1,11 +1,11 @@
 {
     "name": "@swc/core",
-    "version": "1.2.143",
+    "version": "1.2.145",
     "description": "Super-fast alternative for babel",
     "homepage": "https://swc.rs",
     "main": "./index.js",
     "author": "강동윤 <kdy1997.dev@gmail.com>",
-    "license": "Apache-2.0 AND MIT",
+    "license": "Apache-2.0",
     "keywords": [
         "swc",
         "swcpack",

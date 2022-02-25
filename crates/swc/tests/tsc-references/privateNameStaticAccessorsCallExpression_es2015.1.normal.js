@@ -1,11 +1,22 @@
+function _classApplyDescriptorSet(receiver, descriptor, value) {
+    if (descriptor.set) {
+        descriptor.set.call(receiver, value);
+    } else {
+        if (!descriptor.writable) {
+            throw new TypeError("attempted to set read only private field");
+        }
+        descriptor.value = value;
+    }
+}
+function _classCheckPrivateStaticFieldDescriptor(descriptor, action) {
+    if (descriptor === undefined) {
+        throw new TypeError("attempted to " + action + " private static field before its declaration");
+    }
+}
 function _classStaticPrivateFieldSpecSet(receiver, classConstructor, descriptor, value) {
-    if (receiver !== classConstructor) {
-        throw new TypeError("Private static access of wrong provenance");
-    }
-    if (!descriptor.writable) {
-        throw new TypeError("attempted to set read only private field");
-    }
-    descriptor.value = value;
+    _classCheckPrivateStaticAccess(receiver, classConstructor);
+    _classCheckPrivateStaticFieldDescriptor(descriptor, "set");
+    _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
 }
 function _classStaticPrivateMethodGet(receiver, classConstructor, method) {
@@ -37,15 +48,23 @@ class A {
         return A;
     }
 }
+var _fieldFunc = {
+    get: get_fieldFunc,
+    set: void 0
+};
+var _fieldFunc2 = {
+    get: get_fieldFunc2,
+    set: void 0
+};
 var _x = {
     writable: true,
     value: 1
 };
-function fieldFunc() {
+function get_fieldFunc() {
     return function() {
         _classStaticPrivateFieldSpecSet(A, A, _x, 10);
     };
 }
-function fieldFunc2() {
+function get_fieldFunc2() {
     return function(a, ...b) {};
 }

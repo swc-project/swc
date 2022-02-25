@@ -24,16 +24,16 @@ where
         match e {
             Expr::Member(MemberExpr { prop, .. }) => {
                 if let MemberProp::Computed(c) = prop {
-                    if let Expr::Lit(Lit::Str(str)) = &mut *c.expr {
-                        if !str.value.starts_with(|c: char| c.is_ascii_alphabetic()) {
+                    if let Expr::Lit(Lit::Str(s)) = &mut *c.expr {
+                        if !s.value.starts_with(|c: char| c.is_ascii_alphabetic()) {
                             return;
                         }
 
                         self.changed = true;
                         tracing::debug!("arguments: Optimizing computed access to arguments");
                         *prop = MemberProp::Ident(Ident {
-                            span: str.span,
-                            sym: str.take().value,
+                            span: s.span,
+                            sym: s.take().value,
                             optional: false,
                         })
                     }
@@ -42,16 +42,16 @@ where
 
             Expr::SuperProp(SuperPropExpr { prop, .. }) => {
                 if let SuperProp::Computed(c) = prop {
-                    if let Expr::Lit(Lit::Str(str)) = &mut *c.expr {
-                        if !str.value.starts_with(|c: char| c.is_ascii_alphabetic()) {
+                    if let Expr::Lit(Lit::Str(s)) = &mut *c.expr {
+                        if !s.value.starts_with(|c: char| c.is_ascii_alphabetic()) {
                             return;
                         }
 
                         self.changed = true;
                         tracing::debug!("arguments: Optimizing computed access to arguments");
                         *prop = SuperProp::Ident(Ident {
-                            span: str.span,
-                            sym: str.take().value,
+                            span: s.span,
+                            sym: s.take().value,
                             optional: false,
                         })
                     }

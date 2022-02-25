@@ -13,5 +13,8 @@ let Foo = function() {
     ]);
     return Foo;
 }();
-function foo() {
-}
+var _foo = {
+    get: get_foo,
+    set: void 0
+};
+function get_foo() {}

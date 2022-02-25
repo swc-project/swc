@@ -8,4 +8,18 @@ button:not([DISABLED]) {}
 html|*:not(:link):not(:visited) {}
 .selector:not(*:root) {}
 :not(:is(argument)) {}
-
+p:not(.fancy) {}
+body :not(p) {}
+body :not(div):not(span) {}
+body :not(div, .fancy) {}
+h2 :not(span.foo) {}
+body > h2:not(:first-of-type):not(:last-of-type) {}
+:not(em, strong#foo) {}
+html|*:not(:link):not(:visited) {}
+*:not(FOO) {}
+button:not([DISABLED]) {}
+a:not(:hover) {}
+a:where(:not(:hover)) {}
+section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+ul li:not(:first-of-type) {}

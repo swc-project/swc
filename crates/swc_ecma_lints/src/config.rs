@@ -5,8 +5,8 @@ use serde::{Deserialize, Serialize};
 #[cfg(feature = "non_critical_lints")]
 use crate::rules::non_critical_lints::{
     dot_notation::DotNotationConfig, eqeqeq::EqeqeqConfig, no_bitwise::NoBitwiseConfig,
-    no_console::NoConsoleConfig, no_restricted_syntax::NoRestrictedSyntaxConfig,
-    no_use_before_define::NoUseBeforeDefineConfig,
+    no_console::NoConsoleConfig, no_empty_function::NoEmptyFunctionConfig,
+    no_restricted_syntax::NoRestrictedSyntaxConfig, no_use_before_define::NoUseBeforeDefineConfig,
     prefer_regex_literals::PreferRegexLiteralsConfig, quotes::QuotesConfig,
 };
 
@@ -99,12 +99,20 @@ pub struct LintConfig {
     pub quotes: RuleConfig<QuotesConfig>,
 
     #[cfg(feature = "non_critical_lints")]
+    #[serde(default, alias = "noEmptyFunction")]
+    pub no_empty_function: RuleConfig<NoEmptyFunctionConfig>,
+
+    #[cfg(feature = "non_critical_lints")]
     #[serde(default, alias = "noEmptyPattern")]
     pub no_empty_pattern: RuleConfig<()>,
 
     #[cfg(feature = "non_critical_lints")]
     #[serde(default)]
     pub eqeqeq: RuleConfig<EqeqeqConfig>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default, alias = "noLoopFunc")]
+    pub no_loop_func: RuleConfig<()>,
 
     #[cfg(feature = "non_critical_lints")]
     #[serde(default, alias = "noNew")]
@@ -117,4 +125,8 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default, alias = "noBitwise")]
     pub no_bitwise: RuleConfig<NoBitwiseConfig>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default, alias = "defaultParamLast")]
+    pub default_param_last: RuleConfig<()>,
 }

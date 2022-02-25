@@ -40,7 +40,7 @@ error: Expected whitespace, semicolon, EOF, at-keyword or ident token
 108 |     $property: value;
     |     ^
 
-error: Invalid selector
+error: Expected function or ident tokens
    --> $DIR/tests/recovery/hacks/input.css:112:15
     |
 112 |     &property: value;

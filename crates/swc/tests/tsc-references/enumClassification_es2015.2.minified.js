@@ -12,9 +12,9 @@ var E01, E02, E03, E04, E05, E06, E07, E08, E11, E12, E20;
 })(E05 || (E05 = {})), (function(E06) {
     E06.A = "one", E06.B = "two", E06.C = "three";
 })(E06 || (E06 = {})), (function(E07) {
-    E07[E07.A = 0] = "A", E07[E07.B = 1] = "B", E07[E07.C = "hi"] = "hi", E07[E07.D = 10] = 10, E07[E07.E = 11] = "E", E07[E07.F = "bye"] = "bye";
+    E07[E07.A = 0] = "A", E07[E07.B = 1] = "B", E07.C = "hi", E07[E07.D = 10] = "D", E07[E07.E = 11] = "E", E07.F = "bye";
 })(E07 || (E07 = {})), (function(E08) {
-    E08[E08.A = 10] = 10, E08[E08.B = "hello"] = "hello", E08[E08.C = 10] = 10, E08[E08.D = "hello"] = "hello", E08[E08.E = 10] = 10;
+    E08[E08.A = 10] = "A", E08.B = "hello", E08[E08.C = 10] = "C", E08.D = "hello", E08[E08.E = 10] = "E";
 })(E08 || (E08 = {})), (function(E11) {
     E11[E11.A = 0] = "A", E11[E11.B = 1] = "B", E11[E11.C = 2] = "C";
 })(E11 || (E11 = {})), (function(E12) {

@@ -112,7 +112,6 @@ impl Default for UseBuiltIns {
 enum Error {
     Io(io::Error),
     Var(env::VarError),
-    WalkDir(walkdir::Error),
     Json(serde_json::Error),
     Msg(String),
 }

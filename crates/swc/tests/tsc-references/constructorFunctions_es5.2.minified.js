@@ -1,5 +1,5 @@
 function _instanceof(left, right) {
-    return null != right && "undefined" != typeof Symbol && right[Symbol.hasInstance] ? right[Symbol.hasInstance](left) : left instanceof right;
+    return null != right && "undefined" != typeof Symbol && right[Symbol.hasInstance] ? !!right[Symbol.hasInstance](left) : left instanceof right;
 }
 function C1() {
     if (!_instanceof(this, C1)) return new C1();

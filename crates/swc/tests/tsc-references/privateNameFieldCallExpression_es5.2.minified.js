@@ -4,8 +4,16 @@ function _arrayLikeToArray(arr, len) {
     return arr2;
 }
 function _classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-    return privateMap.get(receiver).value;
+    var receiver, descriptor, descriptor = function(receiver, privateMap, action) {
+        if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
+        return privateMap.get(receiver);
+    }(receiver, privateMap, "get");
+    return descriptor.get ? descriptor.get.call(receiver) : descriptor.value;
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    !function(obj, privateCollection) {
+        if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }(obj, privateMap), privateMap.set(obj, value);
 }
 function _construct(Parent, args, Class) {
     return (_construct = !function() {
@@ -81,18 +89,18 @@ function _templateObject1() {
         return data;
     }, data;
 }
-var A = function() {
+var _fieldFunc = new WeakMap(), _fieldFunc2 = new WeakMap(), A = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function A() {
         !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, A), _fieldFunc.set(this, {
+        }(this, A), _classPrivateFieldInit(this, _fieldFunc, {
             writable: !0,
             value: function() {
                 this.x = 10;
             }
-        }), _fieldFunc2.set(this, {
+        }), _classPrivateFieldInit(this, _fieldFunc2, {
             writable: !0,
             value: function(a) {
                 for(var _len = arguments.length, b = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)b[_key - 1] = arguments[_key];
@@ -127,4 +135,4 @@ var A = function() {
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), A;
-}(), _fieldFunc = new WeakMap(), _fieldFunc2 = new WeakMap();
+}();

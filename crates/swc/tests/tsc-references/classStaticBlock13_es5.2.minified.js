@@ -1,12 +1,17 @@
 function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
-    if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
-    return descriptor.value;
+    var receiver, descriptor;
+    return _classCheckPrivateStaticAccess(receiver, classConstructor), !function(descriptor, action) {
+        if (void 0 === descriptor) throw new TypeError("attempted to get private static field before its declaration");
+    }(descriptor, "get"), descriptor.get ? descriptor.get.call(receiver) : descriptor.value;
 }
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
+}
+function _classCheckPrivateStaticAccess(receiver, classConstructor) {
+    if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
 }
 var C = function() {
     "use strict";

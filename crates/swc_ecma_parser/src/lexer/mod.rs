@@ -375,7 +375,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     if self.state.had_line_break && c == '-' && self.eat(b'>') {
                         self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
                         self.skip_line_comment(0);
-                        self.skip_space()?;
+                        self.skip_space(true)?;
                         return self.read_token();
                     }
 
@@ -623,7 +623,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         // XML style comment. `<!--`
         if c == '<' && self.is(b'!') && self.peek() == Some('-') && self.peek_ahead() == Some('-') {
             self.skip_line_comment(3);
-            self.skip_space()?;
+            self.skip_space(true)?;
             self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
 
             return self.read_token();

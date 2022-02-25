@@ -166,6 +166,12 @@ error: Ident
 3 | ::unknown(foo) {}
   |   ^^^^^^^
 
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:3:11
+  |
+3 | ::unknown(foo) {}
+  |           ^^^
+
 error: Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:3:11
   |
@@ -226,17 +232,35 @@ error: Ident
 4 | ::unknown(foo bar) {}
   |   ^^^^^^^
 
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:4:11
+  |
+4 | ::unknown(foo bar) {}
+  |           ^^^
+
 error: Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:4:11
   |
 4 | ::unknown(foo bar) {}
   |           ^^^
 
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:4:14
+  |
+4 | ::unknown(foo bar) {}
+  |              ^
+
 error: WhiteSpace { value: Atom(' ' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:4:14
   |
 4 | ::unknown(foo bar) {}
   |              ^
+
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:4:15
+  |
+4 | ::unknown(foo bar) {}
+  |               ^^^
 
 error: Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:4:15
@@ -298,11 +322,23 @@ error: Ident
 5 | ::unknown(foo, bar) {}
   |   ^^^^^^^
 
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:5:11
+  |
+5 | ::unknown(foo, bar) {}
+  |           ^^^
+
 error: Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:5:11
   |
 5 | ::unknown(foo, bar) {}
   |           ^^^
+
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:5:14
+  |
+5 | ::unknown(foo, bar) {}
+  |              ^
 
 error: Comma
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:5:14
@@ -310,11 +346,23 @@ error: Comma
 5 | ::unknown(foo, bar) {}
   |              ^
 
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:5:15
+  |
+5 | ::unknown(foo, bar) {}
+  |               ^
+
 error: WhiteSpace { value: Atom(' ' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:5:15
   |
 5 | ::unknown(foo, bar) {}
   |               ^
+
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:5:16
+  |
+5 | ::unknown(foo, bar) {}
+  |                ^^^
 
 error: Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:5:16
@@ -376,17 +424,35 @@ error: Ident
 6 | ::unknown([foo]) {}
   |   ^^^^^^^
 
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:6:11
+  |
+6 | ::unknown([foo]) {}
+  |           ^
+
 error: LBracket
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:6:11
   |
 6 | ::unknown([foo]) {}
   |           ^
 
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:6:12
+  |
+6 | ::unknown([foo]) {}
+  |            ^^^
+
 error: Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:6:12
   |
 6 | ::unknown([foo]) {}
   |            ^^^
+
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:6:15
+  |
+6 | ::unknown([foo]) {}
+  |               ^
 
 error: RBracket
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:6:15
@@ -448,11 +514,23 @@ error: Ident
 7 | ::unknown((foo bar)) {}
   |   ^^^^^^^
 
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:7:11
+  |
+7 | ::unknown((foo bar)) {}
+  |           ^
+
 error: LParen
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:7:11
   |
 7 | ::unknown((foo bar)) {}
   |           ^
+
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:7:12
+  |
+7 | ::unknown((foo bar)) {}
+  |            ^^^
 
 error: Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:7:12
@@ -460,17 +538,35 @@ error: Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
 7 | ::unknown((foo bar)) {}
   |            ^^^
 
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:7:15
+  |
+7 | ::unknown((foo bar)) {}
+  |               ^
+
 error: WhiteSpace { value: Atom(' ' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:7:15
   |
 7 | ::unknown((foo bar)) {}
   |               ^
 
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:7:16
+  |
+7 | ::unknown((foo bar)) {}
+  |                ^^^
+
 error: Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:7:16
   |
 7 | ::unknown((foo bar)) {}
   |                ^^^
+
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:7:19
+  |
+7 | ::unknown((foo bar)) {}
+  |                   ^
 
 error: RParen
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:7:19
@@ -532,11 +628,23 @@ error: Ident
 8 | ::unknown(((foo bar))) {}
   |   ^^^^^^^
 
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:8:11
+  |
+8 | ::unknown(((foo bar))) {}
+  |           ^
+
 error: LParen
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:8:11
   |
 8 | ::unknown(((foo bar))) {}
   |           ^
+
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:8:12
+  |
+8 | ::unknown(((foo bar))) {}
+  |            ^
 
 error: LParen
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:8:12
@@ -544,11 +652,23 @@ error: LParen
 8 | ::unknown(((foo bar))) {}
   |            ^
 
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:8:13
+  |
+8 | ::unknown(((foo bar))) {}
+  |             ^^^
+
 error: Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:8:13
   |
 8 | ::unknown(((foo bar))) {}
   |             ^^^
+
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:8:16
+  |
+8 | ::unknown(((foo bar))) {}
+  |                ^
 
 error: WhiteSpace { value: Atom(' ' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:8:16
@@ -556,17 +676,35 @@ error: WhiteSpace { value: Atom(' ' type=inline) }
 8 | ::unknown(((foo bar))) {}
   |                ^
 
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:8:17
+  |
+8 | ::unknown(((foo bar))) {}
+  |                 ^^^
+
 error: Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:8:17
   |
 8 | ::unknown(((foo bar))) {}
   |                 ^^^
 
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:8:20
+  |
+8 | ::unknown(((foo bar))) {}
+  |                    ^
+
 error: RParen
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:8:20
   |
 8 | ::unknown(((foo bar))) {}
   |                    ^
+
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:8:21
+  |
+8 | ::unknown(((foo bar))) {}
+  |                     ^
 
 error: RParen
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:8:21
@@ -628,11 +766,23 @@ error: Ident
 9 | ::unknown({foo: bar}) {}
   |   ^^^^^^^
 
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:11
+  |
+9 | ::unknown({foo: bar}) {}
+  |           ^
+
 error: LBrace
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:11
   |
 9 | ::unknown({foo: bar}) {}
   |           ^
+
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:12
+  |
+9 | ::unknown({foo: bar}) {}
+  |            ^^^
 
 error: Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:12
@@ -640,11 +790,23 @@ error: Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
 9 | ::unknown({foo: bar}) {}
   |            ^^^
 
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:15
+  |
+9 | ::unknown({foo: bar}) {}
+  |               ^
+
 error: Colon
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:15
   |
 9 | ::unknown({foo: bar}) {}
   |               ^
+
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:16
+  |
+9 | ::unknown({foo: bar}) {}
+  |                ^
 
 error: WhiteSpace { value: Atom(' ' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:16
@@ -652,11 +814,23 @@ error: WhiteSpace { value: Atom(' ' type=inline) }
 9 | ::unknown({foo: bar}) {}
   |                ^
 
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:17
+  |
+9 | ::unknown({foo: bar}) {}
+  |                 ^^^
+
 error: Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:17
   |
 9 | ::unknown({foo: bar}) {}
   |                 ^^^
+
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:20
+  |
+9 | ::unknown({foo: bar}) {}
+  |                    ^
 
 error: RBrace
  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:20
@@ -718,11 +892,23 @@ error: Ident
 10 | ::unknown({{foo: bar}}) {}
    |   ^^^^^^^
 
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:11
+   |
+10 | ::unknown({{foo: bar}}) {}
+   |           ^
+
 error: LBrace
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:11
    |
 10 | ::unknown({{foo: bar}}) {}
    |           ^
+
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:12
+   |
+10 | ::unknown({{foo: bar}}) {}
+   |            ^
 
 error: LBrace
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:12
@@ -730,11 +916,23 @@ error: LBrace
 10 | ::unknown({{foo: bar}}) {}
    |            ^
 
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:13
+   |
+10 | ::unknown({{foo: bar}}) {}
+   |             ^^^
+
 error: Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:13
    |
 10 | ::unknown({{foo: bar}}) {}
    |             ^^^
+
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:16
+   |
+10 | ::unknown({{foo: bar}}) {}
+   |                ^
 
 error: Colon
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:16
@@ -742,11 +940,23 @@ error: Colon
 10 | ::unknown({{foo: bar}}) {}
    |                ^
 
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:17
+   |
+10 | ::unknown({{foo: bar}}) {}
+   |                 ^
+
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:17
    |
 10 | ::unknown({{foo: bar}}) {}
    |                 ^
+
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:18
+   |
+10 | ::unknown({{foo: bar}}) {}
+   |                  ^^^
 
 error: Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:18
@@ -754,11 +964,23 @@ error: Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
 10 | ::unknown({{foo: bar}}) {}
    |                  ^^^
 
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:21
+   |
+10 | ::unknown({{foo: bar}}) {}
+   |                     ^
+
 error: RBrace
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:21
    |
 10 | ::unknown({{foo: bar}}) {}
    |                     ^
+
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:22
+   |
+10 | ::unknown({{foo: bar}}) {}
+   |                      ^
 
 error: RBrace
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:22
@@ -820,11 +1042,23 @@ error: Ident
 11 | ::unknown({foo: bar !important}) {}
    |   ^^^^^^^
 
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:11
+   |
+11 | ::unknown({foo: bar !important}) {}
+   |           ^
+
 error: LBrace
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:11
    |
 11 | ::unknown({foo: bar !important}) {}
    |           ^
+
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:12
+   |
+11 | ::unknown({foo: bar !important}) {}
+   |            ^^^
 
 error: Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:12
@@ -832,11 +1066,23 @@ error: Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
 11 | ::unknown({foo: bar !important}) {}
    |            ^^^
 
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:15
+   |
+11 | ::unknown({foo: bar !important}) {}
+   |               ^
+
 error: Colon
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:15
    |
 11 | ::unknown({foo: bar !important}) {}
    |               ^
+
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:16
+   |
+11 | ::unknown({foo: bar !important}) {}
+   |                ^
 
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:16
@@ -844,11 +1090,23 @@ error: WhiteSpace { value: Atom(' ' type=inline) }
 11 | ::unknown({foo: bar !important}) {}
    |                ^
 
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:17
+   |
+11 | ::unknown({foo: bar !important}) {}
+   |                 ^^^
+
 error: Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:17
    |
 11 | ::unknown({foo: bar !important}) {}
    |                 ^^^
+
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:20
+   |
+11 | ::unknown({foo: bar !important}) {}
+   |                    ^
 
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:20
@@ -856,17 +1114,35 @@ error: WhiteSpace { value: Atom(' ' type=inline) }
 11 | ::unknown({foo: bar !important}) {}
    |                    ^
 
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:21
+   |
+11 | ::unknown({foo: bar !important}) {}
+   |                     ^
+
 error: Delim { value: '!' }
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:21
    |
 11 | ::unknown({foo: bar !important}) {}
    |                     ^
 
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:22
+   |
+11 | ::unknown({foo: bar !important}) {}
+   |                      ^^^^^^^^^
+
 error: Ident { value: Atom('important' type=static), raw: Atom('important' type=static) }
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:22
    |
 11 | ::unknown({foo: bar !important}) {}
    |                      ^^^^^^^^^
+
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:31
+   |
+11 | ::unknown({foo: bar !important}) {}
+   |                               ^
 
 error: RBrace
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:31
@@ -928,6 +1204,12 @@ error: Ident
 12 | ::unknown("string") {}
    |   ^^^^^^^
 
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:12:11
+   |
+12 | ::unknown("string") {}
+   |           ^^^^^^^^
+
 error: String { value: Atom('string' type=static), raw: Atom('"string"' type=dynamic) }
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:12:11
    |
@@ -988,11 +1270,23 @@ error: Ident
 13 | ::unknown("string", foo) {}
    |   ^^^^^^^
 
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:11
+   |
+13 | ::unknown("string", foo) {}
+   |           ^^^^^^^^
+
 error: String { value: Atom('string' type=static), raw: Atom('"string"' type=dynamic) }
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:11
    |
 13 | ::unknown("string", foo) {}
    |           ^^^^^^^^
+
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:19
+   |
+13 | ::unknown("string", foo) {}
+   |                   ^
 
 error: Comma
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:19
@@ -1000,11 +1294,23 @@ error: Comma
 13 | ::unknown("string", foo) {}
    |                   ^
 
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:20
+   |
+13 | ::unknown("string", foo) {}
+   |                    ^
+
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:20
    |
 13 | ::unknown("string", foo) {}
    |                    ^
+
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:21
+   |
+13 | ::unknown("string", foo) {}
+   |                     ^^^
 
 error: Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:21
@@ -1066,6 +1372,12 @@ error: Ident
 14 | ::unknown('string') {}
    |   ^^^^^^^
 
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:14:11
+   |
+14 | ::unknown('string') {}
+   |           ^^^^^^^^
+
 error: String { value: Atom('string' type=static), raw: Atom(''string'' type=dynamic) }
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:14:11
    |
@@ -1125,6 +1437,12 @@ error: Ident
    |
 15 | ::unknown(url(foo.png)) {}
    |   ^^^^^^^
+
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:15:11
+   |
+15 | ::unknown(url(foo.png)) {}
+   |           ^^^^^^^^^^^^
 
 error: Url { name: Atom('url' type=static), raw_name: Atom('url' type=static), before: Atom('' type=static), after: Atom('' type=static), value: Atom('foo.png' type=inline), raw_value: Atom('foo.png' type=inline) }
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:15:11
@@ -1186,17 +1504,35 @@ error: Ident
 16 | ::unknown({!}) {}
    |   ^^^^^^^
 
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:11
+   |
+16 | ::unknown({!}) {}
+   |           ^
+
 error: LBrace
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:11
    |
 16 | ::unknown({!}) {}
    |           ^
 
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:12
+   |
+16 | ::unknown({!}) {}
+   |            ^
+
 error: Delim { value: '!' }
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:12
    |
 16 | ::unknown({!}) {}
    |            ^
+
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:13
+   |
+16 | ::unknown({!}) {}
+   |             ^
 
 error: RBrace
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:13
@@ -1258,6 +1594,12 @@ error: Ident
 17 | ::unknown(!) {}
    |   ^^^^^^^
 
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:17:11
+   |
+17 | ::unknown(!) {}
+   |           ^
+
 error: Delim { value: '!' }
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:17:11
    |
@@ -1318,17 +1660,35 @@ error: Ident
 18 | ::unknown({;}) {}
    |   ^^^^^^^
 
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:18:11
+   |
+18 | ::unknown({;}) {}
+   |           ^
+
 error: LBrace
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:18:11
    |
 18 | ::unknown({;}) {}
    |           ^
 
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:18:12
+   |
+18 | ::unknown({;}) {}
+   |            ^
+
 error: Semi
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:18:12
    |
 18 | ::unknown({;}) {}
    |            ^
+
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:18:13
+   |
+18 | ::unknown({;}) {}
+   |             ^
 
 error: RBrace
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:18:13
@@ -1389,6 +1749,12 @@ error: Ident
    |
 19 | ::unknown(;) {}
    |   ^^^^^^^
+
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:19:11
+   |
+19 | ::unknown(;) {}
+   |           ^
 
 error: Semi
   --> $DIR/tests/fixture/selector/pseudo-element/unknown/input.css:19:11

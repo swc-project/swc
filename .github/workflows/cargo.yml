@@ -13,10 +13,8 @@ on: [push, pull_request]
 #      - 'trying'
 
 env:
-  CI: 1
   CARGO_INCREMENTAL: 0
   RUST_LOG: "debug"
-  SWC_CACHE_TEST: 1
   DIFF: 0
 
 jobs:
@@ -84,6 +82,8 @@ jobs:
           # Use scripts/github/create-matrix.sh to create this.
           - crate: ast_node
             os: ubuntu-latest
+          - crate: better_scoped_tls
+            os: ubuntu-latest
           - crate: enum_kind
             os: ubuntu-latest
           - crate: from_variant
@@ -92,24 +92,35 @@ jobs:
             os: ubuntu-latest
           - crate: node
             os: ubuntu-latest
+            check: |
+              cargo check
+              cargo check --no-default-features --features swc_v2
           - crate: node_macro_deps
+            os: ubuntu-latest
+          - crate: preset_env_base
             os: ubuntu-latest
           - crate: string_enum
             os: ubuntu-latest
           - crate: swc
             os: ubuntu-latest
+            check: |
+              cargo hack check --feature-powerset --no-dev-deps
           - crate: swc
             os: windows-latest
           - crate: swc_atoms
             os: ubuntu-latest
           - crate: swc_bundler
             os: ubuntu-latest
+            check: |
+              cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_cli
             os: ubuntu-latest
           - crate: swc_cli
             os: windows-latest
           - crate: swc_common
             os: ubuntu-latest
+            check: |
+              cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_common
             os: windows-latest
           - crate: swc_css
@@ -134,6 +145,8 @@ jobs:
             os: ubuntu-latest
           - crate: swc_ecma_ast
             os: ubuntu-latest
+            check: |
+              cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecma_codegen
             os: ubuntu-latest
           - crate: swc_ecma_codegen
@@ -148,6 +161,8 @@ jobs:
             os: ubuntu-latest
           - crate: swc_ecma_loader
             os: ubuntu-latest
+            check: |
+              cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecma_loader
             os: windows-latest
           - crate: swc_ecma_minifier
@@ -162,12 +177,18 @@ jobs:
             os: windows-latest
           - crate: swc_ecma_transforms
             os: ubuntu-latest
+            check: |
+              cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecma_transforms_base
             os: ubuntu-latest
+            check: |
+              cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecma_transforms_classes
             os: ubuntu-latest
           - crate: swc_ecma_transforms_compat
             os: ubuntu-latest
+            check: |
+              cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecma_transforms_macros
             os: ubuntu-latest
           - crate: swc_ecma_transforms_module
@@ -176,6 +197,8 @@ jobs:
             os: windows-latest
           - crate: swc_ecma_transforms_optimization
             os: ubuntu-latest
+            check: |
+              cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecma_transforms_proposal
             os: ubuntu-latest
           - crate: swc_ecma_transforms_react
@@ -188,6 +211,8 @@ jobs:
             os: ubuntu-latest
           - crate: swc_ecma_utils
             os: ubuntu-latest
+            check: |
+              cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecma_visit
             os: ubuntu-latest
           - crate: swc_ecmascript
@@ -208,6 +233,9 @@ jobs:
             os: ubuntu-latest
           - crate: swc_node_bundler
             os: ubuntu-latest
+            check: |
+              cargo check
+              cargo check --no-default-features --features swc_v2
           - crate: swc_node_bundler
             os: windows-latest
           - crate: swc_node_comments
@@ -296,17 +324,6 @@ jobs:
         run: |
           jest -v && mocha --version
 
-      - name: Cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/
-            target
-            Cargo.lock
-          key: cargo-dev--${{ runner.os }}-${{ matrix.settings.crate }}-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: |
-            cargo-dev--${{ runner.os }}-${{ matrix.settings.crate }}
-
       - name: Run cargo test
         run: |
           jest -v && mocha --version
@@ -333,3 +350,15 @@ jobs:
         if: matrix.settings.crate == 'swc' && runner.os != 'Windows'
         run: |
           cargo test --color always -p swc --features concurrent
+
+      - name: Install cargo-hack
+        uses: baptiste0928/cargo-install@v1.1.0
+        if: matrix.settings.os == 'ubuntu-latest' && matrix.settings.check
+        with:
+          crate: cargo-hack
+          version: "0.5.7"
+
+      - name: Check compilation
+        if: matrix.settings.check
+        working-directory: "crates/${{ matrix.settings.crate }}"
+        run: "${{ matrix.settings.check }}"

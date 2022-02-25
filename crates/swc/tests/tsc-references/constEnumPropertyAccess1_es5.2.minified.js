@@ -6,10 +6,10 @@ function _defineProperties(target, props) {
 }
 !function(G) {
     G[G.A = 1] = "A", G[G.B = 2] = "B", G[G.C = 3] = "C", G[G.D = 2] = "D";
-}(G || (G = {})), G.A, G.A, ({
+}(G || (G = {})), ({
     1: !0
-})[G.A];
-var G, tmp = G.A, tmp1 = G.B, tmp2 = G.B, C = function() {
+})[1];
+var G, C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
@@ -19,17 +19,17 @@ var G, tmp = G.A, tmp1 = G.B, tmp2 = G.B, C = function() {
     }
     return Constructor = C, protoProps = [
         {
-            key: tmp,
+            key: 1,
             value: function() {}
         },
         {
-            key: tmp1,
+            key: 2,
             get: function() {
                 return !0;
             }
         },
         {
-            key: tmp2,
+            key: 2,
             set: function(x) {}
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;

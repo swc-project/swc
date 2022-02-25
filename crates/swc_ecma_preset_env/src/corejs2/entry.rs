@@ -1,11 +1,11 @@
 use indexmap::IndexSet;
+use preset_env_base::{version::should_enable, Versions};
 use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith};
 
 use super::builtin::BUILTINS;
-use crate::{version::should_enable, Versions};
 
 #[derive(Debug)]
 pub struct Entry {
@@ -17,7 +17,7 @@ pub struct Entry {
 impl Entry {
     pub fn new(target: Versions, regenerator: bool) -> Self {
         let is_any_target = target.is_any_target();
-        let is_web_target = target.iter().any(|(k, v)| {
+        let is_web_target = target.into_iter().any(|(k, v)| {
             if k == "node" {
                 return false;
             }

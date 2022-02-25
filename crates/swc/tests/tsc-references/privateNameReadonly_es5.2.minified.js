@@ -9,20 +9,28 @@ var C = function() {
         "use strict";
         var Constructor, protoProps, staticProps;
         function _class() {
+            var obj, privateSet;
             !function(instance, Constructor) {
                 if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-            }(this, _class), _bar.add(this);
+            }(this, _class), obj = this, (function(obj, privateCollection) {
+                if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+            })(obj, privateSet = _bar), privateSet.add(obj);
         }
         return Constructor = _class, protoProps = [
             {
                 key: "foo",
                 value: function() {
-                    !function(receiver, privateMap, value) {
+                    var receiver, privateMap, value, descriptor;
+                    receiver = this, privateMap = _bar, value = console.log("should log this then throw"), descriptor = (function(receiver, privateMap, action) {
                         if (!privateMap.has(receiver)) throw new TypeError("attempted to set private field on non-instance");
-                        var descriptor = privateMap.get(receiver);
-                        if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-                        return descriptor.value = value, value;
-                    }(this, _bar, console.log("should log this then throw"));
+                        return privateMap.get(receiver);
+                    })(receiver, privateMap, "set"), (function(receiver, descriptor, value) {
+                        if (descriptor.set) descriptor.set.call(receiver, value);
+                        else {
+                            if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
+                            descriptor.value = value;
+                        }
+                    })(receiver, descriptor, value);
                 }
             }
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), _class;

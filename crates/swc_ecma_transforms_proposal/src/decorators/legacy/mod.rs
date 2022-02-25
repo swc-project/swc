@@ -531,25 +531,16 @@ impl Legacy {
                         // configurable: true,
                         PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                             key: quote_ident!("configurable").into(),
-                            value: Box::new(Expr::Lit(Lit::Bool(Bool {
-                                span: DUMMY_SP,
-                                value: true,
-                            }))),
+                            value: true.into(),
                         }))), // enumerable: true,
                         PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                             key: quote_ident!("enumerable").into(),
-                            value: Box::new(Expr::Lit(Lit::Bool(Bool {
-                                span: DUMMY_SP,
-                                value: true,
-                            }))),
+                            value: true.into(),
                         }))),
                         // writable: true,
                         PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                             key: quote_ident!("writable").into(),
-                            value: Box::new(Expr::Lit(Lit::Bool(Bool {
-                                span: DUMMY_SP,
-                                value: true,
-                            }))),
+                            value: true.into(),
                         }))),
                         // initializer: function () {
                         //     return 2;

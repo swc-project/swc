@@ -1,4 +1,5 @@
 use indexmap::IndexSet;
+use preset_env_base::{version::should_enable, Versions};
 use swc_atoms::{js_word, JsWord};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -9,7 +10,7 @@ use self::{
     builtin::BUILTINS,
     data::{BUILTIN_TYPES, INSTANCE_PROPERTIES, STATIC_PROPERTIES},
 };
-use crate::{util::DataMapExt, version::should_enable, Versions};
+use crate::util::DataMapExt;
 
 mod builtin;
 mod data;

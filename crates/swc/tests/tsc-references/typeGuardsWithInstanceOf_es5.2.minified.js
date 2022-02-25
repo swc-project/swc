@@ -5,7 +5,7 @@ function _defineProperties(target, props) {
     }
 }
 !function(left, right) {
-    return null != right && "undefined" != typeof Symbol && right[Symbol.hasInstance] ? right[Symbol.hasInstance](left) : left instanceof right;
+    return null != right && "undefined" != typeof Symbol && right[Symbol.hasInstance] ? !!right[Symbol.hasInstance](left) : left instanceof right;
 }(result, RegExp) ? result = result2 : result.global;
 var result, result2, C = function() {
     "use strict";

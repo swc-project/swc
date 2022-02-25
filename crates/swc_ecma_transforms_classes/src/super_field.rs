@@ -159,12 +159,12 @@ impl<'a> SuperFieldAccessFolder<'a> {
                         let ident = quote_ident!(DUMMY_SP.apply_mark(mark), "_this").as_arg();
                         // in constant super, call will be the only place where a assert is needed
                         if self.constant_super {
-                            Expr::Call(CallExpr {
+                            CallExpr {
                                 span: DUMMY_SP,
                                 callee: helper!(assert_this_initialized, "assertThisInitialized"),
                                 args: vec![ident],
                                 type_args: Default::default(),
-                            })
+                            }
                             .as_arg()
                         } else {
                             ident
