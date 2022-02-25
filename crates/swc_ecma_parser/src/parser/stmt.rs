@@ -727,7 +727,7 @@ impl<'a, I: Tokens> Parser<I> {
                 break;
             }
 
-            decls.push(self.with_ctx(ctx).parse_var_declarator(for_loop)?);
+            decls.push(self.with_ctx(ctx).parse_var_declarator(for_loop, &kind)?);
         }
 
         if !for_loop && !eat!(self, ';') {
@@ -748,7 +748,11 @@ impl<'a, I: Tokens> Parser<I> {
         })
     }
 
-    fn parse_var_declarator(&mut self, for_loop: bool) -> PResult<VarDeclarator> {
+    fn parse_var_declarator(
+        &mut self,
+        for_loop: bool,
+        kind: &VarDeclKind,
+    ) -> PResult<VarDeclarator> {
         let start = cur_pos!(self);
 
         let mut name = self.parse_binding_pat_or_ident()?;
@@ -799,6 +803,14 @@ impl<'a, I: Tokens> Parser<I> {
                 // typescript allows `declare` vars not to have initializers.
                 if self.ctx().in_declare {
                     None
+                } else if *kind == VarDeclKind::Const && self.ctx().strict {
+                    let syntax_error = if self.syntax().typescript() {
+                        SyntaxError::TS1155
+                    } else {
+                        SyntaxError::ConstDeclarationsRequireInitialization
+                    };
+
+                    syntax_error!(self, span!(self, start), syntax_error)
                 } else {
                     match name {
                         Pat::Ident(..) => None,
@@ -2213,5 +2225,37 @@ export default function waitUntil(callback, options = {}) {
     fn error_for_string_literal_is_export_binding() {
         let src = "export { 'foo' };";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
+    }
+
+    #[test]
+    #[should_panic(expected = "'const' declarations must be initialized")]
+    fn ts_error_for_const_declaration_not_initialized() {
+        let src = r#"
+"use strict";
+const foo;"#;
+
+        test_parser(
+            src,
+            Syntax::Typescript(TsConfig {
+                ..Default::default()
+            }),
+            |p| p.parse_script(),
+        );
+    }
+
+    #[test]
+    #[should_panic(expected = "'Const declarations' require an initialization value")]
+    fn es_error_for_const_declaration_not_initialized() {
+        let src = r#"
+"use strict";
+const foo;"#;
+
+        test_parser(
+            src,
+            Syntax::Es(EsConfig {
+                ..Default::default()
+            }),
+            |p| p.parse_script(),
+        );
     }
 }

@@ -183,6 +183,8 @@ pub enum SyntaxError {
     ImportBindingIsString(JsWord),
     ExportBindingIsString,
 
+    ConstDeclarationsRequireInitialization,
+
     TS1003,
     TS1005,
     TS1009,
@@ -212,6 +214,7 @@ pub enum SyntaxError {
     TS1116,
     TS1123,
     TS1141,
+    TS1155,
     TS1162,
     TS1164,
     TS1171,
@@ -487,6 +490,10 @@ impl SyntaxError {
                 "A string literal cannot be used as an exported binding without `from`.".into()
             }
 
+            SyntaxError::ConstDeclarationsRequireInitialization => {
+                "'Const declarations' require an initialization value".into()
+            }
+
             SyntaxError::TS1003 => "Expected an identifier".into(),
             SyntaxError::TS1005 => "Expected a semicolon".into(),
             SyntaxError::TS1009 => "Trailing comma is not allowed".into(),
@@ -535,6 +542,7 @@ impl SyntaxError {
                 "A 'break' statement can only jump to a label of an enclosing statement".into()
             }
             SyntaxError::TS1123 => "Variable declaration list cannot be empty".into(),
+            SyntaxError::TS1155 => "'const' declarations must be initialized".into(),
             SyntaxError::TS1162 => "An object member cannot be declared optional".into(),
             SyntaxError::TS1164 => "Computed property names are not allowed in enums".into(),
             SyntaxError::TS1171 => {
