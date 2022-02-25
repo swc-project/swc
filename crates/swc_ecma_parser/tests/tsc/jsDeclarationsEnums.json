@@ -643,7 +643,7 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 605,
+        "start": 598,
         "end": 645,
         "ctxt": 0
       },
@@ -996,7 +996,7 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 759,
+        "start": 752,
         "end": 861,
         "ctxt": 0
       },

@@ -3232,35 +3232,71 @@ error: Ident
 41 | :not([foo=")"]) {}
    |  ^^^
 
-error: LBracket
+error: PseudoClassSelectorChildren
   --> $DIR/tests/fixture/selector/attribute/input.css:41:6
    |
 41 | :not([foo=")"]) {}
-   |      ^
+   |      ^^^^^^^^^
 
-error: Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:41:6
+   |
+41 | :not([foo=")"]) {}
+   |      ^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:41:6
+   |
+41 | :not([foo=")"]) {}
+   |      ^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:41:6
+   |
+41 | :not([foo=")"]) {}
+   |      ^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:41:6
+   |
+41 | :not([foo=")"]) {}
+   |      ^^^^^^^^^
+
+error: AttributeSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:41:6
+   |
+41 | :not([foo=")"]) {}
+   |      ^^^^^^^^^
+
+error: WqName
   --> $DIR/tests/fixture/selector/attribute/input.css:41:7
    |
 41 | :not([foo=")"]) {}
    |       ^^^
 
-error: Delim { value: '=' }
+error: Ident
+  --> $DIR/tests/fixture/selector/attribute/input.css:41:7
+   |
+41 | :not([foo=")"]) {}
+   |       ^^^
+
+error: AttributeSelectorMatcher
   --> $DIR/tests/fixture/selector/attribute/input.css:41:10
    |
 41 | :not([foo=")"]) {}
    |          ^
 
-error: String { value: Atom(')' type=inline), raw: Atom('")"' type=inline) }
+error: AttributeSelectorValue
   --> $DIR/tests/fixture/selector/attribute/input.css:41:11
    |
 41 | :not([foo=")"]) {}
    |           ^^^
 
-error: RBracket
-  --> $DIR/tests/fixture/selector/attribute/input.css:41:14
+error: Str
+  --> $DIR/tests/fixture/selector/attribute/input.css:41:11
    |
 41 | :not([foo=")"]) {}
-   |              ^
+   |           ^^^
 
 error: SimpleBlock
   --> $DIR/tests/fixture/selector/attribute/input.css:41:17
@@ -3316,7 +3352,49 @@ error: Ident
 42 | :not(div/*)*/) { }
    |  ^^^
 
-error: Ident { value: Atom('div' type=inline), raw: Atom('div' type=inline) }
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/attribute/input.css:42:6
+   |
+42 | :not(div/*)*/) { }
+   |      ^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/attribute/input.css:42:6
+   |
+42 | :not(div/*)*/) { }
+   |      ^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:42:6
+   |
+42 | :not(div/*)*/) { }
+   |      ^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:42:6
+   |
+42 | :not(div/*)*/) { }
+   |      ^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:42:6
+   |
+42 | :not(div/*)*/) { }
+   |      ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/attribute/input.css:42:6
+   |
+42 | :not(div/*)*/) { }
+   |      ^^^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/attribute/input.css:42:6
+   |
+42 | :not(div/*)*/) { }
+   |      ^^^
+
+error: Ident
   --> $DIR/tests/fixture/selector/attribute/input.css:42:6
    |
 42 | :not(div/*)*/) { }

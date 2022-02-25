@@ -1,4 +1,5 @@
 use indexmap::IndexSet;
+use preset_env_base::version::should_enable;
 use swc_atoms::{js_word, JsWord};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -14,7 +15,6 @@ use crate::{
         },
     },
     util::DataMapExt,
-    version::should_enable,
     Versions,
 };
 
@@ -166,8 +166,8 @@ impl Visit for UsageVisitor {
         if e.op == op!("in") {
             // 'entries' in Object
             // 'entries' in [1, 2, 3]
-            if let Expr::Lit(Lit::Str(str)) = &*e.left {
-                self.add_property_deps(&e.right, &str.value);
+            if let Expr::Lit(Lit::Str(s)) = &*e.left {
+                self.add_property_deps(&e.right, &s.value);
             }
         }
     }
@@ -215,8 +215,8 @@ impl Visit for UsageVisitor {
     fn visit_member_expr(&mut self, e: &MemberExpr) {
         e.obj.visit_with(self);
         if let MemberProp::Computed(c) = &e.prop {
-            if let Expr::Lit(Lit::Str(str)) = &*c.expr {
-                self.add_property_deps(&e.obj, &str.value);
+            if let Expr::Lit(Lit::Str(s)) = &*c.expr {
+                self.add_property_deps(&e.obj, &s.value);
             }
             c.visit_with(self);
         }

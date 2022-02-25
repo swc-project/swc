@@ -8,6 +8,7 @@ use serde::{
     Deserialize, Deserializer, Serialize,
 };
 use string_enum::StringEnum;
+use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 use crate::{
@@ -862,6 +863,15 @@ pub enum TsEnumMemberId {
     Str(Str),
 }
 
+impl AsRef<JsWord> for TsEnumMemberId {
+    fn as_ref(&self) -> &JsWord {
+        match &self {
+            TsEnumMemberId::Str(Str { value: ref sym, .. })
+            | TsEnumMemberId::Ident(Ident { ref sym, .. }) => sym,
+        }
+    }
+}
+
 #[ast_node("TsModuleDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -1029,4 +1039,15 @@ pub struct TsConstAssertion {
     pub span: Span,
     #[serde(rename = "expression")]
     pub expr: Box<Expr>,
+}
+
+#[ast_node("TsInstantiation")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub struct TsInstantiation {
+    pub span: Span,
+    #[serde(rename = "expression")]
+    pub expr: Box<Expr>,
+    #[serde(rename = "typeArguments")]
+    pub type_args: TsTypeParamInstantiation,
 }

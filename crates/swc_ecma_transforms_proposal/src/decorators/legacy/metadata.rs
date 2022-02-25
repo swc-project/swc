@@ -98,11 +98,7 @@ impl ParamMetadata {
                                     } else {
                                         quote_ident!("key").as_arg()
                                     },
-                                    Lit::Num(Number {
-                                        span: DUMMY_SP,
-                                        value: param_index as _,
-                                    })
-                                    .as_arg(),
+                                    param_index.as_arg(),
                                 ],
                                 type_args: Default::default(),
                             }))),

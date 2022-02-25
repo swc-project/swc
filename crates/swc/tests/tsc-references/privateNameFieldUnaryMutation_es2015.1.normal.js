@@ -1,20 +1,44 @@
-function _classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
     }
-    return privateMap.get(receiver).value;
+}
+function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+        return descriptor.get.call(receiver);
+    }
+    return descriptor.value;
+}
+function _classApplyDescriptorSet(receiver, descriptor, value) {
+    if (descriptor.set) {
+        descriptor.set.call(receiver, value);
+    } else {
+        if (!descriptor.writable) {
+            throw new TypeError("attempted to set read only private field");
+        }
+        descriptor.value = value;
+    }
+}
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to " + action + " private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
+function _classPrivateFieldGet(receiver, privateMap) {
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
 }
 function _classPrivateFieldSet(receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    var descriptor = privateMap.get(receiver);
-    if (!descriptor.writable) {
-        throw new TypeError("attempted to set read only private field");
-    }
-    descriptor.value = value;
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
+    _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
 }
+var _test = new WeakMap();
 // @target: es2015
 class C {
     test() {
@@ -35,7 +59,7 @@ class C {
     }
     constructor(){
         var _this_test, _this_test5, _this_test6, _this_test7, _this_test8;
-        _test.set(this, {
+        _classPrivateFieldInit(this, _test, {
             writable: true,
             value: 24
         });
@@ -51,4 +75,3 @@ class C {
         for(_classPrivateFieldSet(this, _test, 0); _classPrivateFieldGet(this, _test) < 10; _classPrivateFieldSet(this, _test, (_this_test8 = +_classPrivateFieldGet(this, _test)) + 1), _this_test8){}
     }
 }
-var _test = new WeakMap();

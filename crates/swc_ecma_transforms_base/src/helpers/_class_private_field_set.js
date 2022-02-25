@@ -1,14 +1,5 @@
 function _classPrivateFieldSet(receiver, privateMap, value) {
-  if (!privateMap.has(receiver)) {
-    throw new TypeError("attempted to set private field on non-instance");
-  }
-
-  var descriptor = privateMap.get(receiver);
-
-  if (!descriptor.writable) {
-    throw new TypeError("attempted to set read only private field");
-  }
-
-  descriptor.value = value;
+  var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
+  _classApplyDescriptorSet(receiver, descriptor, value);
   return value;
 }

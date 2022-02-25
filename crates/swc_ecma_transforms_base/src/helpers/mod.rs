@@ -175,16 +175,32 @@ define_helpers!(Helpers {
     async_to_generator: (),
     await_async_generator: (await_value),
     await_value: (),
+    check_private_redeclaration: (),
+    class_apply_descriptor_destructure: (),
+    class_apply_descriptor_get: (),
+    class_apply_descriptor_set: (),
     class_call_check: (),
+    class_check_private_static_field_descriptor: (),
+    class_extract_field_descriptor: (),
     class_name_tdz_error: (),
-    class_private_field_get: (),
+    class_private_field_get: (class_extract_field_descriptor, class_apply_descriptor_get),
+    class_private_field_init: (check_private_redeclaration),
     class_private_field_loose_base: (),
     // class_private_field_loose_key: (),
-    class_private_field_set: (),
+    class_private_field_set: (class_extract_field_descriptor, class_apply_descriptor_set),
     class_private_method_get: (),
+    class_private_method_init: (check_private_redeclaration),
     class_private_method_set: (),
-    class_static_private_field_spec_get: (),
-    class_static_private_field_spec_set: (),
+    class_static_private_field_spec_get: (
+        class_check_private_static_access,
+        class_check_private_static_field_descriptor,
+        class_apply_descriptor_get
+    ),
+    class_static_private_field_spec_set: (
+        class_check_private_static_access,
+        class_check_private_static_field_descriptor,
+        class_apply_descriptor_set
+    ),
     construct: (set_prototype_of),
     create_class: (),
     decorate: (to_array, to_property_key),
@@ -259,7 +275,15 @@ define_helpers!(Helpers {
         is_native_function
     ),
 
-    class_private_field_destructure: (),
+    class_private_field_destructure: (
+        class_extract_field_descriptor,
+        class_apply_descriptor_destructure
+    ),
+    class_static_private_field_destructure: (
+        class_check_private_static_access,
+        class_extract_field_descriptor,
+        class_apply_descriptor_destructure
+    ),
 
     class_static_private_method_get: (class_check_private_static_access),
     class_check_private_static_access: (),

@@ -903,7 +903,7 @@
           "end": 460,
           "ctxt": 0
         },
-        "expr": {
+        "base": {
           "type": "MemberExpression",
           "span": {
             "start": 458,
@@ -952,7 +952,7 @@
           "end": 468,
           "ctxt": 0
         },
-        "expr": {
+        "base": {
           "type": "MemberExpression",
           "span": {
             "start": 466,
@@ -1013,7 +1013,7 @@
           "end": 515,
           "ctxt": 0
         },
-        "expr": {
+        "base": {
           "type": "MemberExpression",
           "span": {
             "start": 513,
@@ -1062,7 +1062,7 @@
           "end": 523,
           "ctxt": 0
         },
-        "expr": {
+        "base": {
           "type": "MemberExpression",
           "span": {
             "start": 521,

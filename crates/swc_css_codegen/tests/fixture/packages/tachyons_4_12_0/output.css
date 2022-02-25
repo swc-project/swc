@@ -2957,12 +2957,12 @@ padding-left: 0;
 margin-left: 0;
 list-style-type: none;
 }
-.nested-copy-indent p+p {
+.nested-copy-indent p + p {
 text-indent: 1em;
 margin-top: 0;
 margin-bottom: 0;
 }
-.nested-copy-separator p+p {
+.nested-copy-separator p + p {
 margin-top: 1.5em;
 }
 .nested-img img {

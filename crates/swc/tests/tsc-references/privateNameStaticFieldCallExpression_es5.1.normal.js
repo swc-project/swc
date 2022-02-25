@@ -6,16 +6,26 @@ function _arrayLikeToArray(arr, len) {
 function _arrayWithoutHoles(arr) {
     if (Array.isArray(arr)) return _arrayLikeToArray(arr);
 }
+function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+        return descriptor.get.call(receiver);
+    }
+    return descriptor.value;
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
-    if (receiver !== classConstructor) {
-        throw new TypeError("Private static access of wrong provenance");
+function _classCheckPrivateStaticFieldDescriptor(descriptor, action) {
+    if (descriptor === undefined) {
+        throw new TypeError("attempted to " + action + " private static field before its declaration");
     }
-    return descriptor.value;
+}
+function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
+    _classCheckPrivateStaticAccess(receiver, classConstructor);
+    _classCheckPrivateStaticFieldDescriptor(descriptor, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
 }
 function isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
@@ -93,6 +103,11 @@ function _unsupportedIterableToArray(o, minLen) {
     if (n === "Map" || n === "Set") return Array.from(n);
     if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
 }
+function _classCheckPrivateStaticAccess(receiver, classConstructor) {
+    if (receiver !== classConstructor) {
+        throw new TypeError("Private static access of wrong provenance");
+    }
+}
 function _templateObject() {
     var data = _taggedTemplateLiteral([
         "head",
@@ -127,9 +142,9 @@ var A = // @target: es2015
             key: "test",
             value: function test() {
                 var _instance;
-                var _obj, ref;
+                var ref;
                 _classStaticPrivateFieldSpecGet(A, A, _fieldFunc).call(A);
-                (ref = (_obj = _classStaticPrivateFieldSpecGet(A, A, _fieldFunc)).call) === null || ref === void 0 ? void 0 : ref.call(_obj, A);
+                (ref = _classStaticPrivateFieldSpecGet(A, A, _fieldFunc)) === null || ref === void 0 ? void 0 : ref.call(A);
                 var func = _classStaticPrivateFieldSpecGet(A, A, _fieldFunc);
                 func();
                 new (_classStaticPrivateFieldSpecGet(A, A, _fieldFunc))();

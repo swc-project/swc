@@ -108,12 +108,6 @@ fn should_replace(pred: &Expr, node: &Expr) -> bool {
     }
 
     match (pred, node) {
-        (pred, Expr::OptChain(node)) => {
-            if should_replace(pred, &node.expr) {
-                return true;
-            }
-        }
-
         // super?. is invalid
         (
             Expr::Member(MemberExpr {
@@ -124,6 +118,15 @@ fn should_replace(pred: &Expr, node: &Expr) -> bool {
             Expr::Member(MemberExpr {
                 obj: node_obj,
                 prop: nodes,
+                ..
+            })
+            | Expr::OptChain(OptChainExpr {
+                base:
+                    OptChainBase::Member(MemberExpr {
+                        obj: node_obj,
+                        prop: nodes,
+                        ..
+                    }),
                 ..
             }),
         ) if !(pred.is_computed() || nodes.is_computed()) => {

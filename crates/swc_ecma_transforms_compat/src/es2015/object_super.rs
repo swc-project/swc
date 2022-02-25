@@ -398,7 +398,7 @@ impl SuperReplacer {
                             op: op!("="),
                             right: prop.take(),
                         });
-                        Box::new(Expr::Ident(ref_ident)).as_arg()
+                        ref_ident.as_arg()
                     } else {
                         prop.clone().as_arg()
                     },

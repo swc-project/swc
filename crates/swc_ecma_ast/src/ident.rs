@@ -99,6 +99,18 @@ pub struct Ident {
     pub optional: bool,
 }
 
+impl From<Id> for Ident {
+    fn from(id: Id) -> Self {
+        Ident::new(id.0, DUMMY_SP.with_ctxt(id.1))
+    }
+}
+
+impl From<Ident> for Id {
+    fn from(i: Ident) -> Self {
+        (i.sym, i.span.ctxt)
+    }
+}
+
 impl Ident {
     /// Returns true if `c` is a valid character for an identifier start.
     pub fn is_valid_start(c: char) -> bool {

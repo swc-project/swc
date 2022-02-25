@@ -15,13 +15,16 @@ mod utils;
 #[cfg(feature = "non_critical_lints")]
 #[path = ""]
 pub(crate) mod non_critical_lints {
+    pub mod default_param_last;
     pub mod dot_notation;
     pub mod eqeqeq;
     pub mod no_alert;
     pub mod no_bitwise;
     pub mod no_console;
     pub mod no_debugger;
+    pub mod no_empty_function;
     pub mod no_empty_pattern;
+    pub mod no_loop_func;
     pub mod no_new;
     pub mod no_restricted_syntax;
     pub mod no_use_before_define;
@@ -93,11 +96,18 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
             &lint_config.dot_notation,
         ));
 
+        rules.extend(no_empty_function::no_empty_function(
+            &source_map,
+            &lint_config.no_empty_function,
+        ));
+
         rules.extend(no_empty_pattern::no_empty_pattern(
             &lint_config.no_empty_pattern,
         ));
 
         rules.extend(eqeqeq::eqeqeq(&lint_config.eqeqeq));
+
+        rules.extend(no_loop_func::no_loop_func(&lint_config.no_loop_func));
 
         rules.extend(no_new::no_new(&lint_config.no_new));
 
@@ -113,6 +123,10 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         ));
 
         rules.extend(no_bitwise::no_bitwise(&lint_config.no_bitwise));
+
+        rules.extend(default_param_last::default_param_last(
+            &lint_config.default_param_last,
+        ));
     }
 
     rules

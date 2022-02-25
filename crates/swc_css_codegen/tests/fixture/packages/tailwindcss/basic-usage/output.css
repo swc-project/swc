@@ -428,50 +428,50 @@ column-gap: 0.5rem;
 .gap-y-3 {
 row-gap: 0.75rem;
 }
-.space-x-4>:not([hidden])~:not([hidden]) {
+.space-x-4 > :not([hidden]) ~ :not([hidden]) {
 --tw-space-x-reverse: 0;
 margin-right: calc(1rem * var(--tw-space-x-reverse));
 margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
 }
-.space-y-3>:not([hidden])~:not([hidden]) {
+.space-y-3 > :not([hidden]) ~ :not([hidden]) {
 --tw-space-y-reverse: 0;
 margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
 margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));
 }
-.space-y-reverse>:not([hidden])~:not([hidden]) {
+.space-y-reverse > :not([hidden]) ~ :not([hidden]) {
 --tw-space-y-reverse: 1;
 }
-.space-x-reverse>:not([hidden])~:not([hidden]) {
+.space-x-reverse > :not([hidden]) ~ :not([hidden]) {
 --tw-space-x-reverse: 1;
 }
-.divide-x-2>:not([hidden])~:not([hidden]) {
+.divide-x-2 > :not([hidden]) ~ :not([hidden]) {
 --tw-divide-x-reverse: 0;
 border-right-width: calc(2px * var(--tw-divide-x-reverse));
 border-left-width: calc(2px * calc(1 - var(--tw-divide-x-reverse)));
 }
-.divide-y-4>:not([hidden])~:not([hidden]) {
+.divide-y-4 > :not([hidden]) ~ :not([hidden]) {
 --tw-divide-y-reverse: 0;
 border-top-width: calc(4px * calc(1 - var(--tw-divide-y-reverse)));
 border-bottom-width: calc(4px * var(--tw-divide-y-reverse));
 }
-.divide-x-0>:not([hidden])~:not([hidden]) {
+.divide-x-0 > :not([hidden]) ~ :not([hidden]) {
 --tw-divide-x-reverse: 0;
 border-right-width: calc(0px * var(--tw-divide-x-reverse));
 border-left-width: calc(0px * calc(1 - var(--tw-divide-x-reverse)));
 }
-.divide-y-0>:not([hidden])~:not([hidden]) {
+.divide-y-0 > :not([hidden]) ~ :not([hidden]) {
 --tw-divide-y-reverse: 0;
 border-top-width: calc(0px * calc(1 - var(--tw-divide-y-reverse)));
 border-bottom-width: calc(0px * var(--tw-divide-y-reverse));
 }
-.divide-dotted>:not([hidden])~:not([hidden]) {
+.divide-dotted > :not([hidden]) ~ :not([hidden]) {
 border-style: dotted;
 }
-.divide-gray-200>:not([hidden])~:not([hidden]) {
+.divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
 --tw-divide-opacity: 1;
 border-color: rgb(229 231 235/ var(--tw-divide-opacity));
 }
-.divide-opacity-50>:not([hidden])~:not([hidden]) {
+.divide-opacity-50 > :not([hidden]) ~ :not([hidden]) {
 --tw-divide-opacity: 0.5;
 }
 .place-self-center {

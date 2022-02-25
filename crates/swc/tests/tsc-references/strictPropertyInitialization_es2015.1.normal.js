@@ -1,63 +1,84 @@
-function _classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
     }
-    return privateMap.get(receiver).value;
+}
+function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+        return descriptor.get.call(receiver);
+    }
+    return descriptor.value;
+}
+function _classApplyDescriptorSet(receiver, descriptor, value) {
+    if (descriptor.set) {
+        descriptor.set.call(receiver, value);
+    } else {
+        if (!descriptor.writable) {
+            throw new TypeError("attempted to set read only private field");
+        }
+        descriptor.value = value;
+    }
+}
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to " + action + " private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
+function _classPrivateFieldGet(receiver, privateMap) {
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
 }
 function _classPrivateFieldSet(receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    var descriptor = privateMap.get(receiver);
-    if (!descriptor.writable) {
-        throw new TypeError("attempted to set read only private field");
-    }
-    descriptor.value = value;
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
+    _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
 }
+var _f = new WeakMap(), _g = new WeakMap(), _h = new WeakMap(), _i = new WeakMap();
 // @strict: true
 // @target:es2015
 // @declaration: true
 // Properties with non-undefined types require initialization
 class C1 {
     constructor(){
-        _f.set(this, {
+        _classPrivateFieldInit(this, _f, {
             writable: true,
             value: void 0 //Error
         });
-        _g.set(this, {
+        _classPrivateFieldInit(this, _g, {
             writable: true,
             value: void 0
         });
-        _h.set(this, {
+        _classPrivateFieldInit(this, _h, {
             writable: true,
             value: void 0 //Error
         });
-        _i.set(this, {
+        _classPrivateFieldInit(this, _i, {
             writable: true,
             value: void 0
         });
     }
 }
-var _f = new WeakMap();
-var _g = new WeakMap();
-var _h = new WeakMap();
-var _i = new WeakMap();
 // No strict initialization checks for static members
 class C3 {
 }
+var _d = new WeakMap(), _e = new WeakMap(), _f1 = new WeakMap();
 // Initializer satisfies strict initialization check
 class C4 {
     constructor(){
-        _d.set(this, {
+        _classPrivateFieldInit(this, _d, {
             writable: true,
             value: 0
         });
-        _e.set(this, {
+        _classPrivateFieldInit(this, _e, {
             writable: true,
             value: 0
         });
-        _f1.set(this, {
+        _classPrivateFieldInit(this, _f1, {
             writable: true,
             value: "abc"
         });
@@ -66,13 +87,11 @@ class C4 {
         this.c = "abc";
     }
 }
-var _d = new WeakMap();
-var _e = new WeakMap();
-var _f1 = new WeakMap();
+var _b = new WeakMap();
 // Assignment in constructor satisfies strict initialization check
 class C5 {
     constructor(){
-        _b.set(this, {
+        _classPrivateFieldInit(this, _b, {
             writable: true,
             value: void 0
         });
@@ -80,11 +99,11 @@ class C5 {
         _classPrivateFieldSet(this, _b, 0);
     }
 }
-var _b = new WeakMap();
+var _b1 = new WeakMap();
 // All code paths must contain assignment
 class C6 {
     constructor(cond){
-        _b1.set(this, {
+        _classPrivateFieldInit(this, _b1, {
             writable: true,
             value: void 0
         });
@@ -95,10 +114,10 @@ class C6 {
         _classPrivateFieldSet(this, _b1, 0);
     }
 }
-var _b1 = new WeakMap();
+var _b2 = new WeakMap();
 class C7 {
     constructor(cond){
-        _b2.set(this, {
+        _classPrivateFieldInit(this, _b2, {
             writable: true,
             value: void 0
         });
@@ -111,18 +130,18 @@ class C7 {
         _classPrivateFieldSet(this, _b2, 1);
     }
 }
-var _b2 = new WeakMap();
 // Properties with string literal names aren't checked
 class C8 {
 }
 // No strict initialization checks for abstract members
 class C9 {
 }
+var _d1 = new WeakMap();
 // Properties with non-undefined types must be assigned before they can be accessed
 // within their constructor
 class C10 {
     constructor(){
-        _d1.set(this, {
+        _classPrivateFieldInit(this, _d1, {
             writable: true,
             value: void 0
         });
@@ -135,10 +154,10 @@ class C10 {
         let y = this.c;
     }
 }
-var _d1 = new WeakMap();
+var _b3 = new WeakMap();
 class C11 {
     constructor(){
-        _b3.set(this, {
+        _classPrivateFieldInit(this, _b3, {
             writable: true,
             value: void 0
         });
@@ -146,4 +165,3 @@ class C11 {
         _classPrivateFieldSet(this, _b3, someValue());
     }
 }
-var _b3 = new WeakMap();

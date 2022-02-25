@@ -1,0 +1,187 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1
+  |
+1 | / :host-context(h1) {}
+2 | | :host-context(   h1   ) {}
+  | |___________________________^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1
+  |
+1 | :host-context(h1) {}
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1
+  |
+1 | :host-context(h1) {}
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1
+  |
+1 | :host-context(h1) {}
+  | ^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1
+  |
+1 | :host-context(h1) {}
+  | ^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1
+  |
+1 | :host-context(h1) {}
+  | ^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1
+  |
+1 | :host-context(h1) {}
+  | ^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1
+  |
+1 | :host-context(h1) {}
+  | ^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:2
+  |
+1 | :host-context(h1) {}
+  |  ^^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:15
+  |
+1 | :host-context(h1) {}
+  |               ^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:15
+  |
+1 | :host-context(h1) {}
+  |               ^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:15
+  |
+1 | :host-context(h1) {}
+  |               ^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:15
+  |
+1 | :host-context(h1) {}
+  |               ^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:15
+  |
+1 | :host-context(h1) {}
+  |               ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:15
+  |
+1 | :host-context(h1) {}
+  |               ^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:19
+  |
+1 | :host-context(h1) {}
+  |                   ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:1
+  |
+2 | :host-context(   h1   ) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:1
+  |
+2 | :host-context(   h1   ) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:1
+  |
+2 | :host-context(   h1   ) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:1
+  |
+2 | :host-context(   h1   ) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:1
+  |
+2 | :host-context(   h1   ) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:1
+  |
+2 | :host-context(   h1   ) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:1
+  |
+2 | :host-context(   h1   ) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:2
+  |
+2 | :host-context(   h1   ) {}
+  |  ^^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:18
+  |
+2 | :host-context(   h1   ) {}
+  |                  ^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:18
+  |
+2 | :host-context(   h1   ) {}
+  |                  ^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:18
+  |
+2 | :host-context(   h1   ) {}
+  |                  ^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:18
+  |
+2 | :host-context(   h1   ) {}
+  |                  ^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:18
+  |
+2 | :host-context(   h1   ) {}
+  |                  ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:18
+  |
+2 | :host-context(   h1   ) {}
+  |                  ^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/host-context/input.css:2:25
+  |
+2 | :host-context(   h1   ) {}
+  |                         ^^
+

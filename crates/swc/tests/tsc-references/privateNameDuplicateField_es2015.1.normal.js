@@ -1,394 +1,489 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
+}
+function _classPrivateMethodInit(obj, privateSet) {
+    _checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
+}
 // @strict: true
 // @target: es6
 function Field() {
+    var _foo = new WeakMap(), _foo = new WeakMap();
     // Error
     class A_Field_Field {
         constructor(){
-            _foo.set(this, {
+            _classPrivateFieldInit(this, _foo, {
                 writable: true,
                 value: "foo"
             });
-            _foo.set(this, {
+            _classPrivateFieldInit(this, _foo, {
                 writable: true,
                 value: "foo"
             });
         }
     }
-    var _foo = new WeakMap();
-    var _foo = new WeakMap();
-    var _foo1 = new WeakSet();
+    var _foo1 = new WeakMap(), _foo1 = new WeakSet();
     // Error
     class A_Field_Method {
         constructor(){
-            _foo1.set(this, {
+            _classPrivateFieldInit(this, _foo1, {
                 writable: true,
                 value: "foo"
             });
-            _foo1.add(this);
+            _classPrivateMethodInit(this, _foo1);
         }
     }
-    var _foo1 = new WeakMap();
     function foo() {}
-    var _foo2 = new WeakSet();
+    var _foo2 = new WeakMap(), _foo2 = new WeakMap();
     // Error
     class A_Field_Getter {
         constructor(){
-            _foo2.set(this, {
+            _classPrivateFieldInit(this, _foo2, {
                 writable: true,
                 value: "foo"
             });
-            _foo2.add(this);
+            _classPrivateFieldInit(this, _foo2, {
+                get: get_foo,
+                set: void 0
+            });
         }
     }
-    var _foo2 = new WeakMap();
-    function foo1() {
+    function get_foo() {
         return "";
     }
-    var _foo3 = new WeakSet();
+    var _foo3 = new WeakMap(), _foo3 = new WeakMap();
     // Error
     class A_Field_Setter {
         constructor(){
-            _foo3.set(this, {
+            _classPrivateFieldInit(this, _foo3, {
                 writable: true,
                 value: "foo"
             });
-            _foo3.add(this);
+            _classPrivateFieldInit(this, _foo3, {
+                get: void 0,
+                set: set_foo
+            });
         }
     }
-    var _foo3 = new WeakMap();
-    function foo2(value) {}
+    function set_foo(value) {}
+    var _foo4 = new WeakMap();
     // Error
     class A_Field_StaticField {
         constructor(){
-            _foo4.set(this, {
+            _classPrivateFieldInit(this, _foo4, {
                 writable: true,
                 value: "foo"
             });
         }
     }
-    var _foo4 = new WeakMap();
     var _foo4 = {
         writable: true,
         value: "foo"
     };
+    var _foo5 = new WeakMap();
     // Error
     class A_Field_StaticMethod {
         constructor(){
-            _foo5.set(this, {
+            _classPrivateFieldInit(this, _foo5, {
                 writable: true,
                 value: "foo"
             });
         }
     }
-    var _foo5 = new WeakMap();
-    function foo3() {}
+    function foo1() {}
+    var _foo6 = new WeakMap();
     // Error
     class A_Field_StaticGetter {
         constructor(){
-            _foo6.set(this, {
+            _classPrivateFieldInit(this, _foo6, {
                 writable: true,
                 value: "foo"
             });
         }
     }
-    var _foo6 = new WeakMap();
-    function foo4() {
+    var _foo6 = {
+        get: get_foo1,
+        set: void 0
+    };
+    function get_foo1() {
         return "";
     }
+    var _foo7 = new WeakMap();
     // Error
     class A_Field_StaticSetter {
         constructor(){
-            _foo7.set(this, {
+            _classPrivateFieldInit(this, _foo7, {
                 writable: true,
                 value: "foo"
             });
         }
     }
-    var _foo7 = new WeakMap();
-    function foo5(value) {}
+    var _foo7 = {
+        get: void 0,
+        set: set_foo1
+    };
+    function set_foo1(value) {}
 }
 function Method() {
-    var _foo = new WeakSet();
+    var _foo = new WeakSet(), _foo = new WeakMap();
     // Error
     class A_Method_Field {
         constructor(){
-            _foo.add(this);
-            _foo.set(this, {
+            _classPrivateMethodInit(this, _foo);
+            _classPrivateFieldInit(this, _foo, {
                 writable: true,
                 value: "foo"
             });
         }
     }
-    var _foo = new WeakMap();
     function foo() {}
     var _foo8 = new WeakSet(), _foo8 = new WeakSet();
     // Error
     class A_Method_Method {
         constructor(){
-            _foo8.add(this);
-            _foo8.add(this);
+            _classPrivateMethodInit(this, _foo8);
+            _classPrivateMethodInit(this, _foo8);
         }
     }
-    function foo6() {}
-    function foo6() {}
-    var _foo9 = new WeakSet(), _foo9 = new WeakSet();
+    function foo2() {}
+    function foo2() {}
+    var _foo9 = new WeakSet(), _foo9 = new WeakMap();
     // Error
     class A_Method_Getter {
         constructor(){
-            _foo9.add(this);
-            _foo9.add(this);
+            _classPrivateMethodInit(this, _foo9);
+            _classPrivateFieldInit(this, _foo9, {
+                get: get_foo,
+                set: void 0
+            });
         }
     }
-    function foo7() {}
-    function foo7() {
+    function foo3() {}
+    function get_foo() {
         return "";
     }
-    var _foo10 = new WeakSet(), _foo10 = new WeakSet();
+    var _foo10 = new WeakSet(), _foo10 = new WeakMap();
     // Error
     class A_Method_Setter {
         constructor(){
-            _foo10.add(this);
-            _foo10.add(this);
+            _classPrivateMethodInit(this, _foo10);
+            _classPrivateFieldInit(this, _foo10, {
+                get: void 0,
+                set: set_foo
+            });
         }
     }
-    function foo8() {}
-    function foo8(value) {}
+    function foo4() {}
+    function set_foo(value) {}
     var _foo11 = new WeakSet();
     // Error
     class A_Method_StaticField {
         constructor(){
-            _foo11.add(this);
+            _classPrivateMethodInit(this, _foo11);
         }
     }
     var _foo11 = {
         writable: true,
         value: "foo"
     };
-    function foo9() {}
+    function foo5() {}
     var _foo12 = new WeakSet();
     // Error
     class A_Method_StaticMethod {
         constructor(){
-            _foo12.add(this);
+            _classPrivateMethodInit(this, _foo12);
         }
     }
-    function foo10() {}
-    function foo10() {}
+    function foo6() {}
+    function foo6() {}
     var _foo13 = new WeakSet();
     // Error
     class A_Method_StaticGetter {
         constructor(){
-            _foo13.add(this);
+            _classPrivateMethodInit(this, _foo13);
         }
     }
-    function foo11() {}
-    function foo11() {
+    var _foo13 = {
+        get: get_foo2,
+        set: void 0
+    };
+    function foo7() {}
+    function get_foo2() {
         return "";
     }
     var _foo14 = new WeakSet();
     // Error
     class A_Method_StaticSetter {
         constructor(){
-            _foo14.add(this);
+            _classPrivateMethodInit(this, _foo14);
         }
     }
-    function foo12() {}
-    function foo12(value) {}
+    var _foo14 = {
+        get: void 0,
+        set: set_foo2
+    };
+    function foo8() {}
+    function set_foo2(value) {}
 }
 function Getter() {
-    var _foo = new WeakSet();
+    var _foo = new WeakMap(), _foo = new WeakMap();
     // Error
     class A_Getter_Field {
         constructor(){
-            _foo.add(this);
-            _foo.set(this, {
+            _classPrivateFieldInit(this, _foo, {
+                get: get_foo,
+                set: void 0
+            });
+            _classPrivateFieldInit(this, _foo, {
                 writable: true,
                 value: "foo"
             });
         }
     }
-    var _foo = new WeakMap();
-    function foo() {
+    function get_foo() {
         return "";
     }
-    var _foo15 = new WeakSet(), _foo15 = new WeakSet();
+    var _foo15 = new WeakMap(), _foo15 = new WeakSet();
     // Error
     class A_Getter_Method {
         constructor(){
-            _foo15.add(this);
-            _foo15.add(this);
+            _classPrivateFieldInit(this, _foo15, {
+                get: get_foo3,
+                set: void 0
+            });
+            _classPrivateMethodInit(this, _foo15);
         }
     }
-    function foo13() {
+    function get_foo3() {
         return "";
     }
-    function foo13() {}
-    var _foo16 = new WeakSet(), _foo16 = new WeakSet();
+    function foo() {}
+    var _foo16 = new WeakMap();
     // Error
     class A_Getter_Getter {
         constructor(){
-            _foo16.add(this);
-            _foo16.add(this);
+            _classPrivateFieldInit(this, _foo16, {
+                get: get_foo4,
+                set: void 0
+            });
         }
     }
-    function foo14() {
+    function get_foo4() {
         return "";
     }
-    function foo14() {
+    function get_foo4() {
         return "";
     }
-    var _foo17 = new WeakSet(), _foo17 = new WeakSet();
+    var _foo17 = new WeakMap();
     //OK
     class A_Getter_Setter {
         constructor(){
-            _foo17.add(this);
-            _foo17.add(this);
+            _classPrivateFieldInit(this, _foo17, {
+                get: get_foo5,
+                set: set_foo
+            });
         }
     }
-    function foo15() {
+    function get_foo5() {
         return "";
     }
-    function foo15(value) {}
-    var _foo18 = new WeakSet();
+    function set_foo(value) {}
+    var _foo18 = new WeakMap();
     // Error
     class A_Getter_StaticField {
         constructor(){
-            _foo18.add(this);
+            _classPrivateFieldInit(this, _foo18, {
+                get: get_foo6,
+                set: void 0
+            });
         }
     }
-    function foo16() {
+    function get_foo6() {
         return "";
     }
-    function foo16() {}
-    var _foo19 = new WeakSet();
+    function foo9() {}
+    var _foo19 = new WeakMap();
     // Error
     class A_Getter_StaticMethod {
         constructor(){
-            _foo19.add(this);
+            _classPrivateFieldInit(this, _foo19, {
+                get: get_foo7,
+                set: void 0
+            });
         }
     }
-    function foo17() {
+    function get_foo7() {
         return "";
     }
-    function foo17() {}
-    var _foo20 = new WeakSet();
+    function foo10() {}
+    var _foo20 = new WeakMap();
     // Error
     class A_Getter_StaticGetter {
         constructor(){
-            _foo20.add(this);
+            _classPrivateFieldInit(this, _foo20, {
+                get: get_foo8,
+                set: void 0
+            });
         }
     }
-    function foo18() {
+    var _foo20 = {
+        get: get_foo8,
+        set: void 0
+    };
+    function get_foo8() {
         return "";
     }
-    function foo18() {
+    function get_foo8() {
         return "";
     }
-    var _foo21 = new WeakSet();
+    var _foo21 = new WeakMap();
     // Error
     class A_Getter_StaticSetter {
         constructor(){
-            _foo21.add(this);
+            _classPrivateFieldInit(this, _foo21, {
+                get: get_foo9,
+                set: void 0
+            });
         }
     }
-    function foo19() {
+    var _foo21 = {
+        get: void 0,
+        set: set_foo3
+    };
+    function get_foo9() {
         return "";
     }
-    function foo19(value) {}
+    function set_foo3(value) {}
 }
 function Setter() {
-    var _foo = new WeakSet();
+    var _foo = new WeakMap(), _foo = new WeakMap();
     // Error
     class A_Setter_Field {
         constructor(){
-            _foo.add(this);
-            _foo.set(this, {
+            _classPrivateFieldInit(this, _foo, {
+                get: void 0,
+                set: set_foo
+            });
+            _classPrivateFieldInit(this, _foo, {
                 writable: true,
                 value: "foo"
             });
         }
     }
-    var _foo = new WeakMap();
-    function foo(value) {}
-    var _foo22 = new WeakSet(), _foo22 = new WeakSet();
+    function set_foo(value) {}
+    var _foo22 = new WeakMap(), _foo22 = new WeakSet();
     // Error
     class A_Setter_Method {
         constructor(){
-            _foo22.add(this);
-            _foo22.add(this);
+            _classPrivateFieldInit(this, _foo22, {
+                get: void 0,
+                set: set_foo4
+            });
+            _classPrivateMethodInit(this, _foo22);
         }
     }
-    function foo20(value) {}
-    function foo20() {}
-    var _foo23 = new WeakSet(), _foo23 = new WeakSet();
+    function set_foo4(value) {}
+    function foo() {}
+    var _foo23 = new WeakMap();
     // OK
     class A_Setter_Getter {
         constructor(){
-            _foo23.add(this);
-            _foo23.add(this);
+            _classPrivateFieldInit(this, _foo23, {
+                get: get_foo,
+                set: set_foo5
+            });
         }
     }
-    function foo21(value) {}
-    function foo21() {
+    function set_foo5(value) {}
+    function get_foo() {
         return "";
     }
-    var _foo24 = new WeakSet(), _foo24 = new WeakSet();
+    var _foo24 = new WeakMap();
     // Error
     class A_Setter_Setter {
         constructor(){
-            _foo24.add(this);
-            _foo24.add(this);
+            _classPrivateFieldInit(this, _foo24, {
+                get: void 0,
+                set: set_foo6
+            });
         }
     }
-    function foo22(value) {}
-    function foo22(value) {}
-    var _foo25 = new WeakSet();
+    function set_foo6(value) {}
+    function set_foo6(value) {}
+    var _foo25 = new WeakMap();
     // Error
     class A_Setter_StaticField {
         constructor(){
-            _foo25.add(this);
+            _classPrivateFieldInit(this, _foo25, {
+                get: void 0,
+                set: set_foo7
+            });
         }
     }
     var _foo25 = {
         writable: true,
         value: "foo"
     };
-    function foo23(value) {}
-    var _foo26 = new WeakSet();
+    function set_foo7(value) {}
+    var _foo26 = new WeakMap();
     // Error
     class A_Setter_StaticMethod {
         constructor(){
-            _foo26.add(this);
+            _classPrivateFieldInit(this, _foo26, {
+                get: void 0,
+                set: set_foo8
+            });
         }
     }
-    function foo24(value) {}
-    function foo24() {}
-    var _foo27 = new WeakSet();
+    function set_foo8(value) {}
+    function foo11() {}
+    var _foo27 = new WeakMap();
     // Error
     class A_Setter_StaticGetter {
         constructor(){
-            _foo27.add(this);
+            _classPrivateFieldInit(this, _foo27, {
+                get: void 0,
+                set: set_foo9
+            });
         }
     }
-    function foo25(value) {}
-    function foo25() {
+    var _foo27 = {
+        get: get_foo10,
+        set: void 0
+    };
+    function set_foo9(value) {}
+    function get_foo10() {
         return "";
     }
-    var _foo28 = new WeakSet();
+    var _foo28 = new WeakMap();
     // Error
     class A_Setter_StaticSetter {
         constructor(){
-            _foo28.add(this);
+            _classPrivateFieldInit(this, _foo28, {
+                get: void 0,
+                set: set_foo10
+            });
         }
     }
-    function foo26(value) {}
-    function foo26(value) {}
+    var _foo28 = {
+        get: void 0,
+        set: set_foo10
+    };
+    function set_foo10(value) {}
+    function set_foo10(value) {}
 }
 function StaticField() {
+    var _foo = new WeakMap();
     // Error
     class A_StaticField_Field {
         constructor(){
-            _foo.set(this, {
+            _classPrivateFieldInit(this, _foo, {
                 writable: true,
                 value: "foo"
             });
@@ -398,12 +493,11 @@ function StaticField() {
         writable: true,
         value: "foo"
     };
-    var _foo = new WeakMap();
     var _foo29 = new WeakSet();
     // Error
     class A_StaticField_Method {
         constructor(){
-            _foo29.add(this);
+            _classPrivateMethodInit(this, _foo29);
         }
     }
     var _foo29 = {
@@ -411,32 +505,38 @@ function StaticField() {
         value: "foo"
     };
     function foo() {}
-    var _foo30 = new WeakSet();
+    var _foo30 = new WeakMap();
     // Error
     class A_StaticField_Getter {
         constructor(){
-            _foo30.add(this);
+            _classPrivateFieldInit(this, _foo30, {
+                get: get_foo,
+                set: void 0
+            });
         }
     }
     var _foo30 = {
         writable: true,
         value: "foo"
     };
-    function foo27() {
+    function get_foo() {
         return "";
     }
-    var _foo31 = new WeakSet();
+    var _foo31 = new WeakMap();
     // Error
     class A_StaticField_Setter {
         constructor(){
-            _foo31.add(this);
+            _classPrivateFieldInit(this, _foo31, {
+                get: void 0,
+                set: set_foo
+            });
         }
     }
     var _foo31 = {
         writable: true,
         value: "foo"
     };
-    function foo28(value) {}
+    function set_foo(value) {}
     // Error
     class A_StaticField_StaticField {
     }
@@ -455,7 +555,7 @@ function StaticField() {
         writable: true,
         value: "foo"
     };
-    function foo29() {}
+    function foo12() {}
     // Error
     class A_StaticField_StaticGetter {
     }
@@ -463,7 +563,11 @@ function StaticField() {
         writable: true,
         value: "foo"
     };
-    function foo30() {
+    var _foo34 = {
+        get: get_foo11,
+        set: void 0
+    };
+    function get_foo11() {
         return "";
     }
     // Error
@@ -473,49 +577,59 @@ function StaticField() {
         writable: true,
         value: "foo"
     };
-    function foo31(value) {}
+    var _foo35 = {
+        get: void 0,
+        set: set_foo11
+    };
+    function set_foo11(value) {}
 }
 function StaticMethod() {
+    var _foo = new WeakMap();
     // Error
     class A_StaticMethod_Field {
         constructor(){
-            _foo.set(this, {
+            _classPrivateFieldInit(this, _foo, {
                 writable: true,
                 value: "foo"
             });
         }
     }
-    var _foo = new WeakMap();
     function foo() {}
     var _foo36 = new WeakSet();
     // Error
     class A_StaticMethod_Method {
         constructor(){
-            _foo36.add(this);
+            _classPrivateMethodInit(this, _foo36);
         }
     }
-    function foo32() {}
-    function foo32() {}
-    var _foo37 = new WeakSet();
+    function foo13() {}
+    function foo13() {}
+    var _foo37 = new WeakMap();
     // Error
     class A_StaticMethod_Getter {
         constructor(){
-            _foo37.add(this);
+            _classPrivateFieldInit(this, _foo37, {
+                get: get_foo,
+                set: void 0
+            });
         }
     }
-    function foo33() {}
-    function foo33() {
+    function foo14() {}
+    function get_foo() {
         return "";
     }
-    var _foo38 = new WeakSet();
+    var _foo38 = new WeakMap();
     // Error
     class A_StaticMethod_Setter {
         constructor(){
-            _foo38.add(this);
+            _classPrivateFieldInit(this, _foo38, {
+                get: void 0,
+                set: set_foo
+            });
         }
     }
-    function foo34() {}
-    function foo34(value) {}
+    function foo15() {}
+    function set_foo(value) {}
     // Error
     class A_StaticMethod_StaticField {
     }
@@ -523,169 +637,253 @@ function StaticMethod() {
         writable: true,
         value: "foo"
     };
-    function foo35() {}
+    function foo16() {}
     // Error
     class A_StaticMethod_StaticMethod {
     }
-    function foo36() {}
-    function foo36() {}
+    function foo17() {}
+    function foo17() {}
     // Error
     class A_StaticMethod_StaticGetter {
     }
-    function foo37() {}
-    function foo37() {
+    var _foo40 = {
+        get: get_foo12,
+        set: void 0
+    };
+    function foo18() {}
+    function get_foo12() {
         return "";
     }
     // Error
     class A_StaticMethod_StaticSetter {
     }
-    function foo38() {}
-    function foo38(value) {}
+    var _foo41 = {
+        get: void 0,
+        set: set_foo12
+    };
+    function foo19() {}
+    function set_foo12(value) {}
 }
 function StaticGetter() {
+    var _foo = new WeakMap();
     // Error
     class A_StaticGetter_Field {
         constructor(){
-            _foo.set(this, {
+            _classPrivateFieldInit(this, _foo, {
                 writable: true,
                 value: "foo"
             });
         }
     }
-    var _foo = new WeakMap();
-    function foo() {
-        return "";
-    }
-    var _foo40 = new WeakSet();
-    // Error
-    class A_StaticGetter_Method {
-        constructor(){
-            _foo40.add(this);
-        }
-    }
-    function foo39() {
-        return "";
-    }
-    function foo39() {}
-    var _foo41 = new WeakSet();
-    // Error
-    class A_StaticGetter_Getter {
-        constructor(){
-            _foo41.add(this);
-        }
-    }
-    function foo40() {
-        return "";
-    }
-    function foo40() {
+    var _foo = {
+        get: get_foo,
+        set: void 0
+    };
+    function get_foo() {
         return "";
     }
     var _foo42 = new WeakSet();
     // Error
-    class A_StaticGetter_Setter {
+    class A_StaticGetter_Method {
         constructor(){
-            _foo42.add(this);
+            _classPrivateMethodInit(this, _foo42);
         }
     }
-    function foo41() {
+    var _foo42 = {
+        get: get_foo13,
+        set: void 0
+    };
+    function get_foo13() {
         return "";
     }
-    function foo41(value) {}
+    function foo() {}
+    var _foo43 = new WeakMap();
+    // Error
+    class A_StaticGetter_Getter {
+        constructor(){
+            _classPrivateFieldInit(this, _foo43, {
+                get: get_foo14,
+                set: void 0
+            });
+        }
+    }
+    var _foo43 = {
+        get: get_foo14,
+        set: void 0
+    };
+    function get_foo14() {
+        return "";
+    }
+    function get_foo14() {
+        return "";
+    }
+    var _foo44 = new WeakMap();
+    // Error
+    class A_StaticGetter_Setter {
+        constructor(){
+            _classPrivateFieldInit(this, _foo44, {
+                get: void 0,
+                set: set_foo
+            });
+        }
+    }
+    var _foo44 = {
+        get: get_foo15,
+        set: void 0
+    };
+    function get_foo15() {
+        return "";
+    }
+    function set_foo(value) {}
     // Error
     class A_StaticGetter_StaticField {
     }
-    function foo42() {
+    var _foo45 = {
+        get: get_foo16,
+        set: void 0
+    };
+    function get_foo16() {
         return "";
     }
-    function foo42() {}
+    function foo20() {}
     // Error
     class A_StaticGetter_StaticMethod {
     }
-    function foo43() {
+    var _foo46 = {
+        get: get_foo17,
+        set: void 0
+    };
+    function get_foo17() {
         return "";
     }
-    function foo43() {}
+    function foo21() {}
     // Error
     class A_StaticGetter_StaticGetter {
     }
-    function foo44() {
+    var _foo47 = {
+        get: get_foo18,
+        set: void 0
+    };
+    function get_foo18() {
         return "";
     }
-    function foo44() {
+    function get_foo18() {
         return "";
     }
     // OK
     class A_StaticGetter_StaticSetter {
     }
-    function foo45() {
+    var _foo48 = {
+        get: get_foo19,
+        set: set_foo13
+    };
+    function get_foo19() {
         return "";
     }
-    function foo45(value) {}
+    function set_foo13(value) {}
 }
 function StaticSetter() {
+    var _foo = new WeakMap();
     // Error
     class A_StaticSetter_Field {
         constructor(){
-            _foo.set(this, {
+            _classPrivateFieldInit(this, _foo, {
                 writable: true,
                 value: "foo"
             });
         }
     }
-    var _foo = new WeakMap();
-    function foo(value) {}
-    var _foo43 = new WeakSet();
+    var _foo = {
+        get: void 0,
+        set: set_foo
+    };
+    function set_foo(value) {}
+    var _foo49 = new WeakSet();
     // Error
     class A_StaticSetter_Method {
         constructor(){
-            _foo43.add(this);
+            _classPrivateMethodInit(this, _foo49);
         }
     }
-    function foo46(value) {}
-    function foo46() {}
-    var _foo44 = new WeakSet();
+    var _foo49 = {
+        get: void 0,
+        set: set_foo14
+    };
+    function set_foo14(value) {}
+    function foo() {}
+    var _foo50 = new WeakMap();
     // Error
     class A_StaticSetter_Getter {
         constructor(){
-            _foo44.add(this);
+            _classPrivateFieldInit(this, _foo50, {
+                get: get_foo,
+                set: void 0
+            });
         }
     }
-    function foo47(value) {}
-    function foo47() {
+    var _foo50 = {
+        get: void 0,
+        set: set_foo15
+    };
+    function set_foo15(value) {}
+    function get_foo() {
         return "";
     }
-    var _foo45 = new WeakSet();
+    var _foo51 = new WeakMap();
     // Error
     class A_StaticSetter_Setter {
         constructor(){
-            _foo45.add(this);
+            _classPrivateFieldInit(this, _foo51, {
+                get: void 0,
+                set: set_foo16
+            });
         }
     }
-    function foo48(value) {}
-    function foo48(value) {}
+    var _foo51 = {
+        get: void 0,
+        set: set_foo16
+    };
+    function set_foo16(value) {}
+    function set_foo16(value) {}
     // Error
     class A_StaticSetter_StaticField {
     }
-    var _foo46 = {
+    var _foo52 = {
+        get: void 0,
+        set: set_foo17
+    };
+    var _foo52 = {
         writable: true,
         value: "foo"
     };
-    function foo49(value) {}
+    function set_foo17(value) {}
     // Error
     class A_StaticSetter_StaticMethod {
     }
-    function foo50(value) {}
-    function foo50() {}
+    var _foo53 = {
+        get: void 0,
+        set: set_foo18
+    };
+    function set_foo18(value) {}
+    function foo22() {}
     // OK
     class A_StaticSetter_StaticGetter {
     }
-    function foo51(value) {}
-    function foo51() {
+    var _foo54 = {
+        get: get_foo20,
+        set: set_foo19
+    };
+    function set_foo19(value) {}
+    function get_foo20() {
         return "";
     }
     // Error
     class A_StaticSetter_StaticSetter {
     }
-    function foo52(value) {}
-    function foo52(value) {}
+    var _foo55 = {
+        get: void 0,
+        set: set_foo20
+    };
+    function set_foo20(value) {}
+    function set_foo20(value) {}
 }

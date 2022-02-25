@@ -2308,13 +2308,19 @@ error: Ident
 40 | div#thing:nth-child(2n+1) {}
    |           ^^^^^^^^^
 
-error: Nth
+error: PseudoClassSelectorChildren
   --> $DIR/tests/fixture/selector/id/input.css:40:21
    |
 40 | div#thing:nth-child(2n+1) {}
    |                     ^^^^
 
 error: AnPlusB
+  --> $DIR/tests/fixture/selector/id/input.css:40:21
+   |
+40 | div#thing:nth-child(2n+1) {}
+   |                     ^^^^
+
+error: AnPlusBNotation
   --> $DIR/tests/fixture/selector/id/input.css:40:21
    |
 40 | div#thing:nth-child(2n+1) {}

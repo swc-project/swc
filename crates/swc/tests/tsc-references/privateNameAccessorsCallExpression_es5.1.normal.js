@@ -6,10 +6,19 @@ function _arrayLikeToArray(arr, len) {
 function _arrayWithoutHoles(arr) {
     if (Array.isArray(arr)) return _arrayLikeToArray(arr);
 }
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
 }
 function _classPrivateMethodGet(receiver, privateSet, fn) {
     if (!privateSet.has(receiver)) {
@@ -115,14 +124,20 @@ function _templateObject1() {
     };
     return data;
 }
-var _fieldFunc = new WeakSet(), _fieldFunc2 = new WeakSet();
+var _fieldFunc = new WeakMap(), _fieldFunc2 = new WeakMap();
 var A = // @target: es2015
 /*#__PURE__*/ function() {
     "use strict";
     function A() {
         _classCallCheck(this, A);
-        _fieldFunc.add(this);
-        _fieldFunc2.add(this);
+        _classPrivateFieldInit(this, _fieldFunc, {
+            get: get_fieldFunc,
+            set: void 0
+        });
+        _classPrivateFieldInit(this, _fieldFunc2, {
+            get: get_fieldFunc2,
+            set: void 0
+        });
         this.x = 1;
     }
     _createClass(A, [
@@ -163,12 +178,12 @@ var A = // @target: es2015
     ]);
     return A;
 }();
-function fieldFunc() {
+function get_fieldFunc() {
     return function() {
         this.x = 10;
     };
 }
-function fieldFunc2() {
+function get_fieldFunc2() {
     return function(a) {
         for(var _len = arguments.length, b = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
             b[_key - 1] = arguments[_key];

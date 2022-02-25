@@ -472,9 +472,7 @@ where
         let scope = &mut *scope_ref_mut;
         let mut factory_params = Vec::with_capacity(scope.imports.len() + 1);
         if has_export {
-            define_deps_arg
-                .elems
-                .push(Some(Lit::Str(quote_str!("exports")).as_arg()));
+            define_deps_arg.elems.push(Some("exports".as_arg()));
             factory_params.push(Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
@@ -504,10 +502,7 @@ where
                                     Some(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                         KeyValueProp {
                                             key: PropName::Ident(Ident::new(export, DUMMY_SP)),
-                                            value: Box::new(Expr::Lit(Lit::Bool(Bool {
-                                                span: DUMMY_SP,
-                                                value: true,
-                                            }))),
+                                            value: true.into(),
                                         },
                                     ))))
                                 })
@@ -557,9 +552,7 @@ where
                     None => src.clone(),
                 };
 
-                define_deps_arg
-                    .elems
-                    .push(Some(Lit::Str(quote_str!(src)).as_arg()));
+                define_deps_arg.elems.push(Some(src.as_arg()));
             }
             factory_params.push(Param {
                 span: DUMMY_SP,

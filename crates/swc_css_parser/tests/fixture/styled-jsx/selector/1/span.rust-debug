@@ -58,11 +58,23 @@ error: Ident
 1 | :global(.foo + a) {
   |  ^^^^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:9
+  |
+1 | :global(.foo + a) {
+  |         ^
+
 error: Delim { value: '.' }
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:9
   |
 1 | :global(.foo + a) {
   |         ^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:10
+  |
+1 | :global(.foo + a) {
+  |          ^^^
 
 error: Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:10
@@ -70,11 +82,23 @@ error: Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
 1 | :global(.foo + a) {
   |          ^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:13
+  |
+1 | :global(.foo + a) {
+  |             ^
+
 error: WhiteSpace { value: Atom(' ' type=inline) }
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:13
   |
 1 | :global(.foo + a) {
   |             ^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:14
+  |
+1 | :global(.foo + a) {
+  |              ^
 
 error: Delim { value: '+' }
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:14
@@ -82,11 +106,23 @@ error: Delim { value: '+' }
 1 | :global(.foo + a) {
   |              ^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:15
+  |
+1 | :global(.foo + a) {
+  |               ^
+
 error: WhiteSpace { value: Atom(' ' type=inline) }
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:15
   |
 1 | :global(.foo + a) {
   |               ^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:16
+  |
+1 | :global(.foo + a) {
+  |                ^
 
 error: Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
  --> $DIR/tests/fixture/styled-jsx/selector/1/input.css:1:16

@@ -1,0 +1,7 @@
+{
+    "jsc": {
+        "lints": {
+            "defaultParamLast": ["error"]
+        }
+    }
+}

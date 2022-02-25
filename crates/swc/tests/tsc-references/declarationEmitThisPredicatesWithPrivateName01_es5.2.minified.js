@@ -28,7 +28,7 @@ export var C = function() {
             key: "m",
             value: function() {
                 var left, right;
-                return left = this, null != (right = D) && "undefined" != typeof Symbol && right[Symbol.hasInstance] ? right[Symbol.hasInstance](left) : left instanceof right;
+                return left = this, null != (right = D) && "undefined" != typeof Symbol && right[Symbol.hasInstance] ? !!right[Symbol.hasInstance](left) : left instanceof right;
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;

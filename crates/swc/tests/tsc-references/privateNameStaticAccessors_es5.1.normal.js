@@ -1,16 +1,27 @@
+function _classApplyDescriptorSet(receiver, descriptor, value) {
+    if (descriptor.set) {
+        descriptor.set.call(receiver, value);
+    } else {
+        if (!descriptor.writable) {
+            throw new TypeError("attempted to set read only private field");
+        }
+        descriptor.value = value;
+    }
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
+function _classCheckPrivateStaticFieldDescriptor(descriptor, action) {
+    if (descriptor === undefined) {
+        throw new TypeError("attempted to " + action + " private static field before its declaration");
+    }
+}
 function _classStaticPrivateFieldSpecSet(receiver, classConstructor, descriptor, value) {
-    if (receiver !== classConstructor) {
-        throw new TypeError("Private static access of wrong provenance");
-    }
-    if (!descriptor.writable) {
-        throw new TypeError("attempted to set read only private field");
-    }
-    descriptor.value = value;
+    _classCheckPrivateStaticAccess(receiver, classConstructor);
+    _classCheckPrivateStaticFieldDescriptor(descriptor, "set");
+    _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
 }
 function _classStaticPrivateMethodGet(receiver, classConstructor, method) {
@@ -30,10 +41,18 @@ var A1 = function A1(name) {
     console.log(_classStaticPrivateMethodGet(A1, A1, prop));
     console.log(_classStaticPrivateMethodGet(A1, A1, roProp));
 };
-function prop() {
+var _prop = {
+    get: get_prop,
+    set: set_prop
+};
+var _roProp = {
+    get: get_roProp,
+    set: void 0
+};
+function get_prop() {
     return "";
 }
-function prop(param) {}
-function roProp() {
+function set_prop(param) {}
+function get_roProp() {
     return "";
 }

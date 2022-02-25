@@ -135,7 +135,7 @@
           "end": 66,
           "ctxt": 0
         },
-        "expr": {
+        "base": {
           "type": "MemberExpression",
           "span": {
             "start": 63,
@@ -343,7 +343,7 @@
             "end": 126,
             "ctxt": 0
           },
-          "expr": {
+          "base": {
             "type": "MemberExpression",
             "span": {
               "start": 123,
@@ -555,7 +555,7 @@
           "end": 190,
           "ctxt": 0
         },
-        "expr": {
+        "base": {
           "type": "MemberExpression",
           "span": {
             "start": 185,
@@ -839,7 +839,7 @@
           "end": 261,
           "ctxt": 0
         },
-        "expr": {
+        "base": {
           "type": "MemberExpression",
           "span": {
             "start": 251,
@@ -865,7 +865,7 @@
                 "end": 256,
                 "ctxt": 0
               },
-              "expr": {
+              "base": {
                 "type": "MemberExpression",
                 "span": {
                   "start": 251,
@@ -1171,7 +1171,7 @@
           "end": 337,
           "ctxt": 0
         },
-        "expr": {
+        "base": {
           "type": "MemberExpression",
           "span": {
             "start": 324,
@@ -1204,7 +1204,7 @@
                   "end": 329,
                   "ctxt": 0
                 },
-                "expr": {
+                "base": {
                   "type": "CallExpression",
                   "span": {
                     "start": 324,
@@ -1462,7 +1462,7 @@
           "end": 423,
           "ctxt": 0
         },
-        "expr": {
+        "base": {
           "type": "MemberExpression",
           "span": {
             "start": 410,
@@ -1546,7 +1546,7 @@
             "end": 443,
             "ctxt": 0
           },
-          "expr": {
+          "base": {
             "type": "MemberExpression",
             "span": {
               "start": 440,
@@ -1628,7 +1628,7 @@
               "end": 471,
               "ctxt": 0
             },
-            "expr": {
+            "base": {
               "type": "MemberExpression",
               "span": {
                 "start": 468,
@@ -1710,7 +1710,7 @@
                 "end": 481,
                 "ctxt": 0
               },
-              "expr": {
+              "base": {
                 "type": "MemberExpression",
                 "span": {
                   "start": 478,

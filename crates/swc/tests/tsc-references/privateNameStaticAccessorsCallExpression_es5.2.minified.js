@@ -119,21 +119,4 @@ var A = function() {
             }
         }
     ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), A;
-}(), _x = {
-    writable: !0,
-    value: 1
-};
-function fieldFunc() {
-    return function() {
-        !function(receiver, classConstructor, descriptor, value) {
-            if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
-            if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-            return descriptor.value = value, value;
-        }(A, A, _x, 10);
-    };
-}
-function fieldFunc2() {
-    return function(a) {
-        for(var _len = arguments.length, b = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)b[_key - 1] = arguments[_key];
-    };
-}
+}();

@@ -6,19 +6,30 @@ function _arrayLikeToArray(arr, len) {
 function _arrayWithoutHoles(arr) {
     if (Array.isArray(arr)) return _arrayLikeToArray(arr);
 }
+function _classApplyDescriptorSet(receiver, descriptor, value) {
+    if (descriptor.set) {
+        descriptor.set.call(receiver, value);
+    } else {
+        if (!descriptor.writable) {
+            throw new TypeError("attempted to set read only private field");
+        }
+        descriptor.value = value;
+    }
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
+function _classCheckPrivateStaticFieldDescriptor(descriptor, action) {
+    if (descriptor === undefined) {
+        throw new TypeError("attempted to " + action + " private static field before its declaration");
+    }
+}
 function _classStaticPrivateFieldSpecSet(receiver, classConstructor, descriptor, value) {
-    if (receiver !== classConstructor) {
-        throw new TypeError("Private static access of wrong provenance");
-    }
-    if (!descriptor.writable) {
-        throw new TypeError("attempted to set read only private field");
-    }
-    descriptor.value = value;
+    _classCheckPrivateStaticAccess(receiver, classConstructor);
+    _classCheckPrivateStaticFieldDescriptor(descriptor, "set");
+    _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
 }
 function isNativeReflectConstruct() {
@@ -171,16 +182,24 @@ var A = // @target: es2015
     ]);
     return A;
 }();
+var _fieldFunc = {
+    get: get_fieldFunc,
+    set: void 0
+};
+var _fieldFunc2 = {
+    get: get_fieldFunc2,
+    set: void 0
+};
 var _x = {
     writable: true,
     value: 1
 };
-function fieldFunc() {
+function get_fieldFunc() {
     return function() {
         _classStaticPrivateFieldSpecSet(A, A, _x, 10);
     };
 }
-function fieldFunc2() {
+function get_fieldFunc2() {
     return function(a) {
         for(var _len = arguments.length, b = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
             b[_key - 1] = arguments[_key];

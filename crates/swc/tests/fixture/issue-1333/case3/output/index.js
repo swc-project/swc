@@ -6,11 +6,30 @@ var _nodeFetch = _interopRequireDefault(require("node-fetch"));
 var _abortSignal = require("./misc/AbortSignal");
 var _errors = require("../../errors");
 var _utils = require("../../utils");
-function _classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
     }
-    return privateMap.get(receiver).value;
+}
+function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+        return descriptor.get.call(receiver);
+    }
+    return descriptor.value;
+}
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to " + action + " private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
+function _classPrivateFieldGet(receiver, privateMap) {
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
 }
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -24,6 +43,10 @@ const headers = [
     "x-ratelimit-reset",
     "via"
 ];
+var /**
+     * Used for sequential requests.
+     * @type {AsyncQueue}
+     */ _queue = new WeakMap();
 class RequestHandler {
     /**
      * Whether this handler is inactive or not.
@@ -177,10 +200,7 @@ class RequestHandler {
      * @param {Rest} rest The REST Manager.
      * @param {string} id The ID of this request handler.
      */ constructor(rest, id){
-        /**
-     * Used for sequential requests.
-     * @type {AsyncQueue}
-     */ _queue.set(this, {
+        _classPrivateFieldInit(this, _queue, {
             writable: true,
             value: new _utils.AsyncQueue()
         });
@@ -207,7 +227,6 @@ class RequestHandler {
     }
 }
 exports.RequestHandler = RequestHandler;
-var _queue = new WeakMap();
 /**
  * Bulk fetch headers from a node-fetch response.
  * @param {Response} res The request response.

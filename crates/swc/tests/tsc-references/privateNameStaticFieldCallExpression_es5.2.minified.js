@@ -4,8 +4,10 @@ function _arrayLikeToArray(arr, len) {
     return arr2;
 }
 function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
-    if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
-    return descriptor.value;
+    var receiver, descriptor;
+    return _classCheckPrivateStaticAccess(receiver, classConstructor), !function(descriptor, action) {
+        if (void 0 === descriptor) throw new TypeError("attempted to get private static field before its declaration");
+    }(descriptor, "get"), descriptor.get ? descriptor.get.call(receiver) : descriptor.value;
 }
 function _construct(Parent, args, Class) {
     return (_construct = !function() {
@@ -61,6 +63,9 @@ function _unsupportedIterableToArray(o, minLen) {
         if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
     }
 }
+function _classCheckPrivateStaticAccess(receiver, classConstructor) {
+    if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
+}
 function _templateObject() {
     var data = _taggedTemplateLiteral([
         "head",
@@ -93,8 +98,8 @@ var A = function() {
         {
             key: "test",
             value: function() {
-                _classStaticPrivateFieldSpecGet(A, A, _fieldFunc).call(A), null === (ref = (_obj = _classStaticPrivateFieldSpecGet(A, A, _fieldFunc)).call) || void 0 === ref || ref.call(_obj, A), _classStaticPrivateFieldSpecGet(A, A, _fieldFunc)(), new (_classStaticPrivateFieldSpecGet(A, A, _fieldFunc))();
-                var _instance, _obj, ref, arr = [
+                _classStaticPrivateFieldSpecGet(A, A, _fieldFunc).call(A), null === (ref = _classStaticPrivateFieldSpecGet(A, A, _fieldFunc)) || void 0 === ref || ref.call(A), _classStaticPrivateFieldSpecGet(A, A, _fieldFunc)(), new (_classStaticPrivateFieldSpecGet(A, A, _fieldFunc))();
+                var _instance, ref, arr = [
                     1,
                     2
                 ];

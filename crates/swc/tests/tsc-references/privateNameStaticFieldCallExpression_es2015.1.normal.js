@@ -1,15 +1,30 @@
+function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+        return descriptor.get.call(receiver);
+    }
+    return descriptor.value;
+}
+function _classCheckPrivateStaticFieldDescriptor(descriptor, action) {
+    if (descriptor === undefined) {
+        throw new TypeError("attempted to " + action + " private static field before its declaration");
+    }
+}
 function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
+    _classCheckPrivateStaticAccess(receiver, classConstructor);
+    _classCheckPrivateStaticFieldDescriptor(descriptor, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
+}
+function _classCheckPrivateStaticAccess(receiver, classConstructor) {
     if (receiver !== classConstructor) {
         throw new TypeError("Private static access of wrong provenance");
     }
-    return descriptor.value;
 }
 // @target: es2015
 class A {
     test() {
-        var _obj, ref;
+        var ref;
         _classStaticPrivateFieldSpecGet(A, A, _fieldFunc).call(A);
-        (ref = (_obj = _classStaticPrivateFieldSpecGet(A, A, _fieldFunc)).call) === null || ref === void 0 ? void 0 : ref.call(_obj, A);
+        (ref = _classStaticPrivateFieldSpecGet(A, A, _fieldFunc)) === null || ref === void 0 ? void 0 : ref.call(A);
         const func = _classStaticPrivateFieldSpecGet(A, A, _fieldFunc);
         func();
         new (_classStaticPrivateFieldSpecGet(A, A, _fieldFunc))();

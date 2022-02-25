@@ -25,7 +25,7 @@
           "end": 4,
           "ctxt": 0
         },
-        "expr": {
+        "base": {
           "type": "MemberExpression",
           "span": {
             "start": 0,
@@ -74,7 +74,7 @@
           "end": 19,
           "ctxt": 0
         },
-        "expr": {
+        "base": {
           "type": "MemberExpression",
           "span": {
             "start": 10,
@@ -93,7 +93,7 @@
               "end": 14,
               "ctxt": 0
             },
-            "expr": {
+            "base": {
               "type": "MemberExpression",
               "span": {
                 "start": 10,
@@ -154,7 +154,7 @@
           "end": 33,
           "ctxt": 0
         },
-        "expr": {
+        "base": {
           "type": "MemberExpression",
           "span": {
             "start": 25,
