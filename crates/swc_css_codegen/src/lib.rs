@@ -534,18 +534,30 @@ where
                 punct!(self, ")");
             }
             SupportsInParens::Feature(n) => emit!(self, n),
+            SupportsInParens::GeneralEnclosed(n) => emit!(self, n),
         }
     }
 
     #[emitter]
     fn emit_supports_feature(&mut self, n: &SupportsFeature) -> Result {
-        punct!(self, "(");
-
         match n {
-            SupportsFeature::Declaration(n) => emit!(self, n),
-        }
+            SupportsFeature::Declaration(n) => {
+                punct!(self, "(");
 
-        punct!(self, ")");
+                emit!(self, n);
+
+                punct!(self, ")");
+            }
+            SupportsFeature::Function(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_general_enclosed(&mut self, n: &GeneralEnclosed) -> Result {
+        match n {
+            GeneralEnclosed::Function(n) => emit!(self, n),
+            GeneralEnclosed::SimpleBlock(n) => emit!(self, n),
+        }
     }
 
     #[emitter]
@@ -783,6 +795,7 @@ where
             Value::Url(n) => emit!(self, n),
             Value::Delimiter(n) => emit!(self, n),
             Value::Urange(n) => emit!(self, n),
+            Value::ComplexSelector(n) => emit!(self, n),
             Value::PreservedToken(n) => emit!(self, n),
         }
     }
