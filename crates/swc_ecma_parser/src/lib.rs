@@ -415,34 +415,29 @@ pub fn with_file_parser<T>(
     ret
 }
 
-/// Note: This is reccomended way to parse a file.
-///
-/// This is an alias for [Parser], [Lexer] and [SourceFileInput], but
-/// instantiation of generics occur in `swc_ecma_parser` crate.
-pub fn parse_file_as_expr(
-    fm: &SourceFile,
-    syntax: Syntax,
-    target: EsVersion,
-    comments: Option<&dyn Comments>,
-    recovered_errors: &mut Vec<Error>,
-) -> PResult<Box<Expr>> {
-    with_file_parser(fm, syntax, target, comments, recovered_errors, |p| {
-        p.parse_expr()
-    })
+macro_rules! expose {
+    (
+        $name:ident,
+        $T:ty,
+        $($t:tt)*
+    ) => {
+        /// Note: This is reccomended way to parse a file.
+        ///
+        /// This is an alias for [Parser], [Lexer] and [SourceFileInput], but
+        /// instantiation of generics occur in `swc_ecma_parser` crate.
+        pub fn $name(
+            fm: &SourceFile,
+            syntax: Syntax,
+            target: EsVersion,
+            comments: Option<&dyn Comments>,
+            recovered_errors: &mut Vec<Error>,
+        ) -> PResult<$T> {
+            with_file_parser(fm, syntax, target, comments, recovered_errors, $($t)*)
+        }
+    };
 }
 
-/// Note: This is reccomended way to parse a file.
-///
-/// This is an alias for [Parser], [Lexer] and [SourceFileInput], but
-/// instantiation of generics occur in `swc_ecma_parser` crate.
-pub fn parse_file_as_module(
-    fm: &SourceFile,
-    syntax: Syntax,
-    target: EsVersion,
-    comments: Option<&dyn Comments>,
-    recovered_errors: &mut Vec<Error>,
-) -> PResult<Module> {
-    with_file_parser(fm, syntax, target, comments, recovered_errors, |p| {
-        p.parse_module()
-    })
-}
+expose!(parse_file_as_expr, Box<Expr>, |p| { p.parse_expr() });
+expose!(parse_file_as_module, Module, |p| { p.parse_module() });
+expose!(parse_file_as_script, Script, |p| { p.parse_script() });
+expose!(parse_file_as_program, Program, |p| { p.parse_program() });
