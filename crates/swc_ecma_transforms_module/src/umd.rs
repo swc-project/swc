@@ -17,7 +17,7 @@ use super::util::{
     self, define_es_module, define_property, has_use_strict, initialize_to_undefined,
     local_name_for_src, make_descriptor, make_require_call, use_strict, Exports, ModulePass, Scope,
 };
-use crate::path::{ImportResolver, NoopImportResolver};
+use crate::path::{ImportResolver, NoopImportResolver, Resolver};
 
 mod config;
 
@@ -58,10 +58,7 @@ where
     }
 }
 
-struct Umd<R>
-where
-    R: ImportResolver,
-{
+struct Umd {
     cm: Lrc<SourceMap>,
     root_mark: Mark,
     in_top_level: bool,
@@ -69,14 +66,11 @@ where
     scope: RefCell<Scope>,
     exports: Exports,
 
-    resolver: Option<(R, FileName)>,
+    resolver: Resolver,
 }
 
 /// TODO: VisitMut
-impl<R> Fold for Umd<R>
-where
-    R: ImportResolver,
-{
+impl Fold for Umd {
     noop_fold_type!();
 
     mark_as_nested!();
@@ -800,10 +794,7 @@ where
     }
 }
 
-impl<R> ModulePass for Umd<R>
-where
-    R: ImportResolver,
-{
+impl ModulePass for Umd {
     fn config(&self) -> &util::Config {
         &self.config.config
     }

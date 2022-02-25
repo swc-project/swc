@@ -20,7 +20,7 @@ use super::util::{
     self, define_es_module, define_property, has_use_strict, initialize_to_undefined,
     local_name_for_src, make_descriptor, use_strict, Exports, ModulePass, Scope,
 };
-use crate::path::{ImportResolver, NoopImportResolver};
+use crate::path::{ImportResolver, NoopImportResolver, Resolver};
 
 pub fn amd(config: Config) -> impl Fold {
     Amd {
@@ -47,16 +47,13 @@ where
     }
 }
 
-struct Amd<R>
-where
-    R: ImportResolver,
-{
+struct Amd {
     config: Config,
     in_top_level: bool,
     scope: RefCell<Scope>,
     exports: Exports,
 
-    resolver: Option<(R, FileName)>,
+    resolver: Resolver,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -70,10 +67,7 @@ pub struct Config {
 }
 
 /// TODO: VisitMut
-impl<R> Fold for Amd<R>
-where
-    R: ImportResolver,
-{
+impl Fold for Amd {
     noop_fold_type!();
 
     mark_as_nested!();
@@ -661,10 +655,7 @@ where
     }
 }
 
-impl<R> ModulePass for Amd<R>
-where
-    R: ImportResolver,
-{
+impl ModulePass for Amd {
     fn config(&self) -> &util::Config {
         &self.config.config
     }

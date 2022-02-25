@@ -11,6 +11,14 @@ use swc_atoms::JsWord;
 use swc_common::FileName;
 use swc_ecma_loader::resolve::Resolve;
 
+pub(crate) enum Resolver {
+    Real {
+        base: FileName,
+        resolver: Box<dyn ImportResolver>,
+    },
+    Default,
+}
+
 pub trait ImportResolver {
     /// Resolves `target` as a string usable by the modules pass.
     ///

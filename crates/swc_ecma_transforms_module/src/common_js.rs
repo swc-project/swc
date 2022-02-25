@@ -22,7 +22,7 @@ use super::util::{
     define_es_module, define_property, has_use_strict, initialize_to_undefined, make_descriptor,
     make_require_call, use_strict, ModulePass, Scope,
 };
-use crate::path::{ImportResolver, NoopImportResolver};
+use crate::path::{ImportResolver, NoopImportResolver, Resolver};
 
 pub fn common_js(
     top_level_mark: Mark,
@@ -133,22 +133,16 @@ impl Visit for LazyIdentifierVisitor {
     }
 }
 
-struct CommonJs<P>
-where
-    P: ImportResolver,
-{
+struct CommonJs {
     top_level_mark: Mark,
     config: Config,
     scope: Rc<RefCell<Scope>>,
     in_top_level: bool,
-    resolver: Option<(P, FileName)>,
+    resolver: Resolver,
 }
 
 /// TODO: VisitMut
-impl<P> Fold for CommonJs<P>
-where
-    P: ImportResolver,
-{
+impl Fold for CommonJs {
     noop_fold_type!();
 
     mark_as_nested!();
@@ -890,10 +884,7 @@ where
     }
 }
 
-impl<P> ModulePass for CommonJs<P>
-where
-    P: ImportResolver,
-{
+impl ModulePass for CommonJs {
     fn config(&self) -> &Config {
         &self.config
     }
