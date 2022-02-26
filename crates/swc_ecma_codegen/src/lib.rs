@@ -2316,8 +2316,7 @@ where
         let span = if expr_span.hi == e.span.hi {
             DUMMY_SP
         } else {
-            let hi = e.span.hi;
-            Span::new(hi, hi, Default::default())
+            Span::new(expr_span.hi, e.span.hi, Default::default())
         };
 
         semi!(span);
