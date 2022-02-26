@@ -244,6 +244,40 @@ impl Radix {
         }
     }
 
+    fn extract_obj_and_prop_member_case(
+        &mut self,
+        member_expr: &MemberExpr,
+    ) -> (Option<JsWord>, Option<JsWord>) {
+        let MemberExpr { obj, prop, .. } = member_expr;
+
+        match obj.as_ref() {
+            Expr::Ident(obj) => {
+                if !self.is_satisfying_indent(obj) {
+                    return (None, None);
+                }
+
+                return (Some(obj.sym.clone()), self.extract_prop_value(prop));
+            }
+            Expr::This(_) => {
+                let inside_arrow_fn = self.is_inside_arrow_fn();
+                let inside_class = self.is_inside_class();
+
+                if inside_arrow_fn && inside_class {
+                    return (None, None);
+                }
+
+                if !inside_arrow_fn && (inside_class || self.is_inside_object()) {
+                    return (None, None);
+                }
+
+                return (None, self.extract_prop_value(prop));
+            }
+            _ => {}
+        };
+
+        (None, None)
+    }
+
     fn extract_obj_and_prop(&mut self, callee_expr: &Expr) -> (Option<JsWord>, Option<JsWord>) {
         match callee_expr {
             Expr::Ident(ident) => {
@@ -252,35 +286,13 @@ impl Radix {
                 }
             }
             Expr::Member(member_expr) => {
-                let MemberExpr { obj, prop, .. } = member_expr;
-
-                match obj.as_ref() {
-                    Expr::Ident(obj) => {
-                        if !self.is_satisfying_indent(obj) {
-                            return (None, None);
-                        }
-
-                        return (Some(obj.sym.clone()), self.extract_prop_value(prop));
-                    }
-                    Expr::This(_) => {
-                        let inside_arrow_fn = self.is_inside_arrow_fn();
-                        let inside_class = self.is_inside_class();
-
-                        if inside_arrow_fn && inside_class {
-                            return (None, None);
-                        }
-
-                        if !inside_arrow_fn && (inside_class || self.is_inside_object()) {
-                            return (None, None);
-                        }
-
-                        return (None, self.extract_prop_value(prop));
-                    }
-                    _ => {}
-                }
+                return self.extract_obj_and_prop_member_case(member_expr);
             }
-            Expr::OptChain(OptChainExpr { expr, .. }) => {
-                return self.extract_obj_and_prop(expr.as_ref())
+            Expr::OptChain(OptChainExpr {
+                base: OptChainBase::Member(member_expr),
+                ..
+            }) => {
+                return self.extract_obj_and_prop_member_case(member_expr);
             }
             Expr::Paren(ParenExpr { expr, .. }) => {
                 return self.extract_obj_and_prop(expr.as_ref());
