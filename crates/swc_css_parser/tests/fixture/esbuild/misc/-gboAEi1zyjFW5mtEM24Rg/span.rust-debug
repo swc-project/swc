@@ -118,7 +118,7 @@ error: Value
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                     ^^^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:21
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
@@ -142,7 +142,7 @@ error: Value
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                          ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:26
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
@@ -166,7 +166,7 @@ error: Value
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                             ^^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:29
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
@@ -178,7 +178,7 @@ error: Value
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                                 ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:33
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
@@ -190,7 +190,7 @@ error: Value
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                                   ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:35
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
@@ -202,7 +202,7 @@ error: Value
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                                     ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:37
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }

@@ -880,7 +880,7 @@ error: Value
 15 | @unknown x, y x(1) {p:v}
    |                 ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/at-rule/unknown/input.css:15:17
    |
 15 | @unknown x, y x(1) {p:v}
@@ -1066,7 +1066,7 @@ error: Value
 16 | @unknown x, y x(1+2) {p:v}
    |                 ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/at-rule/unknown/input.css:16:17
    |
 16 | @unknown x, y x(1+2) {p:v}
@@ -1078,7 +1078,7 @@ error: Value
 16 | @unknown x, y x(1+2) {p:v}
    |                  ^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/at-rule/unknown/input.css:16:18
    |
 16 | @unknown x, y x(1+2) {p:v}
@@ -1912,7 +1912,7 @@ error: Value
 26 | @unknown x, y f(1) {s{p:v}}
    |                 ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/at-rule/unknown/input.css:26:17
    |
 26 | @unknown x, y f(1) {s{p:v}}
@@ -2122,7 +2122,7 @@ error: Value
 27 | @unknown x, y f(1+2) {s{p:v}}
    |                 ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/at-rule/unknown/input.css:27:17
    |
 27 | @unknown x, y f(1+2) {s{p:v}}
@@ -2134,7 +2134,7 @@ error: Value
 27 | @unknown x, y f(1+2) {s{p:v}}
    |                  ^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/at-rule/unknown/input.css:27:18
    |
 27 | @unknown x, y f(1+2) {s{p:v}}
@@ -3220,7 +3220,7 @@ error: Value
 34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
    |                        ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/at-rule/unknown/input.css:34:24
    |
 34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
@@ -3526,7 +3526,7 @@ error: Value
 35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
    |                        ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/at-rule/unknown/input.css:35:24
    |
 35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
@@ -3538,7 +3538,7 @@ error: Value
 35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
    |                             ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/at-rule/unknown/input.css:35:29
    |
 35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }

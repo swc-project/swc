@@ -223,13 +223,13 @@
                         },
                         "value": [
                           {
-                            "type": "Number",
+                            "type": "Integer",
                             "span": {
                               "start": 126,
                               "end": 127,
                               "ctxt": 0
                             },
-                            "value": 0.0,
+                            "value": 0,
                             "raw": "0"
                           }
                         ],
@@ -302,13 +302,13 @@
                             }
                           },
                           {
-                            "type": "Number",
+                            "type": "Integer",
                             "span": {
                               "start": 161,
                               "end": 162,
                               "ctxt": 0
                             },
-                            "value": 0.0,
+                            "value": 0,
                             "raw": "0"
                           }
                         ],
@@ -431,13 +431,13 @@
                         },
                         "value": [
                           {
-                            "type": "Number",
+                            "type": "Integer",
                             "span": {
                               "start": 250,
                               "end": 251,
                               "ctxt": 0
                             },
-                            "value": 0.0,
+                            "value": 0,
                             "raw": "0"
                           }
                         ],
@@ -964,13 +964,13 @@
                   },
                   "value": [
                     {
-                      "type": "Number",
+                      "type": "Integer",
                       "span": {
                         "start": 495,
                         "end": 498,
                         "ctxt": 0
                       },
-                      "value": 100.0,
+                      "value": 100,
                       "raw": "100"
                     }
                   ],

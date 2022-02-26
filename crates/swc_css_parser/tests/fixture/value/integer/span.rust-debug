@@ -1,0 +1,307 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/value/integer/input.css:1:1
+  |
+1 | / div {
+2 | |     z-index: 12;
+3 | |     z-index: +123;
+4 | |     z-index: -456;
+... |
+7 | |     z-index: -0;
+8 | | }
+  | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/value/integer/input.css:1:1
+  |
+1 | / div {
+2 | |     z-index: 12;
+3 | |     z-index: +123;
+4 | |     z-index: -456;
+... |
+7 | |     z-index: -0;
+8 | | }
+  | |_^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/value/integer/input.css:1:1
+  |
+1 | / div {
+2 | |     z-index: 12;
+3 | |     z-index: +123;
+4 | |     z-index: -456;
+... |
+7 | |     z-index: -0;
+8 | | }
+  | |_^
+
+error: SelectorList
+ --> $DIR/tests/fixture/value/integer/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/value/integer/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/value/integer/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/value/integer/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/value/integer/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: WqName
+ --> $DIR/tests/fixture/value/integer/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/integer/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/value/integer/input.css:1:5
+  |
+1 |   div {
+  |  _____^
+2 | |     z-index: 12;
+3 | |     z-index: +123;
+4 | |     z-index: -456;
+... |
+7 | |     z-index: -0;
+8 | | }
+  | |_^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/integer/input.css:2:5
+  |
+2 |     z-index: 12;
+  |     ^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/integer/input.css:2:5
+  |
+2 |     z-index: 12;
+  |     ^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/integer/input.css:2:5
+  |
+2 |     z-index: 12;
+  |     ^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/integer/input.css:2:5
+  |
+2 |     z-index: 12;
+  |     ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/integer/input.css:2:14
+  |
+2 |     z-index: 12;
+  |              ^^
+
+error: Integer
+ --> $DIR/tests/fixture/value/integer/input.css:2:14
+  |
+2 |     z-index: 12;
+  |              ^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/integer/input.css:3:5
+  |
+3 |     z-index: +123;
+  |     ^^^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/integer/input.css:3:5
+  |
+3 |     z-index: +123;
+  |     ^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/integer/input.css:3:5
+  |
+3 |     z-index: +123;
+  |     ^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/integer/input.css:3:5
+  |
+3 |     z-index: +123;
+  |     ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/integer/input.css:3:14
+  |
+3 |     z-index: +123;
+  |              ^^^^
+
+error: Integer
+ --> $DIR/tests/fixture/value/integer/input.css:3:14
+  |
+3 |     z-index: +123;
+  |              ^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/integer/input.css:4:5
+  |
+4 |     z-index: -456;
+  |     ^^^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/integer/input.css:4:5
+  |
+4 |     z-index: -456;
+  |     ^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/integer/input.css:4:5
+  |
+4 |     z-index: -456;
+  |     ^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/integer/input.css:4:5
+  |
+4 |     z-index: -456;
+  |     ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/integer/input.css:4:14
+  |
+4 |     z-index: -456;
+  |              ^^^^
+
+error: Integer
+ --> $DIR/tests/fixture/value/integer/input.css:4:14
+  |
+4 |     z-index: -456;
+  |              ^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/integer/input.css:5:5
+  |
+5 |     z-index: 0;
+  |     ^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/integer/input.css:5:5
+  |
+5 |     z-index: 0;
+  |     ^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/integer/input.css:5:5
+  |
+5 |     z-index: 0;
+  |     ^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/integer/input.css:5:5
+  |
+5 |     z-index: 0;
+  |     ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/integer/input.css:5:14
+  |
+5 |     z-index: 0;
+  |              ^
+
+error: Integer
+ --> $DIR/tests/fixture/value/integer/input.css:5:14
+  |
+5 |     z-index: 0;
+  |              ^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/integer/input.css:6:5
+  |
+6 |     z-index: +0;
+  |     ^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/integer/input.css:6:5
+  |
+6 |     z-index: +0;
+  |     ^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/integer/input.css:6:5
+  |
+6 |     z-index: +0;
+  |     ^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/integer/input.css:6:5
+  |
+6 |     z-index: +0;
+  |     ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/integer/input.css:6:14
+  |
+6 |     z-index: +0;
+  |              ^^
+
+error: Integer
+ --> $DIR/tests/fixture/value/integer/input.css:6:14
+  |
+6 |     z-index: +0;
+  |              ^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/integer/input.css:7:5
+  |
+7 |     z-index: -0;
+  |     ^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/value/integer/input.css:7:5
+  |
+7 |     z-index: -0;
+  |     ^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/value/integer/input.css:7:5
+  |
+7 |     z-index: -0;
+  |     ^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/integer/input.css:7:5
+  |
+7 |     z-index: -0;
+  |     ^^^^^^^
+
+error: Value
+ --> $DIR/tests/fixture/value/integer/input.css:7:14
+  |
+7 |     z-index: -0;
+  |              ^^
+
+error: Integer
+ --> $DIR/tests/fixture/value/integer/input.css:7:14
+  |
+7 |     z-index: -0;
+  |              ^^
+
