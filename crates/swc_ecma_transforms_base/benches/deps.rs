@@ -3,7 +3,7 @@ extern crate test;
 
 use swc_common::{FileName, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, parse_file_as_module, Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::pass::noop;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{FoldWith, Visit, VisitWith};
@@ -17,21 +17,21 @@ fn module_clone(b: &mut Bencher) {
 
     let _ = ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
-        let lexer = Lexer::new(
+
+        let mut errors = vec![];
+        let module = parse_file_as_module(
+            &fm,
             Syntax::Typescript(Default::default()),
             Default::default(),
-            StringInput::from(&*fm),
             None,
-        );
-        let mut parser = Parser::new_from(lexer);
-        let module = parser
-            .parse_module()
-            .map_err(|e| {
-                e.into_diagnostic(handler).emit();
-            })
-            .unwrap();
+            &mut errors,
+        )
+        .map_err(|e| {
+            e.into_diagnostic(handler).emit();
+        })
+        .unwrap();
 
-        for e in parser.take_errors() {
+        for e in errors {
             e.into_diagnostic(handler).emit();
         }
 
