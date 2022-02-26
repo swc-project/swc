@@ -46,21 +46,21 @@ fn fold_empty(b: &mut Bencher) {
 
     let _ = ::testing::run_test(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
-        let lexer = Lexer::new(
+
+        let mut errors = vec![];
+        let module = parse_file_as_module(
+            &fm,
             Syntax::Typescript(Default::default()),
             Default::default(),
-            StringInput::from(&*fm),
             None,
-        );
-        let mut parser = Parser::new_from(lexer);
-        let module = parser
-            .parse_module()
-            .map_err(|e| {
-                e.into_diagnostic(handler).emit();
-            })
-            .unwrap();
+            &mut errors,
+        )
+        .map_err(|e| {
+            e.into_diagnostic(handler).emit();
+        })
+        .unwrap();
 
-        for e in parser.take_errors() {
+        for e in errors {
             e.into_diagnostic(handler).emit();
         }
 
