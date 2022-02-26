@@ -893,7 +893,7 @@ where
                 ComponentValue::Rule(_) | ComponentValue::KeyframeBlock(_) => {
                     formatting_newline!(self);
                 }
-                ComponentValue::DeclarationBlockItem(_) if idx == 0 => {
+                ComponentValue::DeclarationOrAtRule(_) if idx == 0 => {
                     formatting_newline!(self);
                 }
                 _ => {}
@@ -925,11 +925,11 @@ where
                         formatting_newline!(self);
                     }
                 }
-                ComponentValue::DeclarationBlockItem(i) => match i {
-                    DeclarationBlockItem::AtRule(_) => {
+                ComponentValue::DeclarationOrAtRule(i) => match i {
+                    DeclarationOrAtRule::AtRule(_) => {
                         formatting_newline!(self);
                     }
-                    DeclarationBlockItem::Declaration(_) => {
+                    DeclarationOrAtRule::Declaration(_) => {
                         if idx != len - 1 {
                             semi!(self);
                         } else {
@@ -938,7 +938,7 @@ where
 
                         formatting_newline!(self);
                     }
-                    DeclarationBlockItem::Invalid(_) => {}
+                    DeclarationOrAtRule::Invalid(_) => {}
                 },
                 ComponentValue::Value(_) => {
                     if ending == ']' && idx != len - 1 {
@@ -955,7 +955,7 @@ where
     fn emit_component_value(&mut self, n: &ComponentValue) -> Result {
         match n {
             ComponentValue::StyleBlock(n) => emit!(self, n),
-            ComponentValue::DeclarationBlockItem(n) => emit!(self, n),
+            ComponentValue::DeclarationOrAtRule(n) => emit!(self, n),
             ComponentValue::Rule(n) => emit!(self, n),
             ComponentValue::Value(n) => emit!(self, n),
             ComponentValue::KeyframeBlock(n) => emit!(self, n),
@@ -973,11 +973,11 @@ where
     }
 
     #[emitter]
-    fn emit_declaration_block_item(&mut self, n: &DeclarationBlockItem) -> Result {
+    fn emit_declaration_block_item(&mut self, n: &DeclarationOrAtRule) -> Result {
         match n {
-            DeclarationBlockItem::Declaration(n) => emit!(self, n),
-            DeclarationBlockItem::AtRule(n) => emit!(self, n),
-            DeclarationBlockItem::Invalid(n) => emit!(self, n),
+            DeclarationOrAtRule::Declaration(n) => emit!(self, n),
+            DeclarationOrAtRule::AtRule(n) => emit!(self, n),
+            DeclarationOrAtRule::Invalid(n) => emit!(self, n),
         }
     }
 

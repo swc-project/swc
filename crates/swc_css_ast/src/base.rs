@@ -54,8 +54,8 @@ pub struct SimpleBlock {
 pub enum ComponentValue {
     #[tag("Value")]
     Value(Value),
-    #[tag("DeclarationBlockItem")]
-    DeclarationBlockItem(DeclarationBlockItem),
+    #[tag("DeclarationOrAtRule")]
+    DeclarationOrAtRule(DeclarationOrAtRule),
     #[tag("Rule")]
     Rule(Rule),
     #[tag("StyleBlock")]
@@ -65,13 +65,13 @@ pub enum ComponentValue {
 }
 
 #[ast_node]
-pub enum DeclarationBlockItem {
-    #[tag("Tokens")]
-    Invalid(Tokens),
+pub enum DeclarationOrAtRule {
     #[tag("Declaration")]
     Declaration(Declaration),
-    #[tag("*")]
+    #[tag("AtRule")]
     AtRule(AtRule),
+    #[tag("Tokens")]
+    Invalid(Tokens),
 }
 
 #[ast_node("Declaration")]

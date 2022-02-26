@@ -386,10 +386,10 @@ where
                         simple_block.value.extend(rule_list);
                     }
                     Grammar::DeclarationList => {
-                        let declaration_list: Vec<DeclarationBlockItem> = self.parse()?;
+                        let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                         let declaration_list: Vec<ComponentValue> = declaration_list
                             .into_iter()
-                            .map(ComponentValue::DeclarationBlockItem)
+                            .map(ComponentValue::DeclarationOrAtRule)
                             .collect();
 
                         simple_block.value.extend(declaration_list);
@@ -423,11 +423,11 @@ where
     }
 }
 
-impl<I> Parse<Vec<DeclarationBlockItem>> for Parser<I>
+impl<I> Parse<Vec<DeclarationOrAtRule>> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<Vec<DeclarationBlockItem>> {
+    fn parse(&mut self) -> PResult<Vec<DeclarationOrAtRule>> {
         let mut declarations = vec![];
 
         loop {
@@ -443,14 +443,14 @@ where
                     bump!(self);
                 }
                 tok!("@") => {
-                    declarations.push(DeclarationBlockItem::AtRule(
+                    declarations.push(DeclarationOrAtRule::AtRule(
                         self.parse_at_rule(Default::default())?,
                     ));
                 }
                 tok!("ident") => {
                     let state = self.input.state();
                     let span = self.input.cur_span()?;
-                    let prop = match self.parse().map(DeclarationBlockItem::Declaration) {
+                    let prop = match self.parse().map(DeclarationOrAtRule::Declaration) {
                         Ok(v) => v,
                         Err(err) => {
                             self.errors.push(err);
@@ -462,7 +462,7 @@ where
                                 tokens.extend(self.input.bump()?);
                             }
 
-                            DeclarationBlockItem::Invalid(Tokens {
+                            DeclarationOrAtRule::Invalid(Tokens {
                                 span: span!(self, span.lo),
                                 tokens,
                             })
@@ -495,7 +495,7 @@ where
                         tokens.extend(self.input.bump()?);
                     }
 
-                    declarations.push(DeclarationBlockItem::Invalid(Tokens {
+                    declarations.push(DeclarationOrAtRule::Invalid(Tokens {
                         span: span!(self, span.lo),
                         tokens,
                     }));

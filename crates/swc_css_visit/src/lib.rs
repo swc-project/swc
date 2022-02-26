@@ -8,6 +8,8 @@ use swc_visit::define;
 /// Visitable nodes.
 pub trait Node {}
 
+impl<T: ?Sized> Node for T {}
+
 define!({
     pub struct Tokens {
         pub span: Span,
@@ -27,7 +29,7 @@ define!({
 
     pub enum ComponentValue {
         Value(Value),
-        DeclarationBlockItem(DeclarationBlockItem),
+        DeclarationOrAtRule(DeclarationOrAtRule),
         Rule(Rule),
         StyleBlock(StyleBlock),
         KeyframeBlock(KeyframeBlock),
@@ -99,10 +101,10 @@ define!({
         Invalid(Tokens),
     }
 
-    pub enum DeclarationBlockItem {
-        Invalid(Tokens),
+    pub enum DeclarationOrAtRule {
         Declaration(Declaration),
         AtRule(AtRule),
+        Invalid(Tokens),
     }
 
     pub enum Value {
@@ -814,5 +816,3 @@ define!({
         pub block: SimpleBlock,
     }
 });
-
-impl<T: ?Sized> Node for T {}
