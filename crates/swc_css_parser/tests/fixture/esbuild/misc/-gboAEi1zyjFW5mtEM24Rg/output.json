@@ -116,13 +116,13 @@
                 },
                 "value": [
                   {
-                    "type": "Number",
+                    "type": "Integer",
                     "span": {
                       "start": 20,
                       "end": 23,
                       "ctxt": 0
                     },
-                    "value": 255.0,
+                    "value": 255,
                     "raw": "255"
                   },
                   {
@@ -135,13 +135,13 @@
                     "value": ","
                   },
                   {
-                    "type": "Number",
+                    "type": "Integer",
                     "span": {
                       "start": 25,
                       "end": 26,
                       "ctxt": 0
                     },
-                    "value": 0.0,
+                    "value": 0,
                     "raw": "0"
                   },
                   {
@@ -154,45 +154,45 @@
                     "value": ","
                   },
                   {
-                    "type": "Number",
+                    "type": "Integer",
                     "span": {
                       "start": 28,
                       "end": 30,
                       "ctxt": 0
                     },
-                    "value": 17.0,
+                    "value": 17,
                     "raw": "17"
                   }
                 ]
               },
               {
-                "type": "Number",
+                "type": "Integer",
                 "span": {
                   "start": 32,
                   "end": 33,
                   "ctxt": 0
                 },
-                "value": 0.0,
+                "value": 0,
                 "raw": "0"
               },
               {
-                "type": "Number",
+                "type": "Integer",
                 "span": {
                   "start": 34,
                   "end": 35,
                   "ctxt": 0
                 },
-                "value": 0.0,
+                "value": 0,
                 "raw": "0"
               },
               {
-                "type": "Number",
+                "type": "Integer",
                 "span": {
                   "start": 36,
                   "end": 37,
                   "ctxt": 0
                 },
-                "value": 1.0,
+                "value": 1,
                 "raw": "1"
               },
               {

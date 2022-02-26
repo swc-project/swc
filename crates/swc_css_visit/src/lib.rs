@@ -8,8 +8,6 @@ use swc_visit::define;
 /// Visitable nodes.
 pub trait Node {}
 
-impl<T: ?Sized> Node for T {}
-
 define!({
     pub struct Tokens {
         pub span: Span,
@@ -59,6 +57,12 @@ define!({
         pub raw: JsWord,
     }
 
+    pub struct Integer {
+        pub span: Span,
+        pub value: i64,
+        pub raw: JsWord,
+    }
+
     pub struct Number {
         pub span: Span,
         pub value: f64,
@@ -104,6 +108,7 @@ define!({
     pub enum Value {
         SimpleBlock(SimpleBlock),
         Dimension(Dimension),
+        Integer(Integer),
         Number(Number),
         Percentage(Percentage),
         Ratio(Ratio),
@@ -809,3 +814,5 @@ define!({
         pub block: SimpleBlock,
     }
 });
+
+impl<T: ?Sized> Node for T {}

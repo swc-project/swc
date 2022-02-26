@@ -115,7 +115,7 @@ error: Value
 2 |     grid-template-columns: repeat(4, minmax(min-content, 300px));
   |                                   ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/rome/grid/repeat/minmax/input.css:2:32
   |
 2 |     grid-template-columns: repeat(4, minmax(min-content, 300px));

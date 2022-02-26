@@ -815,7 +815,7 @@ error: Value
 15 |     z-index: 1 ""! important;
    |              ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/important/basic/input.css:15:14
    |
 15 |     z-index: 1 ""! important;

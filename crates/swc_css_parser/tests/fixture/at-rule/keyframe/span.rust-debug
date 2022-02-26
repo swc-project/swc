@@ -426,7 +426,7 @@ error: Value
 16 |     0% { top: 0; left: 0; }
    |               ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:15
    |
 16 |     0% { top: 0; left: 0; }
@@ -456,7 +456,7 @@ error: Value
 16 |     0% { top: 0; left: 0; }
    |                        ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:24
    |
 16 |     0% { top: 0; left: 0; }
@@ -1081,7 +1081,7 @@ error: Value
 33 |         opacity: 1;
    |                  ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:33:18
    |
 33 |         opacity: 1;

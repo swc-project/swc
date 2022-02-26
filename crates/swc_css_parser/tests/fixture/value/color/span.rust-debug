@@ -375,7 +375,7 @@ error: Value
 9 |     color: rgb(255, 165, 0);
   |                ^^^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/value/color/input.css:9:16
   |
 9 |     color: rgb(255, 165, 0);
@@ -399,7 +399,7 @@ error: Value
 9 |     color: rgb(255, 165, 0);
   |                     ^^^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/value/color/input.css:9:21
   |
 9 |     color: rgb(255, 165, 0);
@@ -423,7 +423,7 @@ error: Value
 9 |     color: rgb(255, 165, 0);
   |                          ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/value/color/input.css:9:26
   |
 9 |     color: rgb(255, 165, 0);
@@ -483,7 +483,7 @@ error: Value
 10 |     color: rgb(255,165,0);
    |                ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:10:16
    |
 10 |     color: rgb(255,165,0);
@@ -507,7 +507,7 @@ error: Value
 10 |     color: rgb(255,165,0);
    |                    ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:10:20
    |
 10 |     color: rgb(255,165,0);
@@ -531,7 +531,7 @@ error: Value
 10 |     color: rgb(255,165,0);
    |                        ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:10:24
    |
 10 |     color: rgb(255,165,0);
@@ -591,7 +591,7 @@ error: Value
 11 |     color: rGb(255,165,0);
    |                ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:11:16
    |
 11 |     color: rGb(255,165,0);
@@ -615,7 +615,7 @@ error: Value
 11 |     color: rGb(255,165,0);
    |                    ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:11:20
    |
 11 |     color: rGb(255,165,0);
@@ -639,7 +639,7 @@ error: Value
 11 |     color: rGb(255,165,0);
    |                        ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:11:24
    |
 11 |     color: rGb(255,165,0);
@@ -699,7 +699,7 @@ error: Value
 12 |     color: rgb(0 255 0);
    |                ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:12:16
    |
 12 |     color: rgb(0 255 0);
@@ -711,7 +711,7 @@ error: Value
 12 |     color: rgb(0 255 0);
    |                  ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:12:18
    |
 12 |     color: rgb(0 255 0);
@@ -723,7 +723,7 @@ error: Value
 12 |     color: rgb(0 255 0);
    |                      ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:12:22
    |
 12 |     color: rgb(0 255 0);
@@ -885,7 +885,7 @@ error: Value
 14 |     color: rgb(29 164 192 / 95%);
    |                ^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:14:16
    |
 14 |     color: rgb(29 164 192 / 95%);
@@ -897,7 +897,7 @@ error: Value
 14 |     color: rgb(29 164 192 / 95%);
    |                   ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:14:19
    |
 14 |     color: rgb(29 164 192 / 95%);
@@ -909,7 +909,7 @@ error: Value
 14 |     color: rgb(29 164 192 / 95%);
    |                       ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:14:23
    |
 14 |     color: rgb(29 164 192 / 95%);
@@ -999,7 +999,7 @@ error: Value
 15 |     color: rgb(123 255 255 / .5);
    |                ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:15:16
    |
 15 |     color: rgb(123 255 255 / .5);
@@ -1011,7 +1011,7 @@ error: Value
 15 |     color: rgb(123 255 255 / .5);
    |                    ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:15:20
    |
 15 |     color: rgb(123 255 255 / .5);
@@ -1023,7 +1023,7 @@ error: Value
 15 |     color: rgb(123 255 255 / .5);
    |                        ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:15:24
    |
 15 |     color: rgb(123 255 255 / .5);
@@ -1107,7 +1107,7 @@ error: Value
 16 |     color: rgb(123 255 255 / 50%);
    |                ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:16:16
    |
 16 |     color: rgb(123 255 255 / 50%);
@@ -1119,7 +1119,7 @@ error: Value
 16 |     color: rgb(123 255 255 / 50%);
    |                    ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:16:20
    |
 16 |     color: rgb(123 255 255 / 50%);
@@ -1131,7 +1131,7 @@ error: Value
 16 |     color: rgb(123 255 255 / 50%);
    |                        ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:16:24
    |
 16 |     color: rgb(123 255 255 / 50%);
@@ -1420,7 +1420,7 @@ error: Value
 21 |     color: rgba(255, 0, 0, 100%);
    |                 ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:21:17
    |
 21 |     color: rgba(255, 0, 0, 100%);
@@ -1444,7 +1444,7 @@ error: Value
 21 |     color: rgba(255, 0, 0, 100%);
    |                      ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:21:22
    |
 21 |     color: rgba(255, 0, 0, 100%);
@@ -1468,7 +1468,7 @@ error: Value
 21 |     color: rgba(255, 0, 0, 100%);
    |                         ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:21:25
    |
 21 |     color: rgba(255, 0, 0, 100%);
@@ -1558,7 +1558,7 @@ error: Value
 22 |     color: rgba(255, 255, 0, 1);
    |                 ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:22:17
    |
 22 |     color: rgba(255, 255, 0, 1);
@@ -1582,7 +1582,7 @@ error: Value
 22 |     color: rgba(255, 255, 0, 1);
    |                      ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:22:22
    |
 22 |     color: rgba(255, 255, 0, 1);
@@ -1606,7 +1606,7 @@ error: Value
 22 |     color: rgba(255, 255, 0, 1);
    |                           ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:22:27
    |
 22 |     color: rgba(255, 255, 0, 1);
@@ -1630,7 +1630,7 @@ error: Value
 22 |     color: rgba(255, 255, 0, 1);
    |                              ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:22:30
    |
 22 |     color: rgba(255, 255, 0, 1);
@@ -1690,7 +1690,7 @@ error: Value
 23 |     color: rgba(255, 255, 0, 0.8);
    |                 ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:23:17
    |
 23 |     color: rgba(255, 255, 0, 0.8);
@@ -1714,7 +1714,7 @@ error: Value
 23 |     color: rgba(255, 255, 0, 0.8);
    |                      ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:23:22
    |
 23 |     color: rgba(255, 255, 0, 0.8);
@@ -1738,7 +1738,7 @@ error: Value
 23 |     color: rgba(255, 255, 0, 0.8);
    |                           ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:23:27
    |
 23 |     color: rgba(255, 255, 0, 0.8);
@@ -1991,7 +1991,7 @@ error: Value
 28 |     color: HsL(39 100% 50%);
    |                ^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:28:16
    |
 28 |     color: HsL(39 100% 50%);
@@ -2225,7 +2225,7 @@ error: Value
 30 |     color: hsl(100, 100%, 50%);
    |                ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:30:16
    |
 30 |     color: hsl(100, 100%, 50%);
@@ -2345,7 +2345,7 @@ error: Value
 31 |     color: hsl(100 100% 50%);
    |                ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:31:16
    |
 31 |     color: hsl(100 100% 50%);
@@ -2441,7 +2441,7 @@ error: Value
 32 |     color: hsl(100, 100%, 50%, .8);
    |                ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:32:16
    |
 32 |     color: hsl(100, 100%, 50%, .8);
@@ -2585,7 +2585,7 @@ error: Value
 33 |     color: hsl(100 100% 50% / .8);
    |                ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:33:16
    |
 33 |     color: hsl(100 100% 50% / .8);
@@ -2769,7 +2769,7 @@ error: Value
 37 |     color: hsla(100, 100%, 50%, .8);
    |                 ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:37:17
    |
 37 |     color: hsla(100, 100%, 50%, .8);
@@ -2913,7 +2913,7 @@ error: Value
 38 |     color: hsla(100 100% 50% / .8);
    |                 ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:38:17
    |
 38 |     color: hsla(100 100% 50% / .8);
@@ -3106,7 +3106,7 @@ error: Value
 42 |     color: hwb(194 0% 0%);
    |                ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:42:16
    |
 42 |     color: hwb(194 0% 0%);
@@ -3202,7 +3202,7 @@ error: Value
 43 |     color: hwb(194 0% 0% / 50%);
    |                ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:43:16
    |
 43 |     color: hwb(194 0% 0% / 50%);
@@ -3328,7 +3328,7 @@ error: Value
 44 |     color: hwb(194 0% 50%);
    |                ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:44:16
    |
 44 |     color: hwb(194 0% 50%);
@@ -3424,7 +3424,7 @@ error: Value
 45 |     color: hwb(194 50% 0%);
    |                ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:45:16
    |
 45 |     color: hwb(194 50% 0%);
@@ -3520,7 +3520,7 @@ error: Value
 46 |     color: hwb(194 50% 50%);
    |                ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:46:16
    |
 46 |     color: hwb(194 50% 50%);
@@ -4140,7 +4140,7 @@ error: Value
 56 |     color: lch(52.2345% 72.2 56.2 / 1);
    |                                     ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:56:37
    |
 56 |     color: lch(52.2345% 72.2 56.2 / 1);
@@ -4230,7 +4230,7 @@ error: Value
 57 |     color: lch(29.2345% 44.2 27);
    |                              ^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:57:30
    |
 57 |     color: lch(29.2345% 44.2 27);
@@ -4536,7 +4536,7 @@ error: Value
 60 |     color: lch(29.2345% 44.2 27 / 100%);
    |                              ^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:60:30
    |
 60 |     color: lch(29.2345% 44.2 27 / 100%);
@@ -4656,7 +4656,7 @@ error: Value
 61 |     color: lch(29.2345% 44.2 27 / 50%);
    |                              ^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:61:30
    |
 61 |     color: lch(29.2345% 44.2 27 / 50%);
@@ -5015,7 +5015,7 @@ error: Value
 69 |     color: oklch(42.1% 0.192 328.6 / 1);
    |                                      ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:69:38
    |
 69 |     color: oklch(42.1% 0.192 328.6 / 1);
@@ -5250,7 +5250,7 @@ error: Value
 74 |     color: color(sRGB 0 1 0);
    |                       ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:74:23
    |
 74 |     color: color(sRGB 0 1 0);
@@ -5262,7 +5262,7 @@ error: Value
 74 |     color: color(sRGB 0 1 0);
    |                         ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:74:25
    |
 74 |     color: color(sRGB 0 1 0);
@@ -5274,7 +5274,7 @@ error: Value
 74 |     color: color(sRGB 0 1 0);
    |                           ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:74:27
    |
 74 |     color: color(sRGB 0 1 0);
@@ -5394,7 +5394,7 @@ error: Value
 75 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
    |                                                  ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/value/color/input.css:75:50
    |
 75 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
