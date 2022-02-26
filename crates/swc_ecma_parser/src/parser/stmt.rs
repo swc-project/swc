@@ -727,7 +727,7 @@ impl<'a, I: Tokens> Parser<I> {
                 break;
             }
 
-            decls.push(self.with_ctx(ctx).parse_var_declarator(for_loop, &kind)?);
+            decls.push(self.with_ctx(ctx).parse_var_declarator(for_loop, kind)?);
         }
 
         if !for_loop && !eat!(self, ';') {
@@ -751,7 +751,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_var_declarator(
         &mut self,
         for_loop: bool,
-        kind: &VarDeclKind,
+        kind: VarDeclKind,
     ) -> PResult<VarDeclarator> {
         let start = cur_pos!(self);
 
@@ -803,7 +803,7 @@ impl<'a, I: Tokens> Parser<I> {
                 // typescript allows `declare` vars not to have initializers.
                 if self.ctx().in_declare {
                     None
-                } else if *kind == VarDeclKind::Const && self.ctx().strict {
+                } else if kind == VarDeclKind::Const && self.ctx().strict {
                     self.emit_err(
                         span!(self, start),
                         SyntaxError::ConstDeclarationsRequireInitialization,
