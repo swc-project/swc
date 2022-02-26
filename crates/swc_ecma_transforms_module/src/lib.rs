@@ -1,5 +1,6 @@
 #![deny(clippy::all)]
 #![deny(unused)]
+#![allow(clippy::needless_lifetimes)]
 
 pub use self::{amd::amd, common_js::common_js, umd::umd};
 

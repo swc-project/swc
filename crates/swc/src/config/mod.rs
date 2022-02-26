@@ -42,7 +42,7 @@ use swc_ecma_minifier::option::{
 };
 #[allow(deprecated)]
 pub use swc_ecma_parser::JscTarget;
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_parser::{parse_file_as_expr, Syntax, TsConfig};
 use swc_ecma_transforms::{
     hygiene, modules,
     modules::{
@@ -1261,17 +1261,17 @@ impl GlobalPassOption {
 
         fn expr(cm: &SourceMap, handler: &Handler, src: String) -> Box<Expr> {
             let fm = cm.new_source_file(FileName::Anon, src);
-            let lexer = Lexer::new(
+
+            let mut errors = vec![];
+            let expr = parse_file_as_expr(
+                &fm,
                 Syntax::Es(Default::default()),
                 Default::default(),
-                StringInput::from(&*fm),
                 None,
+                &mut errors,
             );
 
-            let mut p = Parser::new_from(lexer);
-            let expr = p.parse_expr();
-
-            for e in p.take_errors() {
+            for e in errors {
                 e.into_diagnostic(handler).emit()
             }
 
@@ -1660,12 +1660,12 @@ impl Merge for HiddenTransformConfig {
     }
 }
 
-fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> SwcImportResolver {
+fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> Box<SwcImportResolver> {
     static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths), SwcImportResolver, ahash::RandomState>> =
         Lazy::new(Default::default);
 
     if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone())) {
-        return (*cached).clone();
+        return Box::new((*cached).clone());
     }
 
     let r = {
@@ -1682,5 +1682,5 @@ fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> SwcImportResolver 
 
     CACHE.insert((base_url, paths), r.clone());
 
-    r
+    Box::new(r)
 }

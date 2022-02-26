@@ -48,6 +48,7 @@ impl Default for Grammar {
 struct Ctx {
     grammar: Grammar,
 
+    in_supports_at_rule: bool,
     in_page_at_rule: bool,
 }
 
