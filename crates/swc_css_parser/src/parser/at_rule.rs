@@ -388,9 +388,13 @@ where
                 // <{-token>
                 // Consume a simple block and assign it to the at-rule’s block. Return the at-rule.
                 tok!("{") => {
-                    self.input.bump()?;
+                    let ctx = Ctx {
+                        grammar: Grammar::NoGrammar,
+                        ..self.ctx
+                    };
+                    let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
-                    at_rule.block = Some(self.parse_simple_block('}')?);
+                    at_rule.block = Some(block);
                     at_rule.span = span!(self, at_rule_span.lo);
 
                     return Ok(AtRule::Unknown(at_rule));
@@ -993,10 +997,14 @@ where
         match cur!(self) {
             tok!("function") => Ok(GeneralEnclosed::Function(self.parse()?)),
             tok!("(") => {
-                bump!(self);
+                let ctx = Ctx {
+                    grammar: Grammar::NoGrammar,
+                    ..self.ctx
+                };
+                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
                 // TODO validate on first ident
-                Ok(GeneralEnclosed::SimpleBlock(self.parse_simple_block(')')?))
+                Ok(GeneralEnclosed::SimpleBlock(block))
             }
             _ => {
                 let span = self.input.cur_span()?;

@@ -321,7 +321,9 @@ where
         };
 
         // TODO refactor me
-        self.input.skip_ws()?;
+        if self.ctx.grammar != Grammar::NoGrammar {
+            self.input.skip_ws()?;
+        }
 
         // Repeatedly consume the next input token and process it as follows:
         loop {
@@ -357,6 +359,13 @@ where
                 // Reconsume the current input token. Consume a component value and append it to the
                 // value of the block.
                 _ => match self.ctx.grammar {
+                    Grammar::NoGrammar => {
+                        let component_value = self.parse_component_value()?;
+
+                        simple_block
+                            .value
+                            .push(ComponentValue::Value(component_value));
+                    }
                     Grammar::StyleBlock => {
                         let style_blocks: Vec<StyleBlock> = self.parse()?;
                         let style_blocks: Vec<ComponentValue> = style_blocks

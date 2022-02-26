@@ -232,76 +232,16 @@ where
         Err(Error::new(span, ErrorKind::Expected("Declaration value")))
     }
 
-    pub fn parse_simple_block(&mut self, ending: char) -> PResult<SimpleBlock> {
-        let start_pos = self.input.last_pos()? - BytePos(1);
-        let mut simple_block = SimpleBlock {
-            span: Default::default(),
-            name: Default::default(),
-            value: vec![],
-        };
-
-        loop {
-            match cur!(self) {
-                tok!("}") if ending == '}' => {
-                    self.input.bump()?;
-
-                    let ending_pos = self.input.last_pos()?;
-
-                    simple_block.span =
-                        swc_common::Span::new(ending_pos, start_pos, Default::default());
-                    simple_block.name = '{';
-
-                    return Ok(simple_block);
-                }
-                tok!(")") if ending == ')' => {
-                    self.input.bump()?;
-
-                    let ending_pos = self.input.last_pos()?;
-
-                    simple_block.span =
-                        swc_common::Span::new(ending_pos, start_pos, Default::default());
-                    simple_block.name = '(';
-
-                    return Ok(simple_block);
-                }
-                tok!("]") if ending == ']' => {
-                    self.input.bump()?;
-
-                    let ending_pos = self.input.last_pos()?;
-
-                    simple_block.span =
-                        swc_common::Span::new(ending_pos, start_pos, Default::default());
-                    simple_block.name = '[';
-
-                    return Ok(simple_block);
-                }
-                _ => {
-                    let component_value = self.parse_component_value()?;
-
-                    simple_block
-                        .value
-                        .push(ComponentValue::Value(component_value));
-                }
-            }
-        }
-    }
-
     pub fn parse_component_value(&mut self) -> PResult<Value> {
         match cur!(self) {
-            tok!("[") => {
-                self.input.bump()?;
+            tok!("[") | tok!("(") | tok!("{") => {
+                let ctx = Ctx {
+                    grammar: Grammar::NoGrammar,
+                    ..self.ctx
+                };
+                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
-                Ok(Value::SimpleBlock(self.parse_simple_block(']')?))
-            }
-            tok!("(") => {
-                self.input.bump()?;
-
-                Ok(Value::SimpleBlock(self.parse_simple_block(')')?))
-            }
-            tok!("{") => {
-                self.input.bump()?;
-
-                Ok(Value::SimpleBlock(self.parse_simple_block('}')?))
+                Ok(Value::SimpleBlock(block))
             }
             tok!("function") => Ok(Value::Function(self.parse()?)),
             _ => {

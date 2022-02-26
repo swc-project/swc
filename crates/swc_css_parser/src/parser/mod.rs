@@ -29,8 +29,9 @@ pub struct ParserConfig {
     pub allow_wrong_line_comments: bool,
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Grammar {
+    NoGrammar,
     StyleBlock,
     DeclarationList,
     RuleList,
