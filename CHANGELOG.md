@@ -20,6 +20,9 @@
 
 
 
+- **(cli)** Add tracing options for `compile` command (#3746) ([41f92d2](https://github.com/swc-project/swc/commit/41f92d228b778193e12c51466630a42cb8953599))
+
+
 - **(css/ast)** Support more selectors (#3729) ([f5c5e77](https://github.com/swc-project/swc/commit/f5c5e7761297e4413a1615e2537ade885ec12280))
 
 
