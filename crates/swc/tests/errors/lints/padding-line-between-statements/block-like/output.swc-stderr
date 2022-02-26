@@ -1,0 +1,18 @@
+error: Expected blank line before this statement
+ 
+  |
+2 | const a = 10;
+  | ^^^^^^^^^^^^^
+
+error: Expected blank line before this statement
+ 
+  |
+5 | var b = 10;
+  | ^^^^^^^^^^^
+
+error: Expected blank line before this statement
+ 
+  |
+8 | let x = 10;
+  | ^^^^^^^^^^^
+
