@@ -30,7 +30,7 @@ use swc_ecma_loader::{
 use swc_ecma_minifier::option::{
     CompressOptions, ExtraOptions, MangleOptions, MinifyOptions, TopLevelOptions,
 };
-use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
+use swc_ecma_parser::{parse_file_as_module, EsConfig, Syntax};
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_visit::VisitMutWith;
 
@@ -228,17 +228,16 @@ impl Load for Loader {
             _ => unreachable!(),
         };
 
-        let lexer = Lexer::new(
+        let module = parse_file_as_module(
+            &fm,
             Syntax::Es(EsConfig {
                 ..Default::default()
             }),
             EsVersion::Es2020,
-            StringInput::from(&*fm),
             None,
-        );
-
-        let mut parser = Parser::new_from(lexer);
-        let module = parser.parse_module().unwrap_or_else(|err| {
+            &mut vec![],
+        )
+        .unwrap_or_else(|err| {
             let handler =
                 Handler::with_tty_emitter(ColorConfig::Always, false, false, Some(self.cm.clone()));
             err.into_diagnostic(&handler).emit();
