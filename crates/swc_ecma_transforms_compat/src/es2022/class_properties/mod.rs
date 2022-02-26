@@ -581,12 +581,7 @@ impl ClassProperties {
                                 type_args: Default::default(),
                             }))),
                         });
-                        constructor_inits.push(init);
-                    } else if prop.is_static {
-                        extra_inits.push(init);
-                    } else {
-                        constructor_inits.push(init);
-
+                    } else if !prop.is_static {
                         vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             definite: false,
@@ -598,6 +593,11 @@ impl ClassProperties {
                                 type_args: Default::default(),
                             }))),
                         });
+                    };
+                    if prop.is_static {
+                        extra_inits.push(init);
+                    } else {
+                        constructor_inits.push(init);
                     };
                 }
 
@@ -657,21 +657,26 @@ impl ClassProperties {
                         }
                         (MethodKind::Getter | MethodKind::Setter, true) => {
                             let is_getter = method.kind == MethodKind::Getter;
-                            extra_inits.push(MemberInit::PrivAccessor(PrivAccessor {
-                                span: prop_span,
-                                name: weak_coll_var.clone(),
-                                getter: if is_getter {
-                                    Some(fn_name.clone())
-                                } else {
-                                    None
-                                },
-                                setter: if !is_getter {
-                                    Some(fn_name.clone())
-                                } else {
-                                    None
-                                },
-                            }));
-                            None
+                            let inserted =
+                                extra_inits.push(MemberInit::PrivAccessor(PrivAccessor {
+                                    span: prop_span,
+                                    name: weak_coll_var.clone(),
+                                    getter: if is_getter {
+                                        Some(fn_name.clone())
+                                    } else {
+                                        None
+                                    },
+                                    setter: if !is_getter {
+                                        Some(fn_name.clone())
+                                    } else {
+                                        None
+                                    },
+                                }));
+                            if inserted {
+                                Some(Ident::dummy())
+                            } else {
+                                None
+                            }
                         }
 
                         (MethodKind::Method, false) => {

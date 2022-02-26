@@ -6215,7 +6215,7 @@ test!(
         private_as_properties: true,
         ..Default::default()
     }),
-    private_as_properties_staic,
+    private_as_properties_static,
     r#"
 class Cl {
   static #foo() {};
@@ -6224,19 +6224,17 @@ class Cl {
 }
 "#,
     r#"
-var _foo = _classPrivateFieldLooseKey("_foo"), _f = _classPrivateFieldLooseKey("_f");
-class Cl {
-    constructor(){
-        Object.defineProperty(this, _f, {
-            writable: true,
-            value: 123
-        });
-    }
-}
+var _foo = _classPrivateFieldLooseKey("_foo"), _f = _classPrivateFieldLooseKey("_f"), _bar = _classPrivateFieldLooseKey("_bar");
+class Cl { }
+
 Object.defineProperty(Cl, _foo, {
     value: foo
 });
-Object.defineProperty(_bar, {
+Object.defineProperty(Cl, _f, {
+    writable: true,
+    value: 123
+});
+Object.defineProperty(Cl, _bar, {
     get: get_bar,
     set: void 0
 });
@@ -6288,42 +6286,6 @@ class Cl {
 function get_privateFieldValue() {
   return _classPrivateFieldLooseBase(this, _privateField)[_privateField];
 }
-"#
-);
-
-test!(
-    syntax(),
-    |_| class_properties(class_properties::Config {
-        private_as_properties: true,
-        ..Default::default()
-    }),
-    private_as_properties_static,
-    r#"
-class Cl {
-static #foo() {};
-static #f = 123;
-static get #bar() {};
-}
-"#,
-    r#"
-var _foo = _classPrivateFieldLooseKey("_foo"), _f = _classPrivateFieldLooseKey("_f");
-class Cl {
-  constructor(){
-      Object.defineProperty(this, _f, {
-          writable: true,
-          value: 123
-      });
-  }
-}
-Object.defineProperty(Cl, _foo, {
-  value: foo
-});
-Object.defineProperty(_bar, {
-  get: get_bar,
-  set: void 0
-});
-function foo() {}
-function get_bar() {}
 "#
 );
 

@@ -213,7 +213,11 @@ impl MemberInitRecord {
                             expr: Box::new(Expr::Call(CallExpr {
                                 span,
                                 callee: obj_def_prop(),
-                                args: vec![name.as_arg(), get_value_desc(value).as_arg()],
+                                args: vec![
+                                    class_ident.clone().as_arg(),
+                                    name.as_arg(),
+                                    get_value_desc(value).as_arg(),
+                                ],
                                 type_args: None,
                             })),
                         })
@@ -244,6 +248,7 @@ impl MemberInitRecord {
                                 span,
                                 callee: obj_def_prop(),
                                 args: vec![
+                                    class_ident.clone().as_arg(),
                                     name.as_arg(),
                                     get_accessor_desc(getter, setter).as_arg(),
                                 ],
