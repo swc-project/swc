@@ -231,9 +231,9 @@ impl<'a> Visit for DependencyCollector<'a> {
     fn visit_ts_import_equals_decl(&mut self, node: &ast::TsImportEqualsDecl) {
         use ast::TsModuleRef;
 
-        if let TsModuleRef::TsExternalModuleRef(module_ref) = &node.module_ref {
+        if let TsModuleRef::TsExternalModuleRef(module) = &node.module_ref {
             let leading_comments = self.get_leading_comments(node.span);
-            let expr = &module_ref.expr;
+            let expr = &module.expr;
             let specifier = expr.value.clone();
 
             let kind = if node.is_type_only {
