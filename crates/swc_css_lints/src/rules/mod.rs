@@ -3,12 +3,13 @@ use crate::{
     rule::Rule,
     rules::{
         at_rule_no_unknown::at_rule_no_unknown, block_no_empty::block_no_empty,
-        no_empty_source::no_empty_source,
+        declaration_no_important::declaration_no_important, no_empty_source::no_empty_source,
     },
 };
 
 pub mod at_rule_no_unknown;
 pub mod block_no_empty;
+pub mod declaration_no_important;
 pub mod no_empty_source;
 
 pub struct LintParams<'a> {
@@ -27,6 +28,11 @@ pub fn get_rules(LintParams { lint_config }: &LintParams) -> Vec<Box<dyn Rule>> 
     }
     if rules_config.no_empty_source.is_enabled() {
         rules.push(no_empty_source(&rules_config.no_empty_source));
+    }
+    if rules_config.declaration_no_important.is_enabled() {
+        rules.push(declaration_no_important(
+            &rules_config.declaration_no_important,
+        ));
     }
 
     rules

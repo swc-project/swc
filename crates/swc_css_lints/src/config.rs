@@ -78,6 +78,9 @@ pub struct RulesConfig {
 
     #[serde(default, alias = "noEmptySource")]
     pub no_empty_source: RuleConfig<()>,
+
+    #[serde(default, alias = "declarationNoImportant")]
+    pub declaration_no_important: RuleConfig<()>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
