@@ -180,7 +180,13 @@ where
 
             tok!("dimension") => return Ok(Value::Dimension(self.parse()?)),
 
-            tok!("number") => return Ok(Value::Number(self.parse()?)),
+            Token::Number { type_flag, .. } => {
+                if *type_flag == NumberType::Integer {
+                    return Ok(Value::Integer(self.parse()?));
+                }
+
+                return Ok(Value::Number(self.parse()?));
+            }
 
             Token::Ident { value, .. } => {
                 if value.starts_with("--") {
@@ -490,6 +496,43 @@ where
             }
             _ => {
                 unreachable!();
+            }
+        }
+    }
+}
+
+impl<I> Parse<Integer> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Integer> {
+        let span = self.input.cur_span()?;
+
+        if !is!(self, Number) {
+            return Err(Error::new(span, ErrorKind::ExpectedNumber));
+        }
+
+        let value = bump!(self);
+
+        match value {
+            Token::Number {
+                value,
+                raw,
+                type_flag,
+                ..
+            } => {
+                if type_flag == NumberType::Number {
+                    return Err(Error::new(span, ErrorKind::Expected("integer type")));
+                }
+
+                Ok(Integer {
+                    span,
+                    value: value.round() as i64,
+                    raw,
+                })
+            }
+            _ => {
+                unreachable!()
             }
         }
     }

@@ -2714,13 +2714,13 @@
             },
             "value": [
               {
-                "type": "Number",
+                "type": "Integer",
                 "span": {
                   "start": 769,
                   "end": 770,
                   "ctxt": 0
                 },
-                "value": 0.0,
+                "value": 0,
                 "raw": "0"
               }
             ],
@@ -2863,13 +2863,13 @@
                       },
                       "value": [
                         {
-                          "type": "Number",
+                          "type": "Integer",
                           "span": {
                             "start": 818,
                             "end": 819,
                             "ctxt": 0
                           },
-                          "value": 0.0,
+                          "value": 0,
                           "raw": "0"
                         },
                         {

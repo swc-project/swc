@@ -784,6 +784,7 @@ where
             Value::Function(n) => emit!(self, n),
             Value::SimpleBlock(n) => emit!(self, n),
             Value::Dimension(n) => emit!(self, n),
+            Value::Integer(n) => emit!(self, n),
             Value::Number(n) => emit!(self, n),
             Value::Percentage(n) => emit!(self, n),
             Value::Ratio(n) => emit!(self, n),
@@ -1117,6 +1118,15 @@ where
     fn emit_unknown_dimension(&mut self, n: &UnknownDimension) -> Result {
         emit!(self, n.value);
         emit!(self, n.unit);
+    }
+
+    #[emitter]
+    fn emit_integer(&mut self, n: &Integer) -> Result {
+        if self.config.minify {
+            self.wr.write_raw(Some(n.span), &n.value.to_string())?;
+        } else {
+            self.wr.write_raw(Some(n.span), &n.raw)?;
+        }
     }
 
     #[emitter]

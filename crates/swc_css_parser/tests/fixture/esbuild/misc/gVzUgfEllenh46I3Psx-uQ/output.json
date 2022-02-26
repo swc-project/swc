@@ -98,23 +98,23 @@
             },
             "value": [
               {
-                "type": "Number",
+                "type": "Integer",
                 "span": {
                   "start": 12,
                   "end": 13,
                   "ctxt": 0
                 },
-                "value": 0.0,
+                "value": 0,
                 "raw": "0"
               },
               {
-                "type": "Number",
+                "type": "Integer",
                 "span": {
                   "start": 14,
                   "end": 15,
                   "ctxt": 0
                 },
-                "value": 1.0,
+                "value": 1,
                 "raw": "1"
               },
               {

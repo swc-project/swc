@@ -5,6 +5,9 @@
 
 
 
+- **(css)** Fix processing of integers (#3752) ([f258ee4](https://github.com/swc-project/swc/commit/f258ee4729ccd007b43b1a08d77359d99f53ca87))
+
+
 - **(es/codegen)** Fix escaping of unicodes in es5 (#3636) ([dba90ea](https://github.com/swc-project/swc/commit/dba90eae875bbaec9911c6dd72d482b75de77982))
 
 

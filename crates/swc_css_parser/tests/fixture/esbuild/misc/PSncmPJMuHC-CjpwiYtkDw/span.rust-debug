@@ -94,7 +94,7 @@ error: Value
 1 | a { border-top-left-radius: 0 0 }
   |                             ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/PSncmPJMuHC-CjpwiYtkDw/input.css:1:29
   |
 1 | a { border-top-left-radius: 0 0 }
@@ -106,7 +106,7 @@ error: Value
 1 | a { border-top-left-radius: 0 0 }
   |                               ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/PSncmPJMuHC-CjpwiYtkDw/input.css:1:31
   |
 1 | a { border-top-left-radius: 0 0 }

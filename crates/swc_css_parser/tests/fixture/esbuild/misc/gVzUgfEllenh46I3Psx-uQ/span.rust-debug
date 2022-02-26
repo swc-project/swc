@@ -94,7 +94,7 @@ error: Value
 1 | a { margin: 0 1 0px 1px }
   |             ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:13
   |
 1 | a { margin: 0 1 0px 1px }
@@ -106,7 +106,7 @@ error: Value
 1 | a { margin: 0 1 0px 1px }
   |               ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:15
   |
 1 | a { margin: 0 1 0px 1px }
