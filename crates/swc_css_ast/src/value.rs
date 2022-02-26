@@ -2,7 +2,7 @@ use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
-use crate::{SimpleBlock, TokenAndSpan};
+use crate::{ComplexSelector, SimpleBlock, TokenAndSpan};
 
 #[ast_node]
 pub enum Value {
@@ -14,6 +14,9 @@ pub enum Value {
 
     #[tag("Number")]
     Number(Number),
+
+    #[tag("Integer")]
+    Integer(Integer),
 
     #[tag("Percentage")]
     Percentage(Percentage),
@@ -47,6 +50,9 @@ pub enum Value {
 
     #[tag("Urange")]
     Urange(Urange),
+
+    #[tag("ComplexSelector")]
+    ComplexSelector(ComplexSelector),
 
     #[tag("PreservedToken")]
     PreservedToken(TokenAndSpan),
@@ -201,6 +207,13 @@ pub struct UnknownDimension {
 pub struct Percentage {
     pub span: Span,
     pub value: Number,
+}
+
+#[ast_node("Integer")]
+pub struct Integer {
+    pub span: Span,
+    pub value: i64,
+    pub raw: JsWord,
 }
 
 #[ast_node("Number")]

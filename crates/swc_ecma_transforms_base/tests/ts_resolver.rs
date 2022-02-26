@@ -1,8 +1,10 @@
+#![deny(warnings)]
+
 use std::path::PathBuf;
 
-use swc_common::{input::SourceFileInput, Mark, SyntaxContext};
+use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, Parser, Syntax, TsConfig};
+use swc_ecma_parser::{parse_file_as_module, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::ts_resolver;
 use swc_ecma_visit::{FoldWith, Visit, VisitWith};
 use testing::fixture;
@@ -15,7 +17,8 @@ fn no_empty(input: PathBuf) {
     testing::run_test2(false, |cm, _handler| {
         let fm = cm.load_file(&input).expect("failed to load file");
 
-        let lexer = Lexer::new(
+        let module = match parse_file_as_module(
+            &fm,
             Syntax::Typescript(TsConfig {
                 tsx: input.ends_with("tsx"),
                 decorators: true,
@@ -23,12 +26,9 @@ fn no_empty(input: PathBuf) {
                 ..Default::default()
             }),
             EsVersion::latest(),
-            SourceFileInput::from(&*fm),
             None,
-        );
-
-        let mut parser = Parser::new_from(lexer);
-        let module = match parser.parse_module() {
+            &mut vec![],
+        ) {
             Ok(v) => v,
             // We are not testing parser
             Err(..) => return Ok(()),

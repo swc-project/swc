@@ -134,7 +134,6 @@ use swc_common::{
     chain,
     comments::{Comment, Comments},
     errors::Handler,
-    input::StringInput,
     source_map::SourceMapGenConfig,
     sync::Lrc,
     BytePos, FileName, Globals, Mark, SourceFile, SourceMap, Spanned, GLOBALS,
@@ -145,7 +144,9 @@ use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
 use swc_ecma_minifier::option::{MinifyOptions, TopLevelOptions};
-use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax};
+use swc_ecma_parser::{
+    parse_file_as_module, parse_file_as_program, parse_file_as_script, EsConfig, Syntax,
+};
 use swc_ecma_transforms::{
     fixer,
     helpers::{self, Helpers},
@@ -426,26 +427,48 @@ impl Compiler {
         parse_comments: bool,
     ) -> Result<Program, Error> {
         self.run(|| {
-            let lexer = Lexer::new(
-                syntax,
-                target,
-                StringInput::from(&*fm),
-                if parse_comments {
-                    Some(&self.comments)
-                } else {
-                    None
-                },
-            );
-            let mut parser = Parser::new_from(lexer);
             let mut error = false;
 
+            let mut errors = vec![];
             let program_result = match is_module {
-                IsModule::Bool(true) => parser.parse_module().map(Program::Module),
-                IsModule::Bool(false) => parser.parse_script().map(Program::Script),
-                IsModule::Unknown => parser.parse_program(),
+                IsModule::Bool(true) => parse_file_as_module(
+                    &fm,
+                    syntax,
+                    target,
+                    if parse_comments {
+                        Some(&self.comments)
+                    } else {
+                        None
+                    },
+                    &mut errors,
+                )
+                .map(Program::Module),
+                IsModule::Bool(false) => parse_file_as_script(
+                    &fm,
+                    syntax,
+                    target,
+                    if parse_comments {
+                        Some(&self.comments)
+                    } else {
+                        None
+                    },
+                    &mut errors,
+                )
+                .map(Program::Script),
+                IsModule::Unknown => parse_file_as_program(
+                    &fm,
+                    syntax,
+                    target,
+                    if parse_comments {
+                        Some(&self.comments)
+                    } else {
+                        None
+                    },
+                    &mut errors,
+                ),
             };
 
-            for e in parser.take_errors() {
+            for e in errors {
                 e.into_diagnostic(handler).emit();
                 error = true;
             }
@@ -684,6 +707,7 @@ impl Compiler {
         }
     }
 
+    #[tracing::instrument(level = "trace", skip_all)]
     pub fn read_config(&self, opts: &Options, name: &FileName) -> Result<Option<Config>, Error> {
         static CUR_DIR: Lazy<PathBuf> = Lazy::new(|| {
             if cfg!(target_arch = "wasm32") {
@@ -789,6 +813,7 @@ impl Compiler {
     /// This method handles merging of config.
     ///
     /// This method does **not** parse module.
+    #[tracing::instrument(level = "trace", skip_all)]
     pub fn parse_js_as_input<'a, P>(
         &'a self,
         fm: Lrc<SourceFile>,
@@ -836,6 +861,7 @@ impl Compiler {
         })
     }
 
+    #[tracing::instrument(level = "trace", skip_all)]
     pub fn transform(
         &self,
         handler: &Handler,
@@ -863,6 +889,7 @@ impl Compiler {
     ///
     /// This means, you can use `noop_visit_type`, `noop_fold_type` and
     /// `noop_visit_mut_type` in your visitor to reduce the binary size.
+    #[tracing::instrument(level = "trace", skip_all)]
     pub fn process_js_with_custom_pass<P1, P2>(
         &self,
         fm: Arc<SourceFile>,
@@ -923,6 +950,7 @@ impl Compiler {
         .context("failed to process js file")
     }
 
+    #[tracing::instrument(level = "trace", skip(self, handler, opts))]
     pub fn process_js_file(
         &self,
         fm: Arc<SourceFile>,
@@ -932,6 +960,7 @@ impl Compiler {
         self.process_js_with_custom_pass(fm, None, handler, opts, |_| noop(), |_| noop())
     }
 
+    #[tracing::instrument(level = "trace", skip_all)]
     pub fn minify(
         &self,
         fm: Arc<SourceFile>,
@@ -1053,6 +1082,7 @@ impl Compiler {
     /// You can use custom pass with this method.
     ///
     /// There exists a [PassBuilder] to help building custom passes.
+    #[tracing::instrument(level = "trace", skip_all)]
     pub fn process_js(
         &self,
         handler: &Handler,
@@ -1065,6 +1095,7 @@ impl Compiler {
         self.process_js_with_custom_pass(fm, Some(program), handler, opts, |_| noop(), |_| noop())
     }
 
+    #[tracing::instrument(level = "trace", skip_all)]
     fn process_js_inner(
         &self,
         handler: &Handler,
@@ -1107,6 +1138,7 @@ impl Compiler {
     }
 }
 
+#[tracing::instrument(level = "trace", skip_all)]
 fn load_swcrc(path: &Path) -> Result<Rc, Error> {
     fn convert_json_err(e: serde_json::Error) -> Error {
         let line = e.line();

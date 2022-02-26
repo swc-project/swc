@@ -534,18 +534,30 @@ where
                 punct!(self, ")");
             }
             SupportsInParens::Feature(n) => emit!(self, n),
+            SupportsInParens::GeneralEnclosed(n) => emit!(self, n),
         }
     }
 
     #[emitter]
     fn emit_supports_feature(&mut self, n: &SupportsFeature) -> Result {
-        punct!(self, "(");
-
         match n {
-            SupportsFeature::Declaration(n) => emit!(self, n),
-        }
+            SupportsFeature::Declaration(n) => {
+                punct!(self, "(");
 
-        punct!(self, ")");
+                emit!(self, n);
+
+                punct!(self, ")");
+            }
+            SupportsFeature::Function(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_general_enclosed(&mut self, n: &GeneralEnclosed) -> Result {
+        match n {
+            GeneralEnclosed::Function(n) => emit!(self, n),
+            GeneralEnclosed::SimpleBlock(n) => emit!(self, n),
+        }
     }
 
     #[emitter]
@@ -772,6 +784,7 @@ where
             Value::Function(n) => emit!(self, n),
             Value::SimpleBlock(n) => emit!(self, n),
             Value::Dimension(n) => emit!(self, n),
+            Value::Integer(n) => emit!(self, n),
             Value::Number(n) => emit!(self, n),
             Value::Percentage(n) => emit!(self, n),
             Value::Ratio(n) => emit!(self, n),
@@ -783,6 +796,7 @@ where
             Value::Url(n) => emit!(self, n),
             Value::Delimiter(n) => emit!(self, n),
             Value::Urange(n) => emit!(self, n),
+            Value::ComplexSelector(n) => emit!(self, n),
             Value::PreservedToken(n) => emit!(self, n),
         }
     }
@@ -1104,6 +1118,15 @@ where
     fn emit_unknown_dimension(&mut self, n: &UnknownDimension) -> Result {
         emit!(self, n.value);
         emit!(self, n.unit);
+    }
+
+    #[emitter]
+    fn emit_integer(&mut self, n: &Integer) -> Result {
+        if self.config.minify {
+            self.wr.write_raw(Some(n.span), &n.value.to_string())?;
+        } else {
+            self.wr.write_raw(Some(n.span), &n.raw)?;
+        }
     }
 
     #[emitter]

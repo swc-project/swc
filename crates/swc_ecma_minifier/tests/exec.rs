@@ -8,8 +8,7 @@ use ansi_term::Color;
 use anyhow::{bail, Context, Error};
 use serde::Deserialize;
 use swc_common::{
-    comments::SingleThreadedComments, errors::Handler, input::SourceFileInput, sync::Lrc, FileName,
-    Mark, SourceMap,
+    comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, Mark, SourceMap,
 };
 use swc_ecma_ast::Module;
 use swc_ecma_codegen::{
@@ -23,7 +22,7 @@ use swc_ecma_minifier::{
         MinifyOptions,
     },
 };
-use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax};
+use swc_ecma_parser::{parse_file_as_module, EsConfig, Syntax};
 use swc_ecma_transforms::{fixer, hygiene, resolver_with_mark};
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 use testing::DebugUsingDisplay;
@@ -112,23 +111,20 @@ fn run(
 
     let top_level_mark = Mark::fresh(Mark::root());
 
-    let lexer = Lexer::new(
+    let program = parse_file_as_module(
+        &fm,
         Syntax::Es(EsConfig {
             jsx: true,
             ..Default::default()
         }),
         Default::default(),
-        SourceFileInput::from(&*fm),
         Some(&comments),
-    );
-
-    let mut parser = Parser::new_from(lexer);
-    let program = parser
-        .parse_module()
-        .map_err(|err| {
-            err.into_diagnostic(handler).emit();
-        })
-        .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)));
+        &mut vec![],
+    )
+    .map_err(|err| {
+        err.into_diagnostic(handler).emit();
+    })
+    .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)));
 
     // Ignore parser errors.
     //

@@ -1132,8 +1132,8 @@ impl SourceMap {
             let pos = *pos;
             let lc = *lc;
 
-            // TODO: Use correct algorithm
-            if pos >= BytePos(4294967295) {
+            if pos == BytePos(u32::MAX) {
+                builder.add_raw(lc.line, lc.col, 0, 0, None, None);
                 continue;
             }
 

@@ -5,6 +5,9 @@
 
 
 
+- **(css)** Fix processing of integers (#3752) ([f258ee4](https://github.com/swc-project/swc/commit/f258ee4729ccd007b43b1a08d77359d99f53ca87))
+
+
 - **(es/codegen)** Fix escaping of unicodes in es5 (#3636) ([dba90ea](https://github.com/swc-project/swc/commit/dba90eae875bbaec9911c6dd72d482b75de77982))
 
 
@@ -20,10 +23,22 @@
 
 
 
+- **(cli)** Add tracing options for `compile` command (#3746) ([41f92d2](https://github.com/swc-project/swc/commit/41f92d228b778193e12c51466630a42cb8953599))
+
+
 - **(css/ast)** Support more selectors (#3729) ([f5c5e77](https://github.com/swc-project/swc/commit/f5c5e7761297e4413a1615e2537ade885ec12280))
 
 
+- **(css/ast)** Allow more syntax for `@supports` at-rule (#3740) ([9b92eba](https://github.com/swc-project/swc/commit/9b92eba63686fee2176715fad8d072d6d6d34fe9))
+
+
 - **(css/minifier)** Compress `display` (#3706) ([8512719](https://github.com/swc-project/swc/commit/8512719e126d4041133a78e106bce6c7eca30154))
+
+
+- **(es/codegen)** Add sourcemap entry for injected semicolons (#3750) ([0fd4fd2](https://github.com/swc-project/swc/commit/0fd4fd242287fde0e6a744dabf7c09430fb23d21))
+
+
+- **(es/parser)** Provide more api for reducing binary size (#3747) ([47ccff8](https://github.com/swc-project/swc/commit/47ccff8a7ca0054fcd761ea5878a92165f7e1c6b))
 
 
 - **(macros)** Add `#[swc_trace]` (#3738) ([b4830b6](https://github.com/swc-project/swc/commit/b4830b61dc7be716fd4de3703537517e6adefdba))
@@ -31,14 +46,26 @@
 
 - **(node-swc)** Add experimental trace support in `@swc/core` (#3731) ([a454996](https://github.com/swc-project/swc/commit/a454996314f31ed9d8672e10588ef94815b16e98))
 
+
+- **(plugin)** Support tracing plugin execution (#3744) ([5c29f15](https://github.com/swc-project/swc/commit/5c29f156404002d6946fbc7a71d76a6c97d7b82a))
+
+
+- **(visit)** Allow using `?Sized` as visitor (#3745) ([b0b5d5d](https://github.com/swc-project/swc/commit/b0b5d5d0c2779e48d815fbbc65c01d5344590763))
+
 ### Performance
 
+
+
+- **(es/modules)** Reduce usage of generics (#3743) ([1094018](https://github.com/swc-project/swc/commit/1094018153bc7d0373d9b7b533193191f416406d))
 
 
 - **(es/parser)** Reduce usage of generics to reduce binary size (#3726) ([e21579d](https://github.com/swc-project/swc/commit/e21579d84ec287632393480e86032cc228bef0ce))
 
 ### Refactor
 
+
+
+- **(es)** Make compilation faster (#3749) ([3d94465](https://github.com/swc-project/swc/commit/3d944656bfa47532a79925f5b7392e2aec1a8a30))
 
 
 - **(es/transforms)** Use recommended ast apis (#3735) ([fd22379](https://github.com/swc-project/swc/commit/fd223793e86f70400a3a69d7f7c8a4775b8abaad))

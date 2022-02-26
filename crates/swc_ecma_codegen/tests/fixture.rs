@@ -1,12 +1,11 @@
 use std::path::{Path, PathBuf};
 
-use swc_common::input::SourceFileInput;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::{
     text_writer::{JsWriter, WriteJs},
     Emitter,
 };
-use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
+use swc_ecma_parser::{parse_file_as_module, Syntax};
 use testing::{run_test2, NormalizedOutput};
 
 fn run(input: &Path, minify: bool) {
@@ -26,16 +25,14 @@ fn run(input: &Path, minify: bool) {
     run_test2(false, |cm, _| {
         let fm = cm.load_file(input).unwrap();
 
-        let lexer = Lexer::new(
+        let m = parse_file_as_module(
+            &fm,
             Syntax::Typescript(Default::default()),
             EsVersion::latest(),
-            SourceFileInput::from(&*fm),
             None,
-        );
-        let mut parser = Parser::new_from(lexer);
-        let m = parser
-            .parse_module()
-            .expect("failed to parse input as a module");
+            &mut vec![],
+        )
+        .expect("failed to parse input as a module");
 
         let mut buf = vec![];
 

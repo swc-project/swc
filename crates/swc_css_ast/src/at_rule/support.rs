@@ -1,6 +1,6 @@
 use swc_common::{ast_node, Span};
 
-use crate::{Declaration, SimpleBlock};
+use crate::{Declaration, Function, SimpleBlock};
 
 #[ast_node("SupportsRule")]
 pub struct SupportsRule {
@@ -55,11 +55,23 @@ pub enum SupportsInParens {
 
     #[tag("SupportsFeature")]
     Feature(SupportsFeature),
-    // TODO <general-enclosed>
+
+    #[tag("GeneralEnclosed")]
+    GeneralEnclosed(GeneralEnclosed),
 }
 
 #[ast_node]
 pub enum SupportsFeature {
     #[tag("Declaration")]
     Declaration(Declaration),
+    #[tag("Function")]
+    Function(Function),
+}
+
+#[ast_node]
+pub enum GeneralEnclosed {
+    #[tag("Function")]
+    Function(Function),
+    #[tag("SimpleBlock")]
+    SimpleBlock(SimpleBlock),
 }

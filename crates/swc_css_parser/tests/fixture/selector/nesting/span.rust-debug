@@ -2478,7 +2478,7 @@ error: Value
 55 |     margin: 0;
    |             ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/selector/nesting/input.css:55:13
    |
 55 |     margin: 0;
@@ -2635,7 +2635,7 @@ error: Value
 58 |         background: hsl(0 0% 0% / 50%);
    |                         ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/selector/nesting/input.css:58:25
    |
 58 |         background: hsl(0 0% 0% / 50%);

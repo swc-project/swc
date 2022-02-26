@@ -1,14 +1,16 @@
+#![deny(warnings)]
+
 extern crate swc_node_base;
 
 use std::{env::args, fs, path::Path};
 
-use swc_common::{input::SourceFileInput, sync::Lrc, Mark, SourceMap};
+use swc_common::{sync::Lrc, Mark, SourceMap};
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
     optimize,
     option::{ExtraOptions, MangleOptions, MinifyOptions},
 };
-use swc_ecma_parser::{lexer::Lexer, Parser};
+use swc_ecma_parser::parse_file_as_module;
 use swc_ecma_transforms::{fixer, hygiene, resolver_with_mark};
 use swc_ecma_visit::FoldWith;
 
@@ -22,21 +24,18 @@ fn main() {
 
         let top_level_mark = Mark::fresh(Mark::root());
 
-        let lexer = Lexer::new(
+        let program = parse_file_as_module(
+            &fm,
             Default::default(),
             Default::default(),
-            SourceFileInput::from(&*fm),
             None,
-        );
-
-        let mut parser = Parser::new_from(lexer);
-        let program = parser
-            .parse_module()
-            .map_err(|err| {
-                err.into_diagnostic(&handler).emit();
-            })
-            .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)))
-            .unwrap();
+            &mut vec![],
+        )
+        .map_err(|err| {
+            err.into_diagnostic(&handler).emit();
+        })
+        .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)))
+        .unwrap();
 
         let output = optimize(
             program,

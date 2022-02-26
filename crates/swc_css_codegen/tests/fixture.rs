@@ -5,8 +5,8 @@ use std::{
 
 use swc_common::{FileName, Span};
 use swc_css_ast::{
-    AnPlusBNotation, HexColor, ImportantFlag, Number, Str, Stylesheet, Token, TokenAndSpan,
-    UrlValueRaw,
+    AnPlusBNotation, HexColor, ImportantFlag, Integer, Number, Str, Stylesheet, Token,
+    TokenAndSpan, UrlValueRaw, Value,
 };
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
@@ -111,6 +111,29 @@ impl VisitMut for NormalizeTest {
 
         n.value.value = n.value.value.to_lowercase().into();
         n.value.raw = n.value.raw.to_lowercase().into();
+    }
+
+    // TODO - we should parse only some properties as `<integer>`, but it requires
+    // more work, let's postpone it to avoid breaking code
+    fn visit_mut_value(&mut self, n: &mut Value) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            Value::Number(Number { value, .. }) if value.fract() == 0.0 => {
+                *n = Value::Integer(Integer {
+                    span: Default::default(),
+                    value: value.round() as i64,
+                    raw: "".into(),
+                })
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_mut_integer(&mut self, n: &mut Integer) {
+        n.visit_mut_children_with(self);
+
+        n.raw = "".into();
     }
 
     fn visit_mut_number(&mut self, n: &mut Number) {

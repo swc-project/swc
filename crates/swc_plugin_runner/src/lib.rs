@@ -195,6 +195,7 @@ struct HostEnvironment {
     transform_result: Arc<Mutex<Vec<u8>>>,
 }
 
+#[tracing::instrument(level = "trace", skip_all)]
 fn load_plugin(
     plugin_path: &Path,
     cache: &Lazy<PluginModuleCache>,
@@ -347,6 +348,7 @@ struct PluginTransformTracker {
 }
 
 impl PluginTransformTracker {
+    #[tracing::instrument(level = "trace", skip(cache))]
     fn new(path: &Path, cache: &Lazy<PluginModuleCache>) -> Result<PluginTransformTracker, Error> {
         let (instance, transform_result) = load_plugin(path, cache)?;
 
@@ -414,6 +416,7 @@ impl PluginTransformTracker {
         }
     }
 
+    #[tracing::instrument(level = "trace", skip_all)]
     fn transform(
         &mut self,
         program: &Serialized,

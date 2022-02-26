@@ -5,11 +5,47 @@ use std::{
     sync::Arc,
 };
 
-use anyhow::Error;
+use anyhow::{Context, Error};
 use pathdiff::diff_paths;
 use swc_atoms::JsWord;
-use swc_common::FileName;
+use swc_common::{FileName, Mark, DUMMY_SP};
+use swc_ecma_ast::*;
 use swc_ecma_loader::resolve::Resolve;
+use swc_ecma_utils::{quote_ident, ExprFactory};
+
+pub(crate) enum Resolver {
+    Real {
+        base: FileName,
+        resolver: Box<dyn ImportResolver>,
+    },
+    Default,
+}
+
+impl Resolver {
+    pub(crate) fn make_require_call(&self, mark: Mark, src: JsWord) -> Expr {
+        let src = match self {
+            Self::Real { resolver, base } => resolver
+                .resolve_import(base, &src)
+                .with_context(|| format!("failed to resolve import `{}`", src))
+                .unwrap(),
+            Self::Default => src,
+        };
+
+        Expr::Call(CallExpr {
+            span: DUMMY_SP,
+            callee: quote_ident!(DUMMY_SP.apply_mark(mark), "require").as_callee(),
+            args: vec![Lit::Str(Str {
+                span: DUMMY_SP,
+                value: src,
+                has_escape: false,
+                kind: Default::default(),
+            })
+            .as_arg()],
+
+            type_args: Default::default(),
+        })
+    }
+}
 
 pub trait ImportResolver {
     /// Resolves `target` as a string usable by the modules pass.
