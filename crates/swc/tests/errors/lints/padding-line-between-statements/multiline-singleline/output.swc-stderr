@@ -1,0 +1,18 @@
+error: Unexpected blank line before this statement
+ 
+  |
+7 | function f1() {}
+  | ^^^^^^^^^^^^^^^^
+
+error: Expected blank line before this statement
+  
+   |
+18 | f1();
+   | ^^^^^
+
+error: Unexpected blank line before this statement
+  
+   |
+26 | var j = 10;
+   | ^^^^^^^^^^^
+
