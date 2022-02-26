@@ -49,11 +49,31 @@ fn fixture(input: PathBuf) {
                     PluginConfig::Name(name) => (name, serde_json::Value::Null),
                 };
 
+                let loose = option
+                    .as_object()
+                    .and_then(|opt| opt.get("loose"))
+                    .and_then(|loose| {
+                        if let Some(true) = loose.as_bool() {
+                            Some(())
+                        } else {
+                            None
+                        }
+                    })
+                    .is_some();
+
                 match &**name {
                     "transform-new-target" => {}
 
                     "proposal-class-properties" => {
-                        pass = Box::new(chain!(pass, class_properties(Default::default())));
+                        pass = Box::new(chain!(
+                            pass,
+                            class_properties(class_properties::Config {
+                                constant_super: loose,
+                                set_public_fields: loose,
+                                private_as_properties: loose,
+                                no_document_all: loose
+                            })
+                        ));
                     }
 
                     "transform-arrow-functions" => {
