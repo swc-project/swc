@@ -220,33 +220,19 @@ macro_rules! store {
 
 /// cur!($parser, required:bool)
 macro_rules! cur {
-    ($p:expr, $required:expr) => {{
-        let pos = $p.input.last_pos();
-        let last = Span::new(pos, pos, Default::default());
-        let is_err_token = match $p.input.cur() {
-            Some(&$crate::token::Token::Error(..)) => true,
-            _ => false,
-        };
-        if is_err_token {
-            match $p.input.bump() {
-                $crate::token::Token::Error(e) => {
-                    return Err(e);
-                }
-                _ => unreachable!(),
-            }
-        }
+    ($p:expr, true) => {{
+        $p.macro_cur_required()
+    }};
+
+    ($p:expr, false) => {{
+        let pos = $p.get_last_pos_and_check_err()?;
 
         match $p.input.cur() {
             Some(c) => Ok(c),
             None => {
-                if $required {
-                    let err = crate::error::Error {
-                        error: Box::new((last, crate::error::SyntaxError::Eof)),
-                    };
-                    return Err(err);
-                }
+                let span = Span::new(pos, pos, Default::default());
                 Err(crate::error::Error {
-                    error: Box::new((last, crate::error::SyntaxError::Eof)),
+                    error: Box::new((span, crate::error::SyntaxError::Eof)),
                 })
             }
         }

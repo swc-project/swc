@@ -126,6 +126,47 @@ impl Context {
 }
 
 impl<'a, I: Tokens> Parser<I> {
+    /// This should be only called by `cur!` macro
+    pub(super) fn macro_cur_required(&mut self) -> PResult<&Token> {
+        let pos = self.input.last_pos();
+        let last = Span::new(pos, pos, Default::default());
+        let is_err_token = matches!(self.input.cur(), Some(&Token::Error(..)));
+        if is_err_token {
+            match self.input.bump() {
+                Token::Error(e) => {
+                    return Err(e);
+                }
+                _ => unreachable!(),
+            }
+        }
+
+        match self.input.cur() {
+            Some(c) => Ok(c),
+            None => {
+                let err = Error {
+                    error: Box::new((last, SyntaxError::Eof)),
+                };
+                Err(err)
+            }
+        }
+    }
+
+    /// This should be only called by `cur!` macro
+    pub(super) fn get_last_pos_and_check_err(&mut self) -> PResult<BytePos> {
+        let pos = self.input.last_pos();
+        let is_err_token = matches!(self.input.cur(), Some(Token::Error(..)));
+        if is_err_token {
+            match self.input.bump() {
+                Token::Error(e) => {
+                    return Err(e);
+                }
+                _ => unreachable!(),
+            }
+        }
+
+        Ok(pos)
+    }
+
     /// Original context is restored when returned guard is dropped.
     pub(super) fn with_ctx(&mut self, ctx: Context) -> WithCtx<I> {
         let orig_ctx = self.ctx();
