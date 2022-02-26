@@ -25,6 +25,7 @@ pub(crate) mod non_critical_lints {
     pub mod no_new;
     pub mod no_restricted_syntax;
     pub mod no_use_before_define;
+    pub mod padding_line_between_statements;
     pub mod prefer_regex_literals;
     pub mod quotes;
 }
@@ -104,6 +105,13 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         ));
 
         rules.extend(no_bitwise::no_bitwise(&lint_config.no_bitwise));
+
+        rules.extend(
+            padding_line_between_statements::padding_line_between_statements(
+                &source_map,
+                &lint_config.padding_line_between_statements,
+            ),
+        );
     }
 
     rules

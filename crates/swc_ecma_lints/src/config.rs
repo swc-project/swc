@@ -7,6 +7,7 @@ use crate::rules::non_critical_lints::{
     dot_notation::DotNotationConfig, eqeqeq::EqeqeqConfig, no_bitwise::NoBitwiseConfig,
     no_console::NoConsoleConfig, no_restricted_syntax::NoRestrictedSyntaxConfig,
     no_use_before_define::NoUseBeforeDefineConfig,
+    padding_line_between_statements::PaddingLineBetweenStatementsConfig,
     prefer_regex_literals::PreferRegexLiteralsConfig, quotes::QuotesConfig,
 };
 
@@ -117,4 +118,8 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default, alias = "noBitwise")]
     pub no_bitwise: RuleConfig<NoBitwiseConfig>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default, alias = "paddingLineBetweenStatements")]
+    pub padding_line_between_statements: RuleConfig<PaddingLineBetweenStatementsConfig>,
 }
