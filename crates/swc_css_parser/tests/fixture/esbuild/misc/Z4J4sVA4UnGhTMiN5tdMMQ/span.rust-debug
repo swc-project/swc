@@ -94,7 +94,7 @@ error: Value
 1 | a { padding: 0 1 0 1 }
   |              ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:14
   |
 1 | a { padding: 0 1 0 1 }
@@ -106,7 +106,7 @@ error: Value
 1 | a { padding: 0 1 0 1 }
   |                ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:16
   |
 1 | a { padding: 0 1 0 1 }
@@ -118,7 +118,7 @@ error: Value
 1 | a { padding: 0 1 0 1 }
   |                  ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:18
   |
 1 | a { padding: 0 1 0 1 }
@@ -130,7 +130,7 @@ error: Value
 1 | a { padding: 0 1 0 1 }
   |                    ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:20
   |
 1 | a { padding: 0 1 0 1 }

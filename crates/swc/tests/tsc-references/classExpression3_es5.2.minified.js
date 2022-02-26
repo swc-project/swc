@@ -44,22 +44,22 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var c = new (function(_super) {
+var c = new (function(__class) {
     "use strict";
-    _inherits(_class, _super);
-    var _super1 = _createSuper(_class);
+    _inherits(_class, __class);
+    var _super = _createSuper(_class);
     function _class() {
         var _this;
-        return _classCallCheck(this, _class), _this = _super1.apply(this, arguments), _this.c = 3, _this;
+        return _classCallCheck(this, _class), _this = _super.apply(this, arguments), _this.c = 3, _this;
     }
     return _class;
-}(function(_super) {
+}(function(__class) {
     "use strict";
-    _inherits(_class, _super);
-    var _super2 = _createSuper(_class);
+    _inherits(_class, __class);
+    var _super = _createSuper(_class);
     function _class() {
         var _this;
-        return _classCallCheck(this, _class), _this = _super2.apply(this, arguments), _this.b = 2, _this;
+        return _classCallCheck(this, _class), _this = _super.apply(this, arguments), _this.b = 2, _this;
     }
     return _class;
 }(function _class() {

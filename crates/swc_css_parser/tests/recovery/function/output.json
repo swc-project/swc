@@ -157,13 +157,13 @@
                     }
                   },
                   {
-                    "type": "Number",
+                    "type": "Integer",
                     "span": {
                       "start": 25,
                       "end": 26,
                       "ctxt": 0
                     },
-                    "value": 2.0,
+                    "value": 2,
                     "raw": "2"
                   }
                 ]
@@ -611,13 +611,13 @@
                 },
                 "value": [
                   {
-                    "type": "Number",
+                    "type": "Integer",
                     "span": {
                       "start": 194,
                       "end": 195,
                       "ctxt": 0
                     },
-                    "value": 1.0,
+                    "value": 1,
                     "raw": "1"
                   },
                   {
@@ -630,13 +630,13 @@
                     "value": ","
                   },
                   {
-                    "type": "Number",
+                    "type": "Integer",
                     "span": {
                       "start": 197,
                       "end": 198,
                       "ctxt": 0
                     },
-                    "value": 2.0,
+                    "value": 2,
                     "raw": "2"
                   }
                 ]

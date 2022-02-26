@@ -248,7 +248,7 @@ error: Value
 5 |         from { translate: 0; }
   |                           ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/at-rule/layer/input.css:5:27
   |
 5 |         from { translate: 0; }
@@ -320,7 +320,7 @@ error: Value
 6 |         to { translate: -100% 0; }
   |                               ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/at-rule/layer/input.css:6:31
   |
 6 |         to { translate: -100% 0; }
@@ -480,7 +480,7 @@ error: Value
 12 |         from { margin-left: 0; }
    |                             ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/at-rule/layer/input.css:12:29
    |
 12 |         from { margin-left: 0; }
@@ -1018,7 +1018,7 @@ error: Value
 27 |     .title { font-weight: 100; }
    |                           ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/at-rule/layer/input.css:27:27
    |
 27 |     .title { font-weight: 100; }

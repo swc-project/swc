@@ -548,7 +548,7 @@ test!(
             decorators(Default::default()),
             resolver_with_mark(mark),
             strip(mark),
-            class_properties(class_properties::Config { loose: false }),
+            class_properties(Default::default()),
             simplifier(Default::default()),
             es2018(Default::default()),
             es2017(),

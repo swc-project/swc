@@ -178,7 +178,7 @@ error: Value
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
   |                         ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/rome/supports/input.css:4:25
   |
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
@@ -190,7 +190,7 @@ error: Value
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
   |                           ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/rome/supports/input.css:4:27
   |
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
@@ -302,7 +302,7 @@ error: Value
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
   |                              ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/rome/supports/input.css:5:30
   |
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
@@ -314,7 +314,7 @@ error: Value
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
   |                                ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/rome/supports/input.css:5:32
   |
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
@@ -426,7 +426,7 @@ error: Value
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
   |                                 ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/rome/supports/input.css:6:33
   |
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
@@ -438,7 +438,7 @@ error: Value
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
   |                                   ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/rome/supports/input.css:6:35
   |
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
@@ -550,7 +550,7 @@ error: Value
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
   |                            ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/rome/supports/input.css:7:28
   |
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
@@ -562,7 +562,7 @@ error: Value
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
   |                              ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/rome/supports/input.css:7:30
   |
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}

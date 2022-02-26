@@ -342,6 +342,8 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(HexColor, visit_hex_color);
 
+    mtd!(Integer, visit_integer);
+
     mtd!(Number, visit_number);
 
     mtd!(Ratio, visit_ratio);

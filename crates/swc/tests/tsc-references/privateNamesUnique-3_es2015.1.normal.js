@@ -41,7 +41,7 @@ class A {
 var _foo = {
     writable: true,
     value: true
-} // error (duplicate)
+}// error (duplicate)
 ;
 class B {
     test(x) {

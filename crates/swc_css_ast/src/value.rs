@@ -15,6 +15,9 @@ pub enum Value {
     #[tag("Number")]
     Number(Number),
 
+    #[tag("Integer")]
+    Integer(Integer),
+
     #[tag("Percentage")]
     Percentage(Percentage),
 
@@ -204,6 +207,13 @@ pub struct UnknownDimension {
 pub struct Percentage {
     pub span: Span,
     pub value: Number,
+}
+
+#[ast_node("Integer")]
+pub struct Integer {
+    pub span: Span,
+    pub value: i64,
+    pub raw: JsWord,
 }
 
 #[ast_node("Number")]

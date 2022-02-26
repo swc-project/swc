@@ -186,7 +186,7 @@ define_helpers!(Helpers {
     class_private_field_get: (class_extract_field_descriptor, class_apply_descriptor_get),
     class_private_field_init: (check_private_redeclaration),
     class_private_field_loose_base: (),
-    // class_private_field_loose_key: (),
+    class_private_field_loose_key: (),
     class_private_field_set: (class_extract_field_descriptor, class_apply_descriptor_set),
     class_private_method_get: (),
     class_private_method_init: (check_private_redeclaration),
