@@ -67,7 +67,10 @@ impl<T: Debug + Clone + Serialize + Default> RuleConfig<T> {
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[non_exhaustive]
 #[serde(rename_all = "kebab-case")]
-pub struct RulesConfig {}
+pub struct RulesConfig {
+    #[serde(default, alias = "blockNoEmpty")]
+    pub block_no_empty: RuleConfig<()>,
+}
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct LintConfig {
