@@ -6,7 +6,7 @@ use swc_common::{
     Mark, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Check;
+use swc_ecma_transforms_base::{helper, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
@@ -566,7 +566,23 @@ impl ClassProperties {
                         name: ident.clone(),
                         value,
                     });
-                    if prop.is_static {
+                    if self.c.private_as_properties {
+                        vars.push(VarDeclarator {
+                            span: DUMMY_SP,
+                            definite: false,
+                            name: ident.clone().into(),
+                            init: Some(Box::new(Expr::from(CallExpr {
+                                span: DUMMY_SP,
+                                callee: helper!(
+                                    class_private_field_loose_key,
+                                    "classPrivateFieldLooseKey"
+                                ),
+                                args: vec![ident.sym.as_arg()],
+                                type_args: Default::default(),
+                            }))),
+                        });
+                        constructor_inits.push(init);
+                    } else if prop.is_static {
                         extra_inits.push(init);
                     } else {
                         constructor_inits.push(init);
@@ -662,10 +678,26 @@ impl ClassProperties {
                             constructor_inits.push(MemberInit::PrivMethod(PrivMethod {
                                 span: prop_span,
                                 name: weak_coll_var.clone(),
+                                fn_name: if self.c.private_as_properties {
+                                    fn_name.clone()
+                                } else {
+                                    Ident::dummy()
+                                },
                             }));
                             Some(quote_ident!("WeakSet"))
                         }
-                        (MethodKind::Method, true) => None,
+                        (MethodKind::Method, true) => {
+                            if self.c.private_as_properties {
+                                extra_inits.push(MemberInit::PrivMethod(PrivMethod {
+                                    span: prop_span,
+                                    name: weak_coll_var.clone(),
+                                    fn_name: fn_name.clone(),
+                                }));
+                                Some(Ident::dummy())
+                            } else {
+                                None
+                            }
+                        }
                     };
 
                     if let Some(extra) = extra_collect {
@@ -673,12 +705,24 @@ impl ClassProperties {
                             span: DUMMY_SP,
                             definite: false,
                             name: weak_coll_var.clone().into(),
-                            init: Some(Box::new(Expr::from(NewExpr {
-                                span: DUMMY_SP,
-                                callee: Box::new(Expr::Ident(extra)),
-                                args: Some(Default::default()),
-                                type_args: Default::default(),
-                            }))),
+                            init: Some(Box::new(if self.c.private_as_properties {
+                                Expr::from(CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: helper!(
+                                        class_private_field_loose_key,
+                                        "classPrivateFieldLooseKey"
+                                    ),
+                                    args: vec![weak_coll_var.sym.as_arg()],
+                                    type_args: Default::default(),
+                                })
+                            } else {
+                                Expr::New(NewExpr {
+                                    span: DUMMY_SP,
+                                    callee: Box::new(Expr::Ident(extra)),
+                                    args: Some(Default::default()),
+                                    type_args: Default::default(),
+                                })
+                            })),
                         })
                     };
 

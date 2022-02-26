@@ -179,6 +179,30 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
     take_vars!(visit_mut_constructor, Constructor);
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
+        if self.c.private_as_properties {
+            if let Expr::Member(MemberExpr {
+                span,
+                obj,
+                prop: MemberProp::PrivateName(n),
+            }) = e
+            {
+                obj.visit_mut_children_with(self);
+                let (mark, _, _) = self.private.get(&n.id);
+                let ident = Ident::new(format!("_{}", n.id.sym).into(), n.id.span.apply_mark(mark));
+
+                *e = Expr::Call(CallExpr {
+                    callee: helper!(class_private_field_loose_base, "classPrivateFieldLooseBase"),
+                    span: *span,
+                    args: vec![obj.take().as_arg(), ident.clone().as_arg()],
+                    type_args: None,
+                })
+                .computed_member(ident);
+            } else {
+                e.visit_mut_children_with(self)
+            }
+            return;
+        }
+
         match e {
             Expr::Update(UpdateExpr {
                 span,

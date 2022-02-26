@@ -6142,6 +6142,304 @@ Foo.bar = void 0;
 "#
 );
 
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config {
+        private_as_properties: true,
+        ..Default::default()
+    }),
+    private_as_properties_basic,
+    r#"
+class Cl {
+  #privateField = "top secret string";
+
+  constructor() {
+    this.publicField = "not secret string";
+  }
+
+  get #privateFieldValue() {
+    return this.#privateField;
+  }
+
+  set #privateFieldValue(newValue) {
+    this.#privateField = newValue;
+  }
+
+  publicGetPrivateField() {
+    return this.#privateFieldValue;
+  }
+
+  publicSetPrivateField(newValue) {
+    this.#privateFieldValue = newValue;
+  }
+}
+"#,
+    r#"
+var _privateField = /*#__PURE__*/_classPrivateFieldLooseKey("_privateField"), _privateFieldValue = /*#__PURE__*/_classPrivateFieldLooseKey("_privateFieldValue");
+
+class Cl {
+  publicGetPrivateField() {
+    return _classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue];
+  }
+
+  publicSetPrivateField(newValue) {
+    _classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue] = newValue;
+  }
+
+  constructor() {
+    Object.defineProperty(this, _privateField, {
+      writable: true,
+      value: "top secret string"
+    });
+    Object.defineProperty(this, _privateFieldValue, {
+      get: get_privateFieldValue,
+      set: set_privateFieldValue
+    });
+    this.publicField = "not secret string";
+  }
+}
+
+function get_privateFieldValue() {
+  return _classPrivateFieldLooseBase(this, _privateField)[_privateField];
+}
+
+function set_privateFieldValue(newValue) {
+  _classPrivateFieldLooseBase(this, _privateField)[_privateField] = newValue;
+}
+"#
+);
+
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config {
+        private_as_properties: true,
+        ..Default::default()
+    }),
+    private_as_properties_staic,
+    r#"
+class Cl {
+  static #foo() {};
+  static #f = 123;
+  static get #bar() {};
+}
+"#,
+    r#"
+var _foo = _classPrivateFieldLooseKey("_foo"), _f = _classPrivateFieldLooseKey("_f");
+class Cl {
+    constructor(){
+        Object.defineProperty(this, _f, {
+            writable: true,
+            value: 123
+        });
+    }
+}
+Object.defineProperty(Cl, _foo, {
+    value: foo
+});
+Object.defineProperty(_bar, {
+    get: get_bar,
+    set: void 0
+});
+function foo() {}
+function get_bar() {}
+"#
+);
+
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config {
+        private_as_properties: true,
+        ..Default::default()
+    }),
+    private_as_properties_getter_only,
+    r#"
+class Cl {
+  #privateField = 0;
+
+  get #privateFieldValue() {
+    return this.#privateField;
+  }
+
+  constructor() {
+    this.#privateFieldValue = 1;
+    ([this.#privateFieldValue] = [1]);
+  }
+}
+"#,
+    r#"
+var _privateField = /*#__PURE__*/_classPrivateFieldLooseKey("_privateField"), _privateFieldValue = /*#__PURE__*/_classPrivateFieldLooseKey("_privateFieldValue");
+
+class Cl {
+  constructor() {
+    Object.defineProperty(this, _privateField, {
+      writable: true,
+      value: 0
+    });
+    Object.defineProperty(this, _privateFieldValue, {
+      get: get_privateFieldValue,
+      set: void 0
+    });
+    _classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue] = 1;
+    [_classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue]] = [1];
+  }
+
+}
+
+function get_privateFieldValue() {
+  return _classPrivateFieldLooseBase(this, _privateField)[_privateField];
+}
+"#
+);
+
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config {
+        private_as_properties: true,
+        ..Default::default()
+    }),
+    private_as_properties_static,
+    r#"
+class Cl {
+static #foo() {};
+static #f = 123;
+static get #bar() {};
+}
+"#,
+    r#"
+var _foo = _classPrivateFieldLooseKey("_foo"), _f = _classPrivateFieldLooseKey("_f");
+class Cl {
+  constructor(){
+      Object.defineProperty(this, _f, {
+          writable: true,
+          value: 123
+      });
+  }
+}
+Object.defineProperty(Cl, _foo, {
+  value: foo
+});
+Object.defineProperty(_bar, {
+  get: get_bar,
+  set: void 0
+});
+function foo() {}
+function get_bar() {}
+"#
+);
+
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config {
+        private_as_properties: true,
+        set_public_fields: true,
+        ..Default::default()
+    }),
+    loose_update,
+    r#"
+class Cl {
+  #privateField = "top secret string";
+
+  constructor() {
+    this.publicField = "not secret string";
+  }
+
+  get #privateFieldValue() {
+    return this.#privateField;
+  }
+
+  set #privateFieldValue(newValue) {
+    this.#privateField = newValue;
+  }
+
+  publicGetPrivateField() {
+    return this.#privateFieldValue;
+  }
+
+  publicSetPrivateField(newValue) {
+    this.#privateFieldValue = newValue;
+  }
+
+  get publicFieldValue() {
+    return this.publicField;
+  }
+
+  set publicFieldValue(newValue) {
+    this.publicField = newValue;
+  }
+
+  testUpdates() {
+    this.#privateField = 0;
+    this.publicField = 0;
+    this.#privateFieldValue = this.#privateFieldValue++;
+    this.publicFieldValue = this.publicFieldValue++;
+
+    ++this.#privateFieldValue;
+    ++this.publicFieldValue;
+
+    this.#privateFieldValue += 1;
+    this.publicFieldValue += 1;
+
+    this.#privateFieldValue = -(this.#privateFieldValue ** this.#privateFieldValue);
+    this.publicFieldValue = -(this.publicFieldValue ** this.publicFieldValue);
+  }
+}
+"#,
+    r#"
+var _privateField = /*#__PURE__*/_classPrivateFieldLooseKey("_privateField"), _privateFieldValue = /*#__PURE__*/_classPrivateFieldLooseKey("_privateFieldValue");
+
+class Cl {
+  publicGetPrivateField() {
+    return _classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue];
+  }
+
+  publicSetPrivateField(newValue) {
+    _classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue] = newValue;
+  }
+
+  get publicFieldValue() {
+    return this.publicField;
+  }
+
+  set publicFieldValue(newValue) {
+    this.publicField = newValue;
+  }
+
+  testUpdates() {
+    _classPrivateFieldLooseBase(this, _privateField)[_privateField] = 0;
+    this.publicField = 0;
+    _classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue] = _classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue]++;
+    this.publicFieldValue = this.publicFieldValue++;
+    ++_classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue];
+    ++this.publicFieldValue;
+    _classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue] += 1;
+    this.publicFieldValue += 1;
+    _classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue] = -(_classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue] ** _classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue]);
+    this.publicFieldValue = -(this.publicFieldValue ** this.publicFieldValue);
+  }
+
+  constructor() {
+    Object.defineProperty(this, _privateField, {
+      writable: true,
+      value: "top secret string"
+    });
+    Object.defineProperty(this, _privateFieldValue, {
+      get: get_privateFieldValue,
+      set: set_privateFieldValue
+    });
+    this.publicField = "not secret string";
+  }
+}
+
+function get_privateFieldValue() {
+  return _classPrivateFieldLooseBase(this, _privateField)[_privateField];
+}
+
+function set_privateFieldValue(newValue) {
+  _classPrivateFieldLooseBase(this, _privateField)[_privateField] = newValue;
+}
+"#
+);
+
 #[testing::fixture("tests/fixture/classes/**/exec.js")]
 fn exec(input: PathBuf) {
     let src = read_to_string(&input).unwrap();

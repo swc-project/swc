@@ -29,6 +29,8 @@ pub(super) struct PrivProp {
 pub(super) struct PrivMethod {
     pub span: Span,
     pub name: Ident,
+    // only used in loose mode
+    pub fn_name: Ident,
 }
 
 pub(super) struct PrivAccessor {
@@ -82,19 +84,44 @@ impl MemberInitRecord {
             .into_iter()
             .map(|init| {
                 match init {
-                    MemberInit::PrivMethod(PrivMethod { span, name }) => Expr::Call(CallExpr {
+                    MemberInit::PrivMethod(PrivMethod {
                         span,
-                        callee: helper!(class_private_method_init, "classPrivateMethodInit"),
-                        args: vec![ThisExpr { span: DUMMY_SP }.as_arg(), name.as_arg()],
-                        type_args: Default::default(),
-                    }),
+                        name,
+                        fn_name,
+                    }) => {
+                        let (callee, args) = if self.c.private_as_properties {
+                            (
+                                obj_def_prop(),
+                                vec![
+                                    ThisExpr { span: DUMMY_SP }.as_arg(),
+                                    name.as_arg(),
+                                    get_method_desc(Box::new(fn_name.into())).as_arg(),
+                                ],
+                            )
+                        } else {
+                            (
+                                helper!(class_private_method_init, "classPrivateMethodInit"),
+                                vec![ThisExpr { span: DUMMY_SP }.as_arg(), name.as_arg()],
+                            )
+                        };
+                        Expr::Call(CallExpr {
+                            span,
+                            callee,
+                            args,
+                            type_args: Default::default(),
+                        })
+                    }
                     MemberInit::PrivProp(PrivProp { span, name, value }) => Expr::Call(CallExpr {
                         span,
-                        callee: helper!(class_private_field_init, "classPrivateFieldInit"),
+                        callee: if self.c.private_as_properties {
+                            obj_def_prop()
+                        } else {
+                            helper!(class_private_field_init, "classPrivateFieldInit")
+                        },
                         args: vec![
                             ThisExpr { span: DUMMY_SP }.as_arg(),
                             name.as_arg(),
-                            get_value_desc(value),
+                            get_value_desc(value).as_arg(),
                         ],
                         type_args: Default::default(),
                     }),
@@ -105,11 +132,15 @@ impl MemberInitRecord {
                         setter,
                     }) => Expr::Call(CallExpr {
                         span,
-                        callee: helper!(class_private_field_init, "classPrivateFieldInit"),
+                        callee: if self.c.private_as_properties {
+                            obj_def_prop()
+                        } else {
+                            helper!(class_private_field_init, "classPrivateFieldInit")
+                        },
                         args: vec![
                             ThisExpr { span: DUMMY_SP }.as_arg(),
                             name.as_arg(),
-                            get_accessor_desc(getter, setter),
+                            get_accessor_desc(getter, setter).as_arg(),
                         ],
                         type_args: Default::default(),
                     }),
@@ -176,79 +207,93 @@ impl MemberInitRecord {
                     .into(),
                 }),
                 MemberInit::PrivProp(PrivProp { span, name, value }) => {
-                    Stmt::Decl(Decl::Var(VarDecl {
-                        span,
-                        kind: VarDeclKind::Var,
-                        decls: vec![VarDeclarator {
+                    if self.c.private_as_properties {
+                        Stmt::Expr(ExprStmt {
                             span,
-                            name: name.into(),
-                            init: Some(
-                                Expr::Object(ObjectLit {
-                                    span,
-                                    props: vec![
-                                        PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                            KeyValueProp {
-                                                key: PropName::Ident(quote_ident!("writable")),
-                                                value: true.into(),
-                                            },
-                                        ))),
-                                        PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                            KeyValueProp {
-                                                key: PropName::Ident(quote_ident!("value")),
-                                                value,
-                                            },
-                                        ))),
-                                    ],
-                                })
-                                .into(),
-                            ),
-                            definite: false,
-                        }],
-                        declare: false,
-                    }))
+                            expr: Box::new(Expr::Call(CallExpr {
+                                span,
+                                callee: obj_def_prop(),
+                                args: vec![name.as_arg(), get_value_desc(value).as_arg()],
+                                type_args: None,
+                            })),
+                        })
+                    } else {
+                        Stmt::Decl(Decl::Var(VarDecl {
+                            span,
+                            kind: VarDeclKind::Var,
+                            decls: vec![VarDeclarator {
+                                span,
+                                name: name.into(),
+                                init: Some(Expr::Object(get_value_desc(value)).into()),
+                                definite: false,
+                            }],
+                            declare: false,
+                        }))
+                    }
                 }
                 MemberInit::PrivAccessor(PrivAccessor {
                     span,
                     name,
                     getter,
                     setter,
-                }) => Stmt::Decl(Decl::Var(VarDecl {
-                    span,
-                    kind: VarDeclKind::Var,
-                    decls: vec![VarDeclarator {
-                        span,
-                        name: name.into(),
-                        init: Some(
-                            Expr::Object(ObjectLit {
+                }) => {
+                    if self.c.private_as_properties {
+                        Stmt::Expr(ExprStmt {
+                            span,
+                            expr: Box::new(Expr::Call(CallExpr {
                                 span,
-                                props: vec![
-                                    PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                                        key: PropName::Ident(quote_ident!("get")),
-                                        value: getter
-                                            .map(|id| Box::new(id.into()))
-                                            .unwrap_or_else(|| undefined(DUMMY_SP)),
-                                    }))),
-                                    PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                                        key: PropName::Ident(quote_ident!("set")),
-                                        value: setter
-                                            .map(|id| Box::new(id.into()))
-                                            .unwrap_or_else(|| undefined(DUMMY_SP)),
-                                    }))),
+                                callee: obj_def_prop(),
+                                args: vec![
+                                    name.as_arg(),
+                                    get_accessor_desc(getter, setter).as_arg(),
                                 ],
+                                type_args: None,
+                            })),
+                        })
+                    } else {
+                        Stmt::Decl(Decl::Var(VarDecl {
+                            span,
+                            kind: VarDeclKind::Var,
+                            decls: vec![VarDeclarator {
+                                span,
+                                name: name.into(),
+                                init: Some(Expr::Object(get_accessor_desc(getter, setter)).into()),
+                                definite: false,
+                            }],
+                            declare: false,
+                        }))
+                    }
+                }
+                MemberInit::PrivMethod(PrivMethod {
+                    span,
+                    name,
+                    fn_name,
+                }) => {
+                    if self.c.private_as_properties {
+                        Stmt::Expr(ExprStmt {
+                            span,
+                            expr: Expr::Call(CallExpr {
+                                span,
+                                callee: obj_def_prop(),
+                                args: vec![
+                                    class_ident.clone().as_arg(),
+                                    name.as_arg(),
+                                    get_method_desc(Box::new(fn_name.into())).as_arg(),
+                                ],
+                                type_args: None,
                             })
                             .into(),
-                        ),
-                        definite: false,
-                    }],
-                    declare: false,
-                })),
-                MemberInit::PrivMethod(_) => unreachable!(),
+                        })
+                    } else {
+                        unreachable!()
+                    }
+                }
             })
             .collect()
     }
 }
 
-fn get_value_desc(value: Box<Expr>) -> ExprOrSpread {
+fn get_value_desc(value: Box<Expr>) -> ObjectLit {
     ObjectLit {
         span: DUMMY_SP,
         props: vec![
@@ -264,10 +309,9 @@ fn get_value_desc(value: Box<Expr>) -> ExprOrSpread {
             }))),
         ],
     }
-    .as_arg()
 }
 
-fn get_accessor_desc(getter: Option<Ident>, setter: Option<Ident>) -> ExprOrSpread {
+fn get_accessor_desc(getter: Option<Ident>, setter: Option<Ident>) -> ObjectLit {
     ObjectLit {
         span: DUMMY_SP,
         props: vec![
@@ -285,5 +329,23 @@ fn get_accessor_desc(getter: Option<Ident>, setter: Option<Ident>) -> ExprOrSpre
             }))),
         ],
     }
-    .as_arg()
+}
+
+fn get_method_desc(value: Box<Expr>) -> ObjectLit {
+    ObjectLit {
+        span: DUMMY_SP,
+        props: vec![
+            // value: value,
+            PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                key: PropName::Ident(quote_ident!("value")),
+                value,
+            }))),
+        ],
+    }
+}
+
+fn obj_def_prop() -> Callee {
+    quote_ident!("Object")
+        .make_member(quote_ident!("defineProperty"))
+        .as_callee()
 }
