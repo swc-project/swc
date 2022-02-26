@@ -12,6 +12,23 @@ pub(crate) struct Helpers {
     pub require: AtomicBool,
 }
 
+fn parse(code: &'static str, name: &'static str) -> Vec<ModuleItem> {
+    let cm = SourceMap::new(FilePathMapping::empty());
+    let fm = cm.new_source_file(FileName::Custom(name.into()), code.into());
+    let lexer = Lexer::new(
+        Default::default(),
+        Default::default(),
+        StringInput::from(&*fm),
+        None,
+    );
+
+    Parser::new_from(lexer)
+        .parse_module()
+        .map(|script| drop_span(script.body))
+        .map_err(|_| {})
+        .unwrap()
+}
+
 macro_rules! define {
     (
         $(
@@ -23,24 +40,7 @@ macro_rules! define {
         $(
             fn $build(to: &mut Vec<ModuleItem>) {
                 static STMTS: Lazy<Vec<ModuleItem>> = Lazy::new(|| {
-                    let cm = SourceMap::new(FilePathMapping::empty());
-                    let code = include_str!(concat!("_", stringify!($name), ".js"));
-                    let fm =
-                       cm.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
-                    let lexer = Lexer::new(
-                        Default::default(),
-                        Default::default(),
-                        StringInput::from(&*fm),
-                        None,
-                    );
-                    let stmts = Parser::new_from(lexer)
-                        .parse_module()
-                        .map(|script| drop_span(script.body))
-                        .map_err(|_| {
-
-                        })
-                        .unwrap();
-                    stmts
+                    parse(include_str!(concat!("_", stringify!($name), ".js")), stringify!($name))
                 });
 
                 to.extend((*STMTS).clone());
