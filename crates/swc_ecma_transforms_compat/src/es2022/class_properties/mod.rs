@@ -672,7 +672,7 @@ impl ClassProperties {
                                         None
                                     },
                                 }));
-                            if inserted {
+                            if inserted && self.c.private_as_properties {
                                 Some(Ident::dummy())
                             } else {
                                 None
