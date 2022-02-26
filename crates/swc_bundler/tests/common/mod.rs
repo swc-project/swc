@@ -17,7 +17,7 @@ use swc_common::{
     FileName, Mark, SourceMap,
 };
 use swc_ecma_ast::EsVersion;
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_parser::{parse_file_as_module, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_transforms_react::react;
 use swc_ecma_transforms_typescript::strip;
@@ -109,19 +109,18 @@ impl Load for Loader {
             _ => unreachable!(),
         };
 
-        let lexer = Lexer::new(
+        let module = parse_file_as_module(
+            &fm,
             Syntax::Typescript(TsConfig {
                 decorators: true,
                 tsx,
                 ..Default::default()
             }),
             EsVersion::Es2020,
-            StringInput::from(&*fm),
             None,
-        );
-
-        let mut parser = Parser::new_from(lexer);
-        let module = parser.parse_module().unwrap_or_else(|err| {
+            &mut vec![],
+        )
+        .unwrap_or_else(|err| {
             let handler =
                 Handler::with_tty_emitter(ColorConfig::Always, false, false, Some(self.cm.clone()));
             err.into_diagnostic(&handler).emit();

@@ -1,20 +1,12 @@
 use std::sync::Arc;
 
 use anyhow::{anyhow, Error};
-use swc_common::{input::SourceFileInput, SourceFile, DUMMY_SP};
+use swc_common::{SourceFile, DUMMY_SP};
 use swc_ecma_ast::{EsVersion, *};
-use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
+use swc_ecma_parser::{parse_file_as_expr, Syntax};
 
 pub(super) fn load_json_as_module(fm: &Arc<SourceFile>) -> Result<Module, Error> {
-    let lexer = Lexer::new(
-        Syntax::default(),
-        EsVersion::Es2020,
-        SourceFileInput::from(&**fm),
-        None,
-    );
-    let mut parser = Parser::new_from(lexer);
-    let expr = parser
-        .parse_expr()
+    let expr = parse_file_as_expr(fm, Syntax::default(), EsVersion::Es2020, None, &mut vec![])
         .map_err(|err| anyhow!("failed parse json as javascript object: {:#?}", err))?;
 
     let export = ModuleItem::Stmt(Stmt::Expr(ExprStmt {
