@@ -62,9 +62,8 @@ const fn default_strict_mode() -> bool {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct LazyObjectConfig {
-    pub all_external: bool,
-    pub all_local: bool,
-    pub allowed: Vec<JsWord>,
+    #[serde(with = "serde_regex")]
+    pub patterns: Vec<regex::Regex>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -81,14 +80,8 @@ impl Lazy {
             Lazy::Bool(false) => false,
             Lazy::Bool(true) => !src.starts_with('.'),
             Lazy::List(ref srcs) => srcs.contains(src),
-            Lazy::Object(LazyObjectConfig {
-                all_local,
-                all_external,
-                ref allowed,
-            }) => {
-                src.starts_with(".") && all_local
-                    || !src.starts_with(".") && all_external
-                    || allowed.contains(src)
+            Lazy::Object(LazyObjectConfig { ref patterns }) => {
+                patterns.iter().any(|pat| pat.is_match(src))
             }
         }
     }

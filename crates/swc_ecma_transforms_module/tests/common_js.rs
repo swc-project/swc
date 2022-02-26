@@ -1,5 +1,4 @@
 use std::{cell::RefCell, path::PathBuf, rc::Rc};
-
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::{
@@ -3767,9 +3766,7 @@ test!(
     syntax(),
     |_| tr(Config {
         lazy: Lazy::Object(LazyObjectConfig {
-            all_external: true,
-            all_local: true,
-            allowed: vec![],
+            patterns: vec![regex::Regex::new(".").unwrap()],
         }),
         ..Default::default()
     }),
@@ -3812,16 +3809,14 @@ test!(
     syntax(),
     |_| tr(Config {
         lazy: Lazy::Object(LazyObjectConfig {
-            all_external: false,
-            all_local: false,
-            allowed: vec!["test".into()],
+            patterns: vec![regex::Regex::new("^test$").unwrap()],
         }),
         ..Default::default()
     }),
     lazy_import_only_allowed_from_object_config,
     r#"
 import { local } from "./local";
-import { external } from "external";
+import { external } from "external_test";
 import { test } from "test";
 
 function use() {
@@ -3831,7 +3826,7 @@ function use() {
     r#"
 "use strict";
 var _local = require("./local");
-var _external = require("external");
+var _externalTest = require("external_test");
 
 function _test() {
   const data = require("test");
@@ -3842,7 +3837,7 @@ function _test() {
 }
 
 function use() {
-  (0, _local).local((0, _external).external(_test().test));
+  (0, _local).local((0, _externalTest).external(_test().test));
 }
 "#
 );
