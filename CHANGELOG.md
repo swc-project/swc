@@ -38,6 +38,9 @@
 - **(es/codegen)** Add sourcemap entry for injected semicolons (#3750) ([0fd4fd2](https://github.com/swc-project/swc/commit/0fd4fd242287fde0e6a744dabf7c09430fb23d21))
 
 
+- **(es/compat)** Implement loose mode for `class_properties` (#3722) ([14155eb](https://github.com/swc-project/swc/commit/14155eb0e7f6295471c92067afa4dfb84b3224ca))
+
+
 - **(es/parser)** Provide more api for reducing binary size (#3747) ([47ccff8](https://github.com/swc-project/swc/commit/47ccff8a7ca0054fcd761ea5878a92165f7e1c6b))
 
 

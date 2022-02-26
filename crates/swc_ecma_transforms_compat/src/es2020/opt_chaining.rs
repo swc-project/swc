@@ -7,7 +7,8 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    alias_if_required, prepend, private_ident, undefined, ExprFactory, IntoIndirectCall, StmtLike,
+    alias_if_required, opt_chain_test, prepend, private_ident, undefined, ExprFactory,
+    IntoIndirectCall, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
@@ -447,31 +448,7 @@ impl OptChaining {
                     }
                 };
 
-                let test = Box::new(Expr::Bin(if self.c.no_document_all {
-                    BinExpr {
-                        span: obj_span,
-                        left,
-                        op: op!("=="),
-                        right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-                    }
-                } else {
-                    BinExpr {
-                        span,
-                        left: Box::new(Expr::Bin(BinExpr {
-                            span: obj_span,
-                            left,
-                            op: op!("==="),
-                            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-                        })),
-                        op: op!("||"),
-                        right: Box::new(Expr::Bin(BinExpr {
-                            span: DUMMY_SP,
-                            left: right,
-                            op: op!("==="),
-                            right: undefined(span),
-                        })),
-                    }
-                }));
+                let test = Box::new(opt_chain_test(left, right, span, self.c.no_document_all));
 
                 CondExpr {
                     span,
@@ -595,31 +572,7 @@ impl OptChaining {
                     }
                 };
 
-                let test = Box::new(Expr::Bin(if self.c.no_document_all {
-                    BinExpr {
-                        span: DUMMY_SP,
-                        left,
-                        op: op!("=="),
-                        right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-                    }
-                } else {
-                    BinExpr {
-                        span,
-                        left: Box::new(Expr::Bin(BinExpr {
-                            span: DUMMY_SP,
-                            left,
-                            op: op!("==="),
-                            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-                        })),
-                        op: op!("||"),
-                        right: Box::new(Expr::Bin(BinExpr {
-                            span: DUMMY_SP,
-                            left: right,
-                            op: op!("==="),
-                            right: undefined(span),
-                        })),
-                    }
-                }));
+                let test = Box::new(opt_chain_test(left, right, span, self.c.no_document_all));
 
                 CondExpr {
                     span: DUMMY_SP,
