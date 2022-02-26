@@ -1,5 +1,5 @@
 {
-  "mappings": "AAAAA,CAAC,GAAG,EAA6B,AAA7B,yBAA6B,AAA7B,EAA6B,CAA9B,CAA+B",
+  "mappings": "AAAAA,CAAC,GAAE,EAAG,AAAH,CAAG;A",
   "names": [
     "a"
   ],
@@ -7,7 +7,7 @@
     "../../input/index.js"
   ],
   "sourcesContent": [
-    "a() /* IMPORTANT_DO_NOT_REMOVE */;\n"
+    "a()//?"
   ],
   "version": 3
 }
