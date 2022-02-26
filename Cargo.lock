@@ -2777,6 +2777,10 @@ dependencies = [
  "serde_json",
  "swc",
  "swc_common",
+ "tracing",
+ "tracing-chrome",
+ "tracing-futures",
+ "tracing-subscriber",
  "walkdir",
 ]
 

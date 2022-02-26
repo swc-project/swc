@@ -109,6 +109,10 @@ fn write_ignore_file(base_path: &Path) -> Result<()> {
 }
 
 impl super::CommandRunner for PluginScaffoldOptions {
+    fn execute_inner(&self) -> Result<()> {
+        Ok(())
+    }
+
     /// Create a rust project for the plugin from template.
     /// This largely mimic https://github.com/rust-lang/cargo/blob/master/src/cargo/ops/cargo_new.rs,
     /// but also thinner implementation based on some assumptions like skipping
@@ -217,7 +221,7 @@ pub struct TransformVisitor;
 
 impl VisitMut for TransformVisitor {
     // Implement necessary visit_mut_* methods for actual custom transform.
-    // A comprehensive list of possible visitor methods can be found here: 
+    // A comprehensive list of possible visitor methods can be found here:
     // https://rustdoc.swc.rs/swc_ecma_visit/trait.VisitMut.html
 }
 
