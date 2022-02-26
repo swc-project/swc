@@ -1,6 +1,6 @@
-use swc_common::{input::SourceFileInput, util::take::Take, FileName};
+use swc_common::{util::take::Take, FileName};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, Parser};
+use swc_ecma_parser::parse_file_as_expr;
 use swc_ecma_transforms::fixer;
 use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
 use tracing::{info, warn};
@@ -25,16 +25,14 @@ fn assert_negate_cost(s: &str, in_bool_ctx: bool, is_ret_val_ignored: bool, expe
     testing::run_test2(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, s.to_string());
 
-        let lexer = Lexer::new(
+        let mut e = parse_file_as_expr(
+            &fm,
             Default::default(),
             swc_ecma_ast::EsVersion::latest(),
-            SourceFileInput::from(&*fm),
             None,
-        );
-
-        let mut parser = Parser::new_from(lexer);
-
-        let mut e = parser.parse_expr().map_err(|e| {
+            &mut vec![],
+        )
+        .map_err(|e| {
             e.into_diagnostic(&handler).emit();
         })?;
 

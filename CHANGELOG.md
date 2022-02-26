@@ -59,6 +59,9 @@
 
 
 
+- **(es)** Make compilation faster (#3749) ([3d94465](https://github.com/swc-project/swc/commit/3d944656bfa47532a79925f5b7392e2aec1a8a30))
+
+
 - **(es/transforms)** Use recommended ast apis (#3735) ([fd22379](https://github.com/swc-project/swc/commit/fd223793e86f70400a3a69d7f7c8a4775b8abaad))
 
 ## [1.2.145] - 2022-02-24
