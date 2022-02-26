@@ -69,26 +69,26 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var C = /*#__PURE__*/ function(_super) {
+var C = /*#__PURE__*/ function(__class) {
     "use strict";
-    _inherits(_class, _super);
-    var _super1 = _createSuper(_class);
+    _inherits(_class, __class);
+    var _super = _createSuper(_class);
     function _class() {
         _classCallCheck(this, _class);
         var _this;
-        _this = _super1.apply(this, arguments);
+        _this = _super.apply(this, arguments);
         _this.c = 3;
         return _this;
     }
     return _class;
-}(/*#__PURE__*/ function(_super) {
+}(/*#__PURE__*/ function(__class) {
     "use strict";
-    _inherits(_class, _super);
-    var _super2 = _createSuper(_class);
+    _inherits(_class, __class);
+    var _super = _createSuper(_class);
     function _class() {
         _classCallCheck(this, _class);
         var _this;
-        _this = _super2.apply(this, arguments);
+        _this = _super.apply(this, arguments);
         _this.b = 2;
         return _this;
     }

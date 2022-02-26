@@ -92,7 +92,12 @@ where
     let pass = add!(
         pass,
         ClassProperties,
-        es2022::class_properties(es2022::class_properties::Config { loose })
+        es2022::class_properties(es2022::class_properties::Config {
+            private_as_properties: loose,
+            set_public_fields: loose,
+            constant_super: loose,
+            no_document_all: loose
+        })
     );
     let pass = add!(pass, PrivatePropertyInObject, es2022::private_in_object());
 
