@@ -41,7 +41,7 @@ pub enum Grammar {
 
 impl Default for Grammar {
     fn default() -> Self {
-        Grammar::DeclarationValue
+        Grammar::NoGrammar
     }
 }
 
