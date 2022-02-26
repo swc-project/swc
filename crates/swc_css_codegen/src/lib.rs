@@ -781,6 +781,7 @@ where
     #[emitter]
     fn emit_value(&mut self, n: &Value) -> Result {
         match n {
+            Value::ComponentValue(n) => emit!(self, n),
             Value::Function(n) => emit!(self, n),
             Value::SimpleBlock(n) => emit!(self, n),
             Value::Dimension(n) => emit!(self, n),

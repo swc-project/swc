@@ -595,7 +595,7 @@ where
                                 self.errors.push(err);
                                 self.input.reset(&state);
 
-                                self.parse_component_value()?
+                                Value::ComponentValue(self.parse()?)
                             }
                         };
 

@@ -113,6 +113,7 @@ define!({
     }
 
     pub enum Value {
+        ComponentValue(Box<ComponentValue>),
         SimpleBlock(SimpleBlock),
         Dimension(Dimension),
         Integer(Integer),

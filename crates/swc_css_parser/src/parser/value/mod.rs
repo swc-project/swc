@@ -238,31 +238,6 @@ where
         Err(Error::new(span, ErrorKind::Expected("Declaration value")))
     }
 
-    pub fn parse_component_value(&mut self) -> PResult<Value> {
-        match cur!(self) {
-            tok!("[") | tok!("(") | tok!("{") => {
-                let ctx = Ctx {
-                    grammar: Grammar::NoGrammar,
-                    ..self.ctx
-                };
-                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-                Ok(Value::SimpleBlock(block))
-            }
-            tok!("function") => Ok(Value::Function(self.parse()?)),
-            _ => {
-                let token = self.input.bump()?;
-
-                match token {
-                    Some(t) => Ok(Value::PreservedToken(t)),
-                    _ => {
-                        unreachable!();
-                    }
-                }
-            }
-        }
-    }
-
     pub fn parse_function_values(&mut self, function_name: &str) -> PResult<Vec<Value>> {
         let mut values = vec![];
 
@@ -1319,9 +1294,7 @@ where
                             self.errors.push(err);
                             self.input.reset(&state);
 
-                            let value = self.parse_component_value()?;
-
-                            function.value.push(value);
+                            function.value.push(Value::ComponentValue(self.parse()?));
                         }
                     }
                 }

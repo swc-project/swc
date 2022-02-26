@@ -6,7 +6,7 @@ pub use self::{
     keyframe::*, layer::*, media::*, namespace::*, nest::*, page::*, property::*, support::*,
     viewport::*,
 };
-use crate::{DashedIdent, Ident, SimpleBlock, ComponentValue};
+use crate::{ComponentValue, DashedIdent, Ident, SimpleBlock};
 
 mod charset;
 mod color_profile;
