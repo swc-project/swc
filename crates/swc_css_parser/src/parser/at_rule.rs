@@ -403,7 +403,7 @@ where
                 // Reconsume the current input token. Consume a component value. Append the returned
                 // value to the at-rule’s prelude.
                 _ => {
-                    at_rule.prelude.push(self.parse_component_value()?);
+                    at_rule.prelude.push(self.parse()?);
                 }
             }
         }

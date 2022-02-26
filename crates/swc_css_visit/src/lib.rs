@@ -28,11 +28,16 @@ define!({
     }
 
     pub enum ComponentValue {
-        Value(Value),
+        PreservedToken(TokenAndSpan),
+        Function(Function),
+        SimpleBlock(SimpleBlock),
+
         DeclarationOrAtRule(DeclarationOrAtRule),
         Rule(Rule),
         StyleBlock(StyleBlock),
         KeyframeBlock(KeyframeBlock),
+
+        Value(Value),
     }
 
     pub struct Ident {
@@ -542,7 +547,7 @@ define!({
     pub struct UnknownAtRule {
         pub span: Span,
         pub name: AtRuleName,
-        pub prelude: Vec<Value>,
+        pub prelude: Vec<ComponentValue>,
         pub block: Option<SimpleBlock>,
     }
 

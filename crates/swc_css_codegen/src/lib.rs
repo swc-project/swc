@@ -945,6 +945,7 @@ where
                         space!(self);
                     }
                 }
+                _ => {}
             }
         }
 
@@ -954,6 +955,9 @@ where
     #[emitter]
     fn emit_component_value(&mut self, n: &ComponentValue) -> Result {
         match n {
+            ComponentValue::PreservedToken(n) => emit!(self, n),
+            ComponentValue::Function(n) => emit!(self, n),
+            ComponentValue::SimpleBlock(n) => emit!(self, n),
             ComponentValue::StyleBlock(n) => emit!(self, n),
             ComponentValue::DeclarationOrAtRule(n) => emit!(self, n),
             ComponentValue::Rule(n) => emit!(self, n),

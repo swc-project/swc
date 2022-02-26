@@ -1,7 +1,7 @@
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
-use crate::{AtRule, DashedIdent, Ident, KeyframeBlock, SelectorList, Tokens, Value};
+use crate::{AtRule, DashedIdent, Ident, KeyframeBlock, SelectorList, Tokens, Value, Function, TokenAndSpan};
 
 #[ast_node("Stylesheet")]
 pub struct Stylesheet {
@@ -52,8 +52,15 @@ pub struct SimpleBlock {
 
 #[ast_node]
 pub enum ComponentValue {
-    #[tag("Value")]
-    Value(Value),
+    // No grammar
+    #[tag("TokenAndSpan")]
+    PreservedToken(TokenAndSpan),
+    #[tag("Function")]
+    Function(Function),
+    #[tag("SimpleBlock")]
+    SimpleBlock(SimpleBlock),
+
+    // Block Contents grammar
     #[tag("DeclarationOrAtRule")]
     DeclarationOrAtRule(DeclarationOrAtRule),
     #[tag("Rule")]
@@ -62,6 +69,10 @@ pub enum ComponentValue {
     StyleBlock(StyleBlock),
     #[tag("KeyframeBlock")]
     KeyframeBlock(KeyframeBlock),
+
+    // Arbitrary Contents grammar
+    #[tag("Value")]
+    Value(Value),
 }
 
 #[ast_node]

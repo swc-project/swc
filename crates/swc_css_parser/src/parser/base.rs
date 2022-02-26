@@ -286,6 +286,42 @@ where
     }
 }
 
+impl<I> Parse<ComponentValue> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ComponentValue> {
+        // Consume the next input token.
+        match cur!(self) {
+            // If the current input token is a <{-token>, <[-token>, or <(-token>, consume a simple
+            // block and return it.
+            tok!("[") | tok!("(") | tok!("{") => {
+                let ctx = Ctx {
+                    grammar: Grammar::NoGrammar,
+                    ..self.ctx
+                };
+                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+
+                Ok(ComponentValue::SimpleBlock(block))
+            }
+            // Otherwise, if the current input token is a <function-token>, consume a function and
+            // return it.
+            tok!("function") => Ok(ComponentValue::Function(self.parse()?)),
+            // Otherwise, return the current input token.
+            _ => {
+                let token = self.input.bump()?;
+
+                match token {
+                    Some(t) => Ok(ComponentValue::PreservedToken(t)),
+                    _ => {
+                        unreachable!();
+                    }
+                }
+            }
+        }
+    }
+}
+
 impl<I> Parse<SimpleBlock> for Parser<I>
 where
     I: ParserInput,
@@ -360,11 +396,9 @@ where
                 // value of the block.
                 _ => match self.ctx.grammar {
                     Grammar::NoGrammar => {
-                        let component_value = self.parse_component_value()?;
+                        let component_value = self.parse()?;
 
-                        simple_block
-                            .value
-                            .push(ComponentValue::Value(component_value));
+                        simple_block.value.push(component_value);
                     }
                     Grammar::StyleBlock => {
                         let style_blocks: Vec<StyleBlock> = self.parse()?;
@@ -401,17 +435,17 @@ where
                             Ok(value) => {
                                 self.input.skip_ws()?;
 
-                                value
+                                ComponentValue::Value(value)
                             }
                             Err(err) => {
                                 self.errors.push(err);
                                 self.input.reset(&state);
 
-                                self.parse_component_value()?
+                                self.parse()?
                             }
                         };
 
-                        simple_block.value.push(ComponentValue::Value(value));
+                        simple_block.value.push(value);
                     }
                 },
             }
