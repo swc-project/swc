@@ -2309,8 +2309,18 @@ where
 
     #[emitter]
     fn emit_expr_stmt(&mut self, e: &ExprStmt) -> Result {
+        let expr_span = e.expr.span();
+
         emit!(e.expr);
-        semi!();
+
+        let span = if expr_span.hi == e.span.hi {
+            DUMMY_SP
+        } else {
+            let hi = e.span.hi;
+            Span::new(hi, hi, Default::default())
+        };
+
+        semi!(span);
     }
 
     #[emitter]
