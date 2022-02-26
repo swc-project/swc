@@ -2,6 +2,8 @@ use std::fmt::Debug;
 
 use serde::{Deserialize, Serialize};
 
+use crate::rules::at_rule_no_unknown::AtRuleNoUnknownConfig;
+
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum LintRuleReaction {
@@ -70,6 +72,9 @@ impl<T: Debug + Clone + Serialize + Default> RuleConfig<T> {
 pub struct RulesConfig {
     #[serde(default, alias = "blockNoEmpty")]
     pub block_no_empty: RuleConfig<()>,
+
+    #[serde(default, alias = "atRuleNoUnknown")]
+    pub at_rule_no_unknown: RuleConfig<AtRuleNoUnknownConfig>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
