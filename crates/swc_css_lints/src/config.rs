@@ -81,6 +81,9 @@ pub struct RulesConfig {
 
     #[serde(default, alias = "declarationNoImportant")]
     pub declaration_no_important: RuleConfig<()>,
+
+    #[serde(default, alias = "keyframeDeclarationNoImportant")]
+    pub keyframe_declaration_no_important: RuleConfig<()>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
