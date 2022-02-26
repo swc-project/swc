@@ -75,6 +75,9 @@ pub struct RulesConfig {
 
     #[serde(default, alias = "atRuleNoUnknown")]
     pub at_rule_no_unknown: RuleConfig<AtRuleNoUnknownConfig>,
+
+    #[serde(default, alias = "noEmptySource")]
+    pub no_empty_source: RuleConfig<()>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

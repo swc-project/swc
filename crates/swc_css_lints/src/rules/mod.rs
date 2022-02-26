@@ -1,11 +1,15 @@
 use crate::{
     config::LintConfig,
     rule::Rule,
-    rules::{at_rule_no_unknown::at_rule_no_unknown, block_no_empty::block_no_empty},
+    rules::{
+        at_rule_no_unknown::at_rule_no_unknown, block_no_empty::block_no_empty,
+        no_empty_source::no_empty_source,
+    },
 };
 
 pub mod at_rule_no_unknown;
 pub mod block_no_empty;
+pub mod no_empty_source;
 
 pub struct LintParams<'a> {
     pub lint_config: &'a LintConfig,
@@ -20,6 +24,9 @@ pub fn get_rules(LintParams { lint_config }: &LintParams) -> Vec<Box<dyn Rule>> 
     }
     if rules_config.at_rule_no_unknown.is_enabled() {
         rules.push(at_rule_no_unknown(&rules_config.at_rule_no_unknown));
+    }
+    if rules_config.no_empty_source.is_enabled() {
+        rules.push(no_empty_source(&rules_config.no_empty_source));
     }
 
     rules
