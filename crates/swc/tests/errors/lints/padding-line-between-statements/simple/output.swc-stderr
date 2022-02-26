@@ -1,0 +1,12 @@
+error: Unexpected blank line before this statement
+ 
+  |
+4 |     return;
+  |     ^^^^^^^
+
+error: Expected blank line before this statement
+ 
+  |
+9 |     if (cond) {}
+  |     ^^^^^^^^^^^^
+

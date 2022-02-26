@@ -1,0 +1,28 @@
+{
+    "jsc": {
+        "lints": {
+            "padding-line-between-statements": [
+                "error",
+                {
+                    "rules": [
+                        {
+                            "blankLine": "never",
+                            "prev": "if",
+                            "next": "return"
+                        },
+                        {
+                            "blankLine": "always",
+                            "prev": "const",
+                            "next": "if"
+                        },
+                        {
+                            "blankLine": "any",
+                            "prev": "let",
+                            "next": "try"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
