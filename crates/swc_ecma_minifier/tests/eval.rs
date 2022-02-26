@@ -1,11 +1,13 @@
-use swc_common::{input::SourceFileInput, sync::Lrc, FileName, SourceMap};
+#![deny(warnings)]
+
+use swc_common::{sync::Lrc, FileName, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_minifier::{
     eval::{EvalResult, Evaluator},
     marks::Marks,
 };
-use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax};
+use swc_ecma_parser::{parse_file_as_expr, parse_file_as_module, EsConfig, Syntax};
 use swc_ecma_transforms::resolver;
 use swc_ecma_utils::ExprExt;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -16,28 +18,26 @@ fn eval(module: &str, expr: &str) -> Option<String> {
         let fm = cm.new_source_file(FileName::Anon, module.to_string());
         let marks = Marks::new();
 
-        let module_ast = {
-            let lexer = Lexer::new(
-                Default::default(),
-                EsVersion::latest(),
-                SourceFileInput::from(&*fm),
-                None,
-            );
-            let mut parser = Parser::new_from(lexer);
-            parser.parse_module().unwrap()
-        };
+        let module_ast = parse_file_as_module(
+            &fm,
+            Default::default(),
+            EsVersion::latest(),
+            None,
+            &mut vec![],
+        )
+        .unwrap();
 
         let expr_ast = {
             let fm = cm.new_source_file(FileName::Anon, expr.to_string());
 
-            let lexer = Lexer::new(
+            parse_file_as_expr(
+                &fm,
                 Default::default(),
                 EsVersion::latest(),
-                SourceFileInput::from(&*fm),
                 None,
-            );
-            let mut parser = Parser::new_from(lexer);
-            parser.parse_expr().unwrap()
+                &mut vec![],
+            )
+            .unwrap()
         };
 
         let mut evaluator = Evaluator::new(module_ast, marks);
@@ -81,19 +81,17 @@ impl PartialInliner {
             let fm = cm.new_source_file(FileName::Anon, src.to_string());
             let marks = Marks::new();
 
-            let mut module = {
-                let lexer = Lexer::new(
-                    Syntax::Es(EsConfig {
-                        jsx: true,
-                        ..Default::default()
-                    }),
-                    EsVersion::latest(),
-                    SourceFileInput::from(&*fm),
-                    None,
-                );
-                let mut parser = Parser::new_from(lexer);
-                parser.parse_module().unwrap()
-            };
+            let mut module = parse_file_as_module(
+                &fm,
+                Syntax::Es(EsConfig {
+                    jsx: true,
+                    ..Default::default()
+                }),
+                EsVersion::latest(),
+                None,
+                &mut vec![],
+            )
+            .unwrap();
             module.visit_mut_with(&mut resolver());
 
             let mut inliner = PartialInliner {
@@ -115,17 +113,18 @@ impl PartialInliner {
 
             let expected_module = {
                 let fm = cm.new_source_file(FileName::Anon, expected.to_string());
-                let lexer = Lexer::new(
+
+                parse_file_as_module(
+                    &fm,
                     Syntax::Es(EsConfig {
                         jsx: true,
                         ..Default::default()
                     }),
                     EsVersion::latest(),
-                    SourceFileInput::from(&*fm),
                     None,
-                );
-                let mut parser = Parser::new_from(lexer);
-                parser.parse_module().unwrap()
+                    &mut vec![],
+                )
+                .unwrap()
             };
             let expected = {
                 let mut buf = vec![];
