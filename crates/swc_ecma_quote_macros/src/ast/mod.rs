@@ -45,6 +45,7 @@ mod id;
 mod lit;
 mod module_decl;
 mod pat;
+mod prop;
 mod stmt;
 mod typescript;
 
@@ -209,6 +210,8 @@ impl_enum!(
     ]
 );
 impl_enum!(ObjectPatProp, [KeyValue, Assign, Rest]);
+impl_enum!(PropName, [Ident, Str, Num, Computed, BigInt]);
+impl_enum!(ParamOrTsParamProp, [TsParamProp, Param]);
 
 impl<T> ToCode for Vec<T>
 where

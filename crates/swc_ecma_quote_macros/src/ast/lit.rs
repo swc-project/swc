@@ -1,7 +1,7 @@
 use pmutil::q;
 use proc_macro2::Span;
 use swc_ecma_ast::*;
-use syn::{ExprLit, LitBool};
+use syn::{ExprLit, LitBool, LitFloat};
 
 use super::ToCode;
 use crate::ctxt::Ctx;
@@ -28,50 +28,9 @@ impl ToCode for Str {
     }
 }
 
-impl ToCode for Bool {
-    fn to_code(&self, _: &Ctx) -> syn::Expr {
-        q!(
-            Vars {
-                bool_val: self.value,
-            },
-            {
-                swc_ecma_ast::Bool {
-                    span: swc_common::DUMMY_SP,
-                    value: bool_val,
-                }
-            }
-        )
-        .parse()
-    }
-}
-
-impl ToCode for Null {
-    fn to_code(&self, _: &Ctx) -> syn::Expr {
-        q!(Vars {}, {
-            swc_ecma_ast::Null {
-                span: swc_common::DUMMY_SP,
-            }
-        })
-        .parse()
-    }
-}
-
-impl ToCode for Number {
-    fn to_code(&self, _: &Ctx) -> syn::Expr {
-        q!(
-            Vars {
-                num_val: self.value,
-            },
-            {
-                swc_ecma_ast::Number {
-                    span: swc_common::DUMMY_SP,
-                    value: num_val,
-                }
-            }
-        )
-        .parse()
-    }
-}
+impl_struct!(Bool, [span, value]);
+impl_struct!(Null, [span]);
+impl_struct!(Number, [span, value]);
 
 impl ToCode for Regex {
     fn to_code(&self, _: &Ctx) -> syn::Expr {
@@ -97,6 +56,15 @@ impl ToCode for bool {
         syn::Expr::Lit(ExprLit {
             attrs: Default::default(),
             lit: syn::Lit::Bool(LitBool::new(*self, Span::call_site())),
+        })
+    }
+}
+
+impl ToCode for f64 {
+    fn to_code(&self, cx: &Ctx) -> syn::Expr {
+        syn::Expr::Lit(ExprLit {
+            attrs: Default::default(),
+            lit: syn::Lit::Float(LitFloat::new(&self.to_string(), Span::call_site())),
         })
     }
 }

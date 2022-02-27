@@ -13,3 +13,8 @@ impl_struct!(
         implements
     ]
 );
+
+impl_struct!(
+    Constructor,
+    [span, key, params, body, accessibility, is_optional]
+);

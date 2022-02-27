@@ -73,3 +73,5 @@ impl_simple_enum!(
         NullishCoalescing
     ]
 );
+
+impl_simple_enum!(Accessibility, [Public, Protected, Private]);
