@@ -41,6 +41,9 @@
 - **(es/compat)** Implement loose mode for `class_properties` (#3722) ([14155eb](https://github.com/swc-project/swc/commit/14155eb0e7f6295471c92067afa4dfb84b3224ca))
 
 
+- **(es/dep-graph)** Add `TsImportEqualsDecl` for `DependencyCollector` (#3758) ([7de7eca](https://github.com/swc-project/swc/commit/7de7ecaa85f21d074d8ca8a05dae2bf5b4ab3ce8))
+
+
 - **(es/parser)** Provide more api for reducing binary size (#3747) ([47ccff8](https://github.com/swc-project/swc/commit/47ccff8a7ca0054fcd761ea5878a92165f7e1c6b))
 
 
