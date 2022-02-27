@@ -112,9 +112,9 @@ macro_rules! impl_enum {
                     $(
                         $E::$v(inner) => q!(
                             Vars {
-                                inner: inner.to_code(cx)
+                                val: inner.to_code(cx)
                             },
-                            { swc_ecma_ast::$E::$v(inner) }
+                            { swc_ecma_ast::$E::$v(val) }
                         )
                         .parse(),
                     )*
@@ -230,11 +230,15 @@ where
                     Vars {
                         item: item.to_code(cx)
                     },
-                    { items.push(item) }
+                    {
+                        items.push(item);
+                    }
                 )
                 .parse(),
             ));
         }
+
+        stmts.push(syn::Stmt::Expr(q!(Vars {}, { items }).parse()));
 
         syn::Expr::Block(ExprBlock {
             attrs: Default::default(),
