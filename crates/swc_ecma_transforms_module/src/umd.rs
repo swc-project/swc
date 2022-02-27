@@ -531,7 +531,7 @@ impl Fold for Umd {
         }
 
         if !initialized.is_empty() {
-            stmts.push(initialize_to_undefined(exports_ident, initialized).into_stmt());
+            stmts.extend(initialize_to_undefined(exports_ident, initialized));
         }
 
         for (src, import) in scope.imports.drain(..) {
