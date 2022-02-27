@@ -317,19 +317,20 @@ impl Options {
 
         let mut program = parse(syntax, es_version, is_module)?;
 
+        let mut transform = transform.unwrap_or_default();
+
         // Do a resolver pass before everything.
         //
         // We do this before creating custom passses, so custom passses can use the
         // variable management system based on the syntax contexts.
         if syntax.typescript() {
-            assumptions.set_public_class_fields = true;
             // assumptions.set_class_methods = true;
+            assumptions.set_public_class_fields = !transform.use_define_for_class_fields;
+
             program.visit_mut_with(&mut ts_resolver(top_level_mark));
         } else {
             program.visit_mut_with(&mut resolver_with_mark(top_level_mark));
         }
-
-        let mut transform = transform.unwrap_or_default();
 
         if program.is_module() {
             js_minify = js_minify.map(|c| {
@@ -1188,6 +1189,9 @@ pub struct TransformConfig {
 
     #[serde(default)]
     pub treat_const_enum_as_enum: bool,
+
+    #[serde(default)]
+    pub use_define_for_class_fields: bool,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
