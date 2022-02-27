@@ -75,3 +75,16 @@ impl_struct!(SpreadElement, [dot3_token, expr]);
 
 impl_struct!(JSXExprContainer, [span, expr]);
 impl_struct!(JSXSpreadChild, [span, expr]);
+
+impl_struct!(JSXAttr, [span, name, value]);
+
+impl_enum!(
+    JSXAttrValue,
+    [Lit, JSXExprContainer, JSXElement, JSXFragment]
+);
+
+impl_enum!(JSXAttrName, [Ident, JSXNamespacedName]);
+
+impl_enum!(JSXExpr, [Expr, JSXEmptyExpr]);
+
+impl_struct!(OptCall, [span, callee, args, type_args]);
