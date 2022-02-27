@@ -699,11 +699,10 @@ impl Fold for CommonJs {
         let scope = &mut *scope_ref_mut;
 
         if !initialized.is_empty() {
-            stmts.push(
-                initialize_to_undefined(quote_ident!("exports"), initialized)
-                    .into_stmt()
-                    .into(),
-            );
+            stmts.extend(initialize_to_undefined(
+                quote_ident!("exports"),
+                initialized,
+            ));
         }
         let scope = &mut *scope;
         for (src, import) in scope.imports.drain(..) {

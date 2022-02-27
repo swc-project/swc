@@ -51,8 +51,8 @@ pub enum Value {
     #[tag("Url")]
     Url(Url),
 
-    #[tag("Urange")]
-    Urange(Urange),
+    #[tag("UnicodeRange")]
+    UnicodeRange(UnicodeRange),
 
     #[tag("ComplexSelector")]
     ComplexSelector(ComplexSelector),
@@ -278,10 +278,12 @@ pub enum UrlModifier {
     Function(Function),
 }
 
-#[ast_node("Urange")]
-pub struct Urange {
+#[ast_node("UnicodeRange")]
+pub struct UnicodeRange {
     pub span: Span,
-    pub value: JsWord,
+    pub prefix: char,
+    pub start: JsWord,
+    pub end: Option<JsWord>,
 }
 
 #[ast_node("CalcSum")]

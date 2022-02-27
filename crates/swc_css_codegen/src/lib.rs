@@ -796,7 +796,7 @@ where
             Value::CalcSum(n) => emit!(self, n),
             Value::Url(n) => emit!(self, n),
             Value::Delimiter(n) => emit!(self, n),
-            Value::Urange(n) => emit!(self, n),
+            Value::UnicodeRange(n) => emit!(self, n),
             Value::ComplexSelector(n) => emit!(self, n),
             Value::PreservedToken(n) => emit!(self, n),
         }
@@ -1513,8 +1513,19 @@ where
     }
 
     #[emitter]
-    fn emit_urange(&mut self, n: &Urange) -> Result {
-        self.wr.write_raw(Some(n.span), &n.value)?;
+    fn emit_unicode_range(&mut self, n: &UnicodeRange) -> Result {
+        let mut value = String::new();
+
+        value.push(n.prefix);
+        value.push('+');
+        value.push_str(&n.start);
+
+        if let Some(end) = &n.end {
+            value.push('-');
+            value.push_str(end);
+        }
+
+        self.wr.write_raw(Some(n.span), &value)?;
     }
 
     #[emitter]

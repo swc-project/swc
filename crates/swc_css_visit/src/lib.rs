@@ -127,7 +127,7 @@ define!({
         Function(Function),
         CalcSum(CalcSum),
         Delimiter(Delimiter),
-        Urange(Urange),
+        UnicodeRange(UnicodeRange),
         Url(Url),
         ComplexSelector(ComplexSelector),
         PreservedToken(TokenAndSpan),
@@ -249,9 +249,11 @@ define!({
         Function(Function),
     }
 
-    pub struct Urange {
+    pub struct UnicodeRange {
         pub span: Span,
-        pub value: JsWord,
+        pub prefix: char,
+        pub start: JsWord,
+        pub end: Option<JsWord>,
     }
 
     pub struct CalcSum {
