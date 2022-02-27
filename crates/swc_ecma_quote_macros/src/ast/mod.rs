@@ -13,6 +13,9 @@ macro_rules! fail_todo {
     };
 }
 
+mod expr;
+mod id;
+mod pat;
 mod typescript;
 
 pub(crate) trait ToCode: 'static {
