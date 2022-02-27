@@ -1,0 +1,5 @@
+{
+    "rules": {
+        "color-hex-length": ["error", "short"]
+    }
+}

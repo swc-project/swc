@@ -2,10 +2,13 @@ use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
-use crate::{ComplexSelector, SimpleBlock, TokenAndSpan};
+use crate::{ComplexSelector, ComponentValue, SimpleBlock, TokenAndSpan};
 
 #[ast_node]
 pub enum Value {
+    #[tag("ComponentValue")]
+    ComponentValue(Box<ComponentValue>),
+
     #[tag("SimpleBlock")]
     SimpleBlock(SimpleBlock),
 

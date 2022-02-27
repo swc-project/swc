@@ -1,0 +1,6 @@
+error: Unexpected unknown at-rule "@test".
+ --> $DIR/tests/rules/fail/at-rule-no-unknown/default/input.css:1:2
+  |
+1 | @test {
+  |  ^^^^
+
