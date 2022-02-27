@@ -1,5 +1,6 @@
 use pmutil::q;
 use proc_macro2::Span;
+use swc_atoms::JsWord;
 use swc_ecma_ast::*;
 use syn::{ExprLit, LitBool, LitFloat};
 
@@ -9,45 +10,22 @@ use crate::ctxt::Ctx;
 fail_todo!(BigInt);
 fail_todo!(JSXText);
 
-impl ToCode for Str {
+impl_struct!(Str, [span, value, has_escape, kind]);
+
+impl ToCode for StrKind {
     fn to_code(&self, _: &Ctx) -> syn::Expr {
-        q!(
-            Vars {
-                str_val: &*self.value,
-            },
-            {
-                swc_ecma_ast::Str {
-                    span: swc_common::DUMMY_SP,
-                    value: str_val.into(),
-                    has_escape: false,
-                    kind: Default::default(),
-                }
-            }
-        )
-        .parse()
+        q!(Vars {}, { Default::default() }).parse()
     }
 }
 
 impl_struct!(Bool, [span, value]);
 impl_struct!(Null, [span]);
 impl_struct!(Number, [span, value]);
+impl_struct!(Regex, [span, exp, flags]);
 
-impl ToCode for Regex {
+impl ToCode for JsWord {
     fn to_code(&self, _: &Ctx) -> syn::Expr {
-        q!(
-            Vars {
-                exp_val: &*self.exp,
-                flag_val: &*self.flags,
-            },
-            {
-                swc_ecma_ast::Regex {
-                    span: swc_common::DUMMY_SP,
-                    exp: exp_val.into(),
-                    flag: flag_val.into(),
-                }
-            }
-        )
-        .parse()
+        q!(Vars { val: &**self }, { val.into() }).parse()
     }
 }
 

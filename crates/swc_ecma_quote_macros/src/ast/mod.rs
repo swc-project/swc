@@ -25,7 +25,7 @@ macro_rules! impl_enum {
                             Vars {
                                 val: crate::ast::ToCode::to_code(inner, cx),
                             },
-                            { swc_ecma_ast::$E::$v(val) }
+                            { swc_ecma_quote::swc_ecma_ast::$E::$v(val) }
                         )
                         .parse(),
                     )*
@@ -111,7 +111,7 @@ impl_struct!(Invalid, [span]);
 
 impl ToCode for Span {
     fn to_code(&self, _: &Ctx) -> syn::Expr {
-        q!({ swc_common::DUMMY_SP }).parse()
+        q!({ swc_ecma_quote::swc_common::DUMMY_SP }).parse()
     }
 }
 

@@ -1,5 +1,11 @@
 /// Not a public API.
 #[doc(hidden)]
+pub extern crate swc_common;
+/// Not a public API.
+#[doc(hidden)]
+pub extern crate swc_ecma_ast;
+/// Not a public API.
+#[doc(hidden)]
 pub extern crate swc_ecma_quote_macros;
 
 ///
