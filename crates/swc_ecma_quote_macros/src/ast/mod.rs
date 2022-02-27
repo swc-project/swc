@@ -1,6 +1,7 @@
 use pmutil::q;
 use swc_common::Span;
 use swc_ecma_ast::*;
+use syn::ExprBlock;
 
 use crate::ctxt::Ctx;
 
@@ -191,3 +192,37 @@ impl_enum!(
 impl_enum!(Pat, [Ident, Array, Rest, Object, Assign, Invalid, Expr]);
 impl_enum!(Lit, [Str, Bool, Null, Num, BigInt, Regex, JSXText]);
 impl_enum!(Callee, [Super, Import, Expr]);
+
+impl<T> ToCode for Vec<T>
+where
+    T: ToCode,
+{
+    fn to_code(&self, cx: &Ctx) -> syn::Expr {
+        let var_stmt = q!(Vars { len: self.len() }, {
+            let mut items = Vec::with_capacity(len);
+        })
+        .parse::<syn::Stmt>();
+        let mut stmts = vec![var_stmt];
+
+        for item in self {
+            stmts.push(syn::Stmt::Expr(
+                q!(
+                    Vars {
+                        item: item.to_code(cx)
+                    },
+                    { items.push(item) }
+                )
+                .parse(),
+            ));
+        }
+
+        syn::Expr::Block(ExprBlock {
+            attrs: Default::default(),
+            label: Default::default(),
+            block: syn::Block {
+                brace_token: Default::default(),
+                stmts,
+            },
+        })
+    }
+}

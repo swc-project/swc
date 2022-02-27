@@ -21,6 +21,8 @@ fail_todo!(CondExpr);
 
 impl_struct!(CallExpr, [span, callee, args, type_args]);
 impl_struct!(ExprOrSpread, [spread, expr]);
+impl_struct!(Super, [span]);
+impl_struct!(Import, [span]);
 
 fail_todo!(NewExpr);
 fail_todo!(SeqExpr);
@@ -35,17 +37,4 @@ fail_todo!(JSXElement);
 fail_todo!(JSXFragment);
 fail_todo!(OptChainExpr);
 
-impl ToCode for ParenExpr {
-    fn to_code(&self, cx: &Ctx) -> syn::Expr {
-        q!(
-            Vars {
-                expr_value: self.expr.to_code(cx),
-            },
-            (swc_ecma_ast::ParenExpr {
-                span: swc_common::DUMMY_SP,
-                expr: expr_value,
-            })
-        )
-        .parse()
-    }
-}
+impl_struct!(ParenExpr, [span, expr]);
