@@ -31,7 +31,7 @@ fn tr(t: &Tester) -> impl Fold {
     chain!(
         resolver(),
         function_name(),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
         block_scoping(),
         reserved_words(false),
@@ -164,7 +164,7 @@ test!(
     |_| chain!(
         resolver(),
         function_name(),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     private_class_method,
     r#"
@@ -2803,10 +2803,7 @@ var _x = {
 
 test!(
     syntax(),
-    |_| chain!(
-        resolver(),
-        class_properties(class_properties::Config { loose: false })
-    ),
+    |_| chain!(resolver(), class_properties(Default::default())),
     issue_308,
     "function bar(props) {}
 class Foo {
@@ -2836,7 +2833,7 @@ test!(
     syntax(),
     |t| chain!(
         resolver(),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
         classes(Some(t.comments.clone()), Default::default())
     ),
     issue_342,
@@ -2865,7 +2862,7 @@ test!(
     syntax(),
     |_| chain!(
         resolver(),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
         block_scoping()
     ),
     issue_443,
@@ -2892,10 +2889,7 @@ _defineProperty(foo, 'MODE', MODE);"
 // public_regression_t7364
 test!(
     syntax(),
-    |_| chain!(
-        class_properties(class_properties::Config { loose: false }),
-        async_to_generator()
-    ),
+    |_| chain!(class_properties(Default::default()), async_to_generator()),
     public_regression_t7364,
     r#"
 class MyClass {
@@ -2951,10 +2945,7 @@ export default class MyClass3 {
 // private_regression_t6719
 test!(
     syntax(),
-    |_| chain!(
-        class_properties(class_properties::Config { loose: false }),
-        block_scoping()
-    ),
+    |_| chain!(class_properties(Default::default()), block_scoping()),
     private_regression_t6719,
     r#"
 function withContext(ComposedComponent) {
@@ -3040,10 +3031,7 @@ function withContext(ComposedComponent) {
 // private_reevaluated
 test!(
     syntax(),
-    |_| chain!(
-        class_properties(class_properties::Config { loose: false }),
-        block_scoping()
-    ),
+    |_| chain!(class_properties(Default::default()), block_scoping()),
     private_reevaluated,
     r#"
 function classFactory() {
@@ -3107,10 +3095,7 @@ function classFactory() {
 // private_static
 test!(
     syntax(),
-    |_| chain!(
-        class_properties(class_properties::Config { loose: false }),
-        block_scoping()
-    ),
+    |_| chain!(class_properties(Default::default()), block_scoping()),
     private_static,
     r#"
 class Foo {
@@ -3157,7 +3142,7 @@ expect(Foo.test()).toBe("foo");
 test!(
     syntax(),
     |t| chain!(
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
@@ -3197,10 +3182,7 @@ var Foo = function Foo(props) {
 // private_static_inherited
 test!(
     syntax(),
-    |_| chain!(
-        class_properties(class_properties::Config { loose: false }),
-        block_scoping()
-    ),
+    |_| chain!(class_properties(Default::default()), block_scoping()),
     private_static_inherited,
     r#"
 class Base {
@@ -3279,7 +3261,7 @@ class Sub2 extends Base {}
 // private_destructuring_object_pattern_1_exec
 test_exec!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     private_destructuring_object_pattern_1_exec,
     r#"
 class Foo {
@@ -3306,10 +3288,7 @@ expect(foo.z).toBe('bar');
 // private_static_undefined
 test!(
     syntax(),
-    |_| chain!(
-        class_properties(class_properties::Config { loose: false }),
-        block_scoping()
-    ),
+    |_| chain!(class_properties(Default::default()), block_scoping()),
     private_static_undefined,
     r#"
 class Foo {
@@ -3349,7 +3328,7 @@ var _bar = {
 test!(
     syntax(),
     |t| chain!(
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
@@ -3384,10 +3363,7 @@ var Foo = function Foo(props) {
 // private_regression_t2983
 test!(
     syntax(),
-    |_| chain!(
-        class_properties(class_properties::Config { loose: false }),
-        block_scoping()
-    ),
+    |_| chain!(class_properties(Default::default()), block_scoping()),
     private_regression_t2983,
     r#"
 call(class {
@@ -3425,7 +3401,7 @@ export { _class as default }
 test!(
     syntax(),
     |_| chain!(
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
         async_to_generator(),
         block_scoping()
     ),
@@ -3498,7 +3474,7 @@ export { MyClass3 as default };
 test!(
     syntax(),
     |t| chain!(
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
@@ -3534,7 +3510,7 @@ var Foo = function Foo(props) {
 // regression_8882_exec
 test_exec!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     regression_8882_exec,
     r#"
 const classes = [];
@@ -3565,7 +3541,7 @@ for(let i=0; i<= 10; ++i) {
 
 test_exec!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     private_field_reinitialized,
     r#"
 class Base {
@@ -3587,7 +3563,7 @@ expect(() => new Derived(foo)).toThrow()
 //// regression_6154
 //test!(syntax(),|_| tr("{
 //  "presets": ["env"],
-//  "plugins": class_properties(class_properties::Config { loose: false })
+//  "plugins": class_properties(Default::default())
 //}
 //"), regression_6154, r#"
 //class Test {
@@ -3693,10 +3669,7 @@ expect(() => new Derived(foo)).toThrow()
 // private_static_export
 test!(
     syntax(),
-    |_| chain!(
-        class_properties(class_properties::Config { loose: false }),
-        block_scoping()
-    ),
+    |_| chain!(class_properties(Default::default()), block_scoping()),
     private_static_export,
     r#"
 export class MyClass {
@@ -3728,7 +3701,7 @@ export { MyClass2 as default }
 test!(
     syntax(),
     |t| chain!(
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
         classes(Some(t.comments.clone()), Default::default())
     ),
     static_property_tdz_edgest_case,
@@ -3757,7 +3730,7 @@ _defineProperty(A, _x, void 0);
 test!(
     syntax(),
     |t| chain!(
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
         classes(Some(t.comments.clone()), Default::default())
     ),
     static_property_tdz_false_alarm,
@@ -3778,10 +3751,7 @@ _defineProperty(A, "A", 123)
 // regression_6153
 test!(
     syntax(),
-    |_| chain!(
-        class_properties(class_properties::Config { loose: false }),
-        arrow()
-    ),
+    |_| chain!(class_properties(Default::default()), arrow()),
     regression_6153,
     r#"
 () => {
@@ -3886,10 +3856,7 @@ var qux = (function () {
 // regression_7371
 test!(
     syntax(),
-    |_| chain!(
-        class_properties(class_properties::Config { loose: false }),
-        arrow()
-    ),
+    |_| chain!(class_properties(Default::default()), arrow()),
     regression_7371,
     r#"
 "use strict";
@@ -4098,7 +4065,7 @@ new ComputedField();
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     private_optional_chain_call,
     r#"
 class A {
@@ -4128,7 +4095,7 @@ class A {
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     private_optional_chain_member,
     r#"
 class MyClass {
@@ -4158,7 +4125,7 @@ class MyClass {
 test!(
     syntax(),
     |t| chain!(
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
@@ -4245,7 +4212,7 @@ function () {
 // regression_8882
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     regression_8882,
     r#"
 const classes = [];
@@ -4298,7 +4265,7 @@ for(let i = 0; i <= 10; ++i){
 test!(
     syntax(),
     |t| chain!(
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
@@ -4331,7 +4298,7 @@ var Foo = function Foo(props) {
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     staic_private_destructuring_array_pattern,
     r#"
 class A {
@@ -4361,7 +4328,7 @@ class A {
 // public_static_super_exec
 test_exec!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     public_static_super_exec,
     r#"
 class A {
@@ -4387,7 +4354,7 @@ expect(getPropA()).toBe(1);
 test!(
     syntax(),
     |t| chain!(
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
@@ -4421,10 +4388,7 @@ var Foo = function Foo(props) {
 // private_non_block_arrow_func
 test!(
     syntax(),
-    |_| chain!(
-        class_properties(class_properties::Config { loose: false }),
-        block_scoping()
-    ),
+    |_| chain!(class_properties(Default::default()), block_scoping()),
     private_non_block_arrow_func,
     r#"
 export default param =>
@@ -4464,7 +4428,7 @@ export default ((param)=>{
 // regression_8110
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     regression_8110,
     r#"
 const field = Symbol('field');
@@ -4490,7 +4454,7 @@ class A{
 // public_computed_without_block_exec
 test_exec!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     public_computed_without_block_exec,
     r#"
 const createClass = (k) => class { [k()] = 2 };
@@ -4505,7 +4469,7 @@ expect(instance.foo).toBe(2);
 test!(
     syntax(),
     |t| chain!(
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
         exponentation(),
         classes(Some(t.comments.clone()), Default::default()),
         block_scoping(),
@@ -4536,7 +4500,7 @@ var Foo = function Foo() {
 test!(
     syntax(),
     |t| chain!(
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
         classes(Some(t.comments.clone()), Default::default())
     ),
     static_property_tdz_general,
@@ -4563,10 +4527,7 @@ _defineProperty(C, _ref, 3);
 // public_native_classes
 test!(
     syntax(),
-    |_| chain!(
-        class_properties(class_properties::Config { loose: false }),
-        block_scoping()
-    ),
+    |_| chain!(class_properties(Default::default()), block_scoping()),
     public_native_classes,
     r#"
 class Foo {
@@ -4617,10 +4578,7 @@ test!(
     // Seems useless, while being hard to implement.
     ignore,
     syntax(),
-    |_| chain!(
-        class_properties(class_properties::Config { loose: false }),
-        block_scoping()
-    ),
+    |_| chain!(class_properties(Default::default()), block_scoping()),
     private_static_infer_name,
     r#"
 var Foo = class {
@@ -4642,10 +4600,7 @@ var Foo = (_temp = _class = class Foo {}, _num = {
 // regression_7951
 test!(
     syntax(),
-    |_| chain!(
-        resolver(),
-        class_properties(class_properties::Config { loose: false })
-    ),
+    |_| chain!(resolver(), class_properties(Default::default())),
     regression_7951,
     r#"
 export class Foo extends Bar {
@@ -4671,10 +4626,7 @@ _defineProperty(Foo, "foo", {});
 // private_native_classes
 test!(
     syntax(),
-    |_| chain!(
-        class_properties(class_properties::Config { loose: false }),
-        block_scoping()
-    ),
+    |_| chain!(class_properties(Default::default()), block_scoping()),
     private_native_classes,
     r#"
 class Foo {
@@ -4722,7 +4674,7 @@ var _foo = {
 test!(
     syntax(),
     |t| chain!(
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
@@ -4748,7 +4700,7 @@ var createClass = (k)=>{
 // private_destructuring_array_pattern_2_exec
 test_exec!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     private_destructuring_array_pattern_2_exec,
     r#"
 class Foo {
@@ -4774,7 +4726,7 @@ expect(foo.getClient()).toEqual(['bar', 'baz', 'quu']);
 test!(
     syntax(),
     |t| chain!(
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
@@ -4825,7 +4777,7 @@ _defineProperty(B, "getPropA", () => _get(_getPrototypeOf(B), "prop", B));
 // private_destructuring_array_pattern_exec
 test_exec!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     private_destructuring_array_pattern_exec,
     r#"
 class Foo {
@@ -4849,7 +4801,7 @@ expect(foo.getClient()).toBe('bar');
 // private_destructuring_array_pattern_1_exec
 test_exec!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     private_destructuring_array_pattern_1_exec,
     r#"
 class Foo {
@@ -4875,10 +4827,7 @@ expect(foo.y).toBe('bar');
 
 test!(
     ts(),
-    |_| chain!(
-        resolver(),
-        class_properties(class_properties::Config { loose: false })
-    ),
+    |_| chain!(resolver(), class_properties(Default::default())),
     issue_890_1,
     "const DURATION = 1000
 
@@ -4908,7 +4857,7 @@ export class HygieneTest {
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     issue_1306_1,
     r#"
   class Animal {
@@ -4942,7 +4891,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     issue_1306_2,
     r#"
 class Animal {
@@ -4976,7 +4925,7 @@ class Animal {
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     issue_1333_1,
     "
   class Foo {
@@ -5010,7 +4959,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     issue_1333_2,
     "
   class Test {
@@ -5193,7 +5142,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     issue_1333_3,
     "
     class Test {
@@ -5251,7 +5200,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     issue_1333_4,
     "
   class Test {
@@ -5296,7 +5245,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     issue_1333_5,
     "
     class Test {
@@ -5324,7 +5273,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     issue_1333_6,
     "
     class Test {
@@ -5352,7 +5301,7 @@ test!(
 
 test!(
     syntax(),
-    |_| { class_properties(class_properties::Config { loose: false }) },
+    |_| { class_properties(Default::default()) },
     issue_1660_1,
     "
     console.log(class { run() { } });
@@ -5367,7 +5316,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     issue_3055_1,
     "
 export class Node {
@@ -5406,7 +5355,7 @@ function baz(child) {}
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     issue_3618,
     "
 class MyClass {
@@ -5441,10 +5390,7 @@ function set_b(x) {}
 
 test!(
     syntax(),
-    |_| chain!(
-        class_properties(class_properties::Config { loose: false }),
-        async_to_generator()
-    ),
+    |_| chain!(class_properties(Default::default()), async_to_generator()),
     issue_1694_1,
     "
     class MyClass {
@@ -5472,10 +5418,7 @@ test!(
 
 test!(
     syntax(),
-    |_| chain!(
-        class_properties(class_properties::Config { loose: false }),
-        async_to_generator()
-    ),
+    |_| chain!(class_properties(Default::default()), async_to_generator()),
     issue_1694_2,
     "
 class MyClass {
@@ -5501,10 +5444,7 @@ class MyClass {
 
 test!(
     syntax(),
-    |_| chain!(
-        class_properties(class_properties::Config { loose: false }),
-        async_to_generator()
-    ),
+    |_| chain!(class_properties(Default::default()), async_to_generator()),
     issue_1702_1,
     "
     class Foo {
@@ -5552,7 +5492,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     issue_1711_1,
     "
     class Foo {
@@ -5584,7 +5524,7 @@ test!(
 
 test_exec!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     issue_1742_1,
     "
     class Foo {
@@ -5609,7 +5549,7 @@ test_exec!(
 test_exec!(
     syntax(),
     |_| chain!(
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
         template_literal(Default::default())
     ),
     issue_1742_2,
@@ -5635,7 +5575,7 @@ test_exec!(
 
 test_exec!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     new_target_in_class_prop,
     "
 class Foo {
@@ -5652,7 +5592,7 @@ expect(foo.baz).toBe(undefined);
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     issue_1742_3,
     "
     class Foo {
@@ -5696,7 +5636,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     issue_1869_1,
     "
     class TestClass {
@@ -5726,7 +5666,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     issue_1869_2,
     "
     var _class;
@@ -5759,7 +5699,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     issue_2021_1,
     "
     class Item extends Component {
@@ -5782,7 +5722,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     issue_3229_1,
     "
 class A {
@@ -5815,7 +5755,7 @@ class A {
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     issue_3229_2,
     "
 class A {
@@ -5850,7 +5790,7 @@ class A {
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     issue_3368,
     "
 class A {
@@ -5895,7 +5835,7 @@ function bar() {}
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     nested_class_in_arrow,
     "
 const a = () => class {
@@ -5928,7 +5868,7 @@ const a = ()=>{
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config { loose: false }),
+    |_| class_properties(Default::default()),
     issue_2481,
     "
 class Foo {
@@ -5954,12 +5894,520 @@ var _prop2 = {
 "
 );
 
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config {
+        constant_super: true,
+        ..Default::default()
+    }),
+    constant_super_complex_super,
+    "
+class A extends class B {} {
+  static x = super.x;
+}
+",
+    "
+var _B;
+
+class A extends (_B = class B {}) {}
+
+_defineProperty(A, 'x', _B.x);
+"
+);
+
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config {
+        constant_super: true,
+        ..Default::default()
+    }),
+    constant_super_field,
+    "
+class A extends B {
+  foo = super.bar;
+  static foo = super.bar;
+}
+",
+    "
+class A extends B {
+  constructor(...args) {
+    super(...args);
+    _defineProperty(this, 'foo', super.bar);
+  }
+}
+
+_defineProperty(A, 'foo', B.bar)
+"
+);
+
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config {
+        no_document_all: true,
+        ..Default::default()
+    }),
+    private_optional_chain_member_loose,
+    r#"
+class MyClass {
+  #a
+  foo(o) {
+    o?.#a
+  }
+}
+"#,
+    r#"
+var _a = new WeakMap();
+class MyClass {
+  foo(o) {
+    o == null ? void 0 : _classPrivateFieldGet(o, _a);
+  }
+  constructor(){
+    _classPrivateFieldInit(this, _a, {
+      writable: true,
+      value: void 0
+    });
+  }
+}
+"#
+);
+
+test_exec!(
+    syntax(),
+    |_| class_properties(class_properties::Config {
+        set_public_fields: true,
+        ..Default::default()
+    }),
+    set_public_fields_initialization_order,
+    r#"
+const actualOrder = [];
+
+const track = i => {
+  actualOrder.push(i);
+  return i;
+};
+
+class MyClass {
+  static [track(1)] = track(10);
+  [track(2)] = track(13);
+  get [track(3)]() {
+    return "foo";
+  }
+  set [track(4)](value) {
+    this.bar = value;
+  }
+  [track(5)] = track(14);
+  static [track(6)] = track(11);
+  static [track(7)] = track(12);
+  [track(8)]() {}
+  [track(9)] = track(15);
+}
+
+const inst = new MyClass();
+
+const expectedOrder = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+expect(actualOrder).toEqual(expectedOrder);
+
+expect(MyClass[1]).toBe(10);
+expect(inst[2]).toBe(13);
+expect(inst[3]).toBe("foo");
+inst[4] = "baz";
+expect(inst.bar).toBe("baz");
+expect(inst[5]).toBe(14);
+expect(MyClass[6]).toBe(11);
+expect(MyClass[7]).toBe(12);
+expect(typeof inst[8]).toBe("function");
+expect(inst[9]).toBe(15);
+"#
+);
+
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config {
+        set_public_fields: true,
+        ..Default::default()
+    }),
+    set_public_fields_computed,
+    r#"
+const foo = "foo";
+const bar = () => {};
+const four = 4;
+
+class MyClass {
+  static [one()] = "test";
+  static [2 * 4 + 7] = "247";
+  static [2 * four + 7] = "247";
+  static [2 * four + seven] = "247";
+  [null] = "null";
+  [undefined] = "undefined";
+  [void 0] = "void 0";
+  get ["whatever"]() {}
+  set ["whatever"](value) {}
+  get [computed()]() {}
+  set [computed()](value) {}
+  ["test" + one]() {}
+  static [10]() {}
+  [/regex/] = "regex";
+  [foo] = "foo";
+  [bar] = "bar";
+  [baz] = "baz";
+  [`template`] = "template";
+  [`template${expression}`] = "template-with-expression";
+}
+"#,
+    r#"
+const foo = "foo";
+const bar = ()=>{};
+const four = 4;
+var _ref = one(), _ref1 = 2 * 4 + 7, _ref2 = 2 * four + 7, _ref3 = 2 * four + seven, _ref4 = null, _undefined = undefined, _ref5 = void 0, tmp = "whatever", tmp1 = "whatever", tmp2 = computed(), tmp3 = computed(), tmp4 = "test" + one, tmp5 = 10, _ref6 = /regex/, _foo = foo, _bar = bar, _baz = baz, _ref7 = `template`, _ref8 = `template${expression}`;
+class MyClass {
+    get [tmp]() {}
+    set [tmp1](value) {}
+    get [tmp2]() {}
+    set [tmp3](value) {}
+    [tmp4]() {}
+    static [tmp5]() {}
+    constructor(){
+        this[_ref4] = "null";
+        this[_undefined] = "undefined";
+        this[_ref5] = "void 0";
+        this[_ref6] = "regex";
+        this[_foo] = "foo";
+        this[_bar] = "bar";
+        this[_baz] = "baz";
+        this[_ref7] = "template";
+        this[_ref8] = "template-with-expression";
+    }
+}
+MyClass[_ref] = "test";
+MyClass[_ref1] = "247";
+MyClass[_ref2] = "247";
+MyClass[_ref3] = "247";
+"#
+);
+
+test!(
+    syntax(),
+    |_| chain!(
+        resolver(),
+        class_properties(class_properties::Config {
+            set_public_fields: true,
+            ..Default::default()
+        })
+    ),
+    set_public_constructor_collision,
+    r#"
+var foo = "bar";
+
+class Foo {
+  bar = foo;
+  static bar = baz;
+
+  constructor() {
+    var foo = "foo";
+    var baz = "baz";
+  }
+}
+"#,
+    r#"
+var foo = "bar";
+
+class Foo {
+  constructor() {
+    this.bar = foo;
+    var foo1 = "foo";
+    var baz = "baz";
+  }
+}
+
+Foo.bar = baz;
+"#
+);
+
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config {
+        set_public_fields: true,
+        ..Default::default()
+    }),
+    set_public_static_undefined,
+    r#"
+class Foo {
+  static bar;
+}
+"#,
+    r#"
+class Foo {}
+
+Foo.bar = void 0;
+"#
+);
+
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config {
+        private_as_properties: true,
+        ..Default::default()
+    }),
+    private_as_properties_basic,
+    r#"
+class Cl {
+  #privateField = "top secret string";
+
+  constructor() {
+    this.publicField = "not secret string";
+  }
+
+  get #privateFieldValue() {
+    return this.#privateField;
+  }
+
+  set #privateFieldValue(newValue) {
+    this.#privateField = newValue;
+  }
+
+  publicGetPrivateField() {
+    return this.#privateFieldValue;
+  }
+
+  publicSetPrivateField(newValue) {
+    this.#privateFieldValue = newValue;
+  }
+}
+"#,
+    r#"
+var _privateField = /*#__PURE__*/_classPrivateFieldLooseKey("_privateField"), _privateFieldValue = /*#__PURE__*/_classPrivateFieldLooseKey("_privateFieldValue");
+
+class Cl {
+  publicGetPrivateField() {
+    return _classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue];
+  }
+
+  publicSetPrivateField(newValue) {
+    _classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue] = newValue;
+  }
+
+  constructor() {
+    Object.defineProperty(this, _privateField, {
+      writable: true,
+      value: "top secret string"
+    });
+    Object.defineProperty(this, _privateFieldValue, {
+      get: get_privateFieldValue,
+      set: set_privateFieldValue
+    });
+    this.publicField = "not secret string";
+  }
+}
+
+function get_privateFieldValue() {
+  return _classPrivateFieldLooseBase(this, _privateField)[_privateField];
+}
+
+function set_privateFieldValue(newValue) {
+  _classPrivateFieldLooseBase(this, _privateField)[_privateField] = newValue;
+}
+"#
+);
+
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config {
+        private_as_properties: true,
+        ..Default::default()
+    }),
+    private_as_properties_static,
+    r#"
+class Cl {
+  static #foo() {};
+  static #f = 123;
+  static get #bar() {};
+}
+"#,
+    r#"
+var _foo = _classPrivateFieldLooseKey("_foo"), _f = _classPrivateFieldLooseKey("_f"), _bar = _classPrivateFieldLooseKey("_bar");
+class Cl { }
+
+Object.defineProperty(Cl, _foo, {
+    value: foo
+});
+Object.defineProperty(Cl, _f, {
+    writable: true,
+    value: 123
+});
+Object.defineProperty(Cl, _bar, {
+    get: get_bar,
+    set: void 0
+});
+function foo() {}
+function get_bar() {}
+"#
+);
+
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config {
+        private_as_properties: true,
+        ..Default::default()
+    }),
+    private_as_properties_getter_only,
+    r#"
+class Cl {
+  #privateField = 0;
+
+  get #privateFieldValue() {
+    return this.#privateField;
+  }
+
+  constructor() {
+    this.#privateFieldValue = 1;
+    ([this.#privateFieldValue] = [1]);
+  }
+}
+"#,
+    r#"
+var _privateField = /*#__PURE__*/_classPrivateFieldLooseKey("_privateField"), _privateFieldValue = /*#__PURE__*/_classPrivateFieldLooseKey("_privateFieldValue");
+
+class Cl {
+  constructor() {
+    Object.defineProperty(this, _privateField, {
+      writable: true,
+      value: 0
+    });
+    Object.defineProperty(this, _privateFieldValue, {
+      get: get_privateFieldValue,
+      set: void 0
+    });
+    _classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue] = 1;
+    [_classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue]] = [1];
+  }
+
+}
+
+function get_privateFieldValue() {
+  return _classPrivateFieldLooseBase(this, _privateField)[_privateField];
+}
+"#
+);
+
+test!(
+    syntax(),
+    |_| class_properties(class_properties::Config {
+        private_as_properties: true,
+        set_public_fields: true,
+        ..Default::default()
+    }),
+    loose_update,
+    r#"
+class Cl {
+  #privateField = "top secret string";
+
+  constructor() {
+    this.publicField = "not secret string";
+  }
+
+  get #privateFieldValue() {
+    return this.#privateField;
+  }
+
+  set #privateFieldValue(newValue) {
+    this.#privateField = newValue;
+  }
+
+  publicGetPrivateField() {
+    return this.#privateFieldValue;
+  }
+
+  publicSetPrivateField(newValue) {
+    this.#privateFieldValue = newValue;
+  }
+
+  get publicFieldValue() {
+    return this.publicField;
+  }
+
+  set publicFieldValue(newValue) {
+    this.publicField = newValue;
+  }
+
+  testUpdates() {
+    this.#privateField = 0;
+    this.publicField = 0;
+    this.#privateFieldValue = this.#privateFieldValue++;
+    this.publicFieldValue = this.publicFieldValue++;
+
+    ++this.#privateFieldValue;
+    ++this.publicFieldValue;
+
+    this.#privateFieldValue += 1;
+    this.publicFieldValue += 1;
+
+    this.#privateFieldValue = -(this.#privateFieldValue ** this.#privateFieldValue);
+    this.publicFieldValue = -(this.publicFieldValue ** this.publicFieldValue);
+  }
+}
+"#,
+    r#"
+var _privateField = /*#__PURE__*/_classPrivateFieldLooseKey("_privateField"), _privateFieldValue = /*#__PURE__*/_classPrivateFieldLooseKey("_privateFieldValue");
+
+class Cl {
+  publicGetPrivateField() {
+    return _classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue];
+  }
+
+  publicSetPrivateField(newValue) {
+    _classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue] = newValue;
+  }
+
+  get publicFieldValue() {
+    return this.publicField;
+  }
+
+  set publicFieldValue(newValue) {
+    this.publicField = newValue;
+  }
+
+  testUpdates() {
+    _classPrivateFieldLooseBase(this, _privateField)[_privateField] = 0;
+    this.publicField = 0;
+    _classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue] = _classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue]++;
+    this.publicFieldValue = this.publicFieldValue++;
+    ++_classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue];
+    ++this.publicFieldValue;
+    _classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue] += 1;
+    this.publicFieldValue += 1;
+    _classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue] = -(_classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue] ** _classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue]);
+    this.publicFieldValue = -(this.publicFieldValue ** this.publicFieldValue);
+  }
+
+  constructor() {
+    Object.defineProperty(this, _privateField, {
+      writable: true,
+      value: "top secret string"
+    });
+    Object.defineProperty(this, _privateFieldValue, {
+      get: get_privateFieldValue,
+      set: set_privateFieldValue
+    });
+    this.publicField = "not secret string";
+  }
+}
+
+function get_privateFieldValue() {
+  return _classPrivateFieldLooseBase(this, _privateField)[_privateField];
+}
+
+function set_privateFieldValue(newValue) {
+  _classPrivateFieldLooseBase(this, _privateField)[_privateField] = newValue;
+}
+"#
+);
+
 #[testing::fixture("tests/fixture/classes/**/exec.js")]
 fn exec(input: PathBuf) {
     let src = read_to_string(&input).unwrap();
     compare_stdout(
         Default::default(),
-        |_| class_properties(class_properties::Config { loose: false }),
+        |_| class_properties(Default::default()),
         &src,
     );
 }

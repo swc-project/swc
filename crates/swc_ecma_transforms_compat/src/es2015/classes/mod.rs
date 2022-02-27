@@ -756,8 +756,8 @@ where
                 key: PropName::Ident(quote_ident!(key.span(), "key")),
                 value: match key {
                     PropName::Ident(i) => Box::new(Expr::Lit(Lit::Str(quote_str!(i.span, i.sym)))),
-                    PropName::Str(s) => Box::new(Expr::Lit(Lit::Str(s))),
-                    PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(n))),
+                    PropName::Str(s) => Box::new(Expr::from(s)),
+                    PropName::Num(n) => Box::new(Expr::from(n)),
                     PropName::BigInt(b) => Box::new(Expr::Lit(
                         Str {
                             span: b.span,

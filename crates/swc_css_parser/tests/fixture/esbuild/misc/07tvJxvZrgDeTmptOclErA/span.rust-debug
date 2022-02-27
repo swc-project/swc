@@ -94,7 +94,7 @@ error: Value
 1 | a { margin: 0 1 0 1 }
   |             ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:13
   |
 1 | a { margin: 0 1 0 1 }
@@ -106,7 +106,7 @@ error: Value
 1 | a { margin: 0 1 0 1 }
   |               ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:15
   |
 1 | a { margin: 0 1 0 1 }
@@ -118,7 +118,7 @@ error: Value
 1 | a { margin: 0 1 0 1 }
   |                 ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:17
   |
 1 | a { margin: 0 1 0 1 }
@@ -130,7 +130,7 @@ error: Value
 1 | a { margin: 0 1 0 1 }
   |                   ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:19
   |
 1 | a { margin: 0 1 0 1 }
