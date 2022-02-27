@@ -1,0 +1,19 @@
+a {
+    color: greenyellow;
+}
+
+a {
+    color: #000;
+}
+
+a {
+    unknown: #000, #fff, #ababab;
+}
+
+a {
+    color: #0000ffcc;
+}
+
+a {
+    color: #00fc;
+}

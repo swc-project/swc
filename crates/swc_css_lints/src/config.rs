@@ -96,6 +96,9 @@ pub struct RulesConfig {
 
     #[serde(default, alias = "colorHexLength")]
     pub color_hex_length: RuleConfig<ColorHexLengthConfig>,
+
+    #[serde(default, alias = "colorNoInvalidHex")]
+    pub color_no_invalid_hex: RuleConfig<()>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

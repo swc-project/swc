@@ -1,0 +1,24 @@
+error: Unexpected invalid hex color '#ababa'.
+ --> $DIR/tests/rules/fail/color-no-invalid-hex/input.css:2:12
+  |
+2 |     color: #ababa;
+  |            ^^^^^^
+
+error: Unexpected invalid hex color '#00'.
+ --> $DIR/tests/rules/fail/color-no-invalid-hex/input.css:6:14
+  |
+6 |     unknown: #00, #fff, #ababab;
+  |              ^^^
+
+error: Unexpected invalid hex color '#12345abcdefg'.
+  --> $DIR/tests/rules/fail/color-no-invalid-hex/input.css:10:12
+   |
+10 |     color: #12345abcdefg;
+   |            ^^^^^^^^^^^^^
+
+error: Unexpected invalid hex color '#xyz'.
+  --> $DIR/tests/rules/fail/color-no-invalid-hex/input.css:14:12
+   |
+14 |     color: #xyz;
+   |            ^^^^
+
