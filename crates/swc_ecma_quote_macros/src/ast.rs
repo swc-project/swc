@@ -59,30 +59,6 @@ where
     }
 }
 
-impl ToCode for Expr {
-    fn to_code(&self, cx: &mut Ctx) -> syn::Expr {
-        todo!("to_code for Expr")
-    }
-}
-
-impl ToCode for Pat {
-    fn to_code(&self, cx: &mut Ctx) -> syn::Expr {
-        todo!("to_code for Pat")
-    }
-}
-
-impl ToCode for Stmt {
-    fn to_code(&self, cx: &mut Ctx) -> syn::Expr {
-        todo!("to_code for Stmt")
-    }
-}
-
-impl ToCode for ModuleDecl {
-    fn to_code(&self, cx: &mut Ctx) -> syn::Expr {
-        todo!("to_code for ModuleDecl")
-    }
-}
-
 macro_rules! impl_enum {
     ($E:ident, [ $($v:ident),* ]) => {
         impl ToCode for $E {
@@ -104,3 +80,8 @@ macro_rules! impl_enum {
 }
 
 impl_enum!(ModuleItem, [ModuleDecl, Stmt]);
+impl_enum!(ModuleDecl, []);
+impl_enum!(Stmt, []);
+impl_enum!(Decl, []);
+impl_enum!(Expr, []);
+impl_enum!(Pat, []);
