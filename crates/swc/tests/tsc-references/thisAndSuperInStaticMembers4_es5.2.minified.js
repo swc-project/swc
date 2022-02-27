@@ -25,7 +25,7 @@ function _superPropBase(object, property) {
     for(; !Object.prototype.hasOwnProperty.call(object, property) && null !== (object = _getPrototypeOf(object)););
     return object;
 }
-var ref, ref1, C = function(B) {
+var C = function(B) {
     "use strict";
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
@@ -62,4 +62,4 @@ var ref, ref1, C = function(B) {
     }
     return C;
 }(B);
-C.x = void 0, C.y1 = this.x, C.y2 = this.x(), C.y3 = null === (ref = this) || void 0 === ref ? void 0 : ref.x(), C.y4 = this.x(), C.y5 = null === (ref1 = this) || void 0 === ref1 ? void 0 : ref1.x(), C.z3 = super.f(), C.z4 = super.f();
+C.x = void 0, C.y1 = C.x, C.y2 = C.x(), C.y3 = null == C ? void 0 : C.x(), C.y4 = C.x(), C.y5 = null == C ? void 0 : C.x(), C.z3 = super.f(), C.z4 = super.f();

@@ -1,6 +1,7 @@
-(class {
+class C {
     constructor(foo){
         this.foo = foo;
     }
-}).create = ()=>new this("yep")
+}
+C.create = ()=>new C("yep")
 ;

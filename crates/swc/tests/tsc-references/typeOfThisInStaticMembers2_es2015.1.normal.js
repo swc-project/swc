@@ -1,6 +1,6 @@
 class C {
 }
-C.foo = this;
+C.foo = C;
 class C2 {
 }
-C2.foo = this;
+C2.foo = C2;
