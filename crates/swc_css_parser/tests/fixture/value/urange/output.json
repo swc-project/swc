@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 653,
+    "end": 689,
     "ctxt": 0
   },
   "rules": [
@@ -10,14 +10,14 @@
       "type": "FontFaceRule",
       "span": {
         "start": 0,
-        "end": 652,
+        "end": 688,
         "ctxt": 0
       },
       "block": {
         "type": "SimpleBlock",
         "span": {
           "start": 11,
-          "end": 652,
+          "end": 688,
           "ctxt": 0
         },
         "name": "{",
@@ -123,13 +123,15 @@
             },
             "value": [
               {
-                "type": "Urange",
+                "type": "UnicodeRange",
                 "span": {
                   "start": 97,
                   "end": 101,
                   "ctxt": 0
                 },
-                "value": "U+26"
+                "prefix": "U",
+                "start": "26",
+                "end": null
               }
             ],
             "important": null
@@ -153,13 +155,15 @@
             },
             "value": [
               {
-                "type": "Urange",
+                "type": "UnicodeRange",
                 "span": {
                   "start": 159,
                   "end": 163,
                   "ctxt": 0
                 },
-                "value": "u+26"
+                "prefix": "u",
+                "start": "26",
+                "end": null
               }
             ],
             "important": null
@@ -183,13 +187,15 @@
             },
             "value": [
               {
-                "type": "Urange",
+                "type": "UnicodeRange",
                 "span": {
                   "start": 184,
                   "end": 190,
                   "ctxt": 0
                 },
-                "value": "U+0-7F"
+                "prefix": "U",
+                "start": "0",
+                "end": "7F"
               }
             ],
             "important": null
@@ -213,13 +219,15 @@
             },
             "value": [
               {
-                "type": "Urange",
+                "type": "UnicodeRange",
                 "span": {
                   "start": 211,
                   "end": 222,
                   "ctxt": 0
                 },
-                "value": "U+0025-00FF"
+                "prefix": "U",
+                "start": "0025",
+                "end": "00FF"
               }
             ],
             "important": null
@@ -243,13 +251,15 @@
             },
             "value": [
               {
-                "type": "Urange",
+                "type": "UnicodeRange",
                 "span": {
                   "start": 272,
                   "end": 277,
                   "ctxt": 0
                 },
-                "value": "U+4??"
+                "prefix": "U",
+                "start": "4??",
+                "end": null
               }
             ],
             "important": null
@@ -273,13 +283,15 @@
             },
             "value": [
               {
-                "type": "Urange",
+                "type": "UnicodeRange",
                 "span": {
                   "start": 332,
                   "end": 343,
                   "ctxt": 0
                 },
-                "value": "U+0025-00FF"
+                "prefix": "U",
+                "start": "0025",
+                "end": "00FF"
               },
               {
                 "type": "Delimiter",
@@ -291,13 +303,15 @@
                 "value": ","
               },
               {
-                "type": "Urange",
+                "type": "UnicodeRange",
                 "span": {
                   "start": 345,
                   "end": 350,
                   "ctxt": 0
                 },
-                "value": "U+4??"
+                "prefix": "U",
+                "start": "4??",
+                "end": null
               }
             ],
             "important": null
@@ -321,13 +335,15 @@
             },
             "value": [
               {
-                "type": "Urange",
+                "type": "UnicodeRange",
                 "span": {
                   "start": 393,
                   "end": 397,
                   "ctxt": 0
                 },
-                "value": "U+A5"
+                "prefix": "U",
+                "start": "A5",
+                "end": null
               },
               {
                 "type": "Delimiter",
@@ -339,13 +355,15 @@
                 "value": ","
               },
               {
-                "type": "Urange",
+                "type": "UnicodeRange",
                 "span": {
                   "start": 399,
                   "end": 410,
                   "ctxt": 0
                 },
-                "value": "U+4E00-9FFF"
+                "prefix": "U",
+                "start": "4E00",
+                "end": "9FFF"
               },
               {
                 "type": "Delimiter",
@@ -357,13 +375,15 @@
                 "value": ","
               },
               {
-                "type": "Urange",
+                "type": "UnicodeRange",
                 "span": {
                   "start": 412,
                   "end": 418,
                   "ctxt": 0
                 },
-                "value": "U+30??"
+                "prefix": "U",
+                "start": "30??",
+                "end": null
               },
               {
                 "type": "Delimiter",
@@ -375,13 +395,15 @@
                 "value": ","
               },
               {
-                "type": "Urange",
+                "type": "UnicodeRange",
                 "span": {
                   "start": 420,
                   "end": 431,
                   "ctxt": 0
                 },
-                "value": "U+FF00-FF9F"
+                "prefix": "U",
+                "start": "FF00",
+                "end": "FF9F"
               }
             ],
             "important": null
@@ -405,13 +427,15 @@
             },
             "value": [
               {
-                "type": "Urange",
+                "type": "UnicodeRange",
                 "span": {
                   "start": 474,
                   "end": 480,
                   "ctxt": 0
                 },
-                "value": "U+????"
+                "prefix": "U",
+                "start": "????",
+                "end": null
               }
             ],
             "important": null
@@ -435,13 +459,15 @@
             },
             "value": [
               {
-                "type": "Urange",
+                "type": "UnicodeRange",
                 "span": {
                   "start": 501,
                   "end": 509,
                   "ctxt": 0
                 },
-                "value": "U+??????"
+                "prefix": "U",
+                "start": "??????",
+                "end": null
               }
             ],
             "important": null
@@ -465,13 +491,15 @@
             },
             "value": [
               {
-                "type": "Urange",
+                "type": "UnicodeRange",
                 "span": {
                   "start": 530,
                   "end": 534,
                   "ctxt": 0
                 },
-                "value": "U+12"
+                "prefix": "U",
+                "start": "12",
+                "end": null
               }
             ],
             "important": null
@@ -495,13 +523,15 @@
             },
             "value": [
               {
-                "type": "Urange",
+                "type": "UnicodeRange",
                 "span": {
                   "start": 555,
                   "end": 563,
                   "ctxt": 0
                 },
-                "value": "U+12e112"
+                "prefix": "U",
+                "start": "12e112",
+                "end": null
               }
             ],
             "important": null
@@ -525,13 +555,15 @@
             },
             "value": [
               {
-                "type": "Urange",
+                "type": "UnicodeRange",
                 "span": {
                   "start": 584,
                   "end": 592,
                   "ctxt": 0
                 },
-                "value": "U+1e1ee1"
+                "prefix": "U",
+                "start": "1e1ee1",
+                "end": null
               }
             ],
             "important": null
@@ -540,7 +572,7 @@
             "type": "Declaration",
             "span": {
               "start": 598,
-              "end": 621,
+              "end": 628,
               "ctxt": 0
             },
             "name": {
@@ -555,13 +587,15 @@
             },
             "value": [
               {
-                "type": "Urange",
+                "type": "UnicodeRange",
                 "span": {
                   "start": 613,
-                  "end": 621,
+                  "end": 628,
                   "ctxt": 0
                 },
-                "value": "U+1e1ee?"
+                "prefix": "U",
+                "start": "1e1ee1",
+                "end": "FFFFFF"
               }
             ],
             "important": null
@@ -569,15 +603,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 627,
-              "end": 649,
+              "start": 634,
+              "end": 657,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 627,
-                "end": 640,
+                "start": 634,
+                "end": 647,
                 "ctxt": 0
               },
               "value": "unicode-range",
@@ -585,13 +619,47 @@
             },
             "value": [
               {
-                "type": "Urange",
+                "type": "UnicodeRange",
                 "span": {
-                  "start": 642,
-                  "end": 649,
+                  "start": 649,
+                  "end": 657,
                   "ctxt": 0
                 },
-                "value": "U+12-13"
+                "prefix": "U",
+                "start": "1e1ee?",
+                "end": null
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 663,
+              "end": 685,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 663,
+                "end": 676,
+                "ctxt": 0
+              },
+              "value": "unicode-range",
+              "raw": "unicode-range"
+            },
+            "value": [
+              {
+                "type": "UnicodeRange",
+                "span": {
+                  "start": 678,
+                  "end": 685,
+                  "ctxt": 0
+                },
+                "prefix": "U",
+                "start": "12",
+                "end": "13"
               }
             ],
             "important": null
