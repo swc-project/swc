@@ -5,6 +5,7 @@ use serde::{Deserialize, Serialize};
 use crate::rules::{
     at_rule_no_unknown::AtRuleNoUnknownConfig, color_hex_length::ColorHexLengthConfig,
     no_invalid_position_at_import_rule::NoInvalidPositionAtImportRuleConfig,
+    unit_no_unknown::UnitNoUnknownConfig,
 };
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
@@ -99,6 +100,9 @@ pub struct RulesConfig {
 
     #[serde(default, alias = "colorNoInvalidHex")]
     pub color_no_invalid_hex: RuleConfig<()>,
+
+    #[serde(default, alias = "unitNoUnknown")]
+    pub unit_no_unknown: RuleConfig<UnitNoUnknownConfig>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

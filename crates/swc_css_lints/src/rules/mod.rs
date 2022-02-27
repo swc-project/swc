@@ -8,7 +8,7 @@ use crate::{
         keyframe_declaration_no_important::keyframe_declaration_no_important,
         no_empty_source::no_empty_source,
         no_invalid_position_at_import_rule::no_invalid_position_at_import_rule,
-        selector_max_class::selector_max_class,
+        selector_max_class::selector_max_class, unit_no_unknown::unit_no_unknown,
     },
 };
 
@@ -21,6 +21,7 @@ pub mod keyframe_declaration_no_important;
 pub mod no_empty_source;
 pub mod no_invalid_position_at_import_rule;
 pub mod selector_max_class;
+pub mod unit_no_unknown;
 
 pub struct LintParams<'a> {
     pub lint_config: &'a LintConfig,
@@ -62,6 +63,9 @@ pub fn get_rules(LintParams { lint_config }: &LintParams) -> Vec<Box<dyn LintRul
     }
     if rules_config.color_no_invalid_hex.is_enabled() {
         rules.push(color_no_invalid_hex(&rules_config.color_no_invalid_hex));
+    }
+    if rules_config.unit_no_unknown.is_enabled() {
+        rules.push(unit_no_unknown(&rules_config.unit_no_unknown));
     }
 
     rules

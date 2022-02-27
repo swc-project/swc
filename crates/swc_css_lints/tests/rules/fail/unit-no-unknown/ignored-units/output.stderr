@@ -1,0 +1,6 @@
+error: Unexpected unknown unit "lightyear".
+ --> $DIR/tests/rules/fail/unit-no-unknown/ignored-units/input.css:2:13
+  |
+2 |     width: 2lightyear;
+  |             ^^^^^^^^^
+
