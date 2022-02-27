@@ -1,6 +1,7 @@
-use crate::ctxt::Ctx;
 use pmutil::q;
 use swc_ecma_ast::*;
+
+use crate::ctxt::Ctx;
 
 pub(crate) trait ToCode: 'static {
     fn to_code(&self, cx: &mut Ctx) -> syn::Expr;
@@ -60,25 +61,25 @@ where
 
 impl ToCode for Expr {
     fn to_code(&self, cx: &mut Ctx) -> syn::Expr {
-        todo!()
+        todo!("to_code for Expr")
     }
 }
 
 impl ToCode for Pat {
     fn to_code(&self, cx: &mut Ctx) -> syn::Expr {
-        todo!()
+        todo!("to_code for Pat")
     }
 }
 
 impl ToCode for Stmt {
     fn to_code(&self, cx: &mut Ctx) -> syn::Expr {
-        todo!()
+        todo!("to_code for Stmt")
     }
 }
 
 impl ToCode for ModuleDecl {
     fn to_code(&self, cx: &mut Ctx) -> syn::Expr {
-        todo!()
+        todo!("to_code for ModuleDecl")
     }
 }
 

@@ -17,7 +17,6 @@ pub fn internal_quote(input: proc_macro::TokenStream) -> proc_macro::TokenStream
         src,
         as_token: _,
         output_type,
-        comma_for_vars: _,
         vars,
     } = syn::parse::<QuoteInput>(input).expect("failed to parse input to quote!()");
 
