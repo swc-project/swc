@@ -1,5 +1,5 @@
 use pmutil::q;
-use swc_ecma_ast::BindingIdent;
+use swc_ecma_ast::{ArrayPat, AssignPat, BindingIdent, ObjectPat, RestPat};
 
 use super::ToCode;
 use crate::ctxt::Ctx;
@@ -21,3 +21,8 @@ impl ToCode for BindingIdent {
         .parse()
     }
 }
+
+fail_todo!(ArrayPat);
+fail_todo!(ObjectPat);
+fail_todo!(RestPat);
+fail_todo!(AssignPat);
