@@ -1,10 +1,10 @@
 import { exec } from "child_process";
-import { getLatestCommitMesssage } from "../util/git";
+import { getTitleOfLatestCommit } from "../util/git";
 import { parsePrComments } from "./comment-parser";
 
 
 (async () => {
-    const latestCommitMessage = await getLatestCommitMesssage();
+    const latestCommitMessage = await getTitleOfLatestCommit();
     console.log('Latest commit message:', latestCommitMessage);
 
     const lParenIndex = latestCommitMessage.lastIndexOf('(#');
