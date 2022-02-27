@@ -16,6 +16,7 @@ macro_rules! fail_todo {
 mod decl;
 mod expr;
 mod id;
+mod lit;
 mod module_decl;
 mod pat;
 mod stmt;
