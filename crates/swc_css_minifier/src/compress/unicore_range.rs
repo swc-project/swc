@@ -1,13 +1,13 @@
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
-pub fn compress_urange() -> impl VisitMut {
-    CompressUrange {}
+pub fn compress_unicode_range() -> impl VisitMut {
+    CompressUnicodeRange {}
 }
 
-struct CompressUrange {}
+struct CompressUnicodeRange {}
 
-impl CompressUrange {
+impl CompressUnicodeRange {
     fn remove_leading_zeros(&mut self, value: &str) -> String {
         let mut result = String::new();
         let mut is_leading = true;
@@ -49,52 +49,26 @@ impl CompressUrange {
     }
 }
 
-// IE and Edge before 16 version ignore the unicode-range if the 'U' is
-// lowercase
+impl VisitMut for CompressUnicodeRange {
+    fn visit_mut_unicode_range(&mut self, unicode_range: &mut UnicodeRange) {
+        unicode_range.visit_mut_children_with(self);
 
-impl VisitMut for CompressUrange {
-    fn visit_mut_urange(&mut self, urange: &mut Urange) {
-        urange.visit_mut_children_with(self);
-
-        let str_value = &urange.value[2..];
-
-        if !urange.value.contains('-') {
-            let mut value = String::new();
-
-            value.push_str("U+");
-            value.push_str(&self.remove_leading_zeros(str_value));
-
-            urange.value = value.into();
+        if unicode_range.end.is_none() {
+            unicode_range.start = self.remove_leading_zeros(&*unicode_range.start).into();
 
             return;
         }
 
-        let parts: Vec<&str> = str_value.split('-').collect();
-
-        if parts.len() != 2 {
-            return;
-        }
-
-        let start = parts[0];
-        let end = parts[1];
+        let start = &unicode_range.start;
+        let end = unicode_range.end.as_ref().unwrap();
         let merged = self.merge_start_and_end(start, end);
 
         if let Some(merged) = &merged {
-            let mut value = String::new();
-
-            value.push_str("U+");
-            value.push_str(&self.remove_leading_zeros(merged));
-
-            urange.value = value.into();
+            unicode_range.start = self.remove_leading_zeros(merged).into();
+            unicode_range.end = None;
         } else {
-            let mut value = String::new();
-
-            value.push_str("U+");
-            value.push_str(&self.remove_leading_zeros(start));
-            value.push('-');
-            value.push_str(&self.remove_leading_zeros(end));
-
-            urange.value = value.into();
+            unicode_range.start = self.remove_leading_zeros(start).into();
+            unicode_range.end = Some(self.remove_leading_zeros(end).into());
         }
     }
 }

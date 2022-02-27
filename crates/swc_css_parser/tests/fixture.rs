@@ -398,7 +398,7 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(UrlModifier, visit_url_modifier);
 
-    mtd!(Urange, visit_urange);
+    mtd!(UnicodeRange, visit_unicode_range);
 
     mtd!(Value, visit_value);
 

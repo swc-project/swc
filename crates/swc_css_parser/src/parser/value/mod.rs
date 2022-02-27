@@ -194,7 +194,7 @@ where
                 } else if &*value.to_ascii_lowercase() == "u"
                     && peeked_is_one_of!(self, "+", "number", "dimension")
                 {
-                    return Ok(Value::Urange(self.parse()?));
+                    return Ok(Value::UnicodeRange(self.parse()?));
                 }
 
                 return Ok(Value::Ident(self.parse()?));
@@ -1401,13 +1401,13 @@ where
 //   u <number-token> <dimension-token> |
 //   u <number-token> <number-token> |
 //   u '+' '?'+
-impl<I> Parse<Urange> for Parser<I>
+impl<I> Parse<UnicodeRange> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<Urange> {
+    fn parse(&mut self) -> PResult<UnicodeRange> {
         let span = self.input.cur_span()?;
-        let mut urange = String::new();
+        let mut unicode_range = String::new();
 
         // should start with `u` or `U`
         match cur!(self) {
@@ -1419,7 +1419,7 @@ where
                     }
                 };
 
-                urange.push_str(&ident);
+                unicode_range.push_str(&ident);
             }
             _ => {
                 return Err(Error::new(span, ErrorKind::Expected("'u' ident token")));
@@ -1437,7 +1437,7 @@ where
                     }
                 };
 
-                urange.push(plus);
+                unicode_range.push(plus);
 
                 if is!(self, Ident) {
                     let ident = match bump!(self) {
@@ -1447,7 +1447,7 @@ where
                         }
                     };
 
-                    urange.push_str(&ident);
+                    unicode_range.push_str(&ident);
 
                     loop {
                         if !is!(self, "?") {
@@ -1461,7 +1461,7 @@ where
                             }
                         };
 
-                        urange.push(question);
+                        unicode_range.push(question);
                     }
                 } else {
                     let question = match bump!(self) {
@@ -1471,7 +1471,7 @@ where
                         }
                     };
 
-                    urange.push(question);
+                    unicode_range.push(question);
 
                     loop {
                         if !is!(self, "?") {
@@ -1485,7 +1485,7 @@ where
                             }
                         };
 
-                        urange.push(question);
+                        unicode_range.push(question);
                     }
                 }
             }
@@ -1500,7 +1500,7 @@ where
                     }
                 };
 
-                urange.push_str(&number);
+                unicode_range.push_str(&number.to_string());
 
                 match cur!(self) {
                     tok!("?") => {
@@ -1511,7 +1511,7 @@ where
                             }
                         };
 
-                        urange.push(question);
+                        unicode_range.push(question);
 
                         loop {
                             if !is!(self, "?") {
@@ -1525,7 +1525,7 @@ where
                                 }
                             };
 
-                            urange.push(question);
+                            unicode_range.push(question);
                         }
                     }
                     tok!("dimension") => {
@@ -1540,8 +1540,8 @@ where
                             }
                         };
 
-                        urange.push_str(&dimension.0);
-                        urange.push_str(&dimension.1);
+                        unicode_range.push_str(&dimension.0);
+                        unicode_range.push_str(&dimension.1);
                     }
                     tok!("number") => {
                         let number = match bump!(self) {
@@ -1551,7 +1551,7 @@ where
                             }
                         };
 
-                        urange.push_str(&number);
+                        unicode_range.push_str(&number);
                     }
                     _ => {}
                 }
@@ -1569,8 +1569,8 @@ where
                     }
                 };
 
-                urange.push_str(&dimension.0);
-                urange.push_str(&dimension.1);
+                unicode_range.push_str(&dimension.0);
+                unicode_range.push_str(&dimension.1);
 
                 loop {
                     if !is!(self, "?") {
@@ -1584,7 +1584,7 @@ where
                         }
                     };
 
-                    urange.push(question);
+                    unicode_range.push(question);
                 }
             }
             _ => {
@@ -1595,9 +1595,171 @@ where
             }
         }
 
-        return Ok(Urange {
+        let mut chars = unicode_range.chars();
+
+        // 1. Skipping the first u token, concatenate the representations of all the
+        // tokens in the production together. Let this be text.
+        let prefix = chars.next().unwrap();
+
+        let mut next = chars.next();
+
+        // 2. If the first character of text is U+002B PLUS SIGN, consume it. Otherwise,
+        // this is an invalid <urange>, and this algorithm must exit.
+        if next != Some('+') {
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected("'+' character after 'u' in unicode range"),
+            ));
+        } else {
+            next = chars.next();
+        }
+
+        // 3. Consume as many hex digits from text as possible. then consume as many
+        // U+003F QUESTION MARK (?) code points as possible. If zero code points
+        // were consumed, or more than six code points were consumed, this is an
+        // invalid <urange>, and this algorithm must exit.
+        let mut start = String::new();
+
+        loop {
+            match next {
+                Some(c) if c.is_digit(10) => {
+                    start.push(c);
+
+                    next = chars.next();
+                }
+                Some(c @ 'A'..='F') | Some(c @ 'a'..='f') => {
+                    start.push(c);
+
+                    next = chars.next();
+                }
+                _ => {
+                    break;
+                }
+            }
+        }
+
+        let mut has_question_mark = false;
+
+        while let Some(c @ '?') = next {
+            has_question_mark = true;
+
+            start.push(c);
+
+            next = chars.next();
+        }
+
+        let len = start.len();
+
+        if len == 0 || len > 6 {
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected(
+                    "valid length (minimum 1 or maximum 6 hex digits) in the start of unicode \
+                     range",
+                ),
+            ));
+        }
+
+        // If any U+003F QUESTION MARK (?) code points were consumed, then:
+        if has_question_mark {
+            // 1. If there are any code points left in text, this is an invalid <urange>,
+            // and this algorithm must exit.
+            if next != None {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("no characters after '?' in unicode range"),
+                ));
+            }
+
+            // 2. Interpret the consumed code points
+            // as a hexadecimal number, with the U+003F QUESTION MARK (?) code points
+            // replaced by U+0030 DIGIT ZERO (0) code points. This is the start value.
+            //
+            // 3. Interpret the consumed code points as a hexadecimal number again, with the
+            // U+003F QUESTION MARK (?) code points replaced by U+0046 LATIN CAPITAL LETTER
+            // F (F) code points. This is the end value.
+            //
+
+            // 4. Exit this algorithm.
+            return Ok(UnicodeRange {
+                span: span!(self, span.lo),
+                prefix,
+                start: start.into(),
+                end: None,
+            });
+        }
+
+        // Otherwise, interpret the consumed code points as a hexadecimal number. This
+        // is the start value.
+
+        // 4. If there are no code points left in text, The end value is the same as the
+        // start value. Exit this algorithm.
+        if next == None {
+            return Ok(UnicodeRange {
+                span: span!(self, span.lo),
+                prefix,
+                start: start.into(),
+                end: None,
+            });
+        }
+
+        // 5. If the next code point in text is U+002D HYPHEN-MINUS (-), consume it.
+        // Otherwise, this is an invalid <urange>, and this algorithm must exit.
+        if next != Some('-') {
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected("'-' between start and end in unicode range"),
+            ));
+        } else {
+            next = chars.next();
+        }
+
+        // 6. Consume as many hex digits as possible from text.
+        // If zero hex digits were consumed, or more than 6 hex digits were consumed,
+        // this is an invalid <urange>, and this algorithm must exit. If there are any
+        // code points left in text, this is an invalid <urange>, and this algorithm
+        // must exit.
+        let mut end = String::new();
+
+        loop {
+            match next {
+                Some(c) if c.is_digit(10) => {
+                    end.push(c);
+                    next = chars.next();
+                }
+                Some(c @ 'A'..='F') | Some(c @ 'a'..='f') => {
+                    end.push(c);
+                    next = chars.next();
+                }
+                _ => {
+                    break;
+                }
+            }
+        }
+
+        let len = end.len();
+
+        if len == 0 || len > 6 {
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected(
+                    "valid length (minimum 1 or maximum 6 hex digits) in the end of unicode range",
+                ),
+            ));
+        }
+
+        if chars.next() != None {
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected("no characters after end in unicode range"),
+            ));
+        }
+
+        return Ok(UnicodeRange {
             span: span!(self, span.lo),
-            value: urange.into(),
+            prefix,
+            start: start.into(),
+            end: Some(end.into()),
         });
     }
 }
