@@ -72,3 +72,6 @@ impl_struct!(JSXOpeningFragment, [span]);
 impl_struct!(JSXClosingFragment, [span]);
 
 impl_struct!(SpreadElement, [dot3_token, expr]);
+
+impl_struct!(JSXExprContainer, [span, expr]);
+impl_struct!(JSXSpreadChild, [span, expr]);
