@@ -3,7 +3,7 @@ use crate::{
     rule::LintRule,
     rules::{
         at_rule_no_unknown::at_rule_no_unknown, block_no_empty::block_no_empty,
-        declaration_no_important::declaration_no_important,
+        color_hex_length::color_hex_length, declaration_no_important::declaration_no_important,
         keyframe_declaration_no_important::keyframe_declaration_no_important,
         no_empty_source::no_empty_source,
         no_invalid_position_at_import_rule::no_invalid_position_at_import_rule,
@@ -13,6 +13,7 @@ use crate::{
 
 pub mod at_rule_no_unknown;
 pub mod block_no_empty;
+pub mod color_hex_length;
 pub mod declaration_no_important;
 pub mod keyframe_declaration_no_important;
 pub mod no_empty_source;
@@ -53,6 +54,9 @@ pub fn get_rules(LintParams { lint_config }: &LintParams) -> Vec<Box<dyn LintRul
     }
     if rules_config.selector_max_class.is_enabled() {
         rules.push(selector_max_class(&rules_config.selector_max_class));
+    }
+    if rules_config.color_hex_length.is_enabled() {
+        rules.push(color_hex_length(&rules_config.color_hex_length));
     }
 
     rules

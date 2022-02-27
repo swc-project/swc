@@ -3,7 +3,7 @@ use std::fmt::Debug;
 use serde::{Deserialize, Serialize};
 
 use crate::rules::{
-    at_rule_no_unknown::AtRuleNoUnknownConfig,
+    at_rule_no_unknown::AtRuleNoUnknownConfig, color_hex_length::ColorHexLengthConfig,
     no_invalid_position_at_import_rule::NoInvalidPositionAtImportRuleConfig,
 };
 
@@ -93,6 +93,9 @@ pub struct RulesConfig {
 
     #[serde(default, alias = "selectorMaxClass")]
     pub selector_max_class: RuleConfig<Option<usize>>,
+
+    #[serde(default, alias = "colorHexLength")]
+    pub color_hex_length: RuleConfig<ColorHexLengthConfig>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
