@@ -1144,7 +1144,6 @@ where
         };
 
         let body = module.body?;
-        let var = self.create_uninit_var(module_name.span, module_name.to_id());
         let private_name = private_ident!(module_name.sym.clone());
         let body_stmts = match body {
             TsNamespaceBody::TsModuleBlock(block) => {
@@ -1154,6 +1153,8 @@ where
                 self.handle_ts_namespace_decl(decl, &private_name)
             }
         }?;
+
+        let var = self.create_uninit_var(module_name.span, module_name.to_id());
 
         self.get_namespace_var_decl_and_call_expr(
             var,
