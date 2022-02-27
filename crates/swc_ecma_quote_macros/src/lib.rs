@@ -2,7 +2,7 @@ extern crate proc_macro;
 
 mod ast;
 mod ctxt;
-mod input;
+mod ret_type;
 
 /// Don't invoke this macro directly, use the `quote!` macro from
 /// `swc_ecma_quote` instead.
