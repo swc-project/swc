@@ -76,3 +76,4 @@ impl_simple_enum!(
 
 impl_simple_enum!(Accessibility, [Public, Protected, Private]);
 impl_simple_enum!(MethodKind, [Method, Getter, Setter]);
+impl_simple_enum!(MetaPropKind, [NewTarget, ImportMeta]);
