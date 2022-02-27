@@ -58,7 +58,7 @@ jobs:
           override: true
 
       - name: Run benchmark
-        run: cargo +nightly-2021-09-30 bench --all --exclude swc_plugin | tee output.txt
+        run: cargo bench --all --exclude swc_plugin | tee output.txt
 
       - name: Download previous benchmark results
         run: mkdir raw-data && curl -o raw-data/benchmark-data.json https://raw.githubusercontent.com/swc-project/raw-data/gh-pages/benchmark-data.json
