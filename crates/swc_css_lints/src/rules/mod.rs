@@ -6,6 +6,7 @@ use crate::{
         declaration_no_important::declaration_no_important,
         keyframe_declaration_no_important::keyframe_declaration_no_important,
         no_empty_source::no_empty_source,
+        no_invalid_position_at_import_rule::no_invalid_position_at_import_rule,
     },
 };
 
@@ -14,6 +15,7 @@ pub mod block_no_empty;
 pub mod declaration_no_important;
 pub mod keyframe_declaration_no_important;
 pub mod no_empty_source;
+pub mod no_invalid_position_at_import_rule;
 
 pub struct LintParams<'a> {
     pub lint_config: &'a LintConfig,
@@ -40,6 +42,11 @@ pub fn get_rules(LintParams { lint_config }: &LintParams) -> Vec<Box<dyn LintRul
     if rules_config.keyframe_declaration_no_important.is_enabled() {
         rules.push(keyframe_declaration_no_important(
             &rules_config.keyframe_declaration_no_important,
+        ));
+    }
+    if rules_config.no_invalid_position_at_import_rule.is_enabled() {
+        rules.push(no_invalid_position_at_import_rule(
+            &rules_config.no_invalid_position_at_import_rule,
         ));
     }
 

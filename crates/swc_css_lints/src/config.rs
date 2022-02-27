@@ -2,7 +2,10 @@ use std::fmt::Debug;
 
 use serde::{Deserialize, Serialize};
 
-use crate::rules::at_rule_no_unknown::AtRuleNoUnknownConfig;
+use crate::rules::{
+    at_rule_no_unknown::AtRuleNoUnknownConfig,
+    no_invalid_position_at_import_rule::NoInvalidPositionAtImportRuleConfig,
+};
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
@@ -84,6 +87,9 @@ pub struct RulesConfig {
 
     #[serde(default, alias = "keyframeDeclarationNoImportant")]
     pub keyframe_declaration_no_important: RuleConfig<()>,
+
+    #[serde(default, alias = "noInvalidPositionAtImportRule")]
+    pub no_invalid_position_at_import_rule: RuleConfig<NoInvalidPositionAtImportRuleConfig>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
