@@ -16,14 +16,14 @@ var _fooField = new WeakMap(), _fooMethod = new WeakSet(), _fooProp = new WeakMa
 // @target: es6
 class A {
     constructor(){
-        _classPrivateFieldInit(this, _fooField, {
-            writable: true,
-            value: 3
-        });
         _classPrivateMethodInit(this, _fooMethod);
         _classPrivateFieldInit(this, _fooProp, {
             get: get_fooProp,
             set: set_fooProp
+        });
+        _classPrivateFieldInit(this, _fooField, {
+            writable: true,
+            value: 3
         });
         this.bar = 3;
         this.baz = 3;

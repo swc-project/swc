@@ -236,16 +236,16 @@ var A = function A() {
     _classStaticPrivateMethodGet(A, A, foo).call(A, 30);
     _classStaticPrivateMethodGet(A, A, bar).call(A, 30);
     _classStaticPrivateMethodGet(A, A, bar).call(A, 30);
-    _classStaticPrivateFieldSpecSet(A, A, _quux, _classStaticPrivateMethodGet(A, A, quux) + 1);
-    _classStaticPrivateFieldSpecSet(A, A, _quux, (_this_quux = +_classStaticPrivateMethodGet(A, A, quux)) + 1), _this_quux;
-};
-var __quux = {
-    writable: true,
-    value: void 0
+    _classStaticPrivateFieldSpecSet(A, A, _quux, _classStaticPrivateFieldSpecGet(A, A, _quux) + 1);
+    _classStaticPrivateFieldSpecSet(A, A, _quux, (_this_quux = +_classStaticPrivateFieldSpecGet(A, A, _quux)) + 1), _this_quux;
 };
 var _quux = {
     get: get_quux,
     set: set_quux
+};
+var __quux = {
+    writable: true,
+    value: void 0
 };
 function foo(a) {}
 function bar(a) {

@@ -28,7 +28,7 @@ class C {
     }
 }
 C.prop = ()=>{
-    Math.random() ? this.inStaticPropertyDeclaration = 0 : this.inStaticPropertyDeclaration = "string";
+    Math.random() ? C.inStaticPropertyDeclaration = 0 : C.inStaticPropertyDeclaration = "string";
 };
 var c = new C();
 c.inConstructor, c.inMethod, c.inGetter, c.inSetter, c.inPropertyDeclaration, c.inNestedArrowFunction, c.inMultiple, c.inMultipleMethods, c.inMethodNullable, C.inStaticMethod, C.inStaticGetter, C.inStaticSetter, C.inStaticPropertyDeclaration, C.inStaticNestedArrowFunction;

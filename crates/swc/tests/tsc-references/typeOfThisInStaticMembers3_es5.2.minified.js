@@ -15,7 +15,7 @@ var C = function() {
     "use strict";
     _classCallCheck(this, C);
 };
-C.a = 1, C.b = this.a + 1;
+C.a = 1, C.b = C.a + 1;
 var D = function(C1) {
     "use strict";
     !function(subClass, superClass) {
@@ -53,4 +53,4 @@ var D = function(C1) {
     }
     return D;
 }(C);
-D.c = 2, D.d = this.c + 1, D.e = super.a + this.c + 1;
+D.c = 2, D.d = D.c + 1, D.e = super.a + D.c + 1;

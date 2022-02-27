@@ -176,19 +176,19 @@ class A {
         _classPrivateMethodInit(this, _foo);
         _classPrivateMethodInit(this, _bar);
         _classPrivateMethodInit(this, _baz);
-        _classPrivateFieldInit(this, __quux, {
-            writable: true,
-            value: void 0
-        });
         _classPrivateFieldInit(this, _quux, {
             get: get_quux,
             set: set_quux
         });
+        _classPrivateFieldInit(this, __quux, {
+            writable: true,
+            value: void 0
+        });
         _classPrivateMethodGet(this, _foo, foo).call(this, 30);
         _classPrivateMethodGet(this, _bar, bar).call(this, 30);
         _classPrivateMethodGet(this, _baz, baz).call(this, 30);
-        _classPrivateFieldSet(this, _quux, _classPrivateMethodGet(this, _quux, quux) + 1);
-        _classPrivateFieldSet(this, _quux, (_this_quux = +_classPrivateMethodGet(this, _quux, quux)) + 1), _this_quux;
+        _classPrivateFieldSet(this, _quux, _classPrivateFieldGet(this, _quux) + 1);
+        _classPrivateFieldSet(this, _quux, (_this_quux = +_classPrivateFieldGet(this, _quux)) + 1), _this_quux;
     }
 }
 function foo(a) {}

@@ -18,14 +18,14 @@ for(let i = 0; i < 10; ++i){
         var _myField = new WeakMap(), _method = new WeakSet(), _accessor = new WeakMap();
         class C {
             constructor(){
-                _classPrivateFieldInit(this, _myField, {
-                    writable: true,
-                    value: "hello"
-                });
                 _classPrivateMethodInit(this, _method);
                 _classPrivateFieldInit(this, _accessor, {
                     get: get_accessor,
                     set: set_accessor
+                });
+                _classPrivateFieldInit(this, _myField, {
+                    writable: true,
+                    value: "hello"
                 });
             }
         }
