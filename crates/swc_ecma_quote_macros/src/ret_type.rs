@@ -8,7 +8,8 @@ use syn::{GenericArgument, Ident, PathArguments, Type};
 
 use crate::{ast::ToCode, ctxt::Ctx};
 
-/// Used instead of Box<T>, to reduce mistakes.
+/// Storage for `dyn ToCode`.The first `Box`, which is required to store `dyn
+/// ToCode`, is ignored.
 pub struct BoxWrapper(Box<dyn ToCode>);
 
 impl ToCode for BoxWrapper {
