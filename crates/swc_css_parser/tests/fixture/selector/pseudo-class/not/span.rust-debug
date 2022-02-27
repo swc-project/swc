@@ -6,9 +6,9 @@ error: Stylesheet
 3  | | :not(   
 4  | | p   
 ...  |
-24 | | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-25 | | ul li:not(:first-of-type) {}
-   | |_____________________________^
+28 | |      :nth-of-type(6),
+29 | |      :nth-last-of-type(6)) {}
+   | |______________________________^
 
 error: Rule
  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:1:1
@@ -3773,4 +3773,291 @@ error: SimpleBlock
    |
 25 | ul li:not(:first-of-type) {}
    |                           ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:26:1
+   |
+26 | / :not(:nth-child(6),
+27 | |      :nth-last-child(6),
+28 | |      :nth-of-type(6),
+29 | |      :nth-last-of-type(6)) {}
+   | |_____________________________^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:26:1
+   |
+26 | / :not(:nth-child(6),
+27 | |      :nth-last-child(6),
+28 | |      :nth-of-type(6),
+29 | |      :nth-last-of-type(6)) {}
+   | |_____________________________^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:26:1
+   |
+26 | / :not(:nth-child(6),
+27 | |      :nth-last-child(6),
+28 | |      :nth-of-type(6),
+29 | |      :nth-last-of-type(6)) {}
+   | |__________________________^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:26:1
+   |
+26 | / :not(:nth-child(6),
+27 | |      :nth-last-child(6),
+28 | |      :nth-of-type(6),
+29 | |      :nth-last-of-type(6)) {}
+   | |__________________________^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:26:1
+   |
+26 | / :not(:nth-child(6),
+27 | |      :nth-last-child(6),
+28 | |      :nth-of-type(6),
+29 | |      :nth-last-of-type(6)) {}
+   | |__________________________^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:26:1
+   |
+26 | / :not(:nth-child(6),
+27 | |      :nth-last-child(6),
+28 | |      :nth-of-type(6),
+29 | |      :nth-last-of-type(6)) {}
+   | |__________________________^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:26:1
+   |
+26 | / :not(:nth-child(6),
+27 | |      :nth-last-child(6),
+28 | |      :nth-of-type(6),
+29 | |      :nth-last-of-type(6)) {}
+   | |__________________________^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:26:2
+   |
+26 | :not(:nth-child(6),
+   |  ^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:26:6
+   |
+26 |   :not(:nth-child(6),
+   |  ______^
+27 | |      :nth-last-child(6),
+28 | |      :nth-of-type(6),
+29 | |      :nth-last-of-type(6)) {}
+   | |_________________________^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:26:6
+   |
+26 |   :not(:nth-child(6),
+   |  ______^
+27 | |      :nth-last-child(6),
+28 | |      :nth-of-type(6),
+29 | |      :nth-last-of-type(6)) {}
+   | |_________________________^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:26:6
+   |
+26 | :not(:nth-child(6),
+   |      ^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:26:6
+   |
+26 | :not(:nth-child(6),
+   |      ^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:26:6
+   |
+26 | :not(:nth-child(6),
+   |      ^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:26:6
+   |
+26 | :not(:nth-child(6),
+   |      ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:26:7
+   |
+26 | :not(:nth-child(6),
+   |       ^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:26:17
+   |
+26 | :not(:nth-child(6),
+   |                 ^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:26:17
+   |
+26 | :not(:nth-child(6),
+   |                 ^
+
+error: AnPlusBNotation
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:26:17
+   |
+26 | :not(:nth-child(6),
+   |                 ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:27:6
+   |
+27 |      :nth-last-child(6),
+   |      ^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:27:6
+   |
+27 |      :nth-last-child(6),
+   |      ^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:27:6
+   |
+27 |      :nth-last-child(6),
+   |      ^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:27:6
+   |
+27 |      :nth-last-child(6),
+   |      ^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:27:7
+   |
+27 |      :nth-last-child(6),
+   |       ^^^^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:27:22
+   |
+27 |      :nth-last-child(6),
+   |                      ^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:27:22
+   |
+27 |      :nth-last-child(6),
+   |                      ^
+
+error: AnPlusBNotation
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:27:22
+   |
+27 |      :nth-last-child(6),
+   |                      ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:28:6
+   |
+28 |      :nth-of-type(6),
+   |      ^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:28:6
+   |
+28 |      :nth-of-type(6),
+   |      ^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:28:6
+   |
+28 |      :nth-of-type(6),
+   |      ^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:28:6
+   |
+28 |      :nth-of-type(6),
+   |      ^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:28:7
+   |
+28 |      :nth-of-type(6),
+   |       ^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:28:19
+   |
+28 |      :nth-of-type(6),
+   |                   ^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:28:19
+   |
+28 |      :nth-of-type(6),
+   |                   ^
+
+error: AnPlusBNotation
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:28:19
+   |
+28 |      :nth-of-type(6),
+   |                   ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:29:6
+   |
+29 |      :nth-last-of-type(6)) {}
+   |      ^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:29:6
+   |
+29 |      :nth-last-of-type(6)) {}
+   |      ^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:29:6
+   |
+29 |      :nth-last-of-type(6)) {}
+   |      ^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:29:6
+   |
+29 |      :nth-last-of-type(6)) {}
+   |      ^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:29:7
+   |
+29 |      :nth-last-of-type(6)) {}
+   |       ^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:29:24
+   |
+29 |      :nth-last-of-type(6)) {}
+   |                        ^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:29:24
+   |
+29 |      :nth-last-of-type(6)) {}
+   |                        ^
+
+error: AnPlusBNotation
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:29:24
+   |
+29 |      :nth-last-of-type(6)) {}
+   |                        ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/not/input.css:29:28
+   |
+29 |      :nth-last-of-type(6)) {}
+   |                            ^^
 
