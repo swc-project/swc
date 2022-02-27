@@ -14,3 +14,4 @@ fail_todo!(TsAsExpr);
 fail_todo!(TsInstantiation);
 fail_todo!(TsType);
 fail_todo!(TsTypeAnn);
+fail_todo!(TsTypeParamInstantiation);

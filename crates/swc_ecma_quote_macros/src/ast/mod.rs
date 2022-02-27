@@ -1,4 +1,5 @@
 use pmutil::q;
+use swc_common::Span;
 use swc_ecma_ast::*;
 
 use crate::ctxt::Ctx;
@@ -68,6 +69,12 @@ impl ToCode for Invalid {
             }
         })
         .parse()
+    }
+}
+
+impl ToCode for Span {
+    fn to_code(&self, cx: &Ctx) -> syn::Expr {
+        q!({ swc_common::DUMMY_SP }).parse()
     }
 }
 
@@ -161,3 +168,4 @@ impl_enum!(
 );
 impl_enum!(Pat, [Ident, Array, Rest, Object, Assign, Invalid, Expr]);
 impl_enum!(Lit, [Str, Bool, Null, Num, BigInt, Regex, JSXText]);
+impl_enum!(Callee, [Super, Import, Expr]);
