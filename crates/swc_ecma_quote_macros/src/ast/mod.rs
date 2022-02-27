@@ -106,7 +106,3 @@ impl_enum!(
 );
 impl_enum!(Expr, []);
 impl_enum!(Pat, []);
-
-fail_todo!(ClassDecl);
-fail_todo!(FnDecl);
-fail_todo!(VarDecl);
