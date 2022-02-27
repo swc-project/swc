@@ -3,14 +3,17 @@ function _arrayLikeToArray(arr, len) {
     for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
     return arr2;
 }
+function _classPrivateFieldGet(receiver, privateMap) {
+    var receiver, descriptor, descriptor = function(receiver, privateMap, action) {
+        if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
+        return privateMap.get(receiver);
+    }(receiver, privateMap, "get");
+    return descriptor.get ? descriptor.get.call(receiver) : descriptor.value;
+}
 function _classPrivateFieldInit(obj, privateMap, value) {
     !function(obj, privateCollection) {
         if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
     }(obj, privateMap), privateMap.set(obj, value);
-}
-function _classPrivateMethodGet(receiver, privateSet, fn) {
-    if (!privateSet.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-    return fn;
 }
 function _construct(Parent, args, Class) {
     return (_construct = !function() {
@@ -104,21 +107,21 @@ var _fieldFunc = new WeakMap(), _fieldFunc2 = new WeakMap(), A = function() {
         {
             key: "test",
             value: function() {
-                _classPrivateMethodGet(this, _fieldFunc, fieldFunc).call(this), _classPrivateMethodGet(this, _fieldFunc, fieldFunc)(), new (_classPrivateMethodGet(this, _fieldFunc, fieldFunc))();
+                _classPrivateFieldGet(this, _fieldFunc).call(this), _classPrivateFieldGet(this, _fieldFunc)(), new (_classPrivateFieldGet(this, _fieldFunc))();
                 var _instance, _ref, arr = [
                     1,
                     2
                 ];
-                (_instance = _classPrivateMethodGet(this, _fieldFunc2, fieldFunc2)).call.apply(_instance, [
+                (_instance = _classPrivateFieldGet(this, _fieldFunc2)).call.apply(_instance, [
                     this,
                     0
                 ].concat(_toConsumableArray(arr), [
                     3
-                ])), _construct(_classPrivateMethodGet(this, _fieldFunc2, fieldFunc2), [
+                ])), _construct(_classPrivateFieldGet(this, _fieldFunc2), [
                     0
                 ].concat(_toConsumableArray(arr), [
                     3
-                ])), _classPrivateMethodGet(this, _fieldFunc2, fieldFunc2).bind(this)(_templateObject(), 1, 2), _classPrivateMethodGet(_ref = this.getInstance(), _fieldFunc2, fieldFunc2).bind(_ref)(_templateObject1(), 1, 2);
+                ])), _classPrivateFieldGet(this, _fieldFunc2).bind(this)(_templateObject(), 1, 2), _classPrivateFieldGet(_ref = this.getInstance(), _fieldFunc2).bind(_ref)(_templateObject1(), 1, 2);
             }
         },
         {

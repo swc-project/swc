@@ -66,6 +66,12 @@ pub(super) struct PrivateKind {
     pub has_setter: bool,
 }
 
+impl PrivateKind {
+    fn is_method(&self) -> bool {
+        self.is_method && !self.has_getter && !self.has_setter
+    }
+}
+
 pub(super) struct BrandCheckHandler<'a> {
     /// Private names used for brand checks.
     pub names: &'a mut AHashSet<JsWord>,
@@ -666,7 +672,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                 );
             }
 
-            if kind.is_method {
+            if kind.is_method() {
                 let h = helper!(
                     class_static_private_method_get,
                     "classStaticPrivateMethodGet"
@@ -723,7 +729,7 @@ impl<'a> PrivateAccessVisitor<'a> {
 
             let get = if self.c.private_as_properties {
                 helper!(class_private_field_loose_base, "classPrivateFieldLooseBase")
-            } else if kind.is_method {
+            } else if kind.is_method() {
                 helper!(class_private_method_get, "classPrivateMethodGet")
             } else {
                 helper!(class_private_field_get, "classPrivateFieldGet")
@@ -731,7 +737,7 @@ impl<'a> PrivateAccessVisitor<'a> {
 
             match &*obj {
                 Expr::This(this) => (
-                    if kind.is_method && !self.c.private_as_properties {
+                    if kind.is_method() && !self.c.private_as_properties {
                         CallExpr {
                             span: DUMMY_SP,
                             callee: get,
@@ -781,7 +787,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                         var.clone().as_arg()
                     };
 
-                    let args = if kind.is_method {
+                    let args = if kind.is_method() {
                         vec![first_arg, ident.as_arg(), method_name.as_arg()]
                     } else {
                         vec![first_arg, ident.as_arg()]
