@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 193,
+    "end": 256,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "QualifiedRule",
       "span": {
         "start": 0,
-        "end": 192,
+        "end": 255,
         "ctxt": 0
       },
       "prelude": {
@@ -74,7 +74,7 @@
         "type": "SimpleBlock",
         "span": {
           "start": 2,
-          "end": 192,
+          "end": 255,
           "ctxt": 0
         },
         "name": "{",
@@ -416,6 +416,130 @@
                 },
                 "value": "FFFF",
                 "raw": "FFFF"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 193,
+              "end": 202,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 193,
+                "end": 198,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "HexColor",
+                "span": {
+                  "start": 200,
+                  "end": 202,
+                  "ctxt": 0
+                },
+                "value": "1",
+                "raw": "1"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 206,
+              "end": 216,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 206,
+                "end": 211,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "HexColor",
+                "span": {
+                  "start": 213,
+                  "end": 216,
+                  "ctxt": 0
+                },
+                "value": "FF",
+                "raw": "FF"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 220,
+              "end": 237,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 220,
+                "end": 225,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "HexColor",
+                "span": {
+                  "start": 227,
+                  "end": 237,
+                  "ctxt": 0
+                },
+                "value": "123456789",
+                "raw": "123456789"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 241,
+              "end": 252,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 241,
+                "end": 246,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "HexColor",
+                "span": {
+                  "start": 248,
+                  "end": 252,
+                  "ctxt": 0
+                },
+                "value": "xyz",
+                "raw": "xyz"
               }
             ],
             "important": null

@@ -858,24 +858,43 @@ pub(super) fn use_strict() -> Stmt {
 /// ```js
 /// exports.default = exports.foo = void 0;
 /// ```
-pub(super) fn initialize_to_undefined(
+pub(super) fn initialize_to_undefined<T>(
     exports: Ident,
     initialized: IndexSet<JsWord, ahash::RandomState>,
-) -> Box<Expr> {
-    let mut rhs = undefined(DUMMY_SP);
+) -> Vec<T>
+where
+    T: From<Stmt>,
+{
+    const CHUNK_SIZE: usize = 64;
+    let len = initialized.len();
 
-    for name in initialized.into_iter() {
-        rhs = Box::new(Expr::Assign(AssignExpr {
-            span: DUMMY_SP,
-            left: PatOrExpr::Expr(Box::new(
-                exports.clone().make_member(Ident::new(name, DUMMY_SP)),
-            )),
-            op: op!("="),
-            right: rhs,
-        }));
+    let mut result = Vec::with_capacity(len / CHUNK_SIZE + 1);
+
+    let initialized: Vec<JsWord> = initialized.into_iter().collect();
+
+    for chunks in initialized.chunks(CHUNK_SIZE) {
+        let mut rhs = undefined(DUMMY_SP);
+
+        for name in chunks {
+            rhs = Box::new(
+                AssignExpr {
+                    span: DUMMY_SP,
+                    left: PatOrExpr::Expr(Box::new(
+                        exports
+                            .clone()
+                            .make_member(Ident::new(name.clone(), DUMMY_SP)),
+                    )),
+                    op: op!("="),
+                    right: rhs,
+                }
+                .into(),
+            );
+        }
+
+        result.push(T::from(rhs.into_stmt()));
     }
 
-    rhs
+    result
 }
 
 pub(super) fn make_descriptor(get_expr: Box<Expr>) -> ObjectLit {
