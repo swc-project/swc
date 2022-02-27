@@ -1,5 +1,49 @@
 use swc_ecma_ast::*;
 
+impl_enum!(PatOrExpr, [Pat, Expr]);
+impl_enum!(
+    Expr,
+    [
+        This,
+        Array,
+        Object,
+        Fn,
+        Unary,
+        Update,
+        Bin,
+        Assign,
+        Member,
+        SuperProp,
+        Cond,
+        Call,
+        New,
+        Seq,
+        Ident,
+        Lit,
+        Tpl,
+        TaggedTpl,
+        Arrow,
+        Class,
+        Yield,
+        MetaProp,
+        Await,
+        Paren,
+        JSXMember,
+        JSXNamespacedName,
+        JSXEmpty,
+        JSXElement,
+        JSXFragment,
+        TsTypeAssertion,
+        TsConstAssertion,
+        TsNonNull,
+        TsAs,
+        TsInstantiation,
+        PrivateName,
+        OptChain,
+        Invalid
+    ]
+);
+
 impl_struct!(ThisExpr, [span]);
 impl_struct!(ArrayLit, [span, elems]);
 impl_struct!(ObjectLit, [span, props]);
@@ -88,3 +132,5 @@ impl_enum!(JSXAttrName, [Ident, JSXNamespacedName]);
 impl_enum!(JSXExpr, [Expr, JSXEmptyExpr]);
 
 impl_struct!(OptCall, [span, callee, args, type_args]);
+
+impl_enum!(Callee, [Super, Import, Expr]);

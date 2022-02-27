@@ -1,5 +1,20 @@
 use swc_ecma_ast::*;
 
+impl_enum!(
+    ModuleDecl,
+    [
+        Import,
+        ExportDecl,
+        ExportNamed,
+        ExportDefaultDecl,
+        ExportDefaultExpr,
+        ExportAll,
+        TsImportEquals,
+        TsExportAssignment,
+        TsNamespaceExport
+    ]
+);
+
 impl_struct!(ImportDecl, [span, specifiers, src, type_only, asserts]);
 impl_struct!(ExportDecl, [span, decl]);
 impl_struct!(ExportDefaultDecl, [span, decl]);

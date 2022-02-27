@@ -107,95 +107,18 @@ where
     }
 }
 
-impl ToCode for Invalid {
-    fn to_code(&self, cx: &Ctx) -> syn::Expr {
-        q!({
-            swc_ecma_ast::Invalid {
-                span: swc_common::DUMMY_SP,
-            }
-        })
-        .parse()
-    }
-}
+impl_struct!(Invalid, [span]);
 
 impl ToCode for Span {
-    fn to_code(&self, cx: &Ctx) -> syn::Expr {
+    fn to_code(&self, _: &Ctx) -> syn::Expr {
         q!({ swc_common::DUMMY_SP }).parse()
     }
 }
 
 impl_enum!(ModuleItem, [ModuleDecl, Stmt]);
-impl_enum!(
-    ModuleDecl,
-    [
-        Import,
-        ExportDecl,
-        ExportNamed,
-        ExportDefaultDecl,
-        ExportDefaultExpr,
-        ExportAll,
-        TsImportEquals,
-        TsExportAssignment,
-        TsNamespaceExport
-    ]
-);
-impl_enum!(
-    Stmt,
-    [
-        Block, Empty, Debugger, With, Return, Labeled, Break, Continue, If, Switch, Throw, Try,
-        While, DoWhile, For, ForIn, ForOf, Decl, Expr
-    ]
-);
-impl_enum!(
-    Decl,
-    [Class, Fn, Var, TsInterface, TsTypeAlias, TsEnum, TsModule]
-);
-impl_enum!(PatOrExpr, [Pat, Expr]);
-impl_enum!(
-    Expr,
-    [
-        This,
-        Array,
-        Object,
-        Fn,
-        Unary,
-        Update,
-        Bin,
-        Assign,
-        Member,
-        SuperProp,
-        Cond,
-        Call,
-        New,
-        Seq,
-        Ident,
-        Lit,
-        Tpl,
-        TaggedTpl,
-        Arrow,
-        Class,
-        Yield,
-        MetaProp,
-        Await,
-        Paren,
-        JSXMember,
-        JSXNamespacedName,
-        JSXEmpty,
-        JSXElement,
-        JSXFragment,
-        TsTypeAssertion,
-        TsConstAssertion,
-        TsNonNull,
-        TsAs,
-        TsInstantiation,
-        PrivateName,
-        OptChain,
-        Invalid
-    ]
-);
+
 impl_enum!(Pat, [Ident, Array, Rest, Object, Assign, Invalid, Expr]);
 impl_enum!(Lit, [Str, Bool, Null, Num, BigInt, Regex, JSXText]);
-impl_enum!(Callee, [Super, Import, Expr]);
 impl_enum!(
     ClassMember,
     [

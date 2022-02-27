@@ -1,5 +1,13 @@
 use swc_ecma_ast::*;
 
+impl_enum!(
+    Stmt,
+    [
+        Block, Empty, Debugger, With, Return, Labeled, Break, Continue, If, Switch, Throw, Try,
+        While, DoWhile, For, ForIn, ForOf, Decl, Expr
+    ]
+);
+
 impl_struct!(EmptyStmt, [span]);
 impl_struct!(BlockStmt, [span, stmts]);
 impl_struct!(DebuggerStmt, [span]);
