@@ -238,12 +238,10 @@ impl<'a> Visit for DependencyCollector<'a> {
 
             let kind = if node.is_type_only {
                 DependencyKind::ImportType
+            } else if node.is_export {
+                DependencyKind::ExportEquals
             } else {
-                if node.is_export {
-                    DependencyKind::ExportEquals
-                } else {
-                    DependencyKind::ImportEquals
-                }
+                DependencyKind::ImportEquals
             };
 
             self.items.push(DependencyDescriptor {
