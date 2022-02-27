@@ -9,9 +9,7 @@ pub(super) struct QuoteInput {
     pub as_token: Token![as],
     pub output_type: syn::Type,
 
-    pub comma_for_vars: Token![,],
-
-    pub vars: Punctuated<QuoteVar, Token![,]>,
+    pub vars: Option<(Token![,], Punctuated<QuoteVar, Token![,]>)>,
 }
 
 pub(super) struct QuoteVar {
@@ -25,14 +23,18 @@ impl Parse for QuoteInput {
         let src = input.parse()?;
         let as_token = input.parse()?;
         let output_type = input.parse()?;
-        let comma_for_vars = input.parse()?;
-        let vars = Punctuated::parse_terminated(input)?;
+        let vars = if input.is_empty() {
+            None
+        } else {
+            let comma_token = input.parse()?;
+            let vars = Punctuated::parse_terminated(input)?;
+            Some((comma_token, vars))
+        };
 
         Ok(Self {
             src,
             as_token,
             output_type,
-            comma_for_vars,
             vars,
         })
     }
