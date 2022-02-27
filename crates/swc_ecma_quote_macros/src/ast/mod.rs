@@ -225,16 +225,15 @@ where
         let mut stmts = vec![var_stmt];
 
         for item in self {
-            stmts.push(syn::Stmt::Expr(
+            stmts.push(syn::Stmt::Semi(
                 q!(
                     Vars {
                         item: item.to_code(cx)
                     },
-                    {
-                        items.push(item);
-                    }
+                    { items.push(item) }
                 )
                 .parse(),
+                Default::default(),
             ));
         }
 
