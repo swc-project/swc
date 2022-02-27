@@ -26,5 +26,5 @@ pub fn internal_quote(input: proc_macro::TokenStream) -> proc_macro::TokenStream
     let mut cx = Ctx {
         vars: Default::default(),
     };
-    ret_type.to_code(&mut cx).to_token_stream().into()
+    ret_type.to_code(&cx).to_token_stream().into()
 }

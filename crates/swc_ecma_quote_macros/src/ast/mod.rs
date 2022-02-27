@@ -6,7 +6,7 @@ use crate::ctxt::Ctx;
 macro_rules! fail_todo {
     ($T:ty) => {
         impl crate::ast::ToCode for $T {
-            fn to_code(&self, _: &mut crate::ctxt::Ctx) -> syn::Expr {
+            fn to_code(&self, _: &crate::ctxt::Ctx) -> syn::Expr {
                 todo!("ToCode for {}", stringify!($T))
             }
         }
@@ -22,14 +22,14 @@ mod stmt;
 mod typescript;
 
 pub(crate) trait ToCode: 'static {
-    fn to_code(&self, cx: &mut Ctx) -> syn::Expr;
+    fn to_code(&self, cx: &Ctx) -> syn::Expr;
 }
 
 impl<T> ToCode for Box<T>
 where
     T: ?Sized + ToCode,
 {
-    fn to_code(&self, cx: &mut Ctx) -> syn::Expr {
+    fn to_code(&self, cx: &Ctx) -> syn::Expr {
         (**self).to_code(cx)
     }
 }
@@ -47,7 +47,7 @@ impl<T> ToCode for BoxWrapper<T>
 where
     T: ?Sized + ToCode,
 {
-    fn to_code(&self, cx: &mut Ctx) -> syn::Expr {
+    fn to_code(&self, cx: &Ctx) -> syn::Expr {
         q!(
             Vars {
                 inner: self.inner.to_code(cx)
@@ -63,7 +63,7 @@ impl<T> ToCode for Option<T>
 where
     T: ToCode,
 {
-    fn to_code(&self, cx: &mut Ctx) -> syn::Expr {
+    fn to_code(&self, cx: &Ctx) -> syn::Expr {
         match self {
             Some(inner) => q!(
                 Vars {
@@ -80,7 +80,7 @@ where
 macro_rules! impl_enum {
     ($E:ident, [ $($v:ident),* ]) => {
         impl ToCode for $E {
-            fn to_code(&self, cx: &mut Ctx) -> syn::Expr {
+            fn to_code(&self, cx: & Ctx) -> syn::Expr {
                 match self {
                     $(
                         $E::$v(inner) => q!(
