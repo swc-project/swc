@@ -18,4 +18,4 @@ impl ToCode for swc_ecma_ast::Ident {
     }
 }
 
-fail_todo!(PrivateName);
+impl_struct!(PrivateName);

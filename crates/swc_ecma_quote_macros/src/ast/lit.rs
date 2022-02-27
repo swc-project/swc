@@ -52,7 +52,7 @@ impl ToCode for Regex {
 }
 
 impl ToCode for bool {
-    fn to_code(&self, cx: &Ctx) -> syn::Expr {
+    fn to_code(&self, _: &Ctx) -> syn::Expr {
         syn::Expr::Lit(ExprLit {
             attrs: Default::default(),
             lit: syn::Lit::Bool(LitBool::new(*self, Span::call_site())),
@@ -61,7 +61,7 @@ impl ToCode for bool {
 }
 
 impl ToCode for f64 {
-    fn to_code(&self, cx: &Ctx) -> syn::Expr {
+    fn to_code(&self, _: &Ctx) -> syn::Expr {
         syn::Expr::Lit(ExprLit {
             attrs: Default::default(),
             lit: syn::Lit::Float(LitFloat::new(&self.to_string(), Span::call_site())),

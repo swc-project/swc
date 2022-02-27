@@ -4,21 +4,21 @@ use swc_ecma_ast::*;
 use super::ToCode;
 use crate::ctxt::Ctx;
 
-fail_todo!(BlockStmt);
-fail_todo!(DebuggerStmt);
-fail_todo!(WithStmt);
-fail_todo!(LabeledStmt);
-fail_todo!(BreakStmt);
-fail_todo!(ContinueStmt);
-fail_todo!(IfStmt);
-fail_todo!(SwitchStmt);
-fail_todo!(ThrowStmt);
-fail_todo!(TryStmt);
-fail_todo!(WhileStmt);
-fail_todo!(DoWhileStmt);
-fail_todo!(ForStmt);
-fail_todo!(ForInStmt);
-fail_todo!(ForOfStmt);
+impl_struct!(BlockStmt);
+impl_struct!(DebuggerStmt);
+impl_struct!(WithStmt);
+impl_struct!(LabeledStmt);
+impl_struct!(BreakStmt);
+impl_struct!(ContinueStmt);
+impl_struct!(IfStmt);
+impl_struct!(SwitchStmt);
+impl_struct!(ThrowStmt);
+impl_struct!(TryStmt);
+impl_struct!(WhileStmt);
+impl_struct!(DoWhileStmt);
+impl_struct!(ForStmt);
+impl_struct!(ForInStmt);
+impl_struct!(ForOfStmt);
 
 impl ToCode for EmptyStmt {
     fn to_code(&self, cx: &Ctx) -> syn::Expr {
