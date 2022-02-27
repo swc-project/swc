@@ -8,9 +8,21 @@ pub extern crate swc_ecma_ast;
 #[doc(hidden)]
 pub extern crate swc_ecma_quote_macros;
 
+/// # Supported output types
 ///
+///  - `Expr`
+///  - `Pat`
+///  - `Stmt`
+///  - `ModuleItem`
+///
+///  - Option<T> where T is supported type
+///  - Box<T> where T is supported type
+///
+/// For example, `Box<Expr>` and `Option<Box<Expr>>` are supported.
 ///
 /// # Variable substitution
+///
+/// (**Not implemented**)
 ///
 /// If an identifier starts with `$`, it is substituted with the value of the
 /// parameter passed.
@@ -26,6 +38,7 @@ pub extern crate swc_ecma_quote_macros;
 ///
 /// ## Quote a variable declaration
 ///
+/// (**Not implemented**)
 ///
 /// ```rust
 /// use swc_ecma_ast::*;
