@@ -7,3 +7,8 @@ fail_todo!(TsModuleDecl);
 fail_todo!(TsImportEqualsDecl);
 fail_todo!(TsExportAssignment);
 fail_todo!(TsNamespaceExportDecl);
+fail_todo!(TsTypeAssertion);
+fail_todo!(TsConstAssertion);
+fail_todo!(TsNonNullExpr);
+fail_todo!(TsAsExpr);
+fail_todo!(TsInstantiation);

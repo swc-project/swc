@@ -77,6 +77,17 @@ where
     }
 }
 
+impl ToCode for Invalid {
+    fn to_code(&self, cx: &Ctx) -> syn::Expr {
+        q!({
+            swc_ecma_ast::Invalid {
+                span: swc_common::DUMMY_SP,
+            }
+        })
+        .parse()
+    }
+}
+
 macro_rules! impl_enum {
     ($E:ident, [ $($v:ident),* ]) => {
         impl ToCode for $E {
