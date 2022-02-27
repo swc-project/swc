@@ -11,6 +11,10 @@ use crate::{
 };
 
 impl<'a, I: Tokens> Parser<I> {
+    pub fn parse_pat(&mut self) -> PResult<Pat> {
+        self.parse_binding_pat_or_ident()
+    }
+
     pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<Option<BindingIdent>> {
         trace_cur!(self, parse_opt_binding_ident);
 

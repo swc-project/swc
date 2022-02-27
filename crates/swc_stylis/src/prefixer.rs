@@ -564,8 +564,8 @@ impl VisitMut for Prefixer {
             new.extend(
                 self.added
                     .drain(..)
-                    .map(DeclarationBlockItem::Declaration)
-                    .map(ComponentValue::DeclarationBlockItem),
+                    .map(DeclarationOrAtRule::Declaration)
+                    .map(ComponentValue::DeclarationOrAtRule),
             );
             new.push(n);
         }

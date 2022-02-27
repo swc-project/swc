@@ -1,0 +1,5 @@
+{
+    "rules": {
+        "keyframe-declaration-no-important": ["error"]
+    }
+}

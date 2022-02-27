@@ -1,0 +1,12 @@
+error: Unexpected invalid position '@import' rule.
+ --> $DIR/tests/rules/fail/no-invalid-position-at-import-rule/default/after-other-at-rule/input.css:4:1
+  |
+4 | @import "kumiko.css";
+  | ^^^^^^^^^^^^^^^^^^^^^
+
+error: Unexpected invalid position '@import' rule.
+ --> $DIR/tests/rules/fail/no-invalid-position-at-import-rule/default/after-other-at-rule/input.css:5:1
+  |
+5 | @import "reina.css";
+  | ^^^^^^^^^^^^^^^^^^^^
+
