@@ -12,10 +12,12 @@ async function streamToString(stream: Stream): Promise<string> {
 
 
 
-export async function getLatestCommitMesssage(): Promise<string> {
+export async function getTitleOfLatestCommit(): Promise<string> {
     const { stdout } = await exec('git log -1 --pretty=%B');
 
     const msg = await streamToString(stdout!);
 
-    return msg.trim()
+    const s = msg.trim();
+
+    return s.split('\n')[0]
 }
