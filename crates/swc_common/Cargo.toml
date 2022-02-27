@@ -12,9 +12,6 @@ version = "0.17.9"
 all-features = true
 rustdoc-args = ["--cfg", "docsrs"]
 
-[lib]
-crate-type = ["lib", "dylib"]
-
 [features]
 concurrent = ["parking_lot"]
 debug = []
