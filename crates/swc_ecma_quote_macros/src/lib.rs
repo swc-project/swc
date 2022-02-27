@@ -2,7 +2,7 @@ extern crate proc_macro;
 
 use quote::ToTokens;
 
-use crate::{ctxt::Ctx, input::QuoteInput, ret_type::parse_input_type};
+use crate::{ast::ToCode, ctxt::Ctx, input::QuoteInput, ret_type::parse_input_type};
 
 mod ast;
 mod ctxt;
@@ -26,5 +26,5 @@ pub fn internal_quote(input: proc_macro::TokenStream) -> proc_macro::TokenStream
     let mut cx = Ctx {
         vars: Default::default(),
     };
-    ret_type.inner.to_code(&cx).to_token_stream().into()
+    ret_type.to_code(&cx).to_token_stream().into()
 }
