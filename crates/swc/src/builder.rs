@@ -191,11 +191,10 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 Optional::new(
                     compat::es2022::es2022(compat::es2022::Config {
                         class_properties: compat::es2022::class_properties::Config {
-                            private_as_properties: self.loose
-                                || assumptions.private_fields_as_properties,
-                            constant_super: self.loose || assumptions.constant_super,
-                            set_public_fields: self.loose || assumptions.set_public_class_fields,
-                            no_document_all: self.loose || assumptions.no_document_all
+                            private_as_properties: assumptions.private_fields_as_properties,
+                            constant_super: assumptions.constant_super,
+                            set_public_fields: assumptions.set_public_class_fields,
+                            no_document_all: assumptions.no_document_all
                         }
                     }),
                     should_enable(self.target, EsVersion::Es2022)
@@ -207,11 +206,11 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 Optional::new(
                     compat::es2020::es2020(compat::es2020::Config {
                         nullish_coalescing: compat::es2020::nullish_coalescing::Config {
-                            no_document_all: self.loose || assumptions.no_document_all
+                            no_document_all: assumptions.no_document_all
                         },
                         optional_chaining: compat::es2020::opt_chaining::Config {
-                            no_document_all: self.loose || assumptions.no_document_all,
-                            pure_getter: self.loose || assumptions.pure_getters
+                            no_document_all: assumptions.no_document_all,
+                            pure_getter: assumptions.pure_getters
                         }
                     }),
                     should_enable(self.target, EsVersion::Es2020)
@@ -223,8 +222,8 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 Optional::new(
                     compat::es2018(compat::es2018::Config {
                         object_rest_spread: compat::es2018::object_rest_spread::Config {
-                            no_symbol: self.loose || assumptions.object_rest_no_symbols,
-                            set_property: self.loose || assumptions.set_spread_properties
+                            no_symbol: assumptions.object_rest_no_symbols,
+                            set_property: assumptions.set_spread_properties
                         }
                     }),
                     should_enable(self.target, EsVersion::Es2018)
@@ -243,11 +242,11 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                         comments,
                         compat::es2015::Config {
                             classes: compat::es2015::classes::Config {
-                                constant_super: self.loose || assumptions.constant_super,
-                                no_class_calls: self.loose || assumptions.no_class_calls,
-                                set_class_methods: self.loose || assumptions.set_class_methods,
-                                super_is_callable_constructor: self.loose
-                                    || assumptions.super_is_callable_constructor
+                                constant_super: assumptions.constant_super,
+                                no_class_calls: assumptions.no_class_calls,
+                                set_class_methods: assumptions.set_class_methods,
+                                super_is_callable_constructor: assumptions
+                                    .super_is_callable_constructor
                             },
                             computed_props: compat::es2015::computed_props::Config {
                                 loose: self.loose
@@ -261,13 +260,11 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                             },
                             regenerator: self.regenerator,
                             template_literal: compat::es2015::template_literal::Config {
-                                ignore_to_primitive: self.loose
-                                    || assumptions.ignore_to_primitive_hint,
-                                mutable_template: self.loose || assumptions.mutable_template_object
+                                ignore_to_primitive: assumptions.ignore_to_primitive_hint,
+                                mutable_template: assumptions.mutable_template_object
                             },
                             parameters: compat::es2015::parameters::Config {
-                                ignore_function_length: self.loose
-                                    || assumptions.ignore_function_length,
+                                ignore_function_length: assumptions.ignore_function_length,
                             },
                             typescript: syntax.typescript()
                         }
