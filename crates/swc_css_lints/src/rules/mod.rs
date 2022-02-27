@@ -1,6 +1,6 @@
 use crate::{
     config::LintConfig,
-    rule::Rule,
+    rule::LintRule,
     rules::{
         at_rule_no_unknown::at_rule_no_unknown, block_no_empty::block_no_empty,
         declaration_no_important::declaration_no_important,
@@ -19,7 +19,7 @@ pub struct LintParams<'a> {
     pub lint_config: &'a LintConfig,
 }
 
-pub fn get_rules(LintParams { lint_config }: &LintParams) -> Vec<Box<dyn Rule>> {
+pub fn get_rules(LintParams { lint_config }: &LintParams) -> Vec<Box<dyn LintRule>> {
     let mut rules = vec![];
     let rules_config = &lint_config.rules;
 

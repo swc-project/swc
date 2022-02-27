@@ -4,10 +4,10 @@ use swc_css_visit::{Visit, VisitWith};
 
 use crate::{
     config::{LintRuleReaction, RuleConfig},
-    rule::{visitor_rule, Rule},
+    rule::{visitor_rule, LintRule},
 };
 
-pub fn block_no_empty(config: &RuleConfig<()>) -> Box<dyn Rule> {
+pub fn block_no_empty(config: &RuleConfig<()>) -> Box<dyn LintRule> {
     visitor_rule(BlockNoEmpty {
         reaction: config.get_rule_reaction(),
     })

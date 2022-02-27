@@ -3,7 +3,7 @@
 use std::{fs, path::PathBuf};
 
 use swc_common::{errors::HANDLER, input::SourceFileInput};
-use swc_css_lints::{get_rules, LintConfig, LintParams, Rule};
+use swc_css_lints::{get_rules, LintConfig, LintParams, LintRule};
 use swc_css_parser::{
     lexer::Lexer,
     parser::{Parser, ParserConfig},

@@ -5,7 +5,7 @@ use swc_css_visit::{Visit, VisitWith};
 
 use crate::{
     config::{LintRuleReaction, RuleConfig},
-    rule::{visitor_rule, Rule},
+    rule::{visitor_rule, LintRule},
 };
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -14,7 +14,7 @@ pub struct AtRuleNoUnknownConfig {
     ignore_at_rules: Option<Vec<String>>,
 }
 
-pub fn at_rule_no_unknown(config: &RuleConfig<AtRuleNoUnknownConfig>) -> Box<dyn Rule> {
+pub fn at_rule_no_unknown(config: &RuleConfig<AtRuleNoUnknownConfig>) -> Box<dyn LintRule> {
     visitor_rule(AtRuleNoUnknown {
         reaction: config.get_rule_reaction(),
         ignored: config

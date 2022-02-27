@@ -13,14 +13,14 @@ use swc_css_visit::{Visit, VisitWith};
 ///
 /// Must report error to [swc_common::HANDLER]
 #[auto_impl(Box, &mut)]
-pub trait Rule: Debug + Send + Sync {
+pub trait LintRule: Debug + Send + Sync {
     fn lint_stylesheet(&mut self, stylesheet: &Stylesheet);
 }
 
 /// This preserves the order of errors.
-impl<R> Rule for Vec<R>
+impl<R> LintRule for Vec<R>
 where
-    R: Rule,
+    R: LintRule,
 {
     fn lint_stylesheet(&mut self, stylesheet: &Stylesheet) {
         if cfg!(target_arch = "wasm32") {
@@ -63,7 +63,7 @@ impl Emitter for Capturing {
     }
 }
 
-pub(crate) fn visitor_rule<V>(v: V) -> Box<dyn Rule>
+pub(crate) fn visitor_rule<V>(v: V) -> Box<dyn LintRule>
 where
     V: 'static + Send + Sync + Visit + Default + Debug,
 {
@@ -75,7 +75,7 @@ struct VisitorRule<V>(V)
 where
     V: Send + Sync + Visit;
 
-impl<V> Rule for VisitorRule<V>
+impl<V> LintRule for VisitorRule<V>
 where
     V: Send + Sync + Visit + Debug,
 {

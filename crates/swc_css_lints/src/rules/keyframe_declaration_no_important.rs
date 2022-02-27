@@ -4,10 +4,10 @@ use swc_css_visit::{Visit, VisitWith};
 
 use crate::{
     config::{LintRuleReaction, RuleConfig},
-    rule::{visitor_rule, Rule},
+    rule::{visitor_rule, LintRule},
 };
 
-pub fn keyframe_declaration_no_important(config: &RuleConfig<()>) -> Box<dyn Rule> {
+pub fn keyframe_declaration_no_important(config: &RuleConfig<()>) -> Box<dyn LintRule> {
     visitor_rule(KeyframeDeclarationNoImportant {
         reaction: config.get_rule_reaction(),
         keyframe_rules: vec![],
