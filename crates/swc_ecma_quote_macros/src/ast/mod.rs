@@ -37,6 +37,7 @@ macro_rules! impl_struct {
     };
 }
 
+mod class;
 mod decl;
 mod enums;
 mod expr;
@@ -207,6 +208,7 @@ impl_enum!(
         StaticBlock
     ]
 );
+impl_enum!(ObjectPatProp, [KeyValue, Assign, Rest]);
 
 impl<T> ToCode for Vec<T>
 where

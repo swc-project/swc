@@ -47,17 +47,4 @@ impl_struct!(
         return_type
     ]
 );
-impl_struct!(
-    Class,
-    [
-        span,
-        decorators,
-        body,
-        super_class,
-        is_abstract,
-        type_params,
-        super_type_params,
-        implements
-    ]
-);
 impl_struct!(Decorator, [span, expr]);
