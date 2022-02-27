@@ -424,12 +424,6 @@ error: DashedIdent
 14 | @--custom {}
    |  ^^^^^^^^
 
-error: Value
-  --> $DIR/tests/fixture/dashed-ident/input.css:14:10
-   |
-14 | @--custom {}
-   |          ^
-
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/dashed-ident/input.css:14:10
    |
@@ -471,12 +465,6 @@ error: DashedIdent
    |
 15 | @--library1-custom {}
    |  ^^^^^^^^^^^^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/dashed-ident/input.css:15:19
-   |
-15 | @--library1-custom {}
-   |                   ^
 
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/dashed-ident/input.css:15:19

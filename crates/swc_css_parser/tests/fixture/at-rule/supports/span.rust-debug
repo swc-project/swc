@@ -4888,35 +4888,17 @@ error: SimpleBlock
 65 | @supports (ident "str") {
    |           ^^^^^^^^^^^^^
 
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:65:12
-   |
-65 | @supports (ident "str") {
-   |            ^^^^^
-
 error: Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:65:12
    |
 65 | @supports (ident "str") {
    |            ^^^^^
 
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:65:17
-   |
-65 | @supports (ident "str") {
-   |                 ^
-
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:65:17
    |
 65 | @supports (ident "str") {
    |                 ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:65:18
-   |
-65 | @supports (ident "str") {
-   |                  ^^^^^
 
 error: String { value: Atom('str' type=inline), raw: Atom('"str"' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:65:18
@@ -5071,35 +5053,17 @@ error: SimpleBlock
 69 | @supports ((ident "str")) {
    |            ^^^^^^^^^^^^^
 
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:69:13
-   |
-69 | @supports ((ident "str")) {
-   |             ^^^^^
-
 error: Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:69:13
    |
 69 | @supports ((ident "str")) {
    |             ^^^^^
 
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:69:18
-   |
-69 | @supports ((ident "str")) {
-   |                  ^
-
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:69:18
    |
 69 | @supports ((ident "str")) {
    |                  ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:69:19
-   |
-69 | @supports ((ident "str")) {
-   |                   ^^^^^
 
 error: String { value: Atom('str' type=inline), raw: Atom('"str"' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:69:19
@@ -5984,35 +5948,17 @@ error: Ident
 86 |     @-custom-keyframe anim {
    |      ^^^^^^^^^^^^^^^^
 
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:86:22
-   |
-86 |     @-custom-keyframe anim {
-   |                      ^
-
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:86:22
    |
 86 |     @-custom-keyframe anim {
    |                      ^
 
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:86:23
-   |
-86 |     @-custom-keyframe anim {
-   |                       ^^^^
-
 error: Ident { value: Atom('anim' type=inline), raw: Atom('anim' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:86:23
    |
 86 |     @-custom-keyframe anim {
    |                       ^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:86:27
-   |
-86 |     @-custom-keyframe anim {
-   |                           ^
 
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:86:27
@@ -6033,14 +5979,6 @@ error: SimpleBlock
 93 | |     }
    | |_____^
 
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:86:29
-   |
-86 |       @-custom-keyframe anim {
-   |  _____________________________^
-87 | |         from {
-   | |________^
-
 error: WhiteSpace { value: Atom('
         ' type=dynamic) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:86:29
@@ -6049,12 +5987,6 @@ error: WhiteSpace { value: Atom('
    |  _____________________________^
 87 | |         from {
    | |________^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:87:9
-   |
-87 |         from {
-   |         ^^^^
 
 error: Ident { value: Atom('from' type=static), raw: Atom('from' type=static) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:87:9
@@ -6062,26 +5994,11 @@ error: Ident { value: Atom('from' type=static), raw: Atom('from' type=static) }
 87 |         from {
    |         ^^^^
 
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:87:13
-   |
-87 |         from {
-   |             ^
-
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:87:13
    |
 87 |         from {
    |             ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:87:14
-   |
-87 |           from {
-   |  ______________^
-88 | |             color: black;
-89 | |         }
-   | |_________^
 
 error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/supports/input.css:87:14
@@ -6092,14 +6009,6 @@ error: SimpleBlock
 89 | |         }
    | |_________^
 
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:87:15
-   |
-87 |           from {
-   |  _______________^
-88 | |             color: black;
-   | |____________^
-
 error: WhiteSpace { value: Atom('
             ' type=dynamic) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:87:15
@@ -6109,23 +6018,11 @@ error: WhiteSpace { value: Atom('
 88 | |             color: black;
    | |____________^
 
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:88:13
-   |
-88 |             color: black;
-   |             ^^^^^
-
 error: Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:88:13
    |
 88 |             color: black;
    |             ^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:88:18
-   |
-88 |             color: black;
-   |                  ^
 
 error: Colon
   --> $DIR/tests/fixture/at-rule/supports/input.css:88:18
@@ -6133,23 +6030,11 @@ error: Colon
 88 |             color: black;
    |                  ^
 
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:88:19
-   |
-88 |             color: black;
-   |                   ^
-
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:88:19
    |
 88 |             color: black;
    |                   ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:88:20
-   |
-88 |             color: black;
-   |                    ^^^^^
 
 error: Ident { value: Atom('black' type=inline), raw: Atom('black' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:88:20
@@ -6157,26 +6042,12 @@ error: Ident { value: Atom('black' type=inline), raw: Atom('black' type=inline) 
 88 |             color: black;
    |                    ^^^^^
 
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:88:25
-   |
-88 |             color: black;
-   |                         ^
-
 error: Semi
   --> $DIR/tests/fixture/at-rule/supports/input.css:88:25
    |
 88 |             color: black;
    |                         ^
 
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:88:26
-   |
-88 |               color: black;
-   |  __________________________^
-89 | |         }
-   | |________^
-
 error: WhiteSpace { value: Atom('
         ' type=dynamic) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:88:26
@@ -6184,14 +6055,6 @@ error: WhiteSpace { value: Atom('
 88 |               color: black;
    |  __________________________^
 89 | |         }
-   | |________^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:89:10
-   |
-89 |           }
-   |  __________^
-90 | |         to {
    | |________^
 
 error: WhiteSpace { value: Atom('
@@ -6202,12 +6065,6 @@ error: WhiteSpace { value: Atom('
    |  __________^
 90 | |         to {
    | |________^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:90:9
-   |
-90 |         to {
-   |         ^^
 
 error: Ident { value: Atom('to' type=inline), raw: Atom('to' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:90:9
@@ -6215,26 +6072,11 @@ error: Ident { value: Atom('to' type=inline), raw: Atom('to' type=inline) }
 90 |         to {
    |         ^^
 
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:90:11
-   |
-90 |         to {
-   |           ^
-
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:90:11
    |
 90 |         to {
    |           ^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:90:12
-   |
-90 |           to {
-   |  ____________^
-91 | |             color: white
-92 | |         }
-   | |_________^
 
 error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/supports/input.css:90:12
@@ -6245,14 +6087,6 @@ error: SimpleBlock
 92 | |         }
    | |_________^
 
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:90:13
-   |
-90 |           to {
-   |  _____________^
-91 | |             color: white
-   | |____________^
-
 error: WhiteSpace { value: Atom('
             ' type=dynamic) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:90:13
@@ -6262,23 +6096,11 @@ error: WhiteSpace { value: Atom('
 91 | |             color: white
    | |____________^
 
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:91:13
-   |
-91 |             color: white
-   |             ^^^^^
-
 error: Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:91:13
    |
 91 |             color: white
    |             ^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:91:18
-   |
-91 |             color: white
-   |                  ^
 
 error: Colon
   --> $DIR/tests/fixture/at-rule/supports/input.css:91:18
@@ -6286,37 +6108,17 @@ error: Colon
 91 |             color: white
    |                  ^
 
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:91:19
-   |
-91 |             color: white
-   |                   ^
-
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:91:19
    |
 91 |             color: white
    |                   ^
 
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:91:20
-   |
-91 |             color: white
-   |                    ^^^^^
-
 error: Ident { value: Atom('white' type=inline), raw: Atom('white' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:91:20
    |
 91 |             color: white
    |                    ^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:91:25
-   |
-91 |               color: white
-   |  _________________________^
-92 | |         }
-   | |________^
 
 error: WhiteSpace { value: Atom('
         ' type=dynamic) }
@@ -6326,14 +6128,6 @@ error: WhiteSpace { value: Atom('
    |  _________________________^
 92 | |         }
    | |________^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:92:10
-   |
-92 |           }
-   |  __________^
-93 | |     }
-   | |____^
 
 error: WhiteSpace { value: Atom('
     ' type=inline) }
@@ -6391,12 +6185,6 @@ error: SimpleBlock
    |
 96 | @supports (--var) {
    |           ^^^^^^^
-
-error: Value
-  --> $DIR/tests/fixture/at-rule/supports/input.css:96:12
-   |
-96 | @supports (--var) {
-   |            ^^^^^
 
 error: Ident { value: Atom('--var' type=inline), raw: Atom('--var' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:96:12

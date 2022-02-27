@@ -7,7 +7,7 @@
 use std::path::PathBuf;
 
 use swc_common::{FileName, DUMMY_SP};
-use swc_css_ast::{ComponentValue, DeclarationBlockItem, QualifiedRule, SimpleBlock, Stylesheet};
+use swc_css_ast::{ComponentValue, DeclarationOrAtRule, QualifiedRule, SimpleBlock, Stylesheet};
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodegenConfig, Emit,
@@ -487,7 +487,7 @@ fn t(src: &str, expected: &str) {
         //
         let fm = cm.new_source_file(FileName::Anon, src.to_string());
         let mut errors = vec![];
-        let props: Vec<DeclarationBlockItem> = parse_file(
+        let props: Vec<DeclarationOrAtRule> = parse_file(
             &fm,
             ParserConfig {
                 ..Default::default()
@@ -511,7 +511,7 @@ fn t(src: &str, expected: &str) {
                 name: '{',
                 value: props
                     .into_iter()
-                    .map(ComponentValue::DeclarationBlockItem)
+                    .map(ComponentValue::DeclarationOrAtRule)
                     .collect(),
             },
         };
