@@ -98,7 +98,20 @@ macro_rules! impl_enum {
 }
 
 impl_enum!(ModuleItem, [ModuleDecl, Stmt]);
-impl_enum!(ModuleDecl, []);
+impl_enum!(
+    ModuleDecl,
+    [
+        Import,
+        ExportDecl,
+        ExportNamed,
+        ExportDefaultDecl,
+        ExportDefaultExpr,
+        ExportAll,
+        TsImportEquals,
+        TsExportAssignment,
+        TsNamespaceExport
+    ]
+);
 impl_enum!(Stmt, []);
 impl_enum!(
     Decl,
