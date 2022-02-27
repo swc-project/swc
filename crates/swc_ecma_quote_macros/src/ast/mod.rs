@@ -123,5 +123,47 @@ impl_enum!(
     Decl,
     [Class, Fn, Var, TsInterface, TsTypeAlias, TsEnum, TsModule]
 );
-impl_enum!(Expr, []);
-impl_enum!(Pat, []);
+impl_enum!(
+    Expr,
+    [
+        This,
+        Array,
+        Object,
+        Fn,
+        Unary,
+        Update,
+        Bin,
+        Assign,
+        Member,
+        SuperProp,
+        Cond,
+        Call,
+        New,
+        Seq,
+        Ident,
+        Lit,
+        Tpl,
+        TaggedTpl,
+        Arrow,
+        Class,
+        Yield,
+        MetaProp,
+        Await,
+        Paren,
+        JSXMember,
+        JSXNamespacedName,
+        JSXEmpty,
+        JSXElement,
+        JSXFragment,
+        TsTypeAssertion,
+        TsConstAssertion,
+        TsNonNull,
+        TsAs,
+        TsInstantiation,
+        PrivateName,
+        OptChain,
+        Invalid
+    ]
+);
+impl_enum!(Pat, [Ident, Array, Rest, Object, Assign, Invalid, Expr]);
+impl_enum!(Lit, [Str, Bool, Null, Num, BigInt, Regex, JSXText]);
