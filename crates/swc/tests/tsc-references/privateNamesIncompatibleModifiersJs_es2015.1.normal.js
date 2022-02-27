@@ -32,18 +32,6 @@ var /**
 // @filename: privateNamesIncompatibleModifiersJs.js
 class A {
     constructor(){
-        _classPrivateFieldInit(this, _a, {
-            writable: true,
-            value: 1
-        });
-        _classPrivateFieldInit(this, _b, {
-            writable: true,
-            value: 1
-        });
-        _classPrivateFieldInit(this, _c, {
-            writable: true,
-            value: 1
-        });
         _classPrivateMethodInit(this, _aMethod);
         _classPrivateMethodInit(this, _bMethod);
         _classPrivateMethodInit(this, _cMethod);
@@ -70,6 +58,18 @@ class A {
             set: /**
      * @protected
      */ set_cProp
+        });
+        _classPrivateFieldInit(this, _a, {
+            writable: true,
+            value: 1
+        });
+        _classPrivateFieldInit(this, _b, {
+            writable: true,
+            value: 1
+        });
+        _classPrivateFieldInit(this, _c, {
+            writable: true,
+            value: 1
         });
     }
 }

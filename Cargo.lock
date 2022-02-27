@@ -3214,7 +3214,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.75.1"
+version = "0.75.2"
 dependencies = [
  "ahash",
  "arrayvec 0.7.2",
@@ -3377,7 +3377,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.89.1"
+version = "0.89.2"
 dependencies = [
  "serde",
  "swc_atoms",

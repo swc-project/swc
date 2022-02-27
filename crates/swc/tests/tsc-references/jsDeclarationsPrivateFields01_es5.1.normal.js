@@ -56,6 +56,11 @@ export var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
         _classCallCheck(this, C);
+        _classPrivateMethodInit(this, _calcHello);
+        _classPrivateFieldInit(this, _screamingHello, {
+            get: get_screamingHello,
+            set: /** @param value {string} */ set_screamingHello
+        });
         _classPrivateFieldInit(this, _hello, {
             writable: true,
             value: "hello"
@@ -63,11 +68,6 @@ export var C = /*#__PURE__*/ function() {
         _classPrivateFieldInit(this, _world, {
             writable: true,
             value: 100
-        });
-        _classPrivateMethodInit(this, _calcHello);
-        _classPrivateFieldInit(this, _screamingHello, {
-            get: get_screamingHello,
-            set: /** @param value {string} */ set_screamingHello
         });
     }
     _createClass(C, [

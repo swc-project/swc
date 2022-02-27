@@ -7,6 +7,10 @@ function _classExtractFieldDescriptor(receiver, privateMap, action) {
     if (!privateMap.has(receiver)) throw new TypeError("attempted to " + action + " private field on non-instance");
     return privateMap.get(receiver);
 }
+function _classPrivateFieldGet(receiver, privateMap) {
+    var receiver, descriptor, descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
+    return descriptor.get ? descriptor.get.call(receiver) : descriptor.value;
+}
 function _classPrivateFieldInit(obj, privateMap, value) {
     !function(obj, privateCollection) {
         if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
@@ -21,10 +25,6 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
             descriptor.value = value;
         }
     }(receiver, descriptor, value), value;
-}
-function _classPrivateMethodGet(receiver, privateSet, fn) {
-    if (!privateSet.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-    return fn;
 }
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
@@ -80,11 +80,11 @@ var _value = new WeakMap(), _valueRest = new WeakMap(), _valueOne = new WeakMap(
                 var ref, _tmp, ref1, _tmp1, arr, foo = {
                     bar: 1
                 };
-                console.log(_classPrivateMethodGet(this, _value, value)), _classPrivateFieldSet(this, _value, {
+                console.log(_classPrivateFieldGet(this, _value)), _classPrivateFieldSet(this, _value, {
                     foo: foo
                 }), _classPrivateFieldSet(this, _value, {
                     foo: foo
-                }), _classPrivateMethodGet(this, _value, value).foo = foo, ref = {
+                }), _classPrivateFieldGet(this, _value).foo = foo, ref = {
                     o: {
                         foo: foo
                     }
@@ -92,16 +92,16 @@ var _value = new WeakMap(), _valueRest = new WeakMap(), _valueOne = new WeakMap(
                     foo: foo
                 }, _classPrivateFieldDestructureSet(this, _value).value = _extends({}, _tmp), ref1 = {
                     foo: foo
-                }, _classPrivateMethodGet(this, _value, value).foo = ref1.foo, _tmp1 = {
+                }, _classPrivateFieldGet(this, _value).foo = ref1.foo, _tmp1 = {
                     foo: foo
-                }, _classPrivateMethodGet(this, _value, value).foo = _extends({}, _tmp1.foo), _tmp1.foo, _classPrivateMethodGet(this, _value, value), _classPrivateFieldDestructureSet(this, _valueOne).value = 1, _classPrivateFieldDestructureSet(this, _valueRest).value = [
+                }, _classPrivateFieldGet(this, _value).foo = _extends({}, _tmp1.foo), _tmp1.foo, _classPrivateFieldGet(this, _value), _classPrivateFieldDestructureSet(this, _valueOne).value = 1, _classPrivateFieldDestructureSet(this, _valueRest).value = [
                     2,
                     3
                 ], [
-                    _classPrivateMethodGet(this, _valueOne, valueOne)
+                    _classPrivateFieldGet(this, _valueOne)
                 ].concat(function(arr) {
                     if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-                }(arr = _classPrivateMethodGet(this, _valueRest, valueRest)) || function(iter) {
+                }(arr = _classPrivateFieldGet(this, _valueRest)) || function(iter) {
                     if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
                 }(arr) || function(o, minLen) {
                     if (o) {
@@ -112,7 +112,7 @@ var _value = new WeakMap(), _valueRest = new WeakMap(), _valueOne = new WeakMap(
                     }
                 }(arr) || function() {
                     throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-                }()), _classPrivateFieldSet(this, _valueCompound, _classPrivateMethodGet(this, _valueCompound, valueCompound) + 3);
+                }()), _classPrivateFieldSet(this, _valueCompound, _classPrivateFieldGet(this, _valueCompound) + 3);
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Test;

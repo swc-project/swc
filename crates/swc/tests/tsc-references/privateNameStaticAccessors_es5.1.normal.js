@@ -1,3 +1,9 @@
+function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+        return descriptor.get.call(receiver);
+    }
+    return descriptor.value;
+}
 function _classApplyDescriptorSet(receiver, descriptor, value) {
     if (descriptor.set) {
         descriptor.set.call(receiver, value);
@@ -18,15 +24,16 @@ function _classCheckPrivateStaticFieldDescriptor(descriptor, action) {
         throw new TypeError("attempted to " + action + " private static field before its declaration");
     }
 }
+function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
+    _classCheckPrivateStaticAccess(receiver, classConstructor);
+    _classCheckPrivateStaticFieldDescriptor(descriptor, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
+}
 function _classStaticPrivateFieldSpecSet(receiver, classConstructor, descriptor, value) {
     _classCheckPrivateStaticAccess(receiver, classConstructor);
     _classCheckPrivateStaticFieldDescriptor(descriptor, "set");
     _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
-}
-function _classStaticPrivateMethodGet(receiver, classConstructor, method) {
-    _classCheckPrivateStaticAccess(receiver, classConstructor);
-    return method;
 }
 function _classCheckPrivateStaticAccess(receiver, classConstructor) {
     if (receiver !== classConstructor) {
@@ -38,8 +45,8 @@ var A1 = function A1(name) {
     _classCallCheck(this, A1);
     _classStaticPrivateFieldSpecSet(A1, A1, _prop, "");
     _classStaticPrivateFieldSpecSet(A1, A1, _roProp, ""); // Error
-    console.log(_classStaticPrivateMethodGet(A1, A1, prop));
-    console.log(_classStaticPrivateMethodGet(A1, A1, roProp));
+    console.log(_classStaticPrivateFieldSpecGet(A1, A1, _prop));
+    console.log(_classStaticPrivateFieldSpecGet(A1, A1, _roProp));
 };
 var _prop = {
     get: get_prop,

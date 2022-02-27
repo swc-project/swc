@@ -32,11 +32,11 @@ function Field() {
     // Error
     class A_Field_Method {
         constructor(){
+            _classPrivateMethodInit(this, _foo1);
             _classPrivateFieldInit(this, _foo1, {
                 writable: true,
                 value: "foo"
             });
-            _classPrivateMethodInit(this, _foo1);
         }
     }
     function foo() {}
@@ -45,12 +45,12 @@ function Field() {
     class A_Field_Getter {
         constructor(){
             _classPrivateFieldInit(this, _foo2, {
-                writable: true,
-                value: "foo"
-            });
-            _classPrivateFieldInit(this, _foo2, {
                 get: get_foo,
                 set: void 0
+            });
+            _classPrivateFieldInit(this, _foo2, {
+                writable: true,
+                value: "foo"
             });
         }
     }
@@ -62,12 +62,12 @@ function Field() {
     class A_Field_Setter {
         constructor(){
             _classPrivateFieldInit(this, _foo3, {
-                writable: true,
-                value: "foo"
-            });
-            _classPrivateFieldInit(this, _foo3, {
                 get: void 0,
                 set: set_foo
+            });
+            _classPrivateFieldInit(this, _foo3, {
+                writable: true,
+                value: "foo"
             });
         }
     }
@@ -560,12 +560,12 @@ function StaticField() {
     class A_StaticField_StaticGetter {
     }
     var _foo34 = {
-        writable: true,
-        value: "foo"
-    };
-    var _foo34 = {
         get: get_foo11,
         set: void 0
+    };
+    var _foo34 = {
+        writable: true,
+        value: "foo"
     };
     function get_foo11() {
         return "";
@@ -574,12 +574,12 @@ function StaticField() {
     class A_StaticField_StaticSetter {
     }
     var _foo35 = {
-        writable: true,
-        value: "foo"
-    };
-    var _foo35 = {
         get: void 0,
         set: set_foo11
+    };
+    var _foo35 = {
+        writable: true,
+        value: "foo"
     };
     function set_foo11(value) {}
 }

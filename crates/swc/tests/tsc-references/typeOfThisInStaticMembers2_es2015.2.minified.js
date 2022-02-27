@@ -1,3 +1,6 @@
-(class {
-}).foo = this, (class {
-}).foo = this;
+class C {
+}
+C.foo = C;
+class C2 {
+}
+C2.foo = C2;

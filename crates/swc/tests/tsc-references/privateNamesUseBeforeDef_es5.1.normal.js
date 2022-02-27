@@ -56,29 +56,29 @@ var _foo1 = new WeakMap(), _bar1 = new WeakSet();
 var A2 = function A2() {
     "use strict";
     _classCallCheck(this, A2);
+    _classPrivateMethodInit(this, _bar1);
     _classPrivateFieldInit(this, _foo1, {
         writable: true,
-        value: _classPrivateMethodGet(this, _bar1, bar1).call(this)
+        value: _classPrivateMethodGet(this, _bar1, bar).call(this)
     }) // No Error
     ;
-    _classPrivateMethodInit(this, _bar1);
 };
-function bar1() {
+function bar() {
     return 3;
 }
 var _foo2 = new WeakMap(), _bar2 = new WeakMap();
 var A3 = function A3() {
     "use strict";
     _classCallCheck(this, A3);
-    _classPrivateFieldInit(this, _foo2, {
-        writable: true,
-        value: _classPrivateMethodGet(this, _bar2, bar)
-    }) // No Error
-    ;
     _classPrivateFieldInit(this, _bar2, {
         get: get_bar,
         set: void 0
     });
+    _classPrivateFieldInit(this, _foo2, {
+        writable: true,
+        value: _classPrivateFieldGet(this, _bar2)
+    }) // No Error
+    ;
 };
 function get_bar() {
     return 3;

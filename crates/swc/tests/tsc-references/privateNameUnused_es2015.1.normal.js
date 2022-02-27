@@ -55,10 +55,10 @@ export class A2 {
     constructor(){
         _classPrivateMethodInit(this, _used1);
         _classPrivateMethodInit(this, _unused1);
-        console.log(_classPrivateMethodGet(this, _used1, used1).call(this));
+        console.log(_classPrivateMethodGet(this, _used1, used).call(this));
     }
 }
-function used1() {}
+function used() {}
 function unused() {}
 var _used2 = new WeakMap(), _unused2 = new WeakMap();
 export class A3 {
@@ -71,7 +71,7 @@ export class A3 {
             get: get_unused,
             set: set_unused
         });
-        console.log(_classPrivateMethodGet(this, _used2, used));
+        console.log(_classPrivateFieldGet(this, _used2));
     }
 }
 function get_used() {
