@@ -7,6 +7,8 @@ on:
 jobs:
   binary-size:
     name: Binary size
+    if: >-
+      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -31,6 +33,8 @@ jobs:
 
   benchmark:
     name: Performance regression check
+    if: >-
+      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
