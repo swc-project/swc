@@ -6,23 +6,30 @@ use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput};
 use syn::{GenericArgument, Ident, PathArguments, Type};
 
-use crate::ast::{BoxWrapper, ToCode};
+use crate::{ast::ToCode, ctxt::Ctx};
 
-pub(crate) fn parse_input_type(input_str: &str, ty: &Type) -> Result<Box<dyn ToCode>, Error> {
+/// Used instead of Box<T>, to reduce mistakes.
+pub struct BoxWrapper(Box<dyn ToCode>);
+
+impl ToCode for BoxWrapper {
+    fn to_code(&self, cx: &Ctx) -> syn::Expr {
+        (*self.0).to_code(cx)
+    }
+}
+
+pub(crate) fn parse_input_type(input_str: &str, ty: &Type) -> Result<BoxWrapper, Error> {
     if let Some(ty) = extract_generic("Box", ty) {
         let node = parse_input_type(input_str, ty).context("failed to parse `T` in Box<T>")?;
-        return Ok(Box::new(BoxWrapper {
-            inner: Box::new(node),
-        }));
+        return Ok(BoxWrapper(Box::new(Box::new(node))));
     }
 
     if let Some(ty) = extract_generic("Option", ty) {
         if input_str.is_empty() {
-            return Ok(Box::new(None::<swc_ecma_ast::Expr>));
+            return Ok(BoxWrapper(Box::new(None::<swc_ecma_ast::Expr>)));
         }
 
         let node = parse_input_type(input_str, ty).context("failed to parse `T` in Option<T>")?;
-        return Ok(Box::new(Some(node)) as _);
+        return Ok(BoxWrapper(Box::new(Some(node))));
     }
 
     match ty {
@@ -46,7 +53,7 @@ pub(crate) fn parse_input_type(input_str: &str, ty: &Type) -> Result<Box<dyn ToC
 fn parse<T>(
     input_str: &str,
     op: &mut dyn FnMut(&mut Parser<Lexer<StringInput>>) -> PResult<T>,
-) -> Result<Box<dyn ToCode>, Error>
+) -> Result<BoxWrapper, Error>
 where
     T: ToCode,
 {
@@ -63,7 +70,7 @@ where
     op(&mut parser)
         .map_err(|err| anyhow!("{:?}", err))
         .with_context(|| format!("failed to parse input as `{}`", type_name::<T>()))
-        .map(|val| Box::new(val) as Box<dyn ToCode>)
+        .map(|val| BoxWrapper(Box::new(val)))
 }
 
 fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {

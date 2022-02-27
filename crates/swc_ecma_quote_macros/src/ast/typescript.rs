@@ -12,3 +12,5 @@ fail_todo!(TsConstAssertion);
 fail_todo!(TsNonNullExpr);
 fail_todo!(TsAsExpr);
 fail_todo!(TsInstantiation);
+fail_todo!(TsType);
+fail_todo!(TsTypeAnn);

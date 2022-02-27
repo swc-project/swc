@@ -30,27 +30,9 @@ where
     T: ?Sized + ToCode,
 {
     fn to_code(&self, cx: &Ctx) -> syn::Expr {
-        (**self).to_code(cx)
-    }
-}
-
-/// Used instead of Box<T>, to reduce mistakes.
-pub struct BoxWrapper<T>
-where
-    T: ?Sized,
-{
-    pub inner: Box<T>,
-}
-
-/// TODO: Optimize
-impl<T> ToCode for BoxWrapper<T>
-where
-    T: ?Sized + ToCode,
-{
-    fn to_code(&self, cx: &Ctx) -> syn::Expr {
         q!(
             Vars {
-                inner: self.inner.to_code(cx)
+                inner: (**self).to_code(cx)
             },
             { Box::new(inner) }
         )
