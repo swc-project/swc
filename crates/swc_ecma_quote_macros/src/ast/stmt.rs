@@ -1,8 +1,4 @@
-use pmutil::q;
 use swc_ecma_ast::*;
-
-use super::ToCode;
-use crate::ctxt::Ctx;
 
 impl_struct!(EmptyStmt, [span]);
 impl_struct!(BlockStmt, [span, stmts]);
@@ -22,3 +18,10 @@ impl_struct!(ForInStmt, [span, left, right, body]);
 impl_struct!(ForOfStmt, [span, await_token, left, right, body]);
 impl_struct!(ReturnStmt, [span, arg]);
 impl_struct!(ExprStmt, [span, expr]);
+
+impl_enum!(VarDeclOrExpr, [VarDecl, Expr]);
+impl_enum!(VarDeclOrPat, [VarDecl, Pat]);
+
+impl_struct!(SwitchCase, [span, test, cons]);
+
+impl_struct!(CatchClause, [span, param, body]);

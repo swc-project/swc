@@ -12,3 +12,13 @@ impl_enum!(ImportSpecifier, [Named, Default, Namespace]);
 impl_struct!(ImportNamedSpecifier, [span, local, imported, is_type_only]);
 impl_struct!(ImportDefaultSpecifier, [span, local]);
 impl_struct!(ImportStarAsSpecifier, [span, local]);
+
+impl_enum!(ExportSpecifier, [Named, Default, Namespace]);
+
+impl_enum!(DefaultDecl, [Class, Fn, TsInterfaceDecl]);
+
+impl_enum!(ModuleExportName, [Ident, Str]);
+
+impl_struct!(ExportNamedSpecifier, [span, orig, exported, is_type_only]);
+impl_struct!(ExportDefaultSpecifier, [exported]);
+impl_struct!(ExportNamespaceSpecifier, [span, name]);
