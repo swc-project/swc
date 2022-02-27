@@ -87,6 +87,12 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 
 - **(es/transforms)** Use recommended ast apis (#3735) ([fd22379](https://github.com/swc-project/swc/commit/fd223793e86f70400a3a69d7f7c8a4775b8abaad))
 
+### Testing
+
+
+
+- **(css/parser)** Add malformed hex color tests (#3762) ([9f90882](https://github.com/swc-project/swc/commit/9f90882b27d345fac79f938d42e1b5fd04d4b1b5))
+
 ## [1.2.145] - 2022-02-24
 
 ### Bug Fixes
