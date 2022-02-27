@@ -90,6 +90,9 @@ pub struct RulesConfig {
 
     #[serde(default, alias = "noInvalidPositionAtImportRule")]
     pub no_invalid_position_at_import_rule: RuleConfig<NoInvalidPositionAtImportRuleConfig>,
+
+    #[serde(default, alias = "selectorMaxClass")]
+    pub selector_max_class: RuleConfig<Option<usize>>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
