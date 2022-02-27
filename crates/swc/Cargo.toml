@@ -68,7 +68,7 @@ swc_ecma_transforms_compat = {version = "0.75.0", path = "../swc_ecma_transforms
 swc_ecma_transforms_optimization = {version = "0.94.0", path = "../swc_ecma_transforms_optimization"}
 swc_ecma_utils = {version = "0.69.0", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.54.0", path = "../swc_ecma_visit"}
-swc_ecmascript = {version = "0.122.0", path = "../swc_ecmascript"}
+swc_ecmascript = {version = "0.123.0", path = "../swc_ecmascript"}
 swc_node_comments = {version = "0.4.0", path = "../swc_node_comments"}
 swc_plugin_runner = {version = "0.38.0", path = "../swc_plugin_runner", optional = true}
 swc_visit = {version = "0.3.0", path = "../swc_visit"}

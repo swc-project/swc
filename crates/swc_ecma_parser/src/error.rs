@@ -183,6 +183,8 @@ pub enum SyntaxError {
     ImportBindingIsString(JsWord),
     ExportBindingIsString,
 
+    ConstDeclarationsRequireInitialization,
+
     TS1003,
     TS1005,
     TS1009,
@@ -485,6 +487,10 @@ impl SyntaxError {
 
             SyntaxError::ExportBindingIsString => {
                 "A string literal cannot be used as an exported binding without `from`.".into()
+            }
+
+            SyntaxError::ConstDeclarationsRequireInitialization => {
+                "'const' declarations must be initialized".into()
             }
 
             SyntaxError::TS1003 => "Expected an identifier".into(),

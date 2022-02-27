@@ -6,8 +6,8 @@ error: Stylesheet
 3  | |     src: local('Times New Roman');
 4  | |     unicode-range: U+26;               /* single codepoint */
 ...  |
-17 | |     unicode-range: U+12-13;
-18 | | }
+18 | |     unicode-range: U+12-13;
+19 | | }
    | |__^
 
 error: Rule
@@ -18,8 +18,8 @@ error: Rule
 3  | |     src: local('Times New Roman');
 4  | |     unicode-range: U+26;               /* single codepoint */
 ...  |
-17 | |     unicode-range: U+12-13;
-18 | | }
+18 | |     unicode-range: U+12-13;
+19 | | }
    | |_^
 
 error: AtRule
@@ -30,8 +30,8 @@ error: AtRule
 3  | |     src: local('Times New Roman');
 4  | |     unicode-range: U+26;               /* single codepoint */
 ...  |
-17 | |     unicode-range: U+12-13;
-18 | | }
+18 | |     unicode-range: U+12-13;
+19 | | }
    | |_^
 
 error: FontFaceRule
@@ -42,8 +42,8 @@ error: FontFaceRule
 3  | |     src: local('Times New Roman');
 4  | |     unicode-range: U+26;               /* single codepoint */
 ...  |
-17 | |     unicode-range: U+12-13;
-18 | | }
+18 | |     unicode-range: U+12-13;
+19 | | }
    | |_^
 
 error: SimpleBlock
@@ -55,8 +55,8 @@ error: SimpleBlock
 3  | |     src: local('Times New Roman');
 4  | |     unicode-range: U+26;               /* single codepoint */
 ...  |
-17 | |     unicode-range: U+12-13;
-18 | | }
+18 | |     unicode-range: U+12-13;
+19 | | }
    | |_^
 
 error: Declaration
@@ -161,7 +161,7 @@ error: Value
 4 |     unicode-range: U+26;               /* single codepoint */
   |                    ^^^^
 
-error: Urange
+error: UnicodeRange
  --> $DIR/tests/fixture/value/urange/input.css:4:20
   |
 4 |     unicode-range: U+26;               /* single codepoint */
@@ -191,7 +191,7 @@ error: Value
 5 |     unicode-range: u+26;
   |                    ^^^^
 
-error: Urange
+error: UnicodeRange
  --> $DIR/tests/fixture/value/urange/input.css:5:20
   |
 5 |     unicode-range: u+26;
@@ -221,7 +221,7 @@ error: Value
 6 |     unicode-range: U+0-7F;
   |                    ^^^^^^
 
-error: Urange
+error: UnicodeRange
  --> $DIR/tests/fixture/value/urange/input.css:6:20
   |
 6 |     unicode-range: U+0-7F;
@@ -251,7 +251,7 @@ error: Value
 7 |     unicode-range: U+0025-00FF;        /* codepoint range */
   |                    ^^^^^^^^^^^
 
-error: Urange
+error: UnicodeRange
  --> $DIR/tests/fixture/value/urange/input.css:7:20
   |
 7 |     unicode-range: U+0025-00FF;        /* codepoint range */
@@ -281,7 +281,7 @@ error: Value
 8 |     unicode-range: U+4??;              /* wildcard range */
   |                    ^^^^^
 
-error: Urange
+error: UnicodeRange
  --> $DIR/tests/fixture/value/urange/input.css:8:20
   |
 8 |     unicode-range: U+4??;              /* wildcard range */
@@ -311,7 +311,7 @@ error: Value
 9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
   |                    ^^^^^^^^^^^
 
-error: Urange
+error: UnicodeRange
  --> $DIR/tests/fixture/value/urange/input.css:9:20
   |
 9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
@@ -335,7 +335,7 @@ error: Value
 9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
   |                                 ^^^^^
 
-error: Urange
+error: UnicodeRange
  --> $DIR/tests/fixture/value/urange/input.css:9:33
   |
 9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
@@ -365,7 +365,7 @@ error: Value
 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
    |                    ^^^^
 
-error: Urange
+error: UnicodeRange
   --> $DIR/tests/fixture/value/urange/input.css:10:20
    |
 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
@@ -389,7 +389,7 @@ error: Value
 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
    |                          ^^^^^^^^^^^
 
-error: Urange
+error: UnicodeRange
   --> $DIR/tests/fixture/value/urange/input.css:10:26
    |
 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
@@ -413,7 +413,7 @@ error: Value
 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
    |                                       ^^^^^^
 
-error: Urange
+error: UnicodeRange
   --> $DIR/tests/fixture/value/urange/input.css:10:39
    |
 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
@@ -437,7 +437,7 @@ error: Value
 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
    |                                               ^^^^^^^^^^^
 
-error: Urange
+error: UnicodeRange
   --> $DIR/tests/fixture/value/urange/input.css:10:47
    |
 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
@@ -467,7 +467,7 @@ error: Value
 11 |     unicode-range: U+????;
    |                    ^^^^^^
 
-error: Urange
+error: UnicodeRange
   --> $DIR/tests/fixture/value/urange/input.css:11:20
    |
 11 |     unicode-range: U+????;
@@ -497,7 +497,7 @@ error: Value
 12 |     unicode-range: U+??????;
    |                    ^^^^^^^^
 
-error: Urange
+error: UnicodeRange
   --> $DIR/tests/fixture/value/urange/input.css:12:20
    |
 12 |     unicode-range: U+??????;
@@ -527,7 +527,7 @@ error: Value
 13 |     unicode-range: U+12;
    |                    ^^^^
 
-error: Urange
+error: UnicodeRange
   --> $DIR/tests/fixture/value/urange/input.css:13:20
    |
 13 |     unicode-range: U+12;
@@ -557,7 +557,7 @@ error: Value
 14 |     unicode-range: U+12e112;
    |                    ^^^^^^^^
 
-error: Urange
+error: UnicodeRange
   --> $DIR/tests/fixture/value/urange/input.css:14:20
    |
 14 |     unicode-range: U+12e112;
@@ -587,7 +587,7 @@ error: Value
 15 |     unicode-range: U+1e1ee1;
    |                    ^^^^^^^^
 
-error: Urange
+error: UnicodeRange
   --> $DIR/tests/fixture/value/urange/input.css:15:20
    |
 15 |     unicode-range: U+1e1ee1;
@@ -596,60 +596,90 @@ error: Urange
 error: Declaration
   --> $DIR/tests/fixture/value/urange/input.css:16:5
    |
-16 |     unicode-range: U+1e1ee?;
-   |     ^^^^^^^^^^^^^^^^^^^^^^^
+16 |     unicode-range: U+1e1ee1-FFFFFF;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/urange/input.css:16:5
    |
-16 |     unicode-range: U+1e1ee?;
+16 |     unicode-range: U+1e1ee1-FFFFFF;
    |     ^^^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/value/urange/input.css:16:5
    |
-16 |     unicode-range: U+1e1ee?;
+16 |     unicode-range: U+1e1ee1-FFFFFF;
    |     ^^^^^^^^^^^^^
 
 error: Value
   --> $DIR/tests/fixture/value/urange/input.css:16:20
    |
-16 |     unicode-range: U+1e1ee?;
-   |                    ^^^^^^^^
+16 |     unicode-range: U+1e1ee1-FFFFFF;
+   |                    ^^^^^^^^^^^^^^^
 
-error: Urange
+error: UnicodeRange
   --> $DIR/tests/fixture/value/urange/input.css:16:20
    |
-16 |     unicode-range: U+1e1ee?;
-   |                    ^^^^^^^^
+16 |     unicode-range: U+1e1ee1-FFFFFF;
+   |                    ^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/value/urange/input.css:17:5
    |
-17 |     unicode-range: U+12-13;
-   |     ^^^^^^^^^^^^^^^^^^^^^^
+17 |     unicode-range: U+1e1ee?;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/urange/input.css:17:5
    |
-17 |     unicode-range: U+12-13;
+17 |     unicode-range: U+1e1ee?;
    |     ^^^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/value/urange/input.css:17:5
    |
-17 |     unicode-range: U+12-13;
+17 |     unicode-range: U+1e1ee?;
    |     ^^^^^^^^^^^^^
 
 error: Value
   --> $DIR/tests/fixture/value/urange/input.css:17:20
    |
-17 |     unicode-range: U+12-13;
-   |                    ^^^^^^^
+17 |     unicode-range: U+1e1ee?;
+   |                    ^^^^^^^^
 
-error: Urange
+error: UnicodeRange
   --> $DIR/tests/fixture/value/urange/input.css:17:20
    |
-17 |     unicode-range: U+12-13;
+17 |     unicode-range: U+1e1ee?;
+   |                    ^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/urange/input.css:18:5
+   |
+18 |     unicode-range: U+12-13;
+   |     ^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/urange/input.css:18:5
+   |
+18 |     unicode-range: U+12-13;
+   |     ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/urange/input.css:18:5
+   |
+18 |     unicode-range: U+12-13;
+   |     ^^^^^^^^^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/value/urange/input.css:18:20
+   |
+18 |     unicode-range: U+12-13;
+   |                    ^^^^^^^
+
+error: UnicodeRange
+  --> $DIR/tests/fixture/value/urange/input.css:18:20
+   |
+18 |     unicode-range: U+12-13;
    |                    ^^^^^^^
 

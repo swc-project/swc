@@ -1,4 +1,4 @@
-import { getLatestCommitMesssage } from "./util/git";
+import { getTitleOfLatestCommit } from "./util/git";
 import { octokit } from "./util/octokit";
 
 // We only auto-rebase if the latest commit message is one of 
@@ -10,7 +10,7 @@ const owner = 'swc-project';
 const repo = 'swc';
 
 (async () => {
-    const latestCommitMessage = await getLatestCommitMesssage();
+    const latestCommitMessage = await getTitleOfLatestCommit();
 
     console.log(`Latest commit message: ${latestCommitMessage}`);
 

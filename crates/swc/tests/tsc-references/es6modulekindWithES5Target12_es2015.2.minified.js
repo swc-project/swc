@@ -1,4 +1,4 @@
-var E;
+var E, N;
 export class C {
 }
 (C || (C = {})).x = 1, (function(E) {
