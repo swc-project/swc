@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 use swc_common::collections::AHashMap;
 use swc_ecma_ast::Ident;
 

@@ -13,6 +13,7 @@ pub(super) struct QuoteInput {
     pub vars: Option<(Token![,], Punctuated<QuoteVar, Token![,]>)>,
 }
 
+#[allow(unused)]
 pub(super) struct QuoteVar {
     pub name: syn::Ident,
     #[allow(unused)]
