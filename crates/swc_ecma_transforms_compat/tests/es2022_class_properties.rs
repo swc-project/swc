@@ -1041,35 +1041,34 @@ var _ref = one(),
     _ref1 = 2 * 4 + 7,
     _ref2 = 2 * four + 7,
     _ref3 = 2 * four + seven,
-    _ref4 = null,
     _undefined = undefined,
-    _ref5 = void 0,
-    tmp = 'whatever',
-    tmp1 = 'whatever',
+    _ref4 = void 0,
+    tmp = "whatever",
+    tmp1 = "whatever",
     tmp2 = computed(),
     tmp3 = computed(),
-    tmp4 = 'test' + one,
+    tmp4 = "test" + one,
     tmp5 = 10,
-    _ref6 = /regex/,
+    _ref5 = /regex/,
     _foo = foo,
     _bar = bar,
     _baz = baz,
-    _ref7 = `template`, _ref8 = `template${expression}`;
+    _ref6 = `template${expression}`;
 
 
 var MyClass = function() {
     'use strict';
     function MyClass() {
         _classCallCheck(this, MyClass);
-        _defineProperty(this, _ref4, 'null');
+        _defineProperty(this, null, "null");
         _defineProperty(this, _undefined, 'undefined');
-        _defineProperty(this, _ref5, 'void 0');
-        _defineProperty(this, _ref6, 'regex');
+        _defineProperty(this, _ref4, "void 0");
+        _defineProperty(this, _ref5, "regex");
         _defineProperty(this, _foo, 'foo');
         _defineProperty(this, _bar, 'bar');
         _defineProperty(this, _baz, 'baz');
-        _defineProperty(this, _ref7, 'template');
-        _defineProperty(this, _ref8, 'template-with-expression');
+        _defineProperty(this, `template`, "template");
+        _defineProperty(this, _ref6, "template-with-expression");
     }
     _createClass(MyClass, [{
              key: tmp, get: function () {
@@ -6058,7 +6057,7 @@ class MyClass {
 const foo = "foo";
 const bar = ()=>{};
 const four = 4;
-var _ref = one(), _ref1 = 2 * 4 + 7, _ref2 = 2 * four + 7, _ref3 = 2 * four + seven, _ref4 = null, _undefined = undefined, _ref5 = void 0, tmp = "whatever", tmp1 = "whatever", tmp2 = computed(), tmp3 = computed(), tmp4 = "test" + one, tmp5 = 10, _ref6 = /regex/, _foo = foo, _bar = bar, _baz = baz, _ref7 = `template`, _ref8 = `template${expression}`;
+var _ref = one(), _ref1 = 2 * 4 + 7, _ref2 = 2 * four + 7, _ref3 = 2 * four + seven, _undefined = undefined, _ref4 = void 0, tmp = "whatever", tmp1 = "whatever", tmp2 = computed(), tmp3 = computed(), tmp4 = "test" + one, tmp5 = 10, _ref5 = /regex/, _foo = foo, _bar = bar, _baz = baz, _ref6 = `template${expression}`;
 class MyClass {
     get [tmp]() {}
     set [tmp1](value) {}
@@ -6067,15 +6066,15 @@ class MyClass {
     [tmp4]() {}
     static [tmp5]() {}
     constructor(){
-        this[_ref4] = "null";
+        this[null] = "null";
         this[_undefined] = "undefined";
-        this[_ref5] = "void 0";
-        this[_ref6] = "regex";
+        this[_ref4] = "void 0";
+        this[_ref5] = "regex";
         this[_foo] = "foo";
         this[_bar] = "bar";
         this[_baz] = "baz";
-        this[_ref7] = "template";
-        this[_ref8] = "template-with-expression";
+        this[`template`] = "template";
+        this[_ref6] = "template-with-expression";
     }
 }
 MyClass[_ref] = "test";
