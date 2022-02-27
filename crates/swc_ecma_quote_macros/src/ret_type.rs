@@ -1,11 +1,12 @@
 use std::any::type_name;
 
-use crate::ast::{BoxWrapper, ToCode};
 use anyhow::{anyhow, bail, Context, Error};
 use swc_common::{sync::Lrc, FileName, SourceMap};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput};
 use syn::{GenericArgument, Ident, PathArguments, Type};
+
+use crate::ast::{BoxWrapper, ToCode};
 
 pub(crate) fn parse_input_type(input_str: &str, ty: &Type) -> Result<Box<dyn ToCode>, Error> {
     if let Some(ty) = extract_generic("Box", ty) {
@@ -70,19 +71,17 @@ fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
         Type::Path(p) => {
             let last = p.path.segments.last().unwrap();
 
-            if !last.arguments.is_empty() {
-                if last.ident == name {
-                    match &last.arguments {
-                        PathArguments::AngleBracketed(tps) => {
-                            let arg = tps.args.first().unwrap();
+            if !last.arguments.is_empty() && last.ident == name {
+                match &last.arguments {
+                    PathArguments::AngleBracketed(tps) => {
+                        let arg = tps.args.first().unwrap();
 
-                            match arg {
-                                GenericArgument::Type(arg) => return Some(arg),
-                                _ => unimplemented!("generic parameter other than type"),
-                            }
+                        match arg {
+                            GenericArgument::Type(arg) => return Some(arg),
+                            _ => unimplemented!("generic parameter other than type"),
                         }
-                        _ => unimplemented!("Box() -> T or Box without a type parameter"),
                     }
+                    _ => unimplemented!("Box() -> T or Box without a type parameter"),
                 }
             }
         }

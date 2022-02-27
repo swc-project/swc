@@ -1,6 +1,8 @@
 extern crate proc_macro;
 
-use crate::input::QuoteInput;
+use quote::ToTokens;
+
+use crate::{ctxt::Ctx, input::QuoteInput, ret_type::parse_input_type};
 
 mod ast;
 mod ctxt;
@@ -11,5 +13,19 @@ mod ret_type;
 /// `swc_ecma_quote` instead.
 #[proc_macro]
 pub fn internal_quote(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
-    let input = syn::parse::<QuoteInput>(input).expect("failed to parse input to quote!()");
+    let QuoteInput {
+        src,
+        as_token,
+        output_type,
+        comma_for_vars,
+        vars,
+    } = syn::parse::<QuoteInput>(input).expect("failed to parse input to quote!()");
+
+    let ret_type =
+        parse_input_type(&src.value(), &output_type).expect("failed to parse input type");
+
+    let mut cx = Ctx {
+        vars: Default::default(),
+    };
+    ret_type.to_code(&mut cx).to_token_stream().into()
 }
