@@ -6,6 +6,7 @@ use syn::{
 
 pub(super) struct QuoteInput {
     pub src: syn::LitStr,
+    #[allow(unused)]
     pub as_token: Token![as],
     pub output_type: syn::Type,
 
@@ -14,6 +15,7 @@ pub(super) struct QuoteInput {
 
 pub(super) struct QuoteVar {
     pub name: syn::Ident,
+    #[allow(unused)]
     pub eq_token: Token![=],
     pub value: syn::Expr,
 }

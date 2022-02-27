@@ -4,7 +4,7 @@ use anyhow::{anyhow, bail, Context, Error};
 use swc_common::{sync::Lrc, FileName, SourceMap};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput};
-use syn::{GenericArgument, Ident, PathArguments, Type};
+use syn::{GenericArgument, PathArguments, Type};
 
 use crate::{ast::ToCode, ctxt::Ctx};
 
@@ -91,11 +91,4 @@ fn extract_generic<'a>(name: &str, ty: &'a Type) -> Option<&'a Type> {
     }
 
     None
-}
-
-fn as_ident(ty: &Type) -> Option<&Ident> {
-    match ty {
-        Type::Path(p) => p.path.get_ident(),
-        _ => None,
-    }
 }
