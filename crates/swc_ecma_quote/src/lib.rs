@@ -34,14 +34,16 @@ macro_rules! quote {
     }};
 }
 
-/// Alias for [quote], but without `as Expr`.
+/// Creates a `Box<Expr>` from the source code.
+///
+/// This is an alias for [quote], but without `as Box<Expr>`.
 #[macro_export]
 macro_rules! quote_expr {
     ($($tt1:tt)*) => {{
-        $crate::quote!($($tt1)* as Expr)
+        $crate::quote!($($tt1)* as Box<Expr>)
     }};
 
     ($($tt1:tt)*, $($tt2:tt)*) => {{
-        $crate::quote!($($tt1)* as Expr, $($tt2)*)
+        $crate::quote!($($tt1)* as Box<Expr>, $($tt2)*)
     }};
 }
