@@ -7,7 +7,7 @@ use crate::ctxt::Ctx;
 fail_todo!(BlockStmt);
 
 impl ToCode for EmptyStmt {
-    fn to_code(&self, cx: &mut Ctx) -> syn::Expr {
+    fn to_code(&self, cx: &Ctx) -> syn::Expr {
         q!(
             Vars {},
             ({
