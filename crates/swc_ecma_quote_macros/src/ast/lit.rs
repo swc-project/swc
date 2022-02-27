@@ -8,7 +8,7 @@ fail_todo!(BigInt);
 fail_todo!(JSXText);
 
 impl ToCode for Str {
-    fn to_code(&self, cx: &Ctx) -> syn::Expr {
+    fn to_code(&self, _: &Ctx) -> syn::Expr {
         q!(
             Vars {
                 str_val: &*self.value,
@@ -27,7 +27,7 @@ impl ToCode for Str {
 }
 
 impl ToCode for Bool {
-    fn to_code(&self, cx: &Ctx) -> syn::Expr {
+    fn to_code(&self, _: &Ctx) -> syn::Expr {
         q!(
             Vars {
                 bool_val: self.value,
@@ -44,7 +44,7 @@ impl ToCode for Bool {
 }
 
 impl ToCode for Null {
-    fn to_code(&self, cx: &Ctx) -> syn::Expr {
+    fn to_code(&self, _: &Ctx) -> syn::Expr {
         q!(Vars {}, {
             swc_ecma_ast::Null {
                 span: swc_common::DUMMY_SP,
@@ -55,7 +55,7 @@ impl ToCode for Null {
 }
 
 impl ToCode for Number {
-    fn to_code(&self, cx: &Ctx) -> syn::Expr {
+    fn to_code(&self, _: &Ctx) -> syn::Expr {
         q!(
             Vars {
                 num_val: self.value,
@@ -72,7 +72,7 @@ impl ToCode for Number {
 }
 
 impl ToCode for Regex {
-    fn to_code(&self, cx: &Ctx) -> syn::Expr {
+    fn to_code(&self, _: &Ctx) -> syn::Expr {
         q!(
             Vars {
                 exp_val: &*self.exp,
