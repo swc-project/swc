@@ -82,6 +82,9 @@ macro_rules! impl_enum {
 impl_enum!(ModuleItem, [ModuleDecl, Stmt]);
 impl_enum!(ModuleDecl, []);
 impl_enum!(Stmt, []);
-impl_enum!(Decl, []);
+impl_enum!(
+    Decl,
+    [Class, Fn, Var, TsInterface, TsTypeAlias, TsEnum, TsModule]
+);
 impl_enum!(Expr, []);
 impl_enum!(Pat, []);
