@@ -1,8 +1,4 @@
-use pmutil::q;
 use swc_ecma_ast::*;
-
-use super::ToCode;
-use crate::ctxt::Ctx;
 
 fail_todo!(ThisExpr);
 fail_todo!(ArrayLit);
@@ -11,10 +7,10 @@ fail_todo!(FnExpr);
 fail_todo!(ArrowExpr);
 fail_todo!(ClassExpr);
 fail_todo!(Tpl);
-fail_todo!(UnaryExpr);
-fail_todo!(UpdateExpr);
-fail_todo!(BinExpr);
-fail_todo!(AssignExpr);
+impl_struct!(UnaryExpr, [span, op, arg]);
+impl_struct!(UpdateExpr, [span, op, prefix, arg]);
+impl_struct!(BinExpr, [span, op, left, right]);
+impl_struct!(AssignExpr, [span, op, left, right]);
 fail_todo!(MemberExpr);
 fail_todo!(SuperPropExpr);
 fail_todo!(CondExpr);
