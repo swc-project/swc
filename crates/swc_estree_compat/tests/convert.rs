@@ -71,7 +71,6 @@ fn fixtures() -> Result<(), Error> {
                 )),
                 ignore: false,
                 should_panic: ShouldPanic::No,
-                allow_fail: false,
                 compile_fail: false,
                 no_run: false,
             },
