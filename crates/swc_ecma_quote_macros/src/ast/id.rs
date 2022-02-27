@@ -10,7 +10,7 @@ impl ToCode for swc_ecma_ast::Ident {
 
         q!(
             Vars {
-                sym_value: &*self.sym.to_string(),
+                sym_value: self.sym.to_code(cx),
             },
             { swc_ecma_quote::swc_ecma_ast::Ident::new(sym_value, swc_common::DUMMY_SP) }
         )
