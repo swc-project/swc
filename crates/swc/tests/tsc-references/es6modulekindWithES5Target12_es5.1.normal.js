@@ -25,8 +25,9 @@ export var E;
 (function(E) {
     var z = E.z = 1;
 })(E || (E = {}));
-(function(N) {
-    var x = N.x = 1;
+export var N;
+(function(N1) {
+    var x = N1.x = 1;
 })(N || (N = {}));
 export function F() {}
 (function(F1) {
