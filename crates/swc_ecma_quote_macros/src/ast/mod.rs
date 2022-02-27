@@ -19,7 +19,20 @@ macro_rules! impl_struct {
         $name:ident,
         [ $($v:ident),* ]
     ) => {
-        impl ToCode for $name {}
+        impl crate::ast::ToCode for $name {
+            fn to_code(&self, cx: &crate::ctxt::Ctx) -> syn::Expr {
+                let mut builder = crate::builder::Builder::new(stringify!($name));
+
+                $(
+                    builder.add(
+                        stringify!($v),
+                        crate::ast::ToCode::to_code(&self.$v, cx),
+                    );
+                )*
+
+                syn::Expr::Struct(builder.build())
+            }
+        }
     };
 }
 

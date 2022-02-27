@@ -5,6 +5,7 @@ use quote::ToTokens;
 use crate::{ast::ToCode, ctxt::Ctx, input::QuoteInput, ret_type::parse_input_type};
 
 mod ast;
+mod builder;
 mod ctxt;
 mod input;
 mod ret_type;
