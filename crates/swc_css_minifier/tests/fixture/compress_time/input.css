@@ -30,4 +30,9 @@ div {
     transition-duration: .05s;
     transition-duration: .5s;
     transition-duration: 0.543s;
+    transition-duration: 0.1s;
+    transition-duration: 0.01s;
+    transition-duration: 0.32s;
+    transition-duration: 0.075s;
+    transition-duration: 0.000075s;
 }
