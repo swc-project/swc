@@ -137,6 +137,8 @@ jobs:
             os: windows-latest
           - crate: swc_css_codegen_macros
             os: ubuntu-latest
+          - crate: swc_css_lints
+            os: ubuntu-latest
           - crate: swc_css_minifier
             os: ubuntu-latest
           - crate: swc_css_parser

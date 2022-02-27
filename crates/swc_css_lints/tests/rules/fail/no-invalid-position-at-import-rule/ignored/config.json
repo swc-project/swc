@@ -1,0 +1,8 @@
+{
+    "rules": {
+        "no-invalid-position-at-import-rule": [
+            "error",
+            { "ignoreAtRules": ["hibike"] }
+        ]
+    }
+}
