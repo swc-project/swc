@@ -1,3 +1,7 @@
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) throw new TypeError("attempted to " + action + " private field on non-instance");
+    return privateMap.get(receiver);
+}
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
         var descriptor = props[i];
@@ -23,14 +27,8 @@ var C = function() {
             {
                 key: "m",
                 value: function() {
-                    var receiver, privateMap, value, descriptor;
-                    receiver = this, privateMap = _x, value = (function(receiver, privateSet, fn) {
-                        if (!privateSet.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-                        return fn;
-                    })(this, _x, x) + 2, descriptor = (function(receiver, privateMap, action) {
-                        if (!privateMap.has(receiver)) throw new TypeError("attempted to set private field on non-instance");
-                        return privateMap.get(receiver);
-                    })(receiver, privateMap, "set"), (function(receiver, descriptor, value) {
+                    var receiver, privateMap, descriptor, receiver, descriptor, receiver, privateMap, value, descriptor;
+                    receiver = this, privateMap = _x, receiver = this, value = ((descriptor = descriptor = _classExtractFieldDescriptor(receiver, privateMap = _x, "get")).get ? descriptor.get.call(receiver) : descriptor.value) + 2, descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set"), (function(receiver, descriptor, value) {
                         if (descriptor.set) descriptor.set.call(receiver, value);
                         else {
                             if (!descriptor.writable) throw new TypeError("attempted to set read only private field");

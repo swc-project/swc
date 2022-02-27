@@ -1,0 +1,13 @@
+.a.b.c.d {
+}
+
+.a .b .c .d {
+}
+
+@media print {
+    .a.b.c.d {
+    }
+}
+
+:not(.a.b.c.d) {
+}

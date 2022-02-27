@@ -17,14 +17,13 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var _this = this;
 var C = function C() {
     "use strict";
     _classCallCheck(this, C);
 };
 C.f = 1;
 C.arrowFunctionBoundary = function() {
-    return _this.f + 1;
+    return C.f + 1;
 };
 C.functionExprBoundary = function() {
     return this.f + 2;

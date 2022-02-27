@@ -1,0 +1,15 @@
+a {
+    color: #ababa;
+}
+
+a {
+    unknown: #00, #fff, #ababab;
+}
+
+a {
+    color: #12345abcdefg;
+}
+
+a {
+    color: #xyz;
+}

@@ -411,32 +411,32 @@ impl ClassProperties {
 
                 ClassMember::Method(method) => {
                     // we handle computed key here to preserve the execution order
-                    let key = match method.key {
+                    let key = if let PropName::Computed(ComputedPropName {
+                        span: c_span,
+                        mut expr,
+                    }) = method.key
+                    {
+                        vars.extend(visit_private_in_expr(&mut expr, &self.private, self.c));
+
+                        expr.visit_mut_with(&mut ClassNameTdzFolder {
+                            class_name: &class_ident,
+                        });
+                        let ident = private_ident!("tmp");
+                        // Handle computed property
+                        vars.push(VarDeclarator {
+                            span: DUMMY_SP,
+                            name: ident.clone().into(),
+                            init: Some(expr),
+                            definite: false,
+                        });
+                        // We use computed because `classes` pass converts PropName::Ident to
+                        // string.
                         PropName::Computed(ComputedPropName {
                             span: c_span,
-                            mut expr,
-                        }) => {
-                            vars.extend(visit_private_in_expr(&mut expr, &self.private, self.c));
-
-                            expr.visit_mut_with(&mut ClassNameTdzFolder {
-                                class_name: &class_ident,
-                            });
-                            let ident = private_ident!("tmp");
-                            // Handle computed property
-                            vars.push(VarDeclarator {
-                                span: DUMMY_SP,
-                                name: ident.clone().into(),
-                                init: Some(expr),
-                                definite: false,
-                            });
-                            // We use computed because `classes` pass converts PropName::Ident to
-                            // string.
-                            PropName::Computed(ComputedPropName {
-                                span: c_span,
-                                expr: Box::new(Expr::Ident(ident)),
-                            })
-                        }
-                        _ => method.key,
+                            expr: Box::new(Expr::Ident(ident)),
+                        })
+                    } else {
+                        method.key
                     };
                     members.push(ClassMember::Method(ClassMethod { key, ..method }))
                 }

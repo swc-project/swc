@@ -11,20 +11,30 @@ function _checkPrivateRedeclaration(obj, privateCollection) {
         throw new TypeError("Cannot initialize the same private elements twice on an object");
     }
 }
+function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+        return descriptor.get.call(receiver);
+    }
+    return descriptor.value;
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to " + action + " private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
+function _classPrivateFieldGet(receiver, privateMap) {
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
+}
 function _classPrivateFieldInit(obj, privateMap, value) {
     _checkPrivateRedeclaration(obj, privateMap);
     privateMap.set(obj, value);
-}
-function _classPrivateMethodGet(receiver, privateSet, fn) {
-    if (!privateSet.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return fn;
 }
 function isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
@@ -146,27 +156,27 @@ var A = // @target: es2015
             value: function test() {
                 var _instance;
                 var _ref;
-                _classPrivateMethodGet(this, _fieldFunc, fieldFunc).call(this);
-                var func = _classPrivateMethodGet(this, _fieldFunc, fieldFunc);
+                _classPrivateFieldGet(this, _fieldFunc).call(this);
+                var func = _classPrivateFieldGet(this, _fieldFunc);
                 func();
-                new (_classPrivateMethodGet(this, _fieldFunc, fieldFunc))();
+                new (_classPrivateFieldGet(this, _fieldFunc))();
                 var arr = [
                     1,
                     2
                 ];
-                (_instance = _classPrivateMethodGet(this, _fieldFunc2, fieldFunc2)).call.apply(_instance, [
+                (_instance = _classPrivateFieldGet(this, _fieldFunc2)).call.apply(_instance, [
                     this,
                     0
                 ].concat(_toConsumableArray(arr), [
                     3
                 ]));
-                var b = _construct(_classPrivateMethodGet(this, _fieldFunc2, fieldFunc2), [
+                var b = _construct(_classPrivateFieldGet(this, _fieldFunc2), [
                     0
                 ].concat(_toConsumableArray(arr), [
                     3
                 ]));
-                var str = _classPrivateMethodGet(this, _fieldFunc2, fieldFunc2).bind(this)(_templateObject(), 1, 2);
-                _classPrivateMethodGet(_ref = this.getInstance(), _fieldFunc2, fieldFunc2).bind(_ref)(_templateObject1(), 1, 2);
+                var str = _classPrivateFieldGet(this, _fieldFunc2).bind(this)(_templateObject(), 1, 2);
+                _classPrivateFieldGet(_ref = this.getInstance(), _fieldFunc2).bind(_ref)(_templateObject1(), 1, 2);
             }
         },
         {

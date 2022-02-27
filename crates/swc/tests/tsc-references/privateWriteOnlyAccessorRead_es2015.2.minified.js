@@ -2,6 +2,10 @@ function _classExtractFieldDescriptor(receiver, privateMap, action) {
     if (!privateMap.has(receiver)) throw new TypeError("attempted to " + action + " private field on non-instance");
     return privateMap.get(receiver);
 }
+function _classPrivateFieldGet(receiver, privateMap) {
+    var receiver, descriptor, descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
+    return descriptor.get ? descriptor.get.call(receiver) : descriptor.value;
+}
 function _classPrivateFieldInit(obj, privateMap, value) {
     !function(obj, privateCollection) {
         if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
@@ -16,10 +20,6 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
             descriptor.value = value;
         }
     }(receiver, descriptor, value), value;
-}
-function _classPrivateMethodGet(receiver, privateSet, fn) {
-    if (!privateSet.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-    return fn;
 }
 function _extends() {
     return (_extends = Object.assign || function(target) {
@@ -49,25 +49,25 @@ new class {
         const foo = {
             bar: 1
         };
-        console.log(_classPrivateMethodGet(this, _value, value)), _classPrivateFieldSet(this, _value, {
+        console.log(_classPrivateFieldGet(this, _value)), _classPrivateFieldSet(this, _value, {
             foo
         }), _classPrivateFieldSet(this, _value, {
             foo
-        }), _classPrivateMethodGet(this, _value, value).foo = foo, ({ o: _classPrivateFieldDestructureSet(this, _value).value  } = {
+        }), _classPrivateFieldGet(this, _value).foo = foo, ({ o: _classPrivateFieldDestructureSet(this, _value).value  } = {
             o: {
                 foo
             }
         }), _tmp = {
             foo
-        }, _classPrivateFieldDestructureSet(this, _value).value = _extends({}, _tmp), ({ foo: _classPrivateMethodGet(this, _value, value).foo  } = {
+        }, _classPrivateFieldDestructureSet(this, _value).value = _extends({}, _tmp), ({ foo: _classPrivateFieldGet(this, _value).foo  } = {
             foo
         }), _tmp1 = {
             foo
-        }, _classPrivateMethodGet(this, _value, value).foo = _extends({}, _tmp1.foo), ({ foo: {} ,  } = _tmp1), _classPrivateMethodGet(this, _value, value), [_classPrivateFieldDestructureSet(this, _valueOne).value, ..._classPrivateFieldDestructureSet(this, _valueRest).value] = [
+        }, _classPrivateFieldGet(this, _value).foo = _extends({}, _tmp1.foo), ({ foo: {} ,  } = _tmp1), _classPrivateFieldGet(this, _value), [_classPrivateFieldDestructureSet(this, _valueOne).value, ..._classPrivateFieldDestructureSet(this, _valueRest).value] = [
             1,
             2,
             3
-        ], _classPrivateMethodGet(this, _valueOne, valueOne), _classPrivateMethodGet(this, _valueRest, valueRest), _classPrivateFieldSet(this, _valueCompound, _classPrivateMethodGet(this, _valueCompound, valueCompound) + 3);
+        ], _classPrivateFieldGet(this, _valueOne), _classPrivateFieldGet(this, _valueRest), _classPrivateFieldSet(this, _valueCompound, _classPrivateFieldGet(this, _valueCompound) + 3);
     }
     constructor(){
         _classPrivateFieldInit(this, _value, {

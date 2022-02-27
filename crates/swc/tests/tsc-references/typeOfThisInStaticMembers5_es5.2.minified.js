@@ -1,9 +1,9 @@
-var _this = this, C = function(foo) {
+var C = function(foo) {
     "use strict";
     !function(instance, Constructor) {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
     }(this, C), this.foo = foo;
 };
 C.create = function() {
-    return new _this("yep");
+    return new C("yep");
 };
