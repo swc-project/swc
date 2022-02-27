@@ -7,12 +7,12 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var _this = this, C = function() {
+var C = function() {
     "use strict";
     _classCallCheck(this, C);
 };
 C.f = 1, C.arrowFunctionBoundary = function() {
-    return _this.f + 1;
+    return C.f + 1;
 }, C.functionExprBoundary = function() {
     return this.f + 2;
 }, C.classExprBoundary = function _class() {

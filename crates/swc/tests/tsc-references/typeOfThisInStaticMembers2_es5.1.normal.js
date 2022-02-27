@@ -7,9 +7,9 @@ var C = function C() {
     "use strict";
     _classCallCheck(this, C);
 };
-C.foo = this;
+C.foo = C;
 var C2 = function C2() {
     "use strict";
     _classCallCheck(this, C2);
 };
-C2.foo = this;
+C2.foo = C2;
