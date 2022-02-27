@@ -112,7 +112,13 @@ impl_enum!(
         TsNamespaceExport
     ]
 );
-impl_enum!(Stmt, []);
+impl_enum!(
+    Stmt,
+    [
+        Block, Empty, Debugger, With, Return, Labeled, Break, Continue, If, Switch, Throw, Try,
+        While, DoWhile, For, ForIn, ForOf, Decl, Expr
+    ]
+);
 impl_enum!(
     Decl,
     [Class, Fn, Var, TsInterface, TsTypeAlias, TsEnum, TsModule]
