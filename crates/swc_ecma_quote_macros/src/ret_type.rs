@@ -33,19 +33,16 @@ pub(crate) fn parse_input_type(input_str: &str, ty: &Type) -> Result<BoxWrapper,
         return Ok(BoxWrapper(Box::new(Some(node))));
     }
 
-    match ty {
-        Type::Path(p) => match p.path.get_ident() {
-            Some(ident) => match &*ident.to_string() {
+    if let Type::Path(p) = ty {
+        if let Some(ident) = p.path.get_ident() {
+            match &*ident.to_string() {
                 "Expr" => return parse(input_str, &mut |p| p.parse_expr()),
                 "Pat" => return parse(input_str, &mut |p| p.parse_pat()),
                 "Stmt" => return parse(input_str, &mut |p| p.parse_stmt(true)),
                 "ModuleItem" => return parse(input_str, &mut |p| p.parse_module_item()),
                 _ => {}
-            },
-            None => {}
-        },
-
-        _ => {}
+            }
+        }
     }
 
     bail!("Unknown quote type: {:?}", ty);
