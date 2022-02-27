@@ -81,7 +81,7 @@ macro_rules! impl_enum {
                             Vars {
                                 inner: inner.to_code(cx)
                             },
-                            { $E::$v(inner) }
+                            { swc_ecma_ast::$E::$v(inner) }
                         )
                         .parse(),
                     )*
