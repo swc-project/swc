@@ -26,7 +26,7 @@ var _foo = new WeakMap(), _bar = new WeakMap(), A = function() {
 }, _foo1 = new WeakMap(), _bar1 = new WeakSet(), A2 = function() {
     "use strict";
     var obj, privateSet;
-    _classCallCheck(this, A2), _classPrivateFieldInit(this, _foo1, {
+    _classCallCheck(this, A2), obj = this, _checkPrivateRedeclaration(obj, privateSet = _bar1), privateSet.add(obj), _classPrivateFieldInit(this, _foo1, {
         writable: !0,
         value: (function(receiver, privateSet, fn) {
             if (!privateSet.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
@@ -34,17 +34,17 @@ var _foo = new WeakMap(), _bar = new WeakMap(), A = function() {
         })(this, _bar1, function() {
             return 3;
         }).call(this)
-    }), obj = this, _checkPrivateRedeclaration(obj, privateSet = _bar1), privateSet.add(obj);
+    });
 }, _foo2 = new WeakMap(), _bar2 = new WeakMap(), A3 = function() {
     "use strict";
-    _classCallCheck(this, A3), _classPrivateFieldInit(this, _foo2, {
-        writable: !0,
-        value: _classPrivateFieldGet(this, _bar2)
-    }), _classPrivateFieldInit(this, _bar2, {
+    _classCallCheck(this, A3), _classPrivateFieldInit(this, _bar2, {
         get: function() {
             return 3;
         },
         set: void 0
+    }), _classPrivateFieldInit(this, _foo2, {
+        writable: !0,
+        value: _classPrivateFieldGet(this, _bar2)
     });
 }, _foo3 = new WeakMap(), _bar3 = new WeakMap(), B = function() {
     "use strict";

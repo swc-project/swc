@@ -5467,11 +5467,11 @@ test!(
     var _y = new WeakMap(), _sssss = new WeakSet();
     class Foo {
         constructor(){
+            _classPrivateMethodInit(this, _sssss);
             _classPrivateFieldInit(this, _y, {
                 writable: true,
                 value: void 0
             });
-            _classPrivateMethodInit(this, _sssss);
             this.x = 1;
             _classPrivateFieldSet(this, _y, 2);
             _classPrivateMethodGet(this, _sssss, sssss).call(this);
@@ -5586,6 +5586,23 @@ const foo = new Foo();
 
 expect(foo.bar).toBe(undefined);
 expect(foo.baz).toBe(undefined);
+"
+);
+
+test_exec!(
+    syntax(),
+    |_| class_properties(Default::default()),
+    class_field_evalutaion_order,
+    "
+class Foo {
+  a = this.#b;
+  get #b() {
+    return 1
+  }
+  static #c = this.#d();
+  static #d() {}
+}
+expect(() => new Foo()).not.toThrow();
 "
 );
 
@@ -5817,11 +5834,11 @@ class A {
         };
     }
     constructor(){
+        _classPrivateMethodInit(this, _bar);
         _classPrivateFieldInit(this, _a, {
             writable: true,
             value: 'fff'
         });
-        _classPrivateMethodInit(this, _bar);
     }
 }
 var _b = {
@@ -6186,13 +6203,13 @@ class Cl {
   }
 
   constructor() {
-    Object.defineProperty(this, _privateField, {
-      writable: true,
-      value: "top secret string"
-    });
     Object.defineProperty(this, _privateFieldValue, {
       get: get_privateFieldValue,
       set: set_privateFieldValue
+    });
+    Object.defineProperty(this, _privateField, {
+      writable: true,
+      value: "top secret string"
     });
     this.publicField = "not secret string";
   }
@@ -6229,13 +6246,13 @@ class Cl { }
 Object.defineProperty(Cl, _foo, {
     value: foo
 });
-Object.defineProperty(Cl, _f, {
-    writable: true,
-    value: 123
-});
 Object.defineProperty(Cl, _bar, {
     get: get_bar,
     set: void 0
+});
+Object.defineProperty(Cl, _f, {
+    writable: true,
+    value: 123
 });
 function foo() {}
 function get_bar() {}
@@ -6268,13 +6285,13 @@ var _privateField = /*#__PURE__*/_classPrivateFieldLooseKey("_privateField"), _p
 
 class Cl {
   constructor() {
-    Object.defineProperty(this, _privateField, {
-      writable: true,
-      value: 0
-    });
     Object.defineProperty(this, _privateFieldValue, {
       get: get_privateFieldValue,
       set: void 0
+    });
+    Object.defineProperty(this, _privateField, {
+      writable: true,
+      value: 0
     });
     _classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue] = 1;
     [_classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue]] = [1];
@@ -6379,13 +6396,13 @@ class Cl {
   }
 
   constructor() {
-    Object.defineProperty(this, _privateField, {
-      writable: true,
-      value: "top secret string"
-    });
     Object.defineProperty(this, _privateFieldValue, {
       get: get_privateFieldValue,
       set: set_privateFieldValue
+    });
+    Object.defineProperty(this, _privateField, {
+      writable: true,
+      value: "top secret string"
     });
     this.publicField = "not secret string";
   }

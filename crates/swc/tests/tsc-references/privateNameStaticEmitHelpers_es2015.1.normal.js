@@ -34,13 +34,13 @@ function _classCheckPrivateStaticAccess(receiver, classConstructor) {
 // @filename: main.ts
 export class S {
 }
-var _a = {
-    writable: true,
-    value: 1
-};
 var _c = {
     get: get_c,
     set: void 0
+};
+var _a = {
+    writable: true,
+    value: 1
 };
 function b() {
     _classStaticPrivateFieldSpecSet(this, S, _a, 42);

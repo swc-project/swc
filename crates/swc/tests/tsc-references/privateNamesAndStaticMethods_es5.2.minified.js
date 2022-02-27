@@ -109,9 +109,6 @@ import regeneratorRuntime from "regenerator-runtime";
 var A = function() {
     "use strict";
     _classCallCheck(this, A), _classStaticPrivateMethodGet(A, A, foo).call(A, 30), _classStaticPrivateMethodGet(A, A, bar).call(A, 30), _classStaticPrivateMethodGet(A, A, bar).call(A, 30), _classStaticPrivateFieldSpecSet(A, A, _quux, _classStaticPrivateFieldSpecGet(A, A, _quux) + 1), _classStaticPrivateFieldSpecSet(A, A, _quux, +_classStaticPrivateFieldSpecGet(A, A, _quux) + 1);
-}, __quux = {
-    writable: !0,
-    value: void 0
 }, _quux = {
     get: function() {
         return _classStaticPrivateFieldSpecGet(this, A, __quux);
@@ -119,6 +116,9 @@ var A = function() {
     set: function(val) {
         _classStaticPrivateFieldSpecSet(this, A, __quux, val);
     }
+}, __quux = {
+    writable: !0,
+    value: void 0
 };
 function foo(a) {}
 function bar(a) {

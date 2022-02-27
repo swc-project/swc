@@ -3,6 +3,12 @@ function _checkPrivateRedeclaration(obj, privateCollection) {
         throw new TypeError("Cannot initialize the same private elements twice on an object");
     }
 }
+function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+        return descriptor.get.call(receiver);
+    }
+    return descriptor.value;
+}
 function _classApplyDescriptorSet(receiver, descriptor, value) {
     if (descriptor.set) {
         descriptor.set.call(receiver, value);
@@ -19,6 +25,10 @@ function _classExtractFieldDescriptor(receiver, privateMap, action) {
     }
     return privateMap.get(receiver);
 }
+function _classPrivateFieldGet(receiver, privateMap) {
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
+}
 function _classPrivateFieldInit(obj, privateMap, value) {
     _checkPrivateRedeclaration(obj, privateMap);
     privateMap.set(obj, value);
@@ -27,12 +37,6 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
     var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
     _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
-}
-function _classPrivateMethodGet(receiver, privateSet, fn) {
-    if (!privateSet.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return fn;
 }
 var _prop = new WeakMap(), _roProp = new WeakMap();
 // @strict: true
@@ -49,8 +53,8 @@ class A1 {
         });
         _classPrivateFieldSet(this, _prop, "");
         _classPrivateFieldSet(this, _roProp, ""); // Error
-        console.log(_classPrivateMethodGet(this, _prop, prop));
-        console.log(_classPrivateMethodGet(this, _roProp, roProp));
+        console.log(_classPrivateFieldGet(this, _prop));
+        console.log(_classPrivateFieldGet(this, _roProp));
     }
 }
 function get_prop() {

@@ -25,15 +25,15 @@ export var C = function() {
         var obj, privateSet;
         !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, C), _classPrivateFieldInit(this, _hello, {
+        }(this, C), obj = this, _checkPrivateRedeclaration(obj, privateSet = _calcHello), privateSet.add(obj), _classPrivateFieldInit(this, _screamingHello, {
+            get: get_screamingHello,
+            set: set_screamingHello
+        }), _classPrivateFieldInit(this, _hello, {
             writable: !0,
             value: "hello"
         }), _classPrivateFieldInit(this, _world, {
             writable: !0,
             value: 100
-        }), obj = this, _checkPrivateRedeclaration(obj, privateSet = _calcHello), privateSet.add(obj), _classPrivateFieldInit(this, _screamingHello, {
-            get: get_screamingHello,
-            set: set_screamingHello
         });
     }
     return Constructor = C, protoProps = [

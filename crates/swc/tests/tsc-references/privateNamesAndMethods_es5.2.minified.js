@@ -121,12 +121,12 @@ function _setPrototypeOf(o, p) {
 import regeneratorRuntime from "regenerator-runtime";
 var _foo = new WeakSet(), _bar = new WeakSet(), _baz = new WeakSet(), __quux = new WeakMap(), _quux = new WeakMap(), A = function() {
     "use strict";
-    _classCallCheck(this, A), _classPrivateMethodInit(this, _foo), _classPrivateMethodInit(this, _bar), _classPrivateMethodInit(this, _baz), _classPrivateFieldInit(this, __quux, {
-        writable: !0,
-        value: void 0
-    }), _classPrivateFieldInit(this, _quux, {
+    _classCallCheck(this, A), _classPrivateMethodInit(this, _foo), _classPrivateMethodInit(this, _bar), _classPrivateMethodInit(this, _baz), _classPrivateFieldInit(this, _quux, {
         get: get_quux,
         set: set_quux
+    }), _classPrivateFieldInit(this, __quux, {
+        writable: !0,
+        value: void 0
     }), _classPrivateMethodGet(this, _foo, foo).call(this, 30), _classPrivateMethodGet(this, _bar, bar).call(this, 30), _classPrivateMethodGet(this, _baz, baz).call(this, 30), _classPrivateFieldSet(this, _quux, _classPrivateFieldGet(this, _quux) + 1), _classPrivateFieldSet(this, _quux, +_classPrivateFieldGet(this, _quux) + 1);
 };
 function foo(a) {}

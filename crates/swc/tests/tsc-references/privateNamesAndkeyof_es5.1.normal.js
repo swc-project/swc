@@ -20,14 +20,14 @@ var _fooField = new WeakMap(), _fooMethod = new WeakSet(), _fooProp = new WeakMa
 var A = function A() {
     "use strict";
     _classCallCheck(this, A);
-    _classPrivateFieldInit(this, _fooField, {
-        writable: true,
-        value: 3
-    });
     _classPrivateMethodInit(this, _fooMethod);
     _classPrivateFieldInit(this, _fooProp, {
         get: get_fooProp,
         set: set_fooProp
+    });
+    _classPrivateFieldInit(this, _fooField, {
+        writable: true,
+        value: 3
     });
     // @strict: true
     // @target: es6
