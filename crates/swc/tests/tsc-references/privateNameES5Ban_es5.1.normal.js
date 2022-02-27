@@ -20,23 +20,23 @@ var _field = new WeakMap(), _method = new WeakSet(), _acc = new WeakMap();
 var A = function A() {
     "use strict";
     _classCallCheck(this, A);
-    _classPrivateFieldInit(this, _field, {
-        writable: true,
-        value: 123
-    });
     _classPrivateMethodInit(this, _method);
     _classPrivateFieldInit(this, _acc, {
         get: get_acc,
         set: set_acc
     });
-};
-var _sField = {
-    writable: true,
-    value: "hello world"
+    _classPrivateFieldInit(this, _field, {
+        writable: true,
+        value: 123
+    });
 };
 var _sAcc = {
     get: get_sAcc,
     set: set_sAcc
+};
+var _sField = {
+    writable: true,
+    value: "hello world"
 };
 function method() {}
 function sMethod() {}

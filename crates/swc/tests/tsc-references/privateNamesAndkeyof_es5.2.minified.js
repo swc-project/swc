@@ -9,14 +9,14 @@ var _fooField = new WeakMap(), _fooMethod = new WeakSet(), _fooProp = new WeakMa
     var obj, privateSet;
     !function(instance, Constructor) {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, A), _classPrivateFieldInit(this, _fooField, {
-        writable: !0,
-        value: 3
-    }), obj = this, _checkPrivateRedeclaration(obj, privateSet = _fooMethod), privateSet.add(obj), _classPrivateFieldInit(this, _fooProp, {
+    }(this, A), obj = this, _checkPrivateRedeclaration(obj, privateSet = _fooMethod), privateSet.add(obj), _classPrivateFieldInit(this, _fooProp, {
         get: function() {
             return 1;
         },
         set: set_fooProp
+    }), _classPrivateFieldInit(this, _fooField, {
+        writable: !0,
+        value: 3
     }), this.bar = 3, this.baz = 3;
 };
 function set_fooProp(value) {}

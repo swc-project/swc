@@ -61,9 +61,9 @@ export var A2 = function A2() {
     _classCallCheck(this, A2);
     _classPrivateMethodInit(this, _used1);
     _classPrivateMethodInit(this, _unused1);
-    console.log(_classPrivateMethodGet(this, _used1, used1).call(this));
+    console.log(_classPrivateMethodGet(this, _used1, used).call(this));
 };
-function used1() {}
+function used() {}
 function unused() {}
 var _used2 = new WeakMap(), _unused2 = new WeakMap();
 export var A3 = function A3() {
@@ -77,7 +77,7 @@ export var A3 = function A3() {
         get: get_unused,
         set: set_unused
     });
-    console.log(_classPrivateMethodGet(this, _used2, used));
+    console.log(_classPrivateFieldGet(this, _used2));
 };
 function get_used() {
     return 0;

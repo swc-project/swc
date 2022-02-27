@@ -64,6 +64,10 @@ function _AwaitValue(value) {
 function _classCheckPrivateStaticFieldDescriptor(descriptor, action) {
     if (void 0 === descriptor) throw new TypeError("attempted to " + action + " private static field before its declaration");
 }
+function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
+    var receiver, descriptor;
+    return _classCheckPrivateStaticAccess(receiver, classConstructor), _classCheckPrivateStaticFieldDescriptor(descriptor, "get"), descriptor.get ? descriptor.get.call(receiver) : descriptor.value;
+}
 function _classStaticPrivateFieldSpecSet(receiver, classConstructor, descriptor, value) {
     return _classCheckPrivateStaticAccess(receiver, classConstructor), _classCheckPrivateStaticFieldDescriptor(descriptor, "set"), !function(receiver, descriptor, value) {
         if (descriptor.set) descriptor.set.call(receiver, value);
@@ -90,20 +94,19 @@ function _classCheckPrivateStaticAccess(receiver, classConstructor) {
 };
 class A {
     constructor(){
-        _classStaticPrivateMethodGet(A, A, function(a) {}).call(A, 30), _classStaticPrivateMethodGet(A, A, bar).call(A, 30), _classStaticPrivateMethodGet(A, A, bar).call(A, 30), _classStaticPrivateFieldSpecSet(A, A, _quux, _classStaticPrivateMethodGet(A, A, quux) + 1), _classStaticPrivateFieldSpecSet(A, A, _quux, +_classStaticPrivateMethodGet(A, A, quux) + 1);
+        _classStaticPrivateMethodGet(A, A, function(a) {}).call(A, 30), _classStaticPrivateMethodGet(A, A, bar).call(A, 30), _classStaticPrivateMethodGet(A, A, bar).call(A, 30), _classStaticPrivateFieldSpecSet(A, A, _quux, _classStaticPrivateFieldSpecGet(A, A, _quux) + 1), _classStaticPrivateFieldSpecSet(A, A, _quux, +_classStaticPrivateFieldSpecGet(A, A, _quux) + 1);
     }
 }
-var __quux = {
-    writable: !0,
-    value: void 0
-}, _quux = {
+var _quux = {
     get: function() {
-        var receiver, classConstructor, descriptor, receiver, descriptor;
-        return receiver = this, classConstructor = A, descriptor = __quux, _classCheckPrivateStaticAccess(receiver, classConstructor), _classCheckPrivateStaticFieldDescriptor(descriptor, "get"), (descriptor = descriptor).get ? descriptor.get.call(receiver) : descriptor.value;
+        return _classStaticPrivateFieldSpecGet(this, A, __quux);
     },
     set: function(val) {
         _classStaticPrivateFieldSpecSet(this, A, __quux, val);
     }
+}, __quux = {
+    writable: !0,
+    value: void 0
 };
 function bar(a) {
     return _bar.apply(this, arguments);
