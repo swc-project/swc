@@ -216,6 +216,20 @@ impl_enum!(PropOrSpread, [Spread, Prop]);
 impl_enum!(BlockStmtOrExpr, [BlockStmt, Expr]);
 impl_enum!(MemberProp, [Ident, PrivateName, Computed]);
 impl_enum!(SuperProp, [Ident, Computed]);
+impl_enum!(JSXObject, [Ident, JSXMemberExpr]);
+impl_enum!(
+    JSXElementChild,
+    [
+        JSXText,
+        JSXElement,
+        JSXExprContainer,
+        JSXFragment,
+        JSXSpreadChild
+    ]
+);
+impl_enum!(OptChainBase, [Member, Call]);
+impl_enum!(JSXElementName, [Ident, JSXMemberExpr, JSXNamespacedName]);
+impl_enum!(JSXAttrOrSpread, [JSXAttr, SpreadElement]);
 
 impl<T> ToCode for Vec<T>
 where

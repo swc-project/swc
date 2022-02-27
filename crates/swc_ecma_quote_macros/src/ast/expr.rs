@@ -66,3 +66,7 @@ impl_struct!(
     JSXOpeningElement,
     [name, span, attrs, self_closing, type_args]
 );
+impl_struct!(JSXClosingElement, [name, span]);
+
+impl_struct!(JSXOpeningFragment, [span]);
+impl_struct!(JSXClosingFragment, [span]);
