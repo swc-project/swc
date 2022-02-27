@@ -6,8 +6,8 @@ error: Stylesheet
 3  | |   color: #ffffff;
 4  | |   color: #FFFFFF;
 ...  |
-15 | |   color: #123456789;
-16 | | }
+16 | |   color: #xyz;
+17 | | }
    | |__^
 
 error: Rule
@@ -18,8 +18,8 @@ error: Rule
 3  | |   color: #ffffff;
 4  | |   color: #FFFFFF;
 ...  |
-15 | |   color: #123456789;
-16 | | }
+16 | |   color: #xyz;
+17 | | }
    | |_^
 
 error: QualifiedRule
@@ -30,8 +30,8 @@ error: QualifiedRule
 3  | |   color: #ffffff;
 4  | |   color: #FFFFFF;
 ...  |
-15 | |   color: #123456789;
-16 | | }
+16 | |   color: #xyz;
+17 | | }
    | |_^
 
 error: SelectorList
@@ -85,8 +85,8 @@ error: SimpleBlock
 3  | |   color: #ffffff;
 4  | |   color: #FFFFFF;
 ...  |
-15 | |   color: #123456789;
-16 | | }
+16 | |   color: #xyz;
+17 | | }
    | |_^
 
 error: StyleBlock
@@ -676,4 +676,46 @@ error: HexColor
    |
 15 |   color: #123456789;
    |          ^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/hex-colors/input.css:16:3
+   |
+16 |   color: #xyz;
+   |   ^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/hex-colors/input.css:16:3
+   |
+16 |   color: #xyz;
+   |   ^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/hex-colors/input.css:16:3
+   |
+16 |   color: #xyz;
+   |   ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/hex-colors/input.css:16:3
+   |
+16 |   color: #xyz;
+   |   ^^^^^
+
+error: Value
+  --> $DIR/tests/fixture/hex-colors/input.css:16:10
+   |
+16 |   color: #xyz;
+   |          ^^^^
+
+error: Color
+  --> $DIR/tests/fixture/hex-colors/input.css:16:10
+   |
+16 |   color: #xyz;
+   |          ^^^^
+
+error: HexColor
+  --> $DIR/tests/fixture/hex-colors/input.css:16:10
+   |
+16 |   color: #xyz;
+   |          ^^^^
 
