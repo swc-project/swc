@@ -16,6 +16,8 @@ env:
   CARGO_INCREMENTAL: 0
   RUST_LOG: "debug"
   DIFF: 0
+  # https://github.com/swc-project/swc/pull/3742
+  RUST_MIN_STACK: 4194304
 
 jobs:
   check-license:
