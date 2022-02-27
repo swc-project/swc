@@ -147,6 +147,7 @@ impl_enum!(
     Decl,
     [Class, Fn, Var, TsInterface, TsTypeAlias, TsEnum, TsModule]
 );
+impl_enum!(PatOrExpr, [Pat, Expr]);
 impl_enum!(
     Expr,
     [

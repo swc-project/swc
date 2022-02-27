@@ -1,5 +1,7 @@
 use pmutil::q;
+use proc_macro2::Span;
 use swc_ecma_ast::*;
+use syn::{ExprLit, LitBool};
 
 use super::ToCode;
 use crate::ctxt::Ctx;
@@ -87,5 +89,14 @@ impl ToCode for Regex {
             }
         )
         .parse()
+    }
+}
+
+impl ToCode for bool {
+    fn to_code(&self, cx: &Ctx) -> syn::Expr {
+        syn::Expr::Lit(ExprLit {
+            attrs: Default::default(),
+            lit: syn::Lit::Bool(LitBool::new(*self, Span::call_site())),
+        })
     }
 }
