@@ -17,6 +17,9 @@
 - **(es/parser)** Handle trailing comma and bracket after an arrow function in conditional (#3685) ([342dccc](https://github.com/swc-project/swc/commit/342dccce473aa507eabb3eed96485e2ff0674188))
 
 
+- **(es/typescript)** Allow empty nested namespaces (#3754) ([f5a3647](https://github.com/swc-project/swc/commit/f5a364736420c2977a5d1211ead55ea91700fccb))
+
+
 - **(plugin/macro)** Do not free guest memory twice (#3732) ([d8b0166](https://github.com/swc-project/swc/commit/d8b01660dcd0bca43993043e8fa6ed33c62894a9))- **general**: Fix(es/parser) Throw a syntax error for `const` without initializer in strict mode (#3742)
 
 Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://github.com/swc-project/swc/commit/abc05725575b0ee29319f32beadb014e70af5e06))
