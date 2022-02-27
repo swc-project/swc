@@ -6,7 +6,7 @@ pub use self::{
     keyframe::*, layer::*, media::*, namespace::*, nest::*, page::*, property::*, support::*,
     viewport::*,
 };
-use crate::{DashedIdent, Ident, SimpleBlock, Value};
+use crate::{ComponentValue, DashedIdent, Ident, SimpleBlock};
 
 mod charset;
 mod color_profile;
@@ -92,6 +92,6 @@ pub enum AtRuleName {
 pub struct UnknownAtRule {
     pub span: Span,
     pub name: AtRuleName,
-    pub prelude: Vec<Value>,
+    pub prelude: Vec<ComponentValue>,
     pub block: Option<SimpleBlock>,
 }

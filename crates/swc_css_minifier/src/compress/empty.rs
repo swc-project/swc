@@ -47,7 +47,7 @@ impl VisitMut for CompressEmpty {
             | ComponentValue::Rule(Rule::AtRule(AtRule::FontFace(FontFaceRule {
                 block, ..
             })))
-            | ComponentValue::DeclarationBlockItem(DeclarationBlockItem::AtRule(
+            | ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::AtRule(
                 AtRule::PageMargin(PageMarginRule { block, .. }),
             ))
             | ComponentValue::StyleBlock(StyleBlock::QualifiedRule(QualifiedRule {

@@ -56,14 +56,6 @@ error: SimpleBlock
 4 | | }
   | |_^
 
-error: Value
- --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:10
-  |
-1 |   @unknown{
-  |  __________^
-2 | | a: b;
-  | |_
-
 error: WhiteSpace { value: Atom('
 ' type=inline) }
  --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:10
@@ -72,12 +64,6 @@ error: WhiteSpace { value: Atom('
   |  __________^
 2 | | a: b;
   | |_
-
-error: Value
- --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1
-  |
-2 | a: b;
-  | ^
 
 error: Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
  --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1
@@ -85,23 +71,11 @@ error: Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
 2 | a: b;
   | ^
 
-error: Value
- --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:2
-  |
-2 | a: b;
-  |  ^
-
 error: Colon
  --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:2
   |
 2 | a: b;
   |  ^
-
-error: Value
- --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:3
-  |
-2 | a: b;
-  |   ^
 
 error: WhiteSpace { value: Atom(' ' type=inline) }
  --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:3
@@ -109,37 +83,17 @@ error: WhiteSpace { value: Atom(' ' type=inline) }
 2 | a: b;
   |   ^
 
-error: Value
- --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:4
-  |
-2 | a: b;
-  |    ^
-
 error: Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
  --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:4
   |
 2 | a: b;
   |    ^
 
-error: Value
- --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:5
-  |
-2 | a: b;
-  |     ^
-
 error: Semi
  --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:5
   |
 2 | a: b;
   |     ^
-
-error: Value
- --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:6
-  |
-2 |   a: b;
-  |  ______^
-3 | | c: d;
-  | |_
 
 error: WhiteSpace { value: Atom('
 ' type=inline) }
@@ -150,23 +104,11 @@ error: WhiteSpace { value: Atom('
 3 | | c: d;
   | |_
 
-error: Value
- --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:1
-  |
-3 | c: d;
-  | ^
-
 error: Ident { value: Atom('c' type=inline), raw: Atom('c' type=inline) }
  --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:1
   |
 3 | c: d;
   | ^
-
-error: Value
- --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:2
-  |
-3 | c: d;
-  |  ^
 
 error: Colon
  --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:2
@@ -174,23 +116,11 @@ error: Colon
 3 | c: d;
   |  ^
 
-error: Value
- --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:3
-  |
-3 | c: d;
-  |   ^
-
 error: WhiteSpace { value: Atom(' ' type=inline) }
  --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:3
   |
 3 | c: d;
   |   ^
-
-error: Value
- --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:4
-  |
-3 | c: d;
-  |    ^
 
 error: Ident { value: Atom('d' type=inline), raw: Atom('d' type=inline) }
  --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:4
@@ -198,25 +128,11 @@ error: Ident { value: Atom('d' type=inline), raw: Atom('d' type=inline) }
 3 | c: d;
   |    ^
 
-error: Value
- --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:5
-  |
-3 | c: d;
-  |     ^
-
 error: Semi
  --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:5
   |
 3 | c: d;
   |     ^
-
-error: Value
- --> $DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:6
-  |
-3 |   c: d;
-  |  ______^
-4 | | }
-  | |_
 
 error: WhiteSpace { value: Atom('
 ' type=inline) }
