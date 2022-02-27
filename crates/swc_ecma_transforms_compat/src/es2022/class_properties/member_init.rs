@@ -80,38 +80,42 @@ impl MemberInitRecord {
     }
 
     pub fn into_init(self) -> Vec<Box<Expr>> {
-        self.record
-            .into_iter()
-            .map(|init| {
-                match init {
-                    MemberInit::PrivMethod(PrivMethod {
-                        span,
-                        name,
-                        fn_name,
-                    }) => {
-                        let (callee, args) = if self.c.private_as_properties {
-                            (
-                                obj_def_prop(),
-                                vec![
-                                    ThisExpr { span: DUMMY_SP }.as_arg(),
-                                    name.as_arg(),
-                                    get_method_desc(Box::new(fn_name.into())).as_arg(),
-                                ],
-                            )
-                        } else {
-                            (
-                                helper!(class_private_method_init, "classPrivateMethodInit"),
-                                vec![ThisExpr { span: DUMMY_SP }.as_arg(), name.as_arg()],
-                            )
-                        };
+        let mut normal_init = vec![];
+        let mut value_init = vec![];
+        for init in self.record {
+            match init {
+                MemberInit::PrivMethod(PrivMethod {
+                    span,
+                    name,
+                    fn_name,
+                }) => {
+                    let (callee, args) = if self.c.private_as_properties {
+                        (
+                            obj_def_prop(),
+                            vec![
+                                ThisExpr { span: DUMMY_SP }.as_arg(),
+                                name.as_arg(),
+                                get_method_desc(Box::new(fn_name.into())).as_arg(),
+                            ],
+                        )
+                    } else {
+                        (
+                            helper!(class_private_method_init, "classPrivateMethodInit"),
+                            vec![ThisExpr { span: DUMMY_SP }.as_arg(), name.as_arg()],
+                        )
+                    };
+                    normal_init.push(
                         Expr::Call(CallExpr {
                             span,
                             callee,
                             args,
                             type_args: Default::default(),
                         })
-                    }
-                    MemberInit::PrivProp(PrivProp { span, name, value }) => Expr::Call(CallExpr {
+                        .into(),
+                    )
+                }
+                MemberInit::PrivProp(PrivProp { span, name, value }) => value_init.push(
+                    Expr::Call(CallExpr {
                         span,
                         callee: if self.c.private_as_properties {
                             obj_def_prop()
@@ -124,13 +128,16 @@ impl MemberInitRecord {
                             get_value_desc(value).as_arg(),
                         ],
                         type_args: Default::default(),
-                    }),
-                    MemberInit::PrivAccessor(PrivAccessor {
-                        span,
-                        name,
-                        getter,
-                        setter,
-                    }) => Expr::Call(CallExpr {
+                    })
+                    .into(),
+                ),
+                MemberInit::PrivAccessor(PrivAccessor {
+                    span,
+                    name,
+                    getter,
+                    setter,
+                }) => normal_init.push(
+                    Expr::Call(CallExpr {
                         span,
                         callee: if self.c.private_as_properties {
                             obj_def_prop()
@@ -143,51 +150,17 @@ impl MemberInitRecord {
                             get_accessor_desc(getter, setter).as_arg(),
                         ],
                         type_args: Default::default(),
-                    }),
-                    MemberInit::PubProp(PubProp { span, name, value }) => {
-                        if self.c.set_public_fields {
-                            let this = ThisExpr { span: DUMMY_SP };
-                            Expr::Assign(AssignExpr {
-                                span,
-                                left: PatOrExpr::Expr(Box::new(match name {
-                                    PropName::Ident(id) => this.make_member(id),
-                                    _ => this.computed_member(prop_name_to_expr(name)),
-                                })),
-                                op: op!("="),
-                                right: value,
-                            })
-                        } else {
-                            Expr::Call(CallExpr {
-                                span,
-                                callee: helper!(define_property, "defineProperty"),
-                                args: vec![
-                                    ThisExpr { span: DUMMY_SP }.as_arg(),
-                                    prop_name_to_expr_value(name).as_arg(),
-                                    value.as_arg(),
-                                ],
-                                type_args: Default::default(),
-                            })
-                        }
-                    }
-                }
-                .into()
-            })
-            .collect()
-    }
-
-    pub fn into_init_static(self, class_ident: Ident) -> Vec<Stmt> {
-        self.record
-            .into_iter()
-            .map(|value| match value {
-                MemberInit::PubProp(PubProp { span, name, value }) => Stmt::Expr(ExprStmt {
-                    span,
-                    expr: (if self.c.set_public_fields {
-                        let class = class_ident.clone();
+                    })
+                    .into(),
+                ),
+                MemberInit::PubProp(PubProp { span, name, value }) => value_init.push(
+                    if self.c.set_public_fields {
+                        let this = ThisExpr { span: DUMMY_SP };
                         Expr::Assign(AssignExpr {
                             span,
                             left: PatOrExpr::Expr(Box::new(match name {
-                                PropName::Ident(id) => class.make_member(id),
-                                _ => class.computed_member(prop_name_to_expr(name)),
+                                PropName::Ident(id) => this.make_member(id),
+                                _ => this.computed_member(prop_name_to_expr(name)),
                             })),
                             op: op!("="),
                             right: value,
@@ -197,17 +170,60 @@ impl MemberInitRecord {
                             span,
                             callee: helper!(define_property, "defineProperty"),
                             args: vec![
-                                class_ident.clone().as_arg(),
+                                ThisExpr { span: DUMMY_SP }.as_arg(),
                                 prop_name_to_expr_value(name).as_arg(),
                                 value.as_arg(),
                             ],
                             type_args: Default::default(),
                         })
-                    })
+                    }
                     .into(),
-                }),
+                ),
+            }
+        }
+
+        normal_init.extend(value_init);
+
+        normal_init
+    }
+
+    pub fn into_init_static(self, class_ident: Ident) -> Vec<Stmt> {
+        let mut normal_init = vec![];
+        let mut value_init = vec![];
+
+        for value in self.record {
+            match value {
+                MemberInit::PubProp(PubProp { span, name, value }) => {
+                    value_init.push(Stmt::Expr(ExprStmt {
+                        span,
+                        expr: (if self.c.set_public_fields {
+                            let class = class_ident.clone();
+                            Expr::Assign(AssignExpr {
+                                span,
+                                left: PatOrExpr::Expr(Box::new(match name {
+                                    PropName::Ident(id) => class.make_member(id),
+                                    _ => class.computed_member(prop_name_to_expr(name)),
+                                })),
+                                op: op!("="),
+                                right: value,
+                            })
+                        } else {
+                            Expr::Call(CallExpr {
+                                span,
+                                callee: helper!(define_property, "defineProperty"),
+                                args: vec![
+                                    class_ident.clone().as_arg(),
+                                    prop_name_to_expr_value(name).as_arg(),
+                                    value.as_arg(),
+                                ],
+                                type_args: Default::default(),
+                            })
+                        })
+                        .into(),
+                    }))
+                }
                 MemberInit::PrivProp(PrivProp { span, name, value }) => {
-                    if self.c.private_as_properties {
+                    value_init.push(if self.c.private_as_properties {
                         Stmt::Expr(ExprStmt {
                             span,
                             expr: Box::new(Expr::Call(CallExpr {
@@ -233,49 +249,47 @@ impl MemberInitRecord {
                             }],
                             declare: false,
                         }))
-                    }
+                    })
                 }
                 MemberInit::PrivAccessor(PrivAccessor {
                     span,
                     name,
                     getter,
                     setter,
-                }) => {
-                    if self.c.private_as_properties {
-                        Stmt::Expr(ExprStmt {
+                }) => normal_init.push(if self.c.private_as_properties {
+                    Stmt::Expr(ExprStmt {
+                        span,
+                        expr: Box::new(Expr::Call(CallExpr {
                             span,
-                            expr: Box::new(Expr::Call(CallExpr {
-                                span,
-                                callee: obj_def_prop(),
-                                args: vec![
-                                    class_ident.clone().as_arg(),
-                                    name.as_arg(),
-                                    get_accessor_desc(getter, setter).as_arg(),
-                                ],
-                                type_args: None,
-                            })),
-                        })
-                    } else {
-                        Stmt::Decl(Decl::Var(VarDecl {
+                            callee: obj_def_prop(),
+                            args: vec![
+                                class_ident.clone().as_arg(),
+                                name.as_arg(),
+                                get_accessor_desc(getter, setter).as_arg(),
+                            ],
+                            type_args: None,
+                        })),
+                    })
+                } else {
+                    Stmt::Decl(Decl::Var(VarDecl {
+                        span,
+                        kind: VarDeclKind::Var,
+                        decls: vec![VarDeclarator {
                             span,
-                            kind: VarDeclKind::Var,
-                            decls: vec![VarDeclarator {
-                                span,
-                                name: name.into(),
-                                init: Some(Expr::Object(get_accessor_desc(getter, setter)).into()),
-                                definite: false,
-                            }],
-                            declare: false,
-                        }))
-                    }
-                }
+                            name: name.into(),
+                            init: Some(Expr::Object(get_accessor_desc(getter, setter)).into()),
+                            definite: false,
+                        }],
+                        declare: false,
+                    }))
+                }),
                 MemberInit::PrivMethod(PrivMethod {
                     span,
                     name,
                     fn_name,
                 }) => {
                     if self.c.private_as_properties {
-                        Stmt::Expr(ExprStmt {
+                        normal_init.push(Stmt::Expr(ExprStmt {
                             span,
                             expr: Expr::Call(CallExpr {
                                 span,
@@ -288,13 +302,17 @@ impl MemberInitRecord {
                                 type_args: None,
                             })
                             .into(),
-                        })
+                        }))
                     } else {
                         unreachable!()
                     }
                 }
-            })
-            .collect()
+            }
+        }
+
+        normal_init.extend(value_init);
+
+        normal_init
     }
 }
 

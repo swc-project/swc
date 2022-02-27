@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/compat)** Initialize class fields as a last step (#3767) ([11bf29f](https://github.com/swc-project/swc/commit/11bf29f44b4233b2e7f60b750ef56429dbe47ce9))
+
 ### Features
 
 

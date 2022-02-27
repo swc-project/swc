@@ -17,21 +17,21 @@ export class C {
         return _classPrivateFieldGet(this, _world);
     }
     constructor(){
-        _classPrivateFieldInit(this, _hello, {
-            writable: !0,
-            value: "hello"
-        }), _classPrivateFieldInit(this, _world, {
-            writable: !0,
-            value: 100
-        }), (function(obj, privateSet) {
+        !function(obj, privateSet) {
             _checkPrivateRedeclaration(obj, privateSet), privateSet.add(obj);
-        })(this, _calcHello), _classPrivateFieldInit(this, _screamingHello, {
+        }(this, _calcHello), _classPrivateFieldInit(this, _screamingHello, {
             get: function() {
                 return _classPrivateFieldGet(this, _hello).toUpperCase();
             },
             set: function(value) {
                 throw "NO";
             }
+        }), _classPrivateFieldInit(this, _hello, {
+            writable: !0,
+            value: "hello"
+        }), _classPrivateFieldInit(this, _world, {
+            writable: !0,
+            value: 100
         });
     }
 }

@@ -9,12 +9,12 @@ var _field = new WeakMap(), _method = new WeakSet(), _acc = new WeakMap(), A = f
     var obj, privateSet;
     !function(instance, Constructor) {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, A), _classPrivateFieldInit(this, _field, {
-        writable: !0,
-        value: 123
-    }), obj = this, _checkPrivateRedeclaration(obj, privateSet = _method), privateSet.add(obj), _classPrivateFieldInit(this, _acc, {
+    }(this, A), obj = this, _checkPrivateRedeclaration(obj, privateSet = _method), privateSet.add(obj), _classPrivateFieldInit(this, _acc, {
         get: get_acc,
         set: set_acc
+    }), _classPrivateFieldInit(this, _field, {
+        writable: !0,
+        value: 123
     });
 };
 function get_acc() {

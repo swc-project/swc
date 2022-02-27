@@ -55,14 +55,14 @@ var _a = new WeakMap(), _b = new WeakSet(), _c = new WeakMap();
 export var C = function C() {
     "use strict";
     _classCallCheck(this, C);
-    _classPrivateFieldInit(this, _a, {
-        writable: true,
-        value: 1
-    });
     _classPrivateMethodInit(this, _b);
     _classPrivateFieldInit(this, _c, {
         get: void 0,
         set: set_c
+    });
+    _classPrivateFieldInit(this, _a, {
+        writable: true,
+        value: 1
     });
 };
 function b() {

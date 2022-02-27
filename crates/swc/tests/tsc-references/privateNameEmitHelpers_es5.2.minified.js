@@ -14,12 +14,12 @@ export var C = function() {
     var obj, privateSet;
     !function(instance, Constructor) {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, C), _classPrivateFieldInit(this, _a, {
-        writable: !0,
-        value: 1
-    }), obj = this, _checkPrivateRedeclaration(obj, privateSet = _b), privateSet.add(obj), _classPrivateFieldInit(this, _c, {
+    }(this, C), obj = this, _checkPrivateRedeclaration(obj, privateSet = _b), privateSet.add(obj), _classPrivateFieldInit(this, _c, {
         get: void 0,
         set: set_c
+    }), _classPrivateFieldInit(this, _a, {
+        writable: !0,
+        value: 1
     });
 };
 function set_c(v) {
