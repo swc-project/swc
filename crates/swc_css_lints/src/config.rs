@@ -60,7 +60,7 @@ impl<T: Debug + Clone + Serialize + Default> RuleConfig<T> {
         self.0.into()
     }
 
-    #[allow(unused)]
+    #[inline]
     pub(crate) fn get_rule_config(&self) -> &T {
         &self.1
     }
