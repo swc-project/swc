@@ -38,6 +38,7 @@ macro_rules! impl_struct {
 }
 
 mod decl;
+mod enums;
 mod expr;
 mod id;
 mod lit;
