@@ -1,4 +1,5 @@
-!function(M2) {
+var M2;
+!function(M21) {
     var Point;
-    (M2.X || (M2.X = {})).Point = Point;
+    (M21.X || (M21.X = {})).Point = Point;
 }(M2 || (M2 = {})), M2.X.Point;
