@@ -36,7 +36,7 @@ pub(crate) fn parse_input_type(input_str: &str, ty: &Type) -> Result<BoxWrapper,
     if let Type::Path(p) = ty {
         if let Some(ident) = p.path.get_ident() {
             match &*ident.to_string() {
-                "Expr" => return parse(input_str, &mut |p| p.parse_expr()),
+                "Expr" => return parse(input_str, &mut |p| p.parse_expr().map(|v| *v)),
                 "Pat" => return parse(input_str, &mut |p| p.parse_pat()),
                 "Stmt" => return parse(input_str, &mut |p| p.parse_stmt(true)),
                 "ModuleItem" => return parse(input_str, &mut |p| p.parse_module_item()),
