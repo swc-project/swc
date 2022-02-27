@@ -1,14 +1,21 @@
-use syn::Token;
+use syn::{parse::Parse, punctuated::Punctuated, Token};
 
-pub(super) struct Input {
+pub(super) struct QuoteInput {
     pub src: syn::LitStr,
     pub as_token: Token![as],
     pub output_type: syn::Type,
-    pub vars: Vec<InputVar>,
+
+    pub comma_for_vars: Token![,],
+
+    pub vars: Punctuated<QuoteVar, Token![,]>,
 }
 
-pub(super) struct InputVar {
+pub(super) struct QuoteVar {
     pub name: syn::Ident,
     pub eq_token: Token![=],
     pub value: syn::Expr,
 }
+
+impl Parse for QuoteInput {}
+
+impl Parse for QuoteVar {}
