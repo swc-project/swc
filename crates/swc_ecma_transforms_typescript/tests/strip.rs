@@ -7,6 +7,7 @@ use swc_ecma_transforms_compat::{
     es2015::{block_scoping, destructuring, parameters},
     es2017::async_to_generator,
     es2020::{nullish_coalescing, optional_chaining},
+    es2022::class_properties,
 };
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::{test, test_exec, test_fixture};

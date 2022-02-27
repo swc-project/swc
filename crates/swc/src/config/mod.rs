@@ -299,7 +299,7 @@ impl Options {
             ..
         } = config.jsc;
 
-        let assumptions = assumptions.unwrap_or_else(|| {
+        let mut assumptions = assumptions.unwrap_or_else(|| {
             if loose {
                 Assumptions::all()
             } else {
@@ -322,6 +322,8 @@ impl Options {
         // We do this before creating custom passses, so custom passses can use the
         // variable management system based on the syntax contexts.
         if syntax.typescript() {
+            assumptions.set_public_class_fields = true;
+            // assumptions.set_class_methods = true;
             program.visit_mut_with(&mut ts_resolver(top_level_mark));
         } else {
             program.visit_mut_with(&mut resolver_with_mark(top_level_mark));
