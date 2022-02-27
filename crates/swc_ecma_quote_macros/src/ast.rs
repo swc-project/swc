@@ -88,3 +88,21 @@ impl_enum!(
 );
 impl_enum!(Expr, []);
 impl_enum!(Pat, []);
+
+macro_rules! fail_todo {
+    ($T:ty) => {
+        impl ToCode for $T {
+            fn to_code(&self, _: &mut Ctx) -> syn::Expr {
+                todo!("ToCode for {}", stringify!($T))
+            }
+        }
+    };
+}
+
+fail_todo!(ClassDecl);
+fail_todo!(FnDecl);
+fail_todo!(VarDecl);
+fail_todo!(TsInterfaceDecl);
+fail_todo!(TsTypeAliasDecl);
+fail_todo!(TsEnumDecl);
+fail_todo!(TsModuleDecl);
