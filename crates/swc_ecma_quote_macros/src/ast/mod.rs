@@ -15,6 +15,26 @@ macro_rules! fail_todo {
     };
 }
 
+macro_rules! impl_enum {
+    ($E:ident, [ $($v:ident),* ]) => {
+        impl crate::ast::ToCode for $E {
+            fn to_code(&self, cx: &crate::ctxt::Ctx) -> syn::Expr {
+                match self {
+                    $(
+                        $E::$v(inner) => pmutil::q!(
+                            Vars {
+                                val: crate::ast::ToCode::to_code(inner, cx),
+                            },
+                            { swc_ecma_ast::$E::$v(val) }
+                        )
+                        .parse(),
+                    )*
+                }
+            }
+        }
+    };
+}
+
 macro_rules! impl_struct {
     (
         $name:ident,
@@ -102,26 +122,6 @@ impl ToCode for Span {
     fn to_code(&self, cx: &Ctx) -> syn::Expr {
         q!({ swc_common::DUMMY_SP }).parse()
     }
-}
-
-macro_rules! impl_enum {
-    ($E:ident, [ $($v:ident),* ]) => {
-        impl ToCode for $E {
-            fn to_code(&self, cx: & Ctx) -> syn::Expr {
-                match self {
-                    $(
-                        $E::$v(inner) => q!(
-                            Vars {
-                                val: inner.to_code(cx)
-                            },
-                            { swc_ecma_ast::$E::$v(val) }
-                        )
-                        .parse(),
-                    )*
-                }
-            }
-        }
-    };
 }
 
 impl_enum!(ModuleItem, [ModuleDecl, Stmt]);
