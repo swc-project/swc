@@ -18,4 +18,4 @@ impl ToCode for swc_ecma_ast::Ident {
     }
 }
 
-impl_struct!(PrivateName);
+impl_struct!(PrivateName, [span, id]);
