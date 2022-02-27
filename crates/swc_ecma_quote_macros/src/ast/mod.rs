@@ -14,6 +14,15 @@ macro_rules! fail_todo {
     };
 }
 
+macro_rules! impl_struct {
+    (
+        $name:ident,
+        [ $($v:ident),* ]
+    ) => {
+        impl ToCode for $name {}
+    };
+}
+
 mod decl;
 mod expr;
 mod id;

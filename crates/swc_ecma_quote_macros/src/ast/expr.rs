@@ -19,44 +19,8 @@ fail_todo!(MemberExpr);
 fail_todo!(SuperPropExpr);
 fail_todo!(CondExpr);
 
-impl ToCode for CallExpr {
-    fn to_code(&self, cx: &Ctx) -> syn::Expr {
-        q!(
-            Vars {
-                callee_val: self.callee.to_code(cx),
-                args_val: self.args.to_code(cx),
-                type_args_val: self.type_args.to_code(cx),
-            },
-            {
-                swc_ecma_ast::CallExpr {
-                    span: swc_common::DUMMY_SP,
-                    callee: callee_val,
-                    args: args_val,
-                    type_args: type_args_val,
-                }
-            }
-        )
-        .parse()
-    }
-}
-
-impl ToCode for ExprOrSpread {
-    fn to_code(&self, cx: &Ctx) -> syn::Expr {
-        q!(
-            Vars {
-                spread_val: self.spread.to_code(cx),
-                expr_val: self.expr.to_code(cx),
-            },
-            {
-                swc_ecma_ast::ExprOrSpread {
-                    spread: spread_val,
-                    expr: expr_val,
-                }
-            }
-        )
-        .parse()
-    }
-}
+impl_struct!(CallExpr, [span, callee, args, type_args]);
+impl_struct!(ExprOrSpread, [spread, expr]);
 
 fail_todo!(NewExpr);
 fail_todo!(SeqExpr);
