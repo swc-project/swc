@@ -194,6 +194,19 @@ impl_enum!(
 impl_enum!(Pat, [Ident, Array, Rest, Object, Assign, Invalid, Expr]);
 impl_enum!(Lit, [Str, Bool, Null, Num, BigInt, Regex, JSXText]);
 impl_enum!(Callee, [Super, Import, Expr]);
+impl_enum!(
+    ClassMember,
+    [
+        Constructor,
+        Method,
+        PrivateMethod,
+        ClassProp,
+        PrivateProp,
+        TsIndexSignature,
+        Empty,
+        StaticBlock
+    ]
+);
 
 impl<T> ToCode for Vec<T>
 where

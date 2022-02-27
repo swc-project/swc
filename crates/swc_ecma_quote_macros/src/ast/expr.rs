@@ -60,3 +60,4 @@ impl_struct!(
         implements
     ]
 );
+impl_struct!(Decorator, [span, expr]);
