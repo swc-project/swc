@@ -3128,7 +3128,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
