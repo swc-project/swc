@@ -24,7 +24,7 @@ export var C = function() {
 };
 function set_c(v) {
     var receiver, privateMap, descriptor, receiver, descriptor, receiver, privateMap, value, descriptor;
-    receiver = this, privateMap = _a, receiver = this, value = ((descriptor = descriptor = _classExtractFieldDescriptor(receiver, privateMap = _a, "get")).get ? descriptor.get.call(receiver) : descriptor.value) + v, descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set"), (function(receiver, descriptor, value) {
+    receiver = this, privateMap = _a, receiver = this, value = ((descriptor = _classExtractFieldDescriptor(receiver, privateMap = _a, "get")).get ? descriptor.get.call(receiver) : descriptor.value) + v, descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set"), (function(receiver, descriptor, value) {
         if (descriptor.set) descriptor.set.call(receiver, value);
         else {
             if (!descriptor.writable) throw new TypeError("attempted to set read only private field");

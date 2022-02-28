@@ -115,3 +115,7 @@ jobs:
         if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
         run: |
           cargo mono publish --no-verify
+          cargo mono publish --no-verify
+          cargo mono publish --no-verify
+          cargo mono publish --no-verify
+          cargo mono publish --no-verify

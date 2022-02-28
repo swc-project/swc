@@ -50,7 +50,7 @@ var _y = new WeakMap(), Test = function() {
                         writable: !0,
                         value: 1
                     }), this.s = "prop";
-                })).s], _y, ((descriptor = descriptor = _classExtractFieldDescriptor(receiver = _s, privateMap = _y, "get")).get ? descriptor.get.call(receiver) : descriptor.value) + 1);
+                })).s], _y, ((descriptor = _classExtractFieldDescriptor(receiver = _s, privateMap = _y, "get")).get ? descriptor.get.call(receiver) : descriptor.value) + 1);
             }
         }
     ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Test;

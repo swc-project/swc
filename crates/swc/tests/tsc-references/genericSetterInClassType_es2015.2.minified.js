@@ -15,7 +15,7 @@ function _classExtractFieldDescriptor(receiver, privateMap, action) {
     new class {
         get value() {
             var receiver, privateMap, descriptor, receiver, descriptor;
-            return receiver = this, (descriptor = descriptor = _classExtractFieldDescriptor(receiver, privateMap = _value, "get")).get ? descriptor.get.call(receiver) : descriptor.value;
+            return receiver = this, (descriptor = _classExtractFieldDescriptor(receiver, privateMap = _value, "get")).get ? descriptor.get.call(receiver) : descriptor.value;
         }
         set value(value) {
             var receiver, privateMap, value1, descriptor;
