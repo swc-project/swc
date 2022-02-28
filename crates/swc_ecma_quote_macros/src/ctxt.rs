@@ -62,6 +62,40 @@ impl VarData {
 
 pub type Vars = AHashMap<String, VarData>;
 
-pub fn prepare_vars(src: &dyn ToCode, vars: Punctuated<QuoteVar, Token![,]>) -> Vars {
+pub(super) fn prepare_vars(
+    src: &dyn ToCode,
+    vars: Punctuated<QuoteVar, Token![,]>,
+) -> (Vec<syn::Item>, Vars) {
+    let mut stmts = vec![];
     let mut init_map = Vars::default();
+
+    for var in vars {
+        let ident = var.name.clone();
+        let ident_str = ident.to_string();
+
+        let var_ident = syn::Ident::new(&format!("quote_var_{}", ident), ident.span());
+
+        let old = init_map.insert(
+            ident_str.clone(),
+            VarData {
+                is_counting: true,
+                clone: Default::default(),
+                ident: var_ident.clone(),
+            },
+        );
+
+        if let Some(old) = old {
+            panic!("Duplicate variable name: {}", ident_str);
+        }
+    }
+
+    // Use `ToCode` to count how many times each variable is used.
+    let mut cx = Ctx { vars: init_map };
+
+    src.to_code(&cx);
+
+    // We are done
+    cx.vars.iter_mut().for_each(|(k, v)| v.is_counting = false);
+
+    (stmts, cx.vars)
 }

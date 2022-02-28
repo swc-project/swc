@@ -31,7 +31,7 @@ pub fn internal_quote(input: proc_macro::TokenStream) -> proc_macro::TokenStream
 
     let vars = vars.map(|v| v.1);
 
-    let vars = if let Some(vars) = vars {
+    let (stmts, vars) = if let Some(vars) = vars {
         prepare_vars(&ret_type, vars)
     } else {
         Default::default()
