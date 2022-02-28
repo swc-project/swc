@@ -342,6 +342,7 @@ where
             DropOpts {
                 drop_zero: true,
                 drop_str_lit: false,
+                drop_unresolved_ids: false,
             },
         );
     }
@@ -515,6 +516,7 @@ where
                     DropOpts {
                         drop_zero: false,
                         drop_str_lit: true,
+                        drop_unresolved_ids: true,
                     },
                 );
             }

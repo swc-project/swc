@@ -697,7 +697,7 @@ where
         self.compress_cond_to_logical_ignoring_return_value(e);
 
         match e {
-            Expr::Ident(..) | Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
+            Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
                 if cfg!(feature = "debug") {
                     tracing::debug!(
                         "ignore_return_value: Dropping unused expr: {}",

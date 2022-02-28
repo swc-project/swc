@@ -60,6 +60,7 @@ where
                     DropOpts {
                         drop_zero: true,
                         drop_str_lit: true,
+                        ..Default::default()
                     },
                 );
 
@@ -144,6 +145,13 @@ where
             }
         }
 
+        if opts.drop_unresolved_ids {
+            if let Expr::Ident(..) = e {
+                *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                return;
+            }
+        }
+
         if self.options.unused || self.options.side_effects {
             match e {
                 Expr::Lit(Lit::Num(n)) => {
@@ -201,6 +209,7 @@ where
                         DropOpts {
                             drop_zero: true,
                             drop_str_lit: true,
+                            ..opts
                         },
                     );
                     self.ignore_return_value(
@@ -208,6 +217,7 @@ where
                         DropOpts {
                             drop_zero: true,
                             drop_str_lit: true,
+                            ..opts
                         },
                     );
 
@@ -233,6 +243,7 @@ where
                         DropOpts {
                             drop_str_lit: true,
                             drop_zero: true,
+                            ..opts
                         },
                     );
 
@@ -330,6 +341,7 @@ where
 pub(super) struct DropOpts {
     pub drop_zero: bool,
     pub drop_str_lit: bool,
+    pub drop_unresolved_ids: bool,
 }
 
 /// `obj` should have top level syntax context.
