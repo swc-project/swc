@@ -138,9 +138,6 @@ dead_code/dead_code_const_declaration/input.js
 dead_code/dead_code_constant_boolean_should_warn_more/input.js
 dead_code/dead_code_constant_boolean_should_warn_more_strict/input.js
 dead_code/global_fns/input.js
-dead_code/issue_2233_1/input.js
-dead_code/issue_2233_2/input.js
-dead_code/issue_2233_3/input.js
 dead_code/issue_2692/input.js
 dead_code/issue_2749/input.js
 dead_code/issue_2860_1/input.js
