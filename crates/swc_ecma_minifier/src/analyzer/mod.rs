@@ -260,9 +260,7 @@ where
 
             match &n.body {
                 BlockStmtOrExpr::BlockStmt(body) => {
-                    // We use visit_children_with instead of visit_with to bypass block scope
-                    // handler.
-                    body.visit_children_with(child);
+                    body.visit_with(child);
                 }
                 BlockStmtOrExpr::Expr(body) => {
                     body.visit_with(child);
