@@ -80,7 +80,7 @@ define!({
     pub struct Declaration {
         pub span: Span,
         pub name: DeclarationName,
-        pub value: Vec<Value>,
+        pub value: Vec<ComponentValue>,
         pub important: Option<ImportantFlag>,
     }
 

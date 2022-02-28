@@ -6357,12 +6357,6 @@ error: DashedIdent
 100 | @supports (--foo: green) {
     |            ^^^^^
 
-error: Value
-   --> $DIR/tests/fixture/at-rule/supports/input.css:100:19
-    |
-100 | @supports (--foo: green) {
-    |                   ^^^^^
-
 error: Ident { value: Atom('green' type=inline), raw: Atom('green' type=inline) }
    --> $DIR/tests/fixture/at-rule/supports/input.css:100:19
     |

@@ -597,7 +597,7 @@ where
                             }
                         };
 
-                        value.push(value_or_token);
+                        value.push(ComponentValue::Value(value_or_token));
                         end = self.input.last_pos()?;
                     }
                 }

@@ -306,23 +306,11 @@ error: DashedIdent
 6 |     --width: calc(10% + 30px);
   |     ^^^^^^^
 
-error: Value
- --> $DIR/tests/fixture/function/calc/input.css:6:14
-  |
-6 |     --width: calc(10% + 30px);
-  |              ^^^^^
-
 error: Function { value: Atom('calc' type=inline), raw: Atom('calc' type=inline) }
  --> $DIR/tests/fixture/function/calc/input.css:6:14
   |
 6 |     --width: calc(10% + 30px);
   |              ^^^^^
-
-error: Value
- --> $DIR/tests/fixture/function/calc/input.css:6:19
-  |
-6 |     --width: calc(10% + 30px);
-  |                   ^^^
 
 error: Percentage { value: 10.0, raw: Atom('10' type=inline) }
  --> $DIR/tests/fixture/function/calc/input.css:6:19
@@ -330,23 +318,11 @@ error: Percentage { value: 10.0, raw: Atom('10' type=inline) }
 6 |     --width: calc(10% + 30px);
   |                   ^^^
 
-error: Value
- --> $DIR/tests/fixture/function/calc/input.css:6:22
-  |
-6 |     --width: calc(10% + 30px);
-  |                      ^
-
 error: WhiteSpace { value: Atom(' ' type=inline) }
  --> $DIR/tests/fixture/function/calc/input.css:6:22
   |
 6 |     --width: calc(10% + 30px);
   |                      ^
-
-error: Value
- --> $DIR/tests/fixture/function/calc/input.css:6:23
-  |
-6 |     --width: calc(10% + 30px);
-  |                       ^
 
 error: Delim { value: '+' }
  --> $DIR/tests/fixture/function/calc/input.css:6:23
@@ -354,35 +330,17 @@ error: Delim { value: '+' }
 6 |     --width: calc(10% + 30px);
   |                       ^
 
-error: Value
- --> $DIR/tests/fixture/function/calc/input.css:6:24
-  |
-6 |     --width: calc(10% + 30px);
-  |                        ^
-
 error: WhiteSpace { value: Atom(' ' type=inline) }
  --> $DIR/tests/fixture/function/calc/input.css:6:24
   |
 6 |     --width: calc(10% + 30px);
   |                        ^
 
-error: Value
- --> $DIR/tests/fixture/function/calc/input.css:6:25
-  |
-6 |     --width: calc(10% + 30px);
-  |                         ^^^^
-
 error: Dimension { value: 30.0, raw_value: Atom('30' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
  --> $DIR/tests/fixture/function/calc/input.css:6:25
   |
 6 |     --width: calc(10% + 30px);
   |                         ^^^^
-
-error: Value
- --> $DIR/tests/fixture/function/calc/input.css:6:29
-  |
-6 |     --width: calc(10% + 30px);
-  |                             ^
 
 error: RParen
  --> $DIR/tests/fixture/function/calc/input.css:6:29

@@ -1061,12 +1061,6 @@ error: DashedIdent
 21 |     --foo: "http://www.example.com/pinkish.gif";
    |     ^^^^^
 
-error: Value
-  --> $DIR/tests/fixture/value/url/input.css:21:12
-   |
-21 |     --foo: "http://www.example.com/pinkish.gif";
-   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 error: String { value: Atom('http://www.example.com/pinkish.gif' type=dynamic), raw: Atom('"http://www.example.com/pinkish.gif"' type=dynamic) }
   --> $DIR/tests/fixture/value/url/input.css:21:12
    |

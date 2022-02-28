@@ -15,7 +15,7 @@ where
     I: ParserInput,
 {
     /// Parse value as <declaration-value>.
-    pub(super) fn parse_declaration_value(&mut self) -> PResult<Vec<Value>> {
+    pub(super) fn parse_declaration_value(&mut self) -> PResult<Vec<ComponentValue>> {
         let mut value = vec![];
         let mut balance_stack: Vec<Option<char>> = vec![];
 
@@ -82,7 +82,7 @@ where
             let token = self.input.bump()?;
 
             match token {
-                Some(token) => value.push(Value::PreservedToken(token)),
+                Some(token) => value.push(ComponentValue::PreservedToken(token)),
                 None => break,
             }
         }

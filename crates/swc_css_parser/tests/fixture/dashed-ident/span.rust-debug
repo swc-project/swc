@@ -98,12 +98,6 @@ error: DashedIdent
 2 |     --main-color: #06c;
   |     ^^^^^^^^^^^^
 
-error: Value
- --> $DIR/tests/fixture/dashed-ident/input.css:2:19
-  |
-2 |     --main-color: #06c;
-  |                   ^^^^
-
 error: Hash { is_id: false, value: Atom('06c' type=inline), raw: Atom('06c' type=inline) }
  --> $DIR/tests/fixture/dashed-ident/input.css:2:19
   |
@@ -133,12 +127,6 @@ error: DashedIdent
   |
 3 |     --accent-color: #006;
   |     ^^^^^^^^^^^^^^
-
-error: Value
- --> $DIR/tests/fixture/dashed-ident/input.css:3:21
-  |
-3 |     --accent-color: #006;
-  |                     ^^^^
 
 error: Hash { is_id: false, value: Atom('006' type=inline), raw: Atom('006' type=inline) }
  --> $DIR/tests/fixture/dashed-ident/input.css:3:21
@@ -230,12 +218,6 @@ error: DashedIdent
   |
 7 |     --fg-color: blue;
   |     ^^^^^^^^^^
-
-error: Value
- --> $DIR/tests/fixture/dashed-ident/input.css:7:17
-  |
-7 |     --fg-color: blue;
-  |                 ^^^^
 
 error: Ident { value: Atom('blue' type=inline), raw: Atom('blue' type=inline) }
  --> $DIR/tests/fixture/dashed-ident/input.css:7:17

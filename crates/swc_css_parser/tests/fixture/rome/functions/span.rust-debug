@@ -107,12 +107,6 @@ error: DashedIdent
 2 |     --fancy: 2px;
   |     ^^^^^^^
 
-error: Value
- --> $DIR/tests/fixture/rome/functions/input.css:2:11
-  |
-2 |     --fancy: 2px;
-  |              ^^^
-
 error: Dimension { value: 2.0, raw_value: Atom('2' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
  --> $DIR/tests/fixture/rome/functions/input.css:2:11
   |

@@ -91,7 +91,7 @@ pub enum DeclarationOrAtRule {
 pub struct Declaration {
     pub span: Span,
     pub name: DeclarationName,
-    pub value: Vec<Value>,
+    pub value: Vec<ComponentValue>,
     /// The span includes `!`
     pub important: Option<ImportantFlag>,
 }
