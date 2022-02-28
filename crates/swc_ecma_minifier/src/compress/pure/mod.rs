@@ -123,6 +123,16 @@ where
     }
 
     fn optimize_fn_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        if !stmts.is_empty() {
+            if let Stmt::Expr(ExprStmt { expr, .. }) = &stmts[0] {
+                if let Expr::Lit(Lit::Str(v)) = &**expr {
+                    if v.value == *"use asm" {
+                        return;
+                    }
+                }
+            }
+        }
+
         self.remove_useless_return(stmts);
 
         self.negate_if_terminate(stmts, true, false);
