@@ -9,7 +9,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_arguments, ident::IdentLike, undefined, ExprFactory, Id};
 use swc_ecma_visit::VisitMutWith;
 
-use super::Optimizer;
+use super::{util::MultiReplacer, Optimizer};
 use crate::{
     compress::optimize::Ctx,
     mode::Mode,
