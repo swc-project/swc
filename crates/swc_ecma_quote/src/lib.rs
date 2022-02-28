@@ -63,11 +63,11 @@ macro_rules! quote {
 /// This is an alias for [quote], but without `as Box<Expr>`.
 #[macro_export]
 macro_rules! quote_expr {
-    ($($tt1:tt)*) => {{
-        $crate::quote!($($tt1)* as Box<Expr>)
+    ($src:tt) => {{
+        $crate::quote!($src as Box<Expr>)
     }};
 
-    ($($tt1:tt)*, $($tt2:tt)*) => {{
-        $crate::quote!($($tt1)* as Box<Expr>, $($tt2)*)
+    ($src:tt, $($tt2:tt)*) => {{
+        $crate::quote!($src as Box<Expr>, $($tt2)*)
     }};
 }
