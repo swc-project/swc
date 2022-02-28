@@ -1,6 +1,9 @@
+use std::sync::Arc;
+
 use rayon::prelude::*;
-use swc_common::{pass::Repeated, util::take::Take, DUMMY_SP};
+use swc_common::{collections::AHashSet, pass::Repeated, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::collect_decls;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::{span, Level};
 
@@ -49,6 +52,7 @@ where
         enable_everything,
         mode,
         debug_infinite_loop,
+        bindings: Default::default(),
     }
 }
 
@@ -62,6 +66,8 @@ struct Pure<'a, M> {
     mode: &'a M,
 
     debug_infinite_loop: bool,
+
+    bindings: Option<Arc<AHashSet<Id>>>,
 }
 
 impl<M> Repeated for Pure<'_, M> {
@@ -70,6 +76,7 @@ impl<M> Repeated for Pure<'_, M> {
     }
 
     fn reset(&mut self) {
+        self.bindings = None;
         self.ctx = Default::default();
         self.changed = false;
     }
@@ -157,6 +164,7 @@ where
                     enable_everything: self.enable_everything,
                     mode: self.mode,
                     debug_infinite_loop: self.debug_infinite_loop,
+                    bindings: self.bindings.clone(),
                 };
                 node.visit_mut_with(&mut v);
 
@@ -177,6 +185,7 @@ where
                         enable_everything: self.enable_everything,
                         mode: self.mode,
                         debug_infinite_loop: self.debug_infinite_loop,
+                        bindings: self.bindings.clone(),
                     };
                     node.visit_mut_with(&mut v);
 
@@ -413,6 +422,8 @@ where
     }
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        self.bindings = Some(Arc::new(collect_decls(items)));
+
         self.visit_par(items);
 
         self.handle_stmt_likes(items);
