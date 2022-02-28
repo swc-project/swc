@@ -169,26 +169,44 @@ where
         }
 
         if self.options.side_effects {
-            if let Expr::Unary(UnaryExpr {
-                op: op!("void") | op!("typeof") | op!(unary, "+") | op!(unary, "-"),
-                arg,
-                ..
-            }) = e
-            {
-                self.ignore_return_value(
-                    &mut **arg,
-                    DropOpts {
-                        drop_str_lit: true,
-                        drop_zero: true,
-                        ..opts
-                    },
-                );
+            match e {
+                Expr::Unary(UnaryExpr {
+                    op: op!("void") | op!("typeof") | op!(unary, "+") | op!(unary, "-"),
+                    arg,
+                    ..
+                }) => {
+                    self.ignore_return_value(
+                        &mut **arg,
+                        DropOpts {
+                            drop_str_lit: true,
+                            drop_zero: true,
+                            ..opts
+                        },
+                    );
 
-                if arg.is_invalid() {
-                    tracing::debug!("Dropping an unary expression");
-                    *e = Expr::Invalid(Invalid { span: DUMMY_SP });
-                    return;
+                    if arg.is_invalid() {
+                        tracing::debug!("Dropping an unary expression");
+                        *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                        return;
+                    }
                 }
+
+                Expr::Bin(
+                    be @ BinExpr {
+                        op: op!("||") | op!("&&"),
+                        ..
+                    },
+                ) => {
+                    self.ignore_return_value(&mut be.right, opts);
+
+                    if be.right.is_invalid() {
+                        tracing::debug!("Dropping the RHS of a binary expression ('&&' / '||')");
+                        *e = *be.left.take();
+                        return;
+                    }
+                }
+
+                _ => {}
             }
         }
 
