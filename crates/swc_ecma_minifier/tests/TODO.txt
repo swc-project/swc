@@ -72,9 +72,7 @@ collapse_vars/issue_1631_2/input.js
 collapse_vars/issue_1631_3/input.js
 collapse_vars/issue_1858/input.js
 collapse_vars/issue_2187_2/input.js
-collapse_vars/issue_2203_1/input.js
 collapse_vars/issue_2203_2/input.js
-collapse_vars/issue_2203_3/input.js
 collapse_vars/issue_2203_4/input.js
 collapse_vars/issue_2250_1/input.js
 collapse_vars/issue_2250_2/input.js
@@ -353,7 +351,6 @@ harmony/array_literal_with_spread_2b/input.js
 harmony/array_literal_with_spread_4a/input.js
 harmony/array_literal_with_spread_4b/input.js
 harmony/array_spread_of_sequence/input.js
-harmony/class_extends/input.js
 harmony/class_name_can_be_mangled/input.js
 harmony/class_name_can_be_preserved_with_reserved/input.js
 harmony/classes_extending_classes_out_of_pure_iifes/input.js
@@ -536,7 +533,6 @@ issue_640/conditional/input.js
 issue_640/dead_code_const_annotation_regex/input.js
 issue_640/drop_console_2/input.js
 issue_640/iife/input.js
-issue_640/limit_1/input.js
 issue_640/negate_iife_1/input.js
 issue_640/negate_iife_3/input.js
 issue_640/wrongly_optimized/input.js
@@ -714,7 +710,6 @@ pure_getters/strict_reduce_vars/input.js
 pure_getters/unsafe/input.js
 pure_getters/unsafe_reduce_vars/input.js
 pure_globals/globals_whose_access_is_pure/input.js
-pure_globals/window_access_is_impure/input.js
 reduce_vars/array_forin_1/input.js
 reduce_vars/chained_assignments/input.js
 reduce_vars/conditional_chain_certain_part/input.js
