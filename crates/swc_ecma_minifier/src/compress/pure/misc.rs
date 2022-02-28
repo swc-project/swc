@@ -266,6 +266,7 @@ where
                 {
                     self.changed = true;
                     *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                    return;
                 }
             }
 
@@ -282,6 +283,7 @@ where
                 if e.exprs.len() != len {
                     self.changed = true;
                 }
+                return;
             }
 
             Expr::Call(CallExpr {
@@ -305,6 +307,22 @@ where
 
             _ => {}
         }
+
+        // Remove pure member expressions.
+        if let Expr::Member(MemberExpr { obj, prop, .. }) = e {
+            if let Expr::Ident(obj) = &**obj {
+                if obj.span.ctxt.outer() == self.marks.top_level_mark {
+                    if let Some(bindings) = self.bindings.as_deref() {
+                        if !bindings.contains(&obj.to_id()) {
+                            if is_pure_member_access(obj, prop) {
+                                self.changed = true;
+                                *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -312,4 +330,58 @@ where
 pub(super) struct DropOpts {
     pub drop_zero: bool,
     pub drop_str_lit: bool,
+}
+
+/// `obj` should have top level syntax context.
+fn is_pure_member_access(obj: &Ident, prop: &MemberProp) -> bool {
+    macro_rules! check {
+        (
+            $obj:ident.
+            $prop:ident
+        ) => {{
+            if &*obj.sym == stringify!($obj) {
+                if let MemberProp::Ident(prop) = prop {
+                    if &*prop.sym == stringify!($prop) {
+                        return true;
+                    }
+                }
+            }
+        }};
+    }
+
+    macro_rules! pure {
+        (
+            $(
+                $(
+                  $i:ident
+                ).*
+            ),*
+        ) => {
+            $(
+                check!($($i).*);
+            )*
+        };
+    }
+
+    pure!(
+        Array.isArray,
+        ArrayBuffer.isView,
+        Boolean.toSource,
+        Date.parse,
+        Date.UTC,
+        Date.now,
+        Error.captureStackTrace,
+        Error.stackTraceLimit,
+        Function.bind,
+        Function.call,
+        Function.length,
+        console.log,
+        Error.name,
+        Math.random,
+        Number.isNaN,
+        Object.defineProperty,
+        String.fromCharCode
+    );
+
+    false
 }
