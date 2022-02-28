@@ -180,6 +180,7 @@ where
                 );
 
                 if arg.is_invalid() {
+                    tracing::debug!("Dropping an unary expression");
                     *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                     return;
                 }
