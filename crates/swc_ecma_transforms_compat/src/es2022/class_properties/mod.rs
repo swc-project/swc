@@ -147,20 +147,6 @@ impl Take for ClassExtra {
 impl VisitMut for ClassProperties {
     noop_visit_mut_type!();
 
-    fn visit_mut_ident(&mut self, i: &mut Ident) {
-        i.optional = false;
-    }
-
-    fn visit_mut_array_pat(&mut self, p: &mut ArrayPat) {
-        p.visit_mut_children_with(self);
-        p.optional = false;
-    }
-
-    fn visit_mut_object_pat(&mut self, p: &mut ObjectPat) {
-        p.visit_mut_children_with(self);
-        p.optional = false;
-    }
-
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         self.visit_mut_stmt_like(n);
 
@@ -973,24 +959,6 @@ struct ShouldWork {
 #[swc_trace]
 impl Visit for ShouldWork {
     noop_visit_type!();
-
-    fn visit_ident(&mut self, n: &Ident) {
-        if n.optional {
-            self.found = true;
-        }
-    }
-
-    fn visit_array_pat(&mut self, n: &ArrayPat) {
-        if n.optional {
-            self.found = true;
-        }
-    }
-
-    fn visit_object_pat(&mut self, n: &ObjectPat) {
-        if n.optional {
-            self.found = true;
-        }
-    }
 
     fn visit_class_method(&mut self, _: &ClassMethod) {
         self.found = true;
