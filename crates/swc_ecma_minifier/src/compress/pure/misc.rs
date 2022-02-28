@@ -153,7 +153,8 @@ where
                     | "Date" | "decodeURI" | "decodeURIComponent" | "encodeURI"
                     | "encodeURIComponent" | "escape" | "eval" | "EvalError" | "isFinite"
                     | "isNaN" | "JSON" | "parseFloat" | "parseInt" | "RegExp" | "RangeError"
-                    | "ReferenceError" | "SyntaxError" | "TypeError" | "unescape" | "URIError" => {
+                    | "ReferenceError" | "SyntaxError" | "TypeError" | "unescape" | "URIError"
+                    | "atob" | "globalThis" => {
                         tracing::debug!("Dropping a reference to a global variable");
                         *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                         return;
