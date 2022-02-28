@@ -1,3 +1,5 @@
+#![deny(clippy::all)]
+
 mod config;
 mod rule;
 mod rules;

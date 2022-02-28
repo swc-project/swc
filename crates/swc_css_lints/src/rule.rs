@@ -45,7 +45,7 @@ where
 
             HANDLER.with(|handler| {
                 for error in errors {
-                    DiagnosticBuilder::new_diagnostic(&handler, error).emit();
+                    DiagnosticBuilder::new_diagnostic(handler, error).emit();
                 }
             });
         }

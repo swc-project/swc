@@ -1098,6 +1098,7 @@ impl SourceMap {
         self.build_source_map_with_config(mappings, orig, DefaultSourceMapGenConfig)
     }
 
+    #[allow(clippy::ptr_arg)]
     #[cfg(feature = "sourcemap")]
     #[cfg_attr(docsrs, doc(cfg(feature = "sourcemap")))]
     pub fn build_source_map_with_config(
