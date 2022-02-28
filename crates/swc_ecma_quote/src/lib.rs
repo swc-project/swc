@@ -33,9 +33,14 @@ mod clone;
 /// e.g.
 ///
 /// ```rust
+/// use swc_common::DUMMY_SP;
+/// use swc_ecma_ast::Ident;
 /// use swc_ecma_quote::quote;
 ///
-/// quote!("const $name = 4;" as Stmt, name = private_ident!("ref"))
+/// // This will return ast for `const ref = 4;`
+/// let _stmt = quote!("const $name = 4;" as Stmt, name = Ident::new("ref".into(), DUMMY_SP));
+///
+/// // Tip: Use private_ident!("ref") for real identifiers.
 /// ```
 ///
 ///
@@ -44,9 +49,14 @@ mod clone;
 /// ## Quote a variable declaration
 ///
 /// ```rust
+/// use swc_common::DUMMY_SP;
+/// use swc_ecma_ast::Ident;
 /// use swc_ecma_quote::quote;
 ///
-/// let stmt = quote!("const $name = 4;" as Stmt, name = private_ident!("ref"));
+/// // This will return ast for `const ref = 4;`
+/// let _stmt = quote!("const $name = 4;" as Stmt, name = Ident::new("ref".into(), DUMMY_SP));
+///
+/// // Tip: Use private_ident!("ref") for real identifiers.
 /// ```
 #[macro_export]
 macro_rules! quote {
