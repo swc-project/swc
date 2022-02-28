@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use rayon::prelude::*;
-use swc_common::{collections::AHashSet, pass::Repeated, util::take::Take, DUMMY_SP};
+use swc_common::{collections::AHashSet, pass::Repeated, util::take::Take, DUMMY_SP, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_utils::collect_decls;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
@@ -171,29 +171,33 @@ where
                 self.changed |= v.changed;
             }
         } else {
-            let changed = nodes
-                .par_iter_mut()
-                .map(|node| {
-                    let mut v = Pure {
-                        options: self.options,
-                        marks: self.marks,
-                        ctx: Ctx {
-                            par_depth: self.ctx.par_depth + 1,
-                            ..self.ctx
-                        },
-                        changed: false,
-                        enable_everything: self.enable_everything,
-                        mode: self.mode,
-                        debug_infinite_loop: self.debug_infinite_loop,
-                        bindings: self.bindings.clone(),
-                    };
-                    node.visit_mut_with(&mut v);
+            GLOBALS.with(|globals| {
+                let changed = nodes
+                    .par_iter_mut()
+                    .map(|node| {
+                        GLOBALS.set(globals, || {
+                            let mut v = Pure {
+                                options: self.options,
+                                marks: self.marks,
+                                ctx: Ctx {
+                                    par_depth: self.ctx.par_depth + 1,
+                                    ..self.ctx
+                                },
+                                changed: false,
+                                enable_everything: self.enable_everything,
+                                mode: self.mode,
+                                debug_infinite_loop: self.debug_infinite_loop,
+                                bindings: self.bindings.clone(),
+                            };
+                            node.visit_mut_with(&mut v);
 
-                    v.changed
-                })
-                .reduce(|| false, |a, b| a || b);
+                            v.changed
+                        })
+                    })
+                    .reduce(|| false, |a, b| a || b);
 
-            self.changed |= changed;
+                self.changed |= changed;
+            });
         }
     }
 }
