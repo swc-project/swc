@@ -1313,6 +1313,9 @@ where
         if !self.options.join_vars && !self.options.hoist_vars {
             return;
         }
+        if self.ctx.in_asm {
+            return;
+        }
 
         // Merge var declarations fully, if possible.
         if stmts.windows(2).any(|stmts| match (&stmts[0], &stmts[1]) {
