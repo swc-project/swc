@@ -51,12 +51,7 @@ fn load_txt(filename: &str) -> Vec<String> {
 }
 
 fn is_ignored(path: &Path) -> bool {
-    static IGNORED: Lazy<Vec<String>> = Lazy::new(|| {
-        load_txt("tests/ignored.txt")
-            .into_iter()
-            .chain(load_txt("tests/postponed.txt"))
-            .collect()
-    });
+    static IGNORED: Lazy<Vec<String>> = Lazy::new(|| load_txt("tests/TODO.txt"));
 
     static GOLDEN: Lazy<Vec<String>> = Lazy::new(|| load_txt("tests/golden.txt"));
 
