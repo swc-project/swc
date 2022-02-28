@@ -8,14 +8,12 @@ use crate::{
     Parse,
 };
 
-impl<I> Parser<I>
+impl<I> Parse<AtRule> for Parser<I>
 where
     I: ParserInput,
 {
-    pub(super) fn parse_at_rule(&mut self) -> PResult<AtRule> {
+    fn parse(&mut self) -> PResult<AtRule> {
         let at_rule_span = self.input.cur_span()?;
-
-        assert!(matches!(cur!(self), Token::AtKeyword { .. }));
 
         let name = match bump!(self) {
             Token::AtKeyword { value, raw } => (value, raw),
