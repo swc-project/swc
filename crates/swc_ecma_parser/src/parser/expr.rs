@@ -789,7 +789,7 @@ impl<'a, I: Tokens> Parser<I> {
             // If there's no arrow function, we have to check there's no
             // AssignProp in lhs to check against assignment in object literals
             // like (a, {b = 1});
-            for expr_or_spread in paren_items.clone().into_iter() {
+            for expr_or_spread in paren_items.iter().cloned() {
                 if let PatOrExprOrSpread::ExprOrSpread(e) = expr_or_spread {
                     if let Expr::Object(o) = *e.expr {
                         for p in o.props.into_iter() {
