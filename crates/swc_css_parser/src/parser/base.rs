@@ -286,42 +286,6 @@ where
     }
 }
 
-impl<I> Parse<ComponentValue> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<ComponentValue> {
-        // Consume the next input token.
-        match cur!(self) {
-            // If the current input token is a <{-token>, <[-token>, or <(-token>, consume a simple
-            // block and return it.
-            tok!("[") | tok!("(") | tok!("{") => {
-                let ctx = Ctx {
-                    block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                    ..self.ctx
-                };
-                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-                Ok(ComponentValue::SimpleBlock(block))
-            }
-            // Otherwise, if the current input token is a <function-token>, consume a function and
-            // return it.
-            tok!("function") => Ok(ComponentValue::Function(self.parse()?)),
-            // Otherwise, return the current input token.
-            _ => {
-                let token = self.input.bump()?;
-
-                match token {
-                    Some(t) => Ok(ComponentValue::PreservedToken(t)),
-                    _ => {
-                        unreachable!();
-                    }
-                }
-            }
-        }
-    }
-}
-
 impl<I> Parse<SimpleBlock> for Parser<I>
 where
     I: ParserInput,
@@ -435,13 +399,18 @@ where
                             Ok(value) => {
                                 self.input.skip_ws()?;
 
-                                ComponentValue::Value(value)
+                                value
                             }
                             Err(err) => {
                                 self.errors.push(err);
                                 self.input.reset(&state);
 
-                                self.parse()?
+                                let ctx = Ctx {
+                                    block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                                    ..self.ctx
+                                };
+
+                                self.with_ctx(ctx).parse_as::<ComponentValue>()?
                             }
                         };
 
@@ -454,6 +423,123 @@ where
         simple_block.span = span!(self, span.lo);
 
         Ok(simple_block)
+    }
+}
+
+impl<I> Parse<ComponentValue> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ComponentValue> {
+        match self.ctx.block_contents_grammar {
+            BlockContentsGrammar::DeclarationValue => {
+                // TODO refactor me
+                self.input.skip_ws()?;
+
+                let span = self.input.cur_span()?;
+
+                match cur!(self) {
+                    tok!(",") | tok!("/") | tok!(";") => {
+                        return Ok(ComponentValue::Delimiter(self.parse()?));
+                    }
+
+                    tok!("string") => {
+                        return Ok(ComponentValue::Str(self.parse()?));
+                    }
+
+                    tok!("url") => {
+                        return Ok(ComponentValue::Url(self.parse()?));
+                    }
+
+                    Token::Function { value, .. } => match &*value.to_ascii_lowercase() {
+                        "url" | "src" => {
+                            return Ok(ComponentValue::Url(self.parse()?));
+                        }
+                        "rgb" | "rgba" | "hsl" | "hsla" | "hwb" | "lab" | "lch" | "oklab"
+                        | "oklch" | "color" => {
+                            return Ok(ComponentValue::Color(self.parse()?));
+                        }
+                        _ => {
+                            return Ok(ComponentValue::Function(self.parse()?));
+                        }
+                    },
+
+                    tok!("percentage") => {
+                        return Ok(ComponentValue::Percentage(self.parse()?));
+                    }
+
+                    tok!("dimension") => return Ok(ComponentValue::Dimension(self.parse()?)),
+
+                    Token::Number { type_flag, .. } => {
+                        if *type_flag == NumberType::Integer {
+                            return Ok(ComponentValue::Integer(self.parse()?));
+                        }
+
+                        return Ok(ComponentValue::Number(self.parse()?));
+                    }
+
+                    Token::Ident { value, .. } => {
+                        if value.starts_with("--") {
+                            return Ok(ComponentValue::DashedIdent(self.parse()?));
+                        } else if &*value.to_ascii_lowercase() == "u"
+                            && peeked_is_one_of!(self, "+", "number", "dimension")
+                        {
+                            return Ok(ComponentValue::UnicodeRange(self.parse()?));
+                        }
+
+                        return Ok(ComponentValue::Ident(self.parse()?));
+                    }
+
+                    tok!("[") | tok!("(") | tok!("{") => {
+                        let ctx = Ctx {
+                            block_contents_grammar: BlockContentsGrammar::DeclarationValue,
+                            ..self.ctx
+                        };
+                        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+
+                        return Ok(ComponentValue::SimpleBlock(block));
+                    }
+
+                    tok!("#") => {
+                        return Ok(ComponentValue::Color(Color::HexColor(self.parse()?)));
+                    }
+
+                    _ => {}
+                }
+
+                Err(Error::new(span, ErrorKind::Expected("Declaration value")))
+            }
+            _ => {
+                // Consume the next input token.
+                match cur!(self) {
+                    // If the current input token is a <{-token>, <[-token>, or <(-token>, consume a
+                    // simple block and return it.
+                    tok!("[") | tok!("(") | tok!("{") => {
+                        let ctx = Ctx {
+                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                            ..self.ctx
+                        };
+                        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+
+                        Ok(ComponentValue::SimpleBlock(block))
+                    }
+                    // Otherwise, if the current input token is a <function-token>, consume a
+                    // function and return it.
+                    tok!("function") => Ok(ComponentValue::Function(self.parse()?)),
+                    // Otherwise, return the current input token.
+                    _ => {
+                        let token = self.input.bump()?;
+
+                        match token {
+                            Some(t) => Ok(ComponentValue::PreservedToken(t)),
+                            _ => {
+                                unreachable!();
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -586,18 +672,27 @@ where
                         }
 
                         let state = self.input.state();
-                        let parsed = self.parse();
+                        let ctx = Ctx {
+                            block_contents_grammar: BlockContentsGrammar::DeclarationValue,
+                            ..self.ctx
+                        };
+                        let parsed = self.with_ctx(ctx).parse_as::<ComponentValue>();
                         let value_or_token = match parsed {
                             Ok(value) => value,
                             Err(err) => {
                                 self.errors.push(err);
                                 self.input.reset(&state);
 
-                                Value::ComponentValue(self.parse()?)
+                                let ctx = Ctx {
+                                    block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                                    ..self.ctx
+                                };
+
+                                self.with_ctx(ctx).parse_as::<ComponentValue>()?
                             }
                         };
 
-                        value.push(ComponentValue::Value(value_or_token));
+                        value.push(value_or_token);
                         end = self.input.last_pos()?;
                     }
                 }

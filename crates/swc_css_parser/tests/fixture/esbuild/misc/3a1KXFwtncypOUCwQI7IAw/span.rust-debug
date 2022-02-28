@@ -34,6 +34,12 @@ error: SimpleBlock
 1 | @keyframes name { 100% { color: red } }
   |                 ^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:19
+  |
+1 | @keyframes name { 100% { color: red } }
+  |                   ^^^^^^^^^^^^^^^^^^^
+
 error: KeyframeBlock
  --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:19
   |
@@ -64,6 +70,12 @@ error: SimpleBlock
 1 | @keyframes name { 100% { color: red } }
   |                        ^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:26
+  |
+1 | @keyframes name { 100% { color: red } }
+  |                          ^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:26
   |
@@ -82,7 +94,7 @@ error: Ident
 1 | @keyframes name { 100% { color: red } }
   |                          ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:33
   |
 1 | @keyframes name { 100% { color: red } }

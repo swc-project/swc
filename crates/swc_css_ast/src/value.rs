@@ -2,28 +2,7 @@ use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
-use crate::{ComplexSelector, ComponentValue};
-
-#[ast_node]
-pub enum Value {
-    #[tag("ComponentValue")]
-    ComponentValue(Box<ComponentValue>),
-
-    #[tag("Color")]
-    Color(Color),
-
-    #[tag("CalcSum")]
-    CalcSum(CalcSum),
-
-    #[tag("Delimiter")]
-    Delimiter(Delimiter),
-
-    #[tag("Url")]
-    Url(Url),
-
-    #[tag("ComplexSelector")]
-    ComplexSelector(ComplexSelector),
-}
+use crate::ComponentValue;
 
 #[ast_node("Ident")]
 pub struct Ident {

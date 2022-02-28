@@ -160,7 +160,7 @@ where
             | "sign" => {
                 self.input.skip_ws()?;
 
-                let calc_sum = ComponentValue::Value(Value::CalcSum(self.parse()?));
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
@@ -169,37 +169,37 @@ where
             "min" | "max" | "hypot" => {
                 self.input.skip_ws()?;
 
-                let calc_sum = Value::CalcSum(self.parse()?);
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
-                values.push(ComponentValue::Value(calc_sum));
+                values.push(calc_sum);
 
                 loop {
                     self.input.skip_ws()?;
 
                     if is!(self, ",") {
-                        values.push(ComponentValue::Value(Value::Delimiter(self.parse()?)));
+                        values.push(ComponentValue::Delimiter(self.parse()?));
 
                         self.input.skip_ws()?;
                     } else {
                         break;
                     }
 
-                    let calc_sum = Value::CalcSum(self.parse()?);
+                    let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
-                    values.push(ComponentValue::Value(calc_sum));
+                    values.push(calc_sum);
                 }
             }
             "clamp" => {
                 self.input.skip_ws()?;
 
-                let calc_sum = Value::CalcSum(self.parse()?);
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
-                values.push(ComponentValue::Value(calc_sum));
+                values.push(calc_sum);
 
                 self.input.skip_ws()?;
 
                 if is!(self, ",") {
-                    values.push(ComponentValue::Value(Value::Delimiter(self.parse()?)));
+                    values.push(ComponentValue::Delimiter(self.parse()?));
 
                     self.input.skip_ws()?;
                 } else {
@@ -208,14 +208,14 @@ where
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
 
-                let calc_sum = Value::CalcSum(self.parse()?);
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
-                values.push(ComponentValue::Value(calc_sum));
+                values.push(calc_sum);
 
                 self.input.skip_ws()?;
 
                 if is!(self, ",") {
-                    values.push(ComponentValue::Value(Value::Delimiter(self.parse()?)));
+                    values.push(ComponentValue::Delimiter(self.parse()?));
 
                     self.input.skip_ws()?;
                 } else {
@@ -224,9 +224,9 @@ where
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
 
-                let calc_sum = Value::CalcSum(self.parse()?);
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
-                values.push(ComponentValue::Value(calc_sum));
+                values.push(calc_sum);
 
                 self.input.skip_ws()?;
             }
@@ -235,15 +235,14 @@ where
 
                 if is!(self, "ident") {
                     // TODO improve me
-                    let rounding_strategy =
-                        Value::ComponentValue(Box::new(ComponentValue::Ident(self.parse()?)));
+                    let rounding_strategy = ComponentValue::Ident(self.parse()?);
 
-                    values.push(ComponentValue::Value(rounding_strategy));
+                    values.push(rounding_strategy);
 
                     self.input.skip_ws()?;
 
                     if is!(self, ",") {
-                        values.push(ComponentValue::Value(Value::Delimiter(self.parse()?)));
+                        values.push(ComponentValue::Delimiter(self.parse()?));
 
                         self.input.skip_ws()?;
                     } else {
@@ -253,14 +252,14 @@ where
                     }
                 }
 
-                let calc_sum = Value::CalcSum(self.parse()?);
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
-                values.push(ComponentValue::Value(calc_sum));
+                values.push(calc_sum);
 
                 self.input.skip_ws()?;
 
                 if is!(self, ",") {
-                    values.push(ComponentValue::Value(Value::Delimiter(self.parse()?)));
+                    values.push(ComponentValue::Delimiter(self.parse()?));
 
                     self.input.skip_ws()?;
                 } else {
@@ -269,23 +268,23 @@ where
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
 
-                let calc_sum = Value::CalcSum(self.parse()?);
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
-                values.push(ComponentValue::Value(calc_sum));
+                values.push(calc_sum);
 
                 self.input.skip_ws()?;
             }
             "mod" | "rem" | "atan2" | "pow" => {
                 self.input.skip_ws()?;
 
-                let calc_sum = Value::CalcSum(self.parse()?);
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
-                values.push(ComponentValue::Value(calc_sum));
+                values.push(calc_sum);
 
                 self.input.skip_ws()?;
 
                 if is!(self, ",") {
-                    values.push(ComponentValue::Value(Value::Delimiter(self.parse()?)));
+                    values.push(ComponentValue::Delimiter(self.parse()?));
 
                     self.input.skip_ws()?;
                 } else {
@@ -294,29 +293,29 @@ where
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
 
-                let calc_sum = Value::CalcSum(self.parse()?);
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
-                values.push(ComponentValue::Value(calc_sum));
+                values.push(calc_sum);
 
                 self.input.skip_ws()?;
             }
             "log" => {
                 self.input.skip_ws()?;
 
-                let calc_sum = Value::CalcSum(self.parse()?);
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
-                values.push(ComponentValue::Value(calc_sum));
+                values.push(calc_sum);
 
                 self.input.skip_ws()?;
 
                 if is!(self, ",") {
-                    values.push(ComponentValue::Value(Value::Delimiter(self.parse()?)));
+                    values.push(ComponentValue::Delimiter(self.parse()?));
 
                     self.input.skip_ws()?;
 
-                    let calc_sum = Value::CalcSum(self.parse()?);
+                    let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
-                    values.push(ComponentValue::Value(calc_sum));
+                    values.push(calc_sum);
 
                     self.input.skip_ws()?;
                 }
@@ -324,9 +323,9 @@ where
             "selector" if self.ctx.in_supports_at_rule => {
                 self.input.skip_ws()?;
 
-                let selector = Value::ComplexSelector(self.parse()?);
+                let selector = ComponentValue::ComplexSelector(self.parse()?);
 
-                values.push(ComponentValue::Value(selector));
+                values.push(selector);
 
                 self.input.skip_ws()?;
             }
@@ -337,110 +336,16 @@ where
                     break;
                 }
 
-                values.push(ComponentValue::Value(self.parse()?));
-            },
-        };
-
-        Ok(values)
-    }
-}
-
-impl<I> Parse<Value> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<Value> {
-        // TODO remove me
-        self.input.skip_ws()?;
-
-        let span = self.input.cur_span()?;
-
-        match cur!(self) {
-            tok!(",") => return Ok(Value::Delimiter(self.parse()?)),
-
-            tok!("/") => return Ok(Value::Delimiter(self.parse()?)),
-
-            tok!(";") => return Ok(Value::Delimiter(self.parse()?)),
-
-            tok!("string") => {
-                return Ok(Value::ComponentValue(Box::new(ComponentValue::Str(
-                    self.parse()?,
-                ))));
-            }
-
-            tok!("url") => return Ok(Value::Url(self.parse()?)),
-
-            Token::Function { value, .. } => match &*value.to_ascii_lowercase() {
-                "url" | "src" => return Ok(Value::Url(self.parse()?)),
-                "rgb" | "rgba" | "hsl" | "hsla" | "hwb" | "lab" | "lch" | "oklab" | "oklch"
-                | "color" => return Ok(Value::Color(self.parse()?)),
-                _ => {
-                    return Ok(Value::ComponentValue(Box::new(ComponentValue::Function(
-                        self.parse()?,
-                    ))));
-                }
-            },
-
-            tok!("percentage") => {
-                return Ok(Value::ComponentValue(Box::new(ComponentValue::Percentage(
-                    self.parse()?,
-                ))));
-            }
-
-            tok!("dimension") => {
-                return Ok(Value::ComponentValue(Box::new(ComponentValue::Dimension(
-                    self.parse()?,
-                ))))
-            }
-
-            Token::Number { type_flag, .. } => {
-                if *type_flag == NumberType::Integer {
-                    return Ok(Value::ComponentValue(Box::new(ComponentValue::Integer(
-                        self.parse()?,
-                    ))));
-                }
-
-                return Ok(Value::ComponentValue(Box::new(ComponentValue::Number(
-                    self.parse()?,
-                ))));
-            }
-
-            Token::Ident { value, .. } => {
-                if value.starts_with("--") {
-                    return Ok(Value::ComponentValue(Box::new(
-                        ComponentValue::DashedIdent(self.parse()?),
-                    )));
-                } else if &*value.to_ascii_lowercase() == "u"
-                    && peeked_is_one_of!(self, "+", "number", "dimension")
-                {
-                    return Ok(Value::ComponentValue(Box::new(
-                        ComponentValue::UnicodeRange(self.parse()?),
-                    )));
-                }
-
-                return Ok(Value::ComponentValue(Box::new(ComponentValue::Ident(
-                    self.parse()?,
-                ))));
-            }
-
-            tok!("[") | tok!("(") | tok!("{") => {
                 let ctx = Ctx {
                     block_contents_grammar: BlockContentsGrammar::DeclarationValue,
                     ..self.ctx
                 };
-                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
-                return Ok(Value::ComponentValue(Box::new(
-                    ComponentValue::SimpleBlock(block),
-                )));
-            }
+                values.push(self.with_ctx(ctx).parse_as::<ComponentValue>()?);
+            },
+        };
 
-            tok!("#") => return Ok(Value::Color(Color::HexColor(self.parse()?))),
-
-            _ => {}
-        }
-
-        Err(Error::new(span, ErrorKind::Expected("Declaration value")))
+        Ok(values)
     }
 }
 
@@ -1308,9 +1213,7 @@ where
                             self.errors.push(err);
                             self.input.reset(&state);
 
-                            function
-                                .value
-                                .push(ComponentValue::Value(Value::ComponentValue(self.parse()?)));
+                            function.value.push(self.parse()?);
                         }
                     }
                 }

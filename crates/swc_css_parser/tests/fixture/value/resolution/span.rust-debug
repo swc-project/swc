@@ -539,6 +539,14 @@ error: SimpleBlock
 13 | | }
    | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/value/resolution/input.css:7:5
+  |
+7 | /     background-image: -webkit-image-set(
+8 | |             url("small-balloons.jpg") 1x,
+9 | |             url("large-balloons.jpg") 2x);
+  | |_________________________________________^
+
 error: StyleBlock
  --> $DIR/tests/fixture/value/resolution/input.css:7:5
   |
@@ -567,7 +575,7 @@ error: Ident
 7 |     background-image: -webkit-image-set(
   |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/resolution/input.css:7:23
   |
 7 |       background-image: -webkit-image-set(
@@ -591,7 +599,7 @@ error: Ident
 7 |     background-image: -webkit-image-set(
   |                       ^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/resolution/input.css:8:13
   |
 8 |             url("small-balloons.jpg") 1x,
@@ -621,7 +629,7 @@ error: Str
 8 |             url("small-balloons.jpg") 1x,
   |                 ^^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/resolution/input.css:8:39
   |
 8 |             url("small-balloons.jpg") 1x,
@@ -651,7 +659,7 @@ error: Ident
 8 |             url("small-balloons.jpg") 1x,
   |                                        ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/resolution/input.css:8:41
   |
 8 |             url("small-balloons.jpg") 1x,
@@ -663,7 +671,7 @@ error: Delimiter
 8 |             url("small-balloons.jpg") 1x,
   |                                         ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/resolution/input.css:9:13
   |
 9 |             url("large-balloons.jpg") 2x);
@@ -693,7 +701,7 @@ error: Str
 9 |             url("large-balloons.jpg") 2x);
   |                 ^^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/resolution/input.css:9:39
   |
 9 |             url("large-balloons.jpg") 2x);
@@ -723,6 +731,14 @@ error: Ident
 9 |             url("large-balloons.jpg") 2x);
   |                                        ^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/value/resolution/input.css:10:5
+   |
+10 | /     background-image: image-set(
+11 | |             url("small-balloons.jpg") 1x,
+12 | |             url("large-balloons.jpg") 2x);
+   | |_________________________________________^
+
 error: StyleBlock
   --> $DIR/tests/fixture/value/resolution/input.css:10:5
    |
@@ -751,7 +767,7 @@ error: Ident
 10 |     background-image: image-set(
    |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/resolution/input.css:10:23
    |
 10 |       background-image: image-set(
@@ -775,7 +791,7 @@ error: Ident
 10 |     background-image: image-set(
    |                       ^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/resolution/input.css:11:13
    |
 11 |             url("small-balloons.jpg") 1x,
@@ -805,7 +821,7 @@ error: Str
 11 |             url("small-balloons.jpg") 1x,
    |                 ^^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/resolution/input.css:11:39
    |
 11 |             url("small-balloons.jpg") 1x,
@@ -835,7 +851,7 @@ error: Ident
 11 |             url("small-balloons.jpg") 1x,
    |                                        ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/resolution/input.css:11:41
    |
 11 |             url("small-balloons.jpg") 1x,
@@ -847,7 +863,7 @@ error: Delimiter
 11 |             url("small-balloons.jpg") 1x,
    |                                         ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/resolution/input.css:12:13
    |
 12 |             url("large-balloons.jpg") 2x);
@@ -877,7 +893,7 @@ error: Str
 12 |             url("large-balloons.jpg") 2x);
    |                 ^^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/resolution/input.css:12:39
    |
 12 |             url("large-balloons.jpg") 2x);

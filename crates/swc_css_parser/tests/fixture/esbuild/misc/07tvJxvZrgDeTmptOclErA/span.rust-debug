@@ -64,6 +64,12 @@ error: SimpleBlock
 1 | a { margin: 0 1 0 1 }
   |   ^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:5
+  |
+1 | a { margin: 0 1 0 1 }
+  |     ^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:5
   |
@@ -88,7 +94,7 @@ error: Ident
 1 | a { margin: 0 1 0 1 }
   |     ^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:13
   |
 1 | a { margin: 0 1 0 1 }
@@ -100,7 +106,7 @@ error: Integer
 1 | a { margin: 0 1 0 1 }
   |             ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:15
   |
 1 | a { margin: 0 1 0 1 }
@@ -112,7 +118,7 @@ error: Integer
 1 | a { margin: 0 1 0 1 }
   |               ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:17
   |
 1 | a { margin: 0 1 0 1 }
@@ -124,7 +130,7 @@ error: Integer
 1 | a { margin: 0 1 0 1 }
   |                 ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:19
   |
 1 | a { margin: 0 1 0 1 }

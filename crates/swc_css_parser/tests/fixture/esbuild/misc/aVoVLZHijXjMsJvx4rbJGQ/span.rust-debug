@@ -28,6 +28,12 @@ error: SimpleBlock
 1 | @viewport { width: 100vw }
   |           ^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:13
+  |
+1 | @viewport { width: 100vw }
+  |             ^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:13
   |
@@ -46,7 +52,7 @@ error: Ident
 1 | @viewport { width: 100vw }
   |             ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:20
   |
 1 | @viewport { width: 100vw }

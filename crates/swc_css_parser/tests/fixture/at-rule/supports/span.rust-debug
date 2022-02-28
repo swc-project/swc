@@ -82,7 +82,7 @@ error: Ident
 1 | @supports (display: grid) {
   |            ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/supports/input.css:1:21
   |
 1 | @supports (display: grid) {
@@ -104,6 +104,14 @@ error: SimpleBlock
 4 | |     }
 5 | | }
   | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/supports/input.css:2:5
+  |
+2 | /     div {
+3 | |         display: grid;
+4 | |     }
+  | |_____^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/supports/input.css:2:5
@@ -172,6 +180,12 @@ error: SimpleBlock
 4 | |     }
   | |_____^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/supports/input.css:3:9
+  |
+3 |         display: grid;
+  |         ^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/at-rule/supports/input.css:3:9
   |
@@ -196,7 +210,7 @@ error: Ident
 3 |         display: grid;
   |         ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/supports/input.css:3:18
   |
 3 |         display: grid;
@@ -286,7 +300,7 @@ error: Ident
 7 | @supports (display: flex) {
   |            ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/supports/input.css:7:21
   |
 7 | @supports (display: flex) {
@@ -310,6 +324,14 @@ error: SimpleBlock
 16 | |     }
 17 | | }
    | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:8:5
+   |
+8  | /     body {
+9  | |         color: blue;
+10 | |     }
+   | |_____^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:8:5
@@ -378,6 +400,12 @@ error: SimpleBlock
 10 | |     }
    | |_____^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/supports/input.css:9:9
+  |
+9 |         color: blue;
+  |         ^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/at-rule/supports/input.css:9:9
   |
@@ -402,7 +430,7 @@ error: Ident
 9 |         color: blue;
   |         ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/supports/input.css:9:16
   |
 9 |         color: blue;
@@ -413,6 +441,16 @@ error: Ident
   |
 9 |         color: blue;
   |                ^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:5
+   |
+12 | /     @media screen and (min-width: 900px) {
+13 | |         article {
+14 | |             display: flex;
+15 | |         }
+16 | |     }
+   | |_____^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:12:5
@@ -545,6 +583,14 @@ error: SimpleBlock
 16 | |     }
    | |_____^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:13:9
+   |
+13 | /         article {
+14 | |             display: flex;
+15 | |         }
+   | |_________^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:13:9
    |
@@ -612,6 +658,12 @@ error: SimpleBlock
 15 | |         }
    | |_________^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:14:13
+   |
+14 |             display: flex;
+   |             ^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/at-rule/supports/input.css:14:13
    |
@@ -636,7 +688,7 @@ error: Ident
 14 |             display: flex;
    |             ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:14:22
    |
 14 |             display: flex;
@@ -708,7 +760,7 @@ error: Ident
 18 | @supports   (   display   :   flex   )   {}
    |                 ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:18:31
    |
 18 | @supports   (   display   :   flex   )   {}
@@ -792,7 +844,7 @@ error: Ident
 19 | @supports not (display: flex) {}
    |                ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:19:25
    |
 19 | @supports not (display: flex) {}
@@ -876,7 +928,7 @@ error: Ident
 20 | @SUPPORTS not (display: flex) {}
    |                ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:20:25
    |
 20 | @SUPPORTS not (display: flex) {}
@@ -954,7 +1006,7 @@ error: Ident
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |            ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:24
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -966,7 +1018,7 @@ error: Integer
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                        ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:26
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -978,7 +1030,7 @@ error: Integer
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                          ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:28
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1008,7 +1060,7 @@ error: Ident
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                             ^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:32
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1020,7 +1072,7 @@ error: Ident
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:38
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1074,7 +1126,7 @@ error: Ident
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                  ^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:67
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1086,7 +1138,7 @@ error: Integer
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                   ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:69
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1098,7 +1150,7 @@ error: Integer
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                     ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:71
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1128,7 +1180,7 @@ error: Ident
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                        ^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:75
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1140,7 +1192,7 @@ error: Ident
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                           ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:81
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1194,7 +1246,7 @@ error: Ident
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                             ^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:113
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1206,7 +1258,7 @@ error: Integer
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                                                 ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:115
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1218,7 +1270,7 @@ error: Integer
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                                                   ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:117
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1248,7 +1300,7 @@ error: Ident
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                                                      ^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:121
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1260,7 +1312,7 @@ error: Ident
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                                                         ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:127
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1314,7 +1366,7 @@ error: Ident
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                                                                           ^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:154
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1326,7 +1378,7 @@ error: Integer
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                                                                                          ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:156
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1338,7 +1390,7 @@ error: Integer
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                                                                                            ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:158
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1368,7 +1420,7 @@ error: Ident
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                                                                                               ^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:162
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1380,7 +1432,7 @@ error: Ident
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                                                                                                  ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:168
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
@@ -1477,7 +1529,7 @@ error: Ident
 22 | @supports ( box-shadow: 0 0 2px black inset ) or
    |             ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:22:25
    |
 22 | @supports ( box-shadow: 0 0 2px black inset ) or
@@ -1489,7 +1541,7 @@ error: Integer
 22 | @supports ( box-shadow: 0 0 2px black inset ) or
    |                         ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:22:27
    |
 22 | @supports ( box-shadow: 0 0 2px black inset ) or
@@ -1501,7 +1553,7 @@ error: Integer
 22 | @supports ( box-shadow: 0 0 2px black inset ) or
    |                           ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:22:29
    |
 22 | @supports ( box-shadow: 0 0 2px black inset ) or
@@ -1531,7 +1583,7 @@ error: Ident
 22 | @supports ( box-shadow: 0 0 2px black inset ) or
    |                              ^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:22:33
    |
 22 | @supports ( box-shadow: 0 0 2px black inset ) or
@@ -1543,7 +1595,7 @@ error: Ident
 22 | @supports ( box-shadow: 0 0 2px black inset ) or
    |                                 ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:22:39
    |
 22 | @supports ( box-shadow: 0 0 2px black inset ) or
@@ -1601,7 +1653,7 @@ error: Ident
 23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
    |     ^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:23:22
    |
 23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
@@ -1613,7 +1665,7 @@ error: Integer
 23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
    |                      ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:23:24
    |
 23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
@@ -1625,7 +1677,7 @@ error: Integer
 23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
    |                        ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:23:26
    |
 23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
@@ -1655,7 +1707,7 @@ error: Ident
 23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
    |                           ^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:23:30
    |
 23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
@@ -1667,7 +1719,7 @@ error: Ident
 23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
    |                              ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:23:36
    |
 23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
@@ -1725,7 +1777,7 @@ error: Ident
 24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
    |     ^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:24:25
    |
 24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
@@ -1737,7 +1789,7 @@ error: Integer
 24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
    |                         ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:24:27
    |
 24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
@@ -1749,7 +1801,7 @@ error: Integer
 24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
    |                           ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:24:29
    |
 24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
@@ -1779,7 +1831,7 @@ error: Ident
 24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
    |                              ^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:24:33
    |
 24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
@@ -1791,7 +1843,7 @@ error: Ident
 24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
    |                                 ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:24:39
    |
 24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
@@ -1849,7 +1901,7 @@ error: Ident
 25 |   ( -o-box-shadow: 0 0 2px black inset ) {
    |     ^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:25:20
    |
 25 |   ( -o-box-shadow: 0 0 2px black inset ) {
@@ -1861,7 +1913,7 @@ error: Integer
 25 |   ( -o-box-shadow: 0 0 2px black inset ) {
    |                    ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:25:22
    |
 25 |   ( -o-box-shadow: 0 0 2px black inset ) {
@@ -1873,7 +1925,7 @@ error: Integer
 25 |   ( -o-box-shadow: 0 0 2px black inset ) {
    |                      ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:25:24
    |
 25 |   ( -o-box-shadow: 0 0 2px black inset ) {
@@ -1903,7 +1955,7 @@ error: Ident
 25 |   ( -o-box-shadow: 0 0 2px black inset ) {
    |                         ^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:25:28
    |
 25 |   ( -o-box-shadow: 0 0 2px black inset ) {
@@ -1915,7 +1967,7 @@ error: Ident
 25 |   ( -o-box-shadow: 0 0 2px black inset ) {
    |                            ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:25:34
    |
 25 |   ( -o-box-shadow: 0 0 2px black inset ) {
@@ -2014,7 +2066,7 @@ error: Ident
 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
    |             ^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:28:34
    |
 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
@@ -2068,7 +2120,7 @@ error: Ident
 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
    |                                             ^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:28:61
    |
 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
@@ -2122,7 +2174,7 @@ error: Ident
 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
    |                                                                        ^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:28:83
    |
 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
@@ -2140,7 +2192,7 @@ error: Ident
 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
    |                                                                                   ^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:28:90
    |
 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
@@ -2236,7 +2288,7 @@ error: Ident
 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
    |            ^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:29:33
    |
 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
@@ -2308,7 +2360,7 @@ error: Ident
 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
    |                                             ^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:29:61
    |
 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
@@ -2362,7 +2414,7 @@ error: Ident
 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
    |                                                                       ^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:29:82
    |
 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
@@ -2380,7 +2432,7 @@ error: Ident
 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
    |                                                                                  ^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:29:89
    |
 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
@@ -2476,7 +2528,7 @@ error: Ident
 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
    |                 ^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:30:43
    |
 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
@@ -2548,7 +2600,7 @@ error: Ident
 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
    |                                                                    ^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:30:89
    |
 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
@@ -2602,7 +2654,7 @@ error: Ident
 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
    |                                                                                                             ^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:30:126
    |
 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
@@ -2620,7 +2672,7 @@ error: Ident
 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
    |                                                                                                                              ^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:30:133
    |
 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
@@ -2716,7 +2768,7 @@ error: Ident
 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
    |           ^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:31:31
    |
 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
@@ -2788,7 +2840,7 @@ error: Ident
 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
    |                                          ^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:31:57
    |
 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
@@ -2842,7 +2894,7 @@ error: Ident
 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
    |                                                                  ^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:31:76
    |
 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
@@ -2860,7 +2912,7 @@ error: Ident
 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
    |                                                                            ^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:31:83
    |
 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
@@ -2974,7 +3026,7 @@ error: Ident
 32 | @supports ((display: flex)) {}
    |             ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:32:22
    |
 32 | @supports ((display: flex)) {}
@@ -3052,7 +3104,7 @@ error: Ident
 33 | @supports (display: flex !important) {}
    |            ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:33:21
    |
 33 | @supports (display: flex !important) {}
@@ -3148,7 +3200,7 @@ error: Ident
 34 | @supports NOT (display: flex) {}
    |                ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:34:25
    |
 34 | @supports NOT (display: flex) {}
@@ -3244,7 +3296,7 @@ error: Ident
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
    |             ^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:35:34
    |
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
@@ -3298,7 +3350,7 @@ error: Ident
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
    |                                             ^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:35:61
    |
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
@@ -3352,7 +3404,7 @@ error: Ident
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
    |                                                                        ^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:35:83
    |
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
@@ -3370,7 +3422,7 @@ error: Ident
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
    |                                                                                   ^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:35:90
    |
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
@@ -3466,7 +3518,7 @@ error: Ident
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
    |            ^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:36:33
    |
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
@@ -3538,7 +3590,7 @@ error: Ident
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
    |                                             ^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:36:61
    |
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
@@ -3592,7 +3644,7 @@ error: Ident
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
    |                                                                       ^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:36:82
    |
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
@@ -3610,7 +3662,7 @@ error: Ident
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
    |                                                                                  ^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:36:89
    |
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
@@ -3724,7 +3776,7 @@ error: Ident
 37 | @supports (NOT (display: flex)) {}
    |                 ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:37:26
    |
 37 | @supports (NOT (display: flex)) {}
@@ -3808,7 +3860,7 @@ error: Ident
 39 | @supports selector(col || td) {
    |           ^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:39:20
    |
 39 | @supports selector(col || td) {
@@ -3896,6 +3948,14 @@ error: SimpleBlock
 42 | |     }
 43 | | }
    | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:40:5
+   |
+40 | /     col.selected || td {
+41 | |         background: tan;
+42 | |     }
+   | |_____^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:40:5
@@ -4018,6 +4078,12 @@ error: SimpleBlock
 42 | |     }
    | |_____^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:41:9
+   |
+41 |         background: tan;
+   |         ^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/at-rule/supports/input.css:41:9
    |
@@ -4042,7 +4108,7 @@ error: Ident
 41 |         background: tan;
    |         ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:41:21
    |
 41 |         background: tan;
@@ -4120,7 +4186,7 @@ error: Ident
 45 | @supports selector(:focus-visible) {
    |           ^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:45:20
    |
 45 | @supports selector(:focus-visible) {
@@ -4166,6 +4232,14 @@ error: SimpleBlock
 48 | |     }
 49 | | }
    | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:46:5
+   |
+46 | /     a:focus-visible {
+47 | |         background: yellow;
+48 | |     }
+   | |_____^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:46:5
@@ -4252,6 +4326,12 @@ error: SimpleBlock
 48 | |     }
    | |_____^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:47:9
+   |
+47 |         background: yellow;
+   |         ^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/at-rule/supports/input.css:47:9
    |
@@ -4276,7 +4356,7 @@ error: Ident
 47 |         background: yellow;
    |         ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:47:21
    |
 47 |         background: yellow;
@@ -4354,7 +4434,7 @@ error: Ident
 51 | @supports (--element(".minwidth")) {
    |            ^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:51:22
    |
 51 | @supports (--element(".minwidth")) {
@@ -4376,6 +4456,14 @@ error: SimpleBlock
 54 | |     }
 55 | | }
    | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:52:5
+   |
+52 | /     [--self] {
+53 | |         background: greenyellow;
+54 | |     }
+   | |_____^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:52:5
@@ -4444,6 +4532,12 @@ error: SimpleBlock
 54 | |     }
    | |_____^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:53:9
+   |
+53 |         background: greenyellow;
+   |         ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/at-rule/supports/input.css:53:9
    |
@@ -4468,7 +4562,7 @@ error: Ident
 53 |         background: greenyellow;
    |         ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:53:21
    |
 53 |         background: greenyellow;
@@ -4546,7 +4640,7 @@ error: Ident
 57 | @supports (ident: 1) {
    |            ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:57:19
    |
 57 | @supports (ident: 1) {
@@ -4566,6 +4660,12 @@ error: SimpleBlock
 58 | |     * { background: red; }
 59 | | }
    | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:58:5
+   |
+58 |     * { background: red; }
+   |     ^^^^^^^^^^^^^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:58:5
@@ -4615,6 +4715,12 @@ error: SimpleBlock
 58 |     * { background: red; }
    |       ^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:58:9
+   |
+58 |     * { background: red; }
+   |         ^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/at-rule/supports/input.css:58:9
    |
@@ -4639,7 +4745,7 @@ error: Ident
 58 |     * { background: red; }
    |         ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:58:21
    |
 58 |     * { background: red; }
@@ -4735,7 +4841,7 @@ error: Ident
 61 | @supports ((ident: 1)) {
    |             ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:61:20
    |
 61 | @supports ((ident: 1)) {
@@ -4755,6 +4861,12 @@ error: SimpleBlock
 62 | |     * { background: red; }
 63 | | }
    | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:62:5
+   |
+62 |     * { background: red; }
+   |     ^^^^^^^^^^^^^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:62:5
@@ -4804,6 +4916,12 @@ error: SimpleBlock
 62 |     * { background: red; }
    |       ^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:62:9
+   |
+62 |     * { background: red; }
+   |         ^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/at-rule/supports/input.css:62:9
    |
@@ -4828,7 +4946,7 @@ error: Ident
 62 |     * { background: red; }
    |         ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:62:21
    |
 62 |     * { background: red; }
@@ -4888,17 +5006,35 @@ error: SimpleBlock
 65 | @supports (ident "str") {
    |           ^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:65:12
+   |
+65 | @supports (ident "str") {
+   |            ^^^^^
+
 error: Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:65:12
    |
 65 | @supports (ident "str") {
    |            ^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:65:17
+   |
+65 | @supports (ident "str") {
+   |                 ^
+
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:65:17
    |
 65 | @supports (ident "str") {
    |                 ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:65:18
+   |
+65 | @supports (ident "str") {
+   |                  ^^^^^
 
 error: String { value: Atom('str' type=inline), raw: Atom('"str"' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:65:18
@@ -4914,6 +5050,12 @@ error: SimpleBlock
 66 | |     * { background: red; }
 67 | | }
    | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:66:5
+   |
+66 |     * { background: red; }
+   |     ^^^^^^^^^^^^^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:66:5
@@ -4963,6 +5105,12 @@ error: SimpleBlock
 66 |     * { background: red; }
    |       ^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:66:9
+   |
+66 |     * { background: red; }
+   |         ^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/at-rule/supports/input.css:66:9
    |
@@ -4987,7 +5135,7 @@ error: Ident
 66 |     * { background: red; }
    |         ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:66:21
    |
 66 |     * { background: red; }
@@ -5053,17 +5201,35 @@ error: SimpleBlock
 69 | @supports ((ident "str")) {
    |            ^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:69:13
+   |
+69 | @supports ((ident "str")) {
+   |             ^^^^^
+
 error: Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:69:13
    |
 69 | @supports ((ident "str")) {
    |             ^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:69:18
+   |
+69 | @supports ((ident "str")) {
+   |                  ^
+
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:69:18
    |
 69 | @supports ((ident "str")) {
    |                  ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:69:19
+   |
+69 | @supports ((ident "str")) {
+   |                   ^^^^^
 
 error: String { value: Atom('str' type=inline), raw: Atom('"str"' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:69:19
@@ -5079,6 +5245,12 @@ error: SimpleBlock
 70 | |     * { background: red; }
 71 | | }
    | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:70:5
+   |
+70 |     * { background: red; }
+   |     ^^^^^^^^^^^^^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:70:5
@@ -5128,6 +5300,12 @@ error: SimpleBlock
 70 |     * { background: red; }
    |       ^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:70:9
+   |
+70 |     * { background: red; }
+   |         ^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/at-rule/supports/input.css:70:9
    |
@@ -5152,7 +5330,7 @@ error: Ident
 70 |     * { background: red; }
    |         ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:70:21
    |
 70 |     * { background: red; }
@@ -5218,7 +5396,7 @@ error: Ident
 73 | @supports func(10, 20, 40) {
    |           ^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:73:16
    |
 73 | @supports func(10, 20, 40) {
@@ -5230,7 +5408,7 @@ error: Integer
 73 | @supports func(10, 20, 40) {
    |                ^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:73:18
    |
 73 | @supports func(10, 20, 40) {
@@ -5242,7 +5420,7 @@ error: Delimiter
 73 | @supports func(10, 20, 40) {
    |                  ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:73:20
    |
 73 | @supports func(10, 20, 40) {
@@ -5254,7 +5432,7 @@ error: Integer
 73 | @supports func(10, 20, 40) {
    |                    ^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:73:22
    |
 73 | @supports func(10, 20, 40) {
@@ -5266,7 +5444,7 @@ error: Delimiter
 73 | @supports func(10, 20, 40) {
    |                      ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:73:24
    |
 73 | @supports func(10, 20, 40) {
@@ -5286,6 +5464,12 @@ error: SimpleBlock
 74 | |     * { background: red; }
 75 | | }
    | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:74:5
+   |
+74 |     * { background: red; }
+   |     ^^^^^^^^^^^^^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:74:5
@@ -5335,6 +5519,12 @@ error: SimpleBlock
 74 |     * { background: red; }
    |       ^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:74:9
+   |
+74 |     * { background: red; }
+   |         ^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/at-rule/supports/input.css:74:9
    |
@@ -5359,7 +5549,7 @@ error: Ident
 74 |     * { background: red; }
    |         ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:74:21
    |
 74 |     * { background: red; }
@@ -5431,7 +5621,7 @@ error: Ident
 77 | @supports (func(10, 20, 40)) {
    |            ^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:77:17
    |
 77 | @supports (func(10, 20, 40)) {
@@ -5443,7 +5633,7 @@ error: Integer
 77 | @supports (func(10, 20, 40)) {
    |                 ^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:77:19
    |
 77 | @supports (func(10, 20, 40)) {
@@ -5455,7 +5645,7 @@ error: Delimiter
 77 | @supports (func(10, 20, 40)) {
    |                   ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:77:21
    |
 77 | @supports (func(10, 20, 40)) {
@@ -5467,7 +5657,7 @@ error: Integer
 77 | @supports (func(10, 20, 40)) {
    |                     ^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:77:23
    |
 77 | @supports (func(10, 20, 40)) {
@@ -5479,7 +5669,7 @@ error: Delimiter
 77 | @supports (func(10, 20, 40)) {
    |                       ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:77:25
    |
 77 | @supports (func(10, 20, 40)) {
@@ -5499,6 +5689,12 @@ error: SimpleBlock
 78 | |     * { background: red; }
 79 | | }
    | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:78:5
+   |
+78 |     * { background: red; }
+   |     ^^^^^^^^^^^^^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:78:5
@@ -5548,6 +5744,12 @@ error: SimpleBlock
 78 |     * { background: red; }
    |       ^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:78:9
+   |
+78 |     * { background: red; }
+   |         ^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/at-rule/supports/input.css:78:9
    |
@@ -5572,7 +5774,7 @@ error: Ident
 78 |     * { background: red; }
    |         ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:78:21
    |
 78 |     * { background: red; }
@@ -5644,7 +5846,7 @@ error: Ident
 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
    |               ^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:81:23
    |
 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
@@ -5656,7 +5858,7 @@ error: Integer
 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
    |                       ^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:81:28
    |
 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
@@ -5668,7 +5870,7 @@ error: Delimiter
 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
    |                            ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:81:32
    |
 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
@@ -5680,7 +5882,7 @@ error: Integer
 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
    |                                ^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:81:37
    |
 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
@@ -5692,7 +5894,7 @@ error: Delimiter
 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
    |                                     ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:81:41
    |
 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
@@ -5712,6 +5914,12 @@ error: SimpleBlock
 82 | |     * { background: red; }
 83 | | }
    | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:82:5
+   |
+82 |     * { background: red; }
+   |     ^^^^^^^^^^^^^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:82:5
@@ -5761,6 +5969,12 @@ error: SimpleBlock
 82 |     * { background: red; }
    |       ^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:82:9
+   |
+82 |     * { background: red; }
+   |         ^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/at-rule/supports/input.css:82:9
    |
@@ -5785,7 +5999,7 @@ error: Ident
 82 |     * { background: red; }
    |         ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:82:21
    |
 82 |     * { background: red; }
@@ -5875,7 +6089,7 @@ error: Ident
 85 | @supports (animation-name: test) {
    |            ^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:85:28
    |
 85 | @supports (animation-name: test) {
@@ -5899,6 +6113,18 @@ error: SimpleBlock
 93 | |     }
 94 | | }
    | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:86:5
+   |
+86 | /     @-custom-keyframe anim {
+87 | |         from {
+88 | |             color: black;
+89 | |         }
+...  |
+92 | |         }
+93 | |     }
+   | |_____^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:86:5
@@ -5948,17 +6174,35 @@ error: Ident
 86 |     @-custom-keyframe anim {
    |      ^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:86:22
+   |
+86 |     @-custom-keyframe anim {
+   |                      ^
+
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:86:22
    |
 86 |     @-custom-keyframe anim {
    |                      ^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:86:23
+   |
+86 |     @-custom-keyframe anim {
+   |                       ^^^^
+
 error: Ident { value: Atom('anim' type=inline), raw: Atom('anim' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:86:23
    |
 86 |     @-custom-keyframe anim {
    |                       ^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:86:27
+   |
+86 |     @-custom-keyframe anim {
+   |                           ^
 
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:86:27
@@ -5979,6 +6223,14 @@ error: SimpleBlock
 93 | |     }
    | |_____^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:86:29
+   |
+86 |       @-custom-keyframe anim {
+   |  _____________________________^
+87 | |         from {
+   | |________^
+
 error: WhiteSpace { value: Atom('
         ' type=dynamic) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:86:29
@@ -5988,17 +6240,38 @@ error: WhiteSpace { value: Atom('
 87 | |         from {
    | |________^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:87:9
+   |
+87 |         from {
+   |         ^^^^
+
 error: Ident { value: Atom('from' type=static), raw: Atom('from' type=static) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:87:9
    |
 87 |         from {
    |         ^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:87:13
+   |
+87 |         from {
+   |             ^
+
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:87:13
    |
 87 |         from {
    |             ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:87:14
+   |
+87 |           from {
+   |  ______________^
+88 | |             color: black;
+89 | |         }
+   | |_________^
 
 error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/supports/input.css:87:14
@@ -6009,6 +6282,14 @@ error: SimpleBlock
 89 | |         }
    | |_________^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:87:15
+   |
+87 |           from {
+   |  _______________^
+88 | |             color: black;
+   | |____________^
+
 error: WhiteSpace { value: Atom('
             ' type=dynamic) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:87:15
@@ -6018,11 +6299,23 @@ error: WhiteSpace { value: Atom('
 88 | |             color: black;
    | |____________^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:88:13
+   |
+88 |             color: black;
+   |             ^^^^^
+
 error: Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:88:13
    |
 88 |             color: black;
    |             ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:88:18
+   |
+88 |             color: black;
+   |                  ^
 
 error: Colon
   --> $DIR/tests/fixture/at-rule/supports/input.css:88:18
@@ -6030,11 +6323,23 @@ error: Colon
 88 |             color: black;
    |                  ^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:88:19
+   |
+88 |             color: black;
+   |                   ^
+
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:88:19
    |
 88 |             color: black;
    |                   ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:88:20
+   |
+88 |             color: black;
+   |                    ^^^^^
 
 error: Ident { value: Atom('black' type=inline), raw: Atom('black' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:88:20
@@ -6042,11 +6347,25 @@ error: Ident { value: Atom('black' type=inline), raw: Atom('black' type=inline) 
 88 |             color: black;
    |                    ^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:88:25
+   |
+88 |             color: black;
+   |                         ^
+
 error: Semi
   --> $DIR/tests/fixture/at-rule/supports/input.css:88:25
    |
 88 |             color: black;
    |                         ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:88:26
+   |
+88 |               color: black;
+   |  __________________________^
+89 | |         }
+   | |________^
 
 error: WhiteSpace { value: Atom('
         ' type=dynamic) }
@@ -6055,6 +6374,14 @@ error: WhiteSpace { value: Atom('
 88 |               color: black;
    |  __________________________^
 89 | |         }
+   | |________^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:89:10
+   |
+89 |           }
+   |  __________^
+90 | |         to {
    | |________^
 
 error: WhiteSpace { value: Atom('
@@ -6066,17 +6393,38 @@ error: WhiteSpace { value: Atom('
 90 | |         to {
    | |________^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:90:9
+   |
+90 |         to {
+   |         ^^
+
 error: Ident { value: Atom('to' type=inline), raw: Atom('to' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:90:9
    |
 90 |         to {
    |         ^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:90:11
+   |
+90 |         to {
+   |           ^
+
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:90:11
    |
 90 |         to {
    |           ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:90:12
+   |
+90 |           to {
+   |  ____________^
+91 | |             color: white
+92 | |         }
+   | |_________^
 
 error: SimpleBlock
   --> $DIR/tests/fixture/at-rule/supports/input.css:90:12
@@ -6087,6 +6435,14 @@ error: SimpleBlock
 92 | |         }
    | |_________^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:90:13
+   |
+90 |           to {
+   |  _____________^
+91 | |             color: white
+   | |____________^
+
 error: WhiteSpace { value: Atom('
             ' type=dynamic) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:90:13
@@ -6096,11 +6452,23 @@ error: WhiteSpace { value: Atom('
 91 | |             color: white
    | |____________^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:91:13
+   |
+91 |             color: white
+   |             ^^^^^
+
 error: Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:91:13
    |
 91 |             color: white
    |             ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:91:18
+   |
+91 |             color: white
+   |                  ^
 
 error: Colon
   --> $DIR/tests/fixture/at-rule/supports/input.css:91:18
@@ -6108,17 +6476,37 @@ error: Colon
 91 |             color: white
    |                  ^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:91:19
+   |
+91 |             color: white
+   |                   ^
+
 error: WhiteSpace { value: Atom(' ' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:91:19
    |
 91 |             color: white
    |                   ^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:91:20
+   |
+91 |             color: white
+   |                    ^^^^^
+
 error: Ident { value: Atom('white' type=inline), raw: Atom('white' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:91:20
    |
 91 |             color: white
    |                    ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:91:25
+   |
+91 |               color: white
+   |  _________________________^
+92 | |         }
+   | |________^
 
 error: WhiteSpace { value: Atom('
         ' type=dynamic) }
@@ -6128,6 +6516,14 @@ error: WhiteSpace { value: Atom('
    |  _________________________^
 92 | |         }
    | |________^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:92:10
+   |
+92 |           }
+   |  __________^
+93 | |     }
+   | |____^
 
 error: WhiteSpace { value: Atom('
     ' type=inline) }
@@ -6186,6 +6582,12 @@ error: SimpleBlock
 96 | @supports (--var) {
    |           ^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:96:12
+   |
+96 | @supports (--var) {
+   |            ^^^^^
+
 error: Ident { value: Atom('--var' type=inline), raw: Atom('--var' type=inline) }
   --> $DIR/tests/fixture/at-rule/supports/input.css:96:12
    |
@@ -6200,6 +6602,12 @@ error: SimpleBlock
 97 | |     * { background: red; }
 98 | | }
    | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:97:5
+   |
+97 |     * { background: red; }
+   |     ^^^^^^^^^^^^^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/supports/input.css:97:5
@@ -6249,6 +6657,12 @@ error: SimpleBlock
 97 |     * { background: red; }
    |       ^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/supports/input.css:97:9
+   |
+97 |     * { background: red; }
+   |         ^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/at-rule/supports/input.css:97:9
    |
@@ -6273,7 +6687,7 @@ error: Ident
 97 |     * { background: red; }
    |         ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/supports/input.css:97:21
    |
 97 |     * { background: red; }
@@ -6357,6 +6771,12 @@ error: DashedIdent
 100 | @supports (--foo: green) {
     |            ^^^^^
 
+error: ComponentValue
+   --> $DIR/tests/fixture/at-rule/supports/input.css:100:19
+    |
+100 | @supports (--foo: green) {
+    |                   ^^^^^
+
 error: Ident { value: Atom('green' type=inline), raw: Atom('green' type=inline) }
    --> $DIR/tests/fixture/at-rule/supports/input.css:100:19
     |
@@ -6373,6 +6793,14 @@ error: SimpleBlock
 103 | |     }
 104 | | }
     | |_^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/at-rule/supports/input.css:101:5
+    |
+101 | /     body {
+102 | |         color: var(--varName);
+103 | |     }
+    | |_____^
 
 error: Rule
    --> $DIR/tests/fixture/at-rule/supports/input.css:101:5
@@ -6441,6 +6869,12 @@ error: SimpleBlock
 103 | |     }
     | |_____^
 
+error: ComponentValue
+   --> $DIR/tests/fixture/at-rule/supports/input.css:102:9
+    |
+102 |         color: var(--varName);
+    |         ^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
    --> $DIR/tests/fixture/at-rule/supports/input.css:102:9
     |
@@ -6465,7 +6899,7 @@ error: Ident
 102 |         color: var(--varName);
     |         ^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/supports/input.css:102:16
     |
 102 |         color: var(--varName);
@@ -6483,7 +6917,7 @@ error: Ident
 102 |         color: var(--varName);
     |                ^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/supports/input.css:102:20
     |
 102 |         color: var(--varName);
@@ -6570,7 +7004,7 @@ error: Ident
 106 | @supports not selector(:is(a, b)) {
     |               ^^^^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/supports/input.css:106:24
     |
 106 | @supports not selector(:is(a, b)) {
@@ -6701,6 +7135,15 @@ error: SimpleBlock
 110 | |     }
 111 | | }
     | |_^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/at-rule/supports/input.css:107:5
+    |
+107 | /     ul > li,
+108 | |     ol > li {
+109 | |         color: red;
+110 | |     }
+    | |_____^
 
 error: Rule
    --> $DIR/tests/fixture/at-rule/supports/input.css:107:5
@@ -6880,6 +7323,12 @@ error: SimpleBlock
 110 | |     }
     | |_____^
 
+error: ComponentValue
+   --> $DIR/tests/fixture/at-rule/supports/input.css:109:9
+    |
+109 |         color: red;
+    |         ^^^^^^^^^^
+
 error: StyleBlock
    --> $DIR/tests/fixture/at-rule/supports/input.css:109:9
     |
@@ -6904,7 +7353,7 @@ error: Ident
 109 |         color: red;
     |         ^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/supports/input.css:109:16
     |
 109 |         color: red;
@@ -6988,7 +7437,7 @@ error: Ident
 113 | @supports selector(:nth-child(1n of a, b)) {
     |           ^^^^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/supports/input.css:113:20
     |
 113 | @supports selector(:nth-child(1n of a, b)) {
@@ -7150,6 +7599,17 @@ error: SimpleBlock
 119 | |     }
 120 | | }
     | |_^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/at-rule/supports/input.css:114:5
+    |
+114 | /     :is(
+115 | |       :nth-child(1n of ul, ol) a,
+116 | |       details > summary
+117 | |   ) {
+118 | |       color: red
+119 | |     }
+    | |_____^
 
 error: Rule
    --> $DIR/tests/fixture/at-rule/supports/input.css:114:5
@@ -7499,6 +7959,12 @@ error: SimpleBlock
 119 | |     }
     | |_____^
 
+error: ComponentValue
+   --> $DIR/tests/fixture/at-rule/supports/input.css:118:7
+    |
+118 |       color: red
+    |       ^^^^^^^^^^
+
 error: StyleBlock
    --> $DIR/tests/fixture/at-rule/supports/input.css:118:7
     |
@@ -7523,7 +7989,7 @@ error: Ident
 118 |       color: red
     |       ^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/supports/input.css:118:14
     |
 118 |       color: red

@@ -58,6 +58,12 @@ error: SimpleBlock
 2 |         @page :first { margin: 0 }
   |                      ^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:18
+  |
+2 |         @page :first { margin: 0 }
+  |                        ^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:18
   |
@@ -76,7 +82,7 @@ error: Ident
 2 |         @page :first { margin: 0 }
   |                        ^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:26
   |
 2 |         @page :first { margin: 0 }
@@ -140,6 +146,12 @@ error: SimpleBlock
 20 | |         }
    | |_________^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:4
+  |
+4 |             @top-left-corner { content: 'tlc' }
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: AtRule
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:4
   |
@@ -164,6 +176,12 @@ error: SimpleBlock
 4 |             @top-left-corner { content: 'tlc' }
   |                              ^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:23
+  |
+4 |             @top-left-corner { content: 'tlc' }
+  |                                ^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:23
   |
@@ -182,7 +200,7 @@ error: Ident
 4 |             @top-left-corner { content: 'tlc' }
   |                                ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:32
   |
 4 |             @top-left-corner { content: 'tlc' }
@@ -193,6 +211,12 @@ error: Str
   |
 4 |             @top-left-corner { content: 'tlc' }
   |                                         ^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:4
+  |
+5 |             @top-left { content: 'tl' }
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: AtRule
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:4
@@ -218,6 +242,12 @@ error: SimpleBlock
 5 |             @top-left { content: 'tl' }
   |                       ^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:16
+  |
+5 |             @top-left { content: 'tl' }
+  |                         ^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:16
   |
@@ -236,7 +266,7 @@ error: Ident
 5 |             @top-left { content: 'tl' }
   |                         ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:25
   |
 5 |             @top-left { content: 'tl' }
@@ -247,6 +277,12 @@ error: Str
   |
 5 |             @top-left { content: 'tl' }
   |                                  ^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:4
+  |
+6 |             @top-center { content: 'tc' }
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: AtRule
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:4
@@ -272,6 +308,12 @@ error: SimpleBlock
 6 |             @top-center { content: 'tc' }
   |                         ^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:18
+  |
+6 |             @top-center { content: 'tc' }
+  |                           ^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:18
   |
@@ -290,7 +332,7 @@ error: Ident
 6 |             @top-center { content: 'tc' }
   |                           ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:27
   |
 6 |             @top-center { content: 'tc' }
@@ -301,6 +343,12 @@ error: Str
   |
 6 |             @top-center { content: 'tc' }
   |                                    ^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:4
+  |
+7 |             @top-right { content: 'tr' }
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: AtRule
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:4
@@ -326,6 +374,12 @@ error: SimpleBlock
 7 |             @top-right { content: 'tr' }
   |                        ^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:17
+  |
+7 |             @top-right { content: 'tr' }
+  |                          ^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:17
   |
@@ -344,7 +398,7 @@ error: Ident
 7 |             @top-right { content: 'tr' }
   |                          ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:26
   |
 7 |             @top-right { content: 'tr' }
@@ -355,6 +409,12 @@ error: Str
   |
 7 |             @top-right { content: 'tr' }
   |                                   ^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:4
+  |
+8 |             @top-right-corner { content: 'trc' }
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: AtRule
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:4
@@ -380,6 +440,12 @@ error: SimpleBlock
 8 |             @top-right-corner { content: 'trc' }
   |                               ^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:24
+  |
+8 |             @top-right-corner { content: 'trc' }
+  |                                 ^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:24
   |
@@ -398,7 +464,7 @@ error: Ident
 8 |             @top-right-corner { content: 'trc' }
   |                                 ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:33
   |
 8 |             @top-right-corner { content: 'trc' }
@@ -409,6 +475,12 @@ error: Str
   |
 8 |             @top-right-corner { content: 'trc' }
   |                                          ^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:4
+  |
+9 |             @bottom-left-corner { content: 'blc' }
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: AtRule
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:4
@@ -434,6 +506,12 @@ error: SimpleBlock
 9 |             @bottom-left-corner { content: 'blc' }
   |                                 ^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:26
+  |
+9 |             @bottom-left-corner { content: 'blc' }
+  |                                   ^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:26
   |
@@ -452,7 +530,7 @@ error: Ident
 9 |             @bottom-left-corner { content: 'blc' }
   |                                   ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:35
   |
 9 |             @bottom-left-corner { content: 'blc' }
@@ -463,6 +541,12 @@ error: Str
   |
 9 |             @bottom-left-corner { content: 'blc' }
   |                                            ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:4
+   |
+10 |             @bottom-left { content: 'bl' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: AtRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:4
@@ -488,6 +572,12 @@ error: SimpleBlock
 10 |             @bottom-left { content: 'bl' }
    |                          ^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:19
+   |
+10 |             @bottom-left { content: 'bl' }
+   |                            ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:19
    |
@@ -506,7 +596,7 @@ error: Ident
 10 |             @bottom-left { content: 'bl' }
    |                            ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:28
    |
 10 |             @bottom-left { content: 'bl' }
@@ -517,6 +607,12 @@ error: Str
    |
 10 |             @bottom-left { content: 'bl' }
    |                                     ^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:4
+   |
+11 |             @bottom-center { content: 'bc' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: AtRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:4
@@ -542,6 +638,12 @@ error: SimpleBlock
 11 |             @bottom-center { content: 'bc' }
    |                            ^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:21
+   |
+11 |             @bottom-center { content: 'bc' }
+   |                              ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:21
    |
@@ -560,7 +662,7 @@ error: Ident
 11 |             @bottom-center { content: 'bc' }
    |                              ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:30
    |
 11 |             @bottom-center { content: 'bc' }
@@ -571,6 +673,12 @@ error: Str
    |
 11 |             @bottom-center { content: 'bc' }
    |                                       ^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:4
+   |
+12 |             @bottom-right { content: 'br' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: AtRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:4
@@ -596,6 +704,12 @@ error: SimpleBlock
 12 |             @bottom-right { content: 'br' }
    |                           ^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:20
+   |
+12 |             @bottom-right { content: 'br' }
+   |                             ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:20
    |
@@ -614,7 +728,7 @@ error: Ident
 12 |             @bottom-right { content: 'br' }
    |                             ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:29
    |
 12 |             @bottom-right { content: 'br' }
@@ -625,6 +739,12 @@ error: Str
    |
 12 |             @bottom-right { content: 'br' }
    |                                      ^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:4
+   |
+13 |             @bottom-right-corner { content: 'brc' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: AtRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:4
@@ -650,6 +770,12 @@ error: SimpleBlock
 13 |             @bottom-right-corner { content: 'brc' }
    |                                  ^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:27
+   |
+13 |             @bottom-right-corner { content: 'brc' }
+   |                                    ^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:27
    |
@@ -668,7 +794,7 @@ error: Ident
 13 |             @bottom-right-corner { content: 'brc' }
    |                                    ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:36
    |
 13 |             @bottom-right-corner { content: 'brc' }
@@ -679,6 +805,12 @@ error: Str
    |
 13 |             @bottom-right-corner { content: 'brc' }
    |                                             ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:4
+   |
+14 |             @left-top { content: 'lt' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: AtRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:4
@@ -704,6 +836,12 @@ error: SimpleBlock
 14 |             @left-top { content: 'lt' }
    |                       ^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:16
+   |
+14 |             @left-top { content: 'lt' }
+   |                         ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:16
    |
@@ -722,7 +860,7 @@ error: Ident
 14 |             @left-top { content: 'lt' }
    |                         ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:25
    |
 14 |             @left-top { content: 'lt' }
@@ -733,6 +871,12 @@ error: Str
    |
 14 |             @left-top { content: 'lt' }
    |                                  ^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:4
+   |
+15 |             @left-middle { content: 'lm' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: AtRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:4
@@ -758,6 +902,12 @@ error: SimpleBlock
 15 |             @left-middle { content: 'lm' }
    |                          ^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:19
+   |
+15 |             @left-middle { content: 'lm' }
+   |                            ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:19
    |
@@ -776,7 +926,7 @@ error: Ident
 15 |             @left-middle { content: 'lm' }
    |                            ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:28
    |
 15 |             @left-middle { content: 'lm' }
@@ -787,6 +937,12 @@ error: Str
    |
 15 |             @left-middle { content: 'lm' }
    |                                     ^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:4
+   |
+16 |             @left-bottom { content: 'lb' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: AtRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:4
@@ -812,6 +968,12 @@ error: SimpleBlock
 16 |             @left-bottom { content: 'lb' }
    |                          ^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:19
+   |
+16 |             @left-bottom { content: 'lb' }
+   |                            ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:19
    |
@@ -830,7 +992,7 @@ error: Ident
 16 |             @left-bottom { content: 'lb' }
    |                            ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:28
    |
 16 |             @left-bottom { content: 'lb' }
@@ -841,6 +1003,12 @@ error: Str
    |
 16 |             @left-bottom { content: 'lb' }
    |                                     ^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:4
+   |
+17 |             @right-top { content: 'rt' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: AtRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:4
@@ -866,6 +1034,12 @@ error: SimpleBlock
 17 |             @right-top { content: 'rt' }
    |                        ^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:17
+   |
+17 |             @right-top { content: 'rt' }
+   |                          ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:17
    |
@@ -884,7 +1058,7 @@ error: Ident
 17 |             @right-top { content: 'rt' }
    |                          ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:26
    |
 17 |             @right-top { content: 'rt' }
@@ -895,6 +1069,12 @@ error: Str
    |
 17 |             @right-top { content: 'rt' }
    |                                   ^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:4
+   |
+18 |             @right-middle { content: 'rm' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: AtRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:4
@@ -920,6 +1100,12 @@ error: SimpleBlock
 18 |             @right-middle { content: 'rm' }
    |                           ^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:20
+   |
+18 |             @right-middle { content: 'rm' }
+   |                             ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:20
    |
@@ -938,7 +1124,7 @@ error: Ident
 18 |             @right-middle { content: 'rm' }
    |                             ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:29
    |
 18 |             @right-middle { content: 'rm' }
@@ -949,6 +1135,12 @@ error: Str
    |
 18 |             @right-middle { content: 'rm' }
    |                                      ^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:4
+   |
+19 |             @right-bottom { content: 'rb' }
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: AtRule
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:4
@@ -974,6 +1166,12 @@ error: SimpleBlock
 19 |             @right-bottom { content: 'rb' }
    |                           ^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:20
+   |
+19 |             @right-bottom { content: 'rb' }
+   |                             ^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:20
    |
@@ -992,7 +1190,7 @@ error: Ident
 19 |             @right-bottom { content: 'rb' }
    |                             ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:29
    |
 19 |             @right-bottom { content: 'rb' }

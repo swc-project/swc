@@ -34,6 +34,12 @@ error: SimpleBlock
 1 | @keyframes a\62 c { from {} }
   |                   ^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:21
+  |
+1 | @keyframes a\62 c { from {} }
+  |                     ^^^^^^^
+
 error: KeyframeBlock
  --> $DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:21
   |

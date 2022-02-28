@@ -2,8 +2,9 @@ use is_macro::Is;
 use swc_common::{ast_node, Span};
 
 use crate::{
-    AtRule, DashedIdent, Dimension, Function, Ident, Integer, KeyframeBlock, Number, Percentage,
-    Ratio, SelectorList, Str, TokenAndSpan, Tokens, Value, UnicodeRange,
+    AtRule, CalcSum, Color, ComplexSelector, DashedIdent, Delimiter, Dimension, Function, Ident,
+    Integer, KeyframeBlock, Number, Percentage, Ratio, SelectorList, Str, TokenAndSpan, Tokens,
+    UnicodeRange, Url,
 };
 
 #[ast_node("Stylesheet")]
@@ -74,14 +75,14 @@ pub enum ComponentValue {
     KeyframeBlock(KeyframeBlock),
 
     // Arbitrary Contents grammar
-    #[tag("Value")]
-    Value(Value),
     #[tag("Ident")]
     Ident(Ident),
     #[tag("DashedIdent")]
     DashedIdent(DashedIdent),
     #[tag("String")]
     Str(Str),
+    #[tag("Url")]
+    Url(Url),
     #[tag("Integer")]
     Integer(Integer),
     #[tag("Number")]
@@ -94,6 +95,16 @@ pub enum ComponentValue {
     Ratio(Ratio),
     #[tag("UnicodeRange")]
     UnicodeRange(UnicodeRange),
+    #[tag("Color")]
+    Color(Color),
+    #[tag("Delimiter")]
+    Delimiter(Delimiter),
+
+    // Special function Contents grammar
+    #[tag("CalcSum")]
+    CalcSum(CalcSum),
+    #[tag("ComplexSelector")]
+    ComplexSelector(ComplexSelector),
 }
 
 #[ast_node]

@@ -39,6 +39,12 @@ error: SimpleBlock
 3 | | }
   | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/at-page/page-properties/input.css:2:2
+  |
+2 |     display: none;
+  |     ^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/rome/at-page/page-properties/input.css:2:2
   |
@@ -57,7 +63,7 @@ error: Ident
 2 |     display: none;
   |     ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/at-page/page-properties/input.css:2:11
   |
 2 |     display: none;
