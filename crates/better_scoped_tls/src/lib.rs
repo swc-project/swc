@@ -5,7 +5,7 @@ pub extern crate scoped_tls;
 
 /// See [scoped_tls::scoped_thread_local] for actual documentation.
 ///
-/// This is noop on release builds.
+/// This is identical as [scoped_tls::scoped_thread_local] on release builds.
 #[macro_export]
 macro_rules! scoped_tls {
     ($(#[$attrs:meta])* $vis:vis static $name:ident: $ty:ty) => {

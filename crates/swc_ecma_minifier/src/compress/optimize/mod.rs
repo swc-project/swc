@@ -1313,6 +1313,9 @@ where
         if !self.options.join_vars && !self.options.hoist_vars {
             return;
         }
+        if self.ctx.in_asm {
+            return;
+        }
 
         // Merge var declarations fully, if possible.
         if stmts.windows(2).any(|stmts| match (&stmts[0], &stmts[1]) {
@@ -2524,6 +2527,21 @@ where
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        // Skip if `use asm` exists.
+        if stmts.iter().any(|stmt| match stmt.as_stmt() {
+            Some(Stmt::Expr(stmt)) => match &*stmt.expr {
+                Expr::Lit(Lit::Str(Str {
+                    value,
+                    has_escape: false,
+                    ..
+                })) => &**value == "use asm",
+                _ => false,
+            },
+            _ => false,
+        }) {
+            return;
+        }
+
         let ctx = Ctx {
             top_level: false,
             ..self.ctx
