@@ -2456,7 +2456,8 @@ where
             }
 
             if self.options.unused {
-                let can_be_removed = !is_directive && !expr.may_have_side_effects();
+                let can_be_removed =
+                    !is_directive && !expr.is_ident() && !expr.may_have_side_effects();
 
                 if can_be_removed {
                     self.changed = true;
