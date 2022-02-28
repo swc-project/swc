@@ -37,8 +37,6 @@ collapse_vars/collapse_vars_self_reference/input.js
 collapse_vars/cond_branch_1/input.js
 collapse_vars/cond_branch_2/input.js
 collapse_vars/inner_lvalues/input.js
-collapse_vars/issue_2187_1/input.js
-collapse_vars/issue_2187_2/input.js
 collapse_vars/issue_2203_1/input.js
 collapse_vars/issue_2203_2/input.js
 collapse_vars/issue_2203_3/input.js
