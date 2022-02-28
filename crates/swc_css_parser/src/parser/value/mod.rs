@@ -235,7 +235,8 @@ where
 
                 if is!(self, "ident") {
                     // TODO improve me
-                    let rounding_strategy = Value::Ident(self.parse()?);
+                    let rounding_strategy =
+                        Value::ComponentValue(Box::new(ComponentValue::Ident(self.parse()?)));
 
                     values.push(ComponentValue::Value(rounding_strategy));
 
@@ -361,7 +362,11 @@ where
 
             tok!(";") => return Ok(Value::Delimiter(self.parse()?)),
 
-            tok!("string") => return Ok(Value::Str(self.parse()?)),
+            tok!("string") => {
+                return Ok(Value::ComponentValue(Box::new(ComponentValue::Str(
+                    self.parse()?,
+                ))));
+            }
 
             tok!("url") => return Ok(Value::Url(self.parse()?)),
 
@@ -369,61 +374,65 @@ where
                 "url" | "src" => return Ok(Value::Url(self.parse()?)),
                 "rgb" | "rgba" | "hsl" | "hsla" | "hwb" | "lab" | "lch" | "oklab" | "oklch"
                 | "color" => return Ok(Value::Color(self.parse()?)),
-                _ => return Ok(Value::Function(self.parse()?)),
+                _ => {
+                    return Ok(Value::ComponentValue(Box::new(ComponentValue::Function(
+                        self.parse()?,
+                    ))));
+                }
             },
 
-            tok!("percentage") => return Ok(Value::Percentage(self.parse()?)),
+            tok!("percentage") => {
+                return Ok(Value::ComponentValue(Box::new(ComponentValue::Percentage(
+                    self.parse()?,
+                ))));
+            }
 
-            tok!("dimension") => return Ok(Value::Dimension(self.parse()?)),
+            tok!("dimension") => {
+                return Ok(Value::ComponentValue(Box::new(ComponentValue::Dimension(
+                    self.parse()?,
+                ))))
+            }
 
             Token::Number { type_flag, .. } => {
                 if *type_flag == NumberType::Integer {
-                    return Ok(Value::Integer(self.parse()?));
+                    return Ok(Value::ComponentValue(Box::new(ComponentValue::Integer(
+                        self.parse()?,
+                    ))));
                 }
 
-                return Ok(Value::Number(self.parse()?));
+                return Ok(Value::ComponentValue(Box::new(ComponentValue::Number(
+                    self.parse()?,
+                ))));
             }
 
             Token::Ident { value, .. } => {
                 if value.starts_with("--") {
-                    return Ok(Value::DashedIdent(self.parse()?));
+                    return Ok(Value::ComponentValue(Box::new(
+                        ComponentValue::DashedIdent(self.parse()?),
+                    )));
                 } else if &*value.to_ascii_lowercase() == "u"
                     && peeked_is_one_of!(self, "+", "number", "dimension")
                 {
-                    return Ok(Value::UnicodeRange(self.parse()?));
+                    return Ok(Value::ComponentValue(Box::new(
+                        ComponentValue::UnicodeRange(self.parse()?),
+                    )));
                 }
 
-                return Ok(Value::Ident(self.parse()?));
+                return Ok(Value::ComponentValue(Box::new(ComponentValue::Ident(
+                    self.parse()?,
+                ))));
             }
 
-            tok!("[") => {
+            tok!("[") | tok!("(") | tok!("{") => {
                 let ctx = Ctx {
                     block_contents_grammar: BlockContentsGrammar::DeclarationValue,
                     ..self.ctx
                 };
                 let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
-                return Ok(Value::SimpleBlock(block));
-            }
-
-            tok!("(") => {
-                let ctx = Ctx {
-                    block_contents_grammar: BlockContentsGrammar::DeclarationValue,
-                    ..self.ctx
-                };
-                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-                return Ok(Value::SimpleBlock(block));
-            }
-
-            tok!("{") => {
-                let ctx = Ctx {
-                    block_contents_grammar: BlockContentsGrammar::DeclarationValue,
-                    ..self.ctx
-                };
-                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-                return Ok(Value::SimpleBlock(block));
+                return Ok(Value::ComponentValue(Box::new(
+                    ComponentValue::SimpleBlock(block),
+                )));
             }
 
             tok!("#") => return Ok(Value::Color(Color::HexColor(self.parse()?))),

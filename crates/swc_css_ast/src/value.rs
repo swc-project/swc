@@ -2,45 +2,15 @@ use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
-use crate::{ComplexSelector, ComponentValue, SimpleBlock, TokenAndSpan};
+use crate::{ComplexSelector, ComponentValue};
 
 #[ast_node]
 pub enum Value {
     #[tag("ComponentValue")]
     ComponentValue(Box<ComponentValue>),
 
-    #[tag("SimpleBlock")]
-    SimpleBlock(SimpleBlock),
-
-    #[tag("Dimension")]
-    Dimension(Dimension),
-
-    #[tag("Number")]
-    Number(Number),
-
-    #[tag("Integer")]
-    Integer(Integer),
-
-    #[tag("Percentage")]
-    Percentage(Percentage),
-
-    #[tag("Ratio")]
-    Ratio(Ratio),
-
     #[tag("Color")]
     Color(Color),
-
-    #[tag("Ident")]
-    Ident(Ident),
-
-    #[tag("DashedIdent")]
-    DashedIdent(DashedIdent),
-
-    #[tag("String")]
-    Str(Str),
-
-    #[tag("Function")]
-    Function(Function),
 
     #[tag("CalcSum")]
     CalcSum(CalcSum),
@@ -51,14 +21,8 @@ pub enum Value {
     #[tag("Url")]
     Url(Url),
 
-    #[tag("UnicodeRange")]
-    UnicodeRange(UnicodeRange),
-
     #[tag("ComplexSelector")]
     ComplexSelector(ComplexSelector),
-
-    #[tag("PreservedToken")]
-    PreservedToken(TokenAndSpan),
 }
 
 #[ast_node("Ident")]

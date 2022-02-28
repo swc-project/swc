@@ -39,6 +39,15 @@ define!({
         KeyframeBlock(KeyframeBlock),
 
         Value(Value),
+        Ident(Ident),
+        DashedIdent(DashedIdent),
+        Str(Str),
+        Integer(Integer),
+        Number(Number),
+        Percentage(Percentage),
+        Dimension(Dimension),
+        Ratio(Ratio),
+        UnicodeRange(UnicodeRange),
     }
 
     pub struct Ident {
@@ -115,23 +124,11 @@ define!({
 
     pub enum Value {
         ComponentValue(Box<ComponentValue>),
-        SimpleBlock(SimpleBlock),
-        Dimension(Dimension),
-        Integer(Integer),
-        Number(Number),
-        Percentage(Percentage),
-        Ratio(Ratio),
         Color(Color),
-        Ident(Ident),
-        DashedIdent(DashedIdent),
-        Str(Str),
-        Function(Function),
         CalcSum(CalcSum),
         Delimiter(Delimiter),
-        UnicodeRange(UnicodeRange),
         Url(Url),
         ComplexSelector(ComplexSelector),
-        PreservedToken(TokenAndSpan),
     }
 
     pub enum DelimiterValue {
