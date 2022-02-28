@@ -1,7 +1,4 @@
-use std::{
-    collections::HashMap,
-    mem::{replace, swap},
-};
+use std::{collections::HashMap, mem::swap};
 
 use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, pass::Either, util::take::Take, Spanned, DUMMY_SP};
