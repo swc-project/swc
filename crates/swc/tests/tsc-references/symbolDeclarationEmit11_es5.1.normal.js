@@ -18,7 +18,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     return Constructor;
 }
 var _key;
-var tmp = (_key = Symbol.iterator, Symbol.isConcatSpreadable), tmp1 = Symbol.toPrimitive, tmp2 = Symbol.toPrimitive;
+var tmp = (_key = Symbol.iterator, Symbol.isConcatSpreadable), _toPrimitive = Symbol.toPrimitive, _toPrimitive1 = Symbol.toPrimitive;
 var C = //@target: ES6
 //@declaration: true
 /*#__PURE__*/ function() {
@@ -32,13 +32,13 @@ var C = //@target: ES6
             value: function value() {}
         },
         {
-            key: tmp1,
+            key: _toPrimitive,
             get: function get() {
                 return "";
             }
         },
         {
-            key: tmp2,
+            key: _toPrimitive1,
             set: function set(x) {}
         }
     ]);

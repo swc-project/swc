@@ -17,7 +17,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var tmp = e;
+var _e = e;
 var C = //@target: ES6
 /*#__PURE__*/ function() {
     "use strict";
@@ -26,7 +26,7 @@ var C = //@target: ES6
     }
     _createClass(C, [
         {
-            key: tmp,
+            key: _e,
             set: function set(v) {}
         }
     ]);

@@ -8,7 +8,7 @@ exports.n = {};
 exports.n.K = function() {
     this.x = 10;
 };
-exports.Classic = class _class {
+exports.Classic = class {
     constructor(){
         this.p = 1;
     }

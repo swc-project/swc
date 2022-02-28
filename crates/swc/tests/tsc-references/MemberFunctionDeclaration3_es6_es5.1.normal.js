@@ -18,7 +18,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     return Constructor;
 }
 import regeneratorRuntime from "regenerator-runtime";
-var tmp = foo;
+var _foo = foo;
 var C = // @target: es6
 /*#__PURE__*/ function() {
     "use strict";
@@ -27,7 +27,7 @@ var C = // @target: es6
     }
     _createClass(C, [
         {
-            key: tmp,
+            key: _foo,
             value: regeneratorRuntime.mark(function value() {
                 return regeneratorRuntime.wrap(function value$(_ctx) {
                     while(1)switch(_ctx.prev = _ctx.next){

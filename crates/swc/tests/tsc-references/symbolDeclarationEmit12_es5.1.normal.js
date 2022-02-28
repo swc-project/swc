@@ -21,7 +21,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 //@declaration: true
 var M;
 (function(M1) {
-    var tmp = Symbol.toPrimitive, tmp1 = Symbol.isConcatSpreadable, tmp2 = Symbol.toPrimitive, tmp3 = Symbol.toPrimitive;
+    var _toPrimitive = Symbol.toPrimitive, _isConcatSpreadable = Symbol.isConcatSpreadable, _toPrimitive1 = Symbol.toPrimitive, _toPrimitive2 = Symbol.toPrimitive;
     var C = /*#__PURE__*/ function() {
         "use strict";
         function C() {
@@ -29,23 +29,23 @@ var M;
         }
         _createClass(C, [
             {
-                key: tmp,
+                key: _toPrimitive,
                 value: function value(x) {}
             },
             {
-                key: tmp1,
+                key: _isConcatSpreadable,
                 value: function value() {
                     return undefined;
                 }
             },
             {
-                key: tmp2,
+                key: _toPrimitive1,
                 get: function get() {
                     return undefined;
                 }
             },
             {
-                key: tmp3,
+                key: _toPrimitive2,
                 set: function set(x) {}
             }
         ]);

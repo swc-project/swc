@@ -1,6 +1,6 @@
 class Foo {
 }
-var tmp = Symbol.iterator;
+let _iterator = Symbol.iterator;
 for (const v of new class {
     next() {
         return {
@@ -8,7 +8,7 @@ for (const v of new class {
             done: !1
         };
     }
-    [tmp]() {
+    [_iterator]() {
         return this;
     }
 });

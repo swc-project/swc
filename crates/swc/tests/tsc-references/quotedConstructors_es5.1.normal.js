@@ -27,7 +27,6 @@ var D = function D() {
     _classCallCheck(this, D);
     console.log(this);
 };
-var tmp = 'constructor';
 var E = /*#__PURE__*/ function() {
     "use strict";
     function E() {
@@ -35,7 +34,7 @@ var E = /*#__PURE__*/ function() {
     }
     _createClass(E, [
         {
-            key: tmp,
+            key: 'constructor',
             value: function value() {
                 console.log(this);
             }

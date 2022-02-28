@@ -9,7 +9,7 @@ D.arrowFunctionBoundary = ()=>super.f + 1
 D.functionExprBoundary = function() {
     return super.f + 2;
 };
-D.classExprBoundary = class _class {
+D.classExprBoundary = class {
     constructor(){
         this.a = super.f + 3;
     }

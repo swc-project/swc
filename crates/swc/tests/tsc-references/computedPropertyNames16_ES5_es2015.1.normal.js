@@ -2,29 +2,29 @@
 var s;
 var n;
 var a;
-var tmp = s, tmp1 = n, tmp2 = s + s, tmp3 = s + n, tmp4 = +s, tmp5 = "", tmp6 = 0, tmp7 = a, tmp8 = true, tmp9 = `hello bye`, tmp10 = `hello ${a} bye`;
+let _s = s, _n = n, tmp = s + s, tmp1 = s + n, tmp2 = +s, _a = a, tmp3 = `hello ${a} bye`;
 class C {
-    get [tmp]() {
+    get [_s]() {
+        return 0;
+    }
+    set [_n](v) {}
+    static get [tmp]() {
         return 0;
     }
     set [tmp1](v) {}
-    static get [tmp2]() {
+    get [tmp2]() {
         return 0;
     }
-    set [tmp3](v) {}
-    get [tmp4]() {
+    static set [""](v) {}
+    get [0]() {
         return 0;
     }
-    static set [tmp5](v) {}
-    get [tmp6]() {
+    set [_a](v) {}
+    static get [true]() {
         return 0;
     }
-    set [tmp7](v) {}
-    static get [tmp8]() {
-        return 0;
-    }
-    set [tmp9](v) {}
-    get [tmp10]() {
+    set [`hello bye`](v) {}
+    get [tmp3]() {
         return 0;
     }
 }

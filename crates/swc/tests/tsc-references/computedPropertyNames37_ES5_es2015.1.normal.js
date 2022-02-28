@@ -3,11 +3,10 @@ class Foo {
 }
 class Foo2 {
 }
-var tmp = "get1", tmp1 = "set1";
 class C {
     // Computed properties
-    get [tmp]() {
+    get ["get1"]() {
         return new Foo;
     }
-    set [tmp1](p) {}
+    set ["set1"](p) {}
 }

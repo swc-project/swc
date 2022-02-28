@@ -83,7 +83,7 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var tmp = Symbol.toStringTag;
+var _toStringTag = Symbol.toStringTag;
 var C1 = //@target: ES6
 /*#__PURE__*/ function(C21) {
     "use strict";
@@ -95,7 +95,7 @@ var C1 = //@target: ES6
     }
     _createClass(C1, [
         {
-            key: tmp,
+            key: _toStringTag,
             value: function value() {
                 return {
                     x: ""

@@ -10,7 +10,7 @@ const { K  } = require("./mod1");
 }
 // @filename: mod1.js
 var NS = {};
-NS.K = class _class {
+NS.K = class {
     values() {
         return new NS.K();
     }

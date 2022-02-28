@@ -2,17 +2,17 @@
 var s;
 var n;
 var a;
-var tmp = s, tmp1 = n, tmp2 = s + s, tmp3 = s + n, tmp4 = +s, tmp5 = "", tmp6 = 0, tmp7 = a, tmp8 = true, tmp9 = `hello bye`, tmp10 = `hello ${a} bye`;
+let _s = s, _n = n, tmp = s + s, tmp1 = s + n, tmp2 = +s, _a = a, tmp3 = `hello ${a} bye`;
 class C {
-    [tmp]() {}
+    [_s]() {}
+    [_n]() {}
+    static [tmp]() {}
     [tmp1]() {}
-    static [tmp2]() {}
-    [tmp3]() {}
-    [tmp4]() {}
-    static [tmp5]() {}
-    [tmp6]() {}
-    [tmp7]() {}
-    static [tmp8]() {}
-    [tmp9]() {}
-    static [tmp10]() {}
+    [tmp2]() {}
+    static [""]() {}
+    [0]() {}
+    [_a]() {}
+    static [true]() {}
+    [`hello bye`]() {}
+    static [tmp3]() {}
 }

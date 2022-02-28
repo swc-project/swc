@@ -169,8 +169,19 @@ class C extends B {
 C._ = super.w();
 class C extends B {
 }
-super.w(), (class extends B {
-})._ = super.w(), super.w();
+super.w(), _Reflect = class {
+}, __ = {
+    writable: !0,
+    value: void ((class extends B {
+    })._ = super.w())
+}, _Reflect = class {
+}, __ = {
+    writable: !0,
+    value: (()=>{
+        var _Reflect, __;
+        super.w();
+    })()
+};
 class C extends B {
 }
 C._ = super.w();
