@@ -49,14 +49,13 @@ var Foo = class {
 
 "#,
     r#"
-var Foo = function() {
-    var Foo = function Foo() {
+var Foo;
+var Foo = (Foo = function Foo() {
         'use strict';
         _classCallCheck(this, Foo);
-    };
-    _defineProperty(Foo, 'num', 0);
-    return Foo;
-}();
+    },
+    _defineProperty(Foo, 'num', 0),
+    Foo)
 "#
 );
 
@@ -409,8 +408,8 @@ function withContext(ComposedComponent) {
 "#,
     r#"
 function withContext(ComposedComponent) {
-  return (function() {
-    var WithContext = function(Component) {
+  var WithContext
+  return WithContext = (function(Component) {
       'use strict';
       _inherits(WithContext, Component);
       var _super = _createSuper(WithContext);
@@ -419,16 +418,15 @@ function withContext(ComposedComponent) {
         return _super.apply(this, arguments);
       }
       return WithContext;
-    }(Component);
+    })(Component),
     _defineProperty(WithContext, 'propTypes', {
       context: PropTypes.shape({
         addCss: PropTypes.func,
         setTitle: PropTypes.func,
         setMeta: PropTypes.func
       })
-    });
-    return WithContext;
-  })();
+    }),
+    WithContext;
 }
 
 "#
@@ -748,20 +746,20 @@ export default class {
 
 "#,
     r#"
-  call(function() {
-      var _class1 = function _class1() {
+  var _class
+  call((_class = function _class2() {
           "use strict";
-          _classCallCheck(this, _class1);
-      };
-      _defineProperty(_class1, "test", true);
-      return _class1;
-  }());
-  var _class = function _class() {
+          _classCallCheck(this, _class2);
+      },
+      _defineProperty(_class, "test", true),
+      _class
+  ));
+  var _class1 = function _class1() {
       "use strict";
-      _classCallCheck(this, _class);
+      _classCallCheck(this, _class1);
   };
-  _defineProperty(_class, "test", true);
-  export { _class as default };
+  _defineProperty(_class1, "test", true);
+  export { _class1 as default };
 "#
 );
 
@@ -1043,12 +1041,9 @@ var _ref = one(),
     _ref3 = 2 * four + seven,
     _undefined = undefined,
     _ref4 = void 0,
-    tmp = "whatever",
-    tmp1 = "whatever",
-    tmp2 = computed(),
-    tmp3 = computed(),
-    tmp4 = "test" + one,
-    tmp5 = 10,
+    tmp = computed(),
+    tmp1 = computed(),
+    tmp2 = "test" + one,
     _ref5 = /regex/,
     _foo = foo,
     _bar = bar,
@@ -1071,22 +1066,22 @@ var MyClass = function() {
         _defineProperty(this, _ref6, "template-with-expression");
     }
     _createClass(MyClass, [{
+             key: "whatever", get: function () {
+                }
+        }, {
+             key: "whatever", set: function (value) {
+                }
+        }, {
              key: tmp, get: function () {
                 }
         }, {
              key: tmp1, set: function (value) {
                 }
         }, {
-             key: tmp2, get: function () {
-                }
-        }, {
-             key: tmp3, set: function (value) {
-                }
-        }, {
-             key: tmp4, value: function () {
+             key: tmp2, value: function () {
                 }
         }], [{
-             key: tmp5, value: function () {
+             key: 10, value: function () {
                 }
         }]);
     return MyClass;
@@ -2965,10 +2960,9 @@ function withContext(ComposedComponent) {
 "#,
     r#"
 function withContext(ComposedComponent) {
-    return (function() {
-        class WithContext extends Component{
-        }
-        var _propTypes = {
+    var WithContext, _propTypes;
+    return WithContext = class WithContext extends Component{
+        }, _propTypes = {
             writable: true,
             value: {
                 context: PropTypes.shape({
@@ -2977,9 +2971,8 @@ function withContext(ComposedComponent) {
                     setMeta: PropTypes.func
                 })
             }
-        };
-        return WithContext;
-    })();
+        },
+        WithContext;
 }
 
 
@@ -3059,10 +3052,9 @@ function classFactory() {
 "#,
     r#"
 function classFactory() {
-    return (function() {
-        var _foo = new WeakMap();
-        class Foo{
-             instance() {
+    var _foo, Foo, _bar;
+    return _foo = new WeakMap(), Foo = class Foo{
+            instance() {
                 return _classPrivateFieldGet(this, _foo);
             }
              static() {
@@ -3080,13 +3072,11 @@ function classFactory() {
                     value: 'foo'
                 });
             }
-        }
-        var _bar = {
+        }, _bar = {
             writable: true,
             value: 'bar'
-        };
-        return Foo;
-    })();
+        },
+        Foo;
 }
 "#
 );
@@ -3375,22 +3365,20 @@ export default class {
 
 "#,
     r#"
-call(function() {
-    class _class1{
-    }
-    var _test = {
+var _class, _test;
+call((_class = class {
+    }, _test = {
         writable: true,
         value: true
-    };
-    return _class1;
-}());
-class _class{
+    }, _class
+  ));
+class _class1{
 }
-var _test = {
+var _test1 = {
     writable: true,
     value: true
 };
-export { _class as default }
+export { _class1 as default }
 
 
 "#
@@ -3426,8 +3414,21 @@ export default class MyClass3 {
 
 "#,
     r#"
-var _myAsyncMethod = new WeakMap();
+var _myAsyncMethod;
+var _myAsyncMethod1 = new WeakMap();
 class MyClass {
+    constructor(){
+        var _this = this;
+        _classPrivateFieldInit(this, _myAsyncMethod1, {
+            writable: true,
+            value: _asyncToGenerator(function*() {
+                console.log(_this);
+            })
+        });
+    }
+}
+_myAsyncMethod = new WeakMap(),
+class MyClass2 {
     constructor(){
         var _this = this;
         _classPrivateFieldInit(this, _myAsyncMethod, {
@@ -3437,27 +3438,12 @@ class MyClass {
             })
         });
     }
-}
-(function() {
-    var _myAsyncMethod2 = new WeakMap();
-    class MyClass2 {
-        constructor(){
-            var _this = this;
-            _classPrivateFieldInit(this, _myAsyncMethod2, {
-                writable: true,
-                value: _asyncToGenerator(function*() {
-                    console.log(_this);
-                })
-            });
-        }
-    }
-    return MyClass2;
-})();
-var _myAsyncMethod1 = new WeakMap();
+};
+var _myAsyncMethod2 = new WeakMap();
 class MyClass3 {
     constructor(){
         var _this = this;
-        _classPrivateFieldInit(this, _myAsyncMethod1, {
+        _classPrivateFieldInit(this, _myAsyncMethod2, {
             writable: true,
             value: _asyncToGenerator(function*() {
                 console.log(_this);
@@ -3524,6 +3510,37 @@ for (let i = 0; i <= 10; ++i) {
       }
     }
   );
+}
+
+for(let i=0; i<= 10; ++i) {
+  const clazz = classes[i];
+  expect(clazz.foo).toBe('static field ' + i);
+
+  const instance = new clazz();
+  expect(Object.getOwnPropertyNames(instance)).toEqual([String(i)])
+  expect(instance[i]).toBe('computed field ' + i);
+  expect(instance.getBar()).toBe('private field ' + i);
+}
+"#
+);
+
+test_exec!(
+    syntax(),
+    |_| class_properties(Default::default()),
+    regression_8882_exec_2,
+    r#"
+const classes = [];
+for (let i = 0; i <= 10; ++i) {
+  class A {
+    [i] = `computed field ${i}`;
+    static foo = `static field ${i}`;
+    #bar = `private field ${i}`;
+    getBar() {
+      return this.#bar;
+    }
+  }
+  
+  classes.push(A)
 }
 
 for(let i=0; i<= 10; ++i) {
@@ -3711,7 +3728,7 @@ class A {
 
 "#,
     r#"
-var _x = {
+let _x = {
   x: (_classNameTDZError("A"), A) || 0
 }.x;
 
@@ -4016,7 +4033,7 @@ new SuperClass(); // ensure ComputedKey Method is still transformed
 class ComputedMethod extends Obj {
   constructor() {
     var _temp;
-    var tmp = (_temp = super(), _defineProperty(this, "field", 1), _temp);
+    let tmp = (_temp = super(), _defineProperty(this, "field", 1), _temp);
     class B extends Obj {
       [tmp]() {}
 
@@ -4040,7 +4057,7 @@ class ComputedField extends Obj {
   constructor() {
     var _temp;
 
-    var _ref = (_temp = super(), _defineProperty(this, "field", 1), _temp);
+    let _ref = (_temp = super(), _defineProperty(this, "field", 1), _temp);
 
     class B extends Obj {
       constructor() {
@@ -4439,14 +4456,12 @@ class A {
 "#,
     r#"
 const field = Symbol('field');
-var _field = field;
+let _field = field;
 class A{
     constructor(){
         _defineProperty(this, _field, 10);
     }
 }
-
-
 "#
 );
 
@@ -4510,7 +4525,7 @@ class C {
 
 "#,
     r#"
-var _ref = (_classNameTDZError('C'), C) + 3;
+let _ref = (_classNameTDZError('C'), C) + 3;
 
 let C = function C() {
   "use strict";
@@ -5306,7 +5321,7 @@ test!(
     console.log(class { run() { } });
     ",
     "
-    console.log(class _class {
+    console.log(class {
         run() {
         }
     });
@@ -5697,16 +5712,17 @@ test!(
     }
     ",
     "
+    var TestClass;
     var _class;
-    let TestClass = _class = someClassDecorator((_class = function() {
+    let TestClass = _class = someClassDecorator((_class = (TestClass =
         class TestClass {
-        }
-        _defineProperty(TestClass, 'Something', 'hello');
+        },
+        _defineProperty(TestClass, 'Something', 'hello'),
         _defineProperty(TestClass, 'SomeProperties', {
             firstProp: TestClass.Something
-        });
-        return TestClass;
-    }()) || _class) || _class;
+        }),
+        TestClass
+    )) || _class) || _class;
     function someClassDecorator(c) {
         return c;
     }
@@ -6074,14 +6090,14 @@ class MyClass {
 const foo = "foo";
 const bar = ()=>{};
 const four = 4;
-var _ref = one(), _ref1 = 2 * 4 + 7, _ref2 = 2 * four + 7, _ref3 = 2 * four + seven, _undefined = undefined, _ref4 = void 0, tmp = "whatever", tmp1 = "whatever", tmp2 = computed(), tmp3 = computed(), tmp4 = "test" + one, tmp5 = 10, _ref5 = /regex/, _foo = foo, _bar = bar, _baz = baz, _ref6 = `template${expression}`;
+let _ref = one(), _ref1 = 2 * 4 + 7, _ref2 = 2 * four + 7, _ref3 = 2 * four + seven, _undefined = undefined, _ref4 = void 0, tmp = computed(), tmp1 = computed(), tmp2 = "test" + one, _ref5 = /regex/, _foo = foo, _bar = bar, _baz = baz, _ref6 = `template${expression}`;
 class MyClass {
+    get ["whatever"]() {}
+    set ["whatever"](value) {}
     get [tmp]() {}
     set [tmp1](value) {}
-    get [tmp2]() {}
-    set [tmp3](value) {}
-    [tmp4]() {}
-    static [tmp5]() {}
+    [tmp2]() {}
+    static [10]() {}
     constructor(){
         this[null] = "null";
         this[_undefined] = "undefined";
