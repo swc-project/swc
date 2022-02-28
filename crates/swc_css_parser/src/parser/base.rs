@@ -4,7 +4,7 @@ use swc_css_ast::*;
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
-    parser::{Ctx, Grammar, RuleContext},
+    parser::{BlockContentsGrammar, Ctx, RuleContext},
     Parse,
 };
 
@@ -132,7 +132,7 @@ where
                 // qualified rule.
                 tok!("{") => {
                     let ctx = Ctx {
-                        grammar: Grammar::StyleBlock,
+                        block_contents_grammar: BlockContentsGrammar::StyleBlock,
                         ..self.ctx
                     };
                     let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
@@ -297,7 +297,7 @@ where
             // block and return it.
             tok!("[") | tok!("(") | tok!("{") => {
                 let ctx = Ctx {
-                    grammar: Grammar::NoGrammar,
+                    block_contents_grammar: BlockContentsGrammar::NoGrammar,
                     ..self.ctx
                 };
                 let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
@@ -357,7 +357,7 @@ where
         };
 
         // TODO refactor me
-        if self.ctx.grammar != Grammar::NoGrammar {
+        if self.ctx.block_contents_grammar != BlockContentsGrammar::NoGrammar {
             self.input.skip_ws()?;
         }
 
@@ -394,13 +394,13 @@ where
                 // anything else
                 // Reconsume the current input token. Consume a component value and append it to the
                 // value of the block.
-                _ => match self.ctx.grammar {
-                    Grammar::NoGrammar => {
+                _ => match self.ctx.block_contents_grammar {
+                    BlockContentsGrammar::NoGrammar => {
                         let component_value = self.parse()?;
 
                         simple_block.value.push(component_value);
                     }
-                    Grammar::StyleBlock => {
+                    BlockContentsGrammar::StyleBlock => {
                         let style_blocks: Vec<StyleBlock> = self.parse()?;
                         let style_blocks: Vec<ComponentValue> = style_blocks
                             .into_iter()
@@ -410,7 +410,7 @@ where
                         simple_block.value.extend(style_blocks);
                     }
                     // TODO improve grammar validation
-                    Grammar::RuleList | Grammar::Stylesheet => {
+                    BlockContentsGrammar::RuleList | BlockContentsGrammar::Stylesheet => {
                         let rule_list = self.parse_rule_list(RuleContext {
                             is_top_level: false,
                         })?;
@@ -419,7 +419,7 @@ where
 
                         simple_block.value.extend(rule_list);
                     }
-                    Grammar::DeclarationList => {
+                    BlockContentsGrammar::DeclarationList => {
                         let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                         let declaration_list: Vec<ComponentValue> = declaration_list
                             .into_iter()
@@ -428,7 +428,7 @@ where
 
                         simple_block.value.extend(declaration_list);
                     }
-                    Grammar::DeclarationValue => {
+                    BlockContentsGrammar::DeclarationValue => {
                         let state = self.input.state();
                         let parsed = self.parse();
                         let value = match parsed {

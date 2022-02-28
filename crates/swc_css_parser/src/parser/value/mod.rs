@@ -1,7 +1,7 @@
 use swc_common::{BytePos, Span};
 use swc_css_ast::*;
 
-use super::{input::ParserInput, Ctx, Grammar, PResult, Parser};
+use super::{input::ParserInput, BlockContentsGrammar, Ctx, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
     Parse,
@@ -398,7 +398,7 @@ where
 
             tok!("[") => {
                 let ctx = Ctx {
-                    grammar: Grammar::DeclarationValue,
+                    block_contents_grammar: BlockContentsGrammar::DeclarationValue,
                     ..self.ctx
                 };
                 let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
@@ -408,7 +408,7 @@ where
 
             tok!("(") => {
                 let ctx = Ctx {
-                    grammar: Grammar::DeclarationValue,
+                    block_contents_grammar: BlockContentsGrammar::DeclarationValue,
                     ..self.ctx
                 };
                 let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
@@ -418,7 +418,7 @@ where
 
             tok!("{") => {
                 let ctx = Ctx {
-                    grammar: Grammar::DeclarationValue,
+                    block_contents_grammar: BlockContentsGrammar::DeclarationValue,
                     ..self.ctx
                 };
                 let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
