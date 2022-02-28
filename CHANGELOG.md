@@ -52,6 +52,9 @@
 
 - **(css/parser)** Add tests for selectors (#3770) ([1651bcc](https://github.com/swc-project/swc/commit/1651bccf4578ff2d44a9c37eab3845c006b5164d))
 
+
+- **(css/parser)** Add css files for material design (#3777) ([189707a](https://github.com/swc-project/swc/commit/189707a1fd5ef8547b3b80ac82f7f422f295086a))
+
 ## [1.2.146] - 2022-02-27
 
 ### Bug Fixes
