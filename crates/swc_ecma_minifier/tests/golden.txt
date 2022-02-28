@@ -265,6 +265,7 @@ dead_code/dead_code_1/input.js
 dead_code/dead_code_block_decls_die/input.js
 dead_code/dead_code_const_annotation_regex/input.js
 dead_code/global_timeout_and_interval_symbols/input.js
+dead_code/issue_2233_1/input.js
 dead_code/issue_2233_2/input.js
 dead_code/issue_2233_3/input.js
 dead_code/issue_2383_1/input.js
