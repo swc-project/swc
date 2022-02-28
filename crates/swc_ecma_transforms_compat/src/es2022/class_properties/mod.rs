@@ -11,8 +11,8 @@ use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     alias_ident_for, alias_if_required, constructor::inject_after_super, default_constructor,
-    is_literal, prepend, private_ident, quote_ident, undefined, ExprFactory, ModuleItemLike,
-    StmtLike, HANDLER,
+    is_literal, prepend, private_ident, quote_ident, replace_ident, undefined, ExprFactory,
+    ModuleItemLike, StmtLike, HANDLER,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -209,14 +209,15 @@ impl VisitMut for ClassProperties {
             class,
         }) = expr
         {
-            let ident = orig_ident
+            let ident = private_ident!(orig_ident
                 .clone()
-                .unwrap_or_else(|| private_ident!("_class"));
+                .map(|id| format!("_{}", id.sym))
+                .unwrap_or_else(|| "_class".into()));
             let (decl, ClassExtra { lets, vars, stmts }) =
                 self.visit_mut_class_as_decl(ident.clone(), class.take());
 
             let class = Expr::Class(ClassExpr {
-                ident: orig_ident.take(),
+                ident: orig_ident.clone(),
                 class: decl.class,
             });
             if vars.is_empty() && lets.is_empty() && stmts.is_empty() {
@@ -280,7 +281,10 @@ impl VisitMut for ClassProperties {
                 exprs.push(class.into());
             }
 
-            for stmt in stmts {
+            for mut stmt in stmts {
+                if let Some(orig_ident) = orig_ident {
+                    replace_ident(&mut stmt, orig_ident.clone().into(), &ident);
+                }
                 match stmt {
                     Stmt::Expr(e) => exprs.push(e.expr),
                     Stmt::Decl(Decl::Var(VarDecl { decls, .. })) => {
@@ -436,7 +440,6 @@ impl ClassProperties {
         &mut self,
         class_ident: Ident,
         mut class: Class,
-        // first is for vars and second is for lets
     ) -> (ClassDecl, ClassExtra) {
         // Create one mark per class
         let private = Private {

@@ -3178,7 +3178,7 @@ export default class {
 "#,
     r#"
     var _class;
-    let _class1 = ((_class = class _class {
+    let _class1 = ((_class = class {
         bar() {
         }
     }) || _class, _applyDecoratedDescriptor(_class.prototype, "bar", [

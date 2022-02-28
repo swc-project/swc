@@ -49,13 +49,13 @@ var Foo = class {
 
 "#,
     r#"
-var Foo;
-var Foo = (Foo = function Foo() {
+var _Foo;
+var Foo = (_Foo = function Foo() {
         'use strict';
         _classCallCheck(this, Foo);
     },
-    _defineProperty(Foo, 'num', 0),
-    Foo)
+    _defineProperty(_Foo, 'num', 0),
+    _Foo);
 "#
 );
 
@@ -408,8 +408,8 @@ function withContext(ComposedComponent) {
 "#,
     r#"
 function withContext(ComposedComponent) {
-  var WithContext
-  return WithContext = (function(Component) {
+  var _WithContext
+  return _WithContext = (function(Component) {
       'use strict';
       _inherits(WithContext, Component);
       var _super = _createSuper(WithContext);
@@ -419,14 +419,14 @@ function withContext(ComposedComponent) {
       }
       return WithContext;
     })(Component),
-    _defineProperty(WithContext, 'propTypes', {
+    _defineProperty(_WithContext, 'propTypes', {
       context: PropTypes.shape({
         addCss: PropTypes.func,
         setTitle: PropTypes.func,
         setMeta: PropTypes.func
       })
     }),
-    WithContext;
+    _WithContext;
 }
 
 "#
@@ -2960,8 +2960,8 @@ function withContext(ComposedComponent) {
 "#,
     r#"
 function withContext(ComposedComponent) {
-    var WithContext, _propTypes;
-    return WithContext = class WithContext extends Component{
+    var _WithContext, _propTypes;
+    return _WithContext = class WithContext extends Component{
         }, _propTypes = {
             writable: true,
             value: {
@@ -2972,7 +2972,7 @@ function withContext(ComposedComponent) {
                 })
             }
         },
-        WithContext;
+        _WithContext;
 }
 
 
@@ -3052,19 +3052,19 @@ function classFactory() {
 "#,
     r#"
 function classFactory() {
-    var _foo, Foo, _bar;
-    return _foo = new WeakMap(), Foo = class Foo{
+    var _foo, _Foo, _bar;
+    return _foo = new WeakMap(), _Foo = class Foo {
             instance() {
                 return _classPrivateFieldGet(this, _foo);
             }
-             static() {
-                return _classStaticPrivateFieldSpecGet(Foo, Foo, _bar);
+            static() {
+                return _classStaticPrivateFieldSpecGet(Foo, _Foo, _bar);
             }
             static  instance(inst) {
                 return _classPrivateFieldGet(inst, _foo);
             }
             static  static() {
-                return _classStaticPrivateFieldSpecGet(Foo, Foo, _bar);
+                return _classStaticPrivateFieldSpecGet(Foo, _Foo, _bar);
             }
             constructor(){
                 _classPrivateFieldInit(this, _foo, {
@@ -3076,7 +3076,7 @@ function classFactory() {
             writable: true,
             value: 'bar'
         },
-        Foo;
+        _Foo;
 }
 "#
 );
@@ -5712,16 +5712,16 @@ test!(
     }
     ",
     "
-    var TestClass;
+    var _TestClass;
     var _class;
-    let TestClass = _class = someClassDecorator((_class = (TestClass =
+    let TestClass = _class = someClassDecorator((_class = (_TestClass =
         class TestClass {
         },
-        _defineProperty(TestClass, 'Something', 'hello'),
-        _defineProperty(TestClass, 'SomeProperties', {
-            firstProp: TestClass.Something
+        _defineProperty(_TestClass, 'Something', 'hello'),
+        _defineProperty(_TestClass, 'SomeProperties', {
+            firstProp: _TestClass.Something
         }),
-        TestClass
+        _TestClass
     )) || _class) || _class;
     function someClassDecorator(c) {
         return c;
