@@ -144,6 +144,7 @@ collapse_vars/ignore_class/input.js
 collapse_vars/iife_1/input.js
 collapse_vars/iife_2/input.js
 collapse_vars/issue_1537/input.js
+collapse_vars/issue_1537_destructuring_1/input.js
 collapse_vars/issue_1537_destructuring_2/input.js
 collapse_vars/issue_1537_destructuring_3/input.js
 collapse_vars/issue_1537_destructuring_for_in/input.js
@@ -151,6 +152,7 @@ collapse_vars/issue_1537_destructuring_for_of/input.js
 collapse_vars/issue_1537_for_of/input.js
 collapse_vars/issue_1562/input.js
 collapse_vars/issue_1605_1/input.js
+collapse_vars/issue_2187_1/input.js
 collapse_vars/issue_2187_3/input.js
 collapse_vars/issue_2313_1/input.js
 collapse_vars/issue_2313_2/input.js

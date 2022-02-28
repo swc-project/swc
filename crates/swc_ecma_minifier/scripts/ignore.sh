@@ -10,6 +10,6 @@ cargo test --test compress --all-features ${1-'fixture_tests__terser__compress__
   | sed -e 's! ... FAILED!!' \
   | sed -e 's!__!/!g' \
   | sed -e 's!_js!.js!' \
-  >> tests/ignored.txt
+  >> tests/TODO.txt
 
 ./scripts/sort.sh
