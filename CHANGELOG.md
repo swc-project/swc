@@ -14,6 +14,9 @@
 - **(es/minifier)** Fix inlining logic (#3776) ([cfc0363](https://github.com/swc-project/swc/commit/cfc036381a5c174798198f4ecf7e0a62abce5a75))
 
 
+- **(es/minifier)** Preserve unresolved references (#3780) ([73cab63](https://github.com/swc-project/swc/commit/73cab638a11978da9f94c886a5fafc462b1556b7))
+
+
 - **(es/typescript)** Transform `this` in TypeScript classes (#3764) ([5f3f9ef](https://github.com/swc-project/swc/commit/5f3f9ef033797a1b13d32bd854c3acf3cbaf4495))
 
 ### Features
