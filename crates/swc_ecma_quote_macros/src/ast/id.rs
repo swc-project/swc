@@ -8,6 +8,12 @@ impl ToCode for swc_ecma_ast::Ident {
     fn to_code(&self, cx: &Ctx) -> syn::Expr {
         // TODO: Check for variables.
 
+        if let Some(var_name) = self.sym.strip_prefix('$') {
+            if let Some(var) = cx.vars.get(var_name) {
+                return var.get_expr();
+            }
+        }
+
         q!(
             Vars {
                 sym_value: self.sym.to_code(cx),
