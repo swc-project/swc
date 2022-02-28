@@ -1,1 +1,1 @@
-stringDictionary = optionalProperties, stringDictionary = undefinedProperties, probablyArray = numberLiteralKeys;
+stringDictionary = optionalProperties, stringDictionary = undefinedProperties, probablyArray = numberLiteralKeys, optionalUndefined;

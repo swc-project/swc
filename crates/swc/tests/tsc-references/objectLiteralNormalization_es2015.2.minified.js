@@ -48,7 +48,7 @@ a2.a, a2.b, a2 = {
 let b2 = _objectSpread({}, b1, {
     z: 55
 });
-_objectSpread({}, b2);
+_objectSpread({}, b2), opts;
 let d1 = {
     kind: "a",
     pos: {

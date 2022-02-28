@@ -10,4 +10,4 @@ Example1 || (Example1 = {}), t = s, Example2 || (Example2 = {}), t = s, Example3
         return "categorical";
     };
     getAxisType(), void 0 = getAxisType();
-})(GH12052 || (GH12052 = {})), GH39357 || (GH39357 = {}), "a" === b || "b" === b;
+})(GH12052 || (GH12052 = {})), GH39357 || (GH39357 = {});

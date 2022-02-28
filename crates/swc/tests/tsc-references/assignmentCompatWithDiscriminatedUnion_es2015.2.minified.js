@@ -14,4 +14,4 @@ Example1 || (Example1 = {}), t = s, Example2 || (Example2 = {}), t = s, Example3
         type: void 0
     };
     good.type = getAxisType();
-})(GH12052 || (GH12052 = {})), GH39357 || (GH39357 = {}), "a" === b || "b" === b;
+})(GH12052 || (GH12052 = {})), GH39357 || (GH39357 = {});
