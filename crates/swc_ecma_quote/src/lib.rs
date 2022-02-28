@@ -27,14 +27,14 @@ mod clone;
 ///
 /// # Variable substitution
 ///
-/// (**Not implemented**)
-///
 /// If an identifier starts with `$`, it is substituted with the value of the
 /// parameter passed.
 ///
 /// e.g.
 ///
-/// ```rust,ignore
+/// ```rust
+/// use swc_ecma_quote::quote;
+///
 /// quote!("const $name = 4;" as Stmt, name = private_ident!("ref"))
 /// ```
 ///
@@ -43,10 +43,7 @@ mod clone;
 ///
 /// ## Quote a variable declaration
 ///
-/// (**Not implemented**)
-///
 /// ```rust
-/// use swc_ecma_ast::*;
 /// use swc_ecma_quote::quote;
 ///
 /// let stmt = quote!("const $name = 4;" as Stmt, name = private_ident!("ref"));
