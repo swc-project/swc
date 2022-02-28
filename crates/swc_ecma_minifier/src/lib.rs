@@ -15,6 +15,7 @@
 #![allow(clippy::blocks_in_if_conditions)]
 #![allow(clippy::collapsible_else_if)]
 #![allow(clippy::collapsible_if)]
+#![allow(clippy::ptr_arg)]
 #![allow(clippy::vec_box)]
 #![allow(unstable_name_collisions)]
 
