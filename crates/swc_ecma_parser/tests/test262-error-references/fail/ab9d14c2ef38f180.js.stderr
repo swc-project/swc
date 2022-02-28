@@ -9,3 +9,4 @@ error: The left-hand side of an assignment expression must be a variable or a pr
   |
 1 | (0, {a = 0}) = 0
   | ^^^^^^^^^^^^
+
