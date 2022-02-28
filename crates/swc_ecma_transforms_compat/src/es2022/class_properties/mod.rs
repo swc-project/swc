@@ -48,9 +48,7 @@ pub fn class_properties(config: Config) -> impl Fold + VisitMut {
     as_folder(ClassProperties {
         c: config,
         private: PrivateRecord::new(),
-        vars: Vec::new(),
-        lets: Vec::new(),
-        stmts: Vec::new(),
+        extra: ClassExtra::new(),
     })
 }
 
@@ -63,14 +61,94 @@ pub struct Config {
 }
 
 struct ClassProperties {
-    vars: Vec<VarDeclarator>,
-    lets: Vec<VarDeclarator>,
-    stmts: Vec<Stmt>,
+    extra: ClassExtra,
     c: Config,
     private: PrivateRecord,
 }
 
 #[swc_trace]
+struct ClassExtra {
+    lets: Vec<VarDeclarator>,
+    vars: Vec<VarDeclarator>,
+    stmts: Vec<Stmt>,
+}
+
+impl ClassExtra {
+    fn new() -> Self {
+        Self {
+            lets: Vec::new(),
+            vars: Vec::new(),
+            stmts: Vec::new(),
+        }
+    }
+
+    fn prepend_with<T: StmtLike + From<Stmt>>(self, stmts: &mut Vec<T>) {
+        if !self.vars.is_empty() {
+            prepend(
+                stmts,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: self.vars,
+                    declare: false,
+                }))
+                .into(),
+            )
+        }
+
+        if !self.lets.is_empty() {
+            prepend(
+                stmts,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Let,
+                    decls: self.lets,
+                    declare: false,
+                }))
+                .into(),
+            )
+        }
+
+        stmts.extend(self.stmts.into_iter().map(|stmt| stmt.into()))
+    }
+
+    fn merge_with<T: StmtLike + From<Stmt>>(self, stmts: &mut Vec<T>, class: T) {
+        if !self.vars.is_empty() {
+            stmts.push(
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: self.vars,
+                    declare: false,
+                }))
+                .into(),
+            )
+        }
+
+        if !self.lets.is_empty() {
+            stmts.push(
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Let,
+                    decls: self.lets,
+                    declare: false,
+                }))
+                .into(),
+            )
+        }
+
+        stmts.push(class);
+
+        stmts.extend(self.stmts.into_iter().map(|stmt| stmt.into()))
+    }
+}
+
+impl Take for ClassExtra {
+    fn dummy() -> Self {
+        Self::new()
+    }
+}
+
 #[fast_path(ShouldWork)]
 impl VisitMut for ClassProperties {
     noop_visit_mut_type!();
@@ -92,61 +170,13 @@ impl VisitMut for ClassProperties {
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         self.visit_mut_stmt_like(n);
 
-        if !self.vars.is_empty() {
-            prepend(
-                n,
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: self.vars.take(),
-                    declare: false,
-                }))),
-            )
-        }
-
-        if !self.lets.is_empty() {
-            prepend(
-                n,
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Let,
-                    decls: self.lets.take(),
-                    declare: false,
-                }))),
-            )
-        }
-
-        n.extend(self.stmts.take().into_iter().map(ModuleItem::Stmt))
+        self.extra.take().prepend_with(n)
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
         self.visit_mut_stmt_like(n);
 
-        if !self.vars.is_empty() {
-            prepend(
-                n,
-                Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: self.vars.take(),
-                    declare: false,
-                })),
-            )
-        }
-
-        if !self.lets.is_empty() {
-            prepend(
-                n,
-                Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Let,
-                    decls: self.lets.take(),
-                    declare: false,
-                })),
-            )
-        }
-
-        n.extend(self.stmts.take())
+        self.extra.take().prepend_with(n)
     }
 
     fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
@@ -158,26 +188,10 @@ impl VisitMut for ClassProperties {
 
                 let mut stmts = vec![];
                 let ident = ident.unwrap_or_else(|| private_ident!("_class"));
-                let (decl, vars, lets, mut extra_stmts) =
-                    self.visit_mut_class_as_decl(ident.clone(), class);
-                if !vars.is_empty() {
-                    stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: vars,
-                        declare: false,
-                    })));
-                }
-                if !lets.is_empty() {
-                    stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: lets,
-                        declare: false,
-                    })));
-                }
-                stmts.push(Stmt::Decl(Decl::Class(decl)));
-                stmts.append(&mut extra_stmts);
+                let (decl, extra) = self.visit_mut_class_as_decl(ident.clone(), class);
+
+                extra.merge_with(&mut stmts, Stmt::Decl(Decl::Class(decl)));
+
                 stmts.push(Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
                     arg: Some(Box::new(Expr::Ident(ident))),
@@ -198,14 +212,14 @@ impl VisitMut for ClassProperties {
             let ident = orig_ident
                 .clone()
                 .unwrap_or_else(|| private_ident!("_class"));
-            let (decl, vars, lets, extra_stmts) =
+            let (decl, ClassExtra { lets, vars, stmts }) =
                 self.visit_mut_class_as_decl(ident.clone(), class.take());
 
             let class = Expr::Class(ClassExpr {
                 ident: orig_ident.take(),
                 class: decl.class,
             });
-            if vars.is_empty() && lets.is_empty() && extra_stmts.is_empty() {
+            if vars.is_empty() && lets.is_empty() && stmts.is_empty() {
                 *expr = class;
                 return;
             }
@@ -225,7 +239,7 @@ impl VisitMut for ClassProperties {
                         .into(),
                     )
                 }
-                self.vars.push(var);
+                self.extra.vars.push(var);
             }
 
             for mut var in lets {
@@ -241,13 +255,13 @@ impl VisitMut for ClassProperties {
                         .into(),
                     )
                 }
-                self.lets.push(var);
+                self.extra.lets.push(var);
             }
 
             let mut extra_value = false;
-            if !extra_stmts.is_empty() {
+            if !stmts.is_empty() {
                 extra_value = true;
-                self.vars.push(VarDeclarator {
+                self.extra.vars.push(VarDeclarator {
                     span: DUMMY_SP,
                     name: ident.clone().into(),
                     init: None,
@@ -266,14 +280,10 @@ impl VisitMut for ClassProperties {
                 exprs.push(class.into());
             }
 
-            for stmt in extra_stmts {
+            for stmt in stmts {
                 match stmt {
                     Stmt::Expr(e) => exprs.push(e.expr),
-                    Stmt::Decl(Decl::Var(VarDecl {
-                        // we only use var for injected varaibles so it's enough
-                        decls,
-                        ..
-                    })) => {
+                    Stmt::Decl(Decl::Var(VarDecl { decls, .. })) => {
                         for mut decl in decls {
                             let init = decl.init.take();
 
@@ -289,10 +299,10 @@ impl VisitMut for ClassProperties {
                                 )
                             }
 
-                            self.vars.push(decl)
+                            self.extra.vars.push(decl)
                         }
                     }
-                    _ => self.stmts.push(stmt),
+                    _ => self.extra.stmts.push(stmt),
                 }
             }
 
@@ -314,7 +324,7 @@ impl VisitMut for ClassProperties {
 impl ClassProperties {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + ModuleItemLike + VisitMutWith<Self>,
+        T: StmtLike + ModuleItemLike + VisitMutWith<Self> + From<Stmt>,
     {
         let mut buf = Vec::with_capacity(stmts.len());
 
@@ -330,26 +340,14 @@ impl ClassProperties {
                             }) => {
                                 let ident = ident.unwrap_or_else(|| private_ident!("_class"));
 
-                                let (decl, vars, lets, stmts) =
+                                let (decl, extra) =
                                     self.visit_mut_class_as_decl(ident.clone(), class);
-                                if !vars.is_empty() {
-                                    buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                                        span: DUMMY_SP,
-                                        kind: VarDeclKind::Var,
-                                        decls: vars,
-                                        declare: false,
-                                    }))));
-                                }
-                                if !lets.is_empty() {
-                                    buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                                        span: DUMMY_SP,
-                                        kind: VarDeclKind::Let,
-                                        decls: lets,
-                                        declare: false,
-                                    }))));
-                                }
-                                buf.push(T::from_stmt(Stmt::Decl(Decl::Class(decl))));
-                                buf.extend(stmts.into_iter().map(T::from_stmt));
+
+                                extra.merge_with(
+                                    &mut buf,
+                                    T::from_stmt(Stmt::Decl(Decl::Class(decl))),
+                                );
+
                                 buf.push(
                                     match T::try_from_module_decl(ModuleDecl::ExportNamed(
                                         NamedExport {
@@ -383,25 +381,9 @@ impl ClassProperties {
                                     }),
                                 ..
                             }) => {
-                                let (decl, vars, lets, stmts) =
-                                    self.visit_mut_class_as_decl(ident, class);
-                                if !vars.is_empty() {
-                                    buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                                        span: DUMMY_SP,
-                                        kind: VarDeclKind::Var,
-                                        decls: vars,
-                                        declare: false,
-                                    }))));
-                                }
-                                if !lets.is_empty() {
-                                    buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                                        span: DUMMY_SP,
-                                        kind: VarDeclKind::Let,
-                                        decls: lets,
-                                        declare: false,
-                                    }))));
-                                }
-                                buf.push(
+                                let (decl, extra) = self.visit_mut_class_as_decl(ident, class);
+                                extra.merge_with(
+                                    &mut buf,
                                     match T::try_from_module_decl(ModuleDecl::ExportDecl(
                                         ExportDecl {
                                             span,
@@ -411,8 +393,7 @@ impl ClassProperties {
                                         Ok(t) => t,
                                         Err(..) => unreachable!(),
                                     },
-                                );
-                                buf.extend(stmts.into_iter().map(T::from_stmt));
+                                )
                             }
                             _ => {
                                 decl.visit_mut_children_with(self);
@@ -433,26 +414,8 @@ impl ClassProperties {
                             class,
                             declare: false,
                         })) => {
-                            let (decl, vars, lets, stmts) =
-                                self.visit_mut_class_as_decl(ident, class);
-                            if !vars.is_empty() {
-                                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                                    span: DUMMY_SP,
-                                    kind: VarDeclKind::Var,
-                                    decls: vars,
-                                    declare: false,
-                                }))));
-                            }
-                            if !lets.is_empty() {
-                                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                                    span: DUMMY_SP,
-                                    kind: VarDeclKind::Let,
-                                    decls: lets,
-                                    declare: false,
-                                }))));
-                            }
-                            buf.push(T::from_stmt(Stmt::Decl(Decl::Class(decl))));
-                            buf.extend(stmts.into_iter().map(T::from_stmt));
+                            let (decl, extra) = self.visit_mut_class_as_decl(ident, class);
+                            extra.merge_with(&mut buf, T::from_stmt(Stmt::Decl(Decl::Class(decl))))
                         }
                         _ => {
                             stmt.visit_mut_children_with(self);
@@ -474,7 +437,7 @@ impl ClassProperties {
         class_ident: Ident,
         mut class: Class,
         // first is for vars and second is for lets
-    ) -> (ClassDecl, Vec<VarDeclarator>, Vec<VarDeclarator>, Vec<Stmt>) {
+    ) -> (ClassDecl, ClassExtra) {
         // Create one mark per class
         let private = Private {
             mark: Mark::fresh(Mark::root()),
@@ -942,9 +905,11 @@ impl ClassProperties {
                     ..class
                 },
             },
-            vars,
-            lets,
-            extra_stmts,
+            ClassExtra {
+                vars,
+                lets,
+                stmts: extra_stmts,
+            },
         )
     }
 
