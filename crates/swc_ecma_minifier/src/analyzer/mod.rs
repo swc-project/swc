@@ -48,7 +48,9 @@ where
     };
     n.visit_with(&mut v);
     let top_scope = v.scope;
-    v.data.top_scope().merge(top_scope, false);
+    v.data.top_scope().merge(top_scope.clone(), false);
+
+    v.data.scope(SyntaxContext::empty()).merge(top_scope, false);
 
     v.data
 }
