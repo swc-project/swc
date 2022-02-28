@@ -3280,7 +3280,7 @@
             }
             return listenerWrapper.bind(null, domEventName, eventSystemFlags, targetContainer);
         }(targetContainer2, domEventName3, eventSystemFlags2), isPassiveListener = void 0;
-        passiveBrowserEventsSupported && ("touchstart" === domEventName3 || "touchmove" === domEventName3 || "wheel" === domEventName3) && (isPassiveListener = !0), isCapturePhaseListener ? void 0 !== isPassiveListener ? (target = targetContainer2, eventType = domEventName3, listener = listener4, passive = isPassiveListener, target.addEventListener(eventType, listener, {
+        (passiveBrowserEventsSupported && ("touchstart" === domEventName3 || "touchmove" === domEventName3 || "wheel" === domEventName3) && (isPassiveListener = !0), isCapturePhaseListener) ? void 0 !== isPassiveListener ? (target = targetContainer2, eventType = domEventName3, listener = listener4, passive = isPassiveListener, target.addEventListener(eventType, listener, {
             capture: !0,
             passive: passive
         })) : (target2 = targetContainer2, eventType1 = domEventName3, listener1 = listener4, target2.addEventListener(eventType1, listener1, !0)) : void 0 !== isPassiveListener ? (target3 = targetContainer2, eventType2 = domEventName3, listener2 = listener4, passive1 = isPassiveListener, target3.addEventListener(eventType2, listener2, {

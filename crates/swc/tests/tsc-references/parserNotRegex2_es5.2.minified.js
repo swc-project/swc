@@ -1,1 +1,1 @@
-B(C(), function() {}, function() {});
+A, B(C(), function() {}, function() {});

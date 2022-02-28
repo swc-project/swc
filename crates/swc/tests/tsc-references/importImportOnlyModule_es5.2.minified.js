@@ -1,4 +1,4 @@
-export var C1 = function() {
+export var foo, C1 = function() {
     "use strict";
     !function(instance, Constructor) {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");

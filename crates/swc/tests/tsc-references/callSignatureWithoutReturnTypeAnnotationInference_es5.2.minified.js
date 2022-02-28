@@ -13,7 +13,7 @@ x1 = 1, (function(x) {
     } finally{}
 })(1), (function(x) {
     var obj;
-    void 0 === x || (obj = x) && "undefined" != typeof Symbol && obj.constructor === Symbol;
+    void 0 === x || (obj = x) && "undefined" != typeof Symbol && obj.constructor;
 })(1);
 var M, e1, x1, C = function() {
     "use strict";

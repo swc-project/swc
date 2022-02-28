@@ -44,7 +44,7 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var A = function() {
+var E1, E2, A = function() {
     "use strict";
     _classCallCheck(this, A), this.a = 10;
 }, C = function() {
@@ -75,7 +75,7 @@ var A = function() {
 }(E1 || (E1 = {})), (function(E2) {
     E2[E2.one = 0] = "one";
 })(E2 || (E2 = {}));
-var E1, E2, classCDATuple = [
+var classCDATuple = [
     new C(),
     new D()
 ];
