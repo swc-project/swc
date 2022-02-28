@@ -1,0 +1,21 @@
+{
+    "module": {
+        "type": "es6",
+        "strict": true,
+        "noInterop": false
+    },
+    "env": {
+        "coreJs": 2
+    },
+    "jsc": {
+        "externalHelpers": true,
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true,
+            "decorators": false,
+            "dynamicImport": true
+        },
+        "keepClassNames": false,
+        "baseUrl": "."
+    }
+}
