@@ -40,6 +40,12 @@
 
 - **(css/ast)** Simplify AST types (#3753) ([815a489](https://github.com/swc-project/swc/commit/815a489dcfb72df928fc03f216dbe4a21b0e0716))
 
+### Testing
+
+
+
+- **(css/parser)** Add tests for selectors (#3770) ([1651bcc](https://github.com/swc-project/swc/commit/1651bccf4578ff2d44a9c37eab3845c006b5164d))
+
 ## [1.2.146] - 2022-02-27
 
 ### Bug Fixes
