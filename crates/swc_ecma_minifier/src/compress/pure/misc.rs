@@ -147,6 +147,7 @@ where
 
         if opts.drop_unresolved_ids {
             if let Expr::Ident(..) = e {
+                tracing::debug!("Dropping identifier as unresolved identifiers can be dropped");
                 *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                 return;
             }
@@ -165,6 +166,8 @@ where
                 Expr::Ident(i) => {
                     if let Some(bindings) = self.bindings.as_deref() {
                         if bindings.contains(&i.to_id()) {
+                            tracing::debug!("Dropping identifier as it's declared");
+
                             self.changed = true;
                             *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                             return;
@@ -173,6 +176,8 @@ where
                 }
 
                 Expr::Lit(Lit::Null(..) | Lit::BigInt(..) | Lit::Bool(..) | Lit::Regex(..)) => {
+                    tracing::debug!("Dropping literals");
+
                     self.changed = true;
                     *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                     return;
