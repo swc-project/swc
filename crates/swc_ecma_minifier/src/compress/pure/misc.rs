@@ -154,8 +154,17 @@ where
                     }
                 }
 
-                Expr::Lit(Lit::Null(..) | Lit::BigInt(..) | Lit::Bool(..) | Lit::Regex(..))
-                | Expr::Ident(..) => {
+                Expr::Ident(i) => {
+                    if let Some(bindings) = self.bindings.as_deref() {
+                        if bindings.contains(&i.to_id()) {
+                            self.changed = true;
+                            *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                            return;
+                        }
+                    }
+                }
+
+                Expr::Lit(Lit::Null(..) | Lit::BigInt(..) | Lit::Bool(..) | Lit::Regex(..)) => {
                     self.changed = true;
                     *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                     return;
