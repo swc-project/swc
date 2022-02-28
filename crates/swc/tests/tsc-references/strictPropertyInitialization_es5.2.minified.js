@@ -85,7 +85,7 @@ var _f = new WeakMap(), _g = new WeakMap(), _h = new WeakMap(), _i = new WeakMap
         value: void 0
     });
     var receiver, privateMap, descriptor, receiver, descriptor, x = this.a;
-    this.a = this.b, receiver = this, this.b = (descriptor = descriptor = _classExtractFieldDescriptor(receiver, privateMap = _d1, "get")).get ? descriptor.get.call(receiver) : descriptor.value, this.b = x, _classPrivateFieldSet(this, _d1, x), this.c;
+    this.a = this.b, receiver = this, this.b = (descriptor = _classExtractFieldDescriptor(receiver, privateMap = _d1, "get")).get ? descriptor.get.call(receiver) : descriptor.value, this.b = x, _classPrivateFieldSet(this, _d1, x), this.c;
 }, _b3 = new WeakMap(), C11 = function() {
     "use strict";
     _classCallCheck(this, C11), _classPrivateFieldInit(this, _b3, {

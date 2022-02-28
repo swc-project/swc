@@ -37,7 +37,7 @@ var _value = new WeakMap(), Box = function() {
             key: "value",
             get: function() {
                 var receiver, privateMap, descriptor, receiver, descriptor;
-                return receiver = this, (descriptor = descriptor = _classExtractFieldDescriptor(receiver, privateMap = _value, "get")).get ? descriptor.get.call(receiver) : descriptor.value;
+                return receiver = this, (descriptor = _classExtractFieldDescriptor(receiver, privateMap = _value, "get")).get ? descriptor.get.call(receiver) : descriptor.value;
             },
             set: function(value) {
                 _classPrivateFieldSet(this, _value, value);

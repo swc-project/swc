@@ -34,7 +34,7 @@ var _foo = new WeakMap(), A = function() {
                     if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
                 })(receiver, classConstructor), (function(descriptor, action) {
                     if (void 0 === descriptor) throw new TypeError("attempted to get private static field before its declaration");
-                })(descriptor, "get"), (descriptor = descriptor).get ? descriptor.get.call(receiver) : descriptor.value;
+                })(descriptor, "get"), descriptor.get ? descriptor.get.call(receiver) : descriptor.value;
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), B;

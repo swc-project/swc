@@ -6164,7 +6164,7 @@
                     enabled ? (this.trigger("debugon"), this.previousLogLevel_ = this.log.level, this.log.level("debug"), this.debugEnabled_ = !0) : (this.trigger("debugoff"), this.log.level(this.previousLogLevel_), this.previousLogLevel_ = void 0, this.debugEnabled_ = !1);
                 }, _proto.playbackRates = function(newRates) {
                     if (void 0 === newRates) return this.cache_.playbackRates;
-                    !!Array.isArray(newRates) && newRates.every(function(rate) {
+                    !Array.isArray(newRates) || newRates.every(function(rate) {
                         return "number" == typeof rate;
                     }) && (this.cache_.playbackRates = newRates, this.trigger("playbackrateschange"));
                 }, Player;

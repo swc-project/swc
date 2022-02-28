@@ -7,7 +7,7 @@ const C = function() {
     return class {
         m() {
             var receiver, privateMap, descriptor, receiver, descriptor, receiver, privateMap, value, descriptor;
-            receiver = this, privateMap = _x, receiver = this, value = ((descriptor = descriptor = _classExtractFieldDescriptor(receiver, privateMap = _x, "get")).get ? descriptor.get.call(receiver) : descriptor.value) + 2, descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set"), (function(receiver, descriptor, value) {
+            receiver = this, privateMap = _x, receiver = this, value = ((descriptor = _classExtractFieldDescriptor(receiver, privateMap = _x, "get")).get ? descriptor.get.call(receiver) : descriptor.value) + 2, descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set"), (function(receiver, descriptor, value) {
                 if (descriptor.set) descriptor.set.call(receiver, value);
                 else {
                     if (!descriptor.writable) throw new TypeError("attempted to set read only private field");

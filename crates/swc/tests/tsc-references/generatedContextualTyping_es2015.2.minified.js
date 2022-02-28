@@ -1,7 +1,7 @@
 class Base {
 }
 new Base();
-var x193, x194, x195, x196, x197, x198, x199, x200, x201, x202, x203, x204, d1 = new class extends Base {
+var x181, x184, x191, x192, x193, x194, x195, x196, x197, x198, x199, x200, x201, x202, x203, x204, d1 = new class extends Base {
 }(), d2 = new class extends Base {
 }();
 (class {
@@ -184,7 +184,7 @@ var x193, x194, x195, x196, x197, x198, x199, x200, x201, x202, x203, x204, d1 =
             d1,
             d2
         ]
-}, (x193 || (x193 = {})).t = ()=>[
+}, x181 || (x181 = {}), x184 || (x184 = {}), x191 || (x191 = {}), x192 || (x192 = {}), (x193 || (x193 = {})).t = ()=>[
         d1,
         d2
     ]

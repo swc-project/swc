@@ -4,7 +4,10 @@ function _classCallCheck(instance, Constructor) {
 function foo3() {
     return foo3();
 }
-foo3(), (function(x) {
+x1 = 1, (function(x) {
+    var x1;
+    x1 = 1;
+})(1), foo3(), (function(x) {
     try {} catch (e) {
         return [];
     } finally{}
@@ -12,7 +15,7 @@ foo3(), (function(x) {
     var obj;
     void 0 === x || (obj = x) && "undefined" != typeof Symbol && obj.constructor === Symbol;
 })(1);
-var M, e1, C = function() {
+var M, e1, x1, C = function() {
     "use strict";
     _classCallCheck(this, C);
 };
