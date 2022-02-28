@@ -111,7 +111,7 @@ pub struct Function {
     /// Span starting from the `lo` of identifier and to the end of `)`.
     pub span: Span,
     pub name: Ident,
-    pub value: Vec<Value>,
+    pub value: Vec<ComponentValue>,
 }
 
 #[ast_node]

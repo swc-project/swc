@@ -148,7 +148,7 @@ define!({
     pub struct Function {
         pub span: Span,
         pub name: Ident,
-        pub value: Vec<Value>,
+        pub value: Vec<ComponentValue>,
     }
 
     pub enum Color {

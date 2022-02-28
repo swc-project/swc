@@ -152,7 +152,7 @@ where
         Ok(tokens)
     }
 
-    pub fn parse_function_values(&mut self, function_name: &str) -> PResult<Vec<Value>> {
+    pub fn parse_function_values(&mut self, function_name: &str) -> PResult<Vec<ComponentValue>> {
         let mut values = vec![];
 
         match function_name {
@@ -160,7 +160,7 @@ where
             | "sign" => {
                 self.input.skip_ws()?;
 
-                let calc_sum = Value::CalcSum(self.parse()?);
+                let calc_sum = ComponentValue::Value(Value::CalcSum(self.parse()?));
 
                 values.push(calc_sum);
 
@@ -171,13 +171,13 @@ where
 
                 let calc_sum = Value::CalcSum(self.parse()?);
 
-                values.push(calc_sum);
+                values.push(ComponentValue::Value(calc_sum));
 
                 loop {
                     self.input.skip_ws()?;
 
                     if is!(self, ",") {
-                        values.push(Value::Delimiter(self.parse()?));
+                        values.push(ComponentValue::Value(Value::Delimiter(self.parse()?)));
 
                         self.input.skip_ws()?;
                     } else {
@@ -186,7 +186,7 @@ where
 
                     let calc_sum = Value::CalcSum(self.parse()?);
 
-                    values.push(calc_sum);
+                    values.push(ComponentValue::Value(calc_sum));
                 }
             }
             "clamp" => {
@@ -194,12 +194,12 @@ where
 
                 let calc_sum = Value::CalcSum(self.parse()?);
 
-                values.push(calc_sum);
+                values.push(ComponentValue::Value(calc_sum));
 
                 self.input.skip_ws()?;
 
                 if is!(self, ",") {
-                    values.push(Value::Delimiter(self.parse()?));
+                    values.push(ComponentValue::Value(Value::Delimiter(self.parse()?)));
 
                     self.input.skip_ws()?;
                 } else {
@@ -210,12 +210,12 @@ where
 
                 let calc_sum = Value::CalcSum(self.parse()?);
 
-                values.push(calc_sum);
+                values.push(ComponentValue::Value(calc_sum));
 
                 self.input.skip_ws()?;
 
                 if is!(self, ",") {
-                    values.push(Value::Delimiter(self.parse()?));
+                    values.push(ComponentValue::Value(Value::Delimiter(self.parse()?)));
 
                     self.input.skip_ws()?;
                 } else {
@@ -226,7 +226,7 @@ where
 
                 let calc_sum = Value::CalcSum(self.parse()?);
 
-                values.push(calc_sum);
+                values.push(ComponentValue::Value(calc_sum));
 
                 self.input.skip_ws()?;
             }
@@ -237,12 +237,12 @@ where
                     // TODO improve me
                     let rounding_strategy = Value::Ident(self.parse()?);
 
-                    values.push(rounding_strategy);
+                    values.push(ComponentValue::Value(rounding_strategy));
 
                     self.input.skip_ws()?;
 
                     if is!(self, ",") {
-                        values.push(Value::Delimiter(self.parse()?));
+                        values.push(ComponentValue::Value(Value::Delimiter(self.parse()?)));
 
                         self.input.skip_ws()?;
                     } else {
@@ -254,12 +254,12 @@ where
 
                 let calc_sum = Value::CalcSum(self.parse()?);
 
-                values.push(calc_sum);
+                values.push(ComponentValue::Value(calc_sum));
 
                 self.input.skip_ws()?;
 
                 if is!(self, ",") {
-                    values.push(Value::Delimiter(self.parse()?));
+                    values.push(ComponentValue::Value(Value::Delimiter(self.parse()?)));
 
                     self.input.skip_ws()?;
                 } else {
@@ -270,7 +270,7 @@ where
 
                 let calc_sum = Value::CalcSum(self.parse()?);
 
-                values.push(calc_sum);
+                values.push(ComponentValue::Value(calc_sum));
 
                 self.input.skip_ws()?;
             }
@@ -279,12 +279,12 @@ where
 
                 let calc_sum = Value::CalcSum(self.parse()?);
 
-                values.push(calc_sum);
+                values.push(ComponentValue::Value(calc_sum));
 
                 self.input.skip_ws()?;
 
                 if is!(self, ",") {
-                    values.push(Value::Delimiter(self.parse()?));
+                    values.push(ComponentValue::Value(Value::Delimiter(self.parse()?)));
 
                     self.input.skip_ws()?;
                 } else {
@@ -295,7 +295,7 @@ where
 
                 let calc_sum = Value::CalcSum(self.parse()?);
 
-                values.push(calc_sum);
+                values.push(ComponentValue::Value(calc_sum));
 
                 self.input.skip_ws()?;
             }
@@ -304,18 +304,18 @@ where
 
                 let calc_sum = Value::CalcSum(self.parse()?);
 
-                values.push(calc_sum);
+                values.push(ComponentValue::Value(calc_sum));
 
                 self.input.skip_ws()?;
 
                 if is!(self, ",") {
-                    values.push(Value::Delimiter(self.parse()?));
+                    values.push(ComponentValue::Value(Value::Delimiter(self.parse()?)));
 
                     self.input.skip_ws()?;
 
                     let calc_sum = Value::CalcSum(self.parse()?);
 
-                    values.push(calc_sum);
+                    values.push(ComponentValue::Value(calc_sum));
 
                     self.input.skip_ws()?;
                 }
@@ -325,7 +325,7 @@ where
 
                 let selector = Value::ComplexSelector(self.parse()?);
 
-                values.push(selector);
+                values.push(ComponentValue::Value(selector));
 
                 self.input.skip_ws()?;
             }
@@ -336,7 +336,7 @@ where
                     break;
                 }
 
-                values.push(self.parse()?);
+                values.push(ComponentValue::Value(self.parse()?));
             },
         };
 
@@ -1299,7 +1299,9 @@ where
                             self.errors.push(err);
                             self.input.reset(&state);
 
-                            function.value.push(Value::ComponentValue(self.parse()?));
+                            function
+                                .value
+                                .push(ComponentValue::Value(Value::ComponentValue(self.parse()?)));
                         }
                     }
                 }
