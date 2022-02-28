@@ -149,7 +149,11 @@ where
             // If it's not a top level, it's a reference to a declared variable.
             if i.span.ctxt.outer() == self.marks.top_level_mark {
                 match &*i.sym {
-                    "clearInterval" | "clearTimeout" | "setInterval" | "setTimeout" => {
+                    "clearInterval" | "clearTimeout" | "setInterval" | "setTimeout" | "Boolean"
+                    | "Date" | "decodeURI" | "decodeURIComponent" | "encodeURI"
+                    | "encodeURIComponent" | "escape" | "eval" | "EvalError" | "isFinite"
+                    | "isNaN" | "JSON" | "parseFloat" | "parseInt" | "RegExp" | "RangeError"
+                    | "ReferenceError" | "SyntaxError" | "TypeError" | "unescape" | "URIError" => {
                         tracing::debug!("Dropping a reference to a global variable");
                         *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                         return;
