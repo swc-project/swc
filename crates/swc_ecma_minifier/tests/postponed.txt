@@ -1,5 +1,3 @@
-arguments/arguments_and_destructuring_2/input.js
-arguments/arguments_and_destructuring_3/input.js
 arguments/duplicate_parameter_with_arguments/input.js
 arguments/issue_687/input.js
 arguments/modified/input.js

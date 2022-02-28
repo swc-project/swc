@@ -164,6 +164,11 @@ impl ScopeDataLike for ScopeData {
     fn merge(&mut self, other: Self, _: bool) {
         self.has_with_stmt |= other.has_with_stmt;
         self.has_eval_call |= other.has_eval_call;
+        self.used_arguments |= other.used_arguments;
+    }
+
+    fn mark_used_arguments(&mut self) {
+        self.used_arguments = true;
     }
 
     fn mark_eval_called(&mut self) {

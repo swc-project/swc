@@ -30,10 +30,12 @@ pub(crate) trait Storage: Sized + Default {
     ) -> &mut Self::VarData;
 }
 
-pub(crate) trait ScopeDataLike: Sized + Default {
+pub(crate) trait ScopeDataLike: Sized + Default + Clone {
     fn add_declared_symbol(&mut self, id: &Ident);
 
     fn merge(&mut self, other: Self, is_child: bool);
+
+    fn mark_used_arguments(&mut self);
 
     fn mark_eval_called(&mut self);
 

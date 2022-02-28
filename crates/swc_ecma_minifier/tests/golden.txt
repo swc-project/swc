@@ -1,4 +1,6 @@
 arguments/arguments_and_destructuring_1/input.js
+arguments/arguments_and_destructuring_2/input.js
+arguments/arguments_and_destructuring_3/input.js
 arguments/arguments_in_arrow_func_1/input.js
 arguments/arguments_in_arrow_func_2/input.js
 arguments/modified_strict/input.js
