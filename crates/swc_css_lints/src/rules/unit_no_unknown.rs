@@ -1,12 +1,8 @@
 use serde::{Deserialize, Serialize};
-use swc_common::{errors::HANDLER, Spanned};
 use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitWith};
 
-use crate::{
-    config::{LintRuleReaction, RuleConfig},
-    rule::{visitor_rule, LintRule},
-};
+use crate::rule::{visitor_rule, LintRule, LintRuleContext};
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -14,20 +10,14 @@ pub struct UnitNoUnknownConfig {
     ignore_units: Option<Vec<String>>,
 }
 
-pub fn unit_no_unknown(config: &RuleConfig<UnitNoUnknownConfig>) -> Box<dyn LintRule> {
-    visitor_rule(UnitNoUnknown {
-        reaction: config.get_rule_reaction(),
-        ignored_units: config
-            .get_rule_config()
-            .ignore_units
-            .clone()
-            .unwrap_or_default(),
-    })
+pub fn unit_no_unknown(ctx: LintRuleContext<UnitNoUnknownConfig>) -> Box<dyn LintRule> {
+    let ignored_units = ctx.config().ignore_units.clone().unwrap_or_default();
+    visitor_rule(UnitNoUnknown { ctx, ignored_units })
 }
 
 #[derive(Debug, Default)]
 struct UnitNoUnknown {
-    reaction: LintRuleReaction,
+    ctx: LintRuleContext<UnitNoUnknownConfig>,
     ignored_units: Vec<String>,
 }
 
@@ -37,16 +27,7 @@ impl Visit for UnitNoUnknown {
 
         if self.ignored_units.iter().all(|item| unit != item) {
             let message = format!("Unexpected unknown unit \"{}\".", unit);
-
-            HANDLER.with(|handler| match self.reaction {
-                LintRuleReaction::Error => handler
-                    .struct_span_err(unknown_dimension.unit.span(), &message)
-                    .emit(),
-                LintRuleReaction::Warning => handler
-                    .struct_span_warn(unknown_dimension.unit.span(), &message)
-                    .emit(),
-                _ => {}
-            });
+            self.ctx.report(&unknown_dimension.unit, message);
         }
 
         unknown_dimension.visit_children_with(self);
