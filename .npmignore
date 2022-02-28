@@ -12,6 +12,7 @@ yarn.lock
 package-lock.json
 *.log
 .idea/
+docs/
 
 wasm/
 
