@@ -430,7 +430,7 @@ where
                     }
                     Grammar::DeclarationValue => {
                         let state = self.input.state();
-                        let parsed = self.parse_one_value_inner();
+                        let parsed = self.parse();
                         let value = match parsed {
                             Ok(value) => {
                                 self.input.skip_ws()?;
@@ -588,7 +588,7 @@ where
                         }
 
                         let state = self.input.state();
-                        let parsed = self.parse_one_value_inner();
+                        let parsed = self.parse();
                         let value_or_token = match parsed {
                             Ok(value) => value,
                             Err(err) => {

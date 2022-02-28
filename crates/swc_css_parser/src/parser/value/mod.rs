@@ -152,92 +152,6 @@ where
         Ok(tokens)
     }
 
-    pub(super) fn parse_one_value_inner(&mut self) -> PResult<Value> {
-        // TODO remove me
-        self.input.skip_ws()?;
-
-        let span = self.input.cur_span()?;
-
-        match cur!(self) {
-            tok!(",") => return Ok(Value::Delimiter(self.parse()?)),
-
-            tok!("/") => return Ok(Value::Delimiter(self.parse()?)),
-
-            tok!(";") => return Ok(Value::Delimiter(self.parse()?)),
-
-            tok!("string") => return Ok(Value::Str(self.parse()?)),
-
-            tok!("url") => return Ok(Value::Url(self.parse()?)),
-
-            Token::Function { value, .. } => match &*value.to_ascii_lowercase() {
-                "url" | "src" => return Ok(Value::Url(self.parse()?)),
-                "rgb" | "rgba" | "hsl" | "hsla" | "hwb" | "lab" | "lch" | "oklab" | "oklch"
-                | "color" => return Ok(Value::Color(self.parse()?)),
-                _ => return Ok(Value::Function(self.parse()?)),
-            },
-
-            tok!("percentage") => return Ok(Value::Percentage(self.parse()?)),
-
-            tok!("dimension") => return Ok(Value::Dimension(self.parse()?)),
-
-            Token::Number { type_flag, .. } => {
-                if *type_flag == NumberType::Integer {
-                    return Ok(Value::Integer(self.parse()?));
-                }
-
-                return Ok(Value::Number(self.parse()?));
-            }
-
-            Token::Ident { value, .. } => {
-                if value.starts_with("--") {
-                    return Ok(Value::DashedIdent(self.parse()?));
-                } else if &*value.to_ascii_lowercase() == "u"
-                    && peeked_is_one_of!(self, "+", "number", "dimension")
-                {
-                    return Ok(Value::UnicodeRange(self.parse()?));
-                }
-
-                return Ok(Value::Ident(self.parse()?));
-            }
-
-            tok!("[") => {
-                let ctx = Ctx {
-                    grammar: Grammar::DeclarationValue,
-                    ..self.ctx
-                };
-                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-                return Ok(Value::SimpleBlock(block));
-            }
-
-            tok!("(") => {
-                let ctx = Ctx {
-                    grammar: Grammar::DeclarationValue,
-                    ..self.ctx
-                };
-                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-                return Ok(Value::SimpleBlock(block));
-            }
-
-            tok!("{") => {
-                let ctx = Ctx {
-                    grammar: Grammar::DeclarationValue,
-                    ..self.ctx
-                };
-                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-                return Ok(Value::SimpleBlock(block));
-            }
-
-            tok!("#") => return Ok(Value::Color(Color::HexColor(self.parse()?))),
-
-            _ => {}
-        }
-
-        Err(Error::new(span, ErrorKind::Expected("Declaration value")))
-    }
-
     pub fn parse_function_values(&mut self, function_name: &str) -> PResult<Vec<Value>> {
         let mut values = vec![];
 
@@ -422,11 +336,102 @@ where
                     break;
                 }
 
-                values.push(self.parse_one_value_inner()?);
+                values.push(self.parse()?);
             },
         };
 
         Ok(values)
+    }
+}
+
+impl<I> Parse<Value> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Value> {
+        // TODO remove me
+        self.input.skip_ws()?;
+
+        let span = self.input.cur_span()?;
+
+        match cur!(self) {
+            tok!(",") => return Ok(Value::Delimiter(self.parse()?)),
+
+            tok!("/") => return Ok(Value::Delimiter(self.parse()?)),
+
+            tok!(";") => return Ok(Value::Delimiter(self.parse()?)),
+
+            tok!("string") => return Ok(Value::Str(self.parse()?)),
+
+            tok!("url") => return Ok(Value::Url(self.parse()?)),
+
+            Token::Function { value, .. } => match &*value.to_ascii_lowercase() {
+                "url" | "src" => return Ok(Value::Url(self.parse()?)),
+                "rgb" | "rgba" | "hsl" | "hsla" | "hwb" | "lab" | "lch" | "oklab" | "oklch"
+                | "color" => return Ok(Value::Color(self.parse()?)),
+                _ => return Ok(Value::Function(self.parse()?)),
+            },
+
+            tok!("percentage") => return Ok(Value::Percentage(self.parse()?)),
+
+            tok!("dimension") => return Ok(Value::Dimension(self.parse()?)),
+
+            Token::Number { type_flag, .. } => {
+                if *type_flag == NumberType::Integer {
+                    return Ok(Value::Integer(self.parse()?));
+                }
+
+                return Ok(Value::Number(self.parse()?));
+            }
+
+            Token::Ident { value, .. } => {
+                if value.starts_with("--") {
+                    return Ok(Value::DashedIdent(self.parse()?));
+                } else if &*value.to_ascii_lowercase() == "u"
+                    && peeked_is_one_of!(self, "+", "number", "dimension")
+                {
+                    return Ok(Value::UnicodeRange(self.parse()?));
+                }
+
+                return Ok(Value::Ident(self.parse()?));
+            }
+
+            tok!("[") => {
+                let ctx = Ctx {
+                    grammar: Grammar::DeclarationValue,
+                    ..self.ctx
+                };
+                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+
+                return Ok(Value::SimpleBlock(block));
+            }
+
+            tok!("(") => {
+                let ctx = Ctx {
+                    grammar: Grammar::DeclarationValue,
+                    ..self.ctx
+                };
+                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+
+                return Ok(Value::SimpleBlock(block));
+            }
+
+            tok!("{") => {
+                let ctx = Ctx {
+                    grammar: Grammar::DeclarationValue,
+                    ..self.ctx
+                };
+                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+
+                return Ok(Value::SimpleBlock(block));
+            }
+
+            tok!("#") => return Ok(Value::Color(Color::HexColor(self.parse()?))),
+
+            _ => {}
+        }
+
+        Err(Error::new(span, ErrorKind::Expected("Declaration value")))
     }
 }
 
