@@ -3134,6 +3134,8 @@ dependencies = [
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_quote_macros",
+ "swc_ecma_utils",
+ "testing",
 ]
 
 [[package]]
