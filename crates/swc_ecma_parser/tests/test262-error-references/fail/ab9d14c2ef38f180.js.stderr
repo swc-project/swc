@@ -1,12 +1,11 @@
-error: The left-hand side of an assignment expression must be a variable or a property access.
- --> $DIR/tests/test262-parser/fail/ab9d14c2ef38f180.js:1:1
-  |
-1 | (0, {a = 0}) = 0
-  | ^^^^^^^^^^^^
-
 error: assignment property is invalid syntax
  --> $DIR/tests/test262-parser/fail/ab9d14c2ef38f180.js:1:6
   |
 1 | (0, {a = 0}) = 0
   |      ^^^^^
 
+error: The left-hand side of an assignment expression must be a variable or a property access.
+ --> $DIR/tests/test262-parser/fail/ab9d14c2ef38f180.js:1:1
+  |
+1 | (0, {a = 0}) = 0
+  | ^^^^^^^^^^^^
