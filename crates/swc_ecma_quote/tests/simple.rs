@@ -11,7 +11,7 @@ fn quote_expr_var_cloned() {
     testing::run_test2(false, |_cm, _handler| {
         let id = private_ident!("_ref");
 
-        let _expr = quote_expr!("call(my_id, typeof arg2, my_id)", my_id = id);
+        let _expr = quote_expr!("call($my_id, typeof arg2, $my_id)", my_id = id);
 
         Ok(())
     })
