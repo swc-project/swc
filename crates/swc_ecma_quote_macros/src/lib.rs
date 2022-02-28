@@ -1,6 +1,9 @@
 extern crate proc_macro;
 
+use std::iter::once;
+
 use quote::ToTokens;
+use syn::{Block, ExprBlock};
 
 use crate::{
     ast::ToCode,
@@ -38,5 +41,20 @@ pub fn internal_quote(input: proc_macro::TokenStream) -> proc_macro::TokenStream
     };
 
     let cx = Ctx { vars };
-    ret_type.to_code(&cx).to_token_stream().into()
+
+    let expr_for_ast_creation = ret_type.to_code(&cx);
+
+    syn::Expr::Block(ExprBlock {
+        attrs: Default::default(),
+        label: Default::default(),
+        block: Block {
+            brace_token: Default::default(),
+            stmts: stmts
+                .into_iter()
+                .chain(once(syn::Stmt::Expr(expr_for_ast_creation)))
+                .collect(),
+        },
+    })
+    .to_token_stream()
+    .into()
 }

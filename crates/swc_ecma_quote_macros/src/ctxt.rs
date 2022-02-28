@@ -45,7 +45,7 @@ impl VarData {
         if use_clone {
             let var_ref_expr = self.expr_for_var_ref();
 
-            parse_quote!(swc_ecma_quote::ImplicitClone::clone_quote_var(#var_ref_expr))
+            parse_quote!(swc_ecma_quote::ImplicitClone::clone_quote_var(&#var_ref_expr))
         } else {
             self.expr_for_var_ref()
         }
