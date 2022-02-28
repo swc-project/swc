@@ -2527,6 +2527,21 @@ where
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        // Skip if `use asm` exists.
+        if stmts.iter().any(|stmt| match stmt.as_stmt() {
+            Some(Stmt::Expr(stmt)) => match &*stmt.expr {
+                Expr::Lit(Lit::Str(Str {
+                    value,
+                    has_escape: false,
+                    ..
+                })) => &**value == "use asm",
+                _ => false,
+            },
+            _ => false,
+        }) {
+            return;
+        }
+
         let ctx = Ctx {
             top_level: false,
             ..self.ctx
