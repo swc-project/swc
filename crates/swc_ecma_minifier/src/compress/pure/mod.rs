@@ -566,6 +566,16 @@ where
     }
 
     fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
+        if !items.is_empty() {
+            if let Stmt::Expr(ExprStmt { expr, .. }) = &items[0] {
+                if let Expr::Lit(Lit::Str(v)) = &**expr {
+                    if v.value == *"use asm" {
+                        return;
+                    }
+                }
+            }
+        }
+
         self.visit_par(items);
 
         self.handle_stmt_likes(items);
