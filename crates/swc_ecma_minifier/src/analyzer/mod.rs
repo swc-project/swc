@@ -138,6 +138,7 @@ pub(crate) enum ScopeKind {
 pub(crate) struct ScopeData {
     pub has_with_stmt: bool,
     pub has_eval_call: bool,
+    pub used_arguments: bool,
 }
 
 /// Analyzed info of a whole program we are working on.
@@ -218,6 +219,10 @@ where
     }
 
     fn report_usage(&mut self, i: &Ident, is_assign: bool) {
+        if i.sym == js_word!("arguments") {
+            self.scope.mark_used_arguments();
+        }
+
         self.data.report_usage(self.ctx, i, is_assign)
     }
 

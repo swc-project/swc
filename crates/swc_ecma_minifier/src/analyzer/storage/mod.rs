@@ -35,6 +35,8 @@ pub(crate) trait ScopeDataLike: Sized + Default {
 
     fn merge(&mut self, other: Self, is_child: bool);
 
+    fn mark_used_arguments(&mut self);
+
     fn mark_eval_called(&mut self);
 
     fn mark_with_stmt(&mut self);
