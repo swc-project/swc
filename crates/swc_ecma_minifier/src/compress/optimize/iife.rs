@@ -256,15 +256,16 @@ where
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n, vars)))]
     pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: AHashMap<Id, Box<Expr>>)
     where
-        N: VisitMutWith<Self>,
+        N: VisitMutWith<MultiReplacer>,
     {
         if cfg!(feature = "debug") {
             tracing::trace!("inline: inline_vars_in_node");
         }
 
-        let orig_vars = replace(&mut self.vars_for_inlining, vars);
-        n.visit_mut_with(self);
-        self.vars_for_inlining = orig_vars;
+        n.visit_mut_with(&mut MultiReplacer {
+            vars,
+            changed: false,
+        });
     }
 
     /// Fully inlines iife.
