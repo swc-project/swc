@@ -1,4 +1,6 @@
-use swc_ecma_quote::quote_expr;
+use swc_common::DUMMY_SP;
+use swc_ecma_ast::Ident;
+use swc_ecma_quote::{quote, quote_expr};
 use swc_ecma_utils::private_ident;
 
 #[test]
@@ -16,4 +18,12 @@ fn quote_expr_var_cloned() {
         Ok(())
     })
     .unwrap();
+}
+
+#[test]
+fn quote_example() {
+    let _stmt = quote!(
+        "const $name = 4;" as Stmt,
+        name = Ident::new("ref".into(), DUMMY_SP)
+    );
 }
