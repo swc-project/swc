@@ -338,10 +338,6 @@ keep_quoted_strict/keep_quoted_strict/input.js
 labels/labels_3/input.js
 labels/labels_4/input.js
 labels/labels_6/input.js
-loops/issue_186_beautify_braces_ie8/input.js
-loops/issue_186_beautify_ie8/input.js
-loops/issue_186_braces_ie8/input.js
-loops/issue_186_ie8/input.js
 loops/issue_2740_3/input.js
 loops/issue_2740_4/input.js
 loops/issue_2740_5/input.js
