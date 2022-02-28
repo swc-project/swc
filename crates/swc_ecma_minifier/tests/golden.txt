@@ -757,7 +757,11 @@ loops/issue_1648/input.js
 loops/issue_186/input.js
 loops/issue_186_beautify/input.js
 loops/issue_186_beautify_braces/input.js
+loops/issue_186_beautify_braces_ie8/input.js
+loops/issue_186_beautify_ie8/input.js
 loops/issue_186_braces/input.js
+loops/issue_186_braces_ie8/input.js
+loops/issue_186_ie8/input.js
 loops/issue_2740_1/input.js
 loops/issue_2740_2/input.js
 loops/issue_2904/input.js
