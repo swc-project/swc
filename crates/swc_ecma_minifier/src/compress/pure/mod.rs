@@ -449,17 +449,19 @@ where
     fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
         n.visit_mut_children_with(self);
 
-        if let Some(VarDeclOrExpr::Expr(e)) = n {
-            self.ignore_return_value(
-                e,
-                DropOpts {
-                    drop_zero: true,
-                    drop_str_lit: true,
-                    ..Default::default()
-                },
-            );
-            if e.is_invalid() {
-                *n = None;
+        if self.options.side_effects {
+            if let Some(VarDeclOrExpr::Expr(e)) = n {
+                self.ignore_return_value(
+                    e,
+                    DropOpts {
+                        drop_zero: true,
+                        drop_str_lit: true,
+                        ..Default::default()
+                    },
+                );
+                if e.is_invalid() {
+                    *n = None;
+                }
             }
         }
     }
