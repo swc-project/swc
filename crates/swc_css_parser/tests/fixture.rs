@@ -276,9 +276,15 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(SelectorList, visit_selector_list);
 
+    mtd!(CompoundSelectorList, visit_compound_selector_list);
+
+    mtd!(RelativeSelectorList, visit_relative_selector_list);
+
     mtd!(ComplexSelector, visit_complex_selector);
 
     mtd!(Combinator, visit_combinator);
+
+    mtd!(RelativeSelector, visit_relative_selector);
 
     mtd!(CompoundSelector, visit_compound_selector);
 
@@ -310,9 +316,21 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(PseudoClassSelector, visit_pseudo_class_selector);
 
-    mtd!(PseudoElementSelector, visit_pseudo_element_selector);
+    mtd!(
+        PseudoClassSelectorChildren,
+        visit_pseudo_class_selector_children
+    );
 
     mtd!(AnPlusB, visit_an_plus_b);
+
+    mtd!(AnPlusBNotation, visit_an_plus_b_notation);
+
+    mtd!(PseudoElementSelector, visit_pseudo_element_selector);
+
+    mtd!(
+        PseudoElementSelectorChildren,
+        visit_pseudo_element_selector_children
+    );
 
     mtd!(Delimiter, visit_delimiter);
 
@@ -320,7 +338,11 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(Function, visit_function);
 
+    mtd!(Color, visit_color);
+
     mtd!(HexColor, visit_hex_color);
+
+    mtd!(Integer, visit_integer);
 
     mtd!(Number, visit_number);
 
@@ -333,8 +355,6 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(DeclarationName, visit_declaration_name);
 
     mtd!(ImportantFlag, visit_important_flag);
-
-    mtd!(Nth, visit_nth);
 
     mtd!(Rule, visit_rule);
 
@@ -378,7 +398,7 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(UrlModifier, visit_url_modifier);
 
-    mtd!(Urange, visit_urange);
+    mtd!(UnicodeRange, visit_unicode_range);
 
     mtd!(Value, visit_value);
 

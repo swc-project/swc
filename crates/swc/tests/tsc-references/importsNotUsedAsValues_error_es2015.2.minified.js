@@ -12,11 +12,7 @@ let a, b;
 console.log(a, b);
 const a = A;
 let b;
-console.log(a, b), C.One;
-let c = C.Two, d = C.Two;
-console.log(c, d);
-let c, d;
-console.log(c, d);
+console.log(a, b), console.log(1, 1), console.log(1, 1);
 class H {
 }
 module.exports = H;
@@ -27,5 +23,4 @@ const H = require("./h");
     K[K.One = 0] = "One", K[K.Two = 1] = "Two";
 }(K || (K = {})), module.exports = K;
 const K = require("./k");
-K.One;
 export { _class as default };

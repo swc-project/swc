@@ -6,16 +6,35 @@ function _arrayLikeToArray(arr, len) {
 function _arrayWithoutHoles(arr) {
     if (Array.isArray(arr)) return _arrayLikeToArray(arr);
 }
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
+function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+        return descriptor.get.call(receiver);
+    }
+    return descriptor.value;
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-function _classPrivateMethodGet(receiver, privateSet, fn) {
-    if (!privateSet.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to " + action + " private field on non-instance");
     }
-    return fn;
+    return privateMap.get(receiver);
+}
+function _classPrivateFieldGet(receiver, privateMap) {
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
 }
 function isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
@@ -115,14 +134,20 @@ function _templateObject1() {
     };
     return data;
 }
-var _fieldFunc = new WeakSet(), _fieldFunc2 = new WeakSet();
+var _fieldFunc = new WeakMap(), _fieldFunc2 = new WeakMap();
 var A = // @target: es2015
 /*#__PURE__*/ function() {
     "use strict";
     function A() {
         _classCallCheck(this, A);
-        _fieldFunc.add(this);
-        _fieldFunc2.add(this);
+        _classPrivateFieldInit(this, _fieldFunc, {
+            get: get_fieldFunc,
+            set: void 0
+        });
+        _classPrivateFieldInit(this, _fieldFunc2, {
+            get: get_fieldFunc2,
+            set: void 0
+        });
         this.x = 1;
     }
     _createClass(A, [
@@ -131,27 +156,27 @@ var A = // @target: es2015
             value: function test() {
                 var _instance;
                 var _ref;
-                _classPrivateMethodGet(this, _fieldFunc, fieldFunc).call(this);
-                var func = _classPrivateMethodGet(this, _fieldFunc, fieldFunc);
+                _classPrivateFieldGet(this, _fieldFunc).call(this);
+                var func = _classPrivateFieldGet(this, _fieldFunc);
                 func();
-                new (_classPrivateMethodGet(this, _fieldFunc, fieldFunc))();
+                new (_classPrivateFieldGet(this, _fieldFunc))();
                 var arr = [
                     1,
                     2
                 ];
-                (_instance = _classPrivateMethodGet(this, _fieldFunc2, fieldFunc2)).call.apply(_instance, [
+                (_instance = _classPrivateFieldGet(this, _fieldFunc2)).call.apply(_instance, [
                     this,
                     0
                 ].concat(_toConsumableArray(arr), [
                     3
                 ]));
-                var b = _construct(_classPrivateMethodGet(this, _fieldFunc2, fieldFunc2), [
+                var b = _construct(_classPrivateFieldGet(this, _fieldFunc2), [
                     0
                 ].concat(_toConsumableArray(arr), [
                     3
                 ]));
-                var str = _classPrivateMethodGet(this, _fieldFunc2, fieldFunc2).bind(this)(_templateObject(), 1, 2);
-                _classPrivateMethodGet(_ref = this.getInstance(), _fieldFunc2, fieldFunc2).bind(_ref)(_templateObject1(), 1, 2);
+                var str = _classPrivateFieldGet(this, _fieldFunc2).bind(this)(_templateObject(), 1, 2);
+                _classPrivateFieldGet(_ref = this.getInstance(), _fieldFunc2).bind(_ref)(_templateObject1(), 1, 2);
             }
         },
         {
@@ -163,12 +188,12 @@ var A = // @target: es2015
     ]);
     return A;
 }();
-function fieldFunc() {
+function get_fieldFunc() {
     return function() {
         this.x = 10;
     };
 }
-function fieldFunc2() {
+function get_fieldFunc2() {
     return function(a) {
         for(var _len = arguments.length, b = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
             b[_key - 1] = arguments[_key];

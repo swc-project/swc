@@ -1,8 +1,8 @@
 use std::path::PathBuf;
 
-use swc_common::{comments::SingleThreadedComments, input::SourceFileInput, Mark};
+use swc_common::{comments::SingleThreadedComments, Mark};
 use swc_ecma_ast::Id;
-use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax};
+use swc_ecma_parser::{parse_file_as_module, EsConfig, Syntax};
 use swc_ecma_transforms::resolver_with_mark;
 use swc_ecma_visit::FoldWith;
 use testing::NormalizedOutput;
@@ -22,25 +22,22 @@ fn snapshot(input: PathBuf) {
 
         let top_level_mark = Mark::fresh(Mark::root());
 
-        let lexer = Lexer::new(
+        let marks = Marks::new();
+
+        let program = parse_file_as_module(
+            &fm,
             Syntax::Es(EsConfig {
                 jsx: true,
                 ..Default::default()
             }),
             Default::default(),
-            SourceFileInput::from(&*fm),
             Some(&comments),
-        );
-
-        let marks = Marks::new();
-
-        let mut parser = Parser::new_from(lexer);
-        let program = parser
-            .parse_module()
-            .map_err(|err| {
-                err.into_diagnostic(&handler).emit();
-            })
-            .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)));
+            &mut vec![],
+        )
+        .map_err(|err| {
+            err.into_diagnostic(&handler).emit();
+        })
+        .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)));
 
         let program = match program {
             Ok(program) => program,

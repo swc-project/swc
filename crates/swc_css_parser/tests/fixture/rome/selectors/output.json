@@ -1265,25 +1265,16 @@
                     },
                     "children": [
                       {
-                        "type": "Nth",
+                        "type": "AnPlusBNotation",
                         "span": {
                           "start": 280,
                           "end": 281,
                           "ctxt": 0
                         },
-                        "nth": {
-                          "type": "AnPlusB",
-                          "span": {
-                            "start": 280,
-                            "end": 281,
-                            "ctxt": 0
-                          },
-                          "a": null,
-                          "aRaw": null,
-                          "b": 2,
-                          "bRaw": "2"
-                        },
-                        "selectorList": null
+                        "a": null,
+                        "aRaw": null,
+                        "b": 2,
+                        "bRaw": "2"
                       }
                     ]
                   }
@@ -1356,54 +1347,33 @@
                     },
                     "children": [
                       {
-                        "type": "PreservedToken",
+                        "type": "Ident",
                         "span": {
                           "start": 294,
                           "end": 296,
                           "ctxt": 0
                         },
-                        "token": {
-                          "Ident": {
-                            "value": "en",
-                            "raw": "en"
-                          }
-                        }
+                        "value": "en",
+                        "raw": "en"
                       },
                       {
-                        "type": "PreservedToken",
+                        "type": "Delimiter",
                         "span": {
                           "start": 296,
                           "end": 297,
                           "ctxt": 0
                         },
-                        "token": "Comma"
+                        "value": ","
                       },
                       {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 297,
-                          "end": 298,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "WhiteSpace": {
-                            "value": " "
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
+                        "type": "Ident",
                         "span": {
                           "start": 298,
                           "end": 300,
                           "ctxt": 0
                         },
-                        "token": {
-                          "Ident": {
-                            "value": "ko",
-                            "raw": "ko"
-                          }
-                        }
+                        "value": "ko",
+                        "raw": "ko"
                       }
                     ]
                   }

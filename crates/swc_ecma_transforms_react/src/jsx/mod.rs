@@ -17,7 +17,7 @@ use swc_common::{
     FileName, Mark, SourceMap, Span, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_parser::{Parser, StringInput, Syntax};
+use swc_ecma_parser::{parse_file_as_expr, Syntax};
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     drop_span, member_expr, prepend, private_ident, quote_ident, undefined, ExprFactory,
@@ -135,29 +135,34 @@ pub fn parse_expr_for_jsx(
         return expr.clone();
     }
 
-    let expr = Parser::new(Syntax::default(), StringInput::from(&*fm), None)
-        .parse_expr()
-        .map_err(|e| {
-            if HANDLER.is_set() {
-                HANDLER.with(|h| {
-                    e.into_diagnostic(h)
-                        .note("error detected while parsing option for classic jsx transform")
-                        .emit()
-                })
-            }
-        })
-        .map(drop_span)
-        .map(|mut expr| {
-            apply_mark(&mut expr, top_level_mark);
-            expr
-        })
-        .map(Arc::new)
-        .unwrap_or_else(|()| {
-            panic!(
-                "failed to parse jsx option {}: '{}' is not an expression",
-                name, fm.src,
-            )
-        });
+    let expr = parse_file_as_expr(
+        &fm,
+        Syntax::default(),
+        Default::default(),
+        None,
+        &mut vec![],
+    )
+    .map_err(|e| {
+        if HANDLER.is_set() {
+            HANDLER.with(|h| {
+                e.into_diagnostic(h)
+                    .note("error detected while parsing option for classic jsx transform")
+                    .emit()
+            })
+        }
+    })
+    .map(drop_span)
+    .map(|mut expr| {
+        apply_mark(&mut expr, top_level_mark);
+        expr
+    })
+    .map(Arc::new)
+    .unwrap_or_else(|()| {
+        panic!(
+            "failed to parse jsx option {}: '{}' is not an expression",
+            name, fm.src,
+        )
+    });
 
     CACHE.insert(((*fm.src).clone(), top_level_mark), expr.clone());
 
@@ -406,13 +411,7 @@ where
 
                 let args = if self.development {
                     args.chain(once(undefined(DUMMY_SP).as_arg()))
-                        .chain(once(
-                            Lit::Bool(Bool {
-                                span: DUMMY_SP,
-                                value: use_jsxs,
-                            })
-                            .as_arg(),
-                        ))
+                        .chain(once(use_jsxs.as_arg()))
                         .collect()
                 } else {
                     args.collect()
@@ -505,7 +504,7 @@ where
                                         key = attr
                                             .value
                                             .and_then(jsx_attr_value_to_expr)
-                                            .map(|expr| ExprOrSpread { expr, spread: None });
+                                            .map(|expr| expr.as_arg());
                                         assert_ne!(
                                             key, None,
                                             "value of property 'key' should not be empty"
@@ -523,7 +522,7 @@ where
                                         source_props = attr
                                             .value
                                             .and_then(jsx_attr_value_to_expr)
-                                            .map(|expr| ExprOrSpread { expr, spread: None });
+                                            .map(|expr| expr.as_arg());
                                         assert_ne!(
                                             source_props, None,
                                             "value of property '__source' should not be empty"
@@ -541,7 +540,7 @@ where
                                         self_props = attr
                                             .value
                                             .and_then(jsx_attr_value_to_expr)
-                                            .map(|expr| ExprOrSpread { expr, spread: None });
+                                            .map(|expr| expr.as_arg());
                                         assert_ne!(
                                             self_props, None,
                                             "value of property '__self' should not be empty"
@@ -552,10 +551,7 @@ where
                                     let value = match attr.value {
                                         Some(v) => jsx_attr_value_to_expr(v)
                                             .expect("empty expression container?"),
-                                        None => Box::new(Expr::Lit(Lit::Bool(Bool {
-                                            span: DUMMY_SP,
-                                            value: true,
-                                        }))),
+                                        None => true.into(),
                                     };
 
                                     // TODO: Check if `i` is a valid identifier.
@@ -593,10 +589,7 @@ where
                                     let value = match attr.value {
                                         Some(v) => jsx_attr_value_to_expr(v)
                                             .expect("empty expression container?"),
-                                        None => Box::new(Expr::Lit(Lit::Bool(Bool {
-                                            span: DUMMY_SP,
-                                            value: true,
-                                        }))),
+                                        None => true.into(),
                                     };
 
                                     let key = Str {
@@ -663,37 +656,22 @@ where
                     // set undefined literal to key if key is None
                     let key = match key {
                         Some(key) => key,
-                        None => ExprOrSpread {
-                            spread: None,
-                            expr: undefined(DUMMY_SP),
-                        },
+                        None => undefined(DUMMY_SP).as_arg(),
                     };
 
                     // set undefined literal to __source if __source is None
                     let source_props = match source_props {
                         Some(source_props) => source_props,
-                        None => ExprOrSpread {
-                            spread: None,
-                            expr: undefined(DUMMY_SP),
-                        },
+                        None => undefined(DUMMY_SP).as_arg(),
                     };
 
                     // set undefined literal to __self if __self is None
                     let self_props = match self_props {
                         Some(self_props) => self_props,
-                        None => ExprOrSpread {
-                            spread: None,
-                            expr: undefined(DUMMY_SP),
-                        },
+                        None => undefined(DUMMY_SP).as_arg(),
                     };
                     args.chain(once(key))
-                        .chain(once(
-                            Lit::Bool(Bool {
-                                span: DUMMY_SP,
-                                value: use_jsxs,
-                            })
-                            .as_arg(),
-                        ))
+                        .chain(once(use_jsxs.as_arg()))
                         .chain(once(source_props))
                         .chain(once(self_props))
                         .collect()

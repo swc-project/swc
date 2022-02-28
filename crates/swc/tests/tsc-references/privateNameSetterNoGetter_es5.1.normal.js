@@ -1,24 +1,47 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
+function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+        return descriptor.get.call(receiver);
+    }
+    return descriptor.value;
+}
+function _classApplyDescriptorSet(receiver, descriptor, value) {
+    if (descriptor.set) {
+        descriptor.set.call(receiver, value);
+    } else {
+        if (!descriptor.writable) {
+            throw new TypeError("attempted to set read only private field");
+        }
+        descriptor.value = value;
+    }
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-function _classPrivateFieldSet(receiver, privateMap, value) {
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
     if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
+        throw new TypeError("attempted to " + action + " private field on non-instance");
     }
-    var descriptor = privateMap.get(receiver);
-    if (!descriptor.writable) {
-        throw new TypeError("attempted to set read only private field");
-    }
-    descriptor.value = value;
-    return value;
+    return privateMap.get(receiver);
 }
-function _classPrivateMethodGet(receiver, privateSet, fn) {
-    if (!privateSet.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return fn;
+function _classPrivateFieldGet(receiver, privateMap) {
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
+}
+function _classPrivateFieldSet(receiver, privateMap, value) {
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
+    _classApplyDescriptorSet(receiver, descriptor, value);
+    return value;
 }
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
@@ -36,19 +59,22 @@ function _createClass(Constructor, protoProps, staticProps) {
 }
 // @target: es2015
 var C = function() {
-    var x1 = function x1(x) {};
-    var _x = new WeakSet();
+    var set_x = function set_x(x) {};
+    var _x = new WeakMap();
     var _class = /*#__PURE__*/ function() {
         "use strict";
         function _class() {
             _classCallCheck(this, _class);
-            _x.add(this);
+            _classPrivateFieldInit(this, _x, {
+                get: void 0,
+                set: set_x
+            });
         }
         _createClass(_class, [
             {
                 key: "m",
                 value: function m() {
-                    _classPrivateFieldSet(this, _x, _classPrivateMethodGet(this, _x, x1) + 2); // Error
+                    _classPrivateFieldSet(this, _x, _classPrivateFieldGet(this, _x) + 2); // Error
                 }
             }
         ]);

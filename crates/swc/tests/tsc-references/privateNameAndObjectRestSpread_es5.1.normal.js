@@ -1,19 +1,42 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
+function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+        return descriptor.get.call(receiver);
+    }
+    return descriptor.value;
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-function _classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
+function _classCheckPrivateStaticFieldDescriptor(descriptor, action) {
+    if (descriptor === undefined) {
+        throw new TypeError("attempted to " + action + " private static field before its declaration");
     }
-    return privateMap.get(receiver).value;
+}
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to " + action + " private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
+function _classPrivateFieldGet(receiver, privateMap) {
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
 }
 function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
-    if (receiver !== classConstructor) {
-        throw new TypeError("Private static access of wrong provenance");
-    }
-    return descriptor.value;
+    _classCheckPrivateStaticAccess(receiver, classConstructor);
+    _classCheckPrivateStaticFieldDescriptor(descriptor, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
 }
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
@@ -71,13 +94,19 @@ function _objectSpread(target) {
     }
     return target;
 }
+function _classCheckPrivateStaticAccess(receiver, classConstructor) {
+    if (receiver !== classConstructor) {
+        throw new TypeError("Private static access of wrong provenance");
+    }
+}
+var _prop = new WeakMap();
 var C = // @strict: true
 // @target: es6
 /*#__PURE__*/ function() {
     "use strict";
     function C() {
         _classCallCheck(this, C);
-        _prop.set(this, {
+        _classPrivateFieldInit(this, _prop, {
             writable: true,
             value: 1
         });
@@ -99,7 +128,6 @@ var C = // @strict: true
     ]);
     return C;
 }();
-var _prop = new WeakMap();
 var _propStatic = {
     writable: true,
     value: 1

@@ -1,14 +1,28 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap), privateMap.set(obj, value);
+}
+function _classPrivateMethodInit(obj, privateSet) {
+    _checkPrivateRedeclaration(obj, privateSet), privateSet.add(obj);
+}
 const array = [];
 for(let i = 0; i < 10; ++i)array.push(function() {
-    var _method = new WeakSet(), _accessor = new WeakSet(), _accessor = new WeakSet();
+    var _myField = new WeakMap(), _method = new WeakSet(), _accessor = new WeakMap();
     class C {
         constructor(){
-            _myField.set(this, {
+            _classPrivateMethodInit(this, _method), _classPrivateFieldInit(this, _accessor, {
+                get: function() {
+                    return 42;
+                },
+                set: set_accessor
+            }), _classPrivateFieldInit(this, _myField, {
                 writable: !0,
                 value: "hello"
-            }), _method.add(this), _accessor.add(this), _accessor.add(this);
+            });
         }
     }
-    var _myField = new WeakMap();
+    function set_accessor(val) {}
     return C;
 }());

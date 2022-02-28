@@ -12,6 +12,9 @@
         "swc.android-arm-eabi.node",
         "swc"
     ],
+    "bin": {
+        "swcx": "swc"
+    },
     "description": "Super-fast alternative for babel",
     "keywords": [
         "swc",

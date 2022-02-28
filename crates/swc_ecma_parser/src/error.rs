@@ -49,6 +49,8 @@ pub enum SyntaxError {
     ArrowNotAllowed,
     ExportNotAllowed,
     GetterSetterCannotBeReadonly,
+    GetterParam,
+    SetterParam,
 
     TopLevelAwait,
     TopLevelAwaitInScript,
@@ -182,6 +184,8 @@ pub enum SyntaxError {
     ImportBindingIsString(JsWord),
     ExportBindingIsString,
 
+    ConstDeclarationsRequireInitialization,
+
     TS1003,
     TS1005,
     TS1009,
@@ -221,7 +225,6 @@ pub enum SyntaxError {
     TS1183,
     TS1184,
     TS1093,
-    TS1094,
     TS1196,
     TS1242,
     TS1243(JsWord, JsWord),
@@ -473,19 +476,25 @@ impl SyntaxError {
             SyntaxError::GetterSetterCannotBeReadonly => {
                 "A getter or a setter cannot be readonly".into()
             }
+            SyntaxError::GetterParam => "A `get` accessor cannot have parameters".into(),
+            SyntaxError::SetterParam => "A `set` accessor must have exactly one parameter".into(),
             SyntaxError::RestPatInSetter => "Rest pattern is not allowed in setter".into(),
 
             SyntaxError::GeneratorConstructor => "A constructor cannot be generator".into(),
 
-            SyntaxError::ImportBindingIsString(str) => format!(
+            SyntaxError::ImportBindingIsString(s) => format!(
                 "A string literal cannot be used as an imported binding.\n- Did you mean `import \
                  {{ \"{}\" as foo }}`?",
-                str
+                s
             )
             .into(),
 
             SyntaxError::ExportBindingIsString => {
                 "A string literal cannot be used as an exported binding without `from`.".into()
+            }
+
+            SyntaxError::ConstDeclarationsRequireInitialization => {
+                "'const' declarations must be initialized".into()
             }
 
             SyntaxError::TS1003 => "Expected an identifier".into(),
@@ -551,9 +560,6 @@ impl SyntaxError {
             SyntaxError::TS1184 => "Modifiers cannot appear here".into(),
             SyntaxError::TS1093 => {
                 "Type annotation cannot appear on a constructor declaration".into()
-            }
-            SyntaxError::TS1094 => {
-                "A `set` accessor must have a corresponding `get` accessor".into()
             }
             SyntaxError::TS1196 => "Catch clause variable cannot have a type annotation".into(),
             SyntaxError::TS1242 => {

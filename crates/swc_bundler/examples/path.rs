@@ -5,7 +5,7 @@ use swc_bundler::{BundleKind, Bundler, Config, Hook, Load, ModuleData, ModuleRec
 use swc_common::{sync::Lrc, FileName, FilePathMapping, Globals, SourceMap, Span};
 use swc_ecma_ast::KeyValueProp;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
-use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
+use swc_ecma_parser::{parse_file_as_module, EsConfig, Syntax};
 
 fn main() {
     let _log = testing::init();
@@ -67,17 +67,17 @@ impl Load for PathLoader {
         };
 
         let fm = self.cm.load_file(file)?;
-        let lexer = Lexer::new(
+
+        let module = parse_file_as_module(
+            &fm,
             Syntax::Es(EsConfig {
                 ..Default::default()
             }),
             Default::default(),
-            StringInput::from(&*fm),
             None,
-        );
-
-        let mut parser = Parser::new_from(lexer);
-        let module = parser.parse_module().expect("This should not happen");
+            &mut vec![],
+        )
+        .expect("This should not happen");
 
         Ok(ModuleData {
             fm,

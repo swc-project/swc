@@ -82,7 +82,7 @@ error: Value
 2 |         @page :first { margin: 0 }
   |                                ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:26
   |
 2 |         @page :first { margin: 0 }

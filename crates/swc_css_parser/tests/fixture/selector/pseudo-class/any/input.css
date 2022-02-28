@@ -1,0 +1,21 @@
+:-webkit-any(textarea) {}
+:-moz-any(textarea) {}
+:-webkit-any(header, main, footer) p:hover {}
+:-moz-any(header, main, footer) p:hover {}
+:-webkit-any(.class[test]) {}
+:-moz-any(.class[test]) {}
+:-webkit-any(.class[test], .class) {}
+:-moz-any(.class[test], .class) {}
+:-webkit-any(h1),
+:-webkit-any( #div1, b ),
+:-webkit-any(.foo, #bar),
+:-webkit-any(i,p,:link,span:focus) {
+    background-color: blue;
+}
+
+#test-last-child :-webkit-any(:last-child),
+:-webkit-any(:link:focus),
+#container-div :-webkit-any(:link, :not(a)),
+h1:-webkit-any(.h1class, #bar) {
+    background-color: green;
+}

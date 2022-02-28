@@ -8,6 +8,7 @@ use serde::{
     Deserialize, Deserializer, Serialize,
 };
 use string_enum::StringEnum;
+use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 use crate::{
@@ -860,6 +861,15 @@ pub enum TsEnumMemberId {
 
     #[tag("StringLiteral")]
     Str(Str),
+}
+
+impl AsRef<JsWord> for TsEnumMemberId {
+    fn as_ref(&self) -> &JsWord {
+        match &self {
+            TsEnumMemberId::Str(Str { value: ref sym, .. })
+            | TsEnumMemberId::Ident(Ident { ref sym, .. }) => sym,
+        }
+    }
 }
 
 #[ast_node("TsModuleDeclaration")]

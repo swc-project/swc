@@ -76,6 +76,12 @@ error: Ident
 1 | a::b(c) {}
   |    ^
 
+error: PseudoElementSelectorChildren
+ --> $DIR/tests/fixture/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:6
+  |
+1 | a::b(c) {}
+  |      ^
+
 error: Ident { value: Atom('c' type=inline), raw: Atom('c' type=inline) }
  --> $DIR/tests/fixture/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:6
   |

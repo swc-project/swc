@@ -1,0 +1,47 @@
+os:
+  windows:
+    - swc
+    - swc_cli
+    - swc_common
+    - swc_css_codegen
+    - swc_css_parser
+    - swc_ecma_codegen
+    - swc_ecma_loader
+    - swc_ecma_parser
+    - swc_ecma_preset_env
+    - swc_ecma_transforms_module
+    - swc_ecma_transforms_testing
+    - swc_node_bundler
+    - swc_plugin
+    - swc_plugin_runner
+    - swc_plugin_testing
+  macos:
+    - swc_plugin_runner
+
+check:
+  node:
+    - "check"
+    - "check --no-default-features --features swc_v2"
+  swc:
+    - "hack check --feature-powerset --no-dev-deps"
+  swc_bundler:
+    - "hack check --feature-powerset --no-dev-deps"
+  swc_common:
+    - "hack check --feature-powerset --no-dev-deps"
+  swc_ecma_ast:
+    - "hack check --feature-powerset --no-dev-deps"
+  swc_ecma_loader:
+    - "hack check --feature-powerset --no-dev-deps"
+  swc_ecma_transforms:
+    - "hack check --feature-powerset --no-dev-deps"
+  swc_ecma_transforms_base:
+    - "hack check --feature-powerset --no-dev-deps"
+  swc_ecma_transforms_compat:
+    - "hack check --feature-powerset --no-dev-deps"
+  swc_ecma_transforms_optimization:
+    - "hack check --feature-powerset --no-dev-deps"
+  swc_ecma_utils:
+    - "hack check --feature-powerset --no-dev-deps"
+  swc_node_bundler:
+    - "check"
+    - "check --no-default-features --features swc_v2"

@@ -119,7 +119,7 @@ error: Value
 2 |     property: 10;
   |               ^^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/number/input.css:2:15
   |
 2 |     property: 10;
@@ -155,7 +155,7 @@ error: Value
 3 |     property: +10;
   |               ^^^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/number/input.css:3:15
   |
 3 |     property: +10;
@@ -191,7 +191,7 @@ error: Value
 4 |     property: -10;
   |               ^^^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/number/input.css:4:15
   |
 4 |     property: -10;
@@ -407,7 +407,7 @@ error: Value
 10 |     property: 0;
    |               ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/number/input.css:10:15
    |
 10 |     property: 0;
@@ -443,7 +443,7 @@ error: Value
 11 |     property: 10;
    |               ^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/number/input.css:11:15
    |
 11 |     property: 10;
@@ -1019,7 +1019,7 @@ error: Value
 27 |     property: -1;
    |               ^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/number/input.css:27:15
    |
 27 |     property: -1;
@@ -1487,7 +1487,7 @@ error: Value
 40 |     property: 1+2;
    |               ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/number/input.css:40:15
    |
 40 |     property: 1+2;
@@ -1499,7 +1499,7 @@ error: Value
 40 |     property: 1+2;
    |                ^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/number/input.css:40:16
    |
 40 |     property: 1+2;
@@ -1535,7 +1535,7 @@ error: Value
 41 |     property: 1-2;
    |               ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/number/input.css:41:15
    |
 41 |     property: 1-2;
@@ -1547,7 +1547,7 @@ error: Value
 41 |     property: 1-2;
    |                ^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/number/input.css:41:16
    |
 41 |     property: 1-2;
@@ -1871,7 +1871,7 @@ error: Value
 50 |     property: 10000000;
    |               ^^^^^^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/number/input.css:50:15
    |
 50 |     property: 10000000;

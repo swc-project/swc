@@ -61,10 +61,21 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
 function _AwaitValue(value) {
     this.wrapped = value;
 }
+function _classCheckPrivateStaticFieldDescriptor(descriptor, action) {
+    if (void 0 === descriptor) throw new TypeError("attempted to " + action + " private static field before its declaration");
+}
+function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
+    var receiver, descriptor;
+    return _classCheckPrivateStaticAccess(receiver, classConstructor), _classCheckPrivateStaticFieldDescriptor(descriptor, "get"), descriptor.get ? descriptor.get.call(receiver) : descriptor.value;
+}
 function _classStaticPrivateFieldSpecSet(receiver, classConstructor, descriptor, value) {
-    if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
-    if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-    return descriptor.value = value, value;
+    return _classCheckPrivateStaticAccess(receiver, classConstructor), _classCheckPrivateStaticFieldDescriptor(descriptor, "set"), !function(receiver, descriptor, value) {
+        if (descriptor.set) descriptor.set.call(receiver, value);
+        else {
+            if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
+            descriptor.value = value;
+        }
+    }(receiver, descriptor, value), value;
 }
 function _classStaticPrivateMethodGet(receiver, classConstructor, method) {
     return _classCheckPrivateStaticAccess(receiver, classConstructor), method;
@@ -83,10 +94,17 @@ function _classCheckPrivateStaticAccess(receiver, classConstructor) {
 };
 class A {
     constructor(){
-        _classStaticPrivateMethodGet(A, A, function(a) {}).call(A, 30), _classStaticPrivateMethodGet(A, A, bar).call(A, 30), _classStaticPrivateMethodGet(A, A, bar).call(A, 30), _classStaticPrivateFieldSpecSet(A, A, _quux, _classStaticPrivateMethodGet(A, A, quux) + 1), _classStaticPrivateFieldSpecSet(A, A, _quux, +_classStaticPrivateMethodGet(A, A, quux) + 1);
+        _classStaticPrivateMethodGet(A, A, function(a) {}).call(A, 30), _classStaticPrivateMethodGet(A, A, bar).call(A, 30), _classStaticPrivateMethodGet(A, A, bar).call(A, 30), _classStaticPrivateFieldSpecSet(A, A, _quux, _classStaticPrivateFieldSpecGet(A, A, _quux) + 1), _classStaticPrivateFieldSpecSet(A, A, _quux, +_classStaticPrivateFieldSpecGet(A, A, _quux) + 1);
     }
 }
-var __quux = {
+var _quux = {
+    get: function() {
+        return _classStaticPrivateFieldSpecGet(this, A, __quux);
+    },
+    set: function(val) {
+        _classStaticPrivateFieldSpecSet(this, A, __quux, val);
+    }
+}, __quux = {
     writable: !0,
     value: void 0
 };
@@ -109,15 +127,6 @@ function _bar() {
             });
         };
     })(function*(a) {})).apply(this, arguments);
-}
-function quux() {
-    return (function(receiver, classConstructor, descriptor) {
-        if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
-        return descriptor.value;
-    })(this, A, __quux);
-}
-function quux(val) {
-    _classStaticPrivateFieldSpecSet(this, A, __quux, val);
 }
 class B extends A {
     constructor(){

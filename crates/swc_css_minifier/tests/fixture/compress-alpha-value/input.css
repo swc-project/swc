@@ -1,0 +1,47 @@
+.class1 { 
+    opacity: 0 
+}
+
+.class2 {
+    opacity: 0%;
+}
+
+.class3 {
+    opacity: 0.5;
+}
+
+.class4 {
+    opacity: 50%;
+}
+
+.class5 {
+    opacity: 1;
+}
+
+.class6 {
+    opacity: 100%;
+}
+
+.class7 {
+    shape-image-threshold: 70%;
+}
+
+.class8 {
+    fill-opacity: 50%;
+}
+
+.class9 {
+    stroke-opacity: 50%;
+}
+
+.class10 {
+    shape-image-threshold: 50%;
+}
+
+.class11 {
+    opacity: 53%;
+}
+
+.class12 {
+    OPACITY: 0
+}

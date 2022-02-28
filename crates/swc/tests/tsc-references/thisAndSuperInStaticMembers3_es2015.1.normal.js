@@ -1,4 +1,3 @@
-var ref, ref1;
 class C extends B {
     constructor(...args){
         super(...args);
@@ -9,10 +8,10 @@ class C extends B {
     }
 }
 C.x = undefined;
-C.y1 = this.x;
-C.y2 = this.x();
-C.y3 = (ref = this) === null || ref === void 0 ? void 0 : ref.x();
-C.y4 = this["x"]();
-C.y5 = (ref1 = this) === null || ref1 === void 0 ? void 0 : ref1["x"]();
+C.y1 = C.x;
+C.y2 = C.x();
+C.y3 = C === null || C === void 0 ? void 0 : C.x();
+C.y4 = C["x"]();
+C.y5 = C === null || C === void 0 ? void 0 : C["x"]();
 C.z3 = super.f();
 C.z4 = super["f"]();

@@ -3,6 +3,13 @@ function _arrayLikeToArray(arr, len) {
     for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
     return arr2;
 }
+function _classCheckPrivateStaticFieldDescriptor(descriptor, action) {
+    if (void 0 === descriptor) throw new TypeError("attempted to " + action + " private static field before its declaration");
+}
+function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
+    var receiver, descriptor;
+    return _classCheckPrivateStaticAccess(receiver, classConstructor), _classCheckPrivateStaticFieldDescriptor(descriptor, "get"), descriptor.get ? descriptor.get.call(receiver) : descriptor.value;
+}
 function _construct(Parent, args, Class) {
     return (_construct = !function() {
         if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
@@ -57,9 +64,6 @@ function _unsupportedIterableToArray(o, minLen) {
         if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
     }
 }
-function _classStaticPrivateMethodGet(receiver, classConstructor, method) {
-    return _classCheckPrivateStaticAccess(receiver, classConstructor), method;
-}
 function _classCheckPrivateStaticAccess(receiver, classConstructor) {
     if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
 }
@@ -95,21 +99,21 @@ var A = function() {
         {
             key: "test",
             value: function() {
-                _classStaticPrivateMethodGet(this, A, fieldFunc).call(A), _classStaticPrivateMethodGet(this, A, fieldFunc)(), new (_classStaticPrivateMethodGet(this, A, fieldFunc))();
+                _classStaticPrivateFieldSpecGet(this, A, _fieldFunc).call(A), _classStaticPrivateFieldSpecGet(this, A, _fieldFunc)(), new (_classStaticPrivateFieldSpecGet(this, A, _fieldFunc))();
                 var _instance, arr = [
                     1,
                     2
                 ];
-                (_instance = _classStaticPrivateMethodGet(this, A, fieldFunc2)).call.apply(_instance, [
+                (_instance = _classStaticPrivateFieldSpecGet(this, A, _fieldFunc2)).call.apply(_instance, [
                     A,
                     0
                 ].concat(_toConsumableArray(arr), [
                     3
-                ])), _construct(_classStaticPrivateMethodGet(this, A, fieldFunc2), [
+                ])), _construct(_classStaticPrivateFieldSpecGet(this, A, _fieldFunc2), [
                     0
                 ].concat(_toConsumableArray(arr), [
                     3
-                ])), _classStaticPrivateMethodGet(this, A, fieldFunc2).bind(A)(_templateObject(), 1, 2), _classStaticPrivateMethodGet(this.getClass(), A, fieldFunc2).bind(A)(_templateObject1(), 1, 2);
+                ])), _classStaticPrivateFieldSpecGet(this, A, _fieldFunc2).bind(A)(_templateObject(), 1, 2), _classStaticPrivateFieldSpecGet(this.getClass(), A, _fieldFunc2).bind(A)(_templateObject1(), 1, 2);
             }
         },
         {
@@ -119,21 +123,28 @@ var A = function() {
             }
         }
     ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), A;
-}(), _x = {
+}(), _fieldFunc = {
+    get: function() {
+        return function() {
+            var receiver, classConstructor, descriptor, value;
+            receiver = A, classConstructor = A, descriptor = _x, value = 10, _classCheckPrivateStaticAccess(receiver, classConstructor), _classCheckPrivateStaticFieldDescriptor(descriptor, "set"), (function(receiver, descriptor, value) {
+                if (descriptor.set) descriptor.set.call(receiver, value);
+                else {
+                    if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
+                    descriptor.value = value;
+                }
+            })(receiver, descriptor, value);
+        };
+    },
+    set: void 0
+}, _fieldFunc2 = {
+    get: function() {
+        return function(a) {
+            for(var _len = arguments.length, b = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)b[_key - 1] = arguments[_key];
+        };
+    },
+    set: void 0
+}, _x = {
     writable: !0,
     value: 1
 };
-function fieldFunc() {
-    return function() {
-        !function(receiver, classConstructor, descriptor, value) {
-            if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
-            if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-            return descriptor.value = value, value;
-        }(A, A, _x, 10);
-    };
-}
-function fieldFunc2() {
-    return function(a) {
-        for(var _len = arguments.length, b = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)b[_key - 1] = arguments[_key];
-    };
-}

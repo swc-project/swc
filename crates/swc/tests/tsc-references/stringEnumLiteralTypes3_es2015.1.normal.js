@@ -29,32 +29,32 @@ function f4(a, b, c, d) {
     d = d;
 }
 function f5(a, b, c, d) {
-    a = Choice.Unknown;
-    a = Choice.Yes;
-    a = Choice.No;
-    b = Choice.Unknown;
-    b = Choice.Yes;
-    b = Choice.No;
-    c = Choice.Unknown;
-    c = Choice.Yes;
-    c = Choice.No;
-    d = Choice.Unknown;
-    d = Choice.Yes;
-    d = Choice.No;
+    a = "";
+    a = "yes";
+    a = "no";
+    b = "";
+    b = "yes";
+    b = "no";
+    c = "";
+    c = "yes";
+    c = "no";
+    d = "";
+    d = "yes";
+    d = "no";
 }
 function f6(a, b, c, d) {
-    a === Choice.Unknown;
-    a === Choice.Yes;
-    a === Choice.No;
-    b === Choice.Unknown;
-    b === Choice.Yes;
-    b === Choice.No;
-    c === Choice.Unknown;
-    c === Choice.Yes;
-    c === Choice.No;
-    d === Choice.Unknown;
-    d === Choice.Yes;
-    d === Choice.No;
+    a === "";
+    a === "yes";
+    a === "no";
+    b === "";
+    b === "yes";
+    b === "no";
+    c === "";
+    c === "yes";
+    c === "no";
+    d === "";
+    d === "yes";
+    d === "no";
 }
 function f7(a, b, c, d) {
     a === a;
@@ -76,44 +76,44 @@ function f7(a, b, c, d) {
 }
 function f10(x) {
     switch(x){
-        case Choice.Unknown:
+        case "":
             return x;
-        case Choice.Yes:
+        case "yes":
             return x;
-        case Choice.No:
+        case "no":
             return x;
     }
     return x;
 }
 function f11(x) {
     switch(x){
-        case Choice.Unknown:
+        case "":
             return x;
-        case Choice.Yes:
+        case "yes":
             return x;
-        case Choice.No:
+        case "no":
             return x;
     }
     return x;
 }
 function f12(x) {
     switch(x){
-        case Choice.Unknown:
+        case "":
             return x;
-        case Choice.Yes:
+        case "yes":
             return x;
-        case Choice.No:
+        case "no":
             return x;
     }
     return x;
 }
 function f13(x) {
     switch(x){
-        case Choice.Unknown:
+        case "":
             return x;
-        case Choice.Yes:
+        case "yes":
             return x;
-        case Choice.No:
+        case "no":
             return x;
     }
     return x;

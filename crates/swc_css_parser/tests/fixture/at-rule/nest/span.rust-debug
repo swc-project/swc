@@ -610,7 +610,31 @@ error: Ident
 17 |     @nest :not(&) {
    |            ^^^
 
-error: Delim { value: '&' }
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/at-rule/nest/input.css:17:16
+   |
+17 |     @nest :not(&) {
+   |                ^
+
+error: SelectorList
+  --> $DIR/tests/fixture/at-rule/nest/input.css:17:16
+   |
+17 |     @nest :not(&) {
+   |                ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:17:16
+   |
+17 |     @nest :not(&) {
+   |                ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/at-rule/nest/input.css:17:16
+   |
+17 |     @nest :not(&) {
+   |                ^
+
+error: NestingSelector
   --> $DIR/tests/fixture/at-rule/nest/input.css:17:16
    |
 17 |     @nest :not(&) {

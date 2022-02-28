@@ -2,10 +2,13 @@ use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
-use crate::{SimpleBlock, TokenAndSpan};
+use crate::{ComplexSelector, ComponentValue, SimpleBlock, TokenAndSpan};
 
 #[ast_node]
 pub enum Value {
+    #[tag("ComponentValue")]
+    ComponentValue(Box<ComponentValue>),
+
     #[tag("SimpleBlock")]
     SimpleBlock(SimpleBlock),
 
@@ -14,6 +17,9 @@ pub enum Value {
 
     #[tag("Number")]
     Number(Number),
+
+    #[tag("Integer")]
+    Integer(Integer),
 
     #[tag("Percentage")]
     Percentage(Percentage),
@@ -45,8 +51,11 @@ pub enum Value {
     #[tag("Url")]
     Url(Url),
 
-    #[tag("Urange")]
-    Urange(Urange),
+    #[tag("UnicodeRange")]
+    UnicodeRange(UnicodeRange),
+
+    #[tag("ComplexSelector")]
+    ComplexSelector(ComplexSelector),
 
     #[tag("PreservedToken")]
     PreservedToken(TokenAndSpan),
@@ -110,6 +119,8 @@ pub enum Color {
     // TODO more
     #[tag("HexColor")]
     HexColor(HexColor),
+    #[tag("Function")]
+    Function(Function),
 }
 
 #[ast_node("HexColor")]
@@ -201,6 +212,13 @@ pub struct Percentage {
     pub value: Number,
 }
 
+#[ast_node("Integer")]
+pub struct Integer {
+    pub span: Span,
+    pub value: i64,
+    pub raw: JsWord,
+}
+
 #[ast_node("Number")]
 pub struct Number {
     pub span: Span,
@@ -260,10 +278,12 @@ pub enum UrlModifier {
     Function(Function),
 }
 
-#[ast_node("Urange")]
-pub struct Urange {
+#[ast_node("UnicodeRange")]
+pub struct UnicodeRange {
     pub span: Span,
-    pub value: JsWord,
+    pub prefix: char,
+    pub start: JsWord,
+    pub end: Option<JsWord>,
 }
 
 #[ast_node("CalcSum")]

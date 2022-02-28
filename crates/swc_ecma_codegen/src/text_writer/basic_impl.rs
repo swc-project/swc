@@ -1,6 +1,6 @@
 use std::io::{self, Write};
 
-use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span};
+use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span, DUMMY_SP};
 use swc_ecma_ast::EsVersion;
 
 use super::{Result, WriteJs};
@@ -124,6 +124,18 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     }
 
     fn write_semi(&mut self, span: Option<Span>) -> Result {
+        if span == Some(DUMMY_SP) {
+            if let Some(ref mut srcmap) = self.srcmap {
+                srcmap.push((
+                    BytePos(u32::MAX),
+                    LineCol {
+                        line: self.line_count as _,
+                        col: self.line_pos as _,
+                    },
+                ))
+            }
+        }
+
         self.write(span, ";")?;
         Ok(())
     }

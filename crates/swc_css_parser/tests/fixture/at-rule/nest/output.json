@@ -609,17 +609,42 @@
                           },
                           "children": [
                             {
-                              "type": "PreservedToken",
+                              "type": "SelectorList",
                               "span": {
                                 "start": 187,
                                 "end": 188,
                                 "ctxt": 0
                               },
-                              "token": {
-                                "Delim": {
-                                  "value": "&"
+                              "children": [
+                                {
+                                  "type": "ComplexSelector",
+                                  "span": {
+                                    "start": 187,
+                                    "end": 188,
+                                    "ctxt": 0
+                                  },
+                                  "children": [
+                                    {
+                                      "type": "CompoundSelector",
+                                      "span": {
+                                        "start": 187,
+                                        "end": 188,
+                                        "ctxt": 0
+                                      },
+                                      "nestingSelector": {
+                                        "type": "NestingSelector",
+                                        "span": {
+                                          "start": 187,
+                                          "end": 188,
+                                          "ctxt": 0
+                                        }
+                                      },
+                                      "typeSelector": null,
+                                      "subclassSelectors": []
+                                    }
+                                  ]
                                 }
-                              }
+                              ]
                             }
                           ]
                         }

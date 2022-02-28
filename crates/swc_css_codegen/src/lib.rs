@@ -534,18 +534,30 @@ where
                 punct!(self, ")");
             }
             SupportsInParens::Feature(n) => emit!(self, n),
+            SupportsInParens::GeneralEnclosed(n) => emit!(self, n),
         }
     }
 
     #[emitter]
     fn emit_supports_feature(&mut self, n: &SupportsFeature) -> Result {
-        punct!(self, "(");
-
         match n {
-            SupportsFeature::Declaration(n) => emit!(self, n),
-        }
+            SupportsFeature::Declaration(n) => {
+                punct!(self, "(");
 
-        punct!(self, ")");
+                emit!(self, n);
+
+                punct!(self, ")");
+            }
+            SupportsFeature::Function(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_general_enclosed(&mut self, n: &GeneralEnclosed) -> Result {
+        match n {
+            GeneralEnclosed::Function(n) => emit!(self, n),
+            GeneralEnclosed::SimpleBlock(n) => emit!(self, n),
+        }
     }
 
     #[emitter]
@@ -691,6 +703,7 @@ where
                 let need_delim = match node {
                     Value::SimpleBlock(_)
                     | Value::Function(_)
+                    | Value::Color(Color::Function(_))
                     | Value::Delimiter(_)
                     | Value::Str(_)
                     | Value::Url(_)
@@ -768,9 +781,11 @@ where
     #[emitter]
     fn emit_value(&mut self, n: &Value) -> Result {
         match n {
+            Value::ComponentValue(n) => emit!(self, n),
             Value::Function(n) => emit!(self, n),
             Value::SimpleBlock(n) => emit!(self, n),
             Value::Dimension(n) => emit!(self, n),
+            Value::Integer(n) => emit!(self, n),
             Value::Number(n) => emit!(self, n),
             Value::Percentage(n) => emit!(self, n),
             Value::Ratio(n) => emit!(self, n),
@@ -781,7 +796,8 @@ where
             Value::CalcSum(n) => emit!(self, n),
             Value::Url(n) => emit!(self, n),
             Value::Delimiter(n) => emit!(self, n),
-            Value::Urange(n) => emit!(self, n),
+            Value::UnicodeRange(n) => emit!(self, n),
+            Value::ComplexSelector(n) => emit!(self, n),
             Value::PreservedToken(n) => emit!(self, n),
         }
     }
@@ -878,7 +894,7 @@ where
                 ComponentValue::Rule(_) | ComponentValue::KeyframeBlock(_) => {
                     formatting_newline!(self);
                 }
-                ComponentValue::DeclarationBlockItem(_) if idx == 0 => {
+                ComponentValue::DeclarationOrAtRule(_) if idx == 0 => {
                     formatting_newline!(self);
                 }
                 _ => {}
@@ -910,11 +926,11 @@ where
                         formatting_newline!(self);
                     }
                 }
-                ComponentValue::DeclarationBlockItem(i) => match i {
-                    DeclarationBlockItem::AtRule(_) => {
+                ComponentValue::DeclarationOrAtRule(i) => match i {
+                    DeclarationOrAtRule::AtRule(_) => {
                         formatting_newline!(self);
                     }
-                    DeclarationBlockItem::Declaration(_) => {
+                    DeclarationOrAtRule::Declaration(_) => {
                         if idx != len - 1 {
                             semi!(self);
                         } else {
@@ -923,13 +939,14 @@ where
 
                         formatting_newline!(self);
                     }
-                    DeclarationBlockItem::Invalid(_) => {}
+                    DeclarationOrAtRule::Invalid(_) => {}
                 },
                 ComponentValue::Value(_) => {
                     if ending == ']' && idx != len - 1 {
                         space!(self);
                     }
                 }
+                _ => {}
             }
         }
 
@@ -939,8 +956,11 @@ where
     #[emitter]
     fn emit_component_value(&mut self, n: &ComponentValue) -> Result {
         match n {
+            ComponentValue::PreservedToken(n) => emit!(self, n),
+            ComponentValue::Function(n) => emit!(self, n),
+            ComponentValue::SimpleBlock(n) => emit!(self, n),
             ComponentValue::StyleBlock(n) => emit!(self, n),
-            ComponentValue::DeclarationBlockItem(n) => emit!(self, n),
+            ComponentValue::DeclarationOrAtRule(n) => emit!(self, n),
             ComponentValue::Rule(n) => emit!(self, n),
             ComponentValue::Value(n) => emit!(self, n),
             ComponentValue::KeyframeBlock(n) => emit!(self, n),
@@ -958,11 +978,11 @@ where
     }
 
     #[emitter]
-    fn emit_declaration_block_item(&mut self, n: &DeclarationBlockItem) -> Result {
+    fn emit_declaration_block_item(&mut self, n: &DeclarationOrAtRule) -> Result {
         match n {
-            DeclarationBlockItem::Declaration(n) => emit!(self, n),
-            DeclarationBlockItem::AtRule(n) => emit!(self, n),
-            DeclarationBlockItem::Invalid(n) => emit!(self, n),
+            DeclarationOrAtRule::Declaration(n) => emit!(self, n),
+            DeclarationOrAtRule::AtRule(n) => emit!(self, n),
+            DeclarationOrAtRule::Invalid(n) => emit!(self, n),
         }
     }
 
@@ -1106,6 +1126,15 @@ where
     }
 
     #[emitter]
+    fn emit_integer(&mut self, n: &Integer) -> Result {
+        if self.config.minify {
+            self.wr.write_raw(Some(n.span), &n.value.to_string())?;
+        } else {
+            self.wr.write_raw(Some(n.span), &n.raw)?;
+        }
+    }
+
+    #[emitter]
     fn emit_number(&mut self, n: &Number) -> Result {
         if self.config.minify {
             let minified = minify_numeric(n.value);
@@ -1130,6 +1159,7 @@ where
     fn emit_color(&mut self, n: &Color) -> Result {
         match n {
             Color::HexColor(n) => emit!(self, n),
+            Color::Function(n) => emit!(self, n),
         }
     }
 
@@ -1483,8 +1513,19 @@ where
     }
 
     #[emitter]
-    fn emit_urange(&mut self, n: &Urange) -> Result {
-        self.wr.write_raw(Some(n.span), &n.value)?;
+    fn emit_unicode_range(&mut self, n: &UnicodeRange) -> Result {
+        let mut value = String::new();
+
+        value.push(n.prefix);
+        value.push('+');
+        value.push_str(&n.start);
+
+        if let Some(end) = &n.end {
+            value.push('-');
+            value.push_str(end);
+        }
+
+        self.wr.write_raw(Some(n.span), &value)?;
     }
 
     #[emitter]
@@ -1493,25 +1534,48 @@ where
     }
 
     #[emitter]
+    fn emit_compound_selector_list(&mut self, n: &CompoundSelectorList) -> Result {
+        self.emit_list(&n.children, ListFormat::CommaDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_relative_selector_list(&mut self, n: &RelativeSelectorList) -> Result {
+        self.emit_list(&n.children, ListFormat::CommaDelimited)?;
+    }
+
+    #[emitter]
     fn emit_complex_selector(&mut self, n: &ComplexSelector) -> Result {
-        let mut need_space = false;
         for (idx, node) in n.children.iter().enumerate() {
-            if let ComplexSelectorChildren::Combinator(..) = node {
-                need_space = false;
+            emit!(self, node);
+
+            match node {
+                ComplexSelectorChildren::Combinator(Combinator {
+                    value: CombinatorValue::Descendant,
+                    ..
+                }) => {}
+                _ => match n.children.get(idx + 1) {
+                    Some(ComplexSelectorChildren::Combinator(Combinator {
+                        value: CombinatorValue::Descendant,
+                        ..
+                    })) => {}
+                    Some(_) => {
+                        formatting_space!(self);
+                    }
+                    _ => {}
+                },
             }
-
-            if idx != 0 && need_space {
-                need_space = false;
-
-                self.wr.write_space()?;
-            }
-
-            if let ComplexSelectorChildren::CompoundSelector(..) = node {
-                need_space = true;
-            }
-
-            emit!(self, node)
         }
+    }
+
+    #[emitter]
+    fn emit_relative_selector(&mut self, n: &RelativeSelector) -> Result {
+        if let Some(combinator) = &n.combinator {
+            emit!(self, combinator);
+
+            formatting_space!(self);
+        }
+
+        emit!(self, n.selector);
     }
 
     #[emitter]
@@ -1646,16 +1710,15 @@ where
     }
 
     #[emitter]
-    fn emit_nth(&mut self, n: &Nth) -> Result {
-        emit!(self, n.nth);
-
-        if n.selector_list.is_some() {
-            emit!(self, n.selector_list);
+    fn emit_an_plus_b(&mut self, n: &AnPlusB) -> Result {
+        match n {
+            AnPlusB::Ident(n) => emit!(self, n),
+            AnPlusB::AnPlusBNotation(n) => emit!(self, n),
         }
     }
 
     #[emitter]
-    fn emit_an_plus_b(&mut self, n: &AnPlusB) -> Result {
+    fn emit_an_plus_b_notation(&mut self, n: &AnPlusBNotation) -> Result {
         if self.config.minify {
             if let Some(a) = &n.a {
                 if *a == -1 {
@@ -1688,31 +1751,55 @@ where
     }
 
     #[emitter]
-    fn emit_nth_value(&mut self, n: &NthValue) -> Result {
-        match n {
-            NthValue::AnPlusB(n) => emit!(self, n),
-            NthValue::Ident(n) => emit!(self, n),
-        }
-    }
-
-    #[emitter]
-    fn emit_pseudo_selector_children(&mut self, n: &PseudoSelectorChildren) -> Result {
-        match n {
-            PseudoSelectorChildren::Nth(n) => emit!(self, n),
-            PseudoSelectorChildren::PreservedToken(n) => emit!(self, n),
-        }
-    }
-
-    #[emitter]
     fn emit_pseudo_class_selector(&mut self, n: &PseudoClassSelector) -> Result {
         punct!(self, ":");
         emit!(self, n.name);
 
         if let Some(children) = &n.children {
             punct!(self, "(");
-            self.emit_list(children, ListFormat::NotDelimited)?;
+            self.emit_list_pseudo_class_selector_children(children)?;
             punct!(self, ")");
         }
+    }
+
+    #[emitter]
+    fn emit_pseudo_class_selector_children(&mut self, n: &PseudoClassSelectorChildren) -> Result {
+        match n {
+            PseudoClassSelectorChildren::PreservedToken(n) => emit!(self, n),
+            PseudoClassSelectorChildren::AnPlusB(n) => emit!(self, n),
+            PseudoClassSelectorChildren::Ident(n) => emit!(self, n),
+            PseudoClassSelectorChildren::Str(n) => emit!(self, n),
+            PseudoClassSelectorChildren::Delimiter(n) => emit!(self, n),
+            PseudoClassSelectorChildren::SelectorList(n) => emit!(self, n),
+            PseudoClassSelectorChildren::CompoundSelectorList(n) => emit!(self, n),
+            PseudoClassSelectorChildren::RelativeSelectorList(n) => emit!(self, n),
+            PseudoClassSelectorChildren::CompoundSelector(n) => emit!(self, n),
+        }
+    }
+
+    fn emit_list_pseudo_class_selector_children(
+        &mut self,
+        nodes: &[PseudoClassSelectorChildren],
+    ) -> Result {
+        let len = nodes.len();
+
+        for (idx, node) in nodes.iter().enumerate() {
+            emit!(self, node);
+
+            if idx != len - 1 {
+                match node {
+                    PseudoClassSelectorChildren::PreservedToken(_) => {}
+                    PseudoClassSelectorChildren::Delimiter(_) => {
+                        formatting_space!(self);
+                    }
+                    _ => {
+                        space!(self)
+                    }
+                }
+            }
+        }
+
+        Ok(())
     }
 
     #[emitter]
@@ -1723,9 +1810,43 @@ where
 
         if let Some(children) = &n.children {
             punct!(self, "(");
-            self.emit_list(children, ListFormat::NotDelimited)?;
+            self.emit_list_pseudo_element_selector_children(children)?;
             punct!(self, ")");
         }
+    }
+
+    #[emitter]
+    fn emit_pseudo_element_selector_children(
+        &mut self,
+        n: &PseudoElementSelectorChildren,
+    ) -> Result {
+        match n {
+            PseudoElementSelectorChildren::PreservedToken(n) => emit!(self, n),
+            PseudoElementSelectorChildren::Ident(n) => emit!(self, n),
+            PseudoElementSelectorChildren::CompoundSelector(n) => emit!(self, n),
+        }
+    }
+
+    fn emit_list_pseudo_element_selector_children(
+        &mut self,
+        nodes: &[PseudoElementSelectorChildren],
+    ) -> Result {
+        let len = nodes.len();
+
+        for (idx, node) in nodes.iter().enumerate() {
+            emit!(self, node);
+
+            if idx != len - 1 {
+                match node {
+                    PseudoElementSelectorChildren::PreservedToken(_) => {}
+                    _ => {
+                        space!(self)
+                    }
+                }
+            }
+        }
+
+        Ok(())
     }
 
     fn emit_list<N>(&mut self, nodes: &[N], format: ListFormat) -> Result

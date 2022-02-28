@@ -232,7 +232,7 @@ impl Spread {
                 match first_arr {
                     Some(_) => {
                         if !elems.is_empty() {
-                            buf.push(Expr::Array(ArrayLit { span, elems }).as_arg());
+                            buf.push(ArrayLit { span, elems }.as_arg());
                         }
                     }
                     None => {
@@ -273,13 +273,13 @@ impl Spread {
                                         return *expr;
                                     }
                                 } else {
-                                    Expr::Call(CallExpr {
+                                    CallExpr {
                                         span,
                                         callee: member_expr!(DUMMY_SP, Array.prototype.slice.call)
                                             .as_callee(),
                                         args: vec![expr.as_arg()],
                                         type_args: Default::default(),
-                                    })
+                                    }
                                     .as_arg()
                                 }
                             }
@@ -326,12 +326,12 @@ impl Spread {
                                     };
                                 }
 
-                                Expr::Call(CallExpr {
+                                CallExpr {
                                     span,
                                     callee: helper!(to_consumable_array, "toConsumableArray"),
                                     args: vec![expr.as_arg()],
                                     type_args: Default::default(),
-                                })
+                                }
                                 .as_arg()
                             }
                         });

@@ -1,4 +1,5 @@
 #![deny(clippy::all)]
+#![allow(clippy::ptr_arg)]
 
 use swc_atoms::JsWord;
 use swc_common::Span;
@@ -28,11 +29,16 @@ define!({
     }
 
     pub enum ComponentValue {
-        Value(Value),
-        DeclarationBlockItem(DeclarationBlockItem),
+        PreservedToken(TokenAndSpan),
+        Function(Function),
+        SimpleBlock(SimpleBlock),
+
+        DeclarationOrAtRule(DeclarationOrAtRule),
         Rule(Rule),
         StyleBlock(StyleBlock),
         KeyframeBlock(KeyframeBlock),
+
+        Value(Value),
     }
 
     pub struct Ident {
@@ -56,6 +62,12 @@ define!({
     pub struct Str {
         pub span: Span,
         pub value: JsWord,
+        pub raw: JsWord,
+    }
+
+    pub struct Integer {
+        pub span: Span,
+        pub value: i64,
         pub raw: JsWord,
     }
 
@@ -95,15 +107,17 @@ define!({
         Invalid(Tokens),
     }
 
-    pub enum DeclarationBlockItem {
-        Invalid(Tokens),
+    pub enum DeclarationOrAtRule {
         Declaration(Declaration),
         AtRule(AtRule),
+        Invalid(Tokens),
     }
 
     pub enum Value {
+        ComponentValue(Box<ComponentValue>),
         SimpleBlock(SimpleBlock),
         Dimension(Dimension),
+        Integer(Integer),
         Number(Number),
         Percentage(Percentage),
         Ratio(Ratio),
@@ -114,8 +128,9 @@ define!({
         Function(Function),
         CalcSum(CalcSum),
         Delimiter(Delimiter),
-        Urange(Urange),
+        UnicodeRange(UnicodeRange),
         Url(Url),
+        ComplexSelector(ComplexSelector),
         PreservedToken(TokenAndSpan),
     }
 
@@ -138,6 +153,7 @@ define!({
 
     pub enum Color {
         HexColor(HexColor),
+        Function(Function),
     }
 
     pub struct HexColor {
@@ -234,9 +250,11 @@ define!({
         Function(Function),
     }
 
-    pub struct Urange {
+    pub struct UnicodeRange {
         pub span: Span,
-        pub value: JsWord,
+        pub prefix: char,
+        pub start: JsWord,
+        pub end: Option<JsWord>,
     }
 
     pub struct CalcSum {
@@ -285,6 +303,16 @@ define!({
         pub children: Vec<ComplexSelector>,
     }
 
+    pub struct CompoundSelectorList {
+        pub span: Span,
+        pub children: Vec<CompoundSelector>,
+    }
+
+    pub struct RelativeSelectorList {
+        pub span: Span,
+        pub children: Vec<RelativeSelector>,
+    }
+
     pub struct ComplexSelector {
         pub span: Span,
         pub children: Vec<ComplexSelectorChildren>,
@@ -293,6 +321,12 @@ define!({
     pub enum ComplexSelectorChildren {
         CompoundSelector(CompoundSelector),
         Combinator(Combinator),
+    }
+
+    pub struct RelativeSelector {
+        pub span: Span,
+        pub combinator: Option<Combinator>,
+        pub selector: ComplexSelector,
     }
 
     pub struct CompoundSelector {
@@ -368,24 +402,30 @@ define!({
         pub value: Ident,
     }
 
-    pub enum PseudoSelectorChildren {
-        Nth(Nth),
-        PreservedToken(TokenAndSpan),
-    }
-
-    pub struct Nth {
+    pub struct PseudoClassSelector {
         pub span: Span,
-        pub nth: NthValue,
-        pub selector_list: Option<SelectorList>,
+        pub name: Ident,
+        pub children: Option<Vec<PseudoClassSelectorChildren>>,
     }
 
-    pub enum NthValue {
+    pub enum PseudoClassSelectorChildren {
+        PreservedToken(TokenAndSpan),
         AnPlusB(AnPlusB),
-
         Ident(Ident),
+        Str(Str),
+        Delimiter(Delimiter),
+        SelectorList(SelectorList),
+        CompoundSelectorList(CompoundSelectorList),
+        RelativeSelectorList(RelativeSelectorList),
+        CompoundSelector(CompoundSelector),
     }
 
-    pub struct AnPlusB {
+    pub enum AnPlusB {
+        Ident(Ident),
+        AnPlusBNotation(AnPlusBNotation),
+    }
+
+    pub struct AnPlusBNotation {
         pub span: Span,
         pub a: Option<i32>,
         pub a_raw: Option<JsWord>,
@@ -393,16 +433,16 @@ define!({
         pub b_raw: Option<JsWord>,
     }
 
-    pub struct PseudoClassSelector {
-        pub span: Span,
-        pub name: Ident,
-        pub children: Option<Vec<PseudoSelectorChildren>>,
-    }
-
     pub struct PseudoElementSelector {
         pub span: Span,
         pub name: Ident,
-        pub children: Option<Vec<TokenAndSpan>>,
+        pub children: Option<Vec<PseudoElementSelectorChildren>>,
+    }
+
+    pub enum PseudoElementSelectorChildren {
+        PreservedToken(TokenAndSpan),
+        CompoundSelector(CompoundSelector),
+        Ident(Ident),
     }
 
     pub struct IdSelector {
@@ -511,7 +551,7 @@ define!({
     pub struct UnknownAtRule {
         pub span: Span,
         pub name: AtRuleName,
-        pub prelude: Vec<Value>,
+        pub prelude: Vec<ComponentValue>,
         pub block: Option<SimpleBlock>,
     }
 
@@ -749,10 +789,17 @@ define!({
     pub enum SupportsInParens {
         SupportsCondition(SupportsCondition),
         Feature(SupportsFeature),
+        GeneralEnclosed(GeneralEnclosed),
     }
 
     pub enum SupportsFeature {
         Declaration(Declaration),
+        Function(Function),
+    }
+
+    pub enum GeneralEnclosed {
+        Function(Function),
+        SimpleBlock(SimpleBlock),
     }
 
     pub enum ColorProfileName {

@@ -288,7 +288,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                     let params = p.parse_formal_params()?;
 
                                     if params.iter().filter(|p| is_not_this(p)).count() != 0 {
-                                        p.emit_err(key_span, SyntaxError::TS1094);
+                                        p.emit_err(key_span, SyntaxError::GetterParam);
                                     }
 
                                     Ok(params)
@@ -298,15 +298,8 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                             )
                             .map(
                                 |Function {
-                                     body,
-                                     type_params,
-                                     return_type,
-                                     ..
+                                     body, return_type, ..
                                  }| {
-                                    if let Some(type_params) = type_params {
-                                        parser.emit_err(type_params.span(), SyntaxError::TS1094);
-                                    }
-
                                     if parser.input.syntax().typescript()
                                         && parser.input.target() == EsVersion::Es3
                                     {
@@ -330,7 +323,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                     let params = p.parse_formal_params()?;
 
                                     if params.iter().filter(|p| is_not_this(p)).count() != 1 {
-                                        p.emit_err(key_span, SyntaxError::TS1094);
+                                        p.emit_err(key_span, SyntaxError::SetterParam);
                                     }
 
                                     if !params.is_empty() {
@@ -353,30 +346,19 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                 false,
                                 false,
                             )
-                            .map(
-                                |Function {
-                                     params,
-                                     body,
-                                     type_params,
-                                     ..
-                                 }| {
-                                    if let Some(type_params) = type_params {
-                                        parser.emit_err(type_params.span(), SyntaxError::TS1094);
-                                    }
-
-                                    // debug_assert_eq!(params.len(), 1);
-                                    PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
-                                        span: span!(parser, start),
-                                        key,
-                                        body,
-                                        param: params
-                                            .into_iter()
-                                            .map(|p| p.pat)
-                                            .next()
-                                            .unwrap_or(Pat::Invalid(Invalid { span: key_span })),
-                                    })))
-                                },
-                            ),
+                            .map(|Function { params, body, .. }| {
+                                // debug_assert_eq!(params.len(), 1);
+                                PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
+                                    span: span!(parser, start),
+                                    key,
+                                    body,
+                                    param: params
+                                        .into_iter()
+                                        .map(|p| p.pat)
+                                        .next()
+                                        .unwrap_or(Pat::Invalid(Invalid { span: key_span })),
+                                })))
+                            }),
                         js_word!("async") => parser
                             .parse_fn_args_body(
                                 // no decorator in an object literal

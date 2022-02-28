@@ -105,7 +105,7 @@ where
         name: &mut Pat,
         init: Option<&mut Expr>,
     ) {
-        if self.ctx.is_exported {
+        if self.ctx.is_exported || self.ctx.in_asm {
             return;
         }
 

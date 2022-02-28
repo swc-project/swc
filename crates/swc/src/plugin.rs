@@ -36,6 +36,9 @@ pub struct PluginContext {
     /// The path of the file being processed. This includes all of the path as
     /// much as possible.
     pub filename: Option<String>,
+    /// The current environment resolved as process.env.SWC_ENV ||
+    /// process.env.NODE_ENV || "development"
+    pub env_name: String,
 }
 
 pub fn plugins(
@@ -65,6 +68,7 @@ struct RustPlugins {
 }
 
 impl RustPlugins {
+    #[tracing::instrument(level = "trace", skip_all, name = "apply_plugins")]
     #[cfg(feature = "plugin")]
     fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         use std::{path::PathBuf, sync::Arc};
@@ -83,6 +87,13 @@ impl RustPlugins {
         // transform.
         if let Some(plugins) = &self.plugins {
             for p in plugins {
+                let span = tracing::span!(
+                    tracing::Level::TRACE,
+                    "serialize_context",
+                    plugin_module = p.0.as_str()
+                );
+                let context_span_guard = span.enter();
+
                 let config_json = serde_json::to_string(&p.1)
                     .context("Failed to serialize plugin config as json")
                     .and_then(|value| Serialized::serialize(&value))?;
@@ -100,7 +111,14 @@ impl RustPlugins {
                 } else {
                     anyhow::bail!("Failed to resolve plugin path: {:?}", resolved_path);
                 };
+                drop(context_span_guard);
 
+                let span = tracing::span!(
+                    tracing::Level::TRACE,
+                    "execute_plugin_runner",
+                    plugin_module = p.0.as_str()
+                );
+                let transform_span_guard = span.enter();
                 serialized = swc_plugin_runner::apply_js_plugin(
                     &p.0,
                     &path,
@@ -109,6 +127,7 @@ impl RustPlugins {
                     config_json,
                     context_json,
                 )?;
+                drop(transform_span_guard);
             }
         }
 

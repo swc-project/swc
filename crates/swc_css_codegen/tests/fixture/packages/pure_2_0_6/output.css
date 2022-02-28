@@ -612,16 +612,16 @@ left: 0;
 top: auto;
 width: inherit;
 }
-.pure-menu-allow-hover:hover>.pure-menu-children, .pure-menu-active>.pure-menu-children {
+.pure-menu-allow-hover:hover > .pure-menu-children, .pure-menu-active > .pure-menu-children {
 display: block;
 position: absolute;
 }
-.pure-menu-has-children>.pure-menu-link:after {
+.pure-menu-has-children > .pure-menu-link:after {
 padding-left: 0.5em;
 content: "\25B8";
 font-size: small;
 }
-.pure-menu-horizontal .pure-menu-has-children>.pure-menu-link:after {
+.pure-menu-horizontal .pure-menu-has-children > .pure-menu-link:after {
 content: "\25BE";
 }
 .pure-menu-scrollable {
@@ -674,10 +674,10 @@ opacity: .5;
 background-color: transparent;
 cursor: default;
 }
-.pure-menu-active>.pure-menu-link, .pure-menu-link:hover, .pure-menu-link:focus {
+.pure-menu-active > .pure-menu-link, .pure-menu-link:hover, .pure-menu-link:focus {
 background-color: #eee;
 }
-.pure-menu-selected>.pure-menu-link, .pure-menu-selected>.pure-menu-link:visited {
+.pure-menu-selected > .pure-menu-link, .pure-menu-selected > .pure-menu-link:visited {
 color: #000;
 }
 .pure-table {
@@ -718,13 +718,13 @@ background-color: #f2f2f2;
 .pure-table-bordered td {
 border-bottom: 1px solid #cbcbcb;
 }
-.pure-table-bordered tbody>tr:last-child>td {
+.pure-table-bordered tbody > tr:last-child > td {
 border-bottom-width: 0;
 }
 .pure-table-horizontal td, .pure-table-horizontal th {
 border-width: 0 0 1px 0;
 border-bottom: 1px solid #cbcbcb;
 }
-.pure-table-horizontal tbody>tr:last-child>td {
+.pure-table-horizontal tbody > tr:last-child > td {
 border-bottom-width: 0;
 }

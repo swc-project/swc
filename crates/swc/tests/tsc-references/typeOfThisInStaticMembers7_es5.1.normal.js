@@ -74,7 +74,7 @@ var C = function C() {
     _classCallCheck(this, C);
 };
 C.a = 1;
-C.b = this.a + 1;
+C.b = C.a + 1;
 var D = /*#__PURE__*/ function(C) {
     "use strict";
     _inherits(D, C);
@@ -86,5 +86,5 @@ var D = /*#__PURE__*/ function(C) {
     return D;
 }(C);
 D.c = 2;
-D.d = this.c + 1;
-D.e = 1 + super.a + (this.c + 1) + 1;
+D.d = D.c + 1;
+D.e = 1 + super.a + (D.c + 1) + 1;

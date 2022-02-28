@@ -36,5 +36,5 @@ var X = function() {
 console.log(X.now()), console.log(Y.now());
 export var x = Math.random() > 0.5 ? new X() : 1;
 (function(left, right) {
-    return null != right && "undefined" != typeof Symbol && right[Symbol.hasInstance] ? right[Symbol.hasInstance](left) : left instanceof right;
+    return null != right && "undefined" != typeof Symbol && right[Symbol.hasInstance] ? !!right[Symbol.hasInstance](left) : left instanceof right;
 })(x, X) && x.why();

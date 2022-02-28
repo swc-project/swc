@@ -51,6 +51,7 @@ div {&*.class {color:blue}}
 *|*:is(:hover, :focus) {color:blue}
 /* The following selector, however, represents only hovered or focused elements that are in the default namespace, because it uses an explicit universal selector within the :is() notation: */
 *|*:is(*:hover, *:focus) {color: blue}
+*|*:has(*:not(h1, h2, h3, h4, h5, h6)) {color: blue}
 
 div *:first-child{color:blue}
 

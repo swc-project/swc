@@ -1,0 +1,79 @@
+.hex-color {
+    color: #00ff00;
+    color: #0000ffcc;
+    color: #123;
+    color: #123c;
+}
+
+.rgb {
+    color: rgb(255, 165, 0);
+    color: rgb(255,165,0);
+    color: rGb(255,165,0);
+    color: rgb(0 255 0);
+    color: rgb(0%100%0%);
+    color: rgb(29 164 192 / 95%);
+    color: rgb(123 255 255 / .5);
+    color: rgb(123 255 255 / 50%);
+    color: rgb(48% 100% 100% / 50%);
+}
+
+.rgba {
+    color: rgba(255, 0, 0, 100%);
+    color: rgba(255, 255, 0, 1);
+    color: rgba(255, 255, 0, 0.8);
+}
+
+.hsl {
+    color: hsl(38.824 100% 50%);
+    color: HsL(39 100% 50%);
+    color: hsl(100deg, 100%, 50%);
+    color: hsl(100, 100%, 50%);
+    color: hsl(100 100% 50%);
+    color: hsl(100, 100%, 50%, .8);
+    color: hsl(100 100% 50% / .8);
+}
+
+.hsla {
+    color: hsla(100, 100%, 50%, .8);
+    color: hsla(100 100% 50% / .8);
+}
+
+.hwb {
+    color: hwb(194 0% 0%);
+    color: hwb(194 0% 0% / 50%);
+    color: hwb(194 0% 50%);
+    color: hwb(194 50% 0%);
+    color: hwb(194 50% 50%);
+}
+
+.lab {
+    color: lab(29.2345% 39.3825 20.0664);
+    color: lab(29.2345% 39.3825 20.0664 / 100%);
+    color: lab(29.2345% 39.3825 20.0664 / 50%);
+}
+
+.lch {
+    color: lch(52.2345% 72.2 56.2 / 1);
+    color: lch(29.2345% 44.2 27);
+    color: lch(29.2345% 44.2 45deg);
+    color: lch(29.2345% 44.2 .5turn);
+    color: lch(29.2345% 44.2 27 / 100%);
+    color: lch(29.2345% 44.2 27 / 50%);
+}
+
+.oklab {
+    color: oklab(40.101% 0.1147 0.0453);
+}
+
+.oklch {
+    color: oklch(42.1% 0.192 328.6 / 1);
+    color: oklch(42.1% 0.192 328.6);
+}
+
+.color {
+    color: color(sRGB 0 1 0);
+    color: color(display-p3 0.823 0.6554 0.2537 /1);
+    color: color(display-p3 0.823 0.6554 0.2537);
+    color: color(xyz 0.472 0.372 0.131);
+    color: color(xyz-d65 0.472 0.372 0.131);
+}

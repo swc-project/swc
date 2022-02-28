@@ -41,6 +41,20 @@ function _unsupportedIterableToArray(o, minLen) {
         if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
     }
 }
+function _classStaticPrivateFieldDestructureSet(receiver, classConstructor, descriptor) {
+    return _classCheckPrivateStaticAccess(receiver, classConstructor), _classCheckPrivateStaticFieldDescriptor(descriptor, "set"), (function(receiver, descriptor) {
+        if (descriptor.set) return "__destrObj" in descriptor || (descriptor.__destrObj = {
+            set value (v){
+                descriptor.set.call(receiver, v);
+            }
+        }), descriptor.__destrObj;
+        if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
+        return descriptor;
+    })(receiver, descriptor);
+}
+function _classCheckPrivateStaticAccess(receiver, classConstructor) {
+    if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
+}
 var A = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
@@ -48,16 +62,16 @@ var A = function() {
         var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9;
         !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, A), this.otherClass = A, ref = this.testObject(), _classStaticPrivateFieldSpecGet(A, A, _field) = ref.x, ref.y, ref1 = _slicedToArray(this.testArray(), 2), _classStaticPrivateFieldSpecGet(A, A, _field) = ref1[0], ref1[1], ref2 = {
+        }(this, A), this.otherClass = A, ref = this.testObject(), _classStaticPrivateFieldDestructureSet(A, _field).value = ref.x, ref.y, ref1 = _slicedToArray(this.testArray(), 2), _classStaticPrivateFieldDestructureSet(A, _field).value = ref1[0], ref1[1], ref2 = {
             a: 1,
             b: [
                 2
             ]
-        }, _classStaticPrivateFieldSpecGet(A, A, _field) = ref2.a, ref3 = _slicedToArray(ref2.b, 1), _classStaticPrivateFieldSpecGet(A, A, _field) = ref3[0], _classStaticPrivateFieldSpecGet(A, A, _field) = 1, ref4 = [
+        }, _classStaticPrivateFieldDestructureSet(A, _field).value = ref2.a, ref3 = _slicedToArray(ref2.b, 1), _classStaticPrivateFieldDestructureSet(A, _field).value = ref3[0], _classStaticPrivateFieldDestructureSet(A, _field).value = 1, ref4 = [
             2
-        ], _classStaticPrivateFieldSpecGet(A, A, _field) = ref4[0], ref6 = (ref5 = {
+        ], _classStaticPrivateFieldDestructureSet(A, _field).value = ref4[0], ref6 = (ref5 = {
             b: []
-        }).a, _classStaticPrivateFieldSpecGet(A, A, _field) = void 0 === ref6 ? 1 : ref6, ref7 = _slicedToArray(ref5.b, 1)[0], _classStaticPrivateFieldSpecGet(A, A, _field) = void 0 === ref7 ? 1 : ref7, ref8 = void 0, _classStaticPrivateFieldSpecGet(A, A, _field) = void 0 === ref8 ? 2 : ref8, ref9 = void 0, _classStaticPrivateFieldSpecGet(this.otherClass, A, _field) = void 0 === ref9 ? 2 : ref9;
+        }).a, _classStaticPrivateFieldDestructureSet(A, _field).value = void 0 === ref6 ? 1 : ref6, ref7 = _slicedToArray(ref5.b, 1)[0], _classStaticPrivateFieldDestructureSet(A, _field).value = void 0 === ref7 ? 1 : ref7, ref8 = void 0, _classStaticPrivateFieldDestructureSet(A, _field).value = void 0 === ref8 ? 2 : ref8, ref9 = void 0, _classStaticPrivateFieldDestructureSet(this.otherClass, _field).value = void 0 === ref9 ? 2 : ref9;
     }
     return Constructor = A, protoProps = [
         {
@@ -82,7 +96,7 @@ var A = function() {
         {
             key: "test",
             value: function(_a) {
-                _classStaticPrivateFieldSpecGet(_a, A, _field) = 2;
+                _classStaticPrivateFieldDestructureSet(_a, _field).value = 2;
             }
         }
     ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), A;

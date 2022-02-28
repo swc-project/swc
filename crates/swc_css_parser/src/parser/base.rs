@@ -286,6 +286,42 @@ where
     }
 }
 
+impl<I> Parse<ComponentValue> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ComponentValue> {
+        // Consume the next input token.
+        match cur!(self) {
+            // If the current input token is a <{-token>, <[-token>, or <(-token>, consume a simple
+            // block and return it.
+            tok!("[") | tok!("(") | tok!("{") => {
+                let ctx = Ctx {
+                    grammar: Grammar::NoGrammar,
+                    ..self.ctx
+                };
+                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+
+                Ok(ComponentValue::SimpleBlock(block))
+            }
+            // Otherwise, if the current input token is a <function-token>, consume a function and
+            // return it.
+            tok!("function") => Ok(ComponentValue::Function(self.parse()?)),
+            // Otherwise, return the current input token.
+            _ => {
+                let token = self.input.bump()?;
+
+                match token {
+                    Some(t) => Ok(ComponentValue::PreservedToken(t)),
+                    _ => {
+                        unreachable!();
+                    }
+                }
+            }
+        }
+    }
+}
+
 impl<I> Parse<SimpleBlock> for Parser<I>
 where
     I: ParserInput,
@@ -321,7 +357,9 @@ where
         };
 
         // TODO refactor me
-        self.input.skip_ws()?;
+        if self.ctx.grammar != Grammar::NoGrammar {
+            self.input.skip_ws()?;
+        }
 
         // Repeatedly consume the next input token and process it as follows:
         loop {
@@ -357,6 +395,11 @@ where
                 // Reconsume the current input token. Consume a component value and append it to the
                 // value of the block.
                 _ => match self.ctx.grammar {
+                    Grammar::NoGrammar => {
+                        let component_value = self.parse()?;
+
+                        simple_block.value.push(component_value);
+                    }
                     Grammar::StyleBlock => {
                         let style_blocks: Vec<StyleBlock> = self.parse()?;
                         let style_blocks: Vec<ComponentValue> = style_blocks
@@ -377,10 +420,10 @@ where
                         simple_block.value.extend(rule_list);
                     }
                     Grammar::DeclarationList => {
-                        let declaration_list: Vec<DeclarationBlockItem> = self.parse()?;
+                        let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                         let declaration_list: Vec<ComponentValue> = declaration_list
                             .into_iter()
-                            .map(ComponentValue::DeclarationBlockItem)
+                            .map(ComponentValue::DeclarationOrAtRule)
                             .collect();
 
                         simple_block.value.extend(declaration_list);
@@ -392,17 +435,17 @@ where
                             Ok(value) => {
                                 self.input.skip_ws()?;
 
-                                value
+                                ComponentValue::Value(value)
                             }
                             Err(err) => {
                                 self.errors.push(err);
                                 self.input.reset(&state);
 
-                                self.parse_component_value()?
+                                self.parse()?
                             }
                         };
 
-                        simple_block.value.push(ComponentValue::Value(value));
+                        simple_block.value.push(value);
                     }
                 },
             }
@@ -414,11 +457,11 @@ where
     }
 }
 
-impl<I> Parse<Vec<DeclarationBlockItem>> for Parser<I>
+impl<I> Parse<Vec<DeclarationOrAtRule>> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<Vec<DeclarationBlockItem>> {
+    fn parse(&mut self) -> PResult<Vec<DeclarationOrAtRule>> {
         let mut declarations = vec![];
 
         loop {
@@ -434,14 +477,14 @@ where
                     bump!(self);
                 }
                 tok!("@") => {
-                    declarations.push(DeclarationBlockItem::AtRule(
+                    declarations.push(DeclarationOrAtRule::AtRule(
                         self.parse_at_rule(Default::default())?,
                     ));
                 }
                 tok!("ident") => {
                     let state = self.input.state();
                     let span = self.input.cur_span()?;
-                    let prop = match self.parse().map(DeclarationBlockItem::Declaration) {
+                    let prop = match self.parse().map(DeclarationOrAtRule::Declaration) {
                         Ok(v) => v,
                         Err(err) => {
                             self.errors.push(err);
@@ -453,7 +496,7 @@ where
                                 tokens.extend(self.input.bump()?);
                             }
 
-                            DeclarationBlockItem::Invalid(Tokens {
+                            DeclarationOrAtRule::Invalid(Tokens {
                                 span: span!(self, span.lo),
                                 tokens,
                             })
@@ -486,7 +529,7 @@ where
                         tokens.extend(self.input.bump()?);
                     }
 
-                    declarations.push(DeclarationBlockItem::Invalid(Tokens {
+                    declarations.push(DeclarationOrAtRule::Invalid(Tokens {
                         span: span!(self, span.lo),
                         tokens,
                     }));
@@ -552,7 +595,7 @@ where
                                 self.errors.push(err);
                                 self.input.reset(&state);
 
-                                self.parse_component_value()?
+                                Value::ComponentValue(self.parse()?)
                             }
                         };
 

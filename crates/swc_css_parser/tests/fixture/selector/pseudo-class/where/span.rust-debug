@@ -1,0 +1,3685 @@
+error: Stylesheet
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:1
+   |
+1  | / :where(ul) li {}
+2  | | :where(ul, ol) li {}
+3  | | :where(header, main, footer) p:hover {}
+4  | | div:where(.cool, .fun) {}
+...  |
+22 | |        :nth-of-type(6),
+23 | |        :nth-last-of-type(6)) {}
+   | |________________________________^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:1
+  |
+1 | :where(ul) li {}
+  | ^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:1
+  |
+1 | :where(ul) li {}
+  | ^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:1
+  |
+1 | :where(ul) li {}
+  | ^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:1
+  |
+1 | :where(ul) li {}
+  | ^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:1
+  |
+1 | :where(ul) li {}
+  | ^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:1
+  |
+1 | :where(ul) li {}
+  | ^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:1
+  |
+1 | :where(ul) li {}
+  | ^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:2
+  |
+1 | :where(ul) li {}
+  |  ^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:8
+  |
+1 | :where(ul) li {}
+  |        ^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:8
+  |
+1 | :where(ul) li {}
+  |        ^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:8
+  |
+1 | :where(ul) li {}
+  |        ^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:8
+  |
+1 | :where(ul) li {}
+  |        ^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:8
+  |
+1 | :where(ul) li {}
+  |        ^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:8
+  |
+1 | :where(ul) li {}
+  |        ^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:8
+  |
+1 | :where(ul) li {}
+  |        ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:8
+  |
+1 | :where(ul) li {}
+  |        ^^
+
+error: Combinator
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:11
+  |
+1 | :where(ul) li {}
+  |           ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:12
+  |
+1 | :where(ul) li {}
+  |            ^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:12
+  |
+1 | :where(ul) li {}
+  |            ^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:12
+  |
+1 | :where(ul) li {}
+  |            ^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:12
+  |
+1 | :where(ul) li {}
+  |            ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:12
+  |
+1 | :where(ul) li {}
+  |            ^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:1:15
+  |
+1 | :where(ul) li {}
+  |               ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:1
+  |
+2 | :where(ul, ol) li {}
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:1
+  |
+2 | :where(ul, ol) li {}
+  | ^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:1
+  |
+2 | :where(ul, ol) li {}
+  | ^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:1
+  |
+2 | :where(ul, ol) li {}
+  | ^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:1
+  |
+2 | :where(ul, ol) li {}
+  | ^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:1
+  |
+2 | :where(ul, ol) li {}
+  | ^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:1
+  |
+2 | :where(ul, ol) li {}
+  | ^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:2
+  |
+2 | :where(ul, ol) li {}
+  |  ^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:8
+  |
+2 | :where(ul, ol) li {}
+  |        ^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:8
+  |
+2 | :where(ul, ol) li {}
+  |        ^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:8
+  |
+2 | :where(ul, ol) li {}
+  |        ^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:8
+  |
+2 | :where(ul, ol) li {}
+  |        ^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:8
+  |
+2 | :where(ul, ol) li {}
+  |        ^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:8
+  |
+2 | :where(ul, ol) li {}
+  |        ^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:8
+  |
+2 | :where(ul, ol) li {}
+  |        ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:8
+  |
+2 | :where(ul, ol) li {}
+  |        ^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:12
+  |
+2 | :where(ul, ol) li {}
+  |            ^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:12
+  |
+2 | :where(ul, ol) li {}
+  |            ^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:12
+  |
+2 | :where(ul, ol) li {}
+  |            ^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:12
+  |
+2 | :where(ul, ol) li {}
+  |            ^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:12
+  |
+2 | :where(ul, ol) li {}
+  |            ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:12
+  |
+2 | :where(ul, ol) li {}
+  |            ^^
+
+error: Combinator
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:15
+  |
+2 | :where(ul, ol) li {}
+  |               ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:16
+  |
+2 | :where(ul, ol) li {}
+  |                ^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:16
+  |
+2 | :where(ul, ol) li {}
+  |                ^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:16
+  |
+2 | :where(ul, ol) li {}
+  |                ^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:16
+  |
+2 | :where(ul, ol) li {}
+  |                ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:16
+  |
+2 | :where(ul, ol) li {}
+  |                ^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:2:19
+  |
+2 | :where(ul, ol) li {}
+  |                   ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:1
+  |
+3 | :where(header, main, footer) p:hover {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:1
+  |
+3 | :where(header, main, footer) p:hover {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:1
+  |
+3 | :where(header, main, footer) p:hover {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:1
+  |
+3 | :where(header, main, footer) p:hover {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:1
+  |
+3 | :where(header, main, footer) p:hover {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:1
+  |
+3 | :where(header, main, footer) p:hover {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:1
+  |
+3 | :where(header, main, footer) p:hover {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:2
+  |
+3 | :where(header, main, footer) p:hover {}
+  |  ^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:8
+  |
+3 | :where(header, main, footer) p:hover {}
+  |        ^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:8
+  |
+3 | :where(header, main, footer) p:hover {}
+  |        ^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:8
+  |
+3 | :where(header, main, footer) p:hover {}
+  |        ^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:8
+  |
+3 | :where(header, main, footer) p:hover {}
+  |        ^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:8
+  |
+3 | :where(header, main, footer) p:hover {}
+  |        ^^^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:8
+  |
+3 | :where(header, main, footer) p:hover {}
+  |        ^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:8
+  |
+3 | :where(header, main, footer) p:hover {}
+  |        ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:8
+  |
+3 | :where(header, main, footer) p:hover {}
+  |        ^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:16
+  |
+3 | :where(header, main, footer) p:hover {}
+  |                ^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:16
+  |
+3 | :where(header, main, footer) p:hover {}
+  |                ^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:16
+  |
+3 | :where(header, main, footer) p:hover {}
+  |                ^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:16
+  |
+3 | :where(header, main, footer) p:hover {}
+  |                ^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:16
+  |
+3 | :where(header, main, footer) p:hover {}
+  |                ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:16
+  |
+3 | :where(header, main, footer) p:hover {}
+  |                ^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:22
+  |
+3 | :where(header, main, footer) p:hover {}
+  |                      ^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:22
+  |
+3 | :where(header, main, footer) p:hover {}
+  |                      ^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:22
+  |
+3 | :where(header, main, footer) p:hover {}
+  |                      ^^^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:22
+  |
+3 | :where(header, main, footer) p:hover {}
+  |                      ^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:22
+  |
+3 | :where(header, main, footer) p:hover {}
+  |                      ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:22
+  |
+3 | :where(header, main, footer) p:hover {}
+  |                      ^^^^^^
+
+error: Combinator
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:29
+  |
+3 | :where(header, main, footer) p:hover {}
+  |                             ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:30
+  |
+3 | :where(header, main, footer) p:hover {}
+  |                              ^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:30
+  |
+3 | :where(header, main, footer) p:hover {}
+  |                              ^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:30
+  |
+3 | :where(header, main, footer) p:hover {}
+  |                              ^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:30
+  |
+3 | :where(header, main, footer) p:hover {}
+  |                              ^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:30
+  |
+3 | :where(header, main, footer) p:hover {}
+  |                              ^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:31
+  |
+3 | :where(header, main, footer) p:hover {}
+  |                               ^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:31
+  |
+3 | :where(header, main, footer) p:hover {}
+  |                               ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:32
+  |
+3 | :where(header, main, footer) p:hover {}
+  |                                ^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:3:38
+  |
+3 | :where(header, main, footer) p:hover {}
+  |                                      ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:1
+  |
+4 | div:where(.cool, .fun) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:1
+  |
+4 | div:where(.cool, .fun) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:1
+  |
+4 | div:where(.cool, .fun) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:1
+  |
+4 | div:where(.cool, .fun) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:1
+  |
+4 | div:where(.cool, .fun) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:1
+  |
+4 | div:where(.cool, .fun) {}
+  | ^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:1
+  |
+4 | div:where(.cool, .fun) {}
+  | ^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:1
+  |
+4 | div:where(.cool, .fun) {}
+  | ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:1
+  |
+4 | div:where(.cool, .fun) {}
+  | ^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:4
+  |
+4 | div:where(.cool, .fun) {}
+  |    ^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:4
+  |
+4 | div:where(.cool, .fun) {}
+  |    ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:5
+  |
+4 | div:where(.cool, .fun) {}
+  |     ^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:11
+  |
+4 | div:where(.cool, .fun) {}
+  |           ^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:11
+  |
+4 | div:where(.cool, .fun) {}
+  |           ^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:11
+  |
+4 | div:where(.cool, .fun) {}
+  |           ^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:11
+  |
+4 | div:where(.cool, .fun) {}
+  |           ^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:11
+  |
+4 | div:where(.cool, .fun) {}
+  |           ^^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:11
+  |
+4 | div:where(.cool, .fun) {}
+  |           ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:12
+  |
+4 | div:where(.cool, .fun) {}
+  |            ^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:18
+  |
+4 | div:where(.cool, .fun) {}
+  |                  ^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:18
+  |
+4 | div:where(.cool, .fun) {}
+  |                  ^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:18
+  |
+4 | div:where(.cool, .fun) {}
+  |                  ^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:18
+  |
+4 | div:where(.cool, .fun) {}
+  |                  ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:19
+  |
+4 | div:where(.cool, .fun) {}
+  |                   ^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:4:24
+  |
+4 | div:where(.cool, .fun) {}
+  |                        ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:1
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:1
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:1
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:1
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:1
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:1
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:1
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:2
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |  ^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:8
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |        ^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:8
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |        ^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:8
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |        ^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:8
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |        ^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:8
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |        ^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:8
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |        ^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:8
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |        ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:8
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |        ^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:12
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |            ^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:12
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |            ^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:12
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |            ^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:12
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |            ^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:12
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |            ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:12
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |            ^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:16
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                ^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:16
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                ^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:16
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                ^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:16
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                ^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:16
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:16
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                ^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:22
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                      ^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:22
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                      ^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:22
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                      ^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:22
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                      ^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:22
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                      ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:22
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                      ^^^
+
+error: Combinator
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:26
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                          ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:27
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:27
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:27
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:28
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                            ^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:34
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                  ^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:34
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                  ^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:34
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                  ^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:34
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                  ^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:34
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                  ^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:34
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                  ^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:34
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                  ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:34
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                  ^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:38
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                      ^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:38
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                      ^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:38
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                      ^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:38
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                      ^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:38
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                      ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:38
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                      ^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:42
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                          ^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:42
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                          ^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:42
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                          ^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:42
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                          ^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:42
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                          ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:42
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                          ^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:48
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                ^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:48
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                ^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:48
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                ^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:48
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                ^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:48
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:48
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                ^^^
+
+error: Combinator
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:52
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                    ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:53
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                     ^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:53
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                     ^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:53
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                     ^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:54
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                      ^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:60
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                            ^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:60
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                            ^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:60
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                            ^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:60
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                            ^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:60
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                            ^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:60
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                            ^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:60
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                            ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:60
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                            ^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:64
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                                ^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:64
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                                ^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:64
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                                ^^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:64
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                                ^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:64
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                                ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:64
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                                ^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:70
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                                      ^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:70
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                                      ^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:70
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                                      ^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:70
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                                      ^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:70
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                                      ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:70
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                                      ^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:5:75
+  |
+5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+  |                                                                           ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:1
+  |
+6 | *|*:where(:hover, :focus) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:1
+  |
+6 | *|*:where(:hover, :focus) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:1
+  |
+6 | *|*:where(:hover, :focus) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:1
+  |
+6 | *|*:where(:hover, :focus) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:1
+  |
+6 | *|*:where(:hover, :focus) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:1
+  |
+6 | *|*:where(:hover, :focus) {}
+  | ^^^
+
+error: UniversalSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:1
+  |
+6 | *|*:where(:hover, :focus) {}
+  | ^^^
+
+error: NsPrefix
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:1
+  |
+6 | *|*:where(:hover, :focus) {}
+  | ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:1
+  |
+6 | *|*:where(:hover, :focus) {}
+  | ^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:4
+  |
+6 | *|*:where(:hover, :focus) {}
+  |    ^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:4
+  |
+6 | *|*:where(:hover, :focus) {}
+  |    ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:5
+  |
+6 | *|*:where(:hover, :focus) {}
+  |     ^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:11
+  |
+6 | *|*:where(:hover, :focus) {}
+  |           ^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:11
+  |
+6 | *|*:where(:hover, :focus) {}
+  |           ^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:11
+  |
+6 | *|*:where(:hover, :focus) {}
+  |           ^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:11
+  |
+6 | *|*:where(:hover, :focus) {}
+  |           ^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:11
+  |
+6 | *|*:where(:hover, :focus) {}
+  |           ^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:11
+  |
+6 | *|*:where(:hover, :focus) {}
+  |           ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:12
+  |
+6 | *|*:where(:hover, :focus) {}
+  |            ^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:19
+  |
+6 | *|*:where(:hover, :focus) {}
+  |                   ^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:19
+  |
+6 | *|*:where(:hover, :focus) {}
+  |                   ^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:19
+  |
+6 | *|*:where(:hover, :focus) {}
+  |                   ^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:19
+  |
+6 | *|*:where(:hover, :focus) {}
+  |                   ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:20
+  |
+6 | *|*:where(:hover, :focus) {}
+  |                    ^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:6:27
+  |
+6 | *|*:where(:hover, :focus) {}
+  |                           ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:1
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:1
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:1
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:1
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:1
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:1
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  | ^^^
+
+error: UniversalSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:1
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  | ^^^
+
+error: NsPrefix
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:1
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  | ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:1
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  | ^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:4
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  |    ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:4
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  |    ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:5
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  |     ^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:11
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  |           ^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:11
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  |           ^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:11
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  |           ^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:11
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  |           ^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:11
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  |           ^
+
+error: UniversalSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:11
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  |           ^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:12
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  |            ^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:12
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  |            ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:13
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  |             ^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:20
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  |                    ^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:20
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  |                    ^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:20
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  |                    ^
+
+error: UniversalSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:20
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  |                    ^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:21
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  |                     ^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:21
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  |                     ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:22
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  |                      ^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:7:29
+  |
+7 | *|*:where(*:hover, *:focus) {}
+  |                             ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:1
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:1
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:1
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:1
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:1
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:1
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:1
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:2
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |  ^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:8
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |        ^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:8
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |        ^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:8
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |        ^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:8
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |        ^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:8
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |        ^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:8
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |        ^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:8
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |        ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:8
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |        ^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:12
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |            ^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:12
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |            ^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:12
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |            ^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:12
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |            ^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:12
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |            ^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:12
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |            ^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:16
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |                ^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:16
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |                ^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:16
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |                ^^^^^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:16
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |                ^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:17
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |                 ^^^^^^^
+
+error: Combinator
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:26
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |                          ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:28
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |                            ^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:28
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |                            ^^^^^^^^
+
+error: AttributeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:28
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |                            ^^^^^^^^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:29
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |                             ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:29
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |                             ^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:8:37
+  |
+8 | :where(ul, ol, .lwheret) > [hidden] {}
+  |                                     ^^
+
+error: Rule
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:1
+  |
+9 | :where(p, p:unsupported) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:1
+  |
+9 | :where(p, p:unsupported) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:1
+  |
+9 | :where(p, p:unsupported) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:1
+  |
+9 | :where(p, p:unsupported) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:1
+  |
+9 | :where(p, p:unsupported) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:1
+  |
+9 | :where(p, p:unsupported) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:1
+  |
+9 | :where(p, p:unsupported) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:2
+  |
+9 | :where(p, p:unsupported) {}
+  |  ^^^^^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:8
+  |
+9 | :where(p, p:unsupported) {}
+  |        ^^^^^^^^^^^^^^^^
+
+error: SelectorList
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:8
+  |
+9 | :where(p, p:unsupported) {}
+  |        ^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:8
+  |
+9 | :where(p, p:unsupported) {}
+  |        ^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:8
+  |
+9 | :where(p, p:unsupported) {}
+  |        ^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:8
+  |
+9 | :where(p, p:unsupported) {}
+  |        ^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:8
+  |
+9 | :where(p, p:unsupported) {}
+  |        ^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:8
+  |
+9 | :where(p, p:unsupported) {}
+  |        ^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:8
+  |
+9 | :where(p, p:unsupported) {}
+  |        ^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:11
+  |
+9 | :where(p, p:unsupported) {}
+  |           ^^^^^^^^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:11
+  |
+9 | :where(p, p:unsupported) {}
+  |           ^^^^^^^^^^^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:11
+  |
+9 | :where(p, p:unsupported) {}
+  |           ^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:11
+  |
+9 | :where(p, p:unsupported) {}
+  |           ^
+
+error: WqName
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:11
+  |
+9 | :where(p, p:unsupported) {}
+  |           ^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:11
+  |
+9 | :where(p, p:unsupported) {}
+  |           ^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:12
+  |
+9 | :where(p, p:unsupported) {}
+  |            ^^^^^^^^^^^^
+
+error: PseudoClassSelector
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:12
+  |
+9 | :where(p, p:unsupported) {}
+  |            ^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:13
+  |
+9 | :where(p, p:unsupported) {}
+  |             ^^^^^^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:9:26
+  |
+9 | :where(p, p:unsupported) {}
+  |                          ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:10:1
+   |
+10 | :where(:valid, :unsupported) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:10:1
+   |
+10 | :where(:valid, :unsupported) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:10:1
+   |
+10 | :where(:valid, :unsupported) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:10:1
+   |
+10 | :where(:valid, :unsupported) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:10:1
+   |
+10 | :where(:valid, :unsupported) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:10:1
+   |
+10 | :where(:valid, :unsupported) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:10:1
+   |
+10 | :where(:valid, :unsupported) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:10:2
+   |
+10 | :where(:valid, :unsupported) {}
+   |  ^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:10:8
+   |
+10 | :where(:valid, :unsupported) {}
+   |        ^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:10:8
+   |
+10 | :where(:valid, :unsupported) {}
+   |        ^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:10:8
+   |
+10 | :where(:valid, :unsupported) {}
+   |        ^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:10:8
+   |
+10 | :where(:valid, :unsupported) {}
+   |        ^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:10:8
+   |
+10 | :where(:valid, :unsupported) {}
+   |        ^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:10:8
+   |
+10 | :where(:valid, :unsupported) {}
+   |        ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:10:9
+   |
+10 | :where(:valid, :unsupported) {}
+   |         ^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:10:16
+   |
+10 | :where(:valid, :unsupported) {}
+   |                ^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:10:16
+   |
+10 | :where(:valid, :unsupported) {}
+   |                ^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:10:16
+   |
+10 | :where(:valid, :unsupported) {}
+   |                ^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:10:16
+   |
+10 | :where(:valid, :unsupported) {}
+   |                ^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:10:17
+   |
+10 | :where(:valid, :unsupported) {}
+   |                 ^^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:10:30
+   |
+10 | :where(:valid, :unsupported) {}
+   |                              ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:1
+   |
+11 | a:where(:not(:hover)) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:1
+   |
+11 | a:where(:not(:hover)) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:1
+   |
+11 | a:where(:not(:hover)) {}
+   | ^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:1
+   |
+11 | a:where(:not(:hover)) {}
+   | ^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:1
+   |
+11 | a:where(:not(:hover)) {}
+   | ^^^^^^^^^^^^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:1
+   |
+11 | a:where(:not(:hover)) {}
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:1
+   |
+11 | a:where(:not(:hover)) {}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:1
+   |
+11 | a:where(:not(:hover)) {}
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:1
+   |
+11 | a:where(:not(:hover)) {}
+   | ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:2
+   |
+11 | a:where(:not(:hover)) {}
+   |  ^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:2
+   |
+11 | a:where(:not(:hover)) {}
+   |  ^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:3
+   |
+11 | a:where(:not(:hover)) {}
+   |   ^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:9
+   |
+11 | a:where(:not(:hover)) {}
+   |         ^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:9
+   |
+11 | a:where(:not(:hover)) {}
+   |         ^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:9
+   |
+11 | a:where(:not(:hover)) {}
+   |         ^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:9
+   |
+11 | a:where(:not(:hover)) {}
+   |         ^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:9
+   |
+11 | a:where(:not(:hover)) {}
+   |         ^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:9
+   |
+11 | a:where(:not(:hover)) {}
+   |         ^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:10
+   |
+11 | a:where(:not(:hover)) {}
+   |          ^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:14
+   |
+11 | a:where(:not(:hover)) {}
+   |              ^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:14
+   |
+11 | a:where(:not(:hover)) {}
+   |              ^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:14
+   |
+11 | a:where(:not(:hover)) {}
+   |              ^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:14
+   |
+11 | a:where(:not(:hover)) {}
+   |              ^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:14
+   |
+11 | a:where(:not(:hover)) {}
+   |              ^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:14
+   |
+11 | a:where(:not(:hover)) {}
+   |              ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:15
+   |
+11 | a:where(:not(:hover)) {}
+   |               ^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:11:23
+   |
+11 | a:where(:not(:hover)) {}
+   |                       ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:1
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:1
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:1
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:1
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:1
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:1
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:1
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:2
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |  ^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:8
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:8
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:8
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |        ^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:8
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |        ^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:8
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |        ^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:8
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |        ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:9
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |         ^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:19
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |                   ^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:19
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |                   ^
+
+error: AnPlusBNotation
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:19
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |                   ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:23
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |                       ^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:23
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |                       ^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:23
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |                       ^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:23
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |                       ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:24
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |                        ^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:34
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |                                  ^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:34
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |                                  ^
+
+error: AnPlusBNotation
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:34
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |                                  ^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:36
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |                                    ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:37
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |                                     ^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:37
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |                                     ^^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:37
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |                                     ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:37
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |                                     ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:12:41
+   |
+12 | :where(:nth-child(6), :nth-child(6) #id){}
+   |                                         ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:1
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:1
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:1
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:1
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:1
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:1
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:1
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:2
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |  ^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:8
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:8
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:8
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |        ^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:8
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |        ^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:8
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |        ^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:8
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |        ^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:9
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |         ^^^^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:24
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |                        ^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:24
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |                        ^
+
+error: AnPlusBNotation
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:24
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |                        ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:28
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |                            ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:28
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |                            ^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:28
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |                            ^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:28
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |                            ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:29
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |                             ^^^^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:44
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |                                            ^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:44
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |                                            ^
+
+error: AnPlusBNotation
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:44
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |                                            ^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:47
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |                                               ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:48
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |                                                ^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:48
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |                                                ^^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:48
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |                                                ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:48
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |                                                ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:13:52
+   |
+13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+   |                                                    ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:1
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:1
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:1
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:1
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:1
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:1
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:1
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:2
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |  ^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:8
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:8
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:8
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |        ^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:8
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |        ^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:8
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |        ^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:8
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |        ^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:9
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |         ^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:21
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                     ^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:21
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                     ^
+
+error: AnPlusBNotation
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:21
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                     ^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:23
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                       ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:24
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                        ^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:24
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                        ^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:24
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                        ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:24
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                        ^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:28
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                            ^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:28
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                            ^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:28
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                            ^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:28
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                            ^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:29
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                             ^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:41
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                                         ^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:41
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                                         ^
+
+error: AnPlusBNotation
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:41
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                                         ^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:43
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                                           ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:44
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                                            ^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:44
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                                            ^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:44
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                                            ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:44
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                                            ^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:48
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                                                ^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:48
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                                                ^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:48
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                                                ^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:48
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                                                ^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:49
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                                                 ^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:61
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                                                             ^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:61
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                                                             ^
+
+error: AnPlusBNotation
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:61
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                                                             ^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:63
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                                                               ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:64
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                                                                ^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:64
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                                                                ^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:64
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                                                                ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:64
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                                                                ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:14:68
+   |
+14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+   |                                                                    ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:15:1
+   |
+15 | / :where(:nth-last-of-type(9)   #a,
+16 | |        :nth-last-of-type(9 )  #b,
+17 | |        :nth-last-of-type( 9)  #c,
+18 | |        :nth-last-of-type( 9 ) #d,
+19 | |        :nth-last-of-type(9)   #e) {}
+   | |____________________________________^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:15:1
+   |
+15 | / :where(:nth-last-of-type(9)   #a,
+16 | |        :nth-last-of-type(9 )  #b,
+17 | |        :nth-last-of-type( 9)  #c,
+18 | |        :nth-last-of-type( 9 ) #d,
+19 | |        :nth-last-of-type(9)   #e) {}
+   | |____________________________________^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:15:1
+   |
+15 | / :where(:nth-last-of-type(9)   #a,
+16 | |        :nth-last-of-type(9 )  #b,
+17 | |        :nth-last-of-type( 9)  #c,
+18 | |        :nth-last-of-type( 9 ) #d,
+19 | |        :nth-last-of-type(9)   #e) {}
+   | |_________________________________^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:15:1
+   |
+15 | / :where(:nth-last-of-type(9)   #a,
+16 | |        :nth-last-of-type(9 )  #b,
+17 | |        :nth-last-of-type( 9)  #c,
+18 | |        :nth-last-of-type( 9 ) #d,
+19 | |        :nth-last-of-type(9)   #e) {}
+   | |_________________________________^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:15:1
+   |
+15 | / :where(:nth-last-of-type(9)   #a,
+16 | |        :nth-last-of-type(9 )  #b,
+17 | |        :nth-last-of-type( 9)  #c,
+18 | |        :nth-last-of-type( 9 ) #d,
+19 | |        :nth-last-of-type(9)   #e) {}
+   | |_________________________________^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:15:1
+   |
+15 | / :where(:nth-last-of-type(9)   #a,
+16 | |        :nth-last-of-type(9 )  #b,
+17 | |        :nth-last-of-type( 9)  #c,
+18 | |        :nth-last-of-type( 9 ) #d,
+19 | |        :nth-last-of-type(9)   #e) {}
+   | |_________________________________^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:15:1
+   |
+15 | / :where(:nth-last-of-type(9)   #a,
+16 | |        :nth-last-of-type(9 )  #b,
+17 | |        :nth-last-of-type( 9)  #c,
+18 | |        :nth-last-of-type( 9 ) #d,
+19 | |        :nth-last-of-type(9)   #e) {}
+   | |_________________________________^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:15:2
+   |
+15 | :where(:nth-last-of-type(9)   #a,
+   |  ^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:15:8
+   |
+15 |   :where(:nth-last-of-type(9)   #a,
+   |  ________^
+16 | |        :nth-last-of-type(9 )  #b,
+17 | |        :nth-last-of-type( 9)  #c,
+18 | |        :nth-last-of-type( 9 ) #d,
+19 | |        :nth-last-of-type(9)   #e) {}
+   | |________________________________^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:15:8
+   |
+15 |   :where(:nth-last-of-type(9)   #a,
+   |  ________^
+16 | |        :nth-last-of-type(9 )  #b,
+17 | |        :nth-last-of-type( 9)  #c,
+18 | |        :nth-last-of-type( 9 ) #d,
+19 | |        :nth-last-of-type(9)   #e) {}
+   | |________________________________^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:15:8
+   |
+15 | :where(:nth-last-of-type(9)   #a,
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:15:8
+   |
+15 | :where(:nth-last-of-type(9)   #a,
+   |        ^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:15:8
+   |
+15 | :where(:nth-last-of-type(9)   #a,
+   |        ^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:15:8
+   |
+15 | :where(:nth-last-of-type(9)   #a,
+   |        ^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:15:9
+   |
+15 | :where(:nth-last-of-type(9)   #a,
+   |         ^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:15:26
+   |
+15 | :where(:nth-last-of-type(9)   #a,
+   |                          ^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:15:26
+   |
+15 | :where(:nth-last-of-type(9)   #a,
+   |                          ^
+
+error: AnPlusBNotation
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:15:26
+   |
+15 | :where(:nth-last-of-type(9)   #a,
+   |                          ^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:15:28
+   |
+15 | :where(:nth-last-of-type(9)   #a,
+   |                            ^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:15:31
+   |
+15 | :where(:nth-last-of-type(9)   #a,
+   |                               ^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:15:31
+   |
+15 | :where(:nth-last-of-type(9)   #a,
+   |                               ^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:15:31
+   |
+15 | :where(:nth-last-of-type(9)   #a,
+   |                               ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:15:31
+   |
+15 | :where(:nth-last-of-type(9)   #a,
+   |                               ^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:16:8
+   |
+16 |        :nth-last-of-type(9 )  #b,
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:16:8
+   |
+16 |        :nth-last-of-type(9 )  #b,
+   |        ^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:16:8
+   |
+16 |        :nth-last-of-type(9 )  #b,
+   |        ^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:16:8
+   |
+16 |        :nth-last-of-type(9 )  #b,
+   |        ^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:16:9
+   |
+16 |        :nth-last-of-type(9 )  #b,
+   |         ^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:16:26
+   |
+16 |        :nth-last-of-type(9 )  #b,
+   |                          ^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:16:26
+   |
+16 |        :nth-last-of-type(9 )  #b,
+   |                          ^
+
+error: AnPlusBNotation
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:16:26
+   |
+16 |        :nth-last-of-type(9 )  #b,
+   |                          ^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:16:29
+   |
+16 |        :nth-last-of-type(9 )  #b,
+   |                             ^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:16:31
+   |
+16 |        :nth-last-of-type(9 )  #b,
+   |                               ^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:16:31
+   |
+16 |        :nth-last-of-type(9 )  #b,
+   |                               ^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:16:31
+   |
+16 |        :nth-last-of-type(9 )  #b,
+   |                               ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:16:31
+   |
+16 |        :nth-last-of-type(9 )  #b,
+   |                               ^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:17:8
+   |
+17 |        :nth-last-of-type( 9)  #c,
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:17:8
+   |
+17 |        :nth-last-of-type( 9)  #c,
+   |        ^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:17:8
+   |
+17 |        :nth-last-of-type( 9)  #c,
+   |        ^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:17:8
+   |
+17 |        :nth-last-of-type( 9)  #c,
+   |        ^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:17:9
+   |
+17 |        :nth-last-of-type( 9)  #c,
+   |         ^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:17:27
+   |
+17 |        :nth-last-of-type( 9)  #c,
+   |                           ^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:17:27
+   |
+17 |        :nth-last-of-type( 9)  #c,
+   |                           ^
+
+error: AnPlusBNotation
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:17:27
+   |
+17 |        :nth-last-of-type( 9)  #c,
+   |                           ^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:17:29
+   |
+17 |        :nth-last-of-type( 9)  #c,
+   |                             ^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:17:31
+   |
+17 |        :nth-last-of-type( 9)  #c,
+   |                               ^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:17:31
+   |
+17 |        :nth-last-of-type( 9)  #c,
+   |                               ^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:17:31
+   |
+17 |        :nth-last-of-type( 9)  #c,
+   |                               ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:17:31
+   |
+17 |        :nth-last-of-type( 9)  #c,
+   |                               ^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:18:8
+   |
+18 |        :nth-last-of-type( 9 ) #d,
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:18:8
+   |
+18 |        :nth-last-of-type( 9 ) #d,
+   |        ^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:18:8
+   |
+18 |        :nth-last-of-type( 9 ) #d,
+   |        ^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:18:8
+   |
+18 |        :nth-last-of-type( 9 ) #d,
+   |        ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:18:9
+   |
+18 |        :nth-last-of-type( 9 ) #d,
+   |         ^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:18:27
+   |
+18 |        :nth-last-of-type( 9 ) #d,
+   |                           ^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:18:27
+   |
+18 |        :nth-last-of-type( 9 ) #d,
+   |                           ^
+
+error: AnPlusBNotation
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:18:27
+   |
+18 |        :nth-last-of-type( 9 ) #d,
+   |                           ^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:18:30
+   |
+18 |        :nth-last-of-type( 9 ) #d,
+   |                              ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:18:31
+   |
+18 |        :nth-last-of-type( 9 ) #d,
+   |                               ^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:18:31
+   |
+18 |        :nth-last-of-type( 9 ) #d,
+   |                               ^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:18:31
+   |
+18 |        :nth-last-of-type( 9 ) #d,
+   |                               ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:18:31
+   |
+18 |        :nth-last-of-type( 9 ) #d,
+   |                               ^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:19:8
+   |
+19 |        :nth-last-of-type(9)   #e) {}
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:19:8
+   |
+19 |        :nth-last-of-type(9)   #e) {}
+   |        ^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:19:8
+   |
+19 |        :nth-last-of-type(9)   #e) {}
+   |        ^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:19:8
+   |
+19 |        :nth-last-of-type(9)   #e) {}
+   |        ^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:19:9
+   |
+19 |        :nth-last-of-type(9)   #e) {}
+   |         ^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:19:26
+   |
+19 |        :nth-last-of-type(9)   #e) {}
+   |                          ^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:19:26
+   |
+19 |        :nth-last-of-type(9)   #e) {}
+   |                          ^
+
+error: AnPlusBNotation
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:19:26
+   |
+19 |        :nth-last-of-type(9)   #e) {}
+   |                          ^
+
+error: Combinator
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:19:28
+   |
+19 |        :nth-last-of-type(9)   #e) {}
+   |                            ^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:19:31
+   |
+19 |        :nth-last-of-type(9)   #e) {}
+   |                               ^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:19:31
+   |
+19 |        :nth-last-of-type(9)   #e) {}
+   |                               ^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:19:31
+   |
+19 |        :nth-last-of-type(9)   #e) {}
+   |                               ^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:19:31
+   |
+19 |        :nth-last-of-type(9)   #e) {}
+   |                               ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:19:35
+   |
+19 |        :nth-last-of-type(9)   #e) {}
+   |                                   ^^
+
+error: Rule
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:20:1
+   |
+20 | / :where(:nth-child(6),
+21 | |        :nth-last-child(6),
+22 | |        :nth-of-type(6),
+23 | |        :nth-last-of-type(6)) {}
+   | |_______________________________^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:20:1
+   |
+20 | / :where(:nth-child(6),
+21 | |        :nth-last-child(6),
+22 | |        :nth-of-type(6),
+23 | |        :nth-last-of-type(6)) {}
+   | |_______________________________^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:20:1
+   |
+20 | / :where(:nth-child(6),
+21 | |        :nth-last-child(6),
+22 | |        :nth-of-type(6),
+23 | |        :nth-last-of-type(6)) {}
+   | |____________________________^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:20:1
+   |
+20 | / :where(:nth-child(6),
+21 | |        :nth-last-child(6),
+22 | |        :nth-of-type(6),
+23 | |        :nth-last-of-type(6)) {}
+   | |____________________________^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:20:1
+   |
+20 | / :where(:nth-child(6),
+21 | |        :nth-last-child(6),
+22 | |        :nth-of-type(6),
+23 | |        :nth-last-of-type(6)) {}
+   | |____________________________^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:20:1
+   |
+20 | / :where(:nth-child(6),
+21 | |        :nth-last-child(6),
+22 | |        :nth-of-type(6),
+23 | |        :nth-last-of-type(6)) {}
+   | |____________________________^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:20:1
+   |
+20 | / :where(:nth-child(6),
+21 | |        :nth-last-child(6),
+22 | |        :nth-of-type(6),
+23 | |        :nth-last-of-type(6)) {}
+   | |____________________________^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:20:2
+   |
+20 | :where(:nth-child(6),
+   |  ^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:20:8
+   |
+20 |   :where(:nth-child(6),
+   |  ________^
+21 | |        :nth-last-child(6),
+22 | |        :nth-of-type(6),
+23 | |        :nth-last-of-type(6)) {}
+   | |___________________________^
+
+error: SelectorList
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:20:8
+   |
+20 |   :where(:nth-child(6),
+   |  ________^
+21 | |        :nth-last-child(6),
+22 | |        :nth-of-type(6),
+23 | |        :nth-last-of-type(6)) {}
+   | |___________________________^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:20:8
+   |
+20 | :where(:nth-child(6),
+   |        ^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:20:8
+   |
+20 | :where(:nth-child(6),
+   |        ^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:20:8
+   |
+20 | :where(:nth-child(6),
+   |        ^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:20:8
+   |
+20 | :where(:nth-child(6),
+   |        ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:20:9
+   |
+20 | :where(:nth-child(6),
+   |         ^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:20:19
+   |
+20 | :where(:nth-child(6),
+   |                   ^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:20:19
+   |
+20 | :where(:nth-child(6),
+   |                   ^
+
+error: AnPlusBNotation
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:20:19
+   |
+20 | :where(:nth-child(6),
+   |                   ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:21:8
+   |
+21 |        :nth-last-child(6),
+   |        ^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:21:8
+   |
+21 |        :nth-last-child(6),
+   |        ^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:21:8
+   |
+21 |        :nth-last-child(6),
+   |        ^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:21:8
+   |
+21 |        :nth-last-child(6),
+   |        ^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:21:9
+   |
+21 |        :nth-last-child(6),
+   |         ^^^^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:21:24
+   |
+21 |        :nth-last-child(6),
+   |                        ^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:21:24
+   |
+21 |        :nth-last-child(6),
+   |                        ^
+
+error: AnPlusBNotation
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:21:24
+   |
+21 |        :nth-last-child(6),
+   |                        ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:22:8
+   |
+22 |        :nth-of-type(6),
+   |        ^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:22:8
+   |
+22 |        :nth-of-type(6),
+   |        ^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:22:8
+   |
+22 |        :nth-of-type(6),
+   |        ^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:22:8
+   |
+22 |        :nth-of-type(6),
+   |        ^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:22:9
+   |
+22 |        :nth-of-type(6),
+   |         ^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:22:21
+   |
+22 |        :nth-of-type(6),
+   |                     ^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:22:21
+   |
+22 |        :nth-of-type(6),
+   |                     ^
+
+error: AnPlusBNotation
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:22:21
+   |
+22 |        :nth-of-type(6),
+   |                     ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:23:8
+   |
+23 |        :nth-last-of-type(6)) {}
+   |        ^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:23:8
+   |
+23 |        :nth-last-of-type(6)) {}
+   |        ^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:23:8
+   |
+23 |        :nth-last-of-type(6)) {}
+   |        ^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:23:8
+   |
+23 |        :nth-last-of-type(6)) {}
+   |        ^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:23:9
+   |
+23 |        :nth-last-of-type(6)) {}
+   |         ^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:23:26
+   |
+23 |        :nth-last-of-type(6)) {}
+   |                          ^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:23:26
+   |
+23 |        :nth-last-of-type(6)) {}
+   |                          ^
+
+error: AnPlusBNotation
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:23:26
+   |
+23 |        :nth-last-of-type(6)) {}
+   |                          ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/selector/pseudo-class/where/input.css:23:30
+   |
+23 |        :nth-last-of-type(6)) {}
+   |                              ^^
+

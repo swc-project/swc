@@ -2472,93 +2472,101 @@
                           },
                           "children": [
                             {
-                              "type": "PreservedToken",
+                              "type": "SelectorList",
                               "span": {
                                 "start": 716,
-                                "end": 717,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "Delim": {
-                                  "value": "."
-                                }
-                              }
-                            },
-                            {
-                              "type": "PreservedToken",
-                              "span": {
-                                "start": 717,
-                                "end": 720,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "Ident": {
-                                  "value": "bar",
-                                  "raw": "bar"
-                                }
-                              }
-                            },
-                            {
-                              "type": "PreservedToken",
-                              "span": {
-                                "start": 720,
-                                "end": 721,
-                                "ctxt": 0
-                              },
-                              "token": "Comma"
-                            },
-                            {
-                              "type": "PreservedToken",
-                              "span": {
-                                "start": 721,
-                                "end": 722,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "WhiteSpace": {
-                                  "value": " "
-                                }
-                              }
-                            },
-                            {
-                              "type": "PreservedToken",
-                              "span": {
-                                "start": 722,
-                                "end": 723,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "Delim": {
-                                  "value": "&"
-                                }
-                              }
-                            },
-                            {
-                              "type": "PreservedToken",
-                              "span": {
-                                "start": 723,
-                                "end": 724,
-                                "ctxt": 0
-                              },
-                              "token": {
-                                "Delim": {
-                                  "value": "."
-                                }
-                              }
-                            },
-                            {
-                              "type": "PreservedToken",
-                              "span": {
-                                "start": 724,
                                 "end": 727,
                                 "ctxt": 0
                               },
-                              "token": {
-                                "Ident": {
-                                  "value": "baz",
-                                  "raw": "baz"
+                              "children": [
+                                {
+                                  "type": "ComplexSelector",
+                                  "span": {
+                                    "start": 716,
+                                    "end": 720,
+                                    "ctxt": 0
+                                  },
+                                  "children": [
+                                    {
+                                      "type": "CompoundSelector",
+                                      "span": {
+                                        "start": 716,
+                                        "end": 720,
+                                        "ctxt": 0
+                                      },
+                                      "nestingSelector": null,
+                                      "typeSelector": null,
+                                      "subclassSelectors": [
+                                        {
+                                          "type": "ClassSelector",
+                                          "span": {
+                                            "start": 716,
+                                            "end": 720,
+                                            "ctxt": 0
+                                          },
+                                          "text": {
+                                            "type": "Ident",
+                                            "span": {
+                                              "start": 717,
+                                              "end": 720,
+                                              "ctxt": 0
+                                            },
+                                            "value": "bar",
+                                            "raw": "bar"
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "ComplexSelector",
+                                  "span": {
+                                    "start": 722,
+                                    "end": 727,
+                                    "ctxt": 0
+                                  },
+                                  "children": [
+                                    {
+                                      "type": "CompoundSelector",
+                                      "span": {
+                                        "start": 722,
+                                        "end": 727,
+                                        "ctxt": 0
+                                      },
+                                      "nestingSelector": {
+                                        "type": "NestingSelector",
+                                        "span": {
+                                          "start": 722,
+                                          "end": 723,
+                                          "ctxt": 0
+                                        }
+                                      },
+                                      "typeSelector": null,
+                                      "subclassSelectors": [
+                                        {
+                                          "type": "ClassSelector",
+                                          "span": {
+                                            "start": 723,
+                                            "end": 727,
+                                            "ctxt": 0
+                                          },
+                                          "text": {
+                                            "type": "Ident",
+                                            "span": {
+                                              "start": 724,
+                                              "end": 727,
+                                              "ctxt": 0
+                                            },
+                                            "value": "baz",
+                                            "raw": "baz"
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  ]
                                 }
-                              }
+                              ]
                             }
                           ]
                         }
@@ -2706,13 +2714,13 @@
             },
             "value": [
               {
-                "type": "Number",
+                "type": "Integer",
                 "span": {
                   "start": 769,
                   "end": 770,
                   "ctxt": 0
                 },
-                "value": 0.0,
+                "value": 0,
                 "raw": "0"
               }
             ],
@@ -2855,13 +2863,13 @@
                       },
                       "value": [
                         {
-                          "type": "Number",
+                          "type": "Integer",
                           "span": {
                             "start": 818,
                             "end": 819,
                             "ctxt": 0
                           },
-                          "value": 0.0,
+                          "value": 0,
                           "raw": "0"
                         },
                         {

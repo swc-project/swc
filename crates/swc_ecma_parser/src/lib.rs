@@ -116,6 +116,7 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![cfg_attr(test, feature(bench_black_box))]
 #![cfg_attr(test, feature(test))]
+#![deny(clippy::all)]
 #![deny(unused)]
 #![allow(clippy::nonminimal_bool)]
 #![allow(clippy::too_many_arguments)]
@@ -123,8 +124,11 @@
 #![allow(clippy::vec_box)]
 #![allow(clippy::wrong_self_convention)]
 
+use error::Error;
+use lexer::Lexer;
 use serde::{Deserialize, Serialize};
-use swc_ecma_ast::EsVersion;
+use swc_common::{comments::Comments, input::SourceFileInput, SourceFile};
+use swc_ecma_ast::*;
 
 pub use self::{
     lexer::input::{Input, StringInput},
@@ -393,3 +397,47 @@ where
         f(handler, (&*fm).into())
     })
 }
+
+pub fn with_file_parser<T>(
+    fm: &SourceFile,
+    syntax: Syntax,
+    target: EsVersion,
+    comments: Option<&dyn Comments>,
+    recovered_errors: &mut Vec<Error>,
+    op: impl for<'aa> FnOnce(&mut Parser<Lexer<SourceFileInput<'aa>>>) -> PResult<T>,
+) -> PResult<T> {
+    let lexer = Lexer::new(syntax, target, SourceFileInput::from(fm), comments);
+    let mut p = Parser::new_from(lexer);
+    let ret = op(&mut p);
+
+    recovered_errors.append(&mut p.take_errors());
+
+    ret
+}
+
+macro_rules! expose {
+    (
+        $name:ident,
+        $T:ty,
+        $($t:tt)*
+    ) => {
+        /// Note: This is reccomended way to parse a file.
+        ///
+        /// This is an alias for [Parser], [Lexer] and [SourceFileInput], but
+        /// instantiation of generics occur in `swc_ecma_parser` crate.
+        pub fn $name(
+            fm: &SourceFile,
+            syntax: Syntax,
+            target: EsVersion,
+            comments: Option<&dyn Comments>,
+            recovered_errors: &mut Vec<Error>,
+        ) -> PResult<$T> {
+            with_file_parser(fm, syntax, target, comments, recovered_errors, $($t)*)
+        }
+    };
+}
+
+expose!(parse_file_as_expr, Box<Expr>, |p| { p.parse_expr() });
+expose!(parse_file_as_module, Module, |p| { p.parse_module() });
+expose!(parse_file_as_script, Script, |p| { p.parse_script() });
+expose!(parse_file_as_program, Program, |p| { p.parse_program() });

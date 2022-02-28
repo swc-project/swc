@@ -94,6 +94,12 @@ error: Value
 1 | a { color: #11223345 }
   |            ^^^^^^^^^
 
+error: Color
+ --> $DIR/tests/fixture/esbuild/misc/fTZzFds73kLZoyY9Y2gZdQ/input.css:1:12
+  |
+1 | a { color: #11223345 }
+  |            ^^^^^^^^^
+
 error: HexColor
  --> $DIR/tests/fixture/esbuild/misc/fTZzFds73kLZoyY9Y2gZdQ/input.css:1:12
   |

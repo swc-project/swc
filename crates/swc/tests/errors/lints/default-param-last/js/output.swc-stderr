@@ -1,0 +1,42 @@
+error: Default parameters should be last.
+ 
+  |
+1 | function f1(a = 5, b = 6, c) {}
+  |                           ^
+
+error: Default parameters should be last.
+ 
+  |
+3 | function f2(a = 5, b, c = 5) {}
+  |                    ^
+
+error: Default parameters should be last.
+ 
+  |
+5 | const f3 = (a = 5, b, ...c) => {};
+  |                    ^
+
+error: Default parameters should be last.
+ 
+  |
+7 | const f4 = function f(a, b = 5, c) {};
+  |                                 ^
+
+error: Default parameters should be last.
+ 
+  |
+9 | const f5 = (a = 5, { b }) => {};
+  |                    ^^^^^
+
+error: Default parameters should be last.
+  
+   |
+12 |     constructor({ a } = {}, b) {}
+   |                             ^
+
+error: Default parameters should be last.
+  
+   |
+14 |     f([a, b] = [1, 2], c) {}
+   |                        ^
+
