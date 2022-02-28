@@ -181,6 +181,10 @@ jobs:
             os: ubuntu-latest
           - crate: swc_ecma_preset_env
             os: windows-latest
+          - crate: swc_ecma_quote
+            os: ubuntu-latest
+          - crate: swc_ecma_quote_macros
+            os: ubuntu-latest
           - crate: swc_ecma_transforms
             os: ubuntu-latest
             check: |
@@ -265,6 +269,8 @@ jobs:
           - crate: swc_stylis
             os: ubuntu-latest
           - crate: swc_timer
+            os: ubuntu-latest
+          - crate: swc_trace_macro
             os: ubuntu-latest
           - crate: swc_visit
             os: ubuntu-latest
