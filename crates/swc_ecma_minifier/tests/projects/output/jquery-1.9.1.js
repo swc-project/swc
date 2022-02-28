@@ -711,7 +711,7 @@
         },
         prop: function(elem, name, value) {
             var ret, hooks, nType = elem.nodeType;
-            return elem && 3 !== nType && 8 !== nType && 2 !== nType ? (1 === nType && jQuery.isXMLDoc(elem) || (name = jQuery.propFix[name] || name, hooks = jQuery.propHooks[name]), value !== undefined) ? hooks && "set" in hooks && undefined !== (ret = hooks.set(elem, value, name)) ? ret : elem[name] = value : hooks && "get" in hooks && null !== (ret = hooks.get(elem, name)) ? ret : elem[name] : void 0;
+            if (elem && 3 !== nType && 8 !== nType && 2 !== nType) return (1 === nType && jQuery.isXMLDoc(elem) || (name = jQuery.propFix[name] || name, hooks = jQuery.propHooks[name]), value !== undefined) ? hooks && "set" in hooks && undefined !== (ret = hooks.set(elem, value, name)) ? ret : elem[name] = value : hooks && "get" in hooks && null !== (ret = hooks.get(elem, name)) ? ret : elem[name];
         },
         propHooks: {
             tabIndex: {

@@ -3528,13 +3528,18 @@
                                     return null;
                             }
                         }(domEventName10, nativeEvent8) : function(domEventName, nativeEvent) {
-                            var nativeEvent9;
-                            if (isComposing) return "compositionend" === domEventName || !canUseCompositionEvent && isFallbackCompositionEnd(domEventName, nativeEvent) ? (root1 = null, startText = null, fallbackText = null, isComposing = !1, getData()) : null;
+                            if (isComposing) {
+                                if ("compositionend" === domEventName || !canUseCompositionEvent && isFallbackCompositionEnd(domEventName, nativeEvent)) {
+                                    var nativeEvent9;
+                                    return root1 = null, startText = null, fallbackText = null, isComposing = !1, getData();
+                                }
+                                return null;
+                            }
                             switch(domEventName){
                                 case "paste":
                                     return null;
                                 case "keypress":
-                                    if (!(((nativeEvent9 = nativeEvent).ctrlKey || nativeEvent9.altKey || nativeEvent9.metaKey) && !(nativeEvent9.ctrlKey && nativeEvent9.altKey))) {
+                                    if (!(nativeEvent9 = nativeEvent).ctrlKey && !nativeEvent9.altKey && !nativeEvent9.metaKey || nativeEvent9.ctrlKey && nativeEvent9.altKey) {
                                         if (nativeEvent.char && nativeEvent.char.length > 1) return nativeEvent.char;
                                         if (nativeEvent.which) return String.fromCharCode(nativeEvent.which);
                                     }
@@ -7122,7 +7127,7 @@
                                 break;
                         }
                         return updatePayload;
-                    })(instance, type9, props7, hostContext2.namespace), fiber.updateQueue = updatePayload1, null !== updatePayload1 && markUpdate(workInProgress);
+                    })(instance, type9, props7, hostContext2.namespace), fiber.updateQueue = updatePayload1, (null !== updatePayload1 || 0) && markUpdate(workInProgress);
                     else {
                         var type8, props9, rootContainerInstance1, hostContext, internalInstanceHandle, hostContextDev, domElement1, fiber, hostContext1, instance, type9, props7, hostContext2, internalInstanceHandle1, updatePayload1, type10, props8, instance7 = (type8 = type11, props9 = newProps, rootContainerInstance1 = rootContainerInstance, hostContext = currentHostContext, internalInstanceHandle = workInProgress, validateDOMNesting(type8, null, (hostContextDev = hostContext).ancestorInfo), ("string" == typeof props9.children || "number" == typeof props9.children) && validateDOMNesting(null, "" + props9.children, updatedAncestorInfo(hostContextDev.ancestorInfo, type8)), precacheFiberNode(internalInstanceHandle, domElement1 = function(type, props, rootContainerElement, parentNamespace) {
                             var isCustomComponentTag, domElement, ownerDocument = getOwnerDocumentFromRootContainer(rootContainerElement), namespaceURI = parentNamespace;
@@ -9219,7 +9224,7 @@
         var lane = requestUpdateLane(current$1), context = function(parentComponent) {
             if (!parentComponent) return emptyContextObject;
             var fiber4 = get1(parentComponent), parentContext = function(fiber) {
-                if (!(getNearestMountedFiber(fiber2 = fiber) === fiber2 && 1 === fiber.tag)) throw Error("Expected subtree parent to be a mounted class component. This error is likely caused by a bug in React. Please file an issue.");
+                if (getNearestMountedFiber(fiber2 = fiber) !== fiber2 || 1 !== fiber.tag) throw Error("Expected subtree parent to be a mounted class component. This error is likely caused by a bug in React. Please file an issue.");
                 var fiber2, node = fiber;
                 do {
                     switch(node.tag){

@@ -1,11 +1,14 @@
-var M, e1;
+var x1, M, e1;
 function foo3() {
     return foo3();
 }
 function m1() {
     return 1;
 }
-foo3(), (function(x) {
+x1 = 1, (function(x) {
+    var x1;
+    x1 = 1;
+})(1), foo3(), (function(x) {
     try {} catch (e) {
         return [];
     } finally{}
