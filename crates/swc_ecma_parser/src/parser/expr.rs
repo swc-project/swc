@@ -790,29 +790,16 @@ impl<'a, I: Tokens> Parser<I> {
             // AssignProp in lhs to check against assignment in object literals
             // like (a, {b = 1});
             for expr_or_spread in paren_items.clone().into_iter() {
-                match expr_or_spread {
-                    PatOrExprOrSpread::ExprOrSpread(ExprOrSpread { expr, spread: _ }) => {
-                        match *expr {
-                            Expr::Object(ObjectLit { span: _, props }) => {
-                                for p in props.into_iter() {
-                                    match p {
-                                        PropOrSpread::Prop(prop) => match *prop {
-                                            Prop::Assign(..) => {
-                                                self.emit_err(
-                                                    prop.span(),
-                                                    SyntaxError::AssignProperty,
-                                                );
-                                            }
-                                            _ => {}
-                                        },
-                                        _ => {}
-                                    }
+                if let PatOrExprOrSpread::ExprOrSpread(e) = expr_or_spread {
+                    if let Expr::Object(o) = *e.expr {
+                        for p in o.props.into_iter() {
+                            if let PropOrSpread::Prop(prop) = p {
+                                if let Prop::Assign(..) = *prop {
+                                    self.emit_err(prop.span(), SyntaxError::AssignProperty);
                                 }
                             }
-                            _ => {}
                         }
                     }
-                    _ => {}
                 }
             }
         }
