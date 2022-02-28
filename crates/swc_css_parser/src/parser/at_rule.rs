@@ -8,14 +8,11 @@ use crate::{
     Parse,
 };
 
-#[derive(Debug, Default)]
-pub(super) struct AtRuleContext {}
-
 impl<I> Parser<I>
 where
     I: ParserInput,
 {
-    pub(super) fn parse_at_rule(&mut self, _ctx: AtRuleContext) -> PResult<AtRule> {
+    pub(super) fn parse_at_rule(&mut self) -> PResult<AtRule> {
         let at_rule_span = self.input.cur_span()?;
 
         assert!(matches!(cur!(self), Token::AtKeyword { .. }));

@@ -66,7 +66,7 @@ where
                 // Reconsume the current input token. Consume an at-rule, and append the returned
                 // value to the list of rules.
                 tok!("@") => {
-                    rules.push(Rule::AtRule(self.parse_at_rule(Default::default())?));
+                    rules.push(Rule::AtRule(self.parse_at_rule()?));
                 }
                 // anything else
                 // Reconsume the current input token. Consume a qualified rule. If anything is
@@ -185,7 +185,7 @@ where
                 // Reconsume the current input token. Consume an at-rule, and append the result to
                 // rules.
                 tok!("@") => {
-                    rules.push(StyleBlock::AtRule(self.parse_at_rule(Default::default())?));
+                    rules.push(StyleBlock::AtRule(self.parse_at_rule()?));
                 }
                 // <ident-token>
                 // Initialize a temporary list initially filled with the current input token. As
@@ -477,9 +477,7 @@ where
                     bump!(self);
                 }
                 tok!("@") => {
-                    declarations.push(DeclarationOrAtRule::AtRule(
-                        self.parse_at_rule(Default::default())?,
-                    ));
+                    declarations.push(DeclarationOrAtRule::AtRule(self.parse_at_rule()?));
                 }
                 tok!("ident") => {
                     let state = self.input.state();
