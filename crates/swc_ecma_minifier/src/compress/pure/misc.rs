@@ -148,18 +148,21 @@ where
         if let Expr::Ident(i) = e {
             // If it's not a top level, it's a reference to a declared variable.
             if i.span.ctxt.outer() == self.marks.top_level_mark {
-                match &*i.sym {
-                    "clearInterval" | "clearTimeout" | "setInterval" | "setTimeout" | "Boolean"
-                    | "Date" | "decodeURI" | "decodeURIComponent" | "encodeURI"
-                    | "encodeURIComponent" | "escape" | "eval" | "EvalError" | "isFinite"
-                    | "isNaN" | "JSON" | "parseFloat" | "parseInt" | "RegExp" | "RangeError"
-                    | "ReferenceError" | "SyntaxError" | "TypeError" | "unescape" | "URIError"
-                    | "atob" | "globalThis" => {
-                        tracing::debug!("Dropping a reference to a global variable");
-                        *e = Expr::Invalid(Invalid { span: DUMMY_SP });
-                        return;
+                if self.options.side_effects {
+                    match &*i.sym {
+                        "clearInterval" | "clearTimeout" | "setInterval" | "setTimeout"
+                        | "Boolean" | "Date" | "decodeURI" | "decodeURIComponent" | "encodeURI"
+                        | "encodeURIComponent" | "escape" | "eval" | "EvalError" | "isFinite"
+                        | "isNaN" | "JSON" | "parseFloat" | "parseInt" | "RegExp"
+                        | "RangeError" | "ReferenceError" | "SyntaxError" | "TypeError"
+                        | "unescape" | "URIError" | "atob" | "globalThis" | "Object" | "Array"
+                        | "Number" | "NaN" | "Symbol" => {
+                            tracing::debug!("Dropping a reference to a global variable");
+                            *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                            return;
+                        }
+                        _ => {}
                     }
-                    _ => {}
                 }
             } else {
                 tracing::debug!("Dropping an identifier as it's declared");
@@ -383,7 +386,6 @@ where
 pub(super) struct DropOpts {
     pub drop_zero: bool,
     pub drop_str_lit: bool,
-    pub drop_unresolved_ids: bool,
 }
 
 /// `obj` should have top level syntax context.

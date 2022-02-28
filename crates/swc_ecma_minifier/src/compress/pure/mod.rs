@@ -1,3 +1,5 @@
+#![allow(clippy::needless_update)]
+
 use std::sync::Arc;
 
 use rayon::prelude::*;
@@ -342,7 +344,6 @@ where
             DropOpts {
                 drop_zero: true,
                 drop_str_lit: false,
-                drop_unresolved_ids: false,
             },
         );
     }
@@ -536,7 +537,6 @@ where
                     DropOpts {
                         drop_zero: false,
                         drop_str_lit: true,
-                        drop_unresolved_ids: false,
                     },
                 );
             }
