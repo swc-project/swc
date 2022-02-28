@@ -36,7 +36,7 @@ impl VarData {
             let val = *b;
             if val > 0 {
                 *b -= 1;
-                true
+                val != 1
             } else {
                 false
             }
