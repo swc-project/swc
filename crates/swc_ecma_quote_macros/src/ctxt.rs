@@ -65,11 +65,13 @@ pub type Vars = AHashMap<String, VarData>;
 pub(super) fn prepare_vars(
     src: &dyn ToCode,
     vars: Punctuated<QuoteVar, Token![,]>,
-) -> (Vec<syn::Item>, Vars) {
+) -> (Vec<syn::Stmt>, Vars) {
     let mut stmts = vec![];
     let mut init_map = Vars::default();
 
     for var in vars {
+        let value = var.value;
+
         let ident = var.name.clone();
         let ident_str = ident.to_string();
 
@@ -87,6 +89,10 @@ pub(super) fn prepare_vars(
         if let Some(old) = old {
             panic!("Duplicate variable name: {}", ident_str);
         }
+
+        stmts.push(parse_quote! {
+            let #var_ident = #value;
+        });
     }
 
     // Use `ToCode` to count how many times each variable is used.
