@@ -1,10 +1,13 @@
 extern crate proc_macro;
 
-use std::collections::HashMap;
-
 use quote::ToTokens;
 
-use crate::{ast::ToCode, ctxt::Ctx, input::QuoteInput, ret_type::parse_input_type};
+use crate::{
+    ast::ToCode,
+    ctxt::{prepare_vars, Ctx},
+    input::QuoteInput,
+    ret_type::parse_input_type,
+};
 
 mod ast;
 mod builder;
@@ -27,14 +30,13 @@ pub fn internal_quote(input: proc_macro::TokenStream) -> proc_macro::TokenStream
         parse_input_type(&src.value(), &output_type).expect("failed to parse input type");
 
     let vars = vars.map(|v| v.1);
-    let map = HashMap::default();
 
-    if let Some(vars) = vars {
-        if !vars.is_empty() {
-            todo!("quote! macro does not support variables yet")
-        }
-    }
+    let vars = if let Some(vars) = vars {
+        prepare_vars(&ret_type, vars)
+    } else {
+        Default::default()
+    };
 
-    let cx = Ctx { vars: map };
+    let cx = Ctx { vars };
     ret_type.to_code(&cx).to_token_stream().into()
 }
