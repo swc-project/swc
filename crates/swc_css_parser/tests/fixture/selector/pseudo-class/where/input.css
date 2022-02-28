@@ -9,3 +9,15 @@ div:where(.cool, .fun) {}
 :where(p, p:unsupported) {}
 :where(:valid, :unsupported) {}
 a:where(:not(:hover)) {}
+:where(:nth-child(6), :nth-child(6) #id){}
+:where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+:where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+:where(:nth-last-of-type(9)   #a,
+       :nth-last-of-type(9 )  #b,
+       :nth-last-of-type( 9)  #c,
+       :nth-last-of-type( 9 ) #d,
+       :nth-last-of-type(9)   #e) {}
+:where(:nth-child(6),
+       :nth-last-child(6),
+       :nth-of-type(6),
+       :nth-last-of-type(6)) {}

@@ -13,6 +13,9 @@ where
         if !self.options.collapse_vars {
             return;
         }
+        if self.ctx.in_asm {
+            return;
+        }
 
         if self.ctx.in_try_block || self.ctx.executed_multiple_time || self.ctx.in_cond {
             return;

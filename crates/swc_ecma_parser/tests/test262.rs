@@ -93,7 +93,6 @@ fn add_test<F: FnOnce() + Send + 'static>(
             name: TestName::DynTestName(name),
             ignore,
             should_panic: No,
-            allow_fail: false,
             compile_fail: false,
             no_run: false,
         },

@@ -8,6 +8,9 @@
 - **(es/compat)** Initialize class fields as a last step (#3767) ([11bf29f](https://github.com/swc-project/swc/commit/11bf29f44b4233b2e7f60b750ef56429dbe47ce9))
 
 
+- **(es/minifier)** Disable some operations for asm.js codes (#3572) ([e7f7f69](https://github.com/swc-project/swc/commit/e7f7f69db4f327b35005e863d3669bad382626c6))
+
+
 - **(es/typescript)** Transform `this` in TypeScript classes (#3764) ([5f3f9ef](https://github.com/swc-project/swc/commit/5f3f9ef033797a1b13d32bd854c3acf3cbaf4495))
 
 ### Features
@@ -15,6 +18,9 @@
 
 
 - **(css/lints)** Add CSS linter (#3765) ([66c6cae](https://github.com/swc-project/swc/commit/66c6cae8dc7d614aac83a620b4dff022459f54d7))
+
+
+- **(css/minifier)** Convert more length (#3769) ([500d62c](https://github.com/swc-project/swc/commit/500d62c0850a93321baafb44fa4ac4b8a9bff3f8))
 
 
 - **(es/compat)** Optimize handling of literals in computed property names (#3756) ([8ed4d2f](https://github.com/swc-project/swc/commit/8ed4d2fcaccf27733e8fbfe19da810504653ce6b))
@@ -25,11 +31,23 @@
 
 - **(es/quote)** Implement quasi quoter partially (#3155) ([fe0ddcc](https://github.com/swc-project/swc/commit/fe0ddcc54b0f8343a3a3d227bde8b38fa47ebd80))
 
+
+- **(es/quote)** Support variables (#3774) ([e3c374b](https://github.com/swc-project/swc/commit/e3c374b53bdd3fe8baef5be7a63b10d2efcd47e4))
+
+### Miscellaneous Tasks
+- **general**: Update `rustc` (#3768) ([3798436](https://github.com/swc-project/swc/commit/3798436201a0838e55beac974792f4d560b47657))
+
 ### Refactor
 
 
 
 - **(css/ast)** Simplify AST types (#3753) ([815a489](https://github.com/swc-project/swc/commit/815a489dcfb72df928fc03f216dbe4a21b0e0716))
+
+### Testing
+
+
+
+- **(css/parser)** Add tests for selectors (#3770) ([1651bcc](https://github.com/swc-project/swc/commit/1651bccf4578ff2d44a9c37eab3845c006b5164d))
 
 ## [1.2.146] - 2022-02-27
 

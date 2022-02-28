@@ -1,3 +1,5 @@
+#![allow(clippy::ptr_arg)]
+
 use std::sync::Arc;
 
 use swc_visit::define;
