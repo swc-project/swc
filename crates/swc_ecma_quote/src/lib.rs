@@ -8,6 +8,11 @@ pub extern crate swc_ecma_ast;
 #[doc(hidden)]
 pub extern crate swc_ecma_quote_macros;
 
+#[doc(hidden)]
+pub use self::clone::ImplicitClone;
+
+mod clone;
+
 /// # Supported output types
 ///
 ///  - `Expr`
