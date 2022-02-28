@@ -54,7 +54,7 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: nightly-2021-09-30
+          # toolchain: nightly-2021-09-30
           override: true
 
       - name: Run benchmark
