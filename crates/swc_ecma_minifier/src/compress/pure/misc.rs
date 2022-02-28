@@ -163,6 +163,29 @@ where
             }
         }
 
+        if self.options.side_effects {
+            if let Expr::Unary(UnaryExpr {
+                op: op!("void") | op!("typeof") | op!(unary, "+") | op!(unary, "-"),
+                arg,
+                ..
+            }) = e
+            {
+                self.ignore_return_value(
+                    &mut **arg,
+                    DropOpts {
+                        drop_str_lit: true,
+                        drop_zero: true,
+                        ..opts
+                    },
+                );
+
+                if arg.is_invalid() {
+                    *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                    return;
+                }
+            }
+        }
+
         if self.options.unused || self.options.side_effects {
             match e {
                 Expr::Lit(Lit::Num(n)) => {
@@ -244,26 +267,6 @@ where
                         return;
                     } else if bin.left.is_invalid() {
                         *e = *bin.right.take();
-                        return;
-                    }
-                }
-
-                Expr::Unary(UnaryExpr {
-                    op: op!("void") | op!("typeof") | op!(unary, "+") | op!(unary, "-"),
-                    arg,
-                    ..
-                }) => {
-                    self.ignore_return_value(
-                        &mut **arg,
-                        DropOpts {
-                            drop_str_lit: true,
-                            drop_zero: true,
-                            ..opts
-                        },
-                    );
-
-                    if arg.is_invalid() {
-                        *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                         return;
                     }
                 }
