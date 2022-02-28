@@ -12,6 +12,7 @@ arrays/index/input.js
 arrays/index_length/input.js
 arrow/async_function_expression/input.js
 arrow/async_object_literal/input.js
+arrow/call_args_drop_param/input.js
 arrow/concise_methods_with_computed_property2/input.js
 arrow/export_default_object_expression/input.js
 arrow/issue_2084/input.js
@@ -72,9 +73,7 @@ collapse_vars/issue_1631_2/input.js
 collapse_vars/issue_1631_3/input.js
 collapse_vars/issue_1858/input.js
 collapse_vars/issue_2187_2/input.js
-collapse_vars/issue_2203_1/input.js
 collapse_vars/issue_2203_2/input.js
-collapse_vars/issue_2203_3/input.js
 collapse_vars/issue_2203_4/input.js
 collapse_vars/issue_2250_1/input.js
 collapse_vars/issue_2250_2/input.js
@@ -138,9 +137,6 @@ dead_code/dead_code_const_declaration/input.js
 dead_code/dead_code_constant_boolean_should_warn_more/input.js
 dead_code/dead_code_constant_boolean_should_warn_more_strict/input.js
 dead_code/global_fns/input.js
-dead_code/issue_2233_1/input.js
-dead_code/issue_2233_2/input.js
-dead_code/issue_2233_3/input.js
 dead_code/issue_2692/input.js
 dead_code/issue_2749/input.js
 dead_code/issue_2860_1/input.js
@@ -242,6 +238,7 @@ drop_unused/unused_funarg_2/input.js
 drop_unused/unused_null_conditional_chain/input.js
 drop_unused/var_catch_toplevel/input.js
 drop_unused/variable_refs_outside_unused_class/input.js
+evaluate/call_args_drop_param/input.js
 evaluate/delete_expr_1/input.js
 evaluate/delete_expr_2/input.js
 evaluate/issue_2207_3/input.js
@@ -356,7 +353,6 @@ harmony/array_literal_with_spread_2b/input.js
 harmony/array_literal_with_spread_4a/input.js
 harmony/array_literal_with_spread_4b/input.js
 harmony/array_spread_of_sequence/input.js
-harmony/class_extends/input.js
 harmony/class_name_can_be_mangled/input.js
 harmony/class_name_can_be_preserved_with_reserved/input.js
 harmony/classes_extending_classes_out_of_pure_iifes/input.js
@@ -539,7 +535,6 @@ issue_640/conditional/input.js
 issue_640/dead_code_const_annotation_regex/input.js
 issue_640/drop_console_2/input.js
 issue_640/iife/input.js
-issue_640/limit_1/input.js
 issue_640/negate_iife_1/input.js
 issue_640/negate_iife_3/input.js
 issue_640/wrongly_optimized/input.js
@@ -717,7 +712,6 @@ pure_getters/strict_reduce_vars/input.js
 pure_getters/unsafe/input.js
 pure_getters/unsafe_reduce_vars/input.js
 pure_globals/globals_whose_access_is_pure/input.js
-pure_globals/window_access_is_impure/input.js
 reduce_vars/array_forin_1/input.js
 reduce_vars/chained_assignments/input.js
 reduce_vars/conditional_chain_certain_part/input.js
@@ -817,6 +811,7 @@ sequences/func_def_1/input.js
 sequences/hoist_decl/input.js
 sequences/issue_1758/input.js
 sequences/lift_sequences_2/input.js
+sequences/lift_sequences_5/input.js
 sequences/side_effects_cascade_3/input.js
 switch/issue_1663/input.js
 switch/issue_1680_2/input.js

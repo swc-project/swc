@@ -4,10 +4,14 @@ function _classCallCheck(instance, Constructor) {
 var A = function() {
     "use strict";
     _classCallCheck(this, A);
-}, B = function() {
+};
+abstract;
+var B = function() {
     "use strict";
     _classCallCheck(this, B);
-}, C = function() {
+};
+abstract;
+var C = function() {
     "use strict";
     _classCallCheck(this, C);
 };

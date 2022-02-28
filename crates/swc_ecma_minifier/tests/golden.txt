@@ -26,7 +26,6 @@ arrow/arrow_unused_toplevel/input.js
 arrow/arrow_with_regexp/input.js
 arrow/async_identifiers/input.js
 arrow/call_args/input.js
-arrow/call_args_drop_param/input.js
 arrow/concise_method_with_super/input.js
 arrow/issue_2271/input.js
 arrow/issue_3092a/input.js
@@ -154,6 +153,8 @@ collapse_vars/issue_1562/input.js
 collapse_vars/issue_1605_1/input.js
 collapse_vars/issue_2187_1/input.js
 collapse_vars/issue_2187_3/input.js
+collapse_vars/issue_2203_1/input.js
+collapse_vars/issue_2203_3/input.js
 collapse_vars/issue_2313_1/input.js
 collapse_vars/issue_2313_2/input.js
 collapse_vars/issue_2319_2/input.js
@@ -264,6 +265,9 @@ dead_code/dead_code_1/input.js
 dead_code/dead_code_block_decls_die/input.js
 dead_code/dead_code_const_annotation_regex/input.js
 dead_code/global_timeout_and_interval_symbols/input.js
+dead_code/issue_2233_1/input.js
+dead_code/issue_2233_2/input.js
+dead_code/issue_2233_3/input.js
 dead_code/issue_2383_1/input.js
 dead_code/issue_2383_2/input.js
 dead_code/issue_2383_3/input.js
@@ -385,7 +389,6 @@ evaluate/Infinity_NaN_undefined_LHS/input.js
 evaluate/and/input.js
 evaluate/array_slice_index/input.js
 evaluate/call_args/input.js
-evaluate/call_args_drop_param/input.js
 evaluate/delete_binary_1/input.js
 evaluate/delete_binary_2/input.js
 evaluate/global_hasOwnProperty/input.js
@@ -517,6 +520,7 @@ harmony/arrow_function_parens_2/input.js
 harmony/class_expression_statement/input.js
 harmony/class_expression_statement_unused/input.js
 harmony/class_expression_statement_unused_toplevel/input.js
+harmony/class_extends/input.js
 harmony/class_extends_class/input.js
 harmony/class_extends_function/input.js
 harmony/class_extends_regex/input.js
@@ -742,6 +746,7 @@ issue_611/issue_611/input.js
 issue_640/drop_value/input.js
 issue_640/issue_1254_negate_iife_nested/input.js
 issue_640/issue_1254_negate_iife_true/input.js
+issue_640/limit_1/input.js
 issue_640/negate_iife_3_off/input.js
 issue_640/negate_iife_4/input.js
 issue_640/negate_iife_5/input.js
@@ -945,6 +950,7 @@ pure_getters/issue_2938_1/input.js
 pure_getters/issue_2938_2/input.js
 pure_getters/set_immutable_2/input.js
 pure_getters/set_immutable_4/input.js
+pure_globals/window_access_is_impure/input.js
 reduce_vars/accessor_1/input.js
 reduce_vars/accessor_2/input.js
 reduce_vars/array_forin_2/input.js
@@ -1157,7 +1163,6 @@ sequences/issue_27/input.js
 sequences/lift_sequences_1/input.js
 sequences/lift_sequences_3/input.js
 sequences/lift_sequences_4/input.js
-sequences/lift_sequences_5/input.js
 sequences/lift_sequences_6/input.js
 sequences/limit_1/input.js
 sequences/limit_2/input.js
