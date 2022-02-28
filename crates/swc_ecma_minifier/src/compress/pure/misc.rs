@@ -145,9 +145,10 @@ where
             }
         }
 
-        if opts.drop_unresolved_ids {
-            if let Expr::Ident(..) = e {
-                tracing::debug!("Dropping identifier as unresolved identifiers can be dropped");
+        if let Expr::Ident(i) = e {
+            // If it's not a top level, it's a reference to a declared variable.
+            if i.span.ctxt.outer() != self.marks.top_level_mark {
+                tracing::debug!("Dropping an identifier as it's declared");
                 *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                 return;
             }
@@ -166,7 +167,7 @@ where
                 Expr::Ident(i) => {
                     if let Some(bindings) = self.bindings.as_deref() {
                         if bindings.contains(&i.to_id()) {
-                            tracing::debug!("Dropping identifier as it's declared");
+                            tracing::debug!("Dropping an identifier as it's declared");
 
                             self.changed = true;
                             *e = Expr::Invalid(Invalid { span: DUMMY_SP });

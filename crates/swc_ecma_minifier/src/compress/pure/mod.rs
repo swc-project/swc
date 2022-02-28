@@ -516,7 +516,7 @@ where
                     DropOpts {
                         drop_zero: false,
                         drop_str_lit: true,
-                        drop_unresolved_ids: true,
+                        drop_unresolved_ids: false,
                     },
                 );
             }
