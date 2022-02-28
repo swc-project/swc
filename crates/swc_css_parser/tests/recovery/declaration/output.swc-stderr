@@ -4,3 +4,9 @@ error: Expected Ident
 7 |     prop: !!;
   |            ^
 
+error: Expected ":"
+  --> $DIR/tests/recovery/declaration/input.css:12:9
+   |
+12 |     test;
+   |         ^
+
