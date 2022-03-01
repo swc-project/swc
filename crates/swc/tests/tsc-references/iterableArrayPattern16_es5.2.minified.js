@@ -106,7 +106,7 @@ var Bar = function() {
         return _classCallCheck(this, Foo), _super.apply(this, arguments);
     }
     return Foo;
-}(Bar), tmp = Symbol.iterator, FooIterator = function() {
+}(Bar), _iterator = Symbol.iterator, FooIterator = function() {
     "use strict";
     function FooIterator() {
         _classCallCheck(this, FooIterator);
@@ -122,13 +122,13 @@ var Bar = function() {
             }
         },
         {
-            key: tmp,
+            key: _iterator,
             value: function() {
                 return this;
             }
         }
     ]), FooIterator;
-}(), tmp1 = Symbol.iterator, FooIteratorIterator = function() {
+}(), _iterator1 = Symbol.iterator, FooIteratorIterator = function() {
     "use strict";
     function FooIteratorIterator() {
         _classCallCheck(this, FooIteratorIterator);
@@ -144,7 +144,7 @@ var Bar = function() {
             }
         },
         {
-            key: tmp1,
+            key: _iterator1,
             value: function() {
                 return this;
             }

@@ -17,7 +17,6 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var tmp = "computedName1", tmp1 = "computedName2", tmp2 = "computedName3", tmp3 = "computedname4", tmp4 = "computedname5", tmp5 = "computedname6";
 var D = // @target:es6
 /*#__PURE__*/ function() {
     "use strict";
@@ -30,15 +29,15 @@ var D = // @target:es6
             value: function foo() {}
         },
         {
-            key: tmp,
+            key: "computedName1",
             value: function value() {}
         },
         {
-            key: tmp1,
+            key: "computedName2",
             value: function value(a) {}
         },
         {
-            key: tmp2,
+            key: "computedName3",
             value: function value(a) {
                 return 1;
             }
@@ -57,15 +56,15 @@ var D = // @target:es6
         }
     ], [
         {
-            key: tmp3,
+            key: "computedname4",
             value: function value() {}
         },
         {
-            key: tmp4,
+            key: "computedname5",
             value: function value(a) {}
         },
         {
-            key: tmp5,
+            key: "computedname6",
             value: function value(a) {
                 return true;
             }

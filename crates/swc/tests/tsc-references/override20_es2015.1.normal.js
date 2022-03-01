@@ -1,6 +1,6 @@
 // @target: esnext
 // @noImplicitOverride: true
-const Foo = class _class {
+const Foo = class {
     m1() {}
     m2() {}
 };

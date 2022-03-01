@@ -1,6 +1,6 @@
-var tmp = Symbol.iterator;
+let _iterator = Symbol.iterator;
 for (var v of new class {
-    [tmp]() {
+    [_iterator]() {
         return this;
     }
 });

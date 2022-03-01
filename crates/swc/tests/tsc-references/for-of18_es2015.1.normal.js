@@ -1,4 +1,4 @@
-var tmp = Symbol.iterator;
+let _iterator = Symbol.iterator;
 //@target: ES6
 class StringIterator {
     next() {
@@ -7,7 +7,7 @@ class StringIterator {
             done: false
         };
     }
-    [tmp]() {
+    [_iterator]() {
         return this;
     }
 }

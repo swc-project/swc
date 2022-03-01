@@ -154,108 +154,106 @@ function _wrapAsyncGenerator(fn) {
     };
 }
 import regeneratorRuntime from "regenerator-runtime";
+var _marked = regeneratorRuntime.mark(baz);
+var _bar, _baz, _qux, _class;
 // @target: es2019
-var C = function() {
-    var baz = regeneratorRuntime.mark(function baz() {
-        return regeneratorRuntime.wrap(function baz$(_ctx) {
+var C = (_bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet(), _class = /*#__PURE__*/ function() {
+    "use strict";
+    function _class1() {
+        _classCallCheck(this, _class1);
+        _classPrivateMethodInit(this, _bar);
+        _classPrivateMethodInit(this, _baz);
+        _classPrivateMethodInit(this, _qux);
+    }
+    _createClass(_class1, [
+        {
+            key: "foo",
+            value: function foo() {
+                var _this = this;
+                return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                    var b;
+                    return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                        while(1)switch(_ctx.prev = _ctx.next){
+                            case 0:
+                                _ctx.next = 2;
+                                return _classPrivateMethodGet(_this, _bar, bar).call(_this);
+                            case 2:
+                                b = _ctx.sent;
+                                _ctx.t0 = b + (_classPrivateMethodGet(_this, _baz, baz).call(_this).next().value || 0);
+                                _ctx.next = 6;
+                                return _classPrivateMethodGet(_this, _qux, qux).call(_this).next();
+                            case 6:
+                                _ctx.t1 = _ctx.sent.value;
+                                if (_ctx.t1) {
+                                    _ctx.next = 9;
+                                    break;
+                                }
+                                _ctx.t1 = 0;
+                            case 9:
+                                _ctx.t2 = _ctx.t1;
+                                return _ctx.abrupt("return", _ctx.t0 + _ctx.t2);
+                            case 11:
+                            case "end":
+                                return _ctx.stop();
+                        }
+                    }, _callee);
+                }))();
+            }
+        }
+    ]);
+    return _class1;
+}(), _class);
+new C().foo().then(console.log);
+function bar() {
+    return _bar1.apply(this, arguments);
+}
+function _bar1() {
+    _bar1 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     _ctx.next = 2;
-                    return 42;
+                    return Promise.resolve(42);
                 case 2:
+                    return _ctx.abrupt("return", _ctx.sent);
+                case 3:
                 case "end":
                     return _ctx.stop();
             }
-        }, baz);
-    });
-    var _bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet();
-    var _class = /*#__PURE__*/ function() {
-        "use strict";
-        function _class() {
-            _classCallCheck(this, _class);
-            _classPrivateMethodInit(this, _bar);
-            _classPrivateMethodInit(this, _baz);
-            _classPrivateMethodInit(this, _qux);
+        }, _callee);
+    }));
+    return _bar1.apply(this, arguments);
+}
+function baz() {
+    return regeneratorRuntime.wrap(function baz$(_ctx) {
+        while(1)switch(_ctx.prev = _ctx.next){
+            case 0:
+                _ctx.next = 2;
+                return 42;
+            case 2:
+            case "end":
+                return _ctx.stop();
         }
-        _createClass(_class, [
-            {
-                key: "foo",
-                value: function foo() {
-                    var _this = this;
-                    return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                        var b;
-                        return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                            while(1)switch(_ctx.prev = _ctx.next){
-                                case 0:
-                                    _ctx.next = 2;
-                                    return _classPrivateMethodGet(_this, _bar, bar).call(_this);
-                                case 2:
-                                    b = _ctx.sent;
-                                    _ctx.t0 = b + (_classPrivateMethodGet(_this, _baz, baz).call(_this).next().value || 0);
-                                    _ctx.next = 6;
-                                    return _classPrivateMethodGet(_this, _qux, qux).call(_this).next();
-                                case 6:
-                                    _ctx.t1 = _ctx.sent.value;
-                                    if (_ctx.t1) {
-                                        _ctx.next = 9;
-                                        break;
-                                    }
-                                    _ctx.t1 = 0;
-                                case 9:
-                                    _ctx.t2 = _ctx.t1;
-                                    return _ctx.abrupt("return", _ctx.t0 + _ctx.t2);
-                                case 11:
-                                case "end":
-                                    return _ctx.stop();
-                            }
-                        }, _callee);
-                    }))();
-                }
+    }, _marked);
+}
+function qux() {
+    return _qux1.apply(this, arguments);
+}
+function _qux1() {
+    _qux1 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    _ctx.next = 2;
+                    return _awaitAsyncGenerator(Promise.resolve(42));
+                case 2:
+                    _ctx.next = 4;
+                    return _ctx.sent;
+                case 4:
+                case "end":
+                    return _ctx.stop();
             }
-        ]);
-        return _class;
-    }();
-    function bar() {
-        return _bar1.apply(this, arguments);
-    }
-    function _bar1() {
-        _bar1 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-            return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                while(1)switch(_ctx.prev = _ctx.next){
-                    case 0:
-                        _ctx.next = 2;
-                        return Promise.resolve(42);
-                    case 2:
-                        return _ctx.abrupt("return", _ctx.sent);
-                    case 3:
-                    case "end":
-                        return _ctx.stop();
-                }
-            }, _callee);
-        }));
-        return _bar1.apply(this, arguments);
-    }
-    function qux() {
-        return _qux1.apply(this, arguments);
-    }
-    function _qux1() {
-        _qux1 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
-            return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                while(1)switch(_ctx.prev = _ctx.next){
-                    case 0:
-                        _ctx.next = 2;
-                        return _awaitAsyncGenerator(Promise.resolve(42));
-                    case 2:
-                        _ctx.next = 4;
-                        return _ctx.sent;
-                    case 4:
-                    case "end":
-                        return _ctx.stop();
-                }
-            }, _callee);
-        }));
-        return _qux1.apply(this, arguments);
-    }
-    return _class;
-}();
-new C().foo().then(console.log);
+        }, _callee);
+    }));
+    return _qux1.apply(this, arguments);
+}

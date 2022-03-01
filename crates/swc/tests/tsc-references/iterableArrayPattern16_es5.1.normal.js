@@ -163,7 +163,7 @@ var Foo = /*#__PURE__*/ function(Bar) {
     }
     return Foo;
 }(Bar);
-var tmp = Symbol.iterator;
+var _iterator = Symbol.iterator;
 var FooIterator = /*#__PURE__*/ function() {
     "use strict";
     function FooIterator() {
@@ -180,7 +180,7 @@ var FooIterator = /*#__PURE__*/ function() {
             }
         },
         {
-            key: tmp,
+            key: _iterator,
             value: function value() {
                 return this;
             }
@@ -188,7 +188,7 @@ var FooIterator = /*#__PURE__*/ function() {
     ]);
     return FooIterator;
 }();
-var tmp1 = Symbol.iterator;
+var _iterator1 = Symbol.iterator;
 var FooIteratorIterator = /*#__PURE__*/ function() {
     "use strict";
     function FooIteratorIterator() {
@@ -205,7 +205,7 @@ var FooIteratorIterator = /*#__PURE__*/ function() {
             }
         },
         {
-            key: tmp1,
+            key: _iterator1,
             value: function value() {
                 return this;
             }

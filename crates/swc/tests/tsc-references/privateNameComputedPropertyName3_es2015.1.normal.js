@@ -43,7 +43,8 @@ var _name = new WeakMap();
 class Foo {
     getValue(x) {
         const obj = this;
-        var _y = new WeakMap(), tmp = _classPrivateFieldGet(obj, _name);
+        var _y = new WeakMap();
+        let tmp = _classPrivateFieldGet(obj, _name);
         class Bar {
             [tmp]() {
                 return x + _classPrivateFieldGet(this, _y);

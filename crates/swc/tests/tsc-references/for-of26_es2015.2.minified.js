@@ -1,9 +1,10 @@
-var x, tmp = Symbol.iterator;
+var x;
+let _iterator = Symbol.iterator;
 for (var v of new class {
     next() {
         return x;
     }
-    [tmp]() {
+    [_iterator]() {
         return this;
     }
 });

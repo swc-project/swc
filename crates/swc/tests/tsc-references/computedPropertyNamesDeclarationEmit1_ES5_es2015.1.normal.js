@@ -1,4 +1,4 @@
-var tmp = "" + "", tmp1 = "" + "", tmp2 = "" + "";
+let tmp = "" + "", tmp1 = "" + "", tmp2 = "" + "";
 // @target: es5
 // @declaration: true
 class C {

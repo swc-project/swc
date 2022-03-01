@@ -9,7 +9,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var tmp = Symbol.iterator, SymbolIterator = function() {
+var _iterator = Symbol.iterator, SymbolIterator = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function SymbolIterator() {
@@ -27,7 +27,7 @@ var tmp = Symbol.iterator, SymbolIterator = function() {
             }
         },
         {
-            key: tmp,
+            key: _iterator,
             value: function() {
                 return this;
             }

@@ -1,4 +1,3 @@
-var tmp = "computedname", tmp1 = "computedname1", tmp2 = "computedname2", tmp3 = "computedname3", tmp4 = "computedname4", tmp5 = "computedname";
 // @target:es6
 class C {
     get name() {
@@ -7,18 +6,18 @@ class C {
     static get name2() {
         return "BYE";
     }
-    static get [tmp]() {
+    static get ["computedname"]() {
         return "";
     }
-    get [tmp1]() {
+    get ["computedname1"]() {
         return "";
     }
-    get [tmp2]() {
+    get ["computedname2"]() {
         return "";
     }
-    set [tmp3](x) {}
-    set [tmp4](y) {}
+    set ["computedname3"](x) {}
+    set ["computedname4"](y) {}
     set foo(a) {}
     static set bar(b) {}
-    static set [tmp5](b) {}
+    static set ["computedname"](b) {}
 }
