@@ -5,10 +5,12 @@ use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{alias_if_required, undefined, StmtLike};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_trace_macro::swc_trace;
 
 #[cfg(test)]
 mod tests;
 
+#[tracing::instrument(level = "trace", skip_all)]
 pub fn nullish_coalescing(c: Config) -> impl Fold + VisitMut + 'static {
     as_folder(NullishCoalescing {
         c,
@@ -29,6 +31,7 @@ pub struct Config {
     pub no_document_all: bool,
 }
 
+#[swc_trace]
 impl NullishCoalescing {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
@@ -55,6 +58,7 @@ impl NullishCoalescing {
     }
 }
 
+#[swc_trace]
 impl VisitMut for NullishCoalescing {
     noop_visit_mut_type!();
 
@@ -189,6 +193,7 @@ impl VisitMut for NullishCoalescing {
     }
 }
 
+#[tracing::instrument(level = "trace", skip_all)]
 fn make_cond(c: Config, span: Span, alias: &Ident, var_expr: Expr, init: Box<Expr>) -> Expr {
     Expr::Cond(if c.no_document_all {
         CondExpr {

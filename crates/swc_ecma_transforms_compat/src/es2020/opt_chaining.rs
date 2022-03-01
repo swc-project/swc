@@ -13,7 +13,9 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
 };
+use swc_trace_macro::swc_trace;
 
+#[tracing::instrument(level = "trace", skip_all)]
 pub fn optional_chaining(c: Config) -> impl Fold + VisitMut {
     as_folder(OptChaining {
         c,
@@ -37,6 +39,7 @@ pub struct Config {
     pub pure_getter: bool,
 }
 
+#[swc_trace]
 #[fast_path(ShouldWork)]
 impl VisitMut for OptChaining {
     noop_visit_mut_type!();
@@ -88,6 +91,7 @@ impl VisitMut for OptChaining {
     }
 }
 
+#[swc_trace]
 impl OptChaining {
     /// Returned statements are variable declarations without initializer
     fn visit_mut_one_stmt_to<T>(&mut self, mut stmt: T, new: &mut Vec<T>)
@@ -183,6 +187,7 @@ impl OptChaining {
     }
 }
 
+#[swc_trace]
 impl OptChaining {
     /// Only called from [VisitMut].
     fn handle_unary(&mut self, e: &mut UnaryExpr) -> Expr {
@@ -590,6 +595,7 @@ struct ShouldWork {
     found: bool,
 }
 
+#[swc_trace]
 impl Visit for ShouldWork {
     noop_visit_type!();
 
@@ -605,6 +611,7 @@ impl Check for ShouldWork {
 }
 
 // TODO: skip transparent wrapper
+#[tracing::instrument(level = "trace", skip_all)]
 fn is_simple_expr(expr: &Expr) -> bool {
     match expr {
         Expr::Ident(_) => true,
