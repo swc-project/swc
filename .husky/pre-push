@@ -5,7 +5,3 @@
 cargo fmt --all -- --check
 
 
-if [ -z ${SWC_SKIP_CLIPPY+x} ];
-then
-    cargo clippy
-fi
