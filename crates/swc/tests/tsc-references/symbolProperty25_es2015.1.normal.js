@@ -1,6 +1,6 @@
-var tmp = Symbol.toStringTag;
+let _toStringTag = Symbol.toStringTag;
 class C {
-    [tmp]() {
+    [_toStringTag]() {
         return "";
     }
 }

@@ -53,7 +53,7 @@ class Thing3 extends Thing2 {
 }
 // Repro from #13805
 const Timestamped = (Base1)=>{
-    return class _class extends Base1 {
+    return class extends Base1 {
         constructor(...args){
             super(...args);
             this.timestamp = new Date();

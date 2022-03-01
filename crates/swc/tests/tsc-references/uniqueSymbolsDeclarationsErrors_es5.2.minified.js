@@ -45,7 +45,7 @@ export var ClassWithPrivateNamedProperties = function() {
     "use strict";
     _classCallCheck(this, ClassWithPrivateNamedProperties);
 };
-var tmp = s, tmp1 = s;
+var _s = s, _s1 = s;
 export var ClassWithPrivateNamedMethods = function() {
     "use strict";
     function ClassWithPrivateNamedMethods() {
@@ -53,17 +53,17 @@ export var ClassWithPrivateNamedMethods = function() {
     }
     return _createClass(ClassWithPrivateNamedMethods, [
         {
-            key: tmp,
+            key: _s,
             value: function() {}
         }
     ], [
         {
-            key: tmp1,
+            key: _s1,
             value: function() {}
         }
     ]), ClassWithPrivateNamedMethods;
 }();
-var tmp2 = s, tmp3 = s, tmp4 = s, tmp5 = s;
+var _s2 = s, _s3 = s, _s4 = s, _s5 = s;
 export var ClassWithPrivateNamedAccessors = function() {
     "use strict";
     function ClassWithPrivateNamedAccessors() {
@@ -71,20 +71,20 @@ export var ClassWithPrivateNamedAccessors = function() {
     }
     return _createClass(ClassWithPrivateNamedAccessors, [
         {
-            key: tmp2,
+            key: _s2,
             get: function() {}
         },
         {
-            key: tmp3,
+            key: _s3,
             set: function(v) {}
         }
     ], [
         {
-            key: tmp4,
+            key: _s4,
             get: function() {}
         },
         {
-            key: tmp5,
+            key: _s5,
             set: function(v) {}
         }
     ]), ClassWithPrivateNamedAccessors;

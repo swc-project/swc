@@ -1,4 +1,5 @@
-var v, tmp = Symbol.iterator;
+var v;
+let _iterator = Symbol.iterator;
 for (v of new class {
     next() {
         return {
@@ -6,7 +7,7 @@ for (v of new class {
             done: !1
         };
     }
-    [tmp]() {
+    [_iterator]() {
         return this;
     }
 });

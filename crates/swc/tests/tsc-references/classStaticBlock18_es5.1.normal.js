@@ -6,29 +6,23 @@ function _classCallCheck(instance, Constructor) {
 var _class, _class1;
 // @target: esnext, es2022, es2015, es5
 function foo() {
-    return _class1 = (function() {
-        var _class2 = function _class2() {
-            "use strict";
-            _classCallCheck(this, _class2);
-        };
-        var __ = {
-            writable: true,
-            value: function() {
-                var c = (_class = function() {
-                    var _class3 = function _class3() {
-                        "use strict";
-                        _classCallCheck(this, _class3);
-                    };
-                    var __ = {
-                        writable: true,
-                        value: function() {
-                        // do
-                        }()
-                    };
-                    return _class3;
-                }(), _class.bar = 2, _class);
-            }()
-        };
-        return _class2;
-    })(), _class1.foo = 1, _class1;
+    var _class2, __1;
+    return _class1 = (_class2 = function _class3() {
+        "use strict";
+        _classCallCheck(this, _class3);
+    }, __1 = {
+        writable: true,
+        value: (function() {
+            var _class4, __;
+            var c = (_class = (_class4 = function _class3() {
+                "use strict";
+                _classCallCheck(this, _class3);
+            }, __ = {
+                writable: true,
+                value: function() {
+                // do
+                }()
+            }, _class4), _class.bar = 2, _class);
+        })()
+    }, _class2), _class1.foo = 1, _class1;
 }

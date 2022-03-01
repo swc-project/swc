@@ -4,7 +4,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var s, n, a, tmp = s, tmp1 = n, tmp2 = s + s, tmp3 = s + n, tmp4 = +s, tmp5 = a, tmp6 = "hello ".concat(a, " bye"), C = function() {
+var s, n, a, _s = s, _n = n, tmp = s + s, tmp1 = s + n, tmp2 = +s, _a = a, tmp3 = "hello ".concat(a, " bye"), C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
@@ -14,21 +14,21 @@ var s, n, a, tmp = s, tmp1 = n, tmp2 = s + s, tmp3 = s + n, tmp4 = +s, tmp5 = a,
     }
     return Constructor = C, protoProps = [
         {
-            key: tmp,
+            key: _s,
             get: function() {
                 return 0;
             }
+        },
+        {
+            key: _n,
+            set: function(v) {}
         },
         {
             key: tmp1,
             set: function(v) {}
         },
         {
-            key: tmp3,
-            set: function(v) {}
-        },
-        {
-            key: tmp4,
+            key: tmp2,
             get: function() {
                 return 0;
             }
@@ -40,7 +40,7 @@ var s, n, a, tmp = s, tmp1 = n, tmp2 = s + s, tmp3 = s + n, tmp4 = +s, tmp5 = a,
             }
         },
         {
-            key: tmp5,
+            key: _a,
             set: function(v) {}
         },
         {
@@ -48,14 +48,14 @@ var s, n, a, tmp = s, tmp1 = n, tmp2 = s + s, tmp3 = s + n, tmp4 = +s, tmp5 = a,
             set: function(v) {}
         },
         {
-            key: tmp6,
+            key: tmp3,
             get: function() {
                 return 0;
             }
         }
     ], staticProps = [
         {
-            key: tmp2,
+            key: tmp,
             get: function() {
                 return 0;
             }

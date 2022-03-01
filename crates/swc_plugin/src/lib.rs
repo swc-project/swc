@@ -6,6 +6,7 @@ pub use swc_common::{
 
 pub mod util {
     pub use swc_common::util::take;
+    pub use swc_ecma_quote::*;
 }
 
 pub mod ast {

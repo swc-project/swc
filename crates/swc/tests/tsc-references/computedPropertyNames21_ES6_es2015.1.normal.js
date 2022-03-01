@@ -1,4 +1,4 @@
-var tmp = this.bar();
+let tmp = this.bar();
 // @target: es6
 class C {
     bar() {

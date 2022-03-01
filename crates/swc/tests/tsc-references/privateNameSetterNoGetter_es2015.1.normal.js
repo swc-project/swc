@@ -38,21 +38,18 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
     _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
 }
+var _x, _class;
 // @target: es2015
-const C = function() {
-    var _x = new WeakMap();
-    class _class {
-        m() {
-            _classPrivateFieldSet(this, _x, _classPrivateFieldGet(this, _x) + 2); // Error
-        }
-        constructor(){
-            _classPrivateFieldInit(this, _x, {
-                get: void 0,
-                set: set_x
-            });
-        }
+const C = (_x = new WeakMap(), _class = class {
+    m() {
+        _classPrivateFieldSet(this, _x, _classPrivateFieldGet(this, _x) + 2); // Error
     }
-    function set_x(x) {}
-    return _class;
-}();
+    constructor(){
+        _classPrivateFieldInit(this, _x, {
+            get: void 0,
+            set: set_x
+        });
+    }
+}, _class);
 console.log(new C().m());
+function set_x(x) {}

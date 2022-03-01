@@ -2,9 +2,9 @@
 
 -   Status: accepted <!-- optional -->
 -   Deciders: @kdy1, @kwonoj <!-- optional -->
--   Date: 2021-01-01 <!-- optional -->
+-   Date: 2022-01-01 <!-- optional -->
 
-Technical Story: [Issue](https://github.com/swc-project/swc/issues/2635) <!-- optional -->
+Technical Story: [Issue 2635](https://github.com/swc-project/swc/issues/2635) <!-- optional -->
 
 ## Context and Problem Statement
 

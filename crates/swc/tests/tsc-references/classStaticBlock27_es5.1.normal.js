@@ -3,33 +3,28 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
+var _Foo, __, __1, __2;
 var _class;
 // https://github.com/microsoft/TypeScript/issues/44872
-void (_class = function() {
-    var Foo = function Foo() {
-        "use strict";
-        _classCallCheck(this, Foo);
-    };
-    var __ = {
-        writable: true,
-        value: function() {
-            console.log(Foo.prop);
-            Foo.prop++;
-        }()
-    };
-    var __1 = {
-        writable: true,
-        value: function() {
-            console.log(Foo.prop);
-            Foo.prop++;
-        }()
-    };
-    var __2 = {
-        writable: true,
-        value: function() {
-            console.log(Foo.prop);
-            Foo.prop++;
-        }()
-    };
-    return Foo;
-}(), _class.prop = 1, _class);
+void (_class = (_Foo = function Foo() {
+    "use strict";
+    _classCallCheck(this, Foo);
+}, __ = {
+    writable: true,
+    value: function() {
+        console.log(_Foo.prop);
+        _Foo.prop++;
+    }()
+}, __1 = {
+    writable: true,
+    value: function() {
+        console.log(_Foo.prop);
+        _Foo.prop++;
+    }()
+}, __2 = {
+    writable: true,
+    value: function() {
+        console.log(_Foo.prop);
+        _Foo.prop++;
+    }()
+}, _Foo), _class.prop = 1, _class);

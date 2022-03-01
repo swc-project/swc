@@ -17,7 +17,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var tmp = Symbol.toPrimitive, tmp1 = Symbol.toStringTag;
+var _toPrimitive = Symbol.toPrimitive, _toStringTag = Symbol.toStringTag;
 var C = //@target: ES6
 //@declaration: true
 /*#__PURE__*/ function() {
@@ -27,13 +27,13 @@ var C = //@target: ES6
     }
     _createClass(C, [
         {
-            key: tmp,
+            key: _toPrimitive,
             get: function get() {
                 return "";
             }
         },
         {
-            key: tmp1,
+            key: _toStringTag,
             get: function get() {
                 return "";
             }

@@ -1,5 +1,6 @@
 let getX;
-var _x = new WeakMap(), tmp = (getX = (a)=>(function(receiver, privateMap) {
+var _x = new WeakMap();
+let tmp = (getX = (a)=>(function(receiver, privateMap) {
         var receiver, descriptor, descriptor = function(receiver, privateMap, action) {
             if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
             return privateMap.get(receiver);

@@ -2,7 +2,7 @@
 function foo(...s) {
     return s[0];
 }
-var tmp = Symbol.iterator;
+let _iterator = Symbol.iterator;
 class SymbolIterator {
     next() {
         return {
@@ -10,7 +10,7 @@ class SymbolIterator {
             done: false
         };
     }
-    [tmp]() {
+    [_iterator]() {
         return this;
     }
 }
