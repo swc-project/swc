@@ -1,5 +1,5 @@
 error: Expected Ident
- --> $DIR/tests/errors/important/basic/input.css:2:19
+ --> $DIR/tests/recovery/declaration/important/input.css:2:19
   |
 2 |     color: white !!important;
   |                   ^
