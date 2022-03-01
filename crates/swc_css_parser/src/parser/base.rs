@@ -196,8 +196,8 @@ where
                 tok!("ident") => {
                     let state = self.input.state();
                     let span = self.input.cur_span()?;
-                    let prop = match self.parse().map(StyleBlock::Declaration) {
-                        Ok(v) => v,
+                    let prop = match self.parse() {
+                        Ok(v) => StyleBlock::Declaration(v),
                         Err(err) => {
                             self.errors.push(err);
                             self.input.reset(&state);
@@ -568,8 +568,8 @@ where
                 tok!("ident") => {
                     let state = self.input.state();
                     let span = self.input.cur_span()?;
-                    let prop = match self.parse().map(DeclarationOrAtRule::Declaration) {
-                        Ok(v) => v,
+                    let prop = match self.parse() {
+                        Ok(v) => DeclarationOrAtRule::Declaration(v),
                         Err(err) => {
                             self.errors.push(err);
                             self.input.reset(&state);
@@ -634,6 +634,9 @@ where
 
         self.input.skip_ws()?;
 
+        // 1. Consume the next input token. Create a new declaration with its name set
+        // to the value of the current input token and its value initially set to an
+        // empty list.
         let is_dashed_ident = match cur!(self) {
             Token::Ident { value, .. } => value.starts_with("--"),
             _ => {
@@ -647,15 +650,23 @@ where
             DeclarationName::Ident(self.parse()?)
         };
 
+        // 1. While the next input token is a <whitespace-token>, consume the next input
+        // token.
         self.input.skip_ws()?;
 
+        // 2. If the next input token is anything other than a <colon-token>, this is a
+        // parse error. Return nothing. Otherwise, consume the next input token.
         expect!(self, ":");
 
+        // 3. While the next input token is a <whitespace-token>, consume the next input
+        // token.
         self.input.skip_ws()?;
 
         let mut end = self.input.cur_span()?.hi;
         let mut value = vec![];
 
+        // 4. As long as the next input token is anything other than an <EOF-token>,
+        // consume a component value and append it to the declaration’s value.
         if !is!(self, EOF) {
             match is_dashed_ident {
                 true => {
