@@ -261,6 +261,7 @@ const/regexp_literal_not_const/input.js
 const/unused_regexp_literal/input.js
 dead_code/accessor/input.js
 dead_code/collapse_vars_assignment/input.js
+dead_code/collapse_vars_lvalues_drop_assign/input.js
 dead_code/dead_code_1/input.js
 dead_code/dead_code_block_decls_die/input.js
 dead_code/dead_code_const_annotation_regex/input.js
