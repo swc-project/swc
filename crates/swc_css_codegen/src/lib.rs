@@ -920,12 +920,11 @@ where
                     }
                     DeclarationOrAtRule::Invalid(_) => {}
                 },
-                // ComponentValue::Value(_) => {
-                //     if ending == ']' && idx != len - 1 {
-                //         space!(self);
-                //     }
-                // }
-                _ => {}
+                _ => {
+                    if ending == ']' && idx != len - 1 {
+                        space!(self);
+                    }
+                }
             }
         }
 
