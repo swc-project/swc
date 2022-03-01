@@ -246,37 +246,12 @@ where
 
         let mut should_refresh = self.should_reset;
         if let Some(comments) = &self.comments {
-            comments.with_leading(n.hi - BytePos(1), |comments| {
-                if comments.iter().any(|c| c.text.contains("@refresh reset")) {
-                    should_refresh = true
-                }
-            });
-
-            if should_refresh {
-                self.should_reset = true;
-                return;
-            }
-
-            comments.with_trailing(n.hi, |comments| {
-                if comments.iter().any(|c| c.text.contains("@refresh reset")) {
-                    should_refresh = true
-                }
-            });
-
-            if should_refresh {
-                self.should_reset = true;
-                return;
-            }
-
-            comments.with_leading(n.lo, |comments| {
-                if comments.iter().any(|c| c.text.contains("@refresh reset")) {
-                    should_refresh = true
-                }
-            });
-
-            if should_refresh {
-                self.should_reset = true;
-                return;
+            if n.hi != BytePos(0) {
+                comments.with_leading(n.hi - BytePos(1), |comments| {
+                    if comments.iter().any(|c| c.text.contains("@refresh reset")) {
+                        should_refresh = true
+                    }
+                });
             }
 
             comments.with_trailing(n.lo, |comments| {
