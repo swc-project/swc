@@ -1,15 +1,12 @@
-use swc_common::{errors::HANDLER, Span};
+use swc_common::Span;
 use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitWith};
 
-use crate::{
-    config::{LintRuleReaction, RuleConfig},
-    rule::{visitor_rule, LintRule},
-};
+use crate::rule::{visitor_rule, LintRule, LintRuleContext};
 
-pub fn keyframe_declaration_no_important(config: &RuleConfig<()>) -> Box<dyn LintRule> {
+pub fn keyframe_declaration_no_important(ctx: LintRuleContext<()>) -> Box<dyn LintRule> {
     visitor_rule(KeyframeDeclarationNoImportant {
-        reaction: config.get_rule_reaction(),
+        ctx,
         keyframe_rules: vec![],
     })
 }
@@ -18,9 +15,9 @@ const MESSAGE: &str = "Unexpected '!important'.";
 
 #[derive(Debug, Default)]
 struct KeyframeDeclarationNoImportant {
-    reaction: LintRuleReaction,
+    ctx: LintRuleContext<()>,
 
-    // rule interal
+    // rule internal
     keyframe_rules: Vec<Span>,
 }
 
@@ -36,15 +33,7 @@ impl Visit for KeyframeDeclarationNoImportant {
     fn visit_important_flag(&mut self, important_flag: &ImportantFlag) {
         match self.keyframe_rules.last() {
             Some(span) if span.contains(important_flag.span) => {
-                HANDLER.with(|handler| match self.reaction {
-                    LintRuleReaction::Error => {
-                        handler.struct_span_err(important_flag.span, MESSAGE).emit()
-                    }
-                    LintRuleReaction::Warning => handler
-                        .struct_span_warn(important_flag.span, MESSAGE)
-                        .emit(),
-                    _ => {}
-                });
+                self.ctx.report(important_flag, MESSAGE);
             }
             _ => {}
         }

@@ -8,7 +8,25 @@
 - **(es/compat)** Initialize class fields as a last step (#3767) ([11bf29f](https://github.com/swc-project/swc/commit/11bf29f44b4233b2e7f60b750ef56429dbe47ce9))
 
 
+- **(es/minifier)** Disable some operations for asm.js codes (#3572) ([e7f7f69](https://github.com/swc-project/swc/commit/e7f7f69db4f327b35005e863d3669bad382626c6))
+
+
+- **(es/minifier)** Fix inlining logic (#3776) ([cfc0363](https://github.com/swc-project/swc/commit/cfc036381a5c174798198f4ecf7e0a62abce5a75))
+
+
+- **(es/minifier)** Preserve unresolved references (#3780) ([73cab63](https://github.com/swc-project/swc/commit/73cab638a11978da9f94c886a5fafc462b1556b7))
+
+
+- **(es/react)** Catch refresh directives widely (#3791) ([5ae907f](https://github.com/swc-project/swc/commit/5ae907f6f21d31da708ac7237536bd6f838856c3))
+
+
 - **(es/typescript)** Transform `this` in TypeScript classes (#3764) ([5f3f9ef](https://github.com/swc-project/swc/commit/5f3f9ef033797a1b13d32bd854c3acf3cbaf4495))
+
+### Documentation
+
+
+
+- **(adr)** Add `adr-00002` for event trace profiling (#3787) ([3c1c5d0](https://github.com/swc-project/swc/commit/3c1c5d0363b231a8ac3f5bdfd15f1b2ec9224849))
 
 ### Features
 
@@ -23,10 +41,22 @@
 - **(es/compat)** Optimize handling of literals in computed property names (#3756) ([8ed4d2f](https://github.com/swc-project/swc/commit/8ed4d2fcaccf27733e8fbfe19da810504653ce6b))
 
 
+- **(es/dep-graph)** Add support for `require.resolve` (#3783) ([19b84e7](https://github.com/swc-project/swc/commit/19b84e7723c381843c98df90f64e5123acdd5808))
+
+
+- **(es/minifier)** Consider `arguments` while dropping unused assignments (#3775) ([714e05e](https://github.com/swc-project/swc/commit/714e05e5535dd4f8552ce700cc5b582d134d8a08))
+
+
 - **(es/module)** Workaround stack overflow bug of JavaScriptCore related to too many exports (#3763) ([ad0a853](https://github.com/swc-project/swc/commit/ad0a8539e058fda49e40cc8fab167e2602576d48))
 
 
 - **(es/quote)** Implement quasi quoter partially (#3155) ([fe0ddcc](https://github.com/swc-project/swc/commit/fe0ddcc54b0f8343a3a3d227bde8b38fa47ebd80))
+
+
+- **(es/quote)** Support variables (#3774) ([e3c374b](https://github.com/swc-project/swc/commit/e3c374b53bdd3fe8baef5be7a63b10d2efcd47e4))
+
+
+- **(plugin)** Expose `swc_ecma_quote` (#3790) ([bc60a6e](https://github.com/swc-project/swc/commit/bc60a6e90ccc1adcb8d9eda9ef47725e20fbfa23))
 
 ### Miscellaneous Tasks
 - **general**: Update `rustc` (#3768) ([3798436](https://github.com/swc-project/swc/commit/3798436201a0838e55beac974792f4d560b47657))
@@ -36,6 +66,21 @@
 
 
 - **(css/ast)** Simplify AST types (#3753) ([815a489](https://github.com/swc-project/swc/commit/815a489dcfb72df928fc03f216dbe4a21b0e0716))
+
+
+- **(css/lints)** Simplify error reporting API (#3781) ([b8211da](https://github.com/swc-project/swc/commit/b8211da1c9a8277cf09a8a3a1d7ae537b5d6e783))
+
+### Testing
+
+
+
+- **(css/parser)** Add tests for selectors (#3770) ([1651bcc](https://github.com/swc-project/swc/commit/1651bccf4578ff2d44a9c37eab3845c006b5164d))
+
+
+- **(css/parser)** Add css files for material design (#3777) ([189707a](https://github.com/swc-project/swc/commit/189707a1fd5ef8547b3b80ac82f7f422f295086a))
+
+
+- **(es/minifier)** Prepare porting more rules from `terser` (#3779) ([86072b5](https://github.com/swc-project/swc/commit/86072b57f9e0cf59b660f88cdb2c9cee15f33720))
 
 ## [1.2.146] - 2022-02-27
 

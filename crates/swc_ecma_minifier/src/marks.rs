@@ -46,6 +46,8 @@ pub struct Marks {
     /// This is applied to [swc_ecma_ast::BlockStmt] which is injected to
     /// preserve the side effects.
     pub(crate) fake_block: Mark,
+
+    pub(crate) top_level_mark: Mark,
 }
 
 impl Marks {
@@ -64,6 +66,7 @@ impl Marks {
             noinline: m(),
             pure: m(),
             fake_block: m(),
+            top_level_mark: m(),
         }
     }
 }

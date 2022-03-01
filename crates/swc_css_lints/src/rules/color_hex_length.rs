@@ -1,12 +1,8 @@
 use serde::{Deserialize, Serialize};
-use swc_common::errors::HANDLER;
 use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitWith};
 
-use crate::{
-    config::{LintRuleReaction, RuleConfig},
-    rule::{visitor_rule, LintRule},
-};
+use crate::rule::{visitor_rule, LintRule, LintRuleContext};
 
 pub type ColorHexLengthConfig = Option<HexForm>;
 
@@ -23,16 +19,14 @@ impl Default for HexForm {
     }
 }
 
-pub fn color_hex_length(config: &RuleConfig<ColorHexLengthConfig>) -> Box<dyn LintRule> {
-    visitor_rule(ColorHexLength {
-        reaction: config.get_rule_reaction(),
-        form: config.get_rule_config().clone().unwrap_or_default(),
-    })
+pub fn color_hex_length(ctx: LintRuleContext<ColorHexLengthConfig>) -> Box<dyn LintRule> {
+    let form = ctx.config().clone().unwrap_or_default();
+    visitor_rule(ColorHexLength { ctx, form })
 }
 
 #[derive(Debug, Default)]
 struct ColorHexLength {
-    reaction: LintRuleReaction,
+    ctx: LintRuleContext<ColorHexLengthConfig>,
     form: HexForm,
 }
 
@@ -51,29 +45,13 @@ impl Visit for ColorHexLength {
             HexForm::Long => {
                 if let Some(lengthened) = lengthen(&hex_color.value) {
                     let message = self.build_message(&hex_color.value, &lengthened);
-                    HANDLER.with(|handler| match self.reaction {
-                        LintRuleReaction::Error => {
-                            handler.struct_span_err(hex_color.span, &message).emit()
-                        }
-                        LintRuleReaction::Warning => {
-                            handler.struct_span_warn(hex_color.span, &message).emit()
-                        }
-                        _ => {}
-                    });
+                    self.ctx.report(hex_color, message);
                 }
             }
             HexForm::Short => {
                 if let Some(shortened) = shorten(&hex_color.value) {
                     let message = self.build_message(&hex_color.value, &shortened);
-                    HANDLER.with(|handler| match self.reaction {
-                        LintRuleReaction::Error => {
-                            handler.struct_span_err(hex_color.span, &message).emit()
-                        }
-                        LintRuleReaction::Warning => {
-                            handler.struct_span_warn(hex_color.span, &message).emit()
-                        }
-                        _ => {}
-                    });
+                    self.ctx.report(hex_color, message);
                 }
             }
         }

@@ -697,7 +697,7 @@ where
         self.compress_cond_to_logical_ignoring_return_value(e);
 
         match e {
-            Expr::Ident(..) | Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
+            Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
                 if cfg!(feature = "debug") {
                     tracing::debug!(
                         "ignore_return_value: Dropping unused expr: {}",
@@ -2456,7 +2456,8 @@ where
             }
 
             if self.options.unused {
-                let can_be_removed = !is_directive && !expr.may_have_side_effects();
+                let can_be_removed =
+                    !is_directive && !expr.is_ident() && !expr.may_have_side_effects();
 
                 if can_be_removed {
                     self.changed = true;

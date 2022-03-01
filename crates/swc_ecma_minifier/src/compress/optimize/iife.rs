@@ -1,7 +1,4 @@
-use std::{
-    collections::HashMap,
-    mem::{replace, swap},
-};
+use std::{collections::HashMap, mem::swap};
 
 use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, pass::Either, util::take::Take, Spanned, DUMMY_SP};
@@ -9,7 +6,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_arguments, ident::IdentLike, undefined, ExprFactory, Id};
 use swc_ecma_visit::VisitMutWith;
 
-use super::Optimizer;
+use super::{util::MultiReplacer, Optimizer};
 use crate::{
     compress::optimize::Ctx,
     mode::Mode,
@@ -256,15 +253,16 @@ where
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n, vars)))]
     pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: AHashMap<Id, Box<Expr>>)
     where
-        N: VisitMutWith<Self>,
+        N: VisitMutWith<MultiReplacer>,
     {
         if cfg!(feature = "debug") {
             tracing::trace!("inline: inline_vars_in_node");
         }
 
-        let orig_vars = replace(&mut self.vars_for_inlining, vars);
-        n.visit_mut_with(self);
-        self.vars_for_inlining = orig_vars;
+        n.visit_mut_with(&mut MultiReplacer {
+            vars,
+            changed: false,
+        });
     }
 
     /// Fully inlines iife.

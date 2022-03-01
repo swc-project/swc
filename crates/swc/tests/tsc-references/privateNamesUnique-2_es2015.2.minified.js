@@ -9,7 +9,7 @@ var _x = new WeakMap();
 export class Foo {
     copy(other) {
         var receiver, privateMap, descriptor, receiver, descriptor;
-        (descriptor = descriptor = (function(receiver, privateMap, action) {
+        (descriptor = (function(receiver, privateMap, action) {
             if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
             return privateMap.get(receiver);
         })(receiver = other, privateMap = _x, "get")).get ? descriptor.get.call(receiver) : descriptor.value;

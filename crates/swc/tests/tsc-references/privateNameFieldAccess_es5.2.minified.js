@@ -8,7 +8,7 @@ var _myField = new WeakMap(), A = function() {
         value: "hello world"
     }, (function(obj, privateCollection) {
         if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
-    })(obj, privateMap = _myField), privateMap.set(obj, value), console.log((receiver = this, (descriptor = descriptor = function(receiver, privateMap, action) {
+    })(obj, privateMap = _myField), privateMap.set(obj, value), console.log((receiver = this, (descriptor = function(receiver, privateMap, action) {
         if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
         return privateMap.get(receiver);
     }(receiver, privateMap = _myField, "get")).get ? descriptor.get.call(receiver) : descriptor.value));

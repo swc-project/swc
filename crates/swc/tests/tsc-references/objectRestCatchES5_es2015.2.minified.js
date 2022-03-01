@@ -10,7 +10,7 @@ try {} catch (_param) {
         }(source, excluded);
         if (Object.getOwnPropertySymbols) {
             var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-            for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
+            for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], excluded.indexOf(key) >= 0 || Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
         }
         return target;
     }(_param, [
