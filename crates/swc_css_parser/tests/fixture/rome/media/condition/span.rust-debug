@@ -1643,6 +1643,15 @@ error: SimpleBlock
 14 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/rome/media/condition/input.css:8:2
+   |
+8  |       a {
+   |  _____^
+9  | |
+10 | |     }
+   | |_____^
+
 error: Rule
   --> $DIR/tests/fixture/rome/media/condition/input.css:8:2
    |
@@ -1710,6 +1719,15 @@ error: SimpleBlock
    |  _______^
 9  | |
 10 | |     }
+   | |_____^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/rome/media/condition/input.css:11:2
+   |
+11 |       .style {
+   |  _____^
+12 | |
+13 | |     }
    | |_____^
 
 error: Rule
@@ -2070,6 +2088,15 @@ error: SimpleBlock
 22 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/rome/media/condition/input.css:16:2
+   |
+16 |       a {
+   |  _____^
+17 | |
+18 | |     }
+   | |_____^
+
 error: Rule
   --> $DIR/tests/fixture/rome/media/condition/input.css:16:2
    |
@@ -2137,6 +2164,15 @@ error: SimpleBlock
    |  _______^
 17 | |
 18 | |     }
+   | |_____^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/rome/media/condition/input.css:19:2
+   |
+19 |       .style {
+   |  _____^
+20 | |
+21 | |     }
    | |_____^
 
 error: Rule

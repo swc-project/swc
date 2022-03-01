@@ -64,6 +64,12 @@ error: SimpleBlock
 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:5
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  |     ^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:5
   |
@@ -88,7 +94,7 @@ error: Ident
 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
   |     ^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:20
   |
 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
@@ -100,7 +106,7 @@ error: Integer
 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
   |                    ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:22
   |
 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
@@ -112,7 +118,7 @@ error: Integer
 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
   |                      ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:24
   |
 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
@@ -124,7 +130,7 @@ error: Integer
 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
   |                        ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:26
   |
 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
@@ -135,6 +141,12 @@ error: Integer
   |
 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
   |                          ^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:29
+  |
+1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+  |                             ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: StyleBlock
  --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:29
@@ -160,7 +172,7 @@ error: Ident
 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
   |                             ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:54
   |
 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }

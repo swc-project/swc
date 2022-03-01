@@ -34,6 +34,12 @@ error: SimpleBlock
 1 | @keyframes abc { \66rom {} }
   |                ^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:18
+  |
+1 | @keyframes abc { \66rom {} }
+  |                  ^^^^^^^^^
+
 error: KeyframeBlock
  --> $DIR/tests/fixture/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:18
   |

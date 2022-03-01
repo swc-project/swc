@@ -38,7 +38,21 @@ define!({
         StyleBlock(StyleBlock),
         KeyframeBlock(KeyframeBlock),
 
-        Value(Value),
+        Ident(Ident),
+        DashedIdent(DashedIdent),
+        Str(Str),
+        Url(Url),
+        Integer(Integer),
+        Number(Number),
+        Percentage(Percentage),
+        Dimension(Dimension),
+        Ratio(Ratio),
+        UnicodeRange(UnicodeRange),
+        Color(Color),
+        Delimiter(Delimiter),
+
+        CalcSum(CalcSum),
+        ComplexSelector(ComplexSelector),
     }
 
     pub struct Ident {
@@ -80,7 +94,7 @@ define!({
     pub struct Declaration {
         pub span: Span,
         pub name: DeclarationName,
-        pub value: Vec<Value>,
+        pub value: Vec<ComponentValue>,
         pub important: Option<ImportantFlag>,
     }
 
@@ -113,27 +127,6 @@ define!({
         Invalid(Tokens),
     }
 
-    pub enum Value {
-        ComponentValue(Box<ComponentValue>),
-        SimpleBlock(SimpleBlock),
-        Dimension(Dimension),
-        Integer(Integer),
-        Number(Number),
-        Percentage(Percentage),
-        Ratio(Ratio),
-        Color(Color),
-        Ident(Ident),
-        DashedIdent(DashedIdent),
-        Str(Str),
-        Function(Function),
-        CalcSum(CalcSum),
-        Delimiter(Delimiter),
-        UnicodeRange(UnicodeRange),
-        Url(Url),
-        ComplexSelector(ComplexSelector),
-        PreservedToken(TokenAndSpan),
-    }
-
     pub enum DelimiterValue {
         Comma,
         Solidus,
@@ -148,7 +141,7 @@ define!({
     pub struct Function {
         pub span: Span,
         pub name: Ident,
-        pub value: Vec<Value>,
+        pub value: Vec<ComponentValue>,
     }
 
     pub enum Color {

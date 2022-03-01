@@ -116,15 +116,15 @@ impl VisitMut for CompressLength {
         self.in_math_function = old_in_math_function;
     }
 
-    fn visit_mut_value(&mut self, value: &mut Value) {
-        value.visit_mut_children_with(self);
+    fn visit_mut_component_value(&mut self, component_value: &mut ComponentValue) {
+        component_value.visit_mut_children_with(self);
 
         if self.in_math_function {
             return;
         }
 
-        match &value {
-            Value::Dimension(Dimension::Length(Length {
+        match &component_value {
+            ComponentValue::Dimension(Dimension::Length(Length {
                 value:
                     Number {
                         value: number_value,
@@ -133,7 +133,7 @@ impl VisitMut for CompressLength {
                 span,
                 ..
             })) if *number_value == 0.0 => {
-                *value = Value::Number(Number {
+                *component_value = ComponentValue::Number(Number {
                     span: *span,
                     value: 0.0,
                     raw: "0".into(),

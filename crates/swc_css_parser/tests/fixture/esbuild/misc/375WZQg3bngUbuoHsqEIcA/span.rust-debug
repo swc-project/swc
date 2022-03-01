@@ -34,6 +34,12 @@ error: SimpleBlock
 1 | @keyframes test { from { color: red } to {} }
   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:19
+  |
+1 | @keyframes test { from { color: red } to {} }
+  |                   ^^^^^^^^^^^^^^^^^^^
+
 error: KeyframeBlock
  --> $DIR/tests/fixture/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:19
   |
@@ -58,6 +64,12 @@ error: SimpleBlock
 1 | @keyframes test { from { color: red } to {} }
   |                        ^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:26
+  |
+1 | @keyframes test { from { color: red } to {} }
+  |                          ^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:26
   |
@@ -76,7 +88,7 @@ error: Ident
 1 | @keyframes test { from { color: red } to {} }
   |                          ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:33
   |
 1 | @keyframes test { from { color: red } to {} }
@@ -87,6 +99,12 @@ error: Ident
   |
 1 | @keyframes test { from { color: red } to {} }
   |                                 ^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:39
+  |
+1 | @keyframes test { from { color: red } to {} }
+  |                                       ^^^^^
 
 error: KeyframeBlock
  --> $DIR/tests/fixture/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:39

@@ -81,6 +81,14 @@ error: SimpleBlock
 5 | | }
   | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/document/input.css:2:5
+  |
+2 | /     h1 {
+3 | |         color: green;
+4 | |     }
+  | |_____^
+
 error: Rule
  --> $DIR/tests/fixture/at-rule/document/input.css:2:5
   |
@@ -148,6 +156,12 @@ error: SimpleBlock
 4 | |     }
   | |_____^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/document/input.css:3:9
+  |
+3 |         color: green;
+  |         ^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/at-rule/document/input.css:3:9
   |
@@ -172,7 +186,7 @@ error: Ident
 3 |         color: green;
   |         ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/document/input.css:3:16
   |
 3 |         color: green;
@@ -265,7 +279,7 @@ error: Ident
 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
   |                                      ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/document/input.css:7:49
   |
 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
@@ -295,7 +309,7 @@ error: Ident
 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
   |                                                                              ^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/document/input.css:7:85
   |
 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
@@ -325,7 +339,7 @@ error: Ident
 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
   |                                                                                                     ^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/document/input.css:7:116
   |
 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
@@ -355,7 +369,7 @@ error: Ident
 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
   |                                                                                                                              ^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/document/input.css:7:133
   |
 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
@@ -378,6 +392,15 @@ error: SimpleBlock
 11 | |     }
 12 | | }
    | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/document/input.css:8:5
+   |
+8  | /     body {
+9  | |         color: purple;
+10 | |         background: yellow;
+11 | |     }
+   | |_____^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/document/input.css:8:5
@@ -449,6 +472,12 @@ error: SimpleBlock
 11 | |     }
    | |_____^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/document/input.css:9:9
+  |
+9 |         color: purple;
+  |         ^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/at-rule/document/input.css:9:9
   |
@@ -473,7 +502,7 @@ error: Ident
 9 |         color: purple;
   |         ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/document/input.css:9:16
   |
 9 |         color: purple;
@@ -484,6 +513,12 @@ error: Ident
   |
 9 |         color: purple;
   |                ^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/document/input.css:10:9
+   |
+10 |         background: yellow;
+   |         ^^^^^^^^^^^^^^^^^^
 
 error: StyleBlock
   --> $DIR/tests/fixture/at-rule/document/input.css:10:9
@@ -509,7 +544,7 @@ error: Ident
 10 |         background: yellow;
    |         ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/document/input.css:10:21
    |
 10 |         background: yellow;
@@ -762,6 +797,16 @@ error: SimpleBlock
 24 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/document/input.css:19:5
+   |
+19 | /     @media screen and (min-width: 900px) {
+20 | |         article {
+21 | |             padding: 1rem 3rem;
+22 | |         }
+23 | |     }
+   | |_____^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/document/input.css:19:5
    |
@@ -893,6 +938,14 @@ error: SimpleBlock
 23 | |     }
    | |_____^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/document/input.css:20:9
+   |
+20 | /         article {
+21 | |             padding: 1rem 3rem;
+22 | |         }
+   | |_________^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/document/input.css:20:9
    |
@@ -960,6 +1013,12 @@ error: SimpleBlock
 22 | |         }
    | |_________^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/document/input.css:21:13
+   |
+21 |             padding: 1rem 3rem;
+   |             ^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/at-rule/document/input.css:21:13
    |
@@ -984,7 +1043,7 @@ error: Ident
 21 |             padding: 1rem 3rem;
    |             ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/document/input.css:21:22
    |
 21 |             padding: 1rem 3rem;
@@ -1014,7 +1073,7 @@ error: Ident
 21 |             padding: 1rem 3rem;
    |                       ^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/document/input.css:21:27
    |
 21 |             padding: 1rem 3rem;

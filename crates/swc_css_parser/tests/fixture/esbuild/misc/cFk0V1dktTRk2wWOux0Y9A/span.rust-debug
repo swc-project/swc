@@ -82,6 +82,12 @@ error: SimpleBlock
 1 | a:after { content: '\1010101' }
   |         ^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/cFk0V1dktTRk2wWOux0Y9A/input.css:1:11
+  |
+1 | a:after { content: '\1010101' }
+  |           ^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/esbuild/misc/cFk0V1dktTRk2wWOux0Y9A/input.css:1:11
   |
@@ -106,7 +112,7 @@ error: Ident
 1 | a:after { content: '\1010101' }
   |           ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/cFk0V1dktTRk2wWOux0Y9A/input.css:1:20
   |
 1 | a:after { content: '\1010101' }

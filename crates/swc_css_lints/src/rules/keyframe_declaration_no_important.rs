@@ -5,10 +5,13 @@ use swc_css_visit::{Visit, VisitWith};
 use crate::rule::{visitor_rule, LintRule, LintRuleContext};
 
 pub fn keyframe_declaration_no_important(ctx: LintRuleContext<()>) -> Box<dyn LintRule> {
-    visitor_rule(KeyframeDeclarationNoImportant {
-        ctx,
-        keyframe_rules: vec![],
-    })
+    visitor_rule(
+        ctx.reaction(),
+        KeyframeDeclarationNoImportant {
+            ctx,
+            keyframe_rules: vec![],
+        },
+    )
 }
 
 const MESSAGE: &str = "Unexpected '!important'.";

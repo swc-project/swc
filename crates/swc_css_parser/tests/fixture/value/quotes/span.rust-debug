@@ -107,6 +107,12 @@ error: SimpleBlock
 29 | | }
    | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/value/quotes/input.css:2:5
+  |
+2 |     content: "This string is demarcated by double quotes.";
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/value/quotes/input.css:2:5
   |
@@ -131,7 +137,7 @@ error: Ident
 2 |     content: "This string is demarcated by double quotes.";
   |     ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/quotes/input.css:2:14
   |
 2 |     content: "This string is demarcated by double quotes.";
@@ -143,6 +149,12 @@ error: Str
 2 |     content: "This string is demarcated by double quotes.";
   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/value/quotes/input.css:3:5
+  |
+3 |     content: 'This string is demarcated by single quotes.';
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/value/quotes/input.css:3:5
   |
@@ -167,7 +179,7 @@ error: Ident
 3 |     content: 'This string is demarcated by single quotes.';
   |     ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/quotes/input.css:3:14
   |
 3 |     content: 'This string is demarcated by single quotes.';
@@ -179,6 +191,12 @@ error: Str
 3 |     content: 'This string is demarcated by single quotes.';
   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/value/quotes/input.css:4:5
+  |
+4 |     content: "This is a string with \" an escaped double quote.";
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/value/quotes/input.css:4:5
   |
@@ -203,7 +221,7 @@ error: Ident
 4 |     content: "This is a string with \" an escaped double quote.";
   |     ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/quotes/input.css:4:14
   |
 4 |     content: "This is a string with \" an escaped double quote.";
@@ -215,6 +233,12 @@ error: Str
 4 |     content: "This is a string with \" an escaped double quote.";
   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/value/quotes/input.css:5:5
+  |
+5 |     content: "This string also has \22 an escaped double quote.";
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/value/quotes/input.css:5:5
   |
@@ -239,7 +263,7 @@ error: Ident
 5 |     content: "This string also has \22 an escaped double quote.";
   |     ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/quotes/input.css:5:14
   |
 5 |     content: "This string also has \22 an escaped double quote.";
@@ -251,6 +275,12 @@ error: Str
 5 |     content: "This string also has \22 an escaped double quote.";
   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/value/quotes/input.css:6:5
+  |
+6 |     content: 'This is a string with \' an escaped single quote.';
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/value/quotes/input.css:6:5
   |
@@ -275,7 +305,7 @@ error: Ident
 6 |     content: 'This is a string with \' an escaped single quote.';
   |     ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/quotes/input.css:6:14
   |
 6 |     content: 'This is a string with \' an escaped single quote.';
@@ -286,6 +316,12 @@ error: Str
   |
 6 |     content: 'This is a string with \' an escaped single quote.';
   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/quotes/input.css:7:5
+  |
+7 |     content: 'This string also has \27 an escaped single quote.';
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: StyleBlock
  --> $DIR/tests/fixture/value/quotes/input.css:7:5
@@ -311,7 +347,7 @@ error: Ident
 7 |     content: 'This string also has \27 an escaped single quote.';
   |     ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/quotes/input.css:7:14
   |
 7 |     content: 'This string also has \27 an escaped single quote.';
@@ -322,6 +358,12 @@ error: Str
   |
 7 |     content: 'This string also has \27 an escaped single quote.';
   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/quotes/input.css:8:5
+  |
+8 |     content: "This is a string with \\ an escaped backslash.";
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: StyleBlock
  --> $DIR/tests/fixture/value/quotes/input.css:8:5
@@ -347,7 +389,7 @@ error: Ident
 8 |     content: "This is a string with \\ an escaped backslash.";
   |     ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/quotes/input.css:8:14
   |
 8 |     content: "This is a string with \\ an escaped backslash.";
@@ -358,6 +400,12 @@ error: Str
   |
 8 |     content: "This is a string with \\ an escaped backslash.";
   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/quotes/input.css:9:5
+  |
+9 |     content: "This string also has \22an escaped double quote.";
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: StyleBlock
  --> $DIR/tests/fixture/value/quotes/input.css:9:5
@@ -383,7 +431,7 @@ error: Ident
 9 |     content: "This string also has \22an escaped double quote.";
   |     ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/quotes/input.css:9:14
   |
 9 |     content: "This string also has \22an escaped double quote.";
@@ -394,6 +442,12 @@ error: Str
   |
 9 |     content: "This string also has \22an escaped double quote.";
   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/value/quotes/input.css:10:5
+   |
+10 |     content: "This string also has \22  an escaped double quote.";
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: StyleBlock
   --> $DIR/tests/fixture/value/quotes/input.css:10:5
@@ -419,7 +473,7 @@ error: Ident
 10 |     content: "This string also has \22  an escaped double quote.";
    |     ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/quotes/input.css:10:14
    |
 10 |     content: "This string also has \22  an escaped double quote.";
@@ -430,6 +484,12 @@ error: Str
    |
 10 |     content: "This string also has \22  an escaped double quote.";
    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/value/quotes/input.css:11:5
+   |
+11 |     content: "This string has a \Aline break in it.";
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: StyleBlock
   --> $DIR/tests/fixture/value/quotes/input.css:11:5
@@ -455,7 +515,7 @@ error: Ident
 11 |     content: "This string has a \Aline break in it.";
    |     ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/quotes/input.css:11:14
    |
 11 |     content: "This string has a \Aline break in it.";
@@ -466,6 +526,13 @@ error: Str
    |
 11 |     content: "This string has a \Aline break in it.";
    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/value/quotes/input.css:12:5
+   |
+12 | /     content: "A really long \
+13 | | awesome string";
+   | |_______________^
 
 error: StyleBlock
   --> $DIR/tests/fixture/value/quotes/input.css:12:5
@@ -493,7 +560,7 @@ error: Ident
 12 |     content: "A really long \
    |     ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/quotes/input.css:12:14
    |
 12 |       content: "A really long \
@@ -508,6 +575,12 @@ error: Str
    |  ______________^
 13 | | awesome string";
    | |_______________^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/value/quotes/input.css:14:5
+   |
+14 |     content: ";'@ /**/\"";
+   |     ^^^^^^^^^^^^^^^^^^^^^
 
 error: StyleBlock
   --> $DIR/tests/fixture/value/quotes/input.css:14:5
@@ -533,7 +606,7 @@ error: Ident
 14 |     content: ";'@ /**/\"";
    |     ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/quotes/input.css:14:14
    |
 14 |     content: ";'@ /**/\"";
@@ -544,6 +617,12 @@ error: Str
    |
 14 |     content: ";'@ /**/\"";
    |              ^^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/value/quotes/input.css:15:5
+   |
+15 |     content: '\'"\\';
+   |     ^^^^^^^^^^^^^^^^
 
 error: StyleBlock
   --> $DIR/tests/fixture/value/quotes/input.css:15:5
@@ -569,7 +648,7 @@ error: Ident
 15 |     content: '\'"\\';
    |     ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/quotes/input.css:15:14
    |
 15 |     content: '\'"\\';
@@ -580,6 +659,13 @@ error: Str
    |
 15 |     content: '\'"\\';
    |              ^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/value/quotes/input.css:16:5
+   |
+16 | /     content: "a\
+17 | | b";
+   | |__^
 
 error: StyleBlock
   --> $DIR/tests/fixture/value/quotes/input.css:16:5
@@ -607,7 +693,7 @@ error: Ident
 16 |     content: "a\
    |     ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/quotes/input.css:16:14
    |
 16 |       content: "a\
@@ -621,6 +707,13 @@ error: Str
 16 |       content: "a\
    |  ______________^
 17 | | b";
+   | |__^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/value/quotes/input.css:18:5
+   |
+18 | /     content: "a\
+19 | | b";
    | |__^
 
 error: StyleBlock
@@ -649,7 +742,7 @@ error: Ident
 18 |     content: "a\
    |     ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/quotes/input.css:18:14
    |
 18 |       content: "a\
@@ -663,6 +756,13 @@ error: Str
 18 |       content: "a\
    |  ______________^
 19 | | b";
+   | |__^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/value/quotes/input.css:20:5
+   |
+20 | /     content: "a\
+21 | | b";
    | |__^
 
 error: StyleBlock
@@ -691,7 +791,7 @@ error: Ident
 20 |     content: "a\
    |     ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/quotes/input.css:20:14
    |
 20 |       content: "a\
@@ -706,6 +806,12 @@ error: Str
    |  ______________^
 21 | | b";
    | |__^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/value/quotes/input.css:22:5
+   |
+22 |     content: "a\b";
+   |     ^^^^^^^^^^^^^^
 
 error: StyleBlock
   --> $DIR/tests/fixture/value/quotes/input.css:22:5
@@ -731,7 +837,7 @@ error: Ident
 22 |     content: "a\b";
    |     ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/quotes/input.css:22:14
    |
 22 |     content: "a\b";
@@ -742,6 +848,16 @@ error: Str
    |
 22 |     content: "a\b";
    |              ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/value/quotes/input.css:23:5
+   |
+23 | /     content: "a\
+24 | | \
+25 | | \
+26 | | \\
+27 | | b";
+   | |__^
 
 error: StyleBlock
   --> $DIR/tests/fixture/value/quotes/input.css:23:5
@@ -775,7 +891,7 @@ error: Ident
 23 |     content: "a\
    |     ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/quotes/input.css:23:14
    |
 23 |       content: "a\
@@ -796,6 +912,12 @@ error: Str
 26 | | \\
 27 | | b";
    | |__^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/value/quotes/input.css:28:5
+   |
+28 |     content: 'a\62 c';
+   |     ^^^^^^^^^^^^^^^^^
 
 error: StyleBlock
   --> $DIR/tests/fixture/value/quotes/input.css:28:5
@@ -821,7 +943,7 @@ error: Ident
 28 |     content: 'a\62 c';
    |     ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/quotes/input.css:28:14
    |
 28 |     content: 'a\62 c';
@@ -955,6 +1077,12 @@ error: SimpleBlock
 34 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/value/quotes/input.css:33:5
+   |
+33 |     color: red;
+   |     ^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/value/quotes/input.css:33:5
    |
@@ -979,7 +1107,7 @@ error: Ident
 33 |     color: red;
    |     ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/quotes/input.css:33:12
    |
 33 |     color: red;
@@ -1100,6 +1228,12 @@ error: SimpleBlock
 37 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/value/quotes/input.css:36:5
+   |
+36 |     color: red;
+   |     ^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/value/quotes/input.css:36:5
    |
@@ -1124,7 +1258,7 @@ error: Ident
 36 |     color: red;
    |     ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/quotes/input.css:36:12
    |
 36 |     color: red;
@@ -1203,6 +1337,12 @@ error: SimpleBlock
 41 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/value/quotes/input.css:40:5
+   |
+40 |     family-name: "A;' /**/";
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/value/quotes/input.css:40:5
    |
@@ -1227,7 +1367,7 @@ error: Ident
 40 |     family-name: "A;' /**/";
    |     ^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/quotes/input.css:40:18
    |
 40 |     family-name: "A;' /**/";
@@ -1303,6 +1443,12 @@ error: SimpleBlock
 47 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/value/quotes/input.css:45:5
+   |
+45 |     content: ";'@ /**/\"";
+   |     ^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/value/quotes/input.css:45:5
    |
@@ -1327,7 +1473,7 @@ error: Ident
 45 |     content: ";'@ /**/\"";
    |     ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/quotes/input.css:45:14
    |
 45 |     content: ";'@ /**/\"";
@@ -1339,6 +1485,12 @@ error: Str
 45 |     content: ";'@ /**/\"";
    |              ^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/value/quotes/input.css:46:5
+   |
+46 |     content: '\'"\\';
+   |     ^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/value/quotes/input.css:46:5
    |
@@ -1363,7 +1515,7 @@ error: Ident
 46 |     content: '\'"\\';
    |     ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/quotes/input.css:46:14
    |
 46 |     content: '\'"\\';

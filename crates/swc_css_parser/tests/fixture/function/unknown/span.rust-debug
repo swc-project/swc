@@ -81,6 +81,12 @@ error: SimpleBlock
 5 | | }
   | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/function/unknown/input.css:2:5
+  |
+2 |     prod: fn(100px);
+  |     ^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/function/unknown/input.css:2:5
   |
@@ -105,7 +111,7 @@ error: Ident
 2 |     prod: fn(100px);
   |     ^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/unknown/input.css:2:11
   |
 2 |     prod: fn(100px);
@@ -123,7 +129,7 @@ error: Ident
 2 |     prod: fn(100px);
   |           ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/unknown/input.css:2:14
   |
 2 |     prod: fn(100px);
@@ -153,6 +159,12 @@ error: Ident
 2 |     prod: fn(100px);
   |                 ^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/function/unknown/input.css:3:5
+  |
+3 |     prod: --fn(100px);
+  |     ^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/function/unknown/input.css:3:5
   |
@@ -177,7 +189,7 @@ error: Ident
 3 |     prod: --fn(100px);
   |     ^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/unknown/input.css:3:11
   |
 3 |     prod: --fn(100px);
@@ -195,7 +207,7 @@ error: Ident
 3 |     prod: --fn(100px);
   |           ^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/unknown/input.css:3:16
   |
 3 |     prod: --fn(100px);
@@ -225,6 +237,12 @@ error: Ident
 3 |     prod: --fn(100px);
   |                   ^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/function/unknown/input.css:4:5
+  |
+4 |     prod: --fn--fn(100px);
+  |     ^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/function/unknown/input.css:4:5
   |
@@ -249,7 +267,7 @@ error: Ident
 4 |     prod: --fn--fn(100px);
   |     ^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/unknown/input.css:4:11
   |
 4 |     prod: --fn--fn(100px);
@@ -267,7 +285,7 @@ error: Ident
 4 |     prod: --fn--fn(100px);
   |           ^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/unknown/input.css:4:20
   |
 4 |     prod: --fn--fn(100px);

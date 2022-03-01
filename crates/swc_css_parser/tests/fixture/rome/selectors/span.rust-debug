@@ -512,6 +512,12 @@ error: SimpleBlock
 15 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/rome/selectors/input.css:14:3
+   |
+14 |   color: purple;
+   |   ^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/rome/selectors/input.css:14:3
    |
@@ -536,7 +542,7 @@ error: Ident
 14 |   color: purple;
    |   ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/selectors/input.css:14:10
    |
 14 |   color: purple;
@@ -657,6 +663,12 @@ error: SimpleBlock
 19 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/rome/selectors/input.css:18:3
+   |
+18 |   color: purple;
+   |   ^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/rome/selectors/input.css:18:3
    |
@@ -681,7 +693,7 @@ error: Ident
 18 |   color: purple;
    |   ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/selectors/input.css:18:10
    |
 18 |   color: purple;
@@ -814,6 +826,12 @@ error: SimpleBlock
 23 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/rome/selectors/input.css:22:3
+   |
+22 |   color: purple;
+   |   ^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/rome/selectors/input.css:22:3
    |
@@ -838,7 +856,7 @@ error: Ident
 22 |   color: purple;
    |   ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/selectors/input.css:22:10
    |
 22 |   color: purple;
@@ -1013,6 +1031,12 @@ error: SimpleBlock
 27 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/rome/selectors/input.css:26:2
+   |
+26 |     color: purple;
+   |     ^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/rome/selectors/input.css:26:2
    |
@@ -1037,7 +1061,7 @@ error: Ident
 26 |     color: purple;
    |     ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/selectors/input.css:26:9
    |
 26 |     color: purple;

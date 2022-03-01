@@ -16,7 +16,10 @@ pub fn no_invalid_position_at_import_rule(
     ctx: LintRuleContext<NoInvalidPositionAtImportRuleConfig>,
 ) -> Box<dyn LintRule> {
     let ignored = ctx.config().ignore_at_rules.clone().unwrap_or_default();
-    visitor_rule(NoInvalidPositionAtImportRule { ctx, ignored })
+    visitor_rule(
+        ctx.reaction(),
+        NoInvalidPositionAtImportRule { ctx, ignored },
+    )
 }
 
 #[derive(Debug, Default)]

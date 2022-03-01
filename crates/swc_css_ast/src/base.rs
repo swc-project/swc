@@ -2,7 +2,9 @@ use is_macro::Is;
 use swc_common::{ast_node, Span};
 
 use crate::{
-    AtRule, DashedIdent, Function, Ident, KeyframeBlock, SelectorList, TokenAndSpan, Tokens, Value,
+    AtRule, CalcSum, Color, ComplexSelector, DashedIdent, Delimiter, Dimension, Function, Ident,
+    Integer, KeyframeBlock, Number, Percentage, Ratio, SelectorList, Str, TokenAndSpan, Tokens,
+    UnicodeRange, Url,
 };
 
 #[ast_node("Stylesheet")]
@@ -73,8 +75,36 @@ pub enum ComponentValue {
     KeyframeBlock(KeyframeBlock),
 
     // Arbitrary Contents grammar
-    #[tag("Value")]
-    Value(Value),
+    #[tag("Ident")]
+    Ident(Ident),
+    #[tag("DashedIdent")]
+    DashedIdent(DashedIdent),
+    #[tag("String")]
+    Str(Str),
+    #[tag("Url")]
+    Url(Url),
+    #[tag("Integer")]
+    Integer(Integer),
+    #[tag("Number")]
+    Number(Number),
+    #[tag("Percentage")]
+    Percentage(Percentage),
+    #[tag("Dimension")]
+    Dimension(Dimension),
+    #[tag("Ratio")]
+    Ratio(Ratio),
+    #[tag("UnicodeRange")]
+    UnicodeRange(UnicodeRange),
+    #[tag("Color")]
+    Color(Color),
+    #[tag("Delimiter")]
+    Delimiter(Delimiter),
+
+    // Special function Contents grammar
+    #[tag("CalcSum")]
+    CalcSum(CalcSum),
+    #[tag("ComplexSelector")]
+    ComplexSelector(ComplexSelector),
 }
 
 #[ast_node]
@@ -91,7 +121,7 @@ pub enum DeclarationOrAtRule {
 pub struct Declaration {
     pub span: Span,
     pub name: DeclarationName,
-    pub value: Vec<Value>,
+    pub value: Vec<ComponentValue>,
     /// The span includes `!`
     pub important: Option<ImportantFlag>,
 }

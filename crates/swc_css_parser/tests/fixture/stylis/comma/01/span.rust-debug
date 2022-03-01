@@ -73,6 +73,12 @@ error: SimpleBlock
 3 | | }
   | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/stylis/comma/01/input.css:2:5
+  |
+2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/stylis/comma/01/input.css:2:5
   |
@@ -97,7 +103,7 @@ error: Ident
 2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
   |     ^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/stylis/comma/01/input.css:2:13
   |
 2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
@@ -115,7 +121,7 @@ error: Ident
 2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
   |             ^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/stylis/comma/01/input.css:2:23
   |
 2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
@@ -145,7 +151,7 @@ error: UrlValueRaw
 2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
   |                           ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/stylis/comma/01/input.css:2:36
   |
 2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
@@ -175,7 +181,7 @@ error: Ident
 2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
   |                                     ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/stylis/comma/01/input.css:2:39
   |
 2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
@@ -187,7 +193,7 @@ error: Delimiter
 2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
   |                                       ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/stylis/comma/01/input.css:2:41
   |
 2 |     cursor: image-set(url(foo.jpg) 2x), pointer;

@@ -21,7 +21,7 @@ impl Default for HexForm {
 
 pub fn color_hex_length(ctx: LintRuleContext<ColorHexLengthConfig>) -> Box<dyn LintRule> {
     let form = ctx.config().clone().unwrap_or_default();
-    visitor_rule(ColorHexLength { ctx, form })
+    visitor_rule(ctx.reaction(), ColorHexLength { ctx, form })
 }
 
 #[derive(Debug, Default)]

@@ -316,6 +316,12 @@ error: SimpleBlock
 4 | .selector { _property: value; }
   |           ^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/hacks/input.css:4:13
+  |
+4 | .selector { _property: value; }
+  |             ^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/hacks/input.css:4:13
   |
@@ -340,7 +346,7 @@ error: Ident
 4 | .selector { _property: value; }
   |             ^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/hacks/input.css:4:24
   |
 4 | .selector { _property: value; }
@@ -406,6 +412,12 @@ error: SimpleBlock
 5 | .selector { -property: value; }
   |           ^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/hacks/input.css:5:13
+  |
+5 | .selector { -property: value; }
+  |             ^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/hacks/input.css:5:13
   |
@@ -430,7 +442,7 @@ error: Ident
 5 | .selector { -property: value; }
   |             ^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/hacks/input.css:5:24
   |
 5 | .selector { -property: value; }
@@ -496,6 +508,12 @@ error: SimpleBlock
 6 | .selector { property: value\9; }
   |           ^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/hacks/input.css:6:13
+  |
+6 | .selector { property: value\9; }
+  |             ^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/hacks/input.css:6:13
   |
@@ -520,7 +538,7 @@ error: Ident
 6 | .selector { property: value\9; }
   |             ^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/hacks/input.css:6:23
   |
 6 | .selector { property: value\9; }
@@ -586,6 +604,12 @@ error: SimpleBlock
 7 | .selector { property/*\**/: value\9; }
   |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/hacks/input.css:7:13
+  |
+7 | .selector { property/*\**/: value\9; }
+  |             ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/hacks/input.css:7:13
   |
@@ -610,7 +634,7 @@ error: Ident
 7 | .selector { property/*\**/: value\9; }
   |             ^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/hacks/input.css:7:29
   |
 7 | .selector { property/*\**/: value\9; }

@@ -9,7 +9,7 @@ pub fn selector_max_combinators(
     ctx: LintRuleContext<SelectorMaxCombinatorsConfig>,
 ) -> Box<dyn LintRule> {
     let max = ctx.config().unwrap_or(3);
-    visitor_rule(SelectorMaxCombinators { ctx, max })
+    visitor_rule(ctx.reaction(), SelectorMaxCombinators { ctx, max })
 }
 
 #[derive(Debug, Default)]

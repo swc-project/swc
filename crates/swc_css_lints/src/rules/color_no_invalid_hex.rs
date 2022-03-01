@@ -4,7 +4,7 @@ use swc_css_visit::{Visit, VisitWith};
 use crate::rule::{visitor_rule, LintRule, LintRuleContext};
 
 pub fn color_no_invalid_hex(ctx: LintRuleContext<()>) -> Box<dyn LintRule> {
-    visitor_rule(ColorNoInvalidHex { ctx })
+    visitor_rule(ctx.reaction(), ColorNoInvalidHex { ctx })
 }
 
 #[derive(Debug, Default)]

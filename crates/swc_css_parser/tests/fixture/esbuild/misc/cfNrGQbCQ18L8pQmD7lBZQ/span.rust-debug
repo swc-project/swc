@@ -64,6 +64,12 @@ error: SimpleBlock
 1 | a { color: red; color: green; color: red }
   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/cfNrGQbCQ18L8pQmD7lBZQ/input.css:1:5
+  |
+1 | a { color: red; color: green; color: red }
+  |     ^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/esbuild/misc/cfNrGQbCQ18L8pQmD7lBZQ/input.css:1:5
   |
@@ -88,7 +94,7 @@ error: Ident
 1 | a { color: red; color: green; color: red }
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/cfNrGQbCQ18L8pQmD7lBZQ/input.css:1:12
   |
 1 | a { color: red; color: green; color: red }
@@ -99,6 +105,12 @@ error: Ident
   |
 1 | a { color: red; color: green; color: red }
   |            ^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/cfNrGQbCQ18L8pQmD7lBZQ/input.css:1:17
+  |
+1 | a { color: red; color: green; color: red }
+  |                 ^^^^^^^^^^^^
 
 error: StyleBlock
  --> $DIR/tests/fixture/esbuild/misc/cfNrGQbCQ18L8pQmD7lBZQ/input.css:1:17
@@ -124,7 +136,7 @@ error: Ident
 1 | a { color: red; color: green; color: red }
   |                 ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/cfNrGQbCQ18L8pQmD7lBZQ/input.css:1:24
   |
 1 | a { color: red; color: green; color: red }
@@ -135,6 +147,12 @@ error: Ident
   |
 1 | a { color: red; color: green; color: red }
   |                        ^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/cfNrGQbCQ18L8pQmD7lBZQ/input.css:1:31
+  |
+1 | a { color: red; color: green; color: red }
+  |                               ^^^^^^^^^^
 
 error: StyleBlock
  --> $DIR/tests/fixture/esbuild/misc/cfNrGQbCQ18L8pQmD7lBZQ/input.css:1:31
@@ -160,7 +178,7 @@ error: Ident
 1 | a { color: red; color: green; color: red }
   |                               ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/cfNrGQbCQ18L8pQmD7lBZQ/input.css:1:38
   |
 1 | a { color: red; color: green; color: red }

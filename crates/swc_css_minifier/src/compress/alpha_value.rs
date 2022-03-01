@@ -31,21 +31,21 @@ impl VisitMut for CompressAlphaValue {
         }
     }
 
-    fn visit_mut_value(&mut self, value: &mut Value) {
-        value.visit_mut_children_with(self);
+    fn visit_mut_component_value(&mut self, component_value: &mut ComponentValue) {
+        component_value.visit_mut_children_with(self);
 
         if self.preserve {
             return;
         }
 
-        match value {
-            Value::Percentage(Percentage {
+        match component_value {
+            ComponentValue::Percentage(Percentage {
                 span,
                 value: number,
             }) if number.value % 10.0 == 0.0 => {
                 let new_value = number.value / 100.0;
 
-                *value = Value::Number(Number {
+                *component_value = ComponentValue::Number(Number {
                     span: *span,
                     value: new_value,
                     raw: new_value.to_string().into(),

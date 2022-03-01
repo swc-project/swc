@@ -155,6 +155,14 @@ error: SimpleBlock
 13 | | }
    | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/keyframe/input.css:6:5
+  |
+6 | /     from {
+7 | |         transform: translateX(0%);
+8 | |     }
+  | |_____^
+
 error: KeyframeBlock
  --> $DIR/tests/fixture/at-rule/keyframe/input.css:6:5
   |
@@ -184,6 +192,12 @@ error: SimpleBlock
 8 | |     }
   | |_____^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/keyframe/input.css:7:9
+  |
+7 |         transform: translateX(0%);
+  |         ^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/at-rule/keyframe/input.css:7:9
   |
@@ -202,7 +216,7 @@ error: Ident
 7 |         transform: translateX(0%);
   |         ^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/keyframe/input.css:7:20
   |
 7 |         transform: translateX(0%);
@@ -220,7 +234,7 @@ error: Ident
 7 |         transform: translateX(0%);
   |                    ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/keyframe/input.css:7:31
   |
 7 |         transform: translateX(0%);
@@ -237,6 +251,14 @@ error: Number
   |
 7 |         transform: translateX(0%);
   |                               ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:10:5
+   |
+10 | /     to {
+11 | |         transform: translateX(100%);
+12 | |     }
+   | |_____^
 
 error: KeyframeBlock
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:10:5
@@ -267,6 +289,12 @@ error: SimpleBlock
 12 | |     }
    | |_____^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:11:9
+   |
+11 |         transform: translateX(100%);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:11:9
    |
@@ -285,7 +313,7 @@ error: Ident
 11 |         transform: translateX(100%);
    |         ^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:11:20
    |
 11 |         transform: translateX(100%);
@@ -303,7 +331,7 @@ error: Ident
 11 |         transform: translateX(100%);
    |                    ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:11:31
    |
 11 |         transform: translateX(100%);
@@ -372,6 +400,12 @@ error: SimpleBlock
 20 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:5
+   |
+16 |     0% { top: 0; left: 0; }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: KeyframeBlock
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:5
    |
@@ -402,6 +436,12 @@ error: SimpleBlock
 16 |     0% { top: 0; left: 0; }
    |        ^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:10
+   |
+16 |     0% { top: 0; left: 0; }
+   |          ^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:10
    |
@@ -420,7 +460,7 @@ error: Ident
 16 |     0% { top: 0; left: 0; }
    |          ^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:15
    |
 16 |     0% { top: 0; left: 0; }
@@ -431,6 +471,12 @@ error: Integer
    |
 16 |     0% { top: 0; left: 0; }
    |               ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:18
+   |
+16 |     0% { top: 0; left: 0; }
+   |                  ^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:18
@@ -450,7 +496,7 @@ error: Ident
 16 |     0% { top: 0; left: 0; }
    |                  ^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:24
    |
 16 |     0% { top: 0; left: 0; }
@@ -461,6 +507,12 @@ error: Integer
    |
 16 |     0% { top: 0; left: 0; }
    |                        ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:5
+   |
+17 |     30% { top: 50px; }
+   |     ^^^^^^^^^^^^^^^^^^
 
 error: KeyframeBlock
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:5
@@ -492,6 +544,12 @@ error: SimpleBlock
 17 |     30% { top: 50px; }
    |         ^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:11
+   |
+17 |     30% { top: 50px; }
+   |           ^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:11
    |
@@ -510,7 +568,7 @@ error: Ident
 17 |     30% { top: 50px; }
    |           ^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:16
    |
 17 |     30% { top: 50px; }
@@ -539,6 +597,12 @@ error: Ident
    |
 17 |     30% { top: 50px; }
    |                  ^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:5
+   |
+18 |     68%, 72% { left: 50px; }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: KeyframeBlock
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:5
@@ -588,6 +652,12 @@ error: SimpleBlock
 18 |     68%, 72% { left: 50px; }
    |              ^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:16
+   |
+18 |     68%, 72% { left: 50px; }
+   |                ^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:16
    |
@@ -606,7 +676,7 @@ error: Ident
 18 |     68%, 72% { left: 50px; }
    |                ^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:22
    |
 18 |     68%, 72% { left: 50px; }
@@ -635,6 +705,12 @@ error: Ident
    |
 18 |     68%, 72% { left: 50px; }
    |                        ^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:5
+   |
+19 |     100% { top: 100px; left: 100%; }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: KeyframeBlock
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:5
@@ -666,6 +742,12 @@ error: SimpleBlock
 19 |     100% { top: 100px; left: 100%; }
    |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:12
+   |
+19 |     100% { top: 100px; left: 100%; }
+   |            ^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:12
    |
@@ -684,7 +766,7 @@ error: Ident
 19 |     100% { top: 100px; left: 100%; }
    |            ^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:17
    |
 19 |     100% { top: 100px; left: 100%; }
@@ -714,6 +796,12 @@ error: Ident
 19 |     100% { top: 100px; left: 100%; }
    |                    ^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:24
+   |
+19 |     100% { top: 100px; left: 100%; }
+   |                        ^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:24
    |
@@ -732,7 +820,7 @@ error: Ident
 19 |     100% { top: 100px; left: 100%; }
    |                        ^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:30
    |
 19 |     100% { top: 100px; left: 100%; }
@@ -895,6 +983,14 @@ error: SimpleBlock
 44 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:27:5
+   |
+27 | /     from {
+28 | |         margin-left: 0px;
+29 | |     }
+   | |_____^
+
 error: KeyframeBlock
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:27:5
    |
@@ -924,6 +1020,12 @@ error: SimpleBlock
 29 | |     }
    | |_____^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:28:9
+   |
+28 |         margin-left: 0px;
+   |         ^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:28:9
    |
@@ -942,7 +1044,7 @@ error: Ident
 28 |         margin-left: 0px;
    |         ^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:28:22
    |
 28 |         margin-left: 0px;
@@ -971,6 +1073,15 @@ error: Ident
    |
 28 |         margin-left: 0px;
    |                       ^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:31:5
+   |
+31 | /     50% {
+32 | |         margin-left: 110px;
+33 | |         opacity: 1;
+34 | |     }
+   | |_____^
 
 error: KeyframeBlock
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:31:5
@@ -1009,6 +1120,12 @@ error: SimpleBlock
 34 | |     }
    | |_____^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:32:9
+   |
+32 |         margin-left: 110px;
+   |         ^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:32:9
    |
@@ -1027,7 +1144,7 @@ error: Ident
 32 |         margin-left: 110px;
    |         ^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:32:22
    |
 32 |         margin-left: 110px;
@@ -1057,6 +1174,12 @@ error: Ident
 32 |         margin-left: 110px;
    |                         ^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:33:9
+   |
+33 |         opacity: 1;
+   |         ^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:33:9
    |
@@ -1075,7 +1198,7 @@ error: Ident
 33 |         opacity: 1;
    |         ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:33:18
    |
 33 |         opacity: 1;
@@ -1086,6 +1209,14 @@ error: Integer
    |
 33 |         opacity: 1;
    |                  ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:36:5
+   |
+36 | /     50% {
+37 | |         opacity: 0.9;
+38 | |     }
+   | |_____^
 
 error: KeyframeBlock
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:36:5
@@ -1122,6 +1253,12 @@ error: SimpleBlock
 38 | |     }
    | |_____^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:37:9
+   |
+37 |         opacity: 0.9;
+   |         ^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:37:9
    |
@@ -1140,7 +1277,7 @@ error: Ident
 37 |         opacity: 0.9;
    |         ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:37:18
    |
 37 |         opacity: 0.9;
@@ -1151,6 +1288,14 @@ error: Number
    |
 37 |         opacity: 0.9;
    |                  ^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:40:5
+   |
+40 | /     to {
+41 | |         margin-left: 200px;
+42 | |     }
+   | |_____^
 
 error: KeyframeBlock
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:40:5
@@ -1181,6 +1326,12 @@ error: SimpleBlock
 42 | |     }
    | |_____^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:41:9
+   |
+41 |         margin-left: 200px;
+   |         ^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:41:9
    |
@@ -1199,7 +1350,7 @@ error: Ident
 41 |         margin-left: 200px;
    |         ^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:41:22
    |
 41 |         margin-left: 200px;
@@ -1284,6 +1435,14 @@ error: SimpleBlock
 54 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:47:5
+   |
+47 | /     fRoM {
+48 | |         transform: translateX(0%);
+49 | |     }
+   | |_____^
+
 error: KeyframeBlock
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:47:5
    |
@@ -1313,6 +1472,12 @@ error: SimpleBlock
 49 | |     }
    | |_____^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:48:9
+   |
+48 |         transform: translateX(0%);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:48:9
    |
@@ -1331,7 +1496,7 @@ error: Ident
 48 |         transform: translateX(0%);
    |         ^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:48:20
    |
 48 |         transform: translateX(0%);
@@ -1349,7 +1514,7 @@ error: Ident
 48 |         transform: translateX(0%);
    |                    ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:48:31
    |
 48 |         transform: translateX(0%);
@@ -1366,6 +1531,14 @@ error: Number
    |
 48 |         transform: translateX(0%);
    |                               ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:51:5
+   |
+51 | /     tO {
+52 | |         transform: translateX(100%);
+53 | |     }
+   | |_____^
 
 error: KeyframeBlock
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:51:5
@@ -1396,6 +1569,12 @@ error: SimpleBlock
 53 | |     }
    | |_____^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/keyframe/input.css:52:9
+   |
+52 |         transform: translateX(100%);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:52:9
    |
@@ -1414,7 +1593,7 @@ error: Ident
 52 |         transform: translateX(100%);
    |         ^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:52:20
    |
 52 |         transform: translateX(100%);
@@ -1432,7 +1611,7 @@ error: Ident
 52 |         transform: translateX(100%);
    |                    ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/keyframe/input.css:52:31
    |
 52 |         transform: translateX(100%);

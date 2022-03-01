@@ -67,6 +67,12 @@ error: SimpleBlock
 3 | | }
   | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:2
+  |
+2 |     grid-template-columns: repeat(4, fit-content(300px));
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:2
   |
@@ -91,7 +97,7 @@ error: Ident
 2 |     grid-template-columns: repeat(4, fit-content(300px));
   |     ^^^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:25
   |
 2 |     grid-template-columns: repeat(4, fit-content(300px));
@@ -109,7 +115,7 @@ error: Ident
 2 |     grid-template-columns: repeat(4, fit-content(300px));
   |                            ^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:32
   |
 2 |     grid-template-columns: repeat(4, fit-content(300px));
@@ -121,7 +127,7 @@ error: Integer
 2 |     grid-template-columns: repeat(4, fit-content(300px));
   |                                   ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:33
   |
 2 |     grid-template-columns: repeat(4, fit-content(300px));
@@ -133,7 +139,7 @@ error: Delimiter
 2 |     grid-template-columns: repeat(4, fit-content(300px));
   |                                    ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:35
   |
 2 |     grid-template-columns: repeat(4, fit-content(300px));
@@ -151,7 +157,7 @@ error: Ident
 2 |     grid-template-columns: repeat(4, fit-content(300px));
   |                                      ^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:47
   |
 2 |     grid-template-columns: repeat(4, fit-content(300px));

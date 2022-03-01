@@ -1,1 +1,1 @@
-class a{b(){new super.c()}}
+class a{b(){new super.c}}
