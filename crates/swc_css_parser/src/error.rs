@@ -1,6 +1,6 @@
 use std::borrow::Cow;
-use swc_atoms::JsWord;
 
+use swc_atoms::JsWord;
 use swc_common::{
     errors::{DiagnosticBuilder, Handler},
     Span,

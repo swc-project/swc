@@ -691,11 +691,11 @@ where
             tok!("function") => NamespaceUri::Url(self.parse()?),
             _ => {
                 let span = self.input.cur_span()?;
-                
+
                 return Err(Error::new(
                     span,
                     ErrorKind::Expected("string, url or function tokens"),
-                ))
+                ));
             }
         };
 
