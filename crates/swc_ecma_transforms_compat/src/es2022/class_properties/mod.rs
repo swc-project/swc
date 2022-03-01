@@ -17,6 +17,7 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+use swc_trace_macro::swc_trace;
 
 use self::{
     class_name_tdz::ClassNameTdzFolder,
@@ -42,6 +43,7 @@ mod used_name;
 /// # Impl note
 ///
 /// We use custom helper to handle export default class
+#[tracing::instrument(level = "trace", skip_all)]
 pub fn class_properties(config: Config) -> impl Fold + VisitMut {
     as_folder(ClassProperties {
         c: config,
@@ -62,6 +64,7 @@ struct ClassProperties {
     private: PrivateRecord,
 }
 
+#[swc_trace]
 #[fast_path(ShouldWork)]
 impl VisitMut for ClassProperties {
     noop_visit_mut_type!();
@@ -182,6 +185,7 @@ impl VisitMut for ClassProperties {
     }
 }
 
+#[swc_trace]
 impl ClassProperties {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
@@ -313,6 +317,7 @@ impl ClassProperties {
     }
 }
 
+#[swc_trace]
 impl ClassProperties {
     fn visit_mut_class_as_decl(
         &mut self,
@@ -850,6 +855,7 @@ struct ShouldWork {
     found: bool,
 }
 
+#[swc_trace]
 impl Visit for ShouldWork {
     noop_visit_type!();
 
