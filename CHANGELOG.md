@@ -47,6 +47,9 @@
 - **(es/compat)** Add tracing support for `es2022` transforms (#3785) ([4d70482](https://github.com/swc-project/swc/commit/4d7048291fae26c081754a496d9c77ddb2215575))
 
 
+- **(es/compat)** Use sequence expressions instead of iife in `classes` pass (#3773) ([5b6beca](https://github.com/swc-project/swc/commit/5b6beca1afb7e4278629840c94c775a083288cd2))
+
+
 - **(es/dep-graph)** Add support for `require.resolve` (#3783) ([19b84e7](https://github.com/swc-project/swc/commit/19b84e7723c381843c98df90f64e5123acdd5808))
 
 
