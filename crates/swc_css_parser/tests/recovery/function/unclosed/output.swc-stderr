@@ -11,7 +11,7 @@ error: Expected 'number', 'dimension', 'percentage', 'ident', '(' or 'function' 
   | ^
 
 error: Expected Declaration value
- --> $DIR/tests/errors/rome/invalid/min-or-max/input.css:3:1
+ --> $DIR/tests/recovery/function/unclosed/input.css:3:1
   |
 3 | }
   | ^

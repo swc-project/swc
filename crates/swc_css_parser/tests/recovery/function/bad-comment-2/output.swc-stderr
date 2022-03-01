@@ -1,5 +1,5 @@
 error: Expected Declaration value
- --> $DIR/tests/errors/comments/bad-comment-4/input.css:2:17
+ --> $DIR/tests/recovery/function/bad-comment-2/input.css:2:17
   |
 2 |       background: url(
   |  _________________^

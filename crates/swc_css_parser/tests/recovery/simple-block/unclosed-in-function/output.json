@@ -109,41 +109,23 @@
                 },
                 "value": [
                   {
-                    "type": "PreservedToken",
+                    "type": "Integer",
                     "span": {
                       "start": 40,
                       "end": 41,
                       "ctxt": 0
                     },
-                    "token": {
-                      "Number": {
-                        "value": 4.0,
-                        "raw": "4",
-                        "type": "integer"
-                      }
-                    }
+                    "value": 4,
+                    "raw": "4"
                   },
                   {
-                    "type": "PreservedToken",
+                    "type": "Delimiter",
                     "span": {
                       "start": 41,
                       "end": 42,
                       "ctxt": 0
                     },
-                    "token": "Comma"
-                  },
-                  {
-                    "type": "PreservedToken",
-                    "span": {
-                      "start": 42,
-                      "end": 43,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
+                    "value": ","
                   },
                   {
                     "type": "SimpleBlock",
@@ -155,18 +137,14 @@
                     "name": "[",
                     "value": [
                       {
-                        "type": "PreservedToken",
+                        "type": "Ident",
                         "span": {
                           "start": 44,
                           "end": 53,
                           "ctxt": 0
                         },
-                        "token": {
-                          "Ident": {
-                            "value": "col-start",
-                            "raw": "col-start"
-                          }
-                        }
+                        "value": "col-start",
+                        "raw": "col-start"
                       },
                       {
                         "type": "PreservedToken",
@@ -178,26 +156,13 @@
                         "token": "RParen"
                       },
                       {
-                        "type": "PreservedToken",
+                        "type": "Delimiter",
                         "span": {
                           "start": 54,
                           "end": 55,
                           "ctxt": 0
                         },
-                        "token": "Semi"
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 55,
-                          "end": 56,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "WhiteSpace": {
-                            "value": "\n"
-                          }
-                        }
+                        "value": ";"
                       },
                       {
                         "type": "PreservedToken",
