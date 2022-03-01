@@ -1,12 +1,11 @@
+#![deny(warnings)]
+
 use std::path::PathBuf;
 
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
-use swc_ecma_transforms_module::{
-    system_js::{system_js, Config},
-    util,
-};
+use swc_ecma_transforms_module::system_js::{system_js, Config};
 use swc_ecma_transforms_testing::{test, test_fixture, Tester};
 use swc_ecma_visit::Fold;
 
@@ -16,9 +15,12 @@ fn syntax() -> Syntax {
     })
 }
 
-fn tr(tester: &mut Tester<'_>, config: Config) -> impl Fold {
-    let mark = Mark::fresh(Mark::root());
-    chain!(resolver_with_mark(mark), system_js(mark, config))
+fn tr(_tester: &mut Tester<'_>, config: Config) -> impl Fold {
+    let top_level_mark = Mark::fresh(Mark::root());
+    chain!(
+        resolver_with_mark(top_level_mark),
+        system_js(top_level_mark, config)
+    )
 }
 
 test!(
