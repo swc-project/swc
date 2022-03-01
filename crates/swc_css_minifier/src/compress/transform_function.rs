@@ -10,11 +10,11 @@ struct CompressTransformFunction {}
 impl CompressTransformFunction {}
 
 impl VisitMut for CompressTransformFunction {
-    fn visit_mut_value(&mut self, value: &mut Value) {
-        value.visit_mut_children_with(self);
+    fn visit_mut_component_value(&mut self, component_value: &mut ComponentValue) {
+        component_value.visit_mut_children_with(self);
 
-        match value {
-            Value::Function(Function {
+        match component_value {
+            ComponentValue::Function(Function {
                 name,
                 value: function_value,
                 ..
@@ -22,7 +22,7 @@ impl VisitMut for CompressTransformFunction {
                 match (function_value.get(0), function_value.get(2)) {
                     (
                         Some(first),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: second_number,
                             ..
                         })),
@@ -30,7 +30,7 @@ impl VisitMut for CompressTransformFunction {
                         *function_value = vec![first.clone()];
                     }
                     (
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: first_number,
                             ..
                         })),
@@ -46,7 +46,7 @@ impl VisitMut for CompressTransformFunction {
                     _ => {}
                 }
             }
-            Value::Function(Function {
+            ComponentValue::Function(Function {
                 name,
                 value: function_value,
                 ..
@@ -57,11 +57,11 @@ impl VisitMut for CompressTransformFunction {
                     function_value.get(4),
                 ) {
                     (
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: first_number,
                             ..
                         })),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: second_number,
                             ..
                         })),
@@ -77,7 +77,7 @@ impl VisitMut for CompressTransformFunction {
                     _ => {}
                 }
             }
-            Value::Function(Function {
+            ComponentValue::Function(Function {
                 name,
                 value: function_value,
                 ..
@@ -85,12 +85,12 @@ impl VisitMut for CompressTransformFunction {
                 match (function_value.get(0), function_value.get(2)) {
                     (
                         Some(
-                            first @ Value::Number(Number {
+                            first @ ComponentValue::Number(Number {
                                 value: first_number,
                                 ..
                             }),
                         ),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: second_number,
                             ..
                         })),
@@ -99,7 +99,7 @@ impl VisitMut for CompressTransformFunction {
                     }
                     (
                         Some(first),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: second_number,
                             ..
                         })),
@@ -112,7 +112,7 @@ impl VisitMut for CompressTransformFunction {
                         *function_value = vec![first.clone()];
                     }
                     (
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: first_number,
                             ..
                         })),
@@ -128,7 +128,7 @@ impl VisitMut for CompressTransformFunction {
                     _ => {}
                 }
             }
-            Value::Function(Function {
+            ComponentValue::Function(Function {
                 name,
                 value: function_value,
                 ..
@@ -140,11 +140,11 @@ impl VisitMut for CompressTransformFunction {
                 ) {
                     (
                         Some(first),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: second_number,
                             ..
                         })),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: third_number,
                             ..
                         })),
@@ -157,12 +157,12 @@ impl VisitMut for CompressTransformFunction {
                         *function_value = vec![first.clone()];
                     }
                     (
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: first_number,
                             ..
                         })),
                         Some(second),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: third_number,
                             ..
                         })),
@@ -175,11 +175,11 @@ impl VisitMut for CompressTransformFunction {
                         *function_value = vec![second.clone()];
                     }
                     (
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: first_number,
                             ..
                         })),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: second_number,
                             ..
                         })),
@@ -195,7 +195,7 @@ impl VisitMut for CompressTransformFunction {
                     _ => {}
                 }
             }
-            Value::Function(Function {
+            ComponentValue::Function(Function {
                 name,
                 value: function_value,
                 ..
@@ -228,11 +228,11 @@ impl VisitMut for CompressTransformFunction {
                         Some(first_comma),
                         Some(second),
                         Some(second_comma),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: third_number,
                             ..
                         })),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: fourth_number,
                             ..
                         })),
@@ -240,38 +240,38 @@ impl VisitMut for CompressTransformFunction {
                         Some(fifth_comma),
                         Some(sixth),
                         Some(sixth_comma),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: seventh_number,
                             ..
                         })),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: eighth_number,
                             ..
                         })),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: ninth_number,
                             ..
                         })),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: tenth_number,
                             ..
                         })),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: eleventh_number,
                             ..
                         })),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: twelfth_number,
                             ..
                         })),
                         Some(thirteenth),
                         Some(thirteenth_comma),
                         Some(fourteenth),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: fifteenth_number,
                             ..
                         })),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: sixteenth_number,
                             ..
                         })),
@@ -308,7 +308,7 @@ impl VisitMut for CompressTransformFunction {
                     _ => {}
                 }
             }
-            Value::Function(Function {
+            ComponentValue::Function(Function {
                 name,
                 value: function_value,
                 ..
@@ -320,15 +320,15 @@ impl VisitMut for CompressTransformFunction {
                     function_value.get(6),
                 ) {
                     (
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: first_number,
                             ..
                         })),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: second_number,
                             ..
                         })),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: third_number,
                             ..
                         })),
@@ -342,15 +342,15 @@ impl VisitMut for CompressTransformFunction {
                         *function_value = vec![fourth_value.clone()];
                     }
                     (
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: first_number,
                             ..
                         })),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: second_number,
                             ..
                         })),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: third_number,
                             ..
                         })),
@@ -364,15 +364,15 @@ impl VisitMut for CompressTransformFunction {
                         *function_value = vec![fourth_value.clone()];
                     }
                     (
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: first_number,
                             ..
                         })),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: second_number,
                             ..
                         })),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: third_number,
                             ..
                         })),
@@ -388,7 +388,7 @@ impl VisitMut for CompressTransformFunction {
                     _ => {}
                 }
             }
-            Value::Function(Function {
+            ComponentValue::Function(Function {
                 name,
                 value: function_value,
                 ..
@@ -400,7 +400,7 @@ impl VisitMut for CompressTransformFunction {
                 };
             }
 
-            Value::Function(Function {
+            ComponentValue::Function(Function {
                 name,
                 value: function_value,
                 ..
@@ -408,7 +408,7 @@ impl VisitMut for CompressTransformFunction {
                 match (function_value.get(0), function_value.get(2)) {
                     (
                         Some(first),
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: second_number,
                             ..
                         })),
@@ -422,7 +422,7 @@ impl VisitMut for CompressTransformFunction {
                     }
 
                     (
-                        Some(Value::Number(Number {
+                        Some(ComponentValue::Number(Number {
                             value: first_number,
                             ..
                         })),
