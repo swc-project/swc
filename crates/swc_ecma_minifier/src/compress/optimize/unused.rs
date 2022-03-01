@@ -264,6 +264,8 @@ where
                                     self.ctx.var_kind
                                 {
                                     *e = Null { span: DUMMY_SP }.into();
+                                } else {
+                                    *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                                 }
                             }
                         }
