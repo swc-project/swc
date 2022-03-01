@@ -267,7 +267,7 @@ fn base_fixture(input: PathBuf) {
 
         let output = print(cm, &[output_module], false, false);
 
-        eprintln!("---- {} -----\n{}", Color::Green.paint("Ourput"), output);
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
 
         println!("{}", input.display());
 
@@ -296,7 +296,7 @@ fn projects(input: PathBuf) {
 
         let output = print(cm, &[output_module], false, false);
 
-        eprintln!("---- {} -----\n{}", Color::Green.paint("Ourput"), output);
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
 
         println!("{}", input.display());
 
@@ -348,7 +348,7 @@ fn fixture(input: PathBuf) {
 
         let output = print(cm.clone(), &[output_module.clone()], false, false);
 
-        eprintln!("---- {} -----\n{}", Color::Green.paint("Ourput"), output);
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
 
         let expected = {
             let expected = read_to_string(&dir.join("output.js")).unwrap();
