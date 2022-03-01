@@ -692,7 +692,11 @@ where
         }
     }
 
-    fn emit_list_values(&mut self, nodes: &[Value], format: ListFormat) -> Result {
+    fn emit_list_of_component_values(
+        &mut self,
+        nodes: &[ComponentValue],
+        format: ListFormat,
+    ) -> Result {
         let iter = nodes.iter();
         let len = nodes.len();
 
@@ -701,25 +705,25 @@ where
 
             if idx != len - 1 {
                 let need_delim = match node {
-                    Value::SimpleBlock(_)
-                    | Value::Function(_)
-                    | Value::Color(Color::Function(_))
-                    | Value::Delimiter(_)
-                    | Value::Str(_)
-                    | Value::Url(_)
-                    | Value::Percentage(_) => match nodes.get(idx + 1) {
-                        Some(Value::Delimiter(Delimiter {
+                    ComponentValue::SimpleBlock(_)
+                    | ComponentValue::Function(_)
+                    | ComponentValue::Color(Color::Function(_))
+                    | ComponentValue::Delimiter(_)
+                    | ComponentValue::Str(_)
+                    | ComponentValue::Url(_)
+                    | ComponentValue::Percentage(_) => match nodes.get(idx + 1) {
+                        Some(ComponentValue::Delimiter(Delimiter {
                             value: DelimiterValue::Comma,
                             ..
                         })) => false,
                         _ => !self.config.minify,
                     },
-                    Value::Ident(_) => match nodes.get(idx + 1) {
-                        Some(Value::SimpleBlock(_))
-                        | Some(Value::Color(Color::HexColor(_)))
-                        | Some(Value::Str(_)) => !self.config.minify,
-                        Some(Value::Delimiter(_)) => false,
-                        Some(Value::Number(n)) => {
+                    ComponentValue::Ident(_) => match nodes.get(idx + 1) {
+                        Some(ComponentValue::SimpleBlock(_))
+                        | Some(ComponentValue::Color(Color::HexColor(_)))
+                        | Some(ComponentValue::Str(_)) => !self.config.minify,
+                        Some(ComponentValue::Delimiter(_)) => false,
+                        Some(ComponentValue::Number(n)) => {
                             if self.config.minify {
                                 let minified = minify_numeric(n.value);
 
@@ -728,7 +732,7 @@ where
                                 true
                             }
                         }
-                        Some(Value::Dimension(dimension)) => {
+                        Some(ComponentValue::Dimension(dimension)) => {
                             if self.config.minify {
                                 let value = match dimension {
                                     Dimension::Length(i) => i.value.value,
@@ -750,10 +754,9 @@ where
                         _ => true,
                     },
                     _ => match nodes.get(idx + 1) {
-                        Some(Value::SimpleBlock(_)) | Some(Value::Color(Color::HexColor(_))) => {
-                            !self.config.minify
-                        }
-                        Some(Value::Delimiter(_)) => false,
+                        Some(ComponentValue::SimpleBlock(_))
+                        | Some(ComponentValue::Color(Color::HexColor(_))) => !self.config.minify,
+                        Some(ComponentValue::Delimiter(_)) => false,
                         _ => true,
                     },
                 };
@@ -771,35 +774,11 @@ where
     fn emit_function(&mut self, n: &Function) -> Result {
         emit!(self, n.name);
         punct!(self, "(");
-        self.emit_list_values(
+        self.emit_list_of_component_values(
             &n.value,
             ListFormat::SpaceDelimited | ListFormat::SingleLine,
         )?;
         punct!(self, ")");
-    }
-
-    #[emitter]
-    fn emit_value(&mut self, n: &Value) -> Result {
-        match n {
-            Value::ComponentValue(n) => emit!(self, n),
-            Value::Function(n) => emit!(self, n),
-            Value::SimpleBlock(n) => emit!(self, n),
-            Value::Dimension(n) => emit!(self, n),
-            Value::Integer(n) => emit!(self, n),
-            Value::Number(n) => emit!(self, n),
-            Value::Percentage(n) => emit!(self, n),
-            Value::Ratio(n) => emit!(self, n),
-            Value::Color(n) => emit!(self, n),
-            Value::Ident(n) => emit!(self, n),
-            Value::DashedIdent(n) => emit!(self, n),
-            Value::Str(n) => emit!(self, n),
-            Value::CalcSum(n) => emit!(self, n),
-            Value::Url(n) => emit!(self, n),
-            Value::Delimiter(n) => emit!(self, n),
-            Value::UnicodeRange(n) => emit!(self, n),
-            Value::ComplexSelector(n) => emit!(self, n),
-            Value::PreservedToken(n) => emit!(self, n),
-        }
     }
 
     #[emitter]
@@ -941,11 +920,11 @@ where
                     }
                     DeclarationOrAtRule::Invalid(_) => {}
                 },
-                ComponentValue::Value(_) => {
-                    if ending == ']' && idx != len - 1 {
-                        space!(self);
-                    }
-                }
+                // ComponentValue::Value(_) => {
+                //     if ending == ']' && idx != len - 1 {
+                //         space!(self);
+                //     }
+                // }
                 _ => {}
             }
         }
@@ -959,11 +938,27 @@ where
             ComponentValue::PreservedToken(n) => emit!(self, n),
             ComponentValue::Function(n) => emit!(self, n),
             ComponentValue::SimpleBlock(n) => emit!(self, n),
+
             ComponentValue::StyleBlock(n) => emit!(self, n),
             ComponentValue::DeclarationOrAtRule(n) => emit!(self, n),
             ComponentValue::Rule(n) => emit!(self, n),
-            ComponentValue::Value(n) => emit!(self, n),
             ComponentValue::KeyframeBlock(n) => emit!(self, n),
+
+            ComponentValue::Ident(n) => emit!(self, n),
+            ComponentValue::DashedIdent(n) => emit!(self, n),
+            ComponentValue::Str(n) => emit!(self, n),
+            ComponentValue::Url(n) => emit!(self, n),
+            ComponentValue::Integer(n) => emit!(self, n),
+            ComponentValue::Number(n) => emit!(self, n),
+            ComponentValue::Percentage(n) => emit!(self, n),
+            ComponentValue::Dimension(n) => emit!(self, n),
+            ComponentValue::Ratio(n) => emit!(self, n),
+            ComponentValue::UnicodeRange(n) => emit!(self, n),
+            ComponentValue::Color(n) => emit!(self, n),
+            ComponentValue::Delimiter(n) => emit!(self, n),
+
+            ComponentValue::CalcSum(n) => emit!(self, n),
+            ComponentValue::ComplexSelector(n) => emit!(self, n),
         }
     }
 
@@ -1015,7 +1010,7 @@ where
         if is_custom_property {
             self.emit_list(&n.value, ListFormat::NotDelimited)?;
         } else {
-            self.emit_list_values(
+            self.emit_list_of_component_values(
                 &n.value,
                 ListFormat::SpaceDelimited | ListFormat::SingleLine,
             )?;
