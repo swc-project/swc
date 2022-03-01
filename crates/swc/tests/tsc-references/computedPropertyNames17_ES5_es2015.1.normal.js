@@ -1,17 +1,17 @@
 // @target: es5
 var b;
-var tmp = b, tmp1 = true, tmp2 = [], tmp3 = {}, tmp4 = undefined, tmp5 = null;
+let _b = b, _undefined = undefined;
 class C {
-    get [tmp]() {
+    get [_b]() {
         return 0;
     }
-    static set [tmp1](v) {}
-    get [tmp2]() {
+    static set [true](v) {}
+    get [[]]() {
         return 0;
     }
-    set [tmp3](v) {}
-    static get [tmp4]() {
+    set [{}](v) {}
+    static get [_undefined]() {
         return 0;
     }
-    set [tmp5](v) {}
+    set [null](v) {}
 }

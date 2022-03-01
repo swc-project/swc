@@ -19,7 +19,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 }
 // @target: es6
 var b;
-var tmp = b, tmp1 = true, tmp2 = [], tmp3 = {}, tmp4 = undefined, tmp5 = null;
+var _b = b, _undefined = undefined;
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -27,28 +27,28 @@ var C = /*#__PURE__*/ function() {
     }
     _createClass(C, [
         {
-            key: tmp,
+            key: _b,
             value: function value() {}
         },
         {
-            key: tmp2,
+            key: [],
             value: function value() {}
         },
         {
-            key: tmp4,
+            key: _undefined,
             value: function value() {}
         }
     ], [
         {
-            key: tmp1,
+            key: true,
             value: function value() {}
         },
         {
-            key: tmp3,
+            key: {},
             value: function value() {}
         },
         {
-            key: tmp5,
+            key: null,
             value: function value() {}
         }
     ]);

@@ -17,7 +17,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var tmp = Symbol.hasInstance, tmp1 = Symbol.hasInstance;
+var _hasInstance = Symbol.hasInstance, _hasInstance1 = Symbol.hasInstance;
 var C = //@target: ES6
 /*#__PURE__*/ function() {
     "use strict";
@@ -26,13 +26,13 @@ var C = //@target: ES6
     }
     _createClass(C, [
         {
-            key: tmp,
+            key: _hasInstance,
             get: function get() {
                 return "";
             }
         },
         {
-            key: tmp1,
+            key: _hasInstance1,
             set: // Should take a string
             function set(x) {}
         }

@@ -6,7 +6,7 @@ function _defineProperties(target, props) {
     }
 }
 !function(M1) {
-    var tmp = Symbol.toPrimitive, tmp1 = Symbol.isConcatSpreadable, tmp2 = Symbol.toPrimitive, tmp3 = Symbol.toPrimitive, C = function() {
+    var _toPrimitive = Symbol.toPrimitive, _isConcatSpreadable = Symbol.isConcatSpreadable, _toPrimitive1 = Symbol.toPrimitive, _toPrimitive2 = Symbol.toPrimitive, C = function() {
         "use strict";
         var Constructor, protoProps, staticProps;
         function C() {
@@ -16,19 +16,19 @@ function _defineProperties(target, props) {
         }
         return Constructor = C, protoProps = [
             {
-                key: tmp,
+                key: _toPrimitive,
                 value: function(x) {}
             },
             {
-                key: tmp1,
+                key: _isConcatSpreadable,
                 value: function() {}
             },
             {
-                key: tmp2,
+                key: _toPrimitive1,
                 get: function() {}
             },
             {
-                key: tmp3,
+                key: _toPrimitive2,
                 set: function(x) {}
             }
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;

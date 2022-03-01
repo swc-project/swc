@@ -47,26 +47,23 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
+var _bar, _class;
 // @target: es2015
-var C = function() {
-    var bar = function bar() {};
-    var _bar = new WeakSet();
-    var _class = /*#__PURE__*/ function() {
-        "use strict";
-        function _class() {
-            _classCallCheck(this, _class);
-            _classPrivateMethodInit(this, _bar);
-        }
-        _createClass(_class, [
-            {
-                key: "foo",
-                value: function foo() {
-                    _classPrivateFieldSet(this, _bar, console.log("should log this then throw"));
-                }
+var C = (_bar = new WeakSet(), _class = /*#__PURE__*/ function() {
+    "use strict";
+    function _class1() {
+        _classCallCheck(this, _class1);
+        _classPrivateMethodInit(this, _bar);
+    }
+    _createClass(_class1, [
+        {
+            key: "foo",
+            value: function foo() {
+                _classPrivateFieldSet(this, _bar, console.log("should log this then throw"));
             }
-        ]);
-        return _class;
-    }();
-    return _class;
-}();
+        }
+    ]);
+    return _class1;
+}(), _class);
 console.log(new C().foo());
+function bar() {}

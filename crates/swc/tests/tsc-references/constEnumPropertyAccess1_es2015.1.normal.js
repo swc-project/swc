@@ -16,11 +16,10 @@ var o = {
 var a = 1;
 var a1 = 1;
 var g = o[1];
-var tmp = 1, tmp1 = 2, tmp2 = 2;
 class C {
-    [tmp]() {}
-    get [tmp1]() {
+    [1]() {}
+    get [2]() {
         return true;
     }
-    set [tmp2](x) {}
+    set [2](x) {}
 }

@@ -18,7 +18,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     return Constructor;
 }
 var _key;
-var tmp = (_key = Symbol.iterator, Symbol.toPrimitive), tmp1 = Symbol.toStringTag;
+var tmp = (_key = Symbol.iterator, Symbol.toPrimitive), _toStringTag = Symbol.toStringTag;
 var C = //@target: ES6
 /*#__PURE__*/ function() {
     "use strict";
@@ -32,7 +32,7 @@ var C = //@target: ES6
             value: function value() {}
         },
         {
-            key: tmp1,
+            key: _toStringTag,
             get: function get() {
                 return 0;
             }

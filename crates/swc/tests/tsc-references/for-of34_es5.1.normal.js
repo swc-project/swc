@@ -17,7 +17,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var tmp = Symbol.iterator;
+var _iterator = Symbol.iterator;
 var StringIterator = //@target: ES6
 //@noImplicitAny: true
 /*#__PURE__*/ function() {
@@ -33,7 +33,7 @@ var StringIterator = //@target: ES6
             }
         },
         {
-            key: tmp,
+            key: _iterator,
             value: function value() {
                 return this;
             }
@@ -43,7 +43,7 @@ var StringIterator = //@target: ES6
 }();
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
-    for(var _iterator = (new StringIterator)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
+    for(var _iterator1 = (new StringIterator)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator1.next()).done); _iteratorNormalCompletion = true){
         var v = _step.value;
     }
 } catch (err) {
@@ -51,8 +51,8 @@ try {
     _iteratorError = err;
 } finally{
     try {
-        if (!_iteratorNormalCompletion && _iterator.return != null) {
-            _iterator.return();
+        if (!_iteratorNormalCompletion && _iterator1.return != null) {
+            _iterator1.return();
         }
     } finally{
         if (_didIteratorError) {

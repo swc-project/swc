@@ -20,7 +20,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 // @target: es5
 var methodName = "method";
 var accessorName = "accessor";
-var tmp = methodName, tmp1 = methodName, tmp2 = accessorName, tmp3 = accessorName, tmp4 = accessorName, tmp5 = accessorName;
+var _methodName = methodName, _methodName1 = methodName, _accessorName = accessorName, _accessorName1 = accessorName, _accessorName2 = accessorName, _accessorName3 = accessorName;
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -28,28 +28,28 @@ var C = /*#__PURE__*/ function() {
     }
     _createClass(C, [
         {
-            key: tmp,
+            key: _methodName,
             value: function value() {}
         },
         {
-            key: tmp2,
+            key: _accessorName,
             get: function get() {}
         },
         {
-            key: tmp3,
+            key: _accessorName1,
             set: function set(v) {}
         }
     ], [
         {
-            key: tmp1,
+            key: _methodName1,
             value: function value() {}
         },
         {
-            key: tmp4,
+            key: _accessorName2,
             get: function get() {}
         },
         {
-            key: tmp5,
+            key: _accessorName3,
             set: function set(v) {}
         }
     ]);

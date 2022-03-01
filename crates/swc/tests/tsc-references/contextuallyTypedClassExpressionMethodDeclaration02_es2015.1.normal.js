@@ -1,5 +1,5 @@
 function getFoo1() {
-    return class _class {
+    return class {
         method1(arg) {
             arg.numProp = 10;
         }
@@ -9,7 +9,7 @@ function getFoo1() {
     };
 }
 function getFoo2() {
-    return class _class {
+    return class {
         constructor(){
             this.method1 = (arg)=>{
                 arg.numProp = 10;
@@ -21,7 +21,7 @@ function getFoo2() {
     };
 }
 function getFoo3() {
-    return class _class {
+    return class {
         constructor(){
             this.method1 = function(arg) {
                 arg.numProp = 10;

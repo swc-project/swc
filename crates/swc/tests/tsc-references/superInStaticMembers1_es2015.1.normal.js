@@ -11,7 +11,7 @@ class _class {
 export { _class as default };
 class C extends B {
 }
-var __ = {
+var __32 = {
     writable: true,
     value: (()=>{
         var { Reflect  } = {
@@ -400,37 +400,30 @@ var __30 = {
         super.w();
     })()
 };
-(function() {
-    class Reflect {
-    }
-    var __ = {
-        writable: true,
-        value: (()=>{
-            class C1 extends B {
-            }
-            C1._ = super.w();
-        })()
-    };
-    return Reflect;
-})();
-(function() {
-    class Reflect {
-    }
-    var __ = {
-        writable: true,
-        value: (()=>{
-            class C extends B {
-            }
-            var __ = {
-                writable: true,
-                value: (()=>{
-                    super.w();
-                })()
-            };
-        })()
-    };
-    return Reflect;
-})();
+_Reflect = class Reflect {
+}, __ = {
+    writable: true,
+    value: (()=>{
+        class C1 extends B {
+        }
+        C1._ = super.w();
+    })()
+}, _Reflect;
+_Reflect = class Reflect {
+}, __ = {
+    writable: true,
+    value: (()=>{
+        var _Reflect, __;
+        class C extends B {
+        }
+        var __33 = {
+            writable: true,
+            value: (()=>{
+                super.w();
+            })()
+        };
+    })()
+}, _Reflect;
 (function Reflect() {}); // no collision
 class C extends B {
 }
@@ -450,9 +443,10 @@ var __31 = {
     C2._ = super.w();
 });
 (function Reflect() {
+    var _Reflect, __;
     class C extends B {
     }
-    var __ = {
+    var __34 = {
         writable: true,
         value: (()=>{
             super.w();
