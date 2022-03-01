@@ -1,9 +1,9 @@
 var _key;
-var tmp = (_key = Symbol.iterator, Symbol.toPrimitive), tmp1 = Symbol.toStringTag;
+let tmp = (_key = Symbol.iterator, Symbol.toPrimitive), _toStringTag = Symbol.toStringTag;
 //@target: ES6
 class C {
     [tmp]() {}
-    get [tmp1]() {
+    get [_toStringTag]() {
         return 0;
     }
     constructor(){

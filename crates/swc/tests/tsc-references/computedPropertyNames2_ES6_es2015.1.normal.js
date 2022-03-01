@@ -1,12 +1,12 @@
 // @target: es6
 var methodName = "method";
 var accessorName = "accessor";
-var tmp = methodName, tmp1 = methodName, tmp2 = accessorName, tmp3 = accessorName, tmp4 = accessorName, tmp5 = accessorName;
+let _methodName = methodName, _methodName1 = methodName, _accessorName = accessorName, _accessorName1 = accessorName, _accessorName2 = accessorName, _accessorName3 = accessorName;
 class C {
-    [tmp]() {}
-    static [tmp1]() {}
-    get [tmp2]() {}
-    set [tmp3](v) {}
-    static get [tmp4]() {}
-    static set [tmp5](v) {}
+    [_methodName]() {}
+    static [_methodName1]() {}
+    get [_accessorName]() {}
+    set [_accessorName1](v) {}
+    static get [_accessorName2]() {}
+    static set [_accessorName3](v) {}
 }

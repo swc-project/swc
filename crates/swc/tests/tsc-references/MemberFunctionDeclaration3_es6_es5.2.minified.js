@@ -5,7 +5,7 @@ function _defineProperties(target, props) {
     }
 }
 import regeneratorRuntime from "regenerator-runtime";
-var tmp = foo, C = function() {
+var _foo = foo, C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
@@ -15,7 +15,7 @@ var tmp = foo, C = function() {
     }
     return Constructor = C, protoProps = [
         {
-            key: tmp,
+            key: _foo,
             value: regeneratorRuntime.mark(function value() {
                 return regeneratorRuntime.wrap(function(_ctx) {
                     for(;;)switch(_ctx.prev = _ctx.next){

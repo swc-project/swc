@@ -1,8 +1,8 @@
-var tmp = Symbol.iterator;
+let _iterator = Symbol.iterator;
 //@target: ES6
 //@noImplicitAny: true
 class StringIterator {
-    [tmp]() {
+    [_iterator]() {
         return v;
     }
 }

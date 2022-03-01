@@ -48,7 +48,7 @@ function foo() {
         s[_key] = arguments[_key];
     }
 }
-var tmp = Symbol.iterator;
+var _iterator = Symbol.iterator;
 var SymbolIterator = /*#__PURE__*/ function() {
     "use strict";
     function SymbolIterator() {
@@ -65,7 +65,7 @@ var SymbolIterator = /*#__PURE__*/ function() {
             }
         },
         {
-            key: tmp,
+            key: _iterator,
             value: function value() {
                 return this;
             }
@@ -73,7 +73,7 @@ var SymbolIterator = /*#__PURE__*/ function() {
     ]);
     return SymbolIterator;
 }();
-var tmp1 = Symbol.iterator;
+var _iterator1 = Symbol.iterator;
 var _StringIterator = /*#__PURE__*/ function() {
     "use strict";
     function _StringIterator() {
@@ -90,7 +90,7 @@ var _StringIterator = /*#__PURE__*/ function() {
             }
         },
         {
-            key: tmp1,
+            key: _iterator1,
             value: function value() {
                 return this;
             }

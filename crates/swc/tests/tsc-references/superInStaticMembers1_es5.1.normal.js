@@ -96,7 +96,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-var __ = {
+var __32 = {
     writable: true,
     value: function() {
         var Reflect = {
@@ -815,63 +815,52 @@ var __30 = {
         _superprop_get_w().call(_this);
     }()
 };
-(function() {
-    var _this1 = this, _superprop_get_w1 = ()=>super.w
-    ;
-    var Reflect = function Reflect() {
-        "use strict";
-        _classCallCheck(this, Reflect);
-    };
-    var __ = {
-        writable: true,
-        value: function() {
-            var C = /*#__PURE__*/ function(B) {
-                "use strict";
-                _inherits(C, B);
-                var _super = _createSuper(C);
-                function C() {
-                    _classCallCheck(this, C);
-                    return _super.apply(this, arguments);
-                }
-                return C;
-            }(B);
-            C._ = _superprop_get_w1().call(_this1);
-        }()
-    };
-    return Reflect;
-})();
-(function() {
-    var _this3 = this, _superprop_get_w3 = ()=>super.w
-    ;
-    var Reflect = function Reflect() {
-        "use strict";
-        _classCallCheck(this, Reflect);
-    };
-    var __ = {
-        writable: true,
-        value: function() {
-            var _this2 = _this3, _superprop_get_w2 = ()=>_superprop_get_w3()
-            ;
-            var C = /*#__PURE__*/ function(B) {
-                "use strict";
-                _inherits(C, B);
-                var _super = _createSuper(C);
-                function C() {
-                    _classCallCheck(this, C);
-                    return _super.apply(this, arguments);
-                }
-                return C;
-            }(B);
-            var __ = {
-                writable: true,
-                value: function() {
-                    _superprop_get_w2().call(_this2);
-                }()
-            };
-        }()
-    };
-    return Reflect;
-})();
+_Reflect = function Reflect() {
+    "use strict";
+    _classCallCheck(this, Reflect);
+}, __ = {
+    writable: true,
+    value: (function() {
+        var C = /*#__PURE__*/ function(B) {
+            "use strict";
+            _inherits(C, B);
+            var _super = _createSuper(C);
+            function C() {
+                _classCallCheck(this, C);
+                return _super.apply(this, arguments);
+            }
+            return C;
+        }(B);
+        C._ = _superprop_get_w().call(_this);
+    })()
+}, _Reflect;
+_Reflect = function Reflect() {
+    "use strict";
+    _classCallCheck(this, Reflect);
+}, __ = {
+    writable: true,
+    value: (function() {
+        var _this1 = _this, _superprop_get_w1 = ()=>_superprop_get_w()
+        ;
+        var _Reflect, __;
+        var C = /*#__PURE__*/ function(B) {
+            "use strict";
+            _inherits(C, B);
+            var _super = _createSuper(C);
+            function C() {
+                _classCallCheck(this, C);
+                return _super.apply(this, arguments);
+            }
+            return C;
+        }(B);
+        var __33 = {
+            writable: true,
+            value: function() {
+                _superprop_get_w1().call(_this1);
+            }()
+        };
+    })()
+}, _Reflect;
 (function Reflect() {}); // no collision
 var C = /*#__PURE__*/ function(B) {
     "use strict";
@@ -915,8 +904,9 @@ var __31 = {
     C._ = super.w();
 });
 (function Reflect() {
-    var _this4 = this, _superprop_get_w4 = ()=>super.w
+    var _this2 = this, _superprop_get_w2 = ()=>super.w
     ;
+    var _Reflect, __;
     var C = /*#__PURE__*/ function(B) {
         "use strict";
         _inherits(C, B);
@@ -927,10 +917,10 @@ var __31 = {
         }
         return C;
     }(B);
-    var __ = {
+    var __34 = {
         writable: true,
         value: function() {
-            _superprop_get_w4().call(_this4);
+            _superprop_get_w2().call(_this2);
         }()
     };
 });

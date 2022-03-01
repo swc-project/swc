@@ -18,7 +18,6 @@ function _createClass(Constructor, protoProps, staticProps) {
     return Constructor;
 }
 var _key;
-var tmp = "bar";
 var C1 = // @target: esnext, es2022, es2015
 // @useDefineForClassFields: true
 // @noTypesAndSymbols: true
@@ -30,7 +29,7 @@ var C1 = // @target: esnext, es2022, es2015
     }
     _createClass(C1, [
         {
-            key: tmp,
+            key: "bar",
             value: function value() {}
         }
     ]);
@@ -40,7 +39,6 @@ var _qux = {
     writable: true,
     value: 42
 };
-var tmp1 = "bar";
 var C2 = /*#__PURE__*/ function() {
     "use strict";
     function C2() {
@@ -48,7 +46,7 @@ var C2 = /*#__PURE__*/ function() {
     }
     _createClass(C2, null, [
         {
-            key: tmp1,
+            key: "bar",
             value: function value() {}
         }
     ]);

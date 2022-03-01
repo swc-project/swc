@@ -4,7 +4,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var s, n, a, tmp = s, tmp1 = n, tmp2 = s + s, tmp3 = s + n, tmp4 = +s, tmp5 = a, tmp6 = "hello ".concat(a, " bye"), C = function() {
+var s, n, a, _s = s, _n = n, tmp = s + s, tmp1 = s + n, tmp2 = +s, _a = a, tmp3 = "hello ".concat(a, " bye"), C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
@@ -14,7 +14,11 @@ var s, n, a, tmp = s, tmp1 = n, tmp2 = s + s, tmp3 = s + n, tmp4 = +s, tmp5 = a,
     }
     return Constructor = C, protoProps = [
         {
-            key: tmp,
+            key: _s,
+            value: function() {}
+        },
+        {
+            key: _n,
             value: function() {}
         },
         {
@@ -22,11 +26,7 @@ var s, n, a, tmp = s, tmp1 = n, tmp2 = s + s, tmp3 = s + n, tmp4 = +s, tmp5 = a,
             value: function() {}
         },
         {
-            key: tmp3,
-            value: function() {}
-        },
-        {
-            key: tmp4,
+            key: tmp2,
             value: function() {}
         },
         {
@@ -34,7 +34,7 @@ var s, n, a, tmp = s, tmp1 = n, tmp2 = s + s, tmp3 = s + n, tmp4 = +s, tmp5 = a,
             value: function() {}
         },
         {
-            key: tmp5,
+            key: _a,
             value: function() {}
         },
         {
@@ -43,7 +43,7 @@ var s, n, a, tmp = s, tmp1 = n, tmp2 = s + s, tmp3 = s + n, tmp4 = +s, tmp5 = a,
         }
     ], staticProps = [
         {
-            key: tmp2,
+            key: tmp,
             value: function() {}
         },
         {
@@ -55,7 +55,7 @@ var s, n, a, tmp = s, tmp1 = n, tmp2 = s + s, tmp3 = s + n, tmp4 = +s, tmp5 = a,
             value: function() {}
         },
         {
-            key: tmp6,
+            key: tmp3,
             value: function() {}
         }
     ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;

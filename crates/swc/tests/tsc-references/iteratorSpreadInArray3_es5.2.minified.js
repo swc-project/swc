@@ -26,7 +26,7 @@ function _unsupportedIterableToArray(o, minLen) {
         if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
     }
 }
-var tmp = Symbol.iterator, SymbolIterator = function() {
+var _iterator = Symbol.iterator, SymbolIterator = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function SymbolIterator() {
@@ -45,7 +45,7 @@ var tmp = Symbol.iterator, SymbolIterator = function() {
             }
         },
         {
-            key: tmp,
+            key: _iterator,
             value: function() {
                 return this;
             }

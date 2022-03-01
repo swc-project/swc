@@ -8,7 +8,7 @@ const { A  } = require("./a-ext");
     p.x;
 }
 // @filename: b-ext.js
-exports.B = class _class {
+exports.B = class {
     constructor(){
         this.x = 1;
     }

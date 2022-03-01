@@ -10,6 +10,7 @@ pub mod class_properties;
 pub mod private_in_object;
 pub mod static_blocks;
 
+#[tracing::instrument(level = "trace", skip_all)]
 pub fn es2022(config: Config) -> impl Fold {
     chain!(
         static_blocks(),

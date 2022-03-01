@@ -1,7 +1,7 @@
-var tmp = Symbol.toStringTag;
+let _toStringTag = Symbol.toStringTag;
 //@target: ES6
 class C1 extends C2 {
-    [tmp]() {
+    [_toStringTag]() {
         return {
             x: ""
         };

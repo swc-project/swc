@@ -4,7 +4,7 @@
 // @outDir: ./out
 // @declaration: true
 // @filename: index.js
-module.exports = class _class {
+module.exports = class {
     /**
      * @param {number} p
      */ constructor(p){

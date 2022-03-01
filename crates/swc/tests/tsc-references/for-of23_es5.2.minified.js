@@ -10,7 +10,7 @@ function _defineProperties(target, props) {
 var Foo = function() {
     "use strict";
     _classCallCheck(this, Foo);
-}, tmp = Symbol.iterator, FooIterator = function() {
+}, _iterator = Symbol.iterator, FooIterator = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function FooIterator() {
@@ -27,7 +27,7 @@ var Foo = function() {
             }
         },
         {
-            key: tmp,
+            key: _iterator,
             value: function() {
                 return this;
             }
@@ -35,12 +35,12 @@ var Foo = function() {
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), FooIterator;
 }(), _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
 try {
-    for(var _step, _iterator = (new FooIterator)[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0)_step.value;
+    for(var _step, _iterator1 = (new FooIterator)[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator1.next()).done); _iteratorNormalCompletion = !0)_step.value;
 } catch (err) {
     _didIteratorError = !0, _iteratorError = err;
 } finally{
     try {
-        _iteratorNormalCompletion || null == _iterator.return || _iterator.return();
+        _iteratorNormalCompletion || null == _iterator1.return || _iterator1.return();
     } finally{
         if (_didIteratorError) throw _iteratorError;
     }

@@ -1,14 +1,14 @@
 //@target: ES6
 var symbol = Symbol.for('myThing');
-var tmp = symbol;
+let _symbol = symbol;
 class Foo {
-    [tmp]() {
+    [_symbol]() {
         return 0;
     }
 }
-var tmp1 = symbol;
+let _symbol1 = symbol;
 class Bar extends Foo {
-    [tmp1]() {
+    [_symbol1]() {
         return super[Bar]();
     }
 }

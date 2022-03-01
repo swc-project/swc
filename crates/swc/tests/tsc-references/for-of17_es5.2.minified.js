@@ -4,7 +4,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var tmp = Symbol.iterator, NumberIterator = function() {
+var _iterator = Symbol.iterator, NumberIterator = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function NumberIterator() {
@@ -23,7 +23,7 @@ var tmp = Symbol.iterator, NumberIterator = function() {
             }
         },
         {
-            key: tmp,
+            key: _iterator,
             value: function() {
                 return this;
             }
@@ -31,13 +31,13 @@ var tmp = Symbol.iterator, NumberIterator = function() {
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), NumberIterator;
 }(), _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
 try {
-    for(var _step, _iterator = (new NumberIterator)[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0)_step.value;
+    for(var _step, _iterator1 = (new NumberIterator)[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator1.next()).done); _iteratorNormalCompletion = !0)_step.value;
      // Should succeed
 } catch (err) {
     _didIteratorError = !0, _iteratorError = err;
 } finally{
     try {
-        _iteratorNormalCompletion || null == _iterator.return || _iterator.return();
+        _iteratorNormalCompletion || null == _iterator1.return || _iterator1.return();
     } finally{
         if (_didIteratorError) throw _iteratorError;
     }

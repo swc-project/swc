@@ -1,10 +1,10 @@
-var tmp = Symbol.hasInstance, tmp1 = Symbol.hasInstance;
+let _hasInstance = Symbol.hasInstance, _hasInstance1 = Symbol.hasInstance;
 //@target: ES6
 class C {
-    get [tmp]() {
+    get [_hasInstance]() {
         return "";
     }
-    get [tmp1]() {
+    get [_hasInstance1]() {
         return "";
     }
 }

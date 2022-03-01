@@ -5,7 +5,8 @@ use serde::{Deserialize, Serialize};
 use crate::rules::{
     at_rule_no_unknown::AtRuleNoUnknownConfig, color_hex_length::ColorHexLengthConfig,
     no_invalid_position_at_import_rule::NoInvalidPositionAtImportRuleConfig,
-    selector_max_class::SelectorMaxClassConfig, unit_no_unknown::UnitNoUnknownConfig,
+    selector_max_class::SelectorMaxClassConfig,
+    selector_max_combinators::SelectorMaxCombinatorsConfig, unit_no_unknown::UnitNoUnknownConfig,
 };
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
@@ -99,6 +100,9 @@ pub struct RulesConfig {
 
     #[serde(default, alias = "unitNoUnknown")]
     pub unit_no_unknown: RuleConfig<UnitNoUnknownConfig>,
+
+    #[serde(default, alias = "selectorMaxCombinators")]
+    pub selector_max_combinators: RuleConfig<SelectorMaxCombinatorsConfig>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

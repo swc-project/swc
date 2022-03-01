@@ -1,6 +1,6 @@
 //@target: ES6
 function foo(...s) {}
-var tmp = Symbol.iterator;
+let _iterator = Symbol.iterator;
 class SymbolIterator {
     next() {
         return {
@@ -8,11 +8,11 @@ class SymbolIterator {
             done: false
         };
     }
-    [tmp]() {
+    [_iterator]() {
         return this;
     }
 }
-var tmp1 = Symbol.iterator;
+let _iterator1 = Symbol.iterator;
 class _StringIterator {
     next() {
         return {
@@ -20,7 +20,7 @@ class _StringIterator {
             done: false
         };
     }
-    [tmp1]() {
+    [_iterator1]() {
         return this;
     }
 }

@@ -3,10 +3,9 @@ class Foo {
 }
 class Foo2 {
 }
-var tmp = "";
 class C {
     // Computed properties
-    static [tmp]() {
+    static [""]() {
         return new Foo;
     }
 }

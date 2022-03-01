@@ -1,5 +1,3 @@
-(function() {
-    class Foo {
-    }
-    return console.log(Foo.prop), Foo.prop++, console.log(Foo.prop), Foo.prop++, console.log(Foo.prop), Foo.prop++, Foo;
-})().prop = 1;
+var _Foo;
+(_Foo = class {
+}, console.log(_Foo.prop), _Foo.prop++, console.log(_Foo.prop), _Foo.prop++, console.log(_Foo.prop), _Foo.prop++, _Foo).prop = 1;
