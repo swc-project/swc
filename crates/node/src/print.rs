@@ -62,7 +62,7 @@ pub fn print(
     options: Buffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<PrintTask>> {
-    crate::util::init_trace_once(false, None)?;
+    crate::util::init_default_trace_subscriber();
 
     let c = get_compiler();
     let options = String::from_utf8_lossy(&options).to_string();
@@ -79,7 +79,7 @@ pub fn print(
 
 #[napi]
 pub fn print_sync(program: String, options: Buffer) -> napi::Result<TransformOutput> {
-    crate::util::init_trace_once(false, None)?;
+    crate::util::init_default_trace_subscriber();
 
     let c = get_compiler();
 
