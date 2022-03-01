@@ -1778,10 +1778,12 @@ where
                 self.parse()?
             }
             _ => {
+                let span = self.input.cur_span()?;
+
                 return Err(Error::new(
                     span,
                     ErrorKind::Expected("'left', 'right', 'first' or 'blank' ident"),
-                ))
+                ));
             }
         };
 
