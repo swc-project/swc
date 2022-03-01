@@ -4,7 +4,7 @@ use swc_css_visit::{Visit, VisitWith};
 use crate::rule::{visitor_rule, LintRule, LintRuleContext};
 
 pub fn block_no_empty(ctx: LintRuleContext<()>) -> Box<dyn LintRule> {
-    visitor_rule(BlockNoEmpty { ctx })
+    visitor_rule(ctx.reaction(), BlockNoEmpty { ctx })
 }
 
 const MESSAGE: &str = "Unexpected empty block.";

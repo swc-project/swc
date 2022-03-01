@@ -12,7 +12,7 @@ pub struct UnitNoUnknownConfig {
 
 pub fn unit_no_unknown(ctx: LintRuleContext<UnitNoUnknownConfig>) -> Box<dyn LintRule> {
     let ignored_units = ctx.config().ignore_units.clone().unwrap_or_default();
-    visitor_rule(UnitNoUnknown { ctx, ignored_units })
+    visitor_rule(ctx.reaction(), UnitNoUnknown { ctx, ignored_units })
 }
 
 #[derive(Debug, Default)]

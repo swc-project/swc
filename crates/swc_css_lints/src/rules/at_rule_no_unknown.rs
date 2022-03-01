@@ -12,7 +12,7 @@ pub struct AtRuleNoUnknownConfig {
 
 pub fn at_rule_no_unknown(ctx: LintRuleContext<AtRuleNoUnknownConfig>) -> Box<dyn LintRule> {
     let ignored = ctx.config().ignore_at_rules.clone().unwrap_or_default();
-    visitor_rule(AtRuleNoUnknown { ctx, ignored })
+    visitor_rule(ctx.reaction(), AtRuleNoUnknown { ctx, ignored })
 }
 
 #[derive(Debug, Default)]

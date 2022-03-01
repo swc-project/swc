@@ -30,34 +30,21 @@ pub struct LintParams<'a> {
 }
 
 pub fn get_rules(LintParams { lint_config }: &LintParams) -> Vec<Box<dyn LintRule>> {
-    let mut rules = vec![];
     let rules_config = &lint_config.rules;
 
-    rules.push(block_no_empty((&rules_config.block_no_empty).into()));
-    rules.push(at_rule_no_unknown(
-        (&rules_config.at_rule_no_unknown).into(),
-    ));
-    rules.push(no_empty_source((&rules_config.no_empty_source).into()));
-    rules.push(declaration_no_important(
-        (&rules_config.declaration_no_important).into(),
-    ));
-    rules.push(keyframe_declaration_no_important(
-        (&rules_config.keyframe_declaration_no_important).into(),
-    ));
-    rules.push(no_invalid_position_at_import_rule(
-        (&rules_config.no_invalid_position_at_import_rule).into(),
-    ));
-    rules.push(selector_max_class(
-        (&rules_config.selector_max_class).into(),
-    ));
-    rules.push(color_hex_length((&rules_config.color_hex_length).into()));
-    rules.push(color_no_invalid_hex(
-        (&rules_config.color_no_invalid_hex).into(),
-    ));
-    rules.push(unit_no_unknown((&rules_config.unit_no_unknown).into()));
-    rules.push(selector_max_combinators(
-        (&rules_config.selector_max_combinators).into(),
-    ));
-
-    rules
+    vec![
+        block_no_empty((&rules_config.block_no_empty).into()),
+        at_rule_no_unknown((&rules_config.at_rule_no_unknown).into()),
+        no_empty_source((&rules_config.no_empty_source).into()),
+        declaration_no_important((&rules_config.declaration_no_important).into()),
+        keyframe_declaration_no_important((&rules_config.keyframe_declaration_no_important).into()),
+        no_invalid_position_at_import_rule(
+            (&rules_config.no_invalid_position_at_import_rule).into(),
+        ),
+        selector_max_class((&rules_config.selector_max_class).into()),
+        color_hex_length((&rules_config.color_hex_length).into()),
+        color_no_invalid_hex((&rules_config.color_no_invalid_hex).into()),
+        unit_no_unknown((&rules_config.unit_no_unknown).into()),
+        selector_max_combinators((&rules_config.selector_max_combinators).into()),
+    ]
 }
