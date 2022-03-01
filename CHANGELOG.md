@@ -98,6 +98,9 @@
 
 
 
+- **(css/lints)** Skip disabled rules (#3803) ([0336029](https://github.com/swc-project/swc/commit/0336029c22a8751d2acb9765f11ead79c77115dc))
+
+
 - **(plugin/runner)** Optimize `write_into_memory_view` (#3797) ([7fd0eee](https://github.com/swc-project/swc/commit/7fd0eeecb844a182fef39872178e3991356e3ae0))
 
 ### Refactor
