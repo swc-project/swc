@@ -4,7 +4,7 @@ use swc_css_visit::{Visit, VisitWith};
 use crate::rule::{visitor_rule, LintRule, LintRuleContext};
 
 pub fn no_empty_source(ctx: LintRuleContext<()>) -> Box<dyn LintRule> {
-    visitor_rule(NoEmptySource { ctx })
+    visitor_rule(ctx.reaction(), NoEmptySource { ctx })
 }
 
 const MESSAGE: &str = "Unexpected empty source.";

@@ -69,15 +69,15 @@ impl Emitter for Capturing {
     }
 }
 
-pub(crate) fn visitor_rule<V>(v: V) -> Box<dyn LintRule>
+pub(crate) fn visitor_rule<V>(reaction: LintRuleReaction, v: V) -> Box<dyn LintRule>
 where
     V: 'static + Send + Sync + Visit + Default + Debug,
 {
-    Box::new(VisitorRule(v))
+    Box::new(VisitorRule(v, reaction))
 }
 
 #[derive(Debug)]
-struct VisitorRule<V>(V)
+struct VisitorRule<V>(V, LintRuleReaction)
 where
     V: Send + Sync + Visit;
 
@@ -86,7 +86,9 @@ where
     V: Send + Sync + Visit + Debug,
 {
     fn lint_stylesheet(&mut self, stylesheet: &Stylesheet) {
-        stylesheet.visit_with(&mut self.0);
+        if !matches!(self.1, LintRuleReaction::Off) {
+            stylesheet.visit_with(&mut self.0);
+        }
     }
 }
 
@@ -122,6 +124,11 @@ where
     #[inline]
     pub(crate) fn config(&self) -> &C {
         &self.config
+    }
+
+    #[inline]
+    pub(crate) fn reaction(&self) -> LintRuleReaction {
+        self.reaction
     }
 }
 
