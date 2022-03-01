@@ -2780,14 +2780,15 @@ where
             break;
         }
 
-        vars.retain(|var| {
+        vars.retain_mut(|var| {
             if var.name.is_invalid() {
                 self.changed = true;
                 return false;
             }
 
             if let Some(Expr::Invalid(..)) = var.init.as_deref() {
-                return false;
+                var.init = None;
+                return true;
             }
 
             true
