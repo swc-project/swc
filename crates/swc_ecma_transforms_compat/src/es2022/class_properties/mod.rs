@@ -48,7 +48,7 @@ pub fn class_properties(config: Config) -> impl Fold + VisitMut {
     as_folder(ClassProperties {
         c: config,
         private: PrivateRecord::new(),
-        extra: ClassExtra::new(),
+        extra: ClassExtra::default(),
     })
 }
 
@@ -66,22 +66,15 @@ struct ClassProperties {
     private: PrivateRecord,
 }
 
-#[swc_trace]
+#[derive(Default)]
 struct ClassExtra {
     lets: Vec<VarDeclarator>,
     vars: Vec<VarDeclarator>,
     stmts: Vec<Stmt>,
 }
 
+#[swc_trace]
 impl ClassExtra {
-    fn new() -> Self {
-        Self {
-            lets: Vec::new(),
-            vars: Vec::new(),
-            stmts: Vec::new(),
-        }
-    }
-
     fn prepend_with<T: StmtLike + From<Stmt>>(self, stmts: &mut Vec<T>) {
         if !self.vars.is_empty() {
             prepend(
@@ -145,10 +138,11 @@ impl ClassExtra {
 
 impl Take for ClassExtra {
     fn dummy() -> Self {
-        Self::new()
+        Self::default()
     }
 }
 
+#[swc_trace]
 #[fast_path(ShouldWork)]
 impl VisitMut for ClassProperties {
     noop_visit_mut_type!();
