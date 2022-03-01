@@ -17,6 +17,9 @@
 - **(es/minifier)** Preserve unresolved references (#3780) ([73cab63](https://github.com/swc-project/swc/commit/73cab638a11978da9f94c886a5fafc462b1556b7))
 
 
+- **(es/minifier)** Fix optimizations of terminating expressions (#3794) ([8beaa20](https://github.com/swc-project/swc/commit/8beaa202e2a8c321a0f2266378d0f0a3ecb06c03))
+
+
 - **(es/react)** Catch refresh directives widely (#3791) ([5ae907f](https://github.com/swc-project/swc/commit/5ae907f6f21d31da708ac7237536bd6f838856c3))
 
 
@@ -54,6 +57,9 @@
 
 
 - **(es/compat)** Use sequence expressions instead of iife in `classes` pass (#3773) ([5b6beca](https://github.com/swc-project/swc/commit/5b6beca1afb7e4278629840c94c775a083288cd2))
+
+
+- **(es/compat)** Add tracing support for es2020 transforms (#3798) ([8f41d7a](https://github.com/swc-project/swc/commit/8f41d7a10e99c21dc12176ee7724f0e13ca702dd))
 
 
 - **(es/dep-graph)** Add support for `require.resolve` (#3783) ([19b84e7](https://github.com/swc-project/swc/commit/19b84e7723c381843c98df90f64e5123acdd5808))

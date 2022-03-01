@@ -44,12 +44,34 @@ where
             return;
         }
 
-        if let Expr::Assign(assign) = e {
+        if let Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) = e {
             self.optimize_in_fn_termination(&mut assign.right);
 
             // We only handle identifiers on lhs for now.
-            if let PatOrExpr::Pat(lhs) = &assign.left {
-                if let Pat::Ident(lhs) = &**lhs {
+            if let Some(lhs) = assign.left.as_ident() {
+                //
+                if self
+                    .data
+                    .as_ref()
+                    .and_then(|data| data.vars.get(&lhs.to_id()))
+                    .map(|var| var.is_fn_local && !var.declared_as_fn_param)
+                    .unwrap_or(false)
+                {
+                    tracing::debug!(
+                        "dead_code: Dropping an assignment to a variable declared in function \
+                         because function is being terminated"
+                    );
+                    self.changed = true;
+                    *e = *assign.right.take();
+                    return;
+                }
+            }
+        }
+
+        if let Expr::Assign(assign) = e {
+            // x += 1 => x + 1
+            if let Some(op) = assign.op.to_update() {
+                if let Some(lhs) = assign.left.as_ident() {
                     //
                     if self
                         .data
@@ -59,11 +81,17 @@ where
                         .unwrap_or(false)
                     {
                         tracing::debug!(
-                            "dead_code: Dropping an assignment to a variable declared in function \
-                             because function is being terminated"
+                            "dead_code: Converting an assignment into a binary expression in \
+                             function termination"
                         );
+
                         self.changed = true;
-                        *e = *assign.right.take();
+                        *e = Expr::Bin(BinExpr {
+                            span: assign.span,
+                            op,
+                            left: Box::new(Expr::Ident(lhs.clone())),
+                            right: assign.right.take(),
+                        });
                     }
                 }
             }
