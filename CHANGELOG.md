@@ -76,6 +76,9 @@
 
 - **(plugin)** Expose `swc_ecma_quote` (#3790) ([bc60a6e](https://github.com/swc-project/swc/commit/bc60a6e90ccc1adcb8d9eda9ef47725e20fbfa23))
 
+
+- **(plugin/runner)** Update `wasmer` to `v2.2` (#3788) ([99d536e](https://github.com/swc-project/swc/commit/99d536e4869df5a9cc642ed0a155683165ee93c9))
+
 ### Miscellaneous Tasks
 - **general**: Update `rustc` (#3768) ([3798436](https://github.com/swc-project/swc/commit/3798436201a0838e55beac974792f4d560b47657))
 
