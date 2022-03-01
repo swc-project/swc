@@ -349,6 +349,7 @@ drop_unused/function_argument_modified_by_function_statement/input.js
 drop_unused/iife/input.js
 drop_unused/issue_1539/input.js
 drop_unused/issue_1656/input.js
+drop_unused/issue_1715_1/input.js
 drop_unused/issue_2136_1/input.js
 drop_unused/issue_2995/input.js
 drop_unused/issue_3146_1/input.js
