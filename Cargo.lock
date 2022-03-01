@@ -2667,7 +2667,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.138.0"
+version = "0.139.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2765,7 +2765,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.12.0"
+version = "0.13.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -3156,7 +3156,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.124.0"
+version = "0.124.1"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3256,7 +3256,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.84.1"
+version = "0.84.2"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3462,7 +3462,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.57.0"
+version = "0.58.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3662,7 +3662,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.55.0"
+version = "0.56.0"
 dependencies = [
  "anyhow",
  "rayon",
