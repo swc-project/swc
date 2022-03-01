@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 352,
+    "end": 399,
     "ctxt": 0
   },
   "rules": [
@@ -594,6 +594,145 @@
                 "token": "RParen"
               }
             ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 353,
+        "end": 398,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 353,
+          "end": 359,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 353,
+              "end": 359,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 353,
+                  "end": 359,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 353,
+                      "end": 359,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 354,
+                        "end": 359,
+                        "ctxt": 0
+                      },
+                      "value": "style",
+                      "raw": "style"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 360,
+          "end": 398,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 366,
+              "end": 395,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 366,
+                "end": 376,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 378,
+                  "end": 395,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 378,
+                    "end": 381,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": [
+                  {
+                    "type": "String",
+                    "span": {
+                      "start": 382,
+                      "end": 387,
+                      "ctxt": 0
+                    },
+                    "value": "foo",
+                    "raw": "\"foo\""
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 387,
+                      "end": 388,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "String",
+                    "span": {
+                      "start": 389,
+                      "end": 394,
+                      "ctxt": 0
+                    },
+                    "value": "bar",
+                    "raw": "\"bar\""
+                  }
+                ]
+              }
+            ],
+            "important": null
           }
         ]
       }

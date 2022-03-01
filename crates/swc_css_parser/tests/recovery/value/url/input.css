@@ -12,3 +12,7 @@ div {
 .foo {
     background: url(image.png param(var(--url)));
 }
+
+.style {
+    background: url("foo", "bar");
+}

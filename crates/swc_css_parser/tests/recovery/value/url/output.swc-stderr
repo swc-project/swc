@@ -22,3 +22,9 @@ error: Expected whitespace, semicolon, EOF, at-keyword or ident token
 13 |     background: url(image.png param(var(--url)));
    |                                               ^
 
+error: Expected ident or function
+  --> $DIR/tests/recovery/value/url/input.css:17:26
+   |
+17 |     background: url("foo", "bar");
+   |                          ^
+
