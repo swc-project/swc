@@ -7,7 +7,7 @@ pub(crate) type SelectorMaxClassConfig = Option<usize>;
 
 pub fn selector_max_class(ctx: LintRuleContext<SelectorMaxClassConfig>) -> Box<dyn LintRule> {
     let max = ctx.config().unwrap_or(3);
-    visitor_rule(SelectorMaxClass { ctx, max })
+    visitor_rule(ctx.reaction(), SelectorMaxClass { ctx, max })
 }
 
 #[derive(Debug, Default)]
