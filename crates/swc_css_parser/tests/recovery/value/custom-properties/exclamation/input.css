@@ -1,0 +1,21 @@
+.class {--foo:!; }
+
+.class-1 {
+    --foo:!; 
+    color: red;
+}
+
+.class-2 {
+    color: red;
+    --foo:!;
+}
+
+.class-3 {
+    --foo: !;
+    --foo: bar;
+}
+
+.class-4 {
+    --foo: bar;
+    --foo: !;
+}
