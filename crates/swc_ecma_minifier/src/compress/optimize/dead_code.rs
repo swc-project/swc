@@ -54,7 +54,7 @@ where
                     .data
                     .as_ref()
                     .and_then(|data| data.vars.get(&lhs.to_id()))
-                    .map(|var| var.is_fn_local)
+                    .map(|var| var.is_fn_local && !var.declared_as_fn_param)
                     .unwrap_or(false)
                 {
                     tracing::debug!(
