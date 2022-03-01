@@ -14,3 +14,4 @@ swc_ecma_ast = {version = "0.68.0", path = "../swc_ecma_ast", features = ["rkyv-
 swc_ecma_visit = {version = "0.54.0", path = "../swc_ecma_visit"}
 swc_atoms = {version = "0.2.0", path = "../swc_atoms"}
 swc_plugin_macro = {version = "0.3.0", path = "../swc_plugin_macro"}
+swc_ecma_quote = { version = "0.1.1", path = "../swc_ecma_quote" }
