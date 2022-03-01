@@ -77,6 +77,9 @@
 - **(es/modules)** Support system js (#3659) ([557a520](https://github.com/swc-project/swc/commit/557a520a6d6814f79625ca0227c47fa2d42a806e))
 
 
+- **(es/parser)** Raise a syntax error on an invalid shorthand assignment (#3734) ([2aa3b21](https://github.com/swc-project/swc/commit/2aa3b2123fc73bc187099b5c4a0b1f796b0a51f4))
+
+
 - **(es/quote)** Implement quasi quoter partially (#3155) ([fe0ddcc](https://github.com/swc-project/swc/commit/fe0ddcc54b0f8343a3a3d227bde8b38fa47ebd80))
 
 
