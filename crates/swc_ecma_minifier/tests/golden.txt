@@ -274,6 +274,7 @@ dead_code/issue_2383_3/input.js
 dead_code/issue_2597/input.js
 dead_code/issue_2666/input.js
 dead_code/issue_2701/input.js
+dead_code/issue_2860_1/input.js
 dead_code/issue_2929/input.js
 dead_code/throw_assignment/input.js
 dead_code/try_catch_finally/input.js
@@ -1046,6 +1047,7 @@ reduce_vars/issue_2496/input.js
 reduce_vars/issue_2598/input.js
 reduce_vars/issue_2670/input.js
 reduce_vars/issue_2799_1/input.js
+reduce_vars/issue_2860_1/input.js
 reduce_vars/issue_2869/input.js
 reduce_vars/issue_2916/input.js
 reduce_vars/issue_2919/input.js
