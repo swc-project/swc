@@ -81,6 +81,12 @@ error: SimpleBlock
 5 | | }
   | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/function/mix/input.css:3:5
+  |
+3 |     opacity: mix( 70% by ease ; 0% ; 100% );
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/function/mix/input.css:3:5
   |
@@ -105,7 +111,7 @@ error: Ident
 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
   |     ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/mix/input.css:3:14
   |
 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
@@ -123,7 +129,7 @@ error: Ident
 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
   |              ^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/mix/input.css:3:19
   |
 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
@@ -141,7 +147,7 @@ error: Number
 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
   |                   ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/mix/input.css:3:23
   |
 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
@@ -153,7 +159,7 @@ error: Ident
 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
   |                       ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/mix/input.css:3:26
   |
 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
@@ -165,7 +171,7 @@ error: Ident
 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
   |                          ^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/mix/input.css:3:31
   |
 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
@@ -177,7 +183,7 @@ error: Delimiter
 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
   |                               ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/mix/input.css:3:33
   |
 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
@@ -195,7 +201,7 @@ error: Number
 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
   |                                 ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/mix/input.css:3:36
   |
 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
@@ -207,7 +213,7 @@ error: Delimiter
 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
   |                                    ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/mix/input.css:3:38
   |
 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
@@ -224,6 +230,12 @@ error: Number
   |
 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
   |                                      ^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/function/mix/input.css:4:5
+  |
+4 |     opacity: mix(70%;0%;100%);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: StyleBlock
  --> $DIR/tests/fixture/function/mix/input.css:4:5
@@ -249,7 +261,7 @@ error: Ident
 4 |     opacity: mix(70%;0%;100%);
   |     ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/mix/input.css:4:14
   |
 4 |     opacity: mix(70%;0%;100%);
@@ -267,7 +279,7 @@ error: Ident
 4 |     opacity: mix(70%;0%;100%);
   |              ^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/mix/input.css:4:18
   |
 4 |     opacity: mix(70%;0%;100%);
@@ -285,7 +297,7 @@ error: Number
 4 |     opacity: mix(70%;0%;100%);
   |                  ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/mix/input.css:4:21
   |
 4 |     opacity: mix(70%;0%;100%);
@@ -297,7 +309,7 @@ error: Delimiter
 4 |     opacity: mix(70%;0%;100%);
   |                     ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/mix/input.css:4:22
   |
 4 |     opacity: mix(70%;0%;100%);
@@ -315,7 +327,7 @@ error: Number
 4 |     opacity: mix(70%;0%;100%);
   |                      ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/mix/input.css:4:24
   |
 4 |     opacity: mix(70%;0%;100%);
@@ -327,7 +339,7 @@ error: Delimiter
 4 |     opacity: mix(70%;0%;100%);
   |                        ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/mix/input.css:4:25
   |
 4 |     opacity: mix(70%;0%;100%);

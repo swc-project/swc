@@ -82,6 +82,12 @@ error: SimpleBlock
 1 | a:after { content: '\invalid' }
   |         ^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:11
+  |
+1 | a:after { content: '\invalid' }
+  |           ^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:11
   |
@@ -106,7 +112,7 @@ error: Ident
 1 | a:after { content: '\invalid' }
   |           ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:20
   |
 1 | a:after { content: '\invalid' }

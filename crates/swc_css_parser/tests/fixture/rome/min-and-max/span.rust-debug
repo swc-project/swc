@@ -83,6 +83,12 @@ error: SimpleBlock
 12 | | }
    | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:2:2
+  |
+2 |     width: max(500px);
+  |     ^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/rome/min-and-max/input.css:2:2
   |
@@ -107,7 +113,7 @@ error: Ident
 2 |     width: max(500px);
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:2:9
   |
 2 |     width: max(500px);
@@ -125,7 +131,7 @@ error: Ident
 2 |     width: max(500px);
   |            ^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:2:13
   |
 2 |     width: max(500px);
@@ -185,6 +191,12 @@ error: Ident
 2 |     width: max(500px);
   |                   ^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:3:2
+  |
+3 |     width: max(500px, 6 / 4);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/rome/min-and-max/input.css:3:2
   |
@@ -209,7 +221,7 @@ error: Ident
 3 |     width: max(500px, 6 / 4);
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:3:9
   |
 3 |     width: max(500px, 6 / 4);
@@ -227,7 +239,7 @@ error: Ident
 3 |     width: max(500px, 6 / 4);
   |            ^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:3:13
   |
 3 |     width: max(500px, 6 / 4);
@@ -287,7 +299,7 @@ error: Ident
 3 |     width: max(500px, 6 / 4);
   |                   ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:3:18
   |
 3 |     width: max(500px, 6 / 4);
@@ -299,7 +311,7 @@ error: Delimiter
 3 |     width: max(500px, 6 / 4);
   |                     ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:3:20
   |
 3 |     width: max(500px, 6 / 4);
@@ -371,6 +383,12 @@ error: Number
 3 |     width: max(500px, 6 / 4);
   |                           ^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:4:2
+  |
+4 |     width: max(500px, 40px + 5%);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/rome/min-and-max/input.css:4:2
   |
@@ -395,7 +413,7 @@ error: Ident
 4 |     width: max(500px, 40px + 5%);
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:4:9
   |
 4 |     width: max(500px, 40px + 5%);
@@ -413,7 +431,7 @@ error: Ident
 4 |     width: max(500px, 40px + 5%);
   |            ^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:4:13
   |
 4 |     width: max(500px, 40px + 5%);
@@ -473,7 +491,7 @@ error: Ident
 4 |     width: max(500px, 40px + 5%);
   |                   ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:4:18
   |
 4 |     width: max(500px, 40px + 5%);
@@ -485,7 +503,7 @@ error: Delimiter
 4 |     width: max(500px, 40px + 5%);
   |                     ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:4:20
   |
 4 |     width: max(500px, 40px + 5%);
@@ -593,6 +611,12 @@ error: Number
 4 |     width: max(500px, 40px + 5%);
   |                              ^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:5:2
+  |
+5 |     width: max(500px, 5% * 400px + 2px);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/rome/min-and-max/input.css:5:2
   |
@@ -617,7 +641,7 @@ error: Ident
 5 |     width: max(500px, 5% * 400px + 2px);
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:5:9
   |
 5 |     width: max(500px, 5% * 400px + 2px);
@@ -635,7 +659,7 @@ error: Ident
 5 |     width: max(500px, 5% * 400px + 2px);
   |            ^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:5:13
   |
 5 |     width: max(500px, 5% * 400px + 2px);
@@ -695,7 +719,7 @@ error: Ident
 5 |     width: max(500px, 5% * 400px + 2px);
   |                   ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:5:18
   |
 5 |     width: max(500px, 5% * 400px + 2px);
@@ -707,7 +731,7 @@ error: Delimiter
 5 |     width: max(500px, 5% * 400px + 2px);
   |                     ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:5:20
   |
 5 |     width: max(500px, 5% * 400px + 2px);
@@ -863,6 +887,12 @@ error: Ident
 5 |     width: max(500px, 5% * 400px + 2px);
   |                                     ^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:6:2
+  |
+6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:2
   |
@@ -887,7 +917,7 @@ error: Ident
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:9
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -905,7 +935,7 @@ error: Ident
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |            ^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:13
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -965,7 +995,7 @@ error: Ident
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |                   ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:18
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -977,7 +1007,7 @@ error: Delimiter
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |                     ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:20
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -1133,7 +1163,7 @@ error: Ident
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |                                     ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:36
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -1145,7 +1175,7 @@ error: Delimiter
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |                                       ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:38
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -1301,7 +1331,7 @@ error: Ident
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |                                                       ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:54
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -1313,7 +1343,7 @@ error: Delimiter
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |                                                         ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:6:56
   |
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -1469,6 +1499,12 @@ error: Ident
 6 |     width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
   |                                                                         ^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:7:2
+  |
+7 |     width: min(500px);
+  |     ^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/rome/min-and-max/input.css:7:2
   |
@@ -1493,7 +1529,7 @@ error: Ident
 7 |     width: min(500px);
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:7:9
   |
 7 |     width: min(500px);
@@ -1511,7 +1547,7 @@ error: Ident
 7 |     width: min(500px);
   |            ^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:7:13
   |
 7 |     width: min(500px);
@@ -1571,6 +1607,12 @@ error: Ident
 7 |     width: min(500px);
   |                   ^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:8:2
+  |
+8 |     width: min(500px, 6 / 4);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/rome/min-and-max/input.css:8:2
   |
@@ -1595,7 +1637,7 @@ error: Ident
 8 |     width: min(500px, 6 / 4);
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:8:9
   |
 8 |     width: min(500px, 6 / 4);
@@ -1613,7 +1655,7 @@ error: Ident
 8 |     width: min(500px, 6 / 4);
   |            ^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:8:13
   |
 8 |     width: min(500px, 6 / 4);
@@ -1673,7 +1715,7 @@ error: Ident
 8 |     width: min(500px, 6 / 4);
   |                   ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:8:18
   |
 8 |     width: min(500px, 6 / 4);
@@ -1685,7 +1727,7 @@ error: Delimiter
 8 |     width: min(500px, 6 / 4);
   |                     ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:8:20
   |
 8 |     width: min(500px, 6 / 4);
@@ -1757,6 +1799,12 @@ error: Number
 8 |     width: min(500px, 6 / 4);
   |                           ^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/min-and-max/input.css:9:2
+  |
+9 |     width: min(500px, 40px + 5%);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/rome/min-and-max/input.css:9:2
   |
@@ -1781,7 +1829,7 @@ error: Ident
 9 |     width: min(500px, 40px + 5%);
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:9:9
   |
 9 |     width: min(500px, 40px + 5%);
@@ -1799,7 +1847,7 @@ error: Ident
 9 |     width: min(500px, 40px + 5%);
   |            ^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:9:13
   |
 9 |     width: min(500px, 40px + 5%);
@@ -1859,7 +1907,7 @@ error: Ident
 9 |     width: min(500px, 40px + 5%);
   |                   ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:9:18
   |
 9 |     width: min(500px, 40px + 5%);
@@ -1871,7 +1919,7 @@ error: Delimiter
 9 |     width: min(500px, 40px + 5%);
   |                     ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/min-and-max/input.css:9:20
   |
 9 |     width: min(500px, 40px + 5%);
@@ -1979,6 +2027,12 @@ error: Number
 9 |     width: min(500px, 40px + 5%);
   |                              ^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/rome/min-and-max/input.css:10:2
+   |
+10 |     width: min(500px, 5% * 400px + 2px);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/rome/min-and-max/input.css:10:2
    |
@@ -2003,7 +2057,7 @@ error: Ident
 10 |     width: min(500px, 5% * 400px + 2px);
    |     ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/min-and-max/input.css:10:9
    |
 10 |     width: min(500px, 5% * 400px + 2px);
@@ -2021,7 +2075,7 @@ error: Ident
 10 |     width: min(500px, 5% * 400px + 2px);
    |            ^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/min-and-max/input.css:10:13
    |
 10 |     width: min(500px, 5% * 400px + 2px);
@@ -2081,7 +2135,7 @@ error: Ident
 10 |     width: min(500px, 5% * 400px + 2px);
    |                   ^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/min-and-max/input.css:10:18
    |
 10 |     width: min(500px, 5% * 400px + 2px);
@@ -2093,7 +2147,7 @@ error: Delimiter
 10 |     width: min(500px, 5% * 400px + 2px);
    |                     ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/min-and-max/input.css:10:20
    |
 10 |     width: min(500px, 5% * 400px + 2px);
@@ -2249,6 +2303,12 @@ error: Ident
 10 |     width: min(500px, 5% * 400px + 2px);
    |                                     ^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/rome/min-and-max/input.css:11:2
+   |
+11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:2
    |
@@ -2273,7 +2333,7 @@ error: Ident
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |     ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:9
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -2291,7 +2351,7 @@ error: Ident
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |            ^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:13
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -2351,7 +2411,7 @@ error: Ident
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |                   ^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:18
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -2363,7 +2423,7 @@ error: Delimiter
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |                     ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:20
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -2519,7 +2579,7 @@ error: Ident
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |                                     ^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:36
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -2531,7 +2591,7 @@ error: Delimiter
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |                                       ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:38
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -2687,7 +2747,7 @@ error: Ident
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |                                                       ^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:54
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
@@ -2699,7 +2759,7 @@ error: Delimiter
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    |                                                         ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/min-and-max/input.css:11:56
    |
 11 |     width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);

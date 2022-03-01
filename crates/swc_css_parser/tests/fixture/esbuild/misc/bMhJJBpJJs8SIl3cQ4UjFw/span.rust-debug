@@ -28,6 +28,12 @@ error: SimpleBlock
 1 | @page { color: red; @top-left {} }
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:9
+  |
+1 | @page { color: red; @top-left {} }
+  |         ^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:9
   |
@@ -46,7 +52,7 @@ error: Ident
 1 | @page { color: red; @top-left {} }
   |         ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:16
   |
 1 | @page { color: red; @top-left {} }
@@ -57,6 +63,12 @@ error: Ident
   |
 1 | @page { color: red; @top-left {} }
   |                ^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:21
+  |
+1 | @page { color: red; @top-left {} }
+  |                     ^^^^^^^^^^^^
 
 error: AtRule
  --> $DIR/tests/fixture/esbuild/misc/bMhJJBpJJs8SIl3cQ4UjFw/input.css:1:21

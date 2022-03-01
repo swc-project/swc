@@ -89,6 +89,12 @@ error: SimpleBlock
 8 | | }
   | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/value/integer/input.css:2:5
+  |
+2 |     z-index: 12;
+  |     ^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/value/integer/input.css:2:5
   |
@@ -113,7 +119,7 @@ error: Ident
 2 |     z-index: 12;
   |     ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/integer/input.css:2:14
   |
 2 |     z-index: 12;
@@ -124,6 +130,12 @@ error: Integer
   |
 2 |     z-index: 12;
   |              ^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/integer/input.css:3:5
+  |
+3 |     z-index: +123;
+  |     ^^^^^^^^^^^^^
 
 error: StyleBlock
  --> $DIR/tests/fixture/value/integer/input.css:3:5
@@ -149,7 +161,7 @@ error: Ident
 3 |     z-index: +123;
   |     ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/integer/input.css:3:14
   |
 3 |     z-index: +123;
@@ -160,6 +172,12 @@ error: Integer
   |
 3 |     z-index: +123;
   |              ^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/integer/input.css:4:5
+  |
+4 |     z-index: -456;
+  |     ^^^^^^^^^^^^^
 
 error: StyleBlock
  --> $DIR/tests/fixture/value/integer/input.css:4:5
@@ -185,7 +203,7 @@ error: Ident
 4 |     z-index: -456;
   |     ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/integer/input.css:4:14
   |
 4 |     z-index: -456;
@@ -196,6 +214,12 @@ error: Integer
   |
 4 |     z-index: -456;
   |              ^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/integer/input.css:5:5
+  |
+5 |     z-index: 0;
+  |     ^^^^^^^^^^
 
 error: StyleBlock
  --> $DIR/tests/fixture/value/integer/input.css:5:5
@@ -221,7 +245,7 @@ error: Ident
 5 |     z-index: 0;
   |     ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/integer/input.css:5:14
   |
 5 |     z-index: 0;
@@ -232,6 +256,12 @@ error: Integer
   |
 5 |     z-index: 0;
   |              ^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/integer/input.css:6:5
+  |
+6 |     z-index: +0;
+  |     ^^^^^^^^^^^
 
 error: StyleBlock
  --> $DIR/tests/fixture/value/integer/input.css:6:5
@@ -257,7 +287,7 @@ error: Ident
 6 |     z-index: +0;
   |     ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/integer/input.css:6:14
   |
 6 |     z-index: +0;
@@ -268,6 +298,12 @@ error: Integer
   |
 6 |     z-index: +0;
   |              ^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/integer/input.css:7:5
+  |
+7 |     z-index: -0;
+  |     ^^^^^^^^^^^
 
 error: StyleBlock
  --> $DIR/tests/fixture/value/integer/input.css:7:5
@@ -293,7 +329,7 @@ error: Ident
 7 |     z-index: -0;
   |     ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/integer/input.css:7:14
   |
 7 |     z-index: -0;

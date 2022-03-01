@@ -95,6 +95,12 @@ error: SimpleBlock
 3 | | }
   | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/values/input.css:2:2
+  |
+2 |     content: ' content ';
+  |     ^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/rome/values/input.css:2:2
   |
@@ -119,7 +125,7 @@ error: Ident
 2 |     content: ' content ';
   |     ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/values/input.css:2:11
   |
 2 |     content: ' content ';
@@ -201,6 +207,12 @@ error: SimpleBlock
 10 | | }
    | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/values/input.css:6:2
+  |
+6 |     opacity: 1e-3;
+  |     ^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/rome/values/input.css:6:2
   |
@@ -225,7 +237,7 @@ error: Ident
 6 |     opacity: 1e-3;
   |     ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/values/input.css:6:11
   |
 6 |     opacity: 1e-3;
@@ -236,6 +248,12 @@ error: Number
   |
 6 |     opacity: 1e-3;
   |              ^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/values/input.css:7:2
+  |
+7 |     line-height: 0.2;
+  |     ^^^^^^^^^^^^^^^^
 
 error: StyleBlock
  --> $DIR/tests/fixture/rome/values/input.css:7:2
@@ -261,7 +279,7 @@ error: Ident
 7 |     line-height: 0.2;
   |     ^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/values/input.css:7:15
   |
 7 |     line-height: 0.2;
@@ -272,6 +290,12 @@ error: Number
   |
 7 |     line-height: 0.2;
   |                  ^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/values/input.css:8:2
+  |
+8 |     width: 20%;
+  |     ^^^^^^^^^^
 
 error: StyleBlock
  --> $DIR/tests/fixture/rome/values/input.css:8:2
@@ -297,7 +321,7 @@ error: Ident
 8 |     width: 20%;
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/values/input.css:8:9
   |
 8 |     width: 20%;
@@ -315,6 +339,12 @@ error: Number
 8 |     width: 20%;
   |            ^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/values/input.css:9:2
+  |
+9 |     margin-top: -5%;
+  |     ^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/rome/values/input.css:9:2
   |
@@ -339,7 +369,7 @@ error: Ident
 9 |     margin-top: -5%;
   |     ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/values/input.css:9:14
   |
 9 |     margin-top: -5%;
@@ -424,6 +454,12 @@ error: SimpleBlock
 14 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/rome/values/input.css:13:2
+   |
+13 |     color: yellow
+   |     ^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/rome/values/input.css:13:2
    |
@@ -448,7 +484,7 @@ error: Ident
 13 |     color: yellow
    |     ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/values/input.css:13:9
    |
 13 |     color: yellow
@@ -530,6 +566,12 @@ error: SimpleBlock
 19 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/rome/values/input.css:17:2
+   |
+17 |     color: yellow;
+   |     ^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/rome/values/input.css:17:2
    |
@@ -554,7 +596,7 @@ error: Ident
 17 |     color: yellow;
    |     ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/values/input.css:17:9
    |
 17 |     color: yellow;
@@ -565,6 +607,12 @@ error: Ident
    |
 17 |     color: yellow;
    |            ^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/rome/values/input.css:18:2
+   |
+18 |     background: none
+   |     ^^^^^^^^^^^^^^^^
 
 error: StyleBlock
   --> $DIR/tests/fixture/rome/values/input.css:18:2
@@ -590,7 +638,7 @@ error: Ident
 18 |     background: none
    |     ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/values/input.css:18:14
    |
 18 |     background: none

@@ -73,6 +73,12 @@ error: SimpleBlock
 3 | | }
   | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/bom/input.css:2:5
+  |
+2 |     color: red;
+  |     ^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/bom/input.css:2:5
   |
@@ -97,7 +103,7 @@ error: Ident
 2 |     color: red;
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/bom/input.css:2:12
   |
 2 |     color: red;

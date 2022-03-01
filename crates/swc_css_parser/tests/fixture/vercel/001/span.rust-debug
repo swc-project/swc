@@ -85,6 +85,12 @@ error: SimpleBlock
 3 | | }
   | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/vercel/001/input.css:2:5
+  |
+2 |     margin-right: 0;
+  |     ^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/vercel/001/input.css:2:5
   |
@@ -109,7 +115,7 @@ error: Ident
 2 |     margin-right: 0;
   |     ^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/vercel/001/input.css:2:19
   |
 2 |     margin-right: 0;

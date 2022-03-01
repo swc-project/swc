@@ -89,6 +89,12 @@ error: SimpleBlock
 49 | | }
    | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/function/url/input.css:2:5
+  |
+2 |     background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/function/url/input.css:2:5
   |
@@ -113,7 +119,7 @@ error: Ident
 2 |     background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
   |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/url/input.css:2:23
   |
 2 |     background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
@@ -143,6 +149,12 @@ error: UrlValueRaw
 2 |     background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
   |                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/function/url/input.css:3:5
+  |
+3 |     background-image: url("./image (1).jpg");
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/function/url/input.css:3:5
   |
@@ -167,7 +179,7 @@ error: Ident
 3 |     background-image: url("./image (1).jpg");
   |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/url/input.css:3:23
   |
 3 |     background-image: url("./image (1).jpg");
@@ -197,6 +209,12 @@ error: Str
 3 |     background-image: url("./image (1).jpg");
   |                           ^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/function/url/input.css:4:5
+  |
+4 |     background-image: url('./image (1).jpg');
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/function/url/input.css:4:5
   |
@@ -221,7 +239,7 @@ error: Ident
 4 |     background-image: url('./image (1).jpg');
   |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/url/input.css:4:23
   |
 4 |     background-image: url('./image (1).jpg');
@@ -251,6 +269,12 @@ error: Str
 4 |     background-image: url('./image (1).jpg');
   |                           ^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/function/url/input.css:5:5
+  |
+5 |     background-image: URL('./image (1).jpg');
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/function/url/input.css:5:5
   |
@@ -275,7 +299,7 @@ error: Ident
 5 |     background-image: URL('./image (1).jpg');
   |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/url/input.css:5:23
   |
 5 |     background-image: URL('./image (1).jpg');
@@ -305,6 +329,12 @@ error: Str
 5 |     background-image: URL('./image (1).jpg');
   |                           ^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/function/url/input.css:6:5
+  |
+6 |     background-image: url(   './image (1).jpg');
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/function/url/input.css:6:5
   |
@@ -329,7 +359,7 @@ error: Ident
 6 |     background-image: url(   './image (1).jpg');
   |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/url/input.css:6:23
   |
 6 |     background-image: url(   './image (1).jpg');
@@ -359,6 +389,12 @@ error: Str
 6 |     background-image: url(   './image (1).jpg');
   |                              ^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/function/url/input.css:7:5
+  |
+7 |     background-image: url('./image (1).jpg'   );
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/function/url/input.css:7:5
   |
@@ -383,7 +419,7 @@ error: Ident
 7 |     background-image: url('./image (1).jpg'   );
   |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/url/input.css:7:23
   |
 7 |     background-image: url('./image (1).jpg'   );
@@ -413,6 +449,12 @@ error: Str
 7 |     background-image: url('./image (1).jpg'   );
   |                           ^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/function/url/input.css:8:5
+  |
+8 |     background-image: url(   './image (1).jpg'   );
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/function/url/input.css:8:5
   |
@@ -437,7 +479,7 @@ error: Ident
 8 |     background-image: url(   './image (1).jpg'   );
   |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/function/url/input.css:8:23
   |
 8 |     background-image: url(   './image (1).jpg'   );
@@ -467,6 +509,14 @@ error: Str
 8 |     background-image: url(   './image (1).jpg'   );
   |                              ^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/function/url/input.css:9:5
+   |
+9  | /     background-image: url(   
+10 | |     './image (1).jpg'   
+11 | |     );
+   | |_____^
+
 error: StyleBlock
   --> $DIR/tests/fixture/function/url/input.css:9:5
    |
@@ -495,7 +545,7 @@ error: Ident
 9 |     background-image: url(   
   |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/function/url/input.css:9:23
    |
 9  |       background-image: url(   
@@ -531,6 +581,12 @@ error: Str
 10 |     './image (1).jpg'   
    |     ^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/function/url/input.css:12:5
+   |
+12 |     background-image: url();
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/function/url/input.css:12:5
    |
@@ -555,7 +611,7 @@ error: Ident
 12 |     background-image: url();
    |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/function/url/input.css:12:23
    |
 12 |     background-image: url();
@@ -585,6 +641,12 @@ error: UrlValueRaw
 12 |     background-image: url();
    |                           ^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/function/url/input.css:13:5
+   |
+13 |     background-image: url(   );
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/function/url/input.css:13:5
    |
@@ -609,7 +671,7 @@ error: Ident
 13 |     background-image: url(   );
    |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/function/url/input.css:13:23
    |
 13 |     background-image: url(   );
@@ -639,6 +701,12 @@ error: UrlValueRaw
 13 |     background-image: url(   );
    |                           ^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/function/url/input.css:14:5
+   |
+14 |     background-image: url("");
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/function/url/input.css:14:5
    |
@@ -663,7 +731,7 @@ error: Ident
 14 |     background-image: url("");
    |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/function/url/input.css:14:23
    |
 14 |     background-image: url("");
@@ -693,6 +761,12 @@ error: Str
 14 |     background-image: url("");
    |                           ^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/function/url/input.css:15:5
+   |
+15 |     background-image: url(   ""   );
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/function/url/input.css:15:5
    |
@@ -717,7 +791,7 @@ error: Ident
 15 |     background-image: url(   ""   );
    |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/function/url/input.css:15:23
    |
 15 |     background-image: url(   ""   );
@@ -747,6 +821,12 @@ error: Str
 15 |     background-image: url(   ""   );
    |                              ^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/function/url/input.css:16:5
+   |
+16 |     background-image: url('');
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/function/url/input.css:16:5
    |
@@ -771,7 +851,7 @@ error: Ident
 16 |     background-image: url('');
    |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/function/url/input.css:16:23
    |
 16 |     background-image: url('');
@@ -801,6 +881,12 @@ error: Str
 16 |     background-image: url('');
    |                           ^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/function/url/input.css:17:5
+   |
+17 |     background-image: url(   ''   );
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/function/url/input.css:17:5
    |
@@ -825,7 +911,7 @@ error: Ident
 17 |     background-image: url(   ''   );
    |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/function/url/input.css:17:23
    |
 17 |     background-image: url(   ''   );
@@ -855,6 +941,12 @@ error: Str
 17 |     background-image: url(   ''   );
    |                              ^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/function/url/input.css:18:5
+   |
+18 |     background-image: url(   ' '   );
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/function/url/input.css:18:5
    |
@@ -879,7 +971,7 @@ error: Ident
 18 |     background-image: url(   ' '   );
    |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/function/url/input.css:18:23
    |
 18 |     background-image: url(   ' '   );
@@ -909,6 +1001,12 @@ error: Str
 18 |     background-image: url(   ' '   );
    |                              ^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/function/url/input.css:19:5
+   |
+19 |     background-image: url(./image.png);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/function/url/input.css:19:5
    |
@@ -933,7 +1031,7 @@ error: Ident
 19 |     background-image: url(./image.png);
    |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/function/url/input.css:19:23
    |
 19 |     background-image: url(./image.png);
@@ -963,6 +1061,12 @@ error: UrlValueRaw
 19 |     background-image: url(./image.png);
    |                           ^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/function/url/input.css:20:5
+   |
+20 |     background-image: url(   ./image.png   );
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/function/url/input.css:20:5
    |
@@ -987,7 +1091,7 @@ error: Ident
 20 |     background-image: url(   ./image.png   );
    |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/function/url/input.css:20:23
    |
 20 |     background-image: url(   ./image.png   );
@@ -1017,6 +1121,12 @@ error: UrlValueRaw
 20 |     background-image: url(   ./image.png   );
    |                           ^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/function/url/input.css:21:5
+   |
+21 |     background-image: url(   ./image\32.png   );
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/function/url/input.css:21:5
    |
@@ -1041,7 +1151,7 @@ error: Ident
 21 |     background-image: url(   ./image\32.png   );
    |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/function/url/input.css:21:23
    |
 21 |     background-image: url(   ./image\32.png   );
@@ -1071,6 +1181,14 @@ error: UrlValueRaw
 21 |     background-image: url(   ./image\32.png   );
    |                           ^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/function/url/input.css:22:5
+   |
+22 | /     background-image: url(   
+23 | |     ./image\32.png   
+24 | |     );
+   | |_____^
+
 error: StyleBlock
   --> $DIR/tests/fixture/function/url/input.css:22:5
    |
@@ -1099,7 +1217,7 @@ error: Ident
 22 |     background-image: url(   
    |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/function/url/input.css:22:23
    |
 22 |       background-image: url(   
@@ -1141,6 +1259,18 @@ error: UrlValueRaw
 24 | |     );
    | |____^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/function/url/input.css:25:5
+   |
+25 | /     background-image: url(
+26 | |     
+27 | |     
+28 | |     
+...  |
+32 | |     
+33 | |     );
+   | |_____^
+
 error: StyleBlock
   --> $DIR/tests/fixture/function/url/input.css:25:5
    |
@@ -1177,7 +1307,7 @@ error: Ident
 25 |     background-image: url(
    |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/function/url/input.css:25:23
    |
 25 |       background-image: url(
@@ -1235,6 +1365,18 @@ error: UrlValueRaw
 33 | |     );
    | |____^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/function/url/input.css:34:5
+   |
+34 | /     background-image: url(   
+35 | |
+36 | |
+37 | |
+...  |
+41 | |
+42 | |        );
+   | |________^
+
 error: StyleBlock
   --> $DIR/tests/fixture/function/url/input.css:34:5
    |
@@ -1271,7 +1413,7 @@ error: Ident
 34 |     background-image: url(   
    |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/function/url/input.css:34:23
    |
 34 |       background-image: url(   
@@ -1329,6 +1471,12 @@ error: UrlValueRaw
 42 | |        );
    | |_______^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/function/url/input.css:43:5
+   |
+43 |     background: url(image.png\0001);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/function/url/input.css:43:5
    |
@@ -1353,7 +1501,7 @@ error: Ident
 43 |     background: url(image.png\0001);
    |     ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/function/url/input.css:43:17
    |
 43 |     background: url(image.png\0001);
@@ -1383,6 +1531,12 @@ error: UrlValueRaw
 43 |     background: url(image.png\0001);
    |                     ^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/function/url/input.css:44:5
+   |
+44 |     background: url(image.png\1);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/function/url/input.css:44:5
    |
@@ -1407,7 +1561,7 @@ error: Ident
 44 |     background: url(image.png\1);
    |     ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/function/url/input.css:44:17
    |
 44 |     background: url(image.png\1);
@@ -1437,6 +1591,12 @@ error: UrlValueRaw
 44 |     background: url(image.png\1);
    |                     ^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/function/url/input.css:45:5
+   |
+45 |     background: url(image.png\D799);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/function/url/input.css:45:5
    |
@@ -1461,7 +1621,7 @@ error: Ident
 45 |     background: url(image.png\D799);
    |     ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/function/url/input.css:45:17
    |
 45 |     background: url(image.png\D799);
@@ -1491,6 +1651,12 @@ error: UrlValueRaw
 45 |     background: url(image.png\D799);
    |                     ^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/function/url/input.css:46:5
+   |
+46 |     background: url(image.png\E000);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/function/url/input.css:46:5
    |
@@ -1515,7 +1681,7 @@ error: Ident
 46 |     background: url(image.png\E000);
    |     ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/function/url/input.css:46:17
    |
 46 |     background: url(image.png\E000);
@@ -1545,6 +1711,12 @@ error: UrlValueRaw
 46 |     background: url(image.png\E000);
    |                     ^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/function/url/input.css:47:5
+   |
+47 |     background: url(image.png\10FFFF);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/function/url/input.css:47:5
    |
@@ -1569,7 +1741,7 @@ error: Ident
 47 |     background: url(image.png\10FFFF);
    |     ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/function/url/input.css:47:17
    |
 47 |     background: url(image.png\10FFFF);
@@ -1599,6 +1771,12 @@ error: UrlValueRaw
 47 |     background: url(image.png\10FFFF);
    |                     ^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/function/url/input.css:48:5
+   |
+48 |     background: url(18);
+   |     ^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/function/url/input.css:48:5
    |
@@ -1623,7 +1801,7 @@ error: Ident
 48 |     background: url(18);
    |     ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/function/url/input.css:48:17
    |
 48 |     background: url(18);

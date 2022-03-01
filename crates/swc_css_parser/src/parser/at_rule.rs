@@ -4,21 +4,16 @@ use swc_css_ast::*;
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
-    parser::{Ctx, Grammar},
+    parser::{BlockContentsGrammar, Ctx},
     Parse,
 };
 
-#[derive(Debug, Default)]
-pub(super) struct AtRuleContext {}
-
-impl<I> Parser<I>
+impl<I> Parse<AtRule> for Parser<I>
 where
     I: ParserInput,
 {
-    pub(super) fn parse_at_rule(&mut self, _ctx: AtRuleContext) -> PResult<AtRule> {
+    fn parse(&mut self) -> PResult<AtRule> {
         let at_rule_span = self.input.cur_span()?;
-
-        assert!(matches!(cur!(self), Token::AtKeyword { .. }));
 
         let name = match bump!(self) {
             Token::AtKeyword { value, raw } => (value, raw),
@@ -389,7 +384,7 @@ where
                 // Consume a simple block and assign it to the at-rule’s block. Return the at-rule.
                 tok!("{") => {
                     let ctx = Ctx {
-                        grammar: Grammar::NoGrammar,
+                        block_contents_grammar: BlockContentsGrammar::NoGrammar,
                         ..self.ctx
                     };
                     let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
@@ -609,7 +604,7 @@ where
         }
 
         let ctx = Ctx {
-            grammar: Grammar::DeclarationList,
+            block_contents_grammar: BlockContentsGrammar::DeclarationList,
             ..self.ctx
         };
         let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
@@ -663,7 +658,7 @@ where
     fn parse(&mut self) -> PResult<ViewportRule> {
         let span = self.input.cur_span()?;
         let ctx = Ctx {
-            grammar: Grammar::DeclarationList,
+            block_contents_grammar: BlockContentsGrammar::DeclarationList,
             ..self.ctx
         };
         let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
@@ -724,7 +719,7 @@ where
         let span = self.input.cur_span()?;
         let prelude = self.parse()?;
         let ctx = Ctx {
-            grammar: Grammar::StyleBlock,
+            block_contents_grammar: BlockContentsGrammar::StyleBlock,
             ..self.ctx
         };
 
@@ -747,7 +742,7 @@ where
     fn parse(&mut self) -> PResult<FontFaceRule> {
         let span = self.input.cur_span()?;
         let ctx = Ctx {
-            grammar: Grammar::DeclarationList,
+            block_contents_grammar: BlockContentsGrammar::DeclarationList,
             ..self.ctx
         };
         let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
@@ -773,13 +768,13 @@ where
             return Err(Error::new(span, ErrorKind::Expected("'{' delim token")));
         }
 
-        let ctx = match self.ctx.grammar {
-            Grammar::StyleBlock => Ctx {
-                grammar: Grammar::StyleBlock,
+        let ctx = match self.ctx.block_contents_grammar {
+            BlockContentsGrammar::StyleBlock => Ctx {
+                block_contents_grammar: BlockContentsGrammar::StyleBlock,
                 ..self.ctx
             },
             _ => Ctx {
-                grammar: Grammar::Stylesheet,
+                block_contents_grammar: BlockContentsGrammar::Stylesheet,
                 ..self.ctx
             },
         };
@@ -998,7 +993,7 @@ where
             tok!("function") => Ok(GeneralEnclosed::Function(self.parse()?)),
             tok!("(") => {
                 let ctx = Ctx {
-                    grammar: Grammar::NoGrammar,
+                    block_contents_grammar: BlockContentsGrammar::NoGrammar,
                     ..self.ctx
                 };
                 let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
@@ -1038,13 +1033,13 @@ where
 
             matching_functions.push(self.parse()?);
         }
-        let ctx = match self.ctx.grammar {
-            Grammar::StyleBlock => Ctx {
-                grammar: Grammar::StyleBlock,
+        let ctx = match self.ctx.block_contents_grammar {
+            BlockContentsGrammar::StyleBlock => Ctx {
+                block_contents_grammar: BlockContentsGrammar::StyleBlock,
                 ..self.ctx
             },
             _ => Ctx {
-                grammar: Grammar::Stylesheet,
+                block_contents_grammar: BlockContentsGrammar::Stylesheet,
                 ..self.ctx
             },
         };
@@ -1107,13 +1102,13 @@ where
             return Err(Error::new(span, ErrorKind::Expected("'{' delim token")));
         }
 
-        let ctx = match self.ctx.grammar {
-            Grammar::StyleBlock => Ctx {
-                grammar: Grammar::StyleBlock,
+        let ctx = match self.ctx.block_contents_grammar {
+            BlockContentsGrammar::StyleBlock => Ctx {
+                block_contents_grammar: BlockContentsGrammar::StyleBlock,
                 ..self.ctx
             },
             _ => Ctx {
-                grammar: Grammar::Stylesheet,
+                block_contents_grammar: BlockContentsGrammar::Stylesheet,
                 ..self.ctx
             },
         };
@@ -1653,7 +1648,7 @@ where
 
         let ctx = Ctx {
             in_page_at_rule: true,
-            grammar: Grammar::DeclarationList,
+            block_contents_grammar: BlockContentsGrammar::DeclarationList,
             ..self.ctx
         };
         let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
@@ -1804,7 +1799,7 @@ where
     fn parse(&mut self) -> PResult<PageMarginRule> {
         let span = self.input.cur_span()?;
         let ctx = Ctx {
-            grammar: Grammar::DeclarationList,
+            block_contents_grammar: BlockContentsGrammar::DeclarationList,
             ..self.ctx
         };
         let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
@@ -1898,7 +1893,7 @@ where
             // Block
             None | Some(LayerPrelude::Name(LayerName { .. })) if is!(self, "{") => {
                 let ctx = Ctx {
-                    grammar: Grammar::Stylesheet,
+                    block_contents_grammar: BlockContentsGrammar::Stylesheet,
                     ..self.ctx
                 };
                 println!("{:?}", self.input.cur());
@@ -1951,7 +1946,7 @@ where
         self.input.skip_ws()?;
 
         let ctx = Ctx {
-            grammar: Grammar::DeclarationList,
+            block_contents_grammar: BlockContentsGrammar::DeclarationList,
             ..self.ctx
         };
         let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
@@ -1975,7 +1970,7 @@ where
         self.input.skip_ws()?;
 
         let ctx = Ctx {
-            grammar: Grammar::DeclarationList,
+            block_contents_grammar: BlockContentsGrammar::DeclarationList,
             ..self.ctx
         };
         let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
@@ -1999,7 +1994,7 @@ where
         self.input.skip_ws()?;
 
         let ctx = Ctx {
-            grammar: Grammar::DeclarationList,
+            block_contents_grammar: BlockContentsGrammar::DeclarationList,
             ..self.ctx
         };
         let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;

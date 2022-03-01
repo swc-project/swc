@@ -154,6 +154,12 @@ error: SimpleBlock
 1 | div::before::after::selection::first-line::first-letter {color:red}
   |                                                         ^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:58
+  |
+1 | div::before::after::selection::first-line::first-letter {color:red}
+  |                                                          ^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:58
   |
@@ -178,7 +184,7 @@ error: Ident
 1 | div::before::after::selection::first-line::first-letter {color:red}
   |                                                          ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:64
   |
 1 | div::before::after::selection::first-line::first-letter {color:red}

@@ -34,6 +34,12 @@ error: SimpleBlock
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:19
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                   ^^^^^^^^^^^^^^^^^^^^^^
+
 error: KeyframeBlock
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:19
   |
@@ -82,6 +88,12 @@ error: SimpleBlock
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   |                           ^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:29
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                             ^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:29
   |
@@ -100,7 +112,7 @@ error: Ident
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   |                             ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:36
   |
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
@@ -111,6 +123,12 @@ error: Ident
   |
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   |                                    ^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:42
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                                          ^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: KeyframeBlock
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:42
@@ -160,6 +178,12 @@ error: SimpleBlock
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   |                                                   ^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:53
+  |
+1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+  |                                                     ^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:53
   |
@@ -178,7 +202,7 @@ error: Ident
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
   |                                                     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:60
   |
 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }

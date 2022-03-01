@@ -64,6 +64,12 @@ error: SimpleBlock
 1 | .foo { display: grid; }
   |      ^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/style-block/input.css:1:8
+  |
+1 | .foo { display: grid; }
+  |        ^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/style-block/input.css:1:8
   |
@@ -88,7 +94,7 @@ error: Ident
 1 | .foo { display: grid; }
   |        ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/style-block/input.css:1:17
   |
 1 | .foo { display: grid; }
@@ -173,6 +179,12 @@ error: SimpleBlock
 9 | | }
   | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/style-block/input.css:4:5
+  |
+4 |     display: grid;
+  |     ^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/style-block/input.css:4:5
   |
@@ -197,7 +209,7 @@ error: Ident
 4 |     display: grid;
   |     ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/style-block/input.css:4:14
   |
 4 |     display: grid;
@@ -208,6 +220,14 @@ error: Ident
   |
 4 |     display: grid;
   |              ^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/style-block/input.css:6:5
+  |
+6 | /     @media (orientation: landscape) {
+7 | |         grid-auto-flow: column;
+8 | |     }
+  | |_____^
 
 error: StyleBlock
  --> $DIR/tests/fixture/style-block/input.css:6:5
@@ -308,6 +328,12 @@ error: SimpleBlock
 8 | |     }
   | |_____^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/style-block/input.css:7:9
+  |
+7 |         grid-auto-flow: column;
+  |         ^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/style-block/input.css:7:9
   |
@@ -332,7 +358,7 @@ error: Ident
 7 |         grid-auto-flow: column;
   |         ^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/style-block/input.css:7:25
   |
 7 |         grid-auto-flow: column;
@@ -417,6 +443,12 @@ error: SimpleBlock
 21 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:12:5
+   |
+12 |     display: grid;
+   |     ^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:12:5
    |
@@ -441,7 +473,7 @@ error: Ident
 12 |     display: grid;
    |     ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/style-block/input.css:12:14
    |
 12 |     display: grid;
@@ -452,6 +484,18 @@ error: Ident
    |
 12 |     display: grid;
    |              ^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:14:5
+   |
+14 | /     @media (orientation: landscape) {
+15 | |         grid-auto-flow: column;
+16 | |
+17 | |         @media (min-inline-size > 1024px) {
+18 | |             max-inline-size: 1024px;
+19 | |         }
+20 | |     }
+   | |_____^
 
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:14:5
@@ -568,6 +612,12 @@ error: SimpleBlock
 20 | |     }
    | |_____^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:15:9
+   |
+15 |         grid-auto-flow: column;
+   |         ^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:15:9
    |
@@ -592,7 +642,7 @@ error: Ident
 15 |         grid-auto-flow: column;
    |         ^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/style-block/input.css:15:25
    |
 15 |         grid-auto-flow: column;
@@ -603,6 +653,14 @@ error: Ident
    |
 15 |         grid-auto-flow: column;
    |                         ^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:17:9
+   |
+17 | /         @media (min-inline-size > 1024px) {
+18 | |             max-inline-size: 1024px;
+19 | |         }
+   | |_________^
 
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:17:9
@@ -721,6 +779,12 @@ error: SimpleBlock
 19 | |         }
    | |_________^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:18:13
+   |
+18 |             max-inline-size: 1024px;
+   |             ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:18:13
    |
@@ -745,7 +809,7 @@ error: Ident
 18 |             max-inline-size: 1024px;
    |             ^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/style-block/input.css:18:30
    |
 18 |             max-inline-size: 1024px;
@@ -882,6 +946,14 @@ error: SimpleBlock
 27 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:24:5
+   |
+24 | /     & {
+25 | |         grid-auto-flow: column;
+26 | |     }
+   | |_____^
+
 error: Rule
   --> $DIR/tests/fixture/style-block/input.css:24:5
    |
@@ -931,6 +1003,12 @@ error: SimpleBlock
 26 | |     }
    | |_____^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:25:9
+   |
+25 |         grid-auto-flow: column;
+   |         ^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:25:9
    |
@@ -955,7 +1033,7 @@ error: Ident
 25 |         grid-auto-flow: column;
    |         ^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/style-block/input.css:25:25
    |
 25 |         grid-auto-flow: column;
@@ -1040,6 +1118,12 @@ error: SimpleBlock
 35 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:30:5
+   |
+30 |     color: red;
+   |     ^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:30:5
    |
@@ -1064,7 +1148,7 @@ error: Ident
 30 |     color: red;
    |     ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/style-block/input.css:30:12
    |
 30 |     color: red;
@@ -1075,6 +1159,14 @@ error: Ident
    |
 30 |     color: red;
    |            ^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:32:5
+   |
+32 | /     @media (min-width: 480px) {
+33 | |         & h1, & h2 { color: blue; }
+34 | |     }
+   | |_____^
 
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:32:5
@@ -1192,6 +1284,12 @@ error: SimpleBlock
 33 | |         & h1, & h2 { color: blue; }
 34 | |     }
    | |_____^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:33:9
+   |
+33 |         & h1, & h2 { color: blue; }
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:33:9
@@ -1325,6 +1423,12 @@ error: SimpleBlock
 33 |         & h1, & h2 { color: blue; }
    |                    ^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:33:22
+   |
+33 |         & h1, & h2 { color: blue; }
+   |                      ^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:33:22
    |
@@ -1349,7 +1453,7 @@ error: Ident
 33 |         & h1, & h2 { color: blue; }
    |                      ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/style-block/input.css:33:29
    |
 33 |         & h1, & h2 { color: blue; }
@@ -1434,6 +1538,16 @@ error: SimpleBlock
 43 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:38:5
+   |
+38 | /     @supports not (display: grid) {
+39 | |         float: right;
+40 | |     
+41 | |         & .class { color: red }
+42 | |     }
+   | |_____^
+
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:38:5
    |
@@ -1512,7 +1626,7 @@ error: Ident
 38 |     @supports not (display: grid) {
    |                    ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/style-block/input.css:38:29
    |
 38 |     @supports not (display: grid) {
@@ -1534,6 +1648,12 @@ error: SimpleBlock
 41 | |         & .class { color: red }
 42 | |     }
    | |_____^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:39:9
+   |
+39 |         float: right;
+   |         ^^^^^^^^^^^^
 
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:39:9
@@ -1559,7 +1679,7 @@ error: Ident
 39 |         float: right;
    |         ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/style-block/input.css:39:16
    |
 39 |         float: right;
@@ -1570,6 +1690,12 @@ error: Ident
    |
 39 |         float: right;
    |                ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:41:9
+   |
+41 |         & .class { color: red }
+   |         ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:41:9
@@ -1643,6 +1769,12 @@ error: SimpleBlock
 41 |         & .class { color: red }
    |                  ^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:41:20
+   |
+41 |         & .class { color: red }
+   |                    ^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:41:20
    |
@@ -1667,7 +1799,7 @@ error: Ident
 41 |         & .class { color: red }
    |                    ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/style-block/input.css:41:27
    |
 41 |         & .class { color: red }
@@ -1752,6 +1884,12 @@ error: SimpleBlock
 53 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:46:5
+   |
+46 |     color: blue;
+   |     ^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:46:5
    |
@@ -1776,7 +1914,7 @@ error: Ident
 46 |     color: blue;
    |     ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/style-block/input.css:46:12
    |
 46 |     color: blue;
@@ -1787,6 +1925,16 @@ error: Ident
    |
 46 |     color: blue;
    |            ^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:48:5
+   |
+48 | /     @supports not (display: grid) {
+49 | |         float: right;
+50 | |     
+51 | |         & .class { color: red }
+52 | |     }
+   | |_____^
 
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:48:5
@@ -1866,7 +2014,7 @@ error: Ident
 48 |     @supports not (display: grid) {
    |                    ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/style-block/input.css:48:29
    |
 48 |     @supports not (display: grid) {
@@ -1888,6 +2036,12 @@ error: SimpleBlock
 51 | |         & .class { color: red }
 52 | |     }
    | |_____^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:49:9
+   |
+49 |         float: right;
+   |         ^^^^^^^^^^^^
 
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:49:9
@@ -1913,7 +2067,7 @@ error: Ident
 49 |         float: right;
    |         ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/style-block/input.css:49:16
    |
 49 |         float: right;
@@ -1924,6 +2078,12 @@ error: Ident
    |
 49 |         float: right;
    |                ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:51:9
+   |
+51 |         & .class { color: red }
+   |         ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:51:9
@@ -1997,6 +2157,12 @@ error: SimpleBlock
 51 |         & .class { color: red }
    |                  ^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:51:20
+   |
+51 |         & .class { color: red }
+   |                    ^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:51:20
    |
@@ -2021,7 +2187,7 @@ error: Ident
 51 |         & .class { color: red }
    |                    ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/style-block/input.css:51:27
    |
 51 |         & .class { color: red }
@@ -2106,6 +2272,12 @@ error: SimpleBlock
 67 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:56:5
+   |
+56 |     color: blue;
+   |     ^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:56:5
    |
@@ -2130,7 +2302,7 @@ error: Ident
 56 |     color: blue;
    |     ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/style-block/input.css:56:12
    |
 56 |     color: blue;
@@ -2141,6 +2313,14 @@ error: Ident
    |
 56 |     color: blue;
    |            ^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:58:5
+   |
+58 | /     &.foo {
+59 | |       color: green;
+60 | |     }
+   | |_____^
 
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:58:5
@@ -2209,6 +2389,12 @@ error: SimpleBlock
 60 | |     }
    | |_____^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:59:7
+   |
+59 |       color: green;
+   |       ^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:59:7
    |
@@ -2233,7 +2419,7 @@ error: Ident
 59 |       color: green;
    |       ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/style-block/input.css:59:14
    |
 59 |       color: green;
@@ -2244,6 +2430,16 @@ error: Ident
    |
 59 |       color: green;
    |              ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:62:5
+   |
+62 | /     @supports not (display: grid) {
+63 | |         float: right;
+64 | |     
+65 | |         & .class { color: red }
+66 | |     }
+   | |_____^
 
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:62:5
@@ -2323,7 +2519,7 @@ error: Ident
 62 |     @supports not (display: grid) {
    |                    ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/style-block/input.css:62:29
    |
 62 |     @supports not (display: grid) {
@@ -2345,6 +2541,12 @@ error: SimpleBlock
 65 | |         & .class { color: red }
 66 | |     }
    | |_____^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:63:9
+   |
+63 |         float: right;
+   |         ^^^^^^^^^^^^
 
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:63:9
@@ -2370,7 +2572,7 @@ error: Ident
 63 |         float: right;
    |         ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/style-block/input.css:63:16
    |
 63 |         float: right;
@@ -2381,6 +2583,12 @@ error: Ident
    |
 63 |         float: right;
    |                ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:65:9
+   |
+65 |         & .class { color: red }
+   |         ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:65:9
@@ -2454,6 +2662,12 @@ error: SimpleBlock
 65 |         & .class { color: red }
    |                  ^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:65:20
+   |
+65 |         & .class { color: red }
+   |                    ^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:65:20
    |
@@ -2478,7 +2692,7 @@ error: Ident
 65 |         & .class { color: red }
    |                    ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/style-block/input.css:65:27
    |
 65 |         & .class { color: red }
@@ -2563,6 +2777,12 @@ error: SimpleBlock
 76 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:71:5
+   |
+71 |     color: red;
+   |     ^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:71:5
    |
@@ -2587,7 +2807,7 @@ error: Ident
 71 |     color: red;
    |     ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/style-block/input.css:71:12
    |
 71 |     color: red;
@@ -2598,6 +2818,14 @@ error: Ident
    |
 71 |     color: red;
    |            ^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:73:5
+   |
+73 | /     @document url("https://www.example.com/") {
+74 | |         color: green;
+75 | |     }
+   | |_____^
 
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:73:5
@@ -2662,6 +2890,12 @@ error: SimpleBlock
 75 | |     }
    | |_____^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:74:9
+   |
+74 |         color: green;
+   |         ^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/style-block/input.css:74:9
    |
@@ -2686,7 +2920,7 @@ error: Ident
 74 |         color: green;
    |         ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/style-block/input.css:74:16
    |
 74 |         color: green;

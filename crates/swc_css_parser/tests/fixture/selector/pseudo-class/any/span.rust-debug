@@ -1598,6 +1598,12 @@ error: SimpleBlock
 14 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:13:5
+   |
+13 |     background-color: blue;
+   |     ^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:13:5
    |
@@ -1622,7 +1628,7 @@ error: Ident
 13 |     background-color: blue;
    |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:13:23
    |
 13 |     background-color: blue;
@@ -2136,6 +2142,12 @@ error: SimpleBlock
 21 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:20:5
+   |
+20 |     background-color: green;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:20:5
    |
@@ -2160,7 +2172,7 @@ error: Ident
 20 |     background-color: green;
    |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/selector/pseudo-class/any/input.css:20:23
    |
 20 |     background-color: green;
