@@ -353,6 +353,9 @@ drop_unused/issue_2136_1/input.js
 drop_unused/issue_2995/input.js
 drop_unused/issue_3146_1/input.js
 drop_unused/issue_3146_2/input.js
+drop_unused/issue_3146_3/input.js
+drop_unused/issue_3146_4/input.js
+drop_unused/issue_3192/input.js
 drop_unused/issue_805_1/input.js
 drop_unused/issue_805_2/input.js
 drop_unused/issue_t161_top_retain_1/input.js
