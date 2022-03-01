@@ -1,8 +1,8 @@
 //@target: ES6
 var symbol = Symbol.for('myThing');
-var tmp = symbol;
+let _symbol = symbol;
 class Bar {
-    [tmp]() {
+    [_symbol]() {
         return super[symbol]();
     }
 }

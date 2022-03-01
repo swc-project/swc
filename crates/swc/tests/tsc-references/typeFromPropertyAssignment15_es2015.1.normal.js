@@ -3,7 +3,7 @@
 // @checkJs: true
 // @Filename: a.js
 var Outer = {};
-Outer.Inner = class _class {
+Outer.Inner = class {
     m() {}
     constructor(){
         this.x = 1;

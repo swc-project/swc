@@ -30,7 +30,7 @@ class B {
 }
 var _foo = {
     writable: true,
-    value: (_class = class _class {
+    value: (_class = class {
         constructor(){
             this.field = 10;
             console.log("hello");

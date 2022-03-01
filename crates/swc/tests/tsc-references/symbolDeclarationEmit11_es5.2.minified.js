@@ -4,7 +4,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var _key, tmp = (_key = Symbol.iterator, Symbol.isConcatSpreadable), tmp1 = Symbol.toPrimitive, tmp2 = Symbol.toPrimitive, C = function() {
+var _key, tmp = (_key = Symbol.iterator, Symbol.isConcatSpreadable), _toPrimitive = Symbol.toPrimitive, _toPrimitive1 = Symbol.toPrimitive, C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
@@ -18,13 +18,13 @@ var _key, tmp = (_key = Symbol.iterator, Symbol.isConcatSpreadable), tmp1 = Symb
             value: function() {}
         },
         {
-            key: tmp1,
+            key: _toPrimitive,
             get: function() {
                 return "";
             }
         },
         {
-            key: tmp2,
+            key: _toPrimitive1,
             set: function(x) {}
         }
     ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;

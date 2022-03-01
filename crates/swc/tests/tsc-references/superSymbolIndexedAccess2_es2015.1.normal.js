@@ -1,13 +1,13 @@
-var tmp = Symbol.isConcatSpreadable;
+let _isConcatSpreadable = Symbol.isConcatSpreadable;
 //@target: ES6
 class Foo {
-    [tmp]() {
+    [_isConcatSpreadable]() {
         return 0;
     }
 }
-var tmp1 = Symbol.isConcatSpreadable;
+let _isConcatSpreadable1 = Symbol.isConcatSpreadable;
 class Bar extends Foo {
-    [tmp1]() {
+    [_isConcatSpreadable1]() {
         return super[Symbol.isConcatSpreadable]();
     }
 }

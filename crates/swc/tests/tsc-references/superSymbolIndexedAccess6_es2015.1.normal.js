@@ -1,14 +1,14 @@
 //@target: ES5
 var symbol;
-var tmp = symbol;
+let _symbol = symbol;
 class Foo {
-    static [tmp]() {
+    static [_symbol]() {
         return 0;
     }
 }
-var tmp1 = symbol;
+let _symbol1 = symbol;
 class Bar extends Foo {
-    static [tmp1]() {
+    static [_symbol1]() {
         return super[symbol]();
     }
 }

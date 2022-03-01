@@ -17,7 +17,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var tmp = Symbol.toPrimitive;
+var _toPrimitive = Symbol.toPrimitive;
 var C = //@target: ES6
 //@declaration: true
 /*#__PURE__*/ function() {
@@ -27,7 +27,7 @@ var C = //@target: ES6
     }
     _createClass(C, [
         {
-            key: tmp,
+            key: _toPrimitive,
             value: function value(x) {}
         }
     ]);

@@ -1,4 +1,4 @@
-new class _class {
+new class {
     hi() {
         return "Hi!";
     }

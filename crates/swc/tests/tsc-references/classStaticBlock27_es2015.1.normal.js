@@ -1,28 +1,23 @@
+var _Foo, __, __1, __2;
 var _class;
 // https://github.com/microsoft/TypeScript/issues/44872
-void (_class = function() {
-    class Foo {
-    }
-    var __ = {
-        writable: true,
-        value: (()=>{
-            console.log(Foo.prop);
-            Foo.prop++;
-        })()
-    };
-    var __1 = {
-        writable: true,
-        value: (()=>{
-            console.log(Foo.prop);
-            Foo.prop++;
-        })()
-    };
-    var __2 = {
-        writable: true,
-        value: (()=>{
-            console.log(Foo.prop);
-            Foo.prop++;
-        })()
-    };
-    return Foo;
-}(), _class.prop = 1, _class);
+void (_class = (_Foo = class Foo {
+}, __ = {
+    writable: true,
+    value: (()=>{
+        console.log(_Foo.prop);
+        _Foo.prop++;
+    })()
+}, __1 = {
+    writable: true,
+    value: (()=>{
+        console.log(_Foo.prop);
+        _Foo.prop++;
+    })()
+}, __2 = {
+    writable: true,
+    value: (()=>{
+        console.log(_Foo.prop);
+        _Foo.prop++;
+    })()
+}, _Foo), _class.prop = 1, _class);

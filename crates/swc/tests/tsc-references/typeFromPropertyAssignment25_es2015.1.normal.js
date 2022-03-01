@@ -3,12 +3,12 @@
 // @allowJs: true
 // @Filename: bug24703.js
 var Common = {};
-Common.I = class _class {
+Common.I = class {
     constructor(){
         this.i = 1;
     }
 };
-Common.O = class _class extends Common.I {
+Common.O = class extends Common.I {
     constructor(){
         super();
         this.o = 2;

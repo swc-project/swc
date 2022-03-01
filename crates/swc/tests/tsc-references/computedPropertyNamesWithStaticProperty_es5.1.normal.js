@@ -20,7 +20,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var tmp = (_classNameTDZError("C"), C).staticProp, tmp1 = (_classNameTDZError("C"), C).staticProp, tmp2 = (_classNameTDZError("C"), C).staticProp;
+var _staticProp = (_classNameTDZError("C"), C).staticProp, _staticProp1 = (_classNameTDZError("C"), C).staticProp, _staticProp2 = (_classNameTDZError("C"), C).staticProp;
 var C = // @target: es6
 /*#__PURE__*/ function() {
     "use strict";
@@ -29,19 +29,19 @@ var C = // @target: es6
     }
     _createClass(C, [
         {
-            key: tmp,
+            key: _staticProp,
             get: function get() {
                 return "hello";
             }
         },
         {
-            key: tmp1,
+            key: _staticProp1,
             set: function set(x) {
                 var y = x;
             }
         },
         {
-            key: tmp2,
+            key: _staticProp2,
             value: function value() {}
         }
     ]);

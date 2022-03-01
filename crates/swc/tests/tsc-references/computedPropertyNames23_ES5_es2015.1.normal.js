@@ -1,4 +1,4 @@
-var tmp = {
+let tmp = {
     [this.bar()]: 1
 }[0];
 // @target: es5

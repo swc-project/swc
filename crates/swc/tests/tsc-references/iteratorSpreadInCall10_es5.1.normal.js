@@ -46,7 +46,7 @@ function _unsupportedIterableToArray(o, minLen) {
 function foo(s) {
     return s[0];
 }
-var tmp = Symbol.iterator;
+var _iterator = Symbol.iterator;
 var SymbolIterator = /*#__PURE__*/ function() {
     "use strict";
     function SymbolIterator() {
@@ -63,7 +63,7 @@ var SymbolIterator = /*#__PURE__*/ function() {
             }
         },
         {
-            key: tmp,
+            key: _iterator,
             value: function value() {
                 return this;
             }

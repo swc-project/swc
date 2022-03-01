@@ -400,7 +400,7 @@ const o4 = {
         return p;
     }
 };
-const ce0 = class _class {
+const ce0 = class {
     method1(p) {
         return p;
     }

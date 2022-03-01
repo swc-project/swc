@@ -24,7 +24,7 @@ my.predicate.query.result = 'none';
  */ my.predicate.sort = my.predicate.sort || function(first, second) {
     return first > second ? first : second;
 };
-my.predicate.type = class _class {
+my.predicate.type = class {
     m() {
         return 101;
     }

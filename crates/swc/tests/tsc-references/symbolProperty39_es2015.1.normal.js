@@ -1,10 +1,10 @@
-var tmp = Symbol.iterator, tmp1 = Symbol.iterator;
+let _iterator = Symbol.iterator, _iterator1 = Symbol.iterator;
 //@target: ES6
 class C {
-    [tmp](x) {
+    [_iterator](x) {
         return undefined;
     }
-    [tmp1](x) {
+    [_iterator1](x) {
         return undefined;
     }
 }
