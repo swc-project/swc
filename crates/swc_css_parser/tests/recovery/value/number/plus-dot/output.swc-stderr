@@ -1,5 +1,5 @@
 error: Expected Declaration value
- --> $DIR/tests/errors/number/plus-dot/input.css:1:14
+ --> $DIR/tests/recovery/value/number/plus-dot/input.css:1:14
   |
 1 | a { width: +0.; }
   |              ^
