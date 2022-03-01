@@ -76,6 +76,12 @@
 ### Miscellaneous Tasks
 - **general**: Update `rustc` (#3768) ([3798436](https://github.com/swc-project/swc/commit/3798436201a0838e55beac974792f4d560b47657))
 
+### Performance
+
+
+
+- **(plugin/runner)** Optimize `write_into_memory_view` (#3797) ([7fd0eee](https://github.com/swc-project/swc/commit/7fd0eeecb844a182fef39872178e3991356e3ae0))
+
 ### Refactor
 
 
