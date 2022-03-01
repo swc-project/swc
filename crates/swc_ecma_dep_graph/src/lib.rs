@@ -185,23 +185,26 @@ impl<'a> Visit for DependencyCollector<'a> {
     }
 
     fn visit_call_expr(&mut self, node: &ast::CallExpr) {
-        use ast::{Callee, Expr, Ident};
+        use ast::{Callee, Expr, Ident, MemberProp};
 
         swc_ecma_visit::visit_call_expr(self, node);
         let kind = match &node.callee {
             Callee::Super(_) => return,
             Callee::Import(_) => DependencyKind::Import,
-            Callee::Expr(expr) => {
-                if let Expr::Ident(Ident {
+            Callee::Expr(expr) => match &**expr {
+                Expr::Ident(Ident {
                     sym: js_word!("require"),
                     ..
-                }) = &**expr
-                {
-                    DependencyKind::Require
-                } else {
-                    return;
-                }
-            }
+                }) => DependencyKind::Require,
+                Expr::Member(member) => match (&*member.obj, &member.prop) {
+                    (
+                        Expr::Ident(Ident { sym: obj_sym, .. }),
+                        MemberProp::Ident(Ident { sym: prop_sym, .. }),
+                    ) if obj_sym == "require" && prop_sym == "resolve" => DependencyKind::Require,
+                    _ => return,
+                },
+                _ => return,
+            },
         };
 
         if let Some(arg) = node.args.get(0) {
@@ -447,10 +450,17 @@ try {
 import foo2 = require("some_package_foo");
 import type FooType = require('some_package_foo_type');
 export import bar2 = require("some_package_bar");
+
+const foo3 = require.resolve("some_package_resolve");
+try {
+    const foo4 = require.resolve("some_package_resolve_foo");
+} catch (e) {
+    // pass
+}
       "#;
         let (module, comments) = helper("test.ts", source).unwrap();
         let dependencies = analyze_dependencies(&module, &comments);
-        assert_eq!(dependencies.len(), 11);
+        assert_eq!(dependencies.len(), 13);
         assert_eq!(
             dependencies,
             vec![
@@ -570,6 +580,24 @@ export import bar2 = require("some_package_bar");
                     span: Span::new(BytePos(547), BytePos(596), Default::default()),
                     specifier: JsWord::from("some_package_bar"),
                     specifier_span: Span::new(BytePos(576), BytePos(594), Default::default()),
+                    import_assertions: Default::default(),
+                },
+                DependencyDescriptor {
+                    kind: DependencyKind::Require,
+                    is_dynamic: false,
+                    leading_comments: Vec::new(),
+                    span: Span::new(BytePos(611), BytePos(650), Default::default()),
+                    specifier: JsWord::from("some_package_resolve"),
+                    specifier_span: Span::new(BytePos(627), BytePos(649), Default::default()),
+                    import_assertions: Default::default(),
+                },
+                DependencyDescriptor {
+                    kind: DependencyKind::Require,
+                    is_dynamic: true,
+                    leading_comments: Vec::new(),
+                    span: Span::new(BytePos(675), BytePos(718), Default::default()),
+                    specifier: JsWord::from("some_package_resolve_foo"),
+                    specifier_span: Span::new(BytePos(691), BytePos(717), Default::default()),
                     import_assertions: Default::default(),
                 },
             ]
