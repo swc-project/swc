@@ -49,6 +49,9 @@
 
 - **(es/quote)** Support variables (#3774) ([e3c374b](https://github.com/swc-project/swc/commit/e3c374b53bdd3fe8baef5be7a63b10d2efcd47e4))
 
+
+- **(plugin)** Expose `swc_ecma_quote` (#3790) ([bc60a6e](https://github.com/swc-project/swc/commit/bc60a6e90ccc1adcb8d9eda9ef47725e20fbfa23))
+
 ### Miscellaneous Tasks
 - **general**: Update `rustc` (#3768) ([3798436](https://github.com/swc-project/swc/commit/3798436201a0838e55beac974792f4d560b47657))
 
