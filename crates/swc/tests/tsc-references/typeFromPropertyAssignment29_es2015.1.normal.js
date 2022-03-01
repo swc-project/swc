@@ -75,7 +75,7 @@ ExpandoClass.m = function(n11) {
 };
 var n = ExpandoClass.prop + ExpandoClass.m(12) + new ExpandoClass().n;
 // Class expressions shouldn't work in typescript either
-var ExpandoExpr3 = class _class {
+var ExpandoExpr3 = class {
     constructor(){
         this.n = 10001;
     }

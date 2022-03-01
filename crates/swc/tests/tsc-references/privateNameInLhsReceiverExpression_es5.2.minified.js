@@ -39,18 +39,18 @@ var _y = new WeakMap(), Test = function() {
         {
             key: "something",
             value: function(obj) {
-                var _s, _x, _class, _x1, _class1, receiver, privateMap, descriptor, receiver, descriptor;
-                _classPrivateFieldSet(obj[(new (_x = new WeakMap(), _class = function() {
+                var _s, _x, _x1, receiver, privateMap, descriptor, receiver, descriptor;
+                _classPrivateFieldSet(obj[(new (_x = new WeakMap(), function _class() {
                     _classCallCheck(this, _class), _classPrivateFieldInit(this, _x, {
                         writable: !0,
                         value: 1
                     }), this.s = "prop";
-                })).s], _y, 1), _classPrivateFieldSet(_s = obj[(new (_x1 = new WeakMap(), _class1 = function() {
-                    _classCallCheck(this, _class1), _classPrivateFieldInit(this, _x1, {
+                })).s], _y, 1), _classPrivateFieldSet(_s = obj[(new (_x1 = new WeakMap(), function _class() {
+                    _classCallCheck(this, _class), _classPrivateFieldInit(this, _x1, {
                         writable: !0,
                         value: 1
                     }), this.s = "prop";
-                })).s], _y, ((descriptor = descriptor = _classExtractFieldDescriptor(receiver = _s, privateMap = _y, "get")).get ? descriptor.get.call(receiver) : descriptor.value) + 1);
+                })).s], _y, ((descriptor = _classExtractFieldDescriptor(receiver = _s, privateMap = _y, "get")).get ? descriptor.get.call(receiver) : descriptor.value) + 1);
             }
         }
     ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Test;

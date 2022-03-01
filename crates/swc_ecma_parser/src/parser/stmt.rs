@@ -63,12 +63,14 @@ impl<'a, I: Tokens> Parser<I> {
         Ok(stmts.into_vec())
     }
 
+    /// Parse a statement but not a declaration.
     pub fn parse_stmt(&mut self, top_level: bool) -> PResult<Stmt> {
         trace_cur!(self, parse_stmt);
         self.parse_stmt_like(false, top_level)
     }
 
-    fn parse_stmt_list_item(&mut self, top_level: bool) -> PResult<Stmt> {
+    /// Parse a statement and maybe a declaration.
+    pub fn parse_stmt_list_item(&mut self, top_level: bool) -> PResult<Stmt> {
         trace_cur!(self, parse_stmt_list_item);
         self.parse_stmt_like(true, top_level)
     }

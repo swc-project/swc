@@ -2,9 +2,9 @@
 var p1;
 var p2;
 var p3;
-var tmp = p1, tmp1 = p2, tmp2 = p3;
+let _p1 = p1, _p2 = p2, _p3 = p3;
 class C {
-    [tmp]() {}
-    [tmp1]() {}
-    [tmp2]() {}
+    [_p1]() {}
+    [_p2]() {}
+    [_p3]() {}
 }

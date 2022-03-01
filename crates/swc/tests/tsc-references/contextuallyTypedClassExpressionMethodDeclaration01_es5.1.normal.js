@@ -42,9 +42,9 @@ function getFoo1() {
     })();
 }
 function getFoo2() {
-    return _class = function _class3() {
+    return _class = function _class2() {
         "use strict";
-        _classCallCheck(this, _class3);
+        _classCallCheck(this, _class2);
     }, _class.method1 = function(arg) {
         arg.numProp = 10;
     }, _class.method2 = function(arg) {
@@ -52,9 +52,9 @@ function getFoo2() {
     }, _class;
 }
 function getFoo3() {
-    return _class1 = function _class3() {
+    return _class1 = function _class2() {
         "use strict";
-        _classCallCheck(this, _class3);
+        _classCallCheck(this, _class2);
     }, _class1.method1 = function(arg) {
         arg.numProp = 10;
     }, _class1.method2 = function(arg) {

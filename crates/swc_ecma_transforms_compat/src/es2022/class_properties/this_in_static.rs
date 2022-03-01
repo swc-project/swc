@@ -1,11 +1,13 @@
 use swc_ecma_ast::*;
 use swc_ecma_utils::undefined;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_trace_macro::swc_trace;
 
 pub(super) struct ThisInStaticFolder {
     pub ident: Ident,
 }
 
+#[swc_trace]
 impl VisitMut for ThisInStaticFolder {
     noop_visit_mut_type!();
 
@@ -25,6 +27,7 @@ impl VisitMut for ThisInStaticFolder {
 
 pub(super) struct NewTargetInProp;
 
+#[swc_trace]
 impl VisitMut for NewTargetInProp {
     noop_visit_mut_type!();
 

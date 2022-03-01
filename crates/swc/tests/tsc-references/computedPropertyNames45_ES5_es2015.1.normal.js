@@ -3,13 +3,11 @@ class Foo {
 }
 class Foo2 {
 }
-var tmp = "get1";
 class C {
-    get [tmp]() {
+    get ["get1"]() {
         return new Foo;
     }
 }
-var tmp1 = "set1";
 class D extends C {
-    set [tmp1](p) {}
+    set ["set1"](p) {}
 }

@@ -31,7 +31,7 @@ var _ref = {}, key = order(0), key1 = order(2), tmp2 = _ref[key];
     }(source, excluded);
     if (Object.getOwnPropertySymbols) {
         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-        for(i = 0; i < sourceSymbolKeys.length; i++)key2 = sourceSymbolKeys[i], !(excluded.indexOf(key2) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key2) && (target[key2] = source[key2]);
+        for(i = 0; i < sourceSymbolKeys.length; i++)key2 = sourceSymbolKeys[i], excluded.indexOf(key2) >= 0 || Object.prototype.propertyIsEnumerable.call(source, key2) && (target[key2] = source[key2]);
     }
 })(_ref, [
     key

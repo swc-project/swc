@@ -2,7 +2,7 @@ class Bar {
 }
 class Foo extends Bar {
 }
-var tmp = Symbol.iterator;
+let _iterator = Symbol.iterator;
 class FooIterator {
     next() {
         return {
@@ -10,7 +10,7 @@ class FooIterator {
             done: !1
         };
     }
-    [tmp]() {
+    [_iterator]() {
         return this;
     }
 }

@@ -1,5 +1,5 @@
-var tmp = e;
+let _e = e;
 //@target: ES6
 class C {
-    set [tmp](v) {}
+    set [_e](v) {}
 }

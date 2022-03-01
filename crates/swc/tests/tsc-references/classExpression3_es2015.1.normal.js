@@ -1,4 +1,4 @@
-let C = class _class extends class _class extends class _class {
+let C = class extends class extends class {
     constructor(){
         this.a = 1;
     }

@@ -3,9 +3,15 @@ use std::{fmt::Debug, sync::Arc};
 use auto_impl::auto_impl;
 use parking_lot::Mutex;
 use rayon::prelude::*;
-use swc_common::errors::{Diagnostic, DiagnosticBuilder, Emitter, Handler, HANDLER};
+use serde::Serialize;
+use swc_common::{
+    errors::{Diagnostic, DiagnosticBuilder, Emitter, Handler, HANDLER},
+    Spanned,
+};
 use swc_css_ast::Stylesheet;
 use swc_css_visit::{Visit, VisitWith};
+
+use super::config::{LintRuleReaction, RuleConfig};
 
 /// A lint rule.
 ///
@@ -45,7 +51,7 @@ where
 
             HANDLER.with(|handler| {
                 for error in errors {
-                    DiagnosticBuilder::new_diagnostic(&handler, error).emit();
+                    DiagnosticBuilder::new_diagnostic(handler, error).emit();
                 }
             });
         }
@@ -81,5 +87,52 @@ where
 {
     fn lint_stylesheet(&mut self, stylesheet: &Stylesheet) {
         stylesheet.visit_with(&mut self.0);
+    }
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct LintRuleContext<C>
+where
+    C: Debug + Clone + Serialize + Default,
+{
+    reaction: LintRuleReaction,
+    config: C,
+}
+
+impl<C> LintRuleContext<C>
+where
+    C: Debug + Clone + Serialize + Default,
+{
+    pub(crate) fn report<N, S>(&self, ast_node: N, message: S)
+    where
+        N: Spanned,
+        S: AsRef<str>,
+    {
+        HANDLER.with(|handler| match self.reaction {
+            LintRuleReaction::Error => handler
+                .struct_span_err(ast_node.span(), message.as_ref())
+                .emit(),
+            LintRuleReaction::Warning => handler
+                .struct_span_warn(ast_node.span(), message.as_ref())
+                .emit(),
+            _ => {}
+        });
+    }
+
+    #[inline]
+    pub(crate) fn config(&self) -> &C {
+        &self.config
+    }
+}
+
+impl<C> From<&RuleConfig<C>> for LintRuleContext<C>
+where
+    C: Debug + Clone + Serialize + Default,
+{
+    fn from(config: &RuleConfig<C>) -> Self {
+        Self {
+            reaction: config.get_rule_reaction(),
+            config: config.get_rule_config().clone(),
+        }
     }
 }

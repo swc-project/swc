@@ -21,7 +21,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 var s;
 var n;
 var a;
-var tmp = s, tmp1 = n, tmp2 = s + s, tmp3 = s + n, tmp4 = +s, tmp5 = "", tmp6 = 0, tmp7 = a, tmp8 = true, tmp9 = "hello bye", tmp10 = "hello ".concat(a, " bye");
+var _s = s, _n = n, tmp = s + s, tmp1 = s + n, tmp2 = +s, _a = a, tmp3 = "hello ".concat(a, " bye");
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -29,7 +29,11 @@ var C = /*#__PURE__*/ function() {
     }
     _createClass(C, [
         {
-            key: tmp,
+            key: _s,
+            value: function value() {}
+        },
+        {
+            key: _n,
             value: function value() {}
         },
         {
@@ -37,40 +41,36 @@ var C = /*#__PURE__*/ function() {
             value: function value() {}
         },
         {
-            key: tmp3,
-            value: function value() {}
-        },
-        {
-            key: tmp4,
-            value: function value() {}
-        },
-        {
-            key: tmp6,
-            value: function value() {}
-        },
-        {
-            key: tmp7,
-            value: function value() {}
-        },
-        {
-            key: tmp9,
-            value: function value() {}
-        }
-    ], [
-        {
             key: tmp2,
             value: function value() {}
         },
         {
-            key: tmp5,
+            key: 0,
             value: function value() {}
         },
         {
-            key: tmp8,
+            key: _a,
             value: function value() {}
         },
         {
-            key: tmp10,
+            key: "hello bye",
+            value: function value() {}
+        }
+    ], [
+        {
+            key: tmp,
+            value: function value() {}
+        },
+        {
+            key: "",
+            value: function value() {}
+        },
+        {
+            key: true,
+            value: function value() {}
+        },
+        {
+            key: tmp3,
             value: function value() {}
         }
     ]);

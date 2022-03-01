@@ -1,13 +1,13 @@
-var tmp = Symbol.toStringTag;
+let _toStringTag = Symbol.toStringTag;
 //@target: ES6
 class C1 {
-    [tmp]() {
+    [_toStringTag]() {
         return {};
     }
 }
-var tmp1 = Symbol.toStringTag;
+let _toStringTag1 = Symbol.toStringTag;
 class C2 extends C1 {
-    [tmp1]() {
+    [_toStringTag1]() {
         return "";
     }
 }

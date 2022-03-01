@@ -61,7 +61,7 @@ var ref, Bar = function() {
         return _classCallCheck(this, Foo), _super.apply(this, arguments);
     }
     return Foo;
-}(Bar), tmp = Symbol.iterator, FooIterator = function() {
+}(Bar), _iterator = Symbol.iterator, FooIterator = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function FooIterator() {
@@ -78,7 +78,7 @@ var ref, Bar = function() {
             }
         },
         {
-            key: tmp,
+            key: _iterator,
             value: function() {
                 return this;
             }

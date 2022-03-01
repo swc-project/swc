@@ -105,7 +105,7 @@ where
         name: &mut Pat,
         init: Option<&mut Expr>,
     ) {
-        if self.ctx.is_exported {
+        if self.ctx.is_exported || self.ctx.in_asm {
             return;
         }
 
@@ -440,6 +440,20 @@ where
             return;
         }
 
+        let used_arguments = self
+            .data
+            .as_ref()
+            .map(|data| {
+                data.scopes.get(&self.ctx.scope).unwrap_or_else(|| {
+                    unreachable!(
+                        "scope should exist\nScopes: {:?};\nCtxt: {:?}",
+                        data.scopes, self.ctx.scope
+                    )
+                })
+            })
+            .map(|scope| scope.used_arguments)
+            .unwrap_or(false);
+
         if cfg!(feature = "debug") {
             tracing::trace!(
                 "unused: drop_unused_assignments: Target: `{}`",
@@ -480,7 +494,11 @@ where
                         .as_ref()
                         .and_then(|data| data.vars.get(&i.to_id()))
                     {
-                        if var.is_fn_local && var.usage_count == 0 && var.declared {
+                        if var.is_fn_local
+                            && var.usage_count == 0
+                            && var.declared
+                            && (!var.declared_as_fn_param || !used_arguments)
+                        {
                             tracing::debug!(
                                 "unused: Dropping assignment to var '{}{:?}', which is never used",
                                 i.id.sym,

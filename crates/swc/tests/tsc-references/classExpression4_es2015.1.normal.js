@@ -1,4 +1,4 @@
-let C = class _class {
+let C = class {
     foo() {
         return new C();
     }

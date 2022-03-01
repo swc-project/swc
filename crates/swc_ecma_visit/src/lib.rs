@@ -1,5 +1,6 @@
 // This is not a public api.
 #![deny(clippy::all)]
+#![allow(clippy::ptr_arg)]
 
 #[doc(hidden)]
 pub extern crate swc_ecma_ast;

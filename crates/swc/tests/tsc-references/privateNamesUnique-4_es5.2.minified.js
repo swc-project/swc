@@ -14,3 +14,4 @@ var A1 = function() {
         if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
     })(obj, privateMap = _something), privateMap.set(obj, value);
 };
+a;

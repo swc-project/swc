@@ -1,0 +1,5 @@
+{
+    "rules": {
+        "selector-max-combinators": ["error"]
+    }
+}

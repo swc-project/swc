@@ -17,7 +17,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var tmp = Symbol.toStringTag, C1 = function() {
+var _toStringTag = Symbol.toStringTag, C1 = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C1() {
@@ -25,7 +25,7 @@ var tmp = Symbol.toStringTag, C1 = function() {
     }
     return Constructor = C1, protoProps = [
         {
-            key: tmp,
+            key: _toStringTag,
             value: function() {
                 return {
                     x: ""

@@ -5,7 +5,8 @@ use serde::{Deserialize, Serialize};
 use crate::rules::{
     at_rule_no_unknown::AtRuleNoUnknownConfig, color_hex_length::ColorHexLengthConfig,
     no_invalid_position_at_import_rule::NoInvalidPositionAtImportRuleConfig,
-    unit_no_unknown::UnitNoUnknownConfig,
+    selector_max_class::SelectorMaxClassConfig,
+    selector_max_combinators::SelectorMaxCombinatorsConfig, unit_no_unknown::UnitNoUnknownConfig,
 };
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
@@ -64,10 +65,6 @@ impl<T: Debug + Clone + Serialize + Default> RuleConfig<T> {
     pub(crate) fn get_rule_config(&self) -> &T {
         &self.1
     }
-
-    pub(crate) fn is_enabled(&self) -> bool {
-        !matches!(self.get_rule_reaction(), LintRuleReaction::Off)
-    }
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -93,7 +90,7 @@ pub struct RulesConfig {
     pub no_invalid_position_at_import_rule: RuleConfig<NoInvalidPositionAtImportRuleConfig>,
 
     #[serde(default, alias = "selectorMaxClass")]
-    pub selector_max_class: RuleConfig<Option<usize>>,
+    pub selector_max_class: RuleConfig<SelectorMaxClassConfig>,
 
     #[serde(default, alias = "colorHexLength")]
     pub color_hex_length: RuleConfig<ColorHexLengthConfig>,
@@ -103,6 +100,9 @@ pub struct RulesConfig {
 
     #[serde(default, alias = "unitNoUnknown")]
     pub unit_no_unknown: RuleConfig<UnitNoUnknownConfig>,
+
+    #[serde(default, alias = "selectorMaxCombinators")]
+    pub selector_max_combinators: RuleConfig<SelectorMaxCombinatorsConfig>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

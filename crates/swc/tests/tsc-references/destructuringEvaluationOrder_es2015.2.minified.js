@@ -24,7 +24,7 @@ let trace = [], order = (n)=>trace.push(n)
     }(source, excluded);
     if (Object.getOwnPropertySymbols) {
         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-        for(i = 0; i < sourceSymbolKeys.length; i++)key2 = sourceSymbolKeys[i], !(excluded.indexOf(key2) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key2) && (target[key2] = source[key2]);
+        for(i = 0; i < sourceSymbolKeys.length; i++)key2 = sourceSymbolKeys[i], excluded.indexOf(key2) >= 0 || Object.prototype.propertyIsEnumerable.call(source, key2) && (target[key2] = source[key2]);
     }
     return target;
 }(_ref, [

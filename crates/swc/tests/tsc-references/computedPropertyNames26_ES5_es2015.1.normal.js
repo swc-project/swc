@@ -4,7 +4,7 @@ class Base {
         return 0;
     }
 }
-var tmp = {
+let tmp = {
     [super.bar()]: 1
 }[0];
 class C extends Base {

@@ -8,7 +8,7 @@ module.exports.n = {};
 module.exports.n.K = function C() {
     this.x = 10;
 };
-module.exports.Classic = class _class {
+module.exports.Classic = class {
     constructor(){
         this.p = 1;
     }

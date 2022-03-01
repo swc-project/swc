@@ -697,7 +697,7 @@ where
         self.compress_cond_to_logical_ignoring_return_value(e);
 
         match e {
-            Expr::Ident(..) | Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
+            Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
                 if cfg!(feature = "debug") {
                     tracing::debug!(
                         "ignore_return_value: Dropping unused expr: {}",
@@ -1311,6 +1311,9 @@ where
 
     fn merge_var_decls(&mut self, stmts: &mut Vec<Stmt>) {
         if !self.options.join_vars && !self.options.hoist_vars {
+            return;
+        }
+        if self.ctx.in_asm {
             return;
         }
 
@@ -2453,7 +2456,8 @@ where
             }
 
             if self.options.unused {
-                let can_be_removed = !is_directive && !expr.may_have_side_effects();
+                let can_be_removed =
+                    !is_directive && !expr.is_ident() && !expr.may_have_side_effects();
 
                 if can_be_removed {
                     self.changed = true;
@@ -2524,6 +2528,21 @@ where
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        // Skip if `use asm` exists.
+        if stmts.iter().any(|stmt| match stmt.as_stmt() {
+            Some(Stmt::Expr(stmt)) => match &*stmt.expr {
+                Expr::Lit(Lit::Str(Str {
+                    value,
+                    has_escape: false,
+                    ..
+                })) => &**value == "use asm",
+                _ => false,
+            },
+            _ => false,
+        }) {
+            return;
+        }
+
         let ctx = Ctx {
             top_level: false,
             ..self.ctx

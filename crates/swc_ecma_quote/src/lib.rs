@@ -8,6 +8,11 @@ pub extern crate swc_ecma_ast;
 #[doc(hidden)]
 pub extern crate swc_ecma_quote_macros;
 
+#[doc(hidden)]
+pub use self::clone::ImplicitClone;
+
+mod clone;
+
 /// # Supported output types
 ///
 ///  - `Expr`
@@ -22,15 +27,20 @@ pub extern crate swc_ecma_quote_macros;
 ///
 /// # Variable substitution
 ///
-/// (**Not implemented**)
-///
 /// If an identifier starts with `$`, it is substituted with the value of the
 /// parameter passed.
 ///
 /// e.g.
 ///
-/// ```rust,ignore
-/// quote!("const $name = 4;" as Stmt, name = private_ident!("ref"))
+/// ```rust
+/// use swc_common::DUMMY_SP;
+/// use swc_ecma_ast::Ident;
+/// use swc_ecma_quote::quote;
+///
+/// // This will return ast for `const ref = 4;`
+/// let _stmt = quote!("const $name = 4;" as Stmt, name = Ident::new("ref".into(), DUMMY_SP));
+///
+/// // Tip: Use private_ident!("ref") for real identifiers.
 /// ```
 ///
 ///
@@ -38,13 +48,15 @@ pub extern crate swc_ecma_quote_macros;
 ///
 /// ## Quote a variable declaration
 ///
-/// (**Not implemented**)
-///
 /// ```rust
-/// use swc_ecma_ast::*;
+/// use swc_common::DUMMY_SP;
+/// use swc_ecma_ast::Ident;
 /// use swc_ecma_quote::quote;
 ///
-/// let stmt = quote!("const $name = 4;" as Stmt, name = private_ident!("ref"));
+/// // This will return ast for `const ref = 4;`
+/// let _stmt = quote!("const $name = 4;" as Stmt, name = Ident::new("ref".into(), DUMMY_SP));
+///
+/// // Tip: Use private_ident!("ref") for real identifiers.
 /// ```
 #[macro_export]
 macro_rules! quote {
@@ -58,11 +70,11 @@ macro_rules! quote {
 /// This is an alias for [quote], but without `as Box<Expr>`.
 #[macro_export]
 macro_rules! quote_expr {
-    ($($tt1:tt)*) => {{
-        $crate::quote!($($tt1)* as Box<Expr>)
+    ($src:tt) => {{
+        $crate::quote!($src as Box<Expr>)
     }};
 
-    ($($tt1:tt)*, $($tt2:tt)*) => {{
-        $crate::quote!($($tt1)* as Box<Expr>, $($tt2)*)
+    ($src:tt, $($tt2:tt)*) => {{
+        $crate::quote!($src as Box<Expr>, $($tt2)*)
     }};
 }

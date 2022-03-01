@@ -13,6 +13,7 @@ use swc_ecma_utils::{
     ExprFactory, HANDLER,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_trace_macro::swc_trace;
 
 use super::Config;
 
@@ -24,6 +25,7 @@ pub(super) struct Private {
 
 pub(super) struct PrivateRecord(Vec<Private>);
 
+#[swc_trace]
 impl PrivateRecord {
     pub fn new() -> Self {
         PrivateRecord(Vec::new())
@@ -79,6 +81,7 @@ pub(super) struct BrandCheckHandler<'a> {
     pub private: &'a PrivateRecord,
 }
 
+#[swc_trace]
 impl VisitMut for BrandCheckHandler<'_> {
     noop_visit_mut_type!();
 
@@ -177,6 +180,7 @@ macro_rules! take_vars {
 }
 
 // super.#sdsa is invalid
+#[swc_trace]
 impl<'a> VisitMut for PrivateAccessVisitor<'a> {
     noop_visit_mut_type!();
 
@@ -622,6 +626,7 @@ pub(super) fn visit_private_in_expr(
     priv_visitor.vars
 }
 
+#[swc_trace]
 impl<'a> PrivateAccessVisitor<'a> {
     /// Returns `(expr, thisObject)`
     ///

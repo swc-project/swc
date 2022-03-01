@@ -5,7 +5,7 @@ class Bar {
 }
 class Foo extends Bar {
 }
-var tmp = Symbol.iterator;
+let _iterator = Symbol.iterator;
 class FooIterator {
     next() {
         return {
@@ -13,11 +13,11 @@ class FooIterator {
             done: false
         };
     }
-    [tmp]() {
+    [_iterator]() {
         return this;
     }
 }
-var tmp1 = Symbol.iterator;
+let _iterator1 = Symbol.iterator;
 class FooIteratorIterator {
     next() {
         return {
@@ -25,7 +25,7 @@ class FooIteratorIterator {
             done: false
         };
     }
-    [tmp1]() {
+    [_iterator1]() {
         return this;
     }
 }

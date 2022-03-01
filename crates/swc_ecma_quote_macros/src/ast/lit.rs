@@ -42,7 +42,7 @@ impl ToCode for f64 {
     fn to_code(&self, _: &Ctx) -> syn::Expr {
         syn::Expr::Lit(ExprLit {
             attrs: Default::default(),
-            lit: syn::Lit::Float(LitFloat::new(&self.to_string(), Span::call_site())),
+            lit: syn::Lit::Float(LitFloat::new(&format!("{}f64", self), Span::call_site())),
         })
     }
 }

@@ -1,6 +1,6 @@
 var _class, _class1;
 function getFoo1() {
-    return class _class {
+    return class {
         static method1(arg) {
             arg.numProp = 10;
         }

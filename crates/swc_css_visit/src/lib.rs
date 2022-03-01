@@ -1,4 +1,5 @@
 #![deny(clippy::all)]
+#![allow(clippy::ptr_arg)]
 
 use swc_atoms::JsWord;
 use swc_common::Span;
