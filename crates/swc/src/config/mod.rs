@@ -1069,6 +1069,8 @@ pub enum ModuleConfig {
     Umd(modules::umd::Config),
     #[serde(rename = "amd")]
     Amd(modules::amd::Config),
+    #[serde(rename = "systemjs")]
+    SystemJs(modules::system_js::Config),
     #[serde(rename = "es6")]
     Es6,
 }
@@ -1146,6 +1148,17 @@ impl ModuleConfig {
                     Box::new(chain!(
                         base_pass,
                         modules::amd::amd_with_resolver(resolver, base, config)
+                    ))
+                }
+            }
+            Some(ModuleConfig::SystemJs(config)) => {
+                if paths.is_empty() {
+                    Box::new(modules::system_js::system_js(root_mark, config))
+                } else {
+                    let resolver = build_resolver(base_url, paths);
+
+                    Box::new(modules::system_js::system_js_with_resolver(
+                        resolver, base, root_mark, config,
                     ))
                 }
             }
