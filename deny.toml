@@ -82,6 +82,7 @@ allow = [
   "ISC",
   "Zlib",
   "MPL-2.0",
+  "0BSD",
 ]
 # List of explictly disallowed licenses
 # See https://spdx.org/licenses/ for list of possible licenses
