@@ -17,7 +17,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var tmp = Symbol.iterator, tmp1 = Symbol.iterator;
+var _iterator = Symbol.iterator, _iterator1 = Symbol.iterator;
 var C = //@target: ES6
 /*#__PURE__*/ function() {
     "use strict";
@@ -26,13 +26,13 @@ var C = //@target: ES6
     }
     _createClass(C, [
         {
-            key: tmp,
+            key: _iterator,
             value: function value(x) {
                 return undefined;
             }
         },
         {
-            key: tmp1,
+            key: _iterator1,
             value: function value(x) {
                 return undefined;
             }

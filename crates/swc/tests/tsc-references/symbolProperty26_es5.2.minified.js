@@ -20,20 +20,20 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var tmp = Symbol.toStringTag, C1 = function() {
+var _toStringTag = Symbol.toStringTag, C1 = function() {
     "use strict";
     function C1() {
         _classCallCheck(this, C1);
     }
     return _createClass(C1, [
         {
-            key: tmp,
+            key: _toStringTag,
             value: function() {
                 return "";
             }
         }
     ]), C1;
-}(), tmp1 = Symbol.toStringTag, C2 = function(C1) {
+}(), _toStringTag1 = Symbol.toStringTag, C2 = function(C1) {
     "use strict";
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
@@ -70,7 +70,7 @@ var tmp = Symbol.toStringTag, C1 = function() {
     }
     return _createClass(C2, [
         {
-            key: tmp1,
+            key: _toStringTag1,
             value: function() {
                 return "";
             }

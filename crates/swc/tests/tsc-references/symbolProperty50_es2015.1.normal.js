@@ -1,8 +1,8 @@
 //@target: ES6
 var M;
 (function(M) {
-    var tmp = Symbol.iterator;
+    let _iterator = Symbol.iterator;
     class C {
-        [tmp]() {}
+        [_iterator]() {}
     }
 })(M || (M = {}));

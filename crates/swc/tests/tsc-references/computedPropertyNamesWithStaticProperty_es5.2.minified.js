@@ -7,7 +7,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var tmp = (_classNameTDZError("C"), C).staticProp, tmp1 = (_classNameTDZError("C"), C).staticProp, tmp2 = (_classNameTDZError("C"), C).staticProp, C = function() {
+var _staticProp = (_classNameTDZError("C"), C).staticProp, _staticProp1 = (_classNameTDZError("C"), C).staticProp, _staticProp2 = (_classNameTDZError("C"), C).staticProp, C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
@@ -17,17 +17,17 @@ var tmp = (_classNameTDZError("C"), C).staticProp, tmp1 = (_classNameTDZError("C
     }
     return Constructor = C, protoProps = [
         {
-            key: tmp,
+            key: _staticProp,
             get: function() {
                 return "hello";
             }
         },
         {
-            key: tmp1,
+            key: _staticProp1,
             set: function(x) {}
         },
         {
-            key: tmp2,
+            key: _staticProp2,
             value: function() {}
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;

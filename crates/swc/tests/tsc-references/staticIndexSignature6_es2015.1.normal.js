@@ -1,6 +1,6 @@
 // @strict: true
 function foo() {
-    return class _class {
+    return class {
         foo(v) {
             return v;
         }

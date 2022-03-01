@@ -48,7 +48,7 @@ function foo() {
         s[_key] = arguments[_key];
     }
 }
-var tmp = Symbol.iterator;
+var _iterator = Symbol.iterator;
 var SymbolIterator = /*#__PURE__*/ function() {
     "use strict";
     function SymbolIterator() {
@@ -65,7 +65,7 @@ var SymbolIterator = /*#__PURE__*/ function() {
             }
         },
         {
-            key: tmp,
+            key: _iterator,
             value: function value() {
                 return this;
             }

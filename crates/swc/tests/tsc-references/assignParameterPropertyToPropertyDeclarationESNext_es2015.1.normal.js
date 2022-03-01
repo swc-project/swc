@@ -48,7 +48,7 @@ class E {
 }
 class F {
     constructor(){
-        this.Inner = class _class extends F {
+        this.Inner = class extends F {
             constructor(...args){
                 super(...args);
                 this.p2 = this.p1;
@@ -60,7 +60,7 @@ class F {
 class G {
     constructor(p1){
         this.p1 = p1;
-        this.Inner = class _class extends G {
+        this.Inner = class extends G {
             constructor(...args){
                 super(...args);
                 this.p2 = this.p1;

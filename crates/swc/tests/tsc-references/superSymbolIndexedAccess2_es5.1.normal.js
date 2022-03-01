@@ -106,7 +106,7 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var tmp = Symbol.isConcatSpreadable;
+var _isConcatSpreadable = Symbol.isConcatSpreadable;
 var Foo = //@target: ES6
 /*#__PURE__*/ function() {
     "use strict";
@@ -115,7 +115,7 @@ var Foo = //@target: ES6
     }
     _createClass(Foo, [
         {
-            key: tmp,
+            key: _isConcatSpreadable,
             value: function value() {
                 return 0;
             }
@@ -123,7 +123,7 @@ var Foo = //@target: ES6
     ]);
     return Foo;
 }();
-var tmp1 = Symbol.isConcatSpreadable;
+var _isConcatSpreadable1 = Symbol.isConcatSpreadable;
 var Bar = /*#__PURE__*/ function(Foo) {
     "use strict";
     _inherits(Bar, Foo);
@@ -134,7 +134,7 @@ var Bar = /*#__PURE__*/ function(Foo) {
     }
     _createClass(Bar, [
         {
-            key: tmp1,
+            key: _isConcatSpreadable1,
             value: function value() {
                 return _get(_getPrototypeOf(Bar.prototype), Symbol.isConcatSpreadable, this).call(this);
             }

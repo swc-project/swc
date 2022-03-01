@@ -10,7 +10,7 @@ y.name;
 x.name;
 // @Filename: def.js
 var Outer = {};
-Outer.Inner = class _class {
+Outer.Inner = class {
     name() {
         return 'hi';
     }

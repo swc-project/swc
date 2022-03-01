@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_plugin_runner"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.38.1"
+version = "0.38.3"
 
 [dependencies]
 anyhow = "1.0.42"
@@ -17,9 +17,9 @@ serde_json = "1.0.64"
 swc_common = {version = "0.17.0", path = "../swc_common", features = ["plugin-rt", "concurrent"]}
 swc_ecma_ast = {version = "0.68.0", path = "../swc_ecma_ast", features = ["rkyv-impl"]}
 tracing = "0.1.31"
-wasmer = "2.1.1"
-wasmer-cache = "2.1.1"
-wasmer-wasi = "2.1.1"
+wasmer = "2.2.0"
+wasmer-cache = "2.2.0"
+wasmer-wasi = "2.2.0"
 
 [dev-dependencies]
 swc_atoms = {version = "0.2.7", path = '../swc_atoms'}

@@ -1,11 +1,12 @@
-var tmp = Symbol.iterator, [a, b] = new class {
+let _iterator = Symbol.iterator;
+var [a, b] = new class {
     next() {
         return {
             value: Symbol(),
             done: !1
         };
     }
-    [tmp]() {
+    [_iterator]() {
         return this;
     }
 };

@@ -5,11 +5,10 @@ class Foo2 {
 }
 class C {
 }
-var tmp = "get1", tmp1 = "set1";
 class D extends C {
     // Computed properties
-    get [tmp]() {
+    get ["get1"]() {
         return new Foo;
     }
-    set [tmp1](p) {}
+    set ["set1"](p) {}
 }

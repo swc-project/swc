@@ -28,18 +28,15 @@ function _classPrivateMethodInit(obj, privateSet) {
     _checkPrivateRedeclaration(obj, privateSet);
     privateSet.add(obj);
 }
+var _bar, _class;
 // @target: es2015
-const C = function() {
-    var _bar = new WeakSet();
-    class _class {
-        foo() {
-            _classPrivateFieldSet(this, _bar, console.log("should log this then throw"));
-        }
-        constructor(){
-            _classPrivateMethodInit(this, _bar);
-        }
+const C = (_bar = new WeakSet(), _class = class {
+    foo() {
+        _classPrivateFieldSet(this, _bar, console.log("should log this then throw"));
     }
-    function bar() {}
-    return _class;
-}();
+    constructor(){
+        _classPrivateMethodInit(this, _bar);
+    }
+}, _class);
 console.log(new C().foo());
+function bar() {}

@@ -22,7 +22,7 @@ function _superPropBase(object, property) {
     for(; !Object.prototype.hasOwnProperty.call(object, property) && null !== (object = _getPrototypeOf(object)););
     return object;
 }
-var symbol = Symbol.for("myThing"), tmp = symbol, Bar = function() {
+var symbol = Symbol.for("myThing"), _symbol = symbol, Bar = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function Bar() {
@@ -32,7 +32,7 @@ var symbol = Symbol.for("myThing"), tmp = symbol, Bar = function() {
     }
     return Constructor = Bar, protoProps = [
         {
-            key: tmp,
+            key: _symbol,
             value: function() {
                 return _get(_getPrototypeOf(Bar.prototype), symbol, this).call(this);
             }
