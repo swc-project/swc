@@ -230,6 +230,7 @@ where
                         && v.usage_count == 0
                         && !v.reassigned_with_assignment
                         && !v.has_property_mutation
+                        && !v.declared_as_catch_param
                     {
                         self.changed = true;
                         tracing::debug!(
