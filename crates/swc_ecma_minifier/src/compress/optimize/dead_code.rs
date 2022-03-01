@@ -48,23 +48,21 @@ where
             self.optimize_in_fn_termination(&mut assign.right);
 
             // We only handle identifiers on lhs for now.
-            if let PatOrExpr::Pat(lhs) = &assign.left {
-                if let Pat::Ident(lhs) = &**lhs {
-                    //
-                    if self
-                        .data
-                        .as_ref()
-                        .and_then(|data| data.vars.get(&lhs.to_id()))
-                        .map(|var| var.is_fn_local)
-                        .unwrap_or(false)
-                    {
-                        tracing::debug!(
-                            "dead_code: Dropping an assignment to a variable declared in function \
-                             because function is being terminated"
-                        );
-                        self.changed = true;
-                        *e = *assign.right.take();
-                    }
+            if let Some(lhs) = assign.left.as_ident() {
+                //
+                if self
+                    .data
+                    .as_ref()
+                    .and_then(|data| data.vars.get(&lhs.to_id()))
+                    .map(|var| var.is_fn_local)
+                    .unwrap_or(false)
+                {
+                    tracing::debug!(
+                        "dead_code: Dropping an assignment to a variable declared in function \
+                         because function is being terminated"
+                    );
+                    self.changed = true;
+                    *e = *assign.right.take();
                 }
             }
         }
