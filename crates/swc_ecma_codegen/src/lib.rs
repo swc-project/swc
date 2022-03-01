@@ -582,7 +582,13 @@ where
     #[emitter]
     fn emit_callee(&mut self, node: &Callee) -> Result {
         match *node {
-            Callee::Expr(ref e) => emit!(e),
+            Callee::Expr(ref e) => {
+                if let Expr::New(new) = &**e {
+                    self.emit_new(new, false)?;
+                } else {
+                    emit!(e);
+                }
+            }
             Callee::Super(ref n) => emit!(n),
             Callee::Import(ref n) => emit!(n),
         }
@@ -663,7 +669,11 @@ where
                 }
             }
             OptChainBase::Call(ref e) => {
-                emit!(e.callee);
+                if let Expr::New(new) = &*e.callee {
+                    self.emit_new(new, false)?;
+                } else {
+                    emit!(e.callee);
+                }
                 punct!("?.");
 
                 punct!("(");
@@ -691,40 +701,58 @@ where
         punct!(")");
     }
 
-    #[emitter]
-    fn emit_new_expr(&mut self, node: &NewExpr) -> Result {
+    fn emit_new(&mut self, node: &NewExpr, should_ignore_empty_args: bool) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         {
             let span = self.cm.span_until_char(node.span, ' ');
-            keyword!(span, "new");
+            keyword!(self, span, "new");
         }
 
         let starts_with_alpha_num = node.callee.starts_with_alpha_num();
 
         if starts_with_alpha_num {
-            space!();
+            space!(self);
         } else {
-            formatting_space!();
+            formatting_space!(self);
         }
-        emit!(node.callee);
+        emit!(self, node.callee);
 
         if let Some(type_args) = &node.type_args {
-            emit!(type_args);
+            emit!(self, type_args);
         }
 
         if let Some(ref args) = node.args {
-            punct!("(");
-            self.emit_expr_or_spreads(node.span(), args, ListFormat::NewExpressionArguments)?;
-            punct!(")");
+            if !(self.cfg.minify && args.is_empty() && should_ignore_empty_args) {
+                punct!(self, "(");
+                self.emit_expr_or_spreads(node.span(), args, ListFormat::NewExpressionArguments)?;
+                punct!(self, ")");
+            }
         }
+
+        // if it's false, it means it doesn't come from emit_expr,
+        // we need to compensate that
+        if !should_ignore_empty_args && self.comments.is_some() {
+            self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
+        }
+
+        Ok(())
+    }
+
+    #[emitter]
+    fn emit_new_expr(&mut self, node: &NewExpr) -> Result {
+        self.emit_new(node, true)?;
     }
 
     #[emitter]
     fn emit_member_expr(&mut self, node: &MemberExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        emit!(node.obj);
+        if let Expr::New(new) = &*node.obj {
+            self.emit_new(new, false)?;
+        } else {
+            emit!(node.obj);
+        }
 
         match &node.prop {
             MemberProp::Computed(computed) => emit!(computed),
@@ -1469,7 +1497,12 @@ where
     fn emit_tagged_tpl_lit(&mut self, node: &TaggedTpl) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        emit!(node.tag);
+        if let Expr::New(new) = &*node.tag {
+            self.emit_new(new, false)?;
+        } else {
+            emit!(node.tag);
+        }
+
         emit!(node.type_params);
         emit!(node.tpl);
     }
