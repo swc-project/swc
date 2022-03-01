@@ -17,7 +17,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var tmp = Symbol.toPrimitive;
+var _toPrimitive = Symbol.toPrimitive;
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -25,7 +25,7 @@ var C = /*#__PURE__*/ function() {
     }
     _createClass(C, [
         {
-            key: tmp,
+            key: _toPrimitive,
             value: function value() {
                 return true;
             }

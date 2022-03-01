@@ -108,7 +108,7 @@ function _createSuper(Derived) {
 }
 //@target: ES5
 var symbol;
-var tmp = symbol;
+var _symbol = symbol;
 var Foo = /*#__PURE__*/ function() {
     "use strict";
     function Foo() {
@@ -116,7 +116,7 @@ var Foo = /*#__PURE__*/ function() {
     }
     _createClass(Foo, null, [
         {
-            key: tmp,
+            key: _symbol,
             value: function value() {
                 return 0;
             }
@@ -124,7 +124,7 @@ var Foo = /*#__PURE__*/ function() {
     ]);
     return Foo;
 }();
-var tmp1 = symbol;
+var _symbol1 = symbol;
 var Bar = /*#__PURE__*/ function(Foo) {
     "use strict";
     _inherits(Bar, Foo);
@@ -135,7 +135,7 @@ var Bar = /*#__PURE__*/ function(Foo) {
     }
     _createClass(Bar, null, [
         {
-            key: tmp1,
+            key: _symbol1,
             value: function value() {
                 return _get(_getPrototypeOf(Bar), symbol, this).call(this);
             }

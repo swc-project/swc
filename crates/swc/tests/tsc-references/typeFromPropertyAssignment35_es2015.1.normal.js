@@ -7,7 +7,7 @@
     const y = new Emu.D();
     const z = Emu.D._wrapperInstance;
 }
-Emu.D = class _class {
+Emu.D = class {
     constructor(){
         this._model = 1;
     }

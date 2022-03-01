@@ -83,7 +83,7 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var tmp = Symbol.toStringTag;
+var _toStringTag = Symbol.toStringTag;
 var C1 = //@target: ES6
 /*#__PURE__*/ function() {
     "use strict";
@@ -92,7 +92,7 @@ var C1 = //@target: ES6
     }
     _createClass(C1, [
         {
-            key: tmp,
+            key: _toStringTag,
             value: function value() {
                 return "";
             }
@@ -100,7 +100,7 @@ var C1 = //@target: ES6
     ]);
     return C1;
 }();
-var tmp1 = Symbol.toStringTag;
+var _toStringTag1 = Symbol.toStringTag;
 var C2 = /*#__PURE__*/ function(C1) {
     "use strict";
     _inherits(C2, C1);
@@ -111,7 +111,7 @@ var C2 = /*#__PURE__*/ function(C1) {
     }
     _createClass(C2, [
         {
-            key: tmp1,
+            key: _toStringTag1,
             value: function value() {
                 return "";
             }

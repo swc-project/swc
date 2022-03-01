@@ -1,5 +1,5 @@
-var tmp = foo;
+let _foo = foo;
 // @target: es6
 class C {
-    *[tmp]() {}
+    *[_foo]() {}
 }

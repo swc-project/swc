@@ -44,7 +44,8 @@ function _createClass(Constructor, protoProps, staticProps) {
 }
 // @target: esnext, es2022, es2015
 var getX;
-var _x = new WeakMap(), tmp = (getX = function(a) {
+var _x = new WeakMap();
+var tmp = (getX = function(a) {
     return _classPrivateFieldGet(a, _x);
 }, "_");
 var A = /*#__PURE__*/ function() {

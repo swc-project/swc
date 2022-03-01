@@ -1,1 +1,1 @@
-o.method;
+g, o.method;

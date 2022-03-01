@@ -21,7 +21,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 var p1;
 var p2;
 var p3;
-var tmp = p1, tmp1 = p2, tmp2 = p3;
+var _p1 = p1, _p2 = p2, _p3 = p3;
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -29,15 +29,15 @@ var C = /*#__PURE__*/ function() {
     }
     _createClass(C, [
         {
-            key: tmp,
+            key: _p1,
             value: function value() {}
         },
         {
-            key: tmp1,
+            key: _p2,
             value: function value() {}
         },
         {
-            key: tmp2,
+            key: _p3,
             value: function value() {}
         }
     ]);

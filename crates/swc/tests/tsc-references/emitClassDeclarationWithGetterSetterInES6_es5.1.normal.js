@@ -17,7 +17,6 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var tmp = "computedname", tmp1 = "computedname1", tmp2 = "computedname2", tmp3 = "computedname3", tmp4 = "computedname4", tmp5 = "computedname";
 var C = // @target:es6
 /*#__PURE__*/ function() {
     "use strict";
@@ -32,23 +31,23 @@ var C = // @target:es6
             }
         },
         {
-            key: tmp1,
+            key: "computedname1",
             get: function get() {
                 return "";
             }
         },
         {
-            key: tmp2,
+            key: "computedname2",
             get: function get() {
                 return "";
             }
         },
         {
-            key: tmp3,
+            key: "computedname3",
             set: function set(x) {}
         },
         {
-            key: tmp4,
+            key: "computedname4",
             set: function set(y) {}
         },
         {
@@ -63,7 +62,7 @@ var C = // @target:es6
             }
         },
         {
-            key: tmp,
+            key: "computedname",
             get: function get() {
                 return "";
             }
@@ -73,7 +72,7 @@ var C = // @target:es6
             set: function set(b) {}
         },
         {
-            key: tmp5,
+            key: "computedname",
             set: function set(b) {}
         }
     ]);

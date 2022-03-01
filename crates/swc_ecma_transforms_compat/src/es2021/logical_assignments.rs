@@ -4,7 +4,9 @@ use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{alias_ident_for, prepend};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_trace_macro::swc_trace;
 
+#[tracing::instrument(level = "trace", skip_all)]
 pub fn logical_assignments() -> impl Fold + VisitMut {
     as_folder(Operators::default())
 }
@@ -14,6 +16,7 @@ struct Operators {
     vars: Vec<VarDeclarator>,
 }
 
+#[swc_trace]
 impl Parallel for Operators {
     fn create(&self) -> Self {
         Default::default()
@@ -24,6 +27,7 @@ impl Parallel for Operators {
     }
 }
 
+#[swc_trace]
 #[parallel]
 impl VisitMut for Operators {
     noop_visit_mut_type!();

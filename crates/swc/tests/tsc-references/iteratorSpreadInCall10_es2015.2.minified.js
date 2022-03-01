@@ -1,4 +1,4 @@
-var tmp = Symbol.iterator;
+let _iterator = Symbol.iterator;
 !function(s) {
     return s[0];
 }(...new class {
@@ -8,7 +8,7 @@ var tmp = Symbol.iterator;
             done: !1
         };
     }
-    [tmp]() {
+    [_iterator]() {
         return this;
     }
 });

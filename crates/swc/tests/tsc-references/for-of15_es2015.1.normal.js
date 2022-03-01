@@ -1,10 +1,10 @@
-var tmp = Symbol.iterator;
+let _iterator = Symbol.iterator;
 //@target: ES6
 class StringIterator {
     next() {
         return "";
     }
-    [tmp]() {
+    [_iterator]() {
         return this;
     }
 }

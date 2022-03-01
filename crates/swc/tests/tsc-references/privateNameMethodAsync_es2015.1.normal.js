@@ -134,44 +134,41 @@ function _wrapAsyncGenerator(fn) {
         return new AsyncGenerator(fn.apply(this, arguments));
     };
 }
+var _bar, _baz, _qux, _class;
 // @target: es2019
-const C = function() {
-    var _bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet();
-    class _class {
-        foo() {
-            var _this = this;
-            return _asyncToGenerator(function*() {
-                const b = yield _classPrivateMethodGet(_this, _bar, bar).call(_this);
-                return b + (_classPrivateMethodGet(_this, _baz, baz).call(_this).next().value || 0) + ((yield _classPrivateMethodGet(_this, _qux, qux).call(_this).next()).value || 0);
-            })();
-        }
-        constructor(){
-            _classPrivateMethodInit(this, _bar);
-            _classPrivateMethodInit(this, _baz);
-            _classPrivateMethodInit(this, _qux);
-        }
+const C = (_bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet(), _class = class {
+    foo() {
+        var _this = this;
+        return _asyncToGenerator(function*() {
+            const b = yield _classPrivateMethodGet(_this, _bar, bar).call(_this);
+            return b + (_classPrivateMethodGet(_this, _baz, baz).call(_this).next().value || 0) + ((yield _classPrivateMethodGet(_this, _qux, qux).call(_this).next()).value || 0);
+        })();
     }
-    function bar() {
-        return _bar1.apply(this, arguments);
+    constructor(){
+        _classPrivateMethodInit(this, _bar);
+        _classPrivateMethodInit(this, _baz);
+        _classPrivateMethodInit(this, _qux);
     }
-    function _bar1() {
-        _bar1 = _asyncToGenerator(function*() {
-            return yield Promise.resolve(42);
-        });
-        return _bar1.apply(this, arguments);
-    }
-    function* baz() {
-        yield 42;
-    }
-    function qux() {
-        return _qux1.apply(this, arguments);
-    }
-    function _qux1() {
-        _qux1 = _wrapAsyncGenerator(function*() {
-            yield yield _awaitAsyncGenerator(Promise.resolve(42));
-        });
-        return _qux1.apply(this, arguments);
-    }
-    return _class;
-}();
+}, _class);
 new C().foo().then(console.log);
+function bar() {
+    return _bar1.apply(this, arguments);
+}
+function _bar1() {
+    _bar1 = _asyncToGenerator(function*() {
+        return yield Promise.resolve(42);
+    });
+    return _bar1.apply(this, arguments);
+}
+function* baz() {
+    yield 42;
+}
+function qux() {
+    return _qux1.apply(this, arguments);
+}
+function _qux1() {
+    _qux1 = _wrapAsyncGenerator(function*() {
+        yield yield _awaitAsyncGenerator(Promise.resolve(42));
+    });
+    return _qux1.apply(this, arguments);
+}

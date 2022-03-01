@@ -14,7 +14,28 @@
 - **(es/minifier)** Fix inlining logic (#3776) ([cfc0363](https://github.com/swc-project/swc/commit/cfc036381a5c174798198f4ecf7e0a62abce5a75))
 
 
+- **(es/minifier)** Preserve unresolved references (#3780) ([73cab63](https://github.com/swc-project/swc/commit/73cab638a11978da9f94c886a5fafc462b1556b7))
+
+
+- **(es/minifier)** Fix optimizations of terminating expressions (#3794) ([8beaa20](https://github.com/swc-project/swc/commit/8beaa202e2a8c321a0f2266378d0f0a3ecb06c03))
+
+
+- **(es/react)** Catch refresh directives widely (#3791) ([5ae907f](https://github.com/swc-project/swc/commit/5ae907f6f21d31da708ac7237536bd6f838856c3))
+
+
+- **(es/react)** Fix logic for extracting refresh comments (#3796) ([b485b5a](https://github.com/swc-project/swc/commit/b485b5a1d5480548de9ce2c22060be37298e6346))
+
+
 - **(es/typescript)** Transform `this` in TypeScript classes (#3764) ([5f3f9ef](https://github.com/swc-project/swc/commit/5f3f9ef033797a1b13d32bd854c3acf3cbaf4495))
+
+
+- **(node-swc/cli)** Correctly expose `swcx` entrypoint (#3784) ([95ecc01](https://github.com/swc-project/swc/commit/95ecc013fe9b0ab0c2f52465bd961616315938c3))
+
+### Documentation
+
+
+
+- **(adr)** Add `adr-00002` for event trace profiling (#3787) ([3c1c5d0](https://github.com/swc-project/swc/commit/3c1c5d0363b231a8ac3f5bdfd15f1b2ec9224849))
 
 ### Features
 
@@ -23,10 +44,28 @@
 - **(css/lints)** Add CSS linter (#3765) ([66c6cae](https://github.com/swc-project/swc/commit/66c6cae8dc7d614aac83a620b4dff022459f54d7))
 
 
+- **(css/lints)** Add `selector-max-combinators` rule (#3789) ([e389bef](https://github.com/swc-project/swc/commit/e389bef3ad0f27382d2d6c5f2be62dd28e65e757))
+
+
 - **(css/minifier)** Convert more length (#3769) ([500d62c](https://github.com/swc-project/swc/commit/500d62c0850a93321baafb44fa4ac4b8a9bff3f8))
 
 
+- **(es/codegen)** Optimize output of new expressions without arguments (#3800) ([e1b13eb](https://github.com/swc-project/swc/commit/e1b13eb21a6eb1ec094a64ab30852042b89748a8))
+
+
 - **(es/compat)** Optimize handling of literals in computed property names (#3756) ([8ed4d2f](https://github.com/swc-project/swc/commit/8ed4d2fcaccf27733e8fbfe19da810504653ce6b))
+
+
+- **(es/compat)** Add tracing support for `es2022` transforms (#3785) ([4d70482](https://github.com/swc-project/swc/commit/4d7048291fae26c081754a496d9c77ddb2215575))
+
+
+- **(es/compat)** Use sequence expressions instead of iife in `classes` pass (#3773) ([5b6beca](https://github.com/swc-project/swc/commit/5b6beca1afb7e4278629840c94c775a083288cd2))
+
+
+- **(es/compat)** Add tracing support for es2020 transforms (#3798) ([8f41d7a](https://github.com/swc-project/swc/commit/8f41d7a10e99c21dc12176ee7724f0e13ca702dd))
+
+
+- **(es/dep-graph)** Add support for `require.resolve` (#3783) ([19b84e7](https://github.com/swc-project/swc/commit/19b84e7723c381843c98df90f64e5123acdd5808))
 
 
 - **(es/minifier)** Consider `arguments` while dropping unused assignments (#3775) ([714e05e](https://github.com/swc-project/swc/commit/714e05e5535dd4f8552ce700cc5b582d134d8a08))
@@ -35,19 +74,37 @@
 - **(es/module)** Workaround stack overflow bug of JavaScriptCore related to too many exports (#3763) ([ad0a853](https://github.com/swc-project/swc/commit/ad0a8539e058fda49e40cc8fab167e2602576d48))
 
 
+- **(es/modules)** Support system js (#3659) ([557a520](https://github.com/swc-project/swc/commit/557a520a6d6814f79625ca0227c47fa2d42a806e))
+
+
 - **(es/quote)** Implement quasi quoter partially (#3155) ([fe0ddcc](https://github.com/swc-project/swc/commit/fe0ddcc54b0f8343a3a3d227bde8b38fa47ebd80))
 
 
 - **(es/quote)** Support variables (#3774) ([e3c374b](https://github.com/swc-project/swc/commit/e3c374b53bdd3fe8baef5be7a63b10d2efcd47e4))
 
+
+- **(plugin)** Expose `swc_ecma_quote` (#3790) ([bc60a6e](https://github.com/swc-project/swc/commit/bc60a6e90ccc1adcb8d9eda9ef47725e20fbfa23))
+
+
+- **(plugin/runner)** Update `wasmer` to `v2.2` (#3788) ([99d536e](https://github.com/swc-project/swc/commit/99d536e4869df5a9cc642ed0a155683165ee93c9))
+
 ### Miscellaneous Tasks
 - **general**: Update `rustc` (#3768) ([3798436](https://github.com/swc-project/swc/commit/3798436201a0838e55beac974792f4d560b47657))
+
+### Performance
+
+
+
+- **(plugin/runner)** Optimize `write_into_memory_view` (#3797) ([7fd0eee](https://github.com/swc-project/swc/commit/7fd0eeecb844a182fef39872178e3991356e3ae0))
 
 ### Refactor
 
 
 
 - **(css/ast)** Simplify AST types (#3753) ([815a489](https://github.com/swc-project/swc/commit/815a489dcfb72df928fc03f216dbe4a21b0e0716))
+
+
+- **(css/lints)** Simplify error reporting API (#3781) ([b8211da](https://github.com/swc-project/swc/commit/b8211da1c9a8277cf09a8a3a1d7ae537b5d6e783))
 
 ### Testing
 

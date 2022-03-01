@@ -1,6 +1,6 @@
-var tmp = Symbol.toPrimitive;
+let _toPrimitive = Symbol.toPrimitive;
 //@target: ES6
 //@declaration: true
 class C {
-    [tmp](x) {}
+    [_toPrimitive](x) {}
 }

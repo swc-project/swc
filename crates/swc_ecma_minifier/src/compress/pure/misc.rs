@@ -60,6 +60,7 @@ where
                     DropOpts {
                         drop_zero: true,
                         drop_str_lit: true,
+                        ..Default::default()
                     },
                 );
 
@@ -144,6 +145,74 @@ where
             }
         }
 
+        if let Expr::Ident(i) = e {
+            // If it's not a top level, it's a reference to a declared variable.
+            if i.span.ctxt.outer() == self.marks.top_level_mark {
+                if self.options.side_effects {
+                    match &*i.sym {
+                        "clearInterval" | "clearTimeout" | "setInterval" | "setTimeout"
+                        | "Boolean" | "Date" | "decodeURI" | "decodeURIComponent" | "encodeURI"
+                        | "encodeURIComponent" | "escape" | "eval" | "EvalError" | "isFinite"
+                        | "isNaN" | "JSON" | "parseFloat" | "parseInt" | "RegExp"
+                        | "RangeError" | "ReferenceError" | "SyntaxError" | "TypeError"
+                        | "unescape" | "URIError" | "atob" | "globalThis" | "Object" | "Array"
+                        | "Number" | "NaN" | "Symbol" => {
+                            tracing::debug!("Dropping a reference to a global variable");
+                            *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                            return;
+                        }
+                        _ => {}
+                    }
+                }
+            } else {
+                tracing::debug!("Dropping an identifier as it's declared");
+                *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                return;
+            }
+        }
+
+        if self.options.side_effects {
+            match e {
+                Expr::Unary(UnaryExpr {
+                    op: op!("void") | op!("typeof") | op!(unary, "+") | op!(unary, "-"),
+                    arg,
+                    ..
+                }) => {
+                    self.ignore_return_value(
+                        &mut **arg,
+                        DropOpts {
+                            drop_str_lit: true,
+                            drop_zero: true,
+                            ..opts
+                        },
+                    );
+
+                    if arg.is_invalid() {
+                        tracing::debug!("Dropping an unary expression");
+                        *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                        return;
+                    }
+                }
+
+                Expr::Bin(
+                    be @ BinExpr {
+                        op: op!("||") | op!("&&"),
+                        ..
+                    },
+                ) => {
+                    self.ignore_return_value(&mut be.right, opts);
+
+                    if be.right.is_invalid() {
+                        tracing::debug!("Dropping the RHS of a binary expression ('&&' / '||')");
+                        *e = *be.left.take();
+                        return;
+                    }
+                }
+
+                _ => {}
+            }
+        }
+
         if self.options.unused || self.options.side_effects {
             match e {
                 Expr::Lit(Lit::Num(n)) => {
@@ -154,8 +223,21 @@ where
                     }
                 }
 
-                Expr::Lit(Lit::Null(..) | Lit::BigInt(..) | Lit::Bool(..) | Lit::Regex(..))
-                | Expr::Ident(..) => {
+                Expr::Ident(i) => {
+                    if let Some(bindings) = self.bindings.as_deref() {
+                        if bindings.contains(&i.to_id()) {
+                            tracing::debug!("Dropping an identifier as it's declared");
+
+                            self.changed = true;
+                            *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                            return;
+                        }
+                    }
+                }
+
+                Expr::Lit(Lit::Null(..) | Lit::BigInt(..) | Lit::Bool(..) | Lit::Regex(..)) => {
+                    tracing::debug!("Dropping literals");
+
                     self.changed = true;
                     *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                     return;
@@ -192,6 +274,7 @@ where
                         DropOpts {
                             drop_zero: true,
                             drop_str_lit: true,
+                            ..opts
                         },
                     );
                     self.ignore_return_value(
@@ -199,6 +282,7 @@ where
                         DropOpts {
                             drop_zero: true,
                             drop_str_lit: true,
+                            ..opts
                         },
                     );
 
@@ -210,25 +294,6 @@ where
                         return;
                     } else if bin.left.is_invalid() {
                         *e = *bin.right.take();
-                        return;
-                    }
-                }
-
-                Expr::Unary(UnaryExpr {
-                    op: op!("void") | op!("typeof") | op!(unary, "+") | op!(unary, "-"),
-                    arg,
-                    ..
-                }) => {
-                    self.ignore_return_value(
-                        &mut **arg,
-                        DropOpts {
-                            drop_str_lit: true,
-                            drop_zero: true,
-                        },
-                    );
-
-                    if arg.is_invalid() {
-                        *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                         return;
                     }
                 }
@@ -257,6 +322,7 @@ where
                 {
                     self.changed = true;
                     *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                    return;
                 }
             }
 
@@ -273,6 +339,7 @@ where
                 if e.exprs.len() != len {
                     self.changed = true;
                 }
+                return;
             }
 
             Expr::Call(CallExpr {
@@ -296,6 +363,22 @@ where
 
             _ => {}
         }
+
+        // Remove pure member expressions.
+        if let Expr::Member(MemberExpr { obj, prop, .. }) = e {
+            if let Expr::Ident(obj) = &**obj {
+                if obj.span.ctxt.outer() == self.marks.top_level_mark {
+                    if let Some(bindings) = self.bindings.as_deref() {
+                        if !bindings.contains(&obj.to_id()) {
+                            if is_pure_member_access(obj, prop) {
+                                self.changed = true;
+                                *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -303,4 +386,58 @@ where
 pub(super) struct DropOpts {
     pub drop_zero: bool,
     pub drop_str_lit: bool,
+}
+
+/// `obj` should have top level syntax context.
+fn is_pure_member_access(obj: &Ident, prop: &MemberProp) -> bool {
+    macro_rules! check {
+        (
+            $obj:ident.
+            $prop:ident
+        ) => {{
+            if &*obj.sym == stringify!($obj) {
+                if let MemberProp::Ident(prop) = prop {
+                    if &*prop.sym == stringify!($prop) {
+                        return true;
+                    }
+                }
+            }
+        }};
+    }
+
+    macro_rules! pure {
+        (
+            $(
+                $(
+                  $i:ident
+                ).*
+            ),*
+        ) => {
+            $(
+                check!($($i).*);
+            )*
+        };
+    }
+
+    pure!(
+        Array.isArray,
+        ArrayBuffer.isView,
+        Boolean.toSource,
+        Date.parse,
+        Date.UTC,
+        Date.now,
+        Error.captureStackTrace,
+        Error.stackTraceLimit,
+        Function.bind,
+        Function.call,
+        Function.length,
+        console.log,
+        Error.name,
+        Math.random,
+        Number.isNaN,
+        Object.defineProperty,
+        String.fromCharCode
+    );
+
+    false
 }

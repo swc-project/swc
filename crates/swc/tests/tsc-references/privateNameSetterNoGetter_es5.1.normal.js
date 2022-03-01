@@ -57,29 +57,26 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
+var _x, _class;
 // @target: es2015
-var C = function() {
-    var set_x = function set_x(x) {};
-    var _x = new WeakMap();
-    var _class = /*#__PURE__*/ function() {
-        "use strict";
-        function _class() {
-            _classCallCheck(this, _class);
-            _classPrivateFieldInit(this, _x, {
-                get: void 0,
-                set: set_x
-            });
-        }
-        _createClass(_class, [
-            {
-                key: "m",
-                value: function m() {
-                    _classPrivateFieldSet(this, _x, _classPrivateFieldGet(this, _x) + 2); // Error
-                }
+var C = (_x = new WeakMap(), _class = /*#__PURE__*/ function() {
+    "use strict";
+    function _class1() {
+        _classCallCheck(this, _class1);
+        _classPrivateFieldInit(this, _x, {
+            get: void 0,
+            set: set_x
+        });
+    }
+    _createClass(_class1, [
+        {
+            key: "m",
+            value: function m() {
+                _classPrivateFieldSet(this, _x, _classPrivateFieldGet(this, _x) + 2); // Error
             }
-        ]);
-        return _class;
-    }();
-    return _class;
-}();
+        }
+    ]);
+    return _class1;
+}(), _class);
 console.log(new C().m());
+function set_x(x) {}

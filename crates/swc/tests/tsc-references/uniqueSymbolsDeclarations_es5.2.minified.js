@@ -129,12 +129,12 @@ var _obj, _marked = regeneratorRuntime.mark(function() {
         }
     }, _marked3);
 }), constCall = Symbol(), letCall = Symbol(), varCall = Symbol();
-Symbol();
+Symbol(), constType, constType, constType, constType;
 var C = function() {
     "use strict";
     _classCallCheck(this, C), this.readonlyCall = Symbol(), this.readwriteCall = Symbol();
 };
-C.readonlyStaticCall = Symbol(), C.readonlyStaticTypeAndCall = Symbol(), C.readwriteStaticCall = Symbol(), C.readonlyStaticCall, C.readonlyStaticType, C.readonlyStaticTypeAndCall, C.readwriteStaticCall, C.readonlyStaticCall, C.readonlyStaticType, C.readonlyStaticTypeAndCall, C.readwriteStaticCall, c.readonlyCall, c.readwriteCall, c.readonlyCall, c.readwriteCall, c.readonlyCall, c.readwriteCall, i.readonlyType, i.readonlyType, i.readonlyType, l.readonlyType, l.nested.readonlyNestedType, l.readonlyType, l.nested.readonlyNestedType, l.readonlyType, l.nested.readonlyNestedType, Promise.resolve(constCall), f(s), f(N.s), f(N.s), N.s, N.s, N.s, N.s, regeneratorRuntime.mark(function method4() {
+C.readonlyStaticCall = Symbol(), C.readonlyStaticTypeAndCall = Symbol(), C.readwriteStaticCall = Symbol(), C.readonlyStaticCall, C.readonlyStaticType, C.readonlyStaticTypeAndCall, C.readwriteStaticCall, C.readonlyStaticCall, C.readonlyStaticType, C.readonlyStaticTypeAndCall, C.readwriteStaticCall, c.readonlyCall, c.readwriteCall, c.readonlyCall, c.readwriteCall, c.readonlyCall, c.readwriteCall, i.readonlyType, i.readonlyType, i.readonlyType, l.readonlyType, l.nested.readonlyNestedType, l.readonlyType, l.nested.readonlyNestedType, l.readonlyType, l.nested.readonlyNestedType, Promise.resolve(constCall), f(s), f(N.s), f(N.s), N.s, N.s, s, N.s, N.s, regeneratorRuntime.mark(function method4() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
@@ -229,7 +229,7 @@ var C0 = function() {
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C0;
 }();
-C0.a = s, C0.b = N.s, C0.c = N.s, C0.d = s, C0.e = N.s, C0.f = N.s, o[s], o[N.s], o[N.s], f(s), f(N.s), f(N.s), g(s), g(N.s), g(N.s), N.s, N.s, 2 * Math.random() && N.s, 2 * Math.random() && N.s, _defineProperty(_obj = {}, s, "a"), _defineProperty(_obj, N.s, "b");
+C0.a = s, C0.b = N.s, C0.c = N.s, C0.d = s, C0.e = N.s, C0.f = N.s, o[s], o[N.s], o[N.s], f(s), f(N.s), f(N.s), g(s), g(N.s), g(N.s), s, N.s, N.s, 2 * Math.random() && N.s, 2 * Math.random() && N.s, _defineProperty(_obj = {}, s, "a"), _defineProperty(_obj, N.s, "b");
 var C1 = function() {
     "use strict";
     _classCallCheck(this, C1);

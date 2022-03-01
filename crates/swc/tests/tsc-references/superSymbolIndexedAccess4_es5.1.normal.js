@@ -48,7 +48,7 @@ function _superPropBase(object, property) {
 }
 //@target: ES6
 var symbol = Symbol.for('myThing');
-var tmp = symbol;
+var _symbol = symbol;
 var Bar = /*#__PURE__*/ function() {
     "use strict";
     function Bar() {
@@ -56,7 +56,7 @@ var Bar = /*#__PURE__*/ function() {
     }
     _createClass(Bar, [
         {
-            key: tmp,
+            key: _symbol,
             value: function value() {
                 return _get(_getPrototypeOf(Bar.prototype), symbol, this).call(this);
             }

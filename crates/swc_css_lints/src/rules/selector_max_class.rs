@@ -1,22 +1,18 @@
-use swc_common::errors::HANDLER;
 use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitWith};
 
-use crate::{
-    config::{LintRuleReaction, RuleConfig},
-    rule::{visitor_rule, LintRule},
-};
+use crate::rule::{visitor_rule, LintRule, LintRuleContext};
 
-pub fn selector_max_class(config: &RuleConfig<Option<usize>>) -> Box<dyn LintRule> {
-    visitor_rule(SelectorMaxClass {
-        reaction: config.get_rule_reaction(),
-        max: config.get_rule_config().unwrap_or(3),
-    })
+pub(crate) type SelectorMaxClassConfig = Option<usize>;
+
+pub fn selector_max_class(ctx: LintRuleContext<SelectorMaxClassConfig>) -> Box<dyn LintRule> {
+    let max = ctx.config().unwrap_or(3);
+    visitor_rule(SelectorMaxClass { ctx, max })
 }
 
 #[derive(Debug, Default)]
 struct SelectorMaxClass {
-    reaction: LintRuleReaction,
+    ctx: LintRuleContext<SelectorMaxClassConfig>,
     max: usize,
 }
 
@@ -51,15 +47,7 @@ impl Visit for SelectorMaxClass {
 
         if count > self.max {
             let message = self.build_message(count);
-            HANDLER.with(|handler| match self.reaction {
-                LintRuleReaction::Error => handler
-                    .struct_span_err(complex_selector.span, &message)
-                    .emit(),
-                LintRuleReaction::Warning => handler
-                    .struct_span_warn(complex_selector.span, &message)
-                    .emit(),
-                _ => {}
-            });
+            self.ctx.report(complex_selector, message);
         }
 
         complex_selector.visit_children_with(self);

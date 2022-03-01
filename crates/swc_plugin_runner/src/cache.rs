@@ -20,7 +20,7 @@ use wasmer_cache::{Cache as WasmerCache, FileSystemCache, Hash};
 /// however it is not gauranteed to be compatible across wasmer's
 /// internal changes.
 /// https://github.com/wasmerio/wasmer/issues/2781
-const MODULE_SERIALIZATION_VERSION: &str = "v1";
+const MODULE_SERIALIZATION_VERSION: &str = "v2";
 
 /// A shared instance to plugin's module bytecode cache.
 /// TODO: it is unclear how we'll support plugin itself in wasm target of

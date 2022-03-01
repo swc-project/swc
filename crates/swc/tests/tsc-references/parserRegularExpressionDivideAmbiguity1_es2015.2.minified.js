@@ -1,1 +1,1 @@
-a.foo();
+notregexp / a.foo();

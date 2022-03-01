@@ -42,7 +42,7 @@ function _unsupportedIterableToArray(o, minLen) {
     if (n === "Map" || n === "Set") return Array.from(n);
     if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
 }
-var tmp = Symbol.iterator;
+var _iterator = Symbol.iterator;
 var SymbolIterator = //@target: ES6
 /*#__PURE__*/ function() {
     "use strict";
@@ -51,7 +51,7 @@ var SymbolIterator = //@target: ES6
     }
     _createClass(SymbolIterator, [
         {
-            key: tmp,
+            key: _iterator,
             value: function value() {
                 return this;
             }

@@ -2,7 +2,7 @@
 function foo() {
     return '';
 }
-var tmp = foo();
+let tmp = foo();
 class C {
     bar() {
         return 0;

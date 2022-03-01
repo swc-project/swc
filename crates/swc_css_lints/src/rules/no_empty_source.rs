@@ -1,23 +1,17 @@
-use swc_common::errors::HANDLER;
 use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitWith};
 
-use crate::{
-    config::{LintRuleReaction, RuleConfig},
-    rule::{visitor_rule, LintRule},
-};
+use crate::rule::{visitor_rule, LintRule, LintRuleContext};
 
-pub fn no_empty_source(config: &RuleConfig<()>) -> Box<dyn LintRule> {
-    visitor_rule(NoEmptySource {
-        reaction: config.get_rule_reaction(),
-    })
+pub fn no_empty_source(ctx: LintRuleContext<()>) -> Box<dyn LintRule> {
+    visitor_rule(NoEmptySource { ctx })
 }
 
 const MESSAGE: &str = "Unexpected empty source.";
 
 #[derive(Debug, Default)]
 struct NoEmptySource {
-    reaction: LintRuleReaction,
+    ctx: LintRuleContext<()>,
 }
 
 impl Visit for NoEmptySource {
@@ -25,13 +19,7 @@ impl Visit for NoEmptySource {
         // TODO: we should allow comments here,
         // but parser doesn't handle comments currently.
         if stylesheet.rules.is_empty() {
-            HANDLER.with(|handler| match self.reaction {
-                LintRuleReaction::Error => handler.struct_span_err(stylesheet.span, MESSAGE).emit(),
-                LintRuleReaction::Warning => {
-                    handler.struct_span_warn(stylesheet.span, MESSAGE).emit()
-                }
-                _ => {}
-            });
+            self.ctx.report(stylesheet, MESSAGE);
         }
 
         stylesheet.visit_children_with(self);

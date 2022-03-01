@@ -35,7 +35,6 @@ var o = {
 var a = 1;
 var a1 = 1;
 var g = o[1];
-var tmp = 1, tmp1 = 2, tmp2 = 2;
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -43,17 +42,17 @@ var C = /*#__PURE__*/ function() {
     }
     _createClass(C, [
         {
-            key: tmp,
+            key: 1,
             value: function value() {}
         },
         {
-            key: tmp1,
+            key: 2,
             get: function get() {
                 return true;
             }
         },
         {
-            key: tmp2,
+            key: 2,
             set: function set(x) {}
         }
     ]);

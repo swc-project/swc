@@ -16,7 +16,7 @@ ExpandoExpr.prop = {
     y: ""
 }, ExpandoExpr.m = function(n) {
     return n + 1;
-}, (ExpandoExpr.prop.x || 0) + ExpandoExpr.m(12) + ExpandoExpr(101).length;
+}, ExpandoExpr.prop.x + ExpandoExpr.m(12) + ExpandoExpr(101).length;
 var ExpandoArrow = function(n) {
     return n.toString();
 };

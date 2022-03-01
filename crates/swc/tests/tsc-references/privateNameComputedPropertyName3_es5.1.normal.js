@@ -74,7 +74,8 @@ var Foo = // @target: esnext, es2022, es2015
             key: "getValue",
             value: function getValue(x) {
                 var obj = this;
-                var _y = new WeakMap(), tmp = _classPrivateFieldGet(obj, _name);
+                var _y = new WeakMap();
+                var tmp = _classPrivateFieldGet(obj, _name);
                 var Bar = /*#__PURE__*/ function() {
                     function Bar() {
                         _classCallCheck(this, Bar);

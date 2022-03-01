@@ -1,12 +1,8 @@
 use serde::{Deserialize, Serialize};
-use swc_common::{errors::HANDLER, Spanned};
 use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitWith};
 
-use crate::{
-    config::{LintRuleReaction, RuleConfig},
-    rule::{visitor_rule, LintRule},
-};
+use crate::rule::{visitor_rule, LintRule, LintRuleContext};
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -14,20 +10,14 @@ pub struct AtRuleNoUnknownConfig {
     ignore_at_rules: Option<Vec<String>>,
 }
 
-pub fn at_rule_no_unknown(config: &RuleConfig<AtRuleNoUnknownConfig>) -> Box<dyn LintRule> {
-    visitor_rule(AtRuleNoUnknown {
-        reaction: config.get_rule_reaction(),
-        ignored: config
-            .get_rule_config()
-            .ignore_at_rules
-            .clone()
-            .unwrap_or_default(),
-    })
+pub fn at_rule_no_unknown(ctx: LintRuleContext<AtRuleNoUnknownConfig>) -> Box<dyn LintRule> {
+    let ignored = ctx.config().ignore_at_rules.clone().unwrap_or_default();
+    visitor_rule(AtRuleNoUnknown { ctx, ignored })
 }
 
 #[derive(Debug, Default)]
 struct AtRuleNoUnknown {
-    reaction: LintRuleReaction,
+    ctx: LintRuleContext<AtRuleNoUnknownConfig>,
     ignored: Vec<String>,
 }
 
@@ -40,16 +30,7 @@ impl Visit for AtRuleNoUnknown {
 
         if self.ignored.iter().all(|item| name != item) {
             let message = format!("Unexpected unknown at-rule \"@{}\".", name);
-
-            HANDLER.with(|handler| match self.reaction {
-                LintRuleReaction::Error => handler
-                    .struct_span_err(unknown_at_rule.name.span(), &message)
-                    .emit(),
-                LintRuleReaction::Warning => handler
-                    .struct_span_warn(unknown_at_rule.name.span(), &message)
-                    .emit(),
-                _ => {}
-            });
+            self.ctx.report(&unknown_at_rule.name, message);
         }
 
         unknown_at_rule.visit_children_with(self);

@@ -60,7 +60,7 @@ var Foo = function() {
     "use strict";
     for(var _len = arguments.length, s = new Array(_len), _key = 0; _key < _len; _key++)s[_key] = arguments[_key];
     _classCallCheck(this, Foo);
-}, tmp = Symbol.iterator, SymbolIterator = function() {
+}, _iterator = Symbol.iterator, SymbolIterator = function() {
     "use strict";
     function SymbolIterator() {
         _classCallCheck(this, SymbolIterator);
@@ -76,13 +76,13 @@ var Foo = function() {
             }
         },
         {
-            key: tmp,
+            key: _iterator,
             value: function() {
                 return this;
             }
         }
     ]), SymbolIterator;
-}(), tmp1 = Symbol.iterator, _StringIterator = function() {
+}(), _iterator1 = Symbol.iterator, _StringIterator = function() {
     "use strict";
     function _StringIterator() {
         _classCallCheck(this, _StringIterator);
@@ -98,7 +98,7 @@ var Foo = function() {
             }
         },
         {
-            key: tmp1,
+            key: _iterator1,
             value: function() {
                 return this;
             }
