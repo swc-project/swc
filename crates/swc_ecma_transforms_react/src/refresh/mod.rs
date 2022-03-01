@@ -257,17 +257,6 @@ where
                 return;
             }
 
-            comments.with_trailing(n.hi, |comments| {
-                if comments.iter().any(|c| c.text.contains("@refresh reset")) {
-                    should_refresh = true
-                }
-            });
-
-            if should_refresh {
-                self.should_reset = true;
-                return;
-            }
-
             comments.with_leading(n.lo, |comments| {
                 if comments.iter().any(|c| c.text.contains("@refresh reset")) {
                     should_refresh = true
