@@ -1,0 +1,278 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 55,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "UnknownAtRule",
+      "span": {
+        "start": 0,
+        "end": 27,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1,
+          "end": 10,
+          "ctxt": 0
+        },
+        "value": "keyframes",
+        "raw": "keyframes"
+      },
+      "prelude": [
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 10,
+            "end": 11,
+            "ctxt": 0
+          },
+          "token": {
+            "WhiteSpace": {
+              "value": " "
+            }
+          }
+        },
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 11,
+            "end": 14,
+            "ctxt": 0
+          },
+          "token": {
+            "Ident": {
+              "value": "foo",
+              "raw": "foo"
+            }
+          }
+        },
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 14,
+            "end": 15,
+            "ctxt": 0
+          },
+          "token": {
+            "WhiteSpace": {
+              "value": " "
+            }
+          }
+        }
+      ],
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 15,
+          "end": 27,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 16,
+              "end": 18,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": "\n\t"
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 18,
+              "end": 22,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "form",
+                "raw": "form"
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 22,
+              "end": 23,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
+          },
+          {
+            "type": "SimpleBlock",
+            "span": {
+              "start": 23,
+              "end": 25,
+              "ctxt": 0
+            },
+            "name": "{",
+            "value": []
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 25,
+              "end": 26,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": "\n"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "UnknownAtRule",
+      "span": {
+        "start": 29,
+        "end": 54,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 30,
+          "end": 39,
+          "ctxt": 0
+        },
+        "value": "keyframes",
+        "raw": "keyframes"
+      },
+      "prelude": [
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 39,
+            "end": 40,
+            "ctxt": 0
+          },
+          "token": {
+            "WhiteSpace": {
+              "value": " "
+            }
+          }
+        },
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 40,
+            "end": 43,
+            "ctxt": 0
+          },
+          "token": {
+            "Ident": {
+              "value": "foo",
+              "raw": "foo"
+            }
+          }
+        },
+        {
+          "type": "PreservedToken",
+          "span": {
+            "start": 43,
+            "end": 44,
+            "ctxt": 0
+          },
+          "token": {
+            "WhiteSpace": {
+              "value": " "
+            }
+          }
+        }
+      ],
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 44,
+          "end": 54,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 45,
+              "end": 47,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": "\n\t"
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 47,
+              "end": 49,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "ot",
+                "raw": "ot"
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 49,
+              "end": 50,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
+          },
+          {
+            "type": "SimpleBlock",
+            "span": {
+              "start": 50,
+              "end": 52,
+              "ctxt": 0
+            },
+            "name": "{",
+            "value": []
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 52,
+              "end": 53,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": "\n"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

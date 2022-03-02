@@ -1,0 +1,200 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 58,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 0,
+        "end": 58,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 0,
+          "end": 6,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 0,
+              "end": 6,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 0,
+                  "end": 6,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 0,
+                      "end": 6,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 1,
+                        "end": 6,
+                        "ctxt": 0
+                      },
+                      "value": "style",
+                      "raw": "style"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 7,
+          "end": 58,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 10,
+              "end": 58,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 10,
+                "end": 31,
+                "ctxt": 0
+              },
+              "value": "grid-template-columns",
+              "raw": "grid-template-columns"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 33,
+                  "end": 58,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 33,
+                    "end": 39,
+                    "ctxt": 0
+                  },
+                  "value": "repeat",
+                  "raw": "repeat"
+                },
+                "value": [
+                  {
+                    "type": "Integer",
+                    "span": {
+                      "start": 40,
+                      "end": 41,
+                      "ctxt": 0
+                    },
+                    "value": 4,
+                    "raw": "4"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 41,
+                      "end": 42,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "SimpleBlock",
+                    "span": {
+                      "start": 43,
+                      "end": 58,
+                      "ctxt": 0
+                    },
+                    "name": "[",
+                    "value": [
+                      {
+                        "type": "Ident",
+                        "span": {
+                          "start": 44,
+                          "end": 53,
+                          "ctxt": 0
+                        },
+                        "value": "col-start",
+                        "raw": "col-start"
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 53,
+                          "end": 54,
+                          "ctxt": 0
+                        },
+                        "token": "RParen"
+                      },
+                      {
+                        "type": "Delimiter",
+                        "span": {
+                          "start": 54,
+                          "end": 55,
+                          "ctxt": 0
+                        },
+                        "value": ";"
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 56,
+                          "end": 57,
+                          "ctxt": 0
+                        },
+                        "token": "RBrace"
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 57,
+                          "end": 58,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "WhiteSpace": {
+                            "value": "\n"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    }
+  ]
+}

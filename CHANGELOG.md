@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(css/parser)** Improve error recovery (#3810) ([f969f8c](https://github.com/swc-project/swc/commit/f969f8c5f54e3028576a74ccfcaae72b1c19eaf9))
+
+## [1.2.147] - 2022-03-02
+
 ### Bug Fixes
 
 
