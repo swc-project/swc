@@ -1095,7 +1095,7 @@ export class Visitor {
     }
   }
   visitOptionalChainingExpression(n: OptionalChainingExpression): Expression {
-    n.expr = this.visitExpression(n.expr);
+    n.base = this.visitExpression(n.base);
     return n;
   }
 

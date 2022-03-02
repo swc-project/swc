@@ -1060,7 +1060,7 @@ export interface OptionalChainingExpression extends ExpressionBase {
   /**
    * Call expression or member expression.
    */
-  expr: Expression;
+  base: Expression;
 }
 
 export interface ThisExpression extends ExpressionBase {
