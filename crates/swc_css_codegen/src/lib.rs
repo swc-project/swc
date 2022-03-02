@@ -703,7 +703,16 @@ where
         for (idx, node) in iter.enumerate() {
             emit!(self, node);
 
-            if idx != len - 1 {
+            let is_current_preserved_token = match node {
+                ComponentValue::PreservedToken(_) => true,
+                _ => false,
+            };
+            let is_next_preserved_token = match nodes.get(idx + 1) {
+                Some(ComponentValue::PreservedToken(_)) => true,
+                _ => false,
+            };
+
+            if idx != len - 1 && !is_current_preserved_token && !is_next_preserved_token {
                 let need_delim = match node {
                     ComponentValue::SimpleBlock(_)
                     | ComponentValue::Function(_)
