@@ -2872,7 +2872,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.93.0"
+version = "0.93.1"
 dependencies = [
  "auto_impl",
  "bitflags",
