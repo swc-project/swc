@@ -186,7 +186,13 @@ impl Radix {
 
         match call_expr.args.get(1) {
             Some(ExprOrSpread { expr, .. }) => {
-                match &extract_arg_val(&self.source_map, expr.as_ref(), self.check_parens) {
+                match &extract_arg_val(
+                    &self.source_map,
+                    &self.top_level_ctxt,
+                    &self.top_level_declared_vars,
+                    expr.as_ref(),
+                    self.check_parens,
+                ) {
                     ArgValue::Ident => {}
                     ArgValue::Number(radix) => {
                         if radix.fract() != 0.0 || !(2f64..=36f64).contains(radix) {

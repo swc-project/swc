@@ -39,3 +39,14 @@ foo(() => {
 })("a", "b");
 
 new RegExp("a", "b", "c");
+
+new RegExp(myFn`^\d\.$`);
+
+new RegExp(obj.myFn`^\d\.$`)
+
+function f2() {
+    // redeclare
+    const String = {};
+
+    new RegExp(String.raw`^\d\.$`);
+}

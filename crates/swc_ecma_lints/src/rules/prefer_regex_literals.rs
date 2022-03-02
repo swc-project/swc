@@ -124,11 +124,23 @@ impl PreferRegexLiterals {
         self.call_span = Some(call_span);
 
         if let Some(ExprOrSpread { expr, .. }) = args.get(0) {
-            self.first_arg = Some(extract_arg_val(&self.source_map, expr.as_ref(), true));
+            self.first_arg = Some(extract_arg_val(
+                &self.source_map,
+                &self.top_level_ctxt,
+                &self.top_level_declared_vars,
+                expr.as_ref(),
+                true,
+            ));
         }
 
         if let Some(ExprOrSpread { expr, .. }) = args.get(1) {
-            self.second_arg = Some(extract_arg_val(&self.source_map, expr.as_ref(), true));
+            self.second_arg = Some(extract_arg_val(
+                &self.source_map,
+                &self.top_level_ctxt,
+                &self.top_level_declared_vars,
+                expr.as_ref(),
+                true,
+            ));
         }
     }
 
