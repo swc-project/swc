@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::rules::{
     at_rule_no_unknown::AtRuleNoUnknownConfig, color_hex_length::ColorHexLengthConfig,
+    font_family_no_duplicate_names::FontFamilyNoDuplicateNamesConfig,
     no_invalid_position_at_import_rule::NoInvalidPositionAtImportRuleConfig,
     selector_max_class::SelectorMaxClassConfig,
     selector_max_combinators::SelectorMaxCombinatorsConfig, unit_no_unknown::UnitNoUnknownConfig,
@@ -103,6 +104,9 @@ pub struct RulesConfig {
 
     #[serde(default, alias = "selectorMaxCombinators")]
     pub selector_max_combinators: RuleConfig<SelectorMaxCombinatorsConfig>,
+
+    #[serde(default, alias = "fontFamilyNoDuplicateNames")]
+    pub font_family_no_duplicate_names: RuleConfig<FontFamilyNoDuplicateNamesConfig>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

@@ -1,0 +1,36 @@
+error: Unexpected duplicate name 'sans-serif'.
+ --> $DIR/tests/rules/fail/font-family-no-duplicate-names/default/input.css:1:56
+  |
+1 | a { font-family: "Lucida Grande", 'Arial', sans-serif, sans-serif; }
+  |                                                        ^^^^^^^^^^
+
+error: Unexpected duplicate name 'Arial'.
+ --> $DIR/tests/rules/fail/font-family-no-duplicate-names/default/input.css:2:44
+  |
+2 | a { font-family: 'Arial', "Lucida Grande", Arial, sans-serif; }
+  |                                            ^^^^^
+
+error: Unexpected duplicate name 'Lucida Grande'.
+ --> $DIR/tests/rules/fail/font-family-no-duplicate-names/default/input.css:3:38
+  |
+3 | a { fOnT-fAmIlY: '  Lucida Grande ', "Lucida Grande", sans-serif; }
+  |                                      ^^^^^^^^^^^^^^^
+
+error: Unexpected duplicate name 'Times'.
+ --> $DIR/tests/rules/fail/font-family-no-duplicate-names/default/input.css:4:27
+  |
+4 | a { font-family: 'Times', Times, "serif", serif; }
+  |                           ^^^^^
+
+error: Unexpected duplicate name 'Arial'.
+ --> $DIR/tests/rules/fail/font-family-no-duplicate-names/default/input.css:5:39
+  |
+5 | a { FONT: italic 300 16px/30px Arial, " Arial", serif; }
+  |                                       ^^^^^^^^
+
+error: Unexpected duplicate name 'sans-serif'.
+ --> $DIR/tests/rules/fail/font-family-no-duplicate-names/default/input.css:6:75
+  |
+6 | b { font: normal 14px/32px -apple-system, BlinkMacSystemFont, sans-serif, sans-serif; }
+  |                                                                           ^^^^^^^^^^
+
