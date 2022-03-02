@@ -8,6 +8,9 @@
 - **(css/codegen)** Fix codegen of preserved tokens (#3819) ([7ba5861](https://github.com/swc-project/swc/commit/7ba5861a334657cb443b2f143222f632fcbcf752))
 
 
+- **(css/parser)** Fix parsing of `;` in values (#3821) ([30cd29b](https://github.com/swc-project/swc/commit/30cd29b0f0153bd732f0004dfcb10892635ee027))
+
+
 - **(es/minifier)** Preserve more variables (#3805) ([89388e6](https://github.com/swc-project/swc/commit/89388e6ac3669f129d1dfc1f687ad7792373dbc9))
 
 
