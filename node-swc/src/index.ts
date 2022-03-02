@@ -329,7 +329,9 @@ export function __experimental_registerGlobalTraceConfig(traceConfig: {
   type: 'traceEvent',
   fileName?: string
 }) {
-  bindings.initTraceOnce(traceConfig.type === 'traceEvent', traceConfig.fileName);
+  if (traceConfig.type === 'traceEvent') {
+    bindings.initCustomTraceSubscriber(traceConfig.fileName);
+  }
 }
 
 export const DEFAULT_EXTENSIONS = Object.freeze([

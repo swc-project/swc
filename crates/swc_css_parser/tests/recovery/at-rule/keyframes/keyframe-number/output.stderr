@@ -1,6 +1,0 @@
-error: Invalid keyframe selector
- --> $DIR/tests/errors/rome/invalid/keyfram-number/input.css:2:2
-  |
-2 |     10 {
-  |     ^^
-

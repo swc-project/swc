@@ -110,7 +110,7 @@ pub fn parse(
     filename: Option<String>,
     signal: Option<AbortSignal>,
 ) -> AsyncTask<ParseTask> {
-    crate::util::init_trace_once(false, None).expect("Should able to init trace");
+    crate::util::init_default_trace_subscriber();
 
     let c = get_compiler();
     let options = String::from_utf8_lossy(options.as_ref()).to_string();
@@ -133,7 +133,7 @@ pub fn parse(
 
 #[napi]
 pub fn parse_sync(src: String, opts: Buffer, filename: Option<String>) -> napi::Result<String> {
-    crate::util::init_trace_once(false, None)?;
+    crate::util::init_default_trace_subscriber();
     let c = get_compiler();
 
     let options: ParseOptions = get_deserialized(&opts)?;
@@ -163,7 +163,7 @@ pub fn parse_sync(src: String, opts: Buffer, filename: Option<String>) -> napi::
 
 #[napi]
 pub fn parse_file_sync(path: String, opts: Buffer) -> napi::Result<String> {
-    crate::util::init_trace_once(false, None)?;
+    crate::util::init_default_trace_subscriber();
     let c = get_compiler();
     let options: ParseOptions = get_deserialized(&opts)?;
 
@@ -194,7 +194,7 @@ pub fn parse_file(
     options: Buffer,
     signal: Option<AbortSignal>,
 ) -> AsyncTask<ParseFileTask> {
-    crate::util::init_trace_once(false, None).expect("Should able to init trace");
+    crate::util::init_default_trace_subscriber();
 
     let c = get_compiler();
     let path = PathBuf::from(&path);
