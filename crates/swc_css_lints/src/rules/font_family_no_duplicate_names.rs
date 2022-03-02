@@ -1,7 +1,6 @@
-use std::ops::Deref;
-
 use ahash::AHashSet;
 use serde::{Deserialize, Serialize};
+use swc_common::Span;
 use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitWith};
 
@@ -30,81 +29,88 @@ struct FontFamilyNoDuplicateNames {
     ignored: Vec<String>,
 }
 
+impl FontFamilyNoDuplicateNames {
+    fn check_component_values(&self, values: &[ComponentValue]) {
+        let (mut fonts, last) = values.iter().fold(
+            (
+                Vec::with_capacity(values.len()),
+                Option::<(String, Span)>::None,
+            ),
+            |(mut fonts, last_identifier), item| match item {
+                ComponentValue::Ident(Ident { value, span, .. }) => {
+                    if let Some((mut identifier, last_span)) = last_identifier {
+                        identifier.push(' ');
+                        identifier.push_str(&*value);
+                        (fonts, Some((identifier, last_span.with_hi(span.hi()))))
+                    } else {
+                        (fonts, Some((value.to_string(), *span)))
+                    }
+                }
+                ComponentValue::Str(Str { raw, span, .. }) => {
+                    fonts.push((FontNameKind::from(raw), *span));
+                    (fonts, None)
+                }
+                ComponentValue::Delimiter(Delimiter {
+                    value: DelimiterValue::Comma,
+                    ..
+                }) => {
+                    if let Some((identifer, span)) = last_identifier {
+                        fonts.push((FontNameKind::from(identifer), span));
+                    }
+                    (fonts, None)
+                }
+                _ => (fonts, last_identifier),
+            },
+        );
+        if let Some((identifer, span)) = last {
+            fonts.push((FontNameKind::from(identifer), span));
+        }
+
+        fonts.iter().fold(
+            AHashSet::with_capacity(values.len()),
+            |mut seen, (font, span)| {
+                let name = font.name();
+                if seen.contains(&font) && self.ignored.iter().all(|item| name != item) {
+                    self.ctx
+                        .report(span, format!("Unexpected duplicate name '{}'.", name));
+                }
+                seen.insert(font);
+                seen
+            },
+        );
+    }
+}
+
 impl Visit for FontFamilyNoDuplicateNames {
     fn visit_declaration(&mut self, declaration: &Declaration) {
         match &declaration.name {
             DeclarationName::Ident(Ident { value, .. })
                 if value.eq_str_ignore_ascii_case("font-family") =>
             {
-                declaration.value.iter().fold(
-                    AHashSet::with_capacity(declaration.value.len()),
-                    |mut fonts, item| {
-                        let font = match item {
-                            ComponentValue::Ident(Ident { value, .. }) => {
-                                FontNameKind::from(value.deref())
-                            }
-                            ComponentValue::Str(Str { raw, .. }) => FontNameKind::from(raw.deref()),
-                            _ => return fonts,
-                        };
-                        if fonts.contains(&font)
-                            && self.ignored.iter().all(|item| font.name() != item)
-                        {
-                            self.ctx.report(
-                                item,
-                                format!("Unexpected duplicate name '{}'.", font.name()),
-                            );
-                        }
-                        fonts.insert(font);
-                        fonts
-                    },
-                );
+                self.check_component_values(&declaration.value);
             }
             DeclarationName::Ident(Ident { value, .. })
                 if value.eq_str_ignore_ascii_case("font") =>
             {
-                let comma_index = declaration
+                let index = declaration
                     .value
                     .iter()
                     .enumerate()
+                    .rev()
                     .find(|(_, item)| {
                         matches!(
                             item,
-                            ComponentValue::Delimiter(Delimiter {
-                                value: DelimiterValue::Comma,
-                                ..
-                            })
+                            ComponentValue::Integer(..)
+                                | ComponentValue::Number(..)
+                                | ComponentValue::Percentage(..)
+                                | ComponentValue::Dimension(..)
+                                | ComponentValue::Ratio(..)
+                                | ComponentValue::CalcSum(..)
                         )
                     })
                     .map(|(i, _)| i);
-                if let Some(comma_index) = comma_index {
-                    declaration
-                        .value
-                        .iter()
-                        .skip((comma_index - 1) as usize)
-                        .fold(
-                            AHashSet::with_capacity(declaration.value.len()),
-                            |mut fonts, item| {
-                                let font = match item {
-                                    ComponentValue::Ident(Ident { value, .. }) => {
-                                        FontNameKind::from(value.deref())
-                                    }
-                                    ComponentValue::Str(Str { raw, .. }) => {
-                                        FontNameKind::from(raw.deref())
-                                    }
-                                    _ => return fonts,
-                                };
-                                if fonts.contains(&font)
-                                    && self.ignored.iter().all(|item| font.name() != item)
-                                {
-                                    self.ctx.report(
-                                        item,
-                                        format!("Unexpected duplicate name '{}'.", font.name()),
-                                    );
-                                }
-                                fonts.insert(font);
-                                fonts
-                            },
-                        );
+                if let Some(index) = index {
+                    self.check_component_values(&declaration.value[(index + 1)..]);
                 }
             }
             _ => {}
@@ -114,22 +120,23 @@ impl Visit for FontFamilyNoDuplicateNames {
 }
 
 #[derive(Hash, PartialEq, Eq)]
-enum FontNameKind<'a> {
-    Normal(&'a str),
-    Keyword(&'a str),
+enum FontNameKind {
+    Normal(String),
+    Keyword(String),
 }
 
-impl<'a> FontNameKind<'a> {
+impl FontNameKind {
     #[inline]
     fn name(&self) -> &str {
         match self {
-            Self::Normal(name) => name,
-            Self::Keyword(name) => name,
+            Self::Normal(name) => name.as_str(),
+            Self::Keyword(name) => name.as_str(),
         }
     }
 }
 
-fn is_keyword(name: &str) -> bool {
+fn is_keyword<S: AsRef<str>>(name: S) -> bool {
+    let name = name.as_ref();
     name.eq_ignore_ascii_case("serif")
         || name.eq_ignore_ascii_case("sans-serif")
         || name.eq_ignore_ascii_case("cursive")
@@ -138,30 +145,35 @@ fn is_keyword(name: &str) -> bool {
         || name.eq_ignore_ascii_case("system-ui")
 }
 
-impl<'a> From<&'a str> for FontNameKind<'a> {
-    fn from(name: &'a str) -> Self {
+impl<S> From<S> for FontNameKind
+where
+    S: AsRef<str>,
+{
+    fn from(name: S) -> Self {
         if let Some(name) = name
+            .as_ref()
             .strip_prefix('\'')
             .and_then(|name| name.strip_suffix('\''))
             .map(|name| name.trim())
         {
             if is_keyword(name) {
-                Self::Keyword(name)
+                Self::Keyword(name.to_string())
             } else {
-                Self::Normal(name)
+                Self::Normal(name.to_string())
             }
         } else if let Some(name) = name
+            .as_ref()
             .strip_prefix('"')
             .and_then(|name| name.strip_suffix('"'))
             .map(|name| name.trim())
         {
             if is_keyword(name) {
-                Self::Keyword(name)
+                Self::Keyword(name.to_string())
             } else {
-                Self::Normal(name)
+                Self::Normal(name.to_string())
             }
         } else {
-            Self::Normal(name.trim())
+            Self::Normal(name.as_ref().trim().to_string())
         }
     }
 }
