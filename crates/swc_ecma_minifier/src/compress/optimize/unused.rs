@@ -14,6 +14,7 @@ impl<M> Optimizer<'_, M>
 where
     M: Mode,
 {
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn drop_unused_var_declarator(&mut self, var: &mut VarDeclarator, prepend: bool) {
         if var.name.is_invalid() {
             return;
@@ -74,6 +75,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn drop_unused_param(&mut self, pat: &mut Pat, ignore_fn_length: bool) {
         if !self.options.unused && !self.options.reduce_fns {
             return;
@@ -99,6 +101,7 @@ where
         self.take_pat_if_unused(DUMMY_SP, pat, None)
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn drop_unused_vars(
         &mut self,
         var_declarator_span: Span,
@@ -179,6 +182,7 @@ where
         self.take_pat_if_unused(var_declarator_span, name, init);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn drop_unused_params(&mut self, params: &mut Vec<Param>) {
         for param in params.iter_mut().rev() {
             self.take_pat_if_unused(DUMMY_SP, &mut param.pat, None);
@@ -190,6 +194,7 @@ where
     }
 
     /// `parent_span` should be [Span] of [VarDeclarator] or [AssignExpr]
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn take_pat_if_unused(
         &mut self,
         parent_span: Span,
@@ -230,6 +235,7 @@ where
                         && v.usage_count == 0
                         && !v.reassigned_with_assignment
                         && !v.has_property_mutation
+                        && !v.declared_as_catch_param
                     {
                         self.changed = true;
                         tracing::debug!(
@@ -258,6 +264,8 @@ where
                                     self.ctx.var_kind
                                 {
                                     *e = Null { span: DUMMY_SP }.into();
+                                } else {
+                                    *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                                 }
                             }
                         }
@@ -350,6 +358,7 @@ where
     }
 
     /// Creates an empty [VarDecl] if `decl` should be removed.
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn drop_unused_decl(&mut self, decl: &mut Decl) {
         if self.ctx.is_exported {
             return;
@@ -415,6 +424,7 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn drop_unused_assignments(&mut self, e: &mut Expr) {
         let assign = match e {
             Expr::Assign(e) => e,
@@ -522,6 +532,7 @@ where
     }
 
     /// Make `name` [None] if the name is not used.
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn remove_name_if_not_used(&mut self, name: &mut Option<Ident>) {
         if !self.options.unused {
             return;
