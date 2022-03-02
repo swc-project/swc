@@ -1,5 +1,6 @@
 use swc_common::{comments::Comments, BytePos, Span};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+
 /// Preserves comments that would otherwise be dropped.
 ///
 /// If during compilation an ast node associated with
@@ -32,16 +33,14 @@ impl VisitMut for DroppedCommentsPreserver<'_> {
             self.is_first_span = false;
             return;
         }
+
         let mut leading_comments = Vec::new();
         let mut trailing_comments = Vec::new();
 
-        for idx in self.comment_position..=span.lo.0 {
-            if let Some(leading) = self.comments.take_leading(BytePos(idx)) {
-                leading_comments.extend(leading);
-            }
-            if let Some(trailing) = self.comments.take_trailing(BytePos(idx)) {
-                trailing_comments.extend(trailing);
-            }
+        for idx in (self.comment_position..=span.lo.0).map(|x| BytePos(x)) {
+            leading_comments.extend(self.comments.take_leading(idx).unwrap_or(Vec::new()));
+            trailing_comments.extend(self.comments.take_trailing(idx).unwrap_or(Vec::new()));
+
             self.comment_position += 1;
         }
 
