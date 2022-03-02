@@ -2849,7 +2849,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.95.0"
+version = "0.96.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -2872,7 +2872,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.92.0"
+version = "0.93.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -2898,7 +2898,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_lints"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "auto_impl",
  "parking_lot 0.12.0",
@@ -2915,7 +2915,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.57.0"
+version = "0.58.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2928,7 +2928,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.93.0"
+version = "0.94.0"
 dependencies = [
  "bitflags",
  "lexical",
@@ -3074,7 +3074,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.81.6"
+version = "0.81.8"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3212,7 +3212,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.63.0"
+version = "0.63.1"
 dependencies = [
  "better_scoped_tls",
  "once_cell",
@@ -3641,7 +3641,7 @@ version = "0.24.1"
 
 [[package]]
 name = "swc_stylis"
-version = "0.91.0"
+version = "0.92.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
