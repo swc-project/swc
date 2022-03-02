@@ -274,6 +274,7 @@ dead_code/issue_2383_2/input.js
 dead_code/issue_2383_3/input.js
 dead_code/issue_2597/input.js
 dead_code/issue_2666/input.js
+dead_code/issue_2692/input.js
 dead_code/issue_2701/input.js
 dead_code/issue_2860_1/input.js
 dead_code/issue_2929/input.js
@@ -498,6 +499,7 @@ functions/issue_2663_1/input.js
 functions/issue_2663_3/input.js
 functions/issue_2737_1/input.js
 functions/issue_2737_2/input.js
+functions/issue_2783/input.js
 functions/issue_3054/input.js
 functions/issue_485_crashing_1530/input.js
 functions/no_webkit/input.js
