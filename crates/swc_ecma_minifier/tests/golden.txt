@@ -274,6 +274,7 @@ dead_code/issue_2383_2/input.js
 dead_code/issue_2383_3/input.js
 dead_code/issue_2597/input.js
 dead_code/issue_2666/input.js
+dead_code/issue_2692/input.js
 dead_code/issue_2701/input.js
 dead_code/issue_2860_1/input.js
 dead_code/issue_2929/input.js
@@ -349,10 +350,15 @@ drop_unused/function_argument_modified_by_function_statement/input.js
 drop_unused/iife/input.js
 drop_unused/issue_1539/input.js
 drop_unused/issue_1656/input.js
+drop_unused/issue_1715_1/input.js
+drop_unused/issue_1715_2/input.js
 drop_unused/issue_2136_1/input.js
 drop_unused/issue_2995/input.js
 drop_unused/issue_3146_1/input.js
 drop_unused/issue_3146_2/input.js
+drop_unused/issue_3146_3/input.js
+drop_unused/issue_3146_4/input.js
+drop_unused/issue_3192/input.js
 drop_unused/issue_805_1/input.js
 drop_unused/issue_805_2/input.js
 drop_unused/issue_t161_top_retain_1/input.js
@@ -498,6 +504,7 @@ functions/issue_2663_1/input.js
 functions/issue_2663_3/input.js
 functions/issue_2737_1/input.js
 functions/issue_2737_2/input.js
+functions/issue_2783/input.js
 functions/issue_3054/input.js
 functions/issue_485_crashing_1530/input.js
 functions/no_webkit/input.js

@@ -1,0 +1,12 @@
+error: Expected 'from' or 'to' idents
+ --> $DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:2:2
+  |
+2 |     form {}
+  |     ^^^^
+
+error: Expected 'from' or 'to' idents
+ --> $DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:6:2
+  |
+6 |     ot {}
+  |     ^^
+

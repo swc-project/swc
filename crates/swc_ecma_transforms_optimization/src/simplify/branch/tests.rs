@@ -1765,10 +1765,10 @@ fn return_function_hoisting() {
             console.log('hi');
         }",
         "function test() {
+            return foo();
             function foo() {
                 return 2;
             }
-            return foo();
         }",
     );
 }

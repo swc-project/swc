@@ -1,0 +1,8 @@
+error: Expected Declaration value
+ --> $DIR/tests/recovery/value/string/escaped/eof/input.css:2:12
+  |
+2 |     color: \
+  |            ^
+
+error: Unexpected end of file
+

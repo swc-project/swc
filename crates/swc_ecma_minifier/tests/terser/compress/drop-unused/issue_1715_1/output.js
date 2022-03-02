@@ -3,8 +3,8 @@ function f() {
     a++;
     try {
         x();
-    } catch (a) {
-        var a;
+    } catch (a1) {
+        var a1;
     }
 }
 f();
