@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 3959,
+    "end": 3974,
     "ctxt": 0
   },
   "rules": [
@@ -10698,6 +10698,54 @@
         "span": {
           "start": 3956,
           "end": 3958,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 3960,
+        "end": 3973,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 3967,
+          "end": 3970,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 3967,
+              "end": 3970,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": {
+              "type": "Ident",
+              "span": {
+                "start": 3967,
+                "end": 3970,
+                "ctxt": 0
+              },
+              "value": "tty",
+              "raw": "tty"
+            },
+            "condition": null
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 3971,
+          "end": 3973,
           "ctxt": 0
         },
         "name": "{",

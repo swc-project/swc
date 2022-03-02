@@ -1,6 +1,20 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(css/parser)** Improve error recovery (#3810) ([f969f8c](https://github.com/swc-project/swc/commit/f969f8c5f54e3028576a74ccfcaae72b1c19eaf9))
+
+### Performance
+
+
+
+- **(es/parser)** Remove duplicated instantiations of `Parser` to reduce binary size (#3813) ([f5103a7](https://github.com/swc-project/swc/commit/f5103a77256060e2c27ca360d0c58bbcc6b92b13))
+
+## [1.2.147] - 2022-03-02
+
 ### Bug Fixes
 
 
@@ -126,6 +140,12 @@
 
 
 - **(es/minifier)** Prepare porting more rules from `terser` (#3779) ([86072b5](https://github.com/swc-project/swc/commit/86072b57f9e0cf59b660f88cdb2c9cee15f33720))
+
+### Build
+
+
+
+- **(node-swc)** Rename entrypoint to avoid artifact collision (#3806) ([b485a2f](https://github.com/swc-project/swc/commit/b485a2fc267e0f373b9882e61c14b9fbf7a92471))
 
 ## [1.2.146] - 2022-02-27
 
