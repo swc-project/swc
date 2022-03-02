@@ -2787,8 +2787,20 @@ where
             }
 
             if let Some(Expr::Invalid(..)) = var.init.as_deref() {
-                var.init = None;
-                return true;
+                if let Pat::Ident(i) = &var.name {
+                    if let Some(usage) = self
+                        .data
+                        .as_ref()
+                        .and_then(|data| data.vars.get(&i.id.to_id()))
+                    {
+                        if usage.declared_as_catch_param {
+                            var.init = None;
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
             }
 
             true
