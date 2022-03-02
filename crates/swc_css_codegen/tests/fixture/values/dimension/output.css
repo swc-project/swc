@@ -4,3 +4,6 @@ border: 1px solid black;
 transition: top 1s ease-out 0.5s;
 text-shadow: 1px 1px 2px black, 0 0 1em red;
 }
+.fpp {
+padding: __ident__px __ident__;
+}

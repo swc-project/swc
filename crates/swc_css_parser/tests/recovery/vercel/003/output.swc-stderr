@@ -1,0 +1,6 @@
+error: Expected Declaration value
+  --> $DIR/tests/recovery/vercel/003/input.css:10:26
+   |
+10 |     flex-basis: __ident__%;
+   |                          ^
+

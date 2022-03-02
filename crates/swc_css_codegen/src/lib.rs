@@ -703,7 +703,11 @@ where
         for (idx, node) in iter.enumerate() {
             emit!(self, node);
 
-            if idx != len - 1 {
+            let is_current_preserved_token = matches!(node, ComponentValue::PreservedToken(_));
+            let next = nodes.get(idx + 1);
+            let is_next_preserved_token = matches!(next, Some(ComponentValue::PreservedToken(_)));
+
+            if idx != len - 1 && !is_current_preserved_token && !is_next_preserved_token {
                 let need_delim = match node {
                     ComponentValue::SimpleBlock(_)
                     | ComponentValue::Function(_)
@@ -711,14 +715,14 @@ where
                     | ComponentValue::Delimiter(_)
                     | ComponentValue::Str(_)
                     | ComponentValue::Url(_)
-                    | ComponentValue::Percentage(_) => match nodes.get(idx + 1) {
+                    | ComponentValue::Percentage(_) => match next {
                         Some(ComponentValue::Delimiter(Delimiter {
                             value: DelimiterValue::Comma,
                             ..
                         })) => false,
                         _ => !self.config.minify,
                     },
-                    ComponentValue::Ident(_) => match nodes.get(idx + 1) {
+                    ComponentValue::Ident(_) => match next {
                         Some(ComponentValue::SimpleBlock(_))
                         | Some(ComponentValue::Color(Color::HexColor(_)))
                         | Some(ComponentValue::Str(_)) => !self.config.minify,
@@ -753,7 +757,7 @@ where
                         }
                         _ => true,
                     },
-                    _ => match nodes.get(idx + 1) {
+                    _ => match next {
                         Some(ComponentValue::SimpleBlock(_))
                         | Some(ComponentValue::Color(Color::HexColor(_))) => !self.config.minify,
                         Some(ComponentValue::Delimiter(_)) => false,
