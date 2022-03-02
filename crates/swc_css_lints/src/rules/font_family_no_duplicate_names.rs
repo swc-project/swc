@@ -4,7 +4,10 @@ use swc_common::Span;
 use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitWith};
 
-use crate::rule::{visitor_rule, LintRule, LintRuleContext};
+use crate::{
+    dataset::is_generic_font_keyword,
+    rule::{visitor_rule, LintRule, LintRuleContext},
+};
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -135,16 +138,6 @@ impl FontNameKind {
     }
 }
 
-fn is_keyword<S: AsRef<str>>(name: S) -> bool {
-    let name = name.as_ref();
-    name.eq_ignore_ascii_case("serif")
-        || name.eq_ignore_ascii_case("sans-serif")
-        || name.eq_ignore_ascii_case("cursive")
-        || name.eq_ignore_ascii_case("fantasy")
-        || name.eq_ignore_ascii_case("monospace")
-        || name.eq_ignore_ascii_case("system-ui")
-}
-
 impl<S> From<S> for FontNameKind
 where
     S: AsRef<str>,
@@ -156,7 +149,7 @@ where
             .and_then(|name| name.strip_suffix('\''))
             .map(|name| name.trim())
         {
-            if is_keyword(name) {
+            if is_generic_font_keyword(name) {
                 Self::Keyword(name.to_string())
             } else {
                 Self::Normal(name.to_string())
@@ -167,7 +160,7 @@ where
             .and_then(|name| name.strip_suffix('"'))
             .map(|name| name.trim())
         {
-            if is_keyword(name) {
+            if is_generic_font_keyword(name) {
                 Self::Keyword(name.to_string())
             } else {
                 Self::Normal(name.to_string())

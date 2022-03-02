@@ -1,6 +1,7 @@
 #![deny(clippy::all)]
 
 mod config;
+mod dataset;
 mod rule;
 mod rules;
 
