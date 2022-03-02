@@ -1,5 +1,6 @@
 use std::borrow::Cow;
 
+use swc_atoms::JsWord;
 use swc_common::{
     errors::{DiagnosticBuilder, Handler},
     Span,
@@ -27,7 +28,7 @@ impl Error {
     }
 
     pub fn to_diagnostics<'a>(&self, handler: &'a Handler) -> DiagnosticBuilder<'a> {
-        let msg: Cow<_> = match self.inner.1 {
+        let msg: Cow<_> = match &self.inner.1 {
             ErrorKind::Eof => "Unexpected end of file".into(),
             ErrorKind::Ignore => "Not an error".into(),
             ErrorKind::UnexpectedChar(c) => format!("Unexpected charcter `{:?}`", c).into(),
@@ -52,7 +53,7 @@ impl Error {
             ErrorKind::InvalidDeclarationValue => "Expected a property value".into(),
             ErrorKind::InvalidAnPlusBMicrosyntax => "Invalid An+B microsyntax".into(),
             ErrorKind::InvalidCustomIdent(s) => format!(
-                "The CSS-wide keywords are not valid custom-ident, found '{}'",
+                "The CSS-wide keywords are not valid custom ident, found '{}'",
                 s
             )
             .into(),
@@ -92,7 +93,7 @@ pub enum ErrorKind {
     InvalidLayerBlockAtRule,
     InvalidMediaQuery,
     InvalidAnPlusBMicrosyntax,
-    InvalidCustomIdent(&'static str),
+    InvalidCustomIdent(JsWord),
     InvalidKeyframesName(&'static str),
 
     UnknownAtRuleNotTerminated,

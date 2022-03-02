@@ -507,7 +507,7 @@ where
                         if var.is_fn_local
                             && var.usage_count == 0
                             && var.declared
-                            && (!var.declared_as_fn_param || !used_arguments)
+                            && (!var.declared_as_fn_param || !used_arguments || self.ctx.in_strict)
                         {
                             tracing::debug!(
                                 "unused: Dropping assignment to var '{}{:?}', which is never used",

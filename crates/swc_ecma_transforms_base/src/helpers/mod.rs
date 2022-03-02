@@ -23,13 +23,12 @@ macro_rules! add_to {
             let code = include_str!(concat!("./_", stringify!($name), ".js"));
             let fm = cm.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
 
-            let stmts = swc_ecma_parser::with_file_parser(
+            let stmts = swc_ecma_parser::parse_file_as_script(
                 &fm,
                 Default::default(),
                 Default::default(),
                 None,
                 &mut vec![],
-                |p| p.parse_script(),
             )
             .map(|mut script| {
                 script.body.visit_mut_with(&mut DropSpan {

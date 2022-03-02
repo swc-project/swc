@@ -1,6 +1,0 @@
-error: Expected Declaration value
- --> $DIR/tests/errors/number/minus-dot/input.css:1:14
-  |
-1 | a { width: -0.; }
-  |              ^
-

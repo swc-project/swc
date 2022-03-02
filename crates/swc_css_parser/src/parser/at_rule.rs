@@ -559,11 +559,9 @@ where
                 let custom_ident: CustomIdent = self.parse()?;
 
                 if &*custom_ident.value.to_ascii_lowercase() == "none" {
-                    let span = self.input.cur_span()?;
-
                     return Err(Error::new(
-                        span,
-                        ErrorKind::InvalidCustomIdent(stringify!(value)),
+                        custom_ident.span,
+                        ErrorKind::InvalidCustomIdent(custom_ident.raw),
                     ));
                 }
 
@@ -625,13 +623,11 @@ where
         match cur!(self) {
             tok!("ident") => {
                 let ident: Ident = self.parse()?;
-                let lowercased_ident_value = ident.value.to_ascii_lowercase();
+                let normalized_ident_value = ident.value.to_ascii_lowercase();
 
-                if &*lowercased_ident_value != "from" && &*lowercased_ident_value != "to" {
-                    let span = self.input.cur_span()?;
-
+                if &*normalized_ident_value != "from" && &*normalized_ident_value != "to" {
                     return Err(Error::new(
-                        span,
+                        ident.span,
                         ErrorKind::Expected("'from' or 'to' idents"),
                     ));
                 }
@@ -694,10 +690,12 @@ where
             tok!("url") => NamespaceUri::Url(self.parse()?),
             tok!("function") => NamespaceUri::Url(self.parse()?),
             _ => {
+                let span = self.input.cur_span()?;
+
                 return Err(Error::new(
                     span,
-                    ErrorKind::Expected("string, url or function"),
-                ))
+                    ErrorKind::Expected("string, url or function tokens"),
+                ));
             }
         };
 
@@ -1778,10 +1776,12 @@ where
                 self.parse()?
             }
             _ => {
+                let span = self.input.cur_span()?;
+
                 return Err(Error::new(
                     span,
                     ErrorKind::Expected("'left', 'right', 'first' or 'blank' ident"),
-                ))
+                ));
             }
         };
 

@@ -1,0 +1,30 @@
+error: Expected Ident
+ --> $DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:16
+  |
+1 | .class {--foo:!; }
+  |                ^
+
+error: Expected Ident
+ --> $DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:12
+  |
+4 |     --foo:!; 
+  |            ^
+
+error: Expected Ident
+  --> $DIR/tests/recovery/value/custom-properties/exclamation/input.css:10:12
+   |
+10 |     --foo:!;
+   |            ^
+
+error: Expected Ident
+  --> $DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:13
+   |
+14 |     --foo: !;
+   |             ^
+
+error: Expected Ident
+  --> $DIR/tests/recovery/value/custom-properties/exclamation/input.css:20:13
+   |
+20 |     --foo: !;
+   |             ^
+

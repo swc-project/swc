@@ -1,0 +1,12 @@
+error: Expected Ident
+ --> $DIR/tests/recovery/declaration/basic/input.css:7:12
+  |
+7 |     prop: !!;
+  |            ^
+
+error: Expected ":"
+  --> $DIR/tests/recovery/declaration/basic/input.css:12:9
+   |
+12 |     test;
+   |         ^
+
