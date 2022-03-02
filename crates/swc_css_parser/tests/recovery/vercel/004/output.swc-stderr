@@ -1,11 +1,11 @@
 error: Expected ":"
- --> $DIR/tests/recovery/vercel/003/input.css:4:5
+ --> $DIR/tests/recovery/vercel/004/input.css:4:5
   |
 4 |     border-radius: 7px;
   |     ^^^^^^^^^^^^^
 
 error: Expected ":"
- --> $DIR/tests/recovery/vercel/003/input.css:8:5
+ --> $DIR/tests/recovery/vercel/004/input.css:8:5
   |
 8 |     __ident__
   |     ^^^^^^^^^
