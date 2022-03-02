@@ -26,7 +26,7 @@ export function transform(src: string, isModule: boolean, options: Buffer, signa
 export function transformSync(s: string, isModule: boolean, opts: Buffer): TransformOutput
 export function transformFile(src: string, isModule: boolean, options: Buffer, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
 export function transformFileSync(s: string, isModule: boolean, opts: Buffer): TransformOutput
-export function initTraceOnce(enableChromeTrace: boolean, traceOutFile?: string | undefined | null): void
+export function initCustomTraceSubscriber(traceOutFilePath?: string | undefined | null): void
 /** Hack for `Type Generation` */
 export interface TransformOutput {
   code: string

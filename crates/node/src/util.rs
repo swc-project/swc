@@ -1,67 +1,53 @@
 use std::{
     any::type_name,
     panic::{catch_unwind, AssertUnwindSafe},
-    sync::Mutex,
 };
 
 use anyhow::{anyhow, Context, Error};
-use napi::Status;
+use napi::{Env, Status};
 use serde::de::DeserializeOwned;
 use swc::try_with_handler;
-use swc_common::{
-    errors::Handler,
-    sync::{Lrc, OnceCell},
-    SourceMap,
-};
+use swc_common::{errors::Handler, sync::Lrc, SourceMap};
 use tracing::instrument;
-use tracing_chrome::{ChromeLayerBuilder, FlushGuard};
+use tracing_chrome::ChromeLayerBuilder;
 use tracing_subscriber::{
     prelude::__tracing_subscriber_SubscriberExt, util::SubscriberInitExt, EnvFilter,
 };
 
-// Hold FlushGuard for the trace until it flushes out completely.
-#[derive(Default)]
-struct TraceFlushGuard {
-    inner: Option<FlushGuard>,
-}
-static FLUSH_GUARD: OnceCell<Mutex<TraceFlushGuard>> = OnceCell::new();
-
 #[napi]
-pub fn init_trace_once(
-    enable_chrome_trace: bool,
-    trace_out_file: Option<String>,
+pub fn init_custom_trace_subscriber(
+    mut env: Env,
+    trace_out_file_path: Option<String>,
 ) -> napi::Result<()> {
-    FLUSH_GUARD.get_or_init(|| {
-        if enable_chrome_trace {
-            let layer = if let Some(trace_out_file) = trace_out_file {
-                ChromeLayerBuilder::new()
-                    .file(trace_out_file)
-                    .include_args(true)
-            } else {
-                ChromeLayerBuilder::new().include_args(true)
-            };
+    let mut layer = ChromeLayerBuilder::new().include_args(true);
+    if let Some(trace_out_file) = trace_out_file_path {
+        layer = layer.file(trace_out_file);
+    }
 
-            let (chrome_layer, guard) = layer.build();
-            tracing_subscriber::registry()
-                .with(chrome_layer)
-                .try_init()
-                .expect("Should able to register trace");
+    let (chrome_layer, guard) = layer.build();
+    tracing_subscriber::registry()
+        .with(chrome_layer)
+        .try_init()
+        .expect("Failed to register tracing subscriber");
 
-            Mutex::new(TraceFlushGuard { inner: Some(guard) })
-        } else {
-            tracing_subscriber::FmtSubscriber::builder()
-                .without_time()
-                .with_target(false)
-                .with_ansi(true)
-                .with_env_filter(EnvFilter::from_env("SWC_LOG"))
-                .try_init()
-                .expect("Should able to register trace");
-
-            Mutex::new(TraceFlushGuard { inner: None })
-        }
-    });
+    env.add_env_cleanup_hook(guard, |flush_guard| {
+        flush_guard.flush();
+        drop(flush_guard);
+    })?;
 
     Ok(())
+}
+
+/// Trying to initialize default subscriber if global dispatch is not set.
+/// This can be called multiple time, however subsequent calls will be ignored
+/// as tracing_subscriber only allows single global dispatch.
+pub fn init_default_trace_subscriber() {
+    let _unused = tracing_subscriber::FmtSubscriber::builder()
+        .without_time()
+        .with_target(false)
+        .with_ansi(true)
+        .with_env_filter(EnvFilter::from_env("SWC_LOG"))
+        .try_init();
 }
 
 #[instrument(level = "trace", skip_all)]

@@ -1,0 +1,8 @@
+error: Expected Declaration value
+ --> $DIR/tests/recovery/value/string/newline/input.css:2:11
+  |
+2 |     prop: "
+  |           ^
+
+error: Unexpected end of file
+

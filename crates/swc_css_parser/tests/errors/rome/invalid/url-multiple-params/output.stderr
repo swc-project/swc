@@ -1,6 +1,0 @@
-error: Expected ident or function
- --> $DIR/tests/errors/rome/invalid/url-multiple-params/input.css:2:23
-  |
-2 |     background: url("foo", "bar");
-  |                          ^
-
