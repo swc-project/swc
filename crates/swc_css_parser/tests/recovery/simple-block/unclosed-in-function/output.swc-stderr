@@ -1,0 +1,20 @@
+error: Expected Declaration value
+ --> $DIR/tests/recovery/simple-block/unclosed-in-function/input.css:2:45
+  |
+2 |     grid-template-columns: repeat(4, [col-start);
+  |                                                ^
+
+error: Expected Declaration value
+ --> $DIR/tests/recovery/simple-block/unclosed-in-function/input.css:3:1
+  |
+3 | }
+  | ^
+
+error: Unexpected end of file
+ --> $DIR/tests/recovery/simple-block/unclosed-in-function/input.css:3:3
+  |
+3 | }
+  |   ^
+
+error: Unexpected end of file
+

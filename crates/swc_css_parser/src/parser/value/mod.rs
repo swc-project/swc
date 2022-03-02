@@ -469,10 +469,7 @@ where
             Token::Ident { value, raw } => {
                 match &*value.to_ascii_lowercase() {
                     "initial" | "inherit" | "unset" | "revert" | "default" => {
-                        return Err(Error::new(
-                            span,
-                            ErrorKind::InvalidCustomIdent(stringify!(value)),
-                        ));
+                        return Err(Error::new(span, ErrorKind::InvalidCustomIdent(raw)));
                     }
                     _ => {}
                 }
