@@ -10428,7 +10428,7 @@
             "type": "Tokens",
             "span": {
               "start": 3442,
-              "end": 3461,
+              "end": 3462,
               "ctxt": 0
             },
             "tokens": [
@@ -10521,6 +10521,15 @@
                     "raw": "ie"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3461,
+                  "end": 3462,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           }
