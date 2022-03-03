@@ -50,6 +50,7 @@ define!({
         UnicodeRange(UnicodeRange),
         Color(Color),
         AlphaValue(AlphaValue),
+        Hue(Hue),
         Delimiter(Delimiter),
 
         CalcSum(CalcSum),
@@ -159,6 +160,11 @@ define!({
     pub enum AlphaValue {
         Number(Number),
         Percentage(Percentage),
+    }
+
+    pub enum Hue {
+        Number(Number),
+        Angle(Angle),
     }
 
     pub enum Dimension {

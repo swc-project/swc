@@ -346,6 +346,8 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(AlphaValue, visit_alpha_value);
 
+    mtd!(Hue, visit_hue);
+
     mtd!(Integer, visit_integer);
 
     mtd!(Number, visit_number);

@@ -4906,7 +4906,13 @@ error: ComponentValue
 55 |     color: hwb(194 0% 0%);
    |                ^^^
 
-error: Integer
+error: Hue
+  --> $DIR/tests/fixture/value/color/input.css:55:16
+   |
+55 |     color: hwb(194 0% 0%);
+   |                ^^^
+
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:55:16
    |
 55 |     color: hwb(194 0% 0%);
@@ -5008,7 +5014,13 @@ error: ComponentValue
 56 |     color: hwb(194 0% 0% / 50%);
    |                ^^^
 
-error: Integer
+error: Hue
+  --> $DIR/tests/fixture/value/color/input.css:56:16
+   |
+56 |     color: hwb(194 0% 0% / 50%);
+   |                ^^^
+
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:56:16
    |
 56 |     color: hwb(194 0% 0% / 50%);
@@ -5063,6 +5075,12 @@ error: Delimiter
    |                          ^
 
 error: ComponentValue
+  --> $DIR/tests/fixture/value/color/input.css:56:28
+   |
+56 |     color: hwb(194 0% 0% / 50%);
+   |                            ^^^
+
+error: AlphaValue
   --> $DIR/tests/fixture/value/color/input.css:56:28
    |
 56 |     color: hwb(194 0% 0% / 50%);
@@ -5140,7 +5158,13 @@ error: ComponentValue
 57 |     color: hwb(194 0% 50%);
    |                ^^^
 
-error: Integer
+error: Hue
+  --> $DIR/tests/fixture/value/color/input.css:57:16
+   |
+57 |     color: hwb(194 0% 50%);
+   |                ^^^
+
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:57:16
    |
 57 |     color: hwb(194 0% 50%);
@@ -5242,7 +5266,13 @@ error: ComponentValue
 58 |     color: hwb(194 50% 0%);
    |                ^^^
 
-error: Integer
+error: Hue
+  --> $DIR/tests/fixture/value/color/input.css:58:16
+   |
+58 |     color: hwb(194 50% 0%);
+   |                ^^^
+
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:58:16
    |
 58 |     color: hwb(194 50% 0%);
@@ -5344,7 +5374,13 @@ error: ComponentValue
 59 |     color: hwb(194 50% 50%);
    |                ^^^
 
-error: Integer
+error: Hue
+  --> $DIR/tests/fixture/value/color/input.css:59:16
+   |
+59 |     color: hwb(194 50% 50%);
+   |                ^^^
+
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:59:16
    |
 59 |     color: hwb(194 50% 50%);

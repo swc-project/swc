@@ -85,6 +85,14 @@ pub enum AlphaValue {
 }
 
 #[ast_node]
+pub enum Hue {
+    #[tag("Number")]
+    Number(Number),
+    #[tag("Percentage")]
+    Angle(Angle),
+}
+
+#[ast_node]
 pub enum Dimension {
     #[tag("Length")]
     Length(Length),

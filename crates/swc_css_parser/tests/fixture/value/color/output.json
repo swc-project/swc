@@ -3997,13 +3997,13 @@
                 },
                 "value": [
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 1271,
                       "end": 1274,
                       "ctxt": 0
                     },
-                    "value": 194,
+                    "value": 194.0,
                     "raw": "194"
                   },
                   {
@@ -4084,13 +4084,13 @@
                 },
                 "value": [
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 1298,
                       "end": 1301,
                       "ctxt": 0
                     },
-                    "value": 194,
+                    "value": 194.0,
                     "raw": "194"
                   },
                   {
@@ -4198,13 +4198,13 @@
                 },
                 "value": [
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 1331,
                       "end": 1334,
                       "ctxt": 0
                     },
-                    "value": 194,
+                    "value": 194.0,
                     "raw": "194"
                   },
                   {
@@ -4285,13 +4285,13 @@
                 },
                 "value": [
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 1359,
                       "end": 1362,
                       "ctxt": 0
                     },
-                    "value": 194,
+                    "value": 194.0,
                     "raw": "194"
                   },
                   {
@@ -4372,13 +4372,13 @@
                 },
                 "value": [
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 1387,
                       "end": 1390,
                       "ctxt": 0
                     },
-                    "value": 194,
+                    "value": 194.0,
                     "raw": "194"
                   },
                   {

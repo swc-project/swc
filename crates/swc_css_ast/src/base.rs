@@ -3,7 +3,7 @@ use swc_common::{ast_node, Span};
 
 use crate::{
     AlphaValue, AtRule, CalcSum, Color, ComplexSelector, DashedIdent, Delimiter, Dimension,
-    Function, Ident, Integer, KeyframeBlock, Number, Percentage, Ratio, SelectorList, Str,
+    Function, Hue, Ident, Integer, KeyframeBlock, Number, Percentage, Ratio, SelectorList, Str,
     TokenAndSpan, Tokens, UnicodeRange, Url,
 };
 
@@ -99,6 +99,8 @@ pub enum ComponentValue {
     Color(Color),
     #[tag("AlphaValue")]
     AlphaValue(AlphaValue),
+    #[tag("Hue")]
+    Hue(Hue),
     #[tag("Delimiter")]
     Delimiter(Delimiter),
 
