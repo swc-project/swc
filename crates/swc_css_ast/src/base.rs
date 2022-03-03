@@ -2,9 +2,9 @@ use is_macro::Is;
 use swc_common::{ast_node, Span};
 
 use crate::{
-    AtRule, CalcSum, Color, ComplexSelector, DashedIdent, Delimiter, Dimension, Function, Ident,
-    Integer, KeyframeBlock, Number, Percentage, Ratio, SelectorList, Str, TokenAndSpan, Tokens,
-    UnicodeRange, Url,
+    AlphaValue, AtRule, CalcSum, Color, ComplexSelector, DashedIdent, Delimiter, Dimension,
+    Function, Ident, Integer, KeyframeBlock, Number, Percentage, Ratio, SelectorList, Str,
+    TokenAndSpan, Tokens, UnicodeRange, Url,
 };
 
 #[ast_node("Stylesheet")]
@@ -97,6 +97,8 @@ pub enum ComponentValue {
     UnicodeRange(UnicodeRange),
     #[tag("Color")]
     Color(Color),
+    #[tag("AlphaValue")]
+    AlphaValue(AlphaValue),
     #[tag("Delimiter")]
     Delimiter(Delimiter),
 

@@ -320,6 +320,191 @@ where
                     self.input.skip_ws()?;
                 }
             }
+            "rgb" | "rgba" => {
+                self.input.skip_ws()?;
+
+                let mut is_legacy_syntax = true;
+
+                let percentage_or_number = match cur!(self) {
+                    tok!("percentage") => ComponentValue::Percentage(self.parse()?),
+                    tok!("number") => ComponentValue::Number(self.parse()?),
+                    tok!("ident") => {
+                        is_legacy_syntax = false;
+
+                        let ident: Ident = self.parse()?;
+
+                        if !(&*ident.value).eq_ignore_ascii_case("none") {
+                            return Err(Error::new(
+                                ident.span,
+                                ErrorKind::Expected("'none' value of an ident token"),
+                            ));
+                        }
+
+                        ComponentValue::Ident(ident)
+                    }
+                    _ => {
+                        let span = self.input.cur_span()?;
+
+                        return Err(Error::new(
+                            span,
+                            ErrorKind::Expected("percentage or number token"),
+                        ));
+                    }
+                };
+
+                values.push(percentage_or_number);
+
+                self.input.skip_ws()?;
+
+                if is!(self, ",") {
+                    if !is_legacy_syntax {
+                        let span = self.input.cur_span()?;
+
+                        return Err(Error::new(span, ErrorKind::Expected("comma token")));
+                    }
+
+                    is_legacy_syntax = true;
+
+                    values.push(ComponentValue::Delimiter(self.parse()?));
+
+                    self.input.skip_ws()?;
+                } else {
+                    is_legacy_syntax = false;
+                }
+
+                let percentage_or_number = match cur!(self) {
+                    tok!("percentage") => ComponentValue::Percentage(self.parse()?),
+                    tok!("number") => ComponentValue::Number(self.parse()?),
+                    tok!("ident") if !is_legacy_syntax => {
+                        let ident: Ident = self.parse()?;
+
+                        if !(&*ident.value).eq_ignore_ascii_case("none") {
+                            return Err(Error::new(
+                                ident.span,
+                                ErrorKind::Expected("'none' value of an ident token"),
+                            ));
+                        }
+
+                        ComponentValue::Ident(ident)
+                    }
+                    _ => {
+                        let span = self.input.cur_span()?;
+
+                        return Err(Error::new(
+                            span,
+                            ErrorKind::Expected("percentage or number token"),
+                        ));
+                    }
+                };
+
+                values.push(percentage_or_number);
+
+                self.input.skip_ws()?;
+
+                if is_legacy_syntax {
+                    match cur!(self) {
+                        tok!(",") => {
+                            values.push(ComponentValue::Delimiter(self.parse()?));
+
+                            self.input.skip_ws()?;
+                        }
+                        _ => {
+                            let span = self.input.cur_span()?;
+
+                            return Err(Error::new(span, ErrorKind::Expected("comma token")));
+                        }
+                    }
+                }
+
+                let percentage_or_number = match cur!(self) {
+                    tok!("percentage") => ComponentValue::Percentage(self.parse()?),
+                    tok!("number") => ComponentValue::Number(self.parse()?),
+                    tok!("ident") if !is_legacy_syntax => {
+                        let ident: Ident = self.parse()?;
+
+                        if !(&*ident.value).eq_ignore_ascii_case("none") {
+                            return Err(Error::new(
+                                ident.span,
+                                ErrorKind::Expected("'none' value of an ident token"),
+                            ));
+                        }
+
+                        ComponentValue::Ident(ident)
+                    }
+                    _ => {
+                        let span = self.input.cur_span()?;
+
+                        return Err(Error::new(
+                            span,
+                            ErrorKind::Expected("percentage or number token"),
+                        ));
+                    }
+                };
+
+                values.push(percentage_or_number);
+
+                self.input.skip_ws()?;
+
+                if is!(self, ",") && is_legacy_syntax {
+                    values.push(ComponentValue::Delimiter(self.parse()?));
+
+                    self.input.skip_ws()?;
+
+                    let alpha_value = match cur!(self) {
+                        tok!("number") | tok!("percentage") => {
+                            ComponentValue::AlphaValue(self.parse()?)
+                        }
+                        _ => {
+                            let span = self.input.cur_span()?;
+
+                            return Err(Error::new(
+                                span,
+                                ErrorKind::Expected("percentage or number token"),
+                            ));
+                        }
+                    };
+
+                    values.push(alpha_value);
+
+                    self.input.skip_ws()?;
+                } else if is!(self, "/") && !is_legacy_syntax {
+                    values.push(ComponentValue::Delimiter(self.parse()?));
+
+                    self.input.skip_ws()?;
+
+                    let alpha_value = match cur!(self) {
+                        tok!("number") | tok!("percentage") => {
+                            ComponentValue::AlphaValue(self.parse()?)
+                        }
+                        tok!("ident") => {
+                            let ident: Ident = self.parse()?;
+
+                            if !(&*ident.value).eq_ignore_ascii_case("none") {
+                                return Err(Error::new(
+                                    ident.span,
+                                    ErrorKind::Expected("'none' value of an ident token"),
+                                ));
+                            }
+
+                            ComponentValue::Ident(ident)
+                        }
+                        _ => {
+                            let span = self.input.cur_span()?;
+
+                            return Err(Error::new(
+                                span,
+                                ErrorKind::Expected(
+                                    "percentage, number or ident (with 'none' value) token",
+                                ),
+                            ));
+                        }
+                    };
+
+                    values.push(alpha_value);
+
+                    self.input.skip_ws()?;
+                }
+            }
             "selector" if self.ctx.in_supports_at_rule => {
                 self.input.skip_ws()?;
 
@@ -946,6 +1131,30 @@ where
     }
 }
 
+impl<I> Parse<Color> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Color> {
+        let span = self.input.cur_span()?;
+
+        if !is_one_of!(self, "#", "function") {
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected("hash or function token"),
+            ));
+        }
+
+        match cur!(self) {
+            tok!("#") => Ok(Color::HexColor(self.parse()?)),
+            tok!("function") => Ok(Color::Function(self.parse()?)),
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
 impl<I> Parse<HexColor> for Parser<I>
 where
     I: ParserInput,
@@ -966,23 +1175,23 @@ where
     }
 }
 
-impl<I> Parse<Color> for Parser<I>
+impl<I> Parse<AlphaValue> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<Color> {
+    fn parse(&mut self) -> PResult<AlphaValue> {
         let span = self.input.cur_span()?;
 
-        if !is_one_of!(self, "#", "function") {
+        if !is_one_of!(self, "percentage", "number") {
             return Err(Error::new(
                 span,
-                ErrorKind::Expected("hash or function token"),
+                ErrorKind::Expected("percentage or number token"),
             ));
         }
 
         match cur!(self) {
-            tok!("#") => Ok(Color::HexColor(self.parse()?)),
-            tok!("function") => Ok(Color::Function(self.parse()?)),
+            tok!("percentage") => Ok(AlphaValue::Percentage(self.parse()?)),
+            tok!("number") => Ok(AlphaValue::Number(self.parse()?)),
             _ => {
                 unreachable!()
             }

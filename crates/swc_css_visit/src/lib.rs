@@ -49,6 +49,7 @@ define!({
         Ratio(Ratio),
         UnicodeRange(UnicodeRange),
         Color(Color),
+        AlphaValue(AlphaValue),
         Delimiter(Delimiter),
 
         CalcSum(CalcSum),
@@ -153,6 +154,11 @@ define!({
         pub span: Span,
         pub value: JsWord,
         pub raw: JsWord,
+    }
+
+    pub enum AlphaValue {
+        Number(Number),
+        Percentage(Percentage),
     }
 
     pub enum Dimension {

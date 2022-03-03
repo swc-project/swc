@@ -15,12 +15,25 @@
     color: rgb(123 255 255 / .5);
     color: rgb(123 255 255 / 50%);
     color: rgb(48% 100% 100% / 50%);
+    color: rgb(48% none 100% / 50%);
+    color: rgb(48% 100% 100% / none);
 }
 
 .rgba {
     color: rgba(255, 0, 0, 100%);
     color: rgba(255, 255, 0, 1);
     color: rgba(255, 255, 0, 0.8);
+    color: rgba(255, 165, 0);
+    color: rgba(255,165,0);
+    color: rGbA(255,165,0);
+    color: rgba(0 255 0);
+    color: rgba(0%100%0%);
+    color: rgba(29 164 192 / 95%);
+    color: rgba(123 255 255 / .5);
+    color: rgba(123 255 255 / 50%);
+    color: rgba(48% 100% 100% / 50%);
+    color: rgba(48% none 100% / 50%);
+    color: rgba(48% 100% 100% / none);
 }
 
 .hsl {

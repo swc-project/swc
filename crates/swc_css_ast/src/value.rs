@@ -77,6 +77,14 @@ pub struct HexColor {
 }
 
 #[ast_node]
+pub enum AlphaValue {
+    #[tag("Number")]
+    Number(Number),
+    #[tag("Percentage")]
+    Percentage(Percentage),
+}
+
+#[ast_node]
 pub enum Dimension {
     #[tag("Length")]
     Length(Length),
