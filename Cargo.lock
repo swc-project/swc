@@ -2698,7 +2698,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.139.1"
+version = "0.140.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2754,7 +2754,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.114.0"
+version = "0.115.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2811,7 +2811,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.13.0"
+version = "0.14.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -3092,7 +3092,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.81.8"
+version = "0.82.0"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3475,7 +3475,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.123.0"
+version = "0.124.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3511,7 +3511,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.58.0"
+version = "0.59.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3711,7 +3711,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.56.0"
+version = "0.57.0"
 dependencies = [
  "anyhow",
  "rayon",
