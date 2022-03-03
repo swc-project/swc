@@ -88,6 +88,14 @@ impl BlockScopedVars {
         let mut v = BlockScopedVars { scope, ..*self };
         op(&mut v);
 
+        if kind == ScopeKind::Block {
+            for (k, v) in &v.scope.vars {
+                if *v == VarDeclKind::Var {
+                    self.scope.vars.insert(k.clone(), VarDeclKind::Var);
+                }
+            }
+        }
+
         self.scope.children.push(v.scope);
     }
 }
