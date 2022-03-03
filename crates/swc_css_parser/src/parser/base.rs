@@ -242,7 +242,7 @@ where
 
                             let mut tokens = vec![];
 
-                            while !is_one_of!(self, EOF, ";", "}") {
+                            while !is_one_of!(self, EOF, "}") {
                                 tokens.extend(self.input.bump()?);
                             }
 
