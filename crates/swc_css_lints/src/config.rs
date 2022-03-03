@@ -3,7 +3,8 @@ use std::fmt::Debug;
 use serde::{Deserialize, Serialize};
 
 use crate::rules::{
-    at_rule_no_unknown::AtRuleNoUnknownConfig, color_hex_length::ColorHexLengthConfig,
+    at_rule_no_unknown::AtRuleNoUnknownConfig, color_hex_alpha::ColorHexAlphaConfig,
+    color_hex_length::ColorHexLengthConfig,
     font_family_no_duplicate_names::FontFamilyNoDuplicateNamesConfig,
     no_invalid_position_at_import_rule::NoInvalidPositionAtImportRuleConfig,
     selector_max_class::SelectorMaxClassConfig,
@@ -107,6 +108,9 @@ pub struct RulesConfig {
 
     #[serde(default, alias = "fontFamilyNoDuplicateNames")]
     pub font_family_no_duplicate_names: RuleConfig<FontFamilyNoDuplicateNamesConfig>,
+
+    #[serde(default, alias = "colorHexAlpha")]
+    pub color_hex_alpha: RuleConfig<ColorHexAlphaConfig>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
