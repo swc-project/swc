@@ -1,3 +1,4 @@
+use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -10,6 +11,39 @@ struct CompressAlphaValue {
 }
 
 impl VisitMut for CompressAlphaValue {
+    fn visit_mut_alpha_value(&mut self, alpha_value: &mut AlphaValue) {
+        alpha_value.visit_mut_children_with(self);
+
+        match alpha_value {
+            AlphaValue::Percentage(Percentage {
+                value: number,
+                span,
+                ..
+            }) if number.value % 10.0 == 0.0 => {
+                let new_value = number.value / 100.0;
+
+                *alpha_value = AlphaValue::Number(Number {
+                    span: *span,
+                    value: new_value,
+                    raw: new_value.to_string().into(),
+                });
+            }
+            AlphaValue::Number(Number { value, span, .. }) if *value < 0.1 => {
+                let new_value = *value * 100.0;
+
+                *alpha_value = AlphaValue::Percentage(Percentage {
+                    span: *span,
+                    value: Number {
+                        span: DUMMY_SP,
+                        value: new_value,
+                        raw: new_value.to_string().into(),
+                    },
+                });
+            }
+            _ => {}
+        }
+    }
+
     fn visit_mut_declaration(&mut self, declaration: &mut Declaration) {
         declaration.visit_mut_children_with(self);
 
