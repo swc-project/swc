@@ -74,7 +74,7 @@ impl BlockScopedVars {
 
         let mut rename_map = AHashMap::default();
 
-        self.scope.rename(&symbols, &mut rename_map);
+        self.scope.rename_decls(&symbols, &mut rename_map);
 
         // dbg!(&rename_map);
 
@@ -155,7 +155,7 @@ impl Scope {
             .for_each(|s| s.collect_candidates(parent, symbols));
     }
 
-    fn rename(&self, symbols: &[JsWord], rename_map: &mut AHashMap<Id, Id>) {
+    fn rename_decls(&self, symbols: &[JsWord], rename_map: &mut AHashMap<Id, Id>) {
         for (id, _) in &self.vars {
             if !symbols.contains(&id.0) {
                 continue;
@@ -183,7 +183,7 @@ impl Scope {
 
         self.children
             .iter()
-            .for_each(|s| s.rename(symbols, rename_map));
+            .for_each(|s| s.rename_decls(symbols, rename_map));
     }
 }
 
