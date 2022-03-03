@@ -27,6 +27,13 @@ struct Scope {
 }
 
 impl BlockScopedVars {
+    fn handle_program<N>(&mut self, n: &mut N)
+    where
+        N: VisitMutWith<Self>,
+    {
+        n.visit_mut_children_with(self);
+    }
+
     fn with_scope(&mut self, kind: ScopeKind, op: impl FnOnce(&mut Self)) {
         let scope = Scope {
             kind,
@@ -49,6 +56,10 @@ impl VisitMut for BlockScopedVars {
         });
     }
 
+    fn visit_mut_module(&mut self, n: &mut Module) {
+        self.handle_program(n)
+    }
+
     fn visit_mut_pat(&mut self, n: &mut Pat) {
         n.visit_mut_children_with(self);
 
@@ -57,6 +68,10 @@ impl VisitMut for BlockScopedVars {
                 self.scope.vars.insert(i.to_id(), kind);
             }
         }
+    }
+
+    fn visit_mut_script(&mut self, n: &mut Script) {
+        self.handle_program(n)
     }
 
     fn visit_mut_var_decl(&mut self, n: &mut VarDecl) {
