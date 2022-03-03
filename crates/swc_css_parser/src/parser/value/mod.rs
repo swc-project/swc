@@ -505,213 +505,237 @@ where
                     self.input.skip_ws()?;
                 }
             }
-            "hwb" => {
-                let hue_or_none = match cur!(self) {
-                    tok!("number") | tok!("dimension") => ComponentValue::Hue(self.parse()?),
-                    tok!("ident") => {
-                        let ident: Ident = self.parse()?;
+            "hwb" | "lab" | "lch" | "oklab" | "oklch" => {
+                match function_name {
+                    "hwb" => {
+                        let hue_or_none = match cur!(self) {
+                            tok!("number") | tok!("dimension") => {
+                                ComponentValue::Hue(self.parse()?)
+                            }
+                            tok!("ident") => {
+                                let ident: Ident = self.parse()?;
 
-                        if !(&*ident.value).eq_ignore_ascii_case("none") {
-                            return Err(Error::new(
-                                ident.span,
-                                ErrorKind::Expected("'none' value of an ident token"),
-                            ));
-                        }
+                                if !(&*ident.value).eq_ignore_ascii_case("none") {
+                                    return Err(Error::new(
+                                        ident.span,
+                                        ErrorKind::Expected("'none' value of an ident token"),
+                                    ));
+                                }
 
-                        ComponentValue::Ident(ident)
-                    }
-                    _ => {
-                        let span = self.input.cur_span()?;
+                                ComponentValue::Ident(ident)
+                            }
+                            _ => {
+                                let span = self.input.cur_span()?;
 
-                        return Err(Error::new(
-                            span,
-                            ErrorKind::Expected(
-                                "number, dimension or ident (with 'none' value) token",
-                            ),
-                        ));
-                    }
-                };
-
-                values.push(hue_or_none);
-
-                self.input.skip_ws()?;
-
-                let percentage_or_none = match cur!(self) {
-                    tok!("percentage") => ComponentValue::Percentage(self.parse()?),
-                    tok!("ident") => {
-                        let ident: Ident = self.parse()?;
-
-                        if !(&*ident.value).eq_ignore_ascii_case("none") {
-                            return Err(Error::new(
-                                ident.span,
-                                ErrorKind::Expected("'none' value of an ident token"),
-                            ));
-                        }
-
-                        ComponentValue::Ident(ident)
-                    }
-                    _ => {
-                        let span = self.input.cur_span()?;
-
-                        return Err(Error::new(
-                            span,
-                            ErrorKind::Expected("percentage or ident (with 'none' value) token"),
-                        ));
-                    }
-                };
-
-                values.push(percentage_or_none);
-
-                self.input.skip_ws()?;
-
-                let percentage_or_none = match cur!(self) {
-                    tok!("percentage") => ComponentValue::Percentage(self.parse()?),
-                    tok!("ident") => {
-                        let ident: Ident = self.parse()?;
-
-                        if !(&*ident.value).eq_ignore_ascii_case("none") {
-                            return Err(Error::new(
-                                ident.span,
-                                ErrorKind::Expected("'none' value of an ident token"),
-                            ));
-                        }
-
-                        ComponentValue::Ident(ident)
-                    }
-                    _ => {
-                        let span = self.input.cur_span()?;
-
-                        return Err(Error::new(
-                            span,
-                            ErrorKind::Expected("percentage or ident (with 'none' value) token"),
-                        ));
-                    }
-                };
-
-                values.push(percentage_or_none);
-
-                self.input.skip_ws()?;
-
-                if is!(self, "/") {
-                    values.push(ComponentValue::Delimiter(self.parse()?));
-
-                    self.input.skip_ws()?;
-
-                    let alpha_value = match cur!(self) {
-                        tok!("number") | tok!("percentage") => {
-                            ComponentValue::AlphaValue(self.parse()?)
-                        }
-                        tok!("ident") => {
-                            let ident: Ident = self.parse()?;
-
-                            if !(&*ident.value).eq_ignore_ascii_case("none") {
                                 return Err(Error::new(
-                                    ident.span,
-                                    ErrorKind::Expected("'none' value of an ident token"),
+                                    span,
+                                    ErrorKind::Expected(
+                                        "percentage or ident (with 'none' value) token",
+                                    ),
                                 ));
                             }
+                        };
 
-                            ComponentValue::Ident(ident)
-                        }
-                        _ => {
-                            let span = self.input.cur_span()?;
+                        values.push(hue_or_none);
 
-                            return Err(Error::new(
-                                span,
-                                ErrorKind::Expected(
-                                    "percentage, number or ident (with 'none' value) token",
-                                ),
-                            ));
-                        }
-                    };
+                        self.input.skip_ws()?;
+                    }
+                    "lab" | "lch" | "oklab" | "oklch" => {
+                        let percentage_or_none = match cur!(self) {
+                            tok!("percentage") => ComponentValue::Percentage(self.parse()?),
+                            tok!("ident") => {
+                                let ident: Ident = self.parse()?;
 
-                    values.push(alpha_value);
+                                if !(&*ident.value).eq_ignore_ascii_case("none") {
+                                    return Err(Error::new(
+                                        ident.span,
+                                        ErrorKind::Expected("'none' value of an ident token"),
+                                    ));
+                                }
 
-                    self.input.skip_ws()?;
+                                ComponentValue::Ident(ident)
+                            }
+                            _ => {
+                                let span = self.input.cur_span()?;
+
+                                return Err(Error::new(
+                                    span,
+                                    ErrorKind::Expected(
+                                        "percentage or ident (with 'none' value) token",
+                                    ),
+                                ));
+                            }
+                        };
+
+                        values.push(percentage_or_none);
+                    }
+                    _ => {
+                        unreachable!();
+                    }
                 }
-            }
-            "lab" => {
-                let percentage_or_none = match cur!(self) {
-                    tok!("percentage") => ComponentValue::Percentage(self.parse()?),
-                    tok!("ident") => {
-                        let ident: Ident = self.parse()?;
-
-                        if !(&*ident.value).eq_ignore_ascii_case("none") {
-                            return Err(Error::new(
-                                ident.span,
-                                ErrorKind::Expected("'none' value of an ident token"),
-                            ));
-                        }
-
-                        ComponentValue::Ident(ident)
-                    }
-                    _ => {
-                        let span = self.input.cur_span()?;
-
-                        return Err(Error::new(
-                            span,
-                            ErrorKind::Expected("percentage or ident (with 'none' value) token"),
-                        ));
-                    }
-                };
-
-                values.push(percentage_or_none);
 
                 self.input.skip_ws()?;
 
-                let number_or_none = match cur!(self) {
-                    tok!("number") => ComponentValue::Number(self.parse()?),
-                    tok!("ident") => {
-                        let ident: Ident = self.parse()?;
+                match function_name {
+                    "hwb" => {
+                        let percentage_or_none = match cur!(self) {
+                            tok!("percentage") => ComponentValue::Percentage(self.parse()?),
+                            tok!("ident") => {
+                                let ident: Ident = self.parse()?;
 
-                        if !(&*ident.value).eq_ignore_ascii_case("none") {
-                            return Err(Error::new(
-                                ident.span,
-                                ErrorKind::Expected("'none' value of an ident token"),
-                            ));
-                        }
+                                if !(&*ident.value).eq_ignore_ascii_case("none") {
+                                    return Err(Error::new(
+                                        ident.span,
+                                        ErrorKind::Expected("'none' value of an ident token"),
+                                    ));
+                                }
 
-                        ComponentValue::Ident(ident)
+                                ComponentValue::Ident(ident)
+                            }
+                            _ => {
+                                let span = self.input.cur_span()?;
+
+                                return Err(Error::new(
+                                    span,
+                                    ErrorKind::Expected(
+                                        "percentage or ident (with 'none' value) token",
+                                    ),
+                                ));
+                            }
+                        };
+
+                        values.push(percentage_or_none);
+                    }
+                    "lab" | "lch" | "oklab" | "oklch" => {
+                        let number_or_none = match cur!(self) {
+                            tok!("number") => ComponentValue::Number(self.parse()?),
+                            tok!("ident") => {
+                                let ident: Ident = self.parse()?;
+
+                                if !(&*ident.value).eq_ignore_ascii_case("none") {
+                                    return Err(Error::new(
+                                        ident.span,
+                                        ErrorKind::Expected("'none' value of an ident token"),
+                                    ));
+                                }
+
+                                ComponentValue::Ident(ident)
+                            }
+                            _ => {
+                                let span = self.input.cur_span()?;
+
+                                return Err(Error::new(
+                                    span,
+                                    ErrorKind::Expected(
+                                        "percentage or ident (with 'none' value) token",
+                                    ),
+                                ));
+                            }
+                        };
+
+                        values.push(number_or_none);
                     }
                     _ => {
-                        let span = self.input.cur_span()?;
-
-                        return Err(Error::new(
-                            span,
-                            ErrorKind::Expected("percentage or ident (with 'none' value) token"),
-                        ));
+                        unreachable!();
                     }
-                };
-
-                values.push(number_or_none);
+                }
 
                 self.input.skip_ws()?;
 
-                let number_or_none = match cur!(self) {
-                    tok!("number") => ComponentValue::Number(self.parse()?),
-                    tok!("ident") => {
-                        let ident: Ident = self.parse()?;
+                match function_name {
+                    "hwb" => {
+                        let percentage_or_none = match cur!(self) {
+                            tok!("percentage") => ComponentValue::Percentage(self.parse()?),
+                            tok!("ident") => {
+                                let ident: Ident = self.parse()?;
 
-                        if !(&*ident.value).eq_ignore_ascii_case("none") {
-                            return Err(Error::new(
-                                ident.span,
-                                ErrorKind::Expected("'none' value of an ident token"),
-                            ));
-                        }
+                                if !(&*ident.value).eq_ignore_ascii_case("none") {
+                                    return Err(Error::new(
+                                        ident.span,
+                                        ErrorKind::Expected("'none' value of an ident token"),
+                                    ));
+                                }
 
-                        ComponentValue::Ident(ident)
+                                ComponentValue::Ident(ident)
+                            }
+                            _ => {
+                                let span = self.input.cur_span()?;
+
+                                return Err(Error::new(
+                                    span,
+                                    ErrorKind::Expected(
+                                        "percentage or ident (with 'none' value) token",
+                                    ),
+                                ));
+                            }
+                        };
+
+                        values.push(percentage_or_none);
+                    }
+                    "lab" | "oklab" => {
+                        let number_or_none = match cur!(self) {
+                            tok!("number") => ComponentValue::Number(self.parse()?),
+                            tok!("ident") => {
+                                let ident: Ident = self.parse()?;
+
+                                if !(&*ident.value).eq_ignore_ascii_case("none") {
+                                    return Err(Error::new(
+                                        ident.span,
+                                        ErrorKind::Expected("'none' value of an ident token"),
+                                    ));
+                                }
+
+                                ComponentValue::Ident(ident)
+                            }
+                            _ => {
+                                let span = self.input.cur_span()?;
+
+                                return Err(Error::new(
+                                    span,
+                                    ErrorKind::Expected(
+                                        "percentage or ident (with 'none' value) token",
+                                    ),
+                                ));
+                            }
+                        };
+
+                        values.push(number_or_none);
+                    }
+                    "lch" | "oklch" => {
+                        let hue_or_none = match cur!(self) {
+                            tok!("number") | tok!("dimension") => {
+                                ComponentValue::Hue(self.parse()?)
+                            }
+                            tok!("ident") => {
+                                let ident: Ident = self.parse()?;
+
+                                if !(&*ident.value).eq_ignore_ascii_case("none") {
+                                    return Err(Error::new(
+                                        ident.span,
+                                        ErrorKind::Expected("'none' value of an ident token"),
+                                    ));
+                                }
+
+                                ComponentValue::Ident(ident)
+                            }
+                            _ => {
+                                let span = self.input.cur_span()?;
+
+                                return Err(Error::new(
+                                    span,
+                                    ErrorKind::Expected(
+                                        "percentage or ident (with 'none' value) token",
+                                    ),
+                                ));
+                            }
+                        };
+
+                        values.push(hue_or_none);
                     }
                     _ => {
-                        let span = self.input.cur_span()?;
-
-                        return Err(Error::new(
-                            span,
-                            ErrorKind::Expected("percentage or ident (with 'none' value) token"),
-                        ));
+                        unreachable!();
                     }
-                };
-
-                values.push(number_or_none);
+                }
 
                 self.input.skip_ws()?;
 

@@ -6012,6 +6012,12 @@ error: ComponentValue
 69 |     color: lch(52.2345% 72.2 56.2 / 1);
    |                              ^^^^
 
+error: Hue
+  --> $DIR/tests/fixture/value/color/input.css:69:30
+   |
+69 |     color: lch(52.2345% 72.2 56.2 / 1);
+   |                              ^^^^
+
 error: Number
   --> $DIR/tests/fixture/value/color/input.css:69:30
    |
@@ -6036,7 +6042,13 @@ error: ComponentValue
 69 |     color: lch(52.2345% 72.2 56.2 / 1);
    |                                     ^
 
-error: Integer
+error: AlphaValue
+  --> $DIR/tests/fixture/value/color/input.css:69:37
+   |
+69 |     color: lch(52.2345% 72.2 56.2 / 1);
+   |                                     ^
+
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:69:37
    |
 69 |     color: lch(52.2345% 72.2 56.2 / 1);
@@ -6132,7 +6144,13 @@ error: ComponentValue
 70 |     color: lch(29.2345% 44.2 27);
    |                              ^^
 
-error: Integer
+error: Hue
+  --> $DIR/tests/fixture/value/color/input.css:70:30
+   |
+70 |     color: lch(29.2345% 44.2 27);
+   |                              ^^
+
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:70:30
    |
 70 |     color: lch(29.2345% 44.2 27);
@@ -6228,7 +6246,7 @@ error: ComponentValue
 71 |     color: lch(29.2345% 44.2 45deg);
    |                              ^^^^^
 
-error: Dimension
+error: Hue
   --> $DIR/tests/fixture/value/color/input.css:71:30
    |
 71 |     color: lch(29.2345% 44.2 45deg);
@@ -6342,7 +6360,7 @@ error: ComponentValue
 72 |     color: lch(29.2345% 44.2 .5turn);
    |                              ^^^^^^
 
-error: Dimension
+error: Hue
   --> $DIR/tests/fixture/value/color/input.css:72:30
    |
 72 |     color: lch(29.2345% 44.2 .5turn);
@@ -6456,7 +6474,13 @@ error: ComponentValue
 73 |     color: lch(29.2345% 44.2 27 / 100%);
    |                              ^^
 
-error: Integer
+error: Hue
+  --> $DIR/tests/fixture/value/color/input.css:73:30
+   |
+73 |     color: lch(29.2345% 44.2 27 / 100%);
+   |                              ^^
+
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:73:30
    |
 73 |     color: lch(29.2345% 44.2 27 / 100%);
@@ -6475,6 +6499,12 @@ error: Delimiter
    |                                 ^
 
 error: ComponentValue
+  --> $DIR/tests/fixture/value/color/input.css:73:35
+   |
+73 |     color: lch(29.2345% 44.2 27 / 100%);
+   |                                   ^^^^
+
+error: AlphaValue
   --> $DIR/tests/fixture/value/color/input.css:73:35
    |
 73 |     color: lch(29.2345% 44.2 27 / 100%);
@@ -6582,7 +6612,13 @@ error: ComponentValue
 74 |     color: lch(29.2345% 44.2 27 / 50%);
    |                              ^^
 
-error: Integer
+error: Hue
+  --> $DIR/tests/fixture/value/color/input.css:74:30
+   |
+74 |     color: lch(29.2345% 44.2 27 / 50%);
+   |                              ^^
+
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:74:30
    |
 74 |     color: lch(29.2345% 44.2 27 / 50%);
@@ -6601,6 +6637,12 @@ error: Delimiter
    |                                 ^
 
 error: ComponentValue
+  --> $DIR/tests/fixture/value/color/input.css:74:35
+   |
+74 |     color: lch(29.2345% 44.2 27 / 50%);
+   |                                   ^^^
+
+error: AlphaValue
   --> $DIR/tests/fixture/value/color/input.css:74:35
    |
 74 |     color: lch(29.2345% 44.2 27 / 50%);
@@ -6929,6 +6971,12 @@ error: ComponentValue
 82 |     color: oklch(42.1% 0.192 328.6 / 1);
    |                              ^^^^^
 
+error: Hue
+  --> $DIR/tests/fixture/value/color/input.css:82:30
+   |
+82 |     color: oklch(42.1% 0.192 328.6 / 1);
+   |                              ^^^^^
+
 error: Number
   --> $DIR/tests/fixture/value/color/input.css:82:30
    |
@@ -6953,7 +7001,13 @@ error: ComponentValue
 82 |     color: oklch(42.1% 0.192 328.6 / 1);
    |                                      ^
 
-error: Integer
+error: AlphaValue
+  --> $DIR/tests/fixture/value/color/input.css:82:38
+   |
+82 |     color: oklch(42.1% 0.192 328.6 / 1);
+   |                                      ^
+
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:82:38
    |
 82 |     color: oklch(42.1% 0.192 328.6 / 1);
@@ -7044,6 +7098,12 @@ error: Number
    |                        ^^^^^
 
 error: ComponentValue
+  --> $DIR/tests/fixture/value/color/input.css:83:30
+   |
+83 |     color: oklch(42.1% 0.192 328.6);
+   |                              ^^^^^
+
+error: Hue
   --> $DIR/tests/fixture/value/color/input.css:83:30
    |
 83 |     color: oklch(42.1% 0.192 328.6);
