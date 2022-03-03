@@ -179,10 +179,9 @@ impl ProgramData {
             }
 
             Expr::Call(CallExpr {
-                span,
                 callee: Callee::Expr(callee),
                 args,
-                type_args,
+                ..
             }) => {
                 if self.contains_unresolved(callee) {
                     return true;
