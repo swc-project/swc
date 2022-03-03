@@ -54,6 +54,16 @@ impl BlockScopedVars {
 impl VisitMut for BlockScopedVars {
     noop_visit_mut_type!();
 
+    fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
+        n.visit_mut_children_with(self);
+
+        if let Some(kind) = self.var_decl_kind {
+            self.scope.vars.insert(n.key.to_id(), kind);
+        } else {
+            self.add_usage(n.key.to_id())
+        }
+    }
+
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
         self.with_scope(ScopeKind::Block, |v| {
             n.visit_mut_children_with(v);
@@ -85,6 +95,14 @@ impl VisitMut for BlockScopedVars {
             } else {
                 self.add_usage(i.to_id())
             }
+        }
+    }
+
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        n.visit_mut_children_with(self);
+
+        if let Prop::Shorthand(i) = n {
+            self.add_usage(i.to_id());
         }
     }
 
