@@ -868,15 +868,12 @@ where
 
                 self.input.skip_ws()?;
 
-                match function_name {
-                    "device-cmyk" => {
-                        let cmyk_component = ComponentValue::CmykComponent(self.parse()?);
+                if function_name == "device-cmyk" {
+                    let cmyk_component = ComponentValue::CmykComponent(self.parse()?);
 
-                        values.push(cmyk_component);
+                    values.push(cmyk_component);
 
-                        self.input.skip_ws()?;
-                    }
-                    _ => {}
+                    self.input.skip_ws()?;
                 }
 
                 if is!(self, "/") {
