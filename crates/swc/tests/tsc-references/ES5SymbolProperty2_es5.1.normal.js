@@ -20,8 +20,8 @@ function _createClass(Constructor, protoProps, staticProps) {
 //@target: ES5
 var M;
 (function(M1) {
-    var Symbol;
-    var _iterator = Symbol.iterator;
+    var _$Symbol;
+    var _iterator = _$Symbol.iterator;
     var C = /*#__PURE__*/ function() {
         "use strict";
         function C() {
@@ -36,6 +36,6 @@ var M;
         return C;
     }();
     M1.C = C;
-    (new C)[Symbol.iterator];
+    (new C)[_$Symbol.iterator];
 })(M || (M = {}));
 (new M.C)[Symbol.iterator];

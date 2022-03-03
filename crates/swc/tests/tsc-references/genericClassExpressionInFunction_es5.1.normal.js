@@ -112,23 +112,23 @@ function B3() {
     })(A);
 }
 var K = // extends can call B
-/*#__PURE__*/ function(_super) {
+/*#__PURE__*/ function(_superClass) {
     "use strict";
-    _inherits(K, _super);
-    var _super1 = _createSuper(K);
+    _inherits(K, _superClass);
+    var _super = _createSuper(K);
     function K() {
         _classCallCheck(this, K);
-        return _super1.apply(this, arguments);
+        return _super.apply(this, arguments);
     }
     return K;
 }(B1());
-var C = /*#__PURE__*/ function(_super) {
+var C = /*#__PURE__*/ function(_superClass) {
     "use strict";
-    _inherits(C, _super);
-    var _super2 = _createSuper(C);
+    _inherits(C, _superClass);
+    var _super = _createSuper(C);
     function C() {
         _classCallCheck(this, C);
-        return _super2.apply(this, arguments);
+        return _super.apply(this, arguments);
     }
     return C;
 }(new B2().anon);

@@ -72,7 +72,7 @@ var Formatting;
             },
             {
                 key: "GetIndentationEditsWorker",
-                value: function GetIndentationEditsWorker(token, nextToken, node, sameLineIndent) {
+                value: function GetIndentationEditsWorker(token, nextToken, _$node, sameLineIndent) {
                     var result = new List_TextEditInfo();
                     var indentationInfo = null;
                     // This handles the case:
@@ -85,7 +85,7 @@ var Formatting;
                     // The reason this is done inside the Indenter is because it only affects indentation behavior.
                     // It's also done in ParseTree when we traverse up the tree because we don't have the 
                     // tokens for nodes outside the span we are formatting.
-                    this.AdjustStartOffsetIfNeeded(token, node);
+                    this.AdjustStartOffsetIfNeeded(token, _$node);
                     // Don't adjust indentation on the same line of a script block
                     if (this.scriptBlockBeginLineNumber == token.lineNumber()) {
                         return result;
@@ -95,14 +95,14 @@ var Formatting;
                         return result;
                     }
                     // Special cases for the tokens that don't show up in the tree, such as curly braces and comments
-                    indentationInfo = this.GetSpecialCaseIndentation(token, node);
+                    indentationInfo = this.GetSpecialCaseIndentation(token, _$node);
                     if (indentationInfo == null) {
                         //// For anything else
                         // Get the indentation level only from the node that starts on the same offset as the token
                         // otherwise the token is not meant to be indented
-                        while(!node.CanIndent() && node.Parent != null && token.Span.span.start() == node.Parent.AuthorNode.Details.StartOffset)node = node.Parent;
-                        if (node.CanIndent() && token.Span.span.start() == node.AuthorNode.Details.StartOffset) {
-                            indentationInfo = node.GetEffectiveIndentation(this);
+                        while(!_$node.CanIndent() && _$node.Parent != null && token.Span.span.start() == _$node.Parent.AuthorNode.Details.StartOffset)_$node = _$node.Parent;
+                        if (_$node.CanIndent() && token.Span.span.start() == _$node.AuthorNode.Details.StartOffset) {
+                            indentationInfo = _$node.GetEffectiveIndentation(this);
                         } else {
                             //// Special cases for anything else that is not in the tree and should be indented
                             // check for label (identifier followed by a colon)
@@ -114,14 +114,14 @@ var Formatting;
                                 //      label:
                                 //          statement;
                                 // }
-                                indentationInfo = node.GetEffectiveChildrenIndentation(this);
+                                indentationInfo = _$node.GetEffectiveChildrenIndentation(this);
                             } else {
                                 //// Move the token the same indentation-delta that moved its indentable parent
                                 //// For example:
                                 ////    var a,
                                 ////        b;
                                 //// The declaration 'b' would remain under 'a' even if 'var' got indented.
-                                indentationInfo = this.ApplyIndentationDeltaFromParent(token, node);
+                                indentationInfo = this.ApplyIndentationDeltaFromParent(token, _$node);
                             }
                         }
                     }
@@ -219,20 +219,20 @@ var Formatting;
             },
             {
                 key: "GetSpecialCaseIndentationForSemicolon",
-                value: function GetSpecialCaseIndentationForSemicolon(token, node) {
+                value: function GetSpecialCaseIndentationForSemicolon(token, _$node) {
                     var indentationInfo = null;
                     if (this.smartIndent) {
-                        indentationInfo = node.GetEffectiveChildrenIndentation(this);
+                        indentationInfo = _$node.GetEffectiveChildrenIndentation(this);
                         return indentationInfo;
                     } else {
                         // Indent all semicolons except the ones that belong to the for statement parts (initalizer, condition, itnrement)
-                        if (node.AuthorNode.Details.Kind != AuthorParseNodeKind.apnkFor) {
+                        if (_$node.AuthorNode.Details.Kind != AuthorParseNodeKind.apnkFor) {
                             // The passed node is actually either the program or the list because semicolon doesn't belong
                             // to any statement in the tree, though the statement extends up to the semicolon position.
                             // To find the correct statement, we look for the adjacent node on the left of the semicolon.
                             var semiColonStartSpan = new Span(token.Span.startPosition(), 0);
-                            node = ParseTree.FindCommonParentNode(semiColonStartSpan, semiColonStartSpan, node);
-                            indentationInfo = node.GetEffectiveChildrenIndentation(this);
+                            _$node = ParseTree.FindCommonParentNode(semiColonStartSpan, semiColonStartSpan, _$node);
+                            indentationInfo = _$node.GetEffectiveChildrenIndentation(this);
                             return indentationInfo;
                         }
                     }

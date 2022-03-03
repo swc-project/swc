@@ -177,7 +177,7 @@ export var L = function(K) {
     }
     return L;
 }(K);
-export var M = function(_super) {
+export var M = function(_superClass) {
     "use strict";
     function M() {
         var _this;

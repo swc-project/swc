@@ -4,9 +4,9 @@ function _classCallCheck(instance, Constructor) {
 var C10 = function(x) {
     "use strict";
     _classCallCheck(this, C10), this.x = x, "string" == typeof this.x && "string" == typeof x && this.x;
-}, C11 = function(x) {
+}, C11 = function(_$x) {
     "use strict";
-    _classCallCheck(this, C11), this.x = x, "string" == typeof this.x && "string" == typeof x ? (this.x, x) : (this.x = 10, x = 10);
+    _classCallCheck(this, C11), this._$x = _$x, "string" == typeof this.x && "string" == typeof _$x ? (this.x, _$x) : (this.x = 10, _$x = 10);
 };
 ({
     fn: function() {

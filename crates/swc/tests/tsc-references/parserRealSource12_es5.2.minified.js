@@ -68,8 +68,8 @@ function _createClass(Constructor, protoProps, staticProps) {
             },
             {
                 key: "getSlowWalker",
-                value: function(pre, post, options, state) {
-                    return options || (options = new AstWalkOptions()), new AstWalker(this.childrenWalkers, pre, post, options, state);
+                value: function(pre, post, _$options, state) {
+                    return _$options || (_$options = new AstWalkOptions()), new AstWalker(this.childrenWalkers, pre, post, _$options, state);
                 }
             },
             {

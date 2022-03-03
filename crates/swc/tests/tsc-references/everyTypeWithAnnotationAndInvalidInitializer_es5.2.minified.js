@@ -13,7 +13,7 @@ var M, N, C = function() {
         "use strict";
         _classCallCheck(this, A);
     };
-    M1.A = A, M1.F2 = function(x) {
+    M1.A = A, M1._$F2 = function(x) {
         return x.toString();
     };
 })(M || (M = {})), (function(N1) {
@@ -21,7 +21,7 @@ var M, N, C = function() {
         "use strict";
         _classCallCheck(this, A);
     };
-    N1.A = A, N1.F2 = function(x) {
+    N1.A = A, N1._$F2 = function(x) {
         return x.toString();
     };
 })(N || (N = {})), new D(), new D(), new C(), new C(), new N.A();

@@ -10,7 +10,7 @@ export var C = function() {
     _classCallCheck(this, C);
 };
 !function(M1) {
-    M1.foo = "";
+    M1._$foo = "";
     var C1 = function() {
         "use strict";
         _classCallCheck(this, C1);

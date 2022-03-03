@@ -9,7 +9,7 @@ class ReusablePayments extends PureComponent {
     }
     setDefaultReusablePayment(skipPaymentSource) {
         var _props = this.props, reusablePaymentSources = _props.reusablePaymentSources, selectedReusablePayment = _props.selectedReusablePayment, onChange = _props.onChange;
-        var validReusablePaymentSources = reusablePaymentSources.filter((ps)=>ps.__typename === "StripePaymentSource" && ps !== skipPaymentSource
+        var validReusablePaymentSources = reusablePaymentSources.filter((_$ps)=>_$ps.__typename === "StripePaymentSource" && _$ps !== skipPaymentSource
         );
         if (selectedReusablePayment === null) {
             return;
@@ -23,9 +23,9 @@ class ReusablePayments extends PureComponent {
             onChange(null);
             return;
         }
-        var ps1 = validReusablePaymentSources.find((ps)=>ps.isDefault
+        var _$ps1 = validReusablePaymentSources.find((_$ps)=>_$ps.isDefault
         );
-        onChange(ps1 || validReusablePaymentSources[0]);
+        onChange(_$ps1 || validReusablePaymentSources[0]);
     }
     render() {
         var _props = this.props, selectedReusablePayment = _props.selectedReusablePayment, reusablePaymentSources = _props.reusablePaymentSources;
@@ -36,12 +36,12 @@ class ReusablePayments extends PureComponent {
         }
         return(/*#__PURE__*/ React.createElement(DeletePaymentSourceComponent, {
             onCompleted: (param)=>{
-                var deletePaymentSource = param.deletePaymentSource;
-                if (deletePaymentSource.success) {
+                var _$deletePaymentSource = param._$deletePaymentSource;
+                if (_$deletePaymentSource.success) {
                     toast.success("Successfully removed Card");
                     return;
                 }
-                toast.error(deletePaymentSource.error);
+                toast.error(_$deletePaymentSource.error);
             },
             onError: (error)=>{
                 toast.error(error.message);

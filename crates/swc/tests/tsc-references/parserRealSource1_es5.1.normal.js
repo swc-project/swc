@@ -29,7 +29,7 @@ var TypeScript;
         logger.log(funcDescription + " completed in " + (end - start) + " msec");
         return result;
     };
-    var stringToLiteral = function stringToLiteral(value, length) {
+    var stringToLiteral = function stringToLiteral(value, _$length) {
         var result = "";
         var addChar = function(index) {
             var ch = value.charCodeAt(index);
@@ -62,15 +62,15 @@ var TypeScript;
                     result += value.charAt(index);
             }
         };
-        var tooLong = value.length > length;
+        var tooLong = value.length > _$length;
         if (tooLong) {
-            var mid = length >> 1;
+            var mid = _$length >> 1;
             for(var i = 0; i < mid; i++)addChar(i);
             result += "(...)";
             for(var i = value.length - mid; i < value.length; i++)addChar(i);
         } else {
-            length = value.length;
-            for(var i = 0; i < length; i++)addChar(i);
+            _$length = value.length;
+            for(var i = 0; i < _$length; i++)addChar(i);
         }
         return result;
     };

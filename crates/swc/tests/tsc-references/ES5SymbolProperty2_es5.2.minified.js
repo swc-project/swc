@@ -6,7 +6,7 @@ function _defineProperties(target, props) {
     }
 }
 !function(M1) {
-    var Symbol, _iterator = Symbol.iterator, C = function() {
+    var _$Symbol, _iterator = _$Symbol.iterator, C = function() {
         "use strict";
         var Constructor, protoProps, staticProps;
         function C() {
@@ -21,5 +21,5 @@ function _defineProperties(target, props) {
             }
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
     }();
-    M1.C = C, (new C)[Symbol.iterator];
+    M1.C = C, (new C)[_$Symbol.iterator];
 }(M || (M = {})), (new M.C)[Symbol.iterator];

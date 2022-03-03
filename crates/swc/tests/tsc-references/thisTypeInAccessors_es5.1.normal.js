@@ -31,8 +31,8 @@ var copiedFromGetter = {
     get x () {
         return this.n;
     },
-    set x (n){
-        this.n = n;
+    set x (_$n){
+        this.n = _$n;
     }
 };
 var copiedFromSetter = {

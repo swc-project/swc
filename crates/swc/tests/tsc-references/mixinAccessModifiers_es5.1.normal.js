@@ -144,43 +144,43 @@ function f6(x) {
     x.p; // Ok, public if any constituent is public
 }
 var C1 = // Can't derive from type with inaccessible properties
-/*#__PURE__*/ function(_super) {
+/*#__PURE__*/ function(_superClass) {
     "use strict";
-    _inherits(C1, _super);
-    var _super1 = _createSuper(C1);
+    _inherits(C1, _superClass);
+    var _super = _createSuper(C1);
     function C1() {
         _classCallCheck(this, C1);
-        return _super1.apply(this, arguments);
+        return _super.apply(this, arguments);
     }
     return C1;
 }(Mix(Private, Private2));
-var C2 = /*#__PURE__*/ function(_super) {
+var C2 = /*#__PURE__*/ function(_superClass) {
     "use strict";
-    _inherits(C2, _super);
-    var _super2 = _createSuper(C2);
+    _inherits(C2, _superClass);
+    var _super = _createSuper(C2);
     function C2() {
         _classCallCheck(this, C2);
-        return _super2.apply(this, arguments);
+        return _super.apply(this, arguments);
     }
     return C2;
 }(Mix(Private, Protected));
-var C3 = /*#__PURE__*/ function(_super) {
+var C3 = /*#__PURE__*/ function(_superClass) {
     "use strict";
-    _inherits(C3, _super);
-    var _super3 = _createSuper(C3);
+    _inherits(C3, _superClass);
+    var _super = _createSuper(C3);
     function C3() {
         _classCallCheck(this, C3);
-        return _super3.apply(this, arguments);
+        return _super.apply(this, arguments);
     }
     return C3;
 }(Mix(Private, Public));
-var C4 = /*#__PURE__*/ function(_super) {
+var C4 = /*#__PURE__*/ function(_superClass) {
     "use strict";
-    _inherits(C4, _super);
-    var _super4 = _createSuper(C4);
+    _inherits(C4, _superClass);
+    var _super = _createSuper(C4);
     function C4() {
         _classCallCheck(this, C4);
-        return _super4.apply(this, arguments);
+        return _super.apply(this, arguments);
     }
     _createClass(C4, [
         {
@@ -203,13 +203,13 @@ var C4 = /*#__PURE__*/ function(_super) {
     ]);
     return C4;
 }(Mix(Protected, Protected2));
-var C5 = /*#__PURE__*/ function(_super) {
+var C5 = /*#__PURE__*/ function(_superClass) {
     "use strict";
-    _inherits(C5, _super);
-    var _super5 = _createSuper(C5);
+    _inherits(C5, _superClass);
+    var _super = _createSuper(C5);
     function C5() {
         _classCallCheck(this, C5);
-        return _super5.apply(this, arguments);
+        return _super.apply(this, arguments);
     }
     _createClass(C5, [
         {
@@ -232,13 +232,13 @@ var C5 = /*#__PURE__*/ function(_super) {
     ]);
     return C5;
 }(Mix(Protected, Public));
-var C6 = /*#__PURE__*/ function(_super) {
+var C6 = /*#__PURE__*/ function(_superClass) {
     "use strict";
-    _inherits(C6, _super);
-    var _super6 = _createSuper(C6);
+    _inherits(C6, _superClass);
+    var _super = _createSuper(C6);
     function C6() {
         _classCallCheck(this, C6);
-        return _super6.apply(this, arguments);
+        return _super.apply(this, arguments);
     }
     _createClass(C6, [
         {

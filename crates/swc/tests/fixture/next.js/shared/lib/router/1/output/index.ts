@@ -55,21 +55,21 @@ var Router = /*#__PURE__*/ function() {
     _createClass(Router, [
         {
             key: "change",
-            value: function change(method, url, as, options, forcedScroll) {
+            value: function change(_$method, _$url, as, options, forcedScroll) {
                 var _this = this;
                 return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                     var shouldResolveHref, prevLocale, parsedAs, localePathResult, didNavigate, ref, detectedDomain, asNoBasePath, _shallow, shallow, routeProps, cleanedAs, localeChange, parsed, pathname, query, pages, rewrites, ref1, resolvedAs, rewritesResult, route, parsedAs1, asPathname, routeRegex, routeMatch, shouldInterpolate, interpolatedAs, missingParams, ref2, ref3, routeInfo, error, props, __N_SSG, __N_SSP, destination, parsedHref, ref4, newUrl, newAs, notFoundRoute, isValidShallowRoute, _scroll, shouldScroll, resetScroll;
                     return regeneratorRuntime.wrap(function _callee$(_ctx) {
                         while(1)switch(_ctx.prev = _ctx.next){
                             case 0:
-                                if (isLocalURL(url)) {
+                                if (isLocalURL(_$url)) {
                                     _ctx.next = 3;
                                     break;
                                 }
-                                window.location.href = url;
+                                window.location.href = _$url;
                                 return _ctx.abrupt("return", false);
                             case 3:
-                                shouldResolveHref = options._h || options._shouldResolveHref || pathNoQueryHash(url) === pathNoQueryHash(as);
+                                shouldResolveHref = options._h || options._shouldResolveHref || pathNoQueryHash(_$url) === pathNoQueryHash(as);
                                 // for static pages with query params in the URL we delay
                                 // marking the router ready until after the query is updated
                                 if (options._h) {
@@ -90,7 +90,7 @@ var Router = /*#__PURE__*/ function() {
                                     _this.locale = localePathResult.detectedLocale;
                                     parsedAs.pathname = addBasePath(parsedAs.pathname);
                                     as = formatWithValidation(parsedAs);
-                                    url = addBasePath(normalizeLocalePath(hasBasePath(url) ? delBasePath(url) : url, _this.locales).pathname);
+                                    _$url = addBasePath(normalizeLocalePath(hasBasePath(_$url) ? delBasePath(_$url) : _$url, _this.locales).pathname);
                                 }
                                 didNavigate = false;
                                 // we need to wrap this in the env check again since regenerator runtime
@@ -151,13 +151,13 @@ var Router = /*#__PURE__*/ function() {
                                 _this.asPath = cleanedAs;
                                 Router.events.emit('hashChangeStart', as, routeProps);
                                 // TODO: do we need the resolved href when only a hash change?
-                                _this.changeState(method, url, as, options);
+                                _this.changeState(_$method, _$url, as, options);
                                 _this.scrollToHash(cleanedAs);
                                 _this.notify(_this.components[_this.route], null);
                                 Router.events.emit('hashChangeComplete', as, routeProps);
                                 return _ctx.abrupt("return", true);
                             case 35:
-                                parsed = parseRelativeUrl(url);
+                                parsed = parseRelativeUrl(_$url);
                                 pathname = parsed.pathname, query = parsed.query;
                                 ;
                                 _ctx.prev = 38;
@@ -188,7 +188,7 @@ var Router = /*#__PURE__*/ function() {
                                 // as this should not go into the history (That's how browsers work)
                                 // We should compare the new asPath to the current asPath, not the url
                                 if (!_this.urlIsNew(cleanedAs) && !localeChange) {
-                                    method = 'replaceState';
+                                    _$method = 'replaceState';
                                 }
                                 resolvedAs = as;
                                 // url and as should always be prefixed with basePath by this
@@ -207,14 +207,14 @@ var Router = /*#__PURE__*/ function() {
                                             // allow the correct page chunk to be loaded
                                             pathname = rewritesResult.resolvedHref;
                                             parsed.pathname = addBasePath(pathname);
-                                            url = formatWithValidation(parsed);
+                                            _$url = formatWithValidation(parsed);
                                         }
                                     } else {
                                         parsed.pathname = resolveDynamicRoute(pathname, pages);
                                         if (parsed.pathname !== pathname) {
                                             pathname = parsed.pathname;
                                             parsed.pathname = addBasePath(pathname);
-                                            url = formatWithValidation(parsed);
+                                            _$url = formatWithValidation(parsed);
                                         }
                                     }
                                 }
@@ -227,7 +227,7 @@ var Router = /*#__PURE__*/ function() {
                                     _ctx.next = 62;
                                     break;
                                 }
-                                throw new Error("Invalid href: \"".concat(url, "\" and as: \"").concat(as, "\", received relative href and external as") + "\nSee more info: https://nextjs.org/docs/messages/invalid-relative-url-external-as");
+                                throw new Error("Invalid href: \"".concat(_$url, "\" and as: \"").concat(as, "\", received relative href and external as") + "\nSee more info: https://nextjs.org/docs/messages/invalid-relative-url-external-as");
                             case 62:
                                 window.location.href = as;
                                 return _ctx.abrupt("return", false);
@@ -257,7 +257,7 @@ var Router = /*#__PURE__*/ function() {
                                 if (process.env.NODE_ENV !== 'production') {
                                     console.warn("".concat(shouldInterpolate ? "Interpolating href" : "Mismatching `as` and `href`", " failed to manually provide ") + "the params: ".concat(missingParams.join(', '), " in the `href`'s `query`"));
                                 }
-                                throw new Error((shouldInterpolate ? "The provided `href` (".concat(url, ") value is missing query values (").concat(missingParams.join(', '), ") to be interpolated properly. ") : "The provided `as` value (".concat(asPathname, ") is incompatible with the `href` value (").concat(route, "). ")) + "Read more: https://nextjs.org/docs/messages/".concat(shouldInterpolate ? 'href-interpolation-failed' : 'incompatible-href-as'));
+                                throw new Error((shouldInterpolate ? "The provided `href` (".concat(_$url, ") value is missing query values (").concat(missingParams.join(', '), ") to be interpolated properly. ") : "The provided `as` value (".concat(asPathname, ") is incompatible with the `href` value (").concat(route, "). ")) + "Read more: https://nextjs.org/docs/messages/".concat(shouldInterpolate ? 'href-interpolation-failed' : 'incompatible-href-as'));
                             case 77:
                                 _ctx.next = 80;
                                 break;
@@ -296,7 +296,7 @@ var Router = /*#__PURE__*/ function() {
                                 parsedHref = parseRelativeUrl(destination);
                                 parsedHref.pathname = resolveDynamicRoute(parsedHref.pathname, pages);
                                 ref4 = prepareUrlAs(_this, destination, destination), newUrl = ref4.url, newAs = ref4.as;
-                                return _ctx.abrupt("return", _this.change(method, newUrl, newAs, options));
+                                return _ctx.abrupt("return", _this.change(_$method, newUrl, newAs, options));
                             case 95:
                                 window.location.href = destination;
                                 return _ctx.abrupt("return", new Promise(function() {}));
@@ -327,7 +327,7 @@ var Router = /*#__PURE__*/ function() {
                                 routeInfo = _ctx.sent;
                             case 112:
                                 Router.events.emit('beforeHistoryChange', as, routeProps);
-                                _this.changeState(method, url, as, options);
+                                _this.changeState(_$method, _$url, as, options);
                                 if (options._h && pathname === '/_error' && ((ref2 = self.__NEXT_DATA__.props) === null || ref2 === void 0 ? void 0 : (ref3 = ref2.pageProps) === null || ref3 === void 0 ? void 0 : ref3.statusCode) === 500 && (props === null || props === void 0 ? void 0 : props.pageProps)) {
                                     // ensure statusCode is still correct for static 500 page
                                     // when updating query information

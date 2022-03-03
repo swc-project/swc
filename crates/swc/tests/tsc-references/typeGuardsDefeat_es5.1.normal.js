@@ -1,14 +1,14 @@
 // Also note that it is possible to defeat a type guard by calling a function that changes the 
 // type of the guarded variable.
-function foo(x) {
+function foo(_$x) {
     var f = function f() {
-        x = 10;
+        _$x = 10;
     };
-    if (typeof x === "string") {
+    if (typeof _$x === "string") {
         f();
-        return x.length; // string
+        return _$x.length; // string
     } else {
-        return x++; // number
+        return _$x++; // number
     }
 }
 function foo2(x) {

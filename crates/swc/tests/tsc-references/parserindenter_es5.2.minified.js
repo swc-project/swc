@@ -29,13 +29,13 @@ function _defineProperties(target, props) {
             },
             {
                 key: "GetIndentationEditsWorker",
-                value: function(token, nextToken, node, sameLineIndent) {
+                value: function(token, nextToken, _$node, sameLineIndent) {
                     var result = new List_TextEditInfo(), indentationInfo = null;
-                    if (this.AdjustStartOffsetIfNeeded(token, node), this.scriptBlockBeginLineNumber == token.lineNumber()) return result;
+                    if (this.AdjustStartOffsetIfNeeded(token, _$node), this.scriptBlockBeginLineNumber == token.lineNumber()) return result;
                     if (!sameLineIndent && this.IsMultiLineString(token)) return result;
-                    if (null == (indentationInfo = this.GetSpecialCaseIndentation(token, node))) {
-                        for(; !node.CanIndent() && null != node.Parent && token.Span.span.start() == node.Parent.AuthorNode.Details.StartOffset;)node = node.Parent;
-                        indentationInfo = node.CanIndent() && token.Span.span.start() == node.AuthorNode.Details.StartOffset ? node.GetEffectiveIndentation(this) : token.Token == AuthorTokenKind.atkIdentifier && null != nextToken && nextToken.Token == AuthorTokenKind.atkColon ? node.GetEffectiveChildrenIndentation(this) : this.ApplyIndentationDeltaFromParent(token, node);
+                    if (null == (indentationInfo = this.GetSpecialCaseIndentation(token, _$node))) {
+                        for(; !_$node.CanIndent() && null != _$node.Parent && token.Span.span.start() == _$node.Parent.AuthorNode.Details.StartOffset;)_$node = _$node.Parent;
+                        indentationInfo = _$node.CanIndent() && token.Span.span.start() == _$node.AuthorNode.Details.StartOffset ? _$node.GetEffectiveIndentation(this) : token.Token == AuthorTokenKind.atkIdentifier && null != nextToken && nextToken.Token == AuthorTokenKind.atkColon ? _$node.GetEffectiveChildrenIndentation(this) : this.ApplyIndentationDeltaFromParent(token, _$node);
                     }
                     if (null != indentationInfo) {
                         var edit = this.GetIndentEdit(indentationInfo, token.Span.startPosition(), sameLineIndent);
@@ -96,11 +96,11 @@ function _defineProperties(target, props) {
             },
             {
                 key: "GetSpecialCaseIndentationForSemicolon",
-                value: function(token, node) {
-                    if (this.smartIndent) return node.GetEffectiveChildrenIndentation(this);
-                    if (node.AuthorNode.Details.Kind != AuthorParseNodeKind.apnkFor) {
+                value: function(token, _$node) {
+                    if (this.smartIndent) return _$node.GetEffectiveChildrenIndentation(this);
+                    if (_$node.AuthorNode.Details.Kind != AuthorParseNodeKind.apnkFor) {
                         var semiColonStartSpan = new Span(token.Span.startPosition(), 0);
-                        return (node = ParseTree.FindCommonParentNode(semiColonStartSpan, semiColonStartSpan, node)).GetEffectiveChildrenIndentation(this);
+                        return (_$node = ParseTree.FindCommonParentNode(semiColonStartSpan, semiColonStartSpan, _$node)).GetEffectiveChildrenIndentation(this);
                     }
                     return null;
                 }

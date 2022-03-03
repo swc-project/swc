@@ -7,7 +7,7 @@ var x = 10, y = function() {
     "use strict";
     _classCallCheck(this, y);
 };
-module.exports = x, module.exports = y, (x || (x = {})).x = 10;
+module.exports = x, module.exports = y, (x || (x = {}))._$x = 10;
 var y = function() {
     "use strict";
     _classCallCheck(this, y);
