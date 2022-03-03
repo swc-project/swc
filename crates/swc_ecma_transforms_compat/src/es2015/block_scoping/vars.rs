@@ -36,6 +36,18 @@ impl BlockScopedVars {
         }
     }
 
+    /// We rename declarations, not usages.
+    /// This is because we want to preserve access to global items.
+    ///
+    /// But we use usages to potential conflicts, so we do it renaming in
+    /// multiple steps.
+    ///
+    ///  - For first, we collect all variables and usages.
+    ///
+    ///  - For second, we expand all usages to get list of symbols which may
+    ///    conflict.
+    ///
+    ///  - For third, we rename all declarations which may conflict.
     fn handle_program<N>(&mut self, n: &mut N)
     where
         N: VisitMutWith<Self> + VisitMutWith<Rename>,
