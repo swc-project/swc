@@ -29,6 +29,10 @@ impl Operations {
         }
     }
 
+    pub fn add_used(&mut self, sym: JsWord) {
+        self.symbols.insert(sym);
+    }
+
     #[inline]
     pub fn get_renamed(&self, i: &Id) -> Option<JsWord> {
         self.rename.get(i).cloned()
