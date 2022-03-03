@@ -2717,6 +2717,7 @@ dependencies = [
  "serde_json",
  "sourcemap",
  "swc_atoms",
+ "swc_cached",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -2793,6 +2794,10 @@ dependencies = [
  "tracing",
  "url",
 ]
+
+[[package]]
+name = "swc_cached"
+version = "0.1.0"
 
 [[package]]
 name = "swc_cli"
