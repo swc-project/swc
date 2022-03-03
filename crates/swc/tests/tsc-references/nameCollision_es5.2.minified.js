@@ -8,7 +8,7 @@ var B, X, Y, D;
     };
 }(B || (B = {})), (function(X1) {
     X1.Y || (X1.Y = {});
-})(X || (X = {})), (function(Y3) {
-    var Y1, Y2, Y1, Y1;
-    (Y1 = Y1 = (Y2 = Y1 = Y3.Y || (Y3.Y = {})).Y || (Y2.Y = {}))[Y1.Red = 0] = "Red", Y1[Y1.Blue = 1] = "Blue";
+})(X || (X = {})), (function(Y2) {
+    var _$Y, Y1, _$Y, _$Y;
+    (_$Y = _$Y = (Y1 = _$Y = Y2.Y || (Y2.Y = {})).Y || (Y1.Y = {}))[_$Y.Red = 0] = "Red", _$Y[_$Y.Blue = 1] = "Blue";
 })(Y || (Y = {})), (D || (D = {})).E = "hello";

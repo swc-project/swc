@@ -57,12 +57,12 @@ var A = function() {
         }
         return _class;
     })(A);
-}, K = function(_super) {
+}, K = function(_superClass) {
     "use strict";
-    _inherits(K, _super);
-    var _super1 = _createSuper(K);
+    _inherits(K, _superClass);
+    var _super = _createSuper(K);
     function K() {
-        return _classCallCheck(this, K), _super1.apply(this, arguments);
+        return _classCallCheck(this, K), _super.apply(this, arguments);
     }
     return K;
 }(function(A2) {
@@ -73,12 +73,12 @@ var A = function() {
         return _classCallCheck(this, _class), _super.apply(this, arguments);
     }
     return _class;
-}(A)), C = function(_super) {
+}(A)), C = function(_superClass) {
     "use strict";
-    _inherits(C, _super);
-    var _super2 = _createSuper(C);
+    _inherits(C, _superClass);
+    var _super = _createSuper(C);
     function C() {
-        return _classCallCheck(this, C), _super2.apply(this, arguments);
+        return _classCallCheck(this, C), _super.apply(this, arguments);
     }
     return C;
 }(new B2().anon), S = function(b3Number) {

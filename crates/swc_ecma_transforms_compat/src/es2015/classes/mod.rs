@@ -277,7 +277,7 @@ where
         let super_ident = class
             .super_class
             .as_ref()
-            .map(|e| alias_if_required(e, "_super").0);
+            .map(|e| alias_if_required(e, "_superClass").0);
         let has_super = super_ident.is_some();
         let (params, args, super_ident) = if let Some(ref super_ident) = super_ident {
             // Param should have a separate syntax context from arg.

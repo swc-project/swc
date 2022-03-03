@@ -1380,7 +1380,7 @@ var YUI = function() {
             return !!rm && mod2 in rm || !!m.ext && "css" === m.type && !other.ext && "css" === other.type;
         },
         _config: function(o) {
-            var i, j, val, a, f, group, groupName, mod1, self = this, mods = [];
+            var i, j, val, a, f, group, groupName, mod3, self = this, mods = [];
             if (o) {
                 for(i in o)if (o.hasOwnProperty(i)) if (val = o[i], "require" === i) self.require(val);
                 else if ("skin" === i) "string" == typeof val && (self.skin.defaultSkin = o.skin, val = {
@@ -1393,7 +1393,7 @@ var YUI = function() {
                 else "gallery" === i ? this.groups.gallery.update && this.groups.gallery.update(val, o) : "yui2" === i || "2in3" === i ? this.groups.yui2.update && this.groups.yui2.update(o["2in3"], o.yui2, o) : self[i] = val;
             }
             if (f = self.filter, L.isString(f) && (f = f.toUpperCase(), self.filterName = f, self.filter = self.FILTER_DEFS[f], "DEBUG" === f && self.require("yui-log", "dump")), self.filterName && self.coverage && "COVERAGE" === self.filterName && L.isArray(self.coverage) && self.coverage.length) {
-                for(i = 0; i < self.coverage.length; i++)mod1 = self.coverage[i], self.moduleInfo[mod1] && self.moduleInfo[mod1].use ? mods = [].concat(mods, self.moduleInfo[mod1].use) : mods.push(mod1);
+                for(i = 0; i < self.coverage.length; i++)mod3 = self.coverage[i], self.moduleInfo[mod3] && self.moduleInfo[mod3].use ? mods = [].concat(mods, self.moduleInfo[mod3].use) : mods.push(mod3);
                 self.filters = self.filters || {}, Y.Array.each(mods, function(mod) {
                     self.filters[mod] = self.FILTER_DEFS.COVERAGE;
                 }), self.filterName = "RAW", self.filter = self.FILTER_DEFS[self.filterName];

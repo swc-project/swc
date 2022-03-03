@@ -76,7 +76,7 @@
             "type": "Tokens",
             "span": {
               "start": 8,
-              "end": 15,
+              "end": 16,
               "ctxt": 0
             },
             "tokens": [
@@ -115,6 +115,15 @@
                     "value": "!"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 15,
+                  "end": 16,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           }
@@ -191,7 +200,7 @@
             "type": "Tokens",
             "span": {
               "start": 35,
-              "end": 42,
+              "end": 43,
               "ctxt": 0
             },
             "tokens": [
@@ -230,6 +239,15 @@
                     "value": "!"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 42,
+                  "end": 43,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -368,7 +386,7 @@
             "type": "Tokens",
             "span": {
               "start": 95,
-              "end": 102,
+              "end": 103,
               "ctxt": 0
             },
             "tokens": [
@@ -407,6 +425,15 @@
                     "value": "!"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 102,
+                  "end": 103,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           }
@@ -483,7 +510,7 @@
             "type": "Tokens",
             "span": {
               "start": 122,
-              "end": 130,
+              "end": 131,
               "ctxt": 0
             },
             "tokens": [
@@ -535,6 +562,15 @@
                     "value": "!"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 130,
+                  "end": 131,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -681,7 +717,7 @@
             "type": "Tokens",
             "span": {
               "start": 182,
-              "end": 190,
+              "end": 191,
               "ctxt": 0
             },
             "tokens": [
@@ -733,6 +769,15 @@
                     "value": "!"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 190,
+                  "end": 191,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           }

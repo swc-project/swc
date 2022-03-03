@@ -2,17 +2,17 @@ var A;
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
-!function(A3) {
-    var A1 = function() {
+!function(A1) {
+    var _$A = function() {
         "use strict";
-        _classCallCheck(this, A1);
+        _classCallCheck(this, _$A);
     };
-    A3.A = A1;
+    A1.A = _$A;
     var AG = function() {
         "use strict";
         _classCallCheck(this, AG);
     };
-    A3.AG = AG;
+    A1.AG = AG;
     var A2 = function() {
         "use strict";
         _classCallCheck(this, A2);

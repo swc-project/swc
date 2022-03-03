@@ -2872,7 +2872,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.93.0"
+version = "0.93.1"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -2929,7 +2929,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.94.0"
+version = "0.94.1"
 dependencies = [
  "bitflags",
  "lexical",
@@ -3035,7 +3035,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.19.0"
+version = "0.19.1"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3213,7 +3213,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.63.1"
+version = "0.63.2"
 dependencies = [
  "better_scoped_tls",
  "once_cell",
@@ -3247,7 +3247,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.75.5"
+version = "0.75.6"
 dependencies = [
  "ahash",
  "arrayvec 0.7.2",

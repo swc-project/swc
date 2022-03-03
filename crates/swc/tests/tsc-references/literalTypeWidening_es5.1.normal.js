@@ -126,8 +126,8 @@ function isSuccess(result1) {
 function isFailure(result2) {
     return result2 === FAILURE;
 }
-function increment(x1) {
-    return x1 + 1;
+function increment(x4) {
+    return x4 + 1;
 }
 var result = doWork();
 if (isSuccess(result)) {
@@ -139,11 +139,11 @@ function onMouseOver() {
 var x = onMouseOver();
 // Repro from #23649
 export function Set() {
-    for(var _len = arguments.length, keys1 = new Array(_len), _key = 0; _key < _len; _key++){
-        keys1[_key] = arguments[_key];
+    for(var _len = arguments.length, _$keys = new Array(_len), _key = 0; _key < _len; _key++){
+        _$keys[_key] = arguments[_key];
     }
     var result3 = {};
-    keys1.forEach(function(key) {
+    _$keys.forEach(function(key) {
         return result3[key] = true;
     });
     return result3;

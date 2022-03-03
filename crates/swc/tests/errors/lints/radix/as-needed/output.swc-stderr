@@ -1,0 +1,24 @@
+error: Invalid radix parameter, must be an integer between 2 and 36
+  
+   |
+14 | parseInt("12", 1);
+   | ^^^^^^^^^^^^^^^^^
+
+error: Invalid radix parameter, must be an integer between 2 and 36
+  
+   |
+17 | parseInt("12", 37);
+   | ^^^^^^^^^^^^^^^^^^
+
+error: Missing parameters
+  
+   |
+20 | parseInt();
+   | ^^^^^^^^^^
+
+error: Redundant radix parameter
+  
+   |
+23 | parseInt("12", 10);
+   | ^^^^^^^^^^^^^^^^^^
+

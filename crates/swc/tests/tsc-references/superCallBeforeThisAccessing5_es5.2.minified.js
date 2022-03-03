@@ -8,7 +8,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var D = function(_super) {
+var D = function(_superClass) {
     "use strict";
     function D() {
         var _this, self, call, obj;

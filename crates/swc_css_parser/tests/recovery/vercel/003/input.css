@@ -1,0 +1,12 @@
+.geist-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: __ident__;
+    box-sizing: border-box;
+}
+.geist-list :global(> .geist-list-item) {
+    padding: __ident__;
+    flex-grow: 0;
+    flex-basis: __ident__%;
+    min-width: 0;
+}

@@ -990,7 +990,7 @@ var Foo = function Foo() {
   _classCallCheck(this, Foo);
   _defineProperty(this, "bar", foo);
   var foo1 = "foo";
-  var baz = "baz";
+  var _$baz = "baz";
 };
 
 _defineProperty(Foo, "bar", baz);
@@ -1450,12 +1450,12 @@ var Outer = function Outer() {
     value: void 0
   });
 
-  var Test = function (_super) {
-    _inherits(Test, _super);
-    var _super1 = _createSuper(Test);
+  var Test = function (_superClass) {
+    _inherits(Test, _superClass);
+    var _super = _createSuper(Test);
     function Test() {
       _classCallCheck(this, Test);
-      return _super1.apply(this, arguments);
+      return _super.apply(this, arguments);
     }
 
     return Test;
@@ -6434,7 +6434,7 @@ function set_privateFieldValue(newValue) {
 "#
 );
 
-#[testing::fixture("tests/fixture/classes/**/exec.js")]
+#[testing::fixture("tests/classes/**/exec.js")]
 fn exec(input: PathBuf) {
     let src = read_to_string(&input).unwrap();
     compare_stdout(

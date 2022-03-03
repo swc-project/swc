@@ -135,7 +135,7 @@ var O;
         }(C2);
         P.D2 = D2;
     })(P1 || (P1 = {}));
-    var Q1;
+    var _$Q;
     (function(Q) {
         var E2 = /*#__PURE__*/ function(_D2) {
             "use strict";
@@ -148,5 +148,5 @@ var O;
             return E2;
         }(P1.D2);
         Q.E2 = E2;
-    })(Q1 || (Q1 = {}));
+    })(_$Q || (_$Q = {}));
 })(O || (O = {}));

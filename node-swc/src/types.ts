@@ -1515,6 +1515,8 @@ export interface ExportNamedDeclaration extends Node, HasSpan {
   specifiers: ExportSpecifier[];
 
   source?: StringLiteral;
+  
+  typeOnly: boolean;
 }
 
 export interface ExportDefaultDeclaration extends Node, HasSpan {
