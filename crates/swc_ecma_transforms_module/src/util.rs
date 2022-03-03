@@ -8,6 +8,7 @@ use indexmap::{IndexMap, IndexSet};
 use inflector::Inflector;
 use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
+use swc_cached::regex::CachedRegex;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     util::take::Take,
@@ -62,8 +63,13 @@ const fn default_strict_mode() -> bool {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct LazyObjectConfig {
-    #[serde(with = "serde_regex")]
-    pub patterns: Vec<regex::Regex>,
+    pub patterns: Vec<CachedRegex>,
+}
+
+impl LazyObjectConfig {
+    pub fn is_lazy(&self, src: &JsWord) -> bool {
+        self.patterns.iter().any(|pat| pat.is_match(src))
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -80,9 +86,7 @@ impl Lazy {
             Lazy::Bool(false) => false,
             Lazy::Bool(true) => !src.starts_with('.'),
             Lazy::List(ref srcs) => srcs.contains(src),
-            Lazy::Object(LazyObjectConfig { ref patterns }) => {
-                patterns.iter().any(|pat| pat.is_match(src))
-            }
+            Lazy::Object(ref object) => object.is_lazy(src),
         }
     }
 }

@@ -1,5 +1,6 @@
 use std::{cell::RefCell, path::PathBuf, rc::Rc};
 
+use swc_cached::regex::CachedRegex;
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::{
@@ -3767,7 +3768,7 @@ test!(
     syntax(),
     |_| tr(Config {
         lazy: Lazy::Object(LazyObjectConfig {
-            patterns: vec![regex::Regex::new(".").unwrap()],
+            patterns: vec![CachedRegex::new(".").unwrap()],
         }),
         ..Default::default()
     }),
@@ -3810,7 +3811,7 @@ test!(
     syntax(),
     |_| tr(Config {
         lazy: Lazy::Object(LazyObjectConfig {
-            patterns: vec![regex::Regex::new("^test$").unwrap()],
+            patterns: vec![CachedRegex::new("^test$").unwrap()],
         }),
         ..Default::default()
     }),
