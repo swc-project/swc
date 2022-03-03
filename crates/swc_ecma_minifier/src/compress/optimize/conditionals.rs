@@ -343,6 +343,12 @@ where
         alt: &mut Expr,
         is_for_if_stmt: bool,
     ) -> Option<Expr> {
+        if let Some(data) = &self.data {
+            if data.contains_unresolved(&**test) {
+                return None;
+            }
+        }
+
         if cons.eq_ignore_span(alt) && !matches!(&*cons, Expr::Yield(..) | Expr::Fn(..)) {
             tracing::debug!("conditionals: cons is same as alt");
             return Some(Expr::Seq(SeqExpr {
