@@ -2697,7 +2697,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.139.0"
+version = "0.139.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2709,6 +2709,7 @@ dependencies = [
  "napi",
  "napi-derive",
  "once_cell",
+ "parking_lot 0.12.0",
  "pathdiff",
  "rayon",
  "regex",
@@ -3065,6 +3066,7 @@ dependencies = [
  "lru",
  "normpath",
  "once_cell",
+ "parking_lot 0.12.0",
  "path-clean",
  "regex",
  "serde",
@@ -3083,6 +3085,7 @@ dependencies = [
  "backtrace",
  "indexmap",
  "once_cell",
+ "parking_lot 0.12.0",
  "pretty_assertions",
  "rayon",
  "regex",

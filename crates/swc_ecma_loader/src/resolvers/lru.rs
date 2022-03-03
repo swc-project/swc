@@ -1,7 +1,6 @@
-use std::sync::Mutex;
-
 use anyhow::Error;
 use lru::LruCache;
+use parking_lot::Mutex;
 use swc_common::FileName;
 
 use crate::resolve::Resolve;
@@ -42,21 +41,17 @@ where
 {
     fn resolve(&self, base: &FileName, src: &str) -> Result<FileName, Error> {
         {
-            let lock = self.cache.lock();
-            if let Ok(mut lock) = lock {
-                //
-                if let Some(v) = lock.get(&(base.clone(), src.to_string())) {
-                    return Ok(v.clone());
-                }
+            let mut lock = self.cache.lock();
+            //
+            if let Some(v) = lock.get(&(base.clone(), src.to_string())) {
+                return Ok(v.clone());
             }
         }
 
         let resolved = self.inner.resolve(base, src)?;
         {
-            let lock = self.cache.lock();
-            if let Ok(mut lock) = lock {
-                lock.put((base.clone(), src.to_string()), resolved.clone());
-            }
+            let mut lock = self.cache.lock();
+            lock.put((base.clone(), src.to_string()), resolved.clone());
         }
 
         Ok(resolved)
