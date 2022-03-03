@@ -11,6 +11,6 @@
     "loose": false,
     "externalHelpers": false,
     "keepClassNames": false,
-    "preserveDroppedComments": true
+    "preserveAllComments": true
   }
 }

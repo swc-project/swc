@@ -27,7 +27,7 @@
       "compress": false,
       "mangle": false
     },
-    "preserveDroppedComments": true
+    "preserveAllComments": true
   },
   "minify": false
 }

@@ -12,7 +12,7 @@ describe("Should preserve comments", () => {
                 "parser": {
                     "syntax": "typescript",
                 },
-                "preserveDroppedComments": true
+                "preserveAllComments": true
             }
         });
         expect(result.code).toBe('/*comment*/ var x = 1;\n');

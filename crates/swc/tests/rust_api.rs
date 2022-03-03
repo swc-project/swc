@@ -146,7 +146,7 @@ fn shopify_2_same_opt() {
                     experimental: Default::default(),
                     lints: Default::default(),
                     assumptions: Default::default(),
-                    preserve_dropped_comments: false,
+                    preserve_all_comments: false,
                 },
                 module: None,
                 minify: false,

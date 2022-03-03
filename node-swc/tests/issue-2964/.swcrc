@@ -4,7 +4,7 @@
     "type": "commonjs"
   },
   "jsc": {
-    "preserveDroppedComments": true,
+    "preserveAllComments": true,
     "parser": {
       "syntax": "typescript",
       "tsx": false,

@@ -298,7 +298,7 @@ impl Options {
             minify: mut js_minify,
             experimental,
             lints,
-            preserve_dropped_comments,
+            preserve_all_comments,
             ..
         } = config.jsc;
 
@@ -371,7 +371,7 @@ impl Options {
 
         let regenerator = transform.regenerator.clone();
 
-        let preserve_comments = if preserve_dropped_comments {
+        let preserve_comments = if preserve_all_comments {
             Some(BoolOrObject::from(true))
         } else {
             js_minify.as_ref().map(|v| v.format.comments.clone())
@@ -508,7 +508,7 @@ impl Options {
             Optional::new(jest::jest(), transform.hidden.jest),
             Optional::new(
                 dropped_comments_preserver(comments.map(|v| v as &dyn Comments)),
-                preserve_dropped_comments
+                preserve_all_comments
             ),
         );
 
@@ -1044,7 +1044,7 @@ pub struct JscConfig {
     pub lints: LintConfig,
 
     #[serde(default)]
-    pub preserve_dropped_comments: bool,
+    pub preserve_all_comments: bool,
 }
 
 /// `jsc.experimental` in `.swcrc`
@@ -1581,7 +1581,7 @@ impl Merge for JscConfig {
         self.paths.merge(&from.paths);
         self.minify.merge(&from.minify);
         self.experimental.merge(&from.experimental);
-        self.preserve_dropped_comments.merge(&from.preserve_dropped_comments)
+        self.preserve_all_comments.merge(&from.preserve_all_comments)
     }
 }
 
