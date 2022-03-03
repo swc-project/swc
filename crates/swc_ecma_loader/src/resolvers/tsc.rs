@@ -192,5 +192,5 @@ where
 }
 
 fn compile_regex(src: String) -> CachedRegex {
-    CachedRegex::new(&src).unwrap()
+    CachedRegex::new(&src.replace('*', "(.*)")).unwrap()
 }
