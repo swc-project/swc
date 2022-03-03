@@ -14,6 +14,15 @@ unknown: x [a , b];
 unknown: x {a,b};
 }
 * {
+unknown: x (a+b);
+}
+* {
+unknown: x (a/b);
+}
+* {
+unknown: x (a*b);
+}
+* {
 unknown: x (a,b);
 }
 a {
