@@ -324,7 +324,7 @@ impl Options {
         // We do this before creating custom passses, so custom passses can use the
         // variable management system based on the syntax contexts.
         if syntax.typescript() {
-            assumptions.set_class_methods = !transform.use_define_for_class_fields;
+            // assumptions.set_class_methods = !transform.use_define_for_class_fields;
             assumptions.set_public_class_fields = !transform.use_define_for_class_fields;
 
             program.visit_mut_with(&mut ts_resolver(top_level_mark));
@@ -480,6 +480,7 @@ impl Options {
                             treat_const_enum_as_enum: transform.treat_const_enum_as_enum,
                             ts_enum_is_readonly: assumptions.ts_enum_is_readonly,
                         },
+                        use_define_for_class_fields: !assumptions.set_public_class_fields,
                         ..Default::default()
                     },
                     comments,

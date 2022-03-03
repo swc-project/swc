@@ -38,6 +38,13 @@ fn tr_config(
     )
 }
 
+fn properties(loose: bool) -> impl Fold {
+    class_properties(class_properties::Config {
+        set_public_fields: loose,
+        ..Default::default()
+    })
+}
+
 macro_rules! to {
     ($name:ident, $from:expr, $to:expr) => {
         test!(
@@ -45,7 +52,7 @@ macro_rules! to {
                 decorators: true,
                 ..Default::default()
             }),
-            |_| tr(),
+            |_| chain!(tr(), properties(true)),
             $name,
             $from,
             $to,
