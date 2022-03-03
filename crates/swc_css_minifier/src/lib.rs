@@ -9,7 +9,7 @@ use self::compress::{
     frequency::compress_frequency, keyframes::compress_keyframes, length::compress_length,
     selector::compress_selector, time::compress_time,
     transform_function::compress_transform_function, unicore_range::compress_unicode_range,
-    url::compress_url,
+    url::compress_url, at_rule::compress_at_rule
 };
 
 mod compress;
@@ -28,5 +28,5 @@ pub fn minify(stylesheet: &mut Stylesheet) {
     stylesheet.visit_mut_with(&mut compress_declaration());
     stylesheet.visit_mut_with(&mut compress_selector());
     stylesheet.visit_mut_with(&mut compress_keyframes());
-    stylesheet.visit_mut_with(&mut compress_selector());
+    stylesheet.visit_mut_with(&mut compress_at_rule());
 }
