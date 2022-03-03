@@ -16,7 +16,10 @@ struct BlockScopedVars {
 #[derive(Default)]
 struct Scope {
     kind: ScopeKind,
+
     vars: Vec<Id>,
+    usages: Vec<Id>,
+
     children: Vec<Scope>,
 }
 
@@ -24,8 +27,7 @@ impl BlockScopedVars {
     fn with_scope(&mut self, kind: ScopeKind, op: impl FnOnce(&mut Self)) {
         let scope = Scope {
             kind,
-            vars: Default::default(),
-            children: Default::default(),
+            ..Default::default()
         };
 
         let mut v = BlockScopedVars { scope };
