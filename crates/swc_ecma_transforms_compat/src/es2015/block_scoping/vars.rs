@@ -30,6 +30,13 @@ struct Scope {
     children: Vec<Scope>,
 }
 
+#[derive(Clone, Copy)]
+struct ParentScope<'a> {
+    parent: Option<&'a ParentScope<'a>>,
+
+    vars: &'a IndexMap<Id, VarDeclKind, ahash::RandomState>,
+}
+
 impl BlockScopedVars {
     fn add_usage(&mut self, id: Id) {
         if !self.scope.usages.contains(&id) {
@@ -55,9 +62,14 @@ impl BlockScopedVars {
     {
         n.visit_mut_children_with(self);
 
+        let empty_vars = Default::default();
+        let mut parent = ParentScope {
+            parent: None,
+            vars: &empty_vars,
+        };
         let mut symbols = Default::default();
 
-        self.scope.collect_candidates(&mut symbols);
+        self.scope.collect_candidates(parent, &mut symbols);
 
         dbg!(&symbols);
 
@@ -122,7 +134,7 @@ impl Scope {
 
     /// If a used identifier is declared in a child scope using `let` or
     /// `const`, add it to `rename_map`.
-    fn collect_candidates(&mut self, symbols: &mut Vec<JsWord>) {
+    fn collect_candidates(&mut self, parent: ParentScope, symbols: &mut Vec<JsWord>) {
         for id in &self.usages {
             if self.can_access(id, false) {
                 self.children.iter_mut().for_each(|s| {
@@ -133,9 +145,14 @@ impl Scope {
             }
         }
 
+        let parent = ParentScope {
+            parent: Some(&parent),
+            vars: &self.vars,
+        };
+
         self.children
             .iter_mut()
-            .for_each(|s| s.collect_candidates(symbols));
+            .for_each(|s| s.collect_candidates(parent, symbols));
     }
 
     fn rename(&self, symbols: &[JsWord], rename_map: &mut AHashMap<Id, Id>) {
