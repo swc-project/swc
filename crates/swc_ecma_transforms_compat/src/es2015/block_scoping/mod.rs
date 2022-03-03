@@ -2,7 +2,9 @@ use std::mem::take;
 
 use smallvec::SmallVec;
 use swc_atoms::js_word;
-use swc_common::{collections::AHashMap, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    chain, collections::AHashMap, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
@@ -13,6 +15,8 @@ use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, Fold, Visit,
     VisitMut, VisitMutWith, VisitWith,
 };
+
+mod vars;
 
 ///
 ///
@@ -27,13 +31,16 @@ use swc_ecma_visit::{
 ///    });
 /// }
 /// ```
-pub fn block_scoping() -> impl Fold {
-    as_folder(BlockScoping {
-        scope: Default::default(),
-        vars: vec![],
-        var_decl_kind: VarDeclKind::Var,
-        in_loop_body_scope: false,
-    })
+pub fn block_scoping() -> impl VisitMut + Fold {
+    as_folder(chain!(
+        self::vars::block_scoped_vars(),
+        BlockScoping {
+            scope: Default::default(),
+            vars: vec![],
+            var_decl_kind: VarDeclKind::Var,
+            in_loop_body_scope: false,
+        }
+    ))
 }
 
 type ScopeStack = SmallVec<[ScopeKind; 8]>;
