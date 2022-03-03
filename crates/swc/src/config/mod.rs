@@ -905,9 +905,7 @@ impl Default for FileMatcher {
 impl FileMatcher {
     pub fn matches(&self, filename: &Path) -> Result<bool, Error> {
         match self {
-            &FileMatcher::None => {
-                return Ok(false);
-            }
+            FileMatcher::None => Ok(false),
 
             FileMatcher::Regex(re) => {
                 let filename = if cfg!(target_os = "windows") {
