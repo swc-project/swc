@@ -160,8 +160,6 @@ impl VisitMut for ClassProperties {
     }
 
     fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
-        let span = body.span();
-
         match body {
             BlockStmtOrExpr::Expr(expr) if expr.is_class() => {
                 let ClassExpr { ident, class } = expr.take().class().unwrap();
@@ -177,7 +175,10 @@ impl VisitMut for ClassProperties {
                     arg: Some(Box::new(Expr::Ident(ident))),
                 }));
 
-                *body = BlockStmtOrExpr::BlockStmt(BlockStmt { span, stmts });
+                *body = BlockStmtOrExpr::BlockStmt(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts,
+                });
             }
             _ => body.visit_mut_children_with(self),
         };
