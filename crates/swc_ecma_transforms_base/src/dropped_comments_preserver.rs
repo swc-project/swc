@@ -37,9 +37,9 @@ impl VisitMut for DroppedCommentsPreserver<'_> {
         let mut leading_comments = Vec::new();
         let mut trailing_comments = Vec::new();
 
-        for idx in (self.comment_position..=span.lo.0).map(|x| BytePos(x)) {
-            leading_comments.extend(self.comments.take_leading(idx).unwrap_or(Vec::new()));
-            trailing_comments.extend(self.comments.take_trailing(idx).unwrap_or(Vec::new()));
+        for idx in (self.comment_position..=span.lo.0).map(BytePos) {
+            leading_comments.extend(self.comments.take_leading(idx).unwrap_or_default());
+            trailing_comments.extend(self.comments.take_trailing(idx).unwrap_or_default());
 
             self.comment_position += 1;
         }
