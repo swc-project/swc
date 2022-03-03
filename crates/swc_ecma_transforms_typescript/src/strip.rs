@@ -1668,6 +1668,8 @@ where
                 }
 
                 ClassMember::ClassProp(ClassProp {
+                    declare: false,
+                    is_abstract: false,
                     is_static: false,
                     value: value @ Some(..),
                     key,
@@ -1685,6 +1687,7 @@ where
         }
         if let Some(c) = constructor {
             let mut assign_exprs = vec![];
+            let mut extra_props = vec![];
 
             c.params.map_with_mut(|params| {
                 params.move_map(|param| match param {
@@ -1720,6 +1723,9 @@ where
                             }
                             _ => unreachable!("destructuring pattern inside TsParameterProperty"),
                         };
+                        if self.config.use_define_for_class_fields {
+                            extra_props.push(ident.id.clone());
+                        }
                         let assign_expr = Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
                             left: PatOrExpr::Expr(Box::new(
@@ -1782,6 +1788,26 @@ where
             }));
 
             inject_after_super(c, assign_exprs);
+
+            if !extra_props.is_empty() {
+                class.body.extend(extra_props.into_iter().map(|prop| {
+                    ClassMember::ClassProp(ClassProp {
+                        key: PropName::Ident(prop),
+                        value: None,
+                        decorators: Vec::new(),
+                        is_static: false,
+                        type_ann: None,
+                        span: DUMMY_SP,
+                        accessibility: None,
+                        is_abstract: false,
+                        is_optional: false,
+                        is_override: false,
+                        readonly: false,
+                        declare: false,
+                        definite: false,
+                    })
+                }))
+            }
         }
 
         class.is_abstract = false;
@@ -1809,6 +1835,7 @@ where
                 function: Function { body: None, .. },
                 ..
             }) => false,
+            ClassMember::ClassProp(ClassProp { declare: true, .. }) => false,
             ClassMember::ClassProp(ClassProp {
                 value: None,
                 ref decorators,

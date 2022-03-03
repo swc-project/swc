@@ -133,10 +133,14 @@ to!(
 
     abstract #test();
 }",
-    "class test {
-    #test() {
+    "var _test = new WeakSet();
+    class test {
+        constructor(){
+            _classPrivateMethodInit(this, _test);
+        }
     }
-}"
+    function test1() {}
+"
 );
 
 to!(export_import, "export import A = B", "export var A = B;");
@@ -735,15 +739,26 @@ to!(
         this.#handlers = options.handlers || [];
     }
 }",
-    "export class Logger {
-    #level;
-    #handlers;
-    #loggerName;
+    "
+    var _level = new WeakMap(), _handlers = new WeakMap(), _loggerName = new WeakMap();
+    export class Logger {
     constructor(loggerName, levelName, options = {
     }){
-        this.#loggerName = loggerName;
-        this.#level = getLevelByName(levelName);
-        this.#handlers = options.handlers || [];
+        _classPrivateFieldInit(this, _level, {
+            writable: true,
+            value: void 0
+        });
+        _classPrivateFieldInit(this, _handlers, {
+            writable: true,
+            value: void 0
+        });
+        _classPrivateFieldInit(this, _loggerName, {
+            writable: true,
+            value: void 0
+        });
+        _classPrivateFieldSet(this, _loggerName, loggerName);
+        _classPrivateFieldSet(this, _level, getLevelByName(levelName));
+        _classPrivateFieldSet(this, _handlers, options.handlers || []);
     }
 }"
 );
@@ -840,7 +855,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    |_| chain!(tr(), properties(true)),
     issue_930_static,
     "class A {
         static b = 'foo';
@@ -856,7 +871,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    |_| chain!(tr(), properties(true)),
     typescript_001,
     "class A {
         foo = new Subject()
@@ -3733,12 +3748,13 @@ test_with_config!(
     ",
     "
     class A extends Object {
-        b;
-        a = 1;
+        a;
         constructor(b = 2){
             super();
             this.b = b;
+            this.a = 1;
         }
+        b;
     }
     "
 );
@@ -3778,15 +3794,13 @@ to!(
     }
     ",
     "
-    var _key, _key1;
+    let _ref = (console.log(1), 'a'), _ref1 = (console.log(2), 'b');
     class A {
         constructor() {
-            this[_key] = 1;
+            this[_ref] = 1;
         }
     }
-    _key = (console.log(1), 'a');
-    _key1 = (console.log(2), 'b');
-    A[_key1] = 2;
+    A[_ref1] = 2;
     "
 );
 
@@ -3800,14 +3814,14 @@ to!(
     }
     ",
     "
-    var _key, _key1;
+    let _ref = (console.log(1), 'a'), _ref1 = (console.log(2), 'b'), tmp = (console.log(3), 'c');
     class A {
-        [(_key = (console.log(1), 'a'), _key1 = (console.log(2), 'b'), console.log(3), 'c')]() {}
+        [tmp]() {}
         constructor() {
-            this[_key] = 1;
+            this[_ref] = 1;
         }
     }
-    A[_key1] = 2;
+    A[_ref1] = 2;
     "
 );
 
@@ -4142,15 +4156,22 @@ to!(
         }
     }",
     "
+    var _store = new WeakMap(), _body = new WeakMap();
     export class Context {
-        #store;
-        #body;
         constructor(optionsOrContext){
             this.response = {
                 headers: new Headers()
             };
             this.params = {
             };
+            _classPrivateFieldInit(this, _store, {
+                writable: true,
+                value: void 0
+            });
+            _classPrivateFieldInit(this, _body, {
+                writable: true,
+                value: void 0
+            });
             if (optionsOrContext instanceof Context) {
                 Object.assign(this, optionsOrContext);
                 this.customContext = this;
@@ -4243,12 +4264,12 @@ to!(
     }
     ",
     "
+    var _TestClass;
     var _class;
-    var _class1;
-    let TestClass = _class1 = someClassDecorator((_class1 = (_class = class TestClass {
-    }, _class.Something = 'hello', _class.SomeProperties = {
-        firstProp: _class.Something
-    }, _class)) || _class1) || _class1;
+    let TestClass = _class = someClassDecorator((_class = (_TestClass = class TestClass {
+    }, _TestClass.Something = 'hello', _TestClass.SomeProperties = {
+        firstProp: _TestClass.Something
+    }, _TestClass)) || _class) || _class;
     function someClassDecorator(c) {
         return c;
     }
@@ -4483,7 +4504,7 @@ fn exec(input: PathBuf) {
             tsx: input.to_string_lossy().ends_with(".tsx"),
             ..Default::default()
         }),
-        &|_| tr(),
+        &|_| chain!(tr(), properties(true)),
         &input,
         &output,
     );
