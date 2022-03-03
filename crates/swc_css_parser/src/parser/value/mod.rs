@@ -321,8 +321,6 @@ where
                 }
             }
             "rgb" | "rgba" | "hsl" | "hsla" => {
-                // TODO fix me rgb() = rgb( <percentage>#{3} , <alpha-value>? ) |
-                //   rgb( <number>#{3} , <alpha-value>? )
                 self.input.skip_ws()?;
 
                 let mut is_legacy_syntax = true;

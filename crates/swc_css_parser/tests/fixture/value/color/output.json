@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 2166,
+    "end": 2240,
     "ctxt": 0
   },
   "rules": [
@@ -1341,7 +1341,7 @@
       "type": "QualifiedRule",
       "span": {
         "start": 452,
-        "end": 923,
+        "end": 997,
         "ctxt": 0
       },
       "prelude": {
@@ -1398,7 +1398,7 @@
         "type": "SimpleBlock",
         "span": {
           "start": 458,
-          "end": 923,
+          "end": 997,
           "ctxt": 0
         },
         "name": "{",
@@ -2803,6 +2803,194 @@
               }
             ],
             "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 926,
+              "end": 957,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 926,
+                "end": 931,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 933,
+                  "end": 957,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 933,
+                    "end": 937,
+                    "ctxt": 0
+                  },
+                  "value": "rgba",
+                  "raw": "rgba"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 938,
+                      "end": 941,
+                      "ctxt": 0
+                    },
+                    "value": 123.0,
+                    "raw": "123"
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 942,
+                      "end": 946,
+                      "ctxt": 0
+                    },
+                    "value": "none",
+                    "raw": "none"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 947,
+                      "end": 950,
+                      "ctxt": 0
+                    },
+                    "value": 123.0,
+                    "raw": "123"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 951,
+                      "end": 952,
+                      "ctxt": 0
+                    },
+                    "value": "/"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 953,
+                      "end": 956,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 953,
+                        "end": 955,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 963,
+              "end": 994,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 963,
+                "end": 968,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 970,
+                  "end": 994,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 970,
+                    "end": 974,
+                    "ctxt": 0
+                  },
+                  "value": "rgba",
+                  "raw": "rgba"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 975,
+                      "end": 978,
+                      "ctxt": 0
+                    },
+                    "value": 123.0,
+                    "raw": "123"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 979,
+                      "end": 982,
+                      "ctxt": 0
+                    },
+                    "value": 123.0,
+                    "raw": "123"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 983,
+                      "end": 986,
+                      "ctxt": 0
+                    },
+                    "value": 123.0,
+                    "raw": "123"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 987,
+                      "end": 988,
+                      "ctxt": 0
+                    },
+                    "value": "/"
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 989,
+                      "end": 993,
+                      "ctxt": 0
+                    },
+                    "value": "none",
+                    "raw": "none"
+                  }
+                ]
+              }
+            ],
+            "important": null
           }
         ]
       }
@@ -2810,31 +2998,31 @@
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 925,
-        "end": 1163,
+        "start": 999,
+        "end": 1237,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 925,
-          "end": 929,
+          "start": 999,
+          "end": 1003,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 925,
-              "end": 929,
+              "start": 999,
+              "end": 1003,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 925,
-                  "end": 929,
+                  "start": 999,
+                  "end": 1003,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -2843,15 +3031,15 @@
                   {
                     "type": "ClassSelector",
                     "span": {
-                      "start": 925,
-                      "end": 929,
+                      "start": 999,
+                      "end": 1003,
                       "ctxt": 0
                     },
                     "text": {
                       "type": "Ident",
                       "span": {
-                        "start": 926,
-                        "end": 929,
+                        "start": 1000,
+                        "end": 1003,
                         "ctxt": 0
                       },
                       "value": "hsl",
@@ -2867,8 +3055,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 930,
-          "end": 1163,
+          "start": 1004,
+          "end": 1237,
           "ctxt": 0
         },
         "name": "{",
@@ -2876,15 +3064,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 936,
-              "end": 963,
+              "start": 1010,
+              "end": 1037,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 936,
-                "end": 941,
+                "start": 1010,
+                "end": 1015,
                 "ctxt": 0
               },
               "value": "color",
@@ -2894,15 +3082,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 943,
-                  "end": 963,
+                  "start": 1017,
+                  "end": 1037,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 943,
-                    "end": 946,
+                    "start": 1017,
+                    "end": 1020,
                     "ctxt": 0
                   },
                   "value": "hsl",
@@ -2912,8 +3100,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 947,
-                      "end": 953,
+                      "start": 1021,
+                      "end": 1027,
                       "ctxt": 0
                     },
                     "value": 38.824,
@@ -2922,15 +3110,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 954,
-                      "end": 958,
+                      "start": 1028,
+                      "end": 1032,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 954,
-                        "end": 957,
+                        "start": 1028,
+                        "end": 1031,
                         "ctxt": 0
                       },
                       "value": 100.0,
@@ -2940,15 +3128,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 959,
-                      "end": 962,
+                      "start": 1033,
+                      "end": 1036,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 959,
-                        "end": 961,
+                        "start": 1033,
+                        "end": 1035,
                         "ctxt": 0
                       },
                       "value": 50.0,
@@ -2963,15 +3151,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 969,
-              "end": 992,
+              "start": 1043,
+              "end": 1066,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 969,
-                "end": 974,
+                "start": 1043,
+                "end": 1048,
                 "ctxt": 0
               },
               "value": "color",
@@ -2981,15 +3169,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 976,
-                  "end": 992,
+                  "start": 1050,
+                  "end": 1066,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 976,
-                    "end": 979,
+                    "start": 1050,
+                    "end": 1053,
                     "ctxt": 0
                   },
                   "value": "HsL",
@@ -2999,8 +3187,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 980,
-                      "end": 982,
+                      "start": 1054,
+                      "end": 1056,
                       "ctxt": 0
                     },
                     "value": 39.0,
@@ -3009,15 +3197,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 983,
-                      "end": 987,
+                      "start": 1057,
+                      "end": 1061,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 983,
-                        "end": 986,
+                        "start": 1057,
+                        "end": 1060,
                         "ctxt": 0
                       },
                       "value": 100.0,
@@ -3027,15 +3215,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 988,
-                      "end": 991,
+                      "start": 1062,
+                      "end": 1065,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 988,
-                        "end": 990,
+                        "start": 1062,
+                        "end": 1064,
                         "ctxt": 0
                       },
                       "value": 50.0,
@@ -3050,15 +3238,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 998,
-              "end": 1027,
+              "start": 1072,
+              "end": 1101,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 998,
-                "end": 1003,
+                "start": 1072,
+                "end": 1077,
                 "ctxt": 0
               },
               "value": "color",
@@ -3068,15 +3256,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 1005,
-                  "end": 1027,
+                  "start": 1079,
+                  "end": 1101,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 1005,
-                    "end": 1008,
+                    "start": 1079,
+                    "end": 1082,
                     "ctxt": 0
                   },
                   "value": "hsl",
@@ -3086,15 +3274,15 @@
                   {
                     "type": "Angle",
                     "span": {
-                      "start": 1009,
-                      "end": 1015,
+                      "start": 1083,
+                      "end": 1089,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1009,
-                        "end": 1012,
+                        "start": 1083,
+                        "end": 1086,
                         "ctxt": 0
                       },
                       "value": 100.0,
@@ -3103,8 +3291,8 @@
                     "unit": {
                       "type": "Ident",
                       "span": {
-                        "start": 1012,
-                        "end": 1015,
+                        "start": 1086,
+                        "end": 1089,
                         "ctxt": 0
                       },
                       "value": "deg",
@@ -3114,8 +3302,8 @@
                   {
                     "type": "Delimiter",
                     "span": {
-                      "start": 1015,
-                      "end": 1016,
+                      "start": 1089,
+                      "end": 1090,
                       "ctxt": 0
                     },
                     "value": ","
@@ -3123,15 +3311,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1017,
-                      "end": 1021,
+                      "start": 1091,
+                      "end": 1095,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1017,
-                        "end": 1020,
+                        "start": 1091,
+                        "end": 1094,
                         "ctxt": 0
                       },
                       "value": 100.0,
@@ -3141,8 +3329,8 @@
                   {
                     "type": "Delimiter",
                     "span": {
-                      "start": 1021,
-                      "end": 1022,
+                      "start": 1095,
+                      "end": 1096,
                       "ctxt": 0
                     },
                     "value": ","
@@ -3150,15 +3338,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1023,
-                      "end": 1026,
+                      "start": 1097,
+                      "end": 1100,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1023,
-                        "end": 1025,
+                        "start": 1097,
+                        "end": 1099,
                         "ctxt": 0
                       },
                       "value": 50.0,
@@ -3173,15 +3361,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 1033,
-              "end": 1059,
+              "start": 1107,
+              "end": 1133,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 1033,
-                "end": 1038,
+                "start": 1107,
+                "end": 1112,
                 "ctxt": 0
               },
               "value": "color",
@@ -3191,15 +3379,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 1040,
-                  "end": 1059,
+                  "start": 1114,
+                  "end": 1133,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 1040,
-                    "end": 1043,
+                    "start": 1114,
+                    "end": 1117,
                     "ctxt": 0
                   },
                   "value": "hsl",
@@ -3209,273 +3397,273 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1044,
-                      "end": 1047,
-                      "ctxt": 0
-                    },
-                    "value": 100.0,
-                    "raw": "100"
-                  },
-                  {
-                    "type": "Delimiter",
-                    "span": {
-                      "start": 1047,
-                      "end": 1048,
-                      "ctxt": 0
-                    },
-                    "value": ","
-                  },
-                  {
-                    "type": "Percentage",
-                    "span": {
-                      "start": 1049,
-                      "end": 1053,
-                      "ctxt": 0
-                    },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 1049,
-                        "end": 1052,
-                        "ctxt": 0
-                      },
-                      "value": 100.0,
-                      "raw": "100"
-                    }
-                  },
-                  {
-                    "type": "Delimiter",
-                    "span": {
-                      "start": 1053,
-                      "end": 1054,
-                      "ctxt": 0
-                    },
-                    "value": ","
-                  },
-                  {
-                    "type": "Percentage",
-                    "span": {
-                      "start": 1055,
-                      "end": 1058,
-                      "ctxt": 0
-                    },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 1055,
-                        "end": 1057,
-                        "ctxt": 0
-                      },
-                      "value": 50.0,
-                      "raw": "50"
-                    }
-                  }
-                ]
-              }
-            ],
-            "important": null
-          },
-          {
-            "type": "Declaration",
-            "span": {
-              "start": 1065,
-              "end": 1089,
-              "ctxt": 0
-            },
-            "name": {
-              "type": "Ident",
-              "span": {
-                "start": 1065,
-                "end": 1070,
-                "ctxt": 0
-              },
-              "value": "color",
-              "raw": "color"
-            },
-            "value": [
-              {
-                "type": "Function",
-                "span": {
-                  "start": 1072,
-                  "end": 1089,
-                  "ctxt": 0
-                },
-                "name": {
-                  "type": "Ident",
-                  "span": {
-                    "start": 1072,
-                    "end": 1075,
-                    "ctxt": 0
-                  },
-                  "value": "hsl",
-                  "raw": "hsl"
-                },
-                "value": [
-                  {
-                    "type": "Number",
-                    "span": {
-                      "start": 1076,
-                      "end": 1079,
-                      "ctxt": 0
-                    },
-                    "value": 100.0,
-                    "raw": "100"
-                  },
-                  {
-                    "type": "Percentage",
-                    "span": {
-                      "start": 1080,
-                      "end": 1084,
-                      "ctxt": 0
-                    },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 1080,
-                        "end": 1083,
-                        "ctxt": 0
-                      },
-                      "value": 100.0,
-                      "raw": "100"
-                    }
-                  },
-                  {
-                    "type": "Percentage",
-                    "span": {
-                      "start": 1085,
-                      "end": 1088,
-                      "ctxt": 0
-                    },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 1085,
-                        "end": 1087,
-                        "ctxt": 0
-                      },
-                      "value": 50.0,
-                      "raw": "50"
-                    }
-                  }
-                ]
-              }
-            ],
-            "important": null
-          },
-          {
-            "type": "Declaration",
-            "span": {
-              "start": 1095,
-              "end": 1125,
-              "ctxt": 0
-            },
-            "name": {
-              "type": "Ident",
-              "span": {
-                "start": 1095,
-                "end": 1100,
-                "ctxt": 0
-              },
-              "value": "color",
-              "raw": "color"
-            },
-            "value": [
-              {
-                "type": "Function",
-                "span": {
-                  "start": 1102,
-                  "end": 1125,
-                  "ctxt": 0
-                },
-                "name": {
-                  "type": "Ident",
-                  "span": {
-                    "start": 1102,
-                    "end": 1105,
-                    "ctxt": 0
-                  },
-                  "value": "hsl",
-                  "raw": "hsl"
-                },
-                "value": [
-                  {
-                    "type": "Number",
-                    "span": {
-                      "start": 1106,
-                      "end": 1109,
-                      "ctxt": 0
-                    },
-                    "value": 100.0,
-                    "raw": "100"
-                  },
-                  {
-                    "type": "Delimiter",
-                    "span": {
-                      "start": 1109,
-                      "end": 1110,
-                      "ctxt": 0
-                    },
-                    "value": ","
-                  },
-                  {
-                    "type": "Percentage",
-                    "span": {
-                      "start": 1111,
-                      "end": 1115,
-                      "ctxt": 0
-                    },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 1111,
-                        "end": 1114,
-                        "ctxt": 0
-                      },
-                      "value": 100.0,
-                      "raw": "100"
-                    }
-                  },
-                  {
-                    "type": "Delimiter",
-                    "span": {
-                      "start": 1115,
-                      "end": 1116,
-                      "ctxt": 0
-                    },
-                    "value": ","
-                  },
-                  {
-                    "type": "Percentage",
-                    "span": {
-                      "start": 1117,
-                      "end": 1120,
-                      "ctxt": 0
-                    },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 1117,
-                        "end": 1119,
-                        "ctxt": 0
-                      },
-                      "value": 50.0,
-                      "raw": "50"
-                    }
-                  },
-                  {
-                    "type": "Delimiter",
-                    "span": {
-                      "start": 1120,
+                      "start": 1118,
                       "end": 1121,
                       "ctxt": 0
                     },
+                    "value": 100.0,
+                    "raw": "100"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 1121,
+                      "end": 1122,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 1123,
+                      "end": 1127,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1123,
+                        "end": 1126,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 1127,
+                      "end": 1128,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 1129,
+                      "end": 1132,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1129,
+                        "end": 1131,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1139,
+              "end": 1163,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 1139,
+                "end": 1144,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1146,
+                  "end": 1163,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 1146,
+                    "end": 1149,
+                    "ctxt": 0
+                  },
+                  "value": "hsl",
+                  "raw": "hsl"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1150,
+                      "end": 1153,
+                      "ctxt": 0
+                    },
+                    "value": 100.0,
+                    "raw": "100"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 1154,
+                      "end": 1158,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1154,
+                        "end": 1157,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    }
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 1159,
+                      "end": 1162,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1159,
+                        "end": 1161,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1169,
+              "end": 1199,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 1169,
+                "end": 1174,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1176,
+                  "end": 1199,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 1176,
+                    "end": 1179,
+                    "ctxt": 0
+                  },
+                  "value": "hsl",
+                  "raw": "hsl"
+                },
+                "value": [
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1180,
+                      "end": 1183,
+                      "ctxt": 0
+                    },
+                    "value": 100.0,
+                    "raw": "100"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 1183,
+                      "end": 1184,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 1185,
+                      "end": 1189,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1185,
+                        "end": 1188,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 1189,
+                      "end": 1190,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 1191,
+                      "end": 1194,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1191,
+                        "end": 1193,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 1194,
+                      "end": 1195,
+                      "ctxt": 0
+                    },
                     "value": ","
                   },
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1122,
-                      "end": 1124,
+                      "start": 1196,
+                      "end": 1198,
                       "ctxt": 0
                     },
                     "value": 0.8,
@@ -3489,15 +3677,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 1131,
-              "end": 1160,
+              "start": 1205,
+              "end": 1234,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 1131,
-                "end": 1136,
+                "start": 1205,
+                "end": 1210,
                 "ctxt": 0
               },
               "value": "color",
@@ -3507,15 +3695,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 1138,
-                  "end": 1160,
+                  "start": 1212,
+                  "end": 1234,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 1138,
-                    "end": 1141,
+                    "start": 1212,
+                    "end": 1215,
                     "ctxt": 0
                   },
                   "value": "hsl",
@@ -3525,8 +3713,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1142,
-                      "end": 1145,
+                      "start": 1216,
+                      "end": 1219,
                       "ctxt": 0
                     },
                     "value": 100.0,
@@ -3535,15 +3723,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1146,
-                      "end": 1150,
+                      "start": 1220,
+                      "end": 1224,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1146,
-                        "end": 1149,
+                        "start": 1220,
+                        "end": 1223,
                         "ctxt": 0
                       },
                       "value": 100.0,
@@ -3553,15 +3741,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1151,
-                      "end": 1154,
+                      "start": 1225,
+                      "end": 1228,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1151,
-                        "end": 1153,
+                        "start": 1225,
+                        "end": 1227,
                         "ctxt": 0
                       },
                       "value": 50.0,
@@ -3571,8 +3759,8 @@
                   {
                     "type": "Delimiter",
                     "span": {
-                      "start": 1155,
-                      "end": 1156,
+                      "start": 1229,
+                      "end": 1230,
                       "ctxt": 0
                     },
                     "value": "/"
@@ -3580,8 +3768,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1157,
-                      "end": 1159,
+                      "start": 1231,
+                      "end": 1233,
                       "ctxt": 0
                     },
                     "value": 0.8,
@@ -3598,31 +3786,31 @@
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 1165,
-        "end": 1247,
+        "start": 1239,
+        "end": 1321,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 1165,
-          "end": 1170,
+          "start": 1239,
+          "end": 1244,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 1165,
-              "end": 1170,
+              "start": 1239,
+              "end": 1244,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 1165,
-                  "end": 1170,
+                  "start": 1239,
+                  "end": 1244,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -3631,15 +3819,15 @@
                   {
                     "type": "ClassSelector",
                     "span": {
-                      "start": 1165,
-                      "end": 1170,
+                      "start": 1239,
+                      "end": 1244,
                       "ctxt": 0
                     },
                     "text": {
                       "type": "Ident",
                       "span": {
-                        "start": 1166,
-                        "end": 1170,
+                        "start": 1240,
+                        "end": 1244,
                         "ctxt": 0
                       },
                       "value": "hsla",
@@ -3655,8 +3843,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 1171,
-          "end": 1247,
+          "start": 1245,
+          "end": 1321,
           "ctxt": 0
         },
         "name": "{",
@@ -3664,15 +3852,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 1177,
-              "end": 1208,
+              "start": 1251,
+              "end": 1282,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 1177,
-                "end": 1182,
+                "start": 1251,
+                "end": 1256,
                 "ctxt": 0
               },
               "value": "color",
@@ -3682,15 +3870,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 1184,
-                  "end": 1208,
+                  "start": 1258,
+                  "end": 1282,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 1184,
-                    "end": 1188,
+                    "start": 1258,
+                    "end": 1262,
                     "ctxt": 0
                   },
                   "value": "hsla",
@@ -3700,8 +3888,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1189,
-                      "end": 1192,
+                      "start": 1263,
+                      "end": 1266,
                       "ctxt": 0
                     },
                     "value": 100.0,
@@ -3710,8 +3898,8 @@
                   {
                     "type": "Delimiter",
                     "span": {
-                      "start": 1192,
-                      "end": 1193,
+                      "start": 1266,
+                      "end": 1267,
                       "ctxt": 0
                     },
                     "value": ","
@@ -3719,15 +3907,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1194,
-                      "end": 1198,
+                      "start": 1268,
+                      "end": 1272,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1194,
-                        "end": 1197,
+                        "start": 1268,
+                        "end": 1271,
                         "ctxt": 0
                       },
                       "value": 100.0,
@@ -3737,8 +3925,8 @@
                   {
                     "type": "Delimiter",
                     "span": {
-                      "start": 1198,
-                      "end": 1199,
+                      "start": 1272,
+                      "end": 1273,
                       "ctxt": 0
                     },
                     "value": ","
@@ -3746,15 +3934,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1200,
-                      "end": 1203,
+                      "start": 1274,
+                      "end": 1277,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1200,
-                        "end": 1202,
+                        "start": 1274,
+                        "end": 1276,
                         "ctxt": 0
                       },
                       "value": 50.0,
@@ -3764,8 +3952,8 @@
                   {
                     "type": "Delimiter",
                     "span": {
-                      "start": 1203,
-                      "end": 1204,
+                      "start": 1277,
+                      "end": 1278,
                       "ctxt": 0
                     },
                     "value": ","
@@ -3773,8 +3961,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1205,
-                      "end": 1207,
+                      "start": 1279,
+                      "end": 1281,
                       "ctxt": 0
                     },
                     "value": 0.8,
@@ -3788,15 +3976,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 1214,
-              "end": 1244,
+              "start": 1288,
+              "end": 1318,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 1214,
-                "end": 1219,
+                "start": 1288,
+                "end": 1293,
                 "ctxt": 0
               },
               "value": "color",
@@ -3806,15 +3994,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 1221,
-                  "end": 1244,
+                  "start": 1295,
+                  "end": 1318,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 1221,
-                    "end": 1225,
+                    "start": 1295,
+                    "end": 1299,
                     "ctxt": 0
                   },
                   "value": "hsla",
@@ -3824,8 +4012,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1226,
-                      "end": 1229,
+                      "start": 1300,
+                      "end": 1303,
                       "ctxt": 0
                     },
                     "value": 100.0,
@@ -3834,15 +4022,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1230,
-                      "end": 1234,
+                      "start": 1304,
+                      "end": 1308,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1230,
-                        "end": 1233,
+                        "start": 1304,
+                        "end": 1307,
                         "ctxt": 0
                       },
                       "value": 100.0,
@@ -3852,15 +4040,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1235,
-                      "end": 1238,
+                      "start": 1309,
+                      "end": 1312,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1235,
-                        "end": 1237,
+                        "start": 1309,
+                        "end": 1311,
                         "ctxt": 0
                       },
                       "value": 50.0,
@@ -3870,8 +4058,8 @@
                   {
                     "type": "Delimiter",
                     "span": {
-                      "start": 1239,
-                      "end": 1240,
+                      "start": 1313,
+                      "end": 1314,
                       "ctxt": 0
                     },
                     "value": "/"
@@ -3879,8 +4067,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1241,
-                      "end": 1243,
+                      "start": 1315,
+                      "end": 1317,
                       "ctxt": 0
                     },
                     "value": 0.8,
@@ -3897,31 +4085,31 @@
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 1249,
-        "end": 1402,
+        "start": 1323,
+        "end": 1476,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 1249,
-          "end": 1253,
+          "start": 1323,
+          "end": 1327,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 1249,
-              "end": 1253,
+              "start": 1323,
+              "end": 1327,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 1249,
-                  "end": 1253,
+                  "start": 1323,
+                  "end": 1327,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -3930,15 +4118,15 @@
                   {
                     "type": "ClassSelector",
                     "span": {
-                      "start": 1249,
-                      "end": 1253,
+                      "start": 1323,
+                      "end": 1327,
                       "ctxt": 0
                     },
                     "text": {
                       "type": "Ident",
                       "span": {
-                        "start": 1250,
-                        "end": 1253,
+                        "start": 1324,
+                        "end": 1327,
                         "ctxt": 0
                       },
                       "value": "hwb",
@@ -3954,8 +4142,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 1254,
-          "end": 1402,
+          "start": 1328,
+          "end": 1476,
           "ctxt": 0
         },
         "name": "{",
@@ -3963,15 +4151,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 1260,
-              "end": 1281,
+              "start": 1334,
+              "end": 1355,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 1260,
-                "end": 1265,
+                "start": 1334,
+                "end": 1339,
                 "ctxt": 0
               },
               "value": "color",
@@ -3981,15 +4169,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 1267,
-                  "end": 1281,
+                  "start": 1341,
+                  "end": 1355,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 1267,
-                    "end": 1270,
+                    "start": 1341,
+                    "end": 1344,
                     "ctxt": 0
                   },
                   "value": "hwb",
@@ -3999,8 +4187,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1271,
-                      "end": 1274,
+                      "start": 1345,
+                      "end": 1348,
                       "ctxt": 0
                     },
                     "value": 194.0,
@@ -4009,15 +4197,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1275,
-                      "end": 1277,
+                      "start": 1349,
+                      "end": 1351,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1275,
-                        "end": 1276,
+                        "start": 1349,
+                        "end": 1350,
                         "ctxt": 0
                       },
                       "value": 0.0,
@@ -4027,15 +4215,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1278,
-                      "end": 1280,
+                      "start": 1352,
+                      "end": 1354,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1278,
-                        "end": 1279,
+                        "start": 1352,
+                        "end": 1353,
                         "ctxt": 0
                       },
                       "value": 0.0,
@@ -4050,15 +4238,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 1287,
-              "end": 1314,
+              "start": 1361,
+              "end": 1388,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 1287,
-                "end": 1292,
+                "start": 1361,
+                "end": 1366,
                 "ctxt": 0
               },
               "value": "color",
@@ -4068,15 +4256,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 1294,
-                  "end": 1314,
+                  "start": 1368,
+                  "end": 1388,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 1294,
-                    "end": 1297,
+                    "start": 1368,
+                    "end": 1371,
                     "ctxt": 0
                   },
                   "value": "hwb",
@@ -4086,8 +4274,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1298,
-                      "end": 1301,
+                      "start": 1372,
+                      "end": 1375,
                       "ctxt": 0
                     },
                     "value": 194.0,
@@ -4096,15 +4284,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1302,
-                      "end": 1304,
+                      "start": 1376,
+                      "end": 1378,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1302,
-                        "end": 1303,
+                        "start": 1376,
+                        "end": 1377,
                         "ctxt": 0
                       },
                       "value": 0.0,
@@ -4114,15 +4302,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1305,
-                      "end": 1307,
+                      "start": 1379,
+                      "end": 1381,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1305,
-                        "end": 1306,
+                        "start": 1379,
+                        "end": 1380,
                         "ctxt": 0
                       },
                       "value": 0.0,
@@ -4132,8 +4320,8 @@
                   {
                     "type": "Delimiter",
                     "span": {
-                      "start": 1308,
-                      "end": 1309,
+                      "start": 1382,
+                      "end": 1383,
                       "ctxt": 0
                     },
                     "value": "/"
@@ -4141,15 +4329,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1310,
-                      "end": 1313,
+                      "start": 1384,
+                      "end": 1387,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1310,
-                        "end": 1312,
+                        "start": 1384,
+                        "end": 1386,
                         "ctxt": 0
                       },
                       "value": 50.0,
@@ -4164,15 +4352,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 1320,
-              "end": 1342,
+              "start": 1394,
+              "end": 1416,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 1320,
-                "end": 1325,
+                "start": 1394,
+                "end": 1399,
                 "ctxt": 0
               },
               "value": "color",
@@ -4182,15 +4370,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 1327,
-                  "end": 1342,
+                  "start": 1401,
+                  "end": 1416,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 1327,
-                    "end": 1330,
+                    "start": 1401,
+                    "end": 1404,
                     "ctxt": 0
                   },
                   "value": "hwb",
@@ -4200,8 +4388,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1331,
-                      "end": 1334,
+                      "start": 1405,
+                      "end": 1408,
                       "ctxt": 0
                     },
                     "value": 194.0,
@@ -4210,15 +4398,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1335,
-                      "end": 1337,
+                      "start": 1409,
+                      "end": 1411,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1335,
-                        "end": 1336,
+                        "start": 1409,
+                        "end": 1410,
                         "ctxt": 0
                       },
                       "value": 0.0,
@@ -4228,15 +4416,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1338,
-                      "end": 1341,
+                      "start": 1412,
+                      "end": 1415,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1338,
-                        "end": 1340,
+                        "start": 1412,
+                        "end": 1414,
                         "ctxt": 0
                       },
                       "value": 50.0,
@@ -4251,15 +4439,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 1348,
-              "end": 1370,
+              "start": 1422,
+              "end": 1444,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 1348,
-                "end": 1353,
+                "start": 1422,
+                "end": 1427,
                 "ctxt": 0
               },
               "value": "color",
@@ -4269,15 +4457,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 1355,
-                  "end": 1370,
+                  "start": 1429,
+                  "end": 1444,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 1355,
-                    "end": 1358,
+                    "start": 1429,
+                    "end": 1432,
                     "ctxt": 0
                   },
                   "value": "hwb",
@@ -4287,8 +4475,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1359,
-                      "end": 1362,
+                      "start": 1433,
+                      "end": 1436,
                       "ctxt": 0
                     },
                     "value": 194.0,
@@ -4297,15 +4485,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1363,
-                      "end": 1366,
+                      "start": 1437,
+                      "end": 1440,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1363,
-                        "end": 1365,
+                        "start": 1437,
+                        "end": 1439,
                         "ctxt": 0
                       },
                       "value": 50.0,
@@ -4315,15 +4503,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1367,
-                      "end": 1369,
+                      "start": 1441,
+                      "end": 1443,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1367,
-                        "end": 1368,
+                        "start": 1441,
+                        "end": 1442,
                         "ctxt": 0
                       },
                       "value": 0.0,
@@ -4338,15 +4526,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 1376,
-              "end": 1399,
+              "start": 1450,
+              "end": 1473,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 1376,
-                "end": 1381,
+                "start": 1450,
+                "end": 1455,
                 "ctxt": 0
               },
               "value": "color",
@@ -4356,15 +4544,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 1383,
-                  "end": 1399,
+                  "start": 1457,
+                  "end": 1473,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 1383,
-                    "end": 1386,
+                    "start": 1457,
+                    "end": 1460,
                     "ctxt": 0
                   },
                   "value": "hwb",
@@ -4374,8 +4562,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1387,
-                      "end": 1390,
+                      "start": 1461,
+                      "end": 1464,
                       "ctxt": 0
                     },
                     "value": 194.0,
@@ -4384,15 +4572,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1391,
-                      "end": 1394,
+                      "start": 1465,
+                      "end": 1468,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1391,
-                        "end": 1393,
+                        "start": 1465,
+                        "end": 1467,
                         "ctxt": 0
                       },
                       "value": 50.0,
@@ -4402,15 +4590,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1395,
-                      "end": 1398,
+                      "start": 1469,
+                      "end": 1472,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1395,
-                        "end": 1397,
+                        "start": 1469,
+                        "end": 1471,
                         "ctxt": 0
                       },
                       "value": 50.0,
@@ -4428,31 +4616,31 @@
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 1404,
-        "end": 1551,
+        "start": 1478,
+        "end": 1625,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 1404,
-          "end": 1408,
+          "start": 1478,
+          "end": 1482,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 1404,
-              "end": 1408,
+              "start": 1478,
+              "end": 1482,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 1404,
-                  "end": 1408,
+                  "start": 1478,
+                  "end": 1482,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -4461,15 +4649,15 @@
                   {
                     "type": "ClassSelector",
                     "span": {
-                      "start": 1404,
-                      "end": 1408,
+                      "start": 1478,
+                      "end": 1482,
                       "ctxt": 0
                     },
                     "text": {
                       "type": "Ident",
                       "span": {
-                        "start": 1405,
-                        "end": 1408,
+                        "start": 1479,
+                        "end": 1482,
                         "ctxt": 0
                       },
                       "value": "lab",
@@ -4485,8 +4673,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 1409,
-          "end": 1551,
+          "start": 1483,
+          "end": 1625,
           "ctxt": 0
         },
         "name": "{",
@@ -4494,15 +4682,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 1415,
-              "end": 1451,
+              "start": 1489,
+              "end": 1525,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 1415,
-                "end": 1420,
+                "start": 1489,
+                "end": 1494,
                 "ctxt": 0
               },
               "value": "color",
@@ -4512,15 +4700,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 1422,
-                  "end": 1451,
+                  "start": 1496,
+                  "end": 1525,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 1422,
-                    "end": 1425,
+                    "start": 1496,
+                    "end": 1499,
                     "ctxt": 0
                   },
                   "value": "lab",
@@ -4530,15 +4718,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1426,
-                      "end": 1434,
+                      "start": 1500,
+                      "end": 1508,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1426,
-                        "end": 1433,
+                        "start": 1500,
+                        "end": 1507,
                         "ctxt": 0
                       },
                       "value": 29.2345,
@@ -4548,8 +4736,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1435,
-                      "end": 1442,
+                      "start": 1509,
+                      "end": 1516,
                       "ctxt": 0
                     },
                     "value": 39.3825,
@@ -4558,8 +4746,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1443,
-                      "end": 1450,
+                      "start": 1517,
+                      "end": 1524,
                       "ctxt": 0
                     },
                     "value": 20.0664,
@@ -4573,15 +4761,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 1457,
-              "end": 1500,
+              "start": 1531,
+              "end": 1574,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 1457,
-                "end": 1462,
+                "start": 1531,
+                "end": 1536,
                 "ctxt": 0
               },
               "value": "color",
@@ -4591,15 +4779,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 1464,
-                  "end": 1500,
+                  "start": 1538,
+                  "end": 1574,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 1464,
-                    "end": 1467,
+                    "start": 1538,
+                    "end": 1541,
                     "ctxt": 0
                   },
                   "value": "lab",
@@ -4609,15 +4797,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1468,
-                      "end": 1476,
+                      "start": 1542,
+                      "end": 1550,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1468,
-                        "end": 1475,
+                        "start": 1542,
+                        "end": 1549,
                         "ctxt": 0
                       },
                       "value": 29.2345,
@@ -4627,8 +4815,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1477,
-                      "end": 1484,
+                      "start": 1551,
+                      "end": 1558,
                       "ctxt": 0
                     },
                     "value": 39.3825,
@@ -4637,8 +4825,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1485,
-                      "end": 1492,
+                      "start": 1559,
+                      "end": 1566,
                       "ctxt": 0
                     },
                     "value": 20.0664,
@@ -4647,8 +4835,8 @@
                   {
                     "type": "Delimiter",
                     "span": {
-                      "start": 1493,
-                      "end": 1494,
+                      "start": 1567,
+                      "end": 1568,
                       "ctxt": 0
                     },
                     "value": "/"
@@ -4656,15 +4844,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1495,
-                      "end": 1499,
+                      "start": 1569,
+                      "end": 1573,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1495,
-                        "end": 1498,
+                        "start": 1569,
+                        "end": 1572,
                         "ctxt": 0
                       },
                       "value": 100.0,
@@ -4679,15 +4867,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 1506,
-              "end": 1548,
+              "start": 1580,
+              "end": 1622,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 1506,
-                "end": 1511,
+                "start": 1580,
+                "end": 1585,
                 "ctxt": 0
               },
               "value": "color",
@@ -4697,15 +4885,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 1513,
-                  "end": 1548,
+                  "start": 1587,
+                  "end": 1622,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 1513,
-                    "end": 1516,
+                    "start": 1587,
+                    "end": 1590,
                     "ctxt": 0
                   },
                   "value": "lab",
@@ -4715,15 +4903,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1517,
-                      "end": 1525,
+                      "start": 1591,
+                      "end": 1599,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1517,
-                        "end": 1524,
+                        "start": 1591,
+                        "end": 1598,
                         "ctxt": 0
                       },
                       "value": 29.2345,
@@ -4733,8 +4921,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1526,
-                      "end": 1533,
+                      "start": 1600,
+                      "end": 1607,
                       "ctxt": 0
                     },
                     "value": 39.3825,
@@ -4743,8 +4931,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1534,
-                      "end": 1541,
+                      "start": 1608,
+                      "end": 1615,
                       "ctxt": 0
                     },
                     "value": 20.0664,
@@ -4753,8 +4941,8 @@
                   {
                     "type": "Delimiter",
                     "span": {
-                      "start": 1542,
-                      "end": 1543,
+                      "start": 1616,
+                      "end": 1617,
                       "ctxt": 0
                     },
                     "value": "/"
@@ -4762,15 +4950,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1544,
-                      "end": 1547,
+                      "start": 1618,
+                      "end": 1621,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1544,
-                        "end": 1546,
+                        "start": 1618,
+                        "end": 1620,
                         "ctxt": 0
                       },
                       "value": 50.0,
@@ -4788,31 +4976,31 @@
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 1553,
-        "end": 1791,
+        "start": 1627,
+        "end": 1865,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 1553,
-          "end": 1557,
+          "start": 1627,
+          "end": 1631,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 1553,
-              "end": 1557,
+              "start": 1627,
+              "end": 1631,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 1553,
-                  "end": 1557,
+                  "start": 1627,
+                  "end": 1631,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -4821,15 +5009,15 @@
                   {
                     "type": "ClassSelector",
                     "span": {
-                      "start": 1553,
-                      "end": 1557,
+                      "start": 1627,
+                      "end": 1631,
                       "ctxt": 0
                     },
                     "text": {
                       "type": "Ident",
                       "span": {
-                        "start": 1554,
-                        "end": 1557,
+                        "start": 1628,
+                        "end": 1631,
                         "ctxt": 0
                       },
                       "value": "lch",
@@ -4845,8 +5033,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 1558,
-          "end": 1791,
+          "start": 1632,
+          "end": 1865,
           "ctxt": 0
         },
         "name": "{",
@@ -4854,185 +5042,8 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 1564,
-              "end": 1598,
-              "ctxt": 0
-            },
-            "name": {
-              "type": "Ident",
-              "span": {
-                "start": 1564,
-                "end": 1569,
-                "ctxt": 0
-              },
-              "value": "color",
-              "raw": "color"
-            },
-            "value": [
-              {
-                "type": "Function",
-                "span": {
-                  "start": 1571,
-                  "end": 1598,
-                  "ctxt": 0
-                },
-                "name": {
-                  "type": "Ident",
-                  "span": {
-                    "start": 1571,
-                    "end": 1574,
-                    "ctxt": 0
-                  },
-                  "value": "lch",
-                  "raw": "lch"
-                },
-                "value": [
-                  {
-                    "type": "Percentage",
-                    "span": {
-                      "start": 1575,
-                      "end": 1583,
-                      "ctxt": 0
-                    },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 1575,
-                        "end": 1582,
-                        "ctxt": 0
-                      },
-                      "value": 52.2345,
-                      "raw": "52.2345"
-                    }
-                  },
-                  {
-                    "type": "Number",
-                    "span": {
-                      "start": 1584,
-                      "end": 1588,
-                      "ctxt": 0
-                    },
-                    "value": 72.2,
-                    "raw": "72.2"
-                  },
-                  {
-                    "type": "Number",
-                    "span": {
-                      "start": 1589,
-                      "end": 1593,
-                      "ctxt": 0
-                    },
-                    "value": 56.2,
-                    "raw": "56.2"
-                  },
-                  {
-                    "type": "Delimiter",
-                    "span": {
-                      "start": 1594,
-                      "end": 1595,
-                      "ctxt": 0
-                    },
-                    "value": "/"
-                  },
-                  {
-                    "type": "Number",
-                    "span": {
-                      "start": 1596,
-                      "end": 1597,
-                      "ctxt": 0
-                    },
-                    "value": 1.0,
-                    "raw": "1"
-                  }
-                ]
-              }
-            ],
-            "important": null
-          },
-          {
-            "type": "Declaration",
-            "span": {
-              "start": 1604,
-              "end": 1632,
-              "ctxt": 0
-            },
-            "name": {
-              "type": "Ident",
-              "span": {
-                "start": 1604,
-                "end": 1609,
-                "ctxt": 0
-              },
-              "value": "color",
-              "raw": "color"
-            },
-            "value": [
-              {
-                "type": "Function",
-                "span": {
-                  "start": 1611,
-                  "end": 1632,
-                  "ctxt": 0
-                },
-                "name": {
-                  "type": "Ident",
-                  "span": {
-                    "start": 1611,
-                    "end": 1614,
-                    "ctxt": 0
-                  },
-                  "value": "lch",
-                  "raw": "lch"
-                },
-                "value": [
-                  {
-                    "type": "Percentage",
-                    "span": {
-                      "start": 1615,
-                      "end": 1623,
-                      "ctxt": 0
-                    },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 1615,
-                        "end": 1622,
-                        "ctxt": 0
-                      },
-                      "value": 29.2345,
-                      "raw": "29.2345"
-                    }
-                  },
-                  {
-                    "type": "Number",
-                    "span": {
-                      "start": 1624,
-                      "end": 1628,
-                      "ctxt": 0
-                    },
-                    "value": 44.2,
-                    "raw": "44.2"
-                  },
-                  {
-                    "type": "Number",
-                    "span": {
-                      "start": 1629,
-                      "end": 1631,
-                      "ctxt": 0
-                    },
-                    "value": 27.0,
-                    "raw": "27"
-                  }
-                ]
-              }
-            ],
-            "important": null
-          },
-          {
-            "type": "Declaration",
-            "span": {
               "start": 1638,
-              "end": 1669,
+              "end": 1672,
               "ctxt": 0
             },
             "name": {
@@ -5050,7 +5061,7 @@
                 "type": "Function",
                 "span": {
                   "start": 1645,
-                  "end": 1669,
+                  "end": 1672,
                   "ctxt": 0
                 },
                 "name": {
@@ -5078,8 +5089,8 @@
                         "end": 1656,
                         "ctxt": 0
                       },
-                      "value": 29.2345,
-                      "raw": "29.2345"
+                      "value": 52.2345,
+                      "raw": "52.2345"
                     }
                   },
                   {
@@ -5089,21 +5100,198 @@
                       "end": 1662,
                       "ctxt": 0
                     },
+                    "value": 72.2,
+                    "raw": "72.2"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1663,
+                      "end": 1667,
+                      "ctxt": 0
+                    },
+                    "value": 56.2,
+                    "raw": "56.2"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 1668,
+                      "end": 1669,
+                      "ctxt": 0
+                    },
+                    "value": "/"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1670,
+                      "end": 1671,
+                      "ctxt": 0
+                    },
+                    "value": 1.0,
+                    "raw": "1"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1678,
+              "end": 1706,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 1678,
+                "end": 1683,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1685,
+                  "end": 1706,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 1685,
+                    "end": 1688,
+                    "ctxt": 0
+                  },
+                  "value": "lch",
+                  "raw": "lch"
+                },
+                "value": [
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 1689,
+                      "end": 1697,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1689,
+                        "end": 1696,
+                        "ctxt": 0
+                      },
+                      "value": 29.2345,
+                      "raw": "29.2345"
+                    }
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1698,
+                      "end": 1702,
+                      "ctxt": 0
+                    },
+                    "value": 44.2,
+                    "raw": "44.2"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1703,
+                      "end": 1705,
+                      "ctxt": 0
+                    },
+                    "value": 27.0,
+                    "raw": "27"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 1712,
+              "end": 1743,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 1712,
+                "end": 1717,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 1719,
+                  "end": 1743,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 1719,
+                    "end": 1722,
+                    "ctxt": 0
+                  },
+                  "value": "lch",
+                  "raw": "lch"
+                },
+                "value": [
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 1723,
+                      "end": 1731,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 1723,
+                        "end": 1730,
+                        "ctxt": 0
+                      },
+                      "value": 29.2345,
+                      "raw": "29.2345"
+                    }
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 1732,
+                      "end": 1736,
+                      "ctxt": 0
+                    },
                     "value": 44.2,
                     "raw": "44.2"
                   },
                   {
                     "type": "Angle",
                     "span": {
-                      "start": 1663,
-                      "end": 1668,
+                      "start": 1737,
+                      "end": 1742,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1663,
-                        "end": 1665,
+                        "start": 1737,
+                        "end": 1739,
                         "ctxt": 0
                       },
                       "value": 45.0,
@@ -5112,8 +5300,8 @@
                     "unit": {
                       "type": "Ident",
                       "span": {
-                        "start": 1665,
-                        "end": 1668,
+                        "start": 1739,
+                        "end": 1742,
                         "ctxt": 0
                       },
                       "value": "deg",
@@ -5128,15 +5316,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 1675,
-              "end": 1707,
+              "start": 1749,
+              "end": 1781,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 1675,
-                "end": 1680,
+                "start": 1749,
+                "end": 1754,
                 "ctxt": 0
               },
               "value": "color",
@@ -5146,15 +5334,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 1682,
-                  "end": 1707,
+                  "start": 1756,
+                  "end": 1781,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 1682,
-                    "end": 1685,
+                    "start": 1756,
+                    "end": 1759,
                     "ctxt": 0
                   },
                   "value": "lch",
@@ -5164,15 +5352,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1686,
-                      "end": 1694,
+                      "start": 1760,
+                      "end": 1768,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1686,
-                        "end": 1693,
+                        "start": 1760,
+                        "end": 1767,
                         "ctxt": 0
                       },
                       "value": 29.2345,
@@ -5182,8 +5370,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1695,
-                      "end": 1699,
+                      "start": 1769,
+                      "end": 1773,
                       "ctxt": 0
                     },
                     "value": 44.2,
@@ -5192,15 +5380,15 @@
                   {
                     "type": "Angle",
                     "span": {
-                      "start": 1700,
-                      "end": 1706,
+                      "start": 1774,
+                      "end": 1780,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1700,
-                        "end": 1702,
+                        "start": 1774,
+                        "end": 1776,
                         "ctxt": 0
                       },
                       "value": 0.5,
@@ -5209,8 +5397,8 @@
                     "unit": {
                       "type": "Ident",
                       "span": {
-                        "start": 1702,
-                        "end": 1706,
+                        "start": 1776,
+                        "end": 1780,
                         "ctxt": 0
                       },
                       "value": "turn",
@@ -5225,15 +5413,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 1713,
-              "end": 1748,
+              "start": 1787,
+              "end": 1822,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 1713,
-                "end": 1718,
+                "start": 1787,
+                "end": 1792,
                 "ctxt": 0
               },
               "value": "color",
@@ -5243,15 +5431,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 1720,
-                  "end": 1748,
+                  "start": 1794,
+                  "end": 1822,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 1720,
-                    "end": 1723,
+                    "start": 1794,
+                    "end": 1797,
                     "ctxt": 0
                   },
                   "value": "lch",
@@ -5261,15 +5449,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1724,
-                      "end": 1732,
+                      "start": 1798,
+                      "end": 1806,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1724,
-                        "end": 1731,
+                        "start": 1798,
+                        "end": 1805,
                         "ctxt": 0
                       },
                       "value": 29.2345,
@@ -5279,8 +5467,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1733,
-                      "end": 1737,
+                      "start": 1807,
+                      "end": 1811,
                       "ctxt": 0
                     },
                     "value": 44.2,
@@ -5289,8 +5477,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1738,
-                      "end": 1740,
+                      "start": 1812,
+                      "end": 1814,
                       "ctxt": 0
                     },
                     "value": 27.0,
@@ -5299,8 +5487,8 @@
                   {
                     "type": "Delimiter",
                     "span": {
-                      "start": 1741,
-                      "end": 1742,
+                      "start": 1815,
+                      "end": 1816,
                       "ctxt": 0
                     },
                     "value": "/"
@@ -5308,15 +5496,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1743,
-                      "end": 1747,
+                      "start": 1817,
+                      "end": 1821,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1743,
-                        "end": 1746,
+                        "start": 1817,
+                        "end": 1820,
                         "ctxt": 0
                       },
                       "value": 100.0,
@@ -5331,15 +5519,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 1754,
-              "end": 1788,
+              "start": 1828,
+              "end": 1862,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 1754,
-                "end": 1759,
+                "start": 1828,
+                "end": 1833,
                 "ctxt": 0
               },
               "value": "color",
@@ -5349,15 +5537,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 1761,
-                  "end": 1788,
+                  "start": 1835,
+                  "end": 1862,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 1761,
-                    "end": 1764,
+                    "start": 1835,
+                    "end": 1838,
                     "ctxt": 0
                   },
                   "value": "lch",
@@ -5367,15 +5555,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1765,
-                      "end": 1773,
+                      "start": 1839,
+                      "end": 1847,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1765,
-                        "end": 1772,
+                        "start": 1839,
+                        "end": 1846,
                         "ctxt": 0
                       },
                       "value": 29.2345,
@@ -5385,8 +5573,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1774,
-                      "end": 1778,
+                      "start": 1848,
+                      "end": 1852,
                       "ctxt": 0
                     },
                     "value": 44.2,
@@ -5395,8 +5583,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1779,
-                      "end": 1781,
+                      "start": 1853,
+                      "end": 1855,
                       "ctxt": 0
                     },
                     "value": 27.0,
@@ -5405,8 +5593,8 @@
                   {
                     "type": "Delimiter",
                     "span": {
-                      "start": 1782,
-                      "end": 1783,
+                      "start": 1856,
+                      "end": 1857,
                       "ctxt": 0
                     },
                     "value": "/"
@@ -5414,15 +5602,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1784,
-                      "end": 1787,
+                      "start": 1858,
+                      "end": 1861,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1784,
-                        "end": 1786,
+                        "start": 1858,
+                        "end": 1860,
                         "ctxt": 0
                       },
                       "value": 50.0,
@@ -5440,31 +5628,31 @@
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 1793,
-        "end": 1844,
+        "start": 1867,
+        "end": 1918,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 1793,
-          "end": 1799,
+          "start": 1867,
+          "end": 1873,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 1793,
-              "end": 1799,
+              "start": 1867,
+              "end": 1873,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 1793,
-                  "end": 1799,
+                  "start": 1867,
+                  "end": 1873,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -5473,15 +5661,15 @@
                   {
                     "type": "ClassSelector",
                     "span": {
-                      "start": 1793,
-                      "end": 1799,
+                      "start": 1867,
+                      "end": 1873,
                       "ctxt": 0
                     },
                     "text": {
                       "type": "Ident",
                       "span": {
-                        "start": 1794,
-                        "end": 1799,
+                        "start": 1868,
+                        "end": 1873,
                         "ctxt": 0
                       },
                       "value": "oklab",
@@ -5497,8 +5685,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 1800,
-          "end": 1844,
+          "start": 1874,
+          "end": 1918,
           "ctxt": 0
         },
         "name": "{",
@@ -5506,15 +5694,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 1806,
-              "end": 1841,
+              "start": 1880,
+              "end": 1915,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 1806,
-                "end": 1811,
+                "start": 1880,
+                "end": 1885,
                 "ctxt": 0
               },
               "value": "color",
@@ -5524,15 +5712,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 1813,
-                  "end": 1841,
+                  "start": 1887,
+                  "end": 1915,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 1813,
-                    "end": 1818,
+                    "start": 1887,
+                    "end": 1892,
                     "ctxt": 0
                   },
                   "value": "oklab",
@@ -5542,15 +5730,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1819,
-                      "end": 1826,
+                      "start": 1893,
+                      "end": 1900,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1819,
-                        "end": 1825,
+                        "start": 1893,
+                        "end": 1899,
                         "ctxt": 0
                       },
                       "value": 40.101,
@@ -5560,8 +5748,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1827,
-                      "end": 1833,
+                      "start": 1901,
+                      "end": 1907,
                       "ctxt": 0
                     },
                     "value": 0.1147,
@@ -5570,8 +5758,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1834,
-                      "end": 1840,
+                      "start": 1908,
+                      "end": 1914,
                       "ctxt": 0
                     },
                     "value": 0.0453,
@@ -5588,31 +5776,31 @@
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 1846,
-        "end": 1934,
+        "start": 1920,
+        "end": 2008,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 1846,
-          "end": 1852,
+          "start": 1920,
+          "end": 1926,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 1846,
-              "end": 1852,
+              "start": 1920,
+              "end": 1926,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 1846,
-                  "end": 1852,
+                  "start": 1920,
+                  "end": 1926,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -5621,15 +5809,15 @@
                   {
                     "type": "ClassSelector",
                     "span": {
-                      "start": 1846,
-                      "end": 1852,
+                      "start": 1920,
+                      "end": 1926,
                       "ctxt": 0
                     },
                     "text": {
                       "type": "Ident",
                       "span": {
-                        "start": 1847,
-                        "end": 1852,
+                        "start": 1921,
+                        "end": 1926,
                         "ctxt": 0
                       },
                       "value": "oklch",
@@ -5645,8 +5833,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 1853,
-          "end": 1934,
+          "start": 1927,
+          "end": 2008,
           "ctxt": 0
         },
         "name": "{",
@@ -5654,15 +5842,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 1859,
-              "end": 1894,
+              "start": 1933,
+              "end": 1968,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 1859,
-                "end": 1864,
+                "start": 1933,
+                "end": 1938,
                 "ctxt": 0
               },
               "value": "color",
@@ -5672,15 +5860,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 1866,
-                  "end": 1894,
+                  "start": 1940,
+                  "end": 1968,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 1866,
-                    "end": 1871,
+                    "start": 1940,
+                    "end": 1945,
                     "ctxt": 0
                   },
                   "value": "oklch",
@@ -5690,15 +5878,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1872,
-                      "end": 1877,
+                      "start": 1946,
+                      "end": 1951,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1872,
-                        "end": 1876,
+                        "start": 1946,
+                        "end": 1950,
                         "ctxt": 0
                       },
                       "value": 42.1,
@@ -5708,8 +5896,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1878,
-                      "end": 1883,
+                      "start": 1952,
+                      "end": 1957,
                       "ctxt": 0
                     },
                     "value": 0.192,
@@ -5718,8 +5906,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1884,
-                      "end": 1889,
+                      "start": 1958,
+                      "end": 1963,
                       "ctxt": 0
                     },
                     "value": 328.6,
@@ -5728,8 +5916,8 @@
                   {
                     "type": "Delimiter",
                     "span": {
-                      "start": 1890,
-                      "end": 1891,
+                      "start": 1964,
+                      "end": 1965,
                       "ctxt": 0
                     },
                     "value": "/"
@@ -5737,8 +5925,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1892,
-                      "end": 1893,
+                      "start": 1966,
+                      "end": 1967,
                       "ctxt": 0
                     },
                     "value": 1.0,
@@ -5752,15 +5940,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 1900,
-              "end": 1931,
+              "start": 1974,
+              "end": 2005,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 1900,
-                "end": 1905,
+                "start": 1974,
+                "end": 1979,
                 "ctxt": 0
               },
               "value": "color",
@@ -5770,15 +5958,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 1907,
-                  "end": 1931,
+                  "start": 1981,
+                  "end": 2005,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 1907,
-                    "end": 1912,
+                    "start": 1981,
+                    "end": 1986,
                     "ctxt": 0
                   },
                   "value": "oklch",
@@ -5788,15 +5976,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 1913,
-                      "end": 1918,
+                      "start": 1987,
+                      "end": 1992,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 1913,
-                        "end": 1917,
+                        "start": 1987,
+                        "end": 1991,
                         "ctxt": 0
                       },
                       "value": 42.1,
@@ -5806,8 +5994,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1919,
-                      "end": 1924,
+                      "start": 1993,
+                      "end": 1998,
                       "ctxt": 0
                     },
                     "value": 0.192,
@@ -5816,8 +6004,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 1925,
-                      "end": 1930,
+                      "start": 1999,
+                      "end": 2004,
                       "ctxt": 0
                     },
                     "value": 328.6,
@@ -5834,31 +6022,31 @@
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 1936,
-        "end": 2165,
+        "start": 2010,
+        "end": 2239,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 1936,
-          "end": 1942,
+          "start": 2010,
+          "end": 2016,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 1936,
-              "end": 1942,
+              "start": 2010,
+              "end": 2016,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 1936,
-                  "end": 1942,
+                  "start": 2010,
+                  "end": 2016,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -5867,15 +6055,15 @@
                   {
                     "type": "ClassSelector",
                     "span": {
-                      "start": 1936,
-                      "end": 1942,
+                      "start": 2010,
+                      "end": 2016,
                       "ctxt": 0
                     },
                     "text": {
                       "type": "Ident",
                       "span": {
-                        "start": 1937,
-                        "end": 1942,
+                        "start": 2011,
+                        "end": 2016,
                         "ctxt": 0
                       },
                       "value": "color",
@@ -5891,8 +6079,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 1943,
-          "end": 2165,
+          "start": 2017,
+          "end": 2239,
           "ctxt": 0
         },
         "name": "{",
@@ -5900,15 +6088,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 1949,
-              "end": 1973,
+              "start": 2023,
+              "end": 2047,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 1949,
-                "end": 1954,
+                "start": 2023,
+                "end": 2028,
                 "ctxt": 0
               },
               "value": "color",
@@ -5918,15 +6106,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 1956,
-                  "end": 1973,
+                  "start": 2030,
+                  "end": 2047,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 1956,
-                    "end": 1961,
+                    "start": 2030,
+                    "end": 2035,
                     "ctxt": 0
                   },
                   "value": "color",
@@ -5936,8 +6124,8 @@
                   {
                     "type": "Ident",
                     "span": {
-                      "start": 1962,
-                      "end": 1966,
+                      "start": 2036,
+                      "end": 2040,
                       "ctxt": 0
                     },
                     "value": "sRGB",
@@ -5946,8 +6134,8 @@
                   {
                     "type": "Integer",
                     "span": {
-                      "start": 1967,
-                      "end": 1968,
+                      "start": 2041,
+                      "end": 2042,
                       "ctxt": 0
                     },
                     "value": 0,
@@ -5956,8 +6144,8 @@
                   {
                     "type": "Integer",
                     "span": {
-                      "start": 1969,
-                      "end": 1970,
+                      "start": 2043,
+                      "end": 2044,
                       "ctxt": 0
                     },
                     "value": 1,
@@ -5966,8 +6154,8 @@
                   {
                     "type": "Integer",
                     "span": {
-                      "start": 1971,
-                      "end": 1972,
+                      "start": 2045,
+                      "end": 2046,
                       "ctxt": 0
                     },
                     "value": 0,
@@ -5981,15 +6169,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 1979,
-              "end": 2026,
+              "start": 2053,
+              "end": 2100,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 1979,
-                "end": 1984,
+                "start": 2053,
+                "end": 2058,
                 "ctxt": 0
               },
               "value": "color",
@@ -5999,15 +6187,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 1986,
-                  "end": 2026,
+                  "start": 2060,
+                  "end": 2100,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 1986,
-                    "end": 1991,
+                    "start": 2060,
+                    "end": 2065,
                     "ctxt": 0
                   },
                   "value": "color",
@@ -6017,8 +6205,8 @@
                   {
                     "type": "Ident",
                     "span": {
-                      "start": 1992,
-                      "end": 2002,
+                      "start": 2066,
+                      "end": 2076,
                       "ctxt": 0
                     },
                     "value": "display-p3",
@@ -6027,8 +6215,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 2003,
-                      "end": 2008,
+                      "start": 2077,
+                      "end": 2082,
                       "ctxt": 0
                     },
                     "value": 0.823,
@@ -6037,8 +6225,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 2009,
-                      "end": 2015,
+                      "start": 2083,
+                      "end": 2089,
                       "ctxt": 0
                     },
                     "value": 0.6554,
@@ -6047,8 +6235,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 2016,
-                      "end": 2022,
+                      "start": 2090,
+                      "end": 2096,
                       "ctxt": 0
                     },
                     "value": 0.2537,
@@ -6057,8 +6245,8 @@
                   {
                     "type": "Delimiter",
                     "span": {
-                      "start": 2023,
-                      "end": 2024,
+                      "start": 2097,
+                      "end": 2098,
                       "ctxt": 0
                     },
                     "value": "/"
@@ -6066,8 +6254,8 @@
                   {
                     "type": "Integer",
                     "span": {
-                      "start": 2024,
-                      "end": 2025,
+                      "start": 2098,
+                      "end": 2099,
                       "ctxt": 0
                     },
                     "value": 1,
@@ -6081,15 +6269,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 2032,
-              "end": 2076,
+              "start": 2106,
+              "end": 2150,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 2032,
-                "end": 2037,
+                "start": 2106,
+                "end": 2111,
                 "ctxt": 0
               },
               "value": "color",
@@ -6099,15 +6287,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 2039,
-                  "end": 2076,
+                  "start": 2113,
+                  "end": 2150,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 2039,
-                    "end": 2044,
+                    "start": 2113,
+                    "end": 2118,
                     "ctxt": 0
                   },
                   "value": "color",
@@ -6117,8 +6305,8 @@
                   {
                     "type": "Ident",
                     "span": {
-                      "start": 2045,
-                      "end": 2055,
+                      "start": 2119,
+                      "end": 2129,
                       "ctxt": 0
                     },
                     "value": "display-p3",
@@ -6127,8 +6315,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 2056,
-                      "end": 2061,
+                      "start": 2130,
+                      "end": 2135,
                       "ctxt": 0
                     },
                     "value": 0.823,
@@ -6137,8 +6325,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 2062,
-                      "end": 2068,
+                      "start": 2136,
+                      "end": 2142,
                       "ctxt": 0
                     },
                     "value": 0.6554,
@@ -6147,8 +6335,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 2069,
-                      "end": 2075,
+                      "start": 2143,
+                      "end": 2149,
                       "ctxt": 0
                     },
                     "value": 0.2537,
@@ -6162,15 +6350,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 2082,
-              "end": 2117,
+              "start": 2156,
+              "end": 2191,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 2082,
-                "end": 2087,
+                "start": 2156,
+                "end": 2161,
                 "ctxt": 0
               },
               "value": "color",
@@ -6180,15 +6368,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 2089,
-                  "end": 2117,
+                  "start": 2163,
+                  "end": 2191,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 2089,
-                    "end": 2094,
+                    "start": 2163,
+                    "end": 2168,
                     "ctxt": 0
                   },
                   "value": "color",
@@ -6198,8 +6386,8 @@
                   {
                     "type": "Ident",
                     "span": {
-                      "start": 2095,
-                      "end": 2098,
+                      "start": 2169,
+                      "end": 2172,
                       "ctxt": 0
                     },
                     "value": "xyz",
@@ -6208,8 +6396,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 2099,
-                      "end": 2104,
+                      "start": 2173,
+                      "end": 2178,
                       "ctxt": 0
                     },
                     "value": 0.472,
@@ -6218,8 +6406,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 2105,
-                      "end": 2110,
+                      "start": 2179,
+                      "end": 2184,
                       "ctxt": 0
                     },
                     "value": 0.372,
@@ -6228,8 +6416,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 2111,
-                      "end": 2116,
+                      "start": 2185,
+                      "end": 2190,
                       "ctxt": 0
                     },
                     "value": 0.131,
@@ -6243,15 +6431,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 2123,
-              "end": 2162,
+              "start": 2197,
+              "end": 2236,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 2123,
-                "end": 2128,
+                "start": 2197,
+                "end": 2202,
                 "ctxt": 0
               },
               "value": "color",
@@ -6261,15 +6449,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 2130,
-                  "end": 2162,
+                  "start": 2204,
+                  "end": 2236,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 2130,
-                    "end": 2135,
+                    "start": 2204,
+                    "end": 2209,
                     "ctxt": 0
                   },
                   "value": "color",
@@ -6279,8 +6467,8 @@
                   {
                     "type": "Ident",
                     "span": {
-                      "start": 2136,
-                      "end": 2143,
+                      "start": 2210,
+                      "end": 2217,
                       "ctxt": 0
                     },
                     "value": "xyz-d65",
@@ -6289,8 +6477,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 2144,
-                      "end": 2149,
+                      "start": 2218,
+                      "end": 2223,
                       "ctxt": 0
                     },
                     "value": 0.472,
@@ -6299,8 +6487,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 2150,
-                      "end": 2155,
+                      "start": 2224,
+                      "end": 2229,
                       "ctxt": 0
                     },
                     "value": 0.372,
@@ -6309,8 +6497,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 2156,
-                      "end": 2161,
+                      "start": 2230,
+                      "end": 2235,
                       "ctxt": 0
                     },
                     "value": 0.131,

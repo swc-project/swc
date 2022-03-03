@@ -34,6 +34,8 @@
     color: rgba(48% 100% 100% / 50%);
     color: rgba(48% none 100% / 50%);
     color: rgba(48% 100% 100% / none);
+    color: rgba(123 none 123 / 50%);
+    color: rgba(123 123 123 / none);
 }
 
 .hsl {
