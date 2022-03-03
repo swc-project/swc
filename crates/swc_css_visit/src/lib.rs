@@ -1,4 +1,5 @@
 #![deny(clippy::all)]
+#![allow(clippy::ptr_arg)]
 
 use swc_atoms::JsWord;
 use swc_common::Span;
@@ -28,11 +29,30 @@ define!({
     }
 
     pub enum ComponentValue {
-        Value(Value),
-        DeclarationBlockItem(DeclarationBlockItem),
+        PreservedToken(TokenAndSpan),
+        Function(Function),
+        SimpleBlock(SimpleBlock),
+
+        DeclarationOrAtRule(DeclarationOrAtRule),
         Rule(Rule),
         StyleBlock(StyleBlock),
         KeyframeBlock(KeyframeBlock),
+
+        Ident(Ident),
+        DashedIdent(DashedIdent),
+        Str(Str),
+        Url(Url),
+        Integer(Integer),
+        Number(Number),
+        Percentage(Percentage),
+        Dimension(Dimension),
+        Ratio(Ratio),
+        UnicodeRange(UnicodeRange),
+        Color(Color),
+        Delimiter(Delimiter),
+
+        CalcSum(CalcSum),
+        ComplexSelector(ComplexSelector),
     }
 
     pub struct Ident {
@@ -59,6 +79,12 @@ define!({
         pub raw: JsWord,
     }
 
+    pub struct Integer {
+        pub span: Span,
+        pub value: i64,
+        pub raw: JsWord,
+    }
+
     pub struct Number {
         pub span: Span,
         pub value: f64,
@@ -68,7 +94,7 @@ define!({
     pub struct Declaration {
         pub span: Span,
         pub name: DeclarationName,
-        pub value: Vec<Value>,
+        pub value: Vec<ComponentValue>,
         pub important: Option<ImportantFlag>,
     }
 
@@ -95,28 +121,10 @@ define!({
         Invalid(Tokens),
     }
 
-    pub enum DeclarationBlockItem {
-        Invalid(Tokens),
+    pub enum DeclarationOrAtRule {
         Declaration(Declaration),
         AtRule(AtRule),
-    }
-
-    pub enum Value {
-        SimpleBlock(SimpleBlock),
-        Dimension(Dimension),
-        Number(Number),
-        Percentage(Percentage),
-        Ratio(Ratio),
-        Color(Color),
-        Ident(Ident),
-        DashedIdent(DashedIdent),
-        Str(Str),
-        Function(Function),
-        CalcSum(CalcSum),
-        Delimiter(Delimiter),
-        Urange(Urange),
-        Url(Url),
-        PreservedToken(TokenAndSpan),
+        Invalid(Tokens),
     }
 
     pub enum DelimiterValue {
@@ -133,7 +141,7 @@ define!({
     pub struct Function {
         pub span: Span,
         pub name: Ident,
-        pub value: Vec<Value>,
+        pub value: Vec<ComponentValue>,
     }
 
     pub enum Color {
@@ -235,9 +243,11 @@ define!({
         Function(Function),
     }
 
-    pub struct Urange {
+    pub struct UnicodeRange {
         pub span: Span,
-        pub value: JsWord,
+        pub prefix: char,
+        pub start: JsWord,
+        pub end: Option<JsWord>,
     }
 
     pub struct CalcSum {
@@ -534,7 +544,7 @@ define!({
     pub struct UnknownAtRule {
         pub span: Span,
         pub name: AtRuleName,
-        pub prelude: Vec<Value>,
+        pub prelude: Vec<ComponentValue>,
         pub block: Option<SimpleBlock>,
     }
 
@@ -772,10 +782,17 @@ define!({
     pub enum SupportsInParens {
         SupportsCondition(SupportsCondition),
         Feature(SupportsFeature),
+        GeneralEnclosed(GeneralEnclosed),
     }
 
     pub enum SupportsFeature {
         Declaration(Declaration),
+        Function(Function),
+    }
+
+    pub enum GeneralEnclosed {
+        Function(Function),
+        SimpleBlock(SimpleBlock),
     }
 
     pub enum ColorProfileName {

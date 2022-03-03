@@ -2,55 +2,7 @@ use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
-use crate::{SimpleBlock, TokenAndSpan};
-
-#[ast_node]
-pub enum Value {
-    #[tag("SimpleBlock")]
-    SimpleBlock(SimpleBlock),
-
-    #[tag("Dimension")]
-    Dimension(Dimension),
-
-    #[tag("Number")]
-    Number(Number),
-
-    #[tag("Percentage")]
-    Percentage(Percentage),
-
-    #[tag("Ratio")]
-    Ratio(Ratio),
-
-    #[tag("Color")]
-    Color(Color),
-
-    #[tag("Ident")]
-    Ident(Ident),
-
-    #[tag("DashedIdent")]
-    DashedIdent(DashedIdent),
-
-    #[tag("String")]
-    Str(Str),
-
-    #[tag("Function")]
-    Function(Function),
-
-    #[tag("CalcSum")]
-    CalcSum(CalcSum),
-
-    #[tag("Delimiter")]
-    Delimiter(Delimiter),
-
-    #[tag("Url")]
-    Url(Url),
-
-    #[tag("Urange")]
-    Urange(Urange),
-
-    #[tag("PreservedToken")]
-    PreservedToken(TokenAndSpan),
-}
+use crate::ComponentValue;
 
 #[ast_node("Ident")]
 pub struct Ident {
@@ -102,7 +54,7 @@ pub struct Function {
     /// Span starting from the `lo` of identifier and to the end of `)`.
     pub span: Span,
     pub name: Ident,
-    pub value: Vec<Value>,
+    pub value: Vec<ComponentValue>,
 }
 
 #[ast_node]
@@ -203,6 +155,13 @@ pub struct Percentage {
     pub value: Number,
 }
 
+#[ast_node("Integer")]
+pub struct Integer {
+    pub span: Span,
+    pub value: i64,
+    pub raw: JsWord,
+}
+
 #[ast_node("Number")]
 pub struct Number {
     pub span: Span,
@@ -262,10 +221,12 @@ pub enum UrlModifier {
     Function(Function),
 }
 
-#[ast_node("Urange")]
-pub struct Urange {
+#[ast_node("UnicodeRange")]
+pub struct UnicodeRange {
     pub span: Span,
-    pub value: JsWord,
+    pub prefix: char,
+    pub start: JsWord,
+    pub end: Option<JsWord>,
 }
 
 #[ast_node("CalcSum")]

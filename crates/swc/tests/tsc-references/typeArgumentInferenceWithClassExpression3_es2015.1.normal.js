@@ -2,7 +2,7 @@ function foo(x = class {
 }) {
     return undefined;
 }
-foo(class _class {
+foo(class {
     constructor(){
         this.prop = "hello";
     }

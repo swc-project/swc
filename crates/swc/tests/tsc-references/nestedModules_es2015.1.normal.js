@@ -1,18 +1,20 @@
-(function(A) {
+var A;
+(function(A1) {
     let B;
     (function(B) {
         var Point = {
             x: 0,
             y: 0
         }; // bug 832088: could not find module 'C'
-    })(B = A.B || (A.B = {}));
+    })(B = A1.B || (A1.B = {}));
 })(A || (A = {}));
-(function(M2) {
+var M2;
+(function(M21) {
     let X1;
     (function(X) {
         var Point;
         X.Point = Point;
-    })(X1 = M2.X || (M2.X = {}));
+    })(X1 = M21.X || (M21.X = {}));
 })(M2 || (M2 = {}));
 var m = M2.X;
 var point;

@@ -64,6 +64,12 @@ error: SimpleBlock
 1 | a { box-shadow: rebeccapurple , yellow , black }
   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/value/mixed-separator-01/input.css:1:5
+  |
+1 | a { box-shadow: rebeccapurple , yellow , black }
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/esbuild/value/mixed-separator-01/input.css:1:5
   |
@@ -88,7 +94,7 @@ error: Ident
 1 | a { box-shadow: rebeccapurple , yellow , black }
   |     ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/value/mixed-separator-01/input.css:1:17
   |
 1 | a { box-shadow: rebeccapurple , yellow , black }
@@ -100,7 +106,7 @@ error: Ident
 1 | a { box-shadow: rebeccapurple , yellow , black }
   |                 ^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/value/mixed-separator-01/input.css:1:31
   |
 1 | a { box-shadow: rebeccapurple , yellow , black }
@@ -112,7 +118,7 @@ error: Delimiter
 1 | a { box-shadow: rebeccapurple , yellow , black }
   |                               ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/value/mixed-separator-01/input.css:1:33
   |
 1 | a { box-shadow: rebeccapurple , yellow , black }
@@ -124,7 +130,7 @@ error: Ident
 1 | a { box-shadow: rebeccapurple , yellow , black }
   |                                 ^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/value/mixed-separator-01/input.css:1:40
   |
 1 | a { box-shadow: rebeccapurple , yellow , black }
@@ -136,7 +142,7 @@ error: Delimiter
 1 | a { box-shadow: rebeccapurple , yellow , black }
   |                                        ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/value/mixed-separator-01/input.css:1:42
   |
 1 | a { box-shadow: rebeccapurple , yellow , black }

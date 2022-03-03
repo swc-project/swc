@@ -4,21 +4,16 @@ use swc_css_ast::*;
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
-    parser::{Ctx, Grammar},
+    parser::{BlockContentsGrammar, Ctx},
     Parse,
 };
 
-#[derive(Debug, Default)]
-pub(super) struct AtRuleContext {}
-
-impl<I> Parser<I>
+impl<I> Parse<AtRule> for Parser<I>
 where
     I: ParserInput,
 {
-    pub(super) fn parse_at_rule(&mut self, _ctx: AtRuleContext) -> PResult<AtRule> {
+    fn parse(&mut self) -> PResult<AtRule> {
         let at_rule_span = self.input.cur_span()?;
-
-        assert!(matches!(cur!(self), Token::AtKeyword { .. }));
 
         let name = match bump!(self) {
             Token::AtKeyword { value, raw } => (value, raw),
@@ -388,9 +383,13 @@ where
                 // <{-token>
                 // Consume a simple block and assign it to the at-rule’s block. Return the at-rule.
                 tok!("{") => {
-                    self.input.bump()?;
+                    let ctx = Ctx {
+                        block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                        ..self.ctx
+                    };
+                    let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
-                    at_rule.block = Some(self.parse_simple_block('}')?);
+                    at_rule.block = Some(block);
                     at_rule.span = span!(self, at_rule_span.lo);
 
                     return Ok(AtRule::Unknown(at_rule));
@@ -399,7 +398,7 @@ where
                 // Reconsume the current input token. Consume a component value. Append the returned
                 // value to the at-rule’s prelude.
                 _ => {
-                    at_rule.prelude.push(self.parse_component_value()?);
+                    at_rule.prelude.push(self.parse()?);
                 }
             }
         }
@@ -560,11 +559,9 @@ where
                 let custom_ident: CustomIdent = self.parse()?;
 
                 if &*custom_ident.value.to_ascii_lowercase() == "none" {
-                    let span = self.input.cur_span()?;
-
                     return Err(Error::new(
-                        span,
-                        ErrorKind::InvalidCustomIdent(stringify!(value)),
+                        custom_ident.span,
+                        ErrorKind::InvalidCustomIdent(custom_ident.raw),
                     ));
                 }
 
@@ -605,7 +602,7 @@ where
         }
 
         let ctx = Ctx {
-            grammar: Grammar::DeclarationList,
+            block_contents_grammar: BlockContentsGrammar::DeclarationList,
             ..self.ctx
         };
         let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
@@ -626,13 +623,11 @@ where
         match cur!(self) {
             tok!("ident") => {
                 let ident: Ident = self.parse()?;
-                let lowercased_ident_value = ident.value.to_ascii_lowercase();
+                let normalized_ident_value = ident.value.to_ascii_lowercase();
 
-                if &*lowercased_ident_value != "from" && &*lowercased_ident_value != "to" {
-                    let span = self.input.cur_span()?;
-
+                if &*normalized_ident_value != "from" && &*normalized_ident_value != "to" {
                     return Err(Error::new(
-                        span,
+                        ident.span,
                         ErrorKind::Expected("'from' or 'to' idents"),
                     ));
                 }
@@ -659,7 +654,7 @@ where
     fn parse(&mut self) -> PResult<ViewportRule> {
         let span = self.input.cur_span()?;
         let ctx = Ctx {
-            grammar: Grammar::DeclarationList,
+            block_contents_grammar: BlockContentsGrammar::DeclarationList,
             ..self.ctx
         };
         let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
@@ -695,10 +690,12 @@ where
             tok!("url") => NamespaceUri::Url(self.parse()?),
             tok!("function") => NamespaceUri::Url(self.parse()?),
             _ => {
+                let span = self.input.cur_span()?;
+
                 return Err(Error::new(
                     span,
-                    ErrorKind::Expected("string, url or function"),
-                ))
+                    ErrorKind::Expected("string, url or function tokens"),
+                ));
             }
         };
 
@@ -720,7 +717,7 @@ where
         let span = self.input.cur_span()?;
         let prelude = self.parse()?;
         let ctx = Ctx {
-            grammar: Grammar::StyleBlock,
+            block_contents_grammar: BlockContentsGrammar::StyleBlock,
             ..self.ctx
         };
 
@@ -743,7 +740,7 @@ where
     fn parse(&mut self) -> PResult<FontFaceRule> {
         let span = self.input.cur_span()?;
         let ctx = Ctx {
-            grammar: Grammar::DeclarationList,
+            block_contents_grammar: BlockContentsGrammar::DeclarationList,
             ..self.ctx
         };
         let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
@@ -769,13 +766,13 @@ where
             return Err(Error::new(span, ErrorKind::Expected("'{' delim token")));
         }
 
-        let ctx = match self.ctx.grammar {
-            Grammar::StyleBlock => Ctx {
-                grammar: Grammar::StyleBlock,
+        let ctx = match self.ctx.block_contents_grammar {
+            BlockContentsGrammar::StyleBlock => Ctx {
+                block_contents_grammar: BlockContentsGrammar::StyleBlock,
                 ..self.ctx
             },
             _ => Ctx {
-                grammar: Grammar::Stylesheet,
+                block_contents_grammar: BlockContentsGrammar::Stylesheet,
                 ..self.ctx
             },
         };
@@ -912,21 +909,36 @@ where
     fn parse(&mut self) -> PResult<SupportsInParens> {
         let state = self.input.state();
 
-        expect!(self, "(");
+        match self.parse() {
+            Ok(feature) => Ok(SupportsInParens::Feature(feature)),
+            Err(_) => {
+                self.input.reset(&state);
 
-        self.input.skip_ws()?;
+                let mut parse_condition = || {
+                    expect!(self, "(");
 
-        if !is!(self, "(") && !is_case_insensitive_ident!(self, "not") {
-            self.input.reset(&state);
+                    let condition = self.parse()?;
 
-            return Ok(SupportsInParens::Feature(self.parse()?));
+                    expect!(self, ")");
+
+                    Ok(SupportsInParens::SupportsCondition(condition))
+                };
+
+                match parse_condition() {
+                    Ok(condition) => Ok(condition),
+                    Err(_) => {
+                        self.input.reset(&state);
+
+                        match self.parse() {
+                            Ok(general_enclosed) => {
+                                Ok(SupportsInParens::GeneralEnclosed(general_enclosed))
+                            }
+                            Err(err) => Err(err),
+                        }
+                    }
+                }
+            }
         }
-
-        let condition = SupportsInParens::SupportsCondition(self.parse()?);
-
-        expect!(self, ")");
-
-        Ok(condition)
     }
 }
 
@@ -935,17 +947,67 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<SupportsFeature> {
-        expect!(self, "(");
+        match cur!(self) {
+            tok!("(") => {
+                bump!(self);
 
-        self.input.skip_ws()?;
+                self.input.skip_ws()?;
 
-        let declaration = self.parse()?;
+                let declaration = self.parse()?;
 
-        self.input.skip_ws()?;
+                self.input.skip_ws()?;
 
-        expect!(self, ")");
+                expect!(self, ")");
 
-        Ok(SupportsFeature::Declaration(declaration))
+                Ok(SupportsFeature::Declaration(declaration))
+            }
+            Token::Function { value, .. } if &*value.to_lowercase() == "selector" => {
+                let ctx = Ctx {
+                    in_supports_at_rule: true,
+                    ..self.ctx
+                };
+                let function = self.with_ctx(ctx).parse_as::<Function>()?;
+
+                Ok(SupportsFeature::Function(function))
+            }
+            _ => {
+                let span = self.input.cur_span()?;
+
+                Err(Error::new(
+                    span,
+                    ErrorKind::Expected("'(' or 'function' token"),
+                ))
+            }
+        }
+    }
+}
+
+impl<I> Parse<GeneralEnclosed> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<GeneralEnclosed> {
+        match cur!(self) {
+            tok!("function") => Ok(GeneralEnclosed::Function(self.parse()?)),
+            tok!("(") => {
+                let ctx = Ctx {
+                    block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                    ..self.ctx
+                };
+                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+
+                // TODO validate on first ident
+                Ok(GeneralEnclosed::SimpleBlock(block))
+            }
+            _ => {
+                let span = self.input.cur_span()?;
+
+                Err(Error::new(
+                    span,
+                    ErrorKind::Expected("function or '(' token"),
+                ))
+            }
+        }
     }
 }
 
@@ -969,13 +1031,13 @@ where
 
             matching_functions.push(self.parse()?);
         }
-        let ctx = match self.ctx.grammar {
-            Grammar::StyleBlock => Ctx {
-                grammar: Grammar::StyleBlock,
+        let ctx = match self.ctx.block_contents_grammar {
+            BlockContentsGrammar::StyleBlock => Ctx {
+                block_contents_grammar: BlockContentsGrammar::StyleBlock,
                 ..self.ctx
             },
             _ => Ctx {
-                grammar: Grammar::Stylesheet,
+                block_contents_grammar: BlockContentsGrammar::Stylesheet,
                 ..self.ctx
             },
         };
@@ -1038,13 +1100,13 @@ where
             return Err(Error::new(span, ErrorKind::Expected("'{' delim token")));
         }
 
-        let ctx = match self.ctx.grammar {
-            Grammar::StyleBlock => Ctx {
-                grammar: Grammar::StyleBlock,
+        let ctx = match self.ctx.block_contents_grammar {
+            BlockContentsGrammar::StyleBlock => Ctx {
+                block_contents_grammar: BlockContentsGrammar::StyleBlock,
                 ..self.ctx
             },
             _ => Ctx {
-                grammar: Grammar::Stylesheet,
+                block_contents_grammar: BlockContentsGrammar::Stylesheet,
                 ..self.ctx
             },
         };
@@ -1584,7 +1646,8 @@ where
 
         let ctx = Ctx {
             in_page_at_rule: true,
-            grammar: Grammar::DeclarationList,
+            block_contents_grammar: BlockContentsGrammar::DeclarationList,
+            ..self.ctx
         };
         let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
@@ -1713,10 +1776,12 @@ where
                 self.parse()?
             }
             _ => {
+                let span = self.input.cur_span()?;
+
                 return Err(Error::new(
                     span,
                     ErrorKind::Expected("'left', 'right', 'first' or 'blank' ident"),
-                ))
+                ));
             }
         };
 
@@ -1734,7 +1799,7 @@ where
     fn parse(&mut self) -> PResult<PageMarginRule> {
         let span = self.input.cur_span()?;
         let ctx = Ctx {
-            grammar: Grammar::DeclarationList,
+            block_contents_grammar: BlockContentsGrammar::DeclarationList,
             ..self.ctx
         };
         let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
@@ -1828,7 +1893,7 @@ where
             // Block
             None | Some(LayerPrelude::Name(LayerName { .. })) if is!(self, "{") => {
                 let ctx = Ctx {
-                    grammar: Grammar::Stylesheet,
+                    block_contents_grammar: BlockContentsGrammar::Stylesheet,
                     ..self.ctx
                 };
                 println!("{:?}", self.input.cur());
@@ -1881,7 +1946,7 @@ where
         self.input.skip_ws()?;
 
         let ctx = Ctx {
-            grammar: Grammar::DeclarationList,
+            block_contents_grammar: BlockContentsGrammar::DeclarationList,
             ..self.ctx
         };
         let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
@@ -1905,7 +1970,7 @@ where
         self.input.skip_ws()?;
 
         let ctx = Ctx {
-            grammar: Grammar::DeclarationList,
+            block_contents_grammar: BlockContentsGrammar::DeclarationList,
             ..self.ctx
         };
         let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
@@ -1929,7 +1994,7 @@ where
         self.input.skip_ws()?;
 
         let ctx = Ctx {
-            grammar: Grammar::DeclarationList,
+            block_contents_grammar: BlockContentsGrammar::DeclarationList,
             ..self.ctx
         };
         let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;

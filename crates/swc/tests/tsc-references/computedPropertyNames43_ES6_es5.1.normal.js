@@ -95,7 +95,6 @@ var C = function C() {
     "use strict";
     _classCallCheck(this, C);
 };
-var tmp = "get1", tmp1 = "set1";
 var D = /*#__PURE__*/ function(C) {
     "use strict";
     _inherits(D, C);
@@ -106,14 +105,14 @@ var D = /*#__PURE__*/ function(C) {
     }
     _createClass(D, [
         {
-            key: tmp,
+            key: "get1",
             get: // Computed properties
             function get() {
                 return new Foo;
             }
         },
         {
-            key: tmp1,
+            key: "set1",
             set: function set(p) {}
         }
     ]);

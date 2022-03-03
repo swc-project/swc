@@ -64,6 +64,12 @@ error: SimpleBlock
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:5
+  |
+1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:5
   |
@@ -88,7 +94,7 @@ error: Ident
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |     ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:17
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
@@ -112,19 +118,19 @@ error: Ident
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                 ^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:21
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                     ^^^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:21
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                     ^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:24
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
@@ -136,19 +142,19 @@ error: Delimiter
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                        ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:26
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                          ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:26
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                          ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:27
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
@@ -160,55 +166,55 @@ error: Delimiter
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                           ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:29
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                             ^^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:29
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                             ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:33
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                                 ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:33
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                                 ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:35
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                                   ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:35
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                                   ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:37
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                                     ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:37
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
   |                                     ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:39
   |
 1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }

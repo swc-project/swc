@@ -21,7 +21,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 var s;
 var n;
 var a;
-var tmp = s, tmp1 = n, tmp2 = s + s, tmp3 = s + n, tmp4 = +s, tmp5 = "", tmp6 = 0, tmp7 = a, tmp8 = true, tmp9 = "hello bye", tmp10 = "hello ".concat(a, " bye");
+var _s = s, _n = n, tmp = s + s, tmp1 = s + n, tmp2 = +s, _a = a, tmp3 = "hello ".concat(a, " bye");
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -29,46 +29,19 @@ var C = /*#__PURE__*/ function() {
     }
     _createClass(C, [
         {
-            key: tmp,
+            key: _s,
             get: function get() {
                 return 0;
             }
+        },
+        {
+            key: _n,
+            set: function set(v) {}
         },
         {
             key: tmp1,
             set: function set(v) {}
         },
-        {
-            key: tmp3,
-            set: function set(v) {}
-        },
-        {
-            key: tmp4,
-            get: function get() {
-                return 0;
-            }
-        },
-        {
-            key: tmp6,
-            get: function get() {
-                return 0;
-            }
-        },
-        {
-            key: tmp7,
-            set: function set(v) {}
-        },
-        {
-            key: tmp9,
-            set: function set(v) {}
-        },
-        {
-            key: tmp10,
-            get: function get() {
-                return 0;
-            }
-        }
-    ], [
         {
             key: tmp2,
             get: function get() {
@@ -76,11 +49,38 @@ var C = /*#__PURE__*/ function() {
             }
         },
         {
-            key: tmp5,
+            key: 0,
+            get: function get() {
+                return 0;
+            }
+        },
+        {
+            key: _a,
             set: function set(v) {}
         },
         {
-            key: tmp8,
+            key: "hello bye",
+            set: function set(v) {}
+        },
+        {
+            key: tmp3,
+            get: function get() {
+                return 0;
+            }
+        }
+    ], [
+        {
+            key: tmp,
+            get: function get() {
+                return 0;
+            }
+        },
+        {
+            key: "",
+            set: function set(v) {}
+        },
+        {
+            key: true,
             get: function get() {
                 return 0;
             }

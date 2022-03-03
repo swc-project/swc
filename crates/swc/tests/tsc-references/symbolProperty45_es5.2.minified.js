@@ -4,7 +4,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var tmp = Symbol.hasInstance, tmp1 = Symbol.toPrimitive, C = function() {
+var _hasInstance = Symbol.hasInstance, _toPrimitive = Symbol.toPrimitive, C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
@@ -14,13 +14,13 @@ var tmp = Symbol.hasInstance, tmp1 = Symbol.toPrimitive, C = function() {
     }
     return Constructor = C, protoProps = [
         {
-            key: tmp,
+            key: _hasInstance,
             get: function() {
                 return "";
             }
         },
         {
-            key: tmp1,
+            key: _toPrimitive,
             get: function() {
                 return "";
             }

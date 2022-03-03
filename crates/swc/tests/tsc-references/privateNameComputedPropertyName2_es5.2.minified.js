@@ -6,7 +6,7 @@ function _defineProperties(target, props) {
 }
 var getX, _x = new WeakMap(), tmp = (getX = function(a) {
     var receiver, privateMap, descriptor, receiver, descriptor;
-    return (descriptor = descriptor = (function(receiver, privateMap, action) {
+    return (descriptor = (function(receiver, privateMap, action) {
         if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
         return privateMap.get(receiver);
     })(receiver = a, privateMap = _x, "get")).get ? descriptor.get.call(receiver) : descriptor.value;

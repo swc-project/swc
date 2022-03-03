@@ -15,9 +15,9 @@ use self::config::BuiltConfig;
 pub use self::config::Config;
 use super::util::{
     self, define_es_module, define_property, has_use_strict, initialize_to_undefined,
-    local_name_for_src, make_descriptor, make_require_call, use_strict, Exports, ModulePass, Scope,
+    local_name_for_src, make_descriptor, use_strict, Exports, ModulePass, Scope,
 };
-use crate::path::{ImportResolver, NoopImportResolver};
+use crate::path::{ImportResolver, Resolver};
 
 mod config;
 
@@ -31,20 +31,17 @@ pub fn umd(cm: Lrc<SourceMap>, root_mark: Mark, config: Config) -> impl Fold {
         scope: RefCell::new(Default::default()),
         exports: Default::default(),
 
-        resolver: None::<(NoopImportResolver, _)>,
+        resolver: Resolver::Default,
     }
 }
 
-pub fn umd_with_resolver<R>(
-    resolver: R,
+pub fn umd_with_resolver(
+    resolver: Box<dyn ImportResolver>,
     base: FileName,
     cm: Lrc<SourceMap>,
     root_mark: Mark,
     config: Config,
-) -> impl Fold
-where
-    R: ImportResolver,
-{
+) -> impl Fold {
     Umd {
         config: config.build(cm.clone()),
         root_mark,
@@ -54,14 +51,11 @@ where
         scope: Default::default(),
         exports: Default::default(),
 
-        resolver: Some((resolver, base)),
+        resolver: Resolver::Real { base, resolver },
     }
 }
 
-struct Umd<R>
-where
-    R: ImportResolver,
-{
+struct Umd {
     cm: Lrc<SourceMap>,
     root_mark: Mark,
     in_top_level: bool,
@@ -69,14 +63,11 @@ where
     scope: RefCell<Scope>,
     exports: Exports,
 
-    resolver: Option<(R, FileName)>,
+    resolver: Resolver,
 }
 
 /// TODO: VisitMut
-impl<R> Fold for Umd<R>
-where
-    R: ImportResolver,
-{
+impl Fold for Umd {
     noop_fold_type!();
 
     mark_as_nested!();
@@ -540,7 +531,7 @@ where
         }
 
         if !initialized.is_empty() {
-            stmts.push(initialize_to_undefined(exports_ident, initialized).into_stmt());
+            stmts.extend(initialize_to_undefined(exports_ident, initialized));
         }
 
         for (src, import) in scope.imports.drain(..) {
@@ -561,8 +552,11 @@ where
                 decorators: Default::default(),
                 pat: ident.clone().into(),
             });
-            factory_args
-                .push(make_require_call(&self.resolver, self.root_mark, src.clone()).as_arg());
+            factory_args.push(
+                self.resolver
+                    .make_require_call(self.root_mark, src.clone())
+                    .as_arg(),
+            );
             global_factory_args.push(quote_ident!("global").make_member(global_ident).as_arg());
 
             {
@@ -800,10 +794,7 @@ where
     }
 }
 
-impl<R> ModulePass for Umd<R>
-where
-    R: ImportResolver,
-{
+impl ModulePass for Umd {
     fn config(&self) -> &util::Config {
         &self.config.config
     }

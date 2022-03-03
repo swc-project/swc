@@ -5,5 +5,5 @@ var strOrC, C = function() {
     }(this, C);
 };
 void 0 === strOrC || (function(obj) {
-    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
+    obj && "undefined" != typeof Symbol && obj.constructor;
 })(strOrC);

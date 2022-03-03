@@ -8,21 +8,20 @@ function _classPrivateMethodInit(obj, privateSet) {
     _checkPrivateRedeclaration(obj, privateSet), privateSet.add(obj);
 }
 const array = [];
-for(let i = 0; i < 10; ++i)array.push(function() {
-    var _myField = new WeakMap(), _method = new WeakSet(), _accessor = new WeakMap();
-    class C {
+for(let i = 0; i < 10; ++i){
+    var _myField;
+    function set_accessor(val) {}
+    array.push((_myField = new WeakMap(), class {
         constructor(){
-            _classPrivateFieldInit(this, _myField, {
-                writable: !0,
-                value: "hello"
-            }), _classPrivateMethodInit(this, _method), _classPrivateFieldInit(this, _accessor, {
+            _classPrivateMethodInit(this, new WeakSet()), _classPrivateFieldInit(this, new WeakMap(), {
                 get: function() {
                     return 42;
                 },
                 set: set_accessor
+            }), _classPrivateFieldInit(this, _myField, {
+                writable: !0,
+                value: "hello"
             });
         }
-    }
-    function set_accessor(val) {}
-    return C;
-}());
+    }));
+}

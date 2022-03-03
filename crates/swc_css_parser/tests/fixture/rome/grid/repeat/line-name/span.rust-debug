@@ -67,6 +67,12 @@ error: SimpleBlock
 3 | | }
   | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:2
+  |
+2 |     grid-template-columns: repeat(4, [col-start]);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:2
   |
@@ -91,7 +97,7 @@ error: Ident
 2 |     grid-template-columns: repeat(4, [col-start]);
   |     ^^^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:25
   |
 2 |     grid-template-columns: repeat(4, [col-start]);
@@ -109,19 +115,19 @@ error: Ident
 2 |     grid-template-columns: repeat(4, [col-start]);
   |                            ^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:32
   |
 2 |     grid-template-columns: repeat(4, [col-start]);
   |                                   ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:32
   |
 2 |     grid-template-columns: repeat(4, [col-start]);
   |                                   ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:33
   |
 2 |     grid-template-columns: repeat(4, [col-start]);
@@ -133,7 +139,7 @@ error: Delimiter
 2 |     grid-template-columns: repeat(4, [col-start]);
   |                                    ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:35
   |
 2 |     grid-template-columns: repeat(4, [col-start]);
@@ -145,7 +151,7 @@ error: SimpleBlock
 2 |     grid-template-columns: repeat(4, [col-start]);
   |                                      ^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:36
   |
 2 |     grid-template-columns: repeat(4, [col-start]);

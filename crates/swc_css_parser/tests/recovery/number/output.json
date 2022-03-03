@@ -192,13 +192,13 @@
                 "token": "Colon"
               },
               {
-                "type": "Number",
+                "type": "Integer",
                 "span": {
                   "start": 49,
                   "end": 51,
                   "ctxt": 0
                 },
-                "value": 10.0,
+                "value": 10,
                 "raw": "10"
               },
               {

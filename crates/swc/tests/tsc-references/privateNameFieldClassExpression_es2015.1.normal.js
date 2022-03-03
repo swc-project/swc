@@ -14,7 +14,7 @@ class B {
     constructor(){
         _classPrivateFieldInit(this, _foo, {
             writable: true,
-            value: (_class = class _class {
+            value: (_class = class {
                 constructor(){
                     console.log("hello");
                 }

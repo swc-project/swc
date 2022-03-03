@@ -336,11 +336,15 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(SimpleBlock, visit_simple_block);
 
+    mtd!(ComponentValue, visit_component_value);
+
     mtd!(Function, visit_function);
 
     mtd!(Color, visit_color);
 
     mtd!(HexColor, visit_hex_color);
+
+    mtd!(Integer, visit_integer);
 
     mtd!(Number, visit_number);
 
@@ -396,9 +400,7 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(UrlModifier, visit_url_modifier);
 
-    mtd!(Urange, visit_urange);
-
-    mtd!(Value, visit_value);
+    mtd!(UnicodeRange, visit_unicode_range);
 
     mtd!(CalcSum, visit_calc_sum);
 

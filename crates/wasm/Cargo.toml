@@ -6,7 +6,7 @@ license = "Apache-2.0"
 name = "wasm"
 publish = false
 repository = "https://github.com/swc-project/swc.git"
-version = "1.2.145"
+version = "1.2.147"
 
 [lib]
 crate-type = ["cdylib"]
@@ -28,5 +28,5 @@ swc = {path = "../swc"}
 swc_common = {path = "../swc_common"}
 swc_ecma_lints = {path = "../swc_ecma_lints", features = ["non_critical_lints"]}
 swc_ecmascript = {path = "../swc_ecmascript"}
-tracing = { version = "0.1.31", features = ["release_max_level_off"] }
+tracing = {version = "0.1.31", features = ["release_max_level_off"]}
 wasm-bindgen = {version = "0.2", features = ["serde-serialize"]}

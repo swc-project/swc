@@ -12,3 +12,7 @@ a:is(:not(:hover)) {}
 /*:is(:valid, foo < bar) {}*/
 /*:is(foo < bar) {}*/
 :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+:is(:nth-child(6),
+    :nth-last-child(6),
+    :nth-of-type(6),
+    :nth-last-of-type(6)) {}

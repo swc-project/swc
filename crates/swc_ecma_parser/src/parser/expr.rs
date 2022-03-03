@@ -707,7 +707,7 @@ impl<'a, I: Tokens> Parser<I> {
                     params.is_simple_parameter_list(),
                 )?;
 
-                if is_direct_child_of_cond && !is_one_of!(p, ':', ';') {
+                if is_direct_child_of_cond && !is_one_of!(p, ':', ';', ',', ')') {
                     trace_cur!(p, parse_arrow_in_cond__fail);
                     unexpected!(p, "fail")
                 }
@@ -785,6 +785,23 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
             return Ok(Box::new(Expr::Arrow(arrow_expr)));
+        } else {
+            // If there's no arrow function, we have to check there's no
+            // AssignProp in lhs to check against assignment in object literals
+            // like (a, {b = 1});
+            for expr_or_spread in paren_items.iter() {
+                if let PatOrExprOrSpread::ExprOrSpread(e) = expr_or_spread {
+                    if let Expr::Object(o) = &*e.expr {
+                        for p in o.props.iter() {
+                            if let PropOrSpread::Prop(prop) = p {
+                                if let Prop::Assign(..) = **prop {
+                                    self.emit_err(prop.span(), SyntaxError::AssignProperty);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         let expr_or_spreads = paren_items

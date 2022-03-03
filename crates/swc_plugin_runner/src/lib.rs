@@ -15,6 +15,7 @@ use wasmer_wasi::{is_wasi_module, WasiState};
 
 pub mod cache;
 
+#[tracing::instrument(level = "trace", skip_all)]
 fn copy_bytes_into_host(memory: &Memory, bytes_ptr: i32, bytes_ptr_len: i32) -> Vec<u8> {
     let ptr: WasmPtr<u8, Array> = WasmPtr::new(bytes_ptr as _);
 
@@ -32,6 +33,7 @@ fn copy_bytes_into_host(memory: &Memory, bytes_ptr: i32, bytes_ptr_len: i32) -> 
 }
 
 /// Locate a view from given memory, write serialized bytes into.
+#[tracing::instrument(level = "trace", skip_all)]
 fn write_into_memory_view<F>(
     memory: &Memory,
     serialized_bytes: &Serialized,
@@ -47,17 +49,23 @@ where
     let ptr_start_size = ptr_start
         .try_into()
         .expect("Should be able to convert to usize");
+    let serialized_len_size: u32 = serialized_len
+        .try_into()
+        .expect("Should be able to convert to u32");
 
     // Note: it's important to get a view from memory _after_ alloc completes
     let view = memory.view::<u8>();
 
-    // loop over the Wasm memory view's bytes, assign bytes value of alignedvec from
-    // serialized
-    for (cell, byte) in view[ptr_start_size..ptr_start_size + serialized_len + 1]
-        .iter()
-        .zip(serialized.iter())
-    {
-        cell.set(*byte)
+    // Get a subarray for current memoryview starting from ptr address we just
+    // allocated above, perform copying into specified ptr. Wasm's memory layout
+    // is linear and we have atomic gaurantee by not having any thread access,
+    // so can safely get subarray from allocated ptr address.
+    //
+    // If we want safer operation instead, refer previous implementation
+    // https://github.com/swc-project/swc/blob/1ef8f3749b6454eb7d40a36a5f9366137fa97928/crates/swc_plugin_runner/src/lib.rs#L56-L61
+    unsafe {
+        view.subarray(ptr_start_size, ptr_start_size + serialized_len_size)
+            .copy_from(serialized);
     }
 
     (
@@ -195,6 +203,7 @@ struct HostEnvironment {
     transform_result: Arc<Mutex<Vec<u8>>>,
 }
 
+#[tracing::instrument(level = "trace", skip_all)]
 fn load_plugin(
     plugin_path: &Path,
     cache: &Lazy<PluginModuleCache>,
@@ -347,6 +356,7 @@ struct PluginTransformTracker {
 }
 
 impl PluginTransformTracker {
+    #[tracing::instrument(level = "trace", skip(cache))]
     fn new(path: &Path, cache: &Lazy<PluginModuleCache>) -> Result<PluginTransformTracker, Error> {
         let (instance, transform_result) = load_plugin(path, cache)?;
 
@@ -414,6 +424,7 @@ impl PluginTransformTracker {
         }
     }
 
+    #[tracing::instrument(level = "trace", skip_all)]
     fn transform(
         &mut self,
         program: &Serialized,

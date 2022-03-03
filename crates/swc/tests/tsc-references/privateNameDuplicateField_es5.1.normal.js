@@ -46,23 +46,23 @@ function Field() {
     var A_Field_Method = function A_Field_Method() {
         "use strict";
         _classCallCheck(this, A_Field_Method);
+        _classPrivateMethodInit(this, _foo1);
         _classPrivateFieldInit(this, _foo1, {
             writable: true,
             value: "foo"
         });
-        _classPrivateMethodInit(this, _foo1);
     };
     var _foo2 = new WeakMap(), _foo2 = new WeakMap();
     var A_Field_Getter = function A_Field_Getter() {
         "use strict";
         _classCallCheck(this, A_Field_Getter);
         _classPrivateFieldInit(this, _foo2, {
-            writable: true,
-            value: "foo"
-        });
-        _classPrivateFieldInit(this, _foo2, {
             get: get_foo,
             set: void 0
+        });
+        _classPrivateFieldInit(this, _foo2, {
+            writable: true,
+            value: "foo"
         });
     };
     var _foo3 = new WeakMap(), _foo3 = new WeakMap();
@@ -70,12 +70,12 @@ function Field() {
         "use strict";
         _classCallCheck(this, A_Field_Setter);
         _classPrivateFieldInit(this, _foo3, {
-            writable: true,
-            value: "foo"
-        });
-        _classPrivateFieldInit(this, _foo3, {
             get: void 0,
             set: set_foo
+        });
+        _classPrivateFieldInit(this, _foo3, {
+            writable: true,
+            value: "foo"
         });
     };
     var _foo4 = new WeakMap();
@@ -536,24 +536,24 @@ function StaticField() {
         _classCallCheck(this, A_StaticField_StaticGetter);
     };
     var _foo34 = {
-        writable: true,
-        value: "foo"
-    };
-    var _foo34 = {
         get: get_foo11,
         set: void 0
+    };
+    var _foo34 = {
+        writable: true,
+        value: "foo"
     };
     var A_StaticField_StaticSetter = function A_StaticField_StaticSetter() {
         "use strict";
         _classCallCheck(this, A_StaticField_StaticSetter);
     };
     var _foo35 = {
-        writable: true,
-        value: "foo"
-    };
-    var _foo35 = {
         get: void 0,
         set: set_foo11
+    };
+    var _foo35 = {
+        writable: true,
+        value: "foo"
     };
 }
 function StaticMethod() {

@@ -75,6 +75,10 @@ function _classExtractFieldDescriptor(receiver, privateMap, action) {
     if (!privateMap.has(receiver)) throw new TypeError("attempted to " + action + " private field on non-instance");
     return privateMap.get(receiver);
 }
+function _classPrivateFieldGet(receiver, privateMap) {
+    var receiver, descriptor, descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
+    return descriptor.get ? descriptor.get.call(receiver) : descriptor.value;
+}
 function _classPrivateFieldInit(obj, privateMap, value) {
     _checkPrivateRedeclaration(obj, privateMap), privateMap.set(obj, value);
 }
@@ -117,13 +121,13 @@ function _setPrototypeOf(o, p) {
 import regeneratorRuntime from "regenerator-runtime";
 var _foo = new WeakSet(), _bar = new WeakSet(), _baz = new WeakSet(), __quux = new WeakMap(), _quux = new WeakMap(), A = function() {
     "use strict";
-    _classCallCheck(this, A), _classPrivateMethodInit(this, _foo), _classPrivateMethodInit(this, _bar), _classPrivateMethodInit(this, _baz), _classPrivateFieldInit(this, __quux, {
-        writable: !0,
-        value: void 0
-    }), _classPrivateFieldInit(this, _quux, {
+    _classCallCheck(this, A), _classPrivateMethodInit(this, _foo), _classPrivateMethodInit(this, _bar), _classPrivateMethodInit(this, _baz), _classPrivateFieldInit(this, _quux, {
         get: get_quux,
         set: set_quux
-    }), _classPrivateMethodGet(this, _foo, foo).call(this, 30), _classPrivateMethodGet(this, _bar, bar).call(this, 30), _classPrivateMethodGet(this, _baz, baz).call(this, 30), _classPrivateFieldSet(this, _quux, _classPrivateMethodGet(this, _quux, quux) + 1), _classPrivateFieldSet(this, _quux, +_classPrivateMethodGet(this, _quux, quux) + 1);
+    }), _classPrivateFieldInit(this, __quux, {
+        writable: !0,
+        value: void 0
+    }), _classPrivateMethodGet(this, _foo, foo).call(this, 30), _classPrivateMethodGet(this, _bar, bar).call(this, 30), _classPrivateMethodGet(this, _baz, baz).call(this, 30), _classPrivateFieldSet(this, _quux, _classPrivateFieldGet(this, _quux) + 1), _classPrivateFieldSet(this, _quux, +_classPrivateFieldGet(this, _quux) + 1);
 };
 function foo(a) {}
 function bar(a) {
@@ -173,8 +177,7 @@ function _baz1() {
     })).apply(this, arguments);
 }
 function get_quux() {
-    var receiver, privateMap, descriptor, receiver, descriptor;
-    return receiver = this, (descriptor = descriptor = _classExtractFieldDescriptor(receiver, privateMap = __quux, "get")).get ? descriptor.get.call(receiver) : descriptor.value;
+    return _classPrivateFieldGet(this, __quux);
 }
 function set_quux(val) {
     _classPrivateFieldSet(this, __quux, val);

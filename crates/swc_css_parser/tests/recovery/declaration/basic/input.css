@@ -1,0 +1,14 @@
+.class {
+    prop: ;
+    color: red;
+}
+
+.class {
+    prop: !!;
+    color: red;
+}
+
+a {
+    test;
+    color: red;
+}

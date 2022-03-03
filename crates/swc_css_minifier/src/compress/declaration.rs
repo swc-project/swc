@@ -10,16 +10,16 @@ struct CompressDeclaration {}
 impl CompressDeclaration {
     fn is_same_dimension_length_nodes(
         &self,
-        node_1: Option<&Value>,
-        node_2: Option<&Value>,
+        node_1: Option<&ComponentValue>,
+        node_2: Option<&ComponentValue>,
     ) -> bool {
-        if let Some(Value::Dimension(Dimension::Length(Length {
+        if let Some(ComponentValue::Dimension(Dimension::Length(Length {
             value: value_1,
             unit: unit_1,
             ..
         }))) = node_1
         {
-            if let Some(Value::Dimension(Dimension::Length(Length {
+            if let Some(ComponentValue::Dimension(Dimension::Length(Length {
                 value: value_2,
                 unit: unit_2,
                 ..
@@ -50,7 +50,7 @@ impl VisitMut for CompressDeclaration {
 
                     for value in declaration.value.iter() {
                         match value {
-                            outside_node @ Value::Ident(Ident { value, .. })
+                            outside_node @ ComponentValue::Ident(Ident { value, .. })
                                 if matches!(
                                     &*value.to_lowercase(),
                                     "block" | "inline" | "run-in"
@@ -58,7 +58,7 @@ impl VisitMut for CompressDeclaration {
                             {
                                 outside = Some(outside_node);
                             }
-                            inside_node @ Value::Ident(Ident { value, .. })
+                            inside_node @ ComponentValue::Ident(Ident { value, .. })
                                 if matches!(
                                     &*value.to_lowercase(),
                                     "flow" | "flow-root" | "table" | "flex" | "grid" | "ruby"
@@ -66,10 +66,10 @@ impl VisitMut for CompressDeclaration {
                             {
                                 inside = Some(inside_node);
                             }
-                            list_item_node @ Value::Ident(Ident { value, .. })
+                            list_item_node @ ComponentValue::Ident(Ident { value, .. })
                                 if &*value.to_lowercase() == "list-item" =>
                             {
-                                if let Some(Value::Ident(Ident { value, .. })) = inside {
+                                if let Some(ComponentValue::Ident(Ident { value, .. })) = inside {
                                     if !matches!(&*value.to_lowercase(), "flow" | "flow-root") {
                                         continue;
                                     }
@@ -87,7 +87,7 @@ impl VisitMut for CompressDeclaration {
                         // `run-in flow` -> `run-in`
                         (
                             Some(outside),
-                            Some(Value::Ident(Ident {
+                            Some(ComponentValue::Ident(Ident {
                                 value: inside_value,
                                 ..
                             })),
@@ -97,12 +97,12 @@ impl VisitMut for CompressDeclaration {
                         }
                         // `block flow-root` -> `flow-root`
                         (
-                            Some(Value::Ident(Ident {
+                            Some(ComponentValue::Ident(Ident {
                                 value: outside_value,
                                 ..
                             })),
                             Some(
-                                inside @ Value::Ident(Ident {
+                                inside @ ComponentValue::Ident(Ident {
                                     value: inside_value,
                                     ..
                                 }),
@@ -115,12 +115,12 @@ impl VisitMut for CompressDeclaration {
                         }
                         // `inline flow-root` -> `inline-block`
                         (
-                            Some(Value::Ident(Ident {
+                            Some(ComponentValue::Ident(Ident {
                                 value: outside_value,
                                 span,
                                 ..
                             })),
-                            Some(Value::Ident(Ident {
+                            Some(ComponentValue::Ident(Ident {
                                 value: inside_value,
                                 ..
                             })),
@@ -128,7 +128,7 @@ impl VisitMut for CompressDeclaration {
                         ) if &*outside_value.to_lowercase() == "inline"
                             && &*inside_value.to_lowercase() == "flow-root" =>
                         {
-                            declaration.value = vec![Value::Ident(Ident {
+                            declaration.value = vec![ComponentValue::Ident(Ident {
                                 span: *span,
                                 value: "inline-block".into(),
                                 raw: "inline-block".into(),
@@ -136,11 +136,11 @@ impl VisitMut for CompressDeclaration {
                         }
                         // `block flow list-item` -> `list-item`
                         (
-                            Some(Value::Ident(Ident {
+                            Some(ComponentValue::Ident(Ident {
                                 value: outside_value,
                                 ..
                             })),
-                            Some(Value::Ident(Ident {
+                            Some(ComponentValue::Ident(Ident {
                                 value: inside_value,
                                 ..
                             })),
@@ -152,7 +152,7 @@ impl VisitMut for CompressDeclaration {
                         }
                         // `block list-item` -> `list-item`
                         (
-                            Some(Value::Ident(Ident {
+                            Some(ComponentValue::Ident(Ident {
                                 value: outside_value,
                                 ..
                             })),
@@ -164,7 +164,7 @@ impl VisitMut for CompressDeclaration {
                         // `flow list-item` -> `list-item`
                         (
                             None,
-                            Some(Value::Ident(Ident {
+                            Some(ComponentValue::Ident(Ident {
                                 value: inside_value,
                                 ..
                             })),
@@ -175,12 +175,12 @@ impl VisitMut for CompressDeclaration {
                         // `inline flow list-item` -> `inline list-item`
                         (
                             Some(
-                                outside @ Value::Ident(Ident {
+                                outside @ ComponentValue::Ident(Ident {
                                     value: outside_value,
                                     ..
                                 }),
                             ),
-                            Some(Value::Ident(Ident {
+                            Some(ComponentValue::Ident(Ident {
                                 value: inside_value,
                                 ..
                             })),
@@ -194,12 +194,12 @@ impl VisitMut for CompressDeclaration {
                         // `block grid` -> `grid`
                         // `block table` -> `table`
                         (
-                            Some(Value::Ident(Ident {
+                            Some(ComponentValue::Ident(Ident {
                                 value: outside_value,
                                 ..
                             })),
                             Some(
-                                inside @ Value::Ident(Ident {
+                                inside @ ComponentValue::Ident(Ident {
                                     value: inside_value,
                                     ..
                                 }),
@@ -215,12 +215,12 @@ impl VisitMut for CompressDeclaration {
                         }
                         // `inline ruby` -> `ruby`
                         (
-                            Some(Value::Ident(Ident {
+                            Some(ComponentValue::Ident(Ident {
                                 value: outside_value,
                                 ..
                             })),
                             Some(
-                                inside @ Value::Ident(Ident {
+                                inside @ ComponentValue::Ident(Ident {
                                     value: inside_value,
                                     ..
                                 }),
@@ -275,19 +275,19 @@ impl VisitMut for CompressDeclaration {
                         .take()
                         .into_iter()
                         .map(|node| match node {
-                            Value::Ident(Ident { value, span, .. })
+                            ComponentValue::Ident(Ident { value, span, .. })
                                 if value.to_lowercase() == "normal" =>
                             {
-                                Value::Number(Number {
+                                ComponentValue::Number(Number {
                                     span,
                                     value: 400.0,
                                     raw: "400".into(),
                                 })
                             }
-                            Value::Ident(Ident { value, span, .. })
+                            ComponentValue::Ident(Ident { value, span, .. })
                                 if value.to_lowercase() == "bold" =>
                             {
-                                Value::Number(Number {
+                                ComponentValue::Number(Number {
                                     span,
                                     value: 700.0,
                                     raw: "700".into(),

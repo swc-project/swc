@@ -59,7 +59,7 @@ var A = function A() {
 var _foo = {
     writable: true,
     value: true
-} // error (duplicate)
+}// error (duplicate)
 ;
 var B = /*#__PURE__*/ function() {
     "use strict";

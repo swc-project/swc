@@ -17,7 +17,7 @@ use swc_atoms::js_word;
 use swc_bundler::{Bundler, Load, ModuleData, ModuleRecord};
 use swc_common::{sync::Lrc, FileName, Mark, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_parser::{parse_file_as_module, Syntax, TsConfig};
 use swc_ecma_transforms::{resolver_with_mark, typescript::strip};
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
@@ -76,19 +76,18 @@ impl Load for Loader {
             _ => unreachable!(),
         };
 
-        let lexer = Lexer::new(
+        let module = parse_file_as_module(
+            &fm,
             Syntax::Typescript(TsConfig {
                 decorators: true,
                 tsx,
                 ..Default::default()
             }),
             EsVersion::Es2020,
-            StringInput::from(&*fm),
             None,
-        );
-
-        let mut parser = Parser::new_from(lexer);
-        let module = parser.parse_module().unwrap();
+            &mut vec![],
+        )
+        .unwrap();
 
         let mark = Mark::fresh(Mark::root());
         let module = module

@@ -11,16 +11,7 @@ var _a = new WeakMap(), _b = new WeakMap(), _c = new WeakMap(), _aMethod = new W
     "use strict";
     !function(instance, Constructor) {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, A), _classPrivateFieldInit(this, _a, {
-        writable: !0,
-        value: 1
-    }), _classPrivateFieldInit(this, _b, {
-        writable: !0,
-        value: 1
-    }), _classPrivateFieldInit(this, _c, {
-        writable: !0,
-        value: 1
-    }), _classPrivateMethodInit(this, _aMethod), _classPrivateMethodInit(this, _bMethod), _classPrivateMethodInit(this, _cMethod), _classPrivateFieldInit(this, _aProp, {
+    }(this, A), _classPrivateMethodInit(this, _aMethod), _classPrivateMethodInit(this, _bMethod), _classPrivateMethodInit(this, _cMethod), _classPrivateFieldInit(this, _aProp, {
         get: function() {
             return 1;
         },
@@ -35,6 +26,15 @@ var _a = new WeakMap(), _b = new WeakMap(), _c = new WeakMap(), _aMethod = new W
             return 1;
         },
         set: set_cProp
+    }), _classPrivateFieldInit(this, _a, {
+        writable: !0,
+        value: 1
+    }), _classPrivateFieldInit(this, _b, {
+        writable: !0,
+        value: 1
+    }), _classPrivateFieldInit(this, _c, {
+        writable: !0,
+        value: 1
     });
 };
 function set_aProp(value) {}

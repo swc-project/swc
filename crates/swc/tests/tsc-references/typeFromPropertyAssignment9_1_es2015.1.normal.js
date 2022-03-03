@@ -26,7 +26,7 @@ var _sort;
  */ my.predicate.sort = (_sort = my.predicate.sort) !== null && _sort !== void 0 ? _sort : function(first, second) {
     return first > second ? first : second;
 };
-my.predicate.type = class _class {
+my.predicate.type = class {
     m() {
         return 101;
     }

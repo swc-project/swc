@@ -1556,55 +1556,157 @@
         function(module, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_exports__.a = function(stdlib, foreign, buffer) {
-                "use asm";
-                var images = new stdlib.Uint8Array(buffer), size = 0 | foreign.size, imul = stdlib.Math.imul;
+                'use asm';
+                var images = new stdlib.Uint8Array(buffer);
+                var size = foreign.size | 0;
+                var imul = stdlib.Math.imul;
                 function erode(inImagePtr, outImagePtr) {
-                    inImagePtr |= 0, outImagePtr |= 0;
-                    var v = 0, u = 0, sum = 0, yStart1 = 0, yStart2 = 0, xStart1 = 0, xStart2 = 0, offset = 0;
-                    for(v = 1; (0 | v) < (size - 1 | 0); v = v + 1 | 0)for(u = 1, offset = offset + size | 0; (0 | u) < (size - 1 | 0); u = u + 1 | 0)yStart1 = offset - size | 0, yStart2 = offset + size | 0, xStart1 = u - 1 | 0, xStart2 = u + 1 | 0, sum = (0 | images[inImagePtr + yStart1 + xStart1 | 0]) + (0 | images[inImagePtr + yStart1 + xStart2 | 0]) + (0 | images[inImagePtr + offset + u | 0]) + (0 | images[inImagePtr + yStart2 + xStart1 | 0]) + (0 | images[inImagePtr + yStart2 + xStart2 | 0]) | 0, (0 | sum) == 5 ? images[outImagePtr + offset + u | 0] = 1 : images[outImagePtr + offset + u | 0] = 0;
+                    inImagePtr |= 0;
+                    outImagePtr |= 0;
+                    var v = 0;
+                    var u = 0;
+                    var sum = 0;
+                    var yStart1 = 0;
+                    var yStart2 = 0;
+                    var xStart1 = 0;
+                    var xStart2 = 0;
+                    var offset = 0;
+                    for(v = 1; (v | 0) < (size - 1 | 0); v = v + 1 | 0){
+                        offset = offset + size | 0;
+                        for(u = 1; (u | 0) < (size - 1 | 0); u = u + 1 | 0){
+                            yStart1 = offset - size | 0;
+                            yStart2 = offset + size | 0;
+                            xStart1 = u - 1 | 0;
+                            xStart2 = u + 1 | 0;
+                            sum = (images[inImagePtr + yStart1 + xStart1 | 0] | 0) + (images[inImagePtr + yStart1 + xStart2 | 0] | 0) + (images[inImagePtr + offset + u | 0] | 0) + (images[inImagePtr + yStart2 + xStart1 | 0] | 0) + (images[inImagePtr + yStart2 + xStart2 | 0] | 0) | 0;
+                            if ((sum | 0) == 5) {
+                                images[outImagePtr + offset + u | 0] = 1;
+                            } else {
+                                images[outImagePtr + offset + u | 0] = 0;
+                            }
+                        }
+                    }
                 }
                 function subtract(aImagePtr, bImagePtr, outImagePtr) {
-                    aImagePtr |= 0, bImagePtr |= 0, outImagePtr |= 0;
+                    aImagePtr |= 0;
+                    bImagePtr |= 0;
+                    outImagePtr |= 0;
                     var length = 0;
-                    for(length = 0 | imul(size, size); (0 | length) > 0;)images[outImagePtr + (length = length - 1 | 0) | 0] = (0 | images[aImagePtr + length | 0]) - (0 | images[bImagePtr + length | 0]) | 0;
+                    length = imul(size, size) | 0;
+                    while((length | 0) > 0){
+                        length = length - 1 | 0;
+                        images[outImagePtr + length | 0] = (images[aImagePtr + length | 0] | 0) - (images[bImagePtr + length | 0] | 0) | 0;
+                    }
                 }
                 function bitwiseOr(aImagePtr, bImagePtr, outImagePtr) {
-                    aImagePtr |= 0, bImagePtr |= 0, outImagePtr |= 0;
+                    aImagePtr |= 0;
+                    bImagePtr |= 0;
+                    outImagePtr |= 0;
                     var length = 0;
-                    for(length = 0 | imul(size, size); (0 | length) > 0;)images[outImagePtr + (length = length - 1 | 0) | 0] = 0 | images[aImagePtr + length | 0] | (0 | images[bImagePtr + length | 0]) | 0;
+                    length = imul(size, size) | 0;
+                    while((length | 0) > 0){
+                        length = length - 1 | 0;
+                        images[outImagePtr + length | 0] = images[aImagePtr + length | 0] | 0 | (images[bImagePtr + length | 0] | 0) | 0;
+                    }
                 }
                 function countNonZero(imagePtr) {
                     imagePtr |= 0;
-                    var sum = 0, length = 0;
-                    for(length = 0 | imul(size, size); (0 | length) > 0;)sum = (0 | sum) + (0 | images[imagePtr + (length = length - 1 | 0) | 0]) | 0;
-                    return 0 | sum;
+                    var sum = 0;
+                    var length = 0;
+                    length = imul(size, size) | 0;
+                    while((length | 0) > 0){
+                        length = length - 1 | 0;
+                        sum = (sum | 0) + (images[imagePtr + length | 0] | 0) | 0;
+                    }
+                    return sum | 0;
+                }
+                function init(imagePtr, value) {
+                    imagePtr |= 0;
+                    value |= 0;
+                    var length = 0;
+                    length = imul(size, size) | 0;
+                    while((length | 0) > 0){
+                        length = length - 1 | 0;
+                        images[imagePtr + length | 0] = value;
+                    }
                 }
                 function dilate(inImagePtr, outImagePtr) {
-                    inImagePtr |= 0, outImagePtr |= 0;
-                    var v = 0, u = 0, sum = 0, yStart1 = 0, yStart2 = 0, xStart1 = 0, xStart2 = 0, offset = 0;
-                    for(v = 1; (0 | v) < (size - 1 | 0); v = v + 1 | 0)for(u = 1, offset = offset + size | 0; (0 | u) < (size - 1 | 0); u = u + 1 | 0)yStart1 = offset - size | 0, yStart2 = offset + size | 0, xStart1 = u - 1 | 0, xStart2 = u + 1 | 0, sum = (0 | images[inImagePtr + yStart1 + xStart1 | 0]) + (0 | images[inImagePtr + yStart1 + xStart2 | 0]) + (0 | images[inImagePtr + offset + u | 0]) + (0 | images[inImagePtr + yStart2 + xStart1 | 0]) + (0 | images[inImagePtr + yStart2 + xStart2 | 0]) | 0, (0 | sum) > 0 ? images[outImagePtr + offset + u | 0] = 1 : images[outImagePtr + offset + u | 0] = 0;
+                    inImagePtr |= 0;
+                    outImagePtr |= 0;
+                    var v = 0;
+                    var u = 0;
+                    var sum = 0;
+                    var yStart1 = 0;
+                    var yStart2 = 0;
+                    var xStart1 = 0;
+                    var xStart2 = 0;
+                    var offset = 0;
+                    for(v = 1; (v | 0) < (size - 1 | 0); v = v + 1 | 0){
+                        offset = offset + size | 0;
+                        for(u = 1; (u | 0) < (size - 1 | 0); u = u + 1 | 0){
+                            yStart1 = offset - size | 0;
+                            yStart2 = offset + size | 0;
+                            xStart1 = u - 1 | 0;
+                            xStart2 = u + 1 | 0;
+                            sum = (images[inImagePtr + yStart1 + xStart1 | 0] | 0) + (images[inImagePtr + yStart1 + xStart2 | 0] | 0) + (images[inImagePtr + offset + u | 0] | 0) + (images[inImagePtr + yStart2 + xStart1 | 0] | 0) + (images[inImagePtr + yStart2 + xStart2 | 0] | 0) | 0;
+                            if ((sum | 0) > 0) {
+                                images[outImagePtr + offset + u | 0] = 1;
+                            } else {
+                                images[outImagePtr + offset + u | 0] = 0;
+                            }
+                        }
+                    }
                 }
                 function memcpy(srcImagePtr, dstImagePtr) {
-                    srcImagePtr |= 0, dstImagePtr |= 0;
+                    srcImagePtr |= 0;
+                    dstImagePtr |= 0;
                     var length = 0;
-                    for(length = 0 | imul(size, size); (0 | length) > 0;)images[dstImagePtr + (length = length - 1 | 0) | 0] = 0 | images[srcImagePtr + length | 0];
+                    length = imul(size, size) | 0;
+                    while((length | 0) > 0){
+                        length = length - 1 | 0;
+                        images[dstImagePtr + length | 0] = images[srcImagePtr + length | 0] | 0;
+                    }
+                }
+                function zeroBorder(imagePtr) {
+                    imagePtr |= 0;
+                    var x = 0;
+                    var y = 0;
+                    for(x = 0; (x | 0) < (size - 1 | 0); x = x + 1 | 0){
+                        images[imagePtr + x | 0] = 0;
+                        images[imagePtr + y | 0] = 0;
+                        y = y + size - 1 | 0;
+                        images[imagePtr + y | 0] = 0;
+                        y = y + 1 | 0;
+                    }
+                    for(x = 0; (x | 0) < (size | 0); x = x + 1 | 0){
+                        images[imagePtr + y | 0] = 0;
+                        y = y + 1 | 0;
+                    }
+                }
+                function skeletonize() {
+                    var subImagePtr = 0;
+                    var erodedImagePtr = 0;
+                    var tempImagePtr = 0;
+                    var skelImagePtr = 0;
+                    var sum = 0;
+                    var done = 0;
+                    erodedImagePtr = imul(size, size) | 0;
+                    tempImagePtr = erodedImagePtr + erodedImagePtr | 0;
+                    skelImagePtr = tempImagePtr + erodedImagePtr | 0;
+                    init(skelImagePtr, 0);
+                    zeroBorder(subImagePtr);
+                    do {
+                        erode(subImagePtr, erodedImagePtr);
+                        dilate(erodedImagePtr, tempImagePtr);
+                        subtract(subImagePtr, tempImagePtr, tempImagePtr);
+                        bitwiseOr(skelImagePtr, tempImagePtr, skelImagePtr);
+                        memcpy(erodedImagePtr, subImagePtr);
+                        sum = countNonZero(subImagePtr) | 0;
+                        done = (sum | 0) == 0 | 0;
+                    }while (!done)
                 }
                 return {
-                    skeletonize: function() {
-                        var erodedImagePtr = 0, tempImagePtr = 0, skelImagePtr = 0, done = 0;
-                        !function(imagePtr, value) {
-                            imagePtr |= 0, value |= 0;
-                            var length = 0;
-                            for(length = 0 | imul(size, size); (0 | length) > 0;)images[imagePtr + (length = length - 1 | 0) | 0] = value;
-                        }(skelImagePtr = (tempImagePtr = (erodedImagePtr = 0 | imul(size, size)) + erodedImagePtr | 0) + erodedImagePtr | 0, 0), (function(imagePtr) {
-                            imagePtr |= 0;
-                            var x = 0, y = 0;
-                            for(x = 0; (0 | x) < (size - 1 | 0); x = x + 1 | 0)images[imagePtr + x | 0] = 0, images[imagePtr + y | 0] = 0, images[imagePtr + (y = y + size - 1 | 0) | 0] = 0, y = y + 1 | 0;
-                            for(x = 0; (0 | x) < (0 | size); x = x + 1 | 0)images[imagePtr + y | 0] = 0, y = y + 1 | 0;
-                        })(0);
-                        do erode(0, erodedImagePtr), dilate(erodedImagePtr, tempImagePtr), subtract(0, tempImagePtr, tempImagePtr), bitwiseOr(skelImagePtr, tempImagePtr, skelImagePtr), memcpy(erodedImagePtr, 0), done = (0 | (0 | countNonZero(0))) == 0 | 0;
-                        while (!done)
-                    }
+                    skeletonize: skeletonize
                 };
             };
         },

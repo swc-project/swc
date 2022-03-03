@@ -6,8 +6,8 @@ error: Stylesheet
 3  | |     src: local('Times New Roman');
 4  | |     unicode-range: U+26;               /* single codepoint */
 ...  |
-17 | |     unicode-range: U+12-13;
-18 | | }
+18 | |     unicode-range: U+12-13;
+19 | | }
    | |__^
 
 error: Rule
@@ -18,8 +18,8 @@ error: Rule
 3  | |     src: local('Times New Roman');
 4  | |     unicode-range: U+26;               /* single codepoint */
 ...  |
-17 | |     unicode-range: U+12-13;
-18 | | }
+18 | |     unicode-range: U+12-13;
+19 | | }
    | |_^
 
 error: AtRule
@@ -30,8 +30,8 @@ error: AtRule
 3  | |     src: local('Times New Roman');
 4  | |     unicode-range: U+26;               /* single codepoint */
 ...  |
-17 | |     unicode-range: U+12-13;
-18 | | }
+18 | |     unicode-range: U+12-13;
+19 | | }
    | |_^
 
 error: FontFaceRule
@@ -42,8 +42,8 @@ error: FontFaceRule
 3  | |     src: local('Times New Roman');
 4  | |     unicode-range: U+26;               /* single codepoint */
 ...  |
-17 | |     unicode-range: U+12-13;
-18 | | }
+18 | |     unicode-range: U+12-13;
+19 | | }
    | |_^
 
 error: SimpleBlock
@@ -55,9 +55,15 @@ error: SimpleBlock
 3  | |     src: local('Times New Roman');
 4  | |     unicode-range: U+26;               /* single codepoint */
 ...  |
-17 | |     unicode-range: U+12-13;
-18 | | }
+18 | |     unicode-range: U+12-13;
+19 | | }
    | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/urange/input.css:2:5
+  |
+2 |     font-family: 'Ampersand';
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/urange/input.css:2:5
@@ -77,7 +83,7 @@ error: Ident
 2 |     font-family: 'Ampersand';
   |     ^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/urange/input.css:2:18
   |
 2 |     font-family: 'Ampersand';
@@ -88,6 +94,12 @@ error: Str
   |
 2 |     font-family: 'Ampersand';
   |                  ^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/urange/input.css:3:5
+  |
+3 |     src: local('Times New Roman');
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/urange/input.css:3:5
@@ -107,7 +119,7 @@ error: Ident
 3 |     src: local('Times New Roman');
   |     ^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/urange/input.css:3:10
   |
 3 |     src: local('Times New Roman');
@@ -125,7 +137,7 @@ error: Ident
 3 |     src: local('Times New Roman');
   |          ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/urange/input.css:3:16
   |
 3 |     src: local('Times New Roman');
@@ -137,6 +149,12 @@ error: Str
 3 |     src: local('Times New Roman');
   |                ^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/value/urange/input.css:4:5
+  |
+4 |     unicode-range: U+26;               /* single codepoint */
+  |     ^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/urange/input.css:4:5
   |
@@ -155,17 +173,23 @@ error: Ident
 4 |     unicode-range: U+26;               /* single codepoint */
   |     ^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/urange/input.css:4:20
   |
 4 |     unicode-range: U+26;               /* single codepoint */
   |                    ^^^^
 
-error: Urange
+error: UnicodeRange
  --> $DIR/tests/fixture/value/urange/input.css:4:20
   |
 4 |     unicode-range: U+26;               /* single codepoint */
   |                    ^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/urange/input.css:5:5
+  |
+5 |     unicode-range: u+26;
+  |     ^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/urange/input.css:5:5
@@ -185,17 +209,23 @@ error: Ident
 5 |     unicode-range: u+26;
   |     ^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/urange/input.css:5:20
   |
 5 |     unicode-range: u+26;
   |                    ^^^^
 
-error: Urange
+error: UnicodeRange
  --> $DIR/tests/fixture/value/urange/input.css:5:20
   |
 5 |     unicode-range: u+26;
   |                    ^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/urange/input.css:6:5
+  |
+6 |     unicode-range: U+0-7F;
+  |     ^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/urange/input.css:6:5
@@ -215,17 +245,23 @@ error: Ident
 6 |     unicode-range: U+0-7F;
   |     ^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/urange/input.css:6:20
   |
 6 |     unicode-range: U+0-7F;
   |                    ^^^^^^
 
-error: Urange
+error: UnicodeRange
  --> $DIR/tests/fixture/value/urange/input.css:6:20
   |
 6 |     unicode-range: U+0-7F;
   |                    ^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/urange/input.css:7:5
+  |
+7 |     unicode-range: U+0025-00FF;        /* codepoint range */
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/urange/input.css:7:5
@@ -245,17 +281,23 @@ error: Ident
 7 |     unicode-range: U+0025-00FF;        /* codepoint range */
   |     ^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/urange/input.css:7:20
   |
 7 |     unicode-range: U+0025-00FF;        /* codepoint range */
   |                    ^^^^^^^^^^^
 
-error: Urange
+error: UnicodeRange
  --> $DIR/tests/fixture/value/urange/input.css:7:20
   |
 7 |     unicode-range: U+0025-00FF;        /* codepoint range */
   |                    ^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/urange/input.css:8:5
+  |
+8 |     unicode-range: U+4??;              /* wildcard range */
+  |     ^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/urange/input.css:8:5
@@ -275,17 +317,23 @@ error: Ident
 8 |     unicode-range: U+4??;              /* wildcard range */
   |     ^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/urange/input.css:8:20
   |
 8 |     unicode-range: U+4??;              /* wildcard range */
   |                    ^^^^^
 
-error: Urange
+error: UnicodeRange
  --> $DIR/tests/fixture/value/urange/input.css:8:20
   |
 8 |     unicode-range: U+4??;              /* wildcard range */
   |                    ^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/urange/input.css:9:5
+  |
+9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/urange/input.css:9:5
@@ -305,19 +353,19 @@ error: Ident
 9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
   |     ^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/urange/input.css:9:20
   |
 9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
   |                    ^^^^^^^^^^^
 
-error: Urange
+error: UnicodeRange
  --> $DIR/tests/fixture/value/urange/input.css:9:20
   |
 9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
   |                    ^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/urange/input.css:9:31
   |
 9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
@@ -329,17 +377,23 @@ error: Delimiter
 9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
   |                               ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/urange/input.css:9:33
   |
 9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
   |                                 ^^^^^
 
-error: Urange
+error: UnicodeRange
  --> $DIR/tests/fixture/value/urange/input.css:9:33
   |
 9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
   |                                 ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/value/urange/input.css:10:5
+   |
+10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/value/urange/input.css:10:5
@@ -359,19 +413,19 @@ error: Ident
 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
    |     ^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/urange/input.css:10:20
    |
 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
    |                    ^^^^
 
-error: Urange
+error: UnicodeRange
   --> $DIR/tests/fixture/value/urange/input.css:10:20
    |
 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
    |                    ^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/urange/input.css:10:24
    |
 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
@@ -383,19 +437,19 @@ error: Delimiter
 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
    |                        ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/urange/input.css:10:26
    |
 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
    |                          ^^^^^^^^^^^
 
-error: Urange
+error: UnicodeRange
   --> $DIR/tests/fixture/value/urange/input.css:10:26
    |
 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
    |                          ^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/urange/input.css:10:37
    |
 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
@@ -407,19 +461,19 @@ error: Delimiter
 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
    |                                     ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/urange/input.css:10:39
    |
 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
    |                                       ^^^^^^
 
-error: Urange
+error: UnicodeRange
   --> $DIR/tests/fixture/value/urange/input.css:10:39
    |
 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
    |                                       ^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/urange/input.css:10:45
    |
 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
@@ -431,17 +485,23 @@ error: Delimiter
 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
    |                                             ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/urange/input.css:10:47
    |
 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
    |                                               ^^^^^^^^^^^
 
-error: Urange
+error: UnicodeRange
   --> $DIR/tests/fixture/value/urange/input.css:10:47
    |
 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
    |                                               ^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/value/urange/input.css:11:5
+   |
+11 |     unicode-range: U+????;
+   |     ^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/value/urange/input.css:11:5
@@ -461,17 +521,23 @@ error: Ident
 11 |     unicode-range: U+????;
    |     ^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/urange/input.css:11:20
    |
 11 |     unicode-range: U+????;
    |                    ^^^^^^
 
-error: Urange
+error: UnicodeRange
   --> $DIR/tests/fixture/value/urange/input.css:11:20
    |
 11 |     unicode-range: U+????;
    |                    ^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/value/urange/input.css:12:5
+   |
+12 |     unicode-range: U+??????;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/value/urange/input.css:12:5
@@ -491,17 +557,23 @@ error: Ident
 12 |     unicode-range: U+??????;
    |     ^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/urange/input.css:12:20
    |
 12 |     unicode-range: U+??????;
    |                    ^^^^^^^^
 
-error: Urange
+error: UnicodeRange
   --> $DIR/tests/fixture/value/urange/input.css:12:20
    |
 12 |     unicode-range: U+??????;
    |                    ^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/value/urange/input.css:13:5
+   |
+13 |     unicode-range: U+12;
+   |     ^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/value/urange/input.css:13:5
@@ -521,18 +593,24 @@ error: Ident
 13 |     unicode-range: U+12;
    |     ^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/urange/input.css:13:20
    |
 13 |     unicode-range: U+12;
    |                    ^^^^
 
-error: Urange
+error: UnicodeRange
   --> $DIR/tests/fixture/value/urange/input.css:13:20
    |
 13 |     unicode-range: U+12;
    |                    ^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/value/urange/input.css:14:5
+   |
+14 |     unicode-range: U+12e112;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/value/urange/input.css:14:5
    |
@@ -551,18 +629,24 @@ error: Ident
 14 |     unicode-range: U+12e112;
    |     ^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/urange/input.css:14:20
    |
 14 |     unicode-range: U+12e112;
    |                    ^^^^^^^^
 
-error: Urange
+error: UnicodeRange
   --> $DIR/tests/fixture/value/urange/input.css:14:20
    |
 14 |     unicode-range: U+12e112;
    |                    ^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/value/urange/input.css:15:5
+   |
+15 |     unicode-range: U+1e1ee1;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/value/urange/input.css:15:5
    |
@@ -581,75 +665,123 @@ error: Ident
 15 |     unicode-range: U+1e1ee1;
    |     ^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/urange/input.css:15:20
    |
 15 |     unicode-range: U+1e1ee1;
    |                    ^^^^^^^^
 
-error: Urange
+error: UnicodeRange
   --> $DIR/tests/fixture/value/urange/input.css:15:20
    |
 15 |     unicode-range: U+1e1ee1;
    |                    ^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/value/urange/input.css:16:5
+   |
+16 |     unicode-range: U+1e1ee1-FFFFFF;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/value/urange/input.css:16:5
    |
-16 |     unicode-range: U+1e1ee?;
-   |     ^^^^^^^^^^^^^^^^^^^^^^^
+16 |     unicode-range: U+1e1ee1-FFFFFF;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: DeclarationName
   --> $DIR/tests/fixture/value/urange/input.css:16:5
    |
-16 |     unicode-range: U+1e1ee?;
+16 |     unicode-range: U+1e1ee1-FFFFFF;
    |     ^^^^^^^^^^^^^
 
 error: Ident
   --> $DIR/tests/fixture/value/urange/input.css:16:5
    |
-16 |     unicode-range: U+1e1ee?;
+16 |     unicode-range: U+1e1ee1-FFFFFF;
    |     ^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/urange/input.css:16:20
    |
-16 |     unicode-range: U+1e1ee?;
-   |                    ^^^^^^^^
+16 |     unicode-range: U+1e1ee1-FFFFFF;
+   |                    ^^^^^^^^^^^^^^^
 
-error: Urange
+error: UnicodeRange
   --> $DIR/tests/fixture/value/urange/input.css:16:20
    |
-16 |     unicode-range: U+1e1ee?;
-   |                    ^^^^^^^^
+16 |     unicode-range: U+1e1ee1-FFFFFF;
+   |                    ^^^^^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/value/urange/input.css:17:5
+   |
+17 |     unicode-range: U+1e1ee?;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/value/urange/input.css:17:5
    |
-17 |     unicode-range: U+12-13;
+17 |     unicode-range: U+1e1ee?;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/value/urange/input.css:17:5
+   |
+17 |     unicode-range: U+1e1ee?;
+   |     ^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/value/urange/input.css:17:5
+   |
+17 |     unicode-range: U+1e1ee?;
+   |     ^^^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/value/urange/input.css:17:20
+   |
+17 |     unicode-range: U+1e1ee?;
+   |                    ^^^^^^^^
+
+error: UnicodeRange
+  --> $DIR/tests/fixture/value/urange/input.css:17:20
+   |
+17 |     unicode-range: U+1e1ee?;
+   |                    ^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/value/urange/input.css:18:5
+   |
+18 |     unicode-range: U+12-13;
+   |     ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/value/urange/input.css:18:5
+   |
+18 |     unicode-range: U+12-13;
    |     ^^^^^^^^^^^^^^^^^^^^^^
 
 error: DeclarationName
-  --> $DIR/tests/fixture/value/urange/input.css:17:5
+  --> $DIR/tests/fixture/value/urange/input.css:18:5
    |
-17 |     unicode-range: U+12-13;
+18 |     unicode-range: U+12-13;
    |     ^^^^^^^^^^^^^
 
 error: Ident
-  --> $DIR/tests/fixture/value/urange/input.css:17:5
+  --> $DIR/tests/fixture/value/urange/input.css:18:5
    |
-17 |     unicode-range: U+12-13;
+18 |     unicode-range: U+12-13;
    |     ^^^^^^^^^^^^^
 
-error: Value
-  --> $DIR/tests/fixture/value/urange/input.css:17:20
+error: ComponentValue
+  --> $DIR/tests/fixture/value/urange/input.css:18:20
    |
-17 |     unicode-range: U+12-13;
+18 |     unicode-range: U+12-13;
    |                    ^^^^^^^
 
-error: Urange
-  --> $DIR/tests/fixture/value/urange/input.css:17:20
+error: UnicodeRange
+  --> $DIR/tests/fixture/value/urange/input.css:18:20
    |
-17 |     unicode-range: U+12-13;
+18 |     unicode-range: U+12-13;
    |                    ^^^^^^^
 

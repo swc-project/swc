@@ -3,6 +3,12 @@ function _checkPrivateRedeclaration(obj, privateCollection) {
         throw new TypeError("Cannot initialize the same private elements twice on an object");
     }
 }
+function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+        return descriptor.get.call(receiver);
+    }
+    return descriptor.value;
+}
 function _classApplyDescriptorSet(receiver, descriptor, value) {
     if (descriptor.set) {
         descriptor.set.call(receiver, value);
@@ -19,6 +25,10 @@ function _classExtractFieldDescriptor(receiver, privateMap, action) {
     }
     return privateMap.get(receiver);
 }
+function _classPrivateFieldGet(receiver, privateMap) {
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
+}
 function _classPrivateFieldInit(obj, privateMap, value) {
     _checkPrivateRedeclaration(obj, privateMap);
     privateMap.set(obj, value);
@@ -28,27 +38,18 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
     _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
 }
-function _classPrivateMethodGet(receiver, privateSet, fn) {
-    if (!privateSet.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return fn;
-}
+var _x, _class;
 // @target: es2015
-const C = function() {
-    var _x = new WeakMap();
-    class _class {
-        m() {
-            _classPrivateFieldSet(this, _x, _classPrivateMethodGet(this, _x, x) + 2); // Error
-        }
-        constructor(){
-            _classPrivateFieldInit(this, _x, {
-                get: void 0,
-                set: set_x
-            });
-        }
+const C = (_x = new WeakMap(), _class = class {
+    m() {
+        _classPrivateFieldSet(this, _x, _classPrivateFieldGet(this, _x) + 2); // Error
     }
-    function set_x(x) {}
-    return _class;
-}();
+    constructor(){
+        _classPrivateFieldInit(this, _x, {
+            get: void 0,
+            set: set_x
+        });
+    }
+}, _class);
 console.log(new C().m());
+function set_x(x) {}

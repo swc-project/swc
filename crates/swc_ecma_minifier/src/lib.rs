@@ -15,6 +15,7 @@
 #![allow(clippy::blocks_in_if_conditions)]
 #![allow(clippy::collapsible_else_if)]
 #![allow(clippy::collapsible_if)]
+#![allow(clippy::ptr_arg)]
 #![allow(clippy::vec_box)]
 #![allow(unstable_name_collisions)]
 
@@ -67,7 +68,8 @@ pub fn optimize(
 
     let top_level_ctxt = SyntaxContext::empty().apply_mark(extra.top_level_mark);
 
-    let marks = Marks::new();
+    let mut marks = Marks::new();
+    marks.top_level_mark = extra.top_level_mark;
 
     if let Some(defs) = options.compress.as_ref().map(|c| &c.global_defs) {
         let _timer = timer!("inline global defs");

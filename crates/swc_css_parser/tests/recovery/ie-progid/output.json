@@ -308,13 +308,13 @@
                     }
                   },
                   {
-                    "type": "Number",
+                    "type": "Integer",
                     "span": {
                       "start": 117,
                       "end": 118,
                       "ctxt": 0
                     },
-                    "value": 0.0,
+                    "value": 0,
                     "raw": "0"
                   }
                 ]
@@ -451,13 +451,13 @@
                     }
                   },
                   {
-                    "type": "Number",
+                    "type": "Integer",
                     "span": {
                       "start": 184,
                       "end": 185,
                       "ctxt": 0
                     },
-                    "value": 2.0,
+                    "value": 2,
                     "raw": "2"
                   }
                 ]
@@ -573,13 +573,13 @@
                     }
                   },
                   {
-                    "type": "Number",
+                    "type": "Integer",
                     "span": {
                       "start": 236,
                       "end": 237,
                       "ctxt": 0
                     },
-                    "value": 3.0,
+                    "value": 3,
                     "raw": "3"
                   }
                 ]

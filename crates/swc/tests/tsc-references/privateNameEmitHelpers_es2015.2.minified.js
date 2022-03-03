@@ -11,16 +11,13 @@ function _classPrivateFieldInit(obj, privateMap, value) {
 var _a = new WeakMap(), _b = new WeakSet(), _c = new WeakMap();
 export class C {
     constructor(){
-        _classPrivateFieldInit(this, _a, {
-            writable: !0,
-            value: 1
-        }), (function(obj, privateSet) {
+        !function(obj, privateSet) {
             _checkPrivateRedeclaration(obj, privateSet), privateSet.add(obj);
-        })(this, _b), _classPrivateFieldInit(this, _c, {
+        }(this, _b), _classPrivateFieldInit(this, _c, {
             get: void 0,
             set: function(v) {
                 var receiver, privateMap, descriptor, receiver, descriptor, receiver, privateMap, value, descriptor;
-                receiver = this, privateMap = _a, receiver = this, value = ((descriptor = descriptor = _classExtractFieldDescriptor(receiver, privateMap = _a, "get")).get ? descriptor.get.call(receiver) : descriptor.value) + v, descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set"), (function(receiver, descriptor, value) {
+                receiver = this, privateMap = _a, receiver = this, value = ((descriptor = _classExtractFieldDescriptor(receiver, privateMap = _a, "get")).get ? descriptor.get.call(receiver) : descriptor.value) + v, descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set"), (function(receiver, descriptor, value) {
                     if (descriptor.set) descriptor.set.call(receiver, value);
                     else {
                         if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
@@ -28,6 +25,9 @@ export class C {
                     }
                 })(receiver, descriptor, value);
             }
+        }), _classPrivateFieldInit(this, _a, {
+            writable: !0,
+            value: 1
         });
     }
 }

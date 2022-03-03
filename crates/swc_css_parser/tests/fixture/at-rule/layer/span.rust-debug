@@ -157,6 +157,15 @@ error: SimpleBlock
 8 | | }
   | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/layer/input.css:4:5
+  |
+4 | /     @keyframes slide-left {
+5 | |         from { translate: 0; }
+6 | |         to { translate: -100% 0; }
+7 | |     }
+  | |_____^
+
 error: Rule
  --> $DIR/tests/fixture/at-rule/layer/input.css:4:5
   |
@@ -200,6 +209,12 @@ error: SimpleBlock
 7 | |     }
   | |_____^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/layer/input.css:5:9
+  |
+5 |         from { translate: 0; }
+  |         ^^^^^^^^^^^^^^^^^^^^^^
+
 error: KeyframeBlock
  --> $DIR/tests/fixture/at-rule/layer/input.css:5:9
   |
@@ -224,6 +239,12 @@ error: SimpleBlock
 5 |         from { translate: 0; }
   |              ^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/layer/input.css:5:16
+  |
+5 |         from { translate: 0; }
+  |                ^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/at-rule/layer/input.css:5:16
   |
@@ -242,17 +263,23 @@ error: Ident
 5 |         from { translate: 0; }
   |                ^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/layer/input.css:5:27
   |
 5 |         from { translate: 0; }
   |                           ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/at-rule/layer/input.css:5:27
   |
 5 |         from { translate: 0; }
   |                           ^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/layer/input.css:6:9
+  |
+6 |         to { translate: -100% 0; }
+  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: KeyframeBlock
  --> $DIR/tests/fixture/at-rule/layer/input.css:6:9
@@ -278,6 +305,12 @@ error: SimpleBlock
 6 |         to { translate: -100% 0; }
   |            ^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/layer/input.css:6:14
+  |
+6 |         to { translate: -100% 0; }
+  |              ^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/at-rule/layer/input.css:6:14
   |
@@ -296,7 +329,7 @@ error: Ident
 6 |         to { translate: -100% 0; }
   |              ^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/layer/input.css:6:25
   |
 6 |         to { translate: -100% 0; }
@@ -314,13 +347,13 @@ error: Number
 6 |         to { translate: -100% 0; }
   |                         ^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/layer/input.css:6:31
   |
 6 |         to { translate: -100% 0; }
   |                               ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/at-rule/layer/input.css:6:31
   |
 6 |         to { translate: -100% 0; }
@@ -389,6 +422,15 @@ error: SimpleBlock
 15 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/layer/input.css:11:5
+   |
+11 | /     @keyframes slide-left {
+12 | |         from { margin-left: 0; }
+13 | |         to { margin-left: -100%; }
+14 | |     }
+   | |_____^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/layer/input.css:11:5
    |
@@ -432,6 +474,12 @@ error: SimpleBlock
 14 | |     }
    | |_____^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/layer/input.css:12:9
+   |
+12 |         from { margin-left: 0; }
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: KeyframeBlock
   --> $DIR/tests/fixture/at-rule/layer/input.css:12:9
    |
@@ -456,6 +504,12 @@ error: SimpleBlock
 12 |         from { margin-left: 0; }
    |              ^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/layer/input.css:12:16
+   |
+12 |         from { margin-left: 0; }
+   |                ^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/layer/input.css:12:16
    |
@@ -474,17 +528,23 @@ error: Ident
 12 |         from { margin-left: 0; }
    |                ^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/layer/input.css:12:29
    |
 12 |         from { margin-left: 0; }
    |                             ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/at-rule/layer/input.css:12:29
    |
 12 |         from { margin-left: 0; }
    |                             ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/layer/input.css:13:9
+   |
+13 |         to { margin-left: -100%; }
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: KeyframeBlock
   --> $DIR/tests/fixture/at-rule/layer/input.css:13:9
@@ -510,6 +570,12 @@ error: SimpleBlock
 13 |         to { margin-left: -100%; }
    |            ^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/layer/input.css:13:14
+   |
+13 |         to { margin-left: -100%; }
+   |              ^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/layer/input.css:13:14
    |
@@ -528,7 +594,7 @@ error: Ident
 13 |         to { margin-left: -100%; }
    |              ^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/layer/input.css:13:27
    |
 13 |         to { margin-left: -100%; }
@@ -600,6 +666,12 @@ error: SimpleBlock
 17 | .sidebar { animation: slide-left 300ms; }
    |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/layer/input.css:17:12
+   |
+17 | .sidebar { animation: slide-left 300ms; }
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/at-rule/layer/input.css:17:12
    |
@@ -624,7 +696,7 @@ error: Ident
 17 | .sidebar { animation: slide-left 300ms; }
    |            ^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/layer/input.css:17:23
    |
 17 | .sidebar { animation: slide-left 300ms; }
@@ -636,7 +708,7 @@ error: Ident
 17 | .sidebar { animation: slide-left 300ms; }
    |                       ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/layer/input.css:17:34
    |
 17 | .sidebar { animation: slide-left 300ms; }
@@ -771,6 +843,12 @@ error: SimpleBlock
 24 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/layer/input.css:23:5
+   |
+23 |     strong { font-weight: bold; }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/layer/input.css:23:5
    |
@@ -831,6 +909,12 @@ error: SimpleBlock
 23 |     strong { font-weight: bold; }
    |            ^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/layer/input.css:23:14
+   |
+23 |     strong { font-weight: bold; }
+   |              ^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/at-rule/layer/input.css:23:14
    |
@@ -855,7 +939,7 @@ error: Ident
 23 |     strong { font-weight: bold; }
    |              ^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/layer/input.css:23:27
    |
 23 |     strong { font-weight: bold; }
@@ -934,6 +1018,12 @@ error: SimpleBlock
 32 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/layer/input.css:27:5
+   |
+27 |     .title { font-weight: 100; }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/layer/input.css:27:5
    |
@@ -988,6 +1078,12 @@ error: SimpleBlock
 27 |     .title { font-weight: 100; }
    |            ^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/layer/input.css:27:14
+   |
+27 |     .title { font-weight: 100; }
+   |              ^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/at-rule/layer/input.css:27:14
    |
@@ -1012,17 +1108,25 @@ error: Ident
 27 |     .title { font-weight: 100; }
    |              ^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/layer/input.css:27:27
    |
 27 |     .title { font-weight: 100; }
    |                           ^^^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/at-rule/layer/input.css:27:27
    |
 27 |     .title { font-weight: 100; }
    |                           ^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/layer/input.css:29:5
+   |
+29 | /     @layer theme {
+30 | |         h1, h2 { color: maroon; }
+31 | |     }
+   | |_____^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/layer/input.css:29:5
@@ -1074,6 +1178,12 @@ error: SimpleBlock
 30 | |         h1, h2 { color: maroon; }
 31 | |     }
    | |_____^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/layer/input.css:30:9
+   |
+30 |         h1, h2 { color: maroon; }
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/layer/input.css:30:9
@@ -1171,6 +1281,12 @@ error: SimpleBlock
 30 |         h1, h2 { color: maroon; }
    |                ^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/layer/input.css:30:18
+   |
+30 |         h1, h2 { color: maroon; }
+   |                  ^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/at-rule/layer/input.css:30:18
    |
@@ -1195,7 +1311,7 @@ error: Ident
 30 |         h1, h2 { color: maroon; }
    |                  ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/layer/input.css:30:25
    |
 30 |         h1, h2 { color: maroon; }
@@ -1258,6 +1374,12 @@ error: SimpleBlock
 36 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/layer/input.css:35:5
+   |
+35 |     [hidden] { display: none; }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/layer/input.css:35:5
    |
@@ -1318,6 +1440,12 @@ error: SimpleBlock
 35 |     [hidden] { display: none; }
    |              ^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/layer/input.css:35:16
+   |
+35 |     [hidden] { display: none; }
+   |                ^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/at-rule/layer/input.css:35:16
    |
@@ -1342,7 +1470,7 @@ error: Ident
 35 |     [hidden] { display: none; }
    |                ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/layer/input.css:35:25
    |
 35 |     [hidden] { display: none; }
@@ -1421,6 +1549,14 @@ error: SimpleBlock
 46 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/layer/input.css:39:5
+   |
+39 | /     @layer default {
+40 | |         p { margin-block: 0.75em; }
+41 | |     }
+   | |_____^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/layer/input.css:39:5
    |
@@ -1471,6 +1607,12 @@ error: SimpleBlock
 40 | |         p { margin-block: 0.75em; }
 41 | |     }
    | |_____^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/layer/input.css:40:9
+   |
+40 |         p { margin-block: 0.75em; }
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/layer/input.css:40:9
@@ -1532,6 +1674,12 @@ error: SimpleBlock
 40 |         p { margin-block: 0.75em; }
    |           ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/layer/input.css:40:13
+   |
+40 |         p { margin-block: 0.75em; }
+   |             ^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/at-rule/layer/input.css:40:13
    |
@@ -1556,7 +1704,7 @@ error: Ident
 40 |         p { margin-block: 0.75em; }
    |             ^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/layer/input.css:40:27
    |
 40 |         p { margin-block: 0.75em; }
@@ -1585,6 +1733,14 @@ error: Ident
    |
 40 |         p { margin-block: 0.75em; }
    |                               ^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/layer/input.css:43:5
+   |
+43 | /     @layer theme {
+44 | |         p { color: #222; }
+45 | |     }
+   | |_____^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/layer/input.css:43:5
@@ -1636,6 +1792,12 @@ error: SimpleBlock
 44 | |         p { color: #222; }
 45 | |     }
    | |_____^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/layer/input.css:44:9
+   |
+44 |         p { color: #222; }
+   |         ^^^^^^^^^^^^^^^^^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/layer/input.css:44:9
@@ -1697,6 +1859,12 @@ error: SimpleBlock
 44 |         p { color: #222; }
    |           ^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/layer/input.css:44:13
+   |
+44 |         p { color: #222; }
+   |             ^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/at-rule/layer/input.css:44:13
    |
@@ -1721,7 +1889,7 @@ error: Ident
 44 |         p { color: #222; }
    |             ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/layer/input.css:44:20
    |
 44 |         p { color: #222; }
@@ -1800,6 +1968,12 @@ error: SimpleBlock
 51 | | }
    | |_^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/layer/input.css:50:5
+   |
+50 |     blockquote { color: rebeccapurple; }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/layer/input.css:50:5
    |
@@ -1860,6 +2034,12 @@ error: SimpleBlock
 50 |     blockquote { color: rebeccapurple; }
    |                ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/layer/input.css:50:18
+   |
+50 |     blockquote { color: rebeccapurple; }
+   |                  ^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/at-rule/layer/input.css:50:18
    |
@@ -1884,7 +2064,7 @@ error: Ident
 50 |     blockquote { color: rebeccapurple; }
    |                  ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/layer/input.css:50:25
    |
 50 |     blockquote { color: rebeccapurple; }

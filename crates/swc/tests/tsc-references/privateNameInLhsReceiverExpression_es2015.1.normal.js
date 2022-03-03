@@ -43,32 +43,25 @@ var _y = new WeakMap();
 class Test {
     static something(obj) {
         var _s;
-        _classPrivateFieldSet(obj[(new (function() {
-            var _x = new WeakMap();
-            class _class {
-                constructor(){
-                    _classPrivateFieldInit(this, _x, {
-                        writable: true,
-                        value: 1
-                    });
-                    this.s = "prop";
-                }
+        var _x, _x1;
+        _classPrivateFieldSet(obj[(new (_x = new WeakMap(), class {
+            constructor(){
+                _classPrivateFieldInit(this, _x, {
+                    writable: true,
+                    value: 1
+                });
+                this.s = "prop";
             }
-            return _class;
-        }())).s], _y, 1);
-        _classPrivateFieldSet(_s = obj[(new (function() {
-            var _x = new WeakMap();
-            class _class {
-                constructor(){
-                    _classPrivateFieldInit(this, _x, {
-                        writable: true,
-                        value: 1
-                    });
-                    this.s = "prop";
-                }
+        })).s], _y, 1);
+        _classPrivateFieldSet(_s = obj[(new (_x1 = new WeakMap(), class {
+            constructor(){
+                _classPrivateFieldInit(this, _x1, {
+                    writable: true,
+                    value: 1
+                });
+                this.s = "prop";
             }
-            return _class;
-        }())).s], _y, _classPrivateFieldGet(_s, _y) + 1);
+        })).s], _y, _classPrivateFieldGet(_s, _y) + 1);
     }
     constructor(){
         _classPrivateFieldInit(this, _y, {

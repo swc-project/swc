@@ -25,7 +25,6 @@ var Foo2 = function Foo2() {
     "use strict";
     _classCallCheck(this, Foo2);
 };
-var tmp = "", tmp1 = "";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -34,13 +33,13 @@ var C = /*#__PURE__*/ function() {
     _createClass(C, [
         {
             // Computed properties
-            key: tmp,
+            key: "",
             value: function value() {
                 return new Foo;
             }
         },
         {
-            key: tmp1,
+            key: "",
             value: function value() {
                 return new Foo2;
             }

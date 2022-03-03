@@ -197,7 +197,7 @@ where
                         self.lits.insert(i.to_id(), init.take());
 
                         var.name.take();
-                    } else {
+                    } else if self.options.inline != 0 || self.options.reduce_vars {
                         tracing::debug!(
                             "inline: Decided to copy '{}{:?}' because it's simple",
                             i.id.sym,

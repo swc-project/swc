@@ -15,6 +15,8 @@ use swc::{
     try_with_handler, Compiler, TransformOutput,
 };
 use swc_common::{sync::Lazy, FileName, FilePathMapping, SourceMap};
+use tracing_chrome::{ChromeLayerBuilder, FlushGuard};
+use tracing_subscriber::{prelude::__tracing_subscriber_SubscriberExt, util::SubscriberInitExt};
 use walkdir::WalkDir;
 
 /// Configuration option for transform files.
@@ -77,6 +79,16 @@ pub struct CompileOptions {
     /// Files to compile
     #[clap(group = "input")]
     files: Vec<PathBuf>,
+
+    /// Enable experimantal trace profiling
+    /// generates trace compatible with trace event format.
+    #[clap(group = "experimental_trace", long)]
+    experimental_trace: bool,
+
+    /// Set file name for the trace output. If not specified,
+    /// `trace-{unix epoch time}.json` will be used by default.
+    #[clap(group = "experimental_trace", long)]
+    trace_out_file: Option<String>,
     //Flags legacy @swc/cli supports, might need some thoughts if we need support same.
     //log_watch_compilation: bool,
     //copy_files: bool,
@@ -97,6 +109,7 @@ static DEFAULT_EXTENSIONS: &[&str] = &["js", "jsx", "es6", "es", "mjs", "ts", "t
 /// Infer list of files to be transformed from cli arguments.
 /// If given input is a directory, it'll traverse it and collect all supported
 /// files.
+#[tracing::instrument(level = "trace", skip_all)]
 fn get_files_list(
     raw_files_input: &[PathBuf],
     extensions: &[String],
@@ -246,8 +259,27 @@ fn collect_stdin_input() -> Option<String> {
     )
 }
 
+fn init_trace(out_file: &Option<String>) -> Option<FlushGuard> {
+    let layer = if let Some(trace_out_file) = out_file {
+        ChromeLayerBuilder::new()
+            .file(trace_out_file.clone())
+            .include_args(true)
+    } else {
+        ChromeLayerBuilder::new().include_args(true)
+    };
+
+    let (chrome_layer, guard) = layer.build();
+    tracing_subscriber::registry()
+        .with(chrome_layer)
+        .try_init()
+        .expect("Should able to register trace");
+
+    Some(guard)
+}
+
 impl super::CommandRunner for CompileOptions {
-    fn execute(&self) -> anyhow::Result<()> {
+    #[tracing::instrument(level = "trace", skip_all)]
+    fn execute_inner(&self) -> anyhow::Result<()> {
         let stdin_input = collect_stdin_input();
 
         if stdin_input.is_some() && !self.files.is_empty() {
@@ -259,6 +291,8 @@ impl super::CommandRunner for CompileOptions {
         }
 
         if let Some(stdin_input) = stdin_input {
+            let span = tracing::span!(tracing::Level::TRACE, "compile_stdin");
+            let stdin_span_guard = span.enter();
             let comp = COMPILER.clone();
 
             let result = try_with_handler(comp.cm.clone(), false, |handler| {
@@ -286,10 +320,13 @@ impl super::CommandRunner for CompileOptions {
                 Err(e) => return Err(e),
             };
 
+            drop(stdin_span_guard);
             return Ok(());
         }
 
         if !self.files.is_empty() {
+            let span = tracing::span!(tracing::Level::TRACE, "compile_files");
+            let files_span_guard = span.enter();
             let included_extensions = if let Some(extensions) = &self.extensions {
                 extensions.clone()
             } else {
@@ -299,7 +336,7 @@ impl super::CommandRunner for CompileOptions {
             let files = get_files_list(&self.files, &included_extensions, false)?;
             let cm = COMPILER.clone();
 
-            return files
+            let ret = files
                 .into_par_iter()
                 .try_for_each_with(cm, |compiler, file_path| {
                     let result = try_with_handler(compiler.cm.clone(), false, |handler| {
@@ -319,8 +356,26 @@ impl super::CommandRunner for CompileOptions {
 
                     Ok(())
                 });
+            drop(files_span_guard);
+            return ret;
         }
 
         Ok(())
+    }
+
+    fn execute(&self) -> anyhow::Result<()> {
+        let guard = if self.experimental_trace {
+            init_trace(&self.trace_out_file)
+        } else {
+            None
+        };
+
+        let ret = self.execute_inner();
+
+        if let Some(guard) = guard {
+            guard.flush();
+        }
+
+        ret
     }
 }

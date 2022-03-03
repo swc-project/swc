@@ -1,4 +1,5 @@
-var array, tmp = Symbol.iterator;
+var array;
+let _iterator = Symbol.iterator;
 array.concat([
     ...new class {
         next() {
@@ -7,7 +8,7 @@ array.concat([
                 done: !1
             };
         }
-        [tmp]() {
+        [_iterator]() {
             return this;
         }
     }

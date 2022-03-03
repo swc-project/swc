@@ -64,6 +64,12 @@ error: SimpleBlock
 1 | a { value: #0h\61sh }
   |   ^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/C4I0cdQcSbpaGOS-V8fwew/input.css:1:5
+  |
+1 | a { value: #0h\61sh }
+  |     ^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/esbuild/misc/C4I0cdQcSbpaGOS-V8fwew/input.css:1:5
   |
@@ -88,7 +94,7 @@ error: Ident
 1 | a { value: #0h\61sh }
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/C4I0cdQcSbpaGOS-V8fwew/input.css:1:12
   |
 1 | a { value: #0h\61sh }

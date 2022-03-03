@@ -55,12 +55,12 @@ impl VisitMut for CompressAngle {
         }
     }
 
-    fn visit_mut_value(&mut self, value: &mut Value) {
-        value.visit_mut_children_with(self);
+    fn visit_mut_component_value(&mut self, component_value: &mut ComponentValue) {
+        component_value.visit_mut_children_with(self);
 
         if self.in_transform_function {
-            match &value {
-                Value::Dimension(Dimension::Angle(Angle {
+            match &component_value {
+                ComponentValue::Dimension(Dimension::Angle(Angle {
                     value:
                         Number {
                             value: number_value,
@@ -69,7 +69,7 @@ impl VisitMut for CompressAngle {
                     span,
                     ..
                 })) if *number_value == 0.0 => {
-                    *value = Value::Number(Number {
+                    *component_value = ComponentValue::Number(Number {
                         span: *span,
                         value: 0.0,
                         raw: "0".into(),

@@ -29,7 +29,7 @@ var _p1 = new WeakMap(), Foo = function() {
             key: "m1",
             value: function(v) {
                 var receiver, privateMap, descriptor, receiver, descriptor;
-                (receiver = this, (descriptor = descriptor = (function(receiver, privateMap, action) {
+                (receiver = this, (descriptor = (function(receiver, privateMap, action) {
                     if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
                     return privateMap.get(receiver);
                 })(receiver, privateMap = _p1, "get")).get ? descriptor.get.call(receiver) : descriptor.value).call(this, v);

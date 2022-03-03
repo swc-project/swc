@@ -1,9 +1,9 @@
-var tmp = Symbol.toPrimitive, tmp1 = Symbol.toPrimitive;
+let _toPrimitive = Symbol.toPrimitive, _toPrimitive1 = Symbol.toPrimitive;
 //@target: ES6
 //@declaration: true
 class C {
-    get [tmp]() {
+    get [_toPrimitive]() {
         return "";
     }
-    set [tmp1](x) {}
+    set [_toPrimitive1](x) {}
 }

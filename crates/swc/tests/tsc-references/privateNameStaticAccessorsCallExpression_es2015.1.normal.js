@@ -1,3 +1,9 @@
+function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+        return descriptor.get.call(receiver);
+    }
+    return descriptor.value;
+}
 function _classApplyDescriptorSet(receiver, descriptor, value) {
     if (descriptor.set) {
         descriptor.set.call(receiver, value);
@@ -13,15 +19,16 @@ function _classCheckPrivateStaticFieldDescriptor(descriptor, action) {
         throw new TypeError("attempted to " + action + " private static field before its declaration");
     }
 }
+function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
+    _classCheckPrivateStaticAccess(receiver, classConstructor);
+    _classCheckPrivateStaticFieldDescriptor(descriptor, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
+}
 function _classStaticPrivateFieldSpecSet(receiver, classConstructor, descriptor, value) {
     _classCheckPrivateStaticAccess(receiver, classConstructor);
     _classCheckPrivateStaticFieldDescriptor(descriptor, "set");
     _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
-}
-function _classStaticPrivateMethodGet(receiver, classConstructor, method) {
-    _classCheckPrivateStaticAccess(receiver, classConstructor);
-    return method;
 }
 function _classCheckPrivateStaticAccess(receiver, classConstructor) {
     if (receiver !== classConstructor) {
@@ -31,18 +38,18 @@ function _classCheckPrivateStaticAccess(receiver, classConstructor) {
 // @target: es2015
 class A {
     static test() {
-        _classStaticPrivateMethodGet(this, A, fieldFunc).call(A);
-        const func = _classStaticPrivateMethodGet(this, A, fieldFunc);
+        _classStaticPrivateFieldSpecGet(this, A, _fieldFunc).call(A);
+        const func = _classStaticPrivateFieldSpecGet(this, A, _fieldFunc);
         func();
-        new (_classStaticPrivateMethodGet(this, A, fieldFunc))();
+        new (_classStaticPrivateFieldSpecGet(this, A, _fieldFunc))();
         const arr = [
             1,
             2
         ];
-        _classStaticPrivateMethodGet(this, A, fieldFunc2).call(A, 0, ...arr, 3);
-        const b = new (_classStaticPrivateMethodGet(this, A, fieldFunc2))(0, ...arr, 3);
-        const str = _classStaticPrivateMethodGet(this, A, fieldFunc2).bind(A)`head${1}middle${2}tail`;
-        _classStaticPrivateMethodGet(this.getClass(), A, fieldFunc2).bind(A)`test${1}and${2}`;
+        _classStaticPrivateFieldSpecGet(this, A, _fieldFunc2).call(A, 0, ...arr, 3);
+        const b = new (_classStaticPrivateFieldSpecGet(this, A, _fieldFunc2))(0, ...arr, 3);
+        const str = _classStaticPrivateFieldSpecGet(this, A, _fieldFunc2).bind(A)`head${1}middle${2}tail`;
+        _classStaticPrivateFieldSpecGet(this.getClass(), A, _fieldFunc2).bind(A)`test${1}and${2}`;
     }
     static getClass() {
         return A;

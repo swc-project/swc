@@ -4,7 +4,7 @@
 // @Filename: def.js
 var Outer = {};
 // @Filename: a.js
-Outer.Inner = class _class {
+Outer.Inner = class {
     constructor(){
         /** @type {number} */ this.y = 12;
     }

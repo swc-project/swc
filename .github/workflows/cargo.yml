@@ -16,6 +16,8 @@ env:
   CARGO_INCREMENTAL: 0
   RUST_LOG: "debug"
   DIFF: 0
+  # https://github.com/swc-project/swc/pull/3742
+  RUST_MIN_STACK: 4194304
 
 jobs:
   check-license:
@@ -75,6 +77,8 @@ jobs:
   test:
     name: Test - ${{ matrix.settings.crate }} - ${{ matrix.settings.os }}
     runs-on: ${{ matrix.settings.os }}
+    if: >-
+      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     strategy:
       fail-fast: false
       matrix:
@@ -133,6 +137,8 @@ jobs:
             os: windows-latest
           - crate: swc_css_codegen_macros
             os: ubuntu-latest
+          - crate: swc_css_lints
+            os: ubuntu-latest
           - crate: swc_css_minifier
             os: ubuntu-latest
           - crate: swc_css_parser
@@ -175,6 +181,10 @@ jobs:
             os: ubuntu-latest
           - crate: swc_ecma_preset_env
             os: windows-latest
+          - crate: swc_ecma_quote
+            os: ubuntu-latest
+          - crate: swc_ecma_quote_macros
+            os: ubuntu-latest
           - crate: swc_ecma_transforms
             os: ubuntu-latest
             check: |
@@ -259,6 +269,8 @@ jobs:
           - crate: swc_stylis
             os: ubuntu-latest
           - crate: swc_timer
+            os: ubuntu-latest
+          - crate: swc_trace_macro
             os: ubuntu-latest
           - crate: swc_visit
             os: ubuntu-latest

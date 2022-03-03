@@ -64,6 +64,12 @@ error: SimpleBlock
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:5
+  |
+1 | a { box-shadow: inset 0px 0px 0px 0px black }
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:5
   |
@@ -88,7 +94,7 @@ error: Ident
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   |     ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:17
   |
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
@@ -100,7 +106,7 @@ error: Ident
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   |                 ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:23
   |
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
@@ -130,7 +136,7 @@ error: Ident
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   |                        ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:27
   |
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
@@ -160,7 +166,7 @@ error: Ident
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   |                            ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:31
   |
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
@@ -190,7 +196,7 @@ error: Ident
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   |                                ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:35
   |
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
@@ -220,7 +226,7 @@ error: Ident
 1 | a { box-shadow: inset 0px 0px 0px 0px black }
   |                                    ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:39
   |
 1 | a { box-shadow: inset 0px 0px 0px 0px black }

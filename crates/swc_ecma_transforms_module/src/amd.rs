@@ -20,7 +20,7 @@ use super::util::{
     self, define_es_module, define_property, has_use_strict, initialize_to_undefined,
     local_name_for_src, make_descriptor, use_strict, Exports, ModulePass, Scope,
 };
-use crate::path::{ImportResolver, NoopImportResolver};
+use crate::path::{ImportResolver, Resolver};
 
 pub fn amd(config: Config) -> impl Fold {
     Amd {
@@ -29,34 +29,32 @@ pub fn amd(config: Config) -> impl Fold {
         scope: RefCell::new(Default::default()),
         exports: Default::default(),
 
-        resolver: None::<(NoopImportResolver, _)>,
+        resolver: Resolver::Default,
     }
 }
 
-pub fn amd_with_resolver<R>(resolver: R, base: FileName, config: Config) -> impl Fold
-where
-    R: ImportResolver,
-{
+pub fn amd_with_resolver(
+    resolver: Box<dyn ImportResolver>,
+    base: FileName,
+    config: Config,
+) -> impl Fold {
     Amd {
         config,
         in_top_level: Default::default(),
         scope: Default::default(),
         exports: Default::default(),
 
-        resolver: Some((resolver, base)),
+        resolver: Resolver::Real { base, resolver },
     }
 }
 
-struct Amd<R>
-where
-    R: ImportResolver,
-{
+struct Amd {
     config: Config,
     in_top_level: bool,
     scope: RefCell<Scope>,
     exports: Exports,
 
-    resolver: Option<(R, FileName)>,
+    resolver: Resolver,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -70,10 +68,7 @@ pub struct Config {
 }
 
 /// TODO: VisitMut
-impl<R> Fold for Amd<R>
-where
-    R: ImportResolver,
-{
+impl Fold for Amd {
     noop_fold_type!();
 
     mark_as_nested!();
@@ -531,7 +526,7 @@ where
         }
 
         if !initialized.is_empty() {
-            stmts.push(initialize_to_undefined(exports_ident, initialized).into_stmt());
+            stmts.extend(initialize_to_undefined(exports_ident, initialized));
         }
 
         for (src, import) in scope.imports.drain(..) {
@@ -545,11 +540,11 @@ where
 
             {
                 let src = match &self.resolver {
-                    Some((resolver, base)) => resolver
+                    Resolver::Real { resolver, base } => resolver
                         .resolve_import(base, &src)
                         .with_context(|| format!("failed to resolve `{}`", src))
                         .unwrap(),
-                    None => src.clone(),
+                    Resolver::Default => src.clone(),
                 };
 
                 define_deps_arg.elems.push(Some(src.as_arg()));
@@ -661,10 +656,7 @@ where
     }
 }
 
-impl<R> ModulePass for Amd<R>
-where
-    R: ImportResolver,
-{
+impl ModulePass for Amd {
     fn config(&self) -> &util::Config {
         &self.config.config
     }

@@ -155,7 +155,7 @@ var Foo = /*#__PURE__*/ function(Bar) {
     }
     return Foo;
 }(Bar);
-var tmp = Symbol.iterator;
+var _iterator = Symbol.iterator;
 var FooArrayIterator = /*#__PURE__*/ function() {
     "use strict";
     function FooArrayIterator() {
@@ -174,7 +174,7 @@ var FooArrayIterator = /*#__PURE__*/ function() {
             }
         },
         {
-            key: tmp,
+            key: _iterator,
             value: function value() {
                 return this;
             }
@@ -186,7 +186,7 @@ function fun() {
     for(var _len = arguments.length, _tmp = new Array(_len), _key = 0; _key < _len; _key++){
         _tmp[_key] = arguments[_key];
     }
-    var __tmp = _slicedToArray(_tmp, 2), ref = _slicedToArray(__tmp[0], 1), tmp2 = ref[0], a = tmp2 === void 0 ? new Foo : tmp2, tmp1 = __tmp[1], b = tmp1 === void 0 ? [
+    var __tmp = _slicedToArray(_tmp, 2), ref = _slicedToArray(__tmp[0], 1), tmp = ref[0], a = tmp === void 0 ? new Foo : tmp, tmp1 = __tmp[1], b = tmp1 === void 0 ? [
         new Foo
     ] : tmp1;
 }

@@ -3,6 +3,12 @@ function _checkPrivateRedeclaration(obj, privateCollection) {
         throw new TypeError("Cannot initialize the same private elements twice on an object");
     }
 }
+function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+        return descriptor.get.call(receiver);
+    }
+    return descriptor.value;
+}
 function _classApplyDescriptorSet(receiver, descriptor, value) {
     if (descriptor.set) {
         descriptor.set.call(receiver, value);
@@ -24,6 +30,10 @@ function _classExtractFieldDescriptor(receiver, privateMap, action) {
     }
     return privateMap.get(receiver);
 }
+function _classPrivateFieldGet(receiver, privateMap) {
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
+}
 function _classPrivateFieldInit(obj, privateMap, value) {
     _checkPrivateRedeclaration(obj, privateMap);
     privateMap.set(obj, value);
@@ -32,12 +42,6 @@ function _classPrivateFieldSet(receiver, privateMap, value) {
     var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
     _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
-}
-function _classPrivateMethodGet(receiver, privateSet, fn) {
-    if (!privateSet.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return fn;
 }
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
@@ -53,29 +57,26 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
+var _x, _class;
 // @target: es2015
-var C = function() {
-    var set_x = function set_x(x) {};
-    var _x = new WeakMap();
-    var _class = /*#__PURE__*/ function() {
-        "use strict";
-        function _class() {
-            _classCallCheck(this, _class);
-            _classPrivateFieldInit(this, _x, {
-                get: void 0,
-                set: set_x
-            });
-        }
-        _createClass(_class, [
-            {
-                key: "m",
-                value: function m() {
-                    _classPrivateFieldSet(this, _x, _classPrivateMethodGet(this, _x, x) + 2); // Error
-                }
+var C = (_x = new WeakMap(), _class = /*#__PURE__*/ function() {
+    "use strict";
+    function _class1() {
+        _classCallCheck(this, _class1);
+        _classPrivateFieldInit(this, _x, {
+            get: void 0,
+            set: set_x
+        });
+    }
+    _createClass(_class1, [
+        {
+            key: "m",
+            value: function m() {
+                _classPrivateFieldSet(this, _x, _classPrivateFieldGet(this, _x) + 2); // Error
             }
-        ]);
-        return _class;
-    }();
-    return _class;
-}();
+        }
+    ]);
+    return _class1;
+}(), _class);
 console.log(new C().m());
+function set_x(x) {}

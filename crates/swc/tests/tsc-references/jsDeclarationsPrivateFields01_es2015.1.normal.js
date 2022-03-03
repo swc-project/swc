@@ -38,6 +38,11 @@ export class C {
         return _classPrivateFieldGet(this, _world);
     }
     constructor(){
+        _classPrivateMethodInit(this, _calcHello);
+        _classPrivateFieldInit(this, _screamingHello, {
+            get: get_screamingHello,
+            set: /** @param value {string} */ set_screamingHello
+        });
         _classPrivateFieldInit(this, _hello, {
             writable: true,
             value: "hello"
@@ -45,11 +50,6 @@ export class C {
         _classPrivateFieldInit(this, _world, {
             writable: true,
             value: 100
-        });
-        _classPrivateMethodInit(this, _calcHello);
-        _classPrivateFieldInit(this, _screamingHello, {
-            get: get_screamingHello,
-            set: /** @param value {string} */ set_screamingHello
         });
     }
 }

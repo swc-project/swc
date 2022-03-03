@@ -77,6 +77,12 @@ error: SimpleBlock
 4 | | }
   | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/value/dimension/input.css:2:5
+  |
+2 |     width: 100\%;
+  |     ^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/value/dimension/input.css:2:5
   |
@@ -101,7 +107,7 @@ error: Ident
 2 |     width: 100\%;
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/dimension/input.css:2:12
   |
 2 |     width: 100\%;
@@ -131,6 +137,12 @@ error: Ident
 2 |     width: 100\%;
   |               ^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/value/dimension/input.css:3:5
+  |
+3 |     width: 100px2p;
+  |     ^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/value/dimension/input.css:3:5
   |
@@ -155,7 +167,7 @@ error: Ident
 3 |     width: 100px2p;
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/dimension/input.css:3:12
   |
 3 |     width: 100px2p;

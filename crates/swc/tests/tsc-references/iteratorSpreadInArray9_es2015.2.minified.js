@@ -1,11 +1,11 @@
-var tmp = Symbol.iterator;
+let _iterator = Symbol.iterator;
 new class {
     next() {
         return {
             value: Symbol()
         };
     }
-    [tmp]() {
+    [_iterator]() {
         return this;
     }
 };

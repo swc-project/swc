@@ -1,0 +1,13 @@
+@keyframes foo {
+    from {
+        opacity: 0;
+    }
+    to {
+        /* should be ignored */
+        opacity: 1 !important;
+    }
+}
+
+a {
+    color: #111 !important;
+}

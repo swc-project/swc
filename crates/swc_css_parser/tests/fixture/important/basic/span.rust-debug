@@ -83,6 +83,12 @@ error: SimpleBlock
 19 | | }
    | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/important/basic/input.css:2:5
+  |
+2 |     prop: important;
+  |     ^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/important/basic/input.css:2:5
   |
@@ -107,7 +113,7 @@ error: Ident
 2 |     prop: important;
   |     ^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/important/basic/input.css:2:11
   |
 2 |     prop: important;
@@ -118,6 +124,12 @@ error: Ident
   |
 2 |     prop: important;
   |           ^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/important/basic/input.css:3:5
+  |
+3 |     color: red important;
+  |     ^^^^^^^^^^^^^^^^^^^^
 
 error: StyleBlock
  --> $DIR/tests/fixture/important/basic/input.css:3:5
@@ -143,7 +155,7 @@ error: Ident
 3 |     color: red important;
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/important/basic/input.css:3:12
   |
 3 |     color: red important;
@@ -155,7 +167,7 @@ error: Ident
 3 |     color: red important;
   |            ^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/important/basic/input.css:3:16
   |
 3 |     color: red important;
@@ -166,6 +178,12 @@ error: Ident
   |
 3 |     color: red important;
   |                ^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/important/basic/input.css:4:5
+  |
+4 |     width: 1px!important;
+  |     ^^^^^^^^^^^^^^^^^^^^
 
 error: StyleBlock
  --> $DIR/tests/fixture/important/basic/input.css:4:5
@@ -191,7 +209,7 @@ error: Ident
 4 |     width: 1px!important;
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/important/basic/input.css:4:12
   |
 4 |     width: 1px!important;
@@ -233,6 +251,12 @@ error: Ident
 4 |     width: 1px!important;
   |                ^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/important/basic/input.css:5:5
+  |
+5 |     color: red!important;
+  |     ^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/important/basic/input.css:5:5
   |
@@ -257,7 +281,7 @@ error: Ident
 5 |     color: red!important;
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/important/basic/input.css:5:12
   |
 5 |     color: red!important;
@@ -281,6 +305,12 @@ error: Ident
 5 |     color: red!important;
   |                ^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/important/basic/input.css:6:5
+  |
+6 |     color: red !important;
+  |     ^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/important/basic/input.css:6:5
   |
@@ -305,7 +335,7 @@ error: Ident
 6 |     color: red !important;
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/important/basic/input.css:6:12
   |
 6 |     color: red !important;
@@ -329,6 +359,12 @@ error: Ident
 6 |     color: red !important;
   |                 ^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/important/basic/input.css:7:5
+  |
+7 |     color: red  !important;
+  |     ^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/important/basic/input.css:7:5
   |
@@ -353,7 +389,7 @@ error: Ident
 7 |     color: red  !important;
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/important/basic/input.css:7:12
   |
 7 |     color: red  !important;
@@ -377,6 +413,12 @@ error: Ident
 7 |     color: red  !important;
   |                  ^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/important/basic/input.css:8:5
+  |
+8 |     color: red !   important   ;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/important/basic/input.css:8:5
   |
@@ -401,7 +443,7 @@ error: Ident
 8 |     color: red !   important   ;
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/important/basic/input.css:8:12
   |
 8 |     color: red !   important   ;
@@ -425,6 +467,12 @@ error: Ident
 8 |     color: red !   important   ;
   |                    ^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/important/basic/input.css:9:5
+  |
+9 |     color: blue !IMPORTANT;
+  |     ^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/important/basic/input.css:9:5
   |
@@ -449,7 +497,7 @@ error: Ident
 9 |     color: blue !IMPORTANT;
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/important/basic/input.css:9:12
   |
 9 |     color: blue !IMPORTANT;
@@ -473,6 +521,12 @@ error: Ident
 9 |     color: blue !IMPORTANT;
   |                  ^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/important/basic/input.css:10:5
+   |
+10 |     color: white !   IMPORTANT   ;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/important/basic/input.css:10:5
    |
@@ -497,7 +551,7 @@ error: Ident
 10 |     color: white !   IMPORTANT   ;
    |     ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/important/basic/input.css:10:12
    |
 10 |     color: white !   IMPORTANT   ;
@@ -521,6 +575,12 @@ error: Ident
 10 |     color: white !   IMPORTANT   ;
    |                      ^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/important/basic/input.css:11:5
+   |
+11 |     margin: 10px      !      important;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/important/basic/input.css:11:5
    |
@@ -545,7 +605,7 @@ error: Ident
 11 |     margin: 10px      !      important;
    |     ^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/important/basic/input.css:11:13
    |
 11 |     margin: 10px      !      important;
@@ -587,6 +647,12 @@ error: Ident
 11 |     margin: 10px      !      important;
    |                              ^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/important/basic/input.css:12:5
+   |
+12 |     padding: 20px     !  /* test */   important;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/important/basic/input.css:12:5
    |
@@ -611,7 +677,7 @@ error: Ident
 12 |     padding: 20px     !  /* test */   important;
    |     ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/important/basic/input.css:12:14
    |
 12 |     padding: 20px     !  /* test */   important;
@@ -653,6 +719,12 @@ error: Ident
 12 |     padding: 20px     !  /* test */   important;
    |                                       ^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/important/basic/input.css:13:5
+   |
+13 |     width: 100px ! /*! test */ important;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/important/basic/input.css:13:5
    |
@@ -677,7 +749,7 @@ error: Ident
 13 |     width: 100px ! /*! test */ important;
    |     ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/important/basic/input.css:13:12
    |
 13 |     width: 100px ! /*! test */ important;
@@ -719,6 +791,12 @@ error: Ident
 13 |     width: 100px ! /*! test */ important;
    |                                ^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/important/basic/input.css:14:5
+   |
+14 |     height: 100px /*! test */ important;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/important/basic/input.css:14:5
    |
@@ -743,7 +821,7 @@ error: Ident
 14 |     height: 100px /*! test */ important;
    |     ^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/important/basic/input.css:14:13
    |
 14 |     height: 100px /*! test */ important;
@@ -773,7 +851,7 @@ error: Ident
 14 |     height: 100px /*! test */ important;
    |                ^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/important/basic/input.css:14:31
    |
 14 |     height: 100px /*! test */ important;
@@ -784,6 +862,12 @@ error: Ident
    |
 14 |     height: 100px /*! test */ important;
    |                               ^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/important/basic/input.css:15:5
+   |
+15 |     z-index: 1 ""! important;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: StyleBlock
   --> $DIR/tests/fixture/important/basic/input.css:15:5
@@ -809,19 +893,19 @@ error: Ident
 15 |     z-index: 1 ""! important;
    |     ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/important/basic/input.css:15:14
    |
 15 |     z-index: 1 ""! important;
    |              ^
 
-error: Number
+error: Integer
   --> $DIR/tests/fixture/important/basic/input.css:15:14
    |
 15 |     z-index: 1 ""! important;
    |              ^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/important/basic/input.css:15:16
    |
 15 |     z-index: 1 ""! important;
@@ -845,6 +929,12 @@ error: Ident
 15 |     z-index: 1 ""! important;
    |                    ^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/important/basic/input.css:16:5
+   |
+16 |     padding: 1px/* sep */!important;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/important/basic/input.css:16:5
    |
@@ -869,7 +959,7 @@ error: Ident
 16 |     padding: 1px/* sep */!important;
    |     ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/important/basic/input.css:16:14
    |
 16 |     padding: 1px/* sep */!important;
@@ -911,6 +1001,12 @@ error: Ident
 16 |     padding: 1px/* sep */!important;
    |                           ^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/important/basic/input.css:17:5
+   |
+17 |     prop: red !iMpOrTaNt;
+   |     ^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/important/basic/input.css:17:5
    |
@@ -935,7 +1031,7 @@ error: Ident
 17 |     prop: red !iMpOrTaNt;
    |     ^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/important/basic/input.css:17:11
    |
 17 |     prop: red !iMpOrTaNt;
@@ -959,6 +1055,12 @@ error: Ident
 17 |     prop: red !iMpOrTaNt;
    |                ^^^^^^^^^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/important/basic/input.css:18:5
+   |
+18 |     color: red !imp\ortant;
+   |     ^^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
   --> $DIR/tests/fixture/important/basic/input.css:18:5
    |
@@ -983,7 +1085,7 @@ error: Ident
 18 |     color: red !imp\ortant;
    |     ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/important/basic/input.css:18:12
    |
 18 |     color: red !imp\ortant;

@@ -1,0 +1,272 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 113,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 0,
+        "end": 112,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 0,
+          "end": 3,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 0,
+              "end": 3,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 0,
+                  "end": 3,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": {
+                  "type": "TagNameSelector",
+                  "span": {
+                    "start": 0,
+                    "end": 3,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "WqName",
+                    "span": {
+                      "start": 0,
+                      "end": 3,
+                      "ctxt": 0
+                    },
+                    "prefix": null,
+                    "value": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 0,
+                        "end": 3,
+                        "ctxt": 0
+                      },
+                      "value": "div",
+                      "raw": "div"
+                    }
+                  }
+                },
+                "subclassSelectors": []
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 4,
+          "end": 112,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 10,
+              "end": 21,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 10,
+                "end": 17,
+                "ctxt": 0
+              },
+              "value": "z-index",
+              "raw": "z-index"
+            },
+            "value": [
+              {
+                "type": "Integer",
+                "span": {
+                  "start": 19,
+                  "end": 21,
+                  "ctxt": 0
+                },
+                "value": 12,
+                "raw": "12"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 27,
+              "end": 40,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 27,
+                "end": 34,
+                "ctxt": 0
+              },
+              "value": "z-index",
+              "raw": "z-index"
+            },
+            "value": [
+              {
+                "type": "Integer",
+                "span": {
+                  "start": 36,
+                  "end": 40,
+                  "ctxt": 0
+                },
+                "value": 123,
+                "raw": "+123"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 46,
+              "end": 59,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 46,
+                "end": 53,
+                "ctxt": 0
+              },
+              "value": "z-index",
+              "raw": "z-index"
+            },
+            "value": [
+              {
+                "type": "Integer",
+                "span": {
+                  "start": 55,
+                  "end": 59,
+                  "ctxt": 0
+                },
+                "value": -456,
+                "raw": "-456"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 65,
+              "end": 75,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 65,
+                "end": 72,
+                "ctxt": 0
+              },
+              "value": "z-index",
+              "raw": "z-index"
+            },
+            "value": [
+              {
+                "type": "Integer",
+                "span": {
+                  "start": 74,
+                  "end": 75,
+                  "ctxt": 0
+                },
+                "value": 0,
+                "raw": "0"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 81,
+              "end": 92,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 81,
+                "end": 88,
+                "ctxt": 0
+              },
+              "value": "z-index",
+              "raw": "z-index"
+            },
+            "value": [
+              {
+                "type": "Integer",
+                "span": {
+                  "start": 90,
+                  "end": 92,
+                  "ctxt": 0
+                },
+                "value": 0,
+                "raw": "+0"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 98,
+              "end": 109,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 98,
+                "end": 105,
+                "ctxt": 0
+              },
+              "value": "z-index",
+              "raw": "z-index"
+            },
+            "value": [
+              {
+                "type": "Integer",
+                "span": {
+                  "start": 107,
+                  "end": 109,
+                  "ctxt": 0
+                },
+                "value": 0,
+                "raw": "-0"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    }
+  ]
+}

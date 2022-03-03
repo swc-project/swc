@@ -79,7 +79,7 @@ error: Ident
 1 | @supports not (display: flex) {
   |                ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/supports/input.css:1:25
   |
 1 | @supports not (display: flex) {
@@ -172,31 +172,31 @@ error: Ident
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
   |             ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/supports/input.css:4:25
   |
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
   |                         ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/rome/supports/input.css:4:25
   |
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
   |                         ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/supports/input.css:4:27
   |
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
   |                           ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/rome/supports/input.css:4:27
   |
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
   |                           ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/supports/input.css:4:29
   |
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
@@ -226,7 +226,7 @@ error: Ident
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
   |                              ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/supports/input.css:4:33
   |
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
@@ -238,7 +238,7 @@ error: Ident
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
   |                                 ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/supports/input.css:4:39
   |
 4 | @supports ( box-shadow: 0 0 2px black inset ) or
@@ -296,31 +296,31 @@ error: Ident
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
   |             ^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/supports/input.css:5:30
   |
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
   |                              ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/rome/supports/input.css:5:30
   |
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
   |                              ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/supports/input.css:5:32
   |
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
   |                                ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/rome/supports/input.css:5:32
   |
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
   |                                ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/supports/input.css:5:34
   |
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
@@ -350,7 +350,7 @@ error: Ident
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
   |                                   ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/supports/input.css:5:38
   |
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
@@ -362,7 +362,7 @@ error: Ident
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
   |                                      ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/supports/input.css:5:44
   |
 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
@@ -420,31 +420,31 @@ error: Ident
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
   |             ^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/supports/input.css:6:33
   |
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
   |                                 ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/rome/supports/input.css:6:33
   |
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
   |                                 ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/supports/input.css:6:35
   |
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
   |                                   ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/rome/supports/input.css:6:35
   |
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
   |                                   ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/supports/input.css:6:37
   |
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
@@ -474,7 +474,7 @@ error: Ident
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
   |                                      ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/supports/input.css:6:41
   |
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
@@ -486,7 +486,7 @@ error: Ident
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
   |                                         ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/supports/input.css:6:47
   |
 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
@@ -544,31 +544,31 @@ error: Ident
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
   |             ^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/supports/input.css:7:28
   |
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
   |                            ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/rome/supports/input.css:7:28
   |
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
   |                            ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/supports/input.css:7:30
   |
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
   |                              ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/rome/supports/input.css:7:30
   |
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
   |                              ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/supports/input.css:7:32
   |
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
@@ -598,7 +598,7 @@ error: Ident
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
   |                                 ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/supports/input.css:7:36
   |
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
@@ -610,7 +610,7 @@ error: Ident
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
   |                                    ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/supports/input.css:7:42
   |
 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
@@ -721,7 +721,7 @@ error: Ident
 10 | @supports ((transition-property: color) or
    |             ^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/supports/input.css:10:34
    |
 10 | @supports ((transition-property: color) or
@@ -779,7 +779,7 @@ error: Ident
 11 |            (animation-name: foo)) and
    |             ^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/supports/input.css:11:29
    |
 11 |            (animation-name: foo)) and
@@ -837,7 +837,7 @@ error: Ident
 12 |           (transform: rotate(10deg)) {}
    |            ^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/supports/input.css:12:23
    |
 12 |           (transform: rotate(10deg)) {}
@@ -855,7 +855,7 @@ error: Ident
 12 |           (transform: rotate(10deg)) {}
    |                       ^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/supports/input.css:12:30
    |
 12 |           (transform: rotate(10deg)) {}

@@ -1098,6 +1098,7 @@ impl SourceMap {
         self.build_source_map_with_config(mappings, orig, DefaultSourceMapGenConfig)
     }
 
+    #[allow(clippy::ptr_arg)]
     #[cfg(feature = "sourcemap")]
     #[cfg_attr(docsrs, doc(cfg(feature = "sourcemap")))]
     pub fn build_source_map_with_config(
@@ -1132,8 +1133,8 @@ impl SourceMap {
             let pos = *pos;
             let lc = *lc;
 
-            // TODO: Use correct algorithm
-            if pos >= BytePos(4294967295) {
+            if pos == BytePos(u32::MAX) {
+                builder.add_raw(lc.line, lc.col, 0, 0, None, None);
                 continue;
             }
 

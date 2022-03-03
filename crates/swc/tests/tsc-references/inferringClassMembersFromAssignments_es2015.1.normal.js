@@ -85,9 +85,9 @@ class C {
 }
 C.prop = ()=>{
     if (Math.random()) {
-        this.inStaticPropertyDeclaration = 0;
+        C.inStaticPropertyDeclaration = 0;
     } else {
-        this.inStaticPropertyDeclaration = "string";
+        C.inStaticPropertyDeclaration = "string";
     }
 };
 // @filename: b.ts

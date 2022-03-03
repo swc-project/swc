@@ -1,6 +1,6 @@
 class C {
 }
-C.f = 1, C.arrowFunctionBoundary = ()=>this.f + 1
+C.f = 1, C.arrowFunctionBoundary = ()=>C.f + 1
 , C.functionExprBoundary = function() {
     return this.f + 2;
 }, C.classExprBoundary = class {

@@ -18,4 +18,4 @@ var __ = {
 };
 C.s1 = 1;
 C.s2 = 2;
-C.ss2 = this.s1;
+C.ss2 = C.s1;

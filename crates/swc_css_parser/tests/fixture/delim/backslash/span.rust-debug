@@ -73,6 +73,12 @@ error: SimpleBlock
 3 | | }
   | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/delim/backslash/input.css:2:5
+  |
+2 |     color: \\ red \\ blue;
+  |     ^^^^^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/delim/backslash/input.css:2:5
   |
@@ -97,7 +103,7 @@ error: Ident
 2 |     color: \\ red \\ blue;
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/delim/backslash/input.css:2:12
   |
 2 |     color: \\ red \\ blue;
@@ -109,7 +115,7 @@ error: Ident
 2 |     color: \\ red \\ blue;
   |            ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/delim/backslash/input.css:2:15
   |
 2 |     color: \\ red \\ blue;
@@ -121,7 +127,7 @@ error: Ident
 2 |     color: \\ red \\ blue;
   |               ^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/delim/backslash/input.css:2:19
   |
 2 |     color: \\ red \\ blue;
@@ -133,7 +139,7 @@ error: Ident
 2 |     color: \\ red \\ blue;
   |                   ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/delim/backslash/input.css:2:22
   |
 2 |     color: \\ red \\ blue;

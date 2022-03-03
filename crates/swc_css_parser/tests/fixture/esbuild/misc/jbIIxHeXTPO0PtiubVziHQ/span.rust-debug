@@ -34,6 +34,12 @@ error: SimpleBlock
 1 | @keyframes name { from { color: red } to { color: blue } }
   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:19
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  |                   ^^^^^^^^^^^^^^^^^^^
+
 error: KeyframeBlock
  --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:19
   |
@@ -58,6 +64,12 @@ error: SimpleBlock
 1 | @keyframes name { from { color: red } to { color: blue } }
   |                        ^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:26
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  |                          ^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:26
   |
@@ -76,7 +88,7 @@ error: Ident
 1 | @keyframes name { from { color: red } to { color: blue } }
   |                          ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:33
   |
 1 | @keyframes name { from { color: red } to { color: blue } }
@@ -87,6 +99,12 @@ error: Ident
   |
 1 | @keyframes name { from { color: red } to { color: blue } }
   |                                 ^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:39
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  |                                       ^^^^^^^^^^^^^^^^^^
 
 error: KeyframeBlock
  --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:39
@@ -112,6 +130,12 @@ error: SimpleBlock
 1 | @keyframes name { from { color: red } to { color: blue } }
   |                                          ^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:44
+  |
+1 | @keyframes name { from { color: red } to { color: blue } }
+  |                                            ^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:44
   |
@@ -130,7 +154,7 @@ error: Ident
 1 | @keyframes name { from { color: red } to { color: blue } }
   |                                            ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:51
   |
 1 | @keyframes name { from { color: red } to { color: blue } }

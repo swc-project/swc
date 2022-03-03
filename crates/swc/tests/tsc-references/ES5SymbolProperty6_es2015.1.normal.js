@@ -1,6 +1,6 @@
-var tmp = Symbol.iterator;
+let _iterator = Symbol.iterator;
 //@target: ES5
 class C {
-    [tmp]() {}
+    [_iterator]() {}
 }
 (new C)[Symbol.iterator];

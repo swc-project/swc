@@ -2,7 +2,7 @@
 
 use std::path::{Path, PathBuf};
 
-use swc_common::{input::SourceFileInput, sync::Lrc, FileName, Mark, SourceFile, SourceMap};
+use swc_common::{sync::Lrc, FileName, Mark, SourceFile, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{
     text_writer::{omit_trailing_semi, JsWriter, WriteJs},
@@ -12,7 +12,7 @@ use swc_ecma_minifier::{
     optimize,
     option::{ExtraOptions, MangleOptions, ManglePropertiesOptions, MinifyOptions},
 };
-use swc_ecma_parser::{lexer::Lexer, Parser};
+use swc_ecma_parser::parse_file_as_module;
 use swc_ecma_transforms::resolver_with_mark;
 use swc_ecma_visit::VisitMutWith;
 use testing::NormalizedOutput;
@@ -46,15 +46,14 @@ fn parse(cm: Lrc<SourceMap>, path: &Path) -> Module {
 }
 
 fn parse_fm(fm: Lrc<SourceFile>) -> Module {
-    let lexer = Lexer::new(
+    parse_file_as_module(
+        &fm,
         Default::default(),
         EsVersion::latest(),
-        SourceFileInput::from(&*fm),
         None,
-    );
-
-    let mut parser = Parser::new_from(lexer);
-    parser.parse_module().unwrap()
+        &mut vec![],
+    )
+    .unwrap()
 }
 
 #[testing::fixture("tests/compress/fixture/**/output.js")]

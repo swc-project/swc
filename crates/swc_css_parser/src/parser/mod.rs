@@ -29,8 +29,9 @@ pub struct ParserConfig {
     pub allow_wrong_line_comments: bool,
 }
 
-#[derive(Debug, Clone, Copy)]
-pub enum Grammar {
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum BlockContentsGrammar {
+    NoGrammar,
     StyleBlock,
     DeclarationList,
     RuleList,
@@ -38,16 +39,17 @@ pub enum Grammar {
     DeclarationValue,
 }
 
-impl Default for Grammar {
+impl Default for BlockContentsGrammar {
     fn default() -> Self {
-        Grammar::DeclarationValue
+        BlockContentsGrammar::NoGrammar
     }
 }
 
 #[derive(Debug, Default, Clone, Copy)]
 struct Ctx {
-    grammar: Grammar,
+    block_contents_grammar: BlockContentsGrammar,
 
+    in_supports_at_rule: bool,
     in_page_at_rule: bool,
 }
 

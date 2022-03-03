@@ -34,7 +34,7 @@ error: Ident
 1 | @unknown x;
   |  ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:9
   |
 1 | @unknown x;
@@ -46,7 +46,7 @@ error: WhiteSpace { value: Atom(' ' type=inline) }
 1 | @unknown x;
   |         ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:10
   |
 1 | @unknown x;

@@ -528,7 +528,7 @@ where
                     ClassMember::ClassProp(mut class_field)
                         if class_field.is_static && class_field.decorators.is_empty() =>
                     {
-                        if let Some(value) = class_field.value.take() {
+                        if let Some(mut value) = class_field.value.take() {
                             let prop = match class_field.key.take() {
                                 // make an prop_name_to_member
                                 PropName::Computed(key) => {
@@ -574,6 +574,11 @@ where
                                 obj: Box::new(Expr::Ident(ident.clone())),
                                 prop,
                             })));
+
+                            value.visit_mut_with(&mut ThisInStaticFolder {
+                                ident: ident.clone(),
+                            });
+
                             extra_exprs.push(Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
                                 op: op!("="),
@@ -1144,7 +1149,6 @@ where
         };
 
         let body = module.body?;
-        let var = self.create_uninit_var(module_name.span, module_name.to_id());
         let private_name = private_ident!(module_name.sym.clone());
         let body_stmts = match body {
             TsNamespaceBody::TsModuleBlock(block) => {
@@ -1154,6 +1158,8 @@ where
                 self.handle_ts_namespace_decl(decl, &private_name)
             }
         }?;
+
+        let var = self.create_uninit_var(module_name.span, module_name.to_id());
 
         self.get_namespace_var_decl_and_call_expr(
             var,
@@ -2790,4 +2796,28 @@ impl VisitMut for EnumValuesVisitor<'_> {
             _ => expr.visit_mut_children_with(self),
         }
     }
+}
+
+pub(super) struct ThisInStaticFolder {
+    pub ident: Ident,
+}
+
+impl VisitMut for ThisInStaticFolder {
+    noop_visit_mut_type!();
+
+    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
+
+    fn visit_mut_class_decl(&mut self, _: &mut ClassDecl) {}
+
+    fn visit_mut_class_expr(&mut self, _: &mut ClassExpr) {}
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        if let Expr::This(..) = e {
+            *e = Expr::Ident(self.ident.clone())
+        }
+    }
+
+    fn visit_mut_function(&mut self, _: &mut Function) {}
 }

@@ -1,7 +1,7 @@
 use swc_common::{BytePos, Span};
 use swc_css_ast::*;
 
-use super::{input::ParserInput, Ctx, Grammar, PResult, Parser};
+use super::{input::ParserInput, BlockContentsGrammar, Ctx, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
     Parse,
@@ -15,7 +15,7 @@ where
     I: ParserInput,
 {
     /// Parse value as <declaration-value>.
-    pub(super) fn parse_declaration_value(&mut self) -> PResult<Vec<Value>> {
+    pub(super) fn parse_declaration_value(&mut self) -> PResult<Vec<ComponentValue>> {
         let mut value = vec![];
         let mut balance_stack: Vec<Option<char>> = vec![];
 
@@ -82,7 +82,7 @@ where
             let token = self.input.bump()?;
 
             match token {
-                Some(token) => value.push(Value::PreservedToken(token)),
+                Some(token) => value.push(ComponentValue::PreservedToken(token)),
                 None => break,
             }
         }
@@ -152,172 +152,7 @@ where
         Ok(tokens)
     }
 
-    pub(super) fn parse_one_value_inner(&mut self) -> PResult<Value> {
-        // TODO remove me
-        self.input.skip_ws()?;
-
-        let span = self.input.cur_span()?;
-
-        match cur!(self) {
-            tok!(",") => return Ok(Value::Delimiter(self.parse()?)),
-
-            tok!("/") => return Ok(Value::Delimiter(self.parse()?)),
-
-            tok!(";") => return Ok(Value::Delimiter(self.parse()?)),
-
-            tok!("string") => return Ok(Value::Str(self.parse()?)),
-
-            tok!("url") => return Ok(Value::Url(self.parse()?)),
-
-            Token::Function { value, .. } => match &*value.to_ascii_lowercase() {
-                "url" | "src" => return Ok(Value::Url(self.parse()?)),
-                "rgb" | "rgba" | "hsl" | "hsla" | "hwb" | "lab" | "lch" | "oklab" | "oklch"
-                | "color" => return Ok(Value::Color(self.parse()?)),
-                _ => return Ok(Value::Function(self.parse()?)),
-            },
-
-            tok!("percentage") => return Ok(Value::Percentage(self.parse()?)),
-
-            tok!("dimension") => return Ok(Value::Dimension(self.parse()?)),
-
-            tok!("number") => return Ok(Value::Number(self.parse()?)),
-
-            Token::Ident { value, .. } => {
-                if value.starts_with("--") {
-                    return Ok(Value::DashedIdent(self.parse()?));
-                } else if &*value.to_ascii_lowercase() == "u"
-                    && peeked_is_one_of!(self, "+", "number", "dimension")
-                {
-                    return Ok(Value::Urange(self.parse()?));
-                }
-
-                return Ok(Value::Ident(self.parse()?));
-            }
-
-            tok!("[") => {
-                let ctx = Ctx {
-                    grammar: Grammar::DeclarationValue,
-                    ..self.ctx
-                };
-                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-                return Ok(Value::SimpleBlock(block));
-            }
-
-            tok!("(") => {
-                let ctx = Ctx {
-                    grammar: Grammar::DeclarationValue,
-                    ..self.ctx
-                };
-                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-                return Ok(Value::SimpleBlock(block));
-            }
-
-            tok!("{") => {
-                let ctx = Ctx {
-                    grammar: Grammar::DeclarationValue,
-                    ..self.ctx
-                };
-                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-                return Ok(Value::SimpleBlock(block));
-            }
-
-            tok!("#") => return Ok(Value::Color(Color::HexColor(self.parse()?))),
-
-            _ => {}
-        }
-
-        Err(Error::new(span, ErrorKind::Expected("Declaration value")))
-    }
-
-    pub fn parse_simple_block(&mut self, ending: char) -> PResult<SimpleBlock> {
-        let start_pos = self.input.last_pos()? - BytePos(1);
-        let mut simple_block = SimpleBlock {
-            span: Default::default(),
-            name: Default::default(),
-            value: vec![],
-        };
-
-        loop {
-            match cur!(self) {
-                tok!("}") if ending == '}' => {
-                    self.input.bump()?;
-
-                    let ending_pos = self.input.last_pos()?;
-
-                    simple_block.span =
-                        swc_common::Span::new(ending_pos, start_pos, Default::default());
-                    simple_block.name = '{';
-
-                    return Ok(simple_block);
-                }
-                tok!(")") if ending == ')' => {
-                    self.input.bump()?;
-
-                    let ending_pos = self.input.last_pos()?;
-
-                    simple_block.span =
-                        swc_common::Span::new(ending_pos, start_pos, Default::default());
-                    simple_block.name = '(';
-
-                    return Ok(simple_block);
-                }
-                tok!("]") if ending == ']' => {
-                    self.input.bump()?;
-
-                    let ending_pos = self.input.last_pos()?;
-
-                    simple_block.span =
-                        swc_common::Span::new(ending_pos, start_pos, Default::default());
-                    simple_block.name = '[';
-
-                    return Ok(simple_block);
-                }
-                _ => {
-                    let component_value = self.parse_component_value()?;
-
-                    simple_block
-                        .value
-                        .push(ComponentValue::Value(component_value));
-                }
-            }
-        }
-    }
-
-    pub fn parse_component_value(&mut self) -> PResult<Value> {
-        match cur!(self) {
-            tok!("[") => {
-                self.input.bump()?;
-
-                Ok(Value::SimpleBlock(self.parse_simple_block(']')?))
-            }
-            tok!("(") => {
-                self.input.bump()?;
-
-                Ok(Value::SimpleBlock(self.parse_simple_block(')')?))
-            }
-            tok!("{") => {
-                self.input.bump()?;
-
-                Ok(Value::SimpleBlock(self.parse_simple_block('}')?))
-            }
-            tok!("function") => Ok(Value::Function(self.parse()?)),
-            _ => {
-                let token = self.input.bump()?;
-
-                match token {
-                    Some(t) => Ok(Value::PreservedToken(t)),
-                    _ => {
-                        unreachable!();
-                    }
-                }
-            }
-        }
-    }
-
-    pub fn parse_function_values(&mut self, function_name: &str) -> PResult<Vec<Value>> {
+    pub fn parse_function_values(&mut self, function_name: &str) -> PResult<Vec<ComponentValue>> {
         let mut values = vec![];
 
         match function_name {
@@ -325,7 +160,7 @@ where
             | "sign" => {
                 self.input.skip_ws()?;
 
-                let calc_sum = Value::CalcSum(self.parse()?);
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
@@ -334,7 +169,7 @@ where
             "min" | "max" | "hypot" => {
                 self.input.skip_ws()?;
 
-                let calc_sum = Value::CalcSum(self.parse()?);
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
@@ -342,14 +177,14 @@ where
                     self.input.skip_ws()?;
 
                     if is!(self, ",") {
-                        values.push(Value::Delimiter(self.parse()?));
+                        values.push(ComponentValue::Delimiter(self.parse()?));
 
                         self.input.skip_ws()?;
                     } else {
                         break;
                     }
 
-                    let calc_sum = Value::CalcSum(self.parse()?);
+                    let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                     values.push(calc_sum);
                 }
@@ -357,14 +192,14 @@ where
             "clamp" => {
                 self.input.skip_ws()?;
 
-                let calc_sum = Value::CalcSum(self.parse()?);
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
                 self.input.skip_ws()?;
 
                 if is!(self, ",") {
-                    values.push(Value::Delimiter(self.parse()?));
+                    values.push(ComponentValue::Delimiter(self.parse()?));
 
                     self.input.skip_ws()?;
                 } else {
@@ -373,14 +208,14 @@ where
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
 
-                let calc_sum = Value::CalcSum(self.parse()?);
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
                 self.input.skip_ws()?;
 
                 if is!(self, ",") {
-                    values.push(Value::Delimiter(self.parse()?));
+                    values.push(ComponentValue::Delimiter(self.parse()?));
 
                     self.input.skip_ws()?;
                 } else {
@@ -389,7 +224,7 @@ where
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
 
-                let calc_sum = Value::CalcSum(self.parse()?);
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
@@ -400,14 +235,14 @@ where
 
                 if is!(self, "ident") {
                     // TODO improve me
-                    let rounding_strategy = Value::Ident(self.parse()?);
+                    let rounding_strategy = ComponentValue::Ident(self.parse()?);
 
                     values.push(rounding_strategy);
 
                     self.input.skip_ws()?;
 
                     if is!(self, ",") {
-                        values.push(Value::Delimiter(self.parse()?));
+                        values.push(ComponentValue::Delimiter(self.parse()?));
 
                         self.input.skip_ws()?;
                     } else {
@@ -417,14 +252,14 @@ where
                     }
                 }
 
-                let calc_sum = Value::CalcSum(self.parse()?);
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
                 self.input.skip_ws()?;
 
                 if is!(self, ",") {
-                    values.push(Value::Delimiter(self.parse()?));
+                    values.push(ComponentValue::Delimiter(self.parse()?));
 
                     self.input.skip_ws()?;
                 } else {
@@ -433,7 +268,7 @@ where
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
 
-                let calc_sum = Value::CalcSum(self.parse()?);
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
@@ -442,14 +277,14 @@ where
             "mod" | "rem" | "atan2" | "pow" => {
                 self.input.skip_ws()?;
 
-                let calc_sum = Value::CalcSum(self.parse()?);
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
                 self.input.skip_ws()?;
 
                 if is!(self, ",") {
-                    values.push(Value::Delimiter(self.parse()?));
+                    values.push(ComponentValue::Delimiter(self.parse()?));
 
                     self.input.skip_ws()?;
                 } else {
@@ -458,7 +293,7 @@ where
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
 
-                let calc_sum = Value::CalcSum(self.parse()?);
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
@@ -467,23 +302,32 @@ where
             "log" => {
                 self.input.skip_ws()?;
 
-                let calc_sum = Value::CalcSum(self.parse()?);
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
                 self.input.skip_ws()?;
 
                 if is!(self, ",") {
-                    values.push(Value::Delimiter(self.parse()?));
+                    values.push(ComponentValue::Delimiter(self.parse()?));
 
                     self.input.skip_ws()?;
 
-                    let calc_sum = Value::CalcSum(self.parse()?);
+                    let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                     values.push(calc_sum);
 
                     self.input.skip_ws()?;
                 }
+            }
+            "selector" if self.ctx.in_supports_at_rule => {
+                self.input.skip_ws()?;
+
+                let selector = ComponentValue::ComplexSelector(self.parse()?);
+
+                values.push(selector);
+
+                self.input.skip_ws()?;
             }
             _ => loop {
                 self.input.skip_ws()?;
@@ -492,7 +336,12 @@ where
                     break;
                 }
 
-                values.push(self.parse_one_value_inner()?);
+                let ctx = Ctx {
+                    block_contents_grammar: BlockContentsGrammar::DeclarationValue,
+                    ..self.ctx
+                };
+
+                values.push(self.with_ctx(ctx).parse_as::<ComponentValue>()?);
             },
         };
 
@@ -546,6 +395,43 @@ where
     }
 }
 
+impl<I> Parse<Integer> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Integer> {
+        let span = self.input.cur_span()?;
+
+        if !is!(self, Number) {
+            return Err(Error::new(span, ErrorKind::ExpectedNumber));
+        }
+
+        let value = bump!(self);
+
+        match value {
+            Token::Number {
+                value,
+                raw,
+                type_flag,
+                ..
+            } => {
+                if type_flag == NumberType::Number {
+                    return Err(Error::new(span, ErrorKind::Expected("integer type")));
+                }
+
+                Ok(Integer {
+                    span,
+                    value: value.round() as i64,
+                    raw,
+                })
+            }
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
 impl<I> Parse<Number> for Parser<I>
 where
     I: ParserInput,
@@ -583,10 +469,7 @@ where
             Token::Ident { value, raw } => {
                 match &*value.to_ascii_lowercase() {
                     "initial" | "inherit" | "unset" | "revert" | "default" => {
-                        return Err(Error::new(
-                            span,
-                            ErrorKind::InvalidCustomIdent(stringify!(value)),
-                        ));
+                        return Err(Error::new(span, ErrorKind::InvalidCustomIdent(raw)));
                     }
                     _ => {}
                 }
@@ -1327,9 +1210,7 @@ where
                             self.errors.push(err);
                             self.input.reset(&state);
 
-                            let value = self.parse_component_value()?;
-
-                            function.value.push(value);
+                            function.value.push(self.parse()?);
                         }
                     }
                 }
@@ -1349,13 +1230,13 @@ where
 //   u <number-token> <dimension-token> |
 //   u <number-token> <number-token> |
 //   u '+' '?'+
-impl<I> Parse<Urange> for Parser<I>
+impl<I> Parse<UnicodeRange> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<Urange> {
+    fn parse(&mut self) -> PResult<UnicodeRange> {
         let span = self.input.cur_span()?;
-        let mut urange = String::new();
+        let mut unicode_range = String::new();
 
         // should start with `u` or `U`
         match cur!(self) {
@@ -1367,7 +1248,7 @@ where
                     }
                 };
 
-                urange.push_str(&ident);
+                unicode_range.push_str(&ident);
             }
             _ => {
                 return Err(Error::new(span, ErrorKind::Expected("'u' ident token")));
@@ -1385,7 +1266,7 @@ where
                     }
                 };
 
-                urange.push(plus);
+                unicode_range.push(plus);
 
                 if is!(self, Ident) {
                     let ident = match bump!(self) {
@@ -1395,7 +1276,7 @@ where
                         }
                     };
 
-                    urange.push_str(&ident);
+                    unicode_range.push_str(&ident);
 
                     loop {
                         if !is!(self, "?") {
@@ -1409,7 +1290,7 @@ where
                             }
                         };
 
-                        urange.push(question);
+                        unicode_range.push(question);
                     }
                 } else {
                     let question = match bump!(self) {
@@ -1419,7 +1300,7 @@ where
                         }
                     };
 
-                    urange.push(question);
+                    unicode_range.push(question);
 
                     loop {
                         if !is!(self, "?") {
@@ -1433,7 +1314,7 @@ where
                             }
                         };
 
-                        urange.push(question);
+                        unicode_range.push(question);
                     }
                 }
             }
@@ -1448,7 +1329,7 @@ where
                     }
                 };
 
-                urange.push_str(&number);
+                unicode_range.push_str(&number.to_string());
 
                 match cur!(self) {
                     tok!("?") => {
@@ -1459,7 +1340,7 @@ where
                             }
                         };
 
-                        urange.push(question);
+                        unicode_range.push(question);
 
                         loop {
                             if !is!(self, "?") {
@@ -1473,7 +1354,7 @@ where
                                 }
                             };
 
-                            urange.push(question);
+                            unicode_range.push(question);
                         }
                     }
                     tok!("dimension") => {
@@ -1488,8 +1369,8 @@ where
                             }
                         };
 
-                        urange.push_str(&dimension.0);
-                        urange.push_str(&dimension.1);
+                        unicode_range.push_str(&dimension.0);
+                        unicode_range.push_str(&dimension.1);
                     }
                     tok!("number") => {
                         let number = match bump!(self) {
@@ -1499,7 +1380,7 @@ where
                             }
                         };
 
-                        urange.push_str(&number);
+                        unicode_range.push_str(&number);
                     }
                     _ => {}
                 }
@@ -1517,8 +1398,8 @@ where
                     }
                 };
 
-                urange.push_str(&dimension.0);
-                urange.push_str(&dimension.1);
+                unicode_range.push_str(&dimension.0);
+                unicode_range.push_str(&dimension.1);
 
                 loop {
                     if !is!(self, "?") {
@@ -1532,7 +1413,7 @@ where
                         }
                     };
 
-                    urange.push(question);
+                    unicode_range.push(question);
                 }
             }
             _ => {
@@ -1543,9 +1424,171 @@ where
             }
         }
 
-        return Ok(Urange {
+        let mut chars = unicode_range.chars();
+
+        // 1. Skipping the first u token, concatenate the representations of all the
+        // tokens in the production together. Let this be text.
+        let prefix = chars.next().unwrap();
+
+        let mut next = chars.next();
+
+        // 2. If the first character of text is U+002B PLUS SIGN, consume it. Otherwise,
+        // this is an invalid <urange>, and this algorithm must exit.
+        if next != Some('+') {
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected("'+' character after 'u' in unicode range"),
+            ));
+        } else {
+            next = chars.next();
+        }
+
+        // 3. Consume as many hex digits from text as possible. then consume as many
+        // U+003F QUESTION MARK (?) code points as possible. If zero code points
+        // were consumed, or more than six code points were consumed, this is an
+        // invalid <urange>, and this algorithm must exit.
+        let mut start = String::new();
+
+        loop {
+            match next {
+                Some(c) if c.is_digit(10) => {
+                    start.push(c);
+
+                    next = chars.next();
+                }
+                Some(c @ 'A'..='F') | Some(c @ 'a'..='f') => {
+                    start.push(c);
+
+                    next = chars.next();
+                }
+                _ => {
+                    break;
+                }
+            }
+        }
+
+        let mut has_question_mark = false;
+
+        while let Some(c @ '?') = next {
+            has_question_mark = true;
+
+            start.push(c);
+
+            next = chars.next();
+        }
+
+        let len = start.len();
+
+        if len == 0 || len > 6 {
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected(
+                    "valid length (minimum 1 or maximum 6 hex digits) in the start of unicode \
+                     range",
+                ),
+            ));
+        }
+
+        // If any U+003F QUESTION MARK (?) code points were consumed, then:
+        if has_question_mark {
+            // 1. If there are any code points left in text, this is an invalid <urange>,
+            // and this algorithm must exit.
+            if next != None {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("no characters after '?' in unicode range"),
+                ));
+            }
+
+            // 2. Interpret the consumed code points
+            // as a hexadecimal number, with the U+003F QUESTION MARK (?) code points
+            // replaced by U+0030 DIGIT ZERO (0) code points. This is the start value.
+            //
+            // 3. Interpret the consumed code points as a hexadecimal number again, with the
+            // U+003F QUESTION MARK (?) code points replaced by U+0046 LATIN CAPITAL LETTER
+            // F (F) code points. This is the end value.
+            //
+
+            // 4. Exit this algorithm.
+            return Ok(UnicodeRange {
+                span: span!(self, span.lo),
+                prefix,
+                start: start.into(),
+                end: None,
+            });
+        }
+
+        // Otherwise, interpret the consumed code points as a hexadecimal number. This
+        // is the start value.
+
+        // 4. If there are no code points left in text, The end value is the same as the
+        // start value. Exit this algorithm.
+        if next == None {
+            return Ok(UnicodeRange {
+                span: span!(self, span.lo),
+                prefix,
+                start: start.into(),
+                end: None,
+            });
+        }
+
+        // 5. If the next code point in text is U+002D HYPHEN-MINUS (-), consume it.
+        // Otherwise, this is an invalid <urange>, and this algorithm must exit.
+        if next != Some('-') {
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected("'-' between start and end in unicode range"),
+            ));
+        } else {
+            next = chars.next();
+        }
+
+        // 6. Consume as many hex digits as possible from text.
+        // If zero hex digits were consumed, or more than 6 hex digits were consumed,
+        // this is an invalid <urange>, and this algorithm must exit. If there are any
+        // code points left in text, this is an invalid <urange>, and this algorithm
+        // must exit.
+        let mut end = String::new();
+
+        loop {
+            match next {
+                Some(c) if c.is_digit(10) => {
+                    end.push(c);
+                    next = chars.next();
+                }
+                Some(c @ 'A'..='F') | Some(c @ 'a'..='f') => {
+                    end.push(c);
+                    next = chars.next();
+                }
+                _ => {
+                    break;
+                }
+            }
+        }
+
+        let len = end.len();
+
+        if len == 0 || len > 6 {
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected(
+                    "valid length (minimum 1 or maximum 6 hex digits) in the end of unicode range",
+                ),
+            ));
+        }
+
+        if chars.next() != None {
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected("no characters after end in unicode range"),
+            ));
+        }
+
+        return Ok(UnicodeRange {
             span: span!(self, span.lo),
-            value: urange.into(),
+            prefix,
+            start: start.into(),
+            end: Some(end.into()),
         });
     }
 }

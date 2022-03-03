@@ -73,6 +73,12 @@ error: SimpleBlock
 3 | | }
   | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/property/escaped/input.css:2:5
+  |
+2 |     colo\r: \red;
+  |     ^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/property/escaped/input.css:2:5
   |
@@ -97,7 +103,7 @@ error: Ident
 2 |     colo\r: \red;
   |     ^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/property/escaped/input.css:2:13
   |
 2 |     colo\r: \red;

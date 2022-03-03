@@ -7,12 +7,15 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    alias_if_required, prepend, private_ident, undefined, ExprFactory, IntoIndirectCall, StmtLike,
+    alias_if_required, opt_chain_test, prepend, private_ident, undefined, ExprFactory,
+    IntoIndirectCall, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
 };
+use swc_trace_macro::swc_trace;
 
+#[tracing::instrument(level = "trace", skip_all)]
 pub fn optional_chaining(c: Config) -> impl Fold + VisitMut {
     as_folder(OptChaining {
         c,
@@ -36,6 +39,7 @@ pub struct Config {
     pub pure_getter: bool,
 }
 
+#[swc_trace]
 #[fast_path(ShouldWork)]
 impl VisitMut for OptChaining {
     noop_visit_mut_type!();
@@ -87,6 +91,7 @@ impl VisitMut for OptChaining {
     }
 }
 
+#[swc_trace]
 impl OptChaining {
     /// Returned statements are variable declarations without initializer
     fn visit_mut_one_stmt_to<T>(&mut self, mut stmt: T, new: &mut Vec<T>)
@@ -182,6 +187,7 @@ impl OptChaining {
     }
 }
 
+#[swc_trace]
 impl OptChaining {
     /// Only called from [VisitMut].
     fn handle_unary(&mut self, e: &mut UnaryExpr) -> Expr {
@@ -447,31 +453,7 @@ impl OptChaining {
                     }
                 };
 
-                let test = Box::new(Expr::Bin(if self.c.no_document_all {
-                    BinExpr {
-                        span: obj_span,
-                        left,
-                        op: op!("=="),
-                        right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-                    }
-                } else {
-                    BinExpr {
-                        span,
-                        left: Box::new(Expr::Bin(BinExpr {
-                            span: obj_span,
-                            left,
-                            op: op!("==="),
-                            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-                        })),
-                        op: op!("||"),
-                        right: Box::new(Expr::Bin(BinExpr {
-                            span: DUMMY_SP,
-                            left: right,
-                            op: op!("==="),
-                            right: undefined(span),
-                        })),
-                    }
-                }));
+                let test = Box::new(opt_chain_test(left, right, span, self.c.no_document_all));
 
                 CondExpr {
                     span,
@@ -595,31 +577,7 @@ impl OptChaining {
                     }
                 };
 
-                let test = Box::new(Expr::Bin(if self.c.no_document_all {
-                    BinExpr {
-                        span: DUMMY_SP,
-                        left,
-                        op: op!("=="),
-                        right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-                    }
-                } else {
-                    BinExpr {
-                        span,
-                        left: Box::new(Expr::Bin(BinExpr {
-                            span: DUMMY_SP,
-                            left,
-                            op: op!("==="),
-                            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-                        })),
-                        op: op!("||"),
-                        right: Box::new(Expr::Bin(BinExpr {
-                            span: DUMMY_SP,
-                            left: right,
-                            op: op!("==="),
-                            right: undefined(span),
-                        })),
-                    }
-                }));
+                let test = Box::new(opt_chain_test(left, right, span, self.c.no_document_all));
 
                 CondExpr {
                     span: DUMMY_SP,
@@ -637,6 +595,7 @@ struct ShouldWork {
     found: bool,
 }
 
+#[swc_trace]
 impl Visit for ShouldWork {
     noop_visit_type!();
 
@@ -652,6 +611,7 @@ impl Check for ShouldWork {
 }
 
 // TODO: skip transparent wrapper
+#[tracing::instrument(level = "trace", skip_all)]
 fn is_simple_expr(expr: &Expr) -> bool {
     match expr {
         Expr::Ident(_) => true,

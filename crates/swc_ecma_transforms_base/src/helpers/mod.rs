@@ -3,7 +3,6 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use once_cell::sync::Lazy;
 use swc_common::{FileName, FilePathMapping, Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
 use swc_ecma_utils::{prepend_stmts, quote_ident, quote_str, DropSpan};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -23,24 +22,24 @@ macro_rules! add_to {
             let cm = SourceMap::new(FilePathMapping::empty());
             let code = include_str!(concat!("./_", stringify!($name), ".js"));
             let fm = cm.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
-            let lexer = Lexer::new(
+
+            let stmts = swc_ecma_parser::parse_file_as_script(
+                &fm,
                 Default::default(),
                 Default::default(),
-                StringInput::from(&*fm),
                 None,
-            );
-            let stmts = Parser::new_from(lexer)
-                .parse_script()
-                .map(|mut script| {
-                    script.body.visit_mut_with(&mut DropSpan {
-                        preserve_ctxt: false,
-                    });
-                    script.body
-                })
-                .map_err(|e| {
-                    unreachable!("Error occurred while parsing error: {:?}", e);
-                })
-                .unwrap();
+                &mut vec![],
+            )
+            .map(|mut script| {
+                script.body.visit_mut_with(&mut DropSpan {
+                    preserve_ctxt: false,
+                });
+                script.body
+            })
+            .map_err(|e| {
+                unreachable!("Error occurred while parsing error: {:?}", e);
+            })
+            .unwrap();
             stmts
         });
 
@@ -186,7 +185,7 @@ define_helpers!(Helpers {
     class_private_field_get: (class_extract_field_descriptor, class_apply_descriptor_get),
     class_private_field_init: (check_private_redeclaration),
     class_private_field_loose_base: (),
-    // class_private_field_loose_key: (),
+    class_private_field_loose_key: (),
     class_private_field_set: (class_extract_field_descriptor, class_apply_descriptor_set),
     class_private_method_get: (),
     class_private_method_init: (check_private_redeclaration),

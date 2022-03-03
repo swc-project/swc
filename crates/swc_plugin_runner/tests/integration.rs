@@ -7,7 +7,7 @@ use std::{
 use anyhow::{anyhow, Error};
 use swc_common::{errors::HANDLER, plugin::Serialized, sync::Lazy, FileName};
 use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, Str};
-use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
+use swc_ecma_parser::{parse_file_as_program, EsConfig, Syntax};
 use swc_ecma_visit::{Visit, VisitWith};
 use swc_plugin_runner::cache::PluginModuleCache;
 
@@ -69,17 +69,16 @@ fn internal() -> Result<(), Error> {
     testing::run_test(false, |cm, _handler| {
         let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
 
-        let lexer = Lexer::new(
+        let program = parse_file_as_program(
+            &fm,
             Syntax::Es(EsConfig {
                 ..Default::default()
             }),
             EsVersion::latest(),
-            StringInput::from(&*fm),
             None,
-        );
-        let mut parser = Parser::new_from(lexer);
-
-        let program = parser.parse_program().unwrap();
+            &mut vec![],
+        )
+        .unwrap();
 
         let program = Serialized::serialize(&program).expect("Should serializable");
         let config = Serialized::serialize(&"{}".to_string()).expect("Should serializable");
@@ -116,17 +115,16 @@ fn internal() -> Result<(), Error> {
     testing::run_test2(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
 
-        let lexer = Lexer::new(
+        let program = parse_file_as_program(
+            &fm,
             Syntax::Es(EsConfig {
                 ..Default::default()
             }),
             EsVersion::latest(),
-            StringInput::from(&*fm),
             None,
-        );
-        let mut parser = Parser::new_from(lexer);
-
-        let program = parser.parse_program().unwrap();
+            &mut vec![],
+        )
+        .unwrap();
 
         let program = Serialized::serialize(&program).expect("Should serializable");
         let config = Serialized::serialize(&"{}".to_string()).expect("Should serializable");
@@ -156,17 +154,16 @@ fn internal() -> Result<(), Error> {
     testing::run_test(false, |cm, _handler| {
         let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
 
-        let lexer = Lexer::new(
+        let program = parse_file_as_program(
+            &fm,
             Syntax::Es(EsConfig {
                 ..Default::default()
             }),
             EsVersion::latest(),
-            StringInput::from(&*fm),
             None,
-        );
-        let mut parser = Parser::new_from(lexer);
-
-        let program = parser.parse_program().unwrap();
+            &mut vec![],
+        )
+        .unwrap();
 
         let mut serialized_program = Serialized::serialize(&program).expect("Should serializable");
         let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);

@@ -58,6 +58,12 @@ error: SimpleBlock
 1 | .selector { property: value\9; }
   |           ^^^^^^^^^^^^^^^^^^^^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:13
+  |
+1 | .selector { property: value\9; }
+  |             ^^^^^^^^^^^^^^^^^
+
 error: StyleBlock
  --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:13
   |
@@ -82,7 +88,7 @@ error: Ident
 1 | .selector { property: value\9; }
   |             ^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:23
   |
 1 | .selector { property: value\9; }

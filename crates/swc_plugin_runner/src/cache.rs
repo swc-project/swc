@@ -20,7 +20,7 @@ use wasmer_cache::{Cache as WasmerCache, FileSystemCache, Hash};
 /// however it is not gauranteed to be compatible across wasmer's
 /// internal changes.
 /// https://github.com/wasmerio/wasmer/issues/2781
-const MODULE_SERIALIZATION_VERSION: &str = "v1";
+const MODULE_SERIALIZATION_VERSION: &str = "v2";
 
 /// A shared instance to plugin's module bytecode cache.
 /// TODO: it is unclear how we'll support plugin itself in wasm target of
@@ -48,6 +48,7 @@ pub struct PluginModuleCache {
     instantiation_lock: Mutex<()>,
 }
 
+#[tracing::instrument(level = "trace", skip_all)]
 fn create_filesystem_cache(filesystem_cache_root: &Option<String>) -> Option<FileSystemCache> {
     let mut root_path = if let Some(root) = filesystem_cache_root {
         Some(PathBuf::from(root))
@@ -105,6 +106,7 @@ impl PluginModuleCache {
     /// [This code](https://github.com/swc-project/swc/blob/fc4c6708f24cda39640fbbfe56123f2f6eeb2474/crates/swc/src/plugin.rs#L19-L44)
     /// includes previous incorrect attempt to workaround file read issues.
     /// In actual transform, `plugins` is also being called per each transform.
+    #[tracing::instrument(level = "trace", skip_all)]
     pub fn load_module(&self, binary_path: &Path) -> Result<Module, Error> {
         let binary_path = binary_path.to_path_buf();
         let mut inner_cache = self.inner.get().expect("Cache should be available").lock();
@@ -124,8 +126,17 @@ impl PluginModuleCache {
         let wasmer_store = Store::default();
 
         let load_cold_wasm_bytes = || {
+            let span = tracing::span!(
+                tracing::Level::TRACE,
+                "load_cold_wasm_bytes",
+                plugin_module = binary_path.to_str()
+            );
+            let span_guard = span.enter();
             let _lock = self.instantiation_lock.lock();
-            Module::new(&wasmer_store, module_bytes).context("Cannot compile plugin binary")
+            let ret =
+                Module::new(&wasmer_store, module_bytes).context("Cannot compile plugin binary");
+            drop(span_guard);
+            ret
         };
 
         // Try to load compiled bytes from filesystem cache if available.

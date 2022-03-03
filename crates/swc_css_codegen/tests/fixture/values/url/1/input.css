@@ -59,3 +59,7 @@ div {
 .baz {
     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
 }
+
+.foo {
+    background: url(__ident__);
+}

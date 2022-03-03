@@ -66,6 +66,9 @@ where
         if !self.options.sequences() {
             return;
         }
+        if self.ctx.in_asm {
+            return;
+        }
 
         {
             let can_work =

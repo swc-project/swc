@@ -6,9 +6,9 @@ error: Stylesheet
 3   | |
 4   | | @media all {}
 ...   |
-112 | | @media {}
-113 | | @media    {}
-    | |_____________^
+114 | |
+115 | | @media tty {}
+    | |______________^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/media/input.css:1:1
@@ -12351,4 +12351,46 @@ error: SimpleBlock
     |
 113 | @media    {}
     |           ^^
+
+error: Rule
+   --> $DIR/tests/fixture/at-rule/media/input.css:115:1
+    |
+115 | @media tty {}
+    | ^^^^^^^^^^^^^
+
+error: AtRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:115:1
+    |
+115 | @media tty {}
+    | ^^^^^^^^^^^^^
+
+error: MediaRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:115:1
+    |
+115 | @media tty {}
+    | ^^^^^^^^^^^^^
+
+error: MediaQueryList
+   --> $DIR/tests/fixture/at-rule/media/input.css:115:8
+    |
+115 | @media tty {}
+    |        ^^^
+
+error: MediaQuery
+   --> $DIR/tests/fixture/at-rule/media/input.css:115:8
+    |
+115 | @media tty {}
+    |        ^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:115:8
+    |
+115 | @media tty {}
+    |        ^^^
+
+error: SimpleBlock
+   --> $DIR/tests/fixture/at-rule/media/input.css:115:12
+    |
+115 | @media tty {}
+    |            ^^
 

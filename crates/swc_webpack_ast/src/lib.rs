@@ -7,7 +7,7 @@ use swc_common::{
     GLOBALS,
 };
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_parser::{parse_file_as_module, EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_visit::VisitMutWith;
 use swc_estree_ast::flavor::Flavor;
@@ -62,15 +62,14 @@ where
     };
 
     let module = {
-        let lexer = Lexer::new(syntax, EsVersion::latest(), StringInput::from(&*fm), None);
-        let mut parser = Parser::new_from(lexer);
-
-        parser.parse_module().map_err(|err| {
-            HANDLER.with(|h| {
-                err.into_diagnostic(h).emit();
-                anyhow!("failed to parse module")
-            })
-        })?
+        parse_file_as_module(&fm, syntax, EsVersion::latest(), None, &mut vec![]).map_err(
+            |err| {
+                HANDLER.with(|h| {
+                    err.into_diagnostic(h).emit();
+                    anyhow!("failed to parse module")
+                })
+            },
+        )?
     };
 
     let ast = GLOBALS.set(&globals, || webpack_ast(cm.clone(), fm.clone(), module))?;

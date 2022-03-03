@@ -1,4 +1,4 @@
-var ref, ref1, _tmp;
+var _tmp;
 function _extends() {
     return (_extends = Object.assign || function(target) {
         for(var i = 1; i < arguments.length; i++){
@@ -13,7 +13,7 @@ class C extends B {
         super(...args), this.x = 1, this.y = this.x, this.z = super.f();
     }
 }
-C.x = void 0, C.y1 = this.x, C.y2 = this.x(), C.y3 = null === (ref = this) || void 0 === ref ? void 0 : ref.x(), C.y4 = this.x(), C.y5 = null === (ref1 = this) || void 0 === ref1 ? void 0 : ref1.x(), C.z1 = super.a, C.z2 = super.a, C.z3 = super.f(), C.z4 = super.f(), C.z5 = super.a = 0, C.z6 = super.a += 1, C.z7 = void (super.a = 0), C.z8 = [super.a] = [
+C.x = void 0, C.y1 = C.x, C.y2 = C.x(), C.y3 = null == C ? void 0 : C.x(), C.y4 = C.x(), C.y5 = null == C ? void 0 : C.x(), C.z1 = super.a, C.z2 = super.a, C.z3 = super.f(), C.z4 = super.f(), C.z5 = super.a = 0, C.z6 = super.a += 1, C.z7 = void (super.a = 0), C.z8 = [super.a] = [
     0
 ], C.z9 = [super.a = 0] = [
     0

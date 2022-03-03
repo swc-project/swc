@@ -1,9 +1,12 @@
 {
     "name": "@swc/core",
-    "version": "1.2.145",
+    "version": "1.2.147",
     "description": "Super-fast alternative for babel",
     "homepage": "https://swc.rs",
     "main": "./index.js",
+    "bin": {
+        "swcx": "run_swcx.js"
+    },
     "author": "강동윤 <kdy1997.dev@gmail.com>",
     "license": "Apache-2.0",
     "keywords": [
@@ -102,5 +105,20 @@
     "funding": {
         "type": "opencollective",
         "url": "https://opencollective.com/swc"
+    },
+    "optionalDependencies": {
+        "@swc/core-win32-x64-msvc": "1.2.146",
+        "@swc/core-darwin-x64": "1.2.146",
+        "@swc/core-linux-x64-gnu": "1.2.146",
+        "@swc/core-linux-x64-musl": "1.2.146",
+        "@swc/core-freebsd-x64": "1.2.146",
+        "@swc/core-win32-ia32-msvc": "1.2.146",
+        "@swc/core-linux-arm64-gnu": "1.2.146",
+        "@swc/core-linux-arm-gnueabihf": "1.2.146",
+        "@swc/core-darwin-arm64": "1.2.146",
+        "@swc/core-android-arm64": "1.2.146",
+        "@swc/core-linux-arm64-musl": "1.2.146",
+        "@swc/core-win32-arm64-msvc": "1.2.146",
+        "@swc/core-android-arm-eabi": "1.2.146"
     }
 }

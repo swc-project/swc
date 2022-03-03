@@ -76,6 +76,8 @@ mod tests {
         assert_min("++foo", "++foo");
         assert_min("--foo", "--foo");
         assert_min("new foo", "new foo");
+        assert_min("new foo()", "new foo");
+        assert_min("new foo().bar()", "new foo().bar()");
         assert_min("void foo", "void foo");
         assert_min("typeof foo", "typeof foo");
     }

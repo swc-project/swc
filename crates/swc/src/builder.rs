@@ -171,7 +171,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             Some(ModuleConfig::CommonJs(ref c)) => !c.no_interop,
             Some(ModuleConfig::Amd(ref c)) => !c.config.no_interop,
             Some(ModuleConfig::Umd(ref c)) => !c.config.no_interop,
-            Some(ModuleConfig::Es6) | None => false,
+            Some(ModuleConfig::SystemJs(_)) | Some(ModuleConfig::Es6) | None => false,
         };
 
         // compat
@@ -184,7 +184,14 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         } else {
             Either::Right(chain!(
                 Optional::new(
-                    compat::es2022::es2022(compat::es2022::Config { loose: self.loose }),
+                    compat::es2022::es2022(compat::es2022::Config {
+                        class_properties: compat::es2022::class_properties::Config {
+                            private_as_properties: self.loose,
+                            constant_super: self.loose,
+                            set_public_fields: self.loose,
+                            no_document_all: self.loose
+                        }
+                    }),
                     should_enable(self.target, EsVersion::Es2022)
                 ),
                 Optional::new(
