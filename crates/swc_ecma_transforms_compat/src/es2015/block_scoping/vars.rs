@@ -234,6 +234,24 @@ impl ParentScope<'_> {
 impl VisitMut for BlockScopedVars {
     noop_visit_mut_type!();
 
+    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
+        self.with_scope(ScopeKind::Fn, |v| {
+            let old = v.is_param;
+            v.is_param = true;
+            n.params.visit_mut_with(v);
+            v.is_param = old;
+
+            match &mut n.body {
+                BlockStmtOrExpr::BlockStmt(b) => {
+                    b.visit_mut_children_with(v);
+                }
+                BlockStmtOrExpr::Expr(b) => {
+                    b.visit_mut_with(v);
+                }
+            }
+        });
+    }
+
     fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
         n.visit_mut_children_with(self);
 
