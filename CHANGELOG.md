@@ -40,6 +40,12 @@
 
 - **(es/parser)** Remove duplicated instantiations of `Parser` to reduce binary size (#3813) ([f5103a7](https://github.com/swc-project/swc/commit/f5103a77256060e2c27ca360d0c58bbcc6b92b13))
 
+### Testing
+
+
+
+- **(es/compat)** Organize tests (#3825) ([814dcc0](https://github.com/swc-project/swc/commit/814dcc09d66f9c7a968348fc3a08573cadd036f8))
+
 ## [1.2.147] - 2022-03-02
 
 ### Bug Fixes
