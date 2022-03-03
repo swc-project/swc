@@ -1,5 +1,6 @@
-use std::sync::{Arc, Mutex};
+use std::sync::Arc;
 
+use parking_lot::Mutex;
 use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -50,7 +51,7 @@ pub enum EvalResult {
 
 impl Mode for Eval {
     fn store(&self, id: Id, value: &Expr) {
-        let mut w = self.store.lock().unwrap();
+        let mut w = self.store.lock();
         w.cache.insert(id, Box::new(value.clone()));
     }
 
@@ -173,7 +174,7 @@ impl Evaluator {
             Expr::Ident(i) => {
                 self.run();
 
-                let lock = self.data.store.lock().ok()?;
+                let lock = self.data.store.lock();
                 let val = lock.cache.get(&i.to_id())?;
 
                 return Some(val.clone());
