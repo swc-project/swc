@@ -6,6 +6,10 @@ use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{de::Error, Deserialize, Serialize};
 
+/// A regex which can be used as a configuration.
+///
+/// While deserializing, this will be converted to a string and cached based on
+/// the pattern.
 #[derive(Debug, Clone)]
 pub struct CachedRegex {
     regex: Arc<Regex>,
