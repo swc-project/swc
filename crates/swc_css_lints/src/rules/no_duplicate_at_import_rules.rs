@@ -53,7 +53,6 @@ impl Visit for NoDuplicateAtImportRules {
 
         if let Some(queries) = import_rule.media.as_ref().map(|media| &media.queries) {
             queries.iter().fold(&mut self.imports, |imports, query| {
-                let href = href.clone();
                 let media = query.media_type.as_ref().map(|ident| ident.value.clone());
                 let pair = (href.clone(), media);
 
@@ -65,7 +64,6 @@ impl Visit for NoDuplicateAtImportRules {
                 imports
             });
         } else {
-            let href = href.clone();
             let pair = (href.clone(), None);
 
             if self.imports.contains(&pair) {
