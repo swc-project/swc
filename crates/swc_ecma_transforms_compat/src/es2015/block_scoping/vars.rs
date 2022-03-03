@@ -149,6 +149,7 @@ impl Scope {
                 symbols.push(id.0.clone());
             }
         }
+        self.usages.clear();
 
         let parent = ParentScope {
             parent: Some(&parent),
