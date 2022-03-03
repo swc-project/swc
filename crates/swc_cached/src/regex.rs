@@ -63,3 +63,10 @@ impl Serialize for CachedRegex {
         serializer.serialize_str(s)
     }
 }
+
+/// This will panic for wrong patterns.
+impl From<&'_ str> for CachedRegex {
+    fn from(s: &'_ str) -> Self {
+        Self::new(s).unwrap()
+    }
+}

@@ -1,16 +1,14 @@
 use std::path::{Component, PathBuf};
 
 use anyhow::{bail, Context, Error};
-use dashmap::DashMap;
-use once_cell::sync::Lazy;
-use regex::Regex;
+use swc_cached::regex::CachedRegex;
 use swc_common::FileName;
 
 use crate::resolve::Resolve;
 
 #[derive(Debug)]
 enum Pattern {
-    Regex(Regex),
+    Regex(CachedRegex),
     /// No wildcard.
     Exact(String),
 }
@@ -193,19 +191,6 @@ where
     }
 }
 
-fn compile_regex(src: String) -> Regex {
-    static CACHE: Lazy<DashMap<String, Regex, ahash::RandomState>> = Lazy::new(Default::default);
-
-    if !CACHE.contains_key(&*src) {
-        // Create capture group
-        let regex_pat = src.replace('*', "(.*)");
-        let re = Regex::new(&regex_pat).unwrap_or_else(|err| {
-            panic!("failed to compile `{}` as a pattern: {:?}", regex_pat, err)
-        });
-        CACHE.insert(src.clone(), re);
-    }
-
-    let re = CACHE.get(&*src).unwrap();
-
-    (*re).clone()
+fn compile_regex(src: String) -> CachedRegex {
+    CachedRegex::new(&src).unwrap()
 }

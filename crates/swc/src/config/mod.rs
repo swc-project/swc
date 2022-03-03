@@ -9,17 +9,17 @@ use std::{
     usize,
 };
 
-use anyhow::{bail, Context, Error};
+use anyhow::{bail, Error};
 use dashmap::DashMap;
 use either::Either;
 use indexmap::IndexMap;
 use once_cell::sync::Lazy;
-use regex::Regex;
 use serde::{
     de::{Unexpected, Visitor},
     Deserialize, Deserializer, Serialize, Serializer,
 };
 use swc_atoms::JsWord;
+use swc_cached::regex::CachedRegex;
 pub use swc_common::chain;
 use swc_common::{
     collections::{AHashMap, AHashSet},
@@ -891,34 +891,25 @@ impl Config {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FileMatcher {
-    Regex(String),
+    None,
+    Regex(CachedRegex),
     Multi(Vec<FileMatcher>),
 }
 
 impl Default for FileMatcher {
     fn default() -> Self {
-        Self::Regex(String::from(""))
+        Self::None
     }
 }
 
 impl FileMatcher {
     pub fn matches(&self, filename: &Path) -> Result<bool, Error> {
-        static CACHE: Lazy<DashMap<String, Regex, ahash::RandomState>> =
-            Lazy::new(Default::default);
-
         match self {
-            FileMatcher::Regex(ref s) => {
-                if s.is_empty() {
-                    return Ok(false);
-                }
+            &FileMatcher::None => {
+                return Ok(false);
+            }
 
-                if !CACHE.contains_key(&*s) {
-                    let re = Regex::new(s).with_context(|| format!("invalid regex: {}", s))?;
-                    CACHE.insert(s.clone(), re);
-                }
-
-                let re = CACHE.get(&*s).unwrap();
-
+            FileMatcher::Regex(re) => {
                 let filename = if cfg!(target_os = "windows") {
                     filename.to_string_lossy().replace('\\', "/")
                 } else {
