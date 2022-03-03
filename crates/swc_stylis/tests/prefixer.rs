@@ -7,7 +7,10 @@
 use std::path::PathBuf;
 
 use swc_common::{FileName, DUMMY_SP};
-use swc_css_ast::{ComponentValue, DeclarationOrAtRule, QualifiedRule, SimpleBlock, Stylesheet};
+use swc_css_ast::{
+    ComponentValue, DeclarationOrAtRule, QualifiedRule, SimpleBlock, Stylesheet, Token,
+    TokenAndSpan,
+};
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodegenConfig, Emit,
@@ -477,7 +480,7 @@ fn error_recovery_1() {
             __styled-jsx-placeholder__1
         ",
         "-webkit-animation:slide 3s ease infinite;animation:slide 3s ease \
-         infinite;__styled-jsx-placeholder__1\n        ;",
+         infinite;__styled-jsx-placeholder__1\n        ",
     );
 }
 
@@ -533,7 +536,15 @@ fn t(src: &str, expected: &str) {
                 }
 
                 wr.push_str(&s);
-                wr.push(';');
+
+                let need_semi = match p {
+                    ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::Invalid(_)) => false,
+                    _ => true,
+                };
+
+                if need_semi {
+                    wr.push(';');
+                }
             }
         }
 
