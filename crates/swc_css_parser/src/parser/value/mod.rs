@@ -615,7 +615,7 @@ where
                     self.input.skip_ws()?;
                 }
             }
-            "hwb" | "lab" | "lch" | "oklab" | "oklch" => {
+            "hwb" | "lab" | "lch" | "oklab" | "oklch" | "device-cmyk" => {
                 match function_name {
                     "hwb" => {
                         let hue_or_none = match cur!(self) {
@@ -676,6 +676,11 @@ where
                         };
 
                         values.push(percentage_or_none);
+                    }
+                    "device-cmyk" => {
+                        let cmyk_component = ComponentValue::CmykComponent(self.parse()?);
+
+                        values.push(cmyk_component);
                     }
                     _ => {
                         unreachable!();
@@ -742,6 +747,11 @@ where
                         };
 
                         values.push(number_or_none);
+                    }
+                    "device-cmyk" => {
+                        let cmyk_component = ComponentValue::CmykComponent(self.parse()?);
+
+                        values.push(cmyk_component);
                     }
                     _ => {
                         unreachable!();
@@ -840,12 +850,28 @@ where
 
                         values.push(hue_or_none);
                     }
+                    "device-cmyk" => {
+                        let cmyk_component = ComponentValue::CmykComponent(self.parse()?);
+
+                        values.push(cmyk_component);
+                    }
                     _ => {
                         unreachable!();
                     }
                 }
 
                 self.input.skip_ws()?;
+                
+                match function_name { 
+                    "device-cmyk" => {
+                        let cmyk_component = ComponentValue::CmykComponent(self.parse()?);
+
+                        values.push(cmyk_component);
+
+                        self.input.skip_ws()?;
+                    }
+                    _ => {}
+                }
 
                 if is!(self, "/") {
                     values.push(ComponentValue::Delimiter(self.parse()?));
@@ -856,7 +882,7 @@ where
                         tok!("number") | tok!("percentage") => {
                             ComponentValue::AlphaValue(self.parse()?)
                         }
-                        tok!("ident") => {
+                        tok!("ident") if !matches!(function_name, "device-cmyk") => {
                             let ident: Ident = self.parse()?;
 
                             if !(&*ident.value).eq_ignore_ascii_case("none") {
@@ -1596,6 +1622,30 @@ where
         match cur!(self) {
             tok!("number") => Ok(Hue::Number(self.parse()?)),
             tok!("dimension") => Ok(Hue::Angle(self.parse()?)),
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
+impl<I> Parse<CmykComponent> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<CmykComponent> {
+        if !is_one_of!(self, "number", "percentage") {
+            let span = self.input.cur_span()?;
+
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected("number or percentage token"),
+            ));
+        }
+
+        match cur!(self) {
+            tok!("number") => Ok(CmykComponent::Number(self.parse()?)),
+            tok!("percentage") => Ok(CmykComponent::Percentage(self.parse()?)),
             _ => {
                 unreachable!()
             }

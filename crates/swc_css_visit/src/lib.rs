@@ -51,6 +51,7 @@ define!({
         Color(Color),
         AlphaValue(AlphaValue),
         Hue(Hue),
+        CmykComponent(CmykComponent),
         Delimiter(Delimiter),
 
         CalcSum(CalcSum),
@@ -165,6 +166,11 @@ define!({
     pub enum Hue {
         Number(Number),
         Angle(Angle),
+    }
+
+    pub enum CmykComponent {
+        Number(Number),
+        Percentage(Percentage),
     }
 
     pub enum Dimension {

@@ -8742,13 +8742,13 @@
                 },
                 "value": [
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 3722,
                       "end": 3723,
                       "ctxt": 0
                     },
-                    "value": 0,
+                    "value": 0.0,
                     "raw": "0"
                   },
                   {
@@ -9073,13 +9073,13 @@
                 },
                 "value": [
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 3839,
                       "end": 3840,
                       "ctxt": 0
                     },
-                    "value": 0,
+                    "value": 0.0,
                     "raw": "0"
                   },
                   {
@@ -9103,13 +9103,13 @@
                     "raw": "0.2"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 3849,
                       "end": 3850,
                       "ctxt": 0
                     },
-                    "value": 0,
+                    "value": 0.0,
                     "raw": "0"
                   }
                 ]
@@ -10419,13 +10419,13 @@
                 },
                 "value": [
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 4368,
                       "end": 4369,
                       "ctxt": 0
                     },
-                    "value": 0,
+                    "value": 0.0,
                     "raw": "0"
                   },
                   {
@@ -10695,13 +10695,13 @@
                 },
                 "value": [
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 4466,
                       "end": 4467,
                       "ctxt": 0
                     },
-                    "value": 0,
+                    "value": 0.0,
                     "raw": "0"
                   },
                   {

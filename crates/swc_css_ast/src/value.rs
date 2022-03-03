@@ -88,8 +88,16 @@ pub enum AlphaValue {
 pub enum Hue {
     #[tag("Number")]
     Number(Number),
-    #[tag("Percentage")]
+    #[tag("Angle")]
     Angle(Angle),
+}
+
+#[ast_node]
+pub enum CmykComponent {
+    #[tag("Number")]
+    Number(Number),
+    #[tag("Percentage")]
+    Percentage(Percentage),
 }
 
 #[ast_node]

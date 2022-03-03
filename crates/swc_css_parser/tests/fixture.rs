@@ -348,6 +348,8 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(Hue, visit_hue);
 
+    mtd!(CmykComponent, visit_cmyk_component);
+
     mtd!(Integer, visit_integer);
 
     mtd!(Number, visit_number);

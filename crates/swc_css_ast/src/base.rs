@@ -2,9 +2,9 @@ use is_macro::Is;
 use swc_common::{ast_node, Span};
 
 use crate::{
-    AlphaValue, AtRule, CalcSum, Color, ComplexSelector, DashedIdent, Delimiter, Dimension,
-    Function, Hue, Ident, Integer, KeyframeBlock, Number, Percentage, Ratio, SelectorList, Str,
-    TokenAndSpan, Tokens, UnicodeRange, Url,
+    AlphaValue, AtRule, CalcSum, CmykComponent, Color, ComplexSelector, DashedIdent, Delimiter,
+    Dimension, Function, Hue, Ident, Integer, KeyframeBlock, Number, Percentage, Ratio,
+    SelectorList, Str, TokenAndSpan, Tokens, UnicodeRange, Url,
 };
 
 #[ast_node("Stylesheet")]
@@ -101,6 +101,8 @@ pub enum ComponentValue {
     AlphaValue(AlphaValue),
     #[tag("Hue")]
     Hue(Hue),
+    #[tag("CmykComponent")]
+    CmykComponent(CmykComponent),
     #[tag("Delimiter")]
     Delimiter(Delimiter),
 

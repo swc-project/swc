@@ -10814,13 +10814,25 @@ error: ComponentValue
 125 |     color: device-cmyk(0 81% 81% 30%);
     |                        ^
 
-error: Integer
+error: CmykComponent
+   --> $DIR/tests/fixture/value/color/input.css:125:24
+    |
+125 |     color: device-cmyk(0 81% 81% 30%);
+    |                        ^
+
+error: Number
    --> $DIR/tests/fixture/value/color/input.css:125:24
     |
 125 |     color: device-cmyk(0 81% 81% 30%);
     |                        ^
 
 error: ComponentValue
+   --> $DIR/tests/fixture/value/color/input.css:125:26
+    |
+125 |     color: device-cmyk(0 81% 81% 30%);
+    |                          ^^^
+
+error: CmykComponent
    --> $DIR/tests/fixture/value/color/input.css:125:26
     |
 125 |     color: device-cmyk(0 81% 81% 30%);
@@ -10844,6 +10856,12 @@ error: ComponentValue
 125 |     color: device-cmyk(0 81% 81% 30%);
     |                              ^^^
 
+error: CmykComponent
+   --> $DIR/tests/fixture/value/color/input.css:125:30
+    |
+125 |     color: device-cmyk(0 81% 81% 30%);
+    |                              ^^^
+
 error: Percentage
    --> $DIR/tests/fixture/value/color/input.css:125:30
     |
@@ -10857,6 +10875,12 @@ error: Number
     |                              ^^
 
 error: ComponentValue
+   --> $DIR/tests/fixture/value/color/input.css:125:34
+    |
+125 |     color: device-cmyk(0 81% 81% 30%);
+    |                                  ^^^
+
+error: CmykComponent
    --> $DIR/tests/fixture/value/color/input.css:125:34
     |
 125 |     color: device-cmyk(0 81% 81% 30%);
@@ -10934,6 +10958,12 @@ error: ComponentValue
 126 |     color: device-cmyk(0% 70% 20% 0%);
     |                        ^^
 
+error: CmykComponent
+   --> $DIR/tests/fixture/value/color/input.css:126:24
+    |
+126 |     color: device-cmyk(0% 70% 20% 0%);
+    |                        ^^
+
 error: Percentage
    --> $DIR/tests/fixture/value/color/input.css:126:24
     |
@@ -10947,6 +10977,12 @@ error: Number
     |                        ^
 
 error: ComponentValue
+   --> $DIR/tests/fixture/value/color/input.css:126:27
+    |
+126 |     color: device-cmyk(0% 70% 20% 0%);
+    |                           ^^^
+
+error: CmykComponent
    --> $DIR/tests/fixture/value/color/input.css:126:27
     |
 126 |     color: device-cmyk(0% 70% 20% 0%);
@@ -10970,6 +11006,12 @@ error: ComponentValue
 126 |     color: device-cmyk(0% 70% 20% 0%);
     |                               ^^^
 
+error: CmykComponent
+   --> $DIR/tests/fixture/value/color/input.css:126:31
+    |
+126 |     color: device-cmyk(0% 70% 20% 0%);
+    |                               ^^^
+
 error: Percentage
    --> $DIR/tests/fixture/value/color/input.css:126:31
     |
@@ -10983,6 +11025,12 @@ error: Number
     |                               ^^
 
 error: ComponentValue
+   --> $DIR/tests/fixture/value/color/input.css:126:35
+    |
+126 |     color: device-cmyk(0% 70% 20% 0%);
+    |                                   ^^
+
+error: CmykComponent
    --> $DIR/tests/fixture/value/color/input.css:126:35
     |
 126 |     color: device-cmyk(0% 70% 20% 0%);
@@ -11060,6 +11108,12 @@ error: ComponentValue
 127 |     color: device-cmyk(0% 70% 20% 0%);
     |                        ^^
 
+error: CmykComponent
+   --> $DIR/tests/fixture/value/color/input.css:127:24
+    |
+127 |     color: device-cmyk(0% 70% 20% 0%);
+    |                        ^^
+
 error: Percentage
    --> $DIR/tests/fixture/value/color/input.css:127:24
     |
@@ -11073,6 +11127,12 @@ error: Number
     |                        ^
 
 error: ComponentValue
+   --> $DIR/tests/fixture/value/color/input.css:127:27
+    |
+127 |     color: device-cmyk(0% 70% 20% 0%);
+    |                           ^^^
+
+error: CmykComponent
    --> $DIR/tests/fixture/value/color/input.css:127:27
     |
 127 |     color: device-cmyk(0% 70% 20% 0%);
@@ -11096,6 +11156,12 @@ error: ComponentValue
 127 |     color: device-cmyk(0% 70% 20% 0%);
     |                               ^^^
 
+error: CmykComponent
+   --> $DIR/tests/fixture/value/color/input.css:127:31
+    |
+127 |     color: device-cmyk(0% 70% 20% 0%);
+    |                               ^^^
+
 error: Percentage
    --> $DIR/tests/fixture/value/color/input.css:127:31
     |
@@ -11109,6 +11175,12 @@ error: Number
     |                               ^^
 
 error: ComponentValue
+   --> $DIR/tests/fixture/value/color/input.css:127:35
+    |
+127 |     color: device-cmyk(0% 70% 20% 0%);
+    |                                   ^^
+
+error: CmykComponent
    --> $DIR/tests/fixture/value/color/input.css:127:35
     |
 127 |     color: device-cmyk(0% 70% 20% 0%);
@@ -11186,13 +11258,25 @@ error: ComponentValue
 128 |     color: device-cmyk(0 0.7 0.2 0);
     |                        ^
 
-error: Integer
+error: CmykComponent
+   --> $DIR/tests/fixture/value/color/input.css:128:24
+    |
+128 |     color: device-cmyk(0 0.7 0.2 0);
+    |                        ^
+
+error: Number
    --> $DIR/tests/fixture/value/color/input.css:128:24
     |
 128 |     color: device-cmyk(0 0.7 0.2 0);
     |                        ^
 
 error: ComponentValue
+   --> $DIR/tests/fixture/value/color/input.css:128:26
+    |
+128 |     color: device-cmyk(0 0.7 0.2 0);
+    |                          ^^^
+
+error: CmykComponent
    --> $DIR/tests/fixture/value/color/input.css:128:26
     |
 128 |     color: device-cmyk(0 0.7 0.2 0);
@@ -11205,6 +11289,12 @@ error: Number
     |                          ^^^
 
 error: ComponentValue
+   --> $DIR/tests/fixture/value/color/input.css:128:30
+    |
+128 |     color: device-cmyk(0 0.7 0.2 0);
+    |                              ^^^
+
+error: CmykComponent
    --> $DIR/tests/fixture/value/color/input.css:128:30
     |
 128 |     color: device-cmyk(0 0.7 0.2 0);
@@ -11222,7 +11312,13 @@ error: ComponentValue
 128 |     color: device-cmyk(0 0.7 0.2 0);
     |                                  ^
 
-error: Integer
+error: CmykComponent
+   --> $DIR/tests/fixture/value/color/input.css:128:34
+    |
+128 |     color: device-cmyk(0 0.7 0.2 0);
+    |                                  ^
+
+error: Number
    --> $DIR/tests/fixture/value/color/input.css:128:34
     |
 128 |     color: device-cmyk(0 0.7 0.2 0);
@@ -12794,13 +12890,25 @@ error: ComponentValue
 146 |     color: device-cmyk(0 81% 81% 30%);
     |                        ^
 
-error: Integer
+error: CmykComponent
+   --> $DIR/tests/fixture/value/color/input.css:146:24
+    |
+146 |     color: device-cmyk(0 81% 81% 30%);
+    |                        ^
+
+error: Number
    --> $DIR/tests/fixture/value/color/input.css:146:24
     |
 146 |     color: device-cmyk(0 81% 81% 30%);
     |                        ^
 
 error: ComponentValue
+   --> $DIR/tests/fixture/value/color/input.css:146:26
+    |
+146 |     color: device-cmyk(0 81% 81% 30%);
+    |                          ^^^
+
+error: CmykComponent
    --> $DIR/tests/fixture/value/color/input.css:146:26
     |
 146 |     color: device-cmyk(0 81% 81% 30%);
@@ -12824,6 +12932,12 @@ error: ComponentValue
 146 |     color: device-cmyk(0 81% 81% 30%);
     |                              ^^^
 
+error: CmykComponent
+   --> $DIR/tests/fixture/value/color/input.css:146:30
+    |
+146 |     color: device-cmyk(0 81% 81% 30%);
+    |                              ^^^
+
 error: Percentage
    --> $DIR/tests/fixture/value/color/input.css:146:30
     |
@@ -12837,6 +12951,12 @@ error: Number
     |                              ^^
 
 error: ComponentValue
+   --> $DIR/tests/fixture/value/color/input.css:146:34
+    |
+146 |     color: device-cmyk(0 81% 81% 30%);
+    |                                  ^^^
+
+error: CmykComponent
    --> $DIR/tests/fixture/value/color/input.css:146:34
     |
 146 |     color: device-cmyk(0 81% 81% 30%);
@@ -13113,13 +13233,25 @@ error: ComponentValue
 152 |     color: device-cmyk(0 81% 81% 30%);
     |                        ^
 
-error: Integer
+error: CmykComponent
+   --> $DIR/tests/fixture/value/color/input.css:152:24
+    |
+152 |     color: device-cmyk(0 81% 81% 30%);
+    |                        ^
+
+error: Number
    --> $DIR/tests/fixture/value/color/input.css:152:24
     |
 152 |     color: device-cmyk(0 81% 81% 30%);
     |                        ^
 
 error: ComponentValue
+   --> $DIR/tests/fixture/value/color/input.css:152:26
+    |
+152 |     color: device-cmyk(0 81% 81% 30%);
+    |                          ^^^
+
+error: CmykComponent
    --> $DIR/tests/fixture/value/color/input.css:152:26
     |
 152 |     color: device-cmyk(0 81% 81% 30%);
@@ -13143,6 +13275,12 @@ error: ComponentValue
 152 |     color: device-cmyk(0 81% 81% 30%);
     |                              ^^^
 
+error: CmykComponent
+   --> $DIR/tests/fixture/value/color/input.css:152:30
+    |
+152 |     color: device-cmyk(0 81% 81% 30%);
+    |                              ^^^
+
 error: Percentage
    --> $DIR/tests/fixture/value/color/input.css:152:30
     |
@@ -13156,6 +13294,12 @@ error: Number
     |                              ^^
 
 error: ComponentValue
+   --> $DIR/tests/fixture/value/color/input.css:152:34
+    |
+152 |     color: device-cmyk(0 81% 81% 30%);
+    |                                  ^^^
+
+error: CmykComponent
    --> $DIR/tests/fixture/value/color/input.css:152:34
     |
 152 |     color: device-cmyk(0 81% 81% 30%);
