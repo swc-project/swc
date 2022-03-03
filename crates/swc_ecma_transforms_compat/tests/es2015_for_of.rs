@@ -598,7 +598,7 @@ fn fixture(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/fixture/for-of/**/exec.js")]
+#[testing::fixture("tests/for-of/**/exec.js")]
 fn fixture_es2015(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
 
