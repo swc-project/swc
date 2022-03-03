@@ -198,20 +198,20 @@ var C10 = function C10(x) {
         s = x;
     }
 };
-var C11 = function C11(_$x) {
+var C11 = function C11(x) {
     "use strict";
     _classCallCheck(this, C11);
-    this.x = _$x;
+    this.x = x;
     var thisX_isString = typeof this.x === 'string';
-    var xIsString = typeof _$x === 'string';
+    var xIsString = typeof x === 'string';
     if (thisX_isString && xIsString) {
         // Some narrowings may be invalidated due to later assignments.
         var s;
         s = this.x;
-        s = _$x;
+        s = x;
     } else {
         this.x = 10;
-        _$x = 10;
+        x = 10;
     }
 };
 // Mixing of aliased discriminants and conditionals

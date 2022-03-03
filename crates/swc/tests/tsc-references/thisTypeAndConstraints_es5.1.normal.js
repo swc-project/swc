@@ -32,11 +32,11 @@ var A = /*#__PURE__*/ function() {
     ]);
     return A;
 }();
-function f(x) {
-    var g = function g(_$x) {
-        _$x = _$x.self();
+function f(x1) {
+    var g = function g(x) {
+        x = x.self();
     };
-    x = x.self();
+    x1 = x1.self();
 }
 var B = /*#__PURE__*/ function() {
     "use strict";

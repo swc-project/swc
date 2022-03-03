@@ -114,11 +114,11 @@ var TypeScript;
             },
             {
                 key: "getSlowWalker",
-                value: function getSlowWalker(pre, post, _$options, state) {
-                    if (!_$options) {
-                        _$options = new AstWalkOptions();
+                value: function getSlowWalker(pre, post, options, state) {
+                    if (!options) {
+                        options = new AstWalkOptions();
                     }
-                    return new AstWalker(this.childrenWalkers, pre, post, _$options, state);
+                    return new AstWalker(this.childrenWalkers, pre, post, options, state);
                 }
             },
             {

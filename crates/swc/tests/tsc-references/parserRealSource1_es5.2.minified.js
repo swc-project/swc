@@ -158,7 +158,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     TypeScript1.BufferedLogger = BufferedLogger, TypeScript1.timeFunction = function(logger, funcDescription, func) {
         var start = +new Date(), result = func(), end = +new Date();
         return logger.log(funcDescription + " completed in " + (end - start) + " msec"), result;
-    }, TypeScript1.stringToLiteral = function(value, _$length) {
+    }, TypeScript1.stringToLiteral = function(value, length) {
         var result = "", addChar = function(index) {
             var ch = value.charCodeAt(index);
             switch(ch){
@@ -190,13 +190,13 @@ function _createClass(Constructor, protoProps, staticProps) {
                     result += value.charAt(index);
             }
         };
-        if (value.length > _$length) {
-            for(var mid = _$length >> 1, i = 0; i < mid; i++)addChar(i);
+        if (value.length > length) {
+            for(var mid = length >> 1, i = 0; i < mid; i++)addChar(i);
             result += "(...)";
             for(var i = value.length - mid; i < value.length; i++)addChar(i);
         } else {
-            _$length = value.length;
-            for(var i = 0; i < _$length; i++)addChar(i);
+            length = value.length;
+            for(var i = 0; i < length; i++)addChar(i);
         }
         return result;
     };
