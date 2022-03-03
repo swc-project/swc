@@ -532,7 +532,7 @@
             "type": "Tokens",
             "span": {
               "start": 171,
-              "end": 172,
+              "end": 173,
               "ctxt": 0
             },
             "tokens": [
@@ -544,6 +544,15 @@
                   "ctxt": 0
                 },
                 "token": "LParen"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 172,
+                  "end": 173,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -582,7 +591,7 @@
             "type": "Tokens",
             "span": {
               "start": 189,
-              "end": 190,
+              "end": 191,
               "ctxt": 0
             },
             "tokens": [
@@ -594,6 +603,15 @@
                   "ctxt": 0
                 },
                 "token": "RParen"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 190,
+                  "end": 191,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           }
@@ -670,7 +688,7 @@
             "type": "Tokens",
             "span": {
               "start": 206,
-              "end": 207,
+              "end": 208,
               "ctxt": 0
             },
             "tokens": [
@@ -682,6 +700,15 @@
                   "ctxt": 0
                 },
                 "token": "LBracket"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 207,
+                  "end": 208,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -720,7 +747,7 @@
             "type": "Tokens",
             "span": {
               "start": 224,
-              "end": 225,
+              "end": 226,
               "ctxt": 0
             },
             "tokens": [
@@ -732,6 +759,15 @@
                   "ctxt": 0
                 },
                 "token": "RBracket"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 225,
+                  "end": 226,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           }
@@ -7185,7 +7221,7 @@
             "type": "Tokens",
             "span": {
               "start": 2439,
-              "end": 2455,
+              "end": 2456,
               "ctxt": 0
             },
             "tokens": [
@@ -7251,6 +7287,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2455,
+                  "end": 2456,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -7358,7 +7403,7 @@
             "type": "Tokens",
             "span": {
               "start": 2492,
-              "end": 2508,
+              "end": 2509,
               "ctxt": 0
             },
             "tokens": [
@@ -7424,6 +7469,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2508,
+                  "end": 2509,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -7528,41 +7582,10 @@
         "name": "{",
         "value": [
           {
-            "type": "Declaration",
-            "span": {
-              "start": 2567,
-              "end": 2577,
-              "ctxt": 0
-            },
-            "name": {
-              "type": "Ident",
-              "span": {
-                "start": 2567,
-                "end": 2572,
-                "ctxt": 0
-              },
-              "value": "color",
-              "raw": "color"
-            },
-            "value": [
-              {
-                "type": "Ident",
-                "span": {
-                  "start": 2574,
-                  "end": 2577,
-                  "ctxt": 0
-                },
-                "value": "red",
-                "raw": "red"
-              }
-            ],
-            "important": null
-          },
-          {
             "type": "Tokens",
             "span": {
               "start": 2545,
-              "end": 2561,
+              "end": 2579,
               "ctxt": 0
             },
             "tokens": [
@@ -7626,6 +7649,100 @@
                   "Ident": {
                     "value": "value",
                     "raw": "value"
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2561,
+                  "end": 2562,
+                  "ctxt": 0
+                },
+                "token": "Semi"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2562,
+                  "end": 2567,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": "\n    "
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2567,
+                  "end": 2572,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "color",
+                    "raw": "color"
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2572,
+                  "end": 2573,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2573,
+                  "end": 2574,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2574,
+                  "end": 2577,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "red",
+                    "raw": "red"
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2577,
+                  "end": 2578,
+                  "ctxt": 0
+                },
+                "token": "Semi"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2578,
+                  "end": 2579,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": "\n"
                   }
                 }
               }
@@ -7704,7 +7821,7 @@
             "type": "Tokens",
             "span": {
               "start": 2598,
-              "end": 2614,
+              "end": 2615,
               "ctxt": 0
             },
             "tokens": [
@@ -7770,6 +7887,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2614,
+                  "end": 2615,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -7877,7 +8003,7 @@
             "type": "Tokens",
             "span": {
               "start": 2651,
-              "end": 2667,
+              "end": 2668,
               "ctxt": 0
             },
             "tokens": [
@@ -7939,6 +8065,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2667,
+                  "end": 2668,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -8046,7 +8181,7 @@
             "type": "Tokens",
             "span": {
               "start": 2704,
-              "end": 2720,
+              "end": 2721,
               "ctxt": 0
             },
             "tokens": [
@@ -8112,6 +8247,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2720,
+                  "end": 2721,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -8219,7 +8363,7 @@
             "type": "Tokens",
             "span": {
               "start": 2757,
-              "end": 2773,
+              "end": 2774,
               "ctxt": 0
             },
             "tokens": [
@@ -8285,6 +8429,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2773,
+                  "end": 2774,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -8392,7 +8545,7 @@
             "type": "Tokens",
             "span": {
               "start": 2810,
-              "end": 2826,
+              "end": 2827,
               "ctxt": 0
             },
             "tokens": [
@@ -8458,6 +8611,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2826,
+                  "end": 2827,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -8722,7 +8884,7 @@
             "type": "Tokens",
             "span": {
               "start": 2916,
-              "end": 2932,
+              "end": 2933,
               "ctxt": 0
             },
             "tokens": [
@@ -8784,6 +8946,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2932,
+                  "end": 2933,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -8891,7 +9062,7 @@
             "type": "Tokens",
             "span": {
               "start": 2969,
-              "end": 2985,
+              "end": 2986,
               "ctxt": 0
             },
             "tokens": [
@@ -8957,6 +9128,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2985,
+                  "end": 2986,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -9064,7 +9244,7 @@
             "type": "Tokens",
             "span": {
               "start": 3022,
-              "end": 3038,
+              "end": 3039,
               "ctxt": 0
             },
             "tokens": [
@@ -9130,6 +9310,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3038,
+                  "end": 3039,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -9237,7 +9426,7 @@
             "type": "Tokens",
             "span": {
               "start": 3075,
-              "end": 3091,
+              "end": 3092,
               "ctxt": 0
             },
             "tokens": [
@@ -9303,6 +9492,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3091,
+                  "end": 3092,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -9410,7 +9608,7 @@
             "type": "Tokens",
             "span": {
               "start": 3128,
-              "end": 3144,
+              "end": 3145,
               "ctxt": 0
             },
             "tokens": [
@@ -9472,6 +9670,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3144,
+                  "end": 3145,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -9579,7 +9786,7 @@
             "type": "Tokens",
             "span": {
               "start": 3181,
-              "end": 3197,
+              "end": 3198,
               "ctxt": 0
             },
             "tokens": [
@@ -9633,6 +9840,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3197,
+                  "end": 3198,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -9740,7 +9956,7 @@
             "type": "Tokens",
             "span": {
               "start": 3234,
-              "end": 3250,
+              "end": 3251,
               "ctxt": 0
             },
             "tokens": [
@@ -9806,6 +10022,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3250,
+                  "end": 3251,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -9913,7 +10138,7 @@
             "type": "Tokens",
             "span": {
               "start": 3287,
-              "end": 3303,
+              "end": 3304,
               "ctxt": 0
             },
             "tokens": [
@@ -9979,6 +10204,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3303,
+                  "end": 3304,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -10086,7 +10320,7 @@
             "type": "Tokens",
             "span": {
               "start": 3340,
-              "end": 3356,
+              "end": 3357,
               "ctxt": 0
             },
             "tokens": [
@@ -10148,6 +10382,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3356,
+                  "end": 3357,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -10255,7 +10498,7 @@
             "type": "Tokens",
             "span": {
               "start": 3393,
-              "end": 3409,
+              "end": 3410,
               "ctxt": 0
             },
             "tokens": [
@@ -10321,6 +10564,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3409,
+                  "end": 3410,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -11685,7 +11937,7 @@
             "type": "Tokens",
             "span": {
               "start": 3871,
-              "end": 3872,
+              "end": 3873,
               "ctxt": 0
             },
             "tokens": [
@@ -11697,6 +11949,15 @@
                   "ctxt": 0
                 },
                 "token": "LParen"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3872,
+                  "end": 3873,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -11735,7 +11996,7 @@
             "type": "Tokens",
             "span": {
               "start": 3889,
-              "end": 3890,
+              "end": 3891,
               "ctxt": 0
             },
             "tokens": [
@@ -11747,6 +12008,15 @@
                   "ctxt": 0
                 },
                 "token": "RParen"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3890,
+                  "end": 3891,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           }
@@ -11823,7 +12093,7 @@
             "type": "Tokens",
             "span": {
               "start": 3906,
-              "end": 3907,
+              "end": 3908,
               "ctxt": 0
             },
             "tokens": [
@@ -11835,6 +12105,15 @@
                   "ctxt": 0
                 },
                 "token": "LBracket"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3907,
+                  "end": 3908,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -11873,7 +12152,7 @@
             "type": "Tokens",
             "span": {
               "start": 3924,
-              "end": 3925,
+              "end": 3926,
               "ctxt": 0
             },
             "tokens": [
@@ -11885,6 +12164,15 @@
                   "ctxt": 0
                 },
                 "token": "RBracket"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3925,
+                  "end": 3926,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           }
@@ -13270,7 +13558,7 @@
             "type": "Tokens",
             "span": {
               "start": 4402,
-              "end": 4403,
+              "end": 4404,
               "ctxt": 0
             },
             "tokens": [
@@ -13282,6 +13570,15 @@
                   "ctxt": 0
                 },
                 "token": "LParen"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 4403,
+                  "end": 4404,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -13320,7 +13617,7 @@
             "type": "Tokens",
             "span": {
               "start": 4420,
-              "end": 4421,
+              "end": 4422,
               "ctxt": 0
             },
             "tokens": [
@@ -13332,6 +13629,15 @@
                   "ctxt": 0
                 },
                 "token": "RParen"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 4421,
+                  "end": 4422,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           }
@@ -13408,7 +13714,7 @@
             "type": "Tokens",
             "span": {
               "start": 4437,
-              "end": 4438,
+              "end": 4439,
               "ctxt": 0
             },
             "tokens": [
@@ -13420,6 +13726,15 @@
                   "ctxt": 0
                 },
                 "token": "LBracket"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 4438,
+                  "end": 4439,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -13458,7 +13773,7 @@
             "type": "Tokens",
             "span": {
               "start": 4455,
-              "end": 4456,
+              "end": 4457,
               "ctxt": 0
             },
             "tokens": [
@@ -13470,6 +13785,15 @@
                   "ctxt": 0
                 },
                 "token": "RBracket"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 4456,
+                  "end": 4457,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           }
@@ -14793,7 +15117,7 @@
             "type": "Tokens",
             "span": {
               "start": 4768,
-              "end": 4782,
+              "end": 4783,
               "ctxt": 0
             },
             "tokens": [
@@ -14872,6 +15196,15 @@
                     "raw": "black"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 4782,
+                  "end": 4783,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -14941,7 +15274,7 @@
             "type": "Tokens",
             "span": {
               "start": 4836,
-              "end": 4853,
+              "end": 4854,
               "ctxt": 0
             },
             "tokens": [
@@ -15039,6 +15372,15 @@
                     "raw": "100"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 4853,
+                  "end": 4854,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           }
