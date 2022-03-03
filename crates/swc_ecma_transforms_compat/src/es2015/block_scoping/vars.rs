@@ -5,6 +5,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::scope::ScopeKind;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use tracing::debug;
 
 use super::operator::{rename, Rename};
 
@@ -95,7 +96,10 @@ impl Scope {
     /// }
     /// console.log(a)
     /// ```
+    #[tracing::instrument(skip(self))]
     fn can_access(&self, id: &Id, deny_let_const: bool) -> bool {
+        debug!("Vars: {:#?}", &self.vars);
+
         if let Some(kind) = self.vars.get(id).copied() {
             if deny_let_const && matches!(kind, VarDeclKind::Let | VarDeclKind::Const) {
                 return false;
@@ -110,17 +114,27 @@ impl Scope {
         })
     }
 
+    fn remove_usage(&mut self, id: &Id) {
+        if let Some(pos) = self.usages.iter().position(|i| *i == *id) {
+            self.usages.remove(pos);
+        }
+    }
+
     /// If a used identifier is declared in a child scope using `let` or
     /// `const`, add it to `rename_map`.
-    fn collect_candidates(&self, symbols: &mut Vec<JsWord>) {
+    fn collect_candidates(&mut self, symbols: &mut Vec<JsWord>) {
         for id in &self.usages {
-            if !self.can_access(id, false) && !symbols.contains(&id.0) {
+            if self.can_access(id, false) {
+                self.children.iter_mut().for_each(|s| {
+                    s.remove_usage(id);
+                });
+            } else if !symbols.contains(&id.0) {
                 symbols.push(id.0.clone());
             }
         }
 
         self.children
-            .iter()
+            .iter_mut()
             .for_each(|s| s.collect_candidates(symbols));
     }
 
