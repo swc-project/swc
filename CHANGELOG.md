@@ -44,6 +44,9 @@
 - **(css/parser)** Improve error recovery (#3810) ([f969f8c](https://github.com/swc-project/swc/commit/f969f8c5f54e3028576a74ccfcaae72b1c19eaf9))
 
 
+- **(css/parser)** Improve error recovery (#3828) ([fbb98aa](https://github.com/swc-project/swc/commit/fbb98aa73cbbac186493065af8cfa0fd31407fe6))
+
+
 - **(es/lints)** Implement `radix` rule (#3651) ([f6b4bbe](https://github.com/swc-project/swc/commit/f6b4bbe47beccb6052d60c8e6d7d8c8c7fec5100))
 
 
