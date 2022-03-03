@@ -2810,6 +2810,7 @@ dependencies = [
 name = "swc_cached"
 version = "0.1.0"
 dependencies = [
+ "ahash",
  "anyhow",
  "dashmap 5.1.0",
  "once_cell",

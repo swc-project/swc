@@ -1,0 +1,50 @@
+use std::{ops::Deref, sync::Arc};
+
+use anyhow::{Context, Result};
+use dashmap::DashMap;
+use once_cell::sync::Lazy;
+use regex::Regex;
+use serde::{de::Error, Deserialize};
+
+#[derive(Debug, Clone)]
+pub struct CachedRegex {
+    regex: Arc<Regex>,
+}
+
+impl Deref for CachedRegex {
+    type Target = Regex;
+
+    fn deref(&self) -> &Self::Target {
+        &self.regex
+    }
+}
+
+impl CachedRegex {
+    pub fn new(input: &str) -> Result<Self> {
+        static CACHE: Lazy<DashMap<String, Arc<Regex>, ahash::RandomState>> =
+            Lazy::new(Default::default);
+
+        if let Some(cache) = CACHE.get(input).as_deref().cloned() {
+            return Ok(Self { regex: cache });
+        }
+
+        let regex =
+            Regex::new(input).with_context(|| format!("failed to parse `{}` as regex", input))?;
+        let regex = Arc::new(regex);
+
+        CACHE.insert(input.to_owned(), regex.clone());
+
+        Ok(CachedRegex { regex })
+    }
+}
+
+impl<'de> Deserialize<'de> for CachedRegex {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+
+        Self::new(&s).map_err(|err| D::Error::custom(err.to_string()))
+    }
+}
