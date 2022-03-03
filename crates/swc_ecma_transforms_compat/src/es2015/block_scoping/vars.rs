@@ -71,7 +71,8 @@ impl BlockScopedVars {
 
         // dbg!(&self.scope);
 
-        self.scope.rename(parent, &mut rename_map);
+        self.scope.rename(parent, &mut rename_map, true);
+        self.scope.rename(parent, &mut rename_map, false);
 
         // dbg!(&rename_map);
 
@@ -92,16 +93,18 @@ impl BlockScopedVars {
 }
 
 impl Scope {
-    fn rename(&mut self, parent: ParentScope, rename_map: &mut AHashMap<Id, Id>) {
+    fn rename(&mut self, parent: ParentScope, rename_map: &mut AHashMap<Id, Id>, fn_only: bool) {
         for s in self.children.iter_mut() {
-            if s.kind == ScopeKind::Fn {
-                let parent = ParentScope {
-                    parent: Some(&parent),
-                    vars: &self.vars,
-                };
+            let parent = ParentScope {
+                parent: Some(&parent),
+                vars: &self.vars,
+            };
 
-                s.rename(parent, rename_map);
-            }
+            s.rename(parent, rename_map, fn_only);
+        }
+
+        if fn_only && self.kind != ScopeKind::Fn {
+            return;
         }
 
         let mut symbols = Default::default();
