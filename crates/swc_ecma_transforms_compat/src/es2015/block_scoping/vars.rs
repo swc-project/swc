@@ -5,7 +5,6 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::scope::ScopeKind;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
-use tracing::debug;
 
 use super::operator::{rename, Rename};
 
@@ -71,13 +70,13 @@ impl BlockScopedVars {
 
         self.scope.collect_candidates(parent, &mut symbols);
 
-        dbg!(&symbols);
+        // dbg!(&symbols);
 
         let mut rename_map = AHashMap::default();
 
         self.scope.rename(&symbols, &mut rename_map);
 
-        dbg!(&rename_map);
+        // dbg!(&rename_map);
 
         n.visit_mut_with(&mut rename(rename_map))
     }
@@ -108,10 +107,7 @@ impl Scope {
     /// }
     /// console.log(a)
     /// ```
-    #[tracing::instrument(skip(self, parent))]
     fn can_access(&self, id: &Id, parent: ParentScope, deny_let_const: bool) -> bool {
-        debug!("Vars: {:#?}", &self.vars);
-
         if let Some(..) = parent.get_var(id) {
             return true;
         }
