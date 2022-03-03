@@ -1,7 +1,7 @@
 var M;
 !function(M) {
     var obj, key, value;
-    obj = {}, value = 0, (key = this.bar) in obj ? Object.defineProperty(obj, key, {
+    obj = {}, key = this.bar, value = 0, key in obj ? Object.defineProperty(obj, key, {
         value: value,
         enumerable: !0,
         configurable: !0,

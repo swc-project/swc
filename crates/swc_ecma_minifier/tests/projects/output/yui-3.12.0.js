@@ -229,7 +229,7 @@ var YUI = function() {
                         for(i = 0, len = names.length; i < len; i++)aliases[names[i]] && !mods[names[i]] ? a = [].concat(a, aliases[names[i]]) : a.push(names[i]);
                         names = a;
                     }
-                    for(i = 0, len = names.length; i < len; i++)name = names[i], skip || r.push(name), !used[name] && (req = null, use = null, (m = mods[name]) ? (used[name] = !0, req = m.details.requires, use = m.details.use) : G_ENV._loaded[VERSION][name] ? used[name] = !0 : missing.push(name), req && req.length && process(req), use && use.length && process(use, 1));
+                    for(i = 0, len = names.length; i < len; i++)name = names[i], skip || r.push(name), !used[name] && (m = mods[name], req = null, use = null, m ? (used[name] = !0, req = m.details.requires, use = m.details.use) : G_ENV._loaded[VERSION][name] ? used[name] = !0 : missing.push(name), req && req.length && process(req), use && use.length && process(use, 1));
                 }
             }, handleLoader = function(fromLoader) {
                 var redo, origMissing, response = fromLoader || {
@@ -855,7 +855,7 @@ var YUI = function() {
         abort: function(transaction) {
             var i, id, item, len, pending;
             if (!transaction.abort) {
-                if (id = transaction, transaction = null, (pending = this._pending) && pending.transaction.id === id) transaction = pending.transaction, this._pending = null;
+                if (id = transaction, pending = this._pending, transaction = null, pending && pending.transaction.id === id) transaction = pending.transaction, this._pending = null;
                 else for(i = 0, len = this._queue.length; i < len; ++i)if ((item = this._queue[i].transaction).id === id) {
                     transaction = item, this._queue.splice(i, 1);
                     break;
@@ -889,9 +889,9 @@ var YUI = function() {
             for(Lang.isArray(urls) || (urls = [
                 urls
             ]), (options = Y.merge(this.options, options)).attributes = Y.merge(this.options.attributes, options.attributes), i = 0, len = urls.length; i < len; ++i){
-                if (req = {
+                if (url = urls[i], req = {
                     attributes: {}
-                }, "string" == typeof (url = urls[i])) req.url = url;
+                }, "string" == typeof url) req.url = url;
                 else {
                     if (!url.url) continue;
                     Y.mix(req, url, !1, null, 0, !0), url = url.url;
@@ -1252,8 +1252,8 @@ var YUI = function() {
 }), YUI.add("yui-later", function(Y, NAME) {
     var NO_ARGS = [];
     Y.later = function(when, o, fn, data, periodic) {
-        when = when || 0, data = Y.Lang.isUndefined(data) ? NO_ARGS : Y.Array(data), o = o || Y.config.win || Y;
-        var cancelled = !1, method = o && Y.Lang.isString(fn) ? o[fn] : fn, wrapper = function() {
+        when = when || 0, data = Y.Lang.isUndefined(data) ? NO_ARGS : Y.Array(data);
+        var cancelled = !1, method = (o = o || Y.config.win || Y) && Y.Lang.isString(fn) ? o[fn] : fn, wrapper = function() {
             cancelled || (method.apply ? method.apply(o, data || NO_ARGS) : method(data[0], data[1], data[2], data[3]));
         }, id = periodic ? setInterval(wrapper, when) : setTimeout(wrapper, when);
         return {
@@ -1269,7 +1269,7 @@ var YUI = function() {
         "yui-base"
     ]
 }), YUI.add("loader-base", function(Y, NAME) {
-    VERSION = Y.version, BUILD = "/build/", CDN_BASE = Y.Env.base, COMBO_BASE = CDN_BASE + "combo?", META = {
+    VERSION = Y.version, BUILD = "/build/", COMBO_BASE = (CDN_BASE = Y.Env.base) + "combo?", META = {
         version: VERSION,
         root: VERSION + "/",
         base: Y.Env.base,

@@ -1,2 +1,2 @@
-var abc = "ABC", xyz = "XYZ", abcOrXyzOrNumber = abc || xyz || 100;
+var abcOrXyzOrNumber = "ABC";
 abcOrXyzOrNumber++, --abcOrXyzOrNumber;

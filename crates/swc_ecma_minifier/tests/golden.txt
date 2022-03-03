@@ -100,6 +100,7 @@ classes/class_duplication/input.js
 classes/class_duplication_2/input.js
 classes/class_recursive_refs/input.js
 collapse_vars/anonymous_function/input.js
+collapse_vars/assignment/input.js
 collapse_vars/boolean_binary_1/input.js
 collapse_vars/boolean_binary_2/input.js
 collapse_vars/cascade_if_1/input.js
@@ -162,6 +163,7 @@ collapse_vars/issue_2364_1/input.js
 collapse_vars/issue_2364_2/input.js
 collapse_vars/issue_2364_3/input.js
 collapse_vars/issue_2364_4/input.js
+collapse_vars/issue_2364_5/input.js
 collapse_vars/issue_2364_6/input.js
 collapse_vars/issue_2364_7/input.js
 collapse_vars/issue_2364_8/input.js
@@ -182,6 +184,7 @@ collapse_vars/issue_27/input.js
 collapse_vars/issue_2858/input.js
 collapse_vars/issue_2873_1/input.js
 collapse_vars/issue_2873_2/input.js
+collapse_vars/issue_2878/input.js
 collapse_vars/issue_2891_1/input.js
 collapse_vars/issue_2891_2/input.js
 collapse_vars/issue_2908/input.js
@@ -262,6 +265,7 @@ const/unused_regexp_literal/input.js
 dead_code/accessor/input.js
 dead_code/collapse_vars_assignment/input.js
 dead_code/collapse_vars_lvalues_drop_assign/input.js
+dead_code/collapse_vars_misc1/input.js
 dead_code/dead_code_1/input.js
 dead_code/dead_code_block_decls_die/input.js
 dead_code/dead_code_const_annotation_regex/input.js
@@ -1314,6 +1318,7 @@ yield/generator_yield_undefined/input.js
 yield/generators/input.js
 yield/generators_yield/input.js
 yield/generators_yield_assign/input.js
+yield/issue_2689/input.js
 yield/issue_2832/input.js
 yield/issue_t60/input.js
 yield/yield_as_ES5_property/input.js
