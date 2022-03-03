@@ -20,7 +20,7 @@ describe("Should preserve comments", () => {
 
     it("Should preserve comments preceding shifted functions", () => {
         const filename = path.resolve(
-            __dirname + "/../tests/issue-2964-case-1/input1.ts"
+            __dirname + "/../tests/issue-2964/input1.ts"
         );
 
         const {code} = swc.transformFileSync(filename);
@@ -31,10 +31,10 @@ describe("Should preserve comments", () => {
 
     it("Should not share comments between modules", () => {
         const filename1 = path.resolve(
-            __dirname + "/../tests/issue-2964-case-1/input1.ts"
+            __dirname + "/../tests/issue-2964/input1.ts"
         );
         const filename2 = path.resolve(
-            __dirname + "/../tests/issue-2964-case-1/input2.ts"
+            __dirname + "/../tests/issue-2964/input2.ts"
         );
 
         swc.transformFileSync(filename1);
