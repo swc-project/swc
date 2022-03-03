@@ -981,12 +981,13 @@ for ([ name, before, after ] of test.expectation.registers) {
 
 "#,
     r#"
-for (var ref2 of test.expectation.registers){
-    var _ref = _slicedToArray(ref2, 3), name = _ref[0], before = _ref[1], after = _ref[2];
+for (var _$ref of test.expectation.registers){
+    var _ref = _slicedToArray(_$ref, 3), name = _ref[0], before = _ref[1], after = _ref[2];
 }
-var ref1;
+
+var _$ref1;
 for (ref of test.expectation.registers){
-    ref1 = _slicedToArray(ref, 3), name = ref1[0], before = ref1[1], after = ref1[2], ref1;
+    _$ref1 = _slicedToArray(ref, 3), name = _$ref1[0], before = _$ref1[1], after = _$ref1[2], _$ref1;
 }
 
 "#
@@ -1786,14 +1787,14 @@ for ([name, value] in obj) {
 
 "#,
     r#"
-for(var ref2 in obj){
-    var _ref = _slicedToArray(ref2, 2), name = _ref[0], value = _ref[1];
-    print('Name: ' + name + ', Value: ' + value);
+for(var _$ref in obj){
+    var _ref = _slicedToArray(_$ref, 2), name = _ref[0], value = _ref[1];
+    print("Name: " + name + ", Value: " + value);
 }
-var ref1;
+var _$ref1;
 for(ref in obj){
-    ref1 = _slicedToArray(ref, 2), name = ref1[0], value = ref1[1], ref1;
-    print('Name: ' + name + ', Value: ' + value);
+    _$ref1 = _slicedToArray(ref, 2), name = _$ref1[0], value = _$ref1[1], _$ref1;
+    print("Name: " + name + ", Value: " + value);
 }"#
 );
 
@@ -1821,14 +1822,14 @@ for ([name, value] in obj) {
 
 "#,
     r#"
-for(var ref2 in obj){
-    var name = ref2[0], value = ref2[1];
-    print('Name: ' + name + ', Value: ' + value);
+for(var _$ref in obj){
+    var name = _$ref[0], value = _$ref[1];
+    print("Name: " + name + ", Value: " + value);
 }
-var ref1;
+var _$ref1;
 for(ref in obj){
-    ref1 = ref, name = ref1[0], value = ref1[1], ref1;
-    print('Name: ' + name + ', Value: ' + value);
+    _$ref1 = ref, name = _$ref1[0], value = _$ref1[1], _$ref1;
+    print("Name: " + name + ", Value: " + value);
 }"#
 );
 
