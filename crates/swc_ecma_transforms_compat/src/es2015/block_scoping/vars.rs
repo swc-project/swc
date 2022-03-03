@@ -91,6 +91,17 @@ impl BlockScopedVars {
 
 impl Scope {
     fn rename(&mut self, parent: ParentScope, rename_map: &mut AHashMap<Id, Id>) {
+        for s in self.children.iter_mut() {
+            if s.kind == ScopeKind::Fn {
+                let parent = ParentScope {
+                    parent: Some(&parent),
+                    vars: &self.vars,
+                };
+
+                s.rename(parent, rename_map);
+            }
+        }
+
         let mut symbols = Default::default();
 
         self.collect_candidates(parent, &mut symbols);
