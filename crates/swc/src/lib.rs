@@ -127,6 +127,7 @@ use common::{
 };
 use config::{util::BoolOrObject, IsModule, JsMinifyCommentOption, JsMinifyOptions};
 use once_cell::sync::Lazy;
+use parking_lot::Mutex;
 use serde::Serialize;
 use serde_json::error::Category;
 pub use sourcemap;
@@ -212,10 +213,7 @@ struct LockedWriter(Arc<Mutex<Vec<u8>>>);
 
 impl Write for LockedWriter {
     fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
-        let mut lock = self
-            .0
-            .lock()
-            .expect("failed to get lock while trying to report error");
+        let mut lock = self.0.lock();
 
         lock.extend_from_slice(buf);
 
@@ -246,9 +244,7 @@ where
     let ret = HANDLER.set(&handler, || op(&handler));
 
     if handler.has_errors() {
-        let mut lock =
-            wr.0.lock()
-                .expect("reference to handler should not exist in this point");
+        let mut lock = wr.0.lock();
         let error = take(&mut *lock);
 
         let msg = String::from_utf8(error).expect("error string should be utf8");
