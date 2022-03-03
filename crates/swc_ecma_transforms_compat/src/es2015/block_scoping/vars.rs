@@ -1,5 +1,5 @@
 use swc_atoms::JsWord;
-use swc_common::collections::AHashMap;
+use swc_common::collections::{AHashMap, AHashSet};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::scope::ScopeKind;
 use swc_ecma_utils::ident::IdentLike;
@@ -21,13 +21,15 @@ struct Scope {
     kind: ScopeKind,
 
     vars: AHashMap<Id, VarDeclKind>,
-    usages: Vec<Id>,
+    usages: AHashSet<Id>,
 
     children: Vec<Scope>,
 }
 
 impl BlockScopedVars {
-    fn add_usage(&mut self, id: Id) {}
+    fn add_usage(&mut self, id: Id) {
+        self.scope.usages.insert(id);
+    }
 
     fn handle_program<N>(&mut self, n: &mut N)
     where
