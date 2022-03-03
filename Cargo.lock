@@ -644,6 +644,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "dashmap"
+version = "5.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c0834a35a3fce649144119e18da2a4d8ed12ef3862f47183fd46f625d072d96c"
+dependencies = [
+ "cfg-if 1.0.0",
+ "num_cpus",
+ "parking_lot 0.12.0",
+]
+
+[[package]]
 name = "debug_unreachable"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1139,7 +1150,7 @@ name = "jsdoc"
 version = "0.60.0"
 dependencies = [
  "anyhow",
- "dashmap",
+ "dashmap 4.0.2",
  "nom 5.1.2",
  "serde",
  "swc_atoms",
@@ -1917,7 +1928,7 @@ dependencies = [
  "ahash",
  "anyhow",
  "browserslist-rs",
- "dashmap",
+ "dashmap 4.0.2",
  "from_variant",
  "once_cell",
  "semver 1.0.4",
@@ -2702,7 +2713,7 @@ dependencies = [
  "ahash",
  "anyhow",
  "base64 0.13.0",
- "dashmap",
+ "dashmap 4.0.2",
  "either",
  "indexmap",
  "lru",
@@ -2758,7 +2769,7 @@ dependencies = [
  "ahash",
  "anyhow",
  "crc",
- "dashmap",
+ "dashmap 4.0.2",
  "hex",
  "indexmap",
  "is-macro",
@@ -2800,6 +2811,7 @@ name = "swc_cached"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "dashmap 5.1.0",
  "once_cell",
  "regex",
  "serde",
@@ -3052,7 +3064,7 @@ version = "0.19.1"
 dependencies = [
  "ahash",
  "auto_impl",
- "dashmap",
+ "dashmap 4.0.2",
  "parking_lot 0.12.0",
  "rayon",
  "regex",
@@ -3074,7 +3086,7 @@ version = "0.28.0"
 dependencies = [
  "ahash",
  "anyhow",
- "dashmap",
+ "dashmap 4.0.2",
  "lru",
  "normpath",
  "once_cell",
@@ -3151,7 +3163,7 @@ version = "0.98.0"
 dependencies = [
  "ahash",
  "anyhow",
- "dashmap",
+ "dashmap 4.0.2",
  "indexmap",
  "once_cell",
  "preset_env_base",
@@ -3328,7 +3340,7 @@ name = "swc_ecma_transforms_optimization"
 version = "0.94.1"
 dependencies = [
  "ahash",
- "dashmap",
+ "dashmap 4.0.2",
  "indexmap",
  "once_cell",
  "rayon",
@@ -3380,7 +3392,7 @@ version = "0.86.2"
 dependencies = [
  "ahash",
  "base64 0.13.0",
- "dashmap",
+ "dashmap 4.0.2",
  "indexmap",
  "once_cell",
  "regex",
@@ -3575,7 +3587,7 @@ name = "swc_node_bundler"
 version = "0.0.0"
 dependencies = [
  "anyhow",
- "dashmap",
+ "dashmap 4.0.2",
  "is-macro",
  "once_cell",
  "pretty_assertions",
@@ -3604,7 +3616,7 @@ name = "swc_node_comments"
 version = "0.4.0"
 dependencies = [
  "ahash",
- "dashmap",
+ "dashmap 4.0.2",
  "swc_common",
 ]
 
