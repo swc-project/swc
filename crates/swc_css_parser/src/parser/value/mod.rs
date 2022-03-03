@@ -914,15 +914,24 @@ where
             "color" => {
                 self.input.skip_ws()?;
 
-                let mut is_xyz_params = false;
+                let mut is_custom_params = false;
+                let mut is_xyz = false;
 
                 let ident = match cur!(self) {
                     Token::Ident { value, .. } => {
                         if value.starts_with("--") {
+                            is_custom_params = true;
+
                             ComponentValue::DashedIdent(self.parse()?)
                         } else {
-                            if value.starts_with("xyz") {
-                                is_xyz_params = true
+                            match &*value.to_ascii_lowercase() {
+                                "xyz" | "xyz-d50" | "xyz-d65" => is_xyz = true,
+                                _ => {
+                                    // There are predefined-rgb-params , but
+                                    // For unknown, we don't return an error to
+                                    // continue to support invalid color,
+                                    // because they fallback in browser
+                                }
                             }
 
                             ComponentValue::Ident(self.parse()?)
@@ -941,9 +950,7 @@ where
 
                 let number_or_percentage_or_none = match cur!(self) {
                     tok!("number") => ComponentValue::Number(self.parse()?),
-                    tok!("percentage") if !is_xyz_params => {
-                        ComponentValue::Percentage(self.parse()?)
-                    }
+                    tok!("percentage") if !is_xyz => ComponentValue::Percentage(self.parse()?),
                     tok!("ident") => {
                         let ident: Ident = self.parse()?;
 
@@ -970,12 +977,38 @@ where
 
                 self.input.skip_ws()?;
 
-                loop {
+                if is_custom_params {
+                    loop {
+                        let number_or_percentage_or_none = match cur!(self) {
+                            tok!("number") => ComponentValue::Number(self.parse()?),
+                            tok!("percentage") if !is_xyz => {
+                                ComponentValue::Percentage(self.parse()?)
+                            }
+                            tok!("ident") => {
+                                let ident: Ident = self.parse()?;
+
+                                if !(&*ident.value).eq_ignore_ascii_case("none") {
+                                    return Err(Error::new(
+                                        ident.span,
+                                        ErrorKind::Expected("'none' value of an ident token"),
+                                    ));
+                                }
+
+                                ComponentValue::Ident(ident)
+                            }
+                            _ => {
+                                break;
+                            }
+                        };
+
+                        values.push(number_or_percentage_or_none);
+
+                        self.input.skip_ws()?;
+                    }
+                } else {
                     let number_or_percentage_or_none = match cur!(self) {
                         tok!("number") => ComponentValue::Number(self.parse()?),
-                        tok!("percentage") if !is_xyz_params => {
-                            ComponentValue::Percentage(self.parse()?)
-                        }
+                        tok!("percentage") if !is_xyz => ComponentValue::Percentage(self.parse()?),
                         tok!("ident") => {
                             let ident: Ident = self.parse()?;
 
@@ -989,7 +1022,45 @@ where
                             ComponentValue::Ident(ident)
                         }
                         _ => {
-                            break;
+                            let span = self.input.cur_span()?;
+
+                            return Err(Error::new(
+                                span,
+                                ErrorKind::Expected(
+                                    "percentage or ident (with 'none' value) token",
+                                ),
+                            ));
+                        }
+                    };
+
+                    values.push(number_or_percentage_or_none);
+
+                    self.input.skip_ws()?;
+
+                    let number_or_percentage_or_none = match cur!(self) {
+                        tok!("number") => ComponentValue::Number(self.parse()?),
+                        tok!("percentage") if !is_xyz => ComponentValue::Percentage(self.parse()?),
+                        tok!("ident") => {
+                            let ident: Ident = self.parse()?;
+
+                            if !(&*ident.value).eq_ignore_ascii_case("none") {
+                                return Err(Error::new(
+                                    ident.span,
+                                    ErrorKind::Expected("'none' value of an ident token"),
+                                ));
+                            }
+
+                            ComponentValue::Ident(ident)
+                        }
+                        _ => {
+                            let span = self.input.cur_span()?;
+
+                            return Err(Error::new(
+                                span,
+                                ErrorKind::Expected(
+                                    "percentage or ident (with 'none' value) token",
+                                ),
+                            ));
                         }
                     };
 

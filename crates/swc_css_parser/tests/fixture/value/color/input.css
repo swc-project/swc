@@ -106,6 +106,7 @@
     color: color(a98-rgb 0.44091 0.49971 0.37408);
     color: color(prophoto-rgb 0.36589 0.41717 0.31333);
     color: color(rec2020 0.42210 0.47580 0.35605);
+    color: color(profoto-rgb 0.4835 0.9167 0.2188);
 }
 
 @color-profile --fogra55beta {
