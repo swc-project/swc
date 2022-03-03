@@ -1,0 +1,12 @@
+{
+    "jsc": {
+        "lints": {
+            "radix": [
+                "error",
+                {
+                    "mode": "as-needed"
+                }
+            ]
+        }
+    }
+}
