@@ -474,7 +474,7 @@ where
                             return Ok(ComponentValue::Url(self.parse()?));
                         }
                         "rgb" | "rgba" | "hsl" | "hsla" | "hwb" | "lab" | "lch" | "oklab"
-                        | "oklch" | "color" => {
+                        | "oklch" | "color" | "device-cmyk" | "color-mix" | "color-contrast" => {
                             return Ok(ComponentValue::Color(self.parse()?));
                         }
                         _ => {

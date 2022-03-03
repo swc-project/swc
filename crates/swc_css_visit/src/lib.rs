@@ -49,6 +49,9 @@ define!({
         Ratio(Ratio),
         UnicodeRange(UnicodeRange),
         Color(Color),
+        AlphaValue(AlphaValue),
+        Hue(Hue),
+        CmykComponent(CmykComponent),
         Delimiter(Delimiter),
 
         CalcSum(CalcSum),
@@ -153,6 +156,21 @@ define!({
         pub span: Span,
         pub value: JsWord,
         pub raw: JsWord,
+    }
+
+    pub enum AlphaValue {
+        Number(Number),
+        Percentage(Percentage),
+    }
+
+    pub enum Hue {
+        Number(Number),
+        Angle(Angle),
+    }
+
+    pub enum CmykComponent {
+        Number(Number),
+        Percentage(Percentage),
     }
 
     pub enum Dimension {

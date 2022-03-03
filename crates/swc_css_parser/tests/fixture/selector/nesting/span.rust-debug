@@ -2841,7 +2841,13 @@ error: ComponentValue
 58 |         background: hsl(0 0% 0% / 50%);
    |                         ^
 
-error: Integer
+error: Hue
+  --> $DIR/tests/fixture/selector/nesting/input.css:58:25
+   |
+58 |         background: hsl(0 0% 0% / 50%);
+   |                         ^
+
+error: Number
   --> $DIR/tests/fixture/selector/nesting/input.css:58:25
    |
 58 |         background: hsl(0 0% 0% / 50%);
@@ -2896,6 +2902,12 @@ error: Delimiter
    |                                 ^
 
 error: ComponentValue
+  --> $DIR/tests/fixture/selector/nesting/input.css:58:35
+   |
+58 |         background: hsl(0 0% 0% / 50%);
+   |                                   ^^^
+
+error: AlphaValue
   --> $DIR/tests/fixture/selector/nesting/input.css:58:35
    |
 58 |         background: hsl(0 0% 0% / 50%);
