@@ -5,6 +5,7 @@ use crate::{
         at_rule_no_unknown::at_rule_no_unknown, block_no_empty::block_no_empty,
         color_hex_length::color_hex_length, color_no_invalid_hex::color_no_invalid_hex,
         declaration_no_important::declaration_no_important,
+        font_family_no_duplicate_names::font_family_no_duplicate_names,
         keyframe_declaration_no_important::keyframe_declaration_no_important,
         no_empty_source::no_empty_source,
         no_invalid_position_at_import_rule::no_invalid_position_at_import_rule,
@@ -18,6 +19,7 @@ pub mod block_no_empty;
 pub mod color_hex_length;
 pub mod color_no_invalid_hex;
 pub mod declaration_no_important;
+pub mod font_family_no_duplicate_names;
 pub mod keyframe_declaration_no_important;
 pub mod no_empty_source;
 pub mod no_invalid_position_at_import_rule;
@@ -46,5 +48,6 @@ pub fn get_rules(LintParams { lint_config }: &LintParams) -> Vec<Box<dyn LintRul
         color_no_invalid_hex((&rules_config.color_no_invalid_hex).into()),
         unit_no_unknown((&rules_config.unit_no_unknown).into()),
         selector_max_combinators((&rules_config.selector_max_combinators).into()),
+        font_family_no_duplicate_names((&rules_config.font_family_no_duplicate_names).into()),
     ]
 }
