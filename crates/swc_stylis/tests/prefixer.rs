@@ -2,15 +2,13 @@
 //!
 //! License is MIT, which is original license at the time of copying.
 //! Original test authors have copyright for their work.
+#![deny(warnings)]
 #![allow(clippy::needless_update)]
 
 use std::path::PathBuf;
 
 use swc_common::{FileName, DUMMY_SP};
-use swc_css_ast::{
-    ComponentValue, DeclarationOrAtRule, QualifiedRule, SimpleBlock, Stylesheet, Token,
-    TokenAndSpan,
-};
+use swc_css_ast::{ComponentValue, DeclarationOrAtRule, QualifiedRule, SimpleBlock, Stylesheet};
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodegenConfig, Emit,
@@ -537,10 +535,10 @@ fn t(src: &str, expected: &str) {
 
                 wr.push_str(&s);
 
-                let need_semi = match p {
-                    ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::Invalid(_)) => false,
-                    _ => true,
-                };
+                let need_semi = !matches!(
+                    p,
+                    ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::Invalid(_))
+                );
 
                 if need_semi {
                     wr.push(';');

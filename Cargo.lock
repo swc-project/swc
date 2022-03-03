@@ -60,9 +60,9 @@ dependencies = [
 
 [[package]]
 name = "anyhow"
-version = "1.0.53"
+version = "1.0.55"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "94a45b455c14666b85fc40a019e8ab9eb75e3a124e05494f5397122bc9eb06e0"
+checksum = "159bb86af3a200e19a068f4224eae4c8bb2d0fa054c7e5d1cacd5cef95e684cd"
 
 [[package]]
 name = "arbitrary"
@@ -644,6 +644,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "dashmap"
+version = "5.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c0834a35a3fce649144119e18da2a4d8ed12ef3862f47183fd46f625d072d96c"
+dependencies = [
+ "cfg-if 1.0.0",
+ "num_cpus",
+ "parking_lot 0.12.0",
+]
+
+[[package]]
 name = "debug_unreachable"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1139,7 +1150,7 @@ name = "jsdoc"
 version = "0.60.0"
 dependencies = [
  "anyhow",
- "dashmap",
+ "dashmap 4.0.2",
  "nom 5.1.2",
  "serde",
  "swc_atoms",
@@ -1917,7 +1928,7 @@ dependencies = [
  "ahash",
  "anyhow",
  "browserslist-rs",
- "dashmap",
+ "dashmap 4.0.2",
  "from_variant",
  "once_cell",
  "semver 1.0.4",
@@ -2460,16 +2471,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "serde_regex"
-version = "1.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a8136f1a4ea815d7eac4101cfd0b16dc0cb5e1fe1b8609dfd728058656b7badf"
-dependencies = [
- "regex",
- "serde",
-]
-
-[[package]]
 name = "serde_urlencoded"
 version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2702,7 +2703,7 @@ dependencies = [
  "ahash",
  "anyhow",
  "base64 0.13.0",
- "dashmap",
+ "dashmap 4.0.2",
  "either",
  "indexmap",
  "lru",
@@ -2717,6 +2718,7 @@ dependencies = [
  "serde_json",
  "sourcemap",
  "swc_atoms",
+ "swc_cached",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -2757,7 +2759,7 @@ dependencies = [
  "ahash",
  "anyhow",
  "crc",
- "dashmap",
+ "dashmap 4.0.2",
  "hex",
  "indexmap",
  "is-macro",
@@ -2792,6 +2794,19 @@ dependencies = [
  "testing",
  "tracing",
  "url",
+]
+
+[[package]]
+name = "swc_cached"
+version = "0.1.0"
+dependencies = [
+ "ahash",
+ "anyhow",
+ "dashmap 5.1.0",
+ "once_cell",
+ "regex",
+ "serde",
+ "swc_atoms",
 ]
 
 [[package]]
@@ -3040,7 +3055,7 @@ version = "0.19.1"
 dependencies = [
  "ahash",
  "auto_impl",
- "dashmap",
+ "dashmap 4.0.2",
  "parking_lot 0.12.0",
  "rayon",
  "regex",
@@ -3062,15 +3077,15 @@ version = "0.28.0"
 dependencies = [
  "ahash",
  "anyhow",
- "dashmap",
+ "dashmap 4.0.2",
  "lru",
  "normpath",
  "once_cell",
  "parking_lot 0.12.0",
  "path-clean",
- "regex",
  "serde",
  "serde_json",
+ "swc_cached",
  "swc_common",
  "tracing",
 ]
@@ -3092,8 +3107,8 @@ dependencies = [
  "retain_mut",
  "serde",
  "serde_json",
- "serde_regex",
  "swc_atoms",
+ "swc_cached",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3139,7 +3154,7 @@ version = "0.98.0"
 dependencies = [
  "ahash",
  "anyhow",
- "dashmap",
+ "dashmap 4.0.2",
  "indexmap",
  "once_cell",
  "preset_env_base",
@@ -3316,7 +3331,7 @@ name = "swc_ecma_transforms_optimization"
 version = "0.94.1"
 dependencies = [
  "ahash",
- "dashmap",
+ "dashmap 4.0.2",
  "indexmap",
  "once_cell",
  "rayon",
@@ -3368,7 +3383,7 @@ version = "0.86.2"
 dependencies = [
  "ahash",
  "base64 0.13.0",
- "dashmap",
+ "dashmap 4.0.2",
  "indexmap",
  "once_cell",
  "regex",
@@ -3563,7 +3578,7 @@ name = "swc_node_bundler"
 version = "0.0.0"
 dependencies = [
  "anyhow",
- "dashmap",
+ "dashmap 4.0.2",
  "is-macro",
  "once_cell",
  "pretty_assertions",
@@ -3592,7 +3607,7 @@ name = "swc_node_comments"
 version = "0.4.0"
 dependencies = [
  "ahash",
- "dashmap",
+ "dashmap 4.0.2",
  "swc_common",
 ]
 
