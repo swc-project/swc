@@ -613,7 +613,13 @@ where
                     kind: VarDeclKind::Var | VarDeclKind::Let,
                     ..
                 },
-            )) => v.decls.iter_mut().map(Mergable::Var).collect(),
+            )) => {
+                if options.reduce_vars || options.collapse_vars {
+                    v.decls.iter_mut().map(Mergable::Var).collect()
+                } else {
+                    return None;
+                }
+            }
             Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
                 vec![Mergable::Expr(&mut **arg)]
             }
@@ -994,8 +1000,17 @@ where
     fn merge_sequential_expr(&mut self, a: &mut Mergable, b: &mut Expr) -> Result<bool, ()> {
         let _tracing = if cfg!(feature = "debug") {
             let b_str = dump(&*b, false);
+            let a_id = a.id();
 
-            Some(span!(Level::ERROR, "merge_sequential_expr", b = &*b_str).entered())
+            Some(
+                span!(
+                    Level::ERROR,
+                    "merge_sequential_expr",
+                    a_id = tracing::field::debug(&a_id),
+                    b = &*b_str
+                )
+                .entered(),
+            )
         } else {
             None
         };
