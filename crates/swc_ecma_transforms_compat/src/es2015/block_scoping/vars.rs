@@ -69,11 +69,11 @@ impl BlockScopedVars {
 
         let mut rename_map = AHashMap::default();
 
-        dbg!(&self.scope);
+        // dbg!(&self.scope);
 
         self.scope.rename(parent, &mut rename_map);
 
-        dbg!(&rename_map);
+        // dbg!(&rename_map);
 
         n.visit_mut_with(&mut rename(rename_map))
     }
