@@ -2997,13 +2997,13 @@
                 },
                 "value": [
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 980,
                       "end": 982,
                       "ctxt": 0
                     },
-                    "value": 39,
+                    "value": 39.0,
                     "raw": "39"
                   },
                   {
@@ -3207,13 +3207,13 @@
                 },
                 "value": [
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 1044,
                       "end": 1047,
                       "ctxt": 0
                     },
-                    "value": 100,
+                    "value": 100.0,
                     "raw": "100"
                   },
                   {
@@ -3312,13 +3312,13 @@
                 },
                 "value": [
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 1076,
                       "end": 1079,
                       "ctxt": 0
                     },
-                    "value": 100,
+                    "value": 100.0,
                     "raw": "100"
                   },
                   {
@@ -3399,13 +3399,13 @@
                 },
                 "value": [
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 1106,
                       "end": 1109,
                       "ctxt": 0
                     },
-                    "value": 100,
+                    "value": 100.0,
                     "raw": "100"
                   },
                   {
@@ -3523,13 +3523,13 @@
                 },
                 "value": [
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 1142,
                       "end": 1145,
                       "ctxt": 0
                     },
-                    "value": 100,
+                    "value": 100.0,
                     "raw": "100"
                   },
                   {
@@ -3698,13 +3698,13 @@
                 },
                 "value": [
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 1189,
                       "end": 1192,
                       "ctxt": 0
                     },
-                    "value": 100,
+                    "value": 100.0,
                     "raw": "100"
                   },
                   {
@@ -3822,13 +3822,13 @@
                 },
                 "value": [
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 1226,
                       "end": 1229,
                       "ctxt": 0
                     },
-                    "value": 100,
+                    "value": 100.0,
                     "raw": "100"
                   },
                   {

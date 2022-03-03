@@ -3641,6 +3641,12 @@ error: ComponentValue
 40 |     color: hsl(38.824 100% 50%);
    |                ^^^^^^
 
+error: Hue
+  --> $DIR/tests/fixture/value/color/input.css:40:16
+   |
+40 |     color: hsl(38.824 100% 50%);
+   |                ^^^^^^
+
 error: Number
   --> $DIR/tests/fixture/value/color/input.css:40:16
    |
@@ -3743,7 +3749,13 @@ error: ComponentValue
 41 |     color: HsL(39 100% 50%);
    |                ^^
 
-error: Integer
+error: Hue
+  --> $DIR/tests/fixture/value/color/input.css:41:16
+   |
+41 |     color: HsL(39 100% 50%);
+   |                ^^
+
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:41:16
    |
 41 |     color: HsL(39 100% 50%);
@@ -3845,7 +3857,7 @@ error: ComponentValue
 42 |     color: hsl(100deg, 100%, 50%);
    |                ^^^^^^
 
-error: Dimension
+error: Hue
   --> $DIR/tests/fixture/value/color/input.css:42:16
    |
 42 |     color: hsl(100deg, 100%, 50%);
@@ -3989,7 +4001,13 @@ error: ComponentValue
 43 |     color: hsl(100, 100%, 50%);
    |                ^^^
 
-error: Integer
+error: Hue
+  --> $DIR/tests/fixture/value/color/input.css:43:16
+   |
+43 |     color: hsl(100, 100%, 50%);
+   |                ^^^
+
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:43:16
    |
 43 |     color: hsl(100, 100%, 50%);
@@ -4115,7 +4133,13 @@ error: ComponentValue
 44 |     color: hsl(100 100% 50%);
    |                ^^^
 
-error: Integer
+error: Hue
+  --> $DIR/tests/fixture/value/color/input.css:44:16
+   |
+44 |     color: hsl(100 100% 50%);
+   |                ^^^
+
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:44:16
    |
 44 |     color: hsl(100 100% 50%);
@@ -4217,7 +4241,13 @@ error: ComponentValue
 45 |     color: hsl(100, 100%, 50%, .8);
    |                ^^^
 
-error: Integer
+error: Hue
+  --> $DIR/tests/fixture/value/color/input.css:45:16
+   |
+45 |     color: hsl(100, 100%, 50%, .8);
+   |                ^^^
+
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:45:16
    |
 45 |     color: hsl(100, 100%, 50%, .8);
@@ -4301,6 +4331,12 @@ error: ComponentValue
 45 |     color: hsl(100, 100%, 50%, .8);
    |                                ^^
 
+error: AlphaValue
+  --> $DIR/tests/fixture/value/color/input.css:45:32
+   |
+45 |     color: hsl(100, 100%, 50%, .8);
+   |                                ^^
+
 error: Number
   --> $DIR/tests/fixture/value/color/input.css:45:32
    |
@@ -4367,7 +4403,13 @@ error: ComponentValue
 46 |     color: hsl(100 100% 50% / .8);
    |                ^^^
 
-error: Integer
+error: Hue
+  --> $DIR/tests/fixture/value/color/input.css:46:16
+   |
+46 |     color: hsl(100 100% 50% / .8);
+   |                ^^^
+
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:46:16
    |
 46 |     color: hsl(100 100% 50% / .8);
@@ -4422,6 +4464,12 @@ error: Delimiter
    |                             ^
 
 error: ComponentValue
+  --> $DIR/tests/fixture/value/color/input.css:46:31
+   |
+46 |     color: hsl(100 100% 50% / .8);
+   |                               ^^
+
+error: AlphaValue
   --> $DIR/tests/fixture/value/color/input.css:46:31
    |
 46 |     color: hsl(100 100% 50% / .8);
@@ -4557,7 +4605,13 @@ error: ComponentValue
 50 |     color: hsla(100, 100%, 50%, .8);
    |                 ^^^
 
-error: Integer
+error: Hue
+  --> $DIR/tests/fixture/value/color/input.css:50:17
+   |
+50 |     color: hsla(100, 100%, 50%, .8);
+   |                 ^^^
+
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:50:17
    |
 50 |     color: hsla(100, 100%, 50%, .8);
@@ -4641,6 +4695,12 @@ error: ComponentValue
 50 |     color: hsla(100, 100%, 50%, .8);
    |                                 ^^
 
+error: AlphaValue
+  --> $DIR/tests/fixture/value/color/input.css:50:33
+   |
+50 |     color: hsla(100, 100%, 50%, .8);
+   |                                 ^^
+
 error: Number
   --> $DIR/tests/fixture/value/color/input.css:50:33
    |
@@ -4707,7 +4767,13 @@ error: ComponentValue
 51 |     color: hsla(100 100% 50% / .8);
    |                 ^^^
 
-error: Integer
+error: Hue
+  --> $DIR/tests/fixture/value/color/input.css:51:17
+   |
+51 |     color: hsla(100 100% 50% / .8);
+   |                 ^^^
+
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:51:17
    |
 51 |     color: hsla(100 100% 50% / .8);
@@ -4762,6 +4828,12 @@ error: Delimiter
    |                              ^
 
 error: ComponentValue
+  --> $DIR/tests/fixture/value/color/input.css:51:32
+   |
+51 |     color: hsla(100 100% 50% / .8);
+   |                                ^^
+
+error: AlphaValue
   --> $DIR/tests/fixture/value/color/input.css:51:32
    |
 51 |     color: hsla(100 100% 50% / .8);
