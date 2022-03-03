@@ -58,3 +58,27 @@ a {
       }
     }
 }
+
+.class {
+    color: blue;
+    &.foo {
+        color: red;
+        ident
+    }
+}
+
+.class {
+    color: blue;
+    &.foo {
+        ident
+        color: red;
+    }
+}
+
+.class {
+    color: blue;
+    &.foo {
+        ident;
+        color: red;
+    }
+}

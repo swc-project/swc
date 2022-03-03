@@ -5,4 +5,6 @@ a.invert{margin:0;__ident__
     color: red;}a{123;color:red}.class{color:blue;&.foo{ident
          color: green;}@supports not (display:grid){float:right;& .class{ident
           color: red
-      }}}.class{color:blue;&.foo{ident;color:green}@supports not (display:grid){float:right;& .class{ident;color:red}}}
+      }}}.class{color:blue;&.foo{ident;color:green}@supports not (display:grid){float:right;& .class{ident;color:red}}}.class{color:blue;&.foo{color:red;ident
+    }}.class{color:blue;&.foo{ident
+        color: red;}}.class{color:blue;&.foo{ident;color:red}}
