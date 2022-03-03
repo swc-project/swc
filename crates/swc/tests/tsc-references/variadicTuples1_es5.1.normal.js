@@ -253,10 +253,10 @@ function curry(f) {
         a[_key1 - 1] = arguments[_key1];
     }
     return function() {
-        for(var _len = arguments.length, b1 = new Array(_len), _key = 0; _key < _len; _key++){
-            b1[_key] = arguments[_key];
+        for(var _len = arguments.length, b2 = new Array(_len), _key = 0; _key < _len; _key++){
+            b2[_key] = arguments[_key];
         }
-        return f.apply(void 0, _toConsumableArray(a).concat(_toConsumableArray(b1)));
+        return f.apply(void 0, _toConsumableArray(a).concat(_toConsumableArray(b2)));
     };
 }
 var fn1 = function(a, b, c, d) {
