@@ -16,7 +16,7 @@ struct BlockScopedVars {
     var_decl_kind: Option<VarDeclKind>,
 }
 
-#[derive(Default)]
+#[derive(Debug, Default)]
 struct Scope {
     kind: ScopeKind,
 
@@ -27,11 +27,15 @@ struct Scope {
 }
 
 impl BlockScopedVars {
+    fn add_usage(&mut self, id: Id) {}
+
     fn handle_program<N>(&mut self, n: &mut N)
     where
         N: VisitMutWith<Self>,
     {
         n.visit_mut_children_with(self);
+
+        dbg!(&self.scope);
     }
 
     fn with_scope(&mut self, kind: ScopeKind, op: impl FnOnce(&mut Self)) {
@@ -56,6 +60,18 @@ impl VisitMut for BlockScopedVars {
         });
     }
 
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        let old_var_decl_kind = self.var_decl_kind;
+
+        n.visit_mut_children_with(self);
+
+        if let Expr::Ident(i) = n {
+            self.add_usage(i.to_id());
+        }
+
+        self.var_decl_kind = old_var_decl_kind;
+    }
+
     fn visit_mut_module(&mut self, n: &mut Module) {
         self.handle_program(n)
     }
@@ -66,6 +82,8 @@ impl VisitMut for BlockScopedVars {
         if let Pat::Ident(i) = n {
             if let Some(kind) = self.var_decl_kind {
                 self.scope.vars.insert(i.to_id(), kind);
+            } else {
+                self.add_usage(i.to_id())
             }
         }
     }
@@ -75,11 +93,11 @@ impl VisitMut for BlockScopedVars {
     }
 
     fn visit_mut_var_decl(&mut self, n: &mut VarDecl) {
-        let old = self.var_decl_kind;
+        let old_var_decl_kind = self.var_decl_kind;
         self.var_decl_kind = Some(n.kind);
 
         n.visit_mut_children_with(self);
 
-        self.var_decl_kind = old;
+        self.var_decl_kind = old_var_decl_kind;
     }
 }
