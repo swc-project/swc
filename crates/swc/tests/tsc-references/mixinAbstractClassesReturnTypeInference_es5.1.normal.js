@@ -113,13 +113,13 @@ function Mixin2(baseClass1) {
     }(baseClass1);
     return MixinClass;
 }
-var DerivedFromAbstract2 = /*#__PURE__*/ function(_super) {
+var DerivedFromAbstract2 = /*#__PURE__*/ function(_superClass) {
     "use strict";
-    _inherits(DerivedFromAbstract2, _super);
-    var _super1 = _createSuper(DerivedFromAbstract2);
+    _inherits(DerivedFromAbstract2, _superClass);
+    var _super = _createSuper(DerivedFromAbstract2);
     function DerivedFromAbstract2() {
         _classCallCheck(this, DerivedFromAbstract2);
-        return _super1.apply(this, arguments);
+        return _super.apply(this, arguments);
     }
     _createClass(DerivedFromAbstract2, [
         {

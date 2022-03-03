@@ -24,7 +24,7 @@ export var r5;
 export var r5;
 var M;
 (function(M1) {
-    var foo = M1.foo = '';
+    var _$foo = M1.foo = '';
     var C = function C() {
         "use strict";
         _classCallCheck(this, C);

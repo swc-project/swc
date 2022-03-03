@@ -50,12 +50,12 @@ var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                return _ctx.t0 = function(_super) {
+                return _ctx.t0 = function(_superClass) {
                     "use strict";
-                    _inherits(C, _super);
-                    var _super1 = _createSuper(C);
+                    _inherits(C, _superClass);
+                    var _super = _createSuper(C);
                     function C() {
-                        return _classCallCheck(this, C), _super1.apply(this, arguments);
+                        return _classCallCheck(this, C), _super.apply(this, arguments);
                     }
                     return C;
                 }, _ctx.next = 3, 0;

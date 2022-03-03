@@ -23,7 +23,7 @@ function bar() {
     var arg = arguments[0]; // no error
 }
 (function() {
-    var foo = function foo() {
+    var _$foo = function _$foo() {
         var arg = arguments[0]; // no error
     };
 });

@@ -100,13 +100,13 @@ var A = /*#__PURE__*/ function() {
     ]);
     return A;
 }();
-var B = /*#__PURE__*/ function(_super) {
+var B = /*#__PURE__*/ function(_superClass) {
     "use strict";
-    _inherits(B, _super);
-    var _super1 = _createSuper(B);
+    _inherits(B, _superClass);
+    var _super = _createSuper(B);
     function B() {
         _classCallCheck(this, B);
-        return _super1.apply(this, arguments);
+        return _super.apply(this, arguments);
     }
     _createClass(B, [
         {
@@ -116,13 +116,13 @@ var B = /*#__PURE__*/ function(_super) {
     ]);
     return B;
 }(CreateMixin(Context, A));
-var C = /*#__PURE__*/ function(_super) {
+var C = /*#__PURE__*/ function(_superClass) {
     "use strict";
-    _inherits(C, _super);
-    var _super2 = _createSuper(C);
+    _inherits(C, _superClass);
+    var _super = _createSuper(C);
     function C() {
         _classCallCheck(this, C);
-        return _super2.apply(this, arguments);
+        return _super.apply(this, arguments);
     }
     _createClass(C, [
         {

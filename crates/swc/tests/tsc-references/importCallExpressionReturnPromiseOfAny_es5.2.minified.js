@@ -1,6 +1,6 @@
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(function(directories) {
-    var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, directory, path;
+    var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, _$directory, path;
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
@@ -10,7 +10,7 @@ var _marked = regeneratorRuntime.mark(function(directories) {
                     _ctx.next = 13;
                     break;
                 }
-                return directory = _step.value, path = "".concat(directory, "\\moduleFile"), _ctx.next = 8, path;
+                return _$directory = _step.value, path = "".concat(_$directory, "\\moduleFile"), _ctx.next = 8, path;
             case 8:
                 _ctx.t0 = _ctx.sent, import(_ctx.t0);
             case 10:

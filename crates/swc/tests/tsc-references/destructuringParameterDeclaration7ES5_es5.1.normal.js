@@ -47,15 +47,15 @@ function _unsupportedIterableToArray(o, minLen) {
     if (n === "Map" || n === "Set") return Array.from(n);
     if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
 }
-function foo(param, param1) {
-    var param = param !== null ? param : _throw(new TypeError("Cannot destructure undefined")), foo = param1.foo, bar = param1.bar;
+function foo(_$param, param) {
+    var _$param = _$param !== null ? _$param : _throw(new TypeError("Cannot destructure undefined")), foo = param.foo, bar = param.bar;
 }
-function baz(param, param2) {
-    var _param = _slicedToArray(param, 0), foo = param2.foo, bar = param2.bar;
+function baz(param, param1) {
+    var _param = _slicedToArray(param, 0), foo = param1.foo, bar = param1.bar;
 }
-function one(param, param3) {
-    var _param = _slicedToArray(param, 0), param3 = param3 !== null ? param3 : _throw(new TypeError("Cannot destructure undefined"));
+function one(param, _$param) {
+    var _param = _slicedToArray(param, 0), _$param = _$param !== null ? _$param : _throw(new TypeError("Cannot destructure undefined"));
 }
-function two(param, param4) {
-    var _param = _slicedToArray(param, 0), _param1 = _slicedToArray(param4, 3), a = _param1[0], b = _param1[1], c = _param1[2];
+function two(param, param2) {
+    var _param = _slicedToArray(param, 0), _param1 = _slicedToArray(param2, 3), a = _param1[0], b = _param1[1], c = _param1[2];
 }

@@ -44,38 +44,38 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var C1 = function(_super) {
+var C1 = function(_superClass) {
     "use strict";
     _inherits(C1, null);
-    var _super1 = _createSuper(C1);
+    var _super = _createSuper(C1);
     function C1() {
-        return _classCallCheck(this, C1), _super1.apply(this, arguments);
+        return _classCallCheck(this, C1), _super.apply(this, arguments);
     }
     return C1;
-}(null), C2 = function(_super) {
+}(null), C2 = function(_superClass) {
     "use strict";
     _inherits(C2, null);
-    var _super2 = _createSuper(C2);
+    var _super = _createSuper(C2);
     function C2() {
-        return _classCallCheck(this, C2), _super2.apply(this, arguments);
+        return _classCallCheck(this, C2), _super.apply(this, arguments);
     }
     return C2;
-}(null), C3 = function(_super) {
+}(null), C3 = function(_superClass) {
     "use strict";
     _inherits(C3, null);
-    var _super3 = _createSuper(C3);
+    var _super = _createSuper(C3);
     function C3() {
         var _this;
-        return _classCallCheck(this, C3), _this = _super3.apply(this, arguments), _this.x = 1, _this;
+        return _classCallCheck(this, C3), _this = _super.apply(this, arguments), _this.x = 1, _this;
     }
     return C3;
-}(null), C4 = function(_super) {
+}(null), C4 = function(_superClass) {
     "use strict";
     _inherits(C4, null);
-    var _super4 = _createSuper(C4);
+    var _super = _createSuper(C4);
     function C4() {
         var _this;
-        return _classCallCheck(this, C4), _this = _super4.apply(this, arguments), _this.x = 1, _this;
+        return _classCallCheck(this, C4), _this = _super.apply(this, arguments), _this.x = 1, _this;
     }
     return C4;
 }(null);

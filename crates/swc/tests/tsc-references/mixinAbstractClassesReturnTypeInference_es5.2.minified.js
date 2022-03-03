@@ -56,12 +56,12 @@ function _createSuper(Derived) {
 var MixinClass, AbstractBase = function() {
     "use strict";
     _classCallCheck(this, AbstractBase);
-}, DerivedFromAbstract2 = function(_super) {
+}, DerivedFromAbstract2 = function(_superClass) {
     "use strict";
-    _inherits(DerivedFromAbstract2, _super);
-    var _super1 = _createSuper(DerivedFromAbstract2);
+    _inherits(DerivedFromAbstract2, _superClass);
+    var _super = _createSuper(DerivedFromAbstract2);
     function DerivedFromAbstract2() {
-        return _classCallCheck(this, DerivedFromAbstract2), _super1.apply(this, arguments);
+        return _classCallCheck(this, DerivedFromAbstract2), _super.apply(this, arguments);
     }
     return _createClass(DerivedFromAbstract2, [
         {

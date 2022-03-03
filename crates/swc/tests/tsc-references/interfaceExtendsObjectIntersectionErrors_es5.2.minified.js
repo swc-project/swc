@@ -44,44 +44,44 @@ function _createSuper(Derived) {
         })(self);
     };
 }
-var EX, C1 = function(_super) {
+var EX, C1 = function(_superClass) {
     "use strict";
-    _inherits(C1, _super);
-    var _super1 = _createSuper(C1);
+    _inherits(C1, _superClass);
+    var _super = _createSuper(C1);
     function C1() {
-        return _classCallCheck(this, C1), _super1.apply(this, arguments);
+        return _classCallCheck(this, C1), _super.apply(this, arguments);
     }
     return C1;
-}(Constructor()), C2 = function(_super) {
+}(Constructor()), C2 = function(_superClass) {
     "use strict";
-    _inherits(C2, _super);
-    var _super2 = _createSuper(C2);
+    _inherits(C2, _superClass);
+    var _super = _createSuper(C2);
     function C2() {
-        return _classCallCheck(this, C2), _super2.apply(this, arguments);
+        return _classCallCheck(this, C2), _super.apply(this, arguments);
     }
     return C2;
-}(Constructor()), C3 = function(_super) {
+}(Constructor()), C3 = function(_superClass) {
     "use strict";
-    _inherits(C3, _super);
-    var _super3 = _createSuper(C3);
+    _inherits(C3, _superClass);
+    var _super = _createSuper(C3);
     function C3() {
-        return _classCallCheck(this, C3), _super3.apply(this, arguments);
+        return _classCallCheck(this, C3), _super.apply(this, arguments);
     }
     return C3;
-}(Constructor()), C4 = function(_super) {
+}(Constructor()), C4 = function(_superClass) {
     "use strict";
-    _inherits(C4, _super);
-    var _super4 = _createSuper(C4);
+    _inherits(C4, _superClass);
+    var _super = _createSuper(C4);
     function C4() {
-        return _classCallCheck(this, C4), _super4.apply(this, arguments);
+        return _classCallCheck(this, C4), _super.apply(this, arguments);
     }
     return C4;
-}(Constructor()), C5 = function(_super) {
+}(Constructor()), C5 = function(_superClass) {
     "use strict";
-    _inherits(C5, _super);
-    var _super5 = _createSuper(C5);
+    _inherits(C5, _superClass);
+    var _super = _createSuper(C5);
     function C5() {
-        return _classCallCheck(this, C5), _super5.apply(this, arguments);
+        return _classCallCheck(this, C5), _super.apply(this, arguments);
     }
     return C5;
 }(Constructor());
