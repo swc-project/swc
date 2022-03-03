@@ -4,7 +4,7 @@ use anyhow::{Context, Result};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
-use serde::{de::Error, Deserialize};
+use serde::{de::Error, Deserialize, Serialize};
 
 #[derive(Debug, Clone)]
 pub struct CachedRegex {
@@ -46,5 +46,16 @@ impl<'de> Deserialize<'de> for CachedRegex {
         let s = String::deserialize(deserializer)?;
 
         Self::new(&s).map_err(|err| D::Error::custom(err.to_string()))
+    }
+}
+
+impl Serialize for CachedRegex {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let s = self.regex.as_str();
+
+        serializer.serialize_str(s)
     }
 }
