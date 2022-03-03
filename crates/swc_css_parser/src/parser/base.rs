@@ -586,8 +586,18 @@ where
 
                             let mut tokens = vec![];
 
-                            while !is_one_of!(self, EOF, ";", "}") {
-                                tokens.extend(self.input.bump()?);
+                            while !is_one_of!(self, EOF, "}") {
+                                let token = self.input.bump()?;
+
+                                tokens.extend(token);
+
+                                if is!(self, ";") {
+                                    let token = self.input.bump()?;
+
+                                    tokens.extend(token);
+
+                                    break;
+                                }
                             }
 
                             DeclarationOrAtRule::Invalid(Tokens {
