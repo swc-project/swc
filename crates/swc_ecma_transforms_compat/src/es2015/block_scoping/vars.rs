@@ -293,6 +293,7 @@ impl VisitMut for BlockScopedVars {
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         let old_var_decl_kind = self.var_decl_kind;
+        self.var_decl_kind = None;
 
         n.visit_mut_children_with(self);
 
