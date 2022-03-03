@@ -3548,7 +3548,7 @@ const p = Z((f)=>_asyncToGenerator(function*(n = 0) {
 "
 );
 
-#[testing::fixture("tests/fixture/async-to-generator/**/exec.js")]
+#[testing::fixture("tests/async-to-generator/**/exec.js")]
 fn exec(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
     compare_stdout(

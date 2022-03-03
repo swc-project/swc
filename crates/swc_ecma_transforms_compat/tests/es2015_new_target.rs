@@ -30,7 +30,7 @@ enum PluginConfig {
     Name(String),
 }
 
-#[testing::fixture("tests/fixture/new-target/**/input.js")]
+#[testing::fixture("tests/new-target/**/input.js")]
 fn fixture(input: PathBuf) {
     let options: TestOptions = parse_options(&input);
 
