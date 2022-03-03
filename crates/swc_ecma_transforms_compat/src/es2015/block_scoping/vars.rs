@@ -183,7 +183,7 @@ impl Scope {
                 continue;
             }
 
-            let sym = format!("_{}", id.0);
+            let sym = format!("_${}", id.0);
             // We create a new syntax context instead of using original.
             //
             // This is required because
