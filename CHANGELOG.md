@@ -25,6 +25,9 @@
 
 - **(node-swc)** Fix handling of `OptionalChainingExpression` in `Visitor` (#3809) ([4d123c3](https://github.com/swc-project/swc/commit/4d123c3789cd5a837de08014675e945990122c62))
 
+
+- **(node-swc/types)** Add a missing field of `ExportNamedDeclaration` (#3822) ([bde7577](https://github.com/swc-project/swc/commit/bde75770988a6e1c9bb6ae4b850866cea79b0f2c))
+
 ### Features
 
 
