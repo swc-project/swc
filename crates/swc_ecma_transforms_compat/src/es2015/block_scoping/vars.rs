@@ -1,3 +1,4 @@
+use indexmap::IndexMap;
 use swc_atoms::JsWord;
 use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
@@ -20,7 +21,7 @@ struct BlockScopedVars {
 struct Scope {
     kind: ScopeKind,
 
-    vars: AHashMap<Id, VarDeclKind>,
+    vars: IndexMap<Id, VarDeclKind, ahash::RandomState>,
     usages: Vec<Id>,
 
     children: Vec<Scope>,
@@ -44,6 +45,12 @@ impl BlockScopedVars {
         self.scope.collect_candidates(&mut symbols);
 
         dbg!(&symbols);
+
+        let mut rename_map = AHashMap::default();
+
+        self.scope.rename(&symbols, &mut rename_map);
+
+        dbg!(&rename_map);
     }
 
     fn with_scope(&mut self, kind: ScopeKind, op: impl FnOnce(&mut Self)) {
@@ -99,6 +106,22 @@ impl Scope {
         self.children
             .iter()
             .for_each(|s| s.collect_candidates(symbols));
+    }
+
+    fn rename(&self, symbols: &[JsWord], rename_map: &mut AHashMap<Id, Id>) {
+        for (id, _) in &self.vars {
+            if !symbols.contains(&id.0) {
+                continue;
+            }
+
+            let sym = format!("_{}", id.0);
+
+            rename_map.insert(id.clone(), (sym.into(), id.1));
+        }
+
+        self.children
+            .iter()
+            .for_each(|s| s.rename(symbols, rename_map));
     }
 }
 
