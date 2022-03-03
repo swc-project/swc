@@ -6,7 +6,7 @@
   "jsc": {
     "parser": {
       "syntax": "typescript",
-      "tsx": false,
+      "tsx": true,
       "dynamicImport": true,
       "decorators": false
     },
@@ -17,15 +17,16 @@
         "throwIfNamespace": true,
         "development": false,
         "useBuiltins": false
-      },
-      "hidden": {
-        "jest": true
       }
     },
     "target": "es2015",
     "loose": false,
     "externalHelpers": false,
     "keepClassNames": false,
+    "minify": {
+      "compress": false,
+      "mangle": false
+    },
     "preserveDroppedComments": true
   },
   "minify": false

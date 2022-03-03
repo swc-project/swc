@@ -371,7 +371,13 @@ impl Options {
 
         let regenerator = transform.regenerator.clone();
 
-        let preserve_comments = js_minify.as_ref().map(|v| v.format.comments.clone());
+        let preserve_comments = if preserve_dropped_comments {
+            Some(BoolOrObject::from(true))
+        } else {
+            js_minify.as_ref().map(|v| v.format.comments.clone())
+        };
+
+
 
         if syntax.typescript() {
             transform.legacy_decorator = true;
@@ -1575,6 +1581,7 @@ impl Merge for JscConfig {
         self.paths.merge(&from.paths);
         self.minify.merge(&from.minify);
         self.experimental.merge(&from.experimental);
+        self.preserve_dropped_comments.merge(&from.preserve_dropped_comments)
     }
 }
 
