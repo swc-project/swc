@@ -201,7 +201,7 @@ var C10 = function C10(x) {
 var C11 = function C11(_$x) {
     "use strict";
     _classCallCheck(this, C11);
-    this._$x = _$x;
+    this.x = _$x;
     var thisX_isString = typeof this.x === 'string';
     var xIsString = typeof _$x === 'string';
     if (thisX_isString && xIsString) {

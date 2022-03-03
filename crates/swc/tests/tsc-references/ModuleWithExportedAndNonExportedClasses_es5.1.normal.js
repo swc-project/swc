@@ -9,7 +9,7 @@ var A;
         "use strict";
         _classCallCheck(this, _$A);
     };
-    A1._$A = _$A;
+    A1.A = _$A;
     var AG1 = function AG1() {
         "use strict";
         _classCallCheck(this, AG1);

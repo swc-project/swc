@@ -36,7 +36,7 @@ class ReusablePayments extends PureComponent {
         }
         return(/*#__PURE__*/ React.createElement(DeletePaymentSourceComponent, {
             onCompleted: (param)=>{
-                var _$deletePaymentSource = param._$deletePaymentSource;
+                var _$deletePaymentSource = param.deletePaymentSource;
                 if (_$deletePaymentSource.success) {
                     toast.success("Successfully removed Card");
                     return;

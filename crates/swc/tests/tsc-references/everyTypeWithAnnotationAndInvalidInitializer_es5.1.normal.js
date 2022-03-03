@@ -27,7 +27,7 @@ var M;
         _classCallCheck(this, A);
     };
     M1.A = A;
-    M1._$F2 = _$F2;
+    M1.F2 = _$F2;
 })(M || (M = {}));
 var N;
 (function(N1) {
@@ -39,7 +39,7 @@ var N;
         _classCallCheck(this, A);
     };
     N1.A = A;
-    N1._$F2 = _$F2;
+    N1.F2 = _$F2;
 })(N || (N = {}));
 var aNumber = 'this is a string';
 var aString = 9.9;

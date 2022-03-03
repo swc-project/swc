@@ -7,7 +7,7 @@ function _classCallCheck(instance, Constructor) {
         "use strict";
         _classCallCheck(this, _$A);
     };
-    A1._$A = _$A;
+    A1.A = _$A;
     var AG = function() {
         "use strict";
         _classCallCheck(this, AG);

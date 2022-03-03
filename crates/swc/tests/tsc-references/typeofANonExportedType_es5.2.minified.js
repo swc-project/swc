@@ -7,7 +7,7 @@ var M, E, C = function() {
 };
 function foo() {}
 !function(M1) {
-    M1._$foo = "";
+    M1.foo = "";
     var C1 = function() {
         "use strict";
         _classCallCheck(this, C1);
