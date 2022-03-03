@@ -17,6 +17,7 @@ struct BlockScopedVars {
     scope: Scope,
 
     var_decl_kind: Option<VarDeclKind>,
+    is_param: bool,
 }
 
 #[derive(Debug, Default)]
@@ -238,7 +239,7 @@ impl VisitMut for BlockScopedVars {
 
         if let Some(kind) = self.var_decl_kind {
             self.scope.vars.insert(n.key.to_id(), kind);
-        } else {
+        } else if !self.is_param {
             self.add_usage(n.key.to_id())
         }
     }
@@ -288,12 +289,16 @@ impl VisitMut for BlockScopedVars {
     }
 
     fn visit_mut_param(&mut self, n: &mut Param) {
+        let old_is_param = self.is_param;
+        self.is_param = true;
+
         let old_var_decl_kind = self.var_decl_kind;
         self.var_decl_kind = None;
 
         n.visit_mut_children_with(self);
 
         self.var_decl_kind = old_var_decl_kind;
+        self.is_param = old_is_param;
     }
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {
@@ -302,7 +307,7 @@ impl VisitMut for BlockScopedVars {
         if let Pat::Ident(i) = n {
             if let Some(kind) = self.var_decl_kind {
                 self.scope.vars.insert(i.to_id(), kind);
-            } else {
+            } else if !self.is_param {
                 self.add_usage(i.to_id())
             }
         }
