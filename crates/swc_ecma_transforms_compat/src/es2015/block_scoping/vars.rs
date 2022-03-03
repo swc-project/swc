@@ -1,6 +1,6 @@
 use indexmap::IndexMap;
 use swc_atoms::JsWord;
-use swc_common::collections::AHashMap;
+use swc_common::{collections::AHashMap, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::scope::ScopeKind;
 use swc_ecma_utils::ident::IdentLike;
@@ -113,10 +113,25 @@ impl Scope {
             if !symbols.contains(&id.0) {
                 continue;
             }
+            if rename_map.contains_key(id) {
+                continue;
+            }
 
             let sym = format!("_{}", id.0);
+            // We create a new syntax context instead of using original.
+            //
+            // This is required because
+            //
+            // {
+            //      let a = 1;
+            //      var _a = 2;
+            // }
+            //
+            // We can avoid this by detecting variable names, but using different syntax
+            // context is much easier.
+            let ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
 
-            rename_map.insert(id.clone(), (sym.into(), id.1));
+            rename_map.insert(id.clone(), (sym.into(), ctxt));
         }
 
         self.children
