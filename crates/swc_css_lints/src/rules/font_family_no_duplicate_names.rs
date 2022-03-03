@@ -57,16 +57,16 @@ impl FontFamilyNoDuplicateNames {
                     value: DelimiterValue::Comma,
                     ..
                 }) => {
-                    if let Some((identifer, span)) = last_identifier {
-                        fonts.push((FontNameKind::from(identifer), span));
+                    if let Some((identifier, span)) = last_identifier {
+                        fonts.push((FontNameKind::from(identifier), span));
                     }
                     (fonts, None)
                 }
                 _ => (fonts, last_identifier),
             },
         );
-        if let Some((identifer, span)) = last {
-            fonts.push((FontNameKind::from(identifer), span));
+        if let Some((identifier, span)) = last {
+            fonts.push((FontNameKind::from(identifier), span));
         }
 
         fonts.iter().fold(
