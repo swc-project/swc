@@ -7,7 +7,7 @@ use crate::rules::non_critical_lints::{
     dot_notation::DotNotationConfig, eqeqeq::EqeqeqConfig, no_bitwise::NoBitwiseConfig,
     no_console::NoConsoleConfig, no_empty_function::NoEmptyFunctionConfig,
     no_restricted_syntax::NoRestrictedSyntaxConfig, no_use_before_define::NoUseBeforeDefineConfig,
-    prefer_regex_literals::PreferRegexLiteralsConfig, quotes::QuotesConfig,
+    prefer_regex_literals::PreferRegexLiteralsConfig, quotes::QuotesConfig, radix::RadixConfig,
 };
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
@@ -121,6 +121,10 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default, alias = "noRestrictedSyntax")]
     pub no_restricted_syntax: RuleConfig<NoRestrictedSyntaxConfig>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default)]
+    pub radix: RuleConfig<RadixConfig>,
 
     #[cfg(feature = "non_critical_lints")]
     #[serde(default, alias = "noBitwise")]

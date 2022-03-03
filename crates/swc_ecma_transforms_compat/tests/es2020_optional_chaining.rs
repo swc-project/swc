@@ -1027,7 +1027,7 @@ class Foo {
 "#
 );
 
-#[testing::fixture("tests/fixture/opt-chain/**/exec.js")]
+#[testing::fixture("tests/opt-chain/**/exec.js")]
 fn exec(input: PathBuf) {
     let src = read_to_string(&input).unwrap();
 
