@@ -183,7 +183,10 @@ impl Scope {
                 continue;
             }
 
+            // We use _$ as prefix because other passes use `_` as prefix.
+            // (To avoid lots of renaming)
             let sym = format!("_${}", id.0);
+
             // We create a new syntax context instead of using original.
             //
             // This is required because
