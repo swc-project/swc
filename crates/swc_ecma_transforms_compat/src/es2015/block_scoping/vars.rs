@@ -91,10 +91,8 @@ impl Scope {
     /// `const`, add it to `rename_map`.
     fn collect_candidates(&self, symbols: &mut Vec<JsWord>) {
         for id in &self.usages {
-            if !self.can_access(id, false) {
-                if !symbols.contains(&id.0) {
-                    symbols.push(id.0.clone());
-                }
+            if !self.can_access(id, false) && !symbols.contains(&id.0) {
+                symbols.push(id.0.clone());
             }
         }
 
