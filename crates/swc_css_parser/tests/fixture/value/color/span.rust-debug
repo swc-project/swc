@@ -5699,6 +5699,12 @@ error: ComponentValue
 64 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
    |                                           ^^^^
 
+error: AlphaValue
+  --> $DIR/tests/fixture/value/color/input.css:64:43
+   |
+64 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
+   |                                           ^^^^
+
 error: Percentage
   --> $DIR/tests/fixture/value/color/input.css:64:43
    |
@@ -5820,6 +5826,12 @@ error: Delimiter
    |                                         ^
 
 error: ComponentValue
+  --> $DIR/tests/fixture/value/color/input.css:65:43
+   |
+65 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
+   |                                           ^^^
+
+error: AlphaValue
   --> $DIR/tests/fixture/value/color/input.css:65:43
    |
 65 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
