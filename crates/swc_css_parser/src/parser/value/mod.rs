@@ -914,11 +914,17 @@ where
             "color" => {
                 self.input.skip_ws()?;
 
+                let mut is_xyz_params = false;
+
                 let ident = match cur!(self) {
                     Token::Ident { value, .. } => {
                         if value.starts_with("--") {
                             ComponentValue::DashedIdent(self.parse()?)
                         } else {
+                            if value.starts_with("xyz") {
+                                is_xyz_params = true
+                            }
+
                             ComponentValue::Ident(self.parse()?)
                         }
                     }
@@ -935,7 +941,9 @@ where
 
                 let number_or_percentage_or_none = match cur!(self) {
                     tok!("number") => ComponentValue::Number(self.parse()?),
-                    tok!("percentage") => ComponentValue::Percentage(self.parse()?),
+                    tok!("percentage") if !is_xyz_params => {
+                        ComponentValue::Percentage(self.parse()?)
+                    }
                     tok!("ident") => {
                         let ident: Ident = self.parse()?;
 
@@ -965,7 +973,9 @@ where
                 loop {
                     let number_or_percentage_or_none = match cur!(self) {
                         tok!("number") => ComponentValue::Number(self.parse()?),
-                        tok!("percentage") => ComponentValue::Percentage(self.parse()?),
+                        tok!("percentage") if !is_xyz_params => {
+                            ComponentValue::Percentage(self.parse()?)
+                        }
                         tok!("ident") => {
                             let ident: Ident = self.parse()?;
 
