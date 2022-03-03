@@ -3073,7 +3073,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "0.28.0"
+version = "0.29.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3092,7 +3092,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.82.1"
+version = "0.83.0"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3150,7 +3150,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.98.0"
+version = "0.99.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3205,7 +3205,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.124.1"
+version = "0.125.0"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3305,7 +3305,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.84.2"
+version = "0.85.0"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3328,7 +3328,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.94.1"
+version = "0.95.0"
 dependencies = [
  "ahash",
  "dashmap 4.0.2",
@@ -3356,7 +3356,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.82.0"
+version = "0.83.0"
 dependencies = [
  "either",
  "serde",
@@ -3379,7 +3379,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.86.2"
+version = "0.87.0"
 dependencies = [
  "ahash",
  "base64 0.13.0",
@@ -3428,7 +3428,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.89.2"
+version = "0.90.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -3475,7 +3475,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.124.0"
+version = "0.125.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3511,7 +3511,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.59.0"
+version = "0.60.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3634,7 +3634,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.38.3"
+version = "0.39.0"
 dependencies = [
  "anyhow",
  "once_cell",
@@ -3711,7 +3711,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.57.0"
+version = "0.58.0"
 dependencies = [
  "anyhow",
  "rayon",
