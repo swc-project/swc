@@ -250,6 +250,19 @@ impl VisitMut for BlockScopedVars {
         });
     }
 
+    fn visit_mut_catch_clause(&mut self, n: &mut CatchClause) {
+        let old_is_param = self.is_param;
+        self.is_param = true;
+
+        let old_var_decl_kind = self.var_decl_kind;
+        self.var_decl_kind = None;
+
+        n.visit_mut_children_with(self);
+
+        self.var_decl_kind = old_var_decl_kind;
+        self.is_param = old_is_param;
+    }
+
     fn visit_mut_constructor(&mut self, n: &mut Constructor) {
         self.with_scope(ScopeKind::Fn, |v| {
             n.params.visit_mut_with(v);
