@@ -58,9 +58,13 @@ impl BlockScopedVars {
 
         self.scope.collect_candidates(&mut symbols);
 
+        dbg!(&symbols);
+
         let mut rename_map = AHashMap::default();
 
         self.scope.rename(&symbols, &mut rename_map);
+
+        dbg!(&rename_map);
 
         n.visit_mut_with(&mut rename(rename_map))
     }
