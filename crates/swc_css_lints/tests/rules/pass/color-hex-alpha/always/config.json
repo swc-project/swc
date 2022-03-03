@@ -1,0 +1,5 @@
+{
+    "rules": {
+        "color-hex-alpha": ["error", "always"]
+    }
+}
