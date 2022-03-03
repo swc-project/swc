@@ -2898,8 +2898,9 @@ dependencies = [
 
 [[package]]
 name = "swc_css_lints"
-version = "0.4.0"
+version = "0.4.1"
 dependencies = [
+ "ahash",
  "auto_impl",
  "parking_lot 0.12.0",
  "rayon",
@@ -3246,7 +3247,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.75.5"
+version = "0.75.6"
 dependencies = [
  "ahash",
  "arrayvec 0.7.2",

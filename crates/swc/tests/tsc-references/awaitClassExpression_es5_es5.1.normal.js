@@ -108,13 +108,13 @@ function _func() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    _ctx.t0 = /*#__PURE__*/ function(_super) {
+                    _ctx.t0 = /*#__PURE__*/ function(_superClass) {
                         "use strict";
-                        _inherits(D, _super);
-                        var _super1 = _createSuper(D);
+                        _inherits(D, _superClass);
+                        var _super = _createSuper(D);
                         function D() {
                             _classCallCheck(this, D);
-                            return _super1.apply(this, arguments);
+                            return _super.apply(this, arguments);
                         }
                         return D;
                     };

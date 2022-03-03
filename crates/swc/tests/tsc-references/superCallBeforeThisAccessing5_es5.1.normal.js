@@ -69,10 +69,10 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var D = /*#__PURE__*/ function(_super) {
+var D = /*#__PURE__*/ function(_superClass) {
     "use strict";
-    _inherits(D, _super);
-    var _super1 = _createSuper(D);
+    _inherits(D, _superClass);
+    var _super = _createSuper(D);
     function D() {
         _classCallCheck(this, D);
         var _this;

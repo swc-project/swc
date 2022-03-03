@@ -67,12 +67,12 @@ var Context = function() {
             value: function() {}
         }
     ]), A;
-}(), B = function(_super) {
+}(), B = function(_superClass) {
     "use strict";
-    _inherits(B, _super);
-    var _super1 = _createSuper(B);
+    _inherits(B, _superClass);
+    var _super = _createSuper(B);
     function B() {
-        return _classCallCheck(this, B), _super1.apply(this, arguments);
+        return _classCallCheck(this, B), _super.apply(this, arguments);
     }
     return _createClass(B, [
         {
@@ -80,12 +80,12 @@ var Context = function() {
             value: function() {}
         }
     ]), B;
-}(CreateMixin(Context, A)), C = function(_super) {
+}(CreateMixin(Context, A)), C = function(_superClass) {
     "use strict";
-    _inherits(C, _super);
-    var _super2 = _createSuper(C);
+    _inherits(C, _superClass);
+    var _super = _createSuper(C);
     function C() {
-        return _classCallCheck(this, C), _super2.apply(this, arguments);
+        return _classCallCheck(this, C), _super.apply(this, arguments);
     }
     return _createClass(C, [
         {

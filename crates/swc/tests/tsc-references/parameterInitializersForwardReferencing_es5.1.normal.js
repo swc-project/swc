@@ -23,50 +23,50 @@ function left(a) {
     b;
 }
 function right() {
-    var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b, b1 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : a;
+    var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b, _$b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : a;
     a;
-    b1;
+    _$b;
 }
 function right2() {
-    var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b, b2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : c, c1 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : a;
+    var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b, _$b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : c, _$c = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : a;
     a;
-    b2;
-    c1;
+    _$b;
+    _$c;
 }
 function inside() {
     var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b;
-    var b3;
+    var _$b;
 }
 function outside() {
     var inside = function inside() {
         var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b;
-        var b4;
+        var b1;
     };
     var b;
 }
 function defaultArgFunction() {
     var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : function() {
         return b;
-    }, b5 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 1;
+    }, b2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 1;
 }
 function defaultArgArrow() {
     var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : function() {
         return function() {
             return b;
         };
-    }, b6 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 3;
+    }, b3 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 3;
 }
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b, b7 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 1;
+        var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b, _$b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 1;
         _classCallCheck(this, C);
     }
     _createClass(C, [
         {
             key: "method",
             value: function method() {
-                var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b, b8 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 1;
+                var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b, _$b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 1;
             }
         }
     ]);
@@ -74,12 +74,12 @@ var C = /*#__PURE__*/ function() {
 }();
 // Function expressions
 var x = function() {
-    var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b, b9 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : c, c2 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : d;
-    var d1;
+    var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b, _$b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : c, _$c = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : d;
+    var _$d;
 };
 // Should not produce errors - can reference later parameters if they occur within a function expression initializer.
 function f(a) {
     var b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : function() {
         return c;
-    }, c3 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : b();
+    }, c1 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : b();
 }

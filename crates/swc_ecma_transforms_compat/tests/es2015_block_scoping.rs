@@ -8,7 +8,7 @@ use swc_ecma_transforms_compat::{
     es2015::{block_scoping, for_of::for_of},
     es2017::async_to_generator,
 };
-use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, Tester};
+use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture, Tester};
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
@@ -1019,5 +1019,17 @@ fn exec(input: PathBuf) {
         Default::default(),
         |_| chain!(resolver(), block_scoping()),
         &input,
+    );
+}
+
+#[testing::fixture("tests/block-scoping/**/input.js")]
+fn fixture(input: PathBuf) {
+    let output = input.with_file_name("output.js");
+
+    test_fixture(
+        Default::default(),
+        &|_| chain!(resolver(), block_scoping()),
+        &input,
+        &output,
     );
 }

@@ -52,47 +52,47 @@ var D0 = function(Base) {
         return _classCallCheck(this, D0), _super.apply(this, arguments);
     }
     return D0;
-}(Base), D1 = function(_super) {
+}(Base), D1 = function(_superClass) {
     "use strict";
-    _inherits(D1, _super);
-    var _super1 = _createSuper(D1);
+    _inherits(D1, _superClass);
+    var _super = _createSuper(D1);
     function D1() {
         var _this;
-        return _classCallCheck(this, D1), (_this = _super1.call(this, "abc", "def")).x = "x", _this.y = "y", _this;
+        return _classCallCheck(this, D1), (_this = _super.call(this, "abc", "def")).x = "x", _this.y = "y", _this;
     }
     return D1;
-}(getBase()), D2 = function(_super) {
+}(getBase()), D2 = function(_superClass) {
     "use strict";
-    _inherits(D2, _super);
-    var _super2 = _createSuper(D2);
+    _inherits(D2, _superClass);
+    var _super = _createSuper(D2);
     function D2() {
         var _this;
-        return _classCallCheck(this, D2), _this = _super2.call(this, 10), _this = _super2.call(this, 10, 20), _this.x = 1, _this.y = 2, _this;
+        return _classCallCheck(this, D2), _this = _super.call(this, 10), _this = _super.call(this, 10, 20), _this.x = 1, _this.y = 2, _this;
     }
     return D2;
-}(getBase()), D3 = function(_super) {
+}(getBase()), D3 = function(_superClass) {
     "use strict";
-    _inherits(D3, _super);
-    var _super3 = _createSuper(D3);
+    _inherits(D3, _superClass);
+    var _super = _createSuper(D3);
     function D3() {
         var _this;
-        return _classCallCheck(this, D3), (_this = _super3.call(this, "abc", 42)).x = "x", _this.y = 2, _this;
+        return _classCallCheck(this, D3), (_this = _super.call(this, "abc", 42)).x = "x", _this.y = 2, _this;
     }
     return D3;
-}(getBase()), D4 = function(_super) {
+}(getBase()), D4 = function(_superClass) {
     "use strict";
-    _inherits(D4, _super);
-    var _super4 = _createSuper(D4);
+    _inherits(D4, _superClass);
+    var _super = _createSuper(D4);
     function D4() {
-        return _classCallCheck(this, D4), _super4.apply(this, arguments);
+        return _classCallCheck(this, D4), _super.apply(this, arguments);
     }
     return D4;
-}(getBase()), D5 = function(_super) {
+}(getBase()), D5 = function(_superClass) {
     "use strict";
-    _inherits(D5, _super);
-    var _super5 = _createSuper(D5);
+    _inherits(D5, _superClass);
+    var _super = _createSuper(D5);
     function D5() {
-        return _classCallCheck(this, D5), _super5.apply(this, arguments);
+        return _classCallCheck(this, D5), _super.apply(this, arguments);
     }
     return D5;
 }(getBadBase());

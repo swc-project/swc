@@ -35,7 +35,7 @@ function b() {
     var _b = _param.b, b = _b === void 0 ? a() : _b, x = _objectWithoutProperties(_param, [
         "b"
     ]);
-    var a1;
+    var _$a;
 }
 var x = "";
 function c() {

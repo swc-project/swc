@@ -11,6 +11,9 @@
 - **(css/parser)** Fix parsing of `;` in values (#3821) ([30cd29b](https://github.com/swc-project/swc/commit/30cd29b0f0153bd732f0004dfcb10892635ee027))
 
 
+- **(es/compat)** Fix block scoping of variables (#3826) ([406b8ea](https://github.com/swc-project/swc/commit/406b8eaeafa37d1ec68a5d5aca0f8dd337ae39ec))
+
+
 - **(es/hygiene)** Fix renaming bugs (#3824) ([043fba2](https://github.com/swc-project/swc/commit/043fba274e13055dad4b2f6cee85b1bf751572ca))
 
 
@@ -30,6 +33,9 @@
 
 ### Features
 
+
+
+- **(css/lints)** Add `font-family-no-duplicate-names` rule (#3818) ([2d273d6](https://github.com/swc-project/swc/commit/2d273d60b9dec4d9f969f0e691ba21ce4b252b7d))
 
 
 - **(css/parser)** Improve error recovery (#3810) ([f969f8c](https://github.com/swc-project/swc/commit/f969f8c5f54e3028576a74ccfcaae72b1c19eaf9))

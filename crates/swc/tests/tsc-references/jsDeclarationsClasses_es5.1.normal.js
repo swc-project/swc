@@ -242,10 +242,10 @@ export var L = /*#__PURE__*/ function(K) {
     }
     return L;
 }(K);
-export var M = /*#__PURE__*/ function(_super) {
+export var M = /*#__PURE__*/ function(_superClass) {
     "use strict";
-    _inherits(M, _super);
-    var _super1 = _createSuper(M);
+    _inherits(M, _superClass);
+    var _super = _createSuper(M);
     function M() {
         _classCallCheck(this, M);
         var _this;
