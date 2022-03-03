@@ -1,3 +1,4 @@
+use swc_atoms::JsWord;
 use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::scope::ScopeKind;
@@ -38,11 +39,11 @@ impl BlockScopedVars {
     {
         n.visit_mut_children_with(self);
 
-        let mut map = AHashMap::default();
+        let mut symbols = Default::default();
 
-        self.scope.add_rename(&mut map);
+        self.scope.collect_candidates(&mut symbols);
 
-        dbg!(&map);
+        dbg!(&symbols);
     }
 
     fn with_scope(&mut self, kind: ScopeKind, op: impl FnOnce(&mut Self)) {
@@ -88,15 +89,18 @@ impl Scope {
 
     /// If a used identifier is declared in a child scope using `let` or
     /// `const`, add it to `rename_map`.
-    fn add_rename(&self, rename_map: &mut AHashMap<Id, Id>) {
+    fn collect_candidates(&self, symbols: &mut Vec<JsWord>) {
         for id in &self.usages {
             if !self.can_access(id, false) {
-                let sym = format!("_{}", id.0);
-                rename_map.insert(id.clone(), (sym.into(), id.1));
+                if !symbols.contains(&id.0) {
+                    symbols.push(id.0.clone());
+                }
             }
         }
 
-        self.children.iter().for_each(|s| s.add_rename(rename_map));
+        self.children
+            .iter()
+            .for_each(|s| s.collect_candidates(symbols));
     }
 }
 
