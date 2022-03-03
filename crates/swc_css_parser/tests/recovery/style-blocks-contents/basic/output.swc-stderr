@@ -1,0 +1,24 @@
+error: Expected ":"
+ --> $DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9
+  |
+6 |         color: green;
+  |         ^^^^^
+
+error: Expected ":"
+  --> $DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13
+   |
+14 |             color: red 
+   |             ^^^^^
+
+error: Expected ":"
+  --> $DIR/tests/recovery/style-blocks-contents/basic/input.css:23:14
+   |
+23 |         ident;
+   |              ^
+
+error: Expected ":"
+  --> $DIR/tests/recovery/style-blocks-contents/basic/input.css:31:18
+   |
+31 |             ident;
+   |                  ^
+

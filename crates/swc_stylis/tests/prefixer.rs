@@ -2,6 +2,7 @@
 //!
 //! License is MIT, which is original license at the time of copying.
 //! Original test authors have copyright for their work.
+#![deny(warnings)]
 #![allow(clippy::needless_update)]
 
 use std::path::PathBuf;
@@ -477,7 +478,7 @@ fn error_recovery_1() {
             __styled-jsx-placeholder__1
         ",
         "-webkit-animation:slide 3s ease infinite;animation:slide 3s ease \
-         infinite;__styled-jsx-placeholder__1\n        ;",
+         infinite;__styled-jsx-placeholder__1\n        ",
     );
 }
 
@@ -533,7 +534,15 @@ fn t(src: &str, expected: &str) {
                 }
 
                 wr.push_str(&s);
-                wr.push(';');
+
+                let need_semi = !matches!(
+                    p,
+                    ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::Invalid(_))
+                );
+
+                if need_semi {
+                    wr.push(';');
+                }
             }
         }
 

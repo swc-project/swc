@@ -613,8 +613,14 @@ where
                     kind: VarDeclKind::Var | VarDeclKind::Let,
                     ..
                 },
-            )) => v.decls.iter_mut().map(Mergable::Var).collect(),
-            Stmt::Return(ReturnStmt { arg: Some(arg), .. }) if options.sequences() => {
+            )) => {
+                if options.reduce_vars || options.collapse_vars {
+                    v.decls.iter_mut().map(Mergable::Var).collect()
+                } else {
+                    return None;
+                }
+            }
+            Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
                 vec![Mergable::Expr(&mut **arg)]
             }
             Stmt::If(s) if options.sequences() => {
@@ -628,7 +634,7 @@ where
         })
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, stmts)))]
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn merge_sequences_in_stmts<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: ModuleItemExt,
@@ -651,7 +657,10 @@ where
         let mut buf = vec![];
 
         for stmt in stmts.iter_mut() {
-            let is_end = matches!(stmt.as_stmt(), Some(Stmt::If(..) | Stmt::Throw(..)));
+            let is_end = matches!(
+                stmt.as_stmt(),
+                Some(Stmt::If(..) | Stmt::Throw(..) | Stmt::Return(..))
+            );
 
             let items = if let Some(stmt) = stmt.as_stmt_mut() {
                 self.seq_exprs_of(stmt, self.options)
@@ -671,12 +680,19 @@ where
 
         exprs.push(buf);
 
-        if cfg!(feature = "debug") {
-            tracing::trace!(
-                "sequences: Merging statements: {:?}",
-                exprs.iter().map(|v| v.len()).collect::<Vec<_>>()
-            );
-        }
+        let _tracing = if cfg!(feature = "debug") {
+            let buf_len = exprs.iter().map(|v| v.len()).collect::<Vec<_>>();
+            Some(
+                tracing::span!(
+                    Level::TRACE,
+                    "merge_sequences_in_stmts",
+                    items_len = tracing::field::debug(&buf_len)
+                )
+                .entered(),
+            )
+        } else {
+            None
+        };
 
         for mut exprs in exprs {
             let _ = self.merge_sequences_in_exprs(&mut exprs);
@@ -766,6 +782,15 @@ where
     /// TODO(kdy1): Check for side effects and call merge_sequential_expr more
     /// if expressions between a and b are side-effect-free.
     fn merge_sequences_in_exprs(&mut self, exprs: &mut Vec<Mergable>) -> Result<(), ()> {
+        let _tracing = if cfg!(feature = "debug") {
+            Some(
+                tracing::span!(Level::TRACE, "merge_sequences_in_exprs", len = exprs.len())
+                    .entered(),
+            )
+        } else {
+            None
+        };
+
         for idx in 0..exprs.len() {
             for j in idx..exprs.len() {
                 let (a1, a2) = exprs.split_at_mut(idx);
@@ -789,14 +814,68 @@ where
                     break;
                 }
 
+                // This logic is required to handle
+                //
+                // var b;
+                // (function () {
+                //     function f() {
+                //         a++;
+                //     }
+                //     f();
+                //     var c = f();
+                //     var a = void 0;
+                //     c || (b = a);
+                // })();
+                // console.log(b);
+                //
+                //
+                // at the code above, c cannot be shifted to `c` in `c || (b = a)`
+                //
+
+                match a {
+                    Mergable::Var(VarDeclarator {
+                        init: Some(init), ..
+                    }) => {
+                        if !self.is_skippable_for_seq(None, init) {
+                            break;
+                        }
+                    }
+                    Mergable::Expr(Expr::Assign(a)) => {
+                        if let Some(a) = a.left.as_expr() {
+                            if !self.is_skippable_for_seq(None, a) {
+                                break;
+                            }
+                        }
+
+                        if !self.is_skippable_for_seq(None, &a.right) {
+                            break;
+                        }
+                    }
+                    _ => {}
+                }
+
                 match &a2[j - idx] {
-                    Mergable::Var(_) => break,
+                    Mergable::Var(e2) => {
+                        if let Some(e2) = &e2.init {
+                            if !self.is_skippable_for_seq(Some(a), e2) {
+                                break;
+                            }
+                        }
+
+                        if let Some(id) = a1.last_mut().unwrap().id() {
+                            // TODO(kdy1): Optimize
+                            if idents_used_by(&**e2).contains(&id) {
+                                break;
+                            }
+                        }
+                    }
                     Mergable::Expr(e2) => {
                         if !self.is_skippable_for_seq(Some(a), e2) {
                             break;
                         }
 
                         if let Some(id) = a1.last_mut().unwrap().id() {
+                            // TODO(kdy1): Optimize
                             if idents_used_by(&**e2).contains(&id) {
                                 break;
                             }
@@ -921,8 +1000,17 @@ where
     fn merge_sequential_expr(&mut self, a: &mut Mergable, b: &mut Expr) -> Result<bool, ()> {
         let _tracing = if cfg!(feature = "debug") {
             let b_str = dump(&*b, false);
+            let a_id = a.id();
 
-            Some(span!(Level::ERROR, "merge_sequential_expr", b = &*b_str).entered())
+            Some(
+                span!(
+                    Level::ERROR,
+                    "merge_sequential_expr",
+                    a_id = tracing::field::debug(&a_id),
+                    b = &*b_str
+                )
+                .entered(),
+            )
         } else {
             None
         };
@@ -1325,6 +1413,11 @@ where
                                 return Ok(false);
                             }
 
+                            // Reassignment to const?
+                            if let Some(VarDeclKind::Const) = usage.var_kind {
+                                return Ok(false);
+                            }
+
                             if usage.declared_as_fn_expr {
                                 tracing::trace!(
                                     "sequences: [X] Declared as fn expr ({}, {:?})",
@@ -1424,13 +1517,16 @@ where
             };
             b.visit_with(&mut v);
             if v.expr_usage != 1 || v.pat_usage != 0 {
-                tracing::trace!(
-                    "[X] sequences: Aborting because of usage counts ({}{:?}, ref = {}, pat = {})",
-                    left_id.sym,
-                    left_id.span.ctxt,
-                    v.expr_usage,
-                    v.pat_usage
-                );
+                if cfg!(feature = "debug") {
+                    tracing::trace!(
+                        "[X] sequences: Aborting because of usage counts ({}{:?}, ref = {}, pat = \
+                         {})",
+                        left_id.sym,
+                        left_id.span.ctxt,
+                        v.expr_usage,
+                        v.pat_usage
+                    );
+                }
                 return Ok(false);
             }
         }

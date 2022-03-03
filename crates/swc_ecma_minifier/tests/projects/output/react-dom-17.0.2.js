@@ -1980,7 +1980,7 @@
             }
             var didSetError = !1, isCrossOriginError = !1;
             function handleWindowError(event) {
-                if (didSetError = !0, null === (error = event.error) && 0 === event.colno && 0 === event.lineno && (isCrossOriginError = !0), event.defaultPrevented && null != error && "object" == typeof error) try {
+                if (error = event.error, didSetError = !0, null === error && 0 === event.colno && 0 === event.lineno && (isCrossOriginError = !0), event.defaultPrevented && null != error && "object" == typeof error) try {
                     error._suppressLogging = !0;
                 } catch (inner) {}
             }
@@ -3332,7 +3332,7 @@
             }
         }(function() {
             var domEventName6, eventSystemFlags4, nativeEvent5, targetInst4, nativeEventTarget2, dispatchQueue2;
-            return domEventName6 = domEventName4, eventSystemFlags4 = eventSystemFlags3, nativeEvent5 = nativeEvent3, targetInst4 = ancestorInst, nativeEventTarget2 = getEventTarget(nativeEvent5), dispatchQueue2 = [], void (function(dispatchQueue3, domEventName7, targetInst5, nativeEvent6, nativeEventTarget3, eventSystemFlags5, targetContainer) {
+            return domEventName6 = domEventName4, eventSystemFlags4 = eventSystemFlags3, nativeEvent5 = nativeEvent3, targetInst4 = ancestorInst, nativeEventTarget2 = getEventTarget(nativeEvent5), void (function(dispatchQueue3, domEventName7, targetInst5, nativeEvent6, nativeEventTarget3, eventSystemFlags5, targetContainer) {
                 if ((function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
                     var reactName = topLevelEventsToReactNames.get(domEventName);
                     if (void 0 !== reactName) {
@@ -3560,7 +3560,7 @@
                         }
                     })(dispatchQueue1, domEventName5, targetInst3, nativeEvent4, nativeEventTarget1);
                 }
-            }(dispatchQueue2, domEventName6, targetInst4, nativeEvent5, nativeEventTarget2, eventSystemFlags4), processDispatchQueue(dispatchQueue2, eventSystemFlags4));
+            }(dispatchQueue2 = [], domEventName6, targetInst4, nativeEvent5, nativeEventTarget2, eventSystemFlags4), processDispatchQueue(dispatchQueue2, eventSystemFlags4));
         });
     }
     function createDispatchListener(instance, listener, currentTarget) {

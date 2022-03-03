@@ -1,2 +1,2 @@
-let abc = "ABC", xyz = "XYZ", abcOrXyzOrNumber = abc || xyz || 100;
+let abcOrXyzOrNumber = "ABC";
 abcOrXyzOrNumber++, --abcOrXyzOrNumber;

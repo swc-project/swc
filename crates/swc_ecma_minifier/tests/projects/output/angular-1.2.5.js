@@ -832,8 +832,8 @@
             function($window, $location, $rootScope) {
                 var document = $window.document;
                 function scroll() {
-                    var result, elm, hash = $location.hash();
-                    hash ? (elm = document.getElementById(hash)) ? elm.scrollIntoView() : (elm = (result = null, forEach(document.getElementsByName(hash), function(element) {
+                    var list, result, elm, hash = $location.hash();
+                    hash ? (elm = document.getElementById(hash)) ? elm.scrollIntoView() : (elm = (list = document.getElementsByName(hash), result = null, forEach(list, function(element) {
                         result || "a" !== lowercase(element.nodeName) || (result = element);
                     }), result)) ? elm.scrollIntoView() : "top" === hash && $window.scrollTo(0, 0) : $window.scrollTo(0, 0);
                 }

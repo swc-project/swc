@@ -34,7 +34,6 @@ class_properties/mangle_class_properties/input.js
 class_properties/mangle_class_properties_keep_quoted/input.js
 class_properties/static_means_execution/input.js
 classes/pure_prop_assignment_for_classes/input.js
-collapse_vars/assignment/input.js
 collapse_vars/cascade_call/input.js
 collapse_vars/cascade_conditional/input.js
 collapse_vars/cascade_forin/input.js
@@ -80,7 +79,6 @@ collapse_vars/issue_2250_2/input.js
 collapse_vars/issue_2298/input.js
 collapse_vars/issue_2319_1/input.js
 collapse_vars/issue_2319_3/input.js
-collapse_vars/issue_2364_5/input.js
 collapse_vars/issue_2436_1/input.js
 collapse_vars/issue_2436_10/input.js
 collapse_vars/issue_2436_11/input.js
@@ -95,7 +93,6 @@ collapse_vars/issue_2437/input.js
 collapse_vars/issue_2453/input.js
 collapse_vars/issue_2497/input.js
 collapse_vars/issue_2506/input.js
-collapse_vars/issue_2878/input.js
 collapse_vars/issue_2914_2/input.js
 collapse_vars/issue_2931/input.js
 collapse_vars/issue_2954_2/input.js
@@ -127,7 +124,6 @@ conditionals/issue_1154/input.js
 conditionals/issue_2535_1/input.js
 conditionals/issue_2560/input.js
 conditionals/issue_2994/input.js
-dead_code/collapse_vars_misc1/input.js
 dead_code/dead_code_2_should_warn/input.js
 dead_code/dead_code_2_should_warn_strict/input.js
 dead_code/dead_code_const_annotation/input.js
@@ -820,4 +816,3 @@ try_catch/catch_destructuring_with_sequence/input.js
 typeof/issue_2728_3/input.js
 typeof/issue_2728_4/input.js
 typeof/typeof_defun_1/input.js
-yield/issue_2689/input.js

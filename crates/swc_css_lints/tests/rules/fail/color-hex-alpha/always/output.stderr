@@ -1,0 +1,24 @@
+error: Expected alpha channel in '#fff'.
+ --> $DIR/tests/rules/fail/color-hex-alpha/always/input.css:1:12
+  |
+1 | a { color: #fff; }
+  |            ^^^^
+
+error: Expected alpha channel in '#ffffff'.
+ --> $DIR/tests/rules/fail/color-hex-alpha/always/input.css:2:12
+  |
+2 | a { color: #ffffff; }
+  |            ^^^^^^^
+
+error: Expected alpha channel in '#fff'.
+ --> $DIR/tests/rules/fail/color-hex-alpha/always/input.css:3:42
+  |
+3 | a { background: linear-gradient(to left, #fff, #000000 100%); }
+  |                                          ^^^^
+
+error: Expected alpha channel in '#000000'.
+ --> $DIR/tests/rules/fail/color-hex-alpha/always/input.css:3:48
+  |
+3 | a { background: linear-gradient(to left, #fff, #000000 100%); }
+  |                                                ^^^^^^^
+
