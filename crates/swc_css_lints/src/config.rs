@@ -111,6 +111,9 @@ pub struct RulesConfig {
 
     #[serde(default, alias = "colorHexAlpha")]
     pub color_hex_alpha: RuleConfig<ColorHexAlphaConfig>,
+
+    #[serde(default, alias = "noDuplicateAtImportRules")]
+    pub no_duplicate_at_import_rules: RuleConfig<()>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
