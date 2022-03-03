@@ -272,6 +272,70 @@ impl VisitMut for BlockScopedVars {
         self.var_decl_kind = old_var_decl_kind;
     }
 
+    fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
+        n.right.visit_mut_with(self);
+
+        match n.left {
+            VarDeclOrPat::VarDecl(VarDecl {
+                kind: VarDeclKind::Let | VarDeclKind::Const,
+                ..
+            }) => {
+                self.with_scope(ScopeKind::Block, |v| {
+                    n.left.visit_mut_with(v);
+                    n.body.visit_mut_with(v);
+                });
+            }
+            _ => {
+                n.left.visit_mut_with(self);
+                n.body.visit_mut_with(self);
+            }
+        }
+    }
+
+    fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
+        n.right.visit_mut_with(self);
+
+        match n.left {
+            VarDeclOrPat::VarDecl(VarDecl {
+                kind: VarDeclKind::Let | VarDeclKind::Const,
+                ..
+            }) => {
+                self.with_scope(ScopeKind::Block, |v| {
+                    n.left.visit_mut_with(v);
+                    n.body.visit_mut_with(v);
+                });
+            }
+            _ => {
+                n.left.visit_mut_with(self);
+                n.body.visit_mut_with(self);
+            }
+        }
+    }
+
+    fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
+        match n.init {
+            Some(VarDeclOrExpr::VarDecl(VarDecl {
+                kind: VarDeclKind::Let | VarDeclKind::Const,
+                ..
+            })) => {
+                self.with_scope(ScopeKind::Block, |v| {
+                    n.init.visit_mut_with(v);
+                    n.update.visit_mut_with(v);
+                    n.test.visit_mut_with(v);
+
+                    n.body.visit_mut_with(v);
+                });
+            }
+            _ => {
+                n.init.visit_mut_with(self);
+                n.update.visit_mut_with(self);
+                n.test.visit_mut_with(self);
+
+                n.body.visit_mut_with(self);
+            }
+        }
+    }
+
     fn visit_mut_function(&mut self, n: &mut Function) {
         n.decorators.visit_mut_with(self);
 
@@ -332,69 +396,5 @@ impl VisitMut for BlockScopedVars {
         n.visit_mut_children_with(self);
 
         self.var_decl_kind = old_var_decl_kind;
-    }
-
-    fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
-        n.right.visit_mut_with(self);
-
-        match n.left {
-            VarDeclOrPat::VarDecl(VarDecl {
-                kind: VarDeclKind::Let | VarDeclKind::Const,
-                ..
-            }) => {
-                self.with_scope(ScopeKind::Block, |v| {
-                    n.left.visit_mut_with(v);
-                    n.body.visit_mut_with(v);
-                });
-            }
-            _ => {
-                n.left.visit_mut_with(self);
-                n.body.visit_mut_with(self);
-            }
-        }
-    }
-
-    fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
-        n.right.visit_mut_with(self);
-
-        match n.left {
-            VarDeclOrPat::VarDecl(VarDecl {
-                kind: VarDeclKind::Let | VarDeclKind::Const,
-                ..
-            }) => {
-                self.with_scope(ScopeKind::Block, |v| {
-                    n.left.visit_mut_with(v);
-                    n.body.visit_mut_with(v);
-                });
-            }
-            _ => {
-                n.left.visit_mut_with(self);
-                n.body.visit_mut_with(self);
-            }
-        }
-    }
-
-    fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
-        match n.init {
-            Some(VarDeclOrExpr::VarDecl(VarDecl {
-                kind: VarDeclKind::Let | VarDeclKind::Const,
-                ..
-            })) => {
-                self.with_scope(ScopeKind::Block, |v| {
-                    n.init.visit_mut_with(v);
-                    n.update.visit_mut_with(v);
-                    n.test.visit_mut_with(v);
-
-                    n.body.visit_mut_with(v);
-                });
-            }
-            _ => {
-                n.init.visit_mut_with(self);
-                n.update.visit_mut_with(self);
-                n.test.visit_mut_with(self);
-
-                n.body.visit_mut_with(self);
-            }
-        }
     }
 }
