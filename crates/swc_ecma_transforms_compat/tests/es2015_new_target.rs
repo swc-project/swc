@@ -11,7 +11,7 @@ use swc_ecma_transforms_compat::{
 use swc_ecma_transforms_testing::{exec_tr, parse_options, test, test_fixture};
 use swc_ecma_visit::Fold;
 
-#[testing::fixture("tests/fixture/new-target/**/exec.js")]
+#[testing::fixture("tests/new-target/**/exec.js")]
 fn exec(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
     exec_tr("new-target", Default::default(), |_| new_target(), &input);
@@ -30,7 +30,7 @@ enum PluginConfig {
     Name(String),
 }
 
-#[testing::fixture("tests/fixture/new-target/**/input.js")]
+#[testing::fixture("tests/new-target/**/input.js")]
 fn fixture(input: PathBuf) {
     let options: TestOptions = parse_options(&input);
 

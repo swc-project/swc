@@ -6761,7 +6761,7 @@ var Extended = function(Base) {
     "
 );
 
-#[testing::fixture("tests/fixture/classes/**/exec.js")]
+#[testing::fixture("tests/classes/**/exec.js")]
 fn exec(input: PathBuf) {
     let src = read_to_string(&input).unwrap();
     compare_stdout(
@@ -6776,7 +6776,7 @@ fn exec(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/fixture/classes/**/input.js")]
+#[testing::fixture("tests/classes/**/input.js")]
 fn fixture(input: PathBuf) {
     let output = input.parent().unwrap().join("output.js");
 
