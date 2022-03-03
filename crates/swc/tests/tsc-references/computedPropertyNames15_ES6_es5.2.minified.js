@@ -4,7 +4,7 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var p2, p3, _p1 = void 0, _p2 = p2, _p3 = p3, C = function() {
+var _p1 = void 0, _p2 = void 0, _p3 = void 0, C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {

@@ -115,9 +115,9 @@ impl Storage for ProgramData {
         has_init: bool,
         kind: Option<VarDeclKind>,
     ) -> &mut VarUsageInfo {
-        if cfg!(feature = "debug") {
-            tracing::debug!(has_init = has_init, "declare_decl(`{}`)", i);
-        }
+        // if cfg!(feature = "debug") {
+        //     tracing::debug!(has_init = has_init, "declare_decl(`{}`)", i);
+        // }
 
         let v = self
             .vars

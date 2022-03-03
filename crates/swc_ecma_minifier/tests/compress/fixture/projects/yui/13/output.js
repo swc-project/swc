@@ -4,9 +4,9 @@ export const E = {
         for(Lang.isArray(urls) || (urls = [
             urls
         ]), (options = Y.merge(this.options, options)).attributes = Y.merge(this.options.attributes, options.attributes), i = 0, len = urls.length; i < len; ++i){
-            if (req = {
+            if (url = urls[i], req = {
                 attributes: {}
-            }, "string" == typeof (url = urls[i])) req.url = url;
+            }, "string" == typeof url) req.url = url;
             else {
                 if (!url.url) continue;
                 Y.mix(req, url, !1, null, 0, !0), url = url.url;

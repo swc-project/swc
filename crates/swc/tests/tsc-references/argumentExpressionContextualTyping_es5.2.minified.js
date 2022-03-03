@@ -12,9 +12,9 @@ function _unsupportedIterableToArray(o, minLen) {
     }
 }
 function foo(param) {
-    var arr, i, _x = (i = 2, function(arr) {
+    var arr, i, _x = (arr = param.x, i = 2, function(arr) {
         if (Array.isArray(arr)) return arr;
-    }(arr = param.x) || function(arr, i) {
+    }(arr) || function(arr, i) {
         var _s, _e, _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
         if (null != _i) {
             var _arr = [], _n = !0, _d = !1;

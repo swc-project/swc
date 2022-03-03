@@ -49,12 +49,12 @@ var B = function() {
     });
     function A() {
         var _this, obj, privateMap, value;
-        return _classCallCheck(this, A), value = {
+        return _classCallCheck(this, A), obj = _assertThisInitialized(_this = _super.call(this)), value = {
             writable: !0,
             value: void 0
         }, (function(obj, privateCollection) {
             if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
-        })(obj = _assertThisInitialized(_this = _super.call(this)), privateMap = _x), privateMap.set(obj, value), _this;
+        })(obj, privateMap = _x), privateMap.set(obj, value), _this;
     }
     return A;
 }(B);

@@ -2,10 +2,10 @@ var _x = new WeakMap();
 class C {
     static test() {
         var receiver, privateMap, value, descriptor;
-        value = 10, descriptor = (function(receiver, privateMap, action) {
+        receiver = new C(), value = 10, descriptor = (function(receiver, privateMap, action) {
             if (!privateMap.has(receiver)) throw new TypeError("attempted to set private field on non-instance");
             return privateMap.get(receiver);
-        })(receiver = new C(), privateMap = _x, "set"), (function(receiver, descriptor, value) {
+        })(receiver, privateMap = _x, "set"), (function(receiver, descriptor, value) {
             if (descriptor.set) descriptor.set.call(receiver, value);
             else {
                 if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
