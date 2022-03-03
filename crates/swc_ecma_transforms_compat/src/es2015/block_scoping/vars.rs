@@ -1,5 +1,4 @@
-use swc_atoms::JsWord;
-use swc_common::collections::{AHashMap, AHashSet};
+use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::scope::ScopeKind;
 use swc_ecma_utils::ident::IdentLike;
@@ -21,14 +20,16 @@ struct Scope {
     kind: ScopeKind,
 
     vars: AHashMap<Id, VarDeclKind>,
-    usages: AHashSet<Id>,
+    usages: Vec<Id>,
 
     children: Vec<Scope>,
 }
 
 impl BlockScopedVars {
     fn add_usage(&mut self, id: Id) {
-        self.scope.usages.insert(id);
+        if !self.scope.usages.contains(&id) {
+            self.scope.usages.push(id);
+        }
     }
 
     fn handle_program<N>(&mut self, n: &mut N)
@@ -37,7 +38,11 @@ impl BlockScopedVars {
     {
         n.visit_mut_children_with(self);
 
-        dbg!(&self.scope);
+        let mut map = AHashMap::default();
+
+        self.scope.add_rename(&mut map);
+
+        dbg!(&map);
     }
 
     fn with_scope(&mut self, kind: ScopeKind, op: impl FnOnce(&mut Self)) {
@@ -50,6 +55,48 @@ impl BlockScopedVars {
         op(&mut v);
 
         self.scope.children.push(v.scope);
+    }
+}
+
+impl Scope {
+    ///
+    /// ## Falsy case
+    ///
+    /// This returns false for the code below, because the variable `a` is
+    /// block-scoped.
+    ///
+    /// ```js
+    /// {
+    ///     let a = 1;
+    /// }
+    /// console.log(a)
+    /// ```
+    fn can_access(&self, id: &Id, deny_let_const: bool) -> bool {
+        if let Some(kind) = self.vars.get(id).copied() {
+            if deny_let_const && matches!(kind, VarDeclKind::Let | VarDeclKind::Const) {
+                return false;
+            }
+
+            return true;
+        }
+
+        self.children.iter().any(|s| match s.kind {
+            ScopeKind::Block => s.can_access(id, true),
+            ScopeKind::Fn => false,
+        })
+    }
+
+    /// If a used identifier is declared in a child scope using `let` or
+    /// `const`, add it to `rename_map`.
+    fn add_rename(&self, rename_map: &mut AHashMap<Id, Id>) {
+        for id in &self.usages {
+            if !self.can_access(id, false) {
+                let sym = format!("_{}", id.0);
+                rename_map.insert(id.clone(), (sym.into(), id.1));
+            }
+        }
+
+        self.children.iter().for_each(|s| s.add_rename(rename_map));
     }
 }
 
