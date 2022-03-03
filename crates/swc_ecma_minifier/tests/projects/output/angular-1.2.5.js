@@ -1956,8 +1956,8 @@
                     return logFn.apply ? function() {
                         var args = [];
                         return forEach(arguments, function(arg) {
-                            var arg1;
-                            args.push(((arg1 = arg) instanceof Error && (arg1.stack ? arg1 = arg1.message && -1 === arg1.stack.indexOf(arg1.message) ? "Error: " + arg1.message + "\n" + arg1.stack : arg1.stack : arg1.sourceURL && (arg1 = arg1.message + "\n" + arg1.sourceURL + ":" + arg1.line)), arg1));
+                            var arg4;
+                            args.push(((arg4 = arg) instanceof Error && (arg4.stack ? arg4 = arg4.message && -1 === arg4.stack.indexOf(arg4.message) ? "Error: " + arg4.message + "\n" + arg4.stack : arg4.stack : arg4.sourceURL && (arg4 = arg4.message + "\n" + arg4.sourceURL + ":" + arg4.line)), arg4));
                         }), logFn.apply(console, args);
                     } : function(arg1, arg2) {
                         logFn(arg1, null == arg2 ? "" : arg2);
