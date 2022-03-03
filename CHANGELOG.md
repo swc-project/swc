@@ -53,6 +53,9 @@
 
 
 
+- **(es)** Use `Mutex` from `parking_lot` (#3830) ([351b814](https://github.com/swc-project/swc/commit/351b814ed0f1ca36a1e8fd352674689ffe392eda))
+
+
 - **(es/parser)** Remove duplicated instantiations of `Parser` to reduce binary size (#3813) ([f5103a7](https://github.com/swc-project/swc/commit/f5103a77256060e2c27ca360d0c58bbcc6b92b13))
 
 ### Testing
