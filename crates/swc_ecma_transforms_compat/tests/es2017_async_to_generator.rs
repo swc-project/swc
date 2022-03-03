@@ -3564,7 +3564,7 @@ fn exec(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/fixture/async-to-generator/**/exec.js")]
+#[testing::fixture("tests/async-to-generator/**/exec.js")]
 fn exec_regenerator(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
     compare_stdout(
