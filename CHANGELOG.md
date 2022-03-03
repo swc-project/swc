@@ -38,6 +38,9 @@
 - **(config)** Add a dedicated cached regex (#3832) ([efc6741](https://github.com/swc-project/swc/commit/efc67417a5afd7813c2d09938300b5c372d1a978))
 
 
+- **(css)** Support color functions (#3836) ([3df887c](https://github.com/swc-project/swc/commit/3df887ca3744813d8cfc6c253a7bb3decaca54db))
+
+
 - **(css/lints)** Add `font-family-no-duplicate-names` rule (#3818) ([2d273d6](https://github.com/swc-project/swc/commit/2d273d60b9dec4d9f969f0e691ba21ce4b252b7d))
 
 
