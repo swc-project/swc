@@ -377,8 +377,6 @@ impl Options {
             js_minify.as_ref().map(|v| v.format.comments.clone())
         };
 
-
-
         if syntax.typescript() {
             transform.legacy_decorator = true;
         }
@@ -1581,7 +1579,8 @@ impl Merge for JscConfig {
         self.paths.merge(&from.paths);
         self.minify.merge(&from.minify);
         self.experimental.merge(&from.experimental);
-        self.preserve_all_comments.merge(&from.preserve_all_comments)
+        self.preserve_all_comments
+            .merge(&from.preserve_all_comments)
     }
 }
 
