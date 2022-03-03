@@ -2,6 +2,7 @@ use swc_atoms::JsWord;
 use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::scope::ScopeKind;
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 pub(super) fn block_scoped_vars() -> impl VisitMut {
@@ -19,7 +20,7 @@ struct BlockScopedVars {
 struct Scope {
     kind: ScopeKind,
 
-    vars: Vec<Id>,
+    vars: AHashMap<Id, VarDeclKind>,
     usages: Vec<Id>,
 
     children: Vec<Scope>,
@@ -46,6 +47,16 @@ impl VisitMut for BlockScopedVars {
         self.with_scope(ScopeKind::Block, |v| {
             n.visit_mut_children_with(v);
         });
+    }
+
+    fn visit_mut_pat(&mut self, n: &mut Pat) {
+        n.visit_mut_children_with(self);
+
+        if let Pat::Ident(i) = n {
+            if let Some(kind) = self.var_decl_kind {
+                self.scope.vars.insert(i.to_id(), kind);
+            }
+        }
     }
 
     fn visit_mut_var_decl(&mut self, n: &mut VarDecl) {
