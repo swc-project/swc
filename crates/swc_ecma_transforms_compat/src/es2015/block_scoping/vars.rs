@@ -6,6 +6,8 @@ use swc_ecma_transforms_base::scope::ScopeKind;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
+use super::operator::{rename, Rename};
+
 pub(super) fn block_scoped_vars() -> impl VisitMut {
     BlockScopedVars::default()
 }
@@ -36,7 +38,7 @@ impl BlockScopedVars {
 
     fn handle_program<N>(&mut self, n: &mut N)
     where
-        N: VisitMutWith<Self>,
+        N: VisitMutWith<Self> + VisitMutWith<Rename>,
     {
         n.visit_mut_children_with(self);
 
@@ -44,13 +46,11 @@ impl BlockScopedVars {
 
         self.scope.collect_candidates(&mut symbols);
 
-        dbg!(&symbols);
-
         let mut rename_map = AHashMap::default();
 
         self.scope.rename(&symbols, &mut rename_map);
 
-        dbg!(&rename_map);
+        n.visit_mut_with(&mut rename(rename_map))
     }
 
     fn with_scope(&mut self, kind: ScopeKind, op: impl FnOnce(&mut Self)) {

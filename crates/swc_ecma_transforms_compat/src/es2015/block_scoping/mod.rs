@@ -16,6 +16,7 @@ use swc_ecma_visit::{
     VisitMut, VisitMutWith, VisitWith,
 };
 
+mod operator;
 mod vars;
 
 ///
