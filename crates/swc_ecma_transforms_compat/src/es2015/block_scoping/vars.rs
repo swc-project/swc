@@ -63,7 +63,7 @@ impl BlockScopedVars {
         n.visit_mut_children_with(self);
 
         let empty_vars = Default::default();
-        let mut parent = ParentScope {
+        let parent = ParentScope {
             parent: None,
             vars: &empty_vars,
         };
@@ -108,9 +108,13 @@ impl Scope {
     /// }
     /// console.log(a)
     /// ```
-    #[tracing::instrument(skip(self))]
-    fn can_access(&self, id: &Id, deny_let_const: bool) -> bool {
+    #[tracing::instrument(skip(self, parent))]
+    fn can_access(&self, id: &Id, parent: ParentScope, deny_let_const: bool) -> bool {
         debug!("Vars: {:#?}", &self.vars);
+
+        if let Some(..) = parent.get_var(id) {
+            return true;
+        }
 
         if let Some(kind) = self.vars.get(id).copied() {
             if deny_let_const && matches!(kind, VarDeclKind::Let | VarDeclKind::Const) {
@@ -121,7 +125,7 @@ impl Scope {
         }
 
         self.children.iter().any(|s| match s.kind {
-            ScopeKind::Block => s.can_access(id, true),
+            ScopeKind::Block => s.can_access(id, parent, true),
             ScopeKind::Fn => false,
         })
     }
@@ -136,7 +140,7 @@ impl Scope {
     /// `const`, add it to `rename_map`.
     fn collect_candidates(&mut self, parent: ParentScope, symbols: &mut Vec<JsWord>) {
         for id in &self.usages {
-            if self.can_access(id, false) {
+            if self.can_access(id, parent, false) {
                 self.children.iter_mut().for_each(|s| {
                     s.remove_usage(id);
                 });
@@ -184,6 +188,16 @@ impl Scope {
         self.children
             .iter()
             .for_each(|s| s.rename(symbols, rename_map));
+    }
+}
+
+impl ParentScope<'_> {
+    fn get_var(&self, id: &Id) -> Option<VarDeclKind> {
+        if let Some(kind) = self.vars.get(id).copied() {
+            return Some(kind);
+        }
+
+        self.parent?.get_var(id)
     }
 }
 
