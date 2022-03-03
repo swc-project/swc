@@ -46,12 +46,12 @@ serde = {version = "1", features = ["derive"]}
 serde_json = "1"
 sourcemap = "6"
 swc_atoms = {version = "0.2", path = "../swc_atoms"}
-swc_common = {version = "0.17.0", path = "../swc_common", features = ["sourcemap", "concurrent"]}
+swc_common = {version = "0.17.0", path = "../swc_common", features = ["sourcemap", "concurrent", "parking_lot"]}
 swc_ecma_ast = {version = "0.68.0", path = "../swc_ecma_ast"}
 swc_ecma_codegen = {version = "0.93.0", path = "../swc_ecma_codegen"}
 swc_ecma_ext_transforms = {version = "0.55.0", path = "../swc_ecma_ext_transforms"}
 swc_ecma_lints = {version = "0.19.0", path = "../swc_ecma_lints"}
-swc_ecma_loader = {version = "0.28.0", path = "../swc_ecma_loader", features = ["lru", "node", "tsc"]}
+swc_ecma_loader = {version = "0.28.0", path = "../swc_ecma_loader", features = ["cache", "node", "tsc"]}
 swc_ecma_minifier = {version = "0.81.0", path = "../swc_ecma_minifier"}
 swc_ecma_parser = {version = "0.91.0", path = "../swc_ecma_parser"}
 swc_ecma_preset_env = {version = "0.98.0", path = "../swc_ecma_preset_env"}

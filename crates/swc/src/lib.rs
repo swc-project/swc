@@ -116,7 +116,7 @@ use std::{
     io::Write,
     mem::take,
     path::{Path, PathBuf},
-    sync::{Arc, Mutex},
+    sync::Arc,
 };
 
 use anyhow::{bail, Context, Error};
