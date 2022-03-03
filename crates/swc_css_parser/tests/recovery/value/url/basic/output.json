@@ -155,7 +155,7 @@
             "type": "Tokens",
             "span": {
               "start": 85,
-              "end": 86,
+              "end": 87,
               "ctxt": 0
             },
             "tokens": [
@@ -167,6 +167,15 @@
                   "ctxt": 0
                 },
                 "token": "RParen"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 86,
+                  "end": 87,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -571,7 +580,7 @@
             "type": "Tokens",
             "span": {
               "start": 346,
-              "end": 348,
+              "end": 349,
               "ctxt": 0
             },
             "tokens": [
@@ -592,6 +601,15 @@
                   "ctxt": 0
                 },
                 "token": "RParen"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 348,
+                  "end": 349,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           }

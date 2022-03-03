@@ -38,7 +38,7 @@ where
             // TODO: remove `}`
             // <EOF-token>
             // Return the list of rules.
-            if is!(self, EOF) || is!(self, "}") {
+            if is_one_of!(self, EOF, "}") {
                 return Ok(rules);
             }
 
@@ -195,13 +195,13 @@ where
                 // it to decls.
                 tok!("ident") => {
                     let state = self.input.state();
-                    let span = self.input.cur_span()?;
                     let prop = match self.parse() {
                         Ok(v) => StyleBlock::Declaration(v),
                         Err(err) => {
                             self.errors.push(err);
                             self.input.reset(&state);
 
+                            let span = self.input.cur_span()?;
                             let mut tokens = vec![];
 
                             while !is_one_of!(self, EOF, "}") {
@@ -278,8 +278,16 @@ where
                     let mut tokens = vec![];
 
                     // TODO fix me
-                    while !is_one_of!(self, EOF, ";", "}") {
+                    while !is_one_of!(self, EOF, "}") {
                         tokens.extend(self.input.bump()?);
+
+                        if is!(self, ";") {
+                            let token = self.input.bump()?;
+
+                            tokens.extend(token);
+
+                            break;
+                        }
                     }
 
                     declarations.push(StyleBlock::Invalid(Tokens {
@@ -561,7 +569,8 @@ where
         let mut declarations = vec![];
 
         loop {
-            if is!(self, EOF) {
+            // TODO: remove `}`
+            if is_one_of!(self, EOF, "}") {
                 return Ok(declarations);
             }
 
@@ -610,11 +619,6 @@ where
                     declarations.push(prop);
                 }
 
-                // TODO refactor me
-                tok!("}") => {
-                    break;
-                }
-
                 // anything else
                 _ => {
                     let span = self.input.cur_span()?;
@@ -629,8 +633,16 @@ where
                     let mut tokens = vec![];
 
                     // TODO fix me
-                    while !is_one_of!(self, EOF, ";", "}") {
+                    while !is_one_of!(self, EOF, "}") {
                         tokens.extend(self.input.bump()?);
+
+                        if is!(self, ";") {
+                            let token = self.input.bump()?;
+
+                            tokens.extend(token);
+
+                            break;
+                        }
                     }
 
                     declarations.push(DeclarationOrAtRule::Invalid(Tokens {
@@ -640,8 +652,6 @@ where
                 }
             }
         }
-
-        Ok(declarations)
     }
 }
 

@@ -6,3 +6,9 @@ background: __ident__;
 __ident__
     __ident__
 }
+@font-face {
+123
+    color: red;}
+@font-face {
+123;color: red;
+}

@@ -9,3 +9,9 @@ __ident__
 a {
 test;color: red;
 }
+a {
+123
+    color: red;}
+a {
+123;color: red;
+}
