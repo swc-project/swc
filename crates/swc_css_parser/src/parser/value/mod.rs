@@ -349,7 +349,9 @@ where
 
                                 return Err(Error::new(
                                     span,
-                                    ErrorKind::Expected("percentage or number token"),
+                                    ErrorKind::Expected(
+                                        "percentage, number or ident (with 'none' value) token",
+                                    ),
                                 ));
                             }
                         };
@@ -379,7 +381,7 @@ where
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "percentage or ident (with 'none' value) token",
+                                        "number, dimension or ident (with 'none' value) token",
                                     ),
                                 ));
                             }
@@ -432,7 +434,9 @@ where
 
                                 return Err(Error::new(
                                     span,
-                                    ErrorKind::Expected("percentage or number token"),
+                                    ErrorKind::Expected(
+                                        "percentage, number or ident (with 'none' value) token",
+                                    ),
                                 ));
                             }
                         };
@@ -512,7 +516,9 @@ where
 
                                 return Err(Error::new(
                                     span,
-                                    ErrorKind::Expected("percentage or number token"),
+                                    ErrorKind::Expected(
+                                        "percentage, number or ident (with 'none' value) token",
+                                    ),
                                 ));
                             }
                         };
@@ -640,7 +646,7 @@ where
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "percentage or ident (with 'none' value) token",
+                                        "number, dimension or ident (with 'none' value) token",
                                     ),
                                 ));
                             }
@@ -740,7 +746,7 @@ where
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "percentage or ident (with 'none' value) token",
+                                        "number or ident (with 'none' value) token",
                                     ),
                                 ));
                             }
@@ -811,7 +817,7 @@ where
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "percentage or ident (with 'none' value) token",
+                                        "number or ident (with 'none' value) token",
                                     ),
                                 ));
                             }
@@ -842,7 +848,7 @@ where
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "percentage or ident (with 'none' value) token",
+                                        "number, dimension or ident (with 'none' value) token",
                                     ),
                                 ));
                             }
