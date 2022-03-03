@@ -201,6 +201,18 @@ impl VisitMut for BlockScopedVars {
         self.var_decl_kind = old_var_decl_kind;
     }
 
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        n.decorators.visit_mut_with(self);
+
+        self.with_scope(ScopeKind::Fn, |v| {
+            n.params.visit_mut_with(v);
+
+            if let Some(body) = &mut n.body {
+                body.visit_mut_children_with(v);
+            }
+        });
+    }
+
     fn visit_mut_module(&mut self, n: &mut Module) {
         self.handle_program(n)
     }
