@@ -6132,33 +6132,33 @@
                     "raw": "sRGB"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 2041,
                       "end": 2042,
                       "ctxt": 0
                     },
-                    "value": 0,
+                    "value": 0.0,
                     "raw": "0"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 2043,
                       "end": 2044,
                       "ctxt": 0
                     },
-                    "value": 1,
+                    "value": 1.0,
                     "raw": "1"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 2045,
                       "end": 2046,
                       "ctxt": 0
                     },
-                    "value": 0,
+                    "value": 0.0,
                     "raw": "0"
                   }
                 ]
@@ -6213,33 +6213,33 @@
                     "raw": "srgb-linear"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 2078,
                       "end": 2079,
                       "ctxt": 0
                     },
-                    "value": 0,
+                    "value": 0.0,
                     "raw": "0"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 2080,
                       "end": 2081,
                       "ctxt": 0
                     },
-                    "value": 1,
+                    "value": 1.0,
                     "raw": "1"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 2082,
                       "end": 2083,
                       "ctxt": 0
                     },
-                    "value": 0,
+                    "value": 0.0,
                     "raw": "0"
                   }
                 ]
@@ -6294,33 +6294,33 @@
                     "raw": "display-p3"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 2114,
                       "end": 2115,
                       "ctxt": 0
                     },
-                    "value": 0,
+                    "value": 0.0,
                     "raw": "0"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 2116,
                       "end": 2117,
                       "ctxt": 0
                     },
-                    "value": 1,
+                    "value": 1.0,
                     "raw": "1"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 2118,
                       "end": 2119,
                       "ctxt": 0
                     },
-                    "value": 0,
+                    "value": 0.0,
                     "raw": "0"
                   }
                 ]
@@ -6375,33 +6375,33 @@
                     "raw": "a98-rgb"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 2147,
                       "end": 2148,
                       "ctxt": 0
                     },
-                    "value": 0,
+                    "value": 0.0,
                     "raw": "0"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 2149,
                       "end": 2150,
                       "ctxt": 0
                     },
-                    "value": 1,
+                    "value": 1.0,
                     "raw": "1"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 2151,
                       "end": 2152,
                       "ctxt": 0
                     },
-                    "value": 0,
+                    "value": 0.0,
                     "raw": "0"
                   }
                 ]
@@ -6456,33 +6456,33 @@
                     "raw": "prophoto-rgb"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 2185,
                       "end": 2186,
                       "ctxt": 0
                     },
-                    "value": 0,
+                    "value": 0.0,
                     "raw": "0"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 2187,
                       "end": 2188,
                       "ctxt": 0
                     },
-                    "value": 1,
+                    "value": 1.0,
                     "raw": "1"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 2189,
                       "end": 2190,
                       "ctxt": 0
                     },
-                    "value": 0,
+                    "value": 0.0,
                     "raw": "0"
                   }
                 ]
@@ -6537,33 +6537,33 @@
                     "raw": "rec2020"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 2218,
                       "end": 2219,
                       "ctxt": 0
                     },
-                    "value": 0,
+                    "value": 0.0,
                     "raw": "0"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 2220,
                       "end": 2221,
                       "ctxt": 0
                     },
-                    "value": 1,
+                    "value": 1.0,
                     "raw": "1"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 2222,
                       "end": 2223,
                       "ctxt": 0
                     },
-                    "value": 0,
+                    "value": 0.0,
                     "raw": "0"
                   }
                 ]
@@ -6618,13 +6618,13 @@
                     "raw": "sRGB"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 2248,
                       "end": 2249,
                       "ctxt": 0
                     },
-                    "value": 0,
+                    "value": 0.0,
                     "raw": "0"
                   },
                   {
@@ -6638,13 +6638,13 @@
                     "raw": "none"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 2255,
                       "end": 2256,
                       "ctxt": 0
                     },
-                    "value": 0,
+                    "value": 0.0,
                     "raw": "0"
                   }
                 ]
@@ -6738,13 +6738,13 @@
                     "value": "/"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 2308,
                       "end": 2309,
                       "ctxt": 0
                     },
-                    "value": 1,
+                    "value": 1.0,
                     "raw": "1"
                   }
                 ]
@@ -6838,13 +6838,13 @@
                     "value": "/"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 2362,
                       "end": 2363,
                       "ctxt": 0
                     },
-                    "value": 1,
+                    "value": 1.0,
                     "raw": "1"
                   }
                 ]
@@ -6938,13 +6938,13 @@
                     "value": "/"
                   },
                   {
-                    "type": "Integer",
+                    "type": "Number",
                     "span": {
                       "start": 2414,
                       "end": 2415,
                       "ctxt": 0
                     },
-                    "value": 1,
+                    "value": 1.0,
                     "raw": "1"
                   }
                 ]

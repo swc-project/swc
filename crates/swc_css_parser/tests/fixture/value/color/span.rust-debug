@@ -7572,7 +7572,7 @@ error: ComponentValue
 89 |     color: color(sRGB 0 1 0);
    |                       ^
 
-error: Integer
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:89:23
    |
 89 |     color: color(sRGB 0 1 0);
@@ -7584,7 +7584,7 @@ error: ComponentValue
 89 |     color: color(sRGB 0 1 0);
    |                         ^
 
-error: Integer
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:89:25
    |
 89 |     color: color(sRGB 0 1 0);
@@ -7596,7 +7596,7 @@ error: ComponentValue
 89 |     color: color(sRGB 0 1 0);
    |                           ^
 
-error: Integer
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:89:27
    |
 89 |     color: color(sRGB 0 1 0);
@@ -7674,7 +7674,7 @@ error: ComponentValue
 90 |     color: color(srgb-linear 0 1 0);
    |                              ^
 
-error: Integer
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:90:30
    |
 90 |     color: color(srgb-linear 0 1 0);
@@ -7686,7 +7686,7 @@ error: ComponentValue
 90 |     color: color(srgb-linear 0 1 0);
    |                                ^
 
-error: Integer
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:90:32
    |
 90 |     color: color(srgb-linear 0 1 0);
@@ -7698,7 +7698,7 @@ error: ComponentValue
 90 |     color: color(srgb-linear 0 1 0);
    |                                  ^
 
-error: Integer
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:90:34
    |
 90 |     color: color(srgb-linear 0 1 0);
@@ -7776,7 +7776,7 @@ error: ComponentValue
 91 |     color: color(display-p3 0 1 0);
    |                             ^
 
-error: Integer
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:91:29
    |
 91 |     color: color(display-p3 0 1 0);
@@ -7788,7 +7788,7 @@ error: ComponentValue
 91 |     color: color(display-p3 0 1 0);
    |                               ^
 
-error: Integer
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:91:31
    |
 91 |     color: color(display-p3 0 1 0);
@@ -7800,7 +7800,7 @@ error: ComponentValue
 91 |     color: color(display-p3 0 1 0);
    |                                 ^
 
-error: Integer
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:91:33
    |
 91 |     color: color(display-p3 0 1 0);
@@ -7878,7 +7878,7 @@ error: ComponentValue
 92 |     color: color(a98-rgb 0 1 0);
    |                          ^
 
-error: Integer
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:92:26
    |
 92 |     color: color(a98-rgb 0 1 0);
@@ -7890,7 +7890,7 @@ error: ComponentValue
 92 |     color: color(a98-rgb 0 1 0);
    |                            ^
 
-error: Integer
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:92:28
    |
 92 |     color: color(a98-rgb 0 1 0);
@@ -7902,7 +7902,7 @@ error: ComponentValue
 92 |     color: color(a98-rgb 0 1 0);
    |                              ^
 
-error: Integer
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:92:30
    |
 92 |     color: color(a98-rgb 0 1 0);
@@ -7980,7 +7980,7 @@ error: ComponentValue
 93 |     color: color(prophoto-rgb 0 1 0);
    |                               ^
 
-error: Integer
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:93:31
    |
 93 |     color: color(prophoto-rgb 0 1 0);
@@ -7992,7 +7992,7 @@ error: ComponentValue
 93 |     color: color(prophoto-rgb 0 1 0);
    |                                 ^
 
-error: Integer
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:93:33
    |
 93 |     color: color(prophoto-rgb 0 1 0);
@@ -8004,7 +8004,7 @@ error: ComponentValue
 93 |     color: color(prophoto-rgb 0 1 0);
    |                                   ^
 
-error: Integer
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:93:35
    |
 93 |     color: color(prophoto-rgb 0 1 0);
@@ -8082,7 +8082,7 @@ error: ComponentValue
 94 |     color: color(rec2020 0 1 0);
    |                          ^
 
-error: Integer
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:94:26
    |
 94 |     color: color(rec2020 0 1 0);
@@ -8094,7 +8094,7 @@ error: ComponentValue
 94 |     color: color(rec2020 0 1 0);
    |                            ^
 
-error: Integer
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:94:28
    |
 94 |     color: color(rec2020 0 1 0);
@@ -8106,7 +8106,7 @@ error: ComponentValue
 94 |     color: color(rec2020 0 1 0);
    |                              ^
 
-error: Integer
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:94:30
    |
 94 |     color: color(rec2020 0 1 0);
@@ -8184,7 +8184,7 @@ error: ComponentValue
 95 |     color: color(sRGB 0 none 0);
    |                       ^
 
-error: Integer
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:95:23
    |
 95 |     color: color(sRGB 0 none 0);
@@ -8208,7 +8208,7 @@ error: ComponentValue
 95 |     color: color(sRGB 0 none 0);
    |                              ^
 
-error: Integer
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:95:30
    |
 95 |     color: color(sRGB 0 none 0);
@@ -8334,7 +8334,13 @@ error: ComponentValue
 96 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
    |                                                  ^
 
-error: Integer
+error: AlphaValue
+  --> $DIR/tests/fixture/value/color/input.css:96:50
+   |
+96 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
+   |                                                  ^
+
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:96:50
    |
 96 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
@@ -8460,7 +8466,13 @@ error: ComponentValue
 97 |     color: color(display-p3 0.823 0.6554 0.2537 / 1);
    |                                                   ^
 
-error: Integer
+error: AlphaValue
+  --> $DIR/tests/fixture/value/color/input.css:97:51
+   |
+97 |     color: color(display-p3 0.823 0.6554 0.2537 / 1);
+   |                                                   ^
+
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:97:51
    |
 97 |     color: color(display-p3 0.823 0.6554 0.2537 / 1);
@@ -8586,7 +8598,13 @@ error: ComponentValue
 98 |     color: color(display-p3 0.823 0.6554 0.2537/1);
    |                                                 ^
 
-error: Integer
+error: AlphaValue
+  --> $DIR/tests/fixture/value/color/input.css:98:49
+   |
+98 |     color: color(display-p3 0.823 0.6554 0.2537/1);
+   |                                                 ^
+
+error: Number
   --> $DIR/tests/fixture/value/color/input.css:98:49
    |
 98 |     color: color(display-p3 0.823 0.6554 0.2537/1);
