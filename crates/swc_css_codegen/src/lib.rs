@@ -723,8 +723,14 @@ where
                         _ => !self.config.minify,
                     },
                     ComponentValue::Ident(_) => match next {
-                        Some(ComponentValue::SimpleBlock(_))
-                        | Some(ComponentValue::Color(Color::HexColor(_)))
+                        Some(ComponentValue::SimpleBlock(SimpleBlock { name, .. })) => {
+                            if *name == '(' {
+                                true
+                            } else {
+                                !self.config.minify
+                            }
+                        }
+                        Some(ComponentValue::Color(Color::HexColor(_)))
                         | Some(ComponentValue::Str(_)) => !self.config.minify,
                         Some(ComponentValue::Delimiter(_)) => false,
                         Some(ComponentValue::Number(n)) => {
