@@ -2,12 +2,13 @@
 *        text=auto
 
 
-*.ts    text eol=lf merge=union 
-*.tsx   text eol=lf merge=union 
-*.rs    text eol=lf merge=union 
-*.js    text eol=lf merge=union 
-*.json  text eol=lf merge=union 
-*.debug text eol=lf merge=union 
+*.ts    text eol=lf merge=union
+*.tsx   text eol=lf merge=union
+*.rs    text eol=lf merge=union
+*.js    text eol=lf merge=union
+*.json  text eol=lf merge=union
+*.debug text eol=lf merge=union
 
 **/tests/**/*.js linguist-detectable=false
 **/tests/**/*.ts linguist-detectable=false
+**/tests/**/*.css linguist-detectable=false
