@@ -4425,19 +4425,19 @@
             var dx = other.left - touch.left, dy = other.top - touch.top;
             return dx * dx + dy * dy > 400;
         }
-        on1(d.scroller, "touchstart", function(e2) {
-            if (!signalDOMEvent(cm9, e2) && !function(e) {
+        on1(d.scroller, "touchstart", function(e3) {
+            if (!signalDOMEvent(cm9, e3) && !function(e) {
                 if (1 != e.touches.length) return !1;
                 var touch = e.touches[0];
                 return touch.radiusX <= 1 && touch.radiusY <= 1;
-            }(e2) && !clickInGutter(cm9, e2)) {
+            }(e3) && !clickInGutter(cm9, e3)) {
                 d.input.ensurePolled(), clearTimeout(touchFinished);
                 var now = +new Date;
                 d.activeTouch = {
                     start: now,
                     moved: !1,
                     prev: now - prevTouch.end <= 300 ? prevTouch : null
-                }, 1 == e2.touches.length && (d.activeTouch.left = e2.touches[0].pageX, d.activeTouch.top = e2.touches[0].pageY);
+                }, 1 == e3.touches.length && (d.activeTouch.left = e3.touches[0].pageX, d.activeTouch.top = e3.touches[0].pageY);
             }
         }), on1(d.scroller, "touchmove", function() {
             d.activeTouch && (d.activeTouch.moved = !0);
@@ -4460,16 +4460,16 @@
             enter: function(e) {
                 signalDOMEvent(cm9, e) || e_stop(e);
             },
-            over: function(e3) {
-                signalDOMEvent(cm9, e3) || ((function(cm, e) {
+            over: function(e4) {
+                signalDOMEvent(cm9, e4) || ((function(cm, e) {
                     var pos = posFromMouse(cm, e);
                     if (pos) {
                         var frag = document.createDocumentFragment();
                         drawSelectionCursor(cm, pos, frag), cm.display.dragCursor || (cm.display.dragCursor = elt1("div", null, "CodeMirror-cursors CodeMirror-dragcursors"), cm.display.lineSpace.insertBefore(cm.display.dragCursor, cm.display.cursorDiv)), removeChildrenAndAdd(cm.display.dragCursor, frag);
                     }
-                })(cm9, e3), e_stop(e3));
+                })(cm9, e4), e_stop(e4));
             },
-            start: function(e4) {
+            start: function(e5) {
                 return (function(cm, e) {
                     if (ie && (!cm.state.draggingText || +new Date - lastDrop < 100)) {
                         e_stop(e);
@@ -4479,7 +4479,7 @@
                         var img = elt1("img", null, null, "position: fixed; left: 0; top: 0;");
                         img.src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==", presto && (img.width = img.height = 1, cm.display.wrapper.appendChild(img), img._top = img.offsetTop), e.dataTransfer.setDragImage(img, 0, 0), presto && img.parentNode.removeChild(img);
                     }
-                })(cm9, e4);
+                })(cm9, e5);
             },
             drop: operation(cm9, onDrop),
             leave: function(e) {

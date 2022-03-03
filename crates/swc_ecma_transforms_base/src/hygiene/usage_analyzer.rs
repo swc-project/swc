@@ -314,6 +314,8 @@ impl UsageAnalyzer<'_> {
             trace!("Decl: `{}{:?}`", id.0, id.1);
         }
 
+        self.data.ops.borrow_mut().add_used(id.0.clone());
+
         let id = self.get_renamed_id(id);
 
         let need_rename = {
@@ -353,6 +355,8 @@ impl UsageAnalyzer<'_> {
         if LOG {
             trace!("Usage: `{}{:?}`", id.0, id.1);
         }
+
+        self.data.ops.borrow_mut().add_used(id.0.clone());
 
         let id = self.get_renamed_id(id);
 
