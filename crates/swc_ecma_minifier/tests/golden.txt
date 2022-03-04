@@ -24,7 +24,9 @@ arrow/arrow_functions_without_body/input.js
 arrow/arrow_unused/input.js
 arrow/arrow_unused_toplevel/input.js
 arrow/arrow_with_regexp/input.js
+arrow/async_function_expression/input.js
 arrow/async_identifiers/input.js
+arrow/async_object_literal/input.js
 arrow/call_args/input.js
 arrow/concise_method_with_super/input.js
 arrow/issue_2271/input.js
