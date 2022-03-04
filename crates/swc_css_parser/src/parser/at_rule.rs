@@ -1803,7 +1803,7 @@ where
             ..self.ctx
         };
         let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-        
+
         Ok(PageMarginRule {
             name: Ident {
                 span: Default::default(),

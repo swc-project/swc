@@ -4,3 +4,5 @@ error: Expected function or ident tokens
 2 |     max-inline-size: 1024px;
   |                     ^
 
+error: Unexpected end of file
+

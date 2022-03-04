@@ -111,15 +111,22 @@ where
 {
     fn parse(&mut self) -> PResult<QualifiedRule> {
         let span = self.input.cur_span()?;
-        let mut prelude = SelectorList {
+        // Create a new qualified rule with its prelude initially set to an empty list,
+        // and its value initially set to nothing.
+        let mut qualified_rule = QualifiedRule {
             span: Default::default(),
-            children: vec![],
+            prelude: QualifiedRulePrelude::Invalid(Tokens {
+                tokens: vec![],
+                span: Default::default(),
+            }),
+            block: None,
         };
 
         // Repeatedly consume the next input token:
         loop {
             // <EOF-token>
-            // Return the list of rules.
+            // This is a parse error. Return nothing.
+            // But we return for error recovery blocks
             if is!(self, EOF) {
                 let span = self.input.cur_span()?;
 
@@ -135,18 +142,38 @@ where
                         block_contents_grammar: BlockContentsGrammar::StyleBlock,
                         ..self.ctx
                     };
-                    let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+                    qualified_rule.block = Some(self.with_ctx(ctx).parse_as::<SimpleBlock>()?);
+                    qualified_rule.span = span!(self, span.lo);
 
-                    return Ok(QualifiedRule {
-                        span: span!(self, span.lo),
-                        prelude,
-                        block,
-                    });
+                    return Ok(qualified_rule);
                 }
                 // Reconsume the current input token. Consume a component value. Append the returned
                 // value to the qualified rule’s prelude.
                 _ => {
-                    prelude = self.parse()?;
+                    let state = self.input.state();
+
+                    qualified_rule.prelude = match self.parse() {
+                        Ok(selector_list) => QualifiedRulePrelude::SelectorList(selector_list),
+                        Err(err) => {
+                            self.errors.push(err);
+                            self.input.reset(&state);
+
+                            let span = self.input.cur_span()?;
+                            let mut tokens = vec![];
+
+                            while !is_one_of!(self, EOF, "{") {
+                                let token = self.input.bump()?;
+
+                                tokens.extend(token);
+                            }
+
+                            QualifiedRulePrelude::Invalid(Tokens {
+                                span: span!(self, span.lo),
+                                tokens,
+                            })
+                        }
+                    };
+                    qualified_rule.span = span!(self, span.lo);
                 }
             }
         }

@@ -53,10 +53,10 @@ error: Expected whitespace, semicolon, EOF, at-keyword or ident token
     |     ^
 
 error: Expected whitespace, semicolon, EOF, at-keyword or ident token
-   --> $DIR/tests/recovery/hacks/input.css:120:5
+   --> $DIR/tests/recovery/hacks/input.css:119:1
     |
-120 |     )property: value;
-    |     ^
+119 | .selector { 
+    | ^
 
 error: Expected whitespace, semicolon, EOF, at-keyword or ident token
    --> $DIR/tests/recovery/hacks/input.css:124:5

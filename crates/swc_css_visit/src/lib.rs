@@ -113,8 +113,13 @@ define!({
 
     pub struct QualifiedRule {
         pub span: Span,
-        pub prelude: SelectorList,
-        pub block: SimpleBlock,
+        pub prelude: QualifiedRulePrelude,
+        pub block: Option<SimpleBlock>,
+    }
+
+    pub enum QualifiedRulePrelude {
+        SelectorList(SelectorList),
+        Invalid(Tokens),
     }
 
     pub enum StyleBlock {
@@ -473,9 +478,7 @@ define!({
 
     pub enum Rule {
         QualifiedRule(QualifiedRule),
-
         AtRule(AtRule),
-
         Invalid(Tokens),
     }
 
