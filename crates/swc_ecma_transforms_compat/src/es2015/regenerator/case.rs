@@ -13,6 +13,7 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+use swc_trace_macro::swc_trace;
 
 use super::leap::{CatchEntry, Entry, FinallyEntry, LeapManager, TryEntry};
 
@@ -75,6 +76,7 @@ impl<'a> CaseHandler<'a> {
     }
 }
 
+#[swc_trace]
 impl CaseHandler<'_> {
     fn with_entry<F>(&mut self, entry: Entry, op: F) -> Entry
     where
