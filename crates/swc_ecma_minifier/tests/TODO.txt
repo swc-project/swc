@@ -10,8 +10,6 @@ arrays/constant_join_3/input.js
 arrays/for_loop/input.js
 arrays/index/input.js
 arrays/index_length/input.js
-arrow/async_function_expression/input.js
-arrow/async_object_literal/input.js
 arrow/call_args_drop_param/input.js
 arrow/concise_methods_with_computed_property2/input.js
 arrow/export_default_object_expression/input.js
@@ -26,7 +24,6 @@ ascii/ascii_only_false/input.js
 ascii/ascii_only_true/input.js
 asm/asm_mixed/input.js
 async/async_function_declaration/input.js
-async/async_function_expression/input.js
 async/async_inline/input.js
 block_scope/issue_334/input.js
 class_properties/class_expression_constant/input.js
@@ -115,14 +112,12 @@ collapse_vars/var_side_effects_2/input.js
 comparing/issue_2857_6/input.js
 comparing/keep_comparisons/input.js
 comparing/keep_comparisons_with_unsafe_comps/input.js
-conditionals/cond_9/input.js
 conditionals/equality_conditionals_false/input.js
 conditionals/ifs_5/input.js
 conditionals/ifs_6/input.js
 conditionals/ifs_same_consequent/input.js
 conditionals/issue_1154/input.js
 conditionals/issue_2535_1/input.js
-conditionals/issue_2560/input.js
 conditionals/issue_2994/input.js
 dead_code/dead_code_2_should_warn/input.js
 dead_code/dead_code_2_should_warn_strict/input.js
@@ -133,7 +128,6 @@ dead_code/dead_code_constant_boolean_should_warn_more/input.js
 dead_code/dead_code_constant_boolean_should_warn_more_strict/input.js
 dead_code/global_fns/input.js
 dead_code/issue_2749/input.js
-dead_code/issue_2860_2/input.js
 dead_code/issue_718/input.js
 dead_code/return_assignment/input.js
 dead_code/unsafe_builtin/input.js
@@ -582,7 +576,6 @@ numbers/evaluate_2/input.js
 numbers/evaluate_3/input.js
 numbers/evaluate_4/input.js
 numbers/hex_numbers_in_parentheses_for_prototype_functions/input.js
-object/concise_method_to_prop_arrow/input.js
 object/concise_methods_and_mangle_props/input.js
 object/dont_join_repeat_object_keys/input.js
 object/getter_setter_mangler/input.js

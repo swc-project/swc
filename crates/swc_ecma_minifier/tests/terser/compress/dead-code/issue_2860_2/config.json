@@ -2,6 +2,6 @@
     "dead_code": true,
     "evaluate": true,
     "inline": true,
-    "passes": 2,
+    "passes": 3,
     "reduce_vars": true
 }
