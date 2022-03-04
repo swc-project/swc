@@ -2,7 +2,11 @@ use serde::{Deserialize, Serialize};
 use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitWith};
 
-use crate::rule::{visitor_rule, LintRule, LintRuleContext};
+use crate::{
+    pattern::NamePattern,
+    rule::{visitor_rule, LintRule, LintRuleContext},
+    Error,
+};
 
 const MESSAGE: &str = "Unexpected invalid position '@import' rule.";
 
@@ -14,18 +18,25 @@ pub struct NoInvalidPositionAtImportRuleConfig {
 
 pub fn no_invalid_position_at_import_rule(
     ctx: LintRuleContext<NoInvalidPositionAtImportRuleConfig>,
-) -> Box<dyn LintRule> {
-    let ignored = ctx.config().ignore_at_rules.clone().unwrap_or_default();
-    visitor_rule(
+) -> Result<Box<dyn LintRule>, Error> {
+    let ignored = ctx
+        .config()
+        .ignore_at_rules
+        .clone()
+        .unwrap_or_default()
+        .into_iter()
+        .map(NamePattern::try_from)
+        .collect::<Result<_, _>>()?;
+    Ok(visitor_rule(
         ctx.reaction(),
         NoInvalidPositionAtImportRule { ctx, ignored },
-    )
+    ))
 }
 
 #[derive(Debug, Default)]
 struct NoInvalidPositionAtImportRule {
     ctx: LintRuleContext<NoInvalidPositionAtImportRuleConfig>,
-    ignored: Vec<String>,
+    ignored: Vec<NamePattern>,
 }
 
 impl Visit for NoInvalidPositionAtImportRule {
@@ -47,7 +58,7 @@ impl Visit for NoInvalidPositionAtImportRule {
                         AtRuleName::DashedIdent(dashed_ident) => &dashed_ident.value,
                         AtRuleName::Ident(ident) => &ident.value,
                     };
-                    if self.ignored.iter().any(|item| name == item) {
+                    if self.ignored.iter().any(|item| item.is_match(name)) {
                         seen
                     } else {
                         true

@@ -6,7 +6,9 @@ use swc_css_visit::{Visit, VisitWith};
 
 use crate::{
     dataset::is_generic_font_keyword,
+    pattern::NamePattern,
     rule::{visitor_rule, LintRule, LintRuleContext},
+    Error,
 };
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -17,19 +19,25 @@ pub struct FontFamilyNoDuplicateNamesConfig {
 
 pub fn font_family_no_duplicate_names(
     ctx: LintRuleContext<FontFamilyNoDuplicateNamesConfig>,
-) -> Box<dyn LintRule> {
+) -> Result<Box<dyn LintRule>, Error> {
     let ignored = ctx
         .config()
         .ignore_font_family_names
         .clone()
-        .unwrap_or_default();
-    visitor_rule(ctx.reaction(), FontFamilyNoDuplicateNames { ctx, ignored })
+        .unwrap_or_default()
+        .into_iter()
+        .map(NamePattern::try_from)
+        .collect::<Result<_, _>>()?;
+    Ok(visitor_rule(
+        ctx.reaction(),
+        FontFamilyNoDuplicateNames { ctx, ignored },
+    ))
 }
 
 #[derive(Debug, Default)]
 struct FontFamilyNoDuplicateNames {
     ctx: LintRuleContext<FontFamilyNoDuplicateNamesConfig>,
-    ignored: Vec<String>,
+    ignored: Vec<NamePattern>,
 }
 
 impl FontFamilyNoDuplicateNames {
@@ -73,7 +81,7 @@ impl FontFamilyNoDuplicateNames {
             AHashSet::with_capacity(values.len()),
             |mut seen, (font, span)| {
                 let name = font.name();
-                if seen.contains(&font) && self.ignored.iter().all(|item| name != item) {
+                if seen.contains(&font) && self.ignored.iter().all(|item| !item.is_match(name)) {
                     self.ctx
                         .report(span, format!("Unexpected duplicate name '{}'.", name));
                 }
