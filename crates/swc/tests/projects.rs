@@ -705,6 +705,7 @@ fn should_visit() {
                 "
                 .into(),
             );
+            let comments = c.comments().clone();
             let config = c
                 .parse_js_as_input(
                     fm.clone(),
@@ -725,6 +726,7 @@ fn should_visit() {
                         ..Default::default()
                     },
                     &fm.name,
+                    Some(&comments),
                     |_| noop(),
                 )
                 .unwrap()
@@ -746,6 +748,7 @@ fn should_visit() {
                 source_file_name: config.source_file_name,
                 preserve_comments: config.preserve_comments,
                 inline_sources_content: config.inline_sources_content,
+                comments: config.comments,
             };
 
             if config.minify {
