@@ -2914,7 +2914,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_lints"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "ahash",
  "auto_impl",
