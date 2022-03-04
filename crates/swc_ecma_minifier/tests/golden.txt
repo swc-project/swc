@@ -869,6 +869,7 @@ object/computed_property_names_evaluated_1/input.js
 object/computed_property_names_evaluated_2/input.js
 object/computed_property_names_side_effects/input.js
 object/concise_generators/input.js
+object/concise_method_to_prop_arrow/input.js
 object/concise_methods/input.js
 object/concise_methods_and_keyword_names/input.js
 object/concise_methods_with_computed_property/input.js
