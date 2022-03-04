@@ -9,7 +9,7 @@ use swc::{
         BuiltInput, Config, IsModule, JscConfig, ModuleConfig, Options, SourceMapsConfig,
         TransformConfig,
     },
-    preserve_file_comments, Compiler, TransformOutput,
+    minify_file_comments, Compiler, TransformOutput,
 };
 use swc_common::{
     chain,
@@ -772,7 +772,7 @@ fn should_visit() {
                 })
             });
 
-            preserve_file_comments(&comments, config.minify, config.preserve_comments);
+            minify_file_comments(&comments, config.minify, config.preserve_comments);
 
             Ok(c.print(
                 &program,

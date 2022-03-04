@@ -627,7 +627,7 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
     }
 }
 
-pub fn preserve_global_comments(
+pub fn minify_global_comments(
     comments: &SwcComments,
     span: Span,
     minify: bool,
@@ -677,7 +677,7 @@ pub fn preserve_global_comments(
     }
 }
 
-pub fn preserve_file_comments(
+pub fn minify_file_comments(
     comments: &SingleThreadedComments,
     minify: bool,
     preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
@@ -1097,7 +1097,7 @@ impl Compiler {
                 module.fold_with(&mut fixer(Some(&comments as &dyn Comments)))
             });
 
-            preserve_file_comments(&comments, true, Some(opts.format.comments.clone()));
+            minify_file_comments(&comments, true, Some(opts.format.comments.clone()));
 
             self.print(
                 &module,
@@ -1158,7 +1158,7 @@ impl Compiler {
             });
 
             if let Some(comments) = &config.comments {
-                preserve_file_comments(comments, config.minify, config.preserve_comments);
+                minify_file_comments(comments, config.minify, config.preserve_comments);
             }
 
             self.print(
