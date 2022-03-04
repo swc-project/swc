@@ -36,7 +36,7 @@ impl Visit for NoInvalidPositionAtImportRule {
             }
 
             match rule {
-                Rule::AtRule(AtRule::Charset(..) | AtRule::Import(..)) => seen,
+                Rule::AtRule(AtRule::Charset(..) | AtRule::Import(..) | AtRule::Layer(..)) => seen,
                 Rule::AtRule(AtRule::Unknown(UnknownAtRule { name, .. })) => {
                     let name = match name {
                         AtRuleName::DashedIdent(dashed_ident) => &dashed_ident.value,
