@@ -63,6 +63,10 @@ fn simple_strip(config: Config) -> impl Fold {
             },
             mark
         ),
+        class_properties(class_properties::Config {
+            set_public_fields: true,
+            ..Default::default()
+        })
     )
 }
 
@@ -4309,17 +4313,17 @@ class Person {
 
 const p = new Person();
 p.save();",
-    "var _class;
-var _class1, _dec;
+    "var _Person;
+var _class, _dec;
 import { Debounce } from 'lodash-decorators';
-let Person = ((_class1 = (_class = class Person {
+let Person = ((_class = (_Person = class Person {
     save() {
         console.log('Hello World!');
     }
-}, _class.debounceTime = 500, _class)) || _class1, _dec = Debounce(_class1.debounceTime), \
-     _applyDecoratedDescriptor(_class1.prototype, 'save', [
+}, _Person.debounceTime = 500, _Person)) || _class, _dec = Debounce(_class.debounceTime), \
+     _applyDecoratedDescriptor(_class.prototype, 'save', [
     _dec
-], Object.getOwnPropertyDescriptor(_class1.prototype, 'save'), _class1.prototype), _class1);
+], Object.getOwnPropertyDescriptor(_class.prototype, 'save'), _class.prototype), _class);
 const p = new Person();
 p.save();"
 );
@@ -4349,17 +4353,17 @@ class Person {
 
 const p = new Person();
 p.save();",
-    "var _class;
-var _class1, _dec;
+    "var _Person;
+var _class, _dec;
 import { Debounce } from 'lodash-decorators';
-let Person = ((_class1 = (_class = class Person {
+let Person = ((_class = (_Person = class Person {
     save() {
         console.log('Hello World!');
     }
-}, _class.debounceTime = 500, _class)) || _class1, _dec = Debounce(_class1.debounceTime), \
-     _applyDecoratedDescriptor(_class1.prototype, 'save', [
+}, _Person.debounceTime = 500, _Person)) || _class, _dec = Debounce(_class.debounceTime), \
+     _applyDecoratedDescriptor(_class.prototype, 'save', [
     _dec
-], Object.getOwnPropertyDescriptor(_class1.prototype, 'save'), _class1.prototype), _class1);
+], Object.getOwnPropertyDescriptor(_class.prototype, 'save'), _class.prototype), _class);
 const p = new Person();
 p.save();
 "
@@ -4390,10 +4394,10 @@ class Person {
 
 const p = new Person();
 p.save();",
-    "var _class;
-var _class1, _dec;
+    "var _Person;
+var _class, _dec;
 import { Debounce } from 'lodash-decorators';
-let Person = ((_class1 = (_class = function() {
+let Person = ((_class = (_Person = function() {
     'use strict';
     function Person1() {
         _classCallCheck(this, Person1);
@@ -4407,10 +4411,10 @@ let Person = ((_class1 = (_class = function() {
         }
     ]);
     return Person1;
-}(), _class.debounceTime = 500, _class)) || _class1, _dec = Debounce(_class1.debounceTime), \
-     _applyDecoratedDescriptor(_class1.prototype, 'save', [
+}(), _Person.debounceTime = 500, _Person)) || _class, _dec = Debounce(_class.debounceTime), \
+     _applyDecoratedDescriptor(_class.prototype, 'save', [
     _dec
-], Object.getOwnPropertyDescriptor(_class1.prototype, 'save'), _class1.prototype), _class1);
+], Object.getOwnPropertyDescriptor(_class.prototype, 'save'), _class.prototype), _class);
 const p = new Person();
 p.save();"
 );
