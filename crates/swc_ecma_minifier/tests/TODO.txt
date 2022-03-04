@@ -275,8 +275,6 @@ functions/inline_loop_1/input.js
 functions/inline_loop_2/input.js
 functions/inline_true/input.js
 functions/inner_ref/input.js
-functions/issue_1841_1/input.js
-functions/issue_1841_2/input.js
 functions/issue_203/input.js
 functions/issue_2084/input.js
 functions/issue_2101/input.js
