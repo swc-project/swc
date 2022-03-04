@@ -33,19 +33,19 @@ class BufferFullError extends Error {
     }
 }
 class PartialReadError extends Deno.errors.UnexpectedEof {
+    name = "PartialReadError";
     constructor(){
         super("Encountered UnexpectedEof, data only partially read");
-        this.name = "PartialReadError";
     }
 }
 class BufReader {
+    r = 0;
+    w = 0;
+    eof = false;
     static create(r, size = DEFAULT_BUF_SIZE) {
         return r instanceof BufReader ? r : new BufReader(r, size);
     }
     constructor(rd, size = DEFAULT_BUF_SIZE){
-        this.r = 0;
-        this.w = 0;
-        this.eof = false;
         if (size < MIN_BUF_SIZE) size = MIN_BUF_SIZE;
         this._reset(new Uint8Array(size), rd);
     }
@@ -219,6 +219,8 @@ class BufReader {
     }
 }
 class AbstractBufBase {
+    usedBufferBytes = 0;
+    err = null;
     size() {
         return this.buf.byteLength;
     }
@@ -227,10 +229,6 @@ class AbstractBufBase {
     }
     buffered() {
         return this.usedBufferBytes;
-    }
-    constructor(){
-        this.usedBufferBytes = 0;
-        this.err = null;
     }
 }
 class BufWriter extends AbstractBufBase {
@@ -430,6 +428,10 @@ function deferred() {
     return Object.assign(promise, methods);
 }
 class MuxAsyncIterator {
+    iteratorCount = 0;
+    yields = [];
+    throws = [];
+    signal = deferred();
     add(iterator) {
         ++this.iteratorCount;
         this.callIteratorNext(iterator);
@@ -465,12 +467,6 @@ class MuxAsyncIterator {
     }
     [Symbol.asyncIterator]() {
         return this.iterate();
-    }
-    constructor(){
-        this.iteratorCount = 0;
-        this.yields = [];
-        this.throws = [];
-        this.signal = deferred();
     }
 }
 function emptyReader() {
@@ -666,6 +662,8 @@ async function writeResponse(w, r) {
     await writer.flush();
 }
 class ServerRequest {
+    done = deferred();
+    _contentLength = undefined;
     get contentLength() {
         if (this._contentLength === undefined) {
             const cl = this.headers.get("content-length");
@@ -676,6 +674,7 @@ class ServerRequest {
         }
         return this._contentLength;
     }
+    _body = null;
     get body() {
         if (!this._body) {
             if (this.contentLength != null) this._body = bodyReader(this.contentLength, this.r);
@@ -704,18 +703,13 @@ class ServerRequest {
         this.done.resolve(err);
         if (err) throw err;
     }
+    finalized = false;
     async finalize() {
         if (this.finalized) return;
         const body = this.body;
         const buf = new Uint8Array(1024);
         while(await body.read(buf) !== null);
         this.finalized = true;
-    }
-    constructor(){
-        this.done = deferred();
-        this._contentLength = undefined;
-        this._body = null;
-        this.finalized = false;
     }
 }
 function parseHTTPVersion(vers) {
