@@ -23,6 +23,7 @@ use swc_cached::regex::CachedRegex;
 pub use swc_common::chain;
 use swc_common::{
     collections::{AHashMap, AHashSet},
+    comments::SingleThreadedComments,
     errors::Handler,
     FileName, Mark, SourceMap, SyntaxContext,
 };
@@ -65,7 +66,7 @@ use self::util::BoolOrObject;
 use crate::{
     builder::PassBuilder,
     plugin::{PluginConfig, PluginContext},
-    SwcComments, SwcImportResolver,
+    SwcImportResolver,
 };
 
 #[cfg(test)]
@@ -268,7 +269,7 @@ impl Options {
         handler: &Handler,
         is_module: IsModule,
         config: Option<Config>,
-        comments: Option<&'a SwcComments>,
+        comments: Option<&'a SingleThreadedComments>,
         custom_before_pass: impl FnOnce(&Program) -> P,
     ) -> Result<BuiltInput<impl 'a + swc_ecma_visit::Fold>, Error>
     where
