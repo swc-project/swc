@@ -10,6 +10,35 @@ impl<M> Pure<'_, M>
 where
     M: Mode,
 {
+    pub(super) fn unsafe_optimize_fn_as_arrow(&mut self, e: &mut Expr) {
+        if self.options.ecma < EsVersion::Es2015 {
+            return;
+        }
+
+        if !self.options.unsafe_arrows {
+            return;
+        }
+
+        if let Expr::Fn(FnExpr {
+            ident: None,
+            function,
+        }) = e
+        {
+            self.changed = true;
+            tracing::debug!("unsafe_arrows: Fn expr => arrow");
+
+            *e = Expr::Arrow(ArrowExpr {
+                span: function.span,
+                params: function.params.take().into_iter().map(|p| p.pat).collect(),
+                body: BlockStmtOrExpr::BlockStmt(function.body.take().unwrap()),
+                is_async: function.is_async,
+                is_generator: function.is_generator,
+                type_params: Default::default(),
+                return_type: Default::default(),
+            });
+        }
+    }
+
     pub(super) fn optimize_arrow_body(&mut self, b: &mut BlockStmtOrExpr) {
         if !self.options.arrows {
             return;
