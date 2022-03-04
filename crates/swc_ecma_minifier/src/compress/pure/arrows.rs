@@ -52,6 +52,9 @@ where
                     if contains_this_expr(body) {
                         return;
                     }
+                    self.changed = true;
+                    tracing::debug!("Method property => arrow");
+
                     let arg = body
                         .take()
                         .stmts
@@ -79,6 +82,7 @@ where
                             return_type: Default::default(),
                         })),
                     });
+                    return;
                 }
             }
         }
