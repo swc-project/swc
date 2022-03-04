@@ -78,25 +78,30 @@ where
                     match qualified_rule {
                         Ok(i) => rules.push(Rule::QualifiedRule(i)),
                         Err(err) => {
-                            if is!(self, "}") {
-                                self.errors.push(err);
-                                self.input.reset(&state);
+                            self.errors.push(err);
+                            self.input.reset(&state);
 
-                                let start_pos = self.input.cur_span()?.lo;
+                            let span = self.input.cur_span()?;
+                            let mut tokens = vec![];
 
-                                let mut tokens = vec![];
+                            while !is_one_of!(self, EOF, "}") {
+                                let token = self.input.bump()?;
 
-                                while !is_one_of!(self, EOF, "}") {
-                                    tokens.extend(self.input.bump()?);
+                                tokens.extend(token);
+
+                                if is!(self, ";") {
+                                    let token = self.input.bump()?;
+
+                                    tokens.extend(token);
+
+                                    break;
                                 }
-
-                                rules.push(Rule::Invalid(Tokens {
-                                    span: span!(self, start_pos),
-                                    tokens,
-                                }));
-                            } else {
-                                return Err(err);
                             }
+
+                            rules.push(Rule::Invalid(Tokens {
+                                span: span!(self, span.lo),
+                                tokens,
+                            }));
                         }
                     };
                 }
