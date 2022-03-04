@@ -6,9 +6,9 @@ error: Stylesheet
 3   | |
 4   | | @media all {}
 ...   |
-114 | |
-115 | | @media tty {}
-    | |______________^
+128 | |     }
+129 | | }
+    | |__^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/media/input.css:1:1
@@ -12393,4 +12393,447 @@ error: SimpleBlock
     |
 115 | @media tty {}
     |            ^^
+
+error: Rule
+   --> $DIR/tests/fixture/at-rule/media/input.css:117:1
+    |
+117 | / @media print {
+118 | |     html
+119 | |     main {
+120 | |         color: orange;
+121 | |     }
+122 | | }
+    | |_^
+
+error: AtRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:117:1
+    |
+117 | / @media print {
+118 | |     html
+119 | |     main {
+120 | |         color: orange;
+121 | |     }
+122 | | }
+    | |_^
+
+error: MediaRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:117:1
+    |
+117 | / @media print {
+118 | |     html
+119 | |     main {
+120 | |         color: orange;
+121 | |     }
+122 | | }
+    | |_^
+
+error: MediaQueryList
+   --> $DIR/tests/fixture/at-rule/media/input.css:117:8
+    |
+117 | @media print {
+    |        ^^^^^
+
+error: MediaQuery
+   --> $DIR/tests/fixture/at-rule/media/input.css:117:8
+    |
+117 | @media print {
+    |        ^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:117:8
+    |
+117 | @media print {
+    |        ^^^^^
+
+error: SimpleBlock
+   --> $DIR/tests/fixture/at-rule/media/input.css:117:14
+    |
+117 |   @media print {
+    |  ______________^
+118 | |     html
+119 | |     main {
+120 | |         color: orange;
+121 | |     }
+122 | | }
+    | |_^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/at-rule/media/input.css:118:5
+    |
+118 | /     html
+119 | |     main {
+120 | |         color: orange;
+121 | |     }
+    | |_____^
+
+error: Rule
+   --> $DIR/tests/fixture/at-rule/media/input.css:118:5
+    |
+118 | /     html
+119 | |     main {
+120 | |         color: orange;
+121 | |     }
+    | |_____^
+
+error: QualifiedRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:118:5
+    |
+118 | /     html
+119 | |     main {
+120 | |         color: orange;
+121 | |     }
+    | |_____^
+
+error: SelectorList
+   --> $DIR/tests/fixture/at-rule/media/input.css:118:5
+    |
+118 | /     html
+119 | |     main {
+    | |________^
+
+error: ComplexSelector
+   --> $DIR/tests/fixture/at-rule/media/input.css:118:5
+    |
+118 | /     html
+119 | |     main {
+    | |________^
+
+error: CompoundSelector
+   --> $DIR/tests/fixture/at-rule/media/input.css:118:5
+    |
+118 |     html
+    |     ^^^^
+
+error: TypeSelector
+   --> $DIR/tests/fixture/at-rule/media/input.css:118:5
+    |
+118 |     html
+    |     ^^^^
+
+error: TagNameSelector
+   --> $DIR/tests/fixture/at-rule/media/input.css:118:5
+    |
+118 |     html
+    |     ^^^^
+
+error: WqName
+   --> $DIR/tests/fixture/at-rule/media/input.css:118:5
+    |
+118 |     html
+    |     ^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:118:5
+    |
+118 |     html
+    |     ^^^^
+
+error: Combinator
+   --> $DIR/tests/fixture/at-rule/media/input.css:118:9
+    |
+118 |       html
+    |  _________^
+119 | |     main {
+    | |____^
+
+error: CompoundSelector
+   --> $DIR/tests/fixture/at-rule/media/input.css:119:5
+    |
+119 |     main {
+    |     ^^^^
+
+error: TypeSelector
+   --> $DIR/tests/fixture/at-rule/media/input.css:119:5
+    |
+119 |     main {
+    |     ^^^^
+
+error: TagNameSelector
+   --> $DIR/tests/fixture/at-rule/media/input.css:119:5
+    |
+119 |     main {
+    |     ^^^^
+
+error: WqName
+   --> $DIR/tests/fixture/at-rule/media/input.css:119:5
+    |
+119 |     main {
+    |     ^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:119:5
+    |
+119 |     main {
+    |     ^^^^
+
+error: SimpleBlock
+   --> $DIR/tests/fixture/at-rule/media/input.css:119:10
+    |
+119 |       main {
+    |  __________^
+120 | |         color: orange;
+121 | |     }
+    | |_____^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/at-rule/media/input.css:120:9
+    |
+120 |         color: orange;
+    |         ^^^^^^^^^^^^^
+
+error: StyleBlock
+   --> $DIR/tests/fixture/at-rule/media/input.css:120:9
+    |
+120 |         color: orange;
+    |         ^^^^^^^^^^^^^
+
+error: Declaration
+   --> $DIR/tests/fixture/at-rule/media/input.css:120:9
+    |
+120 |         color: orange;
+    |         ^^^^^^^^^^^^^
+
+error: DeclarationName
+   --> $DIR/tests/fixture/at-rule/media/input.css:120:9
+    |
+120 |         color: orange;
+    |         ^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:120:9
+    |
+120 |         color: orange;
+    |         ^^^^^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/at-rule/media/input.css:120:16
+    |
+120 |         color: orange;
+    |                ^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:120:16
+    |
+120 |         color: orange;
+    |                ^^^^^^
+
+error: Rule
+   --> $DIR/tests/fixture/at-rule/media/input.css:124:1
+    |
+124 | / @media print {
+125 | |     html,
+126 | |     main {
+127 | |         color: orange;
+128 | |     }
+129 | | }
+    | |_^
+
+error: AtRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:124:1
+    |
+124 | / @media print {
+125 | |     html,
+126 | |     main {
+127 | |         color: orange;
+128 | |     }
+129 | | }
+    | |_^
+
+error: MediaRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:124:1
+    |
+124 | / @media print {
+125 | |     html,
+126 | |     main {
+127 | |         color: orange;
+128 | |     }
+129 | | }
+    | |_^
+
+error: MediaQueryList
+   --> $DIR/tests/fixture/at-rule/media/input.css:124:8
+    |
+124 | @media print {
+    |        ^^^^^
+
+error: MediaQuery
+   --> $DIR/tests/fixture/at-rule/media/input.css:124:8
+    |
+124 | @media print {
+    |        ^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:124:8
+    |
+124 | @media print {
+    |        ^^^^^
+
+error: SimpleBlock
+   --> $DIR/tests/fixture/at-rule/media/input.css:124:14
+    |
+124 |   @media print {
+    |  ______________^
+125 | |     html,
+126 | |     main {
+127 | |         color: orange;
+128 | |     }
+129 | | }
+    | |_^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/at-rule/media/input.css:125:5
+    |
+125 | /     html,
+126 | |     main {
+127 | |         color: orange;
+128 | |     }
+    | |_____^
+
+error: Rule
+   --> $DIR/tests/fixture/at-rule/media/input.css:125:5
+    |
+125 | /     html,
+126 | |     main {
+127 | |         color: orange;
+128 | |     }
+    | |_____^
+
+error: QualifiedRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:125:5
+    |
+125 | /     html,
+126 | |     main {
+127 | |         color: orange;
+128 | |     }
+    | |_____^
+
+error: SelectorList
+   --> $DIR/tests/fixture/at-rule/media/input.css:125:5
+    |
+125 | /     html,
+126 | |     main {
+    | |________^
+
+error: ComplexSelector
+   --> $DIR/tests/fixture/at-rule/media/input.css:125:5
+    |
+125 |     html,
+    |     ^^^^
+
+error: CompoundSelector
+   --> $DIR/tests/fixture/at-rule/media/input.css:125:5
+    |
+125 |     html,
+    |     ^^^^
+
+error: TypeSelector
+   --> $DIR/tests/fixture/at-rule/media/input.css:125:5
+    |
+125 |     html,
+    |     ^^^^
+
+error: TagNameSelector
+   --> $DIR/tests/fixture/at-rule/media/input.css:125:5
+    |
+125 |     html,
+    |     ^^^^
+
+error: WqName
+   --> $DIR/tests/fixture/at-rule/media/input.css:125:5
+    |
+125 |     html,
+    |     ^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:125:5
+    |
+125 |     html,
+    |     ^^^^
+
+error: ComplexSelector
+   --> $DIR/tests/fixture/at-rule/media/input.css:126:5
+    |
+126 |     main {
+    |     ^^^^
+
+error: CompoundSelector
+   --> $DIR/tests/fixture/at-rule/media/input.css:126:5
+    |
+126 |     main {
+    |     ^^^^
+
+error: TypeSelector
+   --> $DIR/tests/fixture/at-rule/media/input.css:126:5
+    |
+126 |     main {
+    |     ^^^^
+
+error: TagNameSelector
+   --> $DIR/tests/fixture/at-rule/media/input.css:126:5
+    |
+126 |     main {
+    |     ^^^^
+
+error: WqName
+   --> $DIR/tests/fixture/at-rule/media/input.css:126:5
+    |
+126 |     main {
+    |     ^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:126:5
+    |
+126 |     main {
+    |     ^^^^
+
+error: SimpleBlock
+   --> $DIR/tests/fixture/at-rule/media/input.css:126:10
+    |
+126 |       main {
+    |  __________^
+127 | |         color: orange;
+128 | |     }
+    | |_____^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/at-rule/media/input.css:127:9
+    |
+127 |         color: orange;
+    |         ^^^^^^^^^^^^^
+
+error: StyleBlock
+   --> $DIR/tests/fixture/at-rule/media/input.css:127:9
+    |
+127 |         color: orange;
+    |         ^^^^^^^^^^^^^
+
+error: Declaration
+   --> $DIR/tests/fixture/at-rule/media/input.css:127:9
+    |
+127 |         color: orange;
+    |         ^^^^^^^^^^^^^
+
+error: DeclarationName
+   --> $DIR/tests/fixture/at-rule/media/input.css:127:9
+    |
+127 |         color: orange;
+    |         ^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:127:9
+    |
+127 |         color: orange;
+    |         ^^^^^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/at-rule/media/input.css:127:16
+    |
+127 |         color: orange;
+    |                ^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:127:16
+    |
+127 |         color: orange;
+    |                ^^^^^^
 
