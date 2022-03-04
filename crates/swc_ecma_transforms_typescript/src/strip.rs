@@ -13,8 +13,8 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_utils::{
-    constructor::inject_after_super, ident::IdentLike, member_expr, prepend, private_ident,
-    prop_name_to_expr, quote_ident, var::VarCollector, ExprFactory, Id,
+    alias_ident_for, constructor::inject_after_super, ident::IdentLike, is_literal, member_expr,
+    prepend, private_ident, prop_name_to_expr, quote_ident, var::VarCollector, ExprFactory, Id,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, visit_obj_and_computed, Fold, Visit, VisitMut, VisitMutWith,
@@ -127,6 +127,7 @@ pub fn strip_with_config(config: Config, top_level_mark: Mark) -> impl Fold + Vi
             uninitialized_vars: Default::default(),
             decl_names: Default::default(),
             in_var_pat: Default::default(),
+            keys: Default::default()
         }),
         inline_enum(ts_enum_lit, ts_enum_config)
     )
@@ -197,6 +198,7 @@ where
             uninitialized_vars: Default::default(),
             decl_names: Default::default(),
             in_var_pat: Default::default(),
+            keys: Default::default(),
         }),
         inline_enum(ts_enum_lit, ts_enum_config)
     )
@@ -252,6 +254,8 @@ where
     /// This field is filled by [Visit] impl and [VisitMut] impl.
     decl_names: AHashSet<Id>,
     in_var_pat: bool,
+
+    keys: Vec<VarDeclarator>,
 }
 
 impl<C> Strip<C>
@@ -424,6 +428,36 @@ where
                 SuperProp::Ident(i) => i.optional = false,
                 SuperProp::Computed(c) => c.visit_mut_with(self),
             },
+
+            Expr::Class(class) => {
+                let key_len = self.keys.len();
+                class.visit_mut_with(self);
+
+                let mut exprs: Vec<Box<Expr>> = self
+                    .keys
+                    .iter_mut()
+                    .skip(key_len)
+                    .map(|key| {
+                        let value = key.init.take().unwrap();
+                        let key = key.name.clone();
+                        Box::new(Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            left: PatOrExpr::Pat(key.into()),
+                            op: op!("="),
+                            right: value,
+                        }))
+                    })
+                    .collect();
+
+                if !exprs.is_empty() {
+                    exprs.push(Box::new(Expr::Class(class.take())));
+
+                    *n = Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs,
+                    })
+                }
+            }
 
             _ => {
                 n.visit_mut_children_with(self);
@@ -1654,7 +1688,7 @@ where
     // is resolved
     fn visit_mut_class(&mut self, class: &mut Class) {
         enum PropInit<'a> {
-            Public(&'a PropName, &'a mut Option<Box<Expr>>),
+            Public(&'a mut PropName, &'a mut Option<Box<Expr>>),
             Private(&'a PrivateName, &'a mut Option<Box<Expr>>),
         }
         let mut prop_init = Vec::new();
@@ -1762,7 +1796,28 @@ where
                     }
                     PropInit::Public(key, value) => {
                         let value = value.take().unwrap();
-                        let key = key.clone();
+                        let key = match key {
+                            PropName::Computed(ComputedPropName { span: c_span, expr })
+                                if !is_literal(&*expr) =>
+                            {
+                                let ident = alias_ident_for(&*expr, "_key");
+                                // Handle computed property
+                                self.keys.push(VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: ident.clone().into(),
+                                    init: Some(expr.take()),
+                                    definite: false,
+                                });
+                                // We use computed because `classes` pass converts PropName::Ident
+                                // to string.
+                                **expr = Expr::Ident(ident.clone());
+                                PropName::Computed(ComputedPropName {
+                                    span: *c_span,
+                                    expr: Box::new(Expr::Ident(ident)),
+                                })
+                            }
+                            _ => key.clone(),
+                        };
                         Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
                             left: PatOrExpr::Expr(
@@ -1986,6 +2041,7 @@ where
     }
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        let orig_keys = self.keys.take();
         items.visit_with(self);
 
         let mut stmts = Vec::with_capacity(items.len());
@@ -2068,6 +2124,31 @@ where
                 | ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl { declare: true, .. })))
                 | ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl { declare: true, .. }))) => {
                     continue
+                }
+
+                ModuleItem::Stmt(Stmt::Decl(Decl::Class(..)))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::Class(..),
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                    decl: DefaultDecl::Class(..),
+                    ..
+                })) => {
+                    item.visit_mut_children_with(self);
+                    if !self.keys.is_empty() {
+                        stmts.push(
+                            Stmt::Decl(Decl::Var(VarDecl {
+                                span: DUMMY_SP,
+                                declare: false,
+                                decls: self.keys.take(),
+                                kind: VarDeclKind::Let,
+                            }))
+                            .into(),
+                        )
+                    }
+
+                    stmts.push(item);
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(TsImportEqualsDecl {
@@ -2245,6 +2326,21 @@ where
             };
         }
 
+        if !self.keys.is_empty() {
+            prepend(
+                &mut stmts,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    declare: false,
+                    decls: self.keys.take(),
+                    kind: VarDeclKind::Let,
+                }))
+                .into(),
+            )
+        }
+
+        self.keys = orig_keys;
+
         *items = stmts;
         *items = self.handle_module_items(take(items), None);
     }
@@ -2346,6 +2442,8 @@ where
     }
 
     fn visit_mut_stmts(&mut self, orig: &mut Vec<Stmt>) {
+        let orig_keys = self.keys.take();
+
         let mut stmts = Vec::with_capacity(orig.len());
         for mut item in take(orig) {
             self.is_side_effect_import = false;
@@ -2374,12 +2472,40 @@ where
                 }))
                 | Stmt::Decl(Decl::TsTypeAlias(..)) => continue,
 
+                Stmt::Decl(Decl::Class(mut class)) => {
+                    class.visit_mut_with(self);
+                    if !self.keys.is_empty() {
+                        stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                            span: DUMMY_SP,
+                            declare: false,
+                            decls: self.keys.take(),
+                            kind: VarDeclKind::Let,
+                        })))
+                    }
+
+                    stmts.push(Stmt::Decl(Decl::Class(class)));
+                }
+
                 _ => {
                     item.visit_mut_with(self);
                     stmts.push(item);
                 }
             };
         }
+
+        if !self.keys.is_empty() {
+            prepend(
+                &mut stmts,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    declare: false,
+                    decls: self.keys.take(),
+                    kind: VarDeclKind::Let,
+                })),
+            )
+        }
+
+        self.keys = orig_keys;
 
         *orig = stmts
     }

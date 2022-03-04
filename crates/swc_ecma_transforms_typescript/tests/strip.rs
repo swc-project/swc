@@ -4509,3 +4509,34 @@ fn exec(input: PathBuf) {
         &output,
     );
 }
+
+to!(
+    parameter_properties_with_computed,
+    "
+class A {
+    [console.log(123)] = 456
+    constructor(public a = 1) {}
+}
+
+let b = class {
+    [console.log(456)] = 123
+    constructor(public a = 1) {}
+}
+    ",
+    "
+let _key;
+let _key1 = console.log(123);
+class A {
+    constructor(a = 1){
+        this.a = a;
+        this[_key1] = 456;
+    }
+}
+let b = (_key = console.log(456), class {
+    constructor(a = 1){
+        this.a = a;
+        this[_key] = 123;
+    }
+});
+"
+);
