@@ -4,8 +4,12 @@ use compat::{es2015::regenerator, es2020::export_namespace_from};
 use either::Either;
 use swc_atoms::JsWord;
 use swc_common::{
-    chain, comments::Comments, errors::Handler, sync::Lrc, util::take::Take, FileName, Mark,
-    SourceMap,
+    chain,
+    comments::{Comments, SingleThreadedComments},
+    errors::Handler,
+    sync::Lrc,
+    util::take::Take,
+    FileName, Mark, SourceMap,
 };
 use swc_ecma_ast::{EsVersion, Module};
 use swc_ecma_minifier::option::MinifyOptions;
@@ -17,9 +21,8 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
-use crate::{
-    config::{util::BoolOrObject, CompiledPaths, GlobalPassOption, JsMinifyOptions, ModuleConfig},
-    SwcComments,
+use crate::config::{
+    util::BoolOrObject, CompiledPaths, GlobalPassOption, JsMinifyOptions, ModuleConfig,
 };
 
 /// Builder is used to create a high performance `Compiler`.
@@ -162,7 +165,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         base: &FileName,
         syntax: Syntax,
         module: Option<ModuleConfig>,
-        comments: Option<&'cmt SwcComments>,
+        comments: Option<&'cmt SingleThreadedComments>,
     ) -> impl 'cmt + swc_ecma_visit::Fold
     where
         P: 'cmt,
@@ -318,7 +321,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
 struct MinifierPass {
     options: Option<JsMinifyOptions>,
     cm: Lrc<SourceMap>,
-    comments: Option<SwcComments>,
+    comments: Option<SingleThreadedComments>,
     top_level_mark: Mark,
 }
 
