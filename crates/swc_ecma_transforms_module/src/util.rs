@@ -11,7 +11,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
     util::take::Take,
-    Span, DUMMY_SP,
+    Span, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -117,7 +117,7 @@ pub struct Scope {
     ///   -> `{foo: ('bar', default)}`
     pub(crate) idents: AHashMap<Id, (JsWord, JsWord)>,
 
-    /// Declared variables except const.
+    /// Declared variables.
     pub(crate) declared_vars: Vec<Id>,
 
     /// Maps of exported bindings.
@@ -130,6 +130,8 @@ pub struct Scope {
     ///  - `export { a as b }`
     ///   -> `{ a: [b] }`
     pub(crate) exported_bindings: AHashMap<Id, Vec<Id>>,
+
+    pub(crate) exported_var_decls: AHashSet<Id>,
 
     /// This is required to handle
     /// `export * from 'foo';`
@@ -497,10 +499,16 @@ impl Scope {
         match expr {
             // In a JavaScript module, this is undefined at the top level (i.e., outside functions).
             Expr::This(ThisExpr { span }) if top_level => *undefined(span),
-            Expr::Ident(i) => match Self::fold_ident(folder, i) {
-                Ok(expr) => expr,
-                Err(ident) => Expr::Ident(ident),
-            },
+            Expr::Ident(i) => {
+                if folder.scope().exported_var_decls.contains(&i.to_id()) {
+                    exports.make_member(Ident::new(i.sym, i.span.with_ctxt(SyntaxContext::empty())))
+                } else {
+                    match Self::fold_ident(folder, i) {
+                        Ok(expr) => expr,
+                        Err(ident) => Expr::Ident(ident),
+                    }
+                }
+            }
 
             // Handle dynamic imports.
             // See https://github.com/swc-project/swc/issues/1018
@@ -531,6 +539,8 @@ impl Scope {
                 args,
                 type_args,
             }) => {
+                let callee = callee.fold_with(folder);
+
                 let callee = if let Callee::Expr(expr) = callee {
                     let callee = if let Expr::Ident(ident) = *expr {
                         match Self::fold_ident(folder, ident) {
