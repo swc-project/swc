@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_css_minifier"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.59.1"
+version = "0.59.2"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

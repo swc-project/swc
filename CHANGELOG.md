@@ -10,6 +10,12 @@
 
 - **(es/module)** Fix `jest.spyOn` (#3845) ([9546eef](https://github.com/swc-project/swc/commit/9546eefe72178bbc7059d0fc6c5e7e9bbca089e0))
 
+### Features
+
+
+
+- **(css/minifier)** Compress `@import` at-rule (#3850) ([ccfb4bf](https://github.com/swc-project/swc/commit/ccfb4bfc0b10375d96620f2748b0a3d022c4e359))
+
 ### Performance
 
 
