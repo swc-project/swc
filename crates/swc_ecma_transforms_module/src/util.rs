@@ -428,6 +428,7 @@ impl Scope {
         }
     }
 
+    /// Try converting identifier to member expression referring imports.
     fn fold_ident(folder: &mut impl ModulePass, i: Ident) -> Result<Expr, Ident> {
         let orig_span = i.span;
         let v = folder.scope().idents.get(&i.to_id()).cloned();
