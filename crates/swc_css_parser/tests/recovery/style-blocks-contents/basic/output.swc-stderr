@@ -22,3 +22,11 @@ error: Expected ":"
 31 |             ident;
    |                  ^
 
+error: Invalid selector
+  --> $DIR/tests/recovery/style-blocks-contents/basic/input.css:39:11
+   |
+39 |     & test;
+   |           ^
+
+error: Unexpected end of file
+
