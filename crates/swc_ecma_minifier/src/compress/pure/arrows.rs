@@ -24,6 +24,10 @@ where
             function,
         }) = e
         {
+            if contains_this_expr(&function.body) {
+                return;
+            }
+
             self.changed = true;
             tracing::debug!("unsafe_arrows: Fn expr => arrow");
 
