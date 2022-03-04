@@ -34,15 +34,15 @@ Also, it contains / re-exports codes for visitor pattern. `Visit<T>` is non-muta
 
 ### [`/crates/swc_ecma_ast`](crates/swc_ecma_ast)
 
-Contains AST nodes for javascript and typescript.
+Contains AST nodes for JavaScript and TypeScript.
 
 ### [`/crates/swc_ecma_codegen`](crates/swc_ecma_codegen)
 
-Converts javascript AST into javascript code.
+Converts JavaScript AST into JavaScript code.
 
 ### [`/crates/swc_ecma_parser`](crates/swc_ecma_parser)
 
-Parses javascript and typescript
+Parses JavaScript and TypeScript
 
 ### [`/crates/swc_ecma_transforms_base`](crates/swc_ecma_transforms_base)
 
@@ -127,7 +127,7 @@ and printed as
 <!-- TODO: add correct references to files -->
 <!-- #### `/ecmascript/transforms/src/compat`
 
-Contains code related to converting new generation javascript code into code understood by old browsers.
+Contains code related to converting new generation JavaScript code into code understood by old browsers.
 
 #### `/ecmascript/transforms/src/modules`
 

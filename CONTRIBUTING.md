@@ -65,7 +65,7 @@ Steps to get started:
 
 ## Getting your development environment set up
 
-After cloning the project there are a few steps required to get the project running. 
+After cloning the project there are a few steps required to get the project running.
 For running all tests, take the following steps:
 
 1. Fetch submodules to pull ECMAScript test suites.
@@ -74,9 +74,9 @@ For running all tests, take the following steps:
     git submodule update --init --recursive
     ```
 
-2. Install js dependencies.
+2. Install JS dependencies.
    Ensure [Yarn Package Manager is installed](https://yarnpkg.com/getting-started/install)
-    
+
     ```bash
     yarn
     ```
@@ -95,7 +95,7 @@ For running all tests, take the following steps:
 
 5. Add wasm32-wasi target
 
-   `rustup target add wasm32-wasi` 
+    `rustup target add wasm32-wasi`
 
 6. Ensure you're using Node.JS >= 16
 
@@ -108,8 +108,8 @@ For running all tests, take the following steps:
     ```
     Or
     ```bash
-   cargo test --all --no-default-features --features swc_v2 
-   ```
+    cargo test --all --no-default-features --features swc_v2
+    ```
 
 ## Running tests per package
 

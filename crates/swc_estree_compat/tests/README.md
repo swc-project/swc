@@ -1,6 +1,6 @@
 ## How tests work
 
-The babel-compat tests are mostly written as fixtures, similar to the [@babel/parser tests](https://github.com/babel/babel/tree/main/packages/babel-parser/test/fixtures). The `src/convert.rs` test runner looks in the `fixtures/` directory for input and expected output files. Input files are parsed into an SWC AST and converted to a Babel AST in Rust. Output files are parsed directly into a Babel AST. The two ASTs are then compared, with any differences causing the test to fail.
+The Babel-compat tests are mostly written as fixtures, similar to the [@babel/parser tests](https://github.com/babel/babel/tree/main/packages/babel-parser/test/fixtures). The `src/convert.rs` test runner looks in the `fixtures/` directory for input and expected output files. Input files are parsed into an SWC AST and converted to a Babel AST in Rust. Output files are parsed directly into a Babel AST. The two ASTs are then compared, with any differences causing the test to fail.
 
 ## How to write a test
 

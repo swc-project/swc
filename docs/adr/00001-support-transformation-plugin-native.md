@@ -19,7 +19,7 @@ SWC wants to support load, run plugins in the native binary for the custom trans
 
 ## Considered Options
 
--   [option 1] JS-based plugins, including babel plugins
+-   [option 1] JS-based plugins, including Babel plugins
 
 -   [option 2] Plugins based on `abi_stable` and native dynamic libraries
 
@@ -40,19 +40,19 @@ This decision is taken because
 
 ## Pros and Cons of the Options <!-- optional -->
 
-### [option 1] JS-based plugins, including babel plugins
+### [option 1] JS-based plugins, including Babel plugins
 
-SWC allow implementing plugins using javascript, and call it from worker threads as required.
-This includes babel plugins, to make migration from babel more convenient.
+SWC allow implementing plugins using JavaScript, and call it from worker threads as required.
+This includes Babel plugins, to make migration from Babel more convenient.
 
--   Good, because users can use rich ecosystem of babel.
--   Good, because users are used to javascript.
+-   Good, because users can use rich ecosystem of Babel.
+-   Good, because users are used to JavaScript.
 -   Good, because all platforms are supported.
--   Bad, because passing data to and from javascript is very costly. ([SWC issue: Speed up `parse`](https://github.com/swc-project/swc/issues/2175))
--   Bad, because js plugins require and block the main javascript thread.
--   Bad, because the main javascript is singled threaded and be bottleneck.
--   Bad, because `napi` (renamed to `node-api`) does not provide a way to get the return value of a function called from other thread than js thread. To workaround this, we should implement a complex request-response system based using lots of mutex.
--   Bad, because node js worker thread is not an event loop. This means worker we cannot `yield` from a worker thread when we need to call js plugin. As a result, the when main js thread is busy because of js plugins, worker threads are also blocked without doing any task.
+-   Bad, because passing data to and from JavaScript is very costly. ([SWC issue: Speed up `parse`](https://github.com/swc-project/swc/issues/2175))
+-   Bad, because JS plugins require and block the main JavaScript thread.
+-   Bad, because the main JavaScript is singled threaded and the bottleneck.
+-   Bad, because `napi` (renamed to `node-api`) does not provide a way to get the return value of a function called from other thread than JS thread. To workaround this, we should implement a complex request-response system based using lots of mutex.
+-   Bad, because node JS worker thread is not an event loop. This means worker we cannot `yield` from a worker thread when we need to call JS plugin. As a result, the when main JS thread is busy because of JS plugins, worker threads are also blocked without doing any task.
 
 ### [option 2] Plugins based on `abi_stable` and native dynamic libraries
 
