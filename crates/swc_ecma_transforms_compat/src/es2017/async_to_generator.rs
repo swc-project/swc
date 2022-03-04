@@ -12,6 +12,7 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-transform-async-to-generator`
 ///
@@ -33,6 +34,7 @@ use swc_ecma_visit::{
 ///   yield bar();
 /// });
 /// ```
+#[tracing::instrument(level = "trace", skip_all)]
 pub fn async_to_generator() -> impl Fold + VisitMut {
     as_folder(AsyncToGenerator)
 }
@@ -45,6 +47,7 @@ struct Actual {
     hoist_stmts: Vec<Stmt>,
 }
 
+#[swc_trace]
 #[fast_path(ShouldWork)]
 impl VisitMut for AsyncToGenerator {
     noop_visit_mut_type!();
@@ -58,6 +61,7 @@ impl VisitMut for AsyncToGenerator {
     }
 }
 
+#[swc_trace]
 impl AsyncToGenerator {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
@@ -83,6 +87,7 @@ impl AsyncToGenerator {
     }
 }
 
+#[swc_trace]
 #[fast_path(ShouldWork)]
 impl VisitMut for Actual {
     noop_visit_mut_type!();
@@ -276,6 +281,7 @@ impl VisitMut for Actual {
     }
 }
 
+#[swc_trace]
 impl Actual {
     fn visit_mut_expr_with_binding(&mut self, expr: &mut Expr, binding_ident: Option<Ident>) {
         expr.visit_mut_children_with(self);
@@ -321,6 +327,7 @@ impl Actual {
 /// Creates
 ///
 /// `_asyncToGenerator(function*() {})` from `async function() {}`;
+#[tracing::instrument(level = "trace", skip_all)]
 fn make_fn_ref(mut expr: FnExpr) -> Expr {
     expr.function.body.visit_mut_with(&mut AsyncFnBodyHandler {
         is_async_generator: expr.function.is_generator,
@@ -360,6 +367,7 @@ macro_rules! noop {
     };
 }
 
+#[swc_trace]
 impl VisitMut for AsyncFnBodyHandler {
     noop_visit_mut_type!();
 
@@ -410,6 +418,7 @@ struct ShouldWork {
     found: bool,
 }
 
+#[swc_trace]
 impl Visit for ShouldWork {
     noop_visit_type!();
 
@@ -436,6 +445,7 @@ impl Check for ShouldWork {
     }
 }
 
+#[tracing::instrument(level = "trace", skip_all)]
 fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
     let s = match stmt {
         Stmt::ForOf(
