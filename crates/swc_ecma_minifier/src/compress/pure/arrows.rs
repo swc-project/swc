@@ -39,6 +39,50 @@ where
             return;
         }
 
+        if let Prop::Method(m) = p {
+            let m_span = m.function.span;
+
+            if let Some(body) = &mut m.function.body {
+                if body.stmts.len() == 1
+                    && matches!(
+                        body.stmts[0],
+                        Stmt::Return(ReturnStmt { arg: Some(..), .. })
+                    )
+                {
+                    if contains_this_expr(body) {
+                        return;
+                    }
+                    let arg = body
+                        .take()
+                        .stmts
+                        .remove(0)
+                        .expect_return_stmt()
+                        .arg
+                        .take()
+                        .unwrap();
+
+                    *p = Prop::KeyValue(KeyValueProp {
+                        key: m.key.take(),
+                        value: Box::new(Expr::Arrow(ArrowExpr {
+                            span: m_span,
+                            params: m
+                                .function
+                                .params
+                                .take()
+                                .into_iter()
+                                .map(|v| v.pat)
+                                .collect(),
+                            body: BlockStmtOrExpr::Expr(arg),
+                            is_async: m.function.is_async,
+                            is_generator: m.function.is_generator,
+                            type_params: Default::default(),
+                            return_type: Default::default(),
+                        })),
+                    });
+                }
+            }
+        }
+
         if let Prop::KeyValue(kv) = p {
             //
             if contains_this_expr(&kv.value) {
