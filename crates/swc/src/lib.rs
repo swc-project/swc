@@ -105,6 +105,7 @@
 //!
 //! See [swc_ecma_minifier::eval::Evaluator].
 #![deny(unused)]
+#![allow(clippy::too_many_arguments)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
 pub extern crate swc_atoms as atoms;
@@ -112,7 +113,6 @@ pub extern crate swc_common as common;
 pub extern crate swc_ecmascript as ecmascript;
 
 use std::{
-    borrow::BorrowMut,
     fs::{read_to_string, File},
     io::Write,
     mem::take,
@@ -275,7 +275,7 @@ pub struct Compiler {
     globals: Globals,
     /// CodeMap
     pub cm: Arc<SourceMap>,
-    global_comments: SwcComments,
+    comments: SwcComments,
 }
 
 #[cfg(feature = "node")]
@@ -301,8 +301,8 @@ impl Compiler {
         &self.globals
     }
 
-    pub fn global_comments(&self) -> &SwcComments {
-        &self.global_comments
+    pub fn comments(&self) -> &SwcComments {
+        &self.comments
     }
 
     /// Runs `op` in current compiler's context.
@@ -724,7 +724,7 @@ impl Compiler {
         Compiler {
             cm,
             globals: Globals::new(),
-            global_comments: Default::default(),
+            comments: Default::default(),
         }
     }
 
@@ -858,19 +858,16 @@ impl Compiler {
             let built = opts.build_as_input(
                 &self.cm,
                 name,
-                {
-                    let comments = comments.clone();
-                    move |syntax, target, is_module| match program {
-                        Some(v) => Ok(v),
-                        _ => self.parse_js(
-                            fm.clone(),
-                            handler,
-                            target,
-                            syntax,
-                            is_module,
-                            comments.as_ref().map(|v| v as _),
-                        ),
-                    }
+                move |syntax, target, is_module| match program {
+                    Some(v) => Ok(v),
+                    _ => self.parse_js(
+                        fm.clone(),
+                        handler,
+                        target,
+                        syntax,
+                        is_module,
+                        comments.as_ref().map(|v| v as _),
+                    ),
                 },
                 opts.output_path.as_deref(),
                 opts.source_file_name.clone(),
@@ -936,9 +933,8 @@ impl Compiler {
         P2: swc_ecma_visit::Fold,
     {
         self.run(|| -> Result<_, Error> {
+            let comments = SingleThreadedComments::default();
             let config = self.run(|| {
-                let comments = SingleThreadedComments::default();
-
                 self.parse_js_as_input(
                     fm.clone(),
                     program,
@@ -1048,7 +1044,7 @@ impl Compiler {
                 }
             }
 
-            let mut comments = SingleThreadedComments::default();
+            let comments = SingleThreadedComments::default();
 
             let module = self
                 .parse_js(
@@ -1162,7 +1158,7 @@ impl Compiler {
             });
 
             if let Some(comments) = &config.comments {
-                preserve_file_comments(&comments, config.minify, config.preserve_comments);
+                preserve_file_comments(comments, config.minify, config.preserve_comments);
             }
 
             self.print(
