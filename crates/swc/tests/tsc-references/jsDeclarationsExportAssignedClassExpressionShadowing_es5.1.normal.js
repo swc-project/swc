@@ -6,12 +6,6 @@ function _classCallCheck(instance, Constructor) {
 var A = function A() {
     "use strict";
     _classCallCheck(this, A);
-    // @allowJs: true
-    // @checkJs: true
-    // @target: es5
-    // @outDir: ./out
-    // @declaration: true
-    // @filename: index.js
     this.member = new Q();
 };
 var Q = function Q() {

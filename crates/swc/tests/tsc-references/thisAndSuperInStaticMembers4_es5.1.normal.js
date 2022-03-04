@@ -114,5 +114,5 @@ C.y2 = C.x();
 C.y3 = C === null || C === void 0 ? void 0 : C.x();
 C.y4 = C["x"]();
 C.y5 = C === null || C === void 0 ? void 0 : C["x"]();
-C.z3 = super.f();
-C.z4 = super["f"]();
+C.z3 = _get(_getPrototypeOf(C), "f", C).call(C);
+C.z4 = _get(_getPrototypeOf(C), "f", C).call(C);

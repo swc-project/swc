@@ -19,7 +19,7 @@ function _classCheckPrivateStaticAccess(receiver, classConstructor) {
         throw new TypeError("Private static access of wrong provenance");
     }
 }
-var _class, _class1;
+var _class, _Foo;
 // @target: es2015
 class B {
     m() {
@@ -40,6 +40,6 @@ var _foo = {
 };
 var _foo2 = {
     writable: true,
-    value: (_class1 = class Foo {
-    }, _class1.otherClass = 123, _class1)
+    value: (_Foo = class Foo {
+    }, _Foo.otherClass = 123, _Foo)
 };

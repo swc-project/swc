@@ -16,6 +16,5 @@ var MyMap = function MyMap(Map_) {
     "use strict";
     _classCallCheck(this, MyMap);
     this.Map_ = Map_;
-    // #31792
     this.store = new this.Map_();
 };

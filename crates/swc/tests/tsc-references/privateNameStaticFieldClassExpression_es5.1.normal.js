@@ -38,7 +38,7 @@ function _classCheckPrivateStaticAccess(receiver, classConstructor) {
         throw new TypeError("Private static access of wrong provenance");
     }
 }
-var _class, _class1;
+var _class, _Foo;
 var B = // @target: es2015
 /*#__PURE__*/ function() {
     "use strict";
@@ -59,9 +59,9 @@ var B = // @target: es2015
 }();
 var _foo = {
     writable: true,
-    value: (_class = function _class2() {
+    value: (_class = function _class1() {
         "use strict";
-        _classCallCheck(this, _class2);
+        _classCallCheck(this, _class1);
         this.field = 10;
         console.log("hello");
         new (_classStaticPrivateFieldSpecGet(B, B, _foo2))();
@@ -69,8 +69,8 @@ var _foo = {
 };
 var _foo2 = {
     writable: true,
-    value: (_class1 = function Foo() {
+    value: (_Foo = function Foo() {
         "use strict";
         _classCallCheck(this, Foo);
-    }, _class1.otherClass = 123, _class1)
+    }, _Foo.otherClass = 123, _Foo)
 };

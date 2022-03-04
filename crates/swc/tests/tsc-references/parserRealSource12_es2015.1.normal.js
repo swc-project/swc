@@ -11,8 +11,8 @@ var TypeScript;
         constructor(){
             this.goChildren = true;
             this.goNextSibling = true;
-            this.reverseSiblings // visit siblings in reverse execution order
-             = false;
+            this.reverseSiblings = false // visit siblings in reverse execution order
+            ;
         }
     }
     TypeScript1.AstWalkOptions = AstWalkOptions;

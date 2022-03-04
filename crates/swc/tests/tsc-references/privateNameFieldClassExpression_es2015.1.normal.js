@@ -7,7 +7,7 @@ function _classPrivateFieldInit(obj, privateMap, value) {
     _checkPrivateRedeclaration(obj, privateMap);
     privateMap.set(obj, value);
 }
-var _class, _class1;
+var _class, _Foo;
 var _foo = new WeakMap(), _foo2 = new WeakMap();
 // @target: es2015
 class B {
@@ -22,8 +22,8 @@ class B {
         });
         _classPrivateFieldInit(this, _foo2, {
             writable: true,
-            value: (_class1 = class Foo {
-            }, _class1.otherClass = 123, _class1)
+            value: (_Foo = class Foo {
+            }, _Foo.otherClass = 123, _Foo)
         });
     }
 }

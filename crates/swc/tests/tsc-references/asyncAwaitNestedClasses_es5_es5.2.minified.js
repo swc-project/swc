@@ -20,11 +20,11 @@ function _createClass(Constructor, protoProps, staticProps) {
     return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
 }
 import regeneratorRuntime from "regenerator-runtime";
-var _class, A = function() {
+var _B, A = function() {
     "use strict";
     _classCallCheck(this, A);
 };
-(_class = (function() {
+(_B = (function() {
     "use strict";
     function B() {
         _classCallCheck(this, B);
@@ -53,7 +53,7 @@ var _class, A = function() {
                     return regeneratorRuntime.wrap(function(_ctx) {
                         for(;;)switch(_ctx.prev = _ctx.next){
                             case 0:
-                                return _ctx.next = 2, _class.func2();
+                                return _ctx.next = 2, _B.func2();
                             case 2:
                             case "end":
                                 return _ctx.stop();
@@ -75,4 +75,4 @@ var _class, A = function() {
             }
         }
     ]), C;
-})(), A.B = _class, A.B.C.func();
+})(), A.B = _B, A.B.C.func();

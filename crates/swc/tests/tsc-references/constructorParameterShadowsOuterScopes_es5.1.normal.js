@@ -11,15 +11,15 @@ var x = 1;
 var C = function C(x1) {
     "use strict";
     _classCallCheck(this, C);
-    this.b // error, evaluated in scope of constructor, cannot reference x
-     = x;
+    this.b = x // error, evaluated in scope of constructor, cannot reference x
+    ;
     x1 = 2; // error, x is string
 };
 var y = 1;
 var D = function D(x) {
     "use strict";
     _classCallCheck(this, D);
-    this.b // error, evaluated in scope of constructor, cannot reference y
-     = y;
+    this.b = y // error, evaluated in scope of constructor, cannot reference y
+    ;
     var y1 = "";
 };

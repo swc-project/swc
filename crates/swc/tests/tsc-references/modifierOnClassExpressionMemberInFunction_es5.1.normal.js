@@ -17,11 +17,11 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var _class;
 // @declaration: true
 // @declaration: true
 function g() {
-    var x = (_class = /*#__PURE__*/ function() {
+    var _C;
+    var x = (_C = /*#__PURE__*/ function() {
         "use strict";
         function C() {
             _classCallCheck(this, C);
@@ -34,5 +34,5 @@ function g() {
             }
         ]);
         return C;
-    }(), _class.prop2 = 43, _class);
+    }(), _C.prop2 = 43, _C);
 }

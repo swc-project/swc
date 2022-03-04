@@ -72,7 +72,6 @@ function _createSuper(Derived1) {
 var Base = function Base(x) {
     "use strict";
     _classCallCheck(this, Base);
-    // automatic constructors with a class hieararchy of depth > 2
     this.a = 1;
     this.a = x;
 };

@@ -1,4 +1,3 @@
-class Object {
-}
 // @target: ES5
-export { Object as default };
+export default class Object {
+};

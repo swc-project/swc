@@ -12,7 +12,7 @@ class B {
         console.log(_classStaticPrivateFieldSpecGet(B, B, _foo).test), _classStaticPrivateFieldSpecGet(B, B, _foo).test = 10, new (_classStaticPrivateFieldSpecGet(B, B, _foo))().field;
     }
 }
-var _class, _class1, _foo = {
+var _class, _Foo, _foo = {
     writable: !0,
     value: ((_class = class {
         constructor(){
@@ -21,6 +21,6 @@ var _class, _class1, _foo = {
     }).test = 123, _class)
 }, _foo2 = {
     writable: !0,
-    value: ((_class1 = class {
-    }).otherClass = 123, _class1)
+    value: ((_Foo = class {
+    }).otherClass = 123, _Foo)
 };

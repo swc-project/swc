@@ -90,23 +90,22 @@ var C = // @useDefineForClassFields: true
     function C(foo) {
         _classCallCheck(this, C);
         this.foo = foo;
-        this.qux // should error
-         = this.bar;
-        this.bar // should error
-         = this.foo;
-        this.quiz // ok
-         = this.bar;
-        this.quench // ok
-         = this.m1();
-        this.quanch // should error
-         = this.m3();
+        this.qux = this.bar // should error
+        ;
+        this.bar = this.foo // should error
+        ;
+        this.quiz = this.bar // ok
+        ;
+        this.quench = this.m1() // ok
+        ;
+        this.quanch = this.m3() // should error
+        ;
         this.m3 = function() {};
-        this.quim // should error
-         = this.baz;
-        this.baz // should error
-         = this.foo;
-        this.quid // ok
-         = this.baz;
+        this.quim = this.baz // should error
+        ;
+        this.baz = this.foo;
+        this.quid = this.baz // ok
+        ;
     }
     _createClass(C, [
         {
@@ -134,8 +133,8 @@ var D = /*#__PURE__*/ function(C) {
         _classCallCheck(this, D);
         var _this;
         _this = _super.apply(this, arguments);
-        _this.quill // ok
-         = _this.foo;
+        _this.quill = _this.foo // ok
+        ;
         return _this;
     }
     return D;
@@ -145,8 +144,7 @@ var E = function E(foo2) {
     var _this = this;
     _classCallCheck(this, E);
     this.foo2 = foo2;
-    this.bar // both ok
-     = function() {
+    this.bar = function() {
         return _this.foo1 + _this.foo2;
     };
     this.foo1 = '';

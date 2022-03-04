@@ -6,7 +6,5 @@ function _classCallCheck(instance, Constructor) {
 var A = function A() {
     "use strict";
     _classCallCheck(this, A);
-    // @target: es3
-    // @useDefineForClassFields: true
     this.a = 12;
 };

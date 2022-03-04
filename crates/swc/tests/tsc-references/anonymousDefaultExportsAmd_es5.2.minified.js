@@ -1,8 +1,8 @@
-var _class = function() {
+var _default = function() {
     "use strict";
     !function(instance, Constructor) {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, _class);
+    }(this, _default);
 };
 export default function() {};
-export { _class as default };
+export { _default as default };

@@ -21,6 +21,5 @@ function f3(x) {
 var Form = function Form() {
     "use strict";
     _classCallCheck(this, Form);
-    // Repro from #13747
     this.values = {};
 };

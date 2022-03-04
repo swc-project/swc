@@ -9,6 +9,22 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
+function _get(target, property, receiver) {
+    if (typeof Reflect !== "undefined" && Reflect.get) {
+        _get = Reflect.get;
+    } else {
+        _get = function _get(target, property, receiver) {
+            var base = _superPropBase(target, property);
+            if (!base) return;
+            var desc = Object.getOwnPropertyDescriptor(base, property);
+            if (desc.get) {
+                return desc.get.call(receiver);
+            }
+            return desc.value;
+        };
+    }
+    return _get(target, property, receiver || target);
+}
 function _getPrototypeOf(o) {
     _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
         return o.__proto__ || Object.getPrototypeOf(o);
@@ -40,6 +56,13 @@ function _setPrototypeOf(o, p) {
         return o;
     };
     return _setPrototypeOf(o, p);
+}
+function _superPropBase(object, property) {
+    while(!Object.prototype.hasOwnProperty.call(object, property)){
+        object = _getPrototypeOf(object);
+        if (object === null) break;
+    }
+    return object;
 }
 var _typeof = function(obj) {
     "@swc/helpers - typeof";
@@ -88,6 +111,8 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
+C.b = 3;
+C.c = _get(_getPrototypeOf(C), "a", C);
 var __ = {
     writable: true,
     value: function() {
@@ -96,5 +121,3 @@ var __ = {
         _superprop_get_a();
     }()
 };
-C.b = 3;
-C.c = super.a;

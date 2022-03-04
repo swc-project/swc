@@ -74,8 +74,6 @@ var B = function B(foo, bar) {
     _classCallCheck(this, B);
     this.foo = foo;
     this.bar = bar;
-    // @declaration: true
-    // @noImplicitOverride: true
     this.baz = 1;
 };
 var D = /*#__PURE__*/ function(B) {

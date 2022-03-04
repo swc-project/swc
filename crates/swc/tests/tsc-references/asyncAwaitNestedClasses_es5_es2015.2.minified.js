@@ -1,4 +1,4 @@
-var _class;
+var _B;
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
         var info = gen[key](arg), value = info.value;
@@ -10,7 +10,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
 }
 class A {
 }
-(_class = class {
+(_B = class {
     static func2() {
         return new Promise((resolve)=>{
             resolve(null);
@@ -33,7 +33,7 @@ class A {
                 });
             };
         })(function*() {
-            yield _class.func2();
+            yield _B.func2();
         })();
     }
-}, A.B = _class, A.B.C.func();
+}, A.B = _B, A.B.C.func();

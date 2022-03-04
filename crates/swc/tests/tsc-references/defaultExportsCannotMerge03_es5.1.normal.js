@@ -9,9 +9,6 @@ var Decl = function Decl() {
     "use strict";
     _classCallCheck(this, Decl);
 };
-// @module: commonjs
-// @target: ES5
-// @filename: m1.ts
 export { Decl as default };
 Entity();
 var x;

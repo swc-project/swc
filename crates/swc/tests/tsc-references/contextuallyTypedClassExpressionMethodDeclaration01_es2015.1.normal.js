@@ -1,4 +1,3 @@
-var _class, _class1;
 function getFoo1() {
     return class {
         static method1(arg) {
@@ -10,6 +9,7 @@ function getFoo1() {
     };
 }
 function getFoo2() {
+    var _class;
     return _class = class {
     }, _class.method1 = (arg)=>{
         arg.numProp = 10;
@@ -18,10 +18,11 @@ function getFoo2() {
     }, _class;
 }
 function getFoo3() {
-    return _class1 = class {
-    }, _class1.method1 = function(arg) {
+    var _class;
+    return _class = class {
+    }, _class.method1 = function(arg) {
         arg.numProp = 10;
-    }, _class1.method2 = function(arg) {
+    }, _class.method2 = function(arg) {
         arg.strProp = "hello";
-    }, _class1;
+    }, _class;
 }

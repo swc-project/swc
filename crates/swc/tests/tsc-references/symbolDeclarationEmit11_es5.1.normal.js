@@ -17,8 +17,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var _key;
-var tmp = (_key = Symbol.iterator, Symbol.isConcatSpreadable), _toPrimitive = Symbol.toPrimitive, _toPrimitive1 = Symbol.toPrimitive;
+var _iterator = Symbol.iterator, _isConcatSpreadable = Symbol.isConcatSpreadable, _toPrimitive = Symbol.toPrimitive, _toPrimitive1 = Symbol.toPrimitive;
 var C = //@target: ES6
 //@declaration: true
 /*#__PURE__*/ function() {
@@ -28,7 +27,7 @@ var C = //@target: ES6
     }
     _createClass(C, null, [
         {
-            key: tmp,
+            key: _isConcatSpreadable,
             value: function value() {}
         },
         {
@@ -44,4 +43,4 @@ var C = //@target: ES6
     ]);
     return C;
 }();
-C[_key] = 0;
+C[_iterator] = 0;

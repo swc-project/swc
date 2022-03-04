@@ -1,6 +1,6 @@
 var C, K;
-class _class {
-}
+export default class {
+};
 export class A {
 }
 !function(C) {
@@ -23,4 +23,3 @@ const H = require("./h");
     K[K.One = 0] = "One", K[K.Two = 1] = "Two";
 }(K || (K = {})), module.exports = K;
 const K = require("./k");
-export { _class as default };

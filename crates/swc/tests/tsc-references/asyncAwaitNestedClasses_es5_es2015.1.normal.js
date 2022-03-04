@@ -27,24 +27,24 @@ function _asyncToGenerator(fn) {
         });
     };
 }
-var _class;
+var _B;
 // @target: ES5
 // @lib: es5,es2015.promise
 // @noEmitHelpers: true
 // https://github.com/Microsoft/TypeScript/issues/20744
 class A {
 }
-A.B = (_class = class B {
+A.B = (_B = class B {
     static func2() {
         return new Promise((resolve)=>{
             resolve(null);
         });
     }
-}, _class.C = class C {
+}, _B.C = class C {
     static func() {
         return _asyncToGenerator(function*() {
-            yield _class.func2();
+            yield _B.func2();
         })();
     }
-}, _class);
+}, _B);
 A.B.C.func();

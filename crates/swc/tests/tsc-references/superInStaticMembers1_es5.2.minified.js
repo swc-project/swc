@@ -1,6 +1,15 @@
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
+function _get(target, property, receiver) {
+    return _get = "undefined" != typeof Reflect && Reflect.get ? Reflect.get : function _get(target, property, receiver) {
+        var base = _superPropBase(target, property);
+        if (base) {
+            var desc = Object.getOwnPropertyDescriptor(base, property);
+            return desc.get ? desc.get.call(receiver) : desc.value;
+        }
+    }, _get(target, property, receiver || target);
+}
 function _getPrototypeOf(o) {
     return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
         return o.__proto__ || Object.getPrototypeOf(o);
@@ -20,6 +29,10 @@ function _setPrototypeOf(o, p) {
     return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
+}
+function _superPropBase(object, property) {
+    for(; !Object.prototype.hasOwnProperty.call(object, property) && null !== (object = _getPrototypeOf(object)););
+    return object;
 }
 function _createSuper(Derived) {
     var hasNativeReflectConstruct = function() {
@@ -64,31 +77,31 @@ var C = function(B) {
     }
     return C;
 }(B);
-_superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), (function() {
-    var Reflect = function() {
-        "use strict";
-        _classCallCheck(this, Reflect);
-    };
-    _superprop_get_w().call(_this);
-})(), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), C._ = [
-    void _superprop_get_w().call(_this),
-    void _superprop_get_w().call(_this),
-    void _superprop_get_w().call(_this),
+C._ = [
+    void _get(_getPrototypeOf(C), "w", C).call(C),
+    void _get(_getPrototypeOf(C), "w", C).call(C),
+    void _get(_getPrototypeOf(C), "w", C).call(C),
     function() {
         var Reflect = function() {
             "use strict";
             _classCallCheck(this, Reflect);
         };
-        _superprop_get_w().call(_this);
+        _get(_getPrototypeOf(C), "w", C).call(C);
     }(),
-    void _superprop_get_w().call(_this),
-    void _superprop_get_w().call(_this),
-    void _superprop_get_w().call(_this),
-    void _superprop_get_w().call(_this),
-    void _superprop_get_w().call(_this),
-    void _superprop_get_w().call(_this),
-    void _superprop_get_w().call(_this), 
-];
+    void _get(_getPrototypeOf(C), "w", C).call(C),
+    void _get(_getPrototypeOf(C), "w", C).call(C),
+    void _get(_getPrototypeOf(C), "w", C).call(C),
+    void _get(_getPrototypeOf(C), "w", C).call(C),
+    void _get(_getPrototypeOf(C), "w", C).call(C),
+    void _get(_getPrototypeOf(C), "w", C).call(C),
+    void _get(_getPrototypeOf(C), "w", C).call(C), 
+], _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), (function() {
+    var Reflect = function() {
+        "use strict";
+        _classCallCheck(this, Reflect);
+    };
+    _superprop_get_w().call(_this);
+})(), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this);
 var Reflect1 = null, C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -98,7 +111,7 @@ var Reflect1 = null, C = function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var Reflect1 = null, C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -108,7 +121,7 @@ var Reflect1 = null, C = function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var Reflect1 = null, C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -118,7 +131,7 @@ var Reflect1 = null, C = function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var Reflect1 = null, C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -161,7 +174,7 @@ var Reflect1 = function() {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var Reflect1 = function() {
     "use strict";
     _classCallCheck(this, Reflect1);
@@ -186,7 +199,7 @@ var C = function(B) {
     return C;
 }(B);
 function Reflect1() {}
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -206,7 +219,7 @@ var C = function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -226,7 +239,7 @@ var C = function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -246,7 +259,7 @@ var C = function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -266,7 +279,7 @@ var C = function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -286,7 +299,7 @@ var C = function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -306,7 +319,7 @@ var C = function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -326,7 +339,7 @@ var C = function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -346,7 +359,7 @@ var C = function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -366,7 +379,7 @@ var C = function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -386,7 +399,7 @@ var C = function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -406,7 +419,7 @@ var C = function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -426,7 +439,7 @@ var C = function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -446,7 +459,7 @@ var C = function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -466,7 +479,7 @@ var C = function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -486,7 +499,7 @@ var C = function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -511,7 +524,7 @@ _superprop_get_w().call(_this), _$_Reflect = function Reflect() {
             }
             return C;
         }(B);
-        C._ = _superprop_get_w().call(_this);
+        C._ = _get(_getPrototypeOf(C), "w", C).call(C);
     })()
 }, _$_Reflect = function Reflect() {
     "use strict";
@@ -540,7 +553,7 @@ var C = function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = function(B) {
     "use strict";
     _inherits(C, B);

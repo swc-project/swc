@@ -9,6 +9,19 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
+function _defineProperty(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
 function _extends() {
     _extends = Object.assign || function(target) {
         for(var i = 1; i < arguments.length; i++){
@@ -64,6 +77,44 @@ function _possibleConstructorReturn(self, call) {
     }
     return _assertThisInitialized(self);
 }
+function set(target, property, value, receiver) {
+    if (typeof Reflect !== "undefined" && Reflect.set) {
+        set = Reflect.set;
+    } else {
+        set = function set(target, property, value, receiver) {
+            var base = _superPropBase(target, property);
+            var desc;
+            if (base) {
+                desc = Object.getOwnPropertyDescriptor(base, property);
+                if (desc.set) {
+                    desc.set.call(receiver, value);
+                    return true;
+                } else if (!desc.writable) {
+                    return false;
+                }
+            }
+            desc = Object.getOwnPropertyDescriptor(receiver, property);
+            if (desc) {
+                if (!desc.writable) {
+                    return false;
+                }
+                desc.value = value;
+                Object.defineProperty(receiver, property, desc);
+            } else {
+                _defineProperty(receiver, property, value);
+            }
+            return true;
+        };
+    }
+    return set(target, property, value, receiver);
+}
+function _set(target, property, value, receiver, isStrict) {
+    var s = set(target, property, value, receiver || target);
+    if (!s && isStrict) {
+        throw new Error("failed to set property");
+    }
+    return value;
+}
 function _setPrototypeOf(o, p) {
     _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
         o.__proto__ = p;
@@ -116,8 +167,6 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var _superprop_set_a = (_value)=>super.a = _value
-;
 function _templateObject() {
     var data = _taggedTemplateLiteral([
         ""
@@ -127,6 +176,7 @@ function _templateObject() {
     };
     return data;
 }
+var _ref, _super_a;
 var C = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(C, B);
@@ -149,41 +199,41 @@ C.y2 = C.x();
 C.y3 = C === null || C === void 0 ? void 0 : C.x();
 C.y4 = C["x"]();
 C.y5 = C === null || C === void 0 ? void 0 : C["x"]();
-C.z1 = super.a;
-C.z2 = super["a"];
-C.z3 = super.f();
-C.z4 = super["f"]();
-C.z5 = super.a = 0;
-C.z6 = super.a += 1;
+C.z1 = _get(_getPrototypeOf(C), "a", C);
+C.z2 = _get(_getPrototypeOf(C), "a", C);
+C.z3 = _get(_getPrototypeOf(C), "f", C).call(C);
+C.z4 = _get(_getPrototypeOf(C), "f", C).call(C);
+C.z5 = _set(_getPrototypeOf(C.prototype), "a", 0, C, true);
+C.z6 = _set(_getPrototypeOf(C.prototype), "a", _get(_getPrototypeOf(C), "a", C) + 1, C, true);
 C.z7 = (function() {
-    _superprop_set_a(0);
+    _set(_getPrototypeOf(C.prototype), "a", 0, C, true);
 })();
 var ref;
 C.z8 = (ref = [
     0
-], super.a = ref[0], ref);
+], _get(_getPrototypeOf(C), "a", C) = ref[0], ref);
 var ref1, ref2;
 C.z9 = (ref1 = [
     0
-], ref2 = ref1[0], super.a = ref2 === void 0 ? 0 : ref2, ref1);
+], ref2 = ref1[0], _get(_getPrototypeOf(C), "a", C) = ref2 === void 0 ? 0 : ref2, ref1);
 var ref3;
 C.z10 = (ref3 = [
     0
-], super.a = ref3.slice(0), ref3);
+], _get(_getPrototypeOf(C), "a", C) = ref3.slice(0), ref3);
 var ref4;
 C.z11 = (ref4 = {
     x: 0
-}, super.a = ref4.x, ref4);
+}, _get(_getPrototypeOf(C), "a", C) = ref4.x, ref4);
 var ref5, ref6;
 C.z12 = (ref5 = {
     x: 0
-}, ref6 = ref5.x, super.a = ref6 === void 0 ? 0 : ref6, ref5);
+}, ref6 = ref5.x, _get(_getPrototypeOf(C), "a", C) = ref6 === void 0 ? 0 : ref6, ref5);
 var _tmp;
 C.z13 = (_tmp = {
     x: 0
-}, super.a = _extends({}, _tmp), _tmp);
-C.z14 = ++super.a;
-C.z15 = --super.a;
-C.z16 = ++super["a"];
-C.z17 = super.a++;
-C.z18 = super.a(_templateObject());
+}, _get(_getPrototypeOf(C), "a", C) = _extends({}, _tmp), _tmp);
+C.z14 = _set(_getPrototypeOf(C.prototype), "a", _get(_getPrototypeOf(C), "a", C) + 1, C, true);
+C.z15 = _set(_getPrototypeOf(C.prototype), "a", _get(_getPrototypeOf(C), "a", C) - 1, C, true);
+C.z16 = _set(_getPrototypeOf(C.prototype), _ref = "a", _get(_getPrototypeOf(C), _ref, C) + 1, C, true);
+C.z17 = (_set(_getPrototypeOf(C.prototype), "a", (_super_a = +_get(_getPrototypeOf(C), "a", C)) + 1, C, true), _super_a);
+C.z18 = _get(_getPrototypeOf(C), "a", C)(_templateObject());

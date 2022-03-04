@@ -3,11 +3,9 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-var _key;
+var _toStringTag = Symbol.toStringTag;
 var C = function C() {
     "use strict";
     _classCallCheck(this, C);
-    //@target: ES6
-    this[_key] = "";
+    this[_toStringTag] = "";
 };
-_key = Symbol.toStringTag;

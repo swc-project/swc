@@ -34,8 +34,8 @@ var TypeScript;
             _classCallCheck(this, AstWalkOptions);
             this.goChildren = true;
             this.goNextSibling = true;
-            this.reverseSiblings // visit siblings in reverse execution order
-             = false;
+            this.reverseSiblings = false // visit siblings in reverse execution order
+            ;
         }
         _createClass(AstWalkOptions, [
             {

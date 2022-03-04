@@ -30,8 +30,7 @@ function _superPropBase(object, property) {
     for(; !Object.prototype.hasOwnProperty.call(object, property) && null !== (object = _getPrototypeOf(object)););
     return object;
 }
-var _superprop_get_f = ()=>super.f
-, C = function() {
+var C = function() {
     "use strict";
     _classCallCheck(this, C);
 };
@@ -74,9 +73,9 @@ var D = function(C1) {
     return D;
 }(C);
 D.arrowFunctionBoundary = function() {
-    return _superprop_get_f() + 1;
+    return _get(_getPrototypeOf(D), "f", D) + 1;
 }, D.functionExprBoundary = function() {
-    return super.f + 2;
+    return _get(_getPrototypeOf(D), "f", this) + 2;
 }, D.classExprBoundary = function _class() {
     "use strict";
     _classCallCheck(this, _class), this.a = _get(_getPrototypeOf(_class.prototype), "f", this) + 3;

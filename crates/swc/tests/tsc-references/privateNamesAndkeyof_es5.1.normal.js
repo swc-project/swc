@@ -29,8 +29,6 @@ var A = function A() {
         writable: true,
         value: 3
     });
-    // @strict: true
-    // @target: es6
     this.bar = 3;
     this.baz = 3;
 };

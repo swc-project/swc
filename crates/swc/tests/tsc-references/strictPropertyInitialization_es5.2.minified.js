@@ -40,7 +40,7 @@ var _f = new WeakMap(), _g = new WeakMap(), _h = new WeakMap(), _i = new WeakMap
     _classCallCheck(this, C3);
 }, _d = new WeakMap(), _e = new WeakMap(), _f1 = new WeakMap(), C4 = function() {
     "use strict";
-    _classCallCheck(this, C4), _classPrivateFieldInit(this, _d, {
+    _classCallCheck(this, C4), this.a = 0, this.b = 0, this.c = "abc", _classPrivateFieldInit(this, _d, {
         writable: !0,
         value: 0
     }), _classPrivateFieldInit(this, _e, {
@@ -49,7 +49,7 @@ var _f = new WeakMap(), _g = new WeakMap(), _h = new WeakMap(), _i = new WeakMap
     }), _classPrivateFieldInit(this, _f1, {
         writable: !0,
         value: "abc"
-    }), this.a = 0, this.b = 0, this.c = "abc";
+    });
 }, _b = new WeakMap(), C5 = function() {
     "use strict";
     _classCallCheck(this, C5), _classPrivateFieldInit(this, _b, {

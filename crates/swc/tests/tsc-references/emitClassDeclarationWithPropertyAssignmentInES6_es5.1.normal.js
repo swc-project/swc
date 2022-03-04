@@ -72,7 +72,6 @@ function _createSuper(Derived) {
 var C = function C() {
     "use strict";
     _classCallCheck(this, C);
-    // @target:es6
     this.x = "Hello world";
 };
 var D = function D() {

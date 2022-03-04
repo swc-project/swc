@@ -9,12 +9,6 @@ var Foo = function Foo() {
     "use strict";
     _classCallCheck(this, Foo);
 };
-// @allowJs: true
-// @checkJs: true
-// @target: es5
-// @outDir: ./out
-// @declaration: true
-// @filename: cls.js
 export { Foo as default };
 export var x = new Fooa();
 export { default as Foob } from "./cls";

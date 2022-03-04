@@ -9,9 +9,6 @@ var foo = function foo() {
     "use strict";
     _classCallCheck(this, foo);
 };
-// @module: commonjs
-// @target: ES5
-// @filename: m1.ts
 export { foo as default };
 export default function bar() {};
 var x = 10;

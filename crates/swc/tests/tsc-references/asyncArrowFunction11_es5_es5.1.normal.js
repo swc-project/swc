@@ -50,10 +50,6 @@ var A = function A() {
     "use strict";
     _classCallCheck(this, A);
     var _this = this;
-    // @target: es5
-    // @lib: esnext, dom
-    // @downlevelIteration: true
-    // https://github.com/Microsoft/TypeScript/issues/24722
     this.b = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         var _len, args, _key, obj, _args = arguments;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {

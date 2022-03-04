@@ -12,8 +12,9 @@ var Shapes;
             this.y = y;
         }
     }
-    Shapes1.Point = Point;
+    // Static member
     Point.origin = new Point(0, 0);
+    Shapes1.Point = Point;
 })(Shapes || (Shapes = {}));
 // Local variables
 var p = new Shapes.Point(3, 4);

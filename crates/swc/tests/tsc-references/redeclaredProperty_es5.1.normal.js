@@ -72,10 +72,6 @@ function _createSuper(Derived1) {
 var Base = function Base() {
     "use strict";
     _classCallCheck(this, Base);
-    // @noTypesAndSymbols: true
-    // @strictNullChecks: true
-    // @target: esnext
-    // @useDefineForClassFields: true
     this.b = 1;
 };
 var Derived = /*#__PURE__*/ function(Base) {

@@ -5,14 +5,13 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-var _key;
 var x = 1;
+var _x = x;
 var C = function C() {
     _classCallCheck(this, C);
-    this[_key] = true;
+    this[_x] = true;
     var ref = {
         a: 1,
         b: 2
     }, a = ref.a, b = ref.b;
 };
-_key = x;

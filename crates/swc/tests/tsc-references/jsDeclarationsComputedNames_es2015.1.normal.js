@@ -1,4 +1,3 @@
-var _key, _key1;
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -21,14 +20,13 @@ module.exports = {
 // @filename: index2.js
 const TopLevelSym = Symbol();
 const InnerSym = Symbol();
+let _InnerSym = InnerSym;
 export class MyClass {
     /**
      * @param {typeof TopLevelSym | typeof InnerSym} _p
      */ constructor(_p = InnerSym){
-        this[_key1] = "ok";
+        this[_InnerSym] = "ok";
     // switch on _p
     }
 }
-_key = TopLevelSym;
-_key1 = InnerSym;
-MyClass[_key] = 12;
+MyClass[TopLevelSym] = 12;
