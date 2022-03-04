@@ -162,6 +162,12 @@ where
                             let mut tokens = vec![];
 
                             while !is_one_of!(self, EOF, "{") {
+                                if is!(self, ";") {
+                                    let span = self.input.cur_span()?;
+
+                                    return Err(Error::new(span, ErrorKind::UnexpectedChar(';')));
+                                }
+
                                 let token = self.input.bump()?;
 
                                 tokens.extend(token);
@@ -260,13 +266,13 @@ where
                 // returned, append it to rules.
                 tok!("&") => {
                     let state = self.input.state();
-                    let span = self.input.cur_span()?;
                     let qualified_rule = match self.parse() {
                         Ok(v) => StyleBlock::QualifiedRule(v),
                         Err(err) => {
                             self.errors.push(err);
                             self.input.reset(&state);
 
+                            let span = self.input.cur_span()?;
                             let mut tokens = vec![];
 
                             while !is_one_of!(self, EOF, "}") {

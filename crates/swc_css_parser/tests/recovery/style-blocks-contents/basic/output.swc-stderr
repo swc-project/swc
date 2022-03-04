@@ -28,5 +28,9 @@ error: Invalid selector
 39 |     & test;
    |           ^
 
-error: Unexpected end of file
+error: Unexpected character `';'`
+  --> $DIR/tests/recovery/style-blocks-contents/basic/input.css:39:11
+   |
+39 |     & test;
+   |           ^
 

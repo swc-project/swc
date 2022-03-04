@@ -46,6 +46,12 @@ error: Expected function or ident tokens
 112 |     &property: value;
     |               ^
 
+error: Unexpected character `';'`
+   --> $DIR/tests/recovery/hacks/input.css:112:21
+    |
+112 |     &property: value;
+    |                     ^
+
 error: Expected whitespace, semicolon, EOF, at-keyword or ident token
    --> $DIR/tests/recovery/hacks/input.css:116:5
     |
@@ -53,10 +59,10 @@ error: Expected whitespace, semicolon, EOF, at-keyword or ident token
     |     ^
 
 error: Expected whitespace, semicolon, EOF, at-keyword or ident token
-   --> $DIR/tests/recovery/hacks/input.css:119:1
+   --> $DIR/tests/recovery/hacks/input.css:120:5
     |
-119 | .selector { 
-    | ^
+120 |     )property: value;
+    |     ^
 
 error: Expected whitespace, semicolon, EOF, at-keyword or ident token
    --> $DIR/tests/recovery/hacks/input.css:124:5
