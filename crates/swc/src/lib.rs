@@ -123,6 +123,7 @@ use anyhow::{bail, Context, Error};
 use atoms::JsWord;
 use common::{
     collections::AHashMap,
+    comments::SingleThreadedComments,
     errors::{EmitterWriter, HANDLER},
 };
 use config::{util::BoolOrObject, IsModule, JsMinifyCommentOption, JsMinifyOptions};
@@ -272,7 +273,7 @@ pub struct Compiler {
     globals: Globals,
     /// CodeMap
     pub cm: Arc<SourceMap>,
-    comments: SwcComments,
+    global_comments: SwcComments,
 }
 
 #[cfg(feature = "node")]
@@ -298,8 +299,8 @@ impl Compiler {
         &self.globals
     }
 
-    pub fn comments(&self) -> &SwcComments {
-        &self.comments
+    pub fn global_comments(&self) -> &SwcComments {
+        &self.global_comments
     }
 
     /// Runs `op` in current compiler's context.
@@ -420,48 +421,24 @@ impl Compiler {
         target: EsVersion,
         syntax: Syntax,
         is_module: IsModule,
-        parse_comments: bool,
+        comments: Option<&dyn Comments>,
     ) -> Result<Program, Error> {
         self.run(|| {
             let mut error = false;
 
             let mut errors = vec![];
             let program_result = match is_module {
-                IsModule::Bool(true) => parse_file_as_module(
-                    &fm,
-                    syntax,
-                    target,
-                    if parse_comments {
-                        Some(&self.comments)
-                    } else {
-                        None
-                    },
-                    &mut errors,
-                )
-                .map(Program::Module),
-                IsModule::Bool(false) => parse_file_as_script(
-                    &fm,
-                    syntax,
-                    target,
-                    if parse_comments {
-                        Some(&self.comments)
-                    } else {
-                        None
-                    },
-                    &mut errors,
-                )
-                .map(Program::Script),
-                IsModule::Unknown => parse_file_as_program(
-                    &fm,
-                    syntax,
-                    target,
-                    if parse_comments {
-                        Some(&self.comments)
-                    } else {
-                        None
-                    },
-                    &mut errors,
-                ),
+                IsModule::Bool(true) => {
+                    parse_file_as_module(&fm, syntax, target, comments, &mut errors)
+                        .map(Program::Module)
+                }
+                IsModule::Bool(false) => {
+                    parse_file_as_script(&fm, syntax, target, comments, &mut errors)
+                        .map(Program::Script)
+                }
+                IsModule::Unknown => {
+                    parse_file_as_program(&fm, syntax, target, comments, &mut errors)
+                }
             };
 
             for e in errors {
@@ -501,6 +478,7 @@ impl Compiler {
         source_map_names: &AHashMap<BytePos, JsWord>,
         orig: Option<&sourcemap::SourceMap>,
         minify: bool,
+        comments: Option<&dyn Comments>,
         preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
     ) -> Result<TransformOutput, Error>
     where
@@ -817,6 +795,7 @@ impl Compiler {
         handler: &'a Handler,
         opts: &Options,
         name: &FileName,
+        comments: Option<SingleThreadedComments>,
         before_pass: impl 'a + FnOnce(&Program) -> P,
     ) -> Result<Option<BuiltInput<impl 'a + swc_ecma_visit::Fold>>, Error>
     where
@@ -832,16 +811,26 @@ impl Compiler {
             let built = opts.build_as_input(
                 &self.cm,
                 name,
-                move |syntax, target, is_module| match program {
-                    Some(v) => Ok(v),
-                    _ => self.parse_js(fm.clone(), handler, target, syntax, is_module, true),
+                {
+                    let comments = comments.clone();
+                    move |syntax, target, is_module| match program {
+                        Some(v) => Ok(v),
+                        _ => self.parse_js(
+                            fm.clone(),
+                            handler,
+                            target,
+                            syntax,
+                            is_module,
+                            comments.as_ref().map(|v| v as _),
+                        ),
+                    }
                 },
                 opts.output_path.as_deref(),
                 opts.source_file_name.clone(),
                 handler,
                 opts.is_module,
                 Some(config),
-                Some(&self.comments),
+                comments.as_ref(),
                 before_pass,
             )?;
             Ok(Some(built))
@@ -1128,6 +1117,7 @@ impl Compiler {
                 &source_map_names,
                 orig,
                 config.minify,
+                config.comments.as_ref().map(|v| v as _),
                 config.preserve_comments,
             )
         })

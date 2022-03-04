@@ -258,6 +258,8 @@ impl Default for InputSourceMap {
 
 impl Options {
     /// `parse`: `(syntax, target, is_module)`
+    ///
+    /// `parse` should use `comments`.
     #[allow(clippy::too_many_arguments)]
     pub fn build_as_input<'a, P>(
         &self,
@@ -506,6 +508,7 @@ impl Options {
             input_source_map: config.input_source_map.clone(),
             output_path: output_path.map(|v| v.to_path_buf()),
             source_file_name,
+            comments: comments.cloned(),
             preserve_comments,
         })
     }
@@ -967,6 +970,7 @@ pub struct BuiltInput<P: swc_ecma_visit::Fold> {
 
     pub source_file_name: Option<String>,
 
+    pub comments: Option<SingleThreadedComments>,
     pub preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
 
     pub inline_sources_content: bool,
