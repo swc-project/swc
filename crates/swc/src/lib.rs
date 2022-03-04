@@ -112,6 +112,7 @@ pub extern crate swc_common as common;
 pub extern crate swc_ecmascript as ecmascript;
 
 use std::{
+    borrow::BorrowMut,
     fs::{read_to_string, File},
     io::Write,
     mem::take,
@@ -125,6 +126,7 @@ use common::{
     collections::AHashMap,
     comments::SingleThreadedComments,
     errors::{EmitterWriter, HANDLER},
+    Span,
 };
 use config::{util::BoolOrObject, IsModule, JsMinifyCommentOption, JsMinifyOptions};
 use once_cell::sync::Lazy;
@@ -479,57 +481,11 @@ impl Compiler {
         orig: Option<&sourcemap::SourceMap>,
         minify: bool,
         comments: Option<&dyn Comments>,
-        preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
     ) -> Result<TransformOutput, Error>
     where
         T: Node + VisitWith<IdentCollector>,
     {
         self.run(|| {
-            let preserve_comments = preserve_comments.unwrap_or({
-                if minify {
-                    BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments)
-                } else {
-                    BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments)
-                }
-            });
-
-            let span = node.span();
-
-            match preserve_comments {
-                BoolOrObject::Bool(true)
-                | BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments) => {}
-
-                BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments) => {
-                    let preserve_excl = |pos: &BytePos, vc: &mut Vec<Comment>| -> bool {
-                        if *pos < span.lo || *pos >= span.hi {
-                            return true;
-                        }
-
-                        // Preserve license comments.
-                        if vc.iter().any(|c| c.text.contains("@license")) {
-                            return true;
-                        }
-
-                        vc.retain(|c: &Comment| c.text.starts_with('!'));
-                        !vc.is_empty()
-                    };
-                    self.comments.leading.retain(preserve_excl);
-                    self.comments.trailing.retain(preserve_excl);
-                }
-
-                BoolOrObject::Bool(false) => {
-                    let remove_all_in_range = |pos: &BytePos, _: &mut Vec<Comment>| -> bool {
-                        if *pos < span.lo || *pos >= span.hi {
-                            return true;
-                        }
-
-                        false
-                    };
-                    self.comments.leading.retain(remove_all_in_range);
-                    self.comments.trailing.retain(remove_all_in_range);
-                }
-            }
-
             let mut src_map_buf = vec![];
 
             let src = {
@@ -671,13 +627,104 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
     }
 }
 
+pub fn preserve_global_comments(
+    comments: &SwcComments,
+    span: Span,
+    minify: bool,
+    preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
+) {
+    let preserve_comments = preserve_comments.unwrap_or({
+        if minify {
+            BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments)
+        } else {
+            BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments)
+        }
+    });
+
+    match preserve_comments {
+        BoolOrObject::Bool(true)
+        | BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments) => {}
+
+        BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments) => {
+            let preserve_excl = |pos: &BytePos, vc: &mut Vec<Comment>| -> bool {
+                if *pos < span.lo || *pos >= span.hi {
+                    return true;
+                }
+
+                // Preserve license comments.
+                if vc.iter().any(|c| c.text.contains("@license")) {
+                    return true;
+                }
+
+                vc.retain(|c: &Comment| c.text.starts_with('!'));
+                !vc.is_empty()
+            };
+            comments.leading.retain(preserve_excl);
+            comments.trailing.retain(preserve_excl);
+        }
+
+        BoolOrObject::Bool(false) => {
+            let remove_all_in_range = |pos: &BytePos, _: &mut Vec<Comment>| -> bool {
+                if *pos < span.lo || *pos >= span.hi {
+                    return true;
+                }
+
+                false
+            };
+            comments.leading.retain(remove_all_in_range);
+            comments.trailing.retain(remove_all_in_range);
+        }
+    }
+}
+
+pub fn preserve_file_comments(
+    comments: &SingleThreadedComments,
+    minify: bool,
+    preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
+) {
+    let preserve_comments = preserve_comments.unwrap_or({
+        if minify {
+            BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments)
+        } else {
+            BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments)
+        }
+    });
+
+    match preserve_comments {
+        BoolOrObject::Bool(true)
+        | BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments) => {}
+
+        BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments) => {
+            let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {
+                // Preserve license comments.
+                if vc.iter().any(|c| c.text.contains("@license")) {
+                    return true;
+                }
+
+                vc.retain(|c: &Comment| c.text.starts_with('!'));
+                !vc.is_empty()
+            };
+            let (mut l, mut t) = comments.borrow_all_mut();
+
+            l.retain(preserve_excl);
+            t.retain(preserve_excl);
+        }
+
+        BoolOrObject::Bool(false) => {
+            let (mut l, mut t) = comments.borrow_all_mut();
+            l.clear();
+            t.clear();
+        }
+    }
+}
+
 /// High-level apis.
 impl Compiler {
     pub fn new(cm: Arc<SourceMap>) -> Self {
         Compiler {
             cm,
             globals: Globals::new(),
-            comments: Default::default(),
+            global_comments: Default::default(),
         }
     }
 
@@ -1054,6 +1101,8 @@ impl Compiler {
                 module.fold_with(&mut fixer(Some(&comments as &dyn Comments)))
             });
 
+            preserve_file_comments(&comments, true, Some(opts.format.comments.clone()));
+
             self.print(
                 &module,
                 Some(&fm.name.to_string()),
@@ -1065,7 +1114,6 @@ impl Compiler {
                 orig.as_ref(),
                 true,
                 Some(&comments),
-                Some(opts.format.comments.clone()),
             )
         })
     }
@@ -1113,6 +1161,10 @@ impl Compiler {
                 })
             });
 
+            if let Some(comments) = &config.comments {
+                preserve_file_comments(&comments, config.minify, config.preserve_comments);
+            }
+
             self.print(
                 &program,
                 config.source_file_name.as_deref(),
@@ -1124,7 +1176,6 @@ impl Compiler {
                 orig,
                 config.minify,
                 config.comments.as_ref().map(|v| v as _),
-                config.preserve_comments,
             )
         })
     }
