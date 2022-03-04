@@ -68,5 +68,4 @@ var C1 = function(C) {
         return _classCallCheck(this, E1), _super.apply(this, arguments);
     }
     return E1;
-} // error
-(E1);
+}(E1);

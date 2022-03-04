@@ -67,4 +67,4 @@ var Base = function() {
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Derived1;
 }(Base), obj = new Derived1();
-console.log(obj.x); // 1
+console.log(obj.x);

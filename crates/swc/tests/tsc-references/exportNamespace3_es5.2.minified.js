@@ -6,5 +6,5 @@ export var A = function() {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
     }(this, A);
 };
-new a.A(); // Error
+new a.A();
 export { _a as a };

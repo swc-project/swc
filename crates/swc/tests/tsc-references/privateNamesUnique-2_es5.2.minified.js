@@ -46,4 +46,4 @@ export var Foo = function() {
     });
 };
 var a = new A(), b = new B();
-a.copy(b); // error
+a.copy(b);

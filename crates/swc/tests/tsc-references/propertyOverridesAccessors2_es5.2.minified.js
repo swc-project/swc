@@ -72,4 +72,4 @@ var Base = function() {
     }
     return Derived1;
 }(Base), obj = new Derived1();
-console.log(obj.x); // 2
+console.log(obj.x);

@@ -23,7 +23,6 @@ var StringIterator = function() {
 }(), _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
 try {
     for(var _step, _iterator = (new StringIterator)[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0)_step.value;
-     // Should fail because the iterator is not iterable
 } catch (err) {
     _didIteratorError = !0, _iteratorError = err;
 } finally{
