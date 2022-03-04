@@ -9,9 +9,13 @@ use swc::{
         BuiltInput, Config, IsModule, JscConfig, ModuleConfig, Options, SourceMapsConfig,
         TransformConfig,
     },
-    Compiler, TransformOutput,
+    preserve_file_comments, Compiler, TransformOutput,
 };
-use swc_common::{chain, comments::Comment, BytePos, FileName};
+use swc_common::{
+    chain,
+    comments::{Comment, SingleThreadedComments},
+    BytePos, FileName,
+};
 use swc_ecma_ast::{EsVersion, *};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{
@@ -705,7 +709,7 @@ fn should_visit() {
                 "
                 .into(),
             );
-            let comments = c.comments().clone();
+            let comments = SingleThreadedComments::default();
             let config = c
                 .parse_js_as_input(
                     fm.clone(),
@@ -768,6 +772,8 @@ fn should_visit() {
                 })
             });
 
+            preserve_file_comments(&comments, config.minify, config.preserve_comments);
+
             Ok(c.print(
                 &program,
                 None,
@@ -779,7 +785,7 @@ fn should_visit() {
                 None,
                 // TODO: figure out sourcemaps
                 config.minify,
-                config.preserve_comments,
+                Some(&comments),
             )
             .unwrap()
             .code)

@@ -44,7 +44,7 @@ impl Task for ParseTask {
             .new_source_file(self.filename.clone(), self.src.clone());
 
         let comments = if options.comments {
-            Some(&self.c.comments() as &dyn Comments)
+            Some(self.c.comments() as &dyn Comments)
         } else {
             None
         };
@@ -87,8 +87,9 @@ impl Task for ParseFileTask {
                     .load_file(&self.path)
                     .context("failed to read module")?;
 
+                let c = self.c.comments().clone();
                 let comments = if options.comments {
-                    Some(&self.c.comments() as &dyn Comments)
+                    Some(&c as &dyn Comments)
                 } else {
                     None
                 };
