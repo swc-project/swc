@@ -38,7 +38,7 @@ Please see [comparison with Babel](https://swc.rs/docs/migrating-from-babel).
 
 Please see [benchmark results](https://swc.rs/docs/benchmark-transform) on the website.
 
-<h2 align="center">Supporting swc</h2>
+<h2 align="center">Supporting SWC</h2>
 
 <p align="center">
    <a href="#backers">
