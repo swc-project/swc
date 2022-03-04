@@ -553,7 +553,7 @@ impl Compiler {
 
                     let mut emitter = Emitter {
                         cfg: swc_ecma_codegen::Config { minify },
-                        comments: if minify { None } else { Some(&self.comments) },
+                        comments,
                         cm: self.cm.clone(),
                         wr,
                     };
@@ -795,13 +795,13 @@ impl Compiler {
         handler: &'a Handler,
         opts: &Options,
         name: &FileName,
-        comments: Option<SingleThreadedComments>,
+        comments: Option<&'a SingleThreadedComments>,
         before_pass: impl 'a + FnOnce(&Program) -> P,
     ) -> Result<Option<BuiltInput<impl 'a + swc_ecma_visit::Fold>>, Error>
     where
         P: 'a + swc_ecma_visit::Fold,
     {
-        self.run(|| {
+        self.run(move || {
             let config = self.read_config(opts, name)?;
             let config = match config {
                 Some(v) => v,
@@ -830,7 +830,7 @@ impl Compiler {
                 handler,
                 opts.is_module,
                 Some(config),
-                comments.as_ref(),
+                comments,
                 before_pass,
             )?;
             Ok(Some(built))
@@ -890,12 +890,15 @@ impl Compiler {
     {
         self.run(|| -> Result<_, Error> {
             let config = self.run(|| {
+                let comments = SingleThreadedComments::default();
+
                 self.parse_js_as_input(
                     fm.clone(),
                     program,
                     handler,
                     opts,
                     &fm.name,
+                    Some(&comments),
                     custom_before_pass,
                 )
             })?;
@@ -922,6 +925,7 @@ impl Compiler {
                 source_file_name: config.source_file_name,
                 preserve_comments: config.preserve_comments,
                 inline_sources_content: config.inline_sources_content,
+                comments: config.comments,
             };
 
             let orig = if config.source_maps.enabled() {
@@ -997,6 +1001,8 @@ impl Compiler {
                 }
             }
 
+            let mut comments = SingleThreadedComments::default();
+
             let module = self
                 .parse_js(
                     fm.clone(),
@@ -1008,11 +1014,10 @@ impl Compiler {
                         decorators_before_export: true,
                         import_assertions: true,
                         private_in_object: true,
-
                         ..Default::default()
                     }),
                     IsModule::Bool(true),
-                    true,
+                    Some(&comments),
                 )
                 .context("failed to parse input file")?
                 .expect_module();
@@ -1037,7 +1042,7 @@ impl Compiler {
                 let mut module = swc_ecma_minifier::optimize(
                     module,
                     self.cm.clone(),
-                    Some(&self.comments),
+                    Some(&comments),
                     None,
                     &min_opts,
                     &swc_ecma_minifier::option::ExtraOptions { top_level_mark },
@@ -1046,7 +1051,7 @@ impl Compiler {
                 if !is_mangler_enabled {
                     module.visit_mut_with(&mut hygiene())
                 }
-                module.fold_with(&mut fixer(Some(&self.comments as &dyn Comments)))
+                module.fold_with(&mut fixer(Some(&comments as &dyn Comments)))
             });
 
             self.print(
@@ -1059,6 +1064,7 @@ impl Compiler {
                 &source_map_names,
                 orig.as_ref(),
                 true,
+                Some(&comments),
                 Some(opts.format.comments.clone()),
             )
         })
