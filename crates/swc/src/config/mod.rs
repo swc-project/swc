@@ -23,6 +23,7 @@ use swc_cached::regex::CachedRegex;
 pub use swc_common::chain;
 use swc_common::{
     collections::{AHashMap, AHashSet},
+    comments::SingleThreadedComments,
     errors::Handler,
     FileName, Mark, SourceMap, SyntaxContext,
 };
@@ -65,7 +66,7 @@ use self::util::BoolOrObject;
 use crate::{
     builder::PassBuilder,
     plugin::{PluginConfig, PluginContext},
-    SwcComments, SwcImportResolver,
+    SwcImportResolver,
 };
 
 #[cfg(test)]
@@ -257,6 +258,8 @@ impl Default for InputSourceMap {
 
 impl Options {
     /// `parse`: `(syntax, target, is_module)`
+    ///
+    /// `parse` should use `comments`.
     #[allow(clippy::too_many_arguments)]
     pub fn build_as_input<'a, P>(
         &self,
@@ -268,7 +271,7 @@ impl Options {
         handler: &Handler,
         is_module: IsModule,
         config: Option<Config>,
-        comments: Option<&'a SwcComments>,
+        comments: Option<&'a SingleThreadedComments>,
         custom_before_pass: impl FnOnce(&Program) -> P,
     ) -> Result<BuiltInput<impl 'a + swc_ecma_visit::Fold>, Error>
     where
@@ -505,6 +508,7 @@ impl Options {
             input_source_map: config.input_source_map.clone(),
             output_path: output_path.map(|v| v.to_path_buf()),
             source_file_name,
+            comments: comments.cloned(),
             preserve_comments,
         })
     }
@@ -966,6 +970,7 @@ pub struct BuiltInput<P: swc_ecma_visit::Fold> {
 
     pub source_file_name: Option<String>,
 
+    pub comments: Option<SingleThreadedComments>,
     pub preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
 
     pub inline_sources_content: bool,

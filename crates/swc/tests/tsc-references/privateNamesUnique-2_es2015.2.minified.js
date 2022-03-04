@@ -31,4 +31,4 @@ export class Foo {
     }
 }
 const a = new A(), b = new B();
-a.copy(b); // error
+a.copy(b);

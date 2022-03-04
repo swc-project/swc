@@ -353,6 +353,12 @@ where
 
         match (cons, alt) {
             (Expr::Call(cons), Expr::Call(alt)) => {
+                if let Some(data) = &self.data {
+                    if data.contains_unresolved(&**test) {
+                        return None;
+                    }
+                }
+
                 let cons_callee = cons.callee.as_expr().and_then(|e| e.as_ident())?;
                 //
 
@@ -468,6 +474,12 @@ where
             }
 
             (Expr::New(cons), Expr::New(alt)) => {
+                if let Some(data) = &self.data {
+                    if data.contains_unresolved(&**test) {
+                        return None;
+                    }
+                }
+
                 // TODO: Handle new expression with no args.
 
                 if cons.callee.eq_ignore_span(&alt.callee)

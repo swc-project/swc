@@ -4,5 +4,4 @@ const wrapped = create({
         styleMedia: "???"
     }
 });
-wrapped.first // error, first is a branded number
-;
+wrapped.first;

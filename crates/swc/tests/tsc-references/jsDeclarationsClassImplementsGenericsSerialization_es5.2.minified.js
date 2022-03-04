@@ -20,7 +20,4 @@ export var Encoder = function() {
             }
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Encoder;
-} /**
- * @template T
- * @typedef {import('./interface').Encoder<T>} IEncoder
- */ ();
+}();

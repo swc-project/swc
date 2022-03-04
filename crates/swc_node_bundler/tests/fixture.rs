@@ -82,6 +82,7 @@ fn pass(input_dir: PathBuf) {
             let mut error = false;
 
             for bundled in modules {
+                let comments = compiler.comments().clone();
                 let code = compiler
                     .print(
                         &bundled.module.fold_with(&mut fixer(None)),
@@ -93,7 +94,7 @@ fn pass(input_dir: PathBuf) {
                         &Default::default(),
                         None,
                         false,
-                        Some(true.into()),
+                        Some(&comments),
                     )
                     .expect("failed to print?")
                     .code;

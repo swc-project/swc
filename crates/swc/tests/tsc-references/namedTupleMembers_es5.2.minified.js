@@ -52,4 +52,4 @@ export var argumentsOfG = f.apply(void 0, function(arr) {
     })(arr) || _unsupportedIterableToArray(arr) || (function() {
         throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
     })();
-}(getArgsForInjection(g))); // captured arguments list re-spread
+}(getArgsForInjection(g)));

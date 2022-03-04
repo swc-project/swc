@@ -297,6 +297,49 @@ impl VisitMut for CompressDeclaration {
                         })
                         .collect();
                 }
+                "background-repeat" | "mask-repeat" | "-webkit-mask-repeat"
+                    if declaration.value.len() == 2 =>
+                {
+                    let first = declaration.value.get(0);
+                    let second = declaration.value.get(1);
+
+                    if let (
+                        Some(ComponentValue::Ident(Ident {
+                            span,
+                            value: first_value,
+                            ..
+                        })),
+                        Some(ComponentValue::Ident(Ident {
+                            value: second_value,
+                            ..
+                        })),
+                    ) = (first, second)
+                    {
+                        match (&*first_value.to_lowercase(), &*second_value.to_lowercase()) {
+                            ("repeat", "no-repeat") => {
+                                declaration.value = vec![ComponentValue::Ident(Ident {
+                                    span: *span,
+                                    value: "repeat-x".into(),
+                                    raw: "repeat-x".into(),
+                                })];
+                            }
+                            ("no-repeat", "repeat") => {
+                                declaration.value = vec![ComponentValue::Ident(Ident {
+                                    span: *span,
+                                    value: "repeat-y".into(),
+                                    raw: "repeat-y".into(),
+                                })];
+                            }
+                            ("repeat", "repeat")
+                            | ("space", "space")
+                            | ("round", "round")
+                            | ("no-repeat", "no-repeat") => {
+                                declaration.value.remove(1);
+                            }
+                            _ => {}
+                        }
+                    }
+                }
                 _ => {}
             }
         }

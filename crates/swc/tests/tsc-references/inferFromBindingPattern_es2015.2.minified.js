@@ -4,4 +4,4 @@ const [x] = [
     42
 ], [person] = selectJohn(), [any, whatever] = selectJohn(), john = selectJohn(), [personAgain, nufinspecial] = john;
 makeTuple(stringy());
-const [isAny] = makeTuple(stringy()); // [string]
+const [isAny] = makeTuple(stringy());

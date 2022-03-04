@@ -24,7 +24,9 @@ arrow/arrow_functions_without_body/input.js
 arrow/arrow_unused/input.js
 arrow/arrow_unused_toplevel/input.js
 arrow/arrow_with_regexp/input.js
+arrow/async_function_expression/input.js
 arrow/async_identifiers/input.js
+arrow/async_object_literal/input.js
 arrow/call_args/input.js
 arrow/concise_method_with_super/input.js
 arrow/issue_2271/input.js
@@ -49,6 +51,7 @@ async/async_arrow_iife_negate_iife/input.js
 async/async_arrow_wait/input.js
 async/async_class/input.js
 async/async_export/input.js
+async/async_function_expression/input.js
 async/async_generator_class_method/input.js
 async/async_generator_function/input.js
 async/async_generator_object_literal_method/input.js
@@ -240,6 +243,7 @@ conditionals/cond_7_1/input.js
 conditionals/cond_8/input.js
 conditionals/cond_8b/input.js
 conditionals/cond_8c/input.js
+conditionals/cond_9/input.js
 conditionals/condition_symbol_matches_consequent/input.js
 conditionals/delete_conditional_1/input.js
 conditionals/delete_conditional_2/input.js
@@ -252,6 +256,7 @@ conditionals/ifs_4/input.js
 conditionals/issue_1645_1/input.js
 conditionals/issue_1645_2/input.js
 conditionals/issue_2535_2/input.js
+conditionals/issue_2560/input.js
 conditionals/no_evaluate/input.js
 conditionals/ternary_boolean_alternative/input.js
 conditionals/ternary_boolean_consequent/input.js
@@ -281,6 +286,7 @@ dead_code/issue_2666/input.js
 dead_code/issue_2692/input.js
 dead_code/issue_2701/input.js
 dead_code/issue_2860_1/input.js
+dead_code/issue_2860_2/input.js
 dead_code/issue_2929/input.js
 dead_code/throw_assignment/input.js
 dead_code/try_catch_finally/input.js
@@ -865,6 +871,7 @@ object/computed_property_names_evaluated_1/input.js
 object/computed_property_names_evaluated_2/input.js
 object/computed_property_names_side_effects/input.js
 object/concise_generators/input.js
+object/concise_method_to_prop_arrow/input.js
 object/concise_methods/input.js
 object/concise_methods_and_keyword_names/input.js
 object/concise_methods_with_computed_property/input.js

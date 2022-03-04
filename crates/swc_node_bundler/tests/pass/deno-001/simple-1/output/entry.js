@@ -28,9 +28,7 @@ class MuxAsyncIterator {
     }
     async *iterate() {
         while(this.iteratorCount > 0){
-            // Sleep until any of the wrapped iterators yields.
             await this.signal;
-            // Note that while we're looping over `yields`, new items may be added.
             for(let i = 0; i < this.yields.length; i++){
                 const { iterator , value  } = this.yields[i];
                 yield value;
@@ -40,7 +38,6 @@ class MuxAsyncIterator {
                 for (const e of this.throws)throw e;
                 this.throws.length = 0;
             }
-            // Clear the `yields` list and reset the `signal` promise.
             this.yields.length = 0;
             this.signal = deferred();
         }
@@ -51,7 +48,6 @@ class MuxAsyncIterator {
     constructor(){
         this.iteratorCount = 0;
         this.yields = [];
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         this.throws = [];
         this.signal = deferred();
     }
@@ -84,7 +80,6 @@ function bodyReader(contentLength, r) {
     };
 }
 function chunkedBodyReader(h, r) {
-    // Based on https://tools.ietf.org/html/rfc2616#section-19.4.6
     const tp = new TextProtoReader(r);
     let finished = false;
     const chunks = [];
@@ -98,14 +93,12 @@ function chunkedBodyReader(h, r) {
             chunk.offset += readLength;
             if (chunk.offset === chunk.data.byteLength) {
                 chunks.shift();
-                // Consume \r\n;
                 if (await tp.readLine() === null) throw new Deno.errors.UnexpectedEof();
             }
             return readLength;
         }
         const line = await tp.readLine();
         if (line === null) throw new Deno.errors.UnexpectedEof();
-        // TODO: handle chunk extension
         const [chunkSizeString] = line.split(";");
         const chunkSize = parseInt(chunkSizeString, 16);
         if (Number.isNaN(chunkSize) || chunkSize < 0) throw new Error("Invalid chunk size");
@@ -125,13 +118,11 @@ function chunkedBodyReader(h, r) {
                 const bufToFill = buf.subarray(0, chunkSize);
                 const eof = await r.readFull(bufToFill);
                 if (eof === null) throw new Deno.errors.UnexpectedEof();
-                // Consume \r\n
                 if (await tp.readLine() === null) throw new Deno.errors.UnexpectedEof();
                 return chunkSize;
             }
         } else {
             assert(chunkSize === 0);
-            // Consume \r\n
             if (await r.readLine() === null) throw new Deno.errors.UnexpectedEof();
             await readTrailers(h, r);
             finished = true;
@@ -254,27 +245,17 @@ async function writeResponse(w, r) {
     await writer.flush();
 }
 class ServerRequest {
-    /**
-     * Value of Content-Length header.
-     * If null, then content length is invalid or not given (e.g. chunked encoding).
-     */ get contentLength() {
-        // undefined means not cached.
-        // null means invalid or not provided.
+    get contentLength() {
         if (this._contentLength === undefined) {
             const cl = this.headers.get("content-length");
             if (cl) {
                 this._contentLength = parseInt(cl);
-                // Convert NaN to null (as NaN harder to test)
                 if (Number.isNaN(this._contentLength)) this._contentLength = null;
             } else this._contentLength = null;
         }
         return this._contentLength;
     }
-    /**
-     * Body of the request.  The easiest way to consume the body is:
-     *
-     *     const buf: Uint8Array = await Deno.readAll(req.body);
-     */ get body() {
+    get body() {
         if (!this._body) {
             if (this.contentLength != null) this._body = bodyReader(this.contentLength, this.r);
             else {
@@ -284,8 +265,7 @@ class ServerRequest {
                     );
                     assert(parts.includes("chunked"), 'transfer-encoding must include "chunked" if content-length is not set');
                     this._body = chunkedBodyReader(this.headers, this.r);
-                } else // Neither content-length nor transfer-encoding: chunked
-                this._body = emptyReader();
+                } else this._body = emptyReader();
             }
         }
         return this._body;
@@ -293,26 +273,18 @@ class ServerRequest {
     async respond(r) {
         let err;
         try {
-            // Write our response!
             await writeResponse(this.w, r);
         } catch (e) {
             try {
-                // Eagerly close on error.
                 this.conn.close();
-            } catch  {
-            // Pass
-            }
+            } catch  {}
             err = e;
         }
-        // Signal that this request has been processed and the next pipelined
-        // request on the same connection can be accepted.
         this.done.resolve(err);
-        if (err) // Error during responding, rethrow.
-        throw err;
+        if (err) throw err;
     }
     async finalize() {
         if (this.finalized) return;
-        // Consume unread body
         const body = this.body;
         const buf = new Uint8Array(1024);
         while(await body.read(buf) !== null);
@@ -339,7 +311,7 @@ function parseHTTPVersion(vers) {
             ];
         default:
             {
-                const Big = 1000000; // arbitrary upper bound
+                const Big = 1000000;
                 if (!vers.startsWith("HTTP/")) break;
                 const dot = vers.indexOf(".");
                 if (dot < 0) break;
@@ -359,7 +331,7 @@ function parseHTTPVersion(vers) {
 }
 async function readRequest(conn, bufr) {
     const tp = new TextProtoReader(bufr);
-    const firstLine = await tp.readLine(); // e.g. GET /index.html HTTP/1.0
+    const firstLine = await tp.readLine();
     if (firstLine === null) return null;
     const headers = await tp.readMIMEHeader();
     if (headers === null) throw new Deno.errors.UnexpectedEof();
@@ -384,11 +356,9 @@ class Server {
         for (const conn of this.connections)try {
             conn.close();
         } catch (e) {
-            // Connection might have been already closed
             if (!(e instanceof Deno.errors.BadResource)) throw e;
         }
     }
-    // Yields all HTTP requests on a single TCP connection.
     async *iterateHttpRequests(conn) {
         const reader = new BufReader(conn);
         const writer = new BufWriter(conn);
@@ -397,8 +367,7 @@ class Server {
             try {
                 request = await readRequest(conn, reader);
             } catch (error) {
-                if (error instanceof Deno.errors.InvalidData || error instanceof Deno.errors.UnexpectedEof) // An error was thrown while parsing request headers.
-                await writeResponse(writer, {
+                if (error instanceof Deno.errors.InvalidData || error instanceof Deno.errors.UnexpectedEof) await writeResponse(writer, {
                     status: 400,
                     body: encode(`${error.message}\r\n\r\n`)
                 });
@@ -407,25 +376,17 @@ class Server {
             if (request === null) break;
             request.w = writer;
             yield request;
-            // Wait for the request to be processed before we accept a new request on
-            // this connection.
             const responseError = await request.done;
             if (responseError) {
-                // Something bad happened during response.
-                // (likely other side closed during pipelined req)
-                // req.done implies this connection already closed, so we can just return.
                 this.untrackConnection(request.conn);
                 return;
             }
-            // Consume unread body and trailers if receiver didn't consume those data
             await request.finalize();
         }
         this.untrackConnection(conn);
         try {
             conn.close();
-        } catch (e) {
-        // might have been already closed
-        }
+        } catch (e) {}
     }
     trackConnection(conn) {
         this.connections.push(conn);
@@ -434,13 +395,8 @@ class Server {
         const index = this.connections.indexOf(conn);
         if (index !== -1) this.connections.splice(index, 1);
     }
-    // Accepts a new TCP connection and yields all HTTP requests that arrive on
-    // it. When a connection is accepted, it also creates a new iterator of the
-    // same kind and adds it to the request multiplexer so that another TCP
-    // connection can be accepted.
     async *acceptConnAndIterateHttpRequests(mux) {
         if (this.closing) return;
-        // Wait for a new connection.
         let conn;
         try {
             conn = await this.listener.accept();
@@ -449,9 +405,7 @@ class Server {
             throw error;
         }
         this.trackConnection(conn);
-        // Try to accept another connection and add it to the multiplexer.
         mux.add(this.acceptConnAndIterateHttpRequests(mux));
-        // Yield the requests that arrive on the just-accepted connection.
         yield* this.iterateHttpRequests(conn);
     }
     [Symbol.asyncIterator]() {
@@ -497,10 +451,7 @@ function fixLength(req) {
         }
         const c = req.headers.get("Content-Length");
         if (req.method === "HEAD" && c && c !== "0") throw Error("http: method cannot contain a Content-Length");
-        if (c && req.headers.has("transfer-encoding")) // A sender MUST NOT send a Content-Length header field in any message
-        // that contains a Transfer-Encoding header field.
-        // rfc: https://tools.ietf.org/html/rfc7230#section-3.3.2
-        throw new Error("http: Transfer-Encoding and Content-Length cannot be send together");
+        if (c && req.headers.has("transfer-encoding")) throw new Error("http: Transfer-Encoding and Content-Length cannot be send together");
     }
 }
 listenAndServe({

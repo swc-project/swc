@@ -1,5 +1,5 @@
 use std::{
-    cell::{Ref, RefCell},
+    cell::{Ref, RefCell, RefMut},
     rc::Rc,
     sync::Arc,
 };
@@ -501,6 +501,16 @@ impl SingleThreadedComments {
         Ref<SingleThreadedCommentsMapInner>,
     ) {
         (self.leading.borrow(), self.trailing.borrow())
+    }
+
+    /// Borrows all the comments as (leading, trailing).
+    pub fn borrow_all_mut(
+        &self,
+    ) -> (
+        RefMut<SingleThreadedCommentsMapInner>,
+        RefMut<SingleThreadedCommentsMapInner>,
+    ) {
+        (self.leading.borrow_mut(), self.trailing.borrow_mut())
     }
 
     pub fn with_leading<F, Ret>(&self, pos: BytePos, op: F) -> Ret
