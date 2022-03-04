@@ -6,5 +6,5 @@ var A = function() {
 };
 module.exports = a;
 var a = require("./b");
-new a.A(); // Error
+new a.A();
 export { };

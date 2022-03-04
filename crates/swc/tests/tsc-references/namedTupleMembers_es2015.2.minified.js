@@ -7,4 +7,4 @@ export function readSegment([length, count]) {}
 export const val = null;
 r = q = r, y = x = y;
 export const argumentsOfGAsFirstArgument = f(getArgsForInjection(g));
-export const argumentsOfG = f(...getArgsForInjection(g)); // captured arguments list re-spread
+export const argumentsOfG = f(...getArgsForInjection(g));

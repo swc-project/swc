@@ -33,6 +33,7 @@ fn parse(c: &swc::Compiler) -> (Arc<SourceFile>, Program) {
     );
     let handler = Handler::with_emitter_writer(Box::new(io::stderr()), Some(c.cm.clone()));
 
+    let comments = c.comments().clone();
     (
         fm.clone(),
         c.parse_js(
@@ -41,7 +42,7 @@ fn parse(c: &swc::Compiler) -> (Arc<SourceFile>, Program) {
             EsVersion::Es5,
             Syntax::Typescript(Default::default()),
             IsModule::Bool(true),
-            true,
+            Some(&comments),
         )
         .unwrap(),
     )

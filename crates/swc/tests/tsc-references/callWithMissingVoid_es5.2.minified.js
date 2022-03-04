@@ -58,5 +58,4 @@ new MyPromise(function(resolve) {
     return 42;
 }, 4), call(function(x, y) {
     return 42;
-}, 4, 2) // ok
-;
+}, 4, 2);

@@ -80,5 +80,4 @@ var Lion = function(Animal) {
     }
     return Lion;
 }(Animal);
-(new Lion).makeSound() // with [[Define]]: Expected "RAWR!" but got "rustling noise in the bushes"
-;
+(new Lion).makeSound();

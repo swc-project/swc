@@ -52,4 +52,4 @@ var d, Base = function(p) {
     }
     return Derived1;
 }(Base);
-d.p; // public, OK
+d.p;
