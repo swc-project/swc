@@ -1,8 +1,5 @@
 //! Ported from [babylon/util/identifier.js][]
 //!
-//! Note: Currently this use xid instead of id because unicode_xid crate
-//! exists.
-//!
 //!
 //! [babylon/util/identifier.js]:https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
 use std::char;
