@@ -3122,7 +3122,7 @@ dependencies = [
  "swc_timer",
  "testing",
  "tracing",
- "unicode-xid",
+ "unicode-id",
 ]
 
 [[package]]
@@ -3145,7 +3145,7 @@ dependencies = [
  "testing",
  "tracing",
  "typed-arena",
- "unicode-xid",
+ "unicode-id",
  "walkdir",
 ]
 
@@ -3227,7 +3227,6 @@ dependencies = [
  "swc_ecma_visit",
  "tempfile",
  "testing",
- "unicode-xid",
 ]
 
 [[package]]

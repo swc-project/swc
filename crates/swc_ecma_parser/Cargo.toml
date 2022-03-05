@@ -33,7 +33,7 @@ swc_ecma_ast = {version = "0.68.0", path = "../swc_ecma_ast"}
 swc_ecma_visit = {version = "0.54.0", path = "../swc_ecma_visit", optional = true}
 tracing = "0.1.31"
 typed-arena = "2.0.1"
-unicode-xid = "0.2"
+unicode-id = "0.3"
 
 [dev-dependencies]
 pretty_assertions = "0.7.2"
