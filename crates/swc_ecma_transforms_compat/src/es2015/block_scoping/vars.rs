@@ -5,6 +5,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::scope::ScopeKind;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_trace_macro::swc_trace;
 
 use super::operator::{rename, Rename};
 
@@ -37,6 +38,7 @@ struct ParentScope<'a> {
     vars: &'a IndexMap<Id, VarDeclKind, ahash::RandomState>,
 }
 
+#[swc_trace]
 impl BlockScopedVars {
     fn add_usage(&mut self, id: Id) {
         if !self.scope.usages.contains(&id) {
@@ -101,6 +103,7 @@ impl BlockScopedVars {
     }
 }
 
+#[swc_trace]
 impl Scope {
     fn rename(&mut self, parent: ParentScope, rename_map: &mut AHashMap<Id, Id>, fn_only: bool) {
         for s in self.children.iter_mut() {
@@ -231,6 +234,7 @@ impl ParentScope<'_> {
     }
 }
 
+#[swc_trace]
 impl VisitMut for BlockScopedVars {
     noop_visit_mut_type!();
 
