@@ -2798,7 +2798,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cached"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2924,11 +2924,13 @@ dependencies = [
  "serde",
  "serde_json",
  "swc_atoms",
+ "swc_cached",
  "swc_common",
  "swc_css_ast",
  "swc_css_parser",
  "swc_css_visit",
  "testing",
+ "thiserror",
 ]
 
 [[package]]

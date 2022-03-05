@@ -29,6 +29,9 @@
 - **(css)** Improve error recovery (#3853) ([c84bf13](https://github.com/swc-project/swc/commit/c84bf133a6ffce311548170cb9c4b0edb9804478))
 
 
+- **(css/lints)** Allow using regex in ignore list (#3855) ([dc0de58](https://github.com/swc-project/swc/commit/dc0de58a46c495bb520a99c4d8e8fcf380713f54))
+
+
 - **(css/minifier)** Compress `@import` at-rule (#3850) ([ccfb4bf](https://github.com/swc-project/swc/commit/ccfb4bfc0b10375d96620f2748b0a3d022c4e359))
 
 
