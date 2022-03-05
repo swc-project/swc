@@ -1,9 +1,9 @@
-use regex::Regex;
+use swc_cached::regex::CachedRegex;
 
 #[derive(Debug)]
 pub(crate) enum NamePattern {
     Str(String),
-    Regex(Regex),
+    Regex(CachedRegex),
 }
 
 impl NamePattern {
@@ -20,14 +20,14 @@ impl NamePattern {
 }
 
 impl TryFrom<String> for NamePattern {
-    type Error = regex::Error;
+    type Error = swc_cached::regex::Error;
 
     fn try_from(pattern: String) -> Result<Self, Self::Error> {
         if let Some(pattern) = pattern
             .strip_prefix('/')
             .and_then(|pattern| pattern.strip_suffix('/'))
         {
-            Regex::new(pattern).map(Self::Regex)
+            CachedRegex::new(pattern).map(Self::Regex)
         } else {
             Ok(Self::Str(pattern))
         }
