@@ -5,5 +5,14 @@
       "tsx": false,
       "decorators": false
     }
+  },
+  "module": {
+    "type": "commonjs",
+    "lazy": {
+      "patterns": [
+        "^test$",
+        "^\\."
+      ]
+    }
   }
 }
