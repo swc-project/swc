@@ -3247,7 +3247,7 @@ test!(
     Syntax::Typescript(TsConfig {
         ..Default::default()
     }),
-    |_| chain!(tr(), async_to_generator()),
+    |_| chain!(tr(), async_to_generator(Default::default())),
     issue_1235_1,
     "
     class Service {

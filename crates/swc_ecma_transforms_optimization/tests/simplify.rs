@@ -555,7 +555,7 @@ test!(
             class_properties(Default::default()),
             simplifier(Default::default()),
             es2018(Default::default()),
-            es2017(),
+            es2017(Default::default()),
             es2016(),
             es2015(
                 Mark::fresh(Mark::root()),

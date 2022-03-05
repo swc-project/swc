@@ -35,6 +35,9 @@
 - **(css/minifier)** Compress `@import` at-rule (#3850) ([ccfb4bf](https://github.com/swc-project/swc/commit/ccfb4bfc0b10375d96620f2748b0a3d022c4e359))
 
 
+- **(es/compat)** Implement loose mode for `async_to_generator` (#3870) ([c7f2bdb](https://github.com/swc-project/swc/commit/c7f2bdb8138f4fbe59b6a03f9d6aa74966389d04))
+
+
 - **(es/module/cjs)** Support regex-based patterns for lazy config (#3704) ([1f70fa6](https://github.com/swc-project/swc/commit/1f70fa6e08e9b400c2e34ee9f0d6749cf21b9e3f))
 
 
