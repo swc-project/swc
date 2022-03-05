@@ -1,3 +1,5 @@
+import { BigIntLiteral } from "@babel/types";
+
 export interface Plugin {
   (module: Program): Program;
 }
@@ -889,30 +891,28 @@ export interface ClassPropertyBase extends Node, HasSpan, HasDecorator {
 
   is_static: boolean;
 
-  computed: boolean;
-
   accessibility?: Accessibility;
-
-  /// Typescript extension.
-  is_abstract: boolean;
 
   is_optional: boolean;
 
   readonly: boolean;
-
-  definite: boolean;
 }
 
 export interface ClassProperty extends ClassPropertyBase {
   type: "ClassProperty";
 
-  key: Expression;
+  key: PropertyName;
 }
 
 export interface PrivateProperty extends ClassPropertyBase {
   type: "PrivateProperty";
 
   key: PrivateName;
+
+  /// Typescript extension.
+  is_abstract: boolean;
+
+  definite: boolean;
 }
 
 export interface Param extends Node, HasSpan, HasDecorator {
@@ -1785,6 +1785,7 @@ export type PropertyName =
   | Identifier
   | StringLiteral
   | NumericLiteral
+  | BigIntLiteral
   | ComputedPropName;
 
 export interface ComputedPropName extends Node, HasSpan {
