@@ -114,10 +114,6 @@ pub(crate) struct VarUsageInfo {
 
     /// In `c = b`, `b` infects `c`.
     infects: Vec<Id>,
-
-    /// This is true if the variable is **initialized** with another value than
-    /// `null` or `undefined`.
-    pub initialized_with_value_except_null_or_undefined: bool,
 }
 
 impl VarUsageInfo {
@@ -376,20 +372,6 @@ where
                     .mark_used_as_callee();
             }
 
-            // Support for pure_getters
-            fn is_not_null_nor_undefined(e: &Expr) -> bool {
-                match e {
-                    Expr::Lit(Lit::Null(..)) => false,
-                    Expr::Lit(..)
-                    | Expr::Array(..)
-                    | Expr::Object(..)
-                    | Expr::Class(..)
-                    | Expr::Fn(..)
-                    | Expr::Arrow(..) => true,
-                    _ => false,
-                }
-            }
-
             match &**callee {
                 Expr::Fn(callee) => {
                     for (idx, p) in callee.function.params.iter().enumerate() {
@@ -398,7 +380,7 @@ where
                                 break;
                             }
 
-                            if is_not_null_nor_undefined(&arg.expr) {
+                            if is_safe_to_access_prop(&arg.expr) {
                                 if let Pat::Ident(id) = &p.pat {
                                     self.data
                                         .var_or_default(id.to_id())
@@ -416,7 +398,7 @@ where
                                 break;
                             }
 
-                            if is_not_null_nor_undefined(&arg.expr) {
+                            if is_safe_to_access_prop(&arg.expr) {
                                 if let Pat::Ident(id) = &p {
                                     self.data
                                         .var_or_default(id.to_id())
@@ -1016,5 +998,14 @@ where
     fn visit_with_stmt(&mut self, n: &WithStmt) {
         self.scope.mark_with_stmt();
         n.visit_children_with(self);
+    }
+}
+
+// Support for pure_getters
+fn is_safe_to_access_prop(e: &Expr) -> bool {
+    match e {
+        Expr::Lit(Lit::Null(..)) => false,
+        Expr::Lit(..) | Expr::Array(..) | Expr::Fn(..) | Expr::Arrow(..) => true,
+        _ => false,
     }
 }

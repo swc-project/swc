@@ -277,6 +277,6 @@ impl VarDataLike for VarUsageInfo {
     }
 
     fn mark_initialized_with_safe_value(&mut self) {
-        self.initialized_with_value_except_null_or_undefined = true;
+        self.no_side_effect_for_member_access = true;
     }
 }
