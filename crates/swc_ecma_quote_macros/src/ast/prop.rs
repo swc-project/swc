@@ -11,13 +11,10 @@ impl_struct!(
         type_ann,
         is_static,
         decorators,
-        computed,
         accessibility,
-        is_abstract,
         is_optional,
         is_override,
-        readonly,
-        definite
+        readonly
     ]
 );
 
