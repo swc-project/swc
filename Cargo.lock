@@ -2823,6 +2823,7 @@ dependencies = [
  "serde_json",
  "swc",
  "swc_common",
+ "swc_trace_macro",
  "tracing",
  "tracing-chrome",
  "tracing-futures",
