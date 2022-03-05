@@ -24,10 +24,6 @@ struct DuplicateBindings {
 impl DuplicateBindings {
     /// Add a binding.
     fn add(&mut self, id: &Ident, check_for_var_kind: bool) {
-        if self.type_bindings.contains(&id.to_id()) {
-            return;
-        }
-
         if check_for_var_kind {
             if let Some(VarDeclKind::Var) = self.var_decl_kind {
                 return;
@@ -110,13 +106,15 @@ impl Visit for DuplicateBindings {
     fn visit_import_default_specifier(&mut self, s: &ImportDefaultSpecifier) {
         s.visit_children_with(self);
 
-        self.add(&s.local, false);
+        if !self.type_bindings.contains(&s.local.to_id()) {
+            self.add(&s.local, false);
+        }
     }
 
     fn visit_import_named_specifier(&mut self, s: &ImportNamedSpecifier) {
         s.visit_children_with(self);
 
-        if !s.is_type_only {
+        if !s.is_type_only && !self.type_bindings.contains(&s.local.to_id()) {
             self.add(&s.local, false);
         }
     }
@@ -124,7 +122,9 @@ impl Visit for DuplicateBindings {
     fn visit_import_star_as_specifier(&mut self, s: &ImportStarAsSpecifier) {
         s.visit_children_with(self);
 
-        self.add(&s.local, false);
+        if !self.type_bindings.contains(&s.local.to_id()) {
+            self.add(&s.local, false);
+        }
     }
 
     fn visit_pat(&mut self, p: &Pat) {
