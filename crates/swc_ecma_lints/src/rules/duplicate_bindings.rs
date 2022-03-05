@@ -1,5 +1,6 @@
 use std::collections::hash_map::Entry;
 
+use ahash::AHashSet;
 use swc_common::{collections::AHashMap, errors::HANDLER, Span};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
@@ -14,7 +15,7 @@ pub fn duplicate_bindings() -> Box<dyn Rule> {
 #[derive(Debug, Default)]
 struct DuplicateBindings {
     bindings: AHashMap<Id, Span>,
-    type_bindings: AHashMap<Id, Span>,
+    type_bindings: AHashSet<Id>,
 
     var_decl_kind: Option<VarDeclKind>,
     is_pat_decl: bool,
@@ -23,7 +24,7 @@ struct DuplicateBindings {
 impl DuplicateBindings {
     /// Add a binding.
     fn add(&mut self, id: &Ident, check_for_var_kind: bool) {
-        if self.type_bindings.contains_key(&id.to_id()) {
+        if self.type_bindings.contains(&id.to_id()) {
             return;
         }
 
@@ -151,7 +152,7 @@ impl Visit for DuplicateBindings {
 }
 
 struct TypeCollector<'a> {
-    type_bindings: &'a mut AHashMap<Id, Span>,
+    type_bindings: &'a mut AHashSet<Id>,
 }
 
 impl Visit for TypeCollector<'_> {
@@ -159,7 +160,7 @@ impl Visit for TypeCollector<'_> {
         n.visit_children_with(self);
 
         if let TsEntityName::Ident(ident) = n {
-            self.type_bindings.insert(ident.to_id(), ident.span);
+            self.type_bindings.insert(ident.to_id());
         }
     }
 }
