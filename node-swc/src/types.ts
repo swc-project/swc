@@ -1,5 +1,3 @@
-import { BigIntLiteral } from "@babel/types";
-
 export interface Plugin {
   (module: Program): Program;
 }
@@ -1466,6 +1464,12 @@ export interface NumericLiteral extends Node, HasSpan {
   type: "NumericLiteral";
 
   value: number;
+}
+
+export interface BigIntLiteral extends Node, HasSpan {
+  type: "BigIntLiteral";
+
+  value: bigint;
 }
 
 export type ModuleDeclaration =
