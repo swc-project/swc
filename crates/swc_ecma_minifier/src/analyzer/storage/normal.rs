@@ -275,4 +275,8 @@ impl VarDataLike for VarUsageInfo {
     fn prevent_inline(&mut self) {
         self.inline_prevented = true;
     }
+
+    fn mark_initialized_with_safe_value(&mut self) {
+        self.no_side_effect_for_member_access = true;
+    }
 }

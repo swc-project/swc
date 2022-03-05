@@ -275,8 +275,6 @@ functions/inline_loop_1/input.js
 functions/inline_loop_2/input.js
 functions/inline_true/input.js
 functions/inner_ref/input.js
-functions/issue_1841_1/input.js
-functions/issue_1841_2/input.js
 functions/issue_203/input.js
 functions/issue_2084/input.js
 functions/issue_2101/input.js
@@ -687,7 +685,6 @@ pure_getters/set_immutable_5/input.js
 pure_getters/set_immutable_6/input.js
 pure_getters/set_mutable_1/input.js
 pure_getters/set_mutable_2/input.js
-pure_getters/strict/input.js
 pure_getters/strict_reduce_vars/input.js
 pure_getters/unsafe/input.js
 pure_getters/unsafe_reduce_vars/input.js
