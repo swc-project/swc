@@ -1,13 +1,7 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 var Foo = function Foo() {
     "use strict";
-    _classCallCheck(this, Foo);
-    // @module: amd
-    // @Filename: foo_0.ts
+    swcHelpers.classCallCheck(this, Foo);
     this.test = "test";
 };
 (function(Foo) {
@@ -19,4 +13,6 @@ var foo = require("./foo_0");
 if (foo.answer === 42) {
     var x = new foo();
 }
+// @module: amd
+// @Filename: foo_0.ts
 export { };

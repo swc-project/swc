@@ -5,7 +5,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{
     ast_node, util::take::Take, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
-use unicode_xid::UnicodeXID;
+use unicode_id::UnicodeID;
 
 use crate::typescript::TsTypeAnn;
 
@@ -118,7 +118,7 @@ impl Ident {
             if c.is_ascii() {
                 false
             } else {
-                UnicodeXID::is_xid_start(c)
+                UnicodeID::is_id_start(c)
             }
         }
     }
@@ -130,7 +130,7 @@ impl Ident {
             if c.is_ascii() {
                 false
             } else {
-                UnicodeXID::is_xid_continue(c)
+                UnicodeID::is_id_continue(c)
             }
         }
     }

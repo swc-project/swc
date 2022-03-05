@@ -1,13 +1,9 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 var moduleA;
 (function(moduleA1) {
     var Point = function Point(x, y) {
         "use strict";
-        _classCallCheck(this, Point);
+        swcHelpers.classCallCheck(this, Point);
         this.x = x;
         this.y = y;
     };
@@ -18,7 +14,7 @@ var p;
 var p;
 var clodule = function clodule() {
     "use strict";
-    _classCallCheck(this, clodule);
+    swcHelpers.classCallCheck(this, clodule);
 };
 (function(clodule) {
     var Point = {

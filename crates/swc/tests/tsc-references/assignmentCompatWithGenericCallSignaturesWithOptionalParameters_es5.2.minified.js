@@ -1,12 +1,10 @@
 var ClassTypeParam, GenericSignaturesInvalid, GenericSignaturesValid;
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
+import * as swcHelpers from "@swc/helpers";
 !function(ClassTypeParam) {
     var Base = function() {
         "use strict";
         var _this = this;
-        _classCallCheck(this, Base), this.init = function() {
+        swcHelpers.classCallCheck(this, Base), this.init = function() {
             _this.a = function() {
                 return null;
             }, _this.a = function(x) {
@@ -49,16 +47,16 @@ function _classCallCheck(instance, Constructor) {
 }(ClassTypeParam || (ClassTypeParam = {})), (function(GenericSignaturesInvalid) {
     var Base2 = function() {
         "use strict";
-        _classCallCheck(this, Base2);
+        swcHelpers.classCallCheck(this, Base2);
     }, Target = function() {
         "use strict";
-        _classCallCheck(this, Target);
+        swcHelpers.classCallCheck(this, Target);
     };
 })(GenericSignaturesInvalid || (GenericSignaturesInvalid = {})), (function(GenericSignaturesValid) {
     var Base2 = function() {
         "use strict";
         var _this = this;
-        _classCallCheck(this, Base2), this.init = function() {
+        swcHelpers.classCallCheck(this, Base2), this.init = function() {
             _this.a = function() {
                 return null;
             }, _this.a = function(x) {

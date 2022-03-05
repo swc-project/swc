@@ -1,19 +1,15 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // members N and M of types S and T have the same name, same accessibility, same optionality, and N is assignable M
 // string named numeric properties work correctly, errors below unless otherwise noted
 var JustStrings;
 (function(JustStrings) {
     var S = function S() {
         "use strict";
-        _classCallCheck(this, S);
+        swcHelpers.classCallCheck(this, S);
     };
     var T = function T() {
         "use strict";
-        _classCallCheck(this, T);
+        swcHelpers.classCallCheck(this, T);
     };
     var s;
     var t;
@@ -51,11 +47,11 @@ var NumbersAndStrings;
 (function(NumbersAndStrings) {
     var S = function S() {
         "use strict";
-        _classCallCheck(this, S);
+        swcHelpers.classCallCheck(this, S);
     };
     var T = function T() {
         "use strict";
-        _classCallCheck(this, T);
+        swcHelpers.classCallCheck(this, T);
     };
     var s;
     var t;

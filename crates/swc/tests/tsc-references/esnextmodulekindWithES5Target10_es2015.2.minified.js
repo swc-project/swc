@@ -1,3 +1,2 @@
-require("mod"), module.exports = N // Error
-;
+require("mod"), module.exports = N;
 export { };

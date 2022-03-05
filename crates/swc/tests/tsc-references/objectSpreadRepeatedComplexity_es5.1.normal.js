@@ -1,35 +1,8 @@
-function _defineProperty(obj, key, value) {
-    if (key in obj) {
-        Object.defineProperty(obj, key, {
-            value: value,
-            enumerable: true,
-            configurable: true,
-            writable: true
-        });
-    } else {
-        obj[key] = value;
-    }
-    return obj;
-}
-function _objectSpread(target) {
-    for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {};
-        var ownKeys = Object.keys(source);
-        if (typeof Object.getOwnPropertySymbols === "function") {
-            ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
-                return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-            }));
-        }
-        ownKeys.forEach(function(key) {
-            _defineProperty(target, key, source[key]);
-        });
-    }
-    return target;
-}
+import * as swcHelpers from "@swc/helpers";
 // @strict: true
 function f(cnd) {
     // Type is a union of 2^(n-1) members, where n is the number of spread objects
-    return _objectSpread({}, cnd[1] && cnd[2] && {
+    return swcHelpers.objectSpread({}, cnd[1] && cnd[2] && {
         prop0: 0
     }, cnd[3] && {
         prop3a: 1,

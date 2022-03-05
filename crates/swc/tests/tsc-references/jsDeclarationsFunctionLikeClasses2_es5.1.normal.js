@@ -1,10 +1,4 @@
-function _instanceof(left, right) {
-    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
-        return !!right[Symbol.hasInstance](left);
-    } else {
-        return left instanceof right;
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -43,7 +37,7 @@ Vec.prototype = {
  * @param {number} x
  * @param {number} y
  */ export function Point2D(x, y) {
-    if (!_instanceof(this, Point2D)) {
+    if (!swcHelpers._instanceof(this, Point2D)) {
         return new Point2D(x, y);
     }
     Vec.call(this, 2);

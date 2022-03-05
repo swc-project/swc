@@ -1,10 +1,8 @@
-var _method = new WeakSet(), C = function() {
+import * as swcHelpers from "@swc/helpers";
+var _ref, _method = new WeakSet(), C = function() {
     "use strict";
-    var obj, privateSet;
-    !function(instance, Constructor) {
-        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, C), obj = this, (function(obj, privateCollection) {
-        if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
-    })(obj, privateSet = _method), privateSet.add(obj);
+    swcHelpers.classCallCheck(this, C), swcHelpers.classPrivateMethodInit(this, _method);
 };
-C.s = new C().#method(), console.log(C.s);
+C.s = swcHelpers.classPrivateMethodGet(_ref = new C(), _method, function() {
+    return 42;
+}).call(_ref), console.log(C.s);

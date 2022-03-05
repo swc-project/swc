@@ -1,22 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 var explicit = {
     n: 12,
     get x () {
@@ -56,10 +38,10 @@ var copiedFromGetterUnannotated = {
 var Explicit = /*#__PURE__*/ function() {
     "use strict";
     function Explicit() {
-        _classCallCheck(this, Explicit);
+        swcHelpers.classCallCheck(this, Explicit);
         this.n = 17;
     }
-    _createClass(Explicit, [
+    swcHelpers.createClass(Explicit, [
         {
             key: "x",
             get: function get() {
@@ -75,10 +57,10 @@ var Explicit = /*#__PURE__*/ function() {
 var Contextual = /*#__PURE__*/ function() {
     "use strict";
     function Contextual() {
-        _classCallCheck(this, Contextual);
+        swcHelpers.classCallCheck(this, Contextual);
         this.n = 21;
     }
-    _createClass(Contextual, [
+    swcHelpers.createClass(Contextual, [
         {
             key: "x",
             get: function get() {

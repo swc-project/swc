@@ -1,3 +1,4 @@
+import * as swcHelpers from "@swc/helpers";
 class C extends B {
     constructor(...args){
         super(...args);
@@ -13,5 +14,5 @@ C.y2 = C.x();
 C.y3 = C === null || C === void 0 ? void 0 : C.x();
 C.y4 = C["x"]();
 C.y5 = C === null || C === void 0 ? void 0 : C["x"]();
-C.z3 = super.f();
-C.z4 = super["f"]();
+C.z3 = swcHelpers.get(swcHelpers.getPrototypeOf(C), "f", C).call(C);
+C.z4 = swcHelpers.get(swcHelpers.getPrototypeOf(C), "f", C).call(C);

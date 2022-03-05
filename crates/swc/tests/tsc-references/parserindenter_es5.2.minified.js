@@ -1,20 +1,12 @@
 var Formatting;
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 !function(Formatting1) {
     var Indenter = function() {
         "use strict";
-        var Constructor, protoProps, staticProps;
         function Indenter(logger, tree, snapshot, languageHostIndentation, editorOptions, firstToken, smartIndent) {
-            !function(instance, Constructor) {
-                if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-            }(this, Indenter), this.logger = logger, this.tree = tree, this.snapshot = snapshot, this.languageHostIndentation = languageHostIndentation, this.editorOptions = editorOptions, this.firstToken = firstToken, this.smartIndent = smartIndent, this.indentationBag = new IndentationBag(this.snapshot), this.scriptBlockBeginLineNumber = -1, this.offsetIndentationDeltas = new Dictionary_int_int(), this.tree.Root.SetIndentationOverride(""), this.ApplyScriptBlockIndentation(this.languageHostIndentation, this.tree), this.FillInheritedIndentation(this.tree);
+            swcHelpers.classCallCheck(this, Indenter), this.logger = logger, this.tree = tree, this.snapshot = snapshot, this.languageHostIndentation = languageHostIndentation, this.editorOptions = editorOptions, this.firstToken = firstToken, this.smartIndent = smartIndent, this.indentationBag = new IndentationBag(this.snapshot), this.scriptBlockBeginLineNumber = -1, this.offsetIndentationDeltas = new Dictionary_int_int(), this.tree.Root.SetIndentationOverride(""), this.ApplyScriptBlockIndentation(this.languageHostIndentation, this.tree), this.FillInheritedIndentation(this.tree);
         }
-        return Constructor = Indenter, protoProps = [
+        return swcHelpers.createClass(Indenter, [
             {
                 key: "GetIndentationEdits",
                 value: function(token, nextToken, node, sameLineIndent) {
@@ -321,7 +313,7 @@ function _defineProperties(target, props) {
                     return token.tokenID === TypeScript.TokenID.StringLiteral && this.snapshot.GetLineNumberFromPosition(token.Span.endPosition()) > this.snapshot.GetLineNumberFromPosition(token.Span.startPosition());
                 }
             }
-        ], staticProps = [
+        ], [
             {
                 key: "GetIndentSizeFromIndentText",
                 value: function(indentText, editorOptions) {
@@ -341,7 +333,7 @@ function _defineProperties(target, props) {
                     return indentSize;
                 }
             }
-        ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Indenter;
+        ]), Indenter;
     }();
     Formatting1.Indenter = Indenter;
 }(Formatting || (Formatting = {}));

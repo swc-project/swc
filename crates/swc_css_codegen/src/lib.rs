@@ -73,6 +73,14 @@ where
     }
 
     #[emitter]
+    fn emit_qualified_rule_prelude(&mut self, n: &QualifiedRulePrelude) -> Result {
+        match n {
+            QualifiedRulePrelude::SelectorList(n) => emit!(self, n),
+            QualifiedRulePrelude::Invalid(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
     fn emit_at_rule(&mut self, n: &AtRule) -> Result {
         match n {
             AtRule::Charset(n) => emit!(self, n),

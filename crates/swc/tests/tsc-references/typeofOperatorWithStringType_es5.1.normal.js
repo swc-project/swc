@@ -1,26 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
-var _typeof = function(obj) {
-    "@swc/helpers - typeof";
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
+import * as swcHelpers from "@swc/helpers";
 // typeof  operator on string type
 var STRING;
 var STRING1 = [
@@ -33,9 +11,9 @@ function foo() {
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
-        _classCallCheck(this, A);
+        swcHelpers.classCallCheck(this, A);
     }
-    _createClass(A, null, [
+    swcHelpers.createClass(A, null, [
         {
             key: "foo",
             value: function foo() {
@@ -52,49 +30,49 @@ var M;
 })(M || (M = {}));
 var objA = new A();
 // string type var
-var ResultIsString1 = typeof STRING === "undefined" ? "undefined" : _typeof(STRING);
-var ResultIsString2 = typeof STRING1 === "undefined" ? "undefined" : _typeof(STRING1);
+var ResultIsString1 = typeof STRING === "undefined" ? "undefined" : swcHelpers.typeOf(STRING);
+var ResultIsString2 = typeof STRING1 === "undefined" ? "undefined" : swcHelpers.typeOf(STRING1);
 // string type literal
-var ResultIsString3 = _typeof("");
-var ResultIsString4 = _typeof({
+var ResultIsString3 = swcHelpers.typeOf("");
+var ResultIsString4 = swcHelpers.typeOf({
     x: "",
     y: ""
 });
-var ResultIsString5 = _typeof({
+var ResultIsString5 = swcHelpers.typeOf({
     x: "",
     y: function(s) {
         return s;
     }
 });
 // string type expressions
-var ResultIsString6 = _typeof(objA.a);
-var ResultIsString7 = _typeof(M.n);
-var ResultIsString8 = _typeof(STRING1[0]);
-var ResultIsString9 = _typeof(foo());
-var ResultIsString10 = _typeof(A.foo());
-var ResultIsString11 = _typeof(STRING + STRING);
-var ResultIsString12 = _typeof(STRING.charAt(0));
+var ResultIsString6 = swcHelpers.typeOf(objA.a);
+var ResultIsString7 = swcHelpers.typeOf(M.n);
+var ResultIsString8 = swcHelpers.typeOf(STRING1[0]);
+var ResultIsString9 = swcHelpers.typeOf(foo());
+var ResultIsString10 = swcHelpers.typeOf(A.foo());
+var ResultIsString11 = swcHelpers.typeOf(STRING + STRING);
+var ResultIsString12 = swcHelpers.typeOf(STRING.charAt(0));
 // multiple typeof  operators
-var ResultIsString13 = _typeof(typeof STRING === "undefined" ? "undefined" : _typeof(STRING));
-var ResultIsString14 = _typeof(_typeof(_typeof(STRING + STRING)));
+var ResultIsString13 = swcHelpers.typeOf(typeof STRING === "undefined" ? "undefined" : swcHelpers.typeOf(STRING));
+var ResultIsString14 = swcHelpers.typeOf(swcHelpers.typeOf(swcHelpers.typeOf(STRING + STRING)));
 // miss assignment operators
-_typeof("");
-typeof STRING === "undefined" ? "undefined" : _typeof(STRING);
-typeof STRING1 === "undefined" ? "undefined" : _typeof(STRING1);
-_typeof(foo());
-_typeof(objA.a), M.n;
+swcHelpers.typeOf("");
+typeof STRING === "undefined" ? "undefined" : swcHelpers.typeOf(STRING);
+typeof STRING1 === "undefined" ? "undefined" : swcHelpers.typeOf(STRING1);
+swcHelpers.typeOf(foo());
+swcHelpers.typeOf(objA.a), M.n;
 // use typeof in type query
 var z;
 var x;
 var r;
-z: typeof STRING === "undefined" ? "undefined" : _typeof(STRING);
-x: typeof STRING1 === "undefined" ? "undefined" : _typeof(STRING1);
-r: typeof foo === "undefined" ? "undefined" : _typeof(foo);
+z: typeof STRING === "undefined" ? "undefined" : swcHelpers.typeOf(STRING);
+x: typeof STRING1 === "undefined" ? "undefined" : swcHelpers.typeOf(STRING1);
+r: typeof foo === "undefined" ? "undefined" : swcHelpers.typeOf(foo);
 var y = {
     a: "",
     b: ""
 };
-z: _typeof(y.a);
-z: _typeof(objA.a);
-z: _typeof(A.foo);
-z: _typeof(M.n);
+z: swcHelpers.typeOf(y.a);
+z: swcHelpers.typeOf(objA.a);
+z: swcHelpers.typeOf(A.foo);
+z: swcHelpers.typeOf(M.n);

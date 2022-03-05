@@ -1,26 +1,6 @@
 "use strict";
-var _react = _interopRequireWildcard(require("react"));
-function _interopRequireWildcard(obj) {
-    if (obj && obj.__esModule) {
-        return obj;
-    } else {
-        var newObj = {};
-        if (obj != null) {
-            for(var key in obj){
-                if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                    var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {};
-                    if (desc.get || desc.set) {
-                        Object.defineProperty(newObj, key, desc);
-                    } else {
-                        newObj[key] = obj[key];
-                    }
-                }
-            }
-        }
-        newObj.default = obj;
-        return newObj;
-    }
-}
+var swcHelpers = require("@swc/helpers");
+var _react = swcHelpers.interopRequireWildcard(require("react"));
 class X extends _react.Component {
 }
 _react.default.render(document.getElementById("#root"), /*#__PURE__*/ _react.default.createElement(X, null));

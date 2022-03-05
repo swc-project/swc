@@ -1,17 +1,4 @@
-function _extends() {
-    _extends = Object.assign || function(target) {
-        for(var i = 1; i < arguments.length; i++){
-            var source = arguments[i];
-            for(var key in source){
-                if (Object.prototype.hasOwnProperty.call(source, key)) {
-                    target[key] = source[key];
-                }
-            }
-        }
-        return target;
-    };
-    return _extends.apply(this, arguments);
-}
+import * as swcHelpers from "@swc/helpers";
 // @filename: file.tsx
 // @jsx: preserve
 // @module: amd
@@ -31,22 +18,22 @@ const c0 = /*#__PURE__*/ React.createElement(OneThing, {
 const c1 = /*#__PURE__*/ React.createElement(OneThing, {
     yy: 10
 }); // missing property;
-const c2 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, obj, {
+const c2 = /*#__PURE__*/ React.createElement(OneThing, swcHelpers.extends({}, obj, {
     yy1: true
 })); // type incompatible;
-const c3 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, obj, {
+const c3 = /*#__PURE__*/ React.createElement(OneThing, swcHelpers.extends({}, obj, {
     extra: "extra attr"
 })); //  This is OK because all attribute are spread
-const c4 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, obj, {
+const c4 = /*#__PURE__*/ React.createElement(OneThing, swcHelpers.extends({}, obj, {
     y1: 10000
 })); // extra property;
-const c5 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, obj, {
+const c5 = /*#__PURE__*/ React.createElement(OneThing, swcHelpers.extends({}, obj, {
     yy: true
 })); // type incompatible;
-const c6 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, obj2, {
+const c6 = /*#__PURE__*/ React.createElement(OneThing, swcHelpers.extends({}, obj2, {
     extra: "extra attr"
 })); // Should error as there is extra attribute that doesn't match any. Current it is not
-const c7 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, obj2, {
+const c7 = /*#__PURE__*/ React.createElement(OneThing, swcHelpers.extends({}, obj2, {
     yy: true
 })); // Should error as there is extra attribute that doesn't match any. Current it is not
 // Error

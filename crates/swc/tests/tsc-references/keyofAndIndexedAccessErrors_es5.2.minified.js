@@ -1,6 +1,5 @@
+import * as swcHelpers from "@swc/helpers";
 var Shape = function() {
     "use strict";
-    !function(instance, Constructor) {
-        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, Shape);
+    swcHelpers.classCallCheck(this, Shape);
 };

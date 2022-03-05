@@ -1,22 +1,4 @@
-function _defineEnumerableProperties(obj, descs) {
-    for(var key in descs){
-        var desc = descs[key];
-        desc.configurable = desc.enumerable = true;
-        if ("value" in desc) desc.writable = true;
-        Object.defineProperty(obj, key, desc);
-    }
-    if (Object.getOwnPropertySymbols) {
-        var objectSymbols = Object.getOwnPropertySymbols(descs);
-        for(var i = 0; i < objectSymbols.length; i++){
-            var sym = objectSymbols[i];
-            var desc = descs[sym];
-            desc.configurable = desc.enumerable = true;
-            if ("value" in desc) desc.writable = true;
-            Object.defineProperty(obj, sym, desc);
-        }
-    }
-    return obj;
-}
+import * as swcHelpers from "@swc/helpers";
 // @target: es5
 var s;
 var n;
@@ -34,4 +16,4 @@ var v = (_obj = {}, _mutatorMap[s] = _mutatorMap[s] || {}, _mutatorMap[s].get = 
     return 0;
 }, _mutatorMap["hello bye"] = _mutatorMap["hello bye"] || {}, _mutatorMap["hello bye"].set = function(v) {}, _mutatorMap["hello ".concat(a, " bye")] = _mutatorMap["hello ".concat(a, " bye")] || {}, _mutatorMap["hello ".concat(a, " bye")].get = function() {
     return 0;
-}, _defineEnumerableProperties(_obj, _mutatorMap), _obj);
+}, swcHelpers.defineEnumerableProperties(_obj, _mutatorMap), _obj);

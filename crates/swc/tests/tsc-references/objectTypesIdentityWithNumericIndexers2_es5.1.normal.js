@@ -1,116 +1,46 @@
-function _assertThisInitialized(self) {
-    if (self === void 0) {
-        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-    return self;
-}
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-        return o.__proto__ || Object.getPrototypeOf(o);
-    };
-    return _getPrototypeOf(o);
-}
-function _inherits(subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-        throw new TypeError("Super expression must either be null or a function");
-    }
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-        constructor: {
-            value: subClass,
-            writable: true,
-            configurable: true
-        }
-    });
-    if (superClass) _setPrototypeOf(subClass, superClass);
-}
-function _possibleConstructorReturn(self, call) {
-    if (call && (_typeof(call) === "object" || typeof call === "function")) {
-        return call;
-    }
-    return _assertThisInitialized(self);
-}
-function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-        o.__proto__ = p;
-        return o;
-    };
-    return _setPrototypeOf(o, p);
-}
-var _typeof = function(obj) {
-    "@swc/helpers - typeof";
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
-function _isNativeReflectConstruct() {
-    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-    if (Reflect.construct.sham) return false;
-    if (typeof Proxy === "function") return true;
-    try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
-        return true;
-    } catch (e) {
-        return false;
-    }
-}
-function _createSuper(Derived1) {
-    var hasNativeReflectConstruct = _isNativeReflectConstruct();
-    return function _createSuperInternal() {
-        var Super = _getPrototypeOf(Derived1), result;
-        if (hasNativeReflectConstruct) {
-            var NewTarget = _getPrototypeOf(this).constructor;
-            result = Reflect.construct(Super, arguments, NewTarget);
-        } else {
-            result = Super.apply(this, arguments);
-        }
-        return _possibleConstructorReturn(this, result);
-    };
-}
+import * as swcHelpers from "@swc/helpers";
 var Base = function Base() {
     "use strict";
-    _classCallCheck(this, Base);
+    swcHelpers.classCallCheck(this, Base);
 };
 var Derived = /*#__PURE__*/ function(Base) {
     "use strict";
-    _inherits(Derived, Base);
-    var _super = _createSuper(Derived);
+    swcHelpers.inherits(Derived, Base);
+    var _super = swcHelpers.createSuper(Derived);
     function Derived() {
-        _classCallCheck(this, Derived);
+        swcHelpers.classCallCheck(this, Derived);
         return _super.apply(this, arguments);
     }
     return Derived;
 }(Base);
 var A = function A() {
     "use strict";
-    _classCallCheck(this, A);
+    swcHelpers.classCallCheck(this, A);
 };
 var B = function B() {
     "use strict";
-    _classCallCheck(this, B);
+    swcHelpers.classCallCheck(this, B);
 };
 var C = function C() {
     "use strict";
-    _classCallCheck(this, C);
+    swcHelpers.classCallCheck(this, C);
 };
 var PA = /*#__PURE__*/ function(A) {
     "use strict";
-    _inherits(PA, A);
-    var _super = _createSuper(PA);
+    swcHelpers.inherits(PA, A);
+    var _super = swcHelpers.createSuper(PA);
     function PA() {
-        _classCallCheck(this, PA);
+        swcHelpers.classCallCheck(this, PA);
         return _super.apply(this, arguments);
     }
     return PA;
 }(A);
 var PB = /*#__PURE__*/ function(B) {
     "use strict";
-    _inherits(PB, B);
-    var _super = _createSuper(PB);
+    swcHelpers.inherits(PB, B);
+    var _super = swcHelpers.createSuper(PB);
     function PB() {
-        _classCallCheck(this, PB);
+        swcHelpers.classCallCheck(this, PB);
         return _super.apply(this, arguments);
     }
     return PB;

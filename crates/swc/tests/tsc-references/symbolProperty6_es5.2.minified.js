@@ -1,20 +1,12 @@
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-var _key, tmp = (_key = Symbol.iterator, Symbol.toPrimitive), _toStringTag = Symbol.toStringTag, C = function() {
+import * as swcHelpers from "@swc/helpers";
+var _iterator = Symbol.iterator, _toPrimitive = Symbol.toPrimitive, _toStringTag = Symbol.toStringTag, C = function() {
     "use strict";
-    var Constructor, protoProps, staticProps;
     function C() {
-        !function(instance, Constructor) {
-            if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, C), this[_key] = 0;
+        swcHelpers.classCallCheck(this, C), this[_iterator] = 0;
     }
-    return Constructor = C, protoProps = [
+    return swcHelpers.createClass(C, [
         {
-            key: tmp,
+            key: _toPrimitive,
             value: function() {}
         },
         {
@@ -23,5 +15,5 @@ var _key, tmp = (_key = Symbol.iterator, Symbol.toPrimitive), _toStringTag = Sym
                 return 0;
             }
         }
-    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
+    ]), C;
 }();

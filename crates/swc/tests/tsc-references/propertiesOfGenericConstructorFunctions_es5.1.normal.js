@@ -1,16 +1,4 @@
-function _defineProperty(obj, key, value) {
-    if (key in obj) {
-        Object.defineProperty(obj, key, {
-            value: value,
-            enumerable: true,
-            configurable: true,
-            writable: true
-        });
-    } else {
-        obj[key] = value;
-    }
-    return obj;
-}
+import * as swcHelpers from "@swc/helpers";
 // @Filename: propertiesOfGenericConstructorFunctions.js
 // @allowJs: true
 // @checkJs: true
@@ -23,7 +11,7 @@ function _defineProperty(obj, key, value) {
  */ function Multimap(ik, iv) {
     /** @type {{ [s: string]: V }} */ this._map = {};
     // without type annotation
-    this._map2 = _defineProperty({}, ik, iv);
+    this._map2 = swcHelpers.defineProperty({}, ik, iv);
 }
 /** @type {Multimap<"a" | "b", number>} with type annotation */ var map = new Multimap("a", 1);
 // without type annotation

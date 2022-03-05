@@ -1,149 +1,72 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i1 = 0; i1 < props.length; i1++){
-        var descriptor = props[i1];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
-function _extends() {
-    _extends = Object.assign || function(target) {
-        for(var i1 = 1; i1 < arguments.length; i1++){
-            var source = arguments[i1];
-            for(var key in source){
-                if (Object.prototype.hasOwnProperty.call(source, key)) {
-                    target[key] = source[key];
-                }
-            }
-        }
-        return target;
-    };
-    return _extends.apply(this, arguments);
-}
-function _objectWithoutProperties(source, excluded) {
-    if (source == null) return {};
-    var target = _objectWithoutPropertiesLoose(source, excluded);
-    var key, i1;
-    if (Object.getOwnPropertySymbols) {
-        var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-        for(i1 = 0; i1 < sourceSymbolKeys.length; i1++){
-            key = sourceSymbolKeys[i1];
-            if (excluded.indexOf(key) >= 0) continue;
-            if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
-            target[key] = source[key];
-        }
-    }
-    return target;
-}
-function _objectWithoutPropertiesLoose(source, excluded) {
-    if (source == null) return {};
-    var target = {};
-    var sourceKeys = Object.keys(source);
-    var key, i1;
-    for(i1 = 0; i1 < sourceKeys.length; i1++){
-        key = sourceKeys[i1];
-        if (excluded.indexOf(key) >= 0) continue;
-        target[key] = source[key];
-    }
-    return target;
-}
-function _toPrimitive(input, hint) {
-    if (_typeof(input) !== "object" || input === null) return input;
-    var prim = input[Symbol.toPrimitive];
-    if (prim !== undefined) {
-        var res = prim.call(input, hint || "default");
-        if (_typeof(res) !== "object") return res;
-        throw new TypeError("@@toPrimitive must return a primitive value.");
-    }
-    return (hint === "string" ? String : Number)(input);
-}
-function _toPropertyKey(arg) {
-    var key = _toPrimitive(arg, "string");
-    return _typeof(key) === "symbol" ? key : String(key);
-}
-var _typeof = function(obj) {
-    "@swc/helpers - typeof";
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
+import * as swcHelpers from "@swc/helpers";
 // @target: es2015
 var o = {
     a: 1,
     b: 'no'
 };
-var clone = _extends({}, o);
-var a = o.a, justB = _objectWithoutProperties(o, [
+var clone = swcHelpers.extends({}, o);
+var a = o.a, justB = swcHelpers.objectWithoutProperties(o, [
     "a"
 ]);
-var a = o.a, renamed = o.b, empty = _objectWithoutProperties(o, [
+var a = o.a, renamed = o.b, empty = swcHelpers.objectWithoutProperties(o, [
     "a",
     "b"
 ]);
-var renamed = o['b'], justA = _objectWithoutProperties(o, [
+var renamed = o['b'], justA = swcHelpers.objectWithoutProperties(o, [
     'b'
 ]);
-var renamed = o['b'], justA = _objectWithoutProperties(o, [
+var renamed = o['b'], justA = swcHelpers.objectWithoutProperties(o, [
     'b'
 ]);
-var _b = o.b, n = _b['0'], oooo = _b['1'], justA = _objectWithoutProperties(o, [
+var _b = o.b, n = _b['0'], oooo = _b['1'], justA = swcHelpers.objectWithoutProperties(o, [
     "b"
 ]);
 var o2 = {
     c: 'terrible idea?',
     d: 'yes'
 };
-var renamed = o2.d, d = _objectWithoutProperties(o2, [
+var renamed = o2.d, d = swcHelpers.objectWithoutProperties(o2, [
     "d"
 ]);
 var nestedrest;
-var x = nestedrest.x, _n1 = nestedrest.n1, y = _n1.y, z = _n1.n2.z, nr = _extends({}, nestedrest.n1.n2.n3), restrest = _objectWithoutProperties(nestedrest, [
+var x = nestedrest.x, _n1 = nestedrest.n1, y = _n1.y, z = _n1.n2.z, nr = swcHelpers.extends({}, nestedrest.n1.n2.n3), restrest = swcHelpers.objectWithoutProperties(nestedrest, [
     "x",
     "n1"
 ]);
 var complex;
-var ka = complex.x.ka, other = complex.y, nested = _objectWithoutProperties(complex.x, [
+var ka = complex.x.ka, other = complex.y, nested = swcHelpers.objectWithoutProperties(complex.x, [
     "ka"
-]), rest = _objectWithoutProperties(complex, [
+]), rest = swcHelpers.objectWithoutProperties(complex, [
     "x",
     "y"
 ]);
 var _complex;
 var ref;
-_complex = complex, nested = _objectWithoutProperties(_complex.x, [
+_complex = complex, nested = swcHelpers.objectWithoutProperties(_complex.x, [
     "ka"
-]), rest = _objectWithoutProperties(_complex, [
+]), rest = swcHelpers.objectWithoutProperties(_complex, [
     "x",
     "y"
 ]), ref = _complex, ka = ref.x.ka, other = ref.y, ref, _complex;
 var _ref = {
     x: 1,
     y: 2
-}, x = _ref.x, fresh = _objectWithoutProperties(_ref, [
+}, x = _ref.x, fresh = swcHelpers.objectWithoutProperties(_ref, [
     "x"
 ]);
 var _tmp;
 _tmp = {
     x: 1,
     y: 2
-}, fresh = _objectWithoutProperties(_tmp, [
+}, fresh = swcHelpers.objectWithoutProperties(_tmp, [
     "x"
 ]), x = _tmp.x, _tmp;
 var Removable = /*#__PURE__*/ function() {
     "use strict";
     function Removable() {
-        _classCallCheck(this, Removable);
+        swcHelpers.classCallCheck(this, Removable);
     }
-    _createClass(Removable, [
+    swcHelpers.createClass(Removable, [
         {
             key: "z",
             set: function set(value) {}
@@ -163,27 +86,27 @@ var Removable = /*#__PURE__*/ function() {
     return Removable;
 }();
 var removable = new Removable();
-var removed = removable.removed, removableRest = _objectWithoutProperties(removable, [
+var removed = removable.removed, removableRest = swcHelpers.objectWithoutProperties(removable, [
     "removed"
 ]);
 var i = removable;
-var removed = i.removed, removableRest2 = _objectWithoutProperties(i, [
+var removed = i.removed, removableRest2 = swcHelpers.objectWithoutProperties(i, [
     "removed"
 ]);
 var computed = 'b';
 var computed2 = 'a';
-var stillNotGreat = o[computed], soSo = o[computed2], o = _objectWithoutProperties(o, [
+var stillNotGreat = o[computed], soSo = o[computed2], o = swcHelpers.objectWithoutProperties(o, [
     computed,
     computed2
-].map(_toPropertyKey));
+].map(swcHelpers.toPropertyKey));
 var _o;
 var ref1;
-_o = o, o = _objectWithoutProperties(_o, [
+_o = o, o = swcHelpers.objectWithoutProperties(_o, [
     computed,
     computed2
-].map(_toPropertyKey)), ref1 = _o, stillNotGreat = ref1[computed], soSo = ref1[computed2], ref1, _o;
+].map(swcHelpers.toPropertyKey)), ref1 = _o, stillNotGreat = ref1[computed], soSo = ref1[computed2], ref1, _o;
 var noContextualType = function(_param) {
-    var _aNumber = _param.aNumber, aNumber = _aNumber === void 0 ? 12 : _aNumber, notEmptyObject = _objectWithoutProperties(_param, [
+    var _aNumber = _param.aNumber, aNumber = _aNumber === void 0 ? 12 : _aNumber, notEmptyObject = swcHelpers.objectWithoutProperties(_param, [
         "aNumber"
     ]);
     return aNumber + notEmptyObject.anythingGoes;

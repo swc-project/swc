@@ -1,3 +1,4 @@
+import * as swcHelpers from "@swc/helpers";
 var ANY, ANY1, M, ANY2 = [
     "",
     ""
@@ -6,9 +7,7 @@ var ANY, ANY1, M, ANY2 = [
     y: null
 }, A = function() {
     "use strict";
-    !function(instance, Constructor) {
-        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, A);
+    swcHelpers.classCallCheck(this, A);
 };
 !function(M1) {
     var n;

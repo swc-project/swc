@@ -1,13 +1,14 @@
+import * as swcHelpers from "@swc/helpers";
 // @target: esnext, es2022, es6, es5
 class C {
 }
 C.f = 1;
 class D extends C {
 }
-D.arrowFunctionBoundary = ()=>super.f + 1
+D.arrowFunctionBoundary = ()=>swcHelpers.get(swcHelpers.getPrototypeOf(D), "f", D) + 1
 ;
 D.functionExprBoundary = function() {
-    return super.f + 2;
+    return swcHelpers.get(swcHelpers.getPrototypeOf(D), "f", this) + 2;
 };
 D.classExprBoundary = class {
     constructor(){
@@ -16,7 +17,7 @@ D.classExprBoundary = class {
 };
 D.functionAndClassDeclBoundary = (()=>{
     function foo() {
-        return super.f + 4;
+        return swcHelpers.get(swcHelpers.getPrototypeOf(D), "f", this) + 4;
     }
     class C {
         method() {

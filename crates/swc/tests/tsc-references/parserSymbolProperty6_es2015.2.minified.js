@@ -1,2 +1,1 @@
-var _key;
-_key = Symbol.toStringTag;
+Symbol.toStringTag;

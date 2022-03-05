@@ -1,230 +1,25 @@
-function _arrayLikeToArray(arr, len) {
-    if (len == null || len > arr.length) len = arr.length;
-    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
-    return arr2;
-}
-function _arrayWithHoles(arr) {
-    if (Array.isArray(arr)) return arr;
-}
-function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-}
-function AsyncGenerator(gen) {
-    var front, back;
-    function send(key, arg) {
-        return new Promise(function(resolve, reject) {
-            var request = {
-                key: key,
-                arg: arg,
-                resolve: resolve,
-                reject: reject,
-                next: null
-            };
-            if (back) {
-                back = back.next = request;
-            } else {
-                front = back = request;
-                resume(key, arg);
-            }
-        });
-    }
-    function resume(key, arg) {
-        try {
-            var result = gen[key](arg);
-            var value = result.value;
-            var wrappedAwait = value instanceof _AwaitValue;
-            Promise.resolve(wrappedAwait ? value.wrapped : value).then(function(arg) {
-                if (wrappedAwait) {
-                    resume("next", arg);
-                    return;
-                }
-                settle(result.done ? "return" : "normal", arg);
-            }, function(err) {
-                resume("throw", err);
-            });
-        } catch (err) {
-            settle("throw", err);
-        }
-    }
-    function settle(type, value) {
-        switch(type){
-            case "return":
-                front.resolve({
-                    value: value,
-                    done: true
-                });
-                break;
-            case "throw":
-                front.reject(value);
-                break;
-            default:
-                front.resolve({
-                    value: value,
-                    done: false
-                });
-                break;
-        }
-        front = front.next;
-        if (front) {
-            resume(front.key, front.arg);
-        } else {
-            back = null;
-        }
-    }
-    this._invoke = send;
-    if (typeof gen.return !== "function") {
-        this.return = undefined;
-    }
-}
-if (typeof Symbol === "function" && Symbol.asyncIterator) {
-    AsyncGenerator.prototype[Symbol.asyncIterator] = function() {
-        return this;
-    };
-}
-AsyncGenerator.prototype.next = function(arg) {
-    return this._invoke("next", arg);
-};
-AsyncGenerator.prototype.throw = function(arg) {
-    return this._invoke("throw", arg);
-};
-AsyncGenerator.prototype.return = function(arg) {
-    return this._invoke("return", arg);
-};
-function _asyncIterator(iterable) {
-    var method;
-    if (typeof Symbol === "function") {
-        if (Symbol.asyncIterator) {
-            method = iterable[Symbol.asyncIterator];
-            if (method != null) return method.call(iterable);
-        }
-        if (Symbol.iterator) {
-            method = iterable[Symbol.iterator];
-            if (method != null) return method.call(iterable);
-        }
-    }
-    throw new TypeError("Object is not async iterable");
-}
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-    try {
-        var info = gen[key](arg);
-        var value = info.value;
-    } catch (error) {
-        reject(error);
-        return;
-    }
-    if (info.done) {
-        resolve(value);
-    } else {
-        Promise.resolve(value).then(_next, _throw);
-    }
-}
-function _asyncToGenerator(fn) {
-    return function() {
-        var self = this, args = arguments;
-        return new Promise(function(resolve, reject) {
-            var gen = fn.apply(self, args);
-            function _next(value) {
-                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-            }
-            function _throw(err) {
-                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-            }
-            _next(undefined);
-        });
-    };
-}
-function _AwaitValue(value) {
-    this.wrapped = value;
-}
-function _defineProperty(obj, key, value) {
-    if (key in obj) {
-        Object.defineProperty(obj, key, {
-            value: value,
-            enumerable: true,
-            configurable: true,
-            writable: true
-        });
-    } else {
-        obj[key] = value;
-    }
-    return obj;
-}
-function _iterableToArray(iter) {
-    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
-}
-function _iterableToArrayLimit(arr, i) {
-    var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
-    if (_i == null) return;
-    var _arr = [];
-    var _n = true;
-    var _d = false;
-    var _s, _e;
-    try {
-        for(_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true){
-            _arr.push(_s.value);
-            if (i && _arr.length === i) break;
-        }
-    } catch (err) {
-        _d = true;
-        _e = err;
-    } finally{
-        try {
-            if (!_n && _i["return"] != null) _i["return"]();
-        } finally{
-            if (_d) throw _e;
-        }
-    }
-    return _arr;
-}
-function _nonIterableRest() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-function _slicedToArray(arr, i) {
-    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-}
-function _toArray(arr) {
-    return _arrayWithHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-}
-function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-}
-function _unsupportedIterableToArray(o, minLen) {
-    if (!o) return;
-    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-    var n = Object.prototype.toString.call(o).slice(8, -1);
-    if (n === "Object" && o.constructor) n = o.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(n);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
-function _wrapAsyncGenerator(fn) {
-    return function() {
-        return new AsyncGenerator(fn.apply(this, arguments));
-    };
-}
+import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(f1);
 // spread iterable
-_toConsumableArray(g1); // error
-_toConsumableArray(g2); // ok
+swcHelpers.toConsumableArray(g1); // error
+swcHelpers.toConsumableArray(g2); // ok
 // binding pattern over iterable
-var _g1 = _slicedToArray(g1, 1), x1 = _g1[0]; // error
-var _g2 = _slicedToArray(g2, 1), x2 = _g2[0]; // ok
+var _g1 = swcHelpers.slicedToArray(g1, 1), x1 = _g1[0]; // error
+var _g2 = swcHelpers.slicedToArray(g2, 1), x2 = _g2[0]; // ok
 // binding rest pattern over iterable
-var _g11 = _toArray(g1), y1 = _g11.slice(0); // error
-var _g21 = _toArray(g2), y2 = _g21.slice(0); // ok
+var _g11 = swcHelpers.toArray(g1), y1 = _g11.slice(0); // error
+var _g21 = swcHelpers.toArray(g2), y2 = _g21.slice(0); // ok
 var ref;
 // assignment pattern over iterable
-ref = _slicedToArray(g1, 1), _ = ref[0], ref; // error
+ref = swcHelpers.slicedToArray(g1, 1), _ = ref[0], ref; // error
 var ref1;
-ref1 = _slicedToArray(g2, 1), _ = ref1[0], ref1; // ok
+ref1 = swcHelpers.slicedToArray(g2, 1), _ = ref1[0], ref1; // ok
 var ref2;
 // assignment rest pattern over iterable
-ref2 = _toArray(g1), _ = ref2.slice(0), ref2; // error
+ref2 = swcHelpers.toArray(g1), _ = ref2.slice(0), ref2; // error
 var ref3;
-ref3 = _toArray(g2), _ = ref3.slice(0), ref3; // ok
+ref3 = swcHelpers.toArray(g2), _ = ref3.slice(0), ref3; // ok
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
     // for-of over iterable
@@ -270,14 +65,14 @@ function asyncfn() {
     return _asyncfn.apply(this, arguments);
 }
 function _asyncfn() {
-    _asyncfn = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    _asyncfn = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         var _iteratorAbruptCompletion, _didIteratorError5, _iteratorError5, _iterator, _step, _value, _iteratorAbruptCompletion1, _didIteratorError2, _iteratorError2, _iterator2, _step2, _value1, _iteratorAbruptCompletion2, _didIteratorError3, _iteratorError3, _iterator3, _step3, _value2, _iteratorAbruptCompletion3, _didIteratorError4, _iteratorError4, _iterator4, _step4, _value3;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     _iteratorAbruptCompletion = false, _didIteratorError5 = false;
                     _ctx.prev = 1;
-                    _iterator = _asyncIterator(g1);
+                    _iterator = swcHelpers.asyncIterator(g1);
                 case 3:
                     _ctx.next = 5;
                     return _iterator.next();
@@ -326,7 +121,7 @@ function _asyncfn() {
                 case 26:
                     _iteratorAbruptCompletion1 = false, _didIteratorError2 = false;
                     _ctx.prev = 27;
-                    _iterator2 = _asyncIterator(g2);
+                    _iterator2 = swcHelpers.asyncIterator(g2);
                 case 29:
                     _ctx.next = 31;
                     return _iterator2.next();
@@ -375,7 +170,7 @@ function _asyncfn() {
                 case 52:
                     _iteratorAbruptCompletion2 = false, _didIteratorError3 = false;
                     _ctx.prev = 53;
-                    _iterator3 = _asyncIterator(g4);
+                    _iterator3 = swcHelpers.asyncIterator(g4);
                 case 55:
                     _ctx.next = 57;
                     return _iterator3.next();
@@ -424,7 +219,7 @@ function _asyncfn() {
                 case 78:
                     _iteratorAbruptCompletion3 = false, _didIteratorError4 = false;
                     _ctx.prev = 79;
-                    _iterator4 = _asyncIterator(g5);
+                    _iterator4 = swcHelpers.asyncIterator(g5);
                 case 81:
                     _ctx.next = 83;
                     return _iterator4.next();
@@ -545,7 +340,7 @@ function f2() {
     return _f2.apply(this, arguments);
 }
 function _f2() {
-    _f2 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+    _f2 = swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -570,7 +365,7 @@ function f3() {
     return _f3.apply(this, arguments);
 }
 function _f3() {
-    _f3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    _f3 = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         var syncGenerator, o, _iteratorAbruptCompletion, _didIteratorError6, _iteratorError6, _iterator, _step, _value, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx1) {
             while(1)switch(_ctx1.prev = _ctx1.next){
@@ -590,10 +385,10 @@ function _f3() {
                             }
                         }, syncGenerator);
                     });
-                    o = _defineProperty({}, Symbol.asyncIterator, syncGenerator);
+                    o = swcHelpers.defineProperty({}, Symbol.asyncIterator, syncGenerator);
                     _iteratorAbruptCompletion = false, _didIteratorError6 = false;
                     _ctx1.prev = 3;
-                    _iterator = _asyncIterator(o);
+                    _iterator = swcHelpers.asyncIterator(o);
                 case 5:
                     _ctx1.next = 7;
                     return _iterator.next();

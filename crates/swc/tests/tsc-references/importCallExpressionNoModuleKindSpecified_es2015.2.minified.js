@@ -1,3 +1,4 @@
+import * as swcHelpers from "@swc/helpers";
 export class B {
     print() {
         return "I am B";

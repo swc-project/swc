@@ -11,4 +11,4 @@ const obj = new class extends Base {
         super(...args), this.x = 1;
     }
 }();
-console.log(obj.x); // 2
+console.log(obj.x);

@@ -29,8 +29,16 @@ pub enum Rule {
 #[ast_node("QualifiedRule")]
 pub struct QualifiedRule {
     pub span: Span,
-    pub prelude: SelectorList,
+    pub prelude: QualifiedRulePrelude,
     pub block: SimpleBlock,
+}
+
+#[ast_node]
+pub enum QualifiedRulePrelude {
+    #[tag("SelectorList")]
+    SelectorList(SelectorList),
+    #[tag("Tokens")]
+    Invalid(Tokens),
 }
 
 #[ast_node]

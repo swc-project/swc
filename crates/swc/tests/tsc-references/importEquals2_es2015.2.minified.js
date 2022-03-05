@@ -1,4 +1,4 @@
 module.exports = a;
 const a = require("./b");
-new a.A(); // Error
+new a.A();
 export { };

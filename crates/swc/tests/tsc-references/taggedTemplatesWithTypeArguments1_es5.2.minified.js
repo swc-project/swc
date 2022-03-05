@@ -1,31 +1,6 @@
-function _defineProperty(obj, key, value) {
-    return key in obj ? Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: !0,
-        configurable: !0,
-        writable: !0
-    }) : obj[key] = value, obj;
-}
-function _objectSpread(target) {
-    for(var i = 1; i < arguments.length; i++){
-        var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
-        "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
-            return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-        }))), ownKeys.forEach(function(key) {
-            _defineProperty(target, key, source[key]);
-        });
-    }
-    return target;
-}
-function _taggedTemplateLiteral(strings, raw) {
-    return raw || (raw = strings.slice(0)), Object.freeze(Object.defineProperties(strings, {
-        raw: {
-            value: Object.freeze(raw)
-        }
-    }));
-}
+import * as swcHelpers from "@swc/helpers";
 function _templateObject() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "\n    hello\n    ",
         "\n    brave\n    ",
         "\n    world\n    ",
@@ -36,7 +11,7 @@ function _templateObject() {
     }, data;
 }
 function _templateObject1() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "\n    hello\n    ",
         "\n    brave\n    ",
         "\n    world\n    ",
@@ -47,7 +22,7 @@ function _templateObject1() {
     }, data;
 }
 function _templateObject2() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         ""
     ]);
@@ -56,7 +31,7 @@ function _templateObject2() {
     }, data;
 }
 function _templateObject3() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         ""
     ]);
@@ -79,8 +54,8 @@ export var b = g(_templateObject1(), function(stuff) {
     return stuff.z;
 });
 export var c = obj.prop(_templateObject2(), function(input) {
-    return _objectSpread({}, input);
+    return swcHelpers.objectSpread({}, input);
 });
 c.returnedObjProp.x, c.returnedObjProp.y, c.returnedObjProp.z, c = obj.prop(_templateObject3(), function(input) {
-    return _objectSpread({}, input);
+    return swcHelpers.objectSpread({}, input);
 }), c.returnedObjProp.x, c.returnedObjProp.y, c.returnedObjProp.z;

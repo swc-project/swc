@@ -1,13 +1,5 @@
 var TypeScript;
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 !function(TypeScript1) {
     var preFindMemberScope = function(ast, parent, walker) {
         var memScope = walker.state;
@@ -60,21 +52,20 @@ function _defineProperties(target, props) {
         return (TypeScript.getAstWalkerFactory().walk(script, preFindEnclosingScope, null, null, context), null === context.scopeStartAST) ? null : context;
     }, TypeCollectionContext = function(scopeChain, checker) {
         "use strict";
-        _classCallCheck(this, TypeCollectionContext), this.scopeChain = scopeChain, this.checker = checker, this.script = null;
+        swcHelpers.classCallCheck(this, TypeCollectionContext), this.scopeChain = scopeChain, this.checker = checker, this.script = null;
     };
     TypeScript1.TypeCollectionContext = TypeCollectionContext;
     var MemberScopeContext = function(flow, pos, matchFlag) {
         "use strict";
-        _classCallCheck(this, MemberScopeContext), this.flow = flow, this.pos = pos, this.matchFlag = matchFlag, this.type = null, this.ast = null, this.options = new AstWalkOptions();
+        swcHelpers.classCallCheck(this, MemberScopeContext), this.flow = flow, this.pos = pos, this.matchFlag = matchFlag, this.type = null, this.ast = null, this.options = new AstWalkOptions();
     };
     TypeScript1.MemberScopeContext = MemberScopeContext;
     var EnclosingScopeContext = function() {
         "use strict";
-        var Constructor, protoProps, staticProps;
         function EnclosingScopeContext(logger, script, text, pos, isMemberCompletion) {
-            _classCallCheck(this, EnclosingScopeContext), this.logger = logger, this.script = script, this.text = text, this.pos = pos, this.isMemberCompletion = isMemberCompletion, this.scopeGetter = null, this.objectLiteralScopeGetter = null, this.scopeStartAST = null, this.skipNextFuncDeclForClass = !1, this.deepestModuleDecl = null, this.enclosingClassDecl = null, this.enclosingObjectLit = null, this.publicsOnly = !0, this.useFullAst = !1;
+            swcHelpers.classCallCheck(this, EnclosingScopeContext), this.logger = logger, this.script = script, this.text = text, this.pos = pos, this.isMemberCompletion = isMemberCompletion, this.scopeGetter = null, this.objectLiteralScopeGetter = null, this.scopeStartAST = null, this.skipNextFuncDeclForClass = !1, this.deepestModuleDecl = null, this.enclosingClassDecl = null, this.enclosingObjectLit = null, this.publicsOnly = !0, this.useFullAst = !1;
         }
-        return Constructor = EnclosingScopeContext, protoProps = [
+        return swcHelpers.createClass(EnclosingScopeContext, [
             {
                 key: "getScope",
                 value: function() {
@@ -121,7 +112,7 @@ function _defineProperties(target, props) {
                     return this.scriptFragment;
                 }
             }
-        ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), EnclosingScopeContext;
+        ]), EnclosingScopeContext;
     }();
     TypeScript1.EnclosingScopeContext = EnclosingScopeContext, TypeScript1.preFindMemberScope = preFindMemberScope, TypeScript1.pushTypeCollectionScope = function(container, valueMembers, ambientValueMembers, enclosedTypes, ambientEnclosedTypes, context, thisType, classType, moduleDecl) {
         var builder = new SymbolScopeBuilder(valueMembers, ambientValueMembers, enclosedTypes, ambientEnclosedTypes, null, container), chain = new ScopeChain(container, context.scopeChain, builder);

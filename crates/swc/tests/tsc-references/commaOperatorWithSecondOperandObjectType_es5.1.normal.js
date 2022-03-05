@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @allowUnreachableCode: true
 var ANY;
 var BOOLEAN;
@@ -11,7 +7,7 @@ var STRING;
 var OBJECT;
 var CLASS = function CLASS() {
     "use strict";
-    _classCallCheck(this, CLASS);
+    swcHelpers.classCallCheck(this, CLASS);
 };
 //The second operand type is Object
 ANY, OBJECT;

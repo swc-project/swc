@@ -1,12 +1,4 @@
-function _extends() {
-    return (_extends = Object.assign || function(target) {
-        for(var i = 1; i < arguments.length; i++){
-            var source = arguments[i];
-            for(var key in source)Object.prototype.hasOwnProperty.call(source, key) && (target[key] = source[key]);
-        }
-        return target;
-    }).apply(this, arguments);
-}
+import * as swcHelpers from "@swc/helpers";
 var obj1, React = require("react"), obj = {
     children: "hi",
     to: "boo"
@@ -18,17 +10,17 @@ React.createElement(MainButton, {
     to: "/some/path"
 }, "GO"), React.createElement(MainButton, {
     onClick: function(e) {}
-}, "Hello world"), React.createElement(MainButton, _extends({}, obj)), React.createElement(MainButton, _extends({}, {
+}, "Hello world"), React.createElement(MainButton, swcHelpers.extends({}, obj)), React.createElement(MainButton, swcHelpers.extends({}, {
     to: 10000
-}, obj)), React.createElement(MainButton, _extends({}, obj1)), React.createElement(MainButton, _extends({}, obj1, {
+}, obj)), React.createElement(MainButton, swcHelpers.extends({}, obj1)), React.createElement(MainButton, swcHelpers.extends({}, obj1, {
     to: "/to/somewhere"
-})), React.createElement(MainButton, _extends({}, {
+})), React.createElement(MainButton, swcHelpers.extends({}, {
     onClick: function() {}
-})), React.createElement(MainButton, _extends({}, {
+})), React.createElement(MainButton, swcHelpers.extends({}, {
     onClick: function() {
         console.log("hi");
     }
-})), React.createElement(MainButton, _extends({}, {
+})), React.createElement(MainButton, swcHelpers.extends({}, {
     onClick: function() {}
 })), React.createElement(MainButton, {
     to: "/some/path",

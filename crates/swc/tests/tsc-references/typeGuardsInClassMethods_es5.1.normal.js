@@ -1,22 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 // Note that type guards affect types of variables and parameters only and 
 // have no effect on members of objects such as properties. 
 // variables in global
@@ -25,7 +7,7 @@ var var1;
 var C1 = /*#__PURE__*/ function() {
     "use strict";
     function C1(param) {
-        _classCallCheck(this, C1);
+        swcHelpers.classCallCheck(this, C1);
         // global vars in function declaration
         num = typeof var1 === "string" && var1.length; // string
         // variables in function declaration
@@ -34,7 +16,7 @@ var C1 = /*#__PURE__*/ function() {
         // parameters in function declaration
         num = typeof param === "string" && param.length; // string
     }
-    _createClass(C1, [
+    swcHelpers.createClass(C1, [
         {
             key: "p1",
             value: // Inside function declaration

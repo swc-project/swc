@@ -1,3 +1,2 @@
-class Object {
-}
-export { Object as default };
+export default class Object {
+};

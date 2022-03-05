@@ -18,5 +18,4 @@ new MyPromise((resolve)=>resolve()
 ), call((x, y)=>42
 ), call((x, y)=>42
 , 4), call((x, y)=>42
-, 4, 2) // ok
-;
+, 4, 2);

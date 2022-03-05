@@ -907,8 +907,19 @@ impl<'a, I: Tokens> Parser<I> {
         if is_constructor(&key) {
             syntax_error!(self, key.span(), SyntaxError::PropertyNamedConstructor);
         }
-        if declare && key.is_left() {
-            syntax_error!(self, key.span(), SyntaxError::DeclarePrivateIdentifier);
+        if key.is_left() {
+            if declare {
+                self.emit_err(
+                    key.span(),
+                    SyntaxError::PrivateNameModifier(js_word!("declare")),
+                )
+            }
+            if is_abstract {
+                self.emit_err(
+                    key.span(),
+                    SyntaxError::PrivateNameModifier(js_word!("abstract")),
+                )
+            }
         }
         let definite = self.input.syntax().typescript() && !is_optional && eat!(self, '!');
 
@@ -938,13 +949,10 @@ impl<'a, I: Tokens> Parser<I> {
                     is_static,
                     decorators,
                     accessibility,
-                    is_abstract,
                     is_optional,
                     is_override,
                     readonly,
-                    definite,
                     type_ann,
-                    computed: false,
                 }
                 .into(),
                 Either::Right(key) => ClassProp {

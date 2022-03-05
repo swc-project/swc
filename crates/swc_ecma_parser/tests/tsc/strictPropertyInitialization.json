@@ -289,13 +289,10 @@
           },
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
-          "isAbstract": false,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false,
-          "definite": false
+          "readonly": false
         },
         {
           "type": "PrivateProperty",
@@ -361,13 +358,10 @@
           },
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
-          "isAbstract": false,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false,
-          "definite": false
+          "readonly": false
         },
         {
           "type": "PrivateProperty",
@@ -433,13 +427,10 @@
           },
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
-          "isAbstract": false,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false,
-          "definite": false
+          "readonly": false
         },
         {
           "type": "PrivateProperty",
@@ -486,13 +477,10 @@
           },
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
-          "isAbstract": false,
           "isOptional": true,
           "isOverride": false,
-          "readonly": false,
-          "definite": false
+          "readonly": false
         }
       ],
       "superClass": null,
@@ -784,13 +772,10 @@
           },
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
-          "isAbstract": false,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false,
-          "definite": false
+          "readonly": false
         },
         {
           "type": "PrivateProperty",
@@ -856,13 +841,10 @@
           },
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
-          "isAbstract": false,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false,
-          "definite": false
+          "readonly": false
         },
         {
           "type": "PrivateProperty",
@@ -928,13 +910,10 @@
           },
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
-          "isAbstract": false,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false,
-          "definite": false
+          "readonly": false
         },
         {
           "type": "PrivateProperty",
@@ -981,13 +960,10 @@
           },
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
-          "isAbstract": false,
           "isOptional": true,
           "isOverride": false,
-          "readonly": false,
-          "definite": false
+          "readonly": false
         }
       ],
       "superClass": null,
@@ -1446,13 +1422,10 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
-          "isAbstract": false,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false,
-          "definite": false
+          "readonly": false
         },
         {
           "type": "PrivateProperty",
@@ -1507,13 +1480,10 @@
           },
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
-          "isAbstract": false,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false,
-          "definite": false
+          "readonly": false
         },
         {
           "type": "PrivateProperty",
@@ -1573,13 +1543,10 @@
           },
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
-          "isAbstract": false,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false,
-          "definite": false
+          "readonly": false
         }
       ],
       "superClass": null,
@@ -1698,13 +1665,10 @@
           },
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
-          "isAbstract": false,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false,
-          "definite": false
+          "readonly": false
         },
         {
           "type": "Constructor",
@@ -1966,13 +1930,10 @@
           },
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
-          "isAbstract": false,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false,
-          "definite": false
+          "readonly": false
         },
         {
           "type": "Constructor",
@@ -2309,13 +2270,10 @@
           },
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
-          "isAbstract": false,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false,
-          "definite": false
+          "readonly": false
         },
         {
           "type": "Constructor",
@@ -3264,13 +3222,10 @@
           },
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
-          "isAbstract": false,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false,
-          "definite": false
+          "readonly": false
         },
         {
           "type": "Constructor",
@@ -3838,13 +3793,10 @@
           },
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
-          "isAbstract": false,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false,
-          "definite": false
+          "readonly": false
         },
         {
           "type": "Constructor",
