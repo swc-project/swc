@@ -4,3 +4,9 @@ error: Expected function or ident tokens
 2 |     color: teal;
   |           ^
 
+error: Unexpected character `';'`
+ --> $DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:2:16
+  |
+2 |     color: teal;
+  |                ^
+

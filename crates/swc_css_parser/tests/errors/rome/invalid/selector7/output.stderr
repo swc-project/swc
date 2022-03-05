@@ -1,6 +1,0 @@
-error: Invalid selector
- --> $DIR/tests/errors/rome/invalid/selector7/input.css:1:4
-  |
-1 | a::1 {
-  |    ^
-

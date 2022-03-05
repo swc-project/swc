@@ -1,6 +1,0 @@
-error: Invalid selector
- --> $DIR/tests/errors/selector/pseudo-element/after/input.css:1:3
-  |
-1 | :: foo {
-  |   ^
-
