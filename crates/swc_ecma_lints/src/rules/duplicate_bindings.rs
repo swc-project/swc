@@ -14,6 +14,7 @@ pub fn duplicate_bindings() -> Box<dyn Rule> {
 #[derive(Debug, Default)]
 struct DuplicateBindings {
     bindings: AHashMap<Id, Span>,
+    type_bindings: AHashMap<Id, Span>,
 
     var_decl_kind: Option<VarDeclKind>,
     is_pat_decl: bool,
@@ -22,6 +23,10 @@ struct DuplicateBindings {
 impl DuplicateBindings {
     /// Add a binding.
     fn add(&mut self, id: &Ident, check_for_var_kind: bool) {
+        if self.type_bindings.contains_key(&id.to_id()) {
+            return;
+        }
+
         if check_for_var_kind {
             if let Some(VarDeclKind::Var) = self.var_decl_kind {
                 return;
@@ -49,6 +54,22 @@ impl DuplicateBindings {
 
 impl Visit for DuplicateBindings {
     noop_visit_type!();
+
+    fn visit_module(&mut self, m: &Module) {
+        m.visit_with(&mut TypeCollector {
+            type_bindings: &mut self.type_bindings,
+        });
+
+        m.visit_children_with(self);
+    }
+
+    fn visit_script(&mut self, s: &Script) {
+        s.visit_with(&mut TypeCollector {
+            type_bindings: &mut self.type_bindings,
+        });
+
+        s.visit_children_with(self);
+    }
 
     fn visit_assign_pat_prop(&mut self, p: &AssignPatProp) {
         p.visit_children_with(self);
@@ -94,7 +115,9 @@ impl Visit for DuplicateBindings {
     fn visit_import_named_specifier(&mut self, s: &ImportNamedSpecifier) {
         s.visit_children_with(self);
 
-        self.add(&s.local, false);
+        if !s.is_type_only {
+            self.add(&s.local, false);
+        }
     }
 
     fn visit_import_star_as_specifier(&mut self, s: &ImportStarAsSpecifier) {
@@ -124,5 +147,19 @@ impl Visit for DuplicateBindings {
 
         self.is_pat_decl = old_is_pat_decl;
         self.var_decl_kind = old_var_decl_kind;
+    }
+}
+
+struct TypeCollector<'a> {
+    type_bindings: &'a mut AHashMap<Id, Span>,
+}
+
+impl Visit for TypeCollector<'_> {
+    fn visit_ts_entity_name(&mut self, n: &TsEntityName) {
+        n.visit_children_with(self);
+
+        if let TsEntityName::Ident(ident) = n {
+            self.type_bindings.insert(ident.to_id(), ident.span);
+        }
     }
 }
