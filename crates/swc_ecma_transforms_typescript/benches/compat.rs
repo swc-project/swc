@@ -284,7 +284,7 @@ fn full_es2016(b: &mut Bencher) {
             swc_ecma_transforms_compat::es2022(Default::default()),
             swc_ecma_transforms_compat::es2019(),
             swc_ecma_transforms_compat::es2018(Default::default()),
-            swc_ecma_transforms_compat::es2017(),
+            swc_ecma_transforms_compat::es2017(Default::default()),
             swc_ecma_transforms_compat::es2016(),
         )
     });
@@ -297,7 +297,7 @@ fn full_es2017(b: &mut Bencher) {
             swc_ecma_transforms_compat::es2022(Default::default()),
             swc_ecma_transforms_compat::es2019(),
             swc_ecma_transforms_compat::es2018(Default::default()),
-            swc_ecma_transforms_compat::es2017(),
+            swc_ecma_transforms_compat::es2017(Default::default()),
         )
     });
 }
