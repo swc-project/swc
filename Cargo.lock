@@ -2811,7 +2811,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.14.0"
+version = "0.14.1"
 dependencies = [
  "anyhow",
  "atty",
@@ -2823,6 +2823,7 @@ dependencies = [
  "serde_json",
  "swc",
  "swc_common",
+ "swc_trace_macro",
  "tracing",
  "tracing-chrome",
  "tracing-futures",
