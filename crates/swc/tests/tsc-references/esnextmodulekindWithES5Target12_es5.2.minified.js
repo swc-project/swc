@@ -1,8 +1,7 @@
+import * as swcHelpers from "@swc/helpers";
 var C, E, E1, N, F, E2, N1, C1 = function() {
     "use strict";
-    !function(instance, Constructor) {
-        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, C1);
+    swcHelpers.classCallCheck(this, C1);
 };
 export { E1 as E, E2 as E, N1 as N, C1 as C };
 C = C1 || (C1 = {}), C.x = 1, (function(E2) {

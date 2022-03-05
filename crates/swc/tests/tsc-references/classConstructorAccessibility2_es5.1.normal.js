@@ -1,96 +1,12 @@
-function _assertThisInitialized(self) {
-    if (self === void 0) {
-        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-    return self;
-}
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
-function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-        return o.__proto__ || Object.getPrototypeOf(o);
-    };
-    return _getPrototypeOf(o);
-}
-function _inherits(subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-        throw new TypeError("Super expression must either be null or a function");
-    }
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-        constructor: {
-            value: subClass,
-            writable: true,
-            configurable: true
-        }
-    });
-    if (superClass) _setPrototypeOf(subClass, superClass);
-}
-function _possibleConstructorReturn(self, call) {
-    if (call && (_typeof(call) === "object" || typeof call === "function")) {
-        return call;
-    }
-    return _assertThisInitialized(self);
-}
-function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-        o.__proto__ = p;
-        return o;
-    };
-    return _setPrototypeOf(o, p);
-}
-var _typeof = function(obj) {
-    "@swc/helpers - typeof";
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
-function _isNativeReflectConstruct() {
-    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-    if (Reflect.construct.sham) return false;
-    if (typeof Proxy === "function") return true;
-    try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
-        return true;
-    } catch (e) {
-        return false;
-    }
-}
-function _createSuper(Derived) {
-    var hasNativeReflectConstruct = _isNativeReflectConstruct();
-    return function _createSuperInternal() {
-        var Super = _getPrototypeOf(Derived), result;
-        if (hasNativeReflectConstruct) {
-            var NewTarget = _getPrototypeOf(this).constructor;
-            result = Reflect.construct(Super, arguments, NewTarget);
-        } else {
-            result = Super.apply(this, arguments);
-        }
-        return _possibleConstructorReturn(this, result);
-    };
-}
+import * as swcHelpers from "@swc/helpers";
 var BaseA = // @declaration: true
 /*#__PURE__*/ function() {
     "use strict";
     function BaseA(x) {
-        _classCallCheck(this, BaseA);
+        swcHelpers.classCallCheck(this, BaseA);
         this.x = x;
     }
-    _createClass(BaseA, [
+    swcHelpers.createClass(BaseA, [
         {
             key: "createInstance",
             value: function createInstance() {
@@ -103,10 +19,10 @@ var BaseA = // @declaration: true
 var BaseB = /*#__PURE__*/ function() {
     "use strict";
     function BaseB(x) {
-        _classCallCheck(this, BaseB);
+        swcHelpers.classCallCheck(this, BaseB);
         this.x = x;
     }
-    _createClass(BaseB, [
+    swcHelpers.createClass(BaseB, [
         {
             key: "createInstance",
             value: function createInstance() {
@@ -119,10 +35,10 @@ var BaseB = /*#__PURE__*/ function() {
 var BaseC = /*#__PURE__*/ function() {
     "use strict";
     function BaseC(x) {
-        _classCallCheck(this, BaseC);
+        swcHelpers.classCallCheck(this, BaseC);
         this.x = x;
     }
-    _createClass(BaseC, [
+    swcHelpers.createClass(BaseC, [
         {
             key: "createInstance",
             value: function createInstance() {
@@ -141,16 +57,16 @@ var BaseC = /*#__PURE__*/ function() {
 }();
 var DerivedA = /*#__PURE__*/ function(BaseA1) {
     "use strict";
-    _inherits(DerivedA, BaseA1);
-    var _super = _createSuper(DerivedA);
+    swcHelpers.inherits(DerivedA, BaseA1);
+    var _super = swcHelpers.createSuper(DerivedA);
     function DerivedA(x) {
-        _classCallCheck(this, DerivedA);
+        swcHelpers.classCallCheck(this, DerivedA);
         var _this;
         _this = _super.call(this, x);
         _this.x = x;
         return _this;
     }
-    _createClass(DerivedA, [
+    swcHelpers.createClass(DerivedA, [
         {
             key: "createInstance",
             value: function createInstance() {
@@ -175,16 +91,16 @@ var DerivedA = /*#__PURE__*/ function(BaseA1) {
 }(BaseA);
 var DerivedB = /*#__PURE__*/ function(BaseB1) {
     "use strict";
-    _inherits(DerivedB, BaseB1);
-    var _super = _createSuper(DerivedB);
+    swcHelpers.inherits(DerivedB, BaseB1);
+    var _super = swcHelpers.createSuper(DerivedB);
     function DerivedB(x) {
-        _classCallCheck(this, DerivedB);
+        swcHelpers.classCallCheck(this, DerivedB);
         var _this;
         _this = _super.call(this, x);
         _this.x = x;
         return _this;
     }
-    _createClass(DerivedB, [
+    swcHelpers.createClass(DerivedB, [
         {
             key: "createInstance",
             value: function createInstance() {
@@ -209,16 +125,16 @@ var DerivedB = /*#__PURE__*/ function(BaseB1) {
 }(BaseB);
 var DerivedC = /*#__PURE__*/ function(BaseC1) {
     "use strict";
-    _inherits(DerivedC, BaseC1);
-    var _super = _createSuper(DerivedC);
+    swcHelpers.inherits(DerivedC, BaseC1);
+    var _super = swcHelpers.createSuper(DerivedC);
     function DerivedC(x) {
-        _classCallCheck(this, DerivedC);
+        swcHelpers.classCallCheck(this, DerivedC);
         var _this;
         _this = _super.call(this, x);
         _this.x = x;
         return _this;
     }
-    _createClass(DerivedC, [
+    swcHelpers.createClass(DerivedC, [
         {
             key: "createInstance",
             value: function createInstance() {

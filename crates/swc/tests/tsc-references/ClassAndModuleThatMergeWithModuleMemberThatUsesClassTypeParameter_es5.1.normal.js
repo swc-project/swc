@@ -1,29 +1,25 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 var clodule1 = function clodule1() {
     "use strict";
-    _classCallCheck(this, clodule1);
+    swcHelpers.classCallCheck(this, clodule1);
 };
 (function(clodule1) {
     var f = function f(x) {};
 })(clodule1 || (clodule1 = {}));
 var clodule2 = function clodule2() {
     "use strict";
-    _classCallCheck(this, clodule2);
+    swcHelpers.classCallCheck(this, clodule2);
 };
 (function(clodule2) {
     var x;
     var D = function D() {
         "use strict";
-        _classCallCheck(this, D);
+        swcHelpers.classCallCheck(this, D);
     };
 })(clodule2 || (clodule2 = {}));
 var clodule3 = function clodule3() {
     "use strict";
-    _classCallCheck(this, clodule3);
+    swcHelpers.classCallCheck(this, clodule3);
 };
 (function(clodule3) {
     var y = clodule3.y = {
@@ -32,11 +28,11 @@ var clodule3 = function clodule3() {
 })(clodule3 || (clodule3 = {}));
 var clodule4 = function clodule4() {
     "use strict";
-    _classCallCheck(this, clodule4);
+    swcHelpers.classCallCheck(this, clodule4);
 };
 (function(clodule4) {
     var D = function D() {
         "use strict";
-        _classCallCheck(this, D);
+        swcHelpers.classCallCheck(this, D);
     };
 })(clodule4 || (clodule4 = {}));

@@ -1,16 +1,9 @@
-function _defineProperty(obj, key, value) {
-    return key in obj ? Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: !0,
-        configurable: !0,
-        writable: !0
-    }) : obj[key] = value, obj;
-}
+import * as swcHelpers from "@swc/helpers";
 var _obj, TopLevelSym = Symbol(), InnerSym = Symbol();
-module.exports = (_defineProperty(_obj = {}, TopLevelSym, function() {
+module.exports = (_obj = {}, swcHelpers.defineProperty(_obj, TopLevelSym, function() {
     var x = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : 12;
     return x;
-}), _defineProperty(_obj, "items", _defineProperty({}, InnerSym, function() {
+}), swcHelpers.defineProperty(_obj, "items", swcHelpers.defineProperty({}, InnerSym, function() {
     var arg = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         x: 12
     };
@@ -19,8 +12,6 @@ module.exports = (_defineProperty(_obj = {}, TopLevelSym, function() {
 var TopLevelSym = Symbol(), InnerSym = Symbol(), _InnerSym = InnerSym;
 export var MyClass = function() {
     "use strict";
-    arguments.length > 0 && void 0 !== arguments[0] && arguments[0], (function(instance, Constructor) {
-        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    })(this, MyClass), this[_InnerSym] = "ok";
+    arguments.length > 0 && void 0 !== arguments[0] && arguments[0], swcHelpers.classCallCheck(this, MyClass), this[_InnerSym] = "ok";
 };
 MyClass[TopLevelSym] = 12;

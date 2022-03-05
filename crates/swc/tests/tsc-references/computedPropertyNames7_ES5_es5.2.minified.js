@@ -1,11 +1,5 @@
 var E;
+import * as swcHelpers from "@swc/helpers";
 !function(E) {
     E[E.member = 0] = "member";
-}(E || (E = {})), (function(obj, key, value) {
-    key in obj ? Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: !0,
-        configurable: !0,
-        writable: !0
-    }) : obj[key] = value;
-})({}, E.member, 0);
+}(E || (E = {})), swcHelpers.defineProperty({}, E.member, 0);

@@ -1,10 +1,4 @@
-function _instanceof(left, right) {
-    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
-        return !!right[Symbol.hasInstance](left);
-    } else {
-        return left instanceof right;
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -15,7 +9,7 @@ function _instanceof(left, right) {
  * @param {number} x
  * @param {number} y
  */ export function Point(x, y) {
-    if (!_instanceof(this, Point)) {
+    if (!swcHelpers._instanceof(this, Point)) {
         return new Point(x, y);
     }
     this.x = x;

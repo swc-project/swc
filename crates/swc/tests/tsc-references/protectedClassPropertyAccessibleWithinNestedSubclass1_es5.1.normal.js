@@ -1,102 +1,18 @@
-function _assertThisInitialized(self) {
-    if (self === void 0) {
-        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-    return self;
-}
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
-function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-        return o.__proto__ || Object.getPrototypeOf(o);
-    };
-    return _getPrototypeOf(o);
-}
-function _inherits(subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-        throw new TypeError("Super expression must either be null or a function");
-    }
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-        constructor: {
-            value: subClass,
-            writable: true,
-            configurable: true
-        }
-    });
-    if (superClass) _setPrototypeOf(subClass, superClass);
-}
-function _possibleConstructorReturn(self, call) {
-    if (call && (_typeof(call) === "object" || typeof call === "function")) {
-        return call;
-    }
-    return _assertThisInitialized(self);
-}
-function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-        o.__proto__ = p;
-        return o;
-    };
-    return _setPrototypeOf(o, p);
-}
-var _typeof = function(obj) {
-    "@swc/helpers - typeof";
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
-function _isNativeReflectConstruct() {
-    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-    if (Reflect.construct.sham) return false;
-    if (typeof Proxy === "function") return true;
-    try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
-        return true;
-    } catch (e) {
-        return false;
-    }
-}
-function _createSuper(Derived) {
-    var hasNativeReflectConstruct = _isNativeReflectConstruct();
-    return function _createSuperInternal() {
-        var Super = _getPrototypeOf(Derived), result;
-        if (hasNativeReflectConstruct) {
-            var NewTarget = _getPrototypeOf(this).constructor;
-            result = Reflect.construct(Super, arguments, NewTarget);
-        } else {
-            result = Super.apply(this, arguments);
-        }
-        return _possibleConstructorReturn(this, result);
-    };
-}
+import * as swcHelpers from "@swc/helpers";
 var Base = /*#__PURE__*/ function() {
     "use strict";
     function Base() {
-        _classCallCheck(this, Base);
+        swcHelpers.classCallCheck(this, Base);
     }
-    _createClass(Base, [
+    swcHelpers.createClass(Base, [
         {
             key: "method",
             value: function method() {
                 var A = /*#__PURE__*/ function() {
                     function A() {
-                        _classCallCheck(this, A);
+                        swcHelpers.classCallCheck(this, A);
                     }
-                    _createClass(A, [
+                    swcHelpers.createClass(A, [
                         {
                             key: "methoda",
                             value: function methoda() {
@@ -122,21 +38,21 @@ var Base = /*#__PURE__*/ function() {
 }();
 var Derived1 = /*#__PURE__*/ function(Base) {
     "use strict";
-    _inherits(Derived1, Base);
-    var _super = _createSuper(Derived1);
+    swcHelpers.inherits(Derived1, Base);
+    var _super = swcHelpers.createSuper(Derived1);
     function Derived1() {
-        _classCallCheck(this, Derived1);
+        swcHelpers.classCallCheck(this, Derived1);
         return _super.apply(this, arguments);
     }
-    _createClass(Derived1, [
+    swcHelpers.createClass(Derived1, [
         {
             key: "method1",
             value: function method1() {
                 var B = /*#__PURE__*/ function() {
                     function B() {
-                        _classCallCheck(this, B);
+                        swcHelpers.classCallCheck(this, B);
                     }
-                    _createClass(B, [
+                    swcHelpers.createClass(B, [
                         {
                             key: "method1b",
                             value: function method1b() {
@@ -162,21 +78,21 @@ var Derived1 = /*#__PURE__*/ function(Base) {
 }(Base);
 var Derived2 = /*#__PURE__*/ function(Base) {
     "use strict";
-    _inherits(Derived2, Base);
-    var _super = _createSuper(Derived2);
+    swcHelpers.inherits(Derived2, Base);
+    var _super = swcHelpers.createSuper(Derived2);
     function Derived2() {
-        _classCallCheck(this, Derived2);
+        swcHelpers.classCallCheck(this, Derived2);
         return _super.apply(this, arguments);
     }
-    _createClass(Derived2, [
+    swcHelpers.createClass(Derived2, [
         {
             key: "method2",
             value: function method2() {
                 var C = /*#__PURE__*/ function() {
                     function C() {
-                        _classCallCheck(this, C);
+                        swcHelpers.classCallCheck(this, C);
                     }
-                    _createClass(C, [
+                    swcHelpers.createClass(C, [
                         {
                             key: "method2c",
                             value: function method2c() {
@@ -202,21 +118,21 @@ var Derived2 = /*#__PURE__*/ function(Base) {
 }(Base);
 var Derived3 = /*#__PURE__*/ function(Derived1) {
     "use strict";
-    _inherits(Derived3, Derived1);
-    var _super = _createSuper(Derived3);
+    swcHelpers.inherits(Derived3, Derived1);
+    var _super = swcHelpers.createSuper(Derived3);
     function Derived3() {
-        _classCallCheck(this, Derived3);
+        swcHelpers.classCallCheck(this, Derived3);
         return _super.apply(this, arguments);
     }
-    _createClass(Derived3, [
+    swcHelpers.createClass(Derived3, [
         {
             key: "method3",
             value: function method3() {
                 var D = /*#__PURE__*/ function() {
                     function D() {
-                        _classCallCheck(this, D);
+                        swcHelpers.classCallCheck(this, D);
                     }
-                    _createClass(D, [
+                    swcHelpers.createClass(D, [
                         {
                             key: "method3d",
                             value: function method3d() {
@@ -242,21 +158,21 @@ var Derived3 = /*#__PURE__*/ function(Derived1) {
 }(Derived1);
 var Derived4 = /*#__PURE__*/ function(Derived2) {
     "use strict";
-    _inherits(Derived4, Derived2);
-    var _super = _createSuper(Derived4);
+    swcHelpers.inherits(Derived4, Derived2);
+    var _super = swcHelpers.createSuper(Derived4);
     function Derived4() {
-        _classCallCheck(this, Derived4);
+        swcHelpers.classCallCheck(this, Derived4);
         return _super.apply(this, arguments);
     }
-    _createClass(Derived4, [
+    swcHelpers.createClass(Derived4, [
         {
             key: "method4",
             value: function method4() {
                 var E = /*#__PURE__*/ function() {
                     function E() {
-                        _classCallCheck(this, E);
+                        swcHelpers.classCallCheck(this, E);
                     }
-                    _createClass(E, [
+                    swcHelpers.createClass(E, [
                         {
                             key: "method4e",
                             value: function method4e() {

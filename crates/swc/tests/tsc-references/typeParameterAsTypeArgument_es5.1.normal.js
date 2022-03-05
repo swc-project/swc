@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // These are all errors because type parameters cannot reference other type parameters from the same list
 function foo(x, y) {
     foo(y, y);
@@ -10,5 +6,5 @@ function foo(x, y) {
 }
 var C = function C() {
     "use strict";
-    _classCallCheck(this, C);
+    swcHelpers.classCallCheck(this, C);
 };

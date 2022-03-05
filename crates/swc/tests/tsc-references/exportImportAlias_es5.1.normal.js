@@ -1,15 +1,11 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // expect no errors here
 var A;
 (function(A1) {
     var x1 = A1.x = 'hello world';
     var Point = function Point(x, y) {
         "use strict";
-        _classCallCheck(this, Point);
+        swcHelpers.classCallCheck(this, Point);
         this.x = x;
         this.y = y;
     };
@@ -33,7 +29,7 @@ var X;
     (function(Y) {
         var Point = function Point(x, y) {
             "use strict";
-            _classCallCheck(this, Point);
+            swcHelpers.classCallCheck(this, Point);
             this.x = x;
             this.y = y;
         };
@@ -52,7 +48,7 @@ var K;
 (function(K1) {
     var L = function L(name) {
         "use strict";
-        _classCallCheck(this, L);
+        swcHelpers.classCallCheck(this, L);
         this.name = name;
     };
     K1.L = L;

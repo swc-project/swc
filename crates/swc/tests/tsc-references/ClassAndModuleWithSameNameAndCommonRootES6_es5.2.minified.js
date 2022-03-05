@@ -1,11 +1,9 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
+import * as swcHelpers from "@swc/helpers";
 !function(X1) {
     var Y, Point;
     Y = X1.Y || (X1.Y = {}), Point = function(x, y) {
         "use strict";
-        _classCallCheck(this, Point), this.x = x, this.y = y;
+        swcHelpers.classCallCheck(this, Point), this.x = x, this.y = y;
     }, Y.Point = Point;
 }(X || (X = {})), (function(X2) {
     var Y, Point;
@@ -13,6 +11,6 @@ function _classCallCheck(instance, Constructor) {
 })(X || (X = {})), new X.Y.Point(1, 1), X.Y.Point.Origin;
 var X, A = function() {
     "use strict";
-    _classCallCheck(this, A);
+    swcHelpers.classCallCheck(this, A);
 };
 (A || (A = {})).Instance = new A(), A.Instance, new A();

@@ -1,31 +1,13 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 var A = // Two call or construct signatures are considered identical when they have the same number of type parameters and, considering those 
 // parameters pairwise identical, have identical type parameter constraints, identical number of parameters with identical kind(required, 
 // optional or rest) and types, and identical return types.
 /*#__PURE__*/ function() {
     "use strict";
     function A() {
-        _classCallCheck(this, A);
+        swcHelpers.classCallCheck(this, A);
     }
-    _createClass(A, [
+    swcHelpers.createClass(A, [
         {
             key: "foo",
             value: function foo(x) {
@@ -38,9 +20,9 @@ var A = // Two call or construct signatures are considered identical when they h
 var B = /*#__PURE__*/ function() {
     "use strict";
     function B() {
-        _classCallCheck(this, B);
+        swcHelpers.classCallCheck(this, B);
     }
-    _createClass(B, [
+    swcHelpers.createClass(B, [
         {
             key: "foo",
             value: function foo(x) {
@@ -53,9 +35,9 @@ var B = /*#__PURE__*/ function() {
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        _classCallCheck(this, C);
+        swcHelpers.classCallCheck(this, C);
     }
-    _createClass(C, [
+    swcHelpers.createClass(C, [
         {
             key: "foo",
             value: function foo(x) {

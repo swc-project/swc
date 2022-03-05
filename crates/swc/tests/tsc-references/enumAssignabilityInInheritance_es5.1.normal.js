@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 var // enum is only a subtype of number, no types are subtypes of enum, all of these except the first are errors
 E;
 (function(E) {
@@ -20,12 +16,12 @@ var r4 = foo7(E.A);
 var r4 = foo8(E.A);
 var A = function A() {
     "use strict";
-    _classCallCheck(this, A);
+    swcHelpers.classCallCheck(this, A);
 };
 var r4 = foo9(E.A);
 var A2 = function A2() {
     "use strict";
-    _classCallCheck(this, A2);
+    swcHelpers.classCallCheck(this, A2);
 };
 var r4 = foo10(E.A);
 var r4 = foo11(E.A);
@@ -42,7 +38,7 @@ function f() {}
 var r4 = foo14(E.A);
 var CC = function CC() {
     "use strict";
-    _classCallCheck(this, CC);
+    swcHelpers.classCallCheck(this, CC);
 };
 (function(CC) {
     var bar = CC.bar = 1;

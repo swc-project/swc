@@ -1,3 +1,4 @@
+import * as swcHelpers from "@swc/helpers";
 require("react").createElement(InferParamComponent, {
     values: [
         1,
@@ -7,4 +8,3 @@ require("react").createElement(InferParamComponent, {
     ],
     selectHandler: function(val) {}
 });
-export { };

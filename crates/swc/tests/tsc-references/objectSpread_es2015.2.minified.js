@@ -1,22 +1,4 @@
-function _defineProperty(obj, key, value) {
-    return key in obj ? Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: !0,
-        configurable: !0,
-        writable: !0
-    }) : obj[key] = value, obj;
-}
-function _objectSpread(target) {
-    for(var i = 1; i < arguments.length; i++){
-        var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
-        "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
-            return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-        }))), ownKeys.forEach(function(key) {
-            _defineProperty(target, key, source[key]);
-        });
-    }
-    return target;
-}
+import * as swcHelpers from "@swc/helpers";
 let o = {
     a: 1,
     b: "no"
@@ -24,35 +6,39 @@ let o = {
     b: "yes",
     c: !0
 };
-_objectSpread({}, o, {
+swcHelpers.objectSpread({}, o, {
     c: !1
-}), _objectSpread({
+}), swcHelpers.objectSpread({
     c: !1
-}, o), _objectSpread({}, o, {
+}, o), swcHelpers.objectSpread({}, o, {
     b: "override"
-}), _objectSpread({}, _objectSpread({
+}), swcHelpers.objectSpread({}, swcHelpers.objectSpread({
     a: 3
 }, {
     b: !1,
     c: "overriden"
 }), {
     c: "whatever"
-}), _objectSpread({}, o, o2), _objectSpread({}, o, o2, {
+}), swcHelpers.objectSpread({}, o, o2), swcHelpers.objectSpread({}, o, o2, {
     b: "ok"
-}), _objectSpread({}, _objectSpread({
+}), swcHelpers.objectSpread({}, swcHelpers.objectSpread({
     a: 1
 }, {
     b: !1,
     c: "overriden"
 }), {
     c: -1
-}), _objectSpread({}, o), _objectSpread({}, {
+}), swcHelpers.objectSpread({}, o);
+let op = {
     get a () {
         return 6;
     }
-}, {
+};
+swcHelpers.objectSpread({}, op, {
     c: 7
-}).a = 12, _objectSpread({}, function() {}), _objectSpread({}, void 0);
+}).a = 12, swcHelpers.objectSpread({}, function() {});
+let anything;
+swcHelpers.objectSpread({}, anything);
 let c = new class {
     m() {}
     constructor(){
@@ -60,22 +46,22 @@ let c = new class {
     }
 }();
 function f(t, u) {
-    return _objectSpread({}, t, u, {
+    return swcHelpers.objectSpread({}, t, u, {
         id: "id"
     });
 }
-_objectSpread({}, c), _objectSpread({}, c, {
+swcHelpers.objectSpread({}, c), swcHelpers.objectSpread({}, c, {
     plus () {
         return this.p + 1;
     }
-}).plus(), _objectSpread({}, o, {
+}).plus(), swcHelpers.objectSpread({}, o, {
     a: "wrong type?"
-}), _objectSpread({}, o, {
+}), swcHelpers.objectSpread({}, o, {
     a: "yes",
     b: -1
-}), _objectSpread({}, o, {
+}), swcHelpers.objectSpread({}, o, {
     a: 12
-}), _objectSpread({}, {}), f({
+}), swcHelpers.objectSpread({}, {}), f({
     a: 1,
     b: "yes"
 }, {

@@ -1,16 +1,4 @@
-function _defineProperty(obj, key, value) {
-    if (key in obj) {
-        Object.defineProperty(obj, key, {
-            value: value,
-            enumerable: true,
-            configurable: true,
-            writable: true
-        });
-    } else {
-        obj[key] = value;
-    }
-    return obj;
-}
-foo("", _defineProperty({}, Symbol.unscopables, function(s) {
+import * as swcHelpers from "@swc/helpers";
+foo("", swcHelpers.defineProperty({}, Symbol.unscopables, function(s) {
     return s.length;
 }));

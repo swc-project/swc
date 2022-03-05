@@ -1,17 +1,10 @@
+import * as swcHelpers from "@swc/helpers";
 var Outer = function() {
     "use strict";
-    var Constructor;
     function Outer() {
-        !function(instance, Constructor) {
-            if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, Outer);
+        swcHelpers.classCallCheck(this, Outer);
     }
-    return (function(target, props) {
-        for(var i = 0; i < props.length; i++){
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-        }
-    })(Constructor = Outer, [
+    return swcHelpers.createClass(Outer, null, [
         {
             key: "public",
             value: function() {}

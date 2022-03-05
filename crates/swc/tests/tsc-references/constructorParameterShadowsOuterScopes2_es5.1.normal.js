@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @target: esnext
 // @useDefineForClassFields: true
 // With useDefineForClassFields: true and ESNext target, initializer
@@ -17,21 +13,21 @@ function _classCallCheck(instance, Constructor) {
 var x = 1;
 var C = function C(x1) {
     "use strict";
-    _classCallCheck(this, C);
+    swcHelpers.classCallCheck(this, C);
     this.b = x // ok
     ;
 };
 var y = 1;
 var D = function D(x) {
     "use strict";
-    _classCallCheck(this, D);
+    swcHelpers.classCallCheck(this, D);
     this.b = y // ok
     ;
     var y1 = "";
 };
 var E = function E(z1) {
     "use strict";
-    _classCallCheck(this, E);
+    swcHelpers.classCallCheck(this, E);
     this.b = z // not ok
     ;
 };

@@ -1,26 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
-var _typeof = function(obj) {
-    "@swc/helpers - typeof";
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
+import * as swcHelpers from "@swc/helpers";
 // @allowUnusedLabels: true
 // typeof  operator on boolean type
 var BOOLEAN;
@@ -30,9 +8,9 @@ function foo() {
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
-        _classCallCheck(this, A);
+        swcHelpers.classCallCheck(this, A);
     }
-    _createClass(A, null, [
+    swcHelpers.createClass(A, null, [
         {
             key: "foo",
             value: function foo() {
@@ -49,38 +27,38 @@ var M;
 })(M || (M = {}));
 var objA = new A();
 // boolean type var
-var ResultIsString1 = typeof BOOLEAN === "undefined" ? "undefined" : _typeof(BOOLEAN);
+var ResultIsString1 = typeof BOOLEAN === "undefined" ? "undefined" : swcHelpers.typeOf(BOOLEAN);
 // boolean type literal
-var ResultIsString2 = _typeof(true);
-var ResultIsString3 = _typeof({
+var ResultIsString2 = swcHelpers.typeOf(true);
+var ResultIsString3 = swcHelpers.typeOf({
     x: true,
     y: false
 });
 // boolean type expressions
-var ResultIsString4 = _typeof(objA.a);
-var ResultIsString5 = _typeof(M.n);
-var ResultIsString6 = _typeof(foo());
-var ResultIsString7 = _typeof(A.foo());
+var ResultIsString4 = swcHelpers.typeOf(objA.a);
+var ResultIsString5 = swcHelpers.typeOf(M.n);
+var ResultIsString6 = swcHelpers.typeOf(foo());
+var ResultIsString7 = swcHelpers.typeOf(A.foo());
 // multiple typeof  operator
-var ResultIsString8 = _typeof(typeof BOOLEAN === "undefined" ? "undefined" : _typeof(BOOLEAN));
+var ResultIsString8 = swcHelpers.typeOf(typeof BOOLEAN === "undefined" ? "undefined" : swcHelpers.typeOf(BOOLEAN));
 // miss assignment operators
-_typeof(true);
-typeof BOOLEAN === "undefined" ? "undefined" : _typeof(BOOLEAN);
-_typeof(foo());
-_typeof(true), false;
-_typeof(objA.a);
-_typeof(M.n);
+swcHelpers.typeOf(true);
+typeof BOOLEAN === "undefined" ? "undefined" : swcHelpers.typeOf(BOOLEAN);
+swcHelpers.typeOf(foo());
+swcHelpers.typeOf(true), false;
+swcHelpers.typeOf(objA.a);
+swcHelpers.typeOf(M.n);
 // use typeof in type query
 var z;
 var x;
 var r;
-z: typeof BOOLEAN === "undefined" ? "undefined" : _typeof(BOOLEAN);
-r: typeof foo === "undefined" ? "undefined" : _typeof(foo);
+z: typeof BOOLEAN === "undefined" ? "undefined" : swcHelpers.typeOf(BOOLEAN);
+r: typeof foo === "undefined" ? "undefined" : swcHelpers.typeOf(foo);
 var y = {
     a: true,
     b: false
 };
-z: _typeof(y.a);
-z: _typeof(objA.a);
-z: _typeof(A.foo);
-z: _typeof(M.n);
+z: swcHelpers.typeOf(y.a);
+z: swcHelpers.typeOf(objA.a);
+z: swcHelpers.typeOf(A.foo);
+z: swcHelpers.typeOf(M.n);

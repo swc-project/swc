@@ -1,3 +1,4 @@
+import * as swcHelpers from "@swc/helpers";
 flat([
     1,
     [

@@ -1,3 +1,4 @@
+import * as swcHelpers from "@swc/helpers";
 export function getAllEntities(state) {
     var ids = state.ids, entities = state.entities;
     return ids.map(function(id) {
@@ -10,9 +11,7 @@ export function getEntity(id, state) {
 }
 export var c = function() {
     "use strict";
-    !function(instance, Constructor) {
-        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, c), this.a = "b", this.a = "b";
+    swcHelpers.classCallCheck(this, c), this.a = "b", this.a = "b";
 };
 var actions = [
     "resizeTo",

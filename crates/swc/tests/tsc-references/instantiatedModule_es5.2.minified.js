@@ -1,20 +1,13 @@
+import * as swcHelpers from "@swc/helpers";
 (M || (M = {})).Point = 1;
 var M, m, M2, m2, a2, M3, m3, a3, m = M;
 M.Point, m.Point, (function(M21) {
     var Point = function() {
         "use strict";
-        var Constructor;
         function Point() {
-            !function(instance, Constructor) {
-                if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-            }(this, Point);
+            swcHelpers.classCallCheck(this, Point);
         }
-        return (function(target, props) {
-            for(var i = 0; i < props.length; i++){
-                var descriptor = props[i];
-                descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-            }
-        })(Constructor = Point, [
+        return swcHelpers.createClass(Point, null, [
             {
                 key: "Origin",
                 value: function() {

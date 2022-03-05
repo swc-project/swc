@@ -1,3 +1,4 @@
+import * as swcHelpers from "@swc/helpers";
 var ref = [
     "foo"
 ];

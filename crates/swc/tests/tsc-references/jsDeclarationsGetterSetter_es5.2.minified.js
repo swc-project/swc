@@ -1,21 +1,10 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 export var A = function() {
     "use strict";
     function A() {
-        _classCallCheck(this, A);
+        swcHelpers.classCallCheck(this, A);
     }
-    return _createClass(A, [
+    return swcHelpers.createClass(A, [
         {
             key: "x",
             get: function() {
@@ -27,9 +16,9 @@ export var A = function() {
 export var B = function() {
     "use strict";
     function B() {
-        _classCallCheck(this, B);
+        swcHelpers.classCallCheck(this, B);
     }
-    return _createClass(B, [
+    return swcHelpers.createClass(B, [
         {
             key: "x",
             set: function(_arg) {}
@@ -39,9 +28,9 @@ export var B = function() {
 export var C = function() {
     "use strict";
     function C() {
-        _classCallCheck(this, C);
+        swcHelpers.classCallCheck(this, C);
     }
-    return _createClass(C, [
+    return swcHelpers.createClass(C, [
         {
             key: "x",
             get: function() {
@@ -53,7 +42,7 @@ export var C = function() {
 }();
 export var D = function() {
     "use strict";
-    _classCallCheck(this, D);
+    swcHelpers.classCallCheck(this, D);
 };
 Object.defineProperty(D.prototype, "x", {
     get: function() {
@@ -62,14 +51,14 @@ Object.defineProperty(D.prototype, "x", {
 });
 export var E = function() {
     "use strict";
-    _classCallCheck(this, E);
+    swcHelpers.classCallCheck(this, E);
 };
 Object.defineProperty(E.prototype, "x", {
     set: function(_arg) {}
 });
 export var F = function() {
     "use strict";
-    _classCallCheck(this, F);
+    swcHelpers.classCallCheck(this, F);
 };
 Object.defineProperty(F.prototype, "x", {
     get: function() {

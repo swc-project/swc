@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 export var E1;
 (function(E1) {
     E1[E1["A"] = 0] = "A";
@@ -11,7 +7,7 @@ export var E1;
 })(E1 || (E1 = {}));
 var C1 = function C1() {
     "use strict";
-    _classCallCheck(this, C1);
+    swcHelpers.classCallCheck(this, C1);
 };
 // Invalid, as there is already an exported member.
 module.exports = C1;

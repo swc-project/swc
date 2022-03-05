@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 var A;
 (function(A1) {
     var fromOrigin = function fromOrigin(p) {
@@ -13,11 +9,11 @@ var A;
     };
     var Point = function Point() {
         "use strict";
-        _classCallCheck(this, Point);
+        swcHelpers.classCallCheck(this, Point);
     };
     var Line = function Line(start, end) {
         "use strict";
-        _classCallCheck(this, Line);
+        swcHelpers.classCallCheck(this, Line);
         this.start = start;
         this.end = end;
     };

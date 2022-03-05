@@ -1,11 +1,10 @@
+import * as swcHelpers from "@swc/helpers";
 var NUMBER, M, NUMBER1 = [
     1,
     2
 ], A = function() {
     "use strict";
-    !function(instance, Constructor) {
-        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, A);
+    swcHelpers.classCallCheck(this, A);
 };
 !function(M1) {
     var n;
