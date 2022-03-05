@@ -1,10 +1,6 @@
 "use strict";
-var _regeneratorRuntime = _interopRequireDefault(require("regenerator-runtime"));
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : {
-        default: obj
-    };
-}
+var swcHelpers = require("@swc/helpers");
+var _regeneratorRuntime = swcHelpers.interopRequireDefault(require("regenerator-runtime"));
 var _marked = _regeneratorRuntime.default.mark(foo);
 function foo() {
     return _regeneratorRuntime.default.wrap(function foo$(_ctx) {
