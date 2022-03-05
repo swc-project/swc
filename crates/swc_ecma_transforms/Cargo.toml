@@ -35,7 +35,6 @@ swc_ecma_transforms_react = {version = "0.89.0", path = "../swc_ecma_transforms_
 swc_ecma_transforms_typescript = {version = "0.92.0", path = "../swc_ecma_transforms_typescript", optional = true}
 swc_ecma_utils = {version = "0.69.0", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.54.0", path = "../swc_ecma_visit"}
-unicode-xid = "0.2"
 
 [dev-dependencies]
 pretty_assertions = "0.7.2"

@@ -26,7 +26,7 @@ serde = {version = "1.0.133", features = ["derive"]}
 string_enum = {version = "0.3.1", path = "../string_enum"}
 swc_atoms = {version = "0.2", path = "../swc_atoms"}
 swc_common = {version = "0.17.0", path = "../swc_common"}
-unicode-xid = "0.2"
+unicode-id = "0.3"
 
 [dev-dependencies]
 serde_json = "1"

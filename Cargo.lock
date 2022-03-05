@@ -2992,7 +2992,7 @@ dependencies = [
  "string_enum",
  "swc_atoms",
  "swc_common",
- "unicode-xid",
+ "unicode-id",
 ]
 
 [[package]]
@@ -3122,7 +3122,7 @@ dependencies = [
  "swc_timer",
  "testing",
  "tracing",
- "unicode-xid",
+ "unicode-id",
 ]
 
 [[package]]
@@ -3145,7 +3145,7 @@ dependencies = [
  "testing",
  "tracing",
  "typed-arena",
- "unicode-xid",
+ "unicode-id",
  "walkdir",
 ]
 
@@ -3227,7 +3227,6 @@ dependencies = [
  "swc_ecma_visit",
  "tempfile",
  "testing",
- "unicode-xid",
 ]
 
 [[package]]
@@ -4085,6 +4084,12 @@ name = "unicode-bidi"
 version = "0.3.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1a01404663e3db436ed2746d9fefef640d868edae3cceb81c3b8d5732fda678f"
+
+[[package]]
+name = "unicode-id"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4285d92be83dfbc8950a2601178b89ed36f979ebf51bfcf7b272b17001184e6c"
 
 [[package]]
 name = "unicode-normalization"
