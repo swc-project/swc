@@ -13,6 +13,9 @@
 
 - **(es/module)** Fix `jest.spyOn` (#3845) ([9546eef](https://github.com/swc-project/swc/commit/9546eefe72178bbc7059d0fc6c5e7e9bbca089e0))
 
+
+- **(es/parser)** Use unicode id instead of xid (#3867) ([4426250](https://github.com/swc-project/swc/commit/44262508c6e122e7f9dd8e0ad961a4d6ad4a8a0c))
+
 ### Features
 
 
