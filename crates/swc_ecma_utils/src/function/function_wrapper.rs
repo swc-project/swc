@@ -9,6 +9,9 @@ pub struct FunctionWrapper<T> {
     pub binding_ident: Option<Ident>,
     pub function: Expr,
 
+    pub ignore_function_name: bool,
+    pub ignore_function_length: bool,
+
     function_ident: Option<Ident>,
     params: Vec<Param>,
 
@@ -273,6 +276,8 @@ impl From<FnExpr> for FunctionWrapper<Expr> {
             binding_ident: None,
             function_ident,
             params,
+            ignore_function_name: false,
+            ignore_function_length: false,
             function: fn_expr.into(),
             _type: Default::default(),
         }
@@ -320,6 +325,8 @@ impl From<ArrowExpr> for FunctionWrapper<Expr> {
         Self {
             binding_ident: None,
             function_ident: None,
+            ignore_function_name: false,
+            ignore_function_length: false,
             params: Self::get_params(fn_expr.function.params.iter()),
             function: fn_expr.into(),
             _type: Default::default(),
@@ -344,7 +351,9 @@ impl Into<Expr> for FunctionWrapper<Expr> {
     fn into(mut self) -> Expr {
         if let Some(name_ident) = self.function_ident.as_ref().cloned() {
             self.build_named_expression_wrapper(name_ident)
-        } else if self.binding_ident.is_some() || !self.params.is_empty() {
+        } else if (!self.ignore_function_name && self.binding_ident.is_some())
+            || (!self.ignore_function_length && !self.params.is_empty())
+        {
             self.build_anonymous_expression_wrapper()
         } else {
             self.function
@@ -360,6 +369,8 @@ impl From<FnDecl> for FunctionWrapper<FnDecl> {
             binding_ident: None,
             function_ident,
             params,
+            ignore_function_name: false,
+            ignore_function_length: false,
             function: FnExpr {
                 ident: None,
                 function: fn_decl.function,

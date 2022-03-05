@@ -29,6 +29,9 @@ pub struct Assumptions {
     #[serde(default)]
     pub ignore_function_length: bool,
 
+    #[serde(default)]
+    pub ignore_function_name: bool,
+
     /// https://babeljs.io/docs/en/assumptions#ignoretoprimitivehint
     #[serde(default)]
     pub ignore_to_primitive_hint: bool,
@@ -105,6 +108,7 @@ impl Assumptions {
             constant_super: true,
             enumerable_module_meta: true,
             ignore_function_length: true,
+            ignore_function_name: true,
             ignore_to_primitive_hint: true,
             iterable_is_array: true,
             mutable_template_object: true,
