@@ -2924,11 +2924,13 @@ dependencies = [
  "serde",
  "serde_json",
  "swc_atoms",
+ "swc_cached",
  "swc_common",
  "swc_css_ast",
  "swc_css_parser",
  "swc_css_visit",
  "testing",
+ "thiserror",
 ]
 
 [[package]]

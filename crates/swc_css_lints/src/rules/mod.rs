@@ -1,5 +1,6 @@
 use crate::{
     config::LintConfig,
+    error::ConfigError,
     rule::LintRule,
     rules::{
         at_rule_no_unknown::at_rule_no_unknown, block_no_empty::block_no_empty,
@@ -33,24 +34,28 @@ pub struct LintParams<'a> {
     pub lint_config: &'a LintConfig,
 }
 
-pub fn get_rules(LintParams { lint_config }: &LintParams) -> Vec<Box<dyn LintRule>> {
+pub fn get_rules(
+    LintParams { lint_config }: &LintParams,
+) -> Result<Vec<Box<dyn LintRule>>, ConfigError> {
     let rules_config = &lint_config.rules;
 
-    vec![
+    let rules = vec![
         block_no_empty((&rules_config.block_no_empty).into()),
-        at_rule_no_unknown((&rules_config.at_rule_no_unknown).into()),
+        at_rule_no_unknown((&rules_config.at_rule_no_unknown).into())?,
         no_empty_source((&rules_config.no_empty_source).into()),
         declaration_no_important((&rules_config.declaration_no_important).into()),
         keyframe_declaration_no_important((&rules_config.keyframe_declaration_no_important).into()),
         no_invalid_position_at_import_rule(
             (&rules_config.no_invalid_position_at_import_rule).into(),
-        ),
+        )?,
         selector_max_class((&rules_config.selector_max_class).into()),
         color_hex_length((&rules_config.color_hex_length).into()),
         color_no_invalid_hex((&rules_config.color_no_invalid_hex).into()),
-        unit_no_unknown((&rules_config.unit_no_unknown).into()),
+        unit_no_unknown((&rules_config.unit_no_unknown).into())?,
         selector_max_combinators((&rules_config.selector_max_combinators).into()),
-        font_family_no_duplicate_names((&rules_config.font_family_no_duplicate_names).into()),
+        font_family_no_duplicate_names((&rules_config.font_family_no_duplicate_names).into())?,
         color_hex_alpha((&rules_config.color_hex_alpha).into()),
-    ]
+    ];
+
+    Ok(rules)
 }
