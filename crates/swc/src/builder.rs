@@ -343,6 +343,10 @@ impl VisitMut for MinifierPass {
                 ..Default::default()
             };
 
+            if opts.compress.is_none() && opts.mangle.is_none() {
+                return;
+            }
+
             m.map_with_mut(|m| {
                 swc_ecma_minifier::optimize(
                     m,
