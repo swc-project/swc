@@ -85,10 +85,12 @@ var C = // @target: esnext, es2022
     "use strict";
     function C() {
         _classCallCheck(this, C);
+        this.a = 123;
         _classPrivateFieldInit(this, _a, {
             writable: true,
             value: 10
         });
+        this.c = "hello";
         _classPrivateFieldInit(this, _b, {
             writable: true,
             value: void 0
@@ -99,8 +101,6 @@ var C = // @target: esnext, es2022
                 return 1234;
             }
         });
-        this.a = 123;
-        this.c = "hello";
     }
     _createClass(C, [
         {

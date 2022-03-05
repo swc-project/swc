@@ -80,7 +80,6 @@ var A = function A() {
     "use strict";
     var _newtarget = _instanceof(this, A) ? this.constructor : void 0;
     _classCallCheck(this, A);
-    // @target: es5
     this.d = function _target() {
         return _instanceof(this, _target) ? this.constructor : void 0;
     };

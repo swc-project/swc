@@ -19,11 +19,11 @@ var A;
             this.y = y;
         }
     }
-    A1.Point = Point1;
     Point1.Origin = {
         x: 0,
         y: 0
     };
+    A1.Point = Point1;
     (function(Point) {
         var Origin = ""; // not an error since not exported
     })(Point1 = A1.Point || (A1.Point = {}));

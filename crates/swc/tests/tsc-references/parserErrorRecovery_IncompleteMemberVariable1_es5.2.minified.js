@@ -23,5 +23,5 @@ function _defineProperties(target, props) {
             }
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Point;
     }();
-    Shapes1.Point = Point, Point.origin = new Point(0, 0);
+    Point.origin = new Point(0, 0), Shapes1.Point = Point;
 }(Shapes || (Shapes = {})), new Shapes.Point(3, 4).getDist();

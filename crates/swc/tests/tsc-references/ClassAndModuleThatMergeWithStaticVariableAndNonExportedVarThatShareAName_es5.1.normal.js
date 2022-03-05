@@ -24,11 +24,11 @@ var A;
         this.x = x;
         this.y = y;
     };
-    A1.Point = Point;
     Point.Origin = {
         x: 0,
         y: 0
     };
+    A1.Point = Point;
     (function(Point) {
         var Origin = ""; // not an error since not exported
     })(Point = A1.Point || (A1.Point = {}));

@@ -24,12 +24,9 @@ function _instanceof(left, right) {
         return left instanceof right;
     }
 }
-var _key;
 var Test = function Test() {
     "use strict";
     _classCallCheck(this, Test);
-    // @noImplicitThis: true
-    // @strict: true
     this.data = {};
     var copy = {};
 };
@@ -39,7 +36,7 @@ var Test1 = function Test1() {
     this.data = {
         foo: ''
     };
-    this[_key] = '';
+    this['this'] = '';
     var copy = {
         foo: ''
     };
@@ -48,7 +45,6 @@ var Test1 = function Test1() {
     self.data;
     var str = '';
 };
-_key = 'this';
 function Test2() {
     var x = 1;
 }

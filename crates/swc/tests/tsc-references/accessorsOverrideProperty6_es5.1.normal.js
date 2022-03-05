@@ -86,8 +86,6 @@ function _createSuper(Derived) {
 var A = function A() {
     "use strict";
     _classCallCheck(this, A);
-    // @target: esnext
-    // @useDefineForClassFields: false
     this.p = 'yep';
 };
 var B = /*#__PURE__*/ function(A) {

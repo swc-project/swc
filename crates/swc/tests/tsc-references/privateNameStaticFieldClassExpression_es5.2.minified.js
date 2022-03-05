@@ -16,7 +16,7 @@ function _defineProperties(target, props) {
 function _classCheckPrivateStaticAccess(receiver, classConstructor) {
     if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
 }
-var _class, _class1, B = function() {
+var _class, _Foo, B = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function B() {
@@ -32,14 +32,14 @@ var _class, _class1, B = function() {
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), B;
 }(), _foo = {
     writable: !0,
-    value: ((_class = function _class2() {
+    value: ((_class = function _class1() {
         "use strict";
-        _classCallCheck(this, _class2), this.field = 10, console.log("hello"), new (_classStaticPrivateFieldSpecGet(B, B, _foo2))();
+        _classCallCheck(this, _class1), this.field = 10, console.log("hello"), new (_classStaticPrivateFieldSpecGet(B, B, _foo2))();
     }).test = 123, _class)
 }, _foo2 = {
     writable: !0,
-    value: ((_class1 = function Foo() {
+    value: ((_Foo = function Foo() {
         "use strict";
         _classCallCheck(this, Foo);
-    }).otherClass = 123, _class1)
+    }).otherClass = 123, _Foo)
 };

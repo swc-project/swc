@@ -7,5 +7,4 @@ var Object = function Object() {
     "use strict";
     _classCallCheck(this, Object);
 };
-// @target: ES5
 export { Object as default };

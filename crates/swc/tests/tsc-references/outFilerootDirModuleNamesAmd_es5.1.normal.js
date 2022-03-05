@@ -9,6 +9,8 @@ function _classCallCheck(instance, Constructor) {
 // @outFile: output.js
 // @filename: src/a.ts
 import foo from "./b";
+// @filename: src/b.ts
+import Foo from "./a";
 var Foo = function Foo() {
     "use strict";
     _classCallCheck(this, Foo);

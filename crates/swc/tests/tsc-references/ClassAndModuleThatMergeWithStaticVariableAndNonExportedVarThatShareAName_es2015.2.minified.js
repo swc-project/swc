@@ -12,8 +12,8 @@ var A;
             this.x = x, this.y = y;
         }
     }
-    A1.Point = Point, Point.Origin = {
+    Point.Origin = {
         x: 0,
         y: 0
-    };
+    }, A1.Point = Point;
 })(A || (A = {}));

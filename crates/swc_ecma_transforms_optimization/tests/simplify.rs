@@ -478,6 +478,10 @@ test!(
         chain!(
             resolver_with_mark(mark),
             strip(mark),
+            class_properties(class_properties::Config {
+                set_public_fields: true,
+                ..Default::default()
+            }),
             dce(Default::default()),
             inlining(Default::default())
         )

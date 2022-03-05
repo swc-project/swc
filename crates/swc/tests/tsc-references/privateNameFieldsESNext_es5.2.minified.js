@@ -39,10 +39,10 @@ var _a = new WeakMap(), _b = new WeakMap(), _something = new WeakMap(), C = func
     function C() {
         !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, C), _classPrivateFieldInit(this, _a, {
+        }(this, C), this.a = 123, _classPrivateFieldInit(this, _a, {
             writable: !0,
             value: 10
-        }), _classPrivateFieldInit(this, _b, {
+        }), this.c = "hello", _classPrivateFieldInit(this, _b, {
             writable: !0,
             value: void 0
         }), _classPrivateFieldInit(this, _something, {
@@ -50,7 +50,7 @@ var _a = new WeakMap(), _b = new WeakMap(), _something = new WeakMap(), C = func
             value: function() {
                 return 1234;
             }
-        }), this.a = 123, this.c = "hello";
+        });
     }
     return Constructor = C, protoProps = [
         {

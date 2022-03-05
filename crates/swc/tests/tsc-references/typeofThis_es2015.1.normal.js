@@ -1,4 +1,3 @@
-var _key;
 // @noImplicitThis: true
 // @strict: true
 class Test {
@@ -12,7 +11,7 @@ class Test1 {
         this.data = {
             foo: ''
         };
-        this[_key] = '';
+        this['this'] = '';
         var copy = {
             foo: ''
         };
@@ -22,7 +21,6 @@ class Test1 {
         var str = '';
     }
 }
-_key = 'this';
 function Test2() {
     let x = 1;
 }

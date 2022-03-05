@@ -6,13 +6,6 @@ function _classCallCheck(instance, Constructor) {
 var Cls = function Cls() {
     "use strict";
     _classCallCheck(this, Cls);
-    // @allowJs: true
-    // @checkJs: true
-    // @target: es5
-    // @outDir: ./out
-    // @declaration: true
-    // @filename: index1.js
-    // merge type alias and alias (should error, see #32367)
     this.x = 12;
 };
 Cls.y = "ok";

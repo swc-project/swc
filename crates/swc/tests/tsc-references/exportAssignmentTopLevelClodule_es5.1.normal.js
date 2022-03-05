@@ -6,8 +6,6 @@ function _classCallCheck(instance, Constructor) {
 var Foo = function Foo() {
     "use strict";
     _classCallCheck(this, Foo);
-    // @module: amd
-    // @Filename: foo_0.ts
     this.test = "test";
 };
 (function(Foo) {
@@ -19,4 +17,6 @@ var foo = require("./foo_0");
 if (foo.answer === 42) {
     var x = new foo();
 }
+// @module: amd
+// @Filename: foo_0.ts
 export { };

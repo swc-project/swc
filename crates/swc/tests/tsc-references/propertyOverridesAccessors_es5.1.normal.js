@@ -108,8 +108,8 @@ var B = /*#__PURE__*/ function(A) {
         _classCallCheck(this, B);
         var _this;
         _this = _super.apply(this, arguments);
-        _this.p // error
-         = 'yep';
+        _this.p = 'yep' // error
+        ;
         return _this;
     }
     return B;
@@ -141,8 +141,8 @@ var D = /*#__PURE__*/ function(C) {
         _classCallCheck(this, D);
         var _this;
         _this = _super.apply(this, arguments);
-        _this.p // error
-         = 101;
+        _this.p = 101 // error
+        ;
         return _this;
     }
     return D;

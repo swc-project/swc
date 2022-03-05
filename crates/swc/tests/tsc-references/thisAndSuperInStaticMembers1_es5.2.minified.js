@@ -25,6 +25,29 @@ function _getPrototypeOf(o) {
         return o.__proto__ || Object.getPrototypeOf(o);
     }, _getPrototypeOf(o);
 }
+function set(target, property, value, receiver) {
+    return set = "undefined" != typeof Reflect && Reflect.set ? Reflect.set : function set(target, property, value, receiver) {
+        var obj, key, value, desc, base = _superPropBase(target, property);
+        if (base) {
+            if ((desc = Object.getOwnPropertyDescriptor(base, property)).set) return desc.set.call(receiver, value), !0;
+            if (!desc.writable) return !1;
+        }
+        if (desc = Object.getOwnPropertyDescriptor(receiver, property)) {
+            if (!desc.writable) return !1;
+            desc.value = value, Object.defineProperty(receiver, property, desc);
+        } else obj = receiver, (key = property) in obj ? Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: !0,
+            configurable: !0,
+            writable: !0
+        }) : obj[key] = value;
+        return !0;
+    }, set(target, property, value, receiver);
+}
+function _set(target, property, value, receiver, isStrict) {
+    if (!set(target, property, value, receiver || target) && isStrict) throw new Error("failed to set property");
+    return value;
+}
 function _setPrototypeOf(o, p) {
     return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
@@ -34,6 +57,9 @@ function _superPropBase(object, property) {
     for(; !Object.prototype.hasOwnProperty.call(object, property) && null !== (object = _getPrototypeOf(object)););
     return object;
 }
+var _ref, _super_a, ref, ref1, ref2, ref3, ref4, ref5, ref6, _tmp, _typeof = function(obj) {
+    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
+};
 function _templateObject() {
     var strings, raw, data = (strings = [
         ""
@@ -46,7 +72,7 @@ function _templateObject() {
         return data;
     }, data;
 }
-var ref, ref1, ref2, ref3, ref4, ref5, ref6, _tmp, C = function(B) {
+var C = function(B) {
     "use strict";
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
@@ -68,12 +94,12 @@ var ref, ref1, ref2, ref3, ref4, ref5, ref6, _tmp, C = function(B) {
             return !1;
         }
     }(), function() {
-        var obj, self, call, result, Super = _getPrototypeOf(Derived);
+        var self, call, result, Super = _getPrototypeOf(Derived);
         if (hasNativeReflectConstruct) {
             var NewTarget = _getPrototypeOf(this).constructor;
             result = Reflect.construct(Super, arguments, NewTarget);
         } else result = Super.apply(this, arguments);
-        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : _assertThisInitialized(self);
+        return self = this, (call = result) && ("object" === _typeof(call) || "function" == typeof call) ? call : _assertThisInitialized(self);
     });
     function C() {
         var _this;
@@ -83,16 +109,16 @@ var ref, ref1, ref2, ref3, ref4, ref5, ref6, _tmp, C = function(B) {
     }
     return C;
 }(B);
-C.x = void 0, C.y1 = C.x, C.y2 = C.x(), C.y3 = null == C ? void 0 : C.x(), C.y4 = C.x(), C.y5 = null == C ? void 0 : C.x(), C.z1 = super.a, C.z2 = super.a, C.z3 = super.f(), C.z4 = super.f(), C.z5 = super.a = 0, C.z6 = super.a += 1, C.z7 = void (super.a = 0), ref = [
+C.x = void 0, C.y1 = C.x, C.y2 = C.x(), C.y3 = null == C ? void 0 : C.x(), C.y4 = C.x(), C.y5 = null == C ? void 0 : C.x(), C.z1 = _get(_getPrototypeOf(C), "a", C), C.z2 = _get(_getPrototypeOf(C), "a", C), C.z3 = _get(_getPrototypeOf(C), "f", C).call(C), C.z4 = _get(_getPrototypeOf(C), "f", C).call(C), C.z5 = _set(_getPrototypeOf(C.prototype), "a", 0, C, !0), C.z6 = _set(_getPrototypeOf(C.prototype), "a", _get(_getPrototypeOf(C), "a", C) + 1, C, !0), C.z7 = void _set(_getPrototypeOf(C.prototype), "a", 0, C, !0), ref = [
     0
-], super.a = ref[0], C.z8 = ref, ref2 = (ref1 = [
+], _get(_getPrototypeOf(C), "a", C) = ref[0], C.z8 = ref, ref2 = (ref1 = [
     0
-])[0], super.a = void 0 === ref2 ? 0 : ref2, C.z9 = ref1, ref3 = [
+])[0], _get(_getPrototypeOf(C), "a", C) = void 0 === ref2 ? 0 : ref2, C.z9 = ref1, ref3 = [
     0
-], super.a = ref3.slice(0), C.z10 = ref3, ref4 = {
+], _get(_getPrototypeOf(C), "a", C) = ref3.slice(0), C.z10 = ref3, ref4 = {
     x: 0
-}, super.a = ref4.x, C.z11 = ref4, ref6 = (ref5 = {
+}, _get(_getPrototypeOf(C), "a", C) = ref4.x, C.z11 = ref4, ref6 = (ref5 = {
     x: 0
-}).x, super.a = void 0 === ref6 ? 0 : ref6, C.z12 = ref5, _tmp = {
+}).x, _get(_getPrototypeOf(C), "a", C) = void 0 === ref6 ? 0 : ref6, C.z12 = ref5, _tmp = {
     x: 0
-}, super.a = _extends({}, _tmp), C.z13 = _tmp, C.z14 = ++super.a, C.z15 = --super.a, C.z16 = ++super.a, C.z17 = super.a++, C.z18 = super.a(_templateObject());
+}, _get(_getPrototypeOf(C), "a", C) = _extends({}, _tmp), C.z13 = _tmp, C.z14 = _set(_getPrototypeOf(C.prototype), "a", _get(_getPrototypeOf(C), "a", C) + 1, C, !0), C.z15 = _set(_getPrototypeOf(C.prototype), "a", _get(_getPrototypeOf(C), "a", C) - 1, C, !0), C.z16 = _set(_getPrototypeOf(C.prototype), _ref = "a", _get(_getPrototypeOf(C), _ref, C) + 1, C, !0), _set(_getPrototypeOf(C.prototype), "a", (_super_a = +_get(_getPrototypeOf(C), "a", C)) + 1, C, !0), C.z17 = _super_a, C.z18 = _get(_getPrototypeOf(C), "a", C)(_templateObject());

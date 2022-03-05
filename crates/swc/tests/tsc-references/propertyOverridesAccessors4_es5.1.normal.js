@@ -77,8 +77,8 @@ var Lion = /*#__PURE__*/ function(Animal) {
         _classCallCheck(this, Lion);
         var _this;
         _this = _super.apply(this, arguments);
-        _this.sound // error here
-         = 'RAWR!';
+        _this.sound = 'RAWR!' // error here
+        ;
         return _this;
     }
     return Lion;

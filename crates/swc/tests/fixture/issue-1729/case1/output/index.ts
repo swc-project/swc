@@ -76,10 +76,9 @@ function createConstructor(callback) {
     };
 }
 var constructor = createConstructor(function() {
-    var _class = function _class() {
+    return function _class() {
         "use strict";
         _classCallCheck(this, _class);
     };
-    return _class;
 });
 console.log(constructor());

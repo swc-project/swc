@@ -72,8 +72,6 @@ function _createSuper(Derived1) {
 var Foo = function Foo() {
     "use strict";
     _classCallCheck(this, Foo);
-    // @noImplicitOverride: true
-    // @target: esnext
     this.property = 1;
 };
 Foo.staticProperty = 2;

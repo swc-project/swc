@@ -9,6 +9,10 @@ function deferred() {
     return Object.assign(promise, methods);
 }
 class MuxAsyncIterator {
+    iteratorCount = 0;
+    yields = [];
+    throws = [];
+    signal = deferred();
     add(iterator) {
         ++this.iteratorCount;
         this.callIteratorNext(iterator);
@@ -44,12 +48,6 @@ class MuxAsyncIterator {
     }
     [Symbol.asyncIterator]() {
         return this.iterate();
-    }
-    constructor(){
-        this.iteratorCount = 0;
-        this.yields = [];
-        this.throws = [];
-        this.signal = deferred();
     }
 }
 function emptyReader() {
@@ -245,6 +243,8 @@ async function writeResponse(w, r) {
     await writer.flush();
 }
 class ServerRequest {
+    done = deferred();
+    _contentLength = undefined;
     get contentLength() {
         if (this._contentLength === undefined) {
             const cl = this.headers.get("content-length");
@@ -255,6 +255,7 @@ class ServerRequest {
         }
         return this._contentLength;
     }
+    _body = null;
     get body() {
         if (!this._body) {
             if (this.contentLength != null) this._body = bodyReader(this.contentLength, this.r);
@@ -283,18 +284,13 @@ class ServerRequest {
         this.done.resolve(err);
         if (err) throw err;
     }
+    finalized = false;
     async finalize() {
         if (this.finalized) return;
         const body = this.body;
         const buf = new Uint8Array(1024);
         while(await body.read(buf) !== null);
         this.finalized = true;
-    }
-    constructor(){
-        this.done = deferred();
-        this._contentLength = undefined;
-        this._body = null;
-        this.finalized = false;
     }
 }
 function parseHTTPVersion(vers) {

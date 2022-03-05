@@ -4,17 +4,17 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var _key, tmp = (_key = Symbol.iterator, Symbol.toPrimitive), _toStringTag = Symbol.toStringTag, C = function() {
+var _iterator = Symbol.iterator, _toPrimitive = Symbol.toPrimitive, _toStringTag = Symbol.toStringTag, C = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function C() {
         !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, C), this[_key] = 0;
+        }(this, C), this[_iterator] = 0;
     }
     return Constructor = C, protoProps = [
         {
-            key: tmp,
+            key: _toPrimitive,
             value: function() {}
         },
         {

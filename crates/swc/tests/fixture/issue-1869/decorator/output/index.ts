@@ -3,14 +3,14 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
+var _TestClass;
 var _class;
-var _class1;
-var TestClass = _class1 = someClassDecorator((_class1 = (_class = function TestClass() {
+var TestClass = _class = someClassDecorator((_class = (_TestClass = function TestClass() {
     "use strict";
     _classCallCheck(this, TestClass);
-}, _class.Something = 'hello', _class.SomeProperties = {
-    firstProp: _class.Something
-}, _class)) || _class1) || _class1;
+}, _TestClass.Something = 'hello', _TestClass.SomeProperties = {
+    firstProp: _TestClass.Something
+}, _TestClass)) || _class) || _class;
 function someClassDecorator(c) {
     return c;
 }

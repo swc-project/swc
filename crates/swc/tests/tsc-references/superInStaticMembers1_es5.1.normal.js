@@ -9,6 +9,22 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
+function _get(target, property, receiver) {
+    if (typeof Reflect !== "undefined" && Reflect.get) {
+        _get = Reflect.get;
+    } else {
+        _get = function _get(target, property, receiver) {
+            var base = _superPropBase(target, property);
+            if (!base) return;
+            var desc = Object.getOwnPropertyDescriptor(base, property);
+            if (desc.get) {
+                return desc.get.call(receiver);
+            }
+            return desc.value;
+        };
+    }
+    return _get(target, property, receiver || target);
+}
 function _getPrototypeOf(o) {
     _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
         return o.__proto__ || Object.getPrototypeOf(o);
@@ -40,6 +56,13 @@ function _setPrototypeOf(o, p) {
         return o;
     };
     return _setPrototypeOf(o, p);
+}
+function _superPropBase(object, property) {
+    while(!Object.prototype.hasOwnProperty.call(object, property)){
+        object = _getPrototypeOf(object);
+        if (object === null) break;
+    }
+    return object;
 }
 var _typeof = function(obj) {
     "@swc/helpers - typeof";
@@ -96,6 +119,63 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
+C._ = [
+    function() {
+        var Reflect; // collision (es2015-es2021 only)
+        _get(_getPrototypeOf(C), "w", C).call(C);
+    }(),
+    function() {
+        var Reflect = {
+            Reflect: null
+        }.Reflect; // collision (es2015-es2021 only)
+        _get(_getPrototypeOf(C), "w", C).call(C);
+    }(),
+    function() {
+        var Reflect = null; // collision (es2015-es2021 only)
+        _get(_getPrototypeOf(C), "w", C).call(C);
+    }(),
+    function() {
+        var Reflect = function Reflect() {
+            "use strict";
+            _classCallCheck(this, Reflect);
+        };
+        _get(_getPrototypeOf(C), "w", C).call(C);
+    }(),
+    function() {
+        var Reflect = function Reflect() {} // collision (es2015-es2021 only)
+        ;
+        _get(_getPrototypeOf(C), "w", C).call(C);
+    }(),
+    function() {
+        var Reflect// collision (es2015-es2021 only)
+        ;
+        (function(Reflect) {})(Reflect || (Reflect = {}));
+        _get(_getPrototypeOf(C), "w", C).call(C);
+    }(),
+    function() {
+        var Reflect// collision (es2015-es2021 only)
+        ;
+        (function(Reflect) {})(Reflect || (Reflect = {}));
+        _get(_getPrototypeOf(C), "w", C).call(C);
+    }(),
+    function() {
+        _get(_getPrototypeOf(C), "w", C).call(C);
+    }(),
+    function() {
+        _get(_getPrototypeOf(C), "w", C).call(C);
+    }(),
+    function() {
+        (function Reflect() {
+            "use strict";
+            _classCallCheck(this, Reflect);
+        }); // no collision
+        _get(_getPrototypeOf(C), "w", C).call(C);
+    }(),
+    function() {
+        (function Reflect() {}); // no collision
+        _get(_getPrototypeOf(C), "w", C).call(C);
+    }(), 
+];
 var _$__22 = {
     writable: true,
     value: function() {
@@ -186,63 +266,6 @@ var __10 = {
         _superprop_get_w().call(_this);
     }()
 };
-C._ = [
-    function() {
-        var Reflect; // collision (es2015-es2021 only)
-        _superprop_get_w().call(_this);
-    }(),
-    function() {
-        var Reflect = {
-            Reflect: null
-        }.Reflect; // collision (es2015-es2021 only)
-        _superprop_get_w().call(_this);
-    }(),
-    function() {
-        var Reflect = null; // collision (es2015-es2021 only)
-        _superprop_get_w().call(_this);
-    }(),
-    function() {
-        var Reflect = function Reflect() {
-            "use strict";
-            _classCallCheck(this, Reflect);
-        };
-        _superprop_get_w().call(_this);
-    }(),
-    function() {
-        var Reflect = function Reflect() {} // collision (es2015-es2021 only)
-        ;
-        _superprop_get_w().call(_this);
-    }(),
-    function() {
-        var Reflect// collision (es2015-es2021 only)
-        ;
-        (function(Reflect) {})(Reflect || (Reflect = {}));
-        _superprop_get_w().call(_this);
-    }(),
-    function() {
-        var Reflect// collision (es2015-es2021 only)
-        ;
-        (function(Reflect) {})(Reflect || (Reflect = {}));
-        _superprop_get_w().call(_this);
-    }(),
-    function() {
-        _superprop_get_w().call(_this);
-    }(),
-    function() {
-        _superprop_get_w().call(_this);
-    }(),
-    function() {
-        (function Reflect() {
-            "use strict";
-            _classCallCheck(this, Reflect);
-        }); // no collision
-        _superprop_get_w().call(_this);
-    }(),
-    function() {
-        (function Reflect() {}); // no collision
-        _superprop_get_w().call(_this);
-    }(), 
-];
 var Reflect1 = null; // collision (es2015-es2021 only)
 var C = /*#__PURE__*/ function(B) {
     "use strict";
@@ -254,7 +277,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var Reflect1 = {
     Reflect: null
 }.Reflect; // collision (es2015-es2021 only)
@@ -268,7 +291,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var Reflect1 = null; // collision (es2015-es2021 only)
 var C = /*#__PURE__*/ function(B) {
     "use strict";
@@ -280,7 +303,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var Reflect1 = null; // collision (es2015-es2021 only)
 var C = /*#__PURE__*/ function(B) {
     "use strict";
@@ -348,7 +371,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var Reflect1 = function Reflect1() {
     "use strict";
     _classCallCheck(this, Reflect1);
@@ -380,7 +403,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 function Reflect1() {} // collision (es2015-es2021 only)
 var C = /*#__PURE__*/ function(B) {
     "use strict";
@@ -408,7 +431,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(C, B);
@@ -436,7 +459,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 (function(Reflect1) {})(Reflect1 || (Reflect1 = {}));
 var C = /*#__PURE__*/ function(B) {
     "use strict";
@@ -465,7 +488,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 (function(Reflect1) {})(Reflect1 || (Reflect1 = {}));
 var C = /*#__PURE__*/ function(B) {
     "use strict";
@@ -493,7 +516,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(C, B);
@@ -520,7 +543,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(C, B);
@@ -547,7 +570,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(C, B);
@@ -574,7 +597,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(C, B);
@@ -601,7 +624,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(C, B);
@@ -628,7 +651,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(C, B);
@@ -655,7 +678,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(C, B);
@@ -682,7 +705,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(C, B);
@@ -709,7 +732,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(C, B);
@@ -736,7 +759,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(C, B);
@@ -763,7 +786,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(C, B);
@@ -794,7 +817,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 (function Reflect() {
     "use strict";
     _classCallCheck(this, Reflect);
@@ -831,7 +854,7 @@ _$_Reflect = function Reflect() {
             }
             return C;
         }(B);
-        C._ = _superprop_get_w().call(_this);
+        C._ = _get(_getPrototypeOf(C), "w", C).call(C);
     })()
 }, _$_Reflect;
 _$_Reflect = function Reflect() {
@@ -872,7 +895,7 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-C._ = super.w();
+C._ = _get(_getPrototypeOf(C), "w", C).call(C);
 (function Reflect() {}); // no collision
 var C = /*#__PURE__*/ function(B) {
     "use strict";
@@ -891,21 +914,6 @@ var _$__21 = {
     }()
 };
 (function Reflect() {
-    var C = /*#__PURE__*/ function(B) {
-        "use strict";
-        _inherits(C, B);
-        var _super = _createSuper(C);
-        function C() {
-            _classCallCheck(this, C);
-            return _super.apply(this, arguments);
-        }
-        return C;
-    }(B);
-    C._ = super.w();
-});
-(function Reflect() {
-    var _this2 = this, _superprop_get_w2 = ()=>super.w
-    ;
     var _$_Reflect, _$__;
     var C = /*#__PURE__*/ function(B) {
         "use strict";
@@ -917,7 +925,22 @@ var _$__21 = {
         }
         return C;
     }(B);
-    var _$__24 = {
+    C._ = _get(_getPrototypeOf(C), "w", C).call(C);
+});
+(function Reflect() {
+    var _this2 = this, _superprop_get_w2 = ()=>super.w
+    ;
+    var C = /*#__PURE__*/ function(B) {
+        "use strict";
+        _inherits(C, B);
+        var _super = _createSuper(C);
+        function C() {
+            _classCallCheck(this, C);
+            return _super.apply(this, arguments);
+        }
+        return C;
+    }(B);
+    var _$__ = {
         writable: true,
         value: function() {
             _superprop_get_w2().call(_this2);

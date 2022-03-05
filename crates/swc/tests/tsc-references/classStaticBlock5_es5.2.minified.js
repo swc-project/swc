@@ -1,6 +1,15 @@
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
+function _get(target, property, receiver) {
+    return _get = "undefined" != typeof Reflect && Reflect.get ? Reflect.get : function _get(target, property, receiver) {
+        var base = _superPropBase(target, property);
+        if (base) {
+            var desc = Object.getOwnPropertyDescriptor(base, property);
+            return desc.get ? desc.get.call(receiver) : desc.value;
+        }
+    }, _get(target, property, receiver || target);
+}
 function _getPrototypeOf(o) {
     return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
         return o.__proto__ || Object.getPrototypeOf(o);
@@ -10,6 +19,10 @@ function _setPrototypeOf(o, p) {
     return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
+}
+function _superPropBase(object, property) {
+    for(; !Object.prototype.hasOwnProperty.call(object, property) && null !== (object = _getPrototypeOf(object)););
+    return object;
 }
 var B = function() {
     "use strict";
@@ -53,4 +66,4 @@ var C = function(B1) {
     }
     return C;
 }(B);
-C.b, super.b, super.a, C.b = 3, C.c = super.a;
+C.b = 3, C.c = _get(_getPrototypeOf(C), "a", C), C.b, super.b, super.a;

@@ -70,6 +70,9 @@ var _d = new WeakMap(), _e = new WeakMap(), _f1 = new WeakMap();
 // Initializer satisfies strict initialization check
 class C4 {
     constructor(){
+        this.a = 0;
+        this.b = 0;
+        this.c = "abc";
         _classPrivateFieldInit(this, _d, {
             writable: true,
             value: 0
@@ -82,9 +85,6 @@ class C4 {
             writable: true,
             value: "abc"
         });
-        this.a = 0;
-        this.b = 0;
-        this.c = "abc";
     }
 }
 var _b = new WeakMap();

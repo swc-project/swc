@@ -7,8 +7,6 @@ var C = function C() {
     "use strict";
     _classCallCheck(this, C);
 };
-// @module: commonjs
-// @target: ES5
 export { C as default };
 var C = function C() {
     "use strict";

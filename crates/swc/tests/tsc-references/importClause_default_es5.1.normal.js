@@ -7,7 +7,6 @@ var A = function A() {
     "use strict";
     _classCallCheck(this, A);
 };
-// @Filename: /a.ts
 export { A as default };
 new A();
 var a = {

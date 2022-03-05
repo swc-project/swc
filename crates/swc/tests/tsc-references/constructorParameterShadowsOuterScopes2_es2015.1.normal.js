@@ -12,21 +12,21 @@
 var x = 1;
 class C {
     constructor(x1){
-        this.b // ok
-         = x;
+        this.b = x // ok
+        ;
     }
 }
 var y = 1;
 class D {
     constructor(x){
-        this.b // ok
-         = y;
+        this.b = y // ok
+        ;
         var y1 = "";
     }
 }
 class E {
     constructor(z1){
-        this.b // not ok
-         = z;
+        this.b = z // not ok
+        ;
     }
 }

@@ -38,16 +38,16 @@ class C {
         console.log((receiver = this, classConstructor = C, descriptor = _m, _classCheckPrivateStaticAccess(receiver, classConstructor), _classCheckPrivateStaticFieldDescriptor(descriptor, "get"), _classApplyDescriptorGet(receiver, descriptor))), console.log((receiver = this, classConstructor = C, descriptor = _x, value = "test", _classCheckPrivateStaticAccess(receiver, classConstructor), _classCheckPrivateStaticFieldDescriptor(descriptor, "set"), _classApplyDescriptorSet(receiver, descriptor, value), value));
     }
     constructor(){
-        _classPrivateFieldInit(this, _a, {
+        this.a = 123, _classPrivateFieldInit(this, _a, {
             writable: !0,
             value: 10
-        }), _classPrivateFieldInit(this, _b, {
+        }), this.c = "hello", _classPrivateFieldInit(this, _b, {
             writable: !0,
             value: void 0
         }), _classPrivateFieldInit(this, _something, {
             writable: !0,
             value: ()=>1234
-        }), this.a = 123, this.c = "hello";
+        });
     }
 }
 var _m = {
