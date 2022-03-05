@@ -13,6 +13,7 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-transform-destructuring`
 ///
@@ -35,6 +36,7 @@ use swc_ecma_visit::{
 ///     b = _arr2[1],
 ///     rest = _arr2.slice(2);
 /// ```
+#[tracing::instrument(level = "trace", skip_all)]
 pub fn destructuring(c: Config) -> impl Fold + VisitMut {
     as_folder(Destructuring { c })
 }
@@ -136,6 +138,7 @@ fn make_ref_ident_for_for_stmt() -> Ident {
     private_ident!("ref")
 }
 
+#[swc_trace]
 impl AssignFolder {
     fn visit_mut_var_decl(&mut self, decls: &mut Vec<VarDeclarator>, decl: VarDeclarator) {
         match decl.name {
@@ -475,6 +478,7 @@ impl AssignFolder {
     }
 }
 
+#[swc_trace]
 #[fast_path(DestructuringVisitor)]
 impl VisitMut for Destructuring {
     noop_visit_mut_type!();
@@ -494,6 +498,7 @@ impl VisitMut for Destructuring {
     }
 }
 
+#[swc_trace]
 impl Destructuring {
     fn visit_mut_fn_like(
         &mut self,
@@ -560,6 +565,7 @@ struct AssignFolder {
     ignore_return_value: Option<()>,
 }
 
+#[swc_trace]
 #[fast_path(DestructuringVisitor)]
 impl VisitMut for AssignFolder {
     noop_visit_mut_type!();
@@ -974,6 +980,7 @@ impl VisitMut for AssignFolder {
     }
 }
 
+#[swc_trace]
 impl Destructuring {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
@@ -1040,6 +1047,7 @@ fn make_ref_ident(c: Config, decls: &mut Vec<VarDeclarator>, init: Option<Box<Ex
     make_ref_ident_for_array(c, decls, init, None)
 }
 
+#[tracing::instrument(level = "trace", skip_all)]
 fn make_ref_ident_for_array(
     c: Config,
     decls: &mut Vec<VarDeclarator>,
