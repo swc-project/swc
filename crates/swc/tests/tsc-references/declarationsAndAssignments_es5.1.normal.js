@@ -1,58 +1,4 @@
-function _arrayLikeToArray(arr, len) {
-    if (len == null || len > arr.length) len = arr.length;
-    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
-    return arr2;
-}
-function _arrayWithHoles(arr) {
-    if (Array.isArray(arr)) return arr;
-}
-function _iterableToArray(iter) {
-    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
-}
-function _iterableToArrayLimit(arr, i) {
-    var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
-    if (_i == null) return;
-    var _arr = [];
-    var _n = true;
-    var _d = false;
-    var _s, _e;
-    try {
-        for(_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true){
-            _arr.push(_s.value);
-            if (i && _arr.length === i) break;
-        }
-    } catch (err) {
-        _d = true;
-        _e = err;
-    } finally{
-        try {
-            if (!_n && _i["return"] != null) _i["return"]();
-        } finally{
-            if (_d) throw _e;
-        }
-    }
-    return _arr;
-}
-function _nonIterableRest() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-function _slicedToArray(arr, i) {
-    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-}
-function _throw(e) {
-    throw e;
-}
-function _toArray(arr) {
-    return _arrayWithHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-}
-function _unsupportedIterableToArray(o, minLen) {
-    if (!o) return;
-    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-    var n = Object.prototype.toString.call(o).slice(8, -1);
-    if (n === "Object" && o.constructor) n = o.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(n);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
+import * as swcHelpers from "@swc/helpers";
 function f0() {
     var ref = [
         1,
@@ -76,9 +22,9 @@ function f1() {
         1,
         "hello"
     ];
-    var _a = _slicedToArray(a, 1), x = _a[0];
-    var _a1 = _slicedToArray(a, 2), x = _a1[0], y = _a1[1];
-    var _a2 = _slicedToArray(a, 3), x = _a2[0], y = _a2[1], z = _a2[2];
+    var _a = swcHelpers.slicedToArray(a, 1), x = _a[0];
+    var _a1 = swcHelpers.slicedToArray(a, 2), x = _a1[0], y = _a1[1];
+    var _a2 = swcHelpers.slicedToArray(a, 3), x = _a2[0], y = _a2[1], z = _a2[2];
     var x;
     var y;
     var z;
@@ -87,7 +33,7 @@ function f2() {
     var ref = {
         x: 5,
         y: "hello"
-    }, ref = ref !== null ? ref : _throw(new TypeError("Cannot destructure undefined")); // Error, no x and y in target
+    }, ref = ref !== null ? ref : swcHelpers._throw(new TypeError("Cannot destructure undefined")); // Error, no x and y in target
     var x = {
         x: 5,
         y: "hello"
@@ -154,8 +100,8 @@ function f8() {
     ], d = ref7[0], e = ref7[1], f = ref7[2]; // Error, [1] is a tuple
 }
 function f9() {
-    var ref = _slicedToArray({}, 2), a = ref[0], b = ref[1]; // Error, not array type
-    var ref8 = _slicedToArray({
+    var ref = swcHelpers.slicedToArray({}, 2), a = ref[0], b = ref[1]; // Error, not array type
+    var ref8 = swcHelpers.slicedToArray({
         0: 10,
         1: 20
     }, 2), c = ref8[0], d = ref8[1]; // Error, not array type
@@ -192,7 +138,7 @@ function f12() {
             x: 5,
             y: true
         }
-    ], ref = _slicedToArray(tmp === void 0 ? [
+    ], ref = swcHelpers.slicedToArray(tmp === void 0 ? [
         "abc",
         {
             x: 10,
@@ -218,7 +164,7 @@ function f13() {
     ], a = ref[0], b = ref[1];
 }
 function f14(param) {
-    var _param = _slicedToArray(param, 2), tmp = _param[0], a = tmp === void 0 ? 1 : tmp, ref = _slicedToArray(_param[1], 2), tmp3 = ref[0], b = tmp3 === void 0 ? "hello" : tmp3, ref14 = ref[1], x = ref14.x, tmp4 = ref14.y, c = tmp4 === void 0 ? false : tmp4;
+    var _param = swcHelpers.slicedToArray(param, 2), tmp = _param[0], a = tmp === void 0 ? 1 : tmp, ref = swcHelpers.slicedToArray(_param[1], 2), tmp3 = ref[0], b = tmp3 === void 0 ? "hello" : tmp3, ref14 = ref[1], x = ref14.x, tmp4 = ref14.y, c = tmp4 === void 0 ? false : tmp4;
     var a;
     var b;
     var c;
@@ -323,7 +269,7 @@ function f19() {
     ref21 = [
         2,
         3
-    ], ref22 = _slicedToArray(ref21 === void 0 ? [
+    ], ref22 = swcHelpers.slicedToArray(ref21 === void 0 ? [
         1,
         2
     ] : ref21, 2), a = ref22[0], b = ref22[1], ref22;
@@ -341,18 +287,18 @@ function f20(v) {
     var a1;
     var a2;
     var a3;
-    var _v = _toArray(v), a3 = _v.slice(0);
-    var _v1 = _toArray(v), x = _v1[0], a2 = _v1.slice(1);
-    var _v2 = _toArray(v), x = _v2[0], y = _v2[1], a1 = _v2.slice(2);
-    var _v3 = _toArray(v), x = _v3[0], y = _v3[1], z = _v3[2], a0 = _v3.slice(3);
+    var _v = swcHelpers.toArray(v), a3 = _v.slice(0);
+    var _v1 = swcHelpers.toArray(v), x = _v1[0], a2 = _v1.slice(1);
+    var _v2 = swcHelpers.toArray(v), x = _v2[0], y = _v2[1], a1 = _v2.slice(2);
+    var _v3 = swcHelpers.toArray(v), x = _v3[0], y = _v3[1], z = _v3[2], a0 = _v3.slice(3);
     var ref;
-    ref = _toArray(v), a3 = ref.slice(0), ref;
+    ref = swcHelpers.toArray(v), a3 = ref.slice(0), ref;
     var ref24;
-    ref24 = _toArray(v), x = ref24[0], a2 = ref24.slice(1), ref24;
+    ref24 = swcHelpers.toArray(v), x = ref24[0], a2 = ref24.slice(1), ref24;
     var ref25;
-    ref25 = _toArray(v), x = ref25[0], y = ref25[1], a1 = ref25.slice(2), ref25;
+    ref25 = swcHelpers.toArray(v), x = ref25[0], y = ref25[1], a1 = ref25.slice(2), ref25;
     var ref26;
-    ref26 = _toArray(v), x = ref26[0], y = ref26[1], z = ref26[2], a0 = ref26.slice(3), ref26;
+    ref26 = swcHelpers.toArray(v), x = ref26[0], y = ref26[1], z = ref26[2], a0 = ref26.slice(3), ref26;
 }
 function f21(v) {
     var x;
@@ -362,16 +308,16 @@ function f21(v) {
     var a1;
     var a2;
     var a3;
-    var _v = _toArray(v), a0 = _v.slice(0);
-    var _v4 = _toArray(v), x = _v4[0], a1 = _v4.slice(1);
-    var _v5 = _toArray(v), x = _v5[0], y = _v5[1], a2 = _v5.slice(2);
-    var _v6 = _toArray(v), x = _v6[0], y = _v6[1], z = _v6[2], a3 = _v6.slice(3);
+    var _v = swcHelpers.toArray(v), a0 = _v.slice(0);
+    var _v4 = swcHelpers.toArray(v), x = _v4[0], a1 = _v4.slice(1);
+    var _v5 = swcHelpers.toArray(v), x = _v5[0], y = _v5[1], a2 = _v5.slice(2);
+    var _v6 = swcHelpers.toArray(v), x = _v6[0], y = _v6[1], z = _v6[2], a3 = _v6.slice(3);
     var ref;
-    ref = _toArray(v), a0 = ref.slice(0), ref;
+    ref = swcHelpers.toArray(v), a0 = ref.slice(0), ref;
     var ref27;
-    ref27 = _toArray(v), x = ref27[0], a1 = ref27.slice(1), ref27;
+    ref27 = swcHelpers.toArray(v), x = ref27[0], a1 = ref27.slice(1), ref27;
     var ref28;
-    ref28 = _toArray(v), x = ref28[0], y = ref28[1], a2 = ref28.slice(2), ref28;
+    ref28 = swcHelpers.toArray(v), x = ref28[0], y = ref28[1], a2 = ref28.slice(2), ref28;
     var ref29;
-    ref29 = _toArray(v), x = ref29[0], y = ref29[1], z = ref29[2], a3 = ref29.slice(3), ref29;
+    ref29 = swcHelpers.toArray(v), x = ref29[0], y = ref29[1], z = ref29[2], a3 = ref29.slice(3), ref29;
 }

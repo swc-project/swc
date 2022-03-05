@@ -1,21 +1,9 @@
-function _defineProperty(obj, key, value) {
-    if (key in obj) {
-        Object.defineProperty(obj, key, {
-            value: value,
-            enumerable: true,
-            configurable: true,
-            writable: true
-        });
-    } else {
-        obj[key] = value;
-    }
-    return obj;
-}
+import * as swcHelpers from "@swc/helpers";
 var E;
 (function(E) {
     E[E["x"] = 0] = "x";
 })(E || (E = {}));
 var a;
-extractIndexer(_defineProperty({}, a, "")); // Should return string
-extractIndexer(_defineProperty({}, E.x, "")); // Should return string
-extractIndexer(_defineProperty({}, "" || 0, "")); // Should return any (widened form of undefined)
+extractIndexer(swcHelpers.defineProperty({}, a, "")); // Should return string
+extractIndexer(swcHelpers.defineProperty({}, E.x, "")); // Should return string
+extractIndexer(swcHelpers.defineProperty({}, "" || 0, "")); // Should return any (widened form of undefined)

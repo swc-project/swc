@@ -1,3 +1,2 @@
-class A {
-}
-export { A as default };
+export default class A {
+};

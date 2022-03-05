@@ -1,8 +1,4 @@
 "use strict";
-var _a = _interopRequireDefault(require("./subfolder/A"));
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : {
-        default: obj
-    };
-}
+var swcHelpers = require("@swc/helpers");
+var _a = swcHelpers.interopRequireDefault(require("./subfolder/A"));
 console.log(_a.default);

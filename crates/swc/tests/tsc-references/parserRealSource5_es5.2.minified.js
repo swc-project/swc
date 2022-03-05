@@ -1,20 +1,12 @@
 var TypeScript;
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 !function(TypeScript1) {
     var PrintContext = function() {
         "use strict";
-        var Constructor, protoProps, staticProps;
         function PrintContext(outfile, parser) {
-            !function(instance, Constructor) {
-                if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-            }(this, PrintContext), this.outfile = outfile, this.parser = parser, this.builder = "", this.indent1 = "  ", this.indentStrings = [], this.indentAmt = 0;
+            swcHelpers.classCallCheck(this, PrintContext), this.outfile = outfile, this.parser = parser, this.builder = "", this.indent1 = "  ", this.indentStrings = [], this.indentAmt = 0;
         }
-        return Constructor = PrintContext, protoProps = [
+        return swcHelpers.createClass(PrintContext, [
             {
                 key: "increaseIndent",
                 value: function() {
@@ -52,7 +44,7 @@ function _defineProperties(target, props) {
                     this.builder += s, this.outfile.WriteLine(this.builder), this.builder = "";
                 }
             }
-        ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), PrintContext;
+        ]), PrintContext;
     }();
     TypeScript1.PrintContext = PrintContext, TypeScript1.prePrintAST = function(ast, parent, walker) {
         var pc = walker.state;

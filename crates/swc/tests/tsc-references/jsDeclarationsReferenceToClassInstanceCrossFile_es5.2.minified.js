@@ -1,26 +1,17 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 var Rectangle = function() {
     "use strict";
-    _classCallCheck(this, Rectangle), console.log("I'm a rectangle!");
+    swcHelpers.classCallCheck(this, Rectangle), console.log("I'm a rectangle!");
 };
 module.exports = {
     Rectangle: Rectangle
 };
 var Rectangle = require("./rectangle").Rectangle, Render = function() {
     "use strict";
-    var Constructor, protoProps, staticProps;
     function Render() {
-        _classCallCheck(this, Render), this.objects = [];
+        swcHelpers.classCallCheck(this, Render), this.objects = [];
     }
-    return Constructor = Render, protoProps = [
+    return swcHelpers.createClass(Render, [
         {
             key: "addRectangle",
             value: function() {
@@ -28,7 +19,7 @@ var Rectangle = require("./rectangle").Rectangle, Render = function() {
                 return this.objects.push(obj), obj;
             }
         }
-    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Render;
+    ]), Render;
 }();
 module.exports = {
     Render: Render

@@ -1,6 +1,0 @@
-error: Invalid attribute matcher value
- --> $DIR/tests/errors/rome/invalid/selector4/input.css:1:14
-  |
-1 | .class[attr= {
-  |              ^
-

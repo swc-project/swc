@@ -1,111 +1,4 @@
-function _assertThisInitialized(self) {
-    if (self === void 0) {
-        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-    return self;
-}
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
-function _get(target, property, receiver) {
-    if (typeof Reflect !== "undefined" && Reflect.get) {
-        _get = Reflect.get;
-    } else {
-        _get = function _get(target, property, receiver) {
-            var base = _superPropBase(target, property);
-            if (!base) return;
-            var desc = Object.getOwnPropertyDescriptor(base, property);
-            if (desc.get) {
-                return desc.get.call(receiver);
-            }
-            return desc.value;
-        };
-    }
-    return _get(target, property, receiver || target);
-}
-function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-        return o.__proto__ || Object.getPrototypeOf(o);
-    };
-    return _getPrototypeOf(o);
-}
-function _inherits(subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-        throw new TypeError("Super expression must either be null or a function");
-    }
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-        constructor: {
-            value: subClass,
-            writable: true,
-            configurable: true
-        }
-    });
-    if (superClass) _setPrototypeOf(subClass, superClass);
-}
-function _possibleConstructorReturn(self, call) {
-    if (call && (_typeof(call) === "object" || typeof call === "function")) {
-        return call;
-    }
-    return _assertThisInitialized(self);
-}
-function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-        o.__proto__ = p;
-        return o;
-    };
-    return _setPrototypeOf(o, p);
-}
-function _superPropBase(object, property) {
-    while(!Object.prototype.hasOwnProperty.call(object, property)){
-        object = _getPrototypeOf(object);
-        if (object === null) break;
-    }
-    return object;
-}
-var _typeof = function(obj) {
-    "@swc/helpers - typeof";
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
-function _isNativeReflectConstruct() {
-    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-    if (Reflect.construct.sham) return false;
-    if (typeof Proxy === "function") return true;
-    try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
-        return true;
-    } catch (e) {
-        return false;
-    }
-}
-function _createSuper(Derived) {
-    var hasNativeReflectConstruct = _isNativeReflectConstruct();
-    return function _createSuperInternal() {
-        var Super = _getPrototypeOf(Derived), result;
-        if (hasNativeReflectConstruct) {
-            var NewTarget = _getPrototypeOf(this).constructor;
-            result = Reflect.construct(Super, arguments, NewTarget);
-        } else {
-            result = Super.apply(this, arguments);
-        }
-        return _possibleConstructorReturn(this, result);
-    };
-}
+import * as swcHelpers from "@swc/helpers";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -129,16 +22,16 @@ Wagon.prototype.speed = function() {
 var Sql = // ok
 /*#__PURE__*/ function(Wagon1) {
     "use strict";
-    _inherits(Sql, Wagon1);
-    var _super = _createSuper(Sql);
+    swcHelpers.inherits(Sql, Wagon1);
+    var _super = swcHelpers.createSuper(Sql);
     function Sql() {
-        _classCallCheck(this, Sql);
+        swcHelpers.classCallCheck(this, Sql);
         var _this;
         _this = _super.call(this); // error: not enough arguments
         _this.foonly = 12;
         return _this;
     }
-    _createClass(Sql, [
+    swcHelpers.createClass(Sql, [
         {
             /**
      * @param {Array.<string>} files
@@ -149,8 +42,8 @@ var Sql = // ok
                 if (format === "xmlolololol") {
                     throw new Error("please do not use XML. It was a joke.");
                 } else {
-                    _get(_getPrototypeOf(Sql.prototype), "speed", this).call(this); // run faster
-                    if (_get(_getPrototypeOf(Sql.prototype), "weight", this).call(this) < 0) {
+                    swcHelpers.get(swcHelpers.getPrototypeOf(Sql.prototype), "speed", this).call(this); // run faster
+                    if (swcHelpers.get(swcHelpers.getPrototypeOf(Sql.prototype), "weight", this).call(this) < 0) {
                     // ????????????????????????
                     }
                 }
@@ -164,10 +57,10 @@ db.numberOxen = db.foonly;
 var Drakkhen = // error, can't extend a TS constructor function
 /*#__PURE__*/ function(Dragon1) {
     "use strict";
-    _inherits(Drakkhen, Dragon1);
-    var _super = _createSuper(Drakkhen);
+    swcHelpers.inherits(Drakkhen, Dragon1);
+    var _super = swcHelpers.createSuper(Drakkhen);
     function Drakkhen() {
-        _classCallCheck(this, Drakkhen);
+        swcHelpers.classCallCheck(this, Drakkhen);
         return _super.apply(this, arguments);
     }
     return Drakkhen;
@@ -181,10 +74,10 @@ var Drakkhen = // error, can't extend a TS constructor function
 var Firedrake = // error!
 /*#__PURE__*/ function(Dragon2) {
     "use strict";
-    _inherits(Firedrake, Dragon2);
-    var _super = _createSuper(Firedrake);
+    swcHelpers.inherits(Firedrake, Dragon2);
+    var _super = swcHelpers.createSuper(Firedrake);
     function Firedrake() {
-        _classCallCheck(this, Firedrake);
+        swcHelpers.classCallCheck(this, Firedrake);
         return _super.call(this);
     }
     return Firedrake;
@@ -192,16 +85,16 @@ var Firedrake = // error!
 var Conestoga = // ok
 /*#__PURE__*/ function(Wagon2) {
     "use strict";
-    _inherits(Conestoga, Wagon2);
-    var _super = _createSuper(Conestoga);
+    swcHelpers.inherits(Conestoga, Wagon2);
+    var _super = swcHelpers.createSuper(Conestoga);
     function Conestoga(drunkOO) {
-        _classCallCheck(this, Conestoga);
+        swcHelpers.classCallCheck(this, Conestoga);
         var _this;
         _this = _super.call(this, 'nope');
         _this.drunkOO = drunkOO;
         return _this;
     }
-    _createClass(Conestoga, null, [
+    swcHelpers.createClass(Conestoga, null, [
         {
             key: "circle",
             value: // should error since others is not optional
@@ -224,13 +117,13 @@ c.numberOxen;
 }
 var Chowder = /** @extends {Soup<{ claim: "ignorant" | "malicious" }>} */ /*#__PURE__*/ function(Soup1) {
     "use strict";
-    _inherits(Chowder, Soup1);
-    var _super = _createSuper(Chowder);
+    swcHelpers.inherits(Chowder, Soup1);
+    var _super = swcHelpers.createSuper(Chowder);
     function Chowder() {
-        _classCallCheck(this, Chowder);
+        swcHelpers.classCallCheck(this, Chowder);
         return _super.apply(this, arguments);
     }
-    _createClass(Chowder, [
+    swcHelpers.createClass(Chowder, [
         {
             key: "log",
             value: function log() {

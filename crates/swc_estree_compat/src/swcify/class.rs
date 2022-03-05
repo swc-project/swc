@@ -159,13 +159,10 @@ impl Swcify for swc_estree_ast::ClassPrivateProperty {
             type_ann: self.type_annotation.swcify(ctx).flatten(),
             is_static: false,
             decorators: Default::default(),
-            computed: false,
             accessibility: Default::default(),
-            is_abstract: false,
             is_optional: false,
             is_override: false,
             readonly: false,
-            definite: false,
         }
     }
 }

@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // null is a subtype of any other types except undefined
 var r0 = true ? null : null;
 var r0 = true ? null : null;
@@ -38,14 +34,14 @@ var r9 = true ? i1 : null;
 var r9 = true ? null : i1;
 var C1 = function C1() {
     "use strict";
-    _classCallCheck(this, C1);
+    swcHelpers.classCallCheck(this, C1);
 };
 var c1;
 var r10 = true ? c1 : null;
 var r10 = true ? null : c1;
 var C2 = function C2() {
     "use strict";
-    _classCallCheck(this, C2);
+    swcHelpers.classCallCheck(this, C2);
 };
 var c2;
 var r12 = true ? c2 : null;
@@ -67,7 +63,7 @@ var r15 = true ? af : null;
 var r15 = true ? null : af;
 var c = function c() {
     "use strict";
-    _classCallCheck(this, c);
+    swcHelpers.classCallCheck(this, c);
 };
 (function(c) {
     var bar = c.bar = 1;

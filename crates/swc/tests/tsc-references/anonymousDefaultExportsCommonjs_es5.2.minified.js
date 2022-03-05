@@ -1,8 +1,7 @@
-var _class = function() {
+import * as swcHelpers from "@swc/helpers";
+var _default = function() {
     "use strict";
-    !function(instance, Constructor) {
-        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, _class);
+    swcHelpers.classCallCheck(this, _default);
 };
 export default function() {};
-export { _class as default };
+export { _default as default };

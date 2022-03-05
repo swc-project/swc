@@ -1,3 +1,4 @@
+import * as swcHelpers from "@swc/helpers";
 React.createElement("div", {
     id: "foo"
 }), React.createElement("img", {
@@ -11,9 +12,7 @@ React.createElement("div", {
 });
 var MyClass = function() {
     "use strict";
-    !function(instance, Constructor) {
-        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, MyClass);
+    swcHelpers.classCallCheck(this, MyClass);
 };
 React.createElement(MyClass, {
     reqd: !0

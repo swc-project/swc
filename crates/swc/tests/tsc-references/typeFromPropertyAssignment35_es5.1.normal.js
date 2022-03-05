@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -14,7 +10,7 @@ function _classCallCheck(instance, Constructor) {
 }
 Emu.D = function _class() {
     "use strict";
-    _classCallCheck(this, _class);
+    swcHelpers.classCallCheck(this, _class);
     this._model = 1;
 };
 // @Filename: second.js

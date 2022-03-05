@@ -1,132 +1,108 @@
-function _arrayLikeToArray(arr, len) {
-    if (len == null || len > arr.length) len = arr.length;
-    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
-    return arr2;
-}
-function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-}
-function _iterableToArray(iter) {
-    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
-}
-function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-}
-function _unsupportedIterableToArray(o, minLen) {
-    if (!o) return;
-    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-    var n = Object.prototype.toString.call(o).slice(8, -1);
-    if (n === "Object" && o.constructor) n = o.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(n);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
+import * as swcHelpers from "@swc/helpers";
 f1 = f2;
 f2 = f1;
 f1(42, "hello", true);
 f1(t3[0], t3[1], t3[2]);
-f1.apply(void 0, _toConsumableArray(t3));
+f1.apply(void 0, swcHelpers.toConsumableArray(t3));
 f1.apply(void 0, [
     42
-].concat(_toConsumableArray(t2)));
+].concat(swcHelpers.toConsumableArray(t2)));
 f1.apply(void 0, [
     42,
     "hello"
-].concat(_toConsumableArray(t1)));
+].concat(swcHelpers.toConsumableArray(t1)));
 f1.apply(void 0, [
     42,
     "hello",
     true
-].concat(_toConsumableArray(t0)));
+].concat(swcHelpers.toConsumableArray(t0)));
 f1(ns[0], ns[1], true);
-f1.apply(void 0, _toConsumableArray(ns).concat([
+f1.apply(void 0, swcHelpers.toConsumableArray(ns).concat([
     true
 ])); // FIXME: Error, since ...ns is considered as string|number here
 f2(42, "hello", true);
 f2(t3[0], t3[1], t3[2]);
-f2.apply(void 0, _toConsumableArray(t3));
+f2.apply(void 0, swcHelpers.toConsumableArray(t3));
 f2.apply(void 0, [
     42
-].concat(_toConsumableArray(t2)));
+].concat(swcHelpers.toConsumableArray(t2)));
 f2.apply(void 0, [
     42,
     "hello"
-].concat(_toConsumableArray(t1)));
+].concat(swcHelpers.toConsumableArray(t1)));
 f2.apply(void 0, [
     42,
     "hello",
     true
-].concat(_toConsumableArray(t0)));
+].concat(swcHelpers.toConsumableArray(t0)));
 f2(ns[0], ns[1], true);
-f2.apply(void 0, _toConsumableArray(ns).concat([
+f2.apply(void 0, swcHelpers.toConsumableArray(ns).concat([
     true
 ])); // FIXME: Error, since ...ns is considered as string|number here
 var x10 = f10(42, "hello", true); // [number, string, boolean]
 var x11 = f10(42, "hello"); // [number, string]
 var x12 = f10(42); // [number]
 var x13 = f10(); // []
-var x14 = f10.apply(void 0, _toConsumableArray(t3)); // [number, string, boolean]
+var x14 = f10.apply(void 0, swcHelpers.toConsumableArray(t3)); // [number, string, boolean]
 var x15 = f10.apply(void 0, [
     42
-].concat(_toConsumableArray(t2))); // [number, string, boolean]
+].concat(swcHelpers.toConsumableArray(t2))); // [number, string, boolean]
 var x16 = f10.apply(void 0, [
     42,
     "hello"
-].concat(_toConsumableArray(t1))); // [number, string, boolean]
+].concat(swcHelpers.toConsumableArray(t1))); // [number, string, boolean]
 var x17 = f10.apply(void 0, [
     42,
     "hello",
     true
-].concat(_toConsumableArray(t0))); // [number, string, boolean]
-var x18 = f10.apply(void 0, _toConsumableArray(ns).concat([
+].concat(swcHelpers.toConsumableArray(t0))); // [number, string, boolean]
+var x18 = f10.apply(void 0, swcHelpers.toConsumableArray(ns).concat([
     true
 ])); // (string | number | boolean)[]
 function g10(u, v) {
-    var x1 = f10.apply(void 0, _toConsumableArray(u)); // U
-    var x2 = f10.apply(void 0, _toConsumableArray(v)); // V
+    var x1 = f10.apply(void 0, swcHelpers.toConsumableArray(u)); // U
+    var x2 = f10.apply(void 0, swcHelpers.toConsumableArray(v)); // V
     var x3 = f10.apply(void 0, [
         1
-    ].concat(_toConsumableArray(u))); // [number, ...string[]]
-    var x4 = f10.apply(void 0, _toConsumableArray(u).concat(_toConsumableArray(v))); // (string | number)[]
+    ].concat(swcHelpers.toConsumableArray(u))); // [number, ...string[]]
+    var x4 = f10.apply(void 0, swcHelpers.toConsumableArray(u).concat(swcHelpers.toConsumableArray(v))); // (string | number)[]
 }
 var z10 = f11(42, "hello", true); // [42, "hello", true]
 var z11 = f11(42, "hello"); // [42, "hello"]
 var z12 = f11(42); // [42]
 var z13 = f11(); // []
-var z14 = f11.apply(void 0, _toConsumableArray(t3)); // [number, string, boolean]
+var z14 = f11.apply(void 0, swcHelpers.toConsumableArray(t3)); // [number, string, boolean]
 var z15 = f11.apply(void 0, [
     42
-].concat(_toConsumableArray(t2))); // [42, string, boolean]
+].concat(swcHelpers.toConsumableArray(t2))); // [42, string, boolean]
 var z16 = f11.apply(void 0, [
     42,
     "hello"
-].concat(_toConsumableArray(t1))); // [42, "hello", boolean]
+].concat(swcHelpers.toConsumableArray(t1))); // [42, "hello", boolean]
 var z17 = f11.apply(void 0, [
     42,
     "hello",
     true
-].concat(_toConsumableArray(t0))); // [42, "hello", true]
-var z18 = f11.apply(void 0, _toConsumableArray(ns).concat([
+].concat(swcHelpers.toConsumableArray(t0))); // [42, "hello", true]
+var z18 = f11.apply(void 0, swcHelpers.toConsumableArray(ns).concat([
     true
 ])); // (string | number | true)[]
 function g11(u, v) {
-    var x1 = f11.apply(void 0, _toConsumableArray(u)); // U
-    var x2 = f11.apply(void 0, _toConsumableArray(v)); // V
+    var x1 = f11.apply(void 0, swcHelpers.toConsumableArray(u)); // U
+    var x2 = f11.apply(void 0, swcHelpers.toConsumableArray(v)); // V
     var x3 = f11.apply(void 0, [
         1
-    ].concat(_toConsumableArray(u))); // [1, ...string[]]
-    var x4 = f11.apply(void 0, _toConsumableArray(u).concat(_toConsumableArray(v))); // (string | number)[]
+    ].concat(swcHelpers.toConsumableArray(u))); // [1, ...string[]]
+    var x4 = f11.apply(void 0, swcHelpers.toConsumableArray(u).concat(swcHelpers.toConsumableArray(v))); // (string | number)[]
 }
 function call(f) {
     for(var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         args[_key - 1] = arguments[_key];
     }
-    return f.apply(void 0, _toConsumableArray(args));
+    return f.apply(void 0, swcHelpers.toConsumableArray(args));
 }
 function callr(args, f) {
-    return f.apply(void 0, _toConsumableArray(args));
+    return f.apply(void 0, swcHelpers.toConsumableArray(args));
 }
 var x20 = call(function(x, y) {
     return x + y;
@@ -149,7 +125,7 @@ function bind(f, x) {
         }
         return f.apply(void 0, [
             x
-        ].concat(_toConsumableArray(rest)));
+        ].concat(swcHelpers.toConsumableArray(rest)));
     };
 }
 var f21 = bind(f20, 42); // (y: string, z: boolean) => string[]

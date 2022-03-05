@@ -1,22 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 function f1(a, b) {
     a = b;
     b = a; // Error
@@ -68,9 +50,9 @@ var Opt = // Repros from #22860
 /*#__PURE__*/ function() {
     "use strict";
     function Opt() {
-        _classCallCheck(this, Opt);
+        swcHelpers.classCallCheck(this, Opt);
     }
-    _createClass(Opt, [
+    swcHelpers.createClass(Opt, [
         {
             key: "toVector",
             value: function toVector() {
@@ -83,9 +65,9 @@ var Opt = // Repros from #22860
 var Vector = /*#__PURE__*/ function() {
     "use strict";
     function Vector() {
-        _classCallCheck(this, Vector);
+        swcHelpers.classCallCheck(this, Vector);
     }
-    _createClass(Vector, [
+    swcHelpers.createClass(Vector, [
         {
             key: "tail",
             value: function tail() {

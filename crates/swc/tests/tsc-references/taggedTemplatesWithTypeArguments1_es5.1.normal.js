@@ -1,43 +1,6 @@
-function _defineProperty(obj, key, value) {
-    if (key in obj) {
-        Object.defineProperty(obj, key, {
-            value: value,
-            enumerable: true,
-            configurable: true,
-            writable: true
-        });
-    } else {
-        obj[key] = value;
-    }
-    return obj;
-}
-function _objectSpread(target) {
-    for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {};
-        var ownKeys = Object.keys(source);
-        if (typeof Object.getOwnPropertySymbols === "function") {
-            ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
-                return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-            }));
-        }
-        ownKeys.forEach(function(key) {
-            _defineProperty(target, key, source[key]);
-        });
-    }
-    return target;
-}
-function _taggedTemplateLiteral(strings, raw) {
-    if (!raw) {
-        raw = strings.slice(0);
-    }
-    return Object.freeze(Object.defineProperties(strings, {
-        raw: {
-            value: Object.freeze(raw)
-        }
-    }));
-}
+import * as swcHelpers from "@swc/helpers";
 function _templateObject() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "\n    hello\n    ",
         "\n    brave\n    ",
         "\n    world\n    ",
@@ -49,7 +12,7 @@ function _templateObject() {
     return data;
 }
 function _templateObject1() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "\n    hello\n    ",
         "\n    brave\n    ",
         "\n    world\n    ",
@@ -61,7 +24,7 @@ function _templateObject1() {
     return data;
 }
 function _templateObject2() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         ""
     ]);
@@ -71,7 +34,7 @@ function _templateObject2() {
     return data;
 }
 function _templateObject3() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         ""
     ]);
@@ -95,13 +58,13 @@ export var b = g(_templateObject1(), function(stuff) {
     return stuff.z;
 });
 export var c = obj["prop"](_templateObject2(), function(input) {
-    return _objectSpread({}, input);
+    return swcHelpers.objectSpread({}, input);
 });
 c.returnedObjProp.x;
 c.returnedObjProp.y;
 c.returnedObjProp.z;
 c = obj.prop(_templateObject3(), function(input) {
-    return _objectSpread({}, input);
+    return swcHelpers.objectSpread({}, input);
 });
 c.returnedObjProp.x;
 c.returnedObjProp.y;

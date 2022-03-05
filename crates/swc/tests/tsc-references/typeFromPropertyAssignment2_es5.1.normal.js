@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -12,7 +8,7 @@ function Outer() {
 }
 Outer.Inner = function I() {
     "use strict";
-    _classCallCheck(this, I);
+    swcHelpers.classCallCheck(this, I);
     this.x = 1;
 };
 /** @type {Outer} */ var ok;

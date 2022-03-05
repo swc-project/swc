@@ -1,61 +1,4 @@
-function _arrayLikeToArray(arr, len) {
-    if (len == null || len > arr.length) len = arr.length;
-    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
-    return arr2;
-}
-function _arrayWithHoles(arr) {
-    if (Array.isArray(arr)) return arr;
-}
-function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-}
-function _iterableToArray(iter) {
-    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
-}
-function _iterableToArrayLimit(arr, i) {
-    var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
-    if (_i == null) return;
-    var _arr = [];
-    var _n = true;
-    var _d = false;
-    var _s, _e1;
-    try {
-        for(_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true){
-            _arr.push(_s.value);
-            if (i && _arr.length === i) break;
-        }
-    } catch (err) {
-        _d = true;
-        _e1 = err;
-    } finally{
-        try {
-            if (!_n && _i["return"] != null) _i["return"]();
-        } finally{
-            if (_d) throw _e1;
-        }
-    }
-    return _arr;
-}
-function _nonIterableRest() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-function _slicedToArray(arr, i) {
-    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-}
-function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-}
-function _unsupportedIterableToArray(o, minLen) {
-    if (!o) return;
-    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-    var n = Object.prototype.toString.call(o).slice(8, -1);
-    if (n === "Object" && o.constructor) n = o.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(n);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
+import * as swcHelpers from "@swc/helpers";
 // The type T associated with a destructuring variable declaration is determined as follows:
 //      If the declaration includes a type annotation, T is that type.
 var ref = {
@@ -112,10 +55,10 @@ var temp1 = [
     false,
     true
 ];
-var ref3 = _slicedToArray([
+var ref3 = swcHelpers.slicedToArray([
     1,
     "string"
-].concat(_toConsumableArray(temp1)), 2), d3 = ref3[0], d4 = ref3[1];
+].concat(swcHelpers.toConsumableArray(temp1)), 2), d3 = ref3[0], d4 = ref3[1];
 //  Combining both forms of destructuring,
 var ref4 = {
     e: [
@@ -126,7 +69,7 @@ var ref4 = {
             b4: 0
         }
     ]
-}, _e = _slicedToArray(ref4.e, 3), e1 = _e[0], e2 = _e[1], tmp7 = _e[2], e3 = tmp7 === void 0 ? {
+}, _e = swcHelpers.slicedToArray(ref4.e, 3), e1 = _e[0], e2 = _e[1], tmp7 = _e[2], e3 = tmp7 === void 0 ? {
     b1: 1000,
     b4: 200
 } : tmp7;
@@ -139,7 +82,7 @@ var ref5 = {
             f5: 0
         }
     ]
-}, _f = _slicedToArray(ref5.f, 3), f1 = _f[0], f2 = _f[1], ref6 = _f[2], f4 = ref6.f3, f5 = ref6.f5;
+}, _f = swcHelpers.slicedToArray(ref5.f, 3), f1 = _f[0], f2 = _f[1], ref6 = _f[2], f4 = ref6.f3, f5 = ref6.f5;
 // When a destructuring variable declaration, binding property, or binding element specifies
 // an initializer expression, the type of the initializer expression is required to be assignable
 // to the widened form of the type associated with the destructuring variable declaration, binding property, or binding element.

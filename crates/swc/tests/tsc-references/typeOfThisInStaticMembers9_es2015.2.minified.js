@@ -1,11 +1,12 @@
+import * as swcHelpers from "@swc/helpers";
 class C {
 }
 C.f = 1;
 class D extends C {
 }
-D.arrowFunctionBoundary = ()=>super.f + 1
+D.arrowFunctionBoundary = ()=>swcHelpers.get(swcHelpers.getPrototypeOf(D), "f", D) + 1
 , D.functionExprBoundary = function() {
-    return super.f + 2;
+    return swcHelpers.get(swcHelpers.getPrototypeOf(D), "f", this) + 2;
 }, D.classExprBoundary = class {
     constructor(){
         this.a = super.f + 3;

@@ -1,15 +1,6 @@
-function _taggedTemplateLiteral(strings, raw) {
-    if (!raw) {
-        raw = strings.slice(0);
-    }
-    return Object.freeze(Object.defineProperties(strings, {
-        raw: {
-            value: Object.freeze(raw)
-        }
-    }));
-}
+import * as swcHelpers from "@swc/helpers";
 function _templateObject() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         ""
     ]);
     _templateObject = function _templateObject() {
@@ -18,7 +9,7 @@ function _templateObject() {
     return data;
 }
 function _templateObject1() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         ""
     ]);
     _templateObject1 = function _templateObject1() {
@@ -27,7 +18,7 @@ function _templateObject1() {
     return data;
 }
 function _templateObject2() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         ""
     ]);
@@ -37,7 +28,7 @@ function _templateObject2() {
     return data;
 }
 function _templateObject3() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         ""
     ]);
@@ -47,7 +38,7 @@ function _templateObject3() {
     return data;
 }
 function _templateObject4() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         ""
     ]);
@@ -57,7 +48,7 @@ function _templateObject4() {
     return data;
 }
 function _templateObject5() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         ""
     ]);
@@ -67,7 +58,7 @@ function _templateObject5() {
     return data;
 }
 function _templateObject6() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         ""
     ]);
@@ -77,7 +68,7 @@ function _templateObject6() {
     return data;
 }
 function _templateObject7() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         ""
     ]);
@@ -87,7 +78,7 @@ function _templateObject7() {
     return data;
 }
 function _templateObject8() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         ""
     ]);
@@ -97,7 +88,7 @@ function _templateObject8() {
     return data;
 }
 function _templateObject9() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         ""
@@ -108,7 +99,7 @@ function _templateObject9() {
     return data;
 }
 function _templateObject10() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         ""
@@ -119,7 +110,7 @@ function _templateObject10() {
     return data;
 }
 function _templateObject11() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         ""
@@ -130,7 +121,7 @@ function _templateObject11() {
     return data;
 }
 function _templateObject12() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         " ",
         ""
@@ -141,7 +132,7 @@ function _templateObject12() {
     return data;
 }
 function _templateObject13() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         ""
@@ -152,7 +143,7 @@ function _templateObject13() {
     return data;
 }
 function _templateObject14() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         ""
@@ -163,7 +154,7 @@ function _templateObject14() {
     return data;
 }
 function _templateObject15() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
@@ -175,7 +166,7 @@ function _templateObject15() {
     return data;
 }
 function _templateObject16() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
@@ -187,7 +178,7 @@ function _templateObject16() {
     return data;
 }
 function _templateObject17() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
@@ -199,7 +190,7 @@ function _templateObject17() {
     return data;
 }
 function _templateObject18() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
@@ -211,7 +202,7 @@ function _templateObject18() {
     return data;
 }
 function _templateObject19() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
@@ -223,7 +214,7 @@ function _templateObject19() {
     return data;
 }
 function _templateObject20() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
@@ -235,7 +226,7 @@ function _templateObject20() {
     return data;
 }
 function _templateObject21() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         ""
     ]);
@@ -245,7 +236,7 @@ function _templateObject21() {
     return data;
 }
 function _templateObject22() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
@@ -257,7 +248,7 @@ function _templateObject22() {
     return data;
 }
 function _templateObject23() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
@@ -269,7 +260,7 @@ function _templateObject23() {
     return data;
 }
 function _templateObject24() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
@@ -281,7 +272,7 @@ function _templateObject24() {
     return data;
 }
 function _templateObject25() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
@@ -293,7 +284,7 @@ function _templateObject25() {
     return data;
 }
 function _templateObject26() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
@@ -305,7 +296,7 @@ function _templateObject26() {
     return data;
 }
 function _templateObject27() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",

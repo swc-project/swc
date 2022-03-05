@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @filename: class.ts
 var X;
 (function(X1) {
@@ -10,7 +6,7 @@ var X;
     (function(Y) {
         var Point = function Point(x, y) {
             "use strict";
-            _classCallCheck(this, Point);
+            swcHelpers.classCallCheck(this, Point);
             this.x = x;
             this.y = y;
         };
@@ -32,7 +28,7 @@ var cl = new X.Y.Point(1, 1);
 var cl = X.Y.Point.Origin; // error not expected here same as bug 83996 ?
 var A = function A() {
     "use strict";
-    _classCallCheck(this, A);
+    swcHelpers.classCallCheck(this, A);
 };
 (function(A1) {
     var Instance = A1.Instance = new A();

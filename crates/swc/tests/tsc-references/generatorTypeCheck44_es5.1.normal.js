@@ -1,22 +1,4 @@
-function _defineEnumerableProperties(obj, descs) {
-    for(var key in descs){
-        var desc = descs[key];
-        desc.configurable = desc.enumerable = true;
-        if ("value" in desc) desc.writable = true;
-        Object.defineProperty(obj, key, desc);
-    }
-    if (Object.getOwnPropertySymbols) {
-        var objectSymbols = Object.getOwnPropertySymbols(descs);
-        for(var i = 0; i < objectSymbols.length; i++){
-            var sym = objectSymbols[i];
-            var desc = descs[sym];
-            desc.configurable = desc.enumerable = true;
-            if ("value" in desc) desc.writable = true;
-            Object.defineProperty(obj, sym, desc);
-        }
-    }
-    return obj;
-}
+import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(g);
 //@target: ES6
@@ -50,7 +32,7 @@ function g() {
                 _mutatorMap[_ctx.t3].get = function() {
                     return 0;
                 };
-                _defineEnumerableProperties(_obj, _mutatorMap);
+                swcHelpers.defineEnumerableProperties(_obj, _mutatorMap);
                 x = (0, _obj);
             case 18:
             case "end":

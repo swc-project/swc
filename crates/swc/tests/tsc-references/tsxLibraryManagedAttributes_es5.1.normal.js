@@ -1,80 +1,10 @@
-function _assertThisInitialized(self) {
-    if (self === void 0) {
-        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-    return self;
-}
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _getPrototypeOf(o1) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o1) {
-        return o1.__proto__ || Object.getPrototypeOf(o1);
-    };
-    return _getPrototypeOf(o1);
-}
-function _inherits(subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-        throw new TypeError("Super expression must either be null or a function");
-    }
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-        constructor: {
-            value: subClass,
-            writable: true,
-            configurable: true
-        }
-    });
-    if (superClass) _setPrototypeOf(subClass, superClass);
-}
-function _possibleConstructorReturn(self, call) {
-    if (call && (_typeof(call) === "object" || typeof call === "function")) {
-        return call;
-    }
-    return _assertThisInitialized(self);
-}
-function _setPrototypeOf(o1, p1) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o1, p1) {
-        o1.__proto__ = p1;
-        return o1;
-    };
-    return _setPrototypeOf(o1, p1);
-}
-var _typeof = function(obj) {
-    "@swc/helpers - typeof";
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
-function _isNativeReflectConstruct() {
-    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-    if (Reflect.construct.sham) return false;
-    if (typeof Proxy === "function") return true;
-    try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
-        return true;
-    } catch (e) {
-        return false;
-    }
-}
-function _createSuper(Derived) {
-    var hasNativeReflectConstruct = _isNativeReflectConstruct();
-    return function _createSuperInternal() {
-        var Super = _getPrototypeOf(Derived), result;
-        if (hasNativeReflectConstruct) {
-            var NewTarget = _getPrototypeOf(this).constructor;
-            result = Reflect.construct(Super, arguments, NewTarget);
-        } else {
-            result = Super.apply(this, arguments);
-        }
-        return _possibleConstructorReturn(this, result);
-    };
-}
+import * as swcHelpers from "@swc/helpers";
 var Component = /*#__PURE__*/ function(ReactComponent) {
     "use strict";
-    _inherits(Component, ReactComponent);
-    var _super = _createSuper(Component);
+    swcHelpers.inherits(Component, ReactComponent);
+    var _super = swcHelpers.createSuper(Component);
     function Component() {
-        _classCallCheck(this, Component);
+        swcHelpers.classCallCheck(this, Component);
         return _super.apply(this, arguments);
     }
     return Component;
@@ -116,10 +46,10 @@ var f = /*#__PURE__*/ React.createElement(Component, {
 }); // Error, baz is _not_ nullable/undefinable since it's marked `isRequired`
 var JustPropTypes = /*#__PURE__*/ function(ReactComponent) {
     "use strict";
-    _inherits(JustPropTypes, ReactComponent);
-    var _super = _createSuper(JustPropTypes);
+    swcHelpers.inherits(JustPropTypes, ReactComponent);
+    var _super = swcHelpers.createSuper(JustPropTypes);
     function JustPropTypes() {
-        _classCallCheck(this, JustPropTypes);
+        swcHelpers.classCallCheck(this, JustPropTypes);
         return _super.apply(this, arguments);
     }
     return JustPropTypes;
@@ -145,10 +75,10 @@ var j = /*#__PURE__*/ React.createElement(JustPropTypes, {
 }); // error, bar is required
 var JustDefaultProps = /*#__PURE__*/ function(ReactComponent) {
     "use strict";
-    _inherits(JustDefaultProps, ReactComponent);
-    var _super = _createSuper(JustDefaultProps);
+    swcHelpers.inherits(JustDefaultProps, ReactComponent);
+    var _super = swcHelpers.createSuper(JustDefaultProps);
     function JustDefaultProps() {
-        _classCallCheck(this, JustDefaultProps);
+        swcHelpers.classCallCheck(this, JustDefaultProps);
         return _super.apply(this, arguments);
     }
     return JustDefaultProps;
@@ -168,10 +98,10 @@ var m = /*#__PURE__*/ React.createElement(JustDefaultProps, {
 }); // error, wrong type
 var BothWithSpecifiedGeneric = /*#__PURE__*/ function(ReactComponent) {
     "use strict";
-    _inherits(BothWithSpecifiedGeneric, ReactComponent);
-    var _super = _createSuper(BothWithSpecifiedGeneric);
+    swcHelpers.inherits(BothWithSpecifiedGeneric, ReactComponent);
+    var _super = swcHelpers.createSuper(BothWithSpecifiedGeneric);
     function BothWithSpecifiedGeneric() {
-        _classCallCheck(this, BothWithSpecifiedGeneric);
+        swcHelpers.classCallCheck(this, BothWithSpecifiedGeneric);
         return _super.apply(this, arguments);
     }
     return BothWithSpecifiedGeneric;
@@ -213,10 +143,10 @@ var s = /*#__PURE__*/ React.createElement(BothWithSpecifiedGeneric, {
 }); // Error, baz is _not_ nullable/undefinable since it's marked `isRequired`
 var JustPropTypesWithSpecifiedGeneric = /*#__PURE__*/ function(ReactComponent) {
     "use strict";
-    _inherits(JustPropTypesWithSpecifiedGeneric, ReactComponent);
-    var _super = _createSuper(JustPropTypesWithSpecifiedGeneric);
+    swcHelpers.inherits(JustPropTypesWithSpecifiedGeneric, ReactComponent);
+    var _super = swcHelpers.createSuper(JustPropTypesWithSpecifiedGeneric);
     function JustPropTypesWithSpecifiedGeneric() {
-        _classCallCheck(this, JustPropTypesWithSpecifiedGeneric);
+        swcHelpers.classCallCheck(this, JustPropTypesWithSpecifiedGeneric);
         return _super.apply(this, arguments);
     }
     return JustPropTypesWithSpecifiedGeneric;
@@ -242,10 +172,10 @@ var w = /*#__PURE__*/ React.createElement(JustPropTypesWithSpecifiedGeneric, {
 }); // error, bar is required
 var JustDefaultPropsWithSpecifiedGeneric = /*#__PURE__*/ function(ReactComponent) {
     "use strict";
-    _inherits(JustDefaultPropsWithSpecifiedGeneric, ReactComponent);
-    var _super = _createSuper(JustDefaultPropsWithSpecifiedGeneric);
+    swcHelpers.inherits(JustDefaultPropsWithSpecifiedGeneric, ReactComponent);
+    var _super = swcHelpers.createSuper(JustDefaultPropsWithSpecifiedGeneric);
     function JustDefaultPropsWithSpecifiedGeneric() {
-        _classCallCheck(this, JustDefaultPropsWithSpecifiedGeneric);
+        swcHelpers.classCallCheck(this, JustDefaultPropsWithSpecifiedGeneric);
         return _super.apply(this, arguments);
     }
     return JustDefaultPropsWithSpecifiedGeneric;

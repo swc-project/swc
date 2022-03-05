@@ -1,10 +1,4 @@
-function _instanceof(left, right) {
-    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
-        return !!right[Symbol.hasInstance](left);
-    } else {
-        return left instanceof right;
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -23,7 +17,7 @@ c.x = undefined // should error
 c.y = undefined // ok
 ;
 /** @param {number} x */ function A(x) {
-    if (!_instanceof(this, A)) {
+    if (!swcHelpers._instanceof(this, A)) {
         return new A(x);
     }
     this.x = x;

@@ -122,6 +122,7 @@ fn compile(input: &Path, output: &Path, opts: Options) {
                                 dts: false,
                                 no_early_errors: true,
                             })),
+                            external_helpers: true,
                             ..opts.config.jsc
                         },
                         ..opts.config

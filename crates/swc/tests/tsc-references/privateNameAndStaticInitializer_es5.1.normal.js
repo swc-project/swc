@@ -1,26 +1,13 @@
-function _checkPrivateRedeclaration(obj, privateCollection) {
-    if (privateCollection.has(obj)) {
-        throw new TypeError("Cannot initialize the same private elements twice on an object");
-    }
-}
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _classPrivateFieldInit(obj, privateMap, value) {
-    _checkPrivateRedeclaration(obj, privateMap);
-    privateMap.set(obj, value);
-}
+import * as swcHelpers from "@swc/helpers";
 var _foo = new WeakMap(), _prop = new WeakMap();
 var A = function A() {
     "use strict";
-    _classCallCheck(this, A);
-    _classPrivateFieldInit(this, _foo, {
+    swcHelpers.classCallCheck(this, A);
+    swcHelpers.classPrivateFieldInit(this, _foo, {
         writable: true,
         value: 1
     });
-    _classPrivateFieldInit(this, _prop, {
+    swcHelpers.classPrivateFieldInit(this, _prop, {
         writable: true,
         value: 2
     });

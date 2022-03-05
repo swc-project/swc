@@ -1,45 +1,11 @@
-function _classApplyDescriptorSet(receiver, descriptor, value) {
-    if (descriptor.set) {
-        descriptor.set.call(receiver, value);
-    } else {
-        if (!descriptor.writable) {
-            throw new TypeError("attempted to set read only private field");
-        }
-        descriptor.value = value;
-    }
-}
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _classCheckPrivateStaticFieldDescriptor(descriptor, action) {
-    if (descriptor === undefined) {
-        throw new TypeError("attempted to " + action + " private static field before its declaration");
-    }
-}
-function _classStaticPrivateFieldSpecSet(receiver, classConstructor, descriptor, value) {
-    _classCheckPrivateStaticAccess(receiver, classConstructor);
-    _classCheckPrivateStaticFieldDescriptor(descriptor, "set");
-    _classApplyDescriptorSet(receiver, descriptor, value);
-    return value;
-}
-function _classStaticPrivateMethodGet(receiver, classConstructor, method) {
-    _classCheckPrivateStaticAccess(receiver, classConstructor);
-    return method;
-}
-function _classCheckPrivateStaticAccess(receiver, classConstructor) {
-    if (receiver !== classConstructor) {
-        throw new TypeError("Private static access of wrong provenance");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @target: es2015
 // @importHelpers: true
 // @isolatedModules: true
 // @filename: main.ts
 export var S = function S() {
     "use strict";
-    _classCallCheck(this, S);
+    swcHelpers.classCallCheck(this, S);
 };
 var _c = {
     get: get_c,
@@ -50,8 +16,8 @@ var _a = {
     value: 1
 };
 function b() {
-    _classStaticPrivateFieldSpecSet(this, S, _a, 42);
+    swcHelpers.classStaticPrivateFieldSpecSet(this, S, _a, 42);
 }
 function get_c() {
-    return _classStaticPrivateMethodGet(S, S, b).call(S);
+    return swcHelpers.classStaticPrivateMethodGet(S, S, b).call(S);
 }

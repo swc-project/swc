@@ -1,6 +1,0 @@
-error: Expected identifier in id selector
- --> $DIR/tests/errors/rome/invalid/selector8/input.css:1:1
-  |
-1 | #1234 {
-  | ^^^^^
-

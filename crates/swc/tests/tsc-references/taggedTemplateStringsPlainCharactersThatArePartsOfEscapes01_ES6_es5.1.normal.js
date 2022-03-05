@@ -1,15 +1,6 @@
-function _taggedTemplateLiteral(strings, raw) {
-    if (!raw) {
-        raw = strings.slice(0);
-    }
-    return Object.freeze(Object.defineProperties(strings, {
-        raw: {
-            value: Object.freeze(raw)
-        }
-    }));
-}
+import * as swcHelpers from "@swc/helpers";
 function _templateObject() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 2028 2029 0085 t v f b r n"
     ]);
     _templateObject = function _templateObject() {

@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 3974,
+    "end": 4109,
     "ctxt": 0
   },
   "rules": [
@@ -10750,6 +10750,411 @@
         },
         "name": "{",
         "value": []
+      }
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 3975,
+        "end": 4040,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 3982,
+          "end": 3987,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 3982,
+              "end": 3987,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": {
+              "type": "Ident",
+              "span": {
+                "start": 3982,
+                "end": 3987,
+                "ctxt": 0
+              },
+              "value": "print",
+              "raw": "print"
+            },
+            "condition": null
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 3988,
+          "end": 4040,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "QualifiedRule",
+            "span": {
+              "start": 3994,
+              "end": 4038,
+              "ctxt": 0
+            },
+            "prelude": {
+              "type": "SelectorList",
+              "span": {
+                "start": 3994,
+                "end": 4007,
+                "ctxt": 0
+              },
+              "children": [
+                {
+                  "type": "ComplexSelector",
+                  "span": {
+                    "start": 3994,
+                    "end": 4007,
+                    "ctxt": 0
+                  },
+                  "children": [
+                    {
+                      "type": "CompoundSelector",
+                      "span": {
+                        "start": 3994,
+                        "end": 3998,
+                        "ctxt": 0
+                      },
+                      "nestingSelector": null,
+                      "typeSelector": {
+                        "type": "TagNameSelector",
+                        "span": {
+                          "start": 3994,
+                          "end": 3998,
+                          "ctxt": 0
+                        },
+                        "name": {
+                          "type": "WqName",
+                          "span": {
+                            "start": 3994,
+                            "end": 3998,
+                            "ctxt": 0
+                          },
+                          "prefix": null,
+                          "value": {
+                            "type": "Ident",
+                            "span": {
+                              "start": 3994,
+                              "end": 3998,
+                              "ctxt": 0
+                            },
+                            "value": "html",
+                            "raw": "html"
+                          }
+                        }
+                      },
+                      "subclassSelectors": []
+                    },
+                    {
+                      "type": "Combinator",
+                      "span": {
+                        "start": 3998,
+                        "end": 4003,
+                        "ctxt": 0
+                      },
+                      "value": " "
+                    },
+                    {
+                      "type": "CompoundSelector",
+                      "span": {
+                        "start": 4003,
+                        "end": 4007,
+                        "ctxt": 0
+                      },
+                      "nestingSelector": null,
+                      "typeSelector": {
+                        "type": "TagNameSelector",
+                        "span": {
+                          "start": 4003,
+                          "end": 4007,
+                          "ctxt": 0
+                        },
+                        "name": {
+                          "type": "WqName",
+                          "span": {
+                            "start": 4003,
+                            "end": 4007,
+                            "ctxt": 0
+                          },
+                          "prefix": null,
+                          "value": {
+                            "type": "Ident",
+                            "span": {
+                              "start": 4003,
+                              "end": 4007,
+                              "ctxt": 0
+                            },
+                            "value": "main",
+                            "raw": "main"
+                          }
+                        }
+                      },
+                      "subclassSelectors": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 4008,
+                "end": 4038,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 4018,
+                    "end": 4031,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 4018,
+                      "end": 4023,
+                      "ctxt": 0
+                    },
+                    "value": "color",
+                    "raw": "color"
+                  },
+                  "value": [
+                    {
+                      "type": "Ident",
+                      "span": {
+                        "start": 4025,
+                        "end": 4031,
+                        "ctxt": 0
+                      },
+                      "value": "orange",
+                      "raw": "orange"
+                    }
+                  ],
+                  "important": null
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 4042,
+        "end": 4108,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 4049,
+          "end": 4054,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 4049,
+              "end": 4054,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": {
+              "type": "Ident",
+              "span": {
+                "start": 4049,
+                "end": 4054,
+                "ctxt": 0
+              },
+              "value": "print",
+              "raw": "print"
+            },
+            "condition": null
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 4055,
+          "end": 4108,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "QualifiedRule",
+            "span": {
+              "start": 4061,
+              "end": 4106,
+              "ctxt": 0
+            },
+            "prelude": {
+              "type": "SelectorList",
+              "span": {
+                "start": 4061,
+                "end": 4075,
+                "ctxt": 0
+              },
+              "children": [
+                {
+                  "type": "ComplexSelector",
+                  "span": {
+                    "start": 4061,
+                    "end": 4065,
+                    "ctxt": 0
+                  },
+                  "children": [
+                    {
+                      "type": "CompoundSelector",
+                      "span": {
+                        "start": 4061,
+                        "end": 4065,
+                        "ctxt": 0
+                      },
+                      "nestingSelector": null,
+                      "typeSelector": {
+                        "type": "TagNameSelector",
+                        "span": {
+                          "start": 4061,
+                          "end": 4065,
+                          "ctxt": 0
+                        },
+                        "name": {
+                          "type": "WqName",
+                          "span": {
+                            "start": 4061,
+                            "end": 4065,
+                            "ctxt": 0
+                          },
+                          "prefix": null,
+                          "value": {
+                            "type": "Ident",
+                            "span": {
+                              "start": 4061,
+                              "end": 4065,
+                              "ctxt": 0
+                            },
+                            "value": "html",
+                            "raw": "html"
+                          }
+                        }
+                      },
+                      "subclassSelectors": []
+                    }
+                  ]
+                },
+                {
+                  "type": "ComplexSelector",
+                  "span": {
+                    "start": 4071,
+                    "end": 4075,
+                    "ctxt": 0
+                  },
+                  "children": [
+                    {
+                      "type": "CompoundSelector",
+                      "span": {
+                        "start": 4071,
+                        "end": 4075,
+                        "ctxt": 0
+                      },
+                      "nestingSelector": null,
+                      "typeSelector": {
+                        "type": "TagNameSelector",
+                        "span": {
+                          "start": 4071,
+                          "end": 4075,
+                          "ctxt": 0
+                        },
+                        "name": {
+                          "type": "WqName",
+                          "span": {
+                            "start": 4071,
+                            "end": 4075,
+                            "ctxt": 0
+                          },
+                          "prefix": null,
+                          "value": {
+                            "type": "Ident",
+                            "span": {
+                              "start": 4071,
+                              "end": 4075,
+                              "ctxt": 0
+                            },
+                            "value": "main",
+                            "raw": "main"
+                          }
+                        }
+                      },
+                      "subclassSelectors": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 4076,
+                "end": 4106,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 4086,
+                    "end": 4099,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 4086,
+                      "end": 4091,
+                      "ctxt": 0
+                    },
+                    "value": "color",
+                    "raw": "color"
+                  },
+                  "value": [
+                    {
+                      "type": "Ident",
+                      "span": {
+                        "start": 4093,
+                        "end": 4099,
+                        "ctxt": 0
+                      },
+                      "value": "orange",
+                      "raw": "orange"
+                    }
+                  ],
+                  "important": null
+                }
+              ]
+            }
+          }
+        ]
       }
     }
   ]

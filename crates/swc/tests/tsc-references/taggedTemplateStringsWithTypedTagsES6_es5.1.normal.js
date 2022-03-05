@@ -1,15 +1,6 @@
-function _taggedTemplateLiteral(strings, raw) {
-    if (!raw) {
-        raw = strings.slice(0);
-    }
-    return Object.freeze(Object.defineProperties(strings, {
-        raw: {
-            value: Object.freeze(raw)
-        }
-    }));
-}
+import * as swcHelpers from "@swc/helpers";
 function _templateObject() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "abc"
     ]);
     _templateObject = function _templateObject() {
@@ -18,7 +9,7 @@ function _templateObject() {
     return data;
 }
 function _templateObject1() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "abc",
         "def",
         "ghi"
@@ -29,7 +20,7 @@ function _templateObject1() {
     return data;
 }
 function _templateObject2() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "abc"
     ]);
     _templateObject2 = function _templateObject2() {
@@ -38,7 +29,7 @@ function _templateObject2() {
     return data;
 }
 function _templateObject3() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "abc",
         "def",
         "ghi"
@@ -49,7 +40,7 @@ function _templateObject3() {
     return data;
 }
 function _templateObject4() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "abc"
     ]);
     _templateObject4 = function _templateObject4() {
@@ -58,7 +49,7 @@ function _templateObject4() {
     return data;
 }
 function _templateObject5() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "abc",
         "def",
         "ghi"
@@ -69,7 +60,7 @@ function _templateObject5() {
     return data;
 }
 function _templateObject6() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "abc"
     ]);
     _templateObject6 = function _templateObject6() {
@@ -78,7 +69,7 @@ function _templateObject6() {
     return data;
 }
 function _templateObject7() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "abc",
         "def",
         "ghi"
@@ -89,7 +80,7 @@ function _templateObject7() {
     return data;
 }
 function _templateObject8() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "abc",
         "def",
         "ghi"
@@ -100,7 +91,7 @@ function _templateObject8() {
     return data;
 }
 function _templateObject9() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "abc",
         "def",
         "ghi"

@@ -1,3 +1,2 @@
-!function(obj) {
-    obj && "undefined" != typeof Symbol && obj.constructor;
-}("abc".concat(123, "def"));
+import * as swcHelpers from "@swc/helpers";
+swcHelpers.typeOf("abc".concat(123, "def"));

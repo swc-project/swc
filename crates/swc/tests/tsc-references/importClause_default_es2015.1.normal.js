@@ -1,7 +1,6 @@
-class A {
-}
 // @Filename: /a.ts
-export { A as default };
+export default class A {
+};
 new A();
 let a = {
     a: ''

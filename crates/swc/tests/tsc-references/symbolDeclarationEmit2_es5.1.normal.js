@@ -1,14 +1,7 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-var _key;
+import * as swcHelpers from "@swc/helpers";
+var _toPrimitive = Symbol.toPrimitive;
 var C = function C() {
     "use strict";
-    _classCallCheck(this, C);
-    //@target: ES6
-    //@declaration: true
-    this[_key] = "";
+    swcHelpers.classCallCheck(this, C);
+    this[_toPrimitive] = "";
 };
-_key = Symbol.toPrimitive;
