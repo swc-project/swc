@@ -803,7 +803,18 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_pat(&mut self, n: &Pat) {
-        n.visit_children_with(self);
+        match n {
+            Pat::Ident(..) => {
+                n.visit_children_with(self);
+            }
+            _ => {
+                let ctx = Ctx {
+                    in_var_decl_with_no_side_effect_for_member_access: false,
+                    ..self.ctx
+                };
+                n.visit_children_with(&mut *self.with_ctx(ctx));
+            }
+        }
 
         if let Pat::Ident(i) = n {
             self.visit_pat_id(&i.id)
@@ -964,10 +975,11 @@ where
                 inline_prevented: self.ctx.inline_prevented || prevent_inline,
                 in_pat_of_var_decl: true,
                 in_pat_of_var_decl_with_init: e.init.is_some(),
-                in_var_decl_with_no_side_effect_for_member_access: matches!(
-                    e.init.as_deref(),
-                    Some(Expr::Array(..) | Expr::Lit(..))
-                ),
+                in_var_decl_with_no_side_effect_for_member_access: e
+                    .init
+                    .as_deref()
+                    .map(is_safe_to_access_prop)
+                    .unwrap_or(false),
                 ..self.ctx
             };
             e.name.visit_with(&mut *self.with_ctx(ctx));
