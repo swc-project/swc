@@ -506,6 +506,8 @@ functions/inline_false/input.js
 functions/inline_function_expressions/input.js
 functions/inline_loop_3/input.js
 functions/inline_loop_4/input.js
+functions/issue_1841_1/input.js
+functions/issue_1841_2/input.js
 functions/issue_2097/input.js
 functions/issue_2647_1/input.js
 functions/issue_2647_2/input.js
@@ -970,6 +972,7 @@ pure_getters/issue_2938_1/input.js
 pure_getters/issue_2938_2/input.js
 pure_getters/set_immutable_2/input.js
 pure_getters/set_immutable_4/input.js
+pure_getters/strict/input.js
 pure_globals/window_access_is_impure/input.js
 reduce_vars/accessor_1/input.js
 reduce_vars/accessor_2/input.js

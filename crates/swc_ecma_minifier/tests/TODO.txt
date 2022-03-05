@@ -685,7 +685,6 @@ pure_getters/set_immutable_5/input.js
 pure_getters/set_immutable_6/input.js
 pure_getters/set_mutable_1/input.js
 pure_getters/set_mutable_2/input.js
-pure_getters/strict/input.js
 pure_getters/strict_reduce_vars/input.js
 pure_getters/unsafe/input.js
 pure_getters/unsafe_reduce_vars/input.js
