@@ -481,13 +481,10 @@
                 },
                 "isStatic": false,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": true
+                "readonly": false
               },
               {
                 "type": "ClassMethod",

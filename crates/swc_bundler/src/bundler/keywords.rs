@@ -118,10 +118,6 @@ impl VisitMut for KeywordRenamer {
     }
 
     fn visit_mut_private_prop(&mut self, n: &mut PrivateProp) {
-        if n.computed {
-            n.key.visit_mut_with(self);
-        }
-
         n.decorators.visit_mut_with(self);
         n.value.visit_mut_with(self);
     }

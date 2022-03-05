@@ -157,16 +157,9 @@ pub struct PrivateProp {
     #[serde(default)]
     pub decorators: Vec<Decorator>,
 
-    #[serde(default)]
-    pub computed: bool,
-
     /// Typescript extension.
     #[serde(default)]
     pub accessibility: Option<Accessibility>,
-
-    /// Typescript extension.
-    #[serde(default)]
-    pub is_abstract: bool,
 
     #[serde(default)]
     pub is_optional: bool,
@@ -176,9 +169,6 @@ pub struct PrivateProp {
 
     #[serde(default)]
     pub readonly: bool,
-
-    #[serde(default)]
-    pub definite: bool,
 }
 
 macro_rules! method {

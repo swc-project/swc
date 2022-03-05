@@ -889,30 +889,28 @@ export interface ClassPropertyBase extends Node, HasSpan, HasDecorator {
 
   is_static: boolean;
 
-  computed: boolean;
-
   accessibility?: Accessibility;
-
-  /// Typescript extension.
-  is_abstract: boolean;
 
   is_optional: boolean;
 
   readonly: boolean;
-
-  definite: boolean;
 }
 
 export interface ClassProperty extends ClassPropertyBase {
   type: "ClassProperty";
 
-  key: Expression;
+  key: PropertyName;
 }
 
 export interface PrivateProperty extends ClassPropertyBase {
   type: "PrivateProperty";
 
   key: PrivateName;
+
+  /// Typescript extension.
+  is_abstract: boolean;
+
+  definite: boolean;
 }
 
 export interface Param extends Node, HasSpan, HasDecorator {
@@ -1468,6 +1466,12 @@ export interface NumericLiteral extends Node, HasSpan {
   value: number;
 }
 
+export interface BigIntLiteral extends Node, HasSpan {
+  type: "BigIntLiteral";
+
+  value: bigint;
+}
+
 export type ModuleDeclaration =
   | ImportDeclaration
   | ExportDeclaration
@@ -1785,6 +1789,7 @@ export type PropertyName =
   | Identifier
   | StringLiteral
   | NumericLiteral
+  | BigIntLiteral
   | ComputedPropName;
 
 export interface ComputedPropName extends Node, HasSpan {
