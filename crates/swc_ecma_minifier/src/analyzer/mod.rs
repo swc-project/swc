@@ -1005,7 +1005,7 @@ where
 fn is_safe_to_access_prop(e: &Expr) -> bool {
     match e {
         Expr::Lit(Lit::Null(..)) => false,
-        Expr::Lit(..) | Expr::Array(..) | Expr::Fn(..) | Expr::Arrow(..) => true,
+        Expr::Lit(..) | Expr::Array(..) | Expr::Fn(..) | Expr::Arrow(..) | Expr::Update(..) => true,
         _ => false,
     }
 }
