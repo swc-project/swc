@@ -4,6 +4,7 @@ use is_macro::Is;
 use smallvec::SmallVec;
 use swc_atoms::JsWord;
 use swc_ecma_utils::Id;
+use swc_trace_macro::swc_trace;
 
 use super::case::Loc;
 
@@ -12,6 +13,7 @@ pub(super) struct LeapManager {
     stack: SmallVec<[Entry; 16]>,
 }
 
+#[swc_trace]
 impl LeapManager {
     pub fn push(&mut self, entry: Entry) {
         self.stack.push(entry);

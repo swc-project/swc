@@ -14,13 +14,22 @@
 
 
 
+- **(cli)** Setup subcommands for the features (#3858) ([367a57d](https://github.com/swc-project/swc/commit/367a57df6d66bc11dd750c6b7c30bf3a114e00fa))
+
+
 - **(css/minifier)** Compress `@import` at-rule (#3850) ([ccfb4bf](https://github.com/swc-project/swc/commit/ccfb4bfc0b10375d96620f2748b0a3d022c4e359))
 
 ### Performance
 
 
 
+- **(es)** Filter logs for `cranelift` out (#3801) ([225f9a7](https://github.com/swc-project/swc/commit/225f9a7f2a3dad917aaf2a231463ec05699b4064))
+
+
 - **(es/compat)** Add tracing support to transforms for from es2017 to es2019 (#3844) ([a933db5](https://github.com/swc-project/swc/commit/a933db5a1a54804efefd1b1d901b85a44ba059a5))
+
+
+- **(es/compat)** Add tracing support for es2015 transforms (#3857) ([cd8bb0f](https://github.com/swc-project/swc/commit/cd8bb0fb2c70c30ea421842fc6c5b6837e3ff182))
 
 
 - **(es/transform)** Use `SingleThreadedComments` for transform (#3847) ([73ec0b3](https://github.com/swc-project/swc/commit/73ec0b3dd734dfd1ee79addfe078c709620ade17))
