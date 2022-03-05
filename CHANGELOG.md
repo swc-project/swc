@@ -37,6 +37,12 @@
 
 - **(es/transform)** Use `SingleThreadedComments` for transform (#3847) ([73ec0b3](https://github.com/swc-project/swc/commit/73ec0b3dd734dfd1ee79addfe078c709620ade17))
 
+### Testing
+
+
+
+- **(es/transform/jest)** Ensure that sourcemap is working (#3864) ([fc87f43](https://github.com/swc-project/swc/commit/fc87f43507ed398eb0941cffb426321e1b781980))
+
 ## [1.2.148] - 2022-03-04
 
 ### Bug Fixes
