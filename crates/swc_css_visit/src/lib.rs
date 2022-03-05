@@ -114,7 +114,7 @@ define!({
     pub struct QualifiedRule {
         pub span: Span,
         pub prelude: QualifiedRulePrelude,
-        pub block: Option<SimpleBlock>,
+        pub block: SimpleBlock,
     }
 
     pub enum QualifiedRulePrelude {

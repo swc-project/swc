@@ -30,7 +30,7 @@ pub enum Rule {
 pub struct QualifiedRule {
     pub span: Span,
     pub prelude: QualifiedRulePrelude,
-    pub block: Option<SimpleBlock>,
+    pub block: SimpleBlock,
 }
 
 #[ast_node]

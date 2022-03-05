@@ -118,14 +118,10 @@ where
         let span = self.input.cur_span()?;
         // Create a new qualified rule with its prelude initially set to an empty list,
         // and its value initially set to nothing.
-        let mut qualified_rule = QualifiedRule {
+        let mut prelude = QualifiedRulePrelude::Invalid(Tokens {
             span: Default::default(),
-            prelude: QualifiedRulePrelude::Invalid(Tokens {
-                tokens: vec![],
-                span: Default::default(),
-            }),
-            block: None,
-        };
+            tokens: vec![],
+        });
 
         // Repeatedly consume the next input token:
         loop {
@@ -147,17 +143,20 @@ where
                         block_contents_grammar: BlockContentsGrammar::StyleBlock,
                         ..self.ctx
                     };
-                    qualified_rule.block = Some(self.with_ctx(ctx).parse_as::<SimpleBlock>()?);
-                    qualified_rule.span = span!(self, span.lo);
+                    let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
-                    return Ok(qualified_rule);
+                    return Ok(QualifiedRule {
+                        span: span!(self, span.lo),
+                        prelude,
+                        block,
+                    });
                 }
                 // Reconsume the current input token. Consume a component value. Append the returned
                 // value to the qualified rule’s prelude.
                 _ => {
                     let state = self.input.state();
 
-                    qualified_rule.prelude = match self.parse() {
+                    prelude = match self.parse() {
                         Ok(selector_list) => QualifiedRulePrelude::SelectorList(selector_list),
                         Err(err) => {
                             self.errors.push(err);
@@ -184,7 +183,6 @@ where
                             })
                         }
                     };
-                    qualified_rule.span = span!(self, span.lo);
                 }
             }
         }
