@@ -91,7 +91,9 @@ pub fn optimize(
         m.visit_mut_with(&mut precompress_optimizer(options, marks));
     }
 
-    m.visit_mut_with(&mut info_marker(comments, marks, extra.top_level_mark));
+    if options.compress.is_some() {
+        m.visit_mut_with(&mut info_marker(comments, marks, extra.top_level_mark));
+    }
     m.visit_mut_with(&mut unique_scope());
 
     if options.wrap {
