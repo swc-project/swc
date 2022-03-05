@@ -1,13 +1,9 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 var A;
 (function(A1) {
     var B = function B() {
         "use strict";
-        _classCallCheck(this, B);
+        swcHelpers.classCallCheck(this, B);
     };
     var beez;
     var beez2 = A1.beez2 = new Array();

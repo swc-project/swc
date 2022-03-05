@@ -1,9 +1,8 @@
-class _class {
-}
 // @importsNotUsedAsValues: error
 // @noUnusedLocals: true
 // @Filename: /a.ts
-export { _class as default };
+export default class {
+};
 export class A {
 }
 export var C;

@@ -1,17 +1,13 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(g);
 var Foo = function Foo() {
     "use strict";
-    _classCallCheck(this, Foo);
+    swcHelpers.classCallCheck(this, Foo);
 };
 var Baz = function Baz() {
     "use strict";
-    _classCallCheck(this, Baz);
+    swcHelpers.classCallCheck(this, Baz);
 };
 function g() {
     return regeneratorRuntime.wrap(function g$(_ctx) {

@@ -1,0 +1,6 @@
+error: Invalid attribute matcher value
+ --> $DIR/tests/recovery/selector/attribute/unclosed/input.css:1:14
+  |
+1 | .class[attr= {
+  |              ^
+

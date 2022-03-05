@@ -1,44 +1,19 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
-function _instanceof(left, right) {
-    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
-        return !!right[Symbol.hasInstance](left);
-    } else {
-        return left instanceof right;
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 var A = function A() {
     "use strict";
-    _classCallCheck(this, A);
+    swcHelpers.classCallCheck(this, A);
 };
 var B = function B() {
     "use strict";
-    _classCallCheck(this, B);
+    swcHelpers.classCallCheck(this, B);
 };
 var C = function C() {
     "use strict";
-    _classCallCheck(this, C);
+    swcHelpers.classCallCheck(this, C);
 };
 var D = function D() {
     "use strict";
-    _classCallCheck(this, D);
+    swcHelpers.classCallCheck(this, D);
 };
 function namedClasses(x) {
     if ("a" in x) {
@@ -63,17 +38,17 @@ function anonymousClasses(x) {
 }
 var AWithOptionalProp = function AWithOptionalProp() {
     "use strict";
-    _classCallCheck(this, AWithOptionalProp);
+    swcHelpers.classCallCheck(this, AWithOptionalProp);
 };
 var BWithOptionalProp = function BWithOptionalProp() {
     "use strict";
-    _classCallCheck(this, BWithOptionalProp);
+    swcHelpers.classCallCheck(this, BWithOptionalProp);
 };
 function positiveTestClassesWithOptionalProperties(x) {
     if ("a" in x) {
         x.a = "1";
     } else {
-        var y = _instanceof(x, AWithOptionalProp) ? x.a : x.b;
+        var y = swcHelpers._instanceof(x, AWithOptionalProp) ? x.a : x.b;
     }
 }
 function inParenthesizedExpression(x) {
@@ -85,7 +60,7 @@ function inParenthesizedExpression(x) {
 }
 var ClassWithUnionProp = function ClassWithUnionProp() {
     "use strict";
-    _classCallCheck(this, ClassWithUnionProp);
+    swcHelpers.classCallCheck(this, ClassWithUnionProp);
 };
 function inProperty(x) {
     if ("a" in x.prop) {
@@ -96,7 +71,7 @@ function inProperty(x) {
 }
 var NestedClassWithProp = function NestedClassWithProp() {
     "use strict";
-    _classCallCheck(this, NestedClassWithProp);
+    swcHelpers.classCallCheck(this, NestedClassWithProp);
 };
 function innestedProperty(x) {
     if ("a" in x.outer.prop) {
@@ -108,9 +83,9 @@ function innestedProperty(x) {
 var InMemberOfClass = /*#__PURE__*/ function() {
     "use strict";
     function InMemberOfClass() {
-        _classCallCheck(this, InMemberOfClass);
+        swcHelpers.classCallCheck(this, InMemberOfClass);
     }
-    _createClass(InMemberOfClass, [
+    swcHelpers.createClass(InMemberOfClass, [
         {
             key: "inThis",
             value: function inThis() {
@@ -128,9 +103,9 @@ var SelfAssert = // added for completeness
 /*#__PURE__*/ function() {
     "use strict";
     function SelfAssert() {
-        _classCallCheck(this, SelfAssert);
+        swcHelpers.classCallCheck(this, SelfAssert);
     }
-    _createClass(SelfAssert, [
+    swcHelpers.createClass(SelfAssert, [
         {
             key: "inThis",
             value: function inThis() {

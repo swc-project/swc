@@ -1,15 +1,10 @@
-function _classStaticPrivateMethodGet(receiver, classConstructor, method) {
-    return _classCheckPrivateStaticAccess(receiver, classConstructor), method;
-}
-function _classCheckPrivateStaticAccess(receiver, classConstructor) {
-    if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
-}
+import * as swcHelpers from "@swc/helpers";
 class X {
     constructor(){
-        _classStaticPrivateMethodGet(X, X, m).call(X);
+        swcHelpers.classStaticPrivateMethodGet(X, X, m).call(X);
     }
 }
 function m() {
-    return _classStaticPrivateMethodGet({}, X, m).call(X), 1;
+    return swcHelpers.classStaticPrivateMethodGet({}, X, m).call(X), 1;
 }
-_classStaticPrivateMethodGet(X, X, m).call(X);
+swcHelpers.classStaticPrivateMethodGet(X, X, m).call(X);

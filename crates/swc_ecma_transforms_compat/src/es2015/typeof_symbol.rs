@@ -5,7 +5,9 @@ use swc_ecma_transforms_base::{helper, perf::Parallel};
 use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{quote_str, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_trace_macro::swc_trace;
 
+#[tracing::instrument(level = "trace", skip_all)]
 pub fn typeof_symbol() -> impl VisitMut + Fold {
     as_folder(TypeOfSymbol)
 }
@@ -13,6 +15,7 @@ pub fn typeof_symbol() -> impl VisitMut + Fold {
 #[derive(Clone, Copy)]
 struct TypeOfSymbol;
 
+#[swc_trace]
 impl Parallel for TypeOfSymbol {
     fn merge(&mut self, _: Self) {}
 
@@ -21,6 +24,7 @@ impl Parallel for TypeOfSymbol {
     }
 }
 
+#[swc_trace]
 #[parallel]
 impl VisitMut for TypeOfSymbol {
     noop_visit_mut_type!();
@@ -140,6 +144,7 @@ impl VisitMut for TypeOfSymbol {
     }
 }
 
+#[tracing::instrument(level = "trace", skip_all)]
 fn is_non_symbol_literal(e: &Expr) -> bool {
     matches!(
         *e,

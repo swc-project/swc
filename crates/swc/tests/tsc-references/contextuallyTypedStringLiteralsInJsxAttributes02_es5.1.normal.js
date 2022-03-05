@@ -1,17 +1,4 @@
-function _extends() {
-    _extends = Object.assign || function(target) {
-        for(var i = 1; i < arguments.length; i++){
-            var source = arguments[i];
-            for(var key in source){
-                if (Object.prototype.hasOwnProperty.call(source, key)) {
-                    target[key] = source[key];
-                }
-            }
-        }
-        return target;
-    };
-    return _extends.apply(this, arguments);
-}
+import * as swcHelpers from "@swc/helpers";
 // @filename: file.tsx
 // @jsx: preserve
 // @module: amd
@@ -26,7 +13,7 @@ export function MainButton(props) {
     }
     return this._buildMainButton(props);
 }
-var b0 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, {
+var b0 = /*#__PURE__*/ React.createElement(MainButton, swcHelpers.extends({}, {
     onClick: function(k) {
         console.log(k);
     }
@@ -39,7 +26,7 @@ var b2 = /*#__PURE__*/ React.createElement(MainButton, {
     },
     extra: true
 }); // k has type "left" | "right"
-var b3 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, {
+var b3 = /*#__PURE__*/ React.createElement(MainButton, swcHelpers.extends({}, {
     goTo: "home"
 }, {
     extra: true
@@ -51,7 +38,7 @@ var b4 = /*#__PURE__*/ React.createElement(MainButton, {
 export function NoOverload(buttonProps) {
     return undefined;
 }
-var c1 = /*#__PURE__*/ React.createElement(NoOverload, _extends({}, {
+var c1 = /*#__PURE__*/ React.createElement(NoOverload, swcHelpers.extends({}, {
     onClick: function(k) {
         console.log(k);
     }
@@ -61,7 +48,7 @@ var c1 = /*#__PURE__*/ React.createElement(NoOverload, _extends({}, {
 export function NoOverload1(linkProps) {
     return undefined;
 }
-var d1 = /*#__PURE__*/ React.createElement(NoOverload1, _extends({}, {
+var d1 = /*#__PURE__*/ React.createElement(NoOverload1, swcHelpers.extends({}, {
     goTo: "home"
 }, {
     extra: true

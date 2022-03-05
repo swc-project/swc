@@ -1,45 +1,4 @@
-function _defineProperty(obj, key, value) {
-    if (key in obj) {
-        Object.defineProperty(obj, key, {
-            value: value,
-            enumerable: true,
-            configurable: true,
-            writable: true
-        });
-    } else {
-        obj[key] = value;
-    }
-    return obj;
-}
-function _extends() {
-    _extends = Object.assign || function(target) {
-        for(var i = 1; i < arguments.length; i++){
-            var source = arguments[i];
-            for(var key in source){
-                if (Object.prototype.hasOwnProperty.call(source, key)) {
-                    target[key] = source[key];
-                }
-            }
-        }
-        return target;
-    };
-    return _extends.apply(this, arguments);
-}
-function _objectSpread(target) {
-    for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {};
-        var ownKeys = Object.keys(source);
-        if (typeof Object.getOwnPropertySymbols === "function") {
-            ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
-                return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-            }));
-        }
-        ownKeys.forEach(function(key) {
-            _defineProperty(target, key, source[key]);
-        });
-    }
-    return target;
-}
+import * as swcHelpers from "@swc/helpers";
 // Only equality operators are allowed with unknown
 function f10(x) {
     x == 5;
@@ -121,16 +80,16 @@ function f25() {
 }
 // Spread of unknown causes result to be unknown
 function f26(x, y, z) {
-    let o1 = _objectSpread({
+    let o1 = swcHelpers.objectSpread({
         a: 42
     }, x); // { a: number }
-    let o2 = _objectSpread({
+    let o2 = swcHelpers.objectSpread({
         a: 42
     }, x, y); // unknown
-    let o3 = _objectSpread({
+    let o3 = swcHelpers.objectSpread({
         a: 42
     }, x, y, z); // any
-    let o4 = _objectSpread({
+    let o4 = swcHelpers.objectSpread({
         a: 42
     }, z); // any
 }
@@ -138,7 +97,7 @@ function f26(x, y, z) {
 function f27() {}
 // Rest type cannot be created from unknown
 function f28(x) {
-    let a = _extends({}, x); // Error
+    let a = swcHelpers.extends({}, x); // Error
 }
 // Class properties of type unknown don't need definite assignment
 class C1 {

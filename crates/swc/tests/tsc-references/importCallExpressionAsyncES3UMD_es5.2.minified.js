@@ -1,42 +1,10 @@
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-    try {
-        var info = gen[key](arg), value = info.value;
-    } catch (error) {
-        reject(error);
-        return;
-    }
-    info.done ? resolve(value) : Promise.resolve(value).then(_next, _throw);
-}
-function _asyncToGenerator(fn1) {
-    return function() {
-        var self = this, args = arguments;
-        return new Promise(function(resolve, reject) {
-            var gen = fn1.apply(self, args);
-            function _next(value) {
-                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-            }
-            function _throw(err) {
-                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-            }
-            _next(void 0);
-        });
-    };
-}
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 export function fn() {
     return _fn.apply(this, arguments);
 }
 function _fn() {
-    return (_fn = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    return (_fn = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         var req;
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
@@ -53,15 +21,14 @@ function _fn() {
 }
 export var cl1 = function() {
     "use strict";
-    var Constructor, protoProps, staticProps;
     function cl1() {
-        _classCallCheck(this, cl1);
+        swcHelpers.classCallCheck(this, cl1);
     }
-    return Constructor = cl1, protoProps = [
+    return swcHelpers.createClass(cl1, [
         {
             key: "m",
             value: function() {
-                return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                     var req;
                     return regeneratorRuntime.wrap(function(_ctx) {
                         for(;;)switch(_ctx.prev = _ctx.next){
@@ -77,10 +44,10 @@ export var cl1 = function() {
                 }))();
             }
         }
-    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), cl1;
+    ]), cl1;
 }();
 export var obj = {
-    m: _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    m: swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         var req;
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
@@ -97,8 +64,8 @@ export var obj = {
 };
 export var cl2 = function() {
     "use strict";
-    _classCallCheck(this, cl2), this.p = {
-        m: _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    swcHelpers.classCallCheck(this, cl2), this.p = {
+        m: swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
             var req;
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
@@ -115,7 +82,7 @@ export var cl2 = function() {
     };
 };
 export var l = function() {
-    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    var _ref = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         var req;
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){

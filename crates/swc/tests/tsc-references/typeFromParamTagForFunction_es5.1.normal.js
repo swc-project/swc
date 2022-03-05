@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @filename: a-ext.js
 exports.A = function() {
     this.x = 1;
@@ -15,7 +11,7 @@ var A = require("./a-ext").A;
 // @filename: b-ext.js
 exports.B = function _class() {
     "use strict";
-    _classCallCheck(this, _class);
+    swcHelpers.classCallCheck(this, _class);
     this.x = 1;
 };
 // @filename: b.js
@@ -44,7 +40,7 @@ var D = require("./d-ext").D;
 // @filename: e-ext.js
 export var E = function E() {
     "use strict";
-    _classCallCheck(this, E);
+    swcHelpers.classCallCheck(this, E);
     this.x = 1;
 };
 // @filename: e.js
@@ -68,7 +64,7 @@ function G() {
 }
 var H = function H() {
     "use strict";
-    _classCallCheck(this, H);
+    swcHelpers.classCallCheck(this, H);
     this.x = 1;
 };
 /** @param {H} p */ function h(p) {

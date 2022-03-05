@@ -1,17 +1,4 @@
-function _extends() {
-    _extends = Object.assign || function(target) {
-        for(var i = 1; i < arguments.length; i++){
-            var source = arguments[i];
-            for(var key in source){
-                if (Object.prototype.hasOwnProperty.call(source, key)) {
-                    target[key] = source[key];
-                }
-            }
-        }
-        return target;
-    };
-    return _extends.apply(this, arguments);
-}
+import * as swcHelpers from "@swc/helpers";
 // @filename: file.tsx
 // @jsx: preserve
 // @noLib: true
@@ -33,18 +20,18 @@ class OverWriteAttr extends React.Component {
 }
 let anyobj;
 // OK
-let x = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({}, obj, {
+let x = /*#__PURE__*/ React.createElement(OverWriteAttr, swcHelpers.extends({}, obj, {
     y: true,
     overwrite: "hi"
 }, obj1));
-let x1 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({}, obj1, obj3));
-let x2 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({
+let x1 = /*#__PURE__*/ React.createElement(OverWriteAttr, swcHelpers.extends({}, obj1, obj3));
+let x2 = /*#__PURE__*/ React.createElement(OverWriteAttr, swcHelpers.extends({
     x: 3,
     overwrite: "hi"
 }, obj1, {
     y: true
 }));
-let x3 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({
+let x3 = /*#__PURE__*/ React.createElement(OverWriteAttr, swcHelpers.extends({
     overwrite: "hi"
 }, obj1, {
     x: 3
@@ -53,12 +40,12 @@ let x3 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({
     x: 2,
     overwrite: "world"
 }));
-let x4 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({}, {
+let x4 = /*#__PURE__*/ React.createElement(OverWriteAttr, swcHelpers.extends({}, {
     x: 2
 }, {
     overwrite: "world"
 }, {
     y: true
 }));
-let x5 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({}, anyobj));
+let x5 = /*#__PURE__*/ React.createElement(OverWriteAttr, swcHelpers.extends({}, anyobj));
 export { };

@@ -1,17 +1,4 @@
-function _extends() {
-    _extends = Object.assign || function(target) {
-        for(var i = 1; i < arguments.length; i++){
-            var source = arguments[i];
-            for(var key in source){
-                if (Object.prototype.hasOwnProperty.call(source, key)) {
-                    target[key] = source[key];
-                }
-            }
-        }
-        return target;
-    };
-    return _extends.apply(this, arguments);
-}
+import * as swcHelpers from "@swc/helpers";
 // @filename: file.tsx
 // @jsx: preserve
 // @module: amd
@@ -21,22 +8,22 @@ function _extends() {
 const React = require('react');
 // OK
 function Baz(arg1, arg2) {
-    let a0 = /*#__PURE__*/ React.createElement(OverloadComponent, _extends({}, arg1, {
+    let a0 = /*#__PURE__*/ React.createElement(OverloadComponent, swcHelpers.extends({}, arg1, {
         a: "hello",
         "ignore-prop": true
     }));
-    let a1 = /*#__PURE__*/ React.createElement(OverloadComponent, _extends({}, arg2, {
+    let a1 = /*#__PURE__*/ React.createElement(OverloadComponent, swcHelpers.extends({}, arg2, {
         "ignore-pro": "hello world"
     }));
-    let a2 = /*#__PURE__*/ React.createElement(OverloadComponent, _extends({}, arg2));
-    let a3 = /*#__PURE__*/ React.createElement(OverloadComponent, _extends({}, arg1, {
+    let a2 = /*#__PURE__*/ React.createElement(OverloadComponent, swcHelpers.extends({}, arg2));
+    let a3 = /*#__PURE__*/ React.createElement(OverloadComponent, swcHelpers.extends({}, arg1, {
         "ignore-prop": true
     }));
     let a4 = /*#__PURE__*/ React.createElement(OverloadComponent, null);
-    let a5 = /*#__PURE__*/ React.createElement(OverloadComponent, _extends({}, arg2, {
+    let a5 = /*#__PURE__*/ React.createElement(OverloadComponent, swcHelpers.extends({}, arg2, {
         "ignore-prop": "hello"
     }, arg1));
-    let a6 = /*#__PURE__*/ React.createElement(OverloadComponent, _extends({}, arg2, {
+    let a6 = /*#__PURE__*/ React.createElement(OverloadComponent, swcHelpers.extends({}, arg2, {
         "ignore-prop": true
     }, arg1));
 }

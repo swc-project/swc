@@ -3,4 +3,4 @@ export function x() {
 }
 var x = require("./foo1").x;
 module.exports = x;
-var x = require("./foo2")(); // should be boolean
+var x = require("./foo2")();

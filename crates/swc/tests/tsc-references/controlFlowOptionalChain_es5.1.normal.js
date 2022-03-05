@@ -1,14 +1,4 @@
-function _instanceof(left, right) {
-    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
-        return !!right[Symbol.hasInstance](left);
-    } else {
-        return left instanceof right;
-    }
-}
-var _typeof = function(obj) {
-    "@swc/helpers - typeof";
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
+import * as swcHelpers from "@swc/helpers";
 var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8;
 var a;
 o === null || o === void 0 ? void 0 : o[a = 1];
@@ -336,7 +326,7 @@ function f20(o) {
     if (typeof (o === null || o === void 0 ? void 0 : o.bar()) === "number") {
         o.bar;
     }
-    if (_instanceof(o === null || o === void 0 ? void 0 : o.baz, Error)) {
+    if (swcHelpers._instanceof(o === null || o === void 0 ? void 0 : o.baz, Error)) {
         o.baz;
     }
 }
@@ -350,7 +340,7 @@ function f21(o) {
     if (typeof (o === null || o === void 0 ? void 0 : o.bar()) === "number") {
         o.bar;
     }
-    if (_instanceof(o === null || o === void 0 ? void 0 : o.baz, Error)) {
+    if (swcHelpers._instanceof(o === null || o === void 0 ? void 0 : o.baz, Error)) {
         o.baz;
     }
 }
@@ -433,7 +423,7 @@ function f40(o) {
     }
 }
 function f41(o) {
-    switch(_typeof(o === null || o === void 0 ? void 0 : o.foo)){
+    switch(swcHelpers.typeOf(o === null || o === void 0 ? void 0 : o.foo)){
         case "string":
             o.foo;
             break;

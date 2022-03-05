@@ -1,10 +1,4 @@
-function _instanceof(left, right) {
-    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
-        return !!right[Symbol.hasInstance](left);
-    } else {
-        return left instanceof right;
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -51,7 +45,7 @@ module.exports = Hook;
  * @class
  * @param {Input} input
  */ function Context(input) {
-    if (!_instanceof(this, Context)) {
+    if (!swcHelpers._instanceof(this, Context)) {
         return new Context(input);
     }
     this.state = this.construct(input);

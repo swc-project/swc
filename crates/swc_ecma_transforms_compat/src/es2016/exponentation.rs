@@ -4,6 +4,7 @@ use swc_ecma_transforms_base::perf::{ParExplode, Parallel};
 use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{member_expr, private_ident, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-transform-exponentiation-operator`
 ///
@@ -24,6 +25,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 ///
 /// x = Math.pow(x, 3);
 /// ```
+#[tracing::instrument(level = "trace", skip_all)]
 pub fn exponentation() -> impl Fold + VisitMut {
     as_folder(Exponentation::default())
 }
@@ -43,6 +45,7 @@ impl Parallel for Exponentation {
     }
 }
 
+#[swc_trace]
 impl ParExplode for Exponentation {
     fn after_one_stmt(&mut self, stmts: &mut Vec<Stmt>) {
         if !self.vars.is_empty() {
@@ -67,6 +70,7 @@ impl ParExplode for Exponentation {
     }
 }
 
+#[swc_trace]
 #[parallel(explode)]
 impl VisitMut for Exponentation {
     noop_visit_mut_type!();
@@ -124,6 +128,7 @@ impl VisitMut for Exponentation {
     }
 }
 
+#[tracing::instrument(level = "trace", skip_all)]
 fn mk_call(span: Span, left: Box<Expr>, right: Box<Expr>) -> Expr {
     // Math.pow()
     Expr::Call(CallExpr {

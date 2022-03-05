@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @allowJs: true
 // @checkJs: true
 // @declaration: true
@@ -10,7 +6,7 @@ function _classCallCheck(instance, Constructor) {
 // @Filename: vue.js
 export var Vue = function Vue() {
     "use strict";
-    _classCallCheck(this, Vue);
+    swcHelpers.classCallCheck(this, Vue);
 };
 export var config = {
     x: 0

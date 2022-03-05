@@ -1,40 +1,4 @@
-function _arrayLikeToArray(arr, len) {
-    (null == len || len > arr.length) && (len = arr.length);
-    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
-    return arr2;
-}
-function _slicedToArray(arr, i) {
-    return (function(arr) {
-        if (Array.isArray(arr)) return arr;
-    })(arr) || (function(arr, i) {
-        var _s, _e, _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
-        if (null != _i) {
-            var _arr = [], _n = !0, _d = !1;
-            try {
-                for(_i = _i.call(arr); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);
-            } catch (err) {
-                _d = !0, _e = err;
-            } finally{
-                try {
-                    _n || null == _i.return || _i.return();
-                } finally{
-                    if (_d) throw _e;
-                }
-            }
-            return _arr;
-        }
-    })(arr, i) || _unsupportedIterableToArray(arr, i) || (function() {
-        throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-    })();
-}
-function _unsupportedIterableToArray(o, minLen) {
-    if (o) {
-        if ("string" == typeof o) return _arrayLikeToArray(o, minLen);
-        var n = Object.prototype.toString.call(o).slice(8, -1);
-        if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(n);
-        if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx1) {
@@ -65,10 +29,10 @@ var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                _ctx.t0 = _slicedToArray, _ctx.next = 3;
+                _ctx.t0 = swcHelpers, _ctx.next = 3;
                 return;
             case 3:
-                _ctx.t1 = _ctx.sent, a = void 0 === (tmp = (ref = (0, _ctx.t0)(_ctx.t1, 2))[0]) ? 1 : tmp, tmp1 = ref[1], b = void 0 === tmp1 ? 2 : tmp1;
+                _ctx.t1 = _ctx.sent, a = void 0 === (tmp = (ref = _ctx.t0.slicedToArray.call(_ctx.t0, _ctx.t1, 2))[0]) ? 1 : tmp, tmp1 = ref[1], b = void 0 === tmp1 ? 2 : tmp1;
             case 9:
             case "end":
                 return _ctx.stop();

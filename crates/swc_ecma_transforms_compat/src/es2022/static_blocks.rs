@@ -49,12 +49,9 @@ impl ClassStaticBlock {
         PrivateProp {
             span: DUMMY_SP,
             is_static: true,
-            is_abstract: false,
             is_optional: false,
             is_override: false,
             readonly: false,
-            computed: false,
-            definite: false,
             type_ann: None,
             decorators: Vec::new(),
             accessibility: None,

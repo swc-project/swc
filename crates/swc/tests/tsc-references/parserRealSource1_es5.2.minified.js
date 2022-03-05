@@ -1,16 +1,5 @@
 var TypeScript;
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 !function(TypeScript1) {
     !function(CompilerDiagnostics) {
         var debug = CompilerDiagnostics.debug = !1, diagnosticWriter = CompilerDiagnostics.diagnosticWriter = null;
@@ -26,9 +15,9 @@ function _createClass(Constructor, protoProps, staticProps) {
     var NullLogger = function() {
         "use strict";
         function NullLogger() {
-            _classCallCheck(this, NullLogger);
+            swcHelpers.classCallCheck(this, NullLogger);
         }
-        return _createClass(NullLogger, [
+        return swcHelpers.createClass(NullLogger, [
             {
                 key: "information",
                 value: function() {
@@ -69,9 +58,9 @@ function _createClass(Constructor, protoProps, staticProps) {
     var LoggerAdapter = function() {
         "use strict";
         function LoggerAdapter(logger) {
-            _classCallCheck(this, LoggerAdapter), this.logger = logger, this._information = this.logger.information(), this._debug = this.logger.debug(), this._warning = this.logger.warning(), this._error = this.logger.error(), this._fatal = this.logger.fatal();
+            swcHelpers.classCallCheck(this, LoggerAdapter), this.logger = logger, this._information = this.logger.information(), this._debug = this.logger.debug(), this._warning = this.logger.warning(), this._error = this.logger.error(), this._fatal = this.logger.fatal();
         }
-        return _createClass(LoggerAdapter, [
+        return swcHelpers.createClass(LoggerAdapter, [
             {
                 key: "information",
                 value: function() {
@@ -114,9 +103,9 @@ function _createClass(Constructor, protoProps, staticProps) {
     var BufferedLogger = function() {
         "use strict";
         function BufferedLogger() {
-            _classCallCheck(this, BufferedLogger), this.logContents = [];
+            swcHelpers.classCallCheck(this, BufferedLogger), this.logContents = [];
         }
-        return _createClass(BufferedLogger, [
+        return swcHelpers.createClass(BufferedLogger, [
             {
                 key: "information",
                 value: function() {

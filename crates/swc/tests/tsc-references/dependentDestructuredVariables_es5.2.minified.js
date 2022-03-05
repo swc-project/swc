@@ -1,3 +1,4 @@
+import * as swcHelpers from "@swc/helpers";
 var ref = it.next();
 ref.value, ref.done, f50(function(kind, data) {
     "A" === kind && data.toFixed(), "B" === kind && data.toUpperCase();

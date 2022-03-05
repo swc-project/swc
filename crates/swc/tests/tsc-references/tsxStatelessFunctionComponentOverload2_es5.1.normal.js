@@ -1,17 +1,4 @@
-function _extends() {
-    _extends = Object.assign || function(target) {
-        for(var i = 1; i < arguments.length; i++){
-            var source = arguments[i];
-            for(var key in source){
-                if (Object.prototype.hasOwnProperty.call(source, key)) {
-                    target[key] = source[key];
-                }
-            }
-        }
-        return target;
-    };
-    return _extends.apply(this, arguments);
-}
+import * as swcHelpers from "@swc/helpers";
 // @filename: file.tsx
 // @jsx: preserve
 // @module: amd
@@ -33,28 +20,28 @@ var obj2 = {
 var defaultObj;
 // OK
 var c1 = /*#__PURE__*/ React.createElement(OneThing, null);
-var c2 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, obj));
-var c3 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, {}));
-var c4 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, obj1, obj));
-var c5 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, obj1, {
+var c2 = /*#__PURE__*/ React.createElement(OneThing, swcHelpers.extends({}, obj));
+var c3 = /*#__PURE__*/ React.createElement(OneThing, swcHelpers.extends({}, {}));
+var c4 = /*#__PURE__*/ React.createElement(OneThing, swcHelpers.extends({}, obj1, obj));
+var c5 = /*#__PURE__*/ React.createElement(OneThing, swcHelpers.extends({}, obj1, {
     yy: 42
 }, {
     yy1: "hi"
 }));
-var c6 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, obj1, {
+var c6 = /*#__PURE__*/ React.createElement(OneThing, swcHelpers.extends({}, obj1, {
     yy: 10000,
     yy1: "true"
 }));
-var c7 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, defaultObj, {
+var c7 = /*#__PURE__*/ React.createElement(OneThing, swcHelpers.extends({}, defaultObj, {
     yy: true
 }, obj)); // No error. should pick second overload
 var c8 = /*#__PURE__*/ React.createElement(OneThing, {
     "ignore-prop": 100
 });
-var c9 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, {
+var c9 = /*#__PURE__*/ React.createElement(OneThing, swcHelpers.extends({}, {
     "ignore-prop": 200
 }));
-var c10 = /*#__PURE__*/ React.createElement(OneThing, _extends({}, obj2, {
+var c10 = /*#__PURE__*/ React.createElement(OneThing, swcHelpers.extends({}, obj2, {
     yy1: "boo"
 }));
 export { };

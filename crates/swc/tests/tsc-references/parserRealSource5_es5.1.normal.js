@@ -1,22 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
@@ -36,7 +18,7 @@ var TypeScript;
     var PrintContext = /*#__PURE__*/ function() {
         "use strict";
         function PrintContext(outfile, parser) {
-            _classCallCheck(this, PrintContext);
+            swcHelpers.classCallCheck(this, PrintContext);
             this.outfile = outfile;
             this.parser = parser;
             this.builder = "";
@@ -44,7 +26,7 @@ var TypeScript;
             this.indentStrings = [];
             this.indentAmt = 0;
         }
-        _createClass(PrintContext, [
+        swcHelpers.createClass(PrintContext, [
             {
                 key: "increaseIndent",
                 value: function increaseIndent() {

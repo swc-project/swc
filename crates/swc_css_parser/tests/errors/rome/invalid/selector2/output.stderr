@@ -1,6 +1,0 @@
-error: Invalid selector
- --> $DIR/tests/errors/rome/invalid/selector2/input.css:1:8
-  |
-1 | span ~ + {}
-  |        ^
-

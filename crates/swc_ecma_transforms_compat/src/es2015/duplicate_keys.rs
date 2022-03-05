@@ -5,6 +5,7 @@ use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::quote_str;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_trace_macro::swc_trace;
 
 pub fn duplicate_keys() -> impl Fold + VisitMut {
     as_folder(DuplicateKeys)
@@ -20,6 +21,7 @@ impl Parallel for DuplicateKeys {
     }
 }
 
+#[swc_trace]
 #[parallel]
 impl VisitMut for DuplicateKeys {
     noop_visit_mut_type!();
@@ -40,6 +42,7 @@ struct PropFolder {
     setter_props: AHashSet<JsWord>,
 }
 
+#[swc_trace]
 impl VisitMut for PropFolder {
     noop_visit_mut_type!();
 
@@ -87,6 +90,7 @@ struct PropNameFolder<'a> {
     props: &'a mut AHashSet<JsWord>,
 }
 
+#[swc_trace]
 impl<'a> VisitMut for PropNameFolder<'a> {
     noop_visit_mut_type!();
 

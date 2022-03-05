@@ -1,8 +1,7 @@
-var _key;
+let _toStringTag = Symbol.toStringTag;
 //@target: ES6
 class C {
     constructor(){
-        this[_key] = "";
+        this[_toStringTag] = "";
     }
 }
-_key = Symbol.toStringTag;

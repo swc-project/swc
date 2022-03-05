@@ -1,3 +1,4 @@
+import * as swcHelpers from "@swc/helpers";
 x = 3 = "", (function(M1) {
     var y;
     M1.y = y;
@@ -27,8 +28,6 @@ x = 3 = "", (function(M1) {
 })(E || (E = {})), E = void 0 = void 0;
 var x, M, M2, E, C = function() {
     "use strict";
-    !function(instance, Constructor) {
-        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, C);
+    swcHelpers.classCallCheck(this, C);
 };
 C = void 0 = void 0;

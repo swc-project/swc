@@ -1,91 +1,31 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
-}
-function _getPrototypeOf(o) {
-    return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-        return o.__proto__ || Object.getPrototypeOf(o);
-    }, _getPrototypeOf(o);
-}
-function _inherits(subClass, superClass) {
-    if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-        constructor: {
-            value: subClass,
-            writable: !0,
-            configurable: !0
-        }
-    }), superClass && _setPrototypeOf(subClass, superClass);
-}
-function _possibleConstructorReturn(self, call) {
-    return call && ("object" === _typeof(call) || "function" == typeof call) ? call : (function(self) {
-        if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        return self;
-    })(self);
-}
-function _setPrototypeOf(o, p) {
-    return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-        return o.__proto__ = p, o;
-    }, _setPrototypeOf(o, p);
-}
-var _typeof = function(obj) {
-    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
-function _createSuper(Derived) {
-    var hasNativeReflectConstruct = function() {
-        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-        if (Reflect.construct.sham) return !1;
-        if ("function" == typeof Proxy) return !0;
-        try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
-        } catch (e) {
-            return !1;
-        }
-    }();
-    return function() {
-        var result, Super = _getPrototypeOf(Derived);
-        if (hasNativeReflectConstruct) {
-            var NewTarget = _getPrototypeOf(this).constructor;
-            result = Reflect.construct(Super, arguments, NewTarget);
-        } else result = Super.apply(this, arguments);
-        return _possibleConstructorReturn(this, result);
-    };
-}
+import * as swcHelpers from "@swc/helpers";
 export var A = function() {
     "use strict";
-    _classCallCheck(this, A);
+    swcHelpers.classCallCheck(this, A);
 };
 export var B = function() {
     "use strict";
-    _classCallCheck(this, B);
+    swcHelpers.classCallCheck(this, B);
 };
 B.cat = "cat";
 export var C = function() {
     "use strict";
-    _classCallCheck(this, C);
+    swcHelpers.classCallCheck(this, C);
 };
 C.Cls = function _class() {
     "use strict";
-    _classCallCheck(this, _class);
+    swcHelpers.classCallCheck(this, _class);
 };
 export var D = function(a, b) {
     "use strict";
-    _classCallCheck(this, D);
+    swcHelpers.classCallCheck(this, D);
 };
 export var E = function() {
     "use strict";
     function E(a, b) {
-        _classCallCheck(this, E), this.initializedField = 12;
+        swcHelpers.classCallCheck(this, E), this.initializedField = 12;
     }
-    return _createClass(E, [
+    return swcHelpers.createClass(E, [
         {
             key: "f1",
             get: function() {
@@ -127,9 +67,9 @@ E.staticInitializedField = 12;
 export var F = function() {
     "use strict";
     function F(a, b) {
-        _classCallCheck(this, F);
+        swcHelpers.classCallCheck(this, F);
     }
-    return _createClass(F, null, [
+    return swcHelpers.createClass(F, null, [
         {
             key: "create",
             value: function(a, b) {
@@ -140,26 +80,26 @@ export var F = function() {
 }();
 var G = function() {
     "use strict";
-    _classCallCheck(this, G);
+    swcHelpers.classCallCheck(this, G);
 };
 var HH = function() {
     "use strict";
-    _classCallCheck(this, HH);
+    swcHelpers.classCallCheck(this, HH);
 };
 export var I = function() {
     "use strict";
-    _classCallCheck(this, I);
+    swcHelpers.classCallCheck(this, I);
 };
 export var J = function J() {
     "use strict";
-    _classCallCheck(this, J);
+    swcHelpers.classCallCheck(this, J);
 };
 export var K = function() {
     "use strict";
     function K() {
-        _classCallCheck(this, K), this.p1 = 12, this.p2 = "ok";
+        swcHelpers.classCallCheck(this, K), this.p1 = 12, this.p2 = "ok";
     }
-    return _createClass(K, [
+    return swcHelpers.createClass(K, [
         {
             key: "method",
             value: function() {
@@ -170,10 +110,10 @@ export var K = function() {
 }();
 export var L = function(K) {
     "use strict";
-    _inherits(L, K);
-    var _super = _createSuper(L);
+    swcHelpers.inherits(L, K);
+    var _super = swcHelpers.createSuper(L);
     function L() {
-        return _classCallCheck(this, L), _super.apply(this, arguments);
+        return swcHelpers.classCallCheck(this, L), _super.apply(this, arguments);
     }
     return L;
 }(K);
@@ -181,45 +121,45 @@ export var M = function(_superClass) {
     "use strict";
     function M() {
         var _this;
-        return _classCallCheck(this, M), _this.prop = 12, _possibleConstructorReturn(_this);
+        return swcHelpers.classCallCheck(this, M), _this.prop = 12, swcHelpers.possibleConstructorReturn(_this);
     }
-    return _inherits(M, null), _createSuper(M), M;
+    return swcHelpers.inherits(M, null), swcHelpers.createSuper(M), M;
 }(null);
 export var N = function(L) {
     "use strict";
-    _inherits(N, L);
-    var _super = _createSuper(N);
+    swcHelpers.inherits(N, L);
+    var _super = swcHelpers.createSuper(N);
     function N(param) {
         var _this;
-        return _classCallCheck(this, N), (_this = _super.call(this)).another = param, _this;
+        return swcHelpers.classCallCheck(this, N), (_this = _super.call(this)).another = param, _this;
     }
     return N;
 }(L);
 export var O = function(N) {
     "use strict";
-    _inherits(O, N);
-    var _super = _createSuper(O);
+    swcHelpers.inherits(O, N);
+    var _super = swcHelpers.createSuper(O);
     function O(param) {
         var _this;
-        return _classCallCheck(this, O), (_this = _super.call(this, param)).another2 = param, _this;
+        return swcHelpers.classCallCheck(this, O), (_this = _super.call(this, param)).another2 = param, _this;
     }
     return O;
 }(N);
 export var VariableBase = function(x) {
     "use strict";
-    _inherits(VariableBase, null);
-    var _super = _createSuper(VariableBase);
+    swcHelpers.inherits(VariableBase, null);
+    var _super = swcHelpers.createSuper(VariableBase);
     function VariableBase() {
-        return _classCallCheck(this, VariableBase), _super.apply(this, arguments);
+        return swcHelpers.classCallCheck(this, VariableBase), _super.apply(this, arguments);
     }
     return VariableBase;
 }(null);
 export var HasStatics = function() {
     "use strict";
     function HasStatics() {
-        _classCallCheck(this, HasStatics);
+        swcHelpers.classCallCheck(this, HasStatics);
     }
-    return _createClass(HasStatics, null, [
+    return swcHelpers.createClass(HasStatics, null, [
         {
             key: "staticMethod",
             value: function() {}
@@ -228,12 +168,12 @@ export var HasStatics = function() {
 }();
 export var ExtendsStatics = function(HasStatics) {
     "use strict";
-    _inherits(ExtendsStatics, HasStatics);
-    var _super = _createSuper(ExtendsStatics);
+    swcHelpers.inherits(ExtendsStatics, HasStatics);
+    var _super = swcHelpers.createSuper(ExtendsStatics);
     function ExtendsStatics() {
-        return _classCallCheck(this, ExtendsStatics), _super.apply(this, arguments);
+        return swcHelpers.classCallCheck(this, ExtendsStatics), _super.apply(this, arguments);
     }
-    return _createClass(ExtendsStatics, null, [
+    return swcHelpers.createClass(ExtendsStatics, null, [
         {
             key: "also",
             value: function() {}

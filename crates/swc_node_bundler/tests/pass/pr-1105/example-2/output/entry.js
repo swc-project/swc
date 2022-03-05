@@ -6,5 +6,5 @@ const mod = {
     default: C
 };
 const b = "b";
-console.log(b); // "b"
-console.log(mod); // { c: "c", default: class C }
+console.log(b);
+console.log(mod);

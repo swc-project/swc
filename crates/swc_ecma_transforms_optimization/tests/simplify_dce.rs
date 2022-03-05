@@ -1,6 +1,7 @@
 use swc_common::{chain, pass::Repeat, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::{resolver, resolver_with_mark};
+use swc_ecma_transforms_compat::es2022::class_properties;
 use swc_ecma_transforms_optimization::simplify::dce::dce;
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::test;
@@ -542,7 +543,15 @@ test!(
     }),
     |_| {
         let mark = Mark::fresh(Mark::root());
-        chain!(resolver_with_mark(mark), strip(mark), tr())
+        chain!(
+            resolver_with_mark(mark),
+            strip(mark),
+            class_properties(class_properties::Config {
+                set_public_fields: true,
+                ..Default::default()
+            }),
+            tr()
+        )
     },
     issue_1156_1,
     "
@@ -580,7 +589,15 @@ test!(
     }),
     |_| {
         let mark = Mark::fresh(Mark::root());
-        chain!(resolver_with_mark(mark), strip(mark), tr(),)
+        chain!(
+            resolver_with_mark(mark),
+            strip(mark),
+            class_properties(class_properties::Config {
+                set_public_fields: true,
+                ..Default::default()
+            }),
+            tr(),
+        )
     },
     issue_1156_2,
     "
@@ -680,7 +697,15 @@ test!(
     }),
     |_| {
         let mark = Mark::fresh(Mark::root());
-        chain!(resolver_with_mark(mark), strip(mark), tr(),)
+        chain!(
+            resolver_with_mark(mark),
+            strip(mark),
+            class_properties(class_properties::Config {
+                set_public_fields: true,
+                ..Default::default()
+            }),
+            tr(),
+        )
     },
     issue_1156_4,
     "

@@ -1,44 +1,4 @@
-function _extends() {
-    _extends = Object.assign || function(target) {
-        for(var i = 1; i < arguments.length; i++){
-            var source = arguments[i];
-            for(var key in source){
-                if (Object.prototype.hasOwnProperty.call(source, key)) {
-                    target[key] = source[key];
-                }
-            }
-        }
-        return target;
-    };
-    return _extends.apply(this, arguments);
-}
-function _objectWithoutProperties(source, excluded) {
-    if (source == null) return {};
-    var target = _objectWithoutPropertiesLoose(source, excluded);
-    var key, i;
-    if (Object.getOwnPropertySymbols) {
-        var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-        for(i = 0; i < sourceSymbolKeys.length; i++){
-            key = sourceSymbolKeys[i];
-            if (excluded.indexOf(key) >= 0) continue;
-            if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
-            target[key] = source[key];
-        }
-    }
-    return target;
-}
-function _objectWithoutPropertiesLoose(source, excluded) {
-    if (source == null) return {};
-    var target = {};
-    var sourceKeys = Object.keys(source);
-    var key, i;
-    for(i = 0; i < sourceKeys.length; i++){
-        key = sourceKeys[i];
-        if (excluded.indexOf(key) >= 0) continue;
-        target[key] = source[key];
-    }
-    return target;
-}
+import * as swcHelpers from "@swc/helpers";
 // Declaration forms for array destructuring
 // Destructuring from a simple array -> include undefined
 const [s1] = strArray;
@@ -51,7 +11,7 @@ const [, , ...s3] = strArray;
 s3.push(undefined); // Should error, 'undefined' not part of s2's element type
 const { t1  } = strMap;
 t1.toString(); // Should error, t1 possibly undefined
-const t2 = _extends({}, strMap);
+const t2 = swcHelpers.extends({}, strMap);
 t2.z.toString(); // Should error
 {
     const { x , y , z  } = numMapPoint;
@@ -59,7 +19,7 @@ t2.z.toString(); // Should error
     y.toFixed(); // Should OK
     z.toFixed(); // Should error
 }{
-    const { x  } = numMapPoint, q = _objectWithoutProperties(numMapPoint, [
+    const { x  } = numMapPoint, q = swcHelpers.objectWithoutProperties(numMapPoint, [
         "x"
     ]);
     x.toFixed(); // Should OK

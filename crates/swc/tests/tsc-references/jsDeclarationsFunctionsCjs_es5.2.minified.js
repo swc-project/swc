@@ -1,8 +1,7 @@
+import * as swcHelpers from "@swc/helpers";
 module.exports.a = function() {}, module.exports.b = function() {}, module.exports.b.cat = "cat", module.exports.c = function() {}, module.exports.c.Cls = function _class() {
     "use strict";
-    !function(instance, Constructor) {
-        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, _class);
+    swcHelpers.classCallCheck(this, _class);
 }, module.exports.d = function(a, b) {
     return null;
 }, module.exports.e = function(a, b) {
