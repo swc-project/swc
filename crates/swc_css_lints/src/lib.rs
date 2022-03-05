@@ -8,6 +8,6 @@ mod rule;
 mod rules;
 
 pub use config::LintConfig;
-pub(crate) use error::Error;
+pub(crate) use error::ConfigError;
 pub use rule::LintRule;
 pub use rules::{get_rules, LintParams};

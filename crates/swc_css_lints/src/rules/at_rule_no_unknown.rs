@@ -5,7 +5,7 @@ use swc_css_visit::{Visit, VisitWith};
 use crate::{
     pattern::NamePattern,
     rule::{visitor_rule, LintRule, LintRuleContext},
-    Error,
+    ConfigError,
 };
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -16,7 +16,7 @@ pub struct AtRuleNoUnknownConfig {
 
 pub fn at_rule_no_unknown(
     ctx: LintRuleContext<AtRuleNoUnknownConfig>,
-) -> Result<Box<dyn LintRule>, Error> {
+) -> Result<Box<dyn LintRule>, ConfigError> {
     let ignored = ctx
         .config()
         .ignore_at_rules

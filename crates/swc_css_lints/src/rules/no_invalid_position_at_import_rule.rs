@@ -5,7 +5,7 @@ use swc_css_visit::{Visit, VisitWith};
 use crate::{
     pattern::NamePattern,
     rule::{visitor_rule, LintRule, LintRuleContext},
-    Error,
+    ConfigError,
 };
 
 const MESSAGE: &str = "Unexpected invalid position '@import' rule.";
@@ -18,7 +18,7 @@ pub struct NoInvalidPositionAtImportRuleConfig {
 
 pub fn no_invalid_position_at_import_rule(
     ctx: LintRuleContext<NoInvalidPositionAtImportRuleConfig>,
-) -> Result<Box<dyn LintRule>, Error> {
+) -> Result<Box<dyn LintRule>, ConfigError> {
     let ignored = ctx
         .config()
         .ignore_at_rules

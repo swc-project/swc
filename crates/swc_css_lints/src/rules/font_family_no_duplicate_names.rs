@@ -8,7 +8,7 @@ use crate::{
     dataset::is_generic_font_keyword,
     pattern::NamePattern,
     rule::{visitor_rule, LintRule, LintRuleContext},
-    Error,
+    ConfigError,
 };
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -19,7 +19,7 @@ pub struct FontFamilyNoDuplicateNamesConfig {
 
 pub fn font_family_no_duplicate_names(
     ctx: LintRuleContext<FontFamilyNoDuplicateNamesConfig>,
-) -> Result<Box<dyn LintRule>, Error> {
+) -> Result<Box<dyn LintRule>, ConfigError> {
     let ignored = ctx
         .config()
         .ignore_font_family_names

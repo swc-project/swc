@@ -2929,6 +2929,7 @@ dependencies = [
  "swc_css_parser",
  "swc_css_visit",
  "testing",
+ "thiserror",
 ]
 
 [[package]]

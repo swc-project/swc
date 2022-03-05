@@ -5,7 +5,7 @@ use swc_css_visit::{Visit, VisitWith};
 use crate::{
     pattern::NamePattern,
     rule::{visitor_rule, LintRule, LintRuleContext},
-    Error,
+    ConfigError,
 };
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -16,7 +16,7 @@ pub struct UnitNoUnknownConfig {
 
 pub fn unit_no_unknown(
     ctx: LintRuleContext<UnitNoUnknownConfig>,
-) -> Result<Box<dyn LintRule>, Error> {
+) -> Result<Box<dyn LintRule>, ConfigError> {
     let ignored_units = ctx
         .config()
         .ignore_units
