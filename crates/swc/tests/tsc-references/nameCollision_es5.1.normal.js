@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 var A;
 (function(A) {
     // these 2 statements force an underscore before the 'A' 
@@ -17,7 +13,7 @@ var B;
 (function(B) {
     var B1 = function B1() {
         "use strict";
-        _classCallCheck(this, B1);
+        swcHelpers.classCallCheck(this, B1);
     };
 })(B || (B = {}));
 var X;

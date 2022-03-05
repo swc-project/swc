@@ -1,9 +1,6 @@
+import * as swcHelpers from "@swc/helpers";
 var strOrC, C = function() {
     "use strict";
-    !function(instance, Constructor) {
-        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, C);
+    swcHelpers.classCallCheck(this, C);
 };
-void 0 === strOrC || (function(obj) {
-    obj && "undefined" != typeof Symbol && obj.constructor;
-})(strOrC);
+void 0 === strOrC || swcHelpers.typeOf(strOrC);

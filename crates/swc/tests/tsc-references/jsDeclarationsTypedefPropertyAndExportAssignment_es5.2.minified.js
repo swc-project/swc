@@ -1,3 +1,4 @@
+import * as swcHelpers from "@swc/helpers";
 var taskGroups = {
     parseHTML: {
         id: "parseHTML",
@@ -14,8 +15,6 @@ module.exports = {
 };
 var ref = require("./module.js"), taskGroups = ref.taskGroups, taskNameToGroup = ref.taskNameToGroup, MainThreadTasks = function(x, y) {
     "use strict";
-    !function(instance, Constructor) {
-        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, MainThreadTasks);
+    swcHelpers.classCallCheck(this, MainThreadTasks);
 };
 module.exports = MainThreadTasks;

@@ -1,7 +1,4 @@
-var _typeof = function(obj) {
-    "@swc/helpers - typeof";
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
+import * as swcHelpers from "@swc/helpers";
 //Cond ? Expr1 : Expr2,  Cond is of string type, Expr1 and Expr2 have the same type
 var condString;
 var exprAny1;
@@ -37,7 +34,7 @@ var array = [
     "2",
     "3"
 ];
-(typeof condString === "undefined" ? "undefined" : _typeof(condString)) ? exprAny1 : exprAny2;
+(typeof condString === "undefined" ? "undefined" : swcHelpers.typeOf(condString)) ? exprAny1 : exprAny2;
 condString.toUpperCase ? exprBoolean1 : exprBoolean2;
 condString + "string" ? exprNumber1 : exprNumber2;
 foo() ? exprString1 : exprString2;
@@ -56,10 +53,10 @@ var resultIsNumber2 = 'c' ? exprNumber1 : exprNumber2;
 var resultIsString2 = 'string' ? exprString1 : exprString2;
 var resultIsObject2 = "  " ? exprIsObject1 : exprIsObject2;
 var resultIsStringOrBoolean2 = "hello" ? exprString1 : exprBoolean1; // union
-var resultIsAny3 = (typeof condString === "undefined" ? "undefined" : _typeof(condString)) ? exprAny1 : exprAny2;
+var resultIsAny3 = (typeof condString === "undefined" ? "undefined" : swcHelpers.typeOf(condString)) ? exprAny1 : exprAny2;
 var resultIsBoolean3 = condString.toUpperCase ? exprBoolean1 : exprBoolean2;
 var resultIsNumber3 = condString + "string" ? exprNumber1 : exprNumber2;
 var resultIsString3 = foo() ? exprString1 : exprString2;
 var resultIsObject3 = array[1] ? exprIsObject1 : exprIsObject2;
-var resultIsStringOrBoolean3 = (typeof condString === "undefined" ? "undefined" : _typeof(condString)) ? exprString1 : exprBoolean1; // union
+var resultIsStringOrBoolean3 = (typeof condString === "undefined" ? "undefined" : swcHelpers.typeOf(condString)) ? exprString1 : exprBoolean1; // union
 var resultIsStringOrBoolean4 = condString.toUpperCase ? exprString1 : exprBoolean1; // union

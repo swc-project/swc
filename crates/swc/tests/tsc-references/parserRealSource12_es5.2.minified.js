@@ -1,23 +1,12 @@
 var TypeScript;
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 !function(TypeScript1) {
     var globalAstWalkerFactory, ChildrenWalkers1, AstWalkOptions = function() {
         "use strict";
         function AstWalkOptions() {
-            _classCallCheck(this, AstWalkOptions), this.goChildren = !0, this.goNextSibling = !0, this.reverseSiblings = !1;
+            swcHelpers.classCallCheck(this, AstWalkOptions), this.goChildren = !0, this.goNextSibling = !0, this.reverseSiblings = !1;
         }
-        return _createClass(AstWalkOptions, [
+        return swcHelpers.createClass(AstWalkOptions, [
             {
                 key: "stopWalk",
                 value: function() {
@@ -31,9 +20,9 @@ function _createClass(Constructor, protoProps, staticProps) {
     var AstWalker = function() {
         "use strict";
         function AstWalker(childrenWalkers, pre, post, options, state) {
-            _classCallCheck(this, AstWalker), this.childrenWalkers = childrenWalkers, this.pre = pre, this.post = post, this.options = options, this.state = state;
+            swcHelpers.classCallCheck(this, AstWalker), this.childrenWalkers = childrenWalkers, this.pre = pre, this.post = post, this.options = options, this.state = state;
         }
-        return _createClass(AstWalker, [
+        return swcHelpers.createClass(AstWalker, [
             {
                 key: "walk",
                 value: function(ast, parent) {
@@ -51,9 +40,9 @@ function _createClass(Constructor, protoProps, staticProps) {
     }(), AstWalkerFactory = function() {
         "use strict";
         function AstWalkerFactory() {
-            _classCallCheck(this, AstWalkerFactory), this.childrenWalkers = [], this.initChildrenWalkers();
+            swcHelpers.classCallCheck(this, AstWalkerFactory), this.childrenWalkers = [], this.initChildrenWalkers();
         }
-        return _createClass(AstWalkerFactory, [
+        return swcHelpers.createClass(AstWalkerFactory, [
             {
                 key: "walk",
                 value: function(ast, pre, post, options, state) {

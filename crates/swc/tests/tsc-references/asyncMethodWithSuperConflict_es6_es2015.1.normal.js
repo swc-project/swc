@@ -1,32 +1,4 @@
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-    try {
-        var info = gen[key](arg);
-        var value = info.value;
-    } catch (error) {
-        reject(error);
-        return;
-    }
-    if (info.done) {
-        resolve(value);
-    } else {
-        Promise.resolve(value).then(_next, _throw);
-    }
-}
-function _asyncToGenerator(fn) {
-    return function() {
-        var self = this, args = arguments;
-        return new Promise(function(resolve, reject) {
-            var gen = fn.apply(self, args);
-            function _next(value) {
-                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-            }
-            function _throw(err) {
-                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-            }
-            _next(undefined);
-        });
-    };
-}
+import * as swcHelpers from "@swc/helpers";
 // @target: es6
 class A {
     x() {}
@@ -42,7 +14,7 @@ class B extends A {
         , // call with element access
         _superprop_get = (_prop)=>super[_prop]
         ;
-        return _asyncToGenerator(function*() {
+        return swcHelpers.asyncToGenerator(function*() {
             const _super = null;
             const _superIndex = null;
             _superprop_get_x().call(_this);
@@ -65,7 +37,7 @@ class B extends A {
         , // element access (assign)
         _superprop_set = (_prop, _value)=>super[_prop] = _value
         ;
-        return _asyncToGenerator(function*() {
+        return swcHelpers.asyncToGenerator(function*() {
             const _super = null;
             const _superIndex = null;
             const f = ()=>{};

@@ -1,6 +1,5 @@
+import * as swcHelpers from "@swc/helpers";
 var C = function(p) {
     "use strict";
-    !function(instance, Constructor) {
-        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, C), this.p = p;
+    swcHelpers.classCallCheck(this, C), this.p = p;
 };

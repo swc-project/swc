@@ -1,32 +1,4 @@
-function _get(target, property, receiver) {
-    if (typeof Reflect !== "undefined" && Reflect.get) {
-        _get = Reflect.get;
-    } else {
-        _get = function _get(target, property, receiver) {
-            var base = _superPropBase(target, property);
-            if (!base) return;
-            var desc = Object.getOwnPropertyDescriptor(base, property);
-            if (desc.get) {
-                return desc.get.call(receiver);
-            }
-            return desc.value;
-        };
-    }
-    return _get(target, property, receiver || target);
-}
-function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-        return o.__proto__ || Object.getPrototypeOf(o);
-    };
-    return _getPrototypeOf(o);
-}
-function _superPropBase(object, property) {
-    while(!Object.prototype.hasOwnProperty.call(object, property)){
-        object = _getPrototypeOf(object);
-        if (object === null) break;
-    }
-    return object;
-}
+import * as swcHelpers from "@swc/helpers";
 class Reflect1 {
 }
 // @target: es5, es2015, es2021, es2022, esnext
@@ -43,55 +15,55 @@ class C extends B {
 C._ = [
     (()=>{
         var Reflect; // collision (es2015-es2021 only)
-        _get(_getPrototypeOf(C), "w", C).call(C);
+        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
     })(),
     (()=>{
         var { Reflect  } = {
             Reflect: null
         }; // collision (es2015-es2021 only)
-        _get(_getPrototypeOf(C), "w", C).call(C);
+        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
     })(),
     (()=>{
         var [Reflect] = [
             null
         ]; // collision (es2015-es2021 only)
-        _get(_getPrototypeOf(C), "w", C).call(C);
+        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
     })(),
     (()=>{
         class Reflect {
         } // collision (es2015-es2021 only)
-        _get(_getPrototypeOf(C), "w", C).call(C);
+        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
     })(),
     (()=>{
         function Reflect() {} // collision (es2015-es2021 only)
-        _get(_getPrototypeOf(C), "w", C).call(C);
+        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
     })(),
     (()=>{
         let Reflect// collision (es2015-es2021 only)
         ;
         (function(Reflect) {})(Reflect || (Reflect = {}));
-        _get(_getPrototypeOf(C), "w", C).call(C);
+        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
     })(),
     (()=>{
         let Reflect// collision (es2015-es2021 only)
         ;
         (function(Reflect) {})(Reflect || (Reflect = {}));
-        _get(_getPrototypeOf(C), "w", C).call(C);
+        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
     })(),
     (()=>{
-        _get(_getPrototypeOf(C), "w", C).call(C);
+        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
     })(),
     (()=>{
-        _get(_getPrototypeOf(C), "w", C).call(C);
+        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
     })(),
     (()=>{
         (class Reflect {
         }); // no collision
-        _get(_getPrototypeOf(C), "w", C).call(C);
+        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
     })(),
     (()=>{
         (function Reflect() {}); // no collision
-        _get(_getPrototypeOf(C), "w", C).call(C);
+        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
     })(), 
 ];
 var __32 = {
@@ -184,19 +156,19 @@ var __10 = {
 var Reflect1 = null; // collision (es2015-es2021 only)
 class C extends B {
 }
-C._ = _get(_getPrototypeOf(C), "w", C).call(C);
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 var { Reflect: Reflect1  } = {
     Reflect: null
 }; // collision (es2015-es2021 only)
 class C extends B {
 }
-C._ = _get(_getPrototypeOf(C), "w", C).call(C);
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 var [Reflect1] = [
     null
 ]; // collision (es2015-es2021 only)
 class C extends B {
 }
-C._ = _get(_getPrototypeOf(C), "w", C).call(C);
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 var Reflect1 = null; // collision (es2015-es2021 only)
 class C extends B {
 }
@@ -232,7 +204,7 @@ class Reflect1 {
 } // collision (es2015-es2021 only)
 class C extends B {
 }
-C._ = _get(_getPrototypeOf(C), "w", C).call(C);
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 class Reflect1 {
 } // collision (es2015-es2021 only)
 class C extends B {
@@ -246,7 +218,7 @@ var __14 = {
 function Reflect1() {} // collision (es2015-es2021 only)
 class C extends B {
 }
-C._ = _get(_getPrototypeOf(C), "w", C).call(C);
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 function Reflect1() {} // collision (es2015-es2021 only)
 class C extends B {
 }
@@ -258,7 +230,7 @@ var __15 = {
 };
 class C extends B {
 }
-C._ = _get(_getPrototypeOf(C), "w", C).call(C);
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 class C extends B {
 }
 var __16 = {
@@ -270,7 +242,7 @@ var __16 = {
 (function(Reflect1) {})(Reflect1 || (Reflect1 = {}));
 class C extends B {
 }
-C._ = _get(_getPrototypeOf(C), "w", C).call(C);
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 (function(Reflect1) {})(Reflect1 || (Reflect1 = {}));
 class C extends B {
 }
@@ -283,7 +255,7 @@ var __17 = {
 (function(Reflect1) {})(Reflect1 || (Reflect1 = {}));
 class C extends B {
 }
-C._ = _get(_getPrototypeOf(C), "w", C).call(C);
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 (function(Reflect1) {})(Reflect1 || (Reflect1 = {}));
 class C extends B {
 }
@@ -295,7 +267,7 @@ var __18 = {
 };
 class C extends B {
 }
-C._ = _get(_getPrototypeOf(C), "w", C).call(C);
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 class C extends B {
 }
 var __19 = {
@@ -306,7 +278,7 @@ var __19 = {
 };
 class C extends B {
 }
-C._ = _get(_getPrototypeOf(C), "w", C).call(C);
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 class C extends B {
 }
 var __20 = {
@@ -317,7 +289,7 @@ var __20 = {
 };
 class C extends B {
 }
-C._ = _get(_getPrototypeOf(C), "w", C).call(C);
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 class C extends B {
 }
 var __21 = {
@@ -328,7 +300,7 @@ var __21 = {
 };
 class C extends B {
 }
-C._ = _get(_getPrototypeOf(C), "w", C).call(C);
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 class C extends B {
 }
 var __22 = {
@@ -339,7 +311,7 @@ var __22 = {
 };
 class C extends B {
 }
-C._ = _get(_getPrototypeOf(C), "w", C).call(C);
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 class C extends B {
 }
 var __23 = {
@@ -350,7 +322,7 @@ var __23 = {
 };
 class C extends B {
 }
-C._ = _get(_getPrototypeOf(C), "w", C).call(C);
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 class C extends B {
 }
 var __24 = {
@@ -361,7 +333,7 @@ var __24 = {
 };
 class C extends B {
 }
-C._ = _get(_getPrototypeOf(C), "w", C).call(C);
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 class C extends B {
 }
 var __25 = {
@@ -372,7 +344,7 @@ var __25 = {
 };
 class C extends B {
 }
-C._ = _get(_getPrototypeOf(C), "w", C).call(C);
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 class C extends B {
 }
 var __26 = {
@@ -383,7 +355,7 @@ var __26 = {
 };
 class C extends B {
 }
-C._ = _get(_getPrototypeOf(C), "w", C).call(C);
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 class C extends B {
 }
 var __27 = {
@@ -394,7 +366,7 @@ var __27 = {
 };
 class C extends B {
 }
-C._ = _get(_getPrototypeOf(C), "w", C).call(C);
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 class C extends B {
 }
 var __28 = {
@@ -405,7 +377,7 @@ var __28 = {
 };
 class C extends B {
 }
-C._ = _get(_getPrototypeOf(C), "w", C).call(C);
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 class C extends B {
 }
 var __29 = {
@@ -418,7 +390,7 @@ var __29 = {
 }); // no collision
 class C extends B {
 }
-C._ = _get(_getPrototypeOf(C), "w", C).call(C);
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 (class Reflect {
 }); // no collision
 class C extends B {
@@ -435,7 +407,7 @@ _Reflect = class Reflect {
     value: (()=>{
         class C1 extends B {
         }
-        C1._ = _get(_getPrototypeOf(C1), "w", C1).call(C1);
+        C1._ = swcHelpers.get(swcHelpers.getPrototypeOf(C1), "w", C1).call(C1);
     })()
 }, _Reflect;
 _Reflect = class Reflect {
@@ -456,7 +428,7 @@ _Reflect = class Reflect {
 (function Reflect() {}); // no collision
 class C extends B {
 }
-C._ = _get(_getPrototypeOf(C), "w", C).call(C);
+C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 (function Reflect() {}); // no collision
 class C extends B {
 }
@@ -470,7 +442,7 @@ var __31 = {
     var _Reflect, __;
     class C2 extends B {
     }
-    C2._ = _get(_getPrototypeOf(C2), "w", C2).call(C2);
+    C2._ = swcHelpers.get(swcHelpers.getPrototypeOf(C2), "w", C2).call(C2);
 });
 (function Reflect() {
     class C extends B {

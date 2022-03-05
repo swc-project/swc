@@ -1,11 +1,6 @@
+import * as swcHelpers from "@swc/helpers";
 function Multimap(ik, iv) {
-    var obj, key, value;
-    this._map = {}, obj = {}, key = ik, value = iv, key in obj ? Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: !0,
-        configurable: !0,
-        writable: !0
-    }) : obj[key] = value, this._map2 = obj;
+    this._map = {}, this._map2 = swcHelpers.defineProperty({}, ik, iv);
 }
 var map = new Multimap("a", 1), map2 = new Multimap("m", 2);
 function Cp(t) {

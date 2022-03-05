@@ -1,17 +1,10 @@
-function _defineProperty(obj, key, value) {
-    return key in obj ? Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: !0,
-        configurable: !0,
-        writable: !0
-    }) : obj[key] = value, obj;
-}
+import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx1) {
         for(;;)switch(_ctx1.prev = _ctx1.next){
             case 0:
-                return _ctx1.delegateYield(_defineProperty({}, Symbol.iterator, regeneratorRuntime.mark(function _callee() {
+                return _ctx1.delegateYield(swcHelpers.defineProperty({}, Symbol.iterator, regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function(_ctx) {
                         for(;;)switch(_ctx.prev = _ctx.next){
                             case 0:

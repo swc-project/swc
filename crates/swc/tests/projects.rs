@@ -829,6 +829,13 @@ fn tests(input_dir: PathBuf) {
                         swcrc: true,
                         is_module: IsModule::Bool(true),
                         output_path: Some(output.join(entry.file_name())),
+                        config: Config {
+                            jsc: JscConfig {
+                                external_helpers: true,
+                                ..Default::default()
+                            },
+                            ..Default::default()
+                        },
 
                         ..Default::default()
                     },

@@ -1,16 +1,4 @@
-function _defineProperty(obj, key, value) {
-    if (key in obj) {
-        Object.defineProperty(obj, key, {
-            value: value,
-            enumerable: true,
-            configurable: true,
-            writable: true
-        });
-    } else {
-        obj[key] = value;
-    }
-    return obj;
-}
+import * as swcHelpers from "@swc/helpers";
 // @target: ES6
 // @noEmitHelpers: true
-var v = _defineProperty({}, _await, foo);
+var v = swcHelpers.defineProperty({}, _await, foo);

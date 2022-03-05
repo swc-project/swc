@@ -1,13 +1,11 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
+import * as swcHelpers from "@swc/helpers";
 new Date();
 var E, C1 = function() {
     "use strict";
-    _classCallCheck(this, C1);
+    swcHelpers.classCallCheck(this, C1);
 }, C2 = function() {
     "use strict";
-    _classCallCheck(this, C2);
+    swcHelpers.classCallCheck(this, C2);
 };
 function f() {}
 !function(E) {
@@ -15,6 +13,6 @@ function f() {}
 }(E || (E = {})), E.A, (f || (f = {})).bar = 1;
 var c = function() {
     "use strict";
-    _classCallCheck(this, c);
+    swcHelpers.classCallCheck(this, c);
 };
 (c || (c = {})).bar = 1, new Object();

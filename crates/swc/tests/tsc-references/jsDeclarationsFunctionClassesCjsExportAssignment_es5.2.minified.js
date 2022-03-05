@@ -1,6 +1,6 @@
+import * as swcHelpers from "@swc/helpers";
 function Context(input) {
-    var left, right;
-    if (left = this, null != (right = Context) && "undefined" != typeof Symbol && right[Symbol.hasInstance] ? !right[Symbol.hasInstance](left) : !(left instanceof right)) return new Context(input);
+    if (!swcHelpers._instanceof(this, Context)) return new Context(input);
     this.state = this.construct(input);
 }
 module.exports = function(timeout) {

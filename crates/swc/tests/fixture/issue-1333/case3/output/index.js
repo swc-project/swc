@@ -2,40 +2,11 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _nodeFetch = _interopRequireDefault(require("node-fetch"));
+var swcHelpers = require("@swc/helpers");
+var _nodeFetch = swcHelpers.interopRequireDefault(require("node-fetch"));
 var _abortSignal = require("./misc/AbortSignal");
 var _errors = require("../../errors");
 var _utils = require("../../utils");
-function _checkPrivateRedeclaration(obj, privateCollection) {
-    if (privateCollection.has(obj)) {
-        throw new TypeError("Cannot initialize the same private elements twice on an object");
-    }
-}
-function _classApplyDescriptorGet(receiver, descriptor) {
-    if (descriptor.get) {
-        return descriptor.get.call(receiver);
-    }
-    return descriptor.value;
-}
-function _classExtractFieldDescriptor(receiver, privateMap, action) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to " + action + " private field on non-instance");
-    }
-    return privateMap.get(receiver);
-}
-function _classPrivateFieldGet(receiver, privateMap) {
-    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
-    return _classApplyDescriptorGet(receiver, descriptor);
-}
-function _classPrivateFieldInit(obj, privateMap, value) {
-    _checkPrivateRedeclaration(obj, privateMap);
-    privateMap.set(obj, value);
-}
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : {
-        default: obj
-    };
-}
 const headers = [
     "x-ratelimit-limit",
     "x-ratelimit-remaining",
@@ -52,7 +23,7 @@ class RequestHandler {
      * Whether this handler is inactive or not.
      * @return {boolean}
      */ get inactive() {
-        return !_classPrivateFieldGet(this, _queue).remaining && !this._limited;
+        return !swcHelpers.classPrivateFieldGet(this, _queue).remaining && !this._limited;
     }
     /**
      * Whether the rate-limit bucket is currently limited.
@@ -110,7 +81,7 @@ class RequestHandler {
      *
      * @return {Promise<*>}
      */ async push(url, request) {
-        await _classPrivateFieldGet(this, _queue).wait();
+        await swcHelpers.classPrivateFieldGet(this, _queue).wait();
         try {
             await this.rest.globalTimeout;
             if (this._limited) {
@@ -132,7 +103,7 @@ class RequestHandler {
             }
             return this._make(url, request);
         } finally{
-            _classPrivateFieldGet(this, _queue).next();
+            swcHelpers.classPrivateFieldGet(this, _queue).next();
         }
     }
     /**
@@ -200,7 +171,7 @@ class RequestHandler {
      * @param {Rest} rest The REST Manager.
      * @param {string} id The ID of this request handler.
      */ constructor(rest, id){
-        _classPrivateFieldInit(this, _queue, {
+        swcHelpers.classPrivateFieldInit(this, _queue, {
             writable: true,
             value: new _utils.AsyncQueue()
         });

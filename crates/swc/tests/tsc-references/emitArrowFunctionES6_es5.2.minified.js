@@ -1,3 +1,4 @@
+import * as swcHelpers from "@swc/helpers";
 function foo(func) {}
 foo(function() {
     return !0;

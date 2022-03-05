@@ -1,22 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
@@ -31,13 +13,13 @@ var TypeScript;
     var AstWalkOptions = /*#__PURE__*/ function() {
         "use strict";
         function AstWalkOptions() {
-            _classCallCheck(this, AstWalkOptions);
+            swcHelpers.classCallCheck(this, AstWalkOptions);
             this.goChildren = true;
             this.goNextSibling = true;
             this.reverseSiblings = false // visit siblings in reverse execution order
             ;
         }
-        _createClass(AstWalkOptions, [
+        swcHelpers.createClass(AstWalkOptions, [
             {
                 key: "stopWalk",
                 value: function stopWalk() {
@@ -53,14 +35,14 @@ var TypeScript;
     var AstWalker = /*#__PURE__*/ function() {
         "use strict";
         function AstWalker(childrenWalkers, pre, post, options, state) {
-            _classCallCheck(this, AstWalker);
+            swcHelpers.classCallCheck(this, AstWalker);
             this.childrenWalkers = childrenWalkers;
             this.pre = pre;
             this.post = post;
             this.options = options;
             this.state = state;
         }
-        _createClass(AstWalker, [
+        swcHelpers.createClass(AstWalker, [
             {
                 key: "walk",
                 value: function walk(ast, parent) {
@@ -95,11 +77,11 @@ var TypeScript;
     var AstWalkerFactory = /*#__PURE__*/ function() {
         "use strict";
         function AstWalkerFactory() {
-            _classCallCheck(this, AstWalkerFactory);
+            swcHelpers.classCallCheck(this, AstWalkerFactory);
             this.childrenWalkers = [];
             this.initChildrenWalkers();
         }
-        _createClass(AstWalkerFactory, [
+        swcHelpers.createClass(AstWalkerFactory, [
             {
                 key: "walk",
                 value: function walk(ast, pre, post, options, state) {

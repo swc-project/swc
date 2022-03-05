@@ -1,25 +1,14 @@
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _instanceof(left, right) {
-    return null != right && "undefined" != typeof Symbol && right[Symbol.hasInstance] ? !!right[Symbol.hasInstance](left) : left instanceof right;
-}
+import * as swcHelpers from "@swc/helpers";
 var x, a1, a2, a3, a4, b1, b2, b3, b4, o1, o2, o3, C = function() {
     "use strict";
-    var Constructor, protoProps, staticProps;
     function C() {
-        !function(instance, Constructor) {
-            if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, C);
+        swcHelpers.classCallCheck(this, C);
     }
-    return protoProps = [
+    return swcHelpers.createClass(C, [
         {
             key: "foo",
             value: function() {}
         }
-    ], _defineProperties((Constructor = C).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
+    ]), C;
 }();
-_instanceof(a1, x), _instanceof(a2, x), _instanceof(a3, x), _instanceof(a4, x), _instanceof(0, x), _instanceof(!0, x), _instanceof("", x), _instanceof(null, x), _instanceof(void 0, x), _instanceof(x, b1), _instanceof(x, b2), _instanceof(x, b3), _instanceof(x, b4), _instanceof(x, 0), _instanceof(x, !0), _instanceof(x, ""), _instanceof(x, o1), _instanceof(x, o2), _instanceof(x, o3), _instanceof("", {});
+swcHelpers._instanceof(a1, x), swcHelpers._instanceof(a2, x), swcHelpers._instanceof(a3, x), swcHelpers._instanceof(a4, x), swcHelpers._instanceof(0, x), swcHelpers._instanceof(!0, x), swcHelpers._instanceof("", x), swcHelpers._instanceof(null, x), swcHelpers._instanceof(void 0, x), swcHelpers._instanceof(x, b1), swcHelpers._instanceof(x, b2), swcHelpers._instanceof(x, b3), swcHelpers._instanceof(x, b4), swcHelpers._instanceof(x, 0), swcHelpers._instanceof(x, !0), swcHelpers._instanceof(x, ""), swcHelpers._instanceof(x, o1), swcHelpers._instanceof(x, o2), swcHelpers._instanceof(x, o3), swcHelpers._instanceof("", {});

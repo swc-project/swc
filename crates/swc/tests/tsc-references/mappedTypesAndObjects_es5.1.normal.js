@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @strictNullChecks: true
 // @declaration: true
 function f1(x, y) {
@@ -20,6 +16,6 @@ function f3(x) {
 }
 var Form = function Form() {
     "use strict";
-    _classCallCheck(this, Form);
+    swcHelpers.classCallCheck(this, Form);
     this.values = {};
 };

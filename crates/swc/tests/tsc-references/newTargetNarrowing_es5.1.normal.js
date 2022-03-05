@@ -1,16 +1,10 @@
-function _instanceof(left, right) {
-    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
-        return !!right[Symbol.hasInstance](left);
-    } else {
-        return left instanceof right;
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @target: es6
 // @strict: true
 function foo(x) {}
 function f() {
-    if ((_instanceof(this, f) ? this.constructor : void 0).marked === true) {
-        foo((_instanceof(this, f) ? this.constructor : void 0).marked);
+    if ((swcHelpers._instanceof(this, f) ? this.constructor : void 0).marked === true) {
+        foo((swcHelpers._instanceof(this, f) ? this.constructor : void 0).marked);
     }
 }
 f.marked = true;

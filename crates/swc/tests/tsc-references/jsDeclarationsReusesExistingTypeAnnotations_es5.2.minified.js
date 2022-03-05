@@ -1,24 +1,13 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 var С1 = function() {
     "use strict";
-    _classCallCheck(this, С1), this.p1 = void 0, this.p2 = void 0, this.p3 = null, this.p4 = null;
+    swcHelpers.classCallCheck(this, С1), this.p1 = void 0, this.p2 = void 0, this.p3 = null, this.p4 = null;
 }, С2 = function() {
     "use strict";
     function С2() {
-        _classCallCheck(this, С2);
+        swcHelpers.classCallCheck(this, С2);
     }
-    return _createClass(С2, [
+    return swcHelpers.createClass(С2, [
         {
             key: "p1",
             get: function() {}
@@ -43,9 +32,9 @@ var С1 = function() {
 }(), С3 = function() {
     "use strict";
     function С3() {
-        _classCallCheck(this, С3);
+        swcHelpers.classCallCheck(this, С3);
     }
-    return _createClass(С3, [
+    return swcHelpers.createClass(С3, [
         {
             key: "p1",
             get: function() {},
@@ -82,9 +71,9 @@ var С1 = function() {
 }(), С4 = function() {
     "use strict";
     function С4() {
-        _classCallCheck(this, С4);
+        swcHelpers.classCallCheck(this, С4);
     }
-    return _createClass(С4, [
+    return swcHelpers.createClass(С4, [
         {
             key: "p1",
             set: function(value) {

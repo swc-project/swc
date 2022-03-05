@@ -1,38 +1,13 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
-function _instanceof(left, right) {
-    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
-        return !!right[Symbol.hasInstance](left);
-    } else {
-        return left instanceof right;
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 var Test = function Test() {
     "use strict";
-    _classCallCheck(this, Test);
+    swcHelpers.classCallCheck(this, Test);
     this.data = {};
     var copy = {};
 };
 var Test1 = function Test1() {
     "use strict";
-    _classCallCheck(this, Test1);
+    swcHelpers.classCallCheck(this, Test1);
     this.data = {
         foo: ''
     };
@@ -56,7 +31,7 @@ function Test4() {
 }
 var Test5 = function Test5() {
     "use strict";
-    _classCallCheck(this, Test5);
+    swcHelpers.classCallCheck(this, Test5);
     this.no = 1;
     this.f = function() {
         // should not capture this.
@@ -81,19 +56,19 @@ var Test8 = function() {
 var Test9 = /*#__PURE__*/ function() {
     "use strict";
     function Test9() {
-        _classCallCheck(this, Test9);
+        swcHelpers.classCallCheck(this, Test9);
         this.no = 0;
         this.this = 0;
     }
-    _createClass(Test9, [
+    swcHelpers.createClass(Test9, [
         {
             key: "f",
             value: function f() {
-                if (_instanceof(this, Test9D1)) {
+                if (swcHelpers._instanceof(this, Test9D1)) {
                     var d1 = this;
                     d1.f1();
                 }
-                if (_instanceof(this, Test9D2)) {
+                if (swcHelpers._instanceof(this, Test9D2)) {
                     var d2 = this;
                     d2.f2();
                 }
@@ -116,9 +91,9 @@ var Test9 = /*#__PURE__*/ function() {
 var Test9D1 = /*#__PURE__*/ function() {
     "use strict";
     function Test9D1() {
-        _classCallCheck(this, Test9D1);
+        swcHelpers.classCallCheck(this, Test9D1);
     }
-    _createClass(Test9D1, [
+    swcHelpers.createClass(Test9D1, [
         {
             key: "f1",
             value: function f1() {}
@@ -129,9 +104,9 @@ var Test9D1 = /*#__PURE__*/ function() {
 var Test9D2 = /*#__PURE__*/ function() {
     "use strict";
     function Test9D2() {
-        _classCallCheck(this, Test9D2);
+        swcHelpers.classCallCheck(this, Test9D2);
     }
-    _createClass(Test9D2, [
+    swcHelpers.createClass(Test9D2, [
         {
             key: "f2",
             value: function f2() {}
@@ -142,9 +117,9 @@ var Test9D2 = /*#__PURE__*/ function() {
 var Test10 = /*#__PURE__*/ function() {
     "use strict";
     function Test10() {
-        _classCallCheck(this, Test10);
+        swcHelpers.classCallCheck(this, Test10);
     }
-    _createClass(Test10, [
+    swcHelpers.createClass(Test10, [
         {
             key: "foo",
             value: function foo() {
@@ -164,9 +139,9 @@ var Test10 = /*#__PURE__*/ function() {
 var Test11 = /*#__PURE__*/ function() {
     "use strict";
     function Test11() {
-        _classCallCheck(this, Test11);
+        swcHelpers.classCallCheck(this, Test11);
     }
-    _createClass(Test11, [
+    swcHelpers.createClass(Test11, [
         {
             key: "foo",
             value: function foo() {
@@ -183,9 +158,9 @@ var Test11 = /*#__PURE__*/ function() {
 var Tests12 = /*#__PURE__*/ function() {
     "use strict";
     function Tests12() {
-        _classCallCheck(this, Tests12);
+        swcHelpers.classCallCheck(this, Tests12);
     }
-    _createClass(Tests12, [
+    swcHelpers.createClass(Tests12, [
         {
             key: "test1",
             value: function test1() {}

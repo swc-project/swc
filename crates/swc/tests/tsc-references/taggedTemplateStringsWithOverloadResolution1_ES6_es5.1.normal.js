@@ -1,15 +1,6 @@
-function _taggedTemplateLiteral(strings, raw) {
-    if (!raw) {
-        raw = strings.slice(0);
-    }
-    return Object.freeze(Object.defineProperties(strings, {
-        raw: {
-            value: Object.freeze(raw)
-        }
-    }));
-}
+import * as swcHelpers from "@swc/helpers";
 function _templateObject() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         ""
     ]);
     _templateObject = function _templateObject() {
@@ -18,7 +9,7 @@ function _templateObject() {
     return data;
 }
 function _templateObject1() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         ""
     ]);
@@ -28,7 +19,7 @@ function _templateObject1() {
     return data;
 }
 function _templateObject2() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         ""
@@ -39,7 +30,7 @@ function _templateObject2() {
     return data;
 }
 function _templateObject3() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         ""
@@ -50,7 +41,7 @@ function _templateObject3() {
     return data;
 }
 function _templateObject4() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         ""
@@ -61,7 +52,7 @@ function _templateObject4() {
     return data;
 }
 function _templateObject5() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
