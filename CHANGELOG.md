@@ -8,6 +8,9 @@
 - **(css/lints)** Allow empty `@layer` at-rule before `@import` at-rule (#3842) ([90fdbab](https://github.com/swc-project/swc/commit/90fdbab0d67f1fca8b52fb6df9b927cc35219445))
 
 
+- **(es/lints)** Ignore identifiers used as types while checking for duplicate bindings (#3869) ([d10e662](https://github.com/swc-project/swc/commit/d10e66285bab3ae6aadd1d4e6ef3ae0d5c977ec4))
+
+
 - **(es/minifier)** Don't remove comments if `compress` is not configured (#3866) ([e70c9d8](https://github.com/swc-project/swc/commit/e70c9d8f22ad91f7a1246ac60b0ace8a3b3e7d79))
 
 
