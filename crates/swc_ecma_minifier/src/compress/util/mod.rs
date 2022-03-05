@@ -6,7 +6,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms::fixer;
 use swc_ecma_utils::{ExprExt, Id, UsageFinder, Value};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith, VisitWith};
-use unicode_xid::UnicodeXID;
+use unicode_id::UnicodeID;
 
 use crate::{debug::dump, util::ModuleItemExt};
 
@@ -389,8 +389,8 @@ pub(crate) fn is_valid_identifier(s: &str, ascii_only: bool) -> bool {
         }
     }
 
-    s.starts_with(|c: char| c.is_xid_start())
-        && s.chars().all(|c: char| c.is_xid_continue())
+    s.starts_with(|c: char| c.is_id_start())
+        && s.chars().all(|c: char| c.is_id_continue())
         && !s.contains('𝒶')
         && !s.is_reserved()
 }

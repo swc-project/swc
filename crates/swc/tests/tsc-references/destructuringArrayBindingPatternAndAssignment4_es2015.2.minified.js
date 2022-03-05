@@ -1,1 +1,1 @@
-const [value] = data; // Error
+const [value] = data;

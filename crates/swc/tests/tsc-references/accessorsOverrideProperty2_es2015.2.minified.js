@@ -11,4 +11,4 @@ const obj = new class extends Base {
         console.log(`x was set to ${value}`);
     }
 }();
-console.log(obj.x); // 1
+console.log(obj.x);

@@ -1,20 +1,12 @@
 var M;
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 !function(M1) {
     var _toPrimitive = Symbol.toPrimitive, _isConcatSpreadable = Symbol.isConcatSpreadable, _toPrimitive1 = Symbol.toPrimitive, _toPrimitive2 = Symbol.toPrimitive, C = function() {
         "use strict";
-        var Constructor, protoProps, staticProps;
         function C() {
-            !function(instance, Constructor) {
-                if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-            }(this, C);
+            swcHelpers.classCallCheck(this, C);
         }
-        return Constructor = C, protoProps = [
+        return swcHelpers.createClass(C, [
             {
                 key: _toPrimitive,
                 value: function(x) {}
@@ -31,7 +23,7 @@ function _defineProperties(target, props) {
                 key: _toPrimitive2,
                 set: function(x) {}
             }
-        ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
+        ]), C;
     }();
     M1.C = C;
 }(M || (M = {}));

@@ -3,7 +3,7 @@
 use std::{fs::read_to_string, path::PathBuf};
 
 use swc_common::chain;
-use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_compat::{
     es2015::{arrow, block_scoping, classes, function_name, template_literal},
@@ -14,12 +14,6 @@ use swc_ecma_transforms_compat::{
 };
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, Tester};
 use swc_ecma_visit::Fold;
-
-fn ts() -> Syntax {
-    Syntax::Typescript(TsConfig {
-        ..Default::default()
-    })
-}
 
 fn syntax() -> Syntax {
     Syntax::Es(EsConfig {
@@ -2883,7 +2877,10 @@ _defineProperty(foo, 'MODE', MODE);"
 // public_regression_t7364
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), async_to_generator()),
+    |_| chain!(
+        class_properties(Default::default()),
+        async_to_generator(Default::default())
+    ),
     public_regression_t7364,
     r#"
 class MyClass {
@@ -3389,7 +3386,7 @@ test!(
     syntax(),
     |_| chain!(
         class_properties(Default::default()),
-        async_to_generator(),
+        async_to_generator(Default::default()),
         block_scoping()
     ),
     private_regression_t7364,
@@ -4840,36 +4837,6 @@ expect(foo.y).toBe('bar');
 );
 
 test!(
-    ts(),
-    |_| chain!(resolver(), class_properties(Default::default())),
-    issue_890_1,
-    "const DURATION = 1000
-
-export class HygieneTest {
-  private readonly duration: number = DURATION
-
-  constructor(duration?: number) {
-    this.duration = duration ?? DURATION
-  }
-
-  getDuration() {
-    return this.duration
-  }
-}",
-    "const DURATION = 1000;
-export class HygieneTest {
-    getDuration() {
-        return this.duration;
-    }
-    constructor(duration: number){
-        _defineProperty(this, 'duration', DURATION);
-        this.duration = duration ?? DURATION;
-    }
-}",
-    ok_if_code_eq
-);
-
-test!(
     syntax(),
     |_| class_properties(Default::default()),
     issue_1306_1,
@@ -5404,7 +5371,10 @@ function set_b(x) {}
 
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), async_to_generator()),
+    |_| chain!(
+        class_properties(Default::default()),
+        async_to_generator(Default::default())
+    ),
     issue_1694_1,
     "
     class MyClass {
@@ -5432,7 +5402,10 @@ test!(
 
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), async_to_generator()),
+    |_| chain!(
+        class_properties(Default::default()),
+        async_to_generator(Default::default())
+    ),
     issue_1694_2,
     "
 class MyClass {
@@ -5458,7 +5431,10 @@ class MyClass {
 
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), async_to_generator()),
+    |_| chain!(
+        class_properties(Default::default()),
+        async_to_generator(Default::default())
+    ),
     issue_1702_1,
     "
     class Foo {

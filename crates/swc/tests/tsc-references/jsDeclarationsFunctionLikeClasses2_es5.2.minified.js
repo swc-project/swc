@@ -1,3 +1,4 @@
+import * as swcHelpers from "@swc/helpers";
 export function Vec(len) {
     this.storage = new Array(len);
 }
@@ -13,8 +14,7 @@ Vec.prototype = {
     }
 };
 export function Point2D(x, y) {
-    var left, right;
-    if (left = this, null != (right = Point2D) && "undefined" != typeof Symbol && right[Symbol.hasInstance] ? !right[Symbol.hasInstance](left) : !(left instanceof right)) return new Point2D(x, y);
+    if (!swcHelpers._instanceof(this, Point2D)) return new Point2D(x, y);
     Vec.call(this, 2), this.x = x, this.y = y;
 }
 Point2D.prototype = {
@@ -32,4 +32,4 @@ Point2D.prototype = {
         this.storage[1] = y;
     }
 };
-export var origin = new Point2D(0, 0); // export const res = Point2D(2, 3).dot(origin); // TODO: when __proto__ works, validate this
+export var origin = new Point2D(0, 0);

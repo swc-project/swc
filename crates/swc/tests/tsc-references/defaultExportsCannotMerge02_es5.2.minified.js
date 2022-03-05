@@ -1,9 +1,8 @@
+import * as swcHelpers from "@swc/helpers";
 import Entity from "m1";
 var Decl = function() {
     "use strict";
-    !function(instance, Constructor) {
-        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, Decl);
+    swcHelpers.classCallCheck(this, Decl);
 };
 Entity();
 var z = new Entity();

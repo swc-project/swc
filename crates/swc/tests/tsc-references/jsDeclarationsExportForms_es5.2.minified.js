@@ -1,3 +1,4 @@
+import * as swcHelpers from "@swc/helpers";
 import "./cjs4";
 import "./cjs3";
 import "./cjs2";
@@ -10,9 +11,7 @@ import "./bar";
 import "./bar2";
 export var Foo = function() {
     "use strict";
-    !function(instance, Constructor) {
-        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, Foo);
+    swcHelpers.classCallCheck(this, Foo);
 };
 export function func() {}
 export * from "./cls";

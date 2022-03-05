@@ -1,4 +1,5 @@
 var E;
+import * as swcHelpers from "@swc/helpers";
 export function Set(...keys1) {
     const result = {};
     return keys1.forEach((key)=>result[key] = !0

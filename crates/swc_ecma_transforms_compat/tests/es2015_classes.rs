@@ -6551,7 +6551,7 @@ test!(
         chain!(
             es2022::es2022(Default::default()),
             es2018::es2018(Default::default()),
-            es2017::es2017(),
+            es2017::es2017(Default::default()),
             es2016::es2016(),
             es2015::es2015(
                 global_mark,

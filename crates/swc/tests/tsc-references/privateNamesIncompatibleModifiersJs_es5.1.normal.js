@@ -1,21 +1,4 @@
-function _checkPrivateRedeclaration(obj, privateCollection) {
-    if (privateCollection.has(obj)) {
-        throw new TypeError("Cannot initialize the same private elements twice on an object");
-    }
-}
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _classPrivateFieldInit(obj, privateMap, value) {
-    _checkPrivateRedeclaration(obj, privateMap);
-    privateMap.set(obj, value);
-}
-function _classPrivateMethodInit(obj, privateSet) {
-    _checkPrivateRedeclaration(obj, privateSet);
-    privateSet.add(obj);
-}
+import * as swcHelpers from "@swc/helpers";
 var /**
      * @public
      */ _a = new WeakMap(), /**
@@ -31,13 +14,13 @@ var /**
      */ _cMethod = new WeakSet(), _aProp = new WeakMap(), _bProp = new WeakMap(), _cProp = new WeakMap();
 var A = function A() {
     "use strict";
-    _classCallCheck(this, A);
-    _classPrivateMethodInit(this, _aMethod);
-    _classPrivateMethodInit(this, _bMethod);
-    _classPrivateMethodInit(this, _cMethod);
+    swcHelpers.classCallCheck(this, A);
+    swcHelpers.classPrivateMethodInit(this, _aMethod);
+    swcHelpers.classPrivateMethodInit(this, _bMethod);
+    swcHelpers.classPrivateMethodInit(this, _cMethod);
     /**
      * @public
-     */ _classPrivateFieldInit(this, _aProp, {
+     */ swcHelpers.classPrivateFieldInit(this, _aProp, {
         get: get_aProp,
         set: /**
      * @public
@@ -45,7 +28,7 @@ var A = function A() {
     });
     /**
      * @private
-     */ _classPrivateFieldInit(this, _bProp, {
+     */ swcHelpers.classPrivateFieldInit(this, _bProp, {
         get: get_bProp,
         set: /**
      * @private
@@ -53,21 +36,21 @@ var A = function A() {
     });
     /**
     * @protected
-    */ _classPrivateFieldInit(this, _cProp, {
+    */ swcHelpers.classPrivateFieldInit(this, _cProp, {
         get: get_cProp,
         set: /**
      * @protected
      */ set_cProp
     });
-    _classPrivateFieldInit(this, _a, {
+    swcHelpers.classPrivateFieldInit(this, _a, {
         writable: true,
         value: 1
     });
-    _classPrivateFieldInit(this, _b, {
+    swcHelpers.classPrivateFieldInit(this, _b, {
         writable: true,
         value: 1
     });
-    _classPrivateFieldInit(this, _c, {
+    swcHelpers.classPrivateFieldInit(this, _c, {
         writable: true,
         value: 1
     });

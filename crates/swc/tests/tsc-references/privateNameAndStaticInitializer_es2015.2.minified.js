@@ -1,15 +1,11 @@
-function _classPrivateFieldInit(obj, privateMap, value) {
-    !function(obj, privateCollection) {
-        if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
-    }(obj, privateMap), privateMap.set(obj, value);
-}
+import * as swcHelpers from "@swc/helpers";
 var _foo = new WeakMap(), _prop = new WeakMap();
 class A {
     constructor(){
-        _classPrivateFieldInit(this, _foo, {
+        swcHelpers.classPrivateFieldInit(this, _foo, {
             writable: !0,
             value: 1
-        }), _classPrivateFieldInit(this, _prop, {
+        }), swcHelpers.classPrivateFieldInit(this, _prop, {
             writable: !0,
             value: 2
         });

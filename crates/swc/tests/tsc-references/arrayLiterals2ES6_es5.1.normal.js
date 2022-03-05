@@ -1,28 +1,4 @@
-function _arrayLikeToArray(arr, len) {
-    if (len == null || len > arr.length) len = arr.length;
-    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
-    return arr2;
-}
-function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-}
-function _iterableToArray(iter) {
-    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
-}
-function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-}
-function _unsupportedIterableToArray(o, minLen) {
-    if (!o) return;
-    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-    var n = Object.prototype.toString.call(o).slice(8, -1);
-    if (n === "Object" && o.constructor) n = o.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(n);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
+import * as swcHelpers from "@swc/helpers";
 // @target:es6
 // ElementList:  ( Modified )
 //      Elisionopt   AssignmentExpression
@@ -45,18 +21,18 @@ var a1 = [
 var a2 = [
     ,
     ,
-].concat(_toConsumableArray(a0), [
+].concat(swcHelpers.toConsumableArray(a0), [
     "hello"
 ]);
 var a3 = [
     ,
-].concat(_toConsumableArray(a0));
+].concat(swcHelpers.toConsumableArray(a0));
 var a4 = [
     function() {
         return 1;
     }, 
 ];
-var a5 = _toConsumableArray(a0).concat([
+var a5 = swcHelpers.toConsumableArray(a0).concat([
     , 
 ]);
 // Each element expression in a non-empty array literal is processed as follows:
@@ -118,19 +94,19 @@ var temp2 = [
 var d0 = [
     1,
     true, 
-].concat(_toConsumableArray(temp)); // has type (string|number|boolean)[]
-var d1 = _toConsumableArray(temp); // has type string[]
-var d2 = _toConsumableArray(temp1);
-var d3 = _toConsumableArray(temp1);
-var d4 = _toConsumableArray(temp).concat(_toConsumableArray(temp1));
-var d5 = _toConsumableArray(a2);
-var d6 = _toConsumableArray(a3);
-var d7 = _toConsumableArray(a4);
+].concat(swcHelpers.toConsumableArray(temp)); // has type (string|number|boolean)[]
+var d1 = swcHelpers.toConsumableArray(temp); // has type string[]
+var d2 = swcHelpers.toConsumableArray(temp1);
+var d3 = swcHelpers.toConsumableArray(temp1);
+var d4 = swcHelpers.toConsumableArray(temp).concat(swcHelpers.toConsumableArray(temp1));
+var d5 = swcHelpers.toConsumableArray(a2);
+var d6 = swcHelpers.toConsumableArray(a3);
+var d7 = swcHelpers.toConsumableArray(a4);
 var d8 = [
-    _toConsumableArray(temp1)
+    swcHelpers.toConsumableArray(temp1)
 ];
 var d9 = [
-    _toConsumableArray(temp1)
-].concat(_toConsumableArray([
+    swcHelpers.toConsumableArray(temp1)
+].concat(swcHelpers.toConsumableArray([
     "hello"
 ]));

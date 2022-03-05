@@ -1,12 +1,10 @@
-var condString, _typeof = function(obj) {
-    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
+import * as swcHelpers from "@swc/helpers";
 function foo() {
     return "string";
 }
-var array = [
+var condString, array = [
     "1",
     "2",
     "3"
 ];
-void 0 === condString || _typeof(condString), condString.toUpperCase, foo(), array[1], foo(), void 0 === condString || _typeof(condString), condString.toUpperCase, foo(), array[1], void 0 === condString || _typeof(condString), condString.toUpperCase;
+void 0 === condString || swcHelpers.typeOf(condString), condString.toUpperCase, foo(), array[1], foo(), void 0 === condString || swcHelpers.typeOf(condString), condString.toUpperCase, foo(), array[1], void 0 === condString || swcHelpers.typeOf(condString), condString.toUpperCase;

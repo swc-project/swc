@@ -1,22 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
@@ -345,7 +327,7 @@ var TypeScript;
     };
     var AssignScopeContext = function AssignScopeContext(scopeChain, typeFlow, modDeclChain) {
         "use strict";
-        _classCallCheck(this, AssignScopeContext);
+        swcHelpers.classCallCheck(this, AssignScopeContext);
         this.scopeChain = scopeChain;
         this.typeFlow = typeFlow;
         this.modDeclChain = modDeclChain;
@@ -358,12 +340,12 @@ var TypeScript;
     var ScopeSearchFilter = /*#__PURE__*/ function() {
         "use strict";
         function ScopeSearchFilter(select, stop) {
-            _classCallCheck(this, ScopeSearchFilter);
+            swcHelpers.classCallCheck(this, ScopeSearchFilter);
             this.select = select;
             this.stop = stop;
             this.result = null;
         }
-        _createClass(ScopeSearchFilter, [
+        swcHelpers.createClass(ScopeSearchFilter, [
             {
                 key: "reset",
                 value: function reset() {

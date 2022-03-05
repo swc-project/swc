@@ -1,11 +1,10 @@
+import * as swcHelpers from "@swc/helpers";
 import { I, N, T } from "./t1";
 var E, D, M, v = 1;
 function f() {}
 var C = function() {
     "use strict";
-    !function(instance, Constructor) {
-        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, C);
+    swcHelpers.classCallCheck(this, C);
 };
 !function(E) {
     E[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";

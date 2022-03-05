@@ -1,18 +1,10 @@
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 var CharacterInfo = function() {
     "use strict";
-    var Constructor, protoProps, staticProps;
     function CharacterInfo() {
-        !function(instance, Constructor) {
-            if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, CharacterInfo);
+        swcHelpers.classCallCheck(this, CharacterInfo);
     }
-    return Constructor = CharacterInfo, protoProps = null, staticProps = [
+    return swcHelpers.createClass(CharacterInfo, null, [
         {
             key: "isDecimalDigit",
             value: function(c) {
@@ -31,5 +23,5 @@ var CharacterInfo = function() {
                 return Debug.assert(isHexDigit(c)), isDecimalDigit(c) ? c - CharacterCodes._0 : c >= CharacterCodes.A && c <= CharacterCodes.F ? c - CharacterCodes.A + 10 : c - CharacterCodes.a + 10;
             }
         }
-    ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), CharacterInfo;
+    ]), CharacterInfo;
 }();

@@ -1,11 +1,7 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 var StringIterator = function StringIterator() {
     "use strict";
-    _classCallCheck(this, StringIterator);
+    swcHelpers.classCallCheck(this, StringIterator);
 };
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {

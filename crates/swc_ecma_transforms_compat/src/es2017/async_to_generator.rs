@@ -1,5 +1,6 @@
 use std::iter;
 
+use serde::Deserialize;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Check};
@@ -12,6 +13,7 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-transform-async-to-generator`
 ///
@@ -33,18 +35,33 @@ use swc_ecma_visit::{
 ///   yield bar();
 /// });
 /// ```
-pub fn async_to_generator() -> impl Fold + VisitMut {
-    as_folder(AsyncToGenerator)
+#[tracing::instrument(level = "trace", skip_all)]
+pub fn async_to_generator(c: Config) -> impl Fold + VisitMut {
+    as_folder(AsyncToGenerator { c })
+}
+
+#[derive(Debug, Clone, Copy, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Config {
+    #[serde(default)]
+    pub ignore_function_name: bool,
+    #[serde(default)]
+    pub ignore_function_length: bool,
 }
 
 #[derive(Default, Clone)]
-struct AsyncToGenerator;
+struct AsyncToGenerator {
+    c: Config,
+}
 
 struct Actual {
+    c: Config,
+
     extra_stmts: Vec<Stmt>,
     hoist_stmts: Vec<Stmt>,
 }
 
+#[swc_trace]
 #[fast_path(ShouldWork)]
 impl VisitMut for AsyncToGenerator {
     noop_visit_mut_type!();
@@ -58,6 +75,7 @@ impl VisitMut for AsyncToGenerator {
     }
 }
 
+#[swc_trace]
 impl AsyncToGenerator {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
@@ -68,6 +86,7 @@ impl AsyncToGenerator {
 
         for mut stmt in stmts.drain(..) {
             let mut actual = Actual {
+                c: self.c,
                 extra_stmts: vec![],
                 hoist_stmts: vec![],
             };
@@ -83,6 +102,7 @@ impl AsyncToGenerator {
     }
 }
 
+#[swc_trace]
 #[fast_path(ShouldWork)]
 impl VisitMut for Actual {
     noop_visit_mut_type!();
@@ -144,6 +164,8 @@ impl VisitMut for Actual {
         }
 
         let mut wrapper = FunctionWrapper::from(f.take());
+        wrapper.ignore_function_name = self.c.ignore_function_name;
+        wrapper.ignore_function_length = self.c.ignore_function_length;
 
         let fn_expr = wrapper.function.fn_expr().unwrap();
 
@@ -161,6 +183,8 @@ impl VisitMut for Actual {
                 if let DefaultDecl::Fn(expr) = &mut export_default.decl {
                     if expr.function.is_async {
                         let mut wrapper = FunctionWrapper::from(expr.take());
+                        wrapper.ignore_function_name = self.c.ignore_function_name;
+                        wrapper.ignore_function_length = self.c.ignore_function_length;
 
                         let fn_expr = wrapper.function.fn_expr().unwrap();
 
@@ -276,6 +300,7 @@ impl VisitMut for Actual {
     }
 }
 
+#[swc_trace]
 impl Actual {
     fn visit_mut_expr_with_binding(&mut self, expr: &mut Expr, binding_ident: Option<Ident>) {
         expr.visit_mut_children_with(self);
@@ -289,6 +314,8 @@ impl Actual {
                 self.hoist_stmts.extend(state.to_stmt());
 
                 let mut wrapper = FunctionWrapper::from(arrow_expr.take());
+                wrapper.ignore_function_name = self.c.ignore_function_name;
+                wrapper.ignore_function_length = self.c.ignore_function_length;
                 wrapper.binding_ident = binding_ident;
 
                 let fn_expr = wrapper.function.expect_fn_expr();
@@ -304,6 +331,8 @@ impl Actual {
                 },
             ) => {
                 let mut wrapper = FunctionWrapper::from(fn_expr.take());
+                wrapper.ignore_function_name = self.c.ignore_function_name;
+                wrapper.ignore_function_length = self.c.ignore_function_length;
                 wrapper.binding_ident = binding_ident;
 
                 let fn_expr = wrapper.function.expect_fn_expr();
@@ -321,6 +350,7 @@ impl Actual {
 /// Creates
 ///
 /// `_asyncToGenerator(function*() {})` from `async function() {}`;
+#[tracing::instrument(level = "trace", skip_all)]
 fn make_fn_ref(mut expr: FnExpr) -> Expr {
     expr.function.body.visit_mut_with(&mut AsyncFnBodyHandler {
         is_async_generator: expr.function.is_generator,
@@ -360,6 +390,7 @@ macro_rules! noop {
     };
 }
 
+#[swc_trace]
 impl VisitMut for AsyncFnBodyHandler {
     noop_visit_mut_type!();
 
@@ -410,6 +441,7 @@ struct ShouldWork {
     found: bool,
 }
 
+#[swc_trace]
 impl Visit for ShouldWork {
     noop_visit_type!();
 
@@ -436,6 +468,7 @@ impl Check for ShouldWork {
     }
 }
 
+#[tracing::instrument(level = "trace", skip_all)]
 fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
     let s = match stmt {
         Stmt::ForOf(

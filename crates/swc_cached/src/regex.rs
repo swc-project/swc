@@ -1,10 +1,11 @@
 use std::{ops::Deref, sync::Arc};
 
+pub use anyhow::Error;
 use anyhow::{Context, Result};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
-use serde::{de::Error, Deserialize, Serialize};
+use serde::{Deserialize, Serialize};
 
 /// A regex which can be used as a configuration.
 ///
@@ -47,6 +48,8 @@ impl<'de> Deserialize<'de> for CachedRegex {
     where
         D: serde::Deserializer<'de>,
     {
+        use serde::de::Error;
+
         let s = String::deserialize(deserializer)?;
 
         Self::new(&s).map_err(|err| D::Error::custom(err.to_string()))

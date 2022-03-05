@@ -1,15 +1,7 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-var _typeof = function(obj) {
-    "@swc/helpers - typeof";
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
+import * as swcHelpers from "@swc/helpers";
 var C = function C() {
     "use strict";
-    _classCallCheck(this, C);
+    swcHelpers.classCallCheck(this, C);
 };
 var strOrNum;
 var strOrBool;
@@ -31,7 +23,7 @@ if (typeof numOrBool == "number") {
 } else {
     var r3 = numOrBool; // number | boolean
 }
-if ((typeof strOrC === "undefined" ? "undefined" : _typeof(strOrC)) == "Object") {
+if ((typeof strOrC === "undefined" ? "undefined" : swcHelpers.typeOf(strOrC)) == "Object") {
     var r4 = strOrC; // string | C
 } else {
     var r4 = strOrC; // string | C

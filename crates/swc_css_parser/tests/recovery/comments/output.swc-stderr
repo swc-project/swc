@@ -1,6 +1,0 @@
-error: Expected Declaration value
- --> $DIR/tests/recovery/comments/input.css:3:22
-  |
-3 |         /* comment */:
-  |                      ^
-

@@ -27,6 +27,7 @@ fn run(b: &mut Bencher, src: &str, config: Config) {
             Mark::fresh(Mark::root()),
             Some(SingleThreadedComments::default()),
             config,
+            Default::default(),
         );
 
         b.iter(|| test::black_box(module.clone().fold_with(&mut folder)));

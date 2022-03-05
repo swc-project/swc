@@ -1,15 +1,11 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // call signatures in derived types must have the same or fewer optional parameters as the target for assignment
 var ClassTypeParam;
 (function(ClassTypeParam) {
     var Base = function Base() {
         "use strict";
         var _this = this;
-        _classCallCheck(this, Base);
+        swcHelpers.classCallCheck(this, Base);
         this.init = function() {
             _this.a = function() {
                 return null;
@@ -102,11 +98,11 @@ var GenericSignaturesInvalid;
     };
     var Base2 = function Base2() {
         "use strict";
-        _classCallCheck(this, Base2);
+        swcHelpers.classCallCheck(this, Base2);
     };
     var Target = function Target() {
         "use strict";
-        _classCallCheck(this, Target);
+        swcHelpers.classCallCheck(this, Target);
     };
 })(GenericSignaturesInvalid || (GenericSignaturesInvalid = {}));
 var GenericSignaturesValid;
@@ -114,7 +110,7 @@ var GenericSignaturesValid;
     var Base2 = function Base2() {
         "use strict";
         var _this = this;
-        _classCallCheck(this, Base2);
+        swcHelpers.classCallCheck(this, Base2);
         this.init = function() {
             _this.a = function() {
                 return null;

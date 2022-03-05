@@ -1,4 +1,4 @@
-var this_will_disappear; // <-- this variable declaration disappears
+var this_will_disappear;
 function a(x) {
     switch(this_will_disappear){
         case x:

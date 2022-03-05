@@ -13,6 +13,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms::{
     compat::{bugfixes, es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, es3},
     pass::{noop, Optional},
+    Assumptions,
 };
 use swc_ecma_utils::prepend_stmts;
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
@@ -26,7 +27,12 @@ mod corejs3;
 mod regenerator;
 mod transform_data;
 
-pub fn preset_env<C>(global_mark: Mark, comments: Option<C>, c: Config) -> impl Fold
+pub fn preset_env<C>(
+    global_mark: Mark,
+    comments: Option<C>,
+    c: Config,
+    assumptions: Assumptions,
+) -> impl Fold
 where
     C: Comments,
 {
@@ -93,10 +99,10 @@ where
         pass,
         ClassProperties,
         es2022::class_properties(es2022::class_properties::Config {
-            private_as_properties: loose,
-            set_public_fields: loose,
-            constant_super: loose,
-            no_document_all: loose
+            private_as_properties: loose || assumptions.private_fields_as_properties,
+            set_public_fields: loose || assumptions.set_public_class_fields,
+            constant_super: loose || assumptions.constant_super,
+            no_document_all: loose || assumptions.no_document_all
         })
     );
     let pass = add!(pass, PrivatePropertyInObject, es2022::private_in_object());
@@ -115,7 +121,7 @@ where
         pass,
         NullishCoalescing,
         es2020::nullish_coalescing(es2020::nullish_coalescing::Config {
-            no_document_all: loose
+            no_document_all: loose || assumptions.no_document_all
         })
     );
 
@@ -123,8 +129,8 @@ where
         pass,
         OptionalChaining,
         es2020::optional_chaining(es2020::opt_chaining::Config {
-            no_document_all: loose,
-            pure_getter: loose
+            no_document_all: loose || assumptions.no_document_all,
+            pure_getter: loose || assumptions.pure_getters
         })
     );
 
@@ -136,13 +142,20 @@ where
         pass,
         ObjectRestSpread,
         es2018::object_rest_spread(es2018::object_rest_spread::Config {
-            no_symbol: loose,
-            set_property: loose
+            no_symbol: loose || assumptions.object_rest_no_symbols,
+            set_property: loose || assumptions.set_spread_properties
         })
     );
 
     // ES2017
-    let pass = add!(pass, AsyncToGenerator, es2017::async_to_generator());
+    let pass = add!(
+        pass,
+        AsyncToGenerator,
+        es2017::async_to_generator(es2017::async_to_generator::Config {
+            ignore_function_name: loose || assumptions.ignore_function_name,
+            ignore_function_length: loose || assumptions.ignore_function_length,
+        })
+    );
 
     // ES2016
     let pass = add!(pass, ExponentiationOperator, es2016::exponentation());
@@ -153,8 +166,8 @@ where
         pass,
         TemplateLiterals,
         es2015::template_literal(es2015::template_literal::Config {
-            ignore_to_primitive: loose,
-            mutable_template: loose
+            ignore_to_primitive: loose || assumptions.ignore_to_primitive_hint,
+            mutable_template: loose || assumptions.mutable_template_object
         }),
         true
     );
@@ -164,10 +177,10 @@ where
         es2015::classes(
             comments,
             es2015::classes::Config {
-                constant_super: loose,
-                no_class_calls: loose,
-                set_class_methods: loose,
-                super_is_callable_constructor: loose,
+                constant_super: loose || assumptions.constant_super,
+                no_class_calls: loose || assumptions.no_class_calls,
+                set_class_methods: loose || assumptions.set_class_methods,
+                super_is_callable_constructor: loose || assumptions.super_is_callable_constructor,
             }
         )
     );
@@ -188,14 +201,14 @@ where
         pass,
         Parameters,
         es2015::parameters(es2015::parameters::Config {
-            ignore_function_length: loose
+            ignore_function_length: loose || assumptions.ignore_function_length
         })
     );
     let pass = add!(
         pass,
         ForOf,
         es2015::for_of(es2015::for_of::Config {
-            assume_array: loose
+            assume_array: loose || assumptions.iterable_is_array
         }),
         true
     );

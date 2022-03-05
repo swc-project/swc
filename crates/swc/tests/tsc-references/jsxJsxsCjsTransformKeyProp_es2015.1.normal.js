@@ -1,17 +1,4 @@
-function _extends() {
-    _extends = Object.assign || function(target) {
-        for(var i = 1; i < arguments.length; i++){
-            var source = arguments[i];
-            for(var key in source){
-                if (Object.prototype.hasOwnProperty.call(source, key)) {
-                    target[key] = source[key];
-                }
-            }
-        }
-        return target;
-    };
-    return _extends.apply(this, arguments);
-}
+import * as swcHelpers from "@swc/helpers";
 // @jsx: react-jsx,react-jsxdev
 // @strict: true
 // @module: commonjs
@@ -19,10 +6,10 @@ function _extends() {
 const props = {
     answer: 42
 };
-const a = /*#__PURE__*/ React.createElement("div", _extends({
+const a = /*#__PURE__*/ React.createElement("div", swcHelpers.extends({
     key: "foo"
 }, props), "text");
-const b = /*#__PURE__*/ React.createElement("div", _extends({}, props, {
+const b = /*#__PURE__*/ React.createElement("div", swcHelpers.extends({}, props, {
     key: "bar"
 }), "text");
 export { };

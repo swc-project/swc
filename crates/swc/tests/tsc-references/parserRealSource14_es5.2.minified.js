@@ -1,13 +1,5 @@
 var TypeScript;
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 !function(TypeScript1) {
     var GetAstPathOptions, lastOf = function(items) {
         return null === items || 0 === items.length ? null : items[items.length - 1];
@@ -52,11 +44,10 @@ function _defineProperties(target, props) {
     };
     var AstPath = function() {
         "use strict";
-        var Constructor, protoProps, staticProps;
         function AstPath() {
-            _classCallCheck(this, AstPath), this.asts = [], this.top = -1;
+            swcHelpers.classCallCheck(this, AstPath), this.asts = [], this.top = -1;
         }
-        return Constructor = AstPath, protoProps = [
+        return swcHelpers.createClass(AstPath, [
             {
                 key: "clone",
                 value: function() {
@@ -424,19 +415,19 @@ function _defineProperties(target, props) {
                     return this.count() >= 1 && this.asts[this.top - 0].nodeType === TypeScript.NodeType.Block && !1 === this.asts[this.top - 0].isStatementBlock;
                 }
             }
-        ], staticProps = [
+        ], [
             {
                 key: "reverseIndexOf",
                 value: function(items, index) {
                     return null === items || items.length <= index ? null : items[items.length - index - 1];
                 }
             }
-        ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), AstPath;
+        ]), AstPath;
     }();
     TypeScript1.AstPath = AstPath, TypeScript1.isValidAstNode = isValidAstNode;
     var GetAstPathOptions, AstPathContext = function AstPathContext() {
         "use strict";
-        _classCallCheck(this, AstPathContext), this.path = new TypeScript.AstPath();
+        swcHelpers.classCallCheck(this, AstPathContext), this.path = new TypeScript.AstPath();
     };
     TypeScript1.AstPathContext = AstPathContext, (GetAstPathOptions = GetAstPathOptions = TypeScript1.GetAstPathOptions || (TypeScript1.GetAstPathOptions = {}))[GetAstPathOptions.Default = 0] = "Default", GetAstPathOptions[GetAstPathOptions.EdgeInclusive = 1] = "EdgeInclusive", GetAstPathOptions[GetAstPathOptions.DontPruneSearchBasedOnPosition = 2] = "DontPruneSearchBasedOnPosition", TypeScript1.getAstPathToPosition = getAstPathToPosition, TypeScript1.getTokenizationOffset = getTokenizationOffset, TypeScript1.walkAST = walkAST;
 }(TypeScript || (TypeScript = {}));

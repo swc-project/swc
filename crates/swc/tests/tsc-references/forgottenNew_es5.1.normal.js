@@ -1,13 +1,9 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 var Tools;
 (function(Tools1) {
     var NullLogger = function NullLogger() {
         "use strict";
-        _classCallCheck(this, NullLogger);
+        swcHelpers.classCallCheck(this, NullLogger);
     };
     Tools1.NullLogger = NullLogger;
 })(Tools || (Tools = {}));

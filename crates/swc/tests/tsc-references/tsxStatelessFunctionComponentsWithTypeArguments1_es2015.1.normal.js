@@ -1,17 +1,4 @@
-function _extends() {
-    _extends = Object.assign || function(target) {
-        for(var i1 = 1; i1 < arguments.length; i1++){
-            var source = arguments[i1];
-            for(var key in source){
-                if (Object.prototype.hasOwnProperty.call(source, key)) {
-                    target[key] = source[key];
-                }
-            }
-        }
-        return target;
-    };
-    return _extends.apply(this, arguments);
-}
+import * as swcHelpers from "@swc/helpers";
 // @filename: file.tsx
 // @jsx: preserve
 // @module: amd
@@ -25,7 +12,7 @@ function Baz(key1, value) {
         key1: key1,
         value: value
     });
-    let a1 = /*#__PURE__*/ React.createElement(ComponentWithTwoAttributes, _extends({}, {
+    let a1 = /*#__PURE__*/ React.createElement(ComponentWithTwoAttributes, swcHelpers.extends({}, {
         key1,
         value: value
     }, {

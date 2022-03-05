@@ -15,6 +15,7 @@ use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, Fold, Visit,
     VisitMut, VisitMutWith, VisitWith,
 };
+use swc_trace_macro::swc_trace;
 
 mod operator;
 mod vars;
@@ -32,6 +33,7 @@ mod vars;
 ///    });
 /// }
 /// ```
+#[tracing::instrument(level = "trace", skip_all)]
 pub fn block_scoping() -> impl VisitMut + Fold {
     as_folder(chain!(
         self::vars::block_scoped_vars(),
@@ -68,6 +70,7 @@ struct BlockScoping {
     in_loop_body_scope: bool,
 }
 
+#[swc_trace]
 impl BlockScoping {
     /// This methods remove [ScopeKind::Loop] and [ScopeKind::Fn], but not
     /// [ScopeKind::ForLetLoop]
@@ -401,6 +404,7 @@ impl BlockScoping {
     }
 }
 
+#[swc_trace]
 impl VisitMut for BlockScoping {
     noop_visit_mut_type!();
 
@@ -633,6 +637,7 @@ struct InfectionFinder<'a> {
     found: bool,
 }
 
+#[swc_trace]
 impl Visit for InfectionFinder<'_> {
     noop_visit_type!();
 
@@ -723,6 +728,7 @@ impl<'a> FlowHelper<'a> {
     }
 }
 
+#[swc_trace]
 impl VisitMut for FlowHelper<'_> {
     noop_visit_mut_type!();
 
@@ -906,6 +912,7 @@ impl MutationHandler<'_> {
     }
 }
 
+#[swc_trace]
 impl VisitMut for MutationHandler<'_> {
     noop_visit_mut_type!();
 

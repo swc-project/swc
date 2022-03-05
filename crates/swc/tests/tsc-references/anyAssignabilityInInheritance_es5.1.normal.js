@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 var a;
 var r3 = foo2(a); // any, not a subtype of number so it skips that overload, is a subtype of itself so it picks second (if truly ambiguous it would pick first overload)
 var r3 = foo3(a); // any
@@ -14,12 +10,12 @@ var r3 = foo3(a); // any
 var r3 = foo3(a); // any
 var A = function A() {
     "use strict";
-    _classCallCheck(this, A);
+    swcHelpers.classCallCheck(this, A);
 };
 var r3 = foo3(a); // any
 var A2 = function A2() {
     "use strict";
-    _classCallCheck(this, A2);
+    swcHelpers.classCallCheck(this, A2);
 };
 var r3 = foo3(a); // any
 var r3 = foo3(a); // any
@@ -36,7 +32,7 @@ function f() {}
 var r3 = foo3(a); // any
 var CC = function CC() {
     "use strict";
-    _classCallCheck(this, CC);
+    swcHelpers.classCallCheck(this, CC);
 };
 (function(CC) {
     var bar = CC.bar = 1;

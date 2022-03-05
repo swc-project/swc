@@ -1,10 +1,3 @@
 var b, _obj;
-function _defineProperty(obj, key, value) {
-    return key in obj ? Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: !0,
-        configurable: !0,
-        writable: !0
-    }) : obj[key] = value, obj;
-}
-_defineProperty(_obj = {}, b, 0), _defineProperty(_obj, !0, 1), _defineProperty(_obj, [], 0), _defineProperty(_obj, {}, 0), _defineProperty(_obj, void 0, void 0), _defineProperty(_obj, null, null);
+import * as swcHelpers from "@swc/helpers";
+_obj = {}, swcHelpers.defineProperty(_obj, b, 0), swcHelpers.defineProperty(_obj, !0, 1), swcHelpers.defineProperty(_obj, [], 0), swcHelpers.defineProperty(_obj, {}, 0), swcHelpers.defineProperty(_obj, void 0, void 0), swcHelpers.defineProperty(_obj, null, null);

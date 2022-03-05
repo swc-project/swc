@@ -4,6 +4,7 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, private_ident};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_trace_macro::swc_trace;
 
 pub(super) type Vars = SmallVec<[Ident; 12]>;
 
@@ -28,6 +29,7 @@ pub(super) struct Hoister {
     pub functions: Vec<Stmt>,
 }
 
+#[swc_trace]
 impl Hoister {
     fn var_decl_to_expr(&mut self, mut var: VarDecl) -> Expr {
         var.visit_mut_children_with(self);
@@ -79,6 +81,7 @@ impl Hoister {
     }
 }
 
+#[swc_trace]
 impl VisitMut for Hoister {
     noop_visit_mut_type!();
 

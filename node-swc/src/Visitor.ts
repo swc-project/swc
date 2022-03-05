@@ -9,6 +9,7 @@ import {
   AssignmentPatternProperty,
   AssignmentProperty,
   AwaitExpression,
+  BigIntLiteral,
   BinaryExpression,
   BlockStatement,
   BooleanLiteral,
@@ -873,6 +874,8 @@ export class Visitor {
         return this.visitStringLiteral(key);
       case "NumericLiteral":
         return this.visitNumericLiteral(key);
+      case "BigIntLiteral":
+          return this.visitBigIntLiteral(key);
       default:
         return this.visitComputedPropertyKey(key);
     }
@@ -885,7 +888,7 @@ export class Visitor {
   visitClassProperty(n: ClassProperty): ClassMember {
     n.accessibility = this.visitAccessibility(n.accessibility);
     n.decorators = this.visitDecorators(n.decorators);
-    n.key = this.visitExpression(n.key);
+    n.key = this.visitPropertyName(n.key);
     n.typeAnnotation = this.visitTsTypeAnnotation(n.typeAnnotation);
     n.value = this.visitOptionalExpression(n.value);
     return n;
@@ -898,18 +901,6 @@ export class Visitor {
     return n;
   }
 
-  visitPropertName(n: PropertyName): PropertyName {
-    switch (n.type) {
-      case "Identifier":
-        return this.visitIdentifier(n);
-      case "NumericLiteral":
-        return this.visitNumericLiteral(n);
-      case "StringLiteral":
-        return this.visitStringLiteral(n);
-      case "Computed":
-        return this.visitComputedPropertyKey(n);
-    }
-  }
   visitComputedPropertyKey(n: ComputedPropName): ComputedPropName {
     n.expression = this.visitExpression(n.expression);
     return n;
@@ -1659,6 +1650,10 @@ export class Visitor {
   }
 
   visitNumericLiteral(n: NumericLiteral): NumericLiteral {
+    return n;
+  }
+
+  visitBigIntLiteral(n: BigIntLiteral): BigIntLiteral {
     return n;
   }
 

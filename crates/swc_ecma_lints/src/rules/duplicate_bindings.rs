@@ -1,5 +1,6 @@
 use std::collections::hash_map::Entry;
 
+use ahash::AHashSet;
 use swc_common::{collections::AHashMap, errors::HANDLER, Span};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
@@ -14,6 +15,7 @@ pub fn duplicate_bindings() -> Box<dyn Rule> {
 #[derive(Debug, Default)]
 struct DuplicateBindings {
     bindings: AHashMap<Id, Span>,
+    type_bindings: AHashSet<Id>,
 
     var_decl_kind: Option<VarDeclKind>,
     is_pat_decl: bool,
@@ -49,6 +51,22 @@ impl DuplicateBindings {
 
 impl Visit for DuplicateBindings {
     noop_visit_type!();
+
+    fn visit_module(&mut self, m: &Module) {
+        m.visit_with(&mut TypeCollector {
+            type_bindings: &mut self.type_bindings,
+        });
+
+        m.visit_children_with(self);
+    }
+
+    fn visit_script(&mut self, s: &Script) {
+        s.visit_with(&mut TypeCollector {
+            type_bindings: &mut self.type_bindings,
+        });
+
+        s.visit_children_with(self);
+    }
 
     fn visit_assign_pat_prop(&mut self, p: &AssignPatProp) {
         p.visit_children_with(self);
@@ -88,19 +106,25 @@ impl Visit for DuplicateBindings {
     fn visit_import_default_specifier(&mut self, s: &ImportDefaultSpecifier) {
         s.visit_children_with(self);
 
-        self.add(&s.local, false);
+        if !self.type_bindings.contains(&s.local.to_id()) {
+            self.add(&s.local, false);
+        }
     }
 
     fn visit_import_named_specifier(&mut self, s: &ImportNamedSpecifier) {
         s.visit_children_with(self);
 
-        self.add(&s.local, false);
+        if !s.is_type_only && !self.type_bindings.contains(&s.local.to_id()) {
+            self.add(&s.local, false);
+        }
     }
 
     fn visit_import_star_as_specifier(&mut self, s: &ImportStarAsSpecifier) {
         s.visit_children_with(self);
 
-        self.add(&s.local, false);
+        if !self.type_bindings.contains(&s.local.to_id()) {
+            self.add(&s.local, false);
+        }
     }
 
     fn visit_pat(&mut self, p: &Pat) {
@@ -124,5 +148,19 @@ impl Visit for DuplicateBindings {
 
         self.is_pat_decl = old_is_pat_decl;
         self.var_decl_kind = old_var_decl_kind;
+    }
+}
+
+struct TypeCollector<'a> {
+    type_bindings: &'a mut AHashSet<Id>,
+}
+
+impl Visit for TypeCollector<'_> {
+    fn visit_ts_entity_name(&mut self, n: &TsEntityName) {
+        n.visit_children_with(self);
+
+        if let TsEntityName::Ident(ident) = n {
+            self.type_bindings.insert(ident.to_id());
+        }
     }
 }

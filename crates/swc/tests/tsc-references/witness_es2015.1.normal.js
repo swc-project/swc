@@ -105,8 +105,8 @@ var M2;
 // Property access of class instance type
 class C2 {
     constructor(){
-        this.n // n: any
-         = this.n;
+        this.n = this.n // n: any
+        ;
     }
 }
 var c2inst = new C2().n;

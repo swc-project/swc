@@ -15,6 +15,11 @@ class C {
         this.readwriteCall = Symbol();
     }
 }
-C.readonlyStaticCall = Symbol();
-C.readonlyStaticTypeAndCall = Symbol();
+/**
+     * @readonly
+     */ C.readonlyStaticCall = Symbol();
+/**
+     * @type {unique symbol}
+     * @readonly
+     */ C.readonlyStaticTypeAndCall = Symbol();
 C.readwriteStaticCall = Symbol();

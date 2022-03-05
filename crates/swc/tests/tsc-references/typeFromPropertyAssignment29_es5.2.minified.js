@@ -1,6 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
+import * as swcHelpers from "@swc/helpers";
 function ExpandoDecl(n) {
     return n.toString();
 }
@@ -44,14 +42,14 @@ ExpandoExpr2.prop = 2, ExpandoExpr2.m = function(n) {
 }, ExpandoExpr2.prop + ExpandoExpr2.m(12) + ExpandoExpr2(101).length;
 var ExpandoClass = function() {
     "use strict";
-    _classCallCheck(this, ExpandoClass), this.n = 1001;
+    swcHelpers.classCallCheck(this, ExpandoClass), this.n = 1001;
 };
 ExpandoClass.prop = 2, ExpandoClass.m = function(n) {
     return n + 1;
 }, ExpandoClass.prop + ExpandoClass.m(12) + new ExpandoClass().n;
 var ExpandoExpr3 = function _class() {
     "use strict";
-    _classCallCheck(this, _class), this.n = 10001;
+    swcHelpers.classCallCheck(this, _class), this.n = 10001;
 };
 ExpandoExpr3.prop = 3, ExpandoExpr3.m = function(n) {
     return n + 1;

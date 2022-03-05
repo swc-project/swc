@@ -1,73 +1,46 @@
-function _defineProperty(obj, key, value) {
-    if (key in obj) {
-        Object.defineProperty(obj, key, {
-            value: value,
-            enumerable: true,
-            configurable: true,
-            writable: true
-        });
-    } else {
-        obj[key] = value;
-    }
-    return obj;
-}
-function _objectSpread(target) {
-    for(var i1 = 1; i1 < arguments.length; i1++){
-        var source = arguments[i1] != null ? arguments[i1] : {};
-        var ownKeys = Object.keys(source);
-        if (typeof Object.getOwnPropertySymbols === "function") {
-            ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
-                return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-            }));
-        }
-        ownKeys.forEach(function(key) {
-            _defineProperty(target, key, source[key]);
-        });
-    }
-    return target;
-}
-var unused1 = _objectSpread({
+import * as swcHelpers from "@swc/helpers";
+var unused1 = swcHelpers.objectSpread({
     b: 1
 }, ab) // error
 ;
-var unused2 = _objectSpread({}, ab, ab) // ok, overwritten error doesn't apply to spreads
+var unused2 = swcHelpers.objectSpread({}, ab, ab) // ok, overwritten error doesn't apply to spreads
 ;
-var unused3 = _objectSpread({
+var unused3 = swcHelpers.objectSpread({
     b: 1
 }, abq) // ok, abq might have b: undefined
 ;
-var unused4 = _objectSpread({}, ab, {
+var unused4 = swcHelpers.objectSpread({}, ab, {
     b: 1
 }) // ok, we don't care that b in ab is overwritten
 ;
-var unused5 = _objectSpread({}, abq, {
+var unused5 = swcHelpers.objectSpread({}, abq, {
     b: 1
 }) // ok
 ;
 function g(obj) {
-    return _objectSpread({
+    return swcHelpers.objectSpread({
         x: 1
     }, obj); // ok, obj might have x: undefined
 }
 function f(obj) {
-    return _objectSpread({
+    return swcHelpers.objectSpread({
         x: 1
     }, obj); // ok, obj might be undefined
 }
 function h(obj) {
-    return _objectSpread({
+    return swcHelpers.objectSpread({
         x: 1
     }, obj) // error
     ;
 }
 function i(b, t) {
-    return _objectSpread({
+    return swcHelpers.objectSpread({
         command: "hi"
     }, b ? t : {}) // ok
     ;
 }
 function j() {
-    return _objectSpread({}, {
+    return swcHelpers.objectSpread({}, {
         command: "hi"
     }, {
         command: "bye"
@@ -75,7 +48,7 @@ function j() {
     ;
 }
 function k(t) {
-    return _objectSpread({
+    return swcHelpers.objectSpread({
         command: "hi"
     }, {
         spoiler: true
@@ -85,13 +58,13 @@ function k(t) {
     ;
 }
 function l(anyrequired) {
-    return _objectSpread({
+    return swcHelpers.objectSpread({
         a: 'zzz'
     }, anyrequired) // error
     ;
 }
 function m(anyoptional) {
-    return _objectSpread({
+    return swcHelpers.objectSpread({
         a: 'zzz'
     }, anyoptional) // ok
     ;

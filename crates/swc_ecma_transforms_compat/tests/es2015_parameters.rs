@@ -1554,7 +1554,7 @@ test!(
     ignore,
     syntax(),
     |_| chain!(
-        async_to_generator(),
+        async_to_generator(Default::default()),
         arrow(),
         parameters(Default::default()),
     ),
@@ -1585,7 +1585,7 @@ test!(
     ignore,
     syntax(),
     |_| chain!(
-        async_to_generator(),
+        async_to_generator(Default::default()),
         arrow(),
         parameters(Default::default()),
     ),

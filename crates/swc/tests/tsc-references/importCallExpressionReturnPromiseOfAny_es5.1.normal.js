@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(loadModule);
 // @module: commonjs
@@ -11,7 +7,7 @@ var _marked = regeneratorRuntime.mark(loadModule);
 // @filename: defaultPath.ts
 export var C = function C() {
     "use strict";
-    _classCallCheck(this, C);
+    swcHelpers.classCallCheck(this, C);
 };
 import("".concat(directory, "\\").concat(moduleFile));
 import(getSpecifier());

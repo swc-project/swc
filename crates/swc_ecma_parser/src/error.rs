@@ -166,7 +166,7 @@ pub enum SyntaxError {
 
     AsyncConstructor,
     PropertyNamedConstructor,
-    DeclarePrivateIdentifier,
+    PrivateNameModifier(JsWord),
     ReadOnlyMethod,
     GeneratorConstructor,
     TsBindingPatCannotBeOptional,
@@ -419,8 +419,8 @@ impl SyntaxError {
             SyntaxError::PropertyNamedConstructor => {
                 "Classes may not have a non-static field named 'constructor'".into()
             }
-            SyntaxError::DeclarePrivateIdentifier => {
-                "'declare' modifier cannot be used with a private identifier".into()
+            SyntaxError::PrivateNameModifier(modifier) => {
+                format!("'{modifier}' modifier cannot be used with a private identifier").into()
             }
 
             SyntaxError::ReadOnlyMethod => "A method cannot be readonly".into(),

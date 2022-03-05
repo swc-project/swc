@@ -1896,7 +1896,7 @@ where
                     block_contents_grammar: BlockContentsGrammar::Stylesheet,
                     ..self.ctx
                 };
-                println!("{:?}", self.input.cur());
+
                 let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
                 Some(block)

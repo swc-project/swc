@@ -1,4 +1,5 @@
 "use strict";
+var swcHelpers = require("@swc/helpers");
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), exports.default = void 0;
@@ -113,8 +114,7 @@ var ItemsList = function(_Component) {
     function ItemsList1() {
         var _this;
         !function(instance, Constructor) {
-            var left, right;
-            if (left = instance, null != (right = Constructor) && "undefined" != typeof Symbol && right[Symbol.hasInstance] ? !right[Symbol.hasInstance](left) : !(left instanceof right)) throw new TypeError("Cannot call a class as a function");
+            if (!swcHelpers._instanceof(instance, Constructor)) throw new TypeError("Cannot call a class as a function");
         }(this, ItemsList1);
         for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
         return _defineProperty(_assertThisInitialized(_this = _super.call.apply(_super, [

@@ -1,0 +1,12 @@
+error: Invalid selector
+ --> $DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:11
+  |
+3 |     & test;
+  |           ^
+
+error: Unexpected character `';'`
+ --> $DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:11
+  |
+3 |     & test;
+  |           ^
+

@@ -3,6 +3,7 @@
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::{resolver, resolver_with_mark};
+use swc_ecma_transforms_compat::es2022::class_properties;
 use swc_ecma_transforms_optimization::simplify::inlining::inlining;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_typescript::strip;
@@ -2158,6 +2159,10 @@ test!(
         chain!(
             resolver_with_mark(mark),
             simple_strip(mark),
+            class_properties(class_properties::Config {
+                set_public_fields: true,
+                ..Default::default()
+            }),
             inlining(Default::default())
         )
     },
@@ -2200,6 +2205,10 @@ test!(
         chain!(
             resolver_with_mark(mark),
             simple_strip(mark),
+            class_properties(class_properties::Config {
+                set_public_fields: true,
+                ..Default::default()
+            }),
             inlining(Default::default())
         )
     },

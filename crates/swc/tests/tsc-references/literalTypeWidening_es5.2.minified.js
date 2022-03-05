@@ -1,3 +1,4 @@
+import * as swcHelpers from "@swc/helpers";
 export function Set() {
     for(var _len = arguments.length, _$keys = new Array(_len), _key = 0; _key < _len; _key++)_$keys[_key] = arguments[_key];
     var result = {};

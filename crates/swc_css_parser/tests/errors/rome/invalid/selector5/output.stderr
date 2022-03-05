@@ -1,6 +1,0 @@
-error: Expected "="
- --> $DIR/tests/errors/rome/invalid/selector5/input.css:1:10
-  |
-1 | a[title * = "title" i ] {
-  |          ^
-

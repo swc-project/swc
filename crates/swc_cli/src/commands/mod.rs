@@ -1,9 +1,15 @@
 use clap::{Parser, Subcommand};
 
+mod bundle;
 mod compile;
+mod lint;
+mod minify;
 mod plugin;
 
+pub use bundle::*;
 pub use compile::*;
+pub use lint::*;
+pub use minify::*;
 pub use plugin::{PluginScaffoldOptions, PluginSubcommand};
 
 // Set of subcommands supported by the `swc` command.
@@ -14,6 +20,9 @@ pub enum Command {
     Plugin(PluginSubcommand),
     /// Run SWC's transformer.
     Compile(Box<CompileOptions>),
+    Bundle(BundleOptions),
+    Minify(MinifyOptions),
+    Lint(LintOptions),
 }
 
 #[derive(Parser)]
@@ -25,5 +34,4 @@ pub struct SwcCliOptions {
 
 pub trait CommandRunner {
     fn execute(&self) -> anyhow::Result<()>;
-    fn execute_inner(&self) -> anyhow::Result<()>;
 }

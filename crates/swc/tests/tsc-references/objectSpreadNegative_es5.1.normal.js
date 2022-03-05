@@ -1,50 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
-function _defineProperty(obj1, key, value) {
-    if (key in obj1) {
-        Object.defineProperty(obj1, key, {
-            value: value,
-            enumerable: true,
-            configurable: true,
-            writable: true
-        });
-    } else {
-        obj1[key] = value;
-    }
-    return obj1;
-}
-function _objectSpread(target) {
-    for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {};
-        var ownKeys = Object.keys(source);
-        if (typeof Object.getOwnPropertySymbols === "function") {
-            ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
-                return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-            }));
-        }
-        ownKeys.forEach(function(key) {
-            _defineProperty(target, key, source[key]);
-        });
-    }
-    return target;
-}
+import * as swcHelpers from "@swc/helpers";
 // @target: es5
 // @strictNullChecks: true
 var o = {
@@ -53,16 +7,16 @@ var o = {
 };
 var PrivateOptionalX = function PrivateOptionalX() {
     "use strict";
-    _classCallCheck(this, PrivateOptionalX);
+    swcHelpers.classCallCheck(this, PrivateOptionalX);
 };
 var PublicX = function PublicX() {
     "use strict";
-    _classCallCheck(this, PublicX);
+    swcHelpers.classCallCheck(this, PublicX);
 };
-var o2 = _objectSpread({}, publicX, privateOptionalX);
+var o2 = swcHelpers.objectSpread({}, publicX, privateOptionalX);
 var sn = o2.x; // error, x is private
-var allOptional = _objectSpread({}, optionalString, optionalNumber);
-var spread = _objectSpread({}, {
+var allOptional = swcHelpers.objectSpread({}, optionalString, optionalNumber);
+var spread = swcHelpers.objectSpread({}, {
     b: true
 }, {
     s: "foo"
@@ -75,16 +29,16 @@ var b = {
 };
 spread = b; // error, missing 's'
 // literal repeats are not allowed, but spread repeats are fine
-var duplicated = _objectSpread({
+var duplicated = swcHelpers.objectSpread({
     b: 'bad'
 }, o, {
     b: 'bad'
 }, o2, {
     b: 'bad'
 });
-var duplicatedSpread = _objectSpread({}, o, o);
+var duplicatedSpread = swcHelpers.objectSpread({}, o, o);
 // Note: ignore changes the order that properties are printed
-var ignore = _objectSpread({
+var ignore = swcHelpers.objectSpread({
     b: 'ignored'
 }, o);
 var o3 = {
@@ -95,13 +49,13 @@ var o4 = {
     b: 'yes',
     c: true
 };
-var combinedBefore = _objectSpread({
+var combinedBefore = swcHelpers.objectSpread({
     b: 'ok'
 }, o3, o4);
-var combinedMid = _objectSpread({}, o3, {
+var combinedMid = swcHelpers.objectSpread({}, o3, {
     b: 'ok'
 }, o4);
-var combinedNested = _objectSpread({}, _objectSpread({
+var combinedNested = swcHelpers.objectSpread({}, swcHelpers.objectSpread({
     a: 4
 }, {
     b: false,
@@ -112,26 +66,26 @@ var combinedNested = _objectSpread({}, _objectSpread({
     a: 5,
     d: 'maybe new'
 });
-var changeTypeBefore = _objectSpread({
+var changeTypeBefore = swcHelpers.objectSpread({
     a: 'wrong type?'
 }, o3);
 var _obj;
-var computedMiddle = _objectSpread({}, o3, (_obj = {}, _defineProperty(_obj, 'in the middle', 13), _defineProperty(_obj, "b", 'maybe?'), _obj), o4);
+var computedMiddle = swcHelpers.objectSpread({}, o3, (_obj = {}, swcHelpers.defineProperty(_obj, 'in the middle', 13), swcHelpers.defineProperty(_obj, "b", 'maybe?'), _obj), o4);
 // primitives are not allowed, except for falsy ones
-var spreadNum = _objectSpread({}, 12);
-var spreadSum = _objectSpread({}, 1 + 1);
-var spreadZero = _objectSpread({}, 0);
+var spreadNum = swcHelpers.objectSpread({}, 12);
+var spreadSum = swcHelpers.objectSpread({}, 1 + 1);
+var spreadZero = swcHelpers.objectSpread({}, 0);
 spreadZero.toFixed(); // error, no methods even from a falsy number
-var spreadBool = _objectSpread({}, true);
+var spreadBool = swcHelpers.objectSpread({}, true);
 spreadBool.valueOf();
-var spreadStr = _objectSpread({}, 'foo');
+var spreadStr = swcHelpers.objectSpread({}, 'foo');
 spreadStr.length; // error, no 'length'
 spreadStr.charAt(1); // error, no methods either
 // functions are skipped
-var spreadFunc = _objectSpread({}, function() {});
+var spreadFunc = swcHelpers.objectSpread({}, function() {});
 spreadFunc(); // error, no call signature
 // write-only properties get skipped
-var setterOnly = _objectSpread({}, {
+var setterOnly = swcHelpers.objectSpread({}, {
     set b (bad){}
 });
 setterOnly.b = 12; // error, 'b' does not exist
@@ -139,10 +93,10 @@ var C = // methods are skipped because they aren't enumerable
 /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        _classCallCheck(this, C);
+        swcHelpers.classCallCheck(this, C);
         this.p = 1;
     }
-    _createClass(C, [
+    swcHelpers.createClass(C, [
         {
             key: "m",
             value: function m() {}
@@ -151,11 +105,11 @@ var C = // methods are skipped because they aren't enumerable
     return C;
 }();
 var c = new C();
-var spreadC = _objectSpread({}, c);
+var spreadC = swcHelpers.objectSpread({}, c);
 spreadC.m(); // error 'm' is not in '{ ... c }'
 // non primitive
 var obj = {
     a: 123
 };
-var spreadObj = _objectSpread({}, obj);
+var spreadObj = swcHelpers.objectSpread({}, obj);
 spreadObj.a; // error 'a' is not in {}

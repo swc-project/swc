@@ -32,6 +32,7 @@ mod sticky_regex;
 pub mod template_literal;
 mod typeof_symbol;
 
+#[tracing::instrument(level = "trace", skip_all)]
 fn exprs() -> impl Fold {
     chain!(
         arrow(),
@@ -43,6 +44,7 @@ fn exprs() -> impl Fold {
 }
 
 /// Compiles es2015 to es5.
+#[tracing::instrument(level = "trace", skip_all)]
 pub fn es2015<C>(global_mark: Mark, comments: Option<C>, c: Config) -> impl Fold
 where
     C: Comments,
@@ -159,15 +161,15 @@ class HomePage extends React.Component {}
         var HomePage = /*#__PURE__*/function (_Component) {
             "use strict";
             _inherits(HomePage, _Component);
-          
+
             var _super = _createSuper(HomePage);
-          
+
             function HomePage() {
               _classCallCheck(this, HomePage);
-          
+
               return _super.apply(this, arguments);
             }
-          
+
             return HomePage;
           }(React.Component);
 "#

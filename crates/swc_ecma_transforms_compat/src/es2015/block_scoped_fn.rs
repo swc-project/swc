@@ -2,7 +2,9 @@ use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::UsageFinder;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_trace_macro::swc_trace;
 
+#[tracing::instrument(level = "trace", skip_all)]
 pub fn block_scoped_functions() -> impl Fold + VisitMut {
     as_folder(BlockScopedFns)
 }
@@ -10,6 +12,7 @@ pub fn block_scoped_functions() -> impl Fold + VisitMut {
 #[derive(Clone, Copy)]
 struct BlockScopedFns;
 
+#[swc_trace]
 impl VisitMut for BlockScopedFns {
     noop_visit_mut_type!();
 

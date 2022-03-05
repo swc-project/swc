@@ -1,20 +1,6 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _taggedTemplateLiteral(strings, raw) {
-    if (!raw) {
-        raw = strings.slice(0);
-    }
-    return Object.freeze(Object.defineProperties(strings, {
-        raw: {
-            value: Object.freeze(raw)
-        }
-    }));
-}
+import * as swcHelpers from "@swc/helpers";
 function _templateObject() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "Hello world!"
     ]);
     _templateObject = function _templateObject() {
@@ -24,6 +10,6 @@ function _templateObject() {
 }
 var CtorTag = function CtorTag() {
     "use strict";
-    _classCallCheck(this, CtorTag);
+    swcHelpers.classCallCheck(this, CtorTag);
 };
 CtorTag(_templateObject());

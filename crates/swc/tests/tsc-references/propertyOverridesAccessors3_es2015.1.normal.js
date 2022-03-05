@@ -20,8 +20,8 @@ a.makeSound() // 'rustling noise in the bushes'
 class Lion extends Animal {
     constructor(...args){
         super(...args);
-        this.sound // error here
-         = 'RAWR!';
+        this.sound = 'RAWR!' // error here
+        ;
     }
 }
 const lion = new Lion;

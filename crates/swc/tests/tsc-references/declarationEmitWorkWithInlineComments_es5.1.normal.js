@@ -1,13 +1,9 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @declaration: true
 // @stripInternal:true
 export var Foo = function Foo(isInternal1, isInternal2, isInternal3, isInternal4, isInternal5, isInternal6 /* trailing */ , isInternal7, notInternal1, notInternal2, notInternal3) {
     "use strict";
-    _classCallCheck(this, Foo);
+    swcHelpers.classCallCheck(this, Foo);
     this.isInternal1 = isInternal1;
     this.isInternal2 = isInternal2;
     this.isInternal3 = isInternal3;
@@ -21,11 +17,11 @@ export var Foo = function Foo(isInternal1, isInternal2, isInternal3, isInternal4
 };
 export var Bar = function Bar(isInternal1) {
     "use strict";
-    _classCallCheck(this, Bar);
+    swcHelpers.classCallCheck(this, Bar);
     this.isInternal1 = isInternal1;
 };
 export var Baz = function Baz(isInternal) {
     "use strict";
-    _classCallCheck(this, Baz);
+    swcHelpers.classCallCheck(this, Baz);
     this.isInternal = isInternal;
 };

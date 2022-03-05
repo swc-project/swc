@@ -8,7 +8,10 @@
 use std::path::PathBuf;
 
 use swc_common::{FileName, DUMMY_SP};
-use swc_css_ast::{ComponentValue, DeclarationOrAtRule, QualifiedRule, SimpleBlock, Stylesheet};
+use swc_css_ast::{
+    ComponentValue, DeclarationOrAtRule, QualifiedRule, QualifiedRulePrelude, SelectorList,
+    SimpleBlock, Stylesheet,
+};
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodegenConfig, Emit,
@@ -503,10 +506,10 @@ fn t(src: &str, expected: &str) {
 
         let mut node = QualifiedRule {
             span: DUMMY_SP,
-            prelude: swc_css_ast::SelectorList {
+            prelude: QualifiedRulePrelude::SelectorList(SelectorList {
                 span: DUMMY_SP,
                 children: Default::default(),
-            },
+            }),
             block: SimpleBlock {
                 span: DUMMY_SP,
                 name: '{',

@@ -1,12 +1,4 @@
-function _extends() {
-    return (_extends = Object.assign || function(target) {
-        for(var i = 1; i < arguments.length; i++){
-            var source = arguments[i];
-            for(var key in source)Object.prototype.hasOwnProperty.call(source, key) && (target[key] = source[key]);
-        }
-        return target;
-    }).apply(this, arguments);
-}
+import * as swcHelpers from "@swc/helpers";
 const React = require("react"), obj1 = {
     x: 2
 };
@@ -15,11 +7,10 @@ class OverWriteAttr extends React.Component {
         return React.createElement("div", null, "Hello");
     }
 }
-React.createElement(OverWriteAttr, _extends({}, {}, {
+React.createElement(OverWriteAttr, swcHelpers.extends({}, {}, {
     y: !0,
     overwrite: "hi"
-}, obj1)), React.createElement(OverWriteAttr, _extends({}, obj1, {
+}, obj1)), React.createElement(OverWriteAttr, swcHelpers.extends({}, obj1, {
     y: !0,
     overwrite: "hi"
 }));
-export { };

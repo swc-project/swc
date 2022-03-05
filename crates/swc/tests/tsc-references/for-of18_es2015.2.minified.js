@@ -11,4 +11,3 @@ for (v of new class {
         return this;
     }
 });
- // Should succeed

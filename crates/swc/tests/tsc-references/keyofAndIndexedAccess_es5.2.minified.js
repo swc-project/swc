@@ -1,75 +1,21 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
-}
-function _getPrototypeOf(o) {
-    return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-        return o.__proto__ || Object.getPrototypeOf(o);
-    }, _getPrototypeOf(o);
-}
-function _inherits(subClass, superClass) {
-    if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-        constructor: {
-            value: subClass,
-            writable: !0,
-            configurable: !0
-        }
-    }), superClass && _setPrototypeOf(subClass, superClass);
-}
-function _setPrototypeOf(o, p) {
-    return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-        return o.__proto__ = p, o;
-    }, _setPrototypeOf(o, p);
-}
-function _createSuper(Derived) {
-    var hasNativeReflectConstruct = function() {
-        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-        if (Reflect.construct.sham) return !1;
-        if ("function" == typeof Proxy) return !0;
-        try {
-            return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
-        } catch (e) {
-            return !1;
-        }
-    }();
-    return function() {
-        var obj, self, call, result, Super = _getPrototypeOf(Derived);
-        if (hasNativeReflectConstruct) {
-            var NewTarget = _getPrototypeOf(this).constructor;
-            result = Reflect.construct(Super, arguments, NewTarget);
-        } else result = Super.apply(this, arguments);
-        return self = this, (call = result) && ("object" == ((obj = call) && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj) || "function" == typeof call) ? call : (function(self) {
-            if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-            return self;
-        })(self);
-    };
-}
+import * as swcHelpers from "@swc/helpers";
 var E, Flag, Shape = function() {
     "use strict";
-    _classCallCheck(this, Shape);
+    swcHelpers.classCallCheck(this, Shape);
 }, TaggedShape = function(Shape1) {
     "use strict";
-    _inherits(TaggedShape, Shape1);
-    var _super = _createSuper(TaggedShape);
+    swcHelpers.inherits(TaggedShape, Shape1);
+    var _super = swcHelpers.createSuper(TaggedShape);
     function TaggedShape() {
-        return _classCallCheck(this, TaggedShape), _super.apply(this, arguments);
+        return swcHelpers.classCallCheck(this, TaggedShape), _super.apply(this, arguments);
     }
     return TaggedShape;
 }(Shape), Item = function() {
     "use strict";
-    _classCallCheck(this, Item);
+    swcHelpers.classCallCheck(this, Item);
 }, Options = function() {
     "use strict";
-    _classCallCheck(this, Options);
+    swcHelpers.classCallCheck(this, Options);
 };
 function getProperty(obj, key) {
     return obj[key];
@@ -83,9 +29,9 @@ function setProperty(obj, key, value) {
 var Component = function() {
     "use strict";
     function Component() {
-        _classCallCheck(this, Component);
+        swcHelpers.classCallCheck(this, Component);
     }
-    return _createClass(Component, [
+    return swcHelpers.createClass(Component, [
         {
             key: "getProperty",
             value: function(key) {
@@ -101,13 +47,13 @@ var Component = function() {
     ]), Component;
 }(), C = function() {
     "use strict";
-    _classCallCheck(this, C);
+    swcHelpers.classCallCheck(this, C);
 }, C1 = function() {
     "use strict";
     function C1() {
-        _classCallCheck(this, C1);
+        swcHelpers.classCallCheck(this, C1);
     }
-    return _createClass(C1, [
+    return swcHelpers.createClass(C1, [
         {
             key: "get",
             value: function(key) {
@@ -130,9 +76,9 @@ var Component = function() {
 }(), Base = function() {
     "use strict";
     function Base() {
-        _classCallCheck(this, Base);
+        swcHelpers.classCallCheck(this, Base);
     }
-    return _createClass(Base, [
+    return swcHelpers.createClass(Base, [
         {
             key: "get",
             value: function(prop) {
@@ -148,13 +94,13 @@ var Component = function() {
     ]), Base;
 }(), Person = function(Base) {
     "use strict";
-    _inherits(Person, Base);
-    var _super = _createSuper(Person);
+    swcHelpers.inherits(Person, Base);
+    var _super = swcHelpers.createSuper(Person);
     function Person(parts) {
         var _this;
-        return _classCallCheck(this, Person), (_this = _super.call(this)).set("parts", parts), _this;
+        return swcHelpers.classCallCheck(this, Person), (_this = _super.call(this)).set("parts", parts), _this;
     }
-    return _createClass(Person, [
+    return swcHelpers.createClass(Person, [
         {
             key: "getParts",
             value: function() {
@@ -165,9 +111,9 @@ var Component = function() {
 }(Base), OtherPerson = function() {
     "use strict";
     function OtherPerson(parts) {
-        _classCallCheck(this, OtherPerson), setProperty(this, "parts", parts);
+        swcHelpers.classCallCheck(this, OtherPerson), setProperty(this, "parts", parts);
     }
-    return _createClass(OtherPerson, [
+    return swcHelpers.createClass(OtherPerson, [
         {
             key: "getParts",
             value: function() {
@@ -190,15 +136,15 @@ one(function() {}), on({
 ]);
 var A = function() {
     "use strict";
-    _classCallCheck(this, A);
+    swcHelpers.classCallCheck(this, A);
 }, B = function(A1) {
     "use strict";
-    _inherits(B, A1);
-    var _super = _createSuper(B);
+    swcHelpers.inherits(B, A1);
+    var _super = swcHelpers.createSuper(B);
     function B() {
-        return _classCallCheck(this, B), _super.apply(this, arguments);
+        return swcHelpers.classCallCheck(this, B), _super.apply(this, arguments);
     }
-    return _createClass(B, [
+    return swcHelpers.createClass(B, [
         {
             key: "f",
             value: function(p) {
@@ -209,9 +155,9 @@ var A = function() {
 }(A), Form = function() {
     "use strict";
     function Form() {
-        _classCallCheck(this, Form);
+        swcHelpers.classCallCheck(this, Form);
     }
-    return _createClass(Form, [
+    return swcHelpers.createClass(Form, [
         {
             key: "set",
             value: function(prop, value) {
@@ -221,17 +167,17 @@ var A = function() {
     ]), Form;
 }(), SampleClass = function(props) {
     "use strict";
-    _classCallCheck(this, SampleClass), this.props = Object.freeze(props);
+    swcHelpers.classCallCheck(this, SampleClass), this.props = Object.freeze(props);
 }, AnotherSampleClass = function(SampleClass1) {
     "use strict";
-    _inherits(AnotherSampleClass, SampleClass1);
-    var _super = _createSuper(AnotherSampleClass);
+    swcHelpers.inherits(AnotherSampleClass, SampleClass1);
+    var _super = swcHelpers.createSuper(AnotherSampleClass);
     function AnotherSampleClass(props) {
-        return _classCallCheck(this, AnotherSampleClass), _super.call(this, merge(props, {
+        return swcHelpers.classCallCheck(this, AnotherSampleClass), _super.call(this, merge(props, {
             foo: "bar"
         }));
     }
-    return _createClass(AnotherSampleClass, [
+    return swcHelpers.createClass(AnotherSampleClass, [
         {
             key: "brokenMethod",
             value: function() {
@@ -246,9 +192,9 @@ new AnotherSampleClass({}), (function(Flag) {
 var Unbounded = function() {
     "use strict";
     function Unbounded() {
-        _classCallCheck(this, Unbounded);
+        swcHelpers.classCallCheck(this, Unbounded);
     }
-    return _createClass(Unbounded, [
+    return swcHelpers.createClass(Unbounded, [
         {
             key: "foo",
             value: function(x) {}
