@@ -1,0 +1,17 @@
+{
+  "mappings": "Y;AAAA,GAAS;;QACQA,CAAC,MAADA,CAAC,GAAG,EAAE;aACHC,CAAC,GAAG,CAAC;QACjBC,OAAO,CAACC,GAAG,CAACH,CAAC,CAAC,CAAC;IACnB,CAAC;OAFeC,CAAC,GAADA,CAAC,A;GAFXG,CAAC,KAADA,CAAC,O",
+  "names": [
+    "v",
+    "a",
+    "console",
+    "log",
+    "A"
+  ],
+  "sources": [
+    "../../input/index.ts"
+  ],
+  "sourcesContent": [
+    "namespace A {\n    export const v = 25;\n    export function a() {\n        console.log(v);\n    }\n}"
+  ],
+  "version": 3
+}
