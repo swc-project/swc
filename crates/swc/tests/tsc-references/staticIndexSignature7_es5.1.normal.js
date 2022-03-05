@@ -21,7 +21,8 @@ var X = function X() {
     "use strict";
     _classCallCheck(this, X);
 };
-X.x = 12;
+X.x = 12 // Should error, incompatible with index signature
+;
 var Y = /*#__PURE__*/ function() {
     "use strict";
     function Y() {

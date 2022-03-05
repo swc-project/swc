@@ -13,8 +13,8 @@ Point.Origin = {
         "use strict";
         _classCallCheck(this, Point1), this.x = x, this.y = y;
     };
-    A1.Point = Point1, Point1.Origin = {
+    Point1.Origin = {
         x: 0,
         y: 0
-    };
+    }, A1.Point = Point1;
 })(A || (A = {}));

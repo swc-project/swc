@@ -20,14 +20,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 var С1 = function С1() {
     "use strict";
     _classCallCheck(this, С1);
-    /** @type {string=} */ // @allowJs: true
-    // @checkJs: true
-    // @target: esnext
-    // @strict: true
-    // @declaration: true
-    // @filename: index.js
-    // @outDir: /out
-    this.p1 = undefined;
+    /** @type {string=} */ this.p1 = undefined;
     /** @type {string | undefined} */ this.p2 = undefined;
     /** @type {?string} */ this.p3 = null;
     /** @type {string | null} */ this.p4 = null;

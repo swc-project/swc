@@ -356,7 +356,6 @@ function _asyncGenFuncYieldVarCall() {
 var C = function C() {
     "use strict";
     _classCallCheck(this, C);
-    // classes
     this.readonlyCall = Symbol();
     this.readwriteCall = Symbol();
 };

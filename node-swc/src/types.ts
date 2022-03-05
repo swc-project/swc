@@ -642,6 +642,8 @@ export interface TransformConfig {
   decoratorMetadata?: boolean;
 
   treatConstEnumAsEnum?: boolean;
+
+  useDefineForClassFields?: boolean;
 }
 
 export interface ReactConfig {

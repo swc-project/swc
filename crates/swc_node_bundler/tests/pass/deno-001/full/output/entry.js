@@ -33,42 +33,35 @@ class BufferFullError extends Error {
     }
 }
 class PartialReadError extends Deno.errors.UnexpectedEof {
+    name = "PartialReadError";
     constructor(){
         super("Encountered UnexpectedEof, data only partially read");
-        this.name = "PartialReadError";
     }
 }
 class BufReader {
-    // private lastByte: number;
-    // private lastCharSize: number;
-    /** return new BufReader unless r is BufReader */ static create(r, size = DEFAULT_BUF_SIZE) {
+    r = 0;
+    w = 0;
+    eof = false;
+    static create(r, size = DEFAULT_BUF_SIZE) {
         return r instanceof BufReader ? r : new BufReader(r, size);
     }
     constructor(rd, size = DEFAULT_BUF_SIZE){
-        this.r // buf read position.
-         = 0;
-        this.w // buf write position.
-         = 0;
-        this.eof = false;
         if (size < MIN_BUF_SIZE) size = MIN_BUF_SIZE;
         this._reset(new Uint8Array(size), rd);
     }
-    /** Returns the size of the underlying buffer in bytes. */ size() {
+    size() {
         return this.buf.byteLength;
     }
     buffered() {
         return this.w - this.r;
     }
-    // Reads a new chunk into the buffer.
     async _fill() {
-        // Slide existing data to beginning.
         if (this.r > 0) {
             this.buf.copyWithin(0, this.r, this.w);
             this.w -= this.r;
             this.r = 0;
         }
         if (this.w >= this.buf.byteLength) throw Error("bufio: tried to fill full buffer");
-        // Read new data: try a limited number of times.
         for(let i = MAX_CONSECUTIVE_EMPTY_READS; i > 0; i--){
             const rr = await this.rd.read(this.buf.subarray(this.w));
             if (rr === null) {
@@ -81,41 +74,24 @@ class BufReader {
         }
         throw new Error(`No progress after ${MAX_CONSECUTIVE_EMPTY_READS} read() calls`);
     }
-    /** Discards any buffered data, resets all state, and switches
-   * the buffered reader to read from r.
-   */ reset(r) {
+    reset(r) {
         this._reset(this.buf, r);
     }
     _reset(buf, rd) {
         this.buf = buf;
         this.rd = rd;
         this.eof = false;
-    // this.lastByte = -1;
-    // this.lastCharSize = -1;
     }
-    /** reads data into p.
-   * It returns the number of bytes read into p.
-   * The bytes are taken from at most one Read on the underlying Reader,
-   * hence n may be less than len(p).
-   * To read exactly len(p) bytes, use io.ReadFull(b, p).
-   */ async read(p) {
+    async read(p) {
         let rr = p.byteLength;
         if (p.byteLength === 0) return rr;
         if (this.r === this.w) {
             if (p.byteLength >= this.buf.byteLength) {
-                // Large read, empty buffer.
-                // Read directly into p to avoid copy.
                 const rr = await this.rd.read(p);
                 const nread = rr ?? 0;
                 assert(nread >= 0, "negative read");
-                // if (rr.nread > 0) {
-                //   this.lastByte = p[rr.nread - 1];
-                //   this.lastCharSize = -1;
-                // }
                 return rr;
             }
-            // One read.
-            // Do not use this.fill, which will loop.
             this.r = 0;
             this.w = 0;
             rr = await this.rd.read(this.buf);
@@ -123,27 +99,11 @@ class BufReader {
             assert(rr >= 0, "negative read");
             this.w += rr;
         }
-        // copy as much as we can
         const copied = copyBytes(this.buf.subarray(this.r, this.w), p, 0);
         this.r += copied;
-        // this.lastByte = this.buf[this.r - 1];
-        // this.lastCharSize = -1;
         return copied;
     }
-    /** reads exactly `p.length` bytes into `p`.
-   *
-   * If successful, `p` is returned.
-   *
-   * If the end of the underlying stream has been reached, and there are no more
-   * bytes available in the buffer, `readFull()` returns `null` instead.
-   *
-   * An error is thrown if some bytes could be read, but not enough to fill `p`
-   * entirely before the underlying stream reported an error or EOF. Any error
-   * thrown will have a `partial` property that indicates the slice of the
-   * buffer that has been successfully filled with data.
-   *
-   * Ported from https://golang.org/pkg/io/#ReadFull
-   */ async readFull(p) {
+    async readFull(p) {
         let bytesRead = 0;
         while(bytesRead < p.length)try {
             const rr = await this.read(p.subarray(bytesRead));
@@ -158,65 +118,30 @@ class BufReader {
         }
         return p;
     }
-    /** Returns the next byte [0, 255] or `null`. */ async readByte() {
+    async readByte() {
         while(this.r === this.w){
             if (this.eof) return null;
-            await this._fill(); // buffer is empty.
+            await this._fill();
         }
         const c = this.buf[this.r];
         this.r++;
-        // this.lastByte = c;
         return c;
     }
-    /** readString() reads until the first occurrence of delim in the input,
-   * returning a string containing the data up to and including the delimiter.
-   * If ReadString encounters an error before finding a delimiter,
-   * it returns the data read before the error and the error itself
-   * (often `null`).
-   * ReadString returns err != nil if and only if the returned data does not end
-   * in delim.
-   * For simple uses, a Scanner may be more convenient.
-   */ async readString(delim) {
+    async readString(delim) {
         if (delim.length !== 1) throw new Error("Delimiter should be a single character");
         const buffer = await this.readSlice(delim.charCodeAt(0));
         if (buffer === null) return null;
         return new TextDecoder().decode(buffer);
     }
-    /** `readLine()` is a low-level line-reading primitive. Most callers should
-   * use `readString('\n')` instead or use a Scanner.
-   *
-   * `readLine()` tries to return a single line, not including the end-of-line
-   * bytes. If the line was too long for the buffer then `more` is set and the
-   * beginning of the line is returned. The rest of the line will be returned
-   * from future calls. `more` will be false when returning the last fragment
-   * of the line. The returned buffer is only valid until the next call to
-   * `readLine()`.
-   *
-   * The text returned from ReadLine does not include the line end ("\r\n" or
-   * "\n").
-   *
-   * When the end of the underlying stream is reached, the final bytes in the
-   * stream are returned. No indication or error is given if the input ends
-   * without a final line end. When there are no more trailing bytes to read,
-   * `readLine()` returns `null`.
-   *
-   * Calling `unreadByte()` after `readLine()` will always unread the last byte
-   * read (possibly a character belonging to the line end) even if that byte is
-   * not part of the line returned by `readLine()`.
-   */ async readLine() {
+    async readLine() {
         let line;
         try {
             line = await this.readSlice(LF);
         } catch (err) {
             let { partial  } = err;
             assert(partial instanceof Uint8Array, "bufio: caught error from `readSlice()` without `partial` property");
-            // Don't throw if `readSlice()` failed with `BufferFullError`, instead we
-            // just return whatever is available and set the `more` flag.
             if (!(err instanceof BufferFullError)) throw err;
-            // Handle the case where "\r\n" straddles the buffer.
             if (!this.eof && partial.byteLength > 0 && partial[partial.byteLength - 1] === CR) {
-                // Put the '\r' back on buf and drop it from line.
-                // Let the next call to ReadLine check for "\r\n".
                 assert(this.r > 0, "bufio: tried to rewind past start of buffer");
                 this.r--;
                 partial = partial.subarray(0, partial.byteLength - 1);
@@ -241,26 +166,10 @@ class BufReader {
             more: false
         };
     }
-    /** `readSlice()` reads until the first occurrence of `delim` in the input,
-   * returning a slice pointing at the bytes in the buffer. The bytes stop
-   * being valid at the next read.
-   *
-   * If `readSlice()` encounters an error before finding a delimiter, or the
-   * buffer fills without finding a delimiter, it throws an error with a
-   * `partial` property that contains the entire buffer.
-   *
-   * If `readSlice()` encounters the end of the underlying stream and there are
-   * any bytes left in the buffer, the rest of the buffer is returned. In other
-   * words, EOF is always treated as a delimiter. Once the buffer is empty,
-   * it returns `null`.
-   *
-   * Because the data returned from `readSlice()` will be overwritten by the
-   * next I/O operation, most clients should use `readString()` instead.
-   */ async readSlice(delim) {
-        let s = 0; // search start index
+    async readSlice(delim) {
+        let s = 0;
         let slice;
         while(true){
-            // Search buffer.
             let i = this.buf.subarray(this.r + s, this.w).indexOf(delim);
             if (i >= 0) {
                 i += s;
@@ -268,24 +177,20 @@ class BufReader {
                 this.r += i + 1;
                 break;
             }
-            // EOF?
             if (this.eof) {
                 if (this.r === this.w) return null;
                 slice = this.buf.subarray(this.r, this.w);
                 this.r = this.w;
                 break;
             }
-            // Buffer full?
             if (this.buffered() >= this.buf.byteLength) {
                 this.r = this.w;
-                // #4521 The internal buffer should not be reused across reads because it causes corruption of data.
                 const oldbuf = this.buf;
                 const newbuf = this.buf.slice(0);
                 this.buf = newbuf;
                 throw new BufferFullError(oldbuf);
             }
-            s = this.w - this.r; // do not rescan area we scanned before
-            // Buffer is not full.
+            s = this.w - this.r;
             try {
                 await this._fill();
             } catch (err) {
@@ -293,25 +198,9 @@ class BufReader {
                 throw err;
             }
         }
-        // Handle last byte, if any.
-        // const i = slice.byteLength - 1;
-        // if (i >= 0) {
-        //   this.lastByte = slice[i];
-        //   this.lastCharSize = -1
-        // }
         return slice;
     }
-    /** `peek()` returns the next `n` bytes without advancing the reader. The
-   * bytes stop being valid at the next read call.
-   *
-   * When the end of the underlying stream is reached, but there are unread
-   * bytes left in the buffer, those bytes are returned. If there are no bytes
-   * left in the buffer, it returns `null`.
-   *
-   * If an error is encountered before `n` bytes are available, `peek()` throws
-   * an error with the `partial` property set to a slice of the buffer that
-   * contains the bytes that were available before the error occurred.
-   */ async peek(n) {
+    async peek(n) {
         if (n < 0) throw Error("negative count");
         let avail = this.w - this.r;
         while(avail < n && avail < this.buf.byteLength && !this.eof){
@@ -330,24 +219,20 @@ class BufReader {
     }
 }
 class AbstractBufBase {
-    /** Size returns the size of the underlying buffer in bytes. */ size() {
+    usedBufferBytes = 0;
+    err = null;
+    size() {
         return this.buf.byteLength;
     }
-    /** Returns how many bytes are unused in the buffer. */ available() {
+    available() {
         return this.buf.byteLength - this.usedBufferBytes;
     }
-    /** buffered returns the number of bytes that have been written into the
-   * current buffer.
-   */ buffered() {
+    buffered() {
         return this.usedBufferBytes;
-    }
-    constructor(){
-        this.usedBufferBytes = 0;
-        this.err = null;
     }
 }
 class BufWriter extends AbstractBufBase {
-    /** return new BufWriter unless writer is BufWriter */ static create(writer, size = DEFAULT_BUF_SIZE) {
+    static create(writer, size = DEFAULT_BUF_SIZE) {
         return writer instanceof BufWriter ? writer : new BufWriter(writer, size);
     }
     constructor(writer, size = DEFAULT_BUF_SIZE){
@@ -356,14 +241,12 @@ class BufWriter extends AbstractBufBase {
         if (size <= 0) size = DEFAULT_BUF_SIZE;
         this.buf = new Uint8Array(size);
     }
-    /** Discards any unflushed buffered data, clears any error, and
-   * resets buffer to write its output to w.
-   */ reset(w) {
+    reset(w) {
         this.err = null;
         this.usedBufferBytes = 0;
         this.writer = w;
     }
-    /** Flush writes any buffered data to the underlying io.Writer. */ async flush() {
+    async flush() {
         if (this.err !== null) throw this.err;
         if (this.usedBufferBytes === 0) return;
         try {
@@ -375,21 +258,13 @@ class BufWriter extends AbstractBufBase {
         this.buf = new Uint8Array(this.buf.length);
         this.usedBufferBytes = 0;
     }
-    /** Writes the contents of `data` into the buffer.  If the contents won't fully
-   * fit into the buffer, those bytes that can are copied into the buffer, the
-   * buffer is the flushed to the writer and the remaining bytes are copied into
-   * the now empty buffer.
-   *
-   * @return the number of bytes written to the buffer.
-   */ async write(data) {
+    async write(data) {
         if (this.err !== null) throw this.err;
         if (data.length === 0) return 0;
         let totalBytesWritten = 0;
         let numBytesWritten = 0;
         while(data.byteLength > this.available()){
-            if (this.buffered() === 0) // Large write, empty buffer.
-            // Write directly from data to avoid copy.
-            try {
+            if (this.buffered() === 0) try {
                 numBytesWritten = await this.writer.write(data);
             } catch (e) {
                 this.err = e;
@@ -410,7 +285,7 @@ class BufWriter extends AbstractBufBase {
     }
 }
 class BufWriterSync extends AbstractBufBase {
-    /** return new BufWriterSync unless writer is BufWriterSync */ static create(writer, size = DEFAULT_BUF_SIZE) {
+    static create(writer, size = DEFAULT_BUF_SIZE) {
         return writer instanceof BufWriterSync ? writer : new BufWriterSync(writer, size);
     }
     constructor(writer, size = DEFAULT_BUF_SIZE){
@@ -419,14 +294,12 @@ class BufWriterSync extends AbstractBufBase {
         if (size <= 0) size = DEFAULT_BUF_SIZE;
         this.buf = new Uint8Array(size);
     }
-    /** Discards any unflushed buffered data, clears any error, and
-   * resets buffer to write its output to w.
-   */ reset(w) {
+    reset(w) {
         this.err = null;
         this.usedBufferBytes = 0;
         this.writer = w;
     }
-    /** Flush writes any buffered data to the underlying io.WriterSync. */ flush() {
+    flush() {
         if (this.err !== null) throw this.err;
         if (this.usedBufferBytes === 0) return;
         try {
@@ -438,21 +311,13 @@ class BufWriterSync extends AbstractBufBase {
         this.buf = new Uint8Array(this.buf.length);
         this.usedBufferBytes = 0;
     }
-    /** Writes the contents of `data` into the buffer.  If the contents won't fully
-   * fit into the buffer, those bytes that can are copied into the buffer, the
-   * buffer is the flushed to the writer and the remaining bytes are copied into
-   * the now empty buffer.
-   *
-   * @return the number of bytes written to the buffer.
-   */ writeSync(data) {
+    writeSync(data) {
         if (this.err !== null) throw this.err;
         if (data.length === 0) return 0;
         let totalBytesWritten = 0;
         let numBytesWritten = 0;
         while(data.byteLength > this.available()){
-            if (this.buffered() === 0) // Large write, empty buffer.
-            // Write directly from data to avoid copy.
-            try {
+            if (this.buffered() === 0) try {
                 numBytesWritten = this.writer.writeSync(data);
             } catch (e) {
                 this.err = e;
@@ -480,7 +345,6 @@ const decoder = new TextDecoder();
 function decode(input) {
     return decoder.decode(input);
 }
-// FROM https://github.com/denoland/deno/blob/b34628a26ab0187a827aa4ebe256e23178e25d39/cli/js/web/headers.ts#L9
 const invalidHeaderCharRegex = /[^\t\x20-\x7e\x80-\xff]/g;
 function str(buf) {
     if (buf == null) return "";
@@ -496,36 +360,14 @@ class TextProtoReader {
     constructor(r){
         this.r = r;
     }
-    /** readLine() reads a single line from the TextProtoReader,
-   * eliding the final \n or \r\n from the returned string.
-   */ async readLine() {
+    async readLine() {
         const s = await this.readLineSlice();
         if (s === null) return null;
         return str(s);
     }
-    /** ReadMIMEHeader reads a MIME-style header from r.
-   * The header is a sequence of possibly continued Key: Value lines
-   * ending in a blank line.
-   * The returned map m maps CanonicalMIMEHeaderKey(key) to a
-   * sequence of values in the same order encountered in the input.
-   *
-   * For example, consider this input:
-   *
-   *	My-Key: Value 1
-   *	Long-Key: Even
-   *	       Longer Value
-   *	My-Key: Value 2
-   *
-   * Given that input, ReadMIMEHeader returns the map:
-   *
-   *	map[string][]string{
-   *		"My-Key": {"Value 1", "Value 2"},
-   *		"Long-Key": {"Even Longer Value"},
-   *	}
-   */ async readMIMEHeader() {
+    async readMIMEHeader() {
         const m = new Headers();
         let line;
-        // The first line cannot start with a leading space.
         let buf = await this.r.peek(1);
         if (buf === null) return null;
         else if (buf[0] == charCode(" ") || buf[0] == charCode("\t")) line = await this.readLineSlice();
@@ -533,45 +375,28 @@ class TextProtoReader {
         if (buf === null) throw new Deno.errors.UnexpectedEof();
         else if (buf[0] == charCode(" ") || buf[0] == charCode("\t")) throw new Deno.errors.InvalidData(`malformed MIME header initial line: ${str(line)}`);
         while(true){
-            const kv = await this.readLineSlice(); // readContinuedLineSlice
+            const kv = await this.readLineSlice();
             if (kv === null) throw new Deno.errors.UnexpectedEof();
             if (kv.byteLength === 0) return m;
-            // Key ends at first colon
             let i = kv.indexOf(charCode(":"));
             if (i < 0) throw new Deno.errors.InvalidData(`malformed MIME header line: ${str(kv)}`);
-            //let key = canonicalMIMEHeaderKey(kv.subarray(0, endKey));
             const key = str(kv.subarray(0, i));
-            // As per RFC 7230 field-name is a token,
-            // tokens consist of one or more chars.
-            // We could throw `Deno.errors.InvalidData` here,
-            // but better to be liberal in what we
-            // accept, so if we get an empty key, skip it.
             if (key == "") continue;
-            // Skip initial spaces in value.
-            i++; // skip colon
+            i++;
             while(i < kv.byteLength && (kv[i] == charCode(" ") || kv[i] == charCode("\t")))i++;
             const value = str(kv.subarray(i)).replace(invalidHeaderCharRegex, encodeURI);
-            // In case of invalid header we swallow the error
-            // example: "Audio Mode" => invalid due to space in the key
             try {
                 m.append(key, value);
-            } catch  {
-            // Pass
-            }
+            } catch  {}
         }
     }
     async readLineSlice() {
-        // this.closeDot();
         let line;
         while(true){
             const r = await this.r.readLine();
             if (r === null) return null;
             const { line: l , more  } = r;
-            // Avoid the copy if the first call produced a full line.
             if (!line && !more) {
-                // TODO(ry):
-                // This skipSpace() is definitely misplaced, but I don't know where it
-                // comes from nor how to fix it.
                 if (this.skipSpace(l) === 0) return new Uint8Array(0);
                 return l;
             }
@@ -603,6 +428,10 @@ function deferred() {
     return Object.assign(promise, methods);
 }
 class MuxAsyncIterator {
+    iteratorCount = 0;
+    yields = [];
+    throws = [];
+    signal = deferred();
     add(iterator) {
         ++this.iteratorCount;
         this.callIteratorNext(iterator);
@@ -622,9 +451,7 @@ class MuxAsyncIterator {
     }
     async *iterate() {
         while(this.iteratorCount > 0){
-            // Sleep until any of the wrapped iterators yields.
             await this.signal;
-            // Note that while we're looping over `yields`, new items may be added.
             for(let i = 0; i < this.yields.length; i++){
                 const { iterator , value  } = this.yields[i];
                 yield value;
@@ -634,20 +461,12 @@ class MuxAsyncIterator {
                 for (const e of this.throws)throw e;
                 this.throws.length = 0;
             }
-            // Clear the `yields` list and reset the `signal` promise.
             this.yields.length = 0;
             this.signal = deferred();
         }
     }
     [Symbol.asyncIterator]() {
         return this.iterate();
-    }
-    constructor(){
-        this.iteratorCount = 0;
-        this.yields = [];
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        this.throws = [];
-        this.signal = deferred();
     }
 }
 function emptyReader() {
@@ -678,7 +497,6 @@ function bodyReader(contentLength, r) {
     };
 }
 function chunkedBodyReader(h, r) {
-    // Based on https://tools.ietf.org/html/rfc2616#section-19.4.6
     const tp = new TextProtoReader(r);
     let finished = false;
     const chunks = [];
@@ -692,14 +510,12 @@ function chunkedBodyReader(h, r) {
             chunk.offset += readLength;
             if (chunk.offset === chunk.data.byteLength) {
                 chunks.shift();
-                // Consume \r\n;
                 if (await tp.readLine() === null) throw new Deno.errors.UnexpectedEof();
             }
             return readLength;
         }
         const line = await tp.readLine();
         if (line === null) throw new Deno.errors.UnexpectedEof();
-        // TODO: handle chunk extension
         const [chunkSizeString] = line.split(";");
         const chunkSize = parseInt(chunkSizeString, 16);
         if (Number.isNaN(chunkSize) || chunkSize < 0) throw new Error("Invalid chunk size");
@@ -719,13 +535,11 @@ function chunkedBodyReader(h, r) {
                 const bufToFill = buf.subarray(0, chunkSize);
                 const eof = await r.readFull(bufToFill);
                 if (eof === null) throw new Deno.errors.UnexpectedEof();
-                // Consume \r\n
                 if (await tp.readLine() === null) throw new Deno.errors.UnexpectedEof();
                 return chunkSize;
             }
         } else {
             assert(chunkSize === 0);
-            // Consume \r\n
             if (await r.readLine() === null) throw new Deno.errors.UnexpectedEof();
             await readTrailers(h, r);
             finished = true;
@@ -848,27 +662,20 @@ async function writeResponse(w, r) {
     await writer.flush();
 }
 class ServerRequest {
-    /**
-     * Value of Content-Length header.
-     * If null, then content length is invalid or not given (e.g. chunked encoding).
-     */ get contentLength() {
-        // undefined means not cached.
-        // null means invalid or not provided.
+    done = deferred();
+    _contentLength = undefined;
+    get contentLength() {
         if (this._contentLength === undefined) {
             const cl = this.headers.get("content-length");
             if (cl) {
                 this._contentLength = parseInt(cl);
-                // Convert NaN to null (as NaN harder to test)
                 if (Number.isNaN(this._contentLength)) this._contentLength = null;
             } else this._contentLength = null;
         }
         return this._contentLength;
     }
-    /**
-     * Body of the request.  The easiest way to consume the body is:
-     *
-     *     const buf: Uint8Array = await Deno.readAll(req.body);
-     */ get body() {
+    _body = null;
+    get body() {
         if (!this._body) {
             if (this.contentLength != null) this._body = bodyReader(this.contentLength, this.r);
             else {
@@ -878,8 +685,7 @@ class ServerRequest {
                     );
                     assert(parts.includes("chunked"), 'transfer-encoding must include "chunked" if content-length is not set');
                     this._body = chunkedBodyReader(this.headers, this.r);
-                } else // Neither content-length nor transfer-encoding: chunked
-                this._body = emptyReader();
+                } else this._body = emptyReader();
             }
         }
         return this._body;
@@ -887,36 +693,23 @@ class ServerRequest {
     async respond(r) {
         let err;
         try {
-            // Write our response!
             await writeResponse(this.w, r);
         } catch (e) {
             try {
-                // Eagerly close on error.
                 this.conn.close();
-            } catch  {
-            // Pass
-            }
+            } catch  {}
             err = e;
         }
-        // Signal that this request has been processed and the next pipelined
-        // request on the same connection can be accepted.
         this.done.resolve(err);
-        if (err) // Error during responding, rethrow.
-        throw err;
+        if (err) throw err;
     }
+    finalized = false;
     async finalize() {
         if (this.finalized) return;
-        // Consume unread body
         const body = this.body;
         const buf = new Uint8Array(1024);
         while(await body.read(buf) !== null);
         this.finalized = true;
-    }
-    constructor(){
-        this.done = deferred();
-        this._contentLength = undefined;
-        this._body = null;
-        this.finalized = false;
     }
 }
 function parseHTTPVersion(vers) {
@@ -933,7 +726,7 @@ function parseHTTPVersion(vers) {
             ];
         default:
             {
-                const Big = 1000000; // arbitrary upper bound
+                const Big = 1000000;
                 if (!vers.startsWith("HTTP/")) break;
                 const dot = vers.indexOf(".");
                 if (dot < 0) break;
@@ -953,7 +746,7 @@ function parseHTTPVersion(vers) {
 }
 async function readRequest(conn, bufr) {
     const tp = new TextProtoReader(bufr);
-    const firstLine = await tp.readLine(); // e.g. GET /index.html HTTP/1.0
+    const firstLine = await tp.readLine();
     if (firstLine === null) return null;
     const headers = await tp.readMIMEHeader();
     if (headers === null) throw new Deno.errors.UnexpectedEof();
@@ -978,11 +771,9 @@ class Server {
         for (const conn of this.connections)try {
             conn.close();
         } catch (e) {
-            // Connection might have been already closed
             if (!(e instanceof Deno.errors.BadResource)) throw e;
         }
     }
-    // Yields all HTTP requests on a single TCP connection.
     async *iterateHttpRequests(conn) {
         const reader = new BufReader(conn);
         const writer = new BufWriter(conn);
@@ -991,8 +782,7 @@ class Server {
             try {
                 request = await readRequest(conn, reader);
             } catch (error) {
-                if (error instanceof Deno.errors.InvalidData || error instanceof Deno.errors.UnexpectedEof) // An error was thrown while parsing request headers.
-                await writeResponse(writer, {
+                if (error instanceof Deno.errors.InvalidData || error instanceof Deno.errors.UnexpectedEof) await writeResponse(writer, {
                     status: 400,
                     body: encode(`${error.message}\r\n\r\n`)
                 });
@@ -1001,25 +791,17 @@ class Server {
             if (request === null) break;
             request.w = writer;
             yield request;
-            // Wait for the request to be processed before we accept a new request on
-            // this connection.
             const responseError = await request.done;
             if (responseError) {
-                // Something bad happened during response.
-                // (likely other side closed during pipelined req)
-                // req.done implies this connection already closed, so we can just return.
                 this.untrackConnection(request.conn);
                 return;
             }
-            // Consume unread body and trailers if receiver didn't consume those data
             await request.finalize();
         }
         this.untrackConnection(conn);
         try {
             conn.close();
-        } catch (e) {
-        // might have been already closed
-        }
+        } catch (e) {}
     }
     trackConnection(conn) {
         this.connections.push(conn);
@@ -1028,13 +810,8 @@ class Server {
         const index = this.connections.indexOf(conn);
         if (index !== -1) this.connections.splice(index, 1);
     }
-    // Accepts a new TCP connection and yields all HTTP requests that arrive on
-    // it. When a connection is accepted, it also creates a new iterator of the
-    // same kind and adds it to the request multiplexer so that another TCP
-    // connection can be accepted.
     async *acceptConnAndIterateHttpRequests(mux) {
         if (this.closing) return;
-        // Wait for a new connection.
         let conn;
         try {
             conn = await this.listener.accept();
@@ -1043,9 +820,7 @@ class Server {
             throw error;
         }
         this.trackConnection(conn);
-        // Try to accept another connection and add it to the multiplexer.
         mux.add(this.acceptConnAndIterateHttpRequests(mux));
-        // Yield the requests that arrive on the just-accepted connection.
         yield* this.iterateHttpRequests(conn);
     }
     [Symbol.asyncIterator]() {
@@ -1091,10 +866,7 @@ function fixLength(req) {
         }
         const c = req.headers.get("Content-Length");
         if (req.method === "HEAD" && c && c !== "0") throw Error("http: method cannot contain a Content-Length");
-        if (c && req.headers.has("transfer-encoding")) // A sender MUST NOT send a Content-Length header field in any message
-        // that contains a Transfer-Encoding header field.
-        // rfc: https://tools.ietf.org/html/rfc7230#section-3.3.2
-        throw new Error("http: Transfer-Encoding and Content-Length cannot be send together");
+        if (c && req.headers.has("transfer-encoding")) throw new Error("http: Transfer-Encoding and Content-Length cannot be send together");
     }
 }
 listenAndServe({

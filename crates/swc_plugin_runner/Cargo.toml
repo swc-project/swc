@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_plugin_runner"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.38.3"
+version = "0.39.0"
 
 [dependencies]
 anyhow = "1.0.42"
@@ -23,7 +23,7 @@ wasmer-wasi = "2.2.0"
 
 [dev-dependencies]
 swc_atoms = {version = "0.2.7", path = '../swc_atoms'}
-swc_ecma_loader = {version = "0.28.0", path = "../swc_ecma_loader"}
+swc_ecma_loader = {version = "0.29.0", path = "../swc_ecma_loader"}
 swc_ecma_parser = {version = "0.91.0", path = "../swc_ecma_parser"}
 swc_ecma_visit = {version = "0.54.0", path = "../swc_ecma_visit"}
 testing = {version = "0.18.0", path = "../testing"}

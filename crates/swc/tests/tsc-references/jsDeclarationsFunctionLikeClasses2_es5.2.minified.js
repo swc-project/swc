@@ -32,4 +32,4 @@ Point2D.prototype = {
         this.storage[1] = y;
     }
 };
-export var origin = new Point2D(0, 0); // export const res = Point2D(2, 3).dot(origin); // TODO: when __proto__ works, validate this
+export var origin = new Point2D(0, 0);

@@ -153,6 +153,52 @@ pub(crate) struct ProgramData {
     pub scopes: AHashMap<SyntaxContext, ScopeData>,
 }
 
+impl ProgramData {
+    pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
+        match e {
+            Expr::Ident(i) => {
+                if let Some(v) = self.vars.get(&i.to_id()) {
+                    return !v.declared;
+                }
+
+                true
+            }
+
+            Expr::Member(MemberExpr { obj, prop, .. }) => {
+                if self.contains_unresolved(obj) {
+                    return true;
+                }
+
+                if let MemberProp::Computed(prop) = prop {
+                    if self.contains_unresolved(&prop.expr) {
+                        return true;
+                    }
+                }
+
+                false
+            }
+
+            Expr::Call(CallExpr {
+                callee: Callee::Expr(callee),
+                args,
+                ..
+            }) => {
+                if self.contains_unresolved(callee) {
+                    return true;
+                }
+
+                if args.iter().any(|arg| self.contains_unresolved(&arg.expr)) {
+                    return true;
+                }
+
+                false
+            }
+
+            _ => false,
+        }
+    }
+}
+
 /// This assumes there are no two variable with same name and same span hygiene.
 #[derive(Debug)]
 pub(crate) struct UsageAnalyzer<S = ProgramData>

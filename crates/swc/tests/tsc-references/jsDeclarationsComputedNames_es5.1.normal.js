@@ -16,7 +16,6 @@ function _defineProperty(obj, key, value) {
     }
     return obj;
 }
-var _key, _key1;
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -39,12 +38,11 @@ module.exports = (_obj = {}, _defineProperty(_obj, TopLevelSym, function() {
 // @filename: index2.js
 var TopLevelSym = Symbol();
 var InnerSym = Symbol();
+var _InnerSym = InnerSym;
 export var MyClass = function MyClass() {
     "use strict";
     var _p = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : InnerSym;
     _classCallCheck(this, MyClass);
-    this[_key1] = "ok";
+    this[_InnerSym] = "ok";
 };
-_key = TopLevelSym;
-_key1 = InnerSym;
-MyClass[_key] = 12;
+MyClass[TopLevelSym] = 12;

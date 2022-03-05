@@ -5,4 +5,4 @@ export var A = function() {
     }(this, A);
 };
 export * from "./b";
-new A(); // Error
+new A();

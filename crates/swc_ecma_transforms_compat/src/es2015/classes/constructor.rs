@@ -9,6 +9,7 @@ use swc_ecma_utils::{quote_ident, ExprFactory};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+use swc_trace_macro::swc_trace;
 
 pub(super) struct SuperCallFinder {
     mode: Option<SuperFoldingMode>,
@@ -16,6 +17,7 @@ pub(super) struct SuperCallFinder {
     in_complex: bool,
 }
 
+#[swc_trace]
 impl SuperCallFinder {
     ///
     /// - `None`: if no `super()` is found or super() is last call
@@ -63,6 +65,7 @@ macro_rules! mark_as_complex {
     };
 }
 
+#[swc_trace]
 impl Visit for SuperCallFinder {
     noop_visit_type!();
 
@@ -170,6 +173,7 @@ pub(super) enum SuperFoldingMode {
     Var,
 }
 
+#[swc_trace]
 impl VisitMut for ConstructorFolder<'_> {
     noop_visit_mut_type!();
 
@@ -439,6 +443,7 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: &mut Constructor) -> bo
         wrap_with_assertion: bool,
     }
 
+    #[swc_trace]
     impl VisitMut for Replacer {
         noop_visit_mut_type!();
 

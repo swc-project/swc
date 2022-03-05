@@ -81,12 +81,13 @@ var Derived = /*#__PURE__*/ function(Base1) {
         _classCallCheck(this, Derived);
         var _this;
         _this = _super.apply(this, arguments);
-        _this.bing // error
-         = function() {
+        _this.bing = function() {
             return Base.foo;
-        };
+        } // error
+        ;
         return _this;
     }
     return Derived;
 }(Base);
-Derived.bar = Base.foo;
+Derived.bar = Base.foo // error
+;

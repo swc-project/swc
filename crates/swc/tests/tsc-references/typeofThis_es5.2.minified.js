@@ -13,19 +13,15 @@ function _createClass(Constructor, protoProps, staticProps) {
 function _instanceof(left, right) {
     return null != right && "undefined" != typeof Symbol && right[Symbol.hasInstance] ? !!right[Symbol.hasInstance](left) : left instanceof right;
 }
-var _key, Test6, Test7, Test = function() {
+var Test6, Test7, Test = function() {
     "use strict";
     _classCallCheck(this, Test), this.data = {};
 }, Test1 = function() {
     "use strict";
     _classCallCheck(this, Test1), this.data = {
         foo: ""
-    }, this[_key] = "";
-    var self = this;
-    self.data;
-};
-_key = "this";
-var Test5 = function() {
+    }, this.this = "", this.data;
+}, Test5 = function() {
     "use strict";
     _classCallCheck(this, Test5), this.no = 1, this.f = function() {};
 };

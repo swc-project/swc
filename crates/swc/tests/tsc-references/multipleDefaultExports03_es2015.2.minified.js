@@ -1,5 +1,4 @@
-class C {
-}
-class C {
-}
-export { C as default, C as default };
+export default class C {
+};
+export default class C {
+};

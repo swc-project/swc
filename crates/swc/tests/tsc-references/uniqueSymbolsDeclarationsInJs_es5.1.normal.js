@@ -8,18 +8,14 @@ var C = function C() {
     _classCallCheck(this, C);
     /**
      * @readonly
-     */ // @target: esnext
-    // @lib: esnext
-    // @declaration: true
-    // @allowJs: true
-    // @checkJs: true
-    // @filename: uniqueSymbolsDeclarationsInJs.js
-    // @out: uniqueSymbolsDeclarationsInJs-out.js
-    // @useDefineForClassFields: false
-    // classes
-    this.readonlyCall = Symbol();
+     */ this.readonlyCall = Symbol();
     this.readwriteCall = Symbol();
 };
-C.readonlyStaticCall = Symbol();
-C.readonlyStaticTypeAndCall = Symbol();
+/**
+     * @readonly
+     */ C.readonlyStaticCall = Symbol();
+/**
+     * @type {unique symbol}
+     * @readonly
+     */ C.readonlyStaticTypeAndCall = Symbol();
 C.readwriteStaticCall = Symbol();

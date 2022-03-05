@@ -1,9 +1,9 @@
 var NonGenericParameter, GenericParameter;
 !function(NonGenericParameter) {
-    var a, foo4 = function(cb) {
+    var foo4 = function(cb) {
         return cb;
     };
-    foo4(a), foo4(function(x) {
+    foo4(void 0), foo4(function(x) {
         return x;
     }), foo4(function(x) {
         return x;

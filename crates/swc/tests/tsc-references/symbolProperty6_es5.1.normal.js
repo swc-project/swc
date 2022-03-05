@@ -17,18 +17,17 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var _key;
-var tmp = (_key = Symbol.iterator, Symbol.toPrimitive), _toStringTag = Symbol.toStringTag;
+var _iterator = Symbol.iterator, _toPrimitive = Symbol.toPrimitive, _toStringTag = Symbol.toStringTag;
 var C = //@target: ES6
 /*#__PURE__*/ function() {
     "use strict";
     function C() {
         _classCallCheck(this, C);
-        this[_key] = 0;
+        this[_iterator] = 0;
     }
     _createClass(C, [
         {
-            key: tmp,
+            key: _toPrimitive,
             value: function value() {}
         },
         {

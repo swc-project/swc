@@ -12,8 +12,10 @@ use swc_ecma_utils::{
     member_expr, prepend, prepend_stmts, private_ident, quote_ident, undefined, ExprFactory,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_trace_macro::swc_trace;
 use tracing::trace;
 
+#[tracing::instrument(level = "trace", skip_all)]
 pub fn parameters(c: Config) -> impl 'static + Fold {
     as_folder(Params {
         c,
@@ -65,6 +67,7 @@ pub struct Config {
 //     }
 // }
 
+#[swc_trace]
 impl Params {
     fn visit_mut_fn_like(&mut self, ps: &mut Vec<Param>, body: &mut BlockStmt, is_setter: bool) {
         let mut params = vec![];
@@ -392,6 +395,7 @@ impl Params {
     }
 }
 
+#[swc_trace]
 impl VisitMut for Params {
     noop_visit_mut_type!();
 

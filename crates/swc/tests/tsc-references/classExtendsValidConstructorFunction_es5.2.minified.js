@@ -48,5 +48,4 @@ var C = function(foo1) {
         }(this, C), _super.apply(this, arguments);
     }
     return C;
-} // error, cannot extend it though
-(foo);
+}(foo);

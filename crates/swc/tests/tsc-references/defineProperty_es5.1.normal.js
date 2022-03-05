@@ -83,18 +83,18 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var _key, _key1;
 // @target: es5, esnext
 // @useDefineForClassFields: true
 var x = "p";
+var _x = x;
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A(y) {
         _classCallCheck(this, A);
         this.y = y;
         this.a = this.y;
-        this[_key] = 13;
-        this[_key1] = 14;
+        this["computed"] = 13;
+        this[_x] = 14;
         this.z = this.y;
     }
     _createClass(A, [
@@ -105,8 +105,6 @@ var A = /*#__PURE__*/ function() {
     ]);
     return A;
 }();
-_key = "computed";
-_key1 = x;
 var B = function B() {
     "use strict";
     _classCallCheck(this, B);

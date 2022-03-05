@@ -7,8 +7,6 @@ var AA1 = function AA1() {
     "use strict";
     _classCallCheck(this, AA1);
 };
-// @module: commonjs
-// @target: ES5
 export { AA1 as default };
 var BB1 = function BB1() {
     "use strict";

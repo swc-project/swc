@@ -72,6 +72,9 @@ var _d = new WeakMap(), _e = new WeakMap(), _f1 = new WeakMap();
 var C4 = function C4() {
     "use strict";
     _classCallCheck(this, C4);
+    this.a = 0;
+    this.b = 0;
+    this.c = "abc";
     _classPrivateFieldInit(this, _d, {
         writable: true,
         value: 0
@@ -84,10 +87,6 @@ var C4 = function C4() {
         writable: true,
         value: "abc"
     });
-    // Initializer satisfies strict initialization check
-    this.a = 0;
-    this.b = 0;
-    this.c = "abc";
 };
 var _b = new WeakMap();
 var C5 = function C5() {

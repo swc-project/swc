@@ -28,7 +28,6 @@ function _classPrivateFieldInit(obj, privateMap, value) {
     _checkPrivateRedeclaration(obj, privateMap);
     privateMap.set(obj, value);
 }
-var _key;
 var _foo = new WeakMap(), _bar = new WeakMap();
 var A = function A() {
     "use strict";
@@ -41,9 +40,6 @@ var A = function A() {
         writable: true,
         value: _classPrivateFieldGet(this, _foo)
     });
-    // @strict: true
-    // @target: es6
-    this[_key] // Error (should *not* be private name error)
-     = this["#baz"];
+    this["#baz"] = this["#baz"] // Error (should *not* be private name error)
+    ;
 };
-_key = "#baz";

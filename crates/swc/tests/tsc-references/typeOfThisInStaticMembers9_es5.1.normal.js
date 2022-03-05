@@ -106,8 +106,6 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var _superprop_get_f = ()=>super.f
-;
 var C = function C() {
     "use strict";
     _classCallCheck(this, C);
@@ -124,10 +122,10 @@ var D = /*#__PURE__*/ function(C) {
     return D;
 }(C);
 D.arrowFunctionBoundary = function() {
-    return _superprop_get_f() + 1;
+    return _get(_getPrototypeOf(D), "f", D) + 1;
 };
 D.functionExprBoundary = function() {
-    return super.f + 2;
+    return _get(_getPrototypeOf(D), "f", this) + 2;
 };
 D.classExprBoundary = function _class() {
     "use strict";
@@ -136,7 +134,7 @@ D.classExprBoundary = function _class() {
 };
 D.functionAndClassDeclBoundary = (function() {
     var foo = function foo() {
-        return super.f + 4;
+        return _get(_getPrototypeOf(D), "f", this) + 4;
     };
     var C = /*#__PURE__*/ function() {
         "use strict";

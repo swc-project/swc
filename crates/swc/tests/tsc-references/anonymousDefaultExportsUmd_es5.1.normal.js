@@ -3,13 +3,10 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-var _class = function _class() {
+var _default = function _default() {
     "use strict";
-    _classCallCheck(this, _class);
+    _classCallCheck(this, _default);
 };
-// @target: ES6
-// @module: umd
-// @filename: a.ts
-export { _class as default };
+export { _default as default };
 // @filename: b.ts
 export default function() {};

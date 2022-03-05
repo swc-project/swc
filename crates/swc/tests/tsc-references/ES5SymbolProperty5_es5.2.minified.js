@@ -19,5 +19,4 @@ var Symbol, _iterator = Symbol.iterator, C = function() {
         }
     ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
 }();
-(new C)[Symbol.iterator](0) // Should error
-;
+(new C)[Symbol.iterator](0);

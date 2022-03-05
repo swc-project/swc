@@ -1,2 +1,1 @@
-var _key;
-new WeakMap(), new WeakMap(), _key = "#baz";
+new WeakMap(), new WeakMap();

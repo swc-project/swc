@@ -580,11 +580,11 @@
                                 0,
                                 0,
                                 0
-                            ], result = [], ctx = canvas.getContext("2d");
+                            ], ctx = canvas.getContext("2d");
                             if (!ctx) throw new Error("Unable to get canvas context");
                             for(var frame = ctx.getImageData(from.x, from.y, this.size.x, this.size.y), data = frame.data, length = this.data.length; length--;){
-                                hsv[0] = this.data[length] * adjustedScale, result = hsv[0] <= 0 ? whiteRgb : hsv[0] >= 360 ? blackRgb : Object(_cv_utils__WEBPACK_IMPORTED_MODULE_5__.g)(hsv, rgb);
-                                var pos = 4 * length, _result = result, _result2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_result, 3);
+                                hsv[0] = this.data[length] * adjustedScale;
+                                var pos = 4 * length, _result = hsv[0] <= 0 ? whiteRgb : hsv[0] >= 360 ? blackRgb : Object(_cv_utils__WEBPACK_IMPORTED_MODULE_5__.g)(hsv, rgb), _result2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_result, 3);
                                 data[pos] = _result2[0], data[pos + 1] = _result2[1], data[pos + 2] = _result2[2], data[pos + 3] = 255;
                             }
                             ctx.putImageData(frame, from.x, from.y);
@@ -2565,8 +2565,7 @@
         },
         function(module, exports) {
             module.exports = function(out, scale) {
-                scale = scale || 1;
-                var r = 2 * Math.random() * Math.PI, z = 2 * Math.random() - 1, zScale = Math.sqrt(1 - z * z) * scale;
+                var r = 2 * Math.random() * Math.PI, z = 2 * Math.random() - 1, zScale = Math.sqrt(1 - z * z) * (scale = scale || 1);
                 return out[0] = Math.cos(r) * zScale, out[1] = Math.sin(r) * zScale, out[2] = z * scale, out;
             };
         },

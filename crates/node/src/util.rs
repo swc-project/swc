@@ -11,7 +11,7 @@ use swc_common::{errors::Handler, sync::Lrc, SourceMap};
 use tracing::instrument;
 use tracing_chrome::ChromeLayerBuilder;
 use tracing_subscriber::{
-    prelude::__tracing_subscriber_SubscriberExt, util::SubscriberInitExt, EnvFilter,
+    filter, prelude::__tracing_subscriber_SubscriberExt, util::SubscriberInitExt, EnvFilter, Layer,
 };
 
 #[napi]
@@ -26,7 +26,9 @@ pub fn init_custom_trace_subscriber(
 
     let (chrome_layer, guard) = layer.build();
     tracing_subscriber::registry()
-        .with(chrome_layer)
+        .with(chrome_layer.with_filter(filter::filter_fn(|metadata| {
+            !metadata.target().contains("cranelift") && !metadata.name().contains("log ")
+        })))
         .try_init()
         .expect("Failed to register tracing subscriber");
 
@@ -47,6 +49,7 @@ pub fn init_default_trace_subscriber() {
         .with_target(false)
         .with_ansi(true)
         .with_env_filter(EnvFilter::from_env("SWC_LOG"))
+        .with_env_filter(EnvFilter::from_default_env().add_directive(tracing::Level::WARN.into()))
         .try_init();
 }
 

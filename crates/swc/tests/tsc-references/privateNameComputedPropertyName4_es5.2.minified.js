@@ -10,7 +10,7 @@ function _defineProperties(target, props) {
 function _createClass(Constructor, protoProps, staticProps) {
     return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
 }
-var _key, C1 = function() {
+var C1 = function() {
     "use strict";
     function C1() {
         _classCallCheck(this, C1);
@@ -36,4 +36,4 @@ var _key, C1 = function() {
     "use strict";
     _classCallCheck(this, C3);
 };
-C3[_key = "bar"] = "test";
+C3.bar = "test";

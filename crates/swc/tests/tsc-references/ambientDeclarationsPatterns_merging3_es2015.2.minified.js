@@ -1,3 +1,2 @@
-ohno.a // oh no
-;
+ohno.a;
 export { };

@@ -6,7 +6,7 @@ use swc::{
     config::{JsMinifyOptions, Options, ParseOptions, SourceMapsConfig},
     try_with_handler, Compiler,
 };
-use swc_common::{FileName, FilePathMapping, SourceMap};
+use swc_common::{comments::Comments, FileName, FilePathMapping, SourceMap};
 use swc_ecmascript::ast::{EsVersion, Program};
 use wasm_bindgen::prelude::*;
 
@@ -43,6 +43,14 @@ pub fn parse_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
         let opts: ParseOptions = opts.into_serde().context("failed to parse options")?;
 
         let fm = c.cm.new_source_file(FileName::Anon, s.into());
+
+        let cmts = c.comments().clone();
+        let comments = if opts.comments {
+            Some(&cmts as &dyn Comments)
+        } else {
+            None
+        };
+
         let program = c
             .parse_js(
                 fm,
@@ -50,7 +58,7 @@ pub fn parse_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
                 opts.target,
                 opts.syntax,
                 opts.is_module,
-                opts.comments,
+                comments,
             )
             .context("failed to parse code")?;
 

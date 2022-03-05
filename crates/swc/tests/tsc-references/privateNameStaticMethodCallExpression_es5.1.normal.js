@@ -185,6 +185,7 @@ var AA = // @target: es2015
     ]);
     return AA;
 }();
+AA.x = 1;
 function method() {
     this.x = 10;
 }
@@ -193,4 +194,3 @@ function method2(a) {
         b[_key - 1] = arguments[_key];
     }
 }
-AA.x = 1;

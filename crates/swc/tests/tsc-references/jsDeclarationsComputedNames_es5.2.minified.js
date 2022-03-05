@@ -6,7 +6,7 @@ function _defineProperty(obj, key, value) {
         writable: !0
     }) : obj[key] = value, obj;
 }
-var _key, _key1, _obj, TopLevelSym = Symbol(), InnerSym = Symbol();
+var _obj, TopLevelSym = Symbol(), InnerSym = Symbol();
 module.exports = (_defineProperty(_obj = {}, TopLevelSym, function() {
     var x = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : 12;
     return x;
@@ -16,11 +16,11 @@ module.exports = (_defineProperty(_obj = {}, TopLevelSym, function() {
     };
     return arg.x;
 })), _obj);
-var TopLevelSym = Symbol(), InnerSym = Symbol();
+var TopLevelSym = Symbol(), InnerSym = Symbol(), _InnerSym = InnerSym;
 export var MyClass = function() {
     "use strict";
     arguments.length > 0 && void 0 !== arguments[0] && arguments[0], (function(instance, Constructor) {
         if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    })(this, MyClass), this[_key1] = "ok";
+    })(this, MyClass), this[_InnerSym] = "ok";
 };
-_key = TopLevelSym, _key1 = InnerSym, MyClass[_key] = 12;
+MyClass[TopLevelSym] = 12;

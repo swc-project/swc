@@ -17,7 +17,6 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var _key;
 var C1 = // @target: esnext, es2022, es2015
 // @useDefineForClassFields: true
 // @noTypesAndSymbols: true
@@ -64,5 +63,4 @@ var _qux2 = {
     writable: true,
     value: 42
 };
-_key = "bar";
-C3[_key] = "test";
+C3["bar"] = "test";

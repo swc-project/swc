@@ -17,11 +17,11 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     }, _setPrototypeOf(o, p);
 }
-var _key, _key1, A = function() {
+var A = function() {
     "use strict";
     var Constructor, protoProps, staticProps;
     function A(y) {
-        _classCallCheck(this, A), this.y = y, this.a = this.y, this[_key] = 13, this[_key1] = 14, this.z = this.y;
+        _classCallCheck(this, A), this.y = y, this.a = this.y, this.computed = 13, this.p = 14, this.z = this.y;
     }
     return protoProps = [
         {
@@ -29,9 +29,7 @@ var _key, _key1, A = function() {
             value: function() {}
         }
     ], _defineProperties((Constructor = A).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), A;
-}();
-_key = "computed", _key1 = "p";
-var B = function() {
+}(), B = function() {
     "use strict";
     _classCallCheck(this, B);
 }, C = function(B1) {

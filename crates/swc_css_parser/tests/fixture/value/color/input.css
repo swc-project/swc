@@ -15,12 +15,27 @@
     color: rgb(123 255 255 / .5);
     color: rgb(123 255 255 / 50%);
     color: rgb(48% 100% 100% / 50%);
+    color: rgb(48% none 100% / 50%);
+    color: rgb(48% 100% 100% / none);
 }
 
 .rgba {
     color: rgba(255, 0, 0, 100%);
     color: rgba(255, 255, 0, 1);
     color: rgba(255, 255, 0, 0.8);
+    color: rgba(255, 165, 0);
+    color: rgba(255,165,0);
+    color: rGbA(255,165,0);
+    color: rgba(0 255 0);
+    color: rgba(0%100%0%);
+    color: rgba(29 164 192 / 95%);
+    color: rgba(123 255 255 / .5);
+    color: rgba(123 255 255 / 50%);
+    color: rgba(48% 100% 100% / 50%);
+    color: rgba(48% none 100% / 50%);
+    color: rgba(48% 100% 100% / none);
+    color: rgba(123 none 123 / 50%);
+    color: rgba(123 123 123 / none);
 }
 
 .hsl {
@@ -72,8 +87,70 @@
 
 .color {
     color: color(sRGB 0 1 0);
+    color: color(srgb-linear 0 1 0);
+    color: color(display-p3 0 1 0);
+    color: color(a98-rgb 0 1 0);
+    color: color(prophoto-rgb 0 1 0);
+    color: color(rec2020 0 1 0);
+    color: color(sRGB 0 none 0);
     color: color(display-p3 0.823 0.6554 0.2537 /1);
+    color: color(display-p3 0.823 0.6554 0.2537 / 1);
+    color: color(display-p3 0.823 0.6554 0.2537/1);
     color: color(display-p3 0.823 0.6554 0.2537);
     color: color(xyz 0.472 0.372 0.131);
+    color: color(xyz-d50 0.472 0.372 0.131);
     color: color(xyz-d65 0.472 0.372 0.131);
+    color: color(display-p3 -0.6112 1.0079 -0.2192);
+    color: color(sRGB 0.41587 0.503670 0.36664);
+    color: color(display-p3 0.43313 0.50108 0.37950);
+    color: color(a98-rgb 0.44091 0.49971 0.37408);
+    color: color(prophoto-rgb 0.36589 0.41717 0.31333);
+    color: color(rec2020 0.42210 0.47580 0.35605);
+    color: color(profoto-rgb 0.4835 0.9167 0.2188);
+}
+
+@color-profile --fogra55beta {
+    src: url('https://example.org/2020_13.003_FOGRA55beta_CL_Profile.icc');
+}
+
+.dark_skin {
+    background-color: color(--fogra55beta 0.183596 0.464444 0.461729 0.612490 0.156903 0.000000 0.000000);
+    background-color: color(--fogra55beta 0.070804 0.334971 0.321802 0.215606 0.103107 0.000000 0.000000);
+    background-color: color(--fogra55beta 0.572088 0.229346 0.081708 0.282044 0.000000 0.000000 0.168260);
+    background-color: color(--fogra55beta 0.314566 0.145687 0.661941 0.582879 0.000000 0.234362 0.000000);
+    background-color: color(--fogra55beta 0.375515 0.259934 0.034849 0.107161 0.000000 0.000000 0.308200);
+    background-color: color(--fogra55beta 0.397575 0.010047 0.223682 0.031140 0.000000 0.317066 0.000000);
+}
+
+.device-cmyk {
+    color: device-cmyk(0 81% 81% 30%);
+    color: device-cmyk(0% 70% 20% 0%);
+    color: device-cmyk(0% 70% 20% 0%);
+    color: device-cmyk(0 0.7 0.2 0);
+}
+
+.color-mix {
+    color: color-mix(in lch, purple 50%, plum 50%);
+    color: color-mix(in lch, purple 50%, plum);
+    color: color-mix(in lch, purple, plum 50%);
+    color: color-mix(in lch, purple, plum);
+    color: color-mix(in lch, plum, purple);
+    color: color-mix(in lch, purple 80%, plum 80%);
+}
+
+.color-contrast {
+    color: color-contrast(currentColor vs hsl(200 83% 23%), purple to AA);
+    color: color-contrast(currentColor vs rgb(10 75 107), rgb(128 0 128) to 4.5);
+}
+
+.foo {
+    color: device-cmyk(0 81% 81% 30%);
+    color: rgb(178 34 34);
+    color: firebrick;
+}
+
+.bar {
+    color: device-cmyk(0 81% 81% 30%);
+    color: lab(45.060% 45.477 35.459);
+    color: rgb(70.690% 26.851% 19.724%);
 }

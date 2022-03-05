@@ -7,6 +7,7 @@ var C = function C() {
     "use strict";
     _classCallCheck(this, C);
 };
+C.s1 = 1;
 var __ = {
     writable: true,
     value: function() {
@@ -16,6 +17,5 @@ var __ = {
         C.s2;
     }()
 };
-C.s1 = 1;
 C.s2 = 2;
 C.ss2 = C.s1;
