@@ -229,7 +229,12 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                     should_enable(self.target, EsVersion::Es2018)
                 ),
                 Optional::new(
-                    compat::es2017(),
+                    compat::es2017(compat::es2017::Config {
+                        async_to_generator: compat::es2017::async_to_generator::Config {
+                            ignore_function_name: assumptions.ignore_function_name,
+                            ignore_function_length: assumptions.ignore_function_length
+                        }
+                    }),
                     should_enable(self.target, EsVersion::Es2017)
                 ),
                 Optional::new(

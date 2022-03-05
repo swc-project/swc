@@ -2877,7 +2877,10 @@ _defineProperty(foo, 'MODE', MODE);"
 // public_regression_t7364
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), async_to_generator()),
+    |_| chain!(
+        class_properties(Default::default()),
+        async_to_generator(Default::default())
+    ),
     public_regression_t7364,
     r#"
 class MyClass {
@@ -3383,7 +3386,7 @@ test!(
     syntax(),
     |_| chain!(
         class_properties(Default::default()),
-        async_to_generator(),
+        async_to_generator(Default::default()),
         block_scoping()
     ),
     private_regression_t7364,
@@ -5368,7 +5371,10 @@ function set_b(x) {}
 
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), async_to_generator()),
+    |_| chain!(
+        class_properties(Default::default()),
+        async_to_generator(Default::default())
+    ),
     issue_1694_1,
     "
     class MyClass {
@@ -5396,7 +5402,10 @@ test!(
 
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), async_to_generator()),
+    |_| chain!(
+        class_properties(Default::default()),
+        async_to_generator(Default::default())
+    ),
     issue_1694_2,
     "
 class MyClass {
@@ -5422,7 +5431,10 @@ class MyClass {
 
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), async_to_generator()),
+    |_| chain!(
+        class_properties(Default::default()),
+        async_to_generator(Default::default())
+    ),
     issue_1702_1,
     "
     class Foo {
