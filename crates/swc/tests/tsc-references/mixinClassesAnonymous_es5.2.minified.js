@@ -35,14 +35,9 @@ var Thing2 = Tagged(((_class = function(superClass) {
     function _class() {
         return swcHelpers.classCallCheck(this, _class), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(_class, [
-        {
-            key: "print",
-            value: function() {
-                this.x + this.y;
-            }
-        }
-    ]), _class;
+    return _class.prototype.print = function() {
+        this.x + this.y;
+    }, _class;
 }(Derived)).message = "hello", _class));
 Thing2.message;
 var Thing3 = function(Thing21) {
@@ -53,12 +48,7 @@ var Thing3 = function(Thing21) {
         var _this;
         return swcHelpers.classCallCheck(this, Thing3), (_this = _super.call(this, 10, 20, 30))._tag = tag, _this;
     }
-    return swcHelpers.createClass(Thing3, [
-        {
-            key: "test",
-            value: function() {
-                this.print();
-            }
-        }
-    ]), Thing3;
+    return Thing3.prototype.test = function() {
+        this.print();
+    }, Thing3;
 }(Thing2);

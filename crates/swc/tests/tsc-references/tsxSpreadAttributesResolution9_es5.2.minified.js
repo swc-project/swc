@@ -6,14 +6,9 @@ var React = require("react"), Opt = function(_Component) {
     function Opt() {
         return swcHelpers.classCallCheck(this, Opt), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(Opt, [
-        {
-            key: "render",
-            value: function() {
-                return React.createElement("div", null, "Hello");
-            }
-        }
-    ]), Opt;
+    return Opt.prototype.render = function() {
+        return React.createElement("div", null, "Hello");
+    }, Opt;
 }(React.Component), obj1 = {
     x: 2
 };

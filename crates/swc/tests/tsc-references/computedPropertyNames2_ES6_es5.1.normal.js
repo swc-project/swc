@@ -8,11 +8,10 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
+    var _proto = C.prototype;
+    _proto[_methodName] = function() {};
+    C[_methodName1] = function() {};
     swcHelpers.createClass(C, [
-        {
-            key: _methodName,
-            value: function value() {}
-        },
         {
             key: _accessorName,
             get: function get() {}
@@ -22,10 +21,6 @@ var C = /*#__PURE__*/ function() {
             set: function set(v) {}
         }
     ], [
-        {
-            key: _methodName1,
-            value: function value() {}
-        },
         {
             key: _accessorName2,
             get: function get() {}

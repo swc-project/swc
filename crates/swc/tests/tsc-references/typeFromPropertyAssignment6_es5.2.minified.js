@@ -8,12 +8,7 @@ Outer.Inner = (function() {
     function I() {
         swcHelpers.classCallCheck(this, I);
     }
-    return swcHelpers.createClass(I, [
-        {
-            key: "messages",
-            value: function() {
-                return [];
-            }
-        }
-    ]), I;
+    return I.prototype.messages = function() {
+        return [];
+    }, I;
 })(), Outer.i, Outer.i.messages();

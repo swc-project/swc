@@ -34,27 +34,19 @@ var A = /*#__PURE__*/ function() {
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    swcHelpers.createClass(A, [
-        {
-            key: "biz",
-            value: function biz() {
-                for(var x in this.biz()){}
-                for(var x in this.biz){}
-                for(var x in this){}
-                return null;
-            }
-        }
-    ], [
-        {
-            key: "baz",
-            value: function baz() {
-                for(var x in this){}
-                for(var x in this.baz){}
-                for(var x in this.baz()){}
-                return null;
-            }
-        }
-    ]);
+    var _proto = A.prototype;
+    _proto.biz = function biz() {
+        for(var x in this.biz()){}
+        for(var x in this.biz){}
+        for(var x in this){}
+        return null;
+    };
+    A.baz = function baz() {
+        for(var x in this){}
+        for(var x in this.baz){}
+        for(var x in this.baz()){}
+        return null;
+    };
     return A;
 }();
 var B = /*#__PURE__*/ function(A) {
@@ -65,19 +57,15 @@ var B = /*#__PURE__*/ function(A) {
         swcHelpers.classCallCheck(this, B);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(B, [
-        {
-            key: "boz",
-            value: function boz() {
-                for(var x in this.biz()){}
-                for(var x in this.biz){}
-                for(var x in this){}
-                for(var x in swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "biz", this)){}
-                for(var x in swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "biz", this).call(this)){}
-                return null;
-            }
-        }
-    ]);
+    var _proto = B.prototype;
+    _proto.boz = function boz() {
+        for(var x in this.biz()){}
+        for(var x in this.biz){}
+        for(var x in this){}
+        for(var x in swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "biz", this)){}
+        for(var x in swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "biz", this).call(this)){}
+        return null;
+    };
     return B;
 }(A);
 var i;

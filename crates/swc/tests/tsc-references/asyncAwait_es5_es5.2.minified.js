@@ -94,93 +94,68 @@ var M, C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "m1",
-            value: function() {
-                return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                    return regeneratorRuntime.wrap(function(_ctx) {
-                        for(;;)switch(_ctx.prev = _ctx.next){
-                            case 0:
-                            case "end":
-                                return _ctx.stop();
-                        }
-                    }, _callee);
-                }))();
-            }
-        },
-        {
-            key: "m2",
-            value: function() {
-                return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                    return regeneratorRuntime.wrap(function(_ctx) {
-                        for(;;)switch(_ctx.prev = _ctx.next){
-                            case 0:
-                            case "end":
-                                return _ctx.stop();
-                        }
-                    }, _callee);
-                }))();
-            }
-        },
-        {
-            key: "m3",
-            value: function() {
-                return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                    return regeneratorRuntime.wrap(function(_ctx) {
-                        for(;;)switch(_ctx.prev = _ctx.next){
-                            case 0:
-                            case "end":
-                                return _ctx.stop();
-                        }
-                    }, _callee);
-                }))();
-            }
-        }
-    ], [
-        {
-            key: "m4",
-            value: function() {
-                return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                    return regeneratorRuntime.wrap(function(_ctx) {
-                        for(;;)switch(_ctx.prev = _ctx.next){
-                            case 0:
-                            case "end":
-                                return _ctx.stop();
-                        }
-                    }, _callee);
-                }))();
-            }
-        },
-        {
-            key: "m5",
-            value: function() {
-                return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                    return regeneratorRuntime.wrap(function(_ctx) {
-                        for(;;)switch(_ctx.prev = _ctx.next){
-                            case 0:
-                            case "end":
-                                return _ctx.stop();
-                        }
-                    }, _callee);
-                }))();
-            }
-        },
-        {
-            key: "m6",
-            value: function() {
-                return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                    return regeneratorRuntime.wrap(function(_ctx) {
-                        for(;;)switch(_ctx.prev = _ctx.next){
-                            case 0:
-                            case "end":
-                                return _ctx.stop();
-                        }
-                    }, _callee);
-                }))();
-            }
-        }
-    ]), C;
+    var _proto = C.prototype;
+    return _proto.m1 = function() {
+        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function(_ctx) {
+                for(;;)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
+    }, _proto.m2 = function() {
+        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function(_ctx) {
+                for(;;)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
+    }, _proto.m3 = function() {
+        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function(_ctx) {
+                for(;;)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
+    }, C.m4 = function() {
+        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function(_ctx) {
+                for(;;)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
+    }, C.m5 = function() {
+        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function(_ctx) {
+                for(;;)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
+    }, C.m6 = function() {
+        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function(_ctx) {
+                for(;;)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
+    }, C;
 }();
 !function(M1) {
     function _f1() {

@@ -4,12 +4,7 @@ var _this = this, B = function() {
     function B() {
         swcHelpers.classCallCheck(this, B), this.n = 1;
     }
-    return swcHelpers.createClass(B, [
-        {
-            key: "foo",
-            value: function() {}
-        }
-    ]), B;
+    return B.prototype.foo = function() {}, B;
 }(), C = function(B) {
     "use strict";
     swcHelpers.inherits(C, B);
@@ -44,18 +39,10 @@ var NormalModule = function(Module1) {
     function NormalModule() {
         return swcHelpers.classCallCheck(this, NormalModule), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(NormalModule, [
-        {
-            key: "identifier",
-            value: function() {
-                return "normal";
-            }
-        },
-        {
-            key: "size",
-            value: function() {
-                return 0;
-            }
-        }
-    ]), NormalModule;
+    var _proto = NormalModule.prototype;
+    return _proto.identifier = function() {
+        return "normal";
+    }, _proto.size = function() {
+        return 0;
+    }, NormalModule;
 }(Module);

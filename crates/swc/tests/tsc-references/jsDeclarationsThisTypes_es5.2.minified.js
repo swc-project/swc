@@ -4,14 +4,9 @@ export var A = function() {
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    return swcHelpers.createClass(A, [
-        {
-            key: "method",
-            value: function() {
-                return this;
-            }
-        }
-    ]), A;
+    return A.prototype.method = function() {
+        return this;
+    }, A;
 }();
 var Base = function(A) {
     "use strict";
@@ -20,11 +15,6 @@ var Base = function(A) {
     function Base() {
         return swcHelpers.classCallCheck(this, Base), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(Base, [
-        {
-            key: "verify",
-            value: function() {}
-        }
-    ]), Base;
+    return Base.prototype.verify = function() {}, Base;
 }(A);
 export { Base as default };

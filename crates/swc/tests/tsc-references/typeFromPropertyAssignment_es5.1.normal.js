@@ -8,12 +8,8 @@ var Outer = /*#__PURE__*/ function() {
     function O() {
         swcHelpers.classCallCheck(this, O);
     }
-    swcHelpers.createClass(O, [
-        {
-            key: "m",
-            value: function m(x, y) {}
-        }
-    ]);
+    var _proto = O.prototype;
+    _proto.m = function m(x, y) {};
     return O;
 }();
 Outer.Inner = /*#__PURE__*/ (function() {
@@ -21,12 +17,8 @@ Outer.Inner = /*#__PURE__*/ (function() {
     function I() {
         swcHelpers.classCallCheck(this, I);
     }
-    swcHelpers.createClass(I, [
-        {
-            key: "n",
-            value: function n(a, b) {}
-        }
-    ]);
+    var _proto = I.prototype;
+    _proto.n = function n(a, b) {};
     return I;
 })();
 /** @type {Outer} */ var si;

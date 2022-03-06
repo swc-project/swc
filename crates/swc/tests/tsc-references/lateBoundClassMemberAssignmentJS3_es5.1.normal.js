@@ -14,15 +14,11 @@ export var MyClass = /*#__PURE__*/ function() {
         var self = this;
         self[_sym] = "ok";
     }
-    swcHelpers.createClass(MyClass, [
-        {
-            key: "method",
-            value: function method() {
-                var self = this;
-                self[_sym] = "yep";
-                var x = self[_sym];
-            }
-        }
-    ]);
+    var _proto = MyClass.prototype;
+    _proto.method = function method() {
+        var self = this;
+        self[_sym] = "yep";
+        var x = self[_sym];
+    };
     return MyClass;
 }();

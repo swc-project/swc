@@ -32,14 +32,9 @@ var A;
             this.start = start;
             this.end = end;
         }
-        swcHelpers.createClass(Line, null, [
-            {
-                key: "fromorigin2d",
-                value: function fromorigin2d(p) {
-                    return null;
-                }
-            }
-        ]);
+        Line.fromorigin2d = function fromorigin2d(p) {
+            return null;
+        };
         return Line;
     }();
     A1.Line = Line;

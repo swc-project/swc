@@ -4,18 +4,6 @@ var _p1 = void 0, _p2 = void 0, _p3 = void 0, C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: _p1,
-            value: function() {}
-        },
-        {
-            key: _p2,
-            value: function() {}
-        },
-        {
-            key: _p3,
-            value: function() {}
-        }
-    ]), C;
+    var _proto = C.prototype;
+    return _proto[_p1] = function() {}, _proto[_p2] = function() {}, _proto[_p3] = function() {}, C;
 }();

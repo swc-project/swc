@@ -8,14 +8,10 @@ var ImmediatelyFix;
         function C() {
             swcHelpers.classCallCheck(this, C);
         }
-        swcHelpers.createClass(C, [
-            {
-                key: "foo",
-                value: function foo(x) {
-                    return x(null);
-                }
-            }
-        ]);
+        var _proto = C.prototype;
+        _proto.foo = function foo(x) {
+            return x(null);
+        };
         return C;
     }();
     var c = new C();
@@ -33,14 +29,10 @@ var ImmediatelyFix;
         function C2() {
             swcHelpers.classCallCheck(this, C2);
         }
-        swcHelpers.createClass(C2, [
-            {
-                key: "foo",
-                value: function foo(x) {
-                    return x(null);
-                }
-            }
-        ]);
+        var _proto = C2.prototype;
+        _proto.foo = function foo(x) {
+            return x(null);
+        };
         return C2;
     }();
     var c2 = new C2();
@@ -75,14 +67,10 @@ var WithCandidates;
         function C() {
             swcHelpers.classCallCheck(this, C);
         }
-        swcHelpers.createClass(C, [
-            {
-                key: "foo2",
-                value: function foo2(x, cb) {
-                    return cb(x);
-                }
-            }
-        ]);
+        var _proto = C.prototype;
+        _proto.foo2 = function foo2(x, cb) {
+            return cb(x);
+        };
         return C;
     }();
     var c;
@@ -100,14 +88,10 @@ var WithCandidates;
         function C2() {
             swcHelpers.classCallCheck(this, C2);
         }
-        swcHelpers.createClass(C2, [
-            {
-                key: "foo3",
-                value: function foo3(x, cb, y) {
-                    return cb(x);
-                }
-            }
-        ]);
+        var _proto = C2.prototype;
+        _proto.foo3 = function foo3(x, cb, y) {
+            return cb(x);
+        };
         return C2;
     }();
     var c2;
@@ -122,14 +106,10 @@ var WithCandidates;
         function C3() {
             swcHelpers.classCallCheck(this, C3);
         }
-        swcHelpers.createClass(C3, [
-            {
-                key: "foo3",
-                value: function foo3(x, cb, y) {
-                    return cb(x);
-                }
-            }
-        ]);
+        var _proto = C3.prototype;
+        _proto.foo3 = function foo3(x, cb, y) {
+            return cb(x);
+        };
         return C3;
     }();
     var c3;

@@ -6,12 +6,7 @@ var FetchUser = function(_Component) {
     function FetchUser() {
         return swcHelpers.classCallCheck(this, FetchUser), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(FetchUser, [
-        {
-            key: "render",
-            value: function() {
-                return this.state ? this.props.children(this.state.result) : null;
-            }
-        }
-    ]), FetchUser;
+    return FetchUser.prototype.render = function() {
+        return this.state ? this.props.children(this.state.result) : null;
+    }, FetchUser;
 }(require("react").Component);

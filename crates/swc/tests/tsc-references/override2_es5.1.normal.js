@@ -31,16 +31,10 @@ var AD3 = /*#__PURE__*/ function(AB) {
         swcHelpers.classCallCheck(this, AD3);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(AD3, [
-        {
-            key: "foo",
-            value: function foo(v) {} // need override?
-        },
-        {
-            key: "baz",
-            value: function baz() {}
-        }
-    ]);
+    var _proto = AD3.prototype;
+    _proto.foo // need override?
+     = function foo(v) {};
+    _proto.baz = function baz() {};
     return AD3;
 }(AB);
 var D4 = /*#__PURE__*/ function(AB) {
@@ -51,19 +45,9 @@ var D4 = /*#__PURE__*/ function(AB) {
         swcHelpers.classCallCheck(this, D4);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(D4, [
-        {
-            key: "foo",
-            value: function foo(v) {}
-        },
-        {
-            key: "bar",
-            value: function bar(v) {}
-        },
-        {
-            key: "baz",
-            value: function baz() {}
-        }
-    ]);
+    var _proto = D4.prototype;
+    _proto.foo = function foo(v) {};
+    _proto.bar = function bar(v) {};
+    _proto.baz = function baz() {};
     return D4;
 }(AB);

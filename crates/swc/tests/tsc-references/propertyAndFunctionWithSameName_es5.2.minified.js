@@ -4,23 +4,13 @@ var C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "x",
-            value: function() {
-                return 1;
-            }
-        }
-    ]), C;
+    return C.prototype.x = function() {
+        return 1;
+    }, C;
 }(), D = function() {
     "use strict";
     function D() {
         swcHelpers.classCallCheck(this, D);
     }
-    return swcHelpers.createClass(D, [
-        {
-            key: "x",
-            value: function(v) {}
-        }
-    ]), D;
+    return D.prototype.x = function(v) {}, D;
 }();

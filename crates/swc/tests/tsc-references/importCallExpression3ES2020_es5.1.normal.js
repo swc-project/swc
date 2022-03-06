@@ -8,14 +8,10 @@ export var B = /*#__PURE__*/ function() {
     function B() {
         swcHelpers.classCallCheck(this, B);
     }
-    swcHelpers.createClass(B, [
-        {
-            key: "print",
-            value: function print() {
-                return "I am B";
-            }
-        }
-    ]);
+    var _proto = B.prototype;
+    _proto.print = function print() {
+        return "I am B";
+    };
     return B;
 }();
 function foo() {

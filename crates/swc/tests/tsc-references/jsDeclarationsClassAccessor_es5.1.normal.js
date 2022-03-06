@@ -6,19 +6,15 @@ export var Base = /*#__PURE__*/ function() {
     function Base() {
         swcHelpers.classCallCheck(this, Base);
     }
-    swcHelpers.createClass(Base, [
-        {
-            key: "toJSON",
-            value: function toJSON() {
-                var json = {
-                    type: undefined,
-                    name: undefined,
-                    inheritance: undefined
-                };
-                return json;
-            }
-        }
-    ]);
+    var _proto = Base.prototype;
+    _proto.toJSON = function toJSON() {
+        var json = {
+            type: undefined,
+            name: undefined,
+            inheritance: undefined
+        };
+        return json;
+    };
     return Base;
 }();
 export var Argument = /*#__PURE__*/ function(Base) {
@@ -29,34 +25,28 @@ export var Argument = /*#__PURE__*/ function(Base) {
         swcHelpers.classCallCheck(this, Argument);
         return _super.apply(this, arguments);
     }
+    var _proto = Argument.prototype;
+    /**
+     * @param {*} defs
+     */ _proto.validate = regeneratorRuntime.mark(function validate(defs) {
+        return regeneratorRuntime.wrap(function validate$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, validate);
+    });
+    /**
+     * @param {*} tokeniser
+     */ Argument.parse = function parse(tokeniser) {
+        return;
+    };
     swcHelpers.createClass(Argument, [
         {
             key: "type",
             get: function get() {
                 return "argument";
-            }
-        },
-        {
-            key: "validate",
-            value: regeneratorRuntime.mark(/**
-     * @param {*} defs
-     */ function validate(defs) {
-                return regeneratorRuntime.wrap(function validate$(_ctx) {
-                    while(1)switch(_ctx.prev = _ctx.next){
-                        case 0:
-                        case "end":
-                            return _ctx.stop();
-                    }
-                }, validate);
-            })
-        }
-    ], [
-        {
-            key: "parse",
-            value: /**
-     * @param {*} tokeniser
-     */ function parse(tokeniser) {
-                return;
             }
         }
     ]);

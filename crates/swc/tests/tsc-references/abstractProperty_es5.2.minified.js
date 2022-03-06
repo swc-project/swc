@@ -4,14 +4,9 @@ var A = function() {
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    return swcHelpers.createClass(A, [
-        {
-            key: "foo",
-            value: function() {
-                console.log(this.x);
-            }
-        }
-    ]), A;
+    return A.prototype.foo = function() {
+        console.log(this.x);
+    }, A;
 }(), B = function(A) {
     "use strict";
     swcHelpers.inherits(B, A);

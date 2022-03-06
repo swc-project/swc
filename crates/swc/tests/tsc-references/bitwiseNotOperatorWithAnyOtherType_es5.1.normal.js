@@ -21,15 +21,10 @@ var A = /*#__PURE__*/ function() {
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    swcHelpers.createClass(A, null, [
-        {
-            key: "foo",
-            value: function foo() {
-                var a;
-                return a;
-            }
-        }
-    ]);
+    A.foo = function foo() {
+        var a;
+        return a;
+    };
     return A;
 }();
 var M;

@@ -37,13 +37,8 @@ var A = // @target: es2015
         swcHelpers.classPrivateFieldSet(_ref10 = A.getInstance(), _field, swcHelpers.classPrivateFieldGet(_ref10, _field) | 12);
         swcHelpers.classPrivateFieldSet(_ref11 = A.getInstance(), _field, swcHelpers.classPrivateFieldGet(_ref11, _field) ^ 13);
     }
-    swcHelpers.createClass(A, null, [
-        {
-            key: "getInstance",
-            value: function getInstance() {
-                return new A();
-            }
-        }
-    ]);
+    A.getInstance = function getInstance() {
+        return new A();
+    };
     return A;
 }();

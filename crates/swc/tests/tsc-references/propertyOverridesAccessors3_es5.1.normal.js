@@ -7,6 +7,10 @@ var Animal = // @target: esnext
         swcHelpers.classCallCheck(this, Animal);
         this._sound = 'rustling noise in the bushes';
     }
+    var _proto = Animal.prototype;
+    _proto.makeSound = function makeSound() {
+        console.log(this._sound);
+    };
     swcHelpers.createClass(Animal, [
         {
             key: "sound",
@@ -16,12 +20,6 @@ var Animal = // @target: esnext
             set: function set(val) {
                 this._sound = val;
             /* some important code here, perhaps tracking known sounds, etc */ }
-        },
-        {
-            key: "makeSound",
-            value: function makeSound() {
-                console.log(this._sound);
-            }
         }
     ]);
     return Animal;

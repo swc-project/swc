@@ -19,23 +19,19 @@ var Test = /*#__PURE__*/ function() {
     function Test() {
         swcHelpers.classCallCheck(this, Test);
     }
-    swcHelpers.createClass(Test, [
-        {
-            key: "example",
-            value: function example() {
-                return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                        while(1)switch(_ctx.prev = _ctx.next){
-                            case 0:
-                                return _ctx.abrupt("return");
-                            case 1:
-                            case "end":
-                                return _ctx.stop();
-                        }
-                    }, _callee);
-                }))();
-            }
-        }
-    ]);
+    var _proto = Test.prototype;
+    _proto.example = function example() {
+        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        return _ctx.abrupt("return");
+                    case 1:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
+    };
     return Test;
 }();

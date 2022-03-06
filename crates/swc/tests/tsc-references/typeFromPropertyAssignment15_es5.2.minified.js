@@ -5,12 +5,7 @@ Outer.Inner = (function() {
     function _class() {
         swcHelpers.classCallCheck(this, _class), this.x = 1;
     }
-    return swcHelpers.createClass(_class, [
-        {
-            key: "m",
-            value: function() {}
-        }
-    ]), _class;
+    return _class.prototype.m = function() {}, _class;
 })(), inner.x, inner.m();
 var inno = new Outer.Inner();
 inno.x, inno.m();

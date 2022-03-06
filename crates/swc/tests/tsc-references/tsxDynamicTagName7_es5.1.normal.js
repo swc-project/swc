@@ -12,14 +12,10 @@ export var Text = /*#__PURE__*/ function(_Component) {
         _this._tagName = 'div';
         return _this;
     }
-    swcHelpers.createClass(Text, [
-        {
-            key: "render",
-            value: function render() {
-                return(/*#__PURE__*/ React.createElement(this, null) // this should be an error
-                );
-            }
-        }
-    ]);
+    var _proto = Text.prototype;
+    _proto.render = function render() {
+        return(/*#__PURE__*/ React.createElement(this, null) // this should be an error
+        );
+    };
     return Text;
 }(React.Component);

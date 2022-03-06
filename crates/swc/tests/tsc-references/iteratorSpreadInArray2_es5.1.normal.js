@@ -6,23 +6,16 @@ var SymbolIterator = //@target: ES6
     function SymbolIterator() {
         swcHelpers.classCallCheck(this, SymbolIterator);
     }
-    swcHelpers.createClass(SymbolIterator, [
-        {
-            key: "next",
-            value: function next() {
-                return {
-                    value: Symbol(),
-                    done: false
-                };
-            }
-        },
-        {
-            key: _iterator,
-            value: function value() {
-                return this;
-            }
-        }
-    ]);
+    var _proto = SymbolIterator.prototype;
+    _proto.next = function next() {
+        return {
+            value: Symbol(),
+            done: false
+        };
+    };
+    _proto[_iterator] = function() {
+        return this;
+    };
     return SymbolIterator;
 }();
 var _iterator1 = Symbol.iterator;
@@ -31,23 +24,16 @@ var NumberIterator = /*#__PURE__*/ function() {
     function NumberIterator() {
         swcHelpers.classCallCheck(this, NumberIterator);
     }
-    swcHelpers.createClass(NumberIterator, [
-        {
-            key: "next",
-            value: function next() {
-                return {
-                    value: 0,
-                    done: false
-                };
-            }
-        },
-        {
-            key: _iterator1,
-            value: function value() {
-                return this;
-            }
-        }
-    ]);
+    var _proto = NumberIterator.prototype;
+    _proto.next = function next() {
+        return {
+            value: 0,
+            done: false
+        };
+    };
+    _proto[_iterator1] = function() {
+        return this;
+    };
     return NumberIterator;
 }();
 var array = swcHelpers.toConsumableArray(new NumberIterator).concat(swcHelpers.toConsumableArray(new SymbolIterator));

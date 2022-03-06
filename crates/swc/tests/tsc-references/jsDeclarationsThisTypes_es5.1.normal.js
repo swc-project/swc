@@ -10,14 +10,10 @@ export var A = /*#__PURE__*/ function() {
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    swcHelpers.createClass(A, [
-        {
-            /** @returns {this} */ key: "method",
-            value: function method() {
-                return this;
-            }
-        }
-    ]);
+    var _proto = A.prototype;
+    /** @returns {this} */ _proto.method = function method() {
+        return this;
+    };
     return A;
 }();
 var Base = /*#__PURE__*/ function(A) {
@@ -28,13 +24,9 @@ var Base = /*#__PURE__*/ function(A) {
         swcHelpers.classCallCheck(this, Base);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(Base, [
-        {
-            // This method is required to reproduce #35932
-            key: "verify",
-            value: function verify() {}
-        }
-    ]);
+    var _proto = Base.prototype;
+    // This method is required to reproduce #35932
+    _proto.verify = function verify() {};
     return Base;
 }(A);
 export { Base as default };

@@ -12,17 +12,12 @@ import * as swcHelpers from "@swc/helpers";
         function Point() {
             swcHelpers.classCallCheck(this, Point);
         }
-        return swcHelpers.createClass(Point, [
-            {
-                key: "fromCarthesian",
-                value: function(p) {
-                    return {
-                        x: p.x,
-                        y: p.y
-                    };
-                }
-            }
-        ]), Point;
+        return Point.prototype.fromCarthesian = function(p) {
+            return {
+                x: p.x,
+                y: p.y
+            };
+        }, Point;
     }();
 })(A || (A = {})), (function(X1) {
     var Y, Z, Line;

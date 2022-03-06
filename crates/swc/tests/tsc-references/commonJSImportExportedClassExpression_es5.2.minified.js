@@ -4,10 +4,5 @@ require("./mod1").K, exports.K = (function() {
     function K() {
         swcHelpers.classCallCheck(this, K);
     }
-    return swcHelpers.createClass(K, [
-        {
-            key: "values",
-            value: function() {}
-        }
-    ]), K;
+    return K.prototype.values = function() {}, K;
 })();

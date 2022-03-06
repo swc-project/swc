@@ -10,14 +10,9 @@ var C = function() {
     function E() {
         swcHelpers.classCallCheck(this, E);
     }
-    return swcHelpers.createClass(E, [
-        {
-            key: "constructor",
-            value: function() {
-                console.log(this);
-            }
-        }
-    ]), E;
+    return E.prototype.constructor = function() {
+        console.log(this);
+    }, E;
 }();
 new function _class() {
     "use strict";

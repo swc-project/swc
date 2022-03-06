@@ -13,20 +13,13 @@ export var classExpression = /*#__PURE__*/ function() {
     function _class() {
         swcHelpers.classCallCheck(this, _class);
     }
-    swcHelpers.createClass(_class, [
-        {
-            key: "method1",
-            value: function method1(p) {
-                return p;
-            }
-        },
-        {
-            key: "method2",
-            value: function method2(p) {
-                return p;
-            }
-        }
-    ]);
+    var _proto = _class.prototype;
+    _proto.method1 = function method1(p) {
+        return p;
+    };
+    _proto.method2 = function method2(p) {
+        return p;
+    };
     return _class;
 }();
 export function funcInferredReturnType(obj1) {
@@ -42,17 +35,9 @@ export var ClassWithPrivateNamedMethods = /*#__PURE__*/ function() {
     function ClassWithPrivateNamedMethods() {
         swcHelpers.classCallCheck(this, ClassWithPrivateNamedMethods);
     }
-    swcHelpers.createClass(ClassWithPrivateNamedMethods, [
-        {
-            key: _s,
-            value: function value() {}
-        }
-    ], [
-        {
-            key: _s1,
-            value: function value() {}
-        }
-    ]);
+    var _proto = ClassWithPrivateNamedMethods.prototype;
+    _proto[_s] = function() {};
+    ClassWithPrivateNamedMethods[_s1] = function() {};
     return ClassWithPrivateNamedMethods;
 }();
 var _s2 = s, _s3 = s, _s4 = s, _s5 = s;

@@ -5,14 +5,10 @@ var A = // String indexer providing a constraint of a user defined type
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    swcHelpers.createClass(A, [
-        {
-            key: "foo",
-            value: function foo() {
-                return '';
-            }
-        }
-    ]);
+    var _proto = A.prototype;
+    _proto.foo = function foo() {
+        return '';
+    };
     return A;
 }();
 var B = /*#__PURE__*/ function(A) {
@@ -23,14 +19,10 @@ var B = /*#__PURE__*/ function(A) {
         swcHelpers.classCallCheck(this, B);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(B, [
-        {
-            key: "bar",
-            value: function bar() {
-                return '';
-            }
-        }
-    ]);
+    var _proto = B.prototype;
+    _proto.bar = function bar() {
+        return '';
+    };
     return B;
 }(A);
 var Foo = function Foo() {

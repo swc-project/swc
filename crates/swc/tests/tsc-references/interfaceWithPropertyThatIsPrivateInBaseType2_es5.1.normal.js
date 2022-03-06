@@ -4,12 +4,8 @@ var Base = /*#__PURE__*/ function() {
     function Base() {
         swcHelpers.classCallCheck(this, Base);
     }
-    swcHelpers.createClass(Base, [
-        {
-            key: "x",
-            value: function x() {}
-        }
-    ]);
+    var _proto = Base.prototype;
+    _proto.x = function x() {};
     return Base;
 }();
 var Base2 = /*#__PURE__*/ function() {
@@ -17,11 +13,7 @@ var Base2 = /*#__PURE__*/ function() {
     function Base2() {
         swcHelpers.classCallCheck(this, Base2);
     }
-    swcHelpers.createClass(Base2, [
-        {
-            key: "x",
-            value: function x() {}
-        }
-    ]);
+    var _proto = Base2.prototype;
+    _proto.x = function x() {};
     return Base2;
 }();

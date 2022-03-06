@@ -32,14 +32,9 @@ var A = // @target: es2015
         swcHelpers.classStaticPrivateFieldSpecSet(_ref10 = A.getClass(), A, _field, swcHelpers.classStaticPrivateFieldSpecGet(A.getClass(), A, _field) | 12);
         swcHelpers.classStaticPrivateFieldSpecSet(_ref11 = A.getClass(), A, _field, swcHelpers.classStaticPrivateFieldSpecGet(A.getClass(), A, _field) ^ 13);
     }
-    swcHelpers.createClass(A, null, [
-        {
-            key: "getClass",
-            value: function getClass() {
-                return A;
-            }
-        }
-    ]);
+    A.getClass = function getClass() {
+        return A;
+    };
     return A;
 }();
 var _field = {

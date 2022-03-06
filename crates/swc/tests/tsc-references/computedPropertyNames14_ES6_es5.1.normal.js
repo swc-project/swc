@@ -7,32 +7,12 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: _b,
-            value: function value() {}
-        },
-        {
-            key: [],
-            value: function value() {}
-        },
-        {
-            key: _undefined,
-            value: function value() {}
-        }
-    ], [
-        {
-            key: true,
-            value: function value() {}
-        },
-        {
-            key: {},
-            value: function value() {}
-        },
-        {
-            key: null,
-            value: function value() {}
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto[_b] = function() {};
+    _proto[[]] = function() {};
+    _proto[_undefined] = function() {};
+    C[true] = function() {};
+    C[{}] = function() {};
+    C[null] = function() {};
     return C;
 }();

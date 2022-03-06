@@ -6,14 +6,9 @@ var React = require("react"), RC1 = function(_Component) {
     function RC1() {
         return swcHelpers.classCallCheck(this, RC1), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(RC1, [
-        {
-            key: "render",
-            value: function() {
-                return null;
-            }
-        }
-    ]), RC1;
+    return RC1.prototype.render = function() {
+        return null;
+    }, RC1;
 }(React.Component), RC2 = function(_Component) {
     "use strict";
     swcHelpers.inherits(RC2, _Component);
@@ -21,18 +16,10 @@ var React = require("react"), RC1 = function(_Component) {
     function RC2() {
         return swcHelpers.classCallCheck(this, RC2), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(RC2, [
-        {
-            key: "render",
-            value: function() {
-                return null;
-            }
-        },
-        {
-            key: "method",
-            value: function() {}
-        }
-    ]), RC2;
+    var _proto = RC2.prototype;
+    return _proto.render = function() {
+        return null;
+    }, _proto.method = function() {}, RC2;
 }(React.Component), RC3 = function(_Component) {
     "use strict";
     swcHelpers.inherits(RC3, _Component);
@@ -40,14 +27,9 @@ var React = require("react"), RC1 = function(_Component) {
     function RC3() {
         return swcHelpers.classCallCheck(this, RC3), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(RC3, [
-        {
-            key: "render",
-            value: function() {
-                return null;
-            }
-        }
-    ]), RC3;
+    return RC3.prototype.render = function() {
+        return null;
+    }, RC3;
 }(React.Component), RC4 = function(_Component) {
     "use strict";
     swcHelpers.inherits(RC4, _Component);
@@ -55,14 +37,9 @@ var React = require("react"), RC1 = function(_Component) {
     function RC4() {
         return swcHelpers.classCallCheck(this, RC4), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(RC4, [
-        {
-            key: "render",
-            value: function() {
-                return null;
-            }
-        }
-    ]), RC4;
+    return RC4.prototype.render = function() {
+        return null;
+    }, RC4;
 }(React.Component);
 React.createElement(RC1 || RC2, {
     x: !0

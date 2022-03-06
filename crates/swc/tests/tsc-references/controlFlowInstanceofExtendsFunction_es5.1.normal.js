@@ -7,19 +7,11 @@ var X = /*#__PURE__*/ function() {
     function X() {
         swcHelpers.classCallCheck(this, X);
     }
-    swcHelpers.createClass(X, [
-        {
-            key: "why",
-            value: function why() {}
-        }
-    ], [
-        {
-            key: "now",
-            value: function now() {
-                return {};
-            }
-        }
-    ]);
+    var _proto = X.prototype;
+    _proto.why = function why() {};
+    X.now = function now() {
+        return {};
+    };
     return X;
 }();
 var Y = function Y() {

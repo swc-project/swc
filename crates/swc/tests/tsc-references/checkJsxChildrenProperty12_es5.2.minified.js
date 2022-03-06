@@ -6,14 +6,9 @@ var React = require("react"), Button = function(_Component) {
     function Button() {
         return swcHelpers.classCallCheck(this, Button), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(Button, [
-        {
-            key: "render",
-            value: function() {
-                return React.createElement(InnerButton, swcHelpers.extends({}, this.props), React.createElement("div", null, "Hello World"));
-            }
-        }
-    ]), Button;
+    return Button.prototype.render = function() {
+        return React.createElement(InnerButton, swcHelpers.extends({}, this.props), React.createElement("div", null, "Hello World"));
+    }, Button;
 }(React.Component), InnerButton = function(_Component) {
     "use strict";
     swcHelpers.inherits(InnerButton, _Component);
@@ -21,12 +16,7 @@ var React = require("react"), Button = function(_Component) {
     function InnerButton() {
         return swcHelpers.classCallCheck(this, InnerButton), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(InnerButton, [
-        {
-            key: "render",
-            value: function() {
-                return React.createElement("button", null, "Hello");
-            }
-        }
-    ]), InnerButton;
+    return InnerButton.prototype.render = function() {
+        return React.createElement("button", null, "Hello");
+    }, InnerButton;
 }(React.Component);

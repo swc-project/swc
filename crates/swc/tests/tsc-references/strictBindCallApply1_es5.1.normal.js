@@ -30,26 +30,16 @@ var C = /*#__PURE__*/ function() {
     function C(a, b) {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function foo(a, b) {
-                return "";
-            }
-        },
-        {
-            key: "overloaded",
-            value: function overloaded(x) {
-                return undefined;
-            }
-        },
-        {
-            key: "generic",
-            value: function generic(x) {
-                return x;
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.foo = function foo(a, b) {
+        return "";
+    };
+    _proto.overloaded = function overloaded(x) {
+        return undefined;
+    };
+    _proto.generic = function generic(x) {
+        return x;
+    };
     return C;
 }();
 var f10 = c.foo.bind(c);

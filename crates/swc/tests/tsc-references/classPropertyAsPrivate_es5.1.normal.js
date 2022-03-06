@@ -4,6 +4,9 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
+    var _proto = C.prototype;
+    _proto.foo = function foo() {};
+    C.foo = function foo() {};
     swcHelpers.createClass(C, [
         {
             key: "y",
@@ -11,10 +14,6 @@ var C = /*#__PURE__*/ function() {
                 return null;
             },
             set: function set(x) {}
-        },
-        {
-            key: "foo",
-            value: function foo() {}
         }
     ], [
         {
@@ -23,10 +22,6 @@ var C = /*#__PURE__*/ function() {
                 return null;
             },
             set: function set(x) {}
-        },
-        {
-            key: "foo",
-            value: function foo() {}
         }
     ]);
     return C;

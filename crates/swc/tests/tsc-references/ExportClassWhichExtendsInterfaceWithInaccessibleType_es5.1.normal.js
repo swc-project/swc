@@ -8,14 +8,10 @@ var A;
             this.x = x;
             this.y = y;
         }
-        swcHelpers.createClass(Point2d, [
-            {
-                key: "fromOrigin",
-                value: function fromOrigin(p) {
-                    return 1;
-                }
-            }
-        ]);
+        var _proto = Point2d.prototype;
+        _proto.fromOrigin = function fromOrigin(p) {
+            return 1;
+        };
         return Point2d;
     }();
     A1.Point2d = Point2d;

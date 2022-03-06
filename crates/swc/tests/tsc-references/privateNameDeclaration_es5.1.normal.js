@@ -16,11 +16,7 @@ var A = // @declaration: true
         });
         this.qux = 6;
     }
-    swcHelpers.createClass(A, [
-        {
-            key: "quux",
-            value: function quux() {}
-        }
-    ]);
+    var _proto = A.prototype;
+    _proto.quux = function quux() {};
     return A;
 }();

@@ -6,11 +6,6 @@ import * as swcHelpers from "@swc/helpers";
         function C() {
             swcHelpers.classCallCheck(this, C);
         }
-        return swcHelpers.createClass(C, [
-            {
-                key: _iterator,
-                value: function() {}
-            }
-        ]), C;
+        return C.prototype[_iterator] = function() {}, C;
     }();
 }(M || (M = {}));

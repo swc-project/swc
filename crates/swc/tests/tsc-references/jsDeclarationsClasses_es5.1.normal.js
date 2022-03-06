@@ -97,18 +97,13 @@ E.staticInitializedField = 12;
     function F(a, b) {
         swcHelpers.classCallCheck(this, F);
     }
-    swcHelpers.createClass(F, null, [
-        {
-            key: "create",
-            value: /**
+    /**
      * @template A,B
      * @param {A} a
      * @param {B} b
-     */ function create(a, b) {
-                return new F(a, b);
-            }
-        }
-    ]);
+     */ F.create = function create(a, b) {
+        return new F(a, b);
+    };
     return F;
 }();
 var G = function G() {
@@ -138,14 +133,10 @@ export var K = /*#__PURE__*/ function() {
         this.p1 = 12;
         this.p2 = "ok";
     }
-    swcHelpers.createClass(K, [
-        {
-            key: "method",
-            value: function method() {
-                return this.p1;
-            }
-        }
-    ]);
+    var _proto = K.prototype;
+    _proto.method = function method() {
+        return this.p1;
+    };
     return K;
 }();
 export var L = /*#__PURE__*/ function(K) {
@@ -217,12 +208,7 @@ export var HasStatics = /*#__PURE__*/ function() {
     function HasStatics() {
         swcHelpers.classCallCheck(this, HasStatics);
     }
-    swcHelpers.createClass(HasStatics, null, [
-        {
-            key: "staticMethod",
-            value: function staticMethod() {}
-        }
-    ]);
+    HasStatics.staticMethod = function staticMethod() {};
     return HasStatics;
 }();
 export var ExtendsStatics = /*#__PURE__*/ function(HasStatics) {
@@ -233,11 +219,6 @@ export var ExtendsStatics = /*#__PURE__*/ function(HasStatics) {
         swcHelpers.classCallCheck(this, ExtendsStatics);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(ExtendsStatics, null, [
-        {
-            key: "also",
-            value: function also() {}
-        }
-    ]);
+    ExtendsStatics.also = function also() {};
     return ExtendsStatics;
 }(HasStatics);

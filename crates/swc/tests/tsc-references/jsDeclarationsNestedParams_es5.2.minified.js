@@ -5,41 +5,31 @@ var X = function() {
     function X() {
         swcHelpers.classCallCheck(this, X);
     }
-    return swcHelpers.createClass(X, [
-        {
-            key: "cancel",
-            value: function(param) {
-                return param.reason, param.code, swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                    return regeneratorRuntime.wrap(function(_ctx) {
-                        for(;;)switch(_ctx.prev = _ctx.next){
-                            case 0:
-                            case "end":
-                                return _ctx.stop();
-                        }
-                    }, _callee);
-                }))();
-            }
-        }
-    ]), X;
+    return X.prototype.cancel = function(param) {
+        return param.reason, param.code, swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function(_ctx) {
+                for(;;)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
+    }, X;
 }(), Y = function() {
     "use strict";
     function Y() {
         swcHelpers.classCallCheck(this, Y);
     }
-    return swcHelpers.createClass(Y, [
-        {
-            key: "cancel",
-            value: function(param) {
-                return param.reason, param.suberr, swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                    return regeneratorRuntime.wrap(function(_ctx) {
-                        for(;;)switch(_ctx.prev = _ctx.next){
-                            case 0:
-                            case "end":
-                                return _ctx.stop();
-                        }
-                    }, _callee);
-                }))();
-            }
-        }
-    ]), Y;
+    return Y.prototype.cancel = function(param) {
+        return param.reason, param.suberr, swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function(_ctx) {
+                for(;;)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
+    }, Y;
 }();

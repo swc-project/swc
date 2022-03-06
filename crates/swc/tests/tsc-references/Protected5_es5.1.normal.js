@@ -4,11 +4,6 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, null, [
-        {
-            key: "m",
-            value: function m() {}
-        }
-    ]);
+    C.m = function m() {};
     return C;
 }();

@@ -4,12 +4,7 @@ var A = function() {
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    return swcHelpers.createClass(A, [
-        {
-            key: "doSomething",
-            value: function() {}
-        }
-    ]), A;
+    return A.prototype.doSomething = function() {}, A;
 }(), B = function(A) {
     "use strict";
     swcHelpers.inherits(B, A);
@@ -17,10 +12,5 @@ var A = function() {
     function B() {
         return swcHelpers.classCallCheck(this, B), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(B, [
-        {
-            key: "doSomethang",
-            value: function() {}
-        }
-    ]), B;
+    return B.prototype.doSomethang = function() {}, B;
 }(A);

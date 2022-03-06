@@ -12,12 +12,7 @@ var A = function() {
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    return swcHelpers.createClass(A, null, [
-        {
-            key: "foo",
-            value: function() {}
-        }
-    ]), A;
+    return A.foo = function() {}, A;
 }();
 !function(M1) {
     var n;

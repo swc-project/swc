@@ -69,14 +69,9 @@ export var F = function() {
     function F(a, b) {
         swcHelpers.classCallCheck(this, F);
     }
-    return swcHelpers.createClass(F, null, [
-        {
-            key: "create",
-            value: function(a, b) {
-                return new F(a, b);
-            }
-        }
-    ]), F;
+    return F.create = function(a, b) {
+        return new F(a, b);
+    }, F;
 }();
 var G = function() {
     "use strict";
@@ -99,14 +94,9 @@ export var K = function() {
     function K() {
         swcHelpers.classCallCheck(this, K), this.p1 = 12, this.p2 = "ok";
     }
-    return swcHelpers.createClass(K, [
-        {
-            key: "method",
-            value: function() {
-                return this.p1;
-            }
-        }
-    ]), K;
+    return K.prototype.method = function() {
+        return this.p1;
+    }, K;
 }();
 export var L = function(K) {
     "use strict";
@@ -159,12 +149,7 @@ export var HasStatics = function() {
     function HasStatics() {
         swcHelpers.classCallCheck(this, HasStatics);
     }
-    return swcHelpers.createClass(HasStatics, null, [
-        {
-            key: "staticMethod",
-            value: function() {}
-        }
-    ]), HasStatics;
+    return HasStatics.staticMethod = function() {}, HasStatics;
 }();
 export var ExtendsStatics = function(HasStatics) {
     "use strict";
@@ -173,11 +158,6 @@ export var ExtendsStatics = function(HasStatics) {
     function ExtendsStatics() {
         return swcHelpers.classCallCheck(this, ExtendsStatics), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(ExtendsStatics, null, [
-        {
-            key: "also",
-            value: function() {}
-        }
-    ]), ExtendsStatics;
+    return ExtendsStatics.also = function() {}, ExtendsStatics;
 }(HasStatics);
 export { G, HH as H, I as II, J as JJ };

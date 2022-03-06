@@ -4,20 +4,12 @@ var C = function() {
     function C(foo) {
         swcHelpers.classCallCheck(this, C), this.foo = foo, this.qux = this.bar, this.bar = this.foo, this.quiz = this.bar, this.quench = this.m1(), this.quanch = this.m3(), this.m3 = function() {}, this.quim = this.baz, this.baz = this.foo, this.quid = this.baz;
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "m1",
-            value: function() {
-                this.foo;
-            }
-        },
-        {
-            key: "m2",
-            value: function() {
-                this.foo;
-            }
-        }
-    ]), C;
+    var _proto = C.prototype;
+    return _proto.m1 = function() {
+        this.foo;
+    }, _proto.m2 = function() {
+        this.foo;
+    }, C;
 }(), D = function(C) {
     "use strict";
     swcHelpers.inherits(D, C);

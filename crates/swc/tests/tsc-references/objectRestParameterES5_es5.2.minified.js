@@ -22,15 +22,11 @@ var C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "m",
-            value: function(_param) {
-                _param.a, swcHelpers.objectWithoutProperties(_param, [
-                    "a"
-                ]);
-            }
-        },
+    return C.prototype.m = function(_param) {
+        _param.a, swcHelpers.objectWithoutProperties(_param, [
+            "a"
+        ]);
+    }, swcHelpers.createClass(C, [
         {
             key: "p",
             set: function(_param) {

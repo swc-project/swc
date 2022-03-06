@@ -13,14 +13,10 @@ export var AddressComp = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, AddressComp);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(AddressComp, [
-        {
-            key: "render",
-            value: function render() {
-                return null;
-            }
-        }
-    ]);
+    var _proto = AddressComp.prototype;
+    _proto.render = function render() {
+        return null;
+    };
     return AddressComp;
 }(React.Component);
 var a = /*#__PURE__*/ React.createElement(AddressComp, {

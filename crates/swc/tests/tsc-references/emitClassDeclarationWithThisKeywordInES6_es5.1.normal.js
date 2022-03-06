@@ -7,13 +7,12 @@ var B = // @target: es6
         this.x = 10;
         this.x = 10;
     }
+    var _proto = B.prototype;
+    _proto.foo = function foo() {
+        B.log(this.x);
+    };
+    B.log = function log(a) {};
     swcHelpers.createClass(B, [
-        {
-            key: "foo",
-            value: function foo() {
-                B.log(this.x);
-            }
-        },
         {
             key: "X",
             get: function get() {
@@ -25,11 +24,6 @@ var B = // @target: es6
             set: function set(y) {
                 this.x = y;
             }
-        }
-    ], [
-        {
-            key: "log",
-            value: function log(a) {}
         }
     ]);
     return B;

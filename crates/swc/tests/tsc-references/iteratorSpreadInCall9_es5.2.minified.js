@@ -8,44 +8,28 @@ var Foo = function() {
     function SymbolIterator() {
         swcHelpers.classCallCheck(this, SymbolIterator);
     }
-    return swcHelpers.createClass(SymbolIterator, [
-        {
-            key: "next",
-            value: function() {
-                return {
-                    value: Symbol(),
-                    done: !1
-                };
-            }
-        },
-        {
-            key: _iterator,
-            value: function() {
-                return this;
-            }
-        }
-    ]), SymbolIterator;
+    var _proto = SymbolIterator.prototype;
+    return _proto.next = function() {
+        return {
+            value: Symbol(),
+            done: !1
+        };
+    }, _proto[_iterator] = function() {
+        return this;
+    }, SymbolIterator;
 }(), _iterator1 = Symbol.iterator, _StringIterator = function() {
     "use strict";
     function _StringIterator() {
         swcHelpers.classCallCheck(this, _StringIterator);
     }
-    return swcHelpers.createClass(_StringIterator, [
-        {
-            key: "next",
-            value: function() {
-                return {
-                    value: "",
-                    done: !1
-                };
-            }
-        },
-        {
-            key: _iterator1,
-            value: function() {
-                return this;
-            }
-        }
-    ]), _StringIterator;
+    var _proto = _StringIterator.prototype;
+    return _proto.next = function() {
+        return {
+            value: "",
+            done: !1
+        };
+    }, _proto[_iterator1] = function() {
+        return this;
+    }, _StringIterator;
 }();
 swcHelpers.construct(Foo, swcHelpers.toConsumableArray(new SymbolIterator).concat(swcHelpers.toConsumableArray(swcHelpers.toConsumableArray(new _StringIterator))));

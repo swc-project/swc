@@ -11,11 +11,7 @@ var Sub = /*#__PURE__*/ function(Base) {
         swcHelpers.classCallCheck(this, Sub);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(Sub, [
-        {
-            key: "bar",
-            value: function bar() {}
-        }
-    ]);
+    var _proto = Sub.prototype;
+    _proto.bar = function bar() {};
     return Sub;
 }(Base);

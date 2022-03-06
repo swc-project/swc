@@ -13,14 +13,9 @@ var _foo = new WeakMap(), A = function() {
     function B() {
         swcHelpers.classCallCheck(this, B);
     }
-    return swcHelpers.createClass(B, [
-        {
-            key: "test",
-            value: function(x) {
-                swcHelpers.classStaticPrivateFieldSpecGet(x, B, _foo1);
-            }
-        }
-    ]), B;
+    return B.prototype.test = function(x) {
+        swcHelpers.classStaticPrivateFieldSpecGet(x, B, _foo1);
+    }, B;
 }(), _foo1 = {
     writable: !0,
     value: !0

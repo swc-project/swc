@@ -4,26 +4,14 @@ var u, C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "explicitThis",
-            value: function(m) {
-                return this.n + m;
-            }
-        },
-        {
-            key: "implicitThis",
-            value: function(m) {
-                return this.n + m;
-            }
-        },
-        {
-            key: "explicitVoid",
-            value: function(m) {
-                return m + 1;
-            }
-        }
-    ]), C;
+    var _proto = C.prototype;
+    return _proto.explicitThis = function(m) {
+        return this.n + m;
+    }, _proto.implicitThis = function(m) {
+        return this.n + m;
+    }, _proto.explicitVoid = function(m) {
+        return m + 1;
+    }, C;
 }(), c = new C();
 c.explicitVoid = c.explicitThis;
 var o = {

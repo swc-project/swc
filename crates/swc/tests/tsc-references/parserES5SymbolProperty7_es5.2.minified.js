@@ -4,10 +4,5 @@ var _toStringTag = Symbol.toStringTag, C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: _toStringTag,
-            value: function() {}
-        }
-    ]), C;
+    return C.prototype[_toStringTag] = function() {}, C;
 }();
