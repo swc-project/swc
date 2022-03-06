@@ -93,7 +93,7 @@ checksum = "8da52d66c7071e2e3fa2a1e5c6d088fec47b593032b254f5e980de8ea54454d6"
 
 [[package]]
 name = "ast_node"
-version = "0.7.6"
+version = "0.7.7"
 dependencies = [
  "darling 0.10.2",
  "pmutil",
@@ -2983,7 +2983,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.69.0"
+version = "0.69.1"
 dependencies = [
  "arbitrary",
  "is-macro",
