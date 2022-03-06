@@ -30,3 +30,5 @@ swc_ecma_lints = {path = "../swc_ecma_lints", features = ["non_critical_lints"]}
 swc_ecmascript = {path = "../swc_ecmascript"}
 tracing = {version = "0.1.31", features = ["release_max_level_off"]}
 wasm-bindgen = {version = "0.2", features = ["serde-serialize"]}
+wasmer = {version = "2.2.0", default-features = false, features = ["js-default"]}
+wasmer-wasi = {version = "2.2.0", default-features = false, features = ["js-default"]}
