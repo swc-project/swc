@@ -1,7 +1,10 @@
 use std::collections::hash_map::Entry;
 
-use ahash::AHashSet;
-use swc_common::{collections::AHashMap, errors::HANDLER, Span};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    errors::HANDLER,
+    Span,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -12,40 +15,61 @@ pub fn duplicate_bindings() -> Box<dyn Rule> {
     visitor_rule(DuplicateBindings::default())
 }
 
+#[derive(Debug, Default, Clone, Copy)]
+struct BindingInfo {
+    span: Span,
+    unique: bool,
+}
+
 #[derive(Debug, Default)]
 struct DuplicateBindings {
-    bindings: AHashMap<Id, Span>,
+    bindings: AHashMap<Id, BindingInfo>,
     type_bindings: AHashSet<Id>,
 
     var_decl_kind: Option<VarDeclKind>,
     is_pat_decl: bool,
+
+    is_module: bool,
 }
 
 impl DuplicateBindings {
     /// Add a binding.
-    fn add(&mut self, id: &Ident, check_for_var_kind: bool) {
-        if check_for_var_kind {
-            if let Some(VarDeclKind::Var) = self.var_decl_kind {
-                return;
-            }
-        }
-
+    fn add(&mut self, id: &Ident, unique: bool) {
         match self.bindings.entry(id.to_id()) {
             Entry::Occupied(mut prev) => {
-                HANDLER.with(|handler| {
-                    handler
-                        .struct_span_err(id.span, "Duplicate binding")
-                        .span_note(*prev.get(), &format!("{} was declared at here", id.sym))
-                        .emit();
-                });
+                if unique || prev.get().unique {
+                    HANDLER.with(|handler| {
+                        handler
+                            .struct_span_err(id.span, "Duplicate binding")
+                            .span_note(prev.get().span, &format!("{} was declared at here", id.sym))
+                            .emit();
+                    });
+
+                    if unique {
+                        *prev.get_mut() = BindingInfo {
+                            span: id.span,
+                            unique,
+                        }
+                    }
+                }
 
                 // Next span.
-                *prev.get_mut() = id.span;
             }
             Entry::Vacant(e) => {
-                e.insert(id.span);
+                e.insert(BindingInfo {
+                    span: id.span,
+                    unique,
+                });
             }
         }
+    }
+
+    /// `const` or `let`
+    fn is_unique_var_kind(&self) -> bool {
+        matches!(
+            self.var_decl_kind,
+            Some(VarDeclKind::Const) | Some(VarDeclKind::Let)
+        )
     }
 }
 
@@ -57,6 +81,7 @@ impl Visit for DuplicateBindings {
             type_bindings: &mut self.type_bindings,
         });
 
+        self.is_module = true;
         m.visit_children_with(self);
     }
 
@@ -72,12 +97,12 @@ impl Visit for DuplicateBindings {
         p.visit_children_with(self);
 
         if self.is_pat_decl {
-            self.add(&p.key, true);
+            self.add(&p.key, self.is_unique_var_kind());
         }
     }
 
     fn visit_class_decl(&mut self, d: &ClassDecl) {
-        self.add(&d.ident, false);
+        self.add(&d.ident, true);
 
         d.visit_children_with(self);
     }
@@ -97,7 +122,7 @@ impl Visit for DuplicateBindings {
 
     fn visit_fn_decl(&mut self, d: &FnDecl) {
         if d.function.body.is_some() {
-            self.add(&d.ident, false);
+            self.add(&d.ident, self.is_module);
         }
 
         d.visit_children_with(self);
@@ -107,7 +132,7 @@ impl Visit for DuplicateBindings {
         s.visit_children_with(self);
 
         if !self.type_bindings.contains(&s.local.to_id()) {
-            self.add(&s.local, false);
+            self.add(&s.local, true);
         }
     }
 
@@ -115,7 +140,7 @@ impl Visit for DuplicateBindings {
         s.visit_children_with(self);
 
         if !s.is_type_only && !self.type_bindings.contains(&s.local.to_id()) {
-            self.add(&s.local, false);
+            self.add(&s.local, true);
         }
     }
 
@@ -123,7 +148,7 @@ impl Visit for DuplicateBindings {
         s.visit_children_with(self);
 
         if !self.type_bindings.contains(&s.local.to_id()) {
-            self.add(&s.local, false);
+            self.add(&s.local, true);
         }
     }
 
@@ -132,7 +157,7 @@ impl Visit for DuplicateBindings {
 
         if let Pat::Ident(p) = p {
             if self.is_pat_decl {
-                self.add(&p.id, true);
+                self.add(&p.id, self.is_unique_var_kind());
             }
         }
     }
