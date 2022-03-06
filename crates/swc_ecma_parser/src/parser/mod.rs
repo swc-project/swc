@@ -11,7 +11,7 @@ use crate::{
     error::SyntaxError,
     lexer::Lexer,
     token::{Token, Word},
-    Context, EsVersion, Syntax,
+    Context, EsVersion, Syntax, TsConfig,
 };
 #[cfg(test)]
 extern crate test;
@@ -61,7 +61,17 @@ impl<'a, I: Input> Parser<Lexer<'a, I>> {
 }
 
 impl<I: Tokens> Parser<I> {
-    pub fn new_from(input: I) -> Self {
+    pub fn new_from(mut input: I) -> Self {
+        let in_declare = matches!(
+            input.syntax(),
+            Syntax::Typescript(TsConfig { dts: true, .. })
+        );
+        let ctx = Context {
+            in_declare,
+            ..input.ctx()
+        };
+        input.set_ctx(ctx);
+
         Parser {
             state: Default::default(),
             input: Buffer::new(input),
