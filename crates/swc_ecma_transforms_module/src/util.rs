@@ -1005,7 +1005,11 @@ macro_rules! mark_as_nested {
                 n.key = key;
                 n
             } else {
-                n.fold_children_with(self)
+                let old = self.in_top_level;
+                self.in_top_level = false;
+                let n = n.fold_children_with(self);
+                self.in_top_level = old;
+                n
             }
         }
     };
