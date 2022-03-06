@@ -28,7 +28,7 @@ impl Take for BlockStmt {
     }
 }
 
-#[ast_node]
+#[ast_node(no_clone)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Stmt {
@@ -102,6 +102,35 @@ pub enum Stmt {
 
     #[tag("ExpressionStatement")]
     Expr(ExprStmt),
+}
+
+// Implement Clone without inline to avoid multiple copies of the
+// implementation.
+impl Clone for Stmt {
+    fn clone(&self) -> Self {
+        use Stmt::*;
+        match self {
+            Block(s) => Block(s.clone()),
+            Empty(s) => Empty(s.clone()),
+            Debugger(s) => Debugger(s.clone()),
+            With(s) => With(s.clone()),
+            Return(s) => Return(s.clone()),
+            Labeled(s) => Labeled(s.clone()),
+            Break(s) => Break(s.clone()),
+            Continue(s) => Continue(s.clone()),
+            If(s) => If(s.clone()),
+            Switch(s) => Switch(s.clone()),
+            Throw(s) => Throw(s.clone()),
+            Try(s) => Try(s.clone()),
+            While(s) => While(s.clone()),
+            DoWhile(s) => DoWhile(s.clone()),
+            For(s) => For(s.clone()),
+            ForIn(s) => ForIn(s.clone()),
+            ForOf(s) => ForOf(s.clone()),
+            Decl(s) => Decl(s.clone()),
+            Expr(s) => Expr(s.clone()),
+        }
+    }
 }
 
 impl Take for Stmt {

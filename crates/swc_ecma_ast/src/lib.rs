@@ -6,6 +6,7 @@
 #![deny(unreachable_pub)]
 #![deny(clippy::all)]
 #![allow(clippy::enum_variant_names)]
+#![allow(clippy::clone_on_copy)]
 
 // #![deny(variant_size_differences)]
 
