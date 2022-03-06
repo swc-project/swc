@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 use swc_common::SourceMap;
 use swc_ecma_ast::Str;
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "lowercase")]
 pub enum QuotesType {
     Single,
@@ -25,6 +25,15 @@ impl QuotesType {
             QuotesType::Double => '"',
             QuotesType::Single => '\'',
         }
+    }
+}
+
+pub fn match_quote_type(ch: char) -> Option<QuotesType> {
+    match ch {
+        '\'' => Some(QuotesType::Single),
+        '"' => Some(QuotesType::Double),
+        '`' => Some(QuotesType::Backtick),
+        _ => None,
     }
 }
 
