@@ -1,0 +1,4 @@
+@import 'a.css' layer;
+@import 'a.css' layer();
+@import 'a.css' layer(default);
+@import 'a.css' layer(other);
