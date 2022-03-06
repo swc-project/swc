@@ -11,7 +11,7 @@ use crate::{
 
 /// Used for `obj` property of `JSXMemberExpr`.
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[allow(variant_size_differences)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum JSXObject {
@@ -63,7 +63,7 @@ pub struct JSXExprContainer {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[allow(variant_size_differences)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum JSXExpr {
@@ -83,7 +83,7 @@ pub struct JSXSpreadChild {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum JSXElementName {
     #[tag("Identifier")]
@@ -133,7 +133,7 @@ impl Take for JSXOpeningElement {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[allow(variant_size_differences)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum JSXAttrOrSpread {
@@ -162,7 +162,7 @@ pub struct JSXAttr {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum JSXAttrName {
     #[tag("Identifier")]
@@ -172,7 +172,7 @@ pub enum JSXAttrName {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum JSXAttrValue {
     #[tag("StringLiteral")]
@@ -237,7 +237,7 @@ impl Take for JSXElement {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum JSXElementChild {
     #[tag("JSXText")]

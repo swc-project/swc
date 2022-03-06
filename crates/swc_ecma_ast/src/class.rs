@@ -60,7 +60,7 @@ impl Take for Class {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ClassMember {
     #[tag("Constructor")]

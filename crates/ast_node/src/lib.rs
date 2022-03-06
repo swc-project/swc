@@ -171,11 +171,33 @@ pub fn ast_node(
     let mut item = Quote::new(Span::call_site());
     item = match input.data {
         Data::Enum(..) => {
-            if !args.is_empty() {
-                panic!("#[ast_node] on enum does not accept any argument")
+            struct EnumArgs {
+                clone: bool,
             }
+            impl parse::Parse for EnumArgs {
+                fn parse(i: parse::ParseStream<'_>) -> syn::Result<Self> {
+                    let name: Ident = i.parse()?;
+                    if name.to_string() != "no_clone" {
+                        return Err(i.error("unknown attribute"));
+                    }
+                    Ok(EnumArgs { clone: false })
+                }
+            }
+            let args = if args.is_empty() {
+                EnumArgs { clone: true }
+            } else {
+                parse(args).expect("failed to parse args of #[ast_node]")
+            };
 
-            item.quote_with(smart_quote!(Vars { input }, {
+            let clone = if args.clone {
+                Some(Quote::new_call_site().quote_with(smart_quote!(Vars {}, {
+                    #[derive(Clone)]
+                })))
+            } else {
+                None
+            };
+
+            item.quote_with(smart_quote!(Vars { input, clone }, {
                 #[derive(
                     ::swc_common::FromVariant,
                     ::swc_common::Spanned,
@@ -184,6 +206,7 @@ pub fn ast_node(
                     ::serde::Serialize,
                     ::swc_common::DeserializeEnum,
                 )]
+                clone
                 #[cfg_attr(
                     feature = "rkyv",
                     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)

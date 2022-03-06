@@ -11,7 +11,7 @@ use crate::{
 };
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ModuleDecl {
     #[tag("ImportDeclaration")]
@@ -143,7 +143,7 @@ pub struct ExportDefaultDecl {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum DefaultDecl {
     #[tag("ClassExpression")]
@@ -158,7 +158,7 @@ pub enum DefaultDecl {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ImportSpecifier {
     #[tag("ImportSpecifier")]
@@ -206,7 +206,7 @@ pub struct ImportNamedSpecifier {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ExportSpecifier {
     #[tag("ExportNamespaceSpecifier")]
@@ -254,7 +254,7 @@ pub struct ExportNamedSpecifier {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 // https://tc39.es/ecma262/#prod-ModuleExportName
 pub enum ModuleExportName {

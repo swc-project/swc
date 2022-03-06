@@ -9,7 +9,7 @@ use crate::{
     Invalid,
 };
 
-#[ast_node]
+#[ast_node(no_clone)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Pat {
@@ -129,7 +129,7 @@ pub struct RestPat {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ObjectPatProp {
     #[tag("KeyValuePatternProperty")]

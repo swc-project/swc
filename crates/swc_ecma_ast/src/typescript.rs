@@ -78,7 +78,7 @@ pub struct TsParamProp {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsParamPropParam {
     #[tag("Identifier")]
@@ -99,7 +99,7 @@ pub struct TsQualifiedName {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[allow(variant_size_differences)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsEntityName {
@@ -115,7 +115,7 @@ pub enum TsEntityName {
 // ================
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsTypeElement {
     #[tag("TsCallSignatureDeclaration")]
@@ -241,7 +241,7 @@ pub struct TsIndexSignature {
 // TypeScript types
 // ================
 
-#[ast_node]
+#[ast_node(no_clone)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsType {
@@ -339,7 +339,7 @@ impl Clone for TsType {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsFnOrConstructorType {
     #[tag("TsFunctionType")]
@@ -435,7 +435,7 @@ pub struct TsThisType {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsFnParam {
     #[tag("Identifier")]
@@ -499,7 +499,7 @@ pub struct TsTypePredicate {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[allow(variant_size_differences)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsThisTypeOrIdent {
@@ -522,7 +522,7 @@ pub struct TsTypeQuery {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsTypeQueryExpr {
     #[tag("TsQualifiedName")]
@@ -597,7 +597,7 @@ pub struct TsRestType {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsUnionOrIntersectionType {
     #[tag("TsUnionType")]
@@ -780,7 +780,7 @@ pub struct TsLitType {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsLit {
     #[tag("NumericLiteral")]
@@ -883,7 +883,7 @@ pub struct TsEnumMember {
 ///
 /// - Invalid: [Ident] with empty symbol.
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsEnumMemberId {
     #[tag("Identifier")]
@@ -918,7 +918,7 @@ pub struct TsModuleDecl {
 /// `namespace A.B { }` is a namespace named `A` with another TsNamespaceDecl as
 /// its body.
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsNamespaceBody {
     #[tag("TsModuleBlock")]
@@ -949,7 +949,7 @@ pub struct TsNamespaceDecl {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsModuleName {
     #[tag("Identifier")]
@@ -972,7 +972,7 @@ pub struct TsImportEqualsDecl {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsModuleRef {
     #[tag("TsQualifiedName")]

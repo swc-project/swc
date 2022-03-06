@@ -21,7 +21,7 @@ use crate::{
     ComputedPropName, Id, Invalid,
 };
 
-#[ast_node]
+#[ast_node(no_clone)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Expr {
@@ -263,7 +263,7 @@ impl Take for ObjectLit {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum PropOrSpread {
     /// Spread properties, e.g., `{a: 1, ...obj, b: 2}`.
@@ -452,7 +452,7 @@ pub struct MemberExpr {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum MemberProp {
     #[tag("Identifier")]
@@ -476,7 +476,7 @@ pub struct SuperPropExpr {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum SuperProp {
     #[tag("Identifier")]
@@ -791,7 +791,7 @@ impl Take for ParenExpr {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Callee {
     #[tag("Super")]
@@ -868,7 +868,7 @@ impl Spanned for ExprOrSpread {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[allow(variant_size_differences)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum BlockStmtOrExpr {
@@ -885,7 +885,7 @@ impl Take for BlockStmtOrExpr {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum PatOrExpr {
     #[tag("ThisExpression")]
@@ -1066,7 +1066,7 @@ pub struct OptChainExpr {
 }
 
 #[ast_node]
-#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum OptChainBase {
     #[tag("MemberExpression")]
