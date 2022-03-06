@@ -19,14 +19,13 @@ pub fn no_alert(
     top_level_ctxt: SyntaxContext,
     es_version: EsVersion,
 ) -> Option<Box<dyn Rule>> {
-    let top_level_declared_vars: AHashSet<Id> = collect_decls_with_ctxt(program, top_level_ctxt);
     let rule_reaction = config.get_rule_reaction();
 
     match rule_reaction {
         LintRuleReaction::Off => None,
         _ => Some(visitor_rule(NoAlert::new(
             rule_reaction,
-            top_level_declared_vars,
+            collect_decls_with_ctxt(program, top_level_ctxt),
             top_level_ctxt,
             es_version,
         ))),
