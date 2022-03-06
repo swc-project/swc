@@ -307,6 +307,33 @@ export function minifySync(src: string, opts?: JsMinifyOptions): Output {
   return compiler.minifySync(src, opts);
 }
 
+/**
+ * Configure custom trace configuration runs for a process lifecycle.
+ * Currently only chromium's trace event format is supported.
+ * (https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview)
+ *
+ * This should be called before calling any binding interfaces exported in `@swc/core`, such as
+ * `transform*`, or `parse*` or anything. To avoid breaking changes, each binding fn internally
+ * sets default trace subscriber if not set.
+ *
+ * Unlike other configuration, this does not belong to individual api surface using swcrc
+ * or api's parameters (`transform(..., {trace})`). This is due to current tracing subscriber
+ * can be configured only once for the global scope. Calling `registerGlobalTraceConfig` multiple
+ * time won't cause error, subsequent calls will be ignored.
+ *
+ * As name implies currently this is experimental interface may change over time without semver
+ * major breaking changes. Please provide feedbacks,
+ * or bug report at https://github.com/swc-project/swc/discussions.
+ */
+export function __experimental_registerGlobalTraceConfig(traceConfig: {
+  type: 'traceEvent',
+  fileName?: string
+}) {
+  if (traceConfig.type === 'traceEvent') {
+    bindings.initCustomTraceSubscriber(traceConfig.fileName);
+  }
+}
+
 export const DEFAULT_EXTENSIONS = Object.freeze([
   ".js",
   ".jsx",

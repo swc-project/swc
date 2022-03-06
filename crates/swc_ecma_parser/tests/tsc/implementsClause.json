@@ -242,8 +242,13 @@
             "ctxt": 0
           },
           "expression": {
-            "type": "TsQualifiedName",
-            "left": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 255,
+              "end": 270,
+              "ctxt": 0
+            },
+            "object": {
               "type": "Identifier",
               "span": {
                 "start": 255,
@@ -253,7 +258,7 @@
               "value": "types",
               "optional": false
             },
-            "right": {
+            "property": {
               "type": "Identifier",
               "span": {
                 "start": 261,
@@ -301,10 +306,20 @@
             "ctxt": 0
           },
           "expression": {
-            "type": "TsQualifiedName",
-            "left": {
-              "type": "TsQualifiedName",
-              "left": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 293,
+              "end": 324,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 293,
+                "end": 314,
+                "ctxt": 0
+              },
+              "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 293,
@@ -314,7 +329,7 @@
                 "value": "nestedNamespace",
                 "optional": false
               },
-              "right": {
+              "property": {
                 "type": "Identifier",
                 "span": {
                   "start": 309,
@@ -325,7 +340,7 @@
                 "optional": false
               }
             },
-            "right": {
+            "property": {
               "type": "Identifier",
               "span": {
                 "start": 315,

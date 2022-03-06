@@ -3,6 +3,12 @@ pub use swc_common::{
     chain,
     plugin::{PluginError, Serialized},
 };
+
+pub mod util {
+    pub use swc_common::util::take;
+    pub use swc_ecma_quote::*;
+}
+
 pub mod ast {
     pub use swc_atoms::*;
     pub use swc_ecma_ast::*;
@@ -26,7 +32,7 @@ pub mod environment {
 }
 // We don't set target cfg as it'll block macro expansions
 // in ide (i.e rust-analyzer) or non-wasm target `cargo check`
-pub use swc_plugin_macro::plugin_module;
+pub use swc_plugin_macro::plugin_transform;
 #[cfg(target_arch = "wasm32")]
 mod allocation;
 #[cfg(target_arch = "wasm32")]

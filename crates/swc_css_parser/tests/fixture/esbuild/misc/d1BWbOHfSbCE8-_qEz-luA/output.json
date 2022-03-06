@@ -82,37 +82,31 @@
                       "value": "b",
                       "raw": "b"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 4,
-                        "end": 6,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 4,
-                            "end": 5,
-                            "ctxt": 0
-                          },
-                          "token": "Colon"
+                    "children": [
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 4,
+                          "end": 5,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 5,
-                            "end": 6,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "c",
-                              "raw": "c"
-                            }
+                        "token": "Colon"
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 5,
+                          "end": 6,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "c",
+                            "raw": "c"
                           }
                         }
-                      ]
-                    }
+                      }
+                    ]
                   }
                 ]
               }
@@ -121,12 +115,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 8,
           "end": 10,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     }

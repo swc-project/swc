@@ -1,3 +1,4 @@
+var _bar, _baz, _qux;
 function AsyncGenerator(gen) {
     var front, back;
     function resume(key, arg) {
@@ -80,6 +81,11 @@ function _classPrivateMethodGet(receiver, privateSet, fn) {
     if (!privateSet.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
     return fn;
 }
+function _classPrivateMethodInit(obj, privateSet) {
+    !function(obj, privateCollection) {
+        if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }(obj, privateSet), privateSet.add(obj);
+}
 "function" == typeof Symbol && Symbol.asyncIterator && (AsyncGenerator.prototype[Symbol.asyncIterator] = function() {
     return this;
 }), AsyncGenerator.prototype.next = function(arg) {
@@ -89,43 +95,40 @@ function _classPrivateMethodGet(receiver, privateSet, fn) {
 }, AsyncGenerator.prototype.return = function(arg) {
     return this._invoke("return", arg);
 };
-const C = function() {
-    var _bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet();
-    function bar() {
-        return _bar1.apply(this, arguments);
+const C = (_bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet(), class {
+    foo() {
+        var _this = this;
+        return _asyncToGenerator(function*() {
+            const b = yield _classPrivateMethodGet(_this, _bar, bar).call(_this);
+            return b + (_classPrivateMethodGet(_this, _baz, baz).call(_this).next().value || 0) + ((yield _classPrivateMethodGet(_this, _qux, qux).call(_this).next()).value || 0);
+        })();
     }
-    function _bar1() {
-        return (_bar1 = _asyncToGenerator(function*() {
-            return yield Promise.resolve(42);
-        })).apply(this, arguments);
+    constructor(){
+        _classPrivateMethodInit(this, _bar), _classPrivateMethodInit(this, _baz), _classPrivateMethodInit(this, _qux);
     }
-    function* baz() {
-        yield 42;
-    }
-    function qux() {
-        return _qux1.apply(this, arguments);
-    }
-    function _qux1() {
-        return (_qux1 = (function(fn) {
-            return function() {
-                return new AsyncGenerator(fn.apply(this, arguments));
-            };
-        })(function*() {
-            var value;
-            yield yield value = Promise.resolve(42), new _AwaitValue(value);
-        })).apply(this, arguments);
-    }
-    return class {
-        foo() {
-            var _this = this;
-            return _asyncToGenerator(function*() {
-                const b = yield _classPrivateMethodGet(_this, _bar, bar).call(_this);
-                return b + (_classPrivateMethodGet(_this, _baz, baz).call(_this).next().value || 0) + ((yield _classPrivateMethodGet(_this, _qux, qux).call(_this).next()).value || 0);
-            })();
-        }
-        constructor(){
-            _bar.add(this), _baz.add(this), _qux.add(this);
-        }
-    };
-}();
+});
+function bar() {
+    return _bar1.apply(this, arguments);
+}
+function _bar1() {
+    return (_bar1 = _asyncToGenerator(function*() {
+        return yield Promise.resolve(42);
+    })).apply(this, arguments);
+}
+function* baz() {
+    yield 42;
+}
+function qux() {
+    return _qux1.apply(this, arguments);
+}
+function _qux1() {
+    return (_qux1 = (function(fn) {
+        return function() {
+            return new AsyncGenerator(fn.apply(this, arguments));
+        };
+    })(function*() {
+        var value;
+        yield yield value = Promise.resolve(42), new _AwaitValue(value);
+    })).apply(this, arguments);
+}
 new C().foo().then(console.log);

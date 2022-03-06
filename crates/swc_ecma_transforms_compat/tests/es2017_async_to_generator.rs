@@ -2291,10 +2291,7 @@ test!(
 
 test_exec!(
     Syntax::default(),
-    |_| chain!(
-        class_properties(class_properties::Config { loose: false }),
-        async_to_generator()
-    ),
+    |_| chain!(class_properties(Default::default()), async_to_generator()),
     issue_1341_1_exec,
     "
     class A {
@@ -2347,10 +2344,7 @@ test!(
 
 test_exec!(
     Syntax::default(),
-    |_| chain!(
-        class_properties(class_properties::Config { loose: false }),
-        async_to_generator()
-    ),
+    |_| chain!(class_properties(Default::default()), async_to_generator()),
     issue_1341_2_exec,
     "
   class A {
@@ -3554,7 +3548,7 @@ const p = Z((f)=>_asyncToGenerator(function*(n = 0) {
 "
 );
 
-#[testing::fixture("tests/fixture/async-to-generator/**/exec.js")]
+#[testing::fixture("tests/async-to-generator/**/exec.js")]
 fn exec(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
     compare_stdout(
@@ -3570,7 +3564,7 @@ fn exec(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/fixture/async-to-generator/**/exec.js")]
+#[testing::fixture("tests/async-to-generator/**/exec.js")]
 fn exec_regenerator(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
     compare_stdout(

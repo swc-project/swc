@@ -137,44 +137,44 @@ var YUI = function() {
             return this;
         },
         _attach: function(r, moot) {
-            var i, name, mod, details, req, use, after, j, loader, def, go, mods = YUI.Env.mods, aliases = YUI.Env.aliases, cache = YUI.Env._renderedMods, loader = this.Env._loader, done = this.Env._attached, len = r.length, c = [];
-            for(i = 0; i < len; i++)if (mod = mods[name = r[i]], c.push(name), loader && loader.conditions[name]) for(j in loader.conditions[name])loader.conditions[name].hasOwnProperty(j) && (go = (def = loader.conditions[name][j]) && (def.ua && this.UA[def.ua] || def.test && def.test(this))) && c.push(def.name);
+            var i, name, mod, details, req, use, after, j, loader, def, go, mods = YUI.Env.mods, aliases = YUI.Env.aliases, Y = this, cache = YUI.Env._renderedMods, loader = Y.Env._loader, done = Y.Env._attached, len = r.length, c = [];
+            for(i = 0; i < len; i++)if (mod = mods[name = r[i]], c.push(name), loader && loader.conditions[name]) for(j in loader.conditions[name])loader.conditions[name].hasOwnProperty(j) && (go = (def = loader.conditions[name][j]) && (def.ua && Y.UA[def.ua] || def.test && def.test(Y))) && c.push(def.name);
             for(i = 0, len = (r = c).length; i < len; i++)if (!done[r[i]]) {
                 if (mod = mods[name = r[i]], aliases && aliases[name] && !mod) {
-                    this._attach(aliases[name]);
+                    Y._attach(aliases[name]);
                     continue;
                 }
                 if (mod) {
-                    for(j = 0, done[name] = !0; j < this.Env._missed.length; j++)this.Env._missed[j] === name && (this.message("Found: " + name + " (was reported as missing earlier)", "warn", "yui"), this.Env._missed.splice(j, 1));
+                    for(j = 0, done[name] = !0; j < Y.Env._missed.length; j++)Y.Env._missed[j] === name && (Y.message("Found: " + name + " (was reported as missing earlier)", "warn", "yui"), Y.Env._missed.splice(j, 1));
                     if (loader && cache && cache[name] && cache[name].temp) {
                         for(j in loader.getRequires(cache[name]), req = [], loader.moduleInfo[name].expanded_map)loader.moduleInfo[name].expanded_map.hasOwnProperty(j) && req.push(j);
-                        this._attach(req);
+                        Y._attach(req);
                     }
                     if (req = (details = mod.details).requires, use = details.use, after = details.after, details.lang && (req = req || []).unshift("intl"), req) {
                         for(j = 0; j < req.length; j++)if (!done[req[j]]) {
-                            if (!this._attach(req)) return !1;
+                            if (!Y._attach(req)) return !1;
                             break;
                         }
                     }
                     if (after) {
                         for(j = 0; j < after.length; j++)if (!done[after[j]]) {
-                            if (!this._attach(after, !0)) return !1;
+                            if (!Y._attach(after, !0)) return !1;
                             break;
                         }
                     }
-                    if (mod.fn) if (this.config.throwFail) mod.fn(this, name);
+                    if (mod.fn) if (Y.config.throwFail) mod.fn(Y, name);
                     else try {
-                        mod.fn(this, name);
+                        mod.fn(Y, name);
                     } catch (e) {
-                        return this.error("Attach error: " + name, e, name), !1;
+                        return Y.error("Attach error: " + name, e, name), !1;
                     }
                     if (use) {
                         for(j = 0; j < use.length; j++)if (!done[use[j]]) {
-                            if (!this._attach(use)) return !1;
+                            if (!Y._attach(use)) return !1;
                             break;
                         }
                     }
-                } else loader && loader.moduleInfo[name] && (mod = loader.moduleInfo[name], moot = !0), !moot && name && -1 === name.indexOf("skin-") && -1 === name.indexOf("css") && (this.Env._missed.push(name), this.Env._missed = this.Array.dedupe(this.Env._missed), this.message("NOT loaded: " + name, "warn", "yui"));
+                } else loader && loader.moduleInfo[name] && (mod = loader.moduleInfo[name], moot = !0), !moot && name && -1 === name.indexOf("skin-") && -1 === name.indexOf("css") && (Y.Env._missed.push(name), Y.Env._missed = Y.Array.dedupe(Y.Env._missed), Y.message("NOT loaded: " + name, "warn", "yui"));
             }
             return !0;
         },
@@ -194,20 +194,20 @@ var YUI = function() {
             };
         },
         use: function() {
-            var name, args = SLICE.call(arguments, 0), callback = args[args.length - 1], i = 0, Env = this.Env, provisioned = !0;
-            if (this.Lang.isFunction(callback) ? (args.pop(), this.config.delayUntil && (callback = this._delayCallback(callback, this.config.delayUntil))) : callback = null, this.Lang.isArray(args[0]) && (args = args[0]), this.config.cacheUse) {
+            var name, args = SLICE.call(arguments, 0), callback = args[args.length - 1], Y1 = this, i = 0, Env = Y1.Env, provisioned = !0;
+            if (Y1.Lang.isFunction(callback) ? (args.pop(), Y1.config.delayUntil && (callback = Y1._delayCallback(callback, Y1.config.delayUntil))) : callback = null, Y1.Lang.isArray(args[0]) && (args = args[0]), Y1.config.cacheUse) {
                 for(; name = args[i++];)if (!Env._attached[name]) {
                     provisioned = !1;
                     break;
                 }
-                if (provisioned) return args.length, this._notify(callback, ALREADY_DONE, args), this;
+                if (provisioned) return args.length, Y1._notify(callback, ALREADY_DONE, args), Y1;
             }
-            return this._loading ? (this._useQueue = this._useQueue || new this.Queue(), this._useQueue.add([
+            return Y1._loading ? (Y1._useQueue = Y1._useQueue || new Y1.Queue(), Y1._useQueue.add([
                 args,
                 callback
-            ])) : this._use(args, function(Y, response) {
+            ])) : Y1._use(args, function(Y, response) {
                 Y._notify(callback, response, args);
-            }), this;
+            }), Y1;
         },
         _notify: function(callback, response, args) {
             if (!response.success && this.config.loadErrorFn) this.config.loadErrorFn.call(this, this, callback, response, args);
@@ -1018,26 +1018,26 @@ var YUI = function() {
     requires: [
         "yui-base"
     ]
-}), YUI.add("features", function(Y1, NAME) {
+}), YUI.add("features", function(Y2, NAME) {
     var feature_tests = {};
-    Y1.mix(Y1.namespace("Features"), {
+    Y2.mix(Y2.namespace("Features"), {
         tests: feature_tests,
         add: function(cat, name, o) {
             feature_tests[cat] = feature_tests[cat] || {}, feature_tests[cat][name] = o;
         },
         all: function(cat, args) {
             var cat_o = feature_tests[cat], result = [];
-            return cat_o && Y1.Object.each(cat_o, function(v, k) {
-                result.push(k + ":" + (Y1.Features.test(cat, k, args) ? 1 : 0));
+            return cat_o && Y2.Object.each(cat_o, function(v, k) {
+                result.push(k + ":" + (Y2.Features.test(cat, k, args) ? 1 : 0));
             }), result.length ? result.join(";") : "";
         },
         test: function(cat, name, args) {
             args = args || [];
             var result, ua, test, cat_o = feature_tests[cat], feature = cat_o && cat_o[name];
-            return feature && (result = feature.result, Y1.Lang.isUndefined(result) && ((ua = feature.ua) && (result = Y1.UA[ua]), (test = feature.test) && (!ua || result) && (result = test.apply(Y1, args)), feature.result = result)), result;
+            return feature && (result = feature.result, Y2.Lang.isUndefined(result) && ((ua = feature.ua) && (result = Y2.UA[ua]), (test = feature.test) && (!ua || result) && (result = test.apply(Y2, args)), feature.result = result)), result;
         }
     });
-    var add = Y1.Features.add;
+    var add = Y2.Features.add;
     add("load", "0", {
         name: "app-transitions-native",
         test: function(Y) {
@@ -1226,8 +1226,8 @@ var YUI = function() {
     requires: [
         "yui-base"
     ]
-}), YUI.add("yui-log", function(Y2, NAME) {
-    var INSTANCE = Y2, LOGEVENT = "yui:log", UNDEFINED = "undefined", LEVELS = {
+}), YUI.add("yui-log", function(Y3, NAME) {
+    var INSTANCE = Y3, LOGEVENT = "yui:log", UNDEFINED = "undefined", LEVELS = {
         debug: 1,
         info: 2,
         warn: 4,
@@ -1333,17 +1333,17 @@ var YUI = function() {
         o = o || {}, modulekey = META1.md5, self.context = Y, self.base = Y.Env.meta.base + Y.Env.meta.root, self.comboBase = Y.Env.meta.comboBase, self.combine = o.base && o.base.indexOf(self.comboBase.substr(0, 20)) > -1, self.comboSep = "&", self.maxURLLength = 1024, self.ignoreRegistered = o.ignoreRegistered, self.root = Y.Env.meta.root, self.timeout = 0, self.forceMap = {}, self.allowRollup = !1, self.filters = {}, self.required = {}, self.patterns = {}, self.moduleInfo = {}, self.groups = Y.merge(Y.Env.meta.groups), self.skin = Y.merge(Y.Env.meta.skin), self.conditions = {}, self.config = o, self._internal = !0, self._populateCache(), self.loaded = GLOBAL_LOADED[VERSION1], self.async = !0, self._inspectPage(), self._internal = !1, self._config(o), self.forceMap = self.force ? Y.Array.hash(self.force) : {}, self.testresults = null, Y.config.tests && (self.testresults = Y.config.tests), self.sorted = [], self.dirty = !0, self.inserted = {}, self.skipped = {}, self.tested = {}, self.ignoreRegistered && self._resetModules();
     }, Y.Loader.prototype = {
         _populateCache: function() {
-            var i, defaults = META1.modules, cache = GLOBAL_ENV._renderedMods;
-            if (cache && !this.ignoreRegistered) {
-                for(i in cache)cache.hasOwnProperty(i) && (this.moduleInfo[i] = Y.merge(cache[i]));
-                for(i in cache = GLOBAL_ENV._conditions)cache.hasOwnProperty(i) && (this.conditions[i] = Y.merge(cache[i]));
-            } else for(i in defaults)defaults.hasOwnProperty(i) && this.addModule(defaults[i], i);
+            var i, self = this, defaults = META1.modules, cache = GLOBAL_ENV._renderedMods;
+            if (cache && !self.ignoreRegistered) {
+                for(i in cache)cache.hasOwnProperty(i) && (self.moduleInfo[i] = Y.merge(cache[i]));
+                for(i in cache = GLOBAL_ENV._conditions)cache.hasOwnProperty(i) && (self.conditions[i] = Y.merge(cache[i]));
+            } else for(i in defaults)defaults.hasOwnProperty(i) && self.addModule(defaults[i], i);
         },
         _resetModules: function() {
-            var i, o, mod, name, details;
-            for(i in this.moduleInfo)if (this.moduleInfo.hasOwnProperty(i)) {
-                if (name = (mod = this.moduleInfo[i]).name, (details = YUI.Env.mods[name] ? YUI.Env.mods[name].details : null) && (this.moduleInfo[name]._reset = !0, this.moduleInfo[name].requires = details.requires || [], this.moduleInfo[name].optional = details.optional || [], this.moduleInfo[name].supersedes = details.supercedes || []), mod.defaults) for(o in mod.defaults)mod.defaults.hasOwnProperty(o) && mod[o] && (mod[o] = mod.defaults[o]);
-                delete mod.langCache, delete mod.skinCache, mod.skinnable && this._addSkin(this.skin.defaultSkin, mod.name);
+            var i, o, mod, name, details, self = this;
+            for(i in self.moduleInfo)if (self.moduleInfo.hasOwnProperty(i)) {
+                if (name = (mod = self.moduleInfo[i]).name, (details = YUI.Env.mods[name] ? YUI.Env.mods[name].details : null) && (self.moduleInfo[name]._reset = !0, self.moduleInfo[name].requires = details.requires || [], self.moduleInfo[name].optional = details.optional || [], self.moduleInfo[name].supersedes = details.supercedes || []), mod.defaults) for(o in mod.defaults)mod.defaults.hasOwnProperty(o) && mod[o] && (mod[o] = mod.defaults[o]);
+                delete mod.langCache, delete mod.skinCache, mod.skinnable && self._addSkin(self.skin.defaultSkin, mod.name);
             }
         },
         REGEX_CSS: /\.css(?:[?;].*)?$/i,
@@ -1362,9 +1362,9 @@ var YUI = function() {
             }
         },
         _inspectPage: function() {
-            var v, m, req, mr, i;
-            for(i in this.moduleInfo)this.moduleInfo.hasOwnProperty(i) && (v = this.moduleInfo[i]).type && "css" === v.type && this.isCSSLoaded(v.name) && (this.loaded[i] = !0);
-            for(i in ON_PAGE)ON_PAGE.hasOwnProperty(i) && (v = ON_PAGE[i]).details && (m = this.moduleInfo[v.name], req = v.details.requires, mr = m && m.requires, m ? !m._inspected && req && mr.length !== req.length && delete m.expanded : m = this.addModule(v.details, i), m._inspected = !0);
+            var v, m, req, mr, i, self = this;
+            for(i in self.moduleInfo)self.moduleInfo.hasOwnProperty(i) && (v = self.moduleInfo[i]).type && "css" === v.type && self.isCSSLoaded(v.name) && (self.loaded[i] = !0);
+            for(i in ON_PAGE)ON_PAGE.hasOwnProperty(i) && (v = ON_PAGE[i]).details && (m = self.moduleInfo[v.name], req = v.details.requires, mr = m && m.requires, m ? !m._inspected && req && mr.length !== req.length && delete m.expanded : m = self.addModule(v.details, i), m._inspected = !0);
         },
         _requires: function(mod1, mod2) {
             var i, rm, after_map, s, info = this.moduleInfo, m = info[mod1], other = info[mod2];
@@ -1380,7 +1380,7 @@ var YUI = function() {
             return !!rm && mod2 in rm || !!m.ext && "css" === m.type && !other.ext && "css" === other.type;
         },
         _config: function(o) {
-            var i, j, val, a, f, group, groupName, mod1, self = this, mods = [];
+            var i, j, val, a, f, group, groupName, mod3, self = this, mods = [];
             if (o) {
                 for(i in o)if (o.hasOwnProperty(i)) if (val = o[i], "require" === i) self.require(val);
                 else if ("skin" === i) "string" == typeof val && (self.skin.defaultSkin = o.skin, val = {
@@ -1393,7 +1393,7 @@ var YUI = function() {
                 else "gallery" === i ? this.groups.gallery.update && this.groups.gallery.update(val, o) : "yui2" === i || "2in3" === i ? this.groups.yui2.update && this.groups.yui2.update(o["2in3"], o.yui2, o) : self[i] = val;
             }
             if (f = self.filter, L.isString(f) && (f = f.toUpperCase(), self.filterName = f, self.filter = self.FILTER_DEFS[f], "DEBUG" === f && self.require("yui-log", "dump")), self.filterName && self.coverage && "COVERAGE" === self.filterName && L.isArray(self.coverage) && self.coverage.length) {
-                for(i = 0; i < self.coverage.length; i++)mod1 = self.coverage[i], self.moduleInfo[mod1] && self.moduleInfo[mod1].use ? mods = [].concat(mods, self.moduleInfo[mod1].use) : mods.push(mod1);
+                for(i = 0; i < self.coverage.length; i++)mod3 = self.coverage[i], self.moduleInfo[mod3] && self.moduleInfo[mod3].use ? mods = [].concat(mods, self.moduleInfo[mod3].use) : mods.push(mod3);
                 self.filters = self.filters || {}, Y.Array.each(mods, function(mod) {
                     self.filters[mod] = self.FILTER_DEFS.COVERAGE;
                 }), self.filterName = "RAW", self.filter = self.FILTER_DEFS[self.filterName];
@@ -1465,11 +1465,11 @@ var YUI = function() {
             this.dirty = !0, this.required = Y.merge(this.required, yArray.hash(this.filterRequires(a))), this._explodeRollups();
         },
         _explodeRollups: function() {
-            var m, m2, i, a, v, len, len2, r = this.required;
-            if (!this.allowRollup) {
-                for(i in r)if (r.hasOwnProperty(i) && (m = this.getModule(i)) && m.use) for(a = 0, len = m.use.length; a < len; a++)if ((m2 = this.getModule(m.use[a])) && m2.use) for(v = 0, len2 = m2.use.length; v < len2; v++)r[m2.use[v]] = !0;
+            var m, m2, i, a, v, len, len2, self = this, r = self.required;
+            if (!self.allowRollup) {
+                for(i in r)if (r.hasOwnProperty(i) && (m = self.getModule(i)) && m.use) for(a = 0, len = m.use.length; a < len; a++)if ((m2 = self.getModule(m.use[a])) && m2.use) for(v = 0, len2 = m2.use.length; v < len2; v++)r[m2.use[v]] = !0;
                 else r[m.use[a]] = !0;
-                this.required = r;
+                self.required = r;
             }
         },
         filterRequires: function(r) {
@@ -1795,8 +1795,8 @@ var YUI = function() {
     requires: [
         "loader-base"
     ]
-}), YUI.add("loader-yui3", function(Y3, NAME) {
-    YUI.Env[Y3.version].modules = YUI.Env[Y3.version].modules || {}, Y3.mix(YUI.Env[Y3.version].modules, {
+}), YUI.add("loader-yui3", function(Y4, NAME) {
+    YUI.Env[Y4.version].modules = YUI.Env[Y4.version].modules || {}, Y4.mix(YUI.Env[Y4.version].modules, {
         "align-plugin": {
             requires: [
                 "node-screen",
@@ -4651,7 +4651,7 @@ var YUI = function() {
                 "yui-base"
             ]
         }
-    }), YUI.Env[Y3.version].md5 = "fd7c67956df50e445f40d1668dd1dc80";
+    }), YUI.Env[Y4.version].md5 = "fd7c67956df50e445f40d1668dd1dc80";
 }, "3.12.0", {
     requires: [
         "loader-base"

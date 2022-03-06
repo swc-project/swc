@@ -62,7 +62,16 @@
           }
         ]
       },
-      "rules": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 30,
+          "end": 33,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     },
     {
       "type": "SupportsRule",
@@ -98,23 +107,23 @@
             },
             "value": [
               {
-                "type": "Number",
+                "type": "Integer",
                 "span": {
                   "start": 59,
                   "end": 60,
                   "ctxt": 0
                 },
-                "value": 0.0,
+                "value": 0,
                 "raw": "0"
               },
               {
-                "type": "Number",
+                "type": "Integer",
                 "span": {
                   "start": 61,
                   "end": 62,
                   "ctxt": 0
                 },
-                "value": 0.0,
+                "value": 0,
                 "raw": "0"
               },
               {
@@ -194,23 +203,23 @@
               },
               "value": [
                 {
-                  "type": "Number",
+                  "type": "Integer",
                   "span": {
                     "start": 113,
                     "end": 114,
                     "ctxt": 0
                   },
-                  "value": 0.0,
+                  "value": 0,
                   "raw": "0"
                 },
                 {
-                  "type": "Number",
+                  "type": "Integer",
                   "span": {
                     "start": 115,
                     "end": 116,
                     "ctxt": 0
                   },
-                  "value": 0.0,
+                  "value": 0,
                   "raw": "0"
                 },
                 {
@@ -291,23 +300,23 @@
               },
               "value": [
                 {
-                  "type": "Number",
+                  "type": "Integer",
                   "span": {
                     "start": 170,
                     "end": 171,
                     "ctxt": 0
                   },
-                  "value": 0.0,
+                  "value": 0,
                   "raw": "0"
                 },
                 {
-                  "type": "Number",
+                  "type": "Integer",
                   "span": {
                     "start": 172,
                     "end": 173,
                     "ctxt": 0
                   },
-                  "value": 0.0,
+                  "value": 0,
                   "raw": "0"
                 },
                 {
@@ -388,23 +397,23 @@
               },
               "value": [
                 {
-                  "type": "Number",
+                  "type": "Integer",
                   "span": {
                     "start": 222,
                     "end": 223,
                     "ctxt": 0
                   },
-                  "value": 0.0,
+                  "value": 0,
                   "raw": "0"
                 },
                 {
-                  "type": "Number",
+                  "type": "Integer",
                   "span": {
                     "start": 224,
                     "end": 225,
                     "ctxt": 0
                   },
-                  "value": 0.0,
+                  "value": 0,
                   "raw": "0"
                 },
                 {
@@ -461,7 +470,16 @@
           }
         ]
       },
-      "rules": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 244,
+          "end": 246,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     },
     {
       "type": "SupportsRule",
@@ -637,7 +655,16 @@
           }
         ]
       },
-      "rules": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 367,
+          "end": 369,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     }
   ]
 }

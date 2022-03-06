@@ -2,11 +2,12 @@
 //!
 //! License is MIT, which is original license at the time of copying.
 //! Original test authors have copyright for their work.
+#![allow(clippy::needless_update)]
 
 use std::path::PathBuf;
 
 use swc_common::{FileName, DUMMY_SP};
-use swc_css_ast::{Block, DeclarationBlockItem, QualifiedRule, Stylesheet};
+use swc_css_ast::{ComponentValue, DeclarationOrAtRule, QualifiedRule, SimpleBlock, Stylesheet};
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodegenConfig, Emit,
@@ -486,15 +487,15 @@ fn t(src: &str, expected: &str) {
         //
         let fm = cm.new_source_file(FileName::Anon, src.to_string());
         let mut errors = vec![];
-        let props: Vec<DeclarationBlockItem> = parse_file(
+        let props: Vec<DeclarationOrAtRule> = parse_file(
             &fm,
             ParserConfig {
-                parse_values: true,
                 ..Default::default()
             },
             &mut errors,
         )
         .unwrap();
+
         for err in errors {
             err.to_diagnostics(&handler).emit();
         }
@@ -505,9 +506,13 @@ fn t(src: &str, expected: &str) {
                 span: DUMMY_SP,
                 children: Default::default(),
             },
-            block: Block {
+            block: SimpleBlock {
                 span: DUMMY_SP,
-                value: props,
+                name: '{',
+                value: props
+                    .into_iter()
+                    .map(ComponentValue::DeclarationOrAtRule)
+                    .collect(),
             },
         };
         node.visit_mut_with(&mut prefixer());

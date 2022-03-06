@@ -28,6 +28,18 @@ error: CustomIdent
 1 | @keyframes name { from { color: red } }
   |            ^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:17
+  |
+1 | @keyframes name { from { color: red } }
+  |                 ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:19
+  |
+1 | @keyframes name { from { color: red } }
+  |                   ^^^^^^^^^^^^^^^^^^^
+
 error: KeyframeBlock
  --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:19
   |
@@ -46,11 +58,17 @@ error: Ident
 1 | @keyframes name { from { color: red } }
   |                   ^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:24
   |
 1 | @keyframes name { from { color: red } }
   |                        ^^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:26
+  |
+1 | @keyframes name { from { color: red } }
+  |                          ^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:26
@@ -70,7 +88,7 @@ error: Ident
 1 | @keyframes name { from { color: red } }
   |                          ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:33
   |
 1 | @keyframes name { from { color: red } }

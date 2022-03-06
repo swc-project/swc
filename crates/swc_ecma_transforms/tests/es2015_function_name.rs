@@ -271,7 +271,7 @@ test!(
     |t| chain!(
         resolver(),
         function_name(),
-        classes(Some(t.comments.clone()),),
+        classes(Some(t.comments.clone()), Default::default()),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
@@ -333,7 +333,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        classes(Some(t.comments.clone()),),
+        classes(Some(t.comments.clone()), Default::default()),
         function_name(),
     ),
     function_name_basic,
@@ -496,7 +496,7 @@ test!(
             ..Default::default()
         }),
         function_name(),
-        classes(Some(t.comments.clone()),)
+        classes(Some(t.comments.clone()), Default::default())
     ),
     function_name_self_reference,
     r#"
@@ -563,7 +563,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        classes(Some(t.comments.clone()),),
+        classes(Some(t.comments.clone()), Default::default()),
         function_name(),
     ),
     function_name_method_definition,
@@ -646,7 +646,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        classes(Some(t.comments.clone()),),
+        classes(Some(t.comments.clone()), Default::default()),
         function_name(),
     ),
     function_name_own_bindings,
@@ -694,8 +694,8 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone()),),
+        class_properties(Default::default()),
+        classes(Some(t.comments.clone()), Default::default()),
     ),
     decorators_legacy_interop_strict,
     r#"
@@ -752,7 +752,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        classes(Some(t.comments.clone()),),
+        classes(Some(t.comments.clone()), Default::default()),
         function_name(),
     ),
     function_name_function_collision,
@@ -819,7 +819,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        classes(Some(t.comments.clone()),),
+        classes(Some(t.comments.clone()), Default::default()),
         function_name(),
     ),
     function_name_collisions,
@@ -859,7 +859,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        classes(Some(t.comments.clone()),),
+        classes(Some(t.comments.clone()), Default::default()),
         function_name(),
         common_js(Mark::fresh(Mark::root()), Default::default(), None)
     ),
@@ -922,7 +922,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        classes(Some(t.comments.clone()),),
+        classes(Some(t.comments.clone()), Default::default()),
         function_name(),
     ),
     function_name_await,

@@ -6,27 +6,67 @@ function _arrayLikeToArray(arr, len) {
 function _arrayWithoutHoles(arr) {
     if (Array.isArray(arr)) return _arrayLikeToArray(arr);
 }
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
+function _classApplyDescriptorDestructureSet(receiver, descriptor) {
+    if (descriptor.set) {
+        if (!("__destrObj" in descriptor)) {
+            descriptor.__destrObj = {
+                set value (v){
+                    descriptor.set.call(receiver, v);
+                }
+            };
+        }
+        return descriptor.__destrObj;
+    } else {
+        if (!descriptor.writable) {
+            throw new TypeError("attempted to set read only private field");
+        }
+        return descriptor;
+    }
+}
+function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+        return descriptor.get.call(receiver);
+    }
+    return descriptor.value;
+}
+function _classApplyDescriptorSet(receiver, descriptor, value) {
+    if (descriptor.set) {
+        descriptor.set.call(receiver, value);
+    } else {
+        if (!descriptor.writable) {
+            throw new TypeError("attempted to set read only private field");
+        }
+        descriptor.value = value;
+    }
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-function _classPrivateFieldSet(receiver, privateMap, value1) {
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
     if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
+        throw new TypeError("attempted to " + action + " private field on non-instance");
     }
-    var descriptor = privateMap.get(receiver);
-    if (!descriptor.writable) {
-        throw new TypeError("attempted to set read only private field");
-    }
-    descriptor.value = value1;
-    return value1;
+    return privateMap.get(receiver);
 }
-function _classPrivateMethodGet(receiver, privateSet, fn) {
-    if (!privateSet.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return fn;
+function _classPrivateFieldGet(receiver, privateMap) {
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
+}
+function _classPrivateFieldSet(receiver, privateMap, value) {
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
+    _classApplyDescriptorSet(receiver, descriptor, value);
+    return value;
 }
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
@@ -74,36 +114,31 @@ function _unsupportedIterableToArray(o, minLen) {
     if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
 }
 function _classPrivateFieldDestructureSet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    var descriptor = privateMap.get(receiver);
-    if (descriptor.set) {
-        if (!("__destrObj" in descriptor)) {
-            descriptor.__destrObj = {
-                set value (v){
-                    descriptor.set.call(receiver, v);
-                }
-            };
-        }
-        return descriptor.__destrObj;
-    } else {
-        if (!descriptor.writable) {
-            throw new TypeError("attempted to set read only private field");
-        }
-        return descriptor;
-    }
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
+    return _classApplyDescriptorDestructureSet(receiver, descriptor);
 }
-var _value = new WeakSet(), _valueRest = new WeakSet(), _valueOne = new WeakSet(), _valueCompound = new WeakSet();
+var _value = new WeakMap(), _valueRest = new WeakMap(), _valueOne = new WeakMap(), _valueCompound = new WeakMap();
 var Test = // @target: es2015
 /*#__PURE__*/ function() {
     "use strict";
     function Test() {
         _classCallCheck(this, Test);
-        _value.add(this);
-        _valueRest.add(this);
-        _valueOne.add(this);
-        _valueCompound.add(this);
+        _classPrivateFieldInit(this, _value, {
+            get: void 0,
+            set: set_value
+        });
+        _classPrivateFieldInit(this, _valueRest, {
+            get: void 0,
+            set: set_valueRest
+        });
+        _classPrivateFieldInit(this, _valueOne, {
+            get: void 0,
+            set: set_valueOne
+        });
+        _classPrivateFieldInit(this, _valueCompound, {
+            get: void 0,
+            set: set_valueCompound
+        });
     }
     _createClass(Test, [
         {
@@ -112,14 +147,14 @@ var Test = // @target: es2015
                 var foo = {
                     bar: 1
                 };
-                console.log(_classPrivateMethodGet(this, _value, value)); // error
+                console.log(_classPrivateFieldGet(this, _value)); // error
                 _classPrivateFieldSet(this, _value, {
                     foo: foo
                 }); // ok
                 _classPrivateFieldSet(this, _value, {
                     foo: foo
                 }); // ok
-                _classPrivateMethodGet(this, _value, value).foo = foo; // error
+                _classPrivateFieldGet(this, _value).foo = foo; // error
                 var ref;
                 ref = {
                     o: {
@@ -133,30 +168,30 @@ var Test = // @target: es2015
                 var ref1;
                 ref1 = {
                     foo: foo
-                }, _classPrivateMethodGet(this, _value, value).foo = ref1.foo, ref1; //error
+                }, _classPrivateFieldGet(this, _value).foo = ref1.foo, ref1; //error
                 var _tmp1;
                 var ref2, ref3;
                 _tmp1 = {
                     foo: foo
-                }, _classPrivateMethodGet(this, _value, value).foo = _extends({}, _tmp1.foo), ref2 = _tmp1, ref3 = ref2.foo, ref3, ref2, _tmp1; //error
+                }, _classPrivateFieldGet(this, _value).foo = _extends({}, _tmp1.foo), ref2 = _tmp1, ref3 = ref2.foo, ref3, ref2, _tmp1; //error
                 var r = {
-                    o: _classPrivateMethodGet(this, _value, value)
+                    o: _classPrivateFieldGet(this, _value)
                 }; //error
                 _classPrivateFieldDestructureSet(this, _valueOne).value = 1, _classPrivateFieldDestructureSet(this, _valueRest).value = [
                     2,
                     3
                 ];
                 var arr = [
-                    _classPrivateMethodGet(this, _valueOne, valueOne)
-                ].concat(_toConsumableArray(_classPrivateMethodGet(this, _valueRest, valueRest)));
-                _classPrivateFieldSet(this, _valueCompound, _classPrivateMethodGet(this, _valueCompound, valueCompound) + 3);
+                    _classPrivateFieldGet(this, _valueOne)
+                ].concat(_toConsumableArray(_classPrivateFieldGet(this, _valueRest)));
+                _classPrivateFieldSet(this, _valueCompound, _classPrivateFieldGet(this, _valueCompound) + 3);
             }
         }
     ]);
     return Test;
 }();
-function value(v) {}
-function valueRest(v) {}
-function valueOne(v) {}
-function valueCompound(v) {}
+function set_value(v) {}
+function set_valueRest(v) {}
+function set_valueOne(v) {}
+function set_valueCompound(v) {}
 new Test().m();

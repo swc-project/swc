@@ -73,13 +73,25 @@ error: Ident
 1 | /* comment */a/* comment */
   |              ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/comment/input.css:2:1
   |
 2 | / {
 3 | | /* comment */color/* comment */:/* comment */red/* comment */;
 4 | | }
   | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/comment/input.css:3:14
+  |
+3 | /* comment */color/* comment */:/* comment */red/* comment */;
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/comment/input.css:3:14
+  |
+3 | /* comment */color/* comment */:/* comment */red/* comment */;
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/comment/input.css:3:14
@@ -99,7 +111,7 @@ error: Ident
 3 | /* comment */color/* comment */:/* comment */red/* comment */;
   |              ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/comment/input.css:3:46
   |
 3 | /* comment */color/* comment */:/* comment */red/* comment */;
@@ -177,7 +189,7 @@ error: Ident
 9 | div {
   | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/comment/input.css:9:5
    |
 9  |   div {
@@ -189,6 +201,18 @@ error: Block
 14 | |     /* end */
 15 | | }
    | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/comment/input.css:11:5
+   |
+11 |     color: black;
+   |     ^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/comment/input.css:11:5
+   |
+11 |     color: black;
+   |     ^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/comment/input.css:11:5
@@ -208,7 +232,7 @@ error: Ident
 11 |     color: black;
    |     ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/comment/input.css:11:12
    |
 11 |     color: black;
@@ -219,6 +243,18 @@ error: Ident
    |
 11 |     color: black;
    |            ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/comment/input.css:13:5
+   |
+13 |     background: red;
+   |     ^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/comment/input.css:13:5
+   |
+13 |     background: red;
+   |     ^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/comment/input.css:13:5
@@ -238,7 +274,7 @@ error: Ident
 13 |     background: red;
    |     ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/comment/input.css:13:17
    |
 13 |     background: red;
@@ -310,7 +346,7 @@ error: Ident
 18 | a {
    | ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/comment/input.css:18:3
    |
 18 |   a {
@@ -319,6 +355,18 @@ error: Block
 20 | |     /* c */
 21 | | }
    | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/comment/input.css:19:5
+   |
+19 |     color: black;
+   |     ^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/comment/input.css:19:5
+   |
+19 |     color: black;
+   |     ^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/comment/input.css:19:5
@@ -338,7 +386,7 @@ error: Ident
 19 |     color: black;
    |     ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/comment/input.css:19:12
    |
 19 |     color: black;
@@ -386,6 +434,12 @@ error: Ident
 23 | @media/* comment */screen/* comment */{}
    |                    ^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/comment/input.css:23:39
+   |
+23 | @media/* comment */screen/* comment */{}
+   |                                       ^^
+
 error: Rule
   --> $DIR/tests/fixture/comment/input.css:24:1
    |
@@ -421,4 +475,10 @@ error: Ident
    |
 24 | @media /* comment */ screen /* comment */ {}
    |                      ^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/comment/input.css:24:43
+   |
+24 | @media /* comment */ screen /* comment */ {}
+   |                                           ^^
 

@@ -89,7 +89,16 @@
           }
         ]
       },
-      "rules": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 26,
+          "end": 28,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     },
     {
       "type": "MediaRule",
@@ -282,7 +291,16 @@
           }
         ]
       },
-      "rules": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 101,
+          "end": 103,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     },
     {
       "type": "MediaRule",
@@ -529,7 +547,16 @@
           }
         ]
       },
-      "rules": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 199,
+          "end": 201,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     },
     {
       "type": "MediaRule",
@@ -622,7 +649,16 @@
           }
         ]
       },
-      "rules": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 232,
+          "end": 234,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     },
     {
       "type": "MediaRule",
@@ -825,7 +861,16 @@
           }
         ]
       },
-      "rules": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 308,
+          "end": 310,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     },
     {
       "type": "MediaRule",
@@ -1028,7 +1073,16 @@
           }
         ]
       },
-      "rules": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 384,
+          "end": 386,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     },
     {
       "type": "MediaRule",
@@ -1231,149 +1285,160 @@
           }
         ]
       },
-      "rules": [
-        {
-          "type": "QualifiedRule",
-          "span": {
-            "start": 463,
-            "end": 470,
-            "ctxt": 0
-          },
-          "prelude": {
-            "type": "SelectorList",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 460,
+          "end": 486,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "QualifiedRule",
             "span": {
               "start": 463,
-              "end": 464,
+              "end": 470,
               "ctxt": 0
             },
-            "children": [
-              {
-                "type": "ComplexSelector",
-                "span": {
-                  "start": 463,
-                  "end": 464,
-                  "ctxt": 0
-                },
-                "children": [
-                  {
-                    "type": "CompoundSelector",
-                    "span": {
-                      "start": 463,
-                      "end": 464,
-                      "ctxt": 0
-                    },
-                    "nestingSelector": null,
-                    "typeSelector": {
-                      "type": "TagNameSelector",
+            "prelude": {
+              "type": "SelectorList",
+              "span": {
+                "start": 463,
+                "end": 464,
+                "ctxt": 0
+              },
+              "children": [
+                {
+                  "type": "ComplexSelector",
+                  "span": {
+                    "start": 463,
+                    "end": 464,
+                    "ctxt": 0
+                  },
+                  "children": [
+                    {
+                      "type": "CompoundSelector",
                       "span": {
                         "start": 463,
                         "end": 464,
                         "ctxt": 0
                       },
-                      "name": {
-                        "type": "WqName",
+                      "nestingSelector": null,
+                      "typeSelector": {
+                        "type": "TagNameSelector",
                         "span": {
                           "start": 463,
                           "end": 464,
                           "ctxt": 0
                         },
-                        "prefix": null,
-                        "value": {
-                          "type": "Ident",
+                        "name": {
+                          "type": "WqName",
                           "span": {
                             "start": 463,
                             "end": 464,
                             "ctxt": 0
                           },
-                          "value": "a",
-                          "raw": "a"
+                          "prefix": null,
+                          "value": {
+                            "type": "Ident",
+                            "span": {
+                              "start": 463,
+                              "end": 464,
+                              "ctxt": 0
+                            },
+                            "value": "a",
+                            "raw": "a"
+                          }
                         }
-                      }
-                    },
-                    "subclassSelectors": []
-                  }
-                ]
-              }
-            ]
-          },
-          "block": {
-            "type": "Block",
-            "span": {
-              "start": 465,
-              "end": 470,
-              "ctxt": 0
+                      },
+                      "subclassSelectors": []
+                    }
+                  ]
+                }
+              ]
             },
-            "value": []
-          }
-        },
-        {
-          "type": "QualifiedRule",
-          "span": {
-            "start": 472,
-            "end": 484,
-            "ctxt": 0
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 465,
+                "end": 470,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": []
+            }
           },
-          "prelude": {
-            "type": "SelectorList",
+          {
+            "type": "QualifiedRule",
             "span": {
               "start": 472,
-              "end": 478,
-              "ctxt": 0
-            },
-            "children": [
-              {
-                "type": "ComplexSelector",
-                "span": {
-                  "start": 472,
-                  "end": 478,
-                  "ctxt": 0
-                },
-                "children": [
-                  {
-                    "type": "CompoundSelector",
-                    "span": {
-                      "start": 472,
-                      "end": 478,
-                      "ctxt": 0
-                    },
-                    "nestingSelector": null,
-                    "typeSelector": null,
-                    "subclassSelectors": [
-                      {
-                        "type": "ClassSelector",
-                        "span": {
-                          "start": 472,
-                          "end": 478,
-                          "ctxt": 0
-                        },
-                        "text": {
-                          "type": "Ident",
-                          "span": {
-                            "start": 473,
-                            "end": 478,
-                            "ctxt": 0
-                          },
-                          "value": "style",
-                          "raw": "style"
-                        }
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          "block": {
-            "type": "Block",
-            "span": {
-              "start": 479,
               "end": 484,
               "ctxt": 0
             },
-            "value": []
+            "prelude": {
+              "type": "SelectorList",
+              "span": {
+                "start": 472,
+                "end": 478,
+                "ctxt": 0
+              },
+              "children": [
+                {
+                  "type": "ComplexSelector",
+                  "span": {
+                    "start": 472,
+                    "end": 478,
+                    "ctxt": 0
+                  },
+                  "children": [
+                    {
+                      "type": "CompoundSelector",
+                      "span": {
+                        "start": 472,
+                        "end": 478,
+                        "ctxt": 0
+                      },
+                      "nestingSelector": null,
+                      "typeSelector": null,
+                      "subclassSelectors": [
+                        {
+                          "type": "ClassSelector",
+                          "span": {
+                            "start": 472,
+                            "end": 478,
+                            "ctxt": 0
+                          },
+                          "text": {
+                            "type": "Ident",
+                            "span": {
+                              "start": 473,
+                              "end": 478,
+                              "ctxt": 0
+                            },
+                            "value": "style",
+                            "raw": "style"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 479,
+                "end": 484,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": []
+            }
           }
-        }
-      ]
+        ]
+      }
     },
     {
       "type": "MediaRule",
@@ -1576,149 +1641,160 @@
           }
         ]
       },
-      "rules": [
-        {
-          "type": "QualifiedRule",
-          "span": {
-            "start": 563,
-            "end": 570,
-            "ctxt": 0
-          },
-          "prelude": {
-            "type": "SelectorList",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 560,
+          "end": 586,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "QualifiedRule",
             "span": {
               "start": 563,
-              "end": 564,
+              "end": 570,
               "ctxt": 0
             },
-            "children": [
-              {
-                "type": "ComplexSelector",
-                "span": {
-                  "start": 563,
-                  "end": 564,
-                  "ctxt": 0
-                },
-                "children": [
-                  {
-                    "type": "CompoundSelector",
-                    "span": {
-                      "start": 563,
-                      "end": 564,
-                      "ctxt": 0
-                    },
-                    "nestingSelector": null,
-                    "typeSelector": {
-                      "type": "TagNameSelector",
+            "prelude": {
+              "type": "SelectorList",
+              "span": {
+                "start": 563,
+                "end": 564,
+                "ctxt": 0
+              },
+              "children": [
+                {
+                  "type": "ComplexSelector",
+                  "span": {
+                    "start": 563,
+                    "end": 564,
+                    "ctxt": 0
+                  },
+                  "children": [
+                    {
+                      "type": "CompoundSelector",
                       "span": {
                         "start": 563,
                         "end": 564,
                         "ctxt": 0
                       },
-                      "name": {
-                        "type": "WqName",
+                      "nestingSelector": null,
+                      "typeSelector": {
+                        "type": "TagNameSelector",
                         "span": {
                           "start": 563,
                           "end": 564,
                           "ctxt": 0
                         },
-                        "prefix": null,
-                        "value": {
-                          "type": "Ident",
+                        "name": {
+                          "type": "WqName",
                           "span": {
                             "start": 563,
                             "end": 564,
                             "ctxt": 0
                           },
-                          "value": "a",
-                          "raw": "a"
+                          "prefix": null,
+                          "value": {
+                            "type": "Ident",
+                            "span": {
+                              "start": 563,
+                              "end": 564,
+                              "ctxt": 0
+                            },
+                            "value": "a",
+                            "raw": "a"
+                          }
                         }
-                      }
-                    },
-                    "subclassSelectors": []
-                  }
-                ]
-              }
-            ]
-          },
-          "block": {
-            "type": "Block",
-            "span": {
-              "start": 565,
-              "end": 570,
-              "ctxt": 0
+                      },
+                      "subclassSelectors": []
+                    }
+                  ]
+                }
+              ]
             },
-            "value": []
-          }
-        },
-        {
-          "type": "QualifiedRule",
-          "span": {
-            "start": 572,
-            "end": 584,
-            "ctxt": 0
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 565,
+                "end": 570,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": []
+            }
           },
-          "prelude": {
-            "type": "SelectorList",
+          {
+            "type": "QualifiedRule",
             "span": {
               "start": 572,
-              "end": 578,
-              "ctxt": 0
-            },
-            "children": [
-              {
-                "type": "ComplexSelector",
-                "span": {
-                  "start": 572,
-                  "end": 578,
-                  "ctxt": 0
-                },
-                "children": [
-                  {
-                    "type": "CompoundSelector",
-                    "span": {
-                      "start": 572,
-                      "end": 578,
-                      "ctxt": 0
-                    },
-                    "nestingSelector": null,
-                    "typeSelector": null,
-                    "subclassSelectors": [
-                      {
-                        "type": "ClassSelector",
-                        "span": {
-                          "start": 572,
-                          "end": 578,
-                          "ctxt": 0
-                        },
-                        "text": {
-                          "type": "Ident",
-                          "span": {
-                            "start": 573,
-                            "end": 578,
-                            "ctxt": 0
-                          },
-                          "value": "style",
-                          "raw": "style"
-                        }
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          "block": {
-            "type": "Block",
-            "span": {
-              "start": 579,
               "end": 584,
               "ctxt": 0
             },
-            "value": []
+            "prelude": {
+              "type": "SelectorList",
+              "span": {
+                "start": 572,
+                "end": 578,
+                "ctxt": 0
+              },
+              "children": [
+                {
+                  "type": "ComplexSelector",
+                  "span": {
+                    "start": 572,
+                    "end": 578,
+                    "ctxt": 0
+                  },
+                  "children": [
+                    {
+                      "type": "CompoundSelector",
+                      "span": {
+                        "start": 572,
+                        "end": 578,
+                        "ctxt": 0
+                      },
+                      "nestingSelector": null,
+                      "typeSelector": null,
+                      "subclassSelectors": [
+                        {
+                          "type": "ClassSelector",
+                          "span": {
+                            "start": 572,
+                            "end": 578,
+                            "ctxt": 0
+                          },
+                          "text": {
+                            "type": "Ident",
+                            "span": {
+                              "start": 573,
+                              "end": 578,
+                              "ctxt": 0
+                            },
+                            "value": "style",
+                            "raw": "style"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 579,
+                "end": 584,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": []
+            }
           }
-        }
-      ]
+        ]
+      }
     }
   ]
 }

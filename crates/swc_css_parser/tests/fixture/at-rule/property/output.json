@@ -23,101 +23,110 @@
         "value": "--my-color",
         "raw": "--my-color"
       },
-      "block": [
-        {
-          "type": "Declaration",
-          "span": {
-            "start": 27,
-            "end": 44,
-            "ctxt": 0
-          },
-          "name": {
-            "type": "Ident",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 21,
+          "end": 96,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
             "span": {
               "start": 27,
-              "end": 33,
+              "end": 44,
               "ctxt": 0
             },
-            "value": "syntax",
-            "raw": "syntax"
-          },
-          "value": [
-            {
-              "type": "String",
-              "span": {
-                "start": 35,
-                "end": 44,
-                "ctxt": 0
-              },
-              "value": "<color>",
-              "raw": "'<color>'"
-            }
-          ],
-          "important": null
-        },
-        {
-          "type": "Declaration",
-          "span": {
-            "start": 50,
-            "end": 65,
-            "ctxt": 0
-          },
-          "name": {
-            "type": "Ident",
-            "span": {
-              "start": 50,
-              "end": 58,
-              "ctxt": 0
-            },
-            "value": "inherits",
-            "raw": "inherits"
-          },
-          "value": [
-            {
+            "name": {
               "type": "Ident",
               "span": {
-                "start": 60,
-                "end": 65,
+                "start": 27,
+                "end": 33,
                 "ctxt": 0
               },
-              "value": "false",
-              "raw": "false"
-            }
-          ],
-          "important": null
-        },
-        {
-          "type": "Declaration",
-          "span": {
-            "start": 71,
-            "end": 93,
-            "ctxt": 0
+              "value": "syntax",
+              "raw": "syntax"
+            },
+            "value": [
+              {
+                "type": "String",
+                "span": {
+                  "start": 35,
+                  "end": 44,
+                  "ctxt": 0
+                },
+                "value": "<color>",
+                "raw": "'<color>'"
+              }
+            ],
+            "important": null
           },
-          "name": {
-            "type": "Ident",
+          {
+            "type": "Declaration",
             "span": {
-              "start": 71,
-              "end": 84,
+              "start": 50,
+              "end": 65,
               "ctxt": 0
             },
-            "value": "initial-value",
-            "raw": "initial-value"
-          },
-          "value": [
-            {
-              "type": "HexColor",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 86,
-                "end": 93,
+                "start": 50,
+                "end": 58,
                 "ctxt": 0
               },
-              "value": "c0ffee",
-              "raw": "c0ffee"
-            }
-          ],
-          "important": null
-        }
-      ]
+              "value": "inherits",
+              "raw": "inherits"
+            },
+            "value": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 60,
+                  "end": 65,
+                  "ctxt": 0
+                },
+                "value": "false",
+                "raw": "false"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 71,
+              "end": 93,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 71,
+                "end": 84,
+                "ctxt": 0
+              },
+              "value": "initial-value",
+              "raw": "initial-value"
+            },
+            "value": [
+              {
+                "type": "HexColor",
+                "span": {
+                  "start": 86,
+                  "end": 93,
+                  "ctxt": 0
+                },
+                "value": "c0ffee",
+                "raw": "c0ffee"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
     }
   ]
 }

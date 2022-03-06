@@ -1,0 +1,12 @@
+{
+    "jsc": {
+        "target": "es2021",
+        "parser": {
+            "syntax": "typescript",
+            "tsx": false,
+            "decorators": false,
+            "dynamicImport": false
+        }
+    },
+    "sourceMaps": true
+}

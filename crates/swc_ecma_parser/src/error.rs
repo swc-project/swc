@@ -49,6 +49,8 @@ pub enum SyntaxError {
     ArrowNotAllowed,
     ExportNotAllowed,
     GetterSetterCannotBeReadonly,
+    GetterParam,
+    SetterParam,
 
     TopLevelAwait,
     TopLevelAwaitInScript,
@@ -168,6 +170,7 @@ pub enum SyntaxError {
     ReadOnlyMethod,
     GeneratorConstructor,
     TsBindingPatCannotBeOptional,
+    SuperCallOptional,
 
     TrailingCommaInsideImport,
 
@@ -179,6 +182,8 @@ pub enum SyntaxError {
 
     ImportBindingIsString(JsWord),
     ExportBindingIsString,
+
+    ConstDeclarationsRequireInitialization,
 
     TS1003,
     TS1005,
@@ -219,7 +224,6 @@ pub enum SyntaxError {
     TS1183,
     TS1184,
     TS1093,
-    TS1094,
     TS1196,
     TS1242,
     TS1243(JsWord, JsWord),
@@ -235,6 +239,7 @@ pub enum SyntaxError {
     TS2452,
     TS2483,
     TS2491,
+    TS2499,
     TS2703,
     TS4112,
     TSTypeAnnotationAfterAssign,
@@ -403,6 +408,7 @@ impl SyntaxError {
             SyntaxError::TsRequiredAfterOptional => {
                 "A required element cannot follow an optional element.".into()
             }
+            SyntaxError::SuperCallOptional => "Super call cannot be optional".into(),
             SyntaxError::TsInvalidParamPropPat => {
                 "Typescript parameter property must be an identifier or assignment pattern".into()
             }
@@ -466,19 +472,25 @@ impl SyntaxError {
             SyntaxError::GetterSetterCannotBeReadonly => {
                 "A getter or a setter cannot be readonly".into()
             }
+            SyntaxError::GetterParam => "A `get` accessor cannot have parameters".into(),
+            SyntaxError::SetterParam => "A `set` accessor must have exactly one parameter".into(),
             SyntaxError::RestPatInSetter => "Rest pattern is not allowed in setter".into(),
 
             SyntaxError::GeneratorConstructor => "A constructor cannot be generator".into(),
 
-            SyntaxError::ImportBindingIsString(str) => format!(
+            SyntaxError::ImportBindingIsString(s) => format!(
                 "A string literal cannot be used as an imported binding.\n- Did you mean `import \
                  {{ \"{}\" as foo }}`?",
-                str
+                s
             )
             .into(),
 
             SyntaxError::ExportBindingIsString => {
                 "A string literal cannot be used as an exported binding without `from`.".into()
+            }
+
+            SyntaxError::ConstDeclarationsRequireInitialization => {
+                "'const' declarations must be initialized".into()
             }
 
             SyntaxError::TS1003 => "Expected an identifier".into(),
@@ -545,9 +557,6 @@ impl SyntaxError {
             SyntaxError::TS1093 => {
                 "Type annotation cannot appear on a constructor declaration".into()
             }
-            SyntaxError::TS1094 => {
-                "A `set` accessor must have a corresponding `get` accessor".into()
-            }
             SyntaxError::TS1196 => "Catch clause variable cannot have a type annotation".into(),
             SyntaxError::TS1242 => {
                 "`abstract` modifier can only appear on a class or method declaration".into()
@@ -584,6 +593,9 @@ impl SyntaxError {
             }
             SyntaxError::TS2491 => "The left-hand side of a 'for...in' statement cannot be a \
                                     destructuring pattern"
+                .into(),
+            SyntaxError::TS2499 => "An interface can only extend an identifier/qualified-name \
+                                    with optional type arguments."
                 .into(),
             SyntaxError::TS4112 => "This member cannot have an 'override' modifier because its \
                                     containing class does not extend another class."

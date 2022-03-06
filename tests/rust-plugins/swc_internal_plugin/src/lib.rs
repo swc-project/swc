@@ -1,4 +1,4 @@
-use swc_plugin::{ast::*, errors::HANDLER, plugin_module, syntax_pos::DUMMY_SP};
+use swc_plugin::{ast::*, errors::HANDLER, plugin_transform, syntax_pos::DUMMY_SP};
 
 struct ConsoleOutputReplacer;
 
@@ -24,15 +24,17 @@ impl VisitMut for ConsoleOutputReplacer {
 }
 
 /// An example plugin function with macro support.
-/// `plugin_module` macro interop pointers into deserialized structs, as well as
-/// returning ptr back to host.
+/// `plugin_transform` macro interop pointers into deserialized structs, as well
+/// as returning ptr back to host.
 ///
 /// It is possible to opt out from macro by writing transform fn manually via
 /// `__plugin_process_impl(
 ///     ast_ptr: *const u8,
 ///     ast_ptr_len: i32,
 ///     config_str_ptr: *const u8,
-///     config_str_ptr_len: i32) ->
+///     config_str_ptr_len: i32,
+///     context_str_ptr: *const u8,
+///     context_str_ptr_len: i32) ->
 ///     i32 /*  0 for success, fail otherwise.
 ///             Note this is only for internal pointer interop result,
 ///             not actual transform result */
@@ -40,8 +42,8 @@ impl VisitMut for ConsoleOutputReplacer {
 /// if plugin need to handle low-level ptr directly. However, there are
 /// important steps manually need to be performed like sending transformed
 /// results back to host. Refer swc_plugin_macro how does it work internally.
-#[plugin_module]
-pub fn process(program: Program, _plugin_config: String) -> Program {
+#[plugin_transform]
+pub fn process(program: Program, _plugin_config: String, _context: String) -> Program {
     HANDLER.with(|handler| {
         handler
             .struct_span_err(DUMMY_SP, "Test diagnostics from plugin")

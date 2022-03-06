@@ -68,7 +68,7 @@ error: Ident
 1 | #delay {
   | ^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/value/time/input.css:1:8
   |
 1 |   #delay {
@@ -79,6 +79,18 @@ error: Block
 5 | |     transition-delay: 2s;
 6 | | }
   | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/time/input.css:2:5
+  |
+2 |     font-size: 14px;
+  |     ^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/time/input.css:2:5
+  |
+2 |     font-size: 14px;
+  |     ^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/time/input.css:2:5
@@ -98,7 +110,7 @@ error: Ident
 2 |     font-size: 14px;
   |     ^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/time/input.css:2:16
   |
 2 |     font-size: 14px;
@@ -128,6 +140,18 @@ error: Ident
 2 |     font-size: 14px;
   |                  ^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/value/time/input.css:3:5
+  |
+3 |     transition-property: font-size;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/time/input.css:3:5
+  |
+3 |     transition-property: font-size;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/time/input.css:3:5
   |
@@ -146,7 +170,7 @@ error: Ident
 3 |     transition-property: font-size;
   |     ^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/time/input.css:3:26
   |
 3 |     transition-property: font-size;
@@ -157,6 +181,18 @@ error: Ident
   |
 3 |     transition-property: font-size;
   |                          ^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/time/input.css:4:5
+  |
+4 |     transition-duration: 4s;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/time/input.css:4:5
+  |
+4 |     transition-duration: 4s;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/time/input.css:4:5
@@ -176,7 +212,7 @@ error: Ident
 4 |     transition-duration: 4s;
   |     ^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/time/input.css:4:26
   |
 4 |     transition-duration: 4s;
@@ -206,6 +242,18 @@ error: Ident
 4 |     transition-duration: 4s;
   |                           ^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/value/time/input.css:5:5
+  |
+5 |     transition-delay: 2s;
+  |     ^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/time/input.css:5:5
+  |
+5 |     transition-delay: 2s;
+  |     ^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/time/input.css:5:5
   |
@@ -224,7 +272,7 @@ error: Ident
 5 |     transition-delay: 2s;
   |     ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/time/input.css:5:23
   |
 5 |     transition-delay: 2s;
@@ -306,7 +354,7 @@ error: Ident
 8 | .box {
   |  ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/value/time/input.css:8:6
    |
 8  |   .box {
@@ -314,6 +362,18 @@ error: Block
 9  | |     transition: width 2s, height 2s, background-color 2s, transform 2s;
 10 | | }
    | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/time/input.css:9:5
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/time/input.css:9:5
+  |
+9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/time/input.css:9:5
@@ -333,7 +393,7 @@ error: Ident
 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
   |     ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/time/input.css:9:17
   |
 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
@@ -345,7 +405,7 @@ error: Ident
 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
   |                 ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/time/input.css:9:23
   |
 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
@@ -375,7 +435,7 @@ error: Ident
 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
   |                        ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/time/input.css:9:25
   |
 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
@@ -387,7 +447,7 @@ error: Delimiter
 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
   |                         ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/time/input.css:9:27
   |
 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
@@ -399,7 +459,7 @@ error: Ident
 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
   |                           ^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/time/input.css:9:34
   |
 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
@@ -429,7 +489,7 @@ error: Ident
 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
   |                                   ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/time/input.css:9:36
   |
 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
@@ -441,7 +501,7 @@ error: Delimiter
 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
   |                                    ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/time/input.css:9:38
   |
 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
@@ -453,7 +513,7 @@ error: Ident
 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
   |                                      ^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/time/input.css:9:55
   |
 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
@@ -483,7 +543,7 @@ error: Ident
 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
   |                                                        ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/time/input.css:9:57
   |
 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
@@ -495,7 +555,7 @@ error: Delimiter
 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
   |                                                         ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/time/input.css:9:59
   |
 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
@@ -507,7 +567,7 @@ error: Ident
 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
   |                                                           ^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/time/input.css:9:69
   |
 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
@@ -591,7 +651,7 @@ error: Ident
 12 | .time {
    |  ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/value/time/input.css:12:7
    |
 12 |   .time {
@@ -600,6 +660,18 @@ error: Block
 14 | |     transition-duration: 4000ms;
 15 | | }
    | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/value/time/input.css:13:5
+   |
+13 |     transition-duration: 4s;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/time/input.css:13:5
+   |
+13 |     transition-duration: 4s;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/value/time/input.css:13:5
@@ -619,7 +691,7 @@ error: Ident
 13 |     transition-duration: 4s;
    |     ^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/time/input.css:13:26
    |
 13 |     transition-duration: 4s;
@@ -649,6 +721,18 @@ error: Ident
 13 |     transition-duration: 4s;
    |                           ^
 
+error: ComponentValue
+  --> $DIR/tests/fixture/value/time/input.css:14:5
+   |
+14 |     transition-duration: 4000ms;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/value/time/input.css:14:5
+   |
+14 |     transition-duration: 4000ms;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/value/time/input.css:14:5
    |
@@ -667,7 +751,7 @@ error: Ident
 14 |     transition-duration: 4000ms;
    |     ^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/value/time/input.css:14:26
    |
 14 |     transition-duration: 4000ms;

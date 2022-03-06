@@ -40,8 +40,6 @@ fn tokens_input(input: PathBuf) {
         let _ss: Stylesheet = parse_tokens(
             &tokens,
             ParserConfig {
-                parse_values: true,
-
                 ..Default::default()
             },
             &mut errors,
@@ -106,8 +104,6 @@ fn test_pass(input: PathBuf, config: ParserConfig) {
                     let ss_tok: Stylesheet = parse_tokens(
                         &tokens,
                         ParserConfig {
-                            parse_values: true,
-
                             ..Default::default()
                         },
                         &mut errors,
@@ -145,7 +141,6 @@ fn pass(input: PathBuf) {
     test_pass(
         input,
         ParserConfig {
-            parse_values: true,
             ..Default::default()
         },
     )
@@ -156,7 +151,6 @@ fn line_comments(input: PathBuf) {
     test_pass(
         input,
         ParserConfig {
-            parse_values: true,
             allow_wrong_line_comments: true,
             ..Default::default()
         },
@@ -178,7 +172,6 @@ fn recovery(input: PathBuf) {
         let ref_json_path = input.parent().unwrap().join("output.json");
 
         let config = ParserConfig {
-            parse_values: true,
             allow_wrong_line_comments: false,
         };
         let fm = cm.load_file(&input).unwrap();
@@ -222,7 +215,6 @@ fn recovery(input: PathBuf) {
                     let ss_tok: Stylesheet = parse_tokens(
                         &tokens,
                         ParserConfig {
-                            parse_values: true,
                             ..Default::default()
                         },
                         &mut errors,
@@ -282,13 +274,17 @@ macro_rules! mtd {
 impl Visit for SpanVisualizer<'_> {
     mtd!(AtRule, visit_at_rule);
 
-    mtd!(BinValue, visit_bin_value);
-
     mtd!(SelectorList, visit_selector_list);
+
+    mtd!(CompoundSelectorList, visit_compound_selector_list);
+
+    mtd!(RelativeSelectorList, visit_relative_selector_list);
 
     mtd!(ComplexSelector, visit_complex_selector);
 
     mtd!(Combinator, visit_combinator);
+
+    mtd!(RelativeSelector, visit_relative_selector);
 
     mtd!(CompoundSelector, visit_compound_selector);
 
@@ -320,19 +316,35 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(PseudoClassSelector, visit_pseudo_class_selector);
 
-    mtd!(PseudoElementSelector, visit_pseudo_element_selector);
+    mtd!(
+        PseudoClassSelectorChildren,
+        visit_pseudo_class_selector_children
+    );
 
     mtd!(AnPlusB, visit_an_plus_b);
 
-    mtd!(Delimiter, visit_delimiter);
+    mtd!(AnPlusBNotation, visit_an_plus_b_notation);
 
-    mtd!(Block, visit_block);
+    mtd!(PseudoElementSelector, visit_pseudo_element_selector);
+
+    mtd!(
+        PseudoElementSelectorChildren,
+        visit_pseudo_element_selector_children
+    );
+
+    mtd!(Delimiter, visit_delimiter);
 
     mtd!(SimpleBlock, visit_simple_block);
 
+    mtd!(ComponentValue, visit_component_value);
+
     mtd!(Function, visit_function);
 
+    mtd!(Color, visit_color);
+
     mtd!(HexColor, visit_hex_color);
+
+    mtd!(Integer, visit_integer);
 
     mtd!(Number, visit_number);
 
@@ -346,13 +358,13 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(ImportantFlag, visit_important_flag);
 
-    mtd!(Nth, visit_nth);
-
     mtd!(Rule, visit_rule);
 
     mtd!(Str, visit_str);
 
     mtd!(QualifiedRule, visit_qualified_rule);
+
+    mtd!(StyleBlock, visit_style_block);
 
     mtd!(Stylesheet, visit_stylesheet);
 
@@ -388,7 +400,19 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(UrlModifier, visit_url_modifier);
 
-    mtd!(Value, visit_value);
+    mtd!(UnicodeRange, visit_unicode_range);
+
+    mtd!(CalcSum, visit_calc_sum);
+
+    mtd!(CalcProductOrOperator, visit_calc_product_or_operator);
+
+    mtd!(CalcProduct, visit_calc_product);
+
+    mtd!(CalcOperator, visit_calc_operator);
+
+    mtd!(CalcValueOrOperator, visit_calc_value_or_operator);
+
+    mtd!(CalcValue, visit_calc_value);
 
     mtd!(CharsetRule, visit_charset_rule);
 
@@ -529,7 +553,6 @@ fn span(input: PathBuf) {
         }
 
         let config = ParserConfig {
-            parse_values: true,
             ..Default::default()
         };
 
@@ -568,8 +591,6 @@ fn fail(input: PathBuf) {
 
     let stderr = testing::run_test2(false, |cm, handler| -> Result<(), _> {
         let config = ParserConfig {
-            parse_values: true,
-
             ..Default::default()
         };
 

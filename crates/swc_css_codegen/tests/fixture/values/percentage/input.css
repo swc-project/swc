@@ -40,4 +40,30 @@ div {
     width: 10e-5%;
     width: 10e+2%;
     width: 12e+2%;
+    width: +0%;
+    width: -0%;
+    width: +0000%;
+    width: 0000%;
+    width: 10.5%;
+    width: 10.5000%;
+    width: 10.0%;
+    width: 0.0%;
+    width: -0.0%;
+    width: 10.0e2%;
+    width: 10.0e5%;
+    width: 10.0E5%;
+}
+
+.geist-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: __ident__;
+    box-sizing: border-box;
+}
+
+.geist-list :global(> .geist-list-item) {
+    padding: __ident__;
+    flex-grow: 0;
+    flex-basis: __ident__%;
+    min-width: 0;
 }

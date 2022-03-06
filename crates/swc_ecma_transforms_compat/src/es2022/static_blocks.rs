@@ -1,14 +1,18 @@
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_trace_macro::swc_trace;
 
 struct ClassStaticBlock;
 
+#[tracing::instrument(level = "trace", skip_all)]
 pub fn static_blocks() -> impl Fold + VisitMut {
     as_folder(ClassStaticBlock)
 }
 
+#[swc_trace]
 impl ClassStaticBlock {
     fn visit_mut_class_for_static_block(&mut self, class: &mut Class) {
         let mut private_names = AHashSet::default();
@@ -64,7 +68,7 @@ impl ClassStaticBlock {
             },
             value: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: Callee::Expr(Box::new(Expr::Arrow(ArrowExpr {
+                callee: ArrowExpr {
                     span: DUMMY_SP,
                     params: Vec::new(),
                     is_async: false,
@@ -72,7 +76,8 @@ impl ClassStaticBlock {
                     type_params: None,
                     return_type: None,
                     body: BlockStmtOrExpr::BlockStmt(static_block.body),
-                }))),
+                }
+                .as_callee(),
                 args: Vec::new(),
                 type_args: None,
             }))),
@@ -80,6 +85,7 @@ impl ClassStaticBlock {
     }
 }
 
+#[swc_trace]
 impl VisitMut for ClassStaticBlock {
     noop_visit_mut_type!();
 

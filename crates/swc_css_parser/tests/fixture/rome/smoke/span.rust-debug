@@ -71,7 +71,7 @@ error: Ident
 2 | body {
   | ^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/rome/smoke/input.css:2:6
   |
 2 |   body {
@@ -80,6 +80,18 @@ error: Block
 4 | |     width: calc(1px + 2%);
 5 | | }
   | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/smoke/input.css:3:5
+  |
+3 |     background: red;
+  |     ^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/smoke/input.css:3:5
+  |
+3 |     background: red;
+  |     ^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/smoke/input.css:3:5
@@ -99,7 +111,7 @@ error: Ident
 3 |     background: red;
   |     ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/smoke/input.css:3:17
   |
 3 |     background: red;
@@ -110,6 +122,18 @@ error: Ident
   |
 3 |     background: red;
   |                 ^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:5
+  |
+4 |     width: calc(1px + 2%);
+  |     ^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:5
+  |
+4 |     width: calc(1px + 2%);
+  |     ^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/smoke/input.css:4:5
@@ -129,7 +153,7 @@ error: Ident
 4 |     width: calc(1px + 2%);
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/smoke/input.css:4:12
   |
 4 |     width: calc(1px + 2%);
@@ -147,19 +171,37 @@ error: Ident
 4 |     width: calc(1px + 2%);
   |            ^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/smoke/input.css:4:17
   |
 4 |     width: calc(1px + 2%);
   |                 ^^^^^^^^
 
-error: BinValue
+error: CalcSum
  --> $DIR/tests/fixture/rome/smoke/input.css:4:17
   |
 4 |     width: calc(1px + 2%);
   |                 ^^^^^^^^
 
-error: Value
+error: CalcProductOrOperator
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:17
+  |
+4 |     width: calc(1px + 2%);
+  |                 ^^^
+
+error: CalcProduct
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:17
+  |
+4 |     width: calc(1px + 2%);
+  |                 ^^^
+
+error: CalcValueOrOperator
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:17
+  |
+4 |     width: calc(1px + 2%);
+  |                 ^^^
+
+error: CalcValue
  --> $DIR/tests/fixture/rome/smoke/input.css:4:17
   |
 4 |     width: calc(1px + 2%);
@@ -189,7 +231,37 @@ error: Ident
 4 |     width: calc(1px + 2%);
   |                  ^^
 
-error: Value
+error: CalcProductOrOperator
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:21
+  |
+4 |     width: calc(1px + 2%);
+  |                     ^
+
+error: CalcOperator
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:21
+  |
+4 |     width: calc(1px + 2%);
+  |                     ^
+
+error: CalcProductOrOperator
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:23
+  |
+4 |     width: calc(1px + 2%);
+  |                       ^^
+
+error: CalcProduct
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:23
+  |
+4 |     width: calc(1px + 2%);
+  |                       ^^
+
+error: CalcValueOrOperator
+ --> $DIR/tests/fixture/rome/smoke/input.css:4:23
+  |
+4 |     width: calc(1px + 2%);
+  |                       ^^
+
+error: CalcValue
  --> $DIR/tests/fixture/rome/smoke/input.css:4:23
   |
 4 |     width: calc(1px + 2%);

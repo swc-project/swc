@@ -1,0 +1,9 @@
+{
+    "jsc": {
+        "lints": {
+            "no-loop-func": [
+                "error"
+            ]
+        }
+    }
+}

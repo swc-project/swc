@@ -44,6 +44,23 @@ error: DashedIdent
 1 | @property --my-color {
   |           ^^^^^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/property/input.css:1:22
+  |
+1 |   @property --my-color {
+  |  ______________________^
+2 | |     syntax: '<color>';
+3 | |     inherits: false;
+4 | |     initial-value: #c0ffee;
+5 | | }
+  | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/property/input.css:2:5
+  |
+2 |     syntax: '<color>';
+  |     ^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/at-rule/property/input.css:2:5
   |
@@ -62,7 +79,7 @@ error: Ident
 2 |     syntax: '<color>';
   |     ^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/property/input.css:2:13
   |
 2 |     syntax: '<color>';
@@ -73,6 +90,12 @@ error: Str
   |
 2 |     syntax: '<color>';
   |             ^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/property/input.css:3:5
+  |
+3 |     inherits: false;
+  |     ^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/at-rule/property/input.css:3:5
@@ -92,7 +115,7 @@ error: Ident
 3 |     inherits: false;
   |     ^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/property/input.css:3:15
   |
 3 |     inherits: false;
@@ -103,6 +126,12 @@ error: Ident
   |
 3 |     inherits: false;
   |               ^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/property/input.css:4:5
+  |
+4 |     initial-value: #c0ffee;
+  |     ^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/at-rule/property/input.css:4:5
@@ -122,7 +151,13 @@ error: Ident
 4 |     initial-value: #c0ffee;
   |     ^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/property/input.css:4:20
+  |
+4 |     initial-value: #c0ffee;
+  |                    ^^^^^^^
+
+error: Color
  --> $DIR/tests/fixture/at-rule/property/input.css:4:20
   |
 4 |     initial-value: #c0ffee;

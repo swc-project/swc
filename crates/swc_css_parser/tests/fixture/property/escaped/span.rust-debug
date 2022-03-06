@@ -64,7 +64,7 @@ error: Ident
 1 | table {
   | ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/property/escaped/input.css:1:7
   |
 1 |   table {
@@ -72,6 +72,18 @@ error: Block
 2 | |     colo\r: \red;
 3 | | }
   | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/property/escaped/input.css:2:5
+  |
+2 |     colo\r: \red;
+  |     ^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/property/escaped/input.css:2:5
+  |
+2 |     colo\r: \red;
+  |     ^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/property/escaped/input.css:2:5
@@ -91,7 +103,7 @@ error: Ident
 2 |     colo\r: \red;
   |     ^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/property/escaped/input.css:2:13
   |
 2 |     colo\r: \red;

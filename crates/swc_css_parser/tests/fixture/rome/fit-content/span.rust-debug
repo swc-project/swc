@@ -58,7 +58,7 @@ error: Ident
 1 | .style {
   |  ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/rome/fit-content/input.css:1:8
   |
 1 |   .style {
@@ -66,6 +66,18 @@ error: Block
 2 | |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
 3 | | }
   | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:2
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/fit-content/input.css:2:2
+  |
+2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/fit-content/input.css:2:2
@@ -85,7 +97,7 @@ error: Ident
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
   |     ^^^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/fit-content/input.css:2:25
   |
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
@@ -103,7 +115,7 @@ error: Ident
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
   |                            ^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/fit-content/input.css:2:37
   |
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
@@ -133,7 +145,7 @@ error: Ident
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
   |                                         ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/fit-content/input.css:2:42
   |
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
@@ -151,7 +163,7 @@ error: Ident
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
   |                                             ^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/fit-content/input.css:2:54
   |
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
@@ -181,7 +193,7 @@ error: Ident
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
   |                                                          ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/fit-content/input.css:2:59
   |
 2 |     grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;

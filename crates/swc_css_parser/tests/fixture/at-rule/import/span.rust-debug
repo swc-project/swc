@@ -802,7 +802,7 @@ error: Ident
 15 | @import url("theme.css") layer(default);
    |                          ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/import/input.css:15:32
    |
 15 | @import url("theme.css") layer(default);
@@ -880,7 +880,7 @@ error: Ident
 16 | @import url("theme.css") LAYER(default);
    |                          ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/import/input.css:16:32
    |
 16 | @import url("theme.css") LAYER(default);
@@ -1030,7 +1030,7 @@ error: Ident
 19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
    |                                    ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/import/input.css:19:45
    |
 19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
@@ -1204,7 +1204,7 @@ error: Ident
 20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
    |                                    ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/import/input.css:20:45
    |
 20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
@@ -1408,7 +1408,7 @@ error: Ident
 21 | @import url("fallback-layout.css") supports(not (display: flex));
    |                                                  ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/import/input.css:21:59
    |
 21 | @import url("fallback-layout.css") supports(not (display: flex));
@@ -4828,7 +4828,7 @@ error: Ident
 108 | @import "test.css" supports(display: flex);
     |                             ^^^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:108:38
     |
 108 | @import "test.css" supports(display: flex);
@@ -4894,7 +4894,7 @@ error: Ident
 109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
     |                             ^^^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:109:38
     |
 109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
@@ -5032,7 +5032,7 @@ error: Ident
 110 | @import"test.css"supports(display: flex)screen and (orientation:landscape);
     |                           ^^^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:110:36
     |
 110 | @import"test.css"supports(display: flex)screen and (orientation:landscape);
@@ -5632,7 +5632,7 @@ error: Ident
 128 | @import url("./test.css") supports(display: flex);
     |                                    ^^^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:128:45
     |
 128 | @import url("./test.css") supports(display: flex);
@@ -5716,7 +5716,7 @@ error: Ident
 129 | @import url("./test.css") supports(display: flex !important);
     |                                    ^^^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:129:45
     |
 129 | @import url("./test.css") supports(display: flex !important);
@@ -5812,7 +5812,7 @@ error: Ident
 130 | @import url("./test.css") supports(display: flex) screen and (min-width: 400px);
     |                                    ^^^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:130:45
     |
 130 | @import url("./test.css") supports(display: flex) screen and (min-width: 400px);
@@ -6040,7 +6040,7 @@ error: Ident
 132 | @import url("./test.css") layer(default);
     |                           ^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:132:33
     |
 132 | @import url("./test.css") layer(default);
@@ -6118,7 +6118,7 @@ error: Ident
 133 | @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
     |                           ^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:133:33
     |
 133 | @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
@@ -6154,7 +6154,7 @@ error: Ident
 133 | @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
     |                                                   ^^^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:133:60
     |
 133 | @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
@@ -6340,7 +6340,7 @@ error: Ident
 134 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
     |                                          ^^^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:134:51
     |
 134 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
@@ -6532,7 +6532,7 @@ error: Ident
 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
     |                                            ^^^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:135:53
     |
 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
@@ -6772,7 +6772,7 @@ error: Ident
 137 | @import url("http://example.com/style.css") supports(display: flex) screen and (min-width: 400px);
     |                                                      ^^^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:137:63
     |
 137 | @import url("http://example.com/style.css") supports(display: flex) screen and (min-width: 400px);
@@ -6940,7 +6940,7 @@ error: Ident
 138 | @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
     |                          ^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:138:32
     |
 138 | @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
@@ -6976,7 +6976,7 @@ error: Ident
 138 | @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
     |                                                 ^^^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:138:58
     |
 138 | @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
@@ -7282,7 +7282,7 @@ error: Ident
 140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
     |                               ^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:140:42
     |
 140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
@@ -7318,7 +7318,7 @@ error: Ident
 140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
     |                                                                          ^^^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:140:92
     |
 140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
@@ -7486,7 +7486,7 @@ error: Ident
 141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
     |                           ^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:141:33
     |
 141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
@@ -7522,7 +7522,7 @@ error: Ident
 141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
     |                                                   ^^^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:141:60
     |
 141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
@@ -7690,7 +7690,7 @@ error: Ident
 142 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
     |                                         ^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:142:60
     |
 142 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
@@ -7726,7 +7726,7 @@ error: Ident
 142 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
     |                                                                                                                      ^^^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:142:153
     |
 142 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
@@ -8350,7 +8350,7 @@ error: Ident
 149 | @import url("./import-with-supports.css") supports(display: flex);
     |                                                    ^^^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:149:61
     |
 149 | @import url("./import-with-supports.css") supports(display: flex);
@@ -8476,7 +8476,7 @@ error: Ident
 150 | @import url("./import-with-supports.css") supports(((display: flex)));
     |                                                      ^^^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:150:63
     |
 150 | @import url("./import-with-supports.css") supports(((display: flex)));
@@ -8560,7 +8560,7 @@ error: Ident
 151 | @import url("./deep-import-with-supports.css") supports(display: flex);
     |                                                         ^^^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:151:66
     |
 151 | @import url("./deep-import-with-supports.css") supports(display: flex);
@@ -8644,7 +8644,7 @@ error: Ident
 152 | @import url('./test.css') supports(display: grid);
     |                                    ^^^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:152:45
     |
 152 | @import url('./test.css') supports(display: grid);
@@ -8728,7 +8728,7 @@ error: Ident
 153 | @import url('./test.css') supports(   display   :    grid   );
     |                                       ^^^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:153:54
     |
 153 | @import url('./test.css') supports(   display   :    grid   );
@@ -8812,7 +8812,7 @@ error: Ident
 154 | @import url("./import-with-supports-and-media.css") supports(display: flex) screen and (min-width: 400px);
     |                                                              ^^^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:154:71
     |
 154 | @import url("./import-with-supports-and-media.css") supports(display: flex) screen and (min-width: 400px);
@@ -8980,7 +8980,7 @@ error: Ident
 155 | @import url("./test.css") layer(framework);
     |                           ^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:155:33
     |
 155 | @import url("./test.css") layer(framework);
@@ -9058,7 +9058,7 @@ error: Ident
 156 | @import url("./import-multiple-with-layer.css") layer(default);
     |                                                 ^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:156:55
     |
 156 | @import url("./import-multiple-with-layer.css") layer(default);
@@ -9136,7 +9136,7 @@ error: Ident
 157 | @import url("./import-unnamed-layer.css") layer(base);
     |                                           ^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:157:49
     |
 157 | @import url("./import-unnamed-layer.css") layer(base);
@@ -9214,7 +9214,7 @@ error: Ident
 158 | @import url("./import-with-layer-and-supports.css") layer(default) supports(display: flex);
     |                                                     ^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:158:59
     |
 158 | @import url("./import-with-layer-and-supports.css") layer(default) supports(display: flex);
@@ -9250,7 +9250,7 @@ error: Ident
 158 | @import url("./import-with-layer-and-supports.css") layer(default) supports(display: flex);
     |                                                                             ^^^^^^^
 
-error: Value
+error: ComponentValue
    --> $DIR/tests/fixture/at-rule/import/input.css:158:86
     |
 158 | @import url("./import-with-layer-and-supports.css") layer(default) supports(display: flex);

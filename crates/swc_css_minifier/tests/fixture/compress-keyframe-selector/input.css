@@ -1,0 +1,90 @@
+@keyframes slide-right {
+    from {
+        margin-left: 0px;
+    }
+    50% {
+        margin-left: 110px;
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.9;
+    }
+    to {
+        margin-left: 200px;
+    }
+}
+
+@keyframes slide-right-upper-case {
+    FROM {
+        margin-left: 0px;
+    }
+    50% {
+        margin-left: 110px;
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.9;
+    }
+    TO {
+        margin-left: 200px;
+    }
+}
+
+@keyframes slide-right-one {
+    0% {
+        margin-left: 0px;
+    }
+    50% {
+        margin-left: 110px;
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.9;
+    }
+    100% {
+        margin-left: 200px;
+    }
+}
+
+@keyframes slide-right-two {
+    0% {
+        margin-left: 0px;
+    }
+    50% {
+        margin-left: 110px;
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.9;
+    }
+    100.0000% {
+        margin-left: 200px;
+    }
+}
+
+@keyframes slide-right-three {
+    0%, 50% {
+        margin-left: 0px;
+    }
+    60%, 100% {
+        margin-left: 200px;
+    }
+}
+
+@keyframes "foo" {
+    0% {
+        margin-left: 0px;
+    }
+    100% {
+        margin-left: 200px;
+    }
+}
+
+@keyframes "initial" {
+    0% {
+        margin-left: 0px;
+    }
+    100% {
+        margin-left: 200px;
+    }
+}

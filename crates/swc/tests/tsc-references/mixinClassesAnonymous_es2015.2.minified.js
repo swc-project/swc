@@ -24,9 +24,4 @@ const Thing2 = Tagged(((superClass)=>{
     }
     return _class.message = "hello", _class;
 })(Derived));
-Thing2.message, (Base1)=>class extends Base1 {
-        constructor(...args){
-            super(...args), this.timestamp = new Date();
-        }
-    }
-;
+Thing2.message;

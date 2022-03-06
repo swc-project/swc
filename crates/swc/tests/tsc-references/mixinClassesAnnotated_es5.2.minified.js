@@ -58,7 +58,7 @@ function _createSuper(Derived1) {
         })(self);
     };
 }
-var Base = function(x, y) {
+var _class, Base = function(x, y) {
     "use strict";
     _classCallCheck(this, Base), this.x = x, this.y = y;
 }, Derived = function(Base1) {
@@ -99,7 +99,8 @@ function Tagged(superClass1) {
     }(superClass1);
     return C;
 }
-var _class, Thing1 = Tagged(Derived), Thing2 = Tagged(((_class = function(superClass) {
+Tagged(Derived);
+var Thing2 = Tagged(((_class = function(superClass) {
     "use strict";
     _inherits(_class, superClass);
     var _super = _createSuper(_class);

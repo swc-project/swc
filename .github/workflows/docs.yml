@@ -8,7 +8,10 @@ on:
 jobs:
   rustdoc:
     name: Rustdoc
+    concurrency: swc-docs-rustdoc
     runs-on: macos-latest
+    if: >-
+      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
 
     steps:
       - uses: actions/checkout@v2
@@ -19,7 +22,7 @@ jobs:
           profile: minimal
 
       - name: Create rustdoc
-        run: cargo doc --all
+        run: cargo doc --all --exclude swc_cli
 
       - name: Create CNAME
         run: |

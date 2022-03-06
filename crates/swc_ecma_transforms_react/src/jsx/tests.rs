@@ -25,7 +25,7 @@ fn tr(t: &mut Tester, options: Options, top_level_mark: Mark) -> impl Fold {
             top_level_mark
         ),
         display_name(),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         arrow(),
     )
 }
@@ -1325,7 +1325,7 @@ test!(
         let top_level_mark = Mark::fresh(Mark::root());
 
         chain!(
-            classes(Some(t.comments.clone())),
+            classes(Some(t.comments.clone()), Default::default()),
             jsx(
                 t.cm.clone(),
                 Some(t.comments.clone()),

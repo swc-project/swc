@@ -92,28 +92,27 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var ref, ref1;
 var C = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(C, B);
     var _super = _createSuper(C);
     function C() {
         _classCallCheck(this, C);
-        var _thisSuper, _this;
+        var _this;
         _this = _super.apply(this, arguments);
         // these should be unaffected
         _this.x = 1;
         _this.y = _this.x;
-        _this.z = _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(C.prototype)), "f", _thisSuper).call(_thisSuper);
+        _this.z = _get((_assertThisInitialized(_this), _getPrototypeOf(C.prototype)), "f", _this).call(_this);
         return _this;
     }
     return C;
 }(B);
 C.x = undefined;
-C.y1 = this.x;
-C.y2 = this.x();
-C.y3 = (ref = this) === null || ref === void 0 ? void 0 : ref.x();
-C.y4 = this["x"]();
-C.y5 = (ref1 = this) === null || ref1 === void 0 ? void 0 : ref1["x"]();
+C.y1 = C.x;
+C.y2 = C.x();
+C.y3 = C === null || C === void 0 ? void 0 : C.x();
+C.y4 = C["x"]();
+C.y5 = C === null || C === void 0 ? void 0 : C["x"]();
 C.z3 = super.f();
 C.z4 = super["f"]();

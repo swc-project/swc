@@ -1058,10 +1058,10 @@ impl Remover {
                                 }))));
                             }
 
-                            new_stmts.extend(hoisted_fns);
-
                             let stmt_like = T::from_stmt(stmt);
                             new_stmts.push(stmt_like);
+                            new_stmts.extend(hoisted_fns);
+
                             *stmts = new_stmts;
                             return;
                         }

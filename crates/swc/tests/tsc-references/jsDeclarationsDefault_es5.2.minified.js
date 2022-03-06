@@ -17,14 +17,11 @@ export default function foo() {
     return foo;
 };
 export var x = foo;
-export { foo as bar };
 var Foo = function() {
     "use strict";
     _classCallCheck(this, Foo), this.a = null;
 };
-export { Foo as default };
 export var X = Foo;
-export { Foo as Bar };
 var Bar = function(Fab1) {
     "use strict";
     !function(subClass, superClass) {
@@ -66,3 +63,4 @@ var Bar = function(Fab1) {
 export default Bar;
 export default 12;
 export default function func() {};
+export { foo as bar, Foo as default, Foo as Bar };

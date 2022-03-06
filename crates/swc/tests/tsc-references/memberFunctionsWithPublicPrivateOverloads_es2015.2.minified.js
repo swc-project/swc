@@ -1,2 +1,1 @@
-var d;
-(void 0).foo(1), d.foo(2);
+(void 0).foo(1), (void 0).foo(2);

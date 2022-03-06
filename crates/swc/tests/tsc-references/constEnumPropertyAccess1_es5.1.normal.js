@@ -32,10 +32,9 @@ G;
 var o = {
     1: true
 };
-var a = G.A;
-var a1 = G["A"];
-var g = o[G.A];
-var tmp = G.A, tmp1 = G.B, tmp2 = G.B;
+var a = 1;
+var a1 = 1;
+var g = o[1];
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -43,17 +42,17 @@ var C = /*#__PURE__*/ function() {
     }
     _createClass(C, [
         {
-            key: tmp,
+            key: 1,
             value: function value() {}
         },
         {
-            key: tmp1,
+            key: 2,
             get: function get() {
                 return true;
             }
         },
         {
-            key: tmp2,
+            key: 2,
             set: function set(x) {}
         }
     ]);

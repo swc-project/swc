@@ -243,10 +243,10 @@ impl AssignFolder {
                                     .clone()
                                     .make_member(quote_ident!("slice"))
                                     .as_callee(),
-                                args: vec![Lit::Num(Number {
+                                args: vec![Number {
                                     value: i as f64,
                                     span: dot3_token,
-                                })
+                                }
                                 .as_arg()],
                                 type_args: Default::default(),
                             }))),
@@ -960,6 +960,18 @@ impl VisitMut for AssignFolder {
 
         *declarators = decls;
     }
+
+    fn visit_mut_var_decl(&mut self, var_decl: &mut VarDecl) {
+        var_decl.decls.visit_mut_with(self);
+
+        if var_decl.kind == VarDeclKind::Const {
+            var_decl.decls.iter_mut().for_each(|v| {
+                if v.init.is_none() {
+                    v.init = Some(undefined(DUMMY_SP));
+                }
+            })
+        }
+    }
 }
 
 impl Destructuring {
@@ -1140,6 +1152,8 @@ fn can_be_null(e: &Expr) -> bool {
         | Expr::Member(..)
         | Expr::SuperProp(..)
         | Expr::Call(..)
+        // an opt chain is either a member or a call
+        | Expr::OptChain(..)
         | Expr::New(..)
         | Expr::Yield(..)
         | Expr::Await(..)
@@ -1179,8 +1193,8 @@ fn can_be_null(e: &Expr) -> bool {
         Expr::TsNonNull(..) => false,
         Expr::TsAs(TsAsExpr { ref expr, .. })
         | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
-        | Expr::TsConstAssertion(TsConstAssertion { ref expr, .. }) => can_be_null(expr),
-        Expr::OptChain(ref e) => can_be_null(&e.expr),
+        | Expr::TsConstAssertion(TsConstAssertion { ref expr, .. })
+        | Expr::TsInstantiation(TsInstantiation { ref expr, .. }) => can_be_null(expr),
 
         Expr::Invalid(..) => unreachable!(),
     }

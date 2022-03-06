@@ -8,6 +8,10 @@ use crate::error::SyntaxError;
 mod module_item;
 
 impl<'a, I: Tokens> Parser<I> {
+    pub fn parse_module_item(&mut self) -> PResult<ModuleItem> {
+        self.parse_stmt_like(true, true)
+    }
+
     pub(super) fn parse_block_body<Type>(
         &mut self,
         mut allow_directives: bool,
@@ -59,12 +63,14 @@ impl<'a, I: Tokens> Parser<I> {
         Ok(stmts.into_vec())
     }
 
+    /// Parse a statement but not a declaration.
     pub fn parse_stmt(&mut self, top_level: bool) -> PResult<Stmt> {
         trace_cur!(self, parse_stmt);
         self.parse_stmt_like(false, top_level)
     }
 
-    fn parse_stmt_list_item(&mut self, top_level: bool) -> PResult<Stmt> {
+    /// Parse a statement and maybe a declaration.
+    pub fn parse_stmt_list_item(&mut self, top_level: bool) -> PResult<Stmt> {
         trace_cur!(self, parse_stmt_list_item);
         self.parse_stmt_like(true, top_level)
     }
@@ -116,7 +122,9 @@ impl<'a, I: Tokens> Parser<I> {
             return Ok(Stmt::Expr(ExprStmt { span, expr }));
         }
 
-        if self.input.syntax().typescript() && is!(self, "const") && peeked_is!(self, "enum") {
+        let is_typescript = self.input.syntax().typescript();
+
+        if is_typescript && is!(self, "const") && peeked_is!(self, "enum") {
             assert_and_bump!(self, "const");
             assert_and_bump!(self, "enum");
             return self
@@ -270,6 +278,32 @@ impl<'a, I: Tokens> Parser<I> {
                 if is_keyword {
                     let v = self.parse_var_stmt(false)?;
                     return Ok(Stmt::Decl(Decl::Var(v)));
+                }
+            }
+
+            tok!("interface") => {
+                if is_typescript
+                    && peeked_is!(self, IdentName)
+                    && !self.input.has_linebreak_between_cur_and_peeked()
+                {
+                    let start = self.input.cur_pos();
+                    bump!(self);
+                    return Ok(Stmt::Decl(Decl::TsInterface(
+                        self.parse_ts_interface_decl(start)?,
+                    )));
+                }
+            }
+
+            tok!("enum") => {
+                if is_typescript
+                    && peeked_is!(self, IdentName)
+                    && !self.input.has_linebreak_between_cur_and_peeked()
+                {
+                    let start = self.input.cur_pos();
+                    bump!(self);
+                    return Ok(Stmt::Decl(Decl::TsEnum(
+                        self.parse_ts_enum_decl(start, false)?,
+                    )));
                 }
             }
 
@@ -699,7 +733,7 @@ impl<'a, I: Tokens> Parser<I> {
                 break;
             }
 
-            decls.push(self.with_ctx(ctx).parse_var_declarator(for_loop)?);
+            decls.push(self.with_ctx(ctx).parse_var_declarator(for_loop, kind)?);
         }
 
         if !for_loop && !eat!(self, ';') {
@@ -720,7 +754,11 @@ impl<'a, I: Tokens> Parser<I> {
         })
     }
 
-    fn parse_var_declarator(&mut self, for_loop: bool) -> PResult<VarDeclarator> {
+    fn parse_var_declarator(
+        &mut self,
+        for_loop: bool,
+        kind: VarDeclKind,
+    ) -> PResult<VarDeclarator> {
         let start = cur_pos!(self);
 
         let mut name = self.parse_binding_pat_or_ident()?;
@@ -770,6 +808,13 @@ impl<'a, I: Tokens> Parser<I> {
                 // Destructuring bindings require initializers, but
                 // typescript allows `declare` vars not to have initializers.
                 if self.ctx().in_declare {
+                    None
+                } else if kind == VarDeclKind::Const && self.ctx().strict {
+                    self.emit_err(
+                        span!(self, start),
+                        SyntaxError::ConstDeclarationsRequireInitialization,
+                    );
+
                     None
                 } else {
                     match name {
@@ -2132,13 +2177,13 @@ export default function waitUntil(callback, options = {}) {
 
     #[test]
     #[should_panic(expected = "Trailing comma is disallowed inside import(...) arguments")]
-    fn error_for_trailing_commma_inside_dynamic_import() {
+    fn error_for_trailing_comma_inside_dynamic_import() {
         let src = "import('foo',)";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr());
     }
 
     #[test]
-    fn no_error_for_trailing_commma_inside_dynamic_import_with_import_assertions() {
+    fn no_error_for_trailing_comma_inside_dynamic_import_with_import_assertions() {
         let src = "import('foo',)";
         test_parser(
             src,
@@ -2185,5 +2230,37 @@ export default function waitUntil(callback, options = {}) {
     fn error_for_string_literal_is_export_binding() {
         let src = "export { 'foo' };";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
+    }
+
+    #[test]
+    #[should_panic(expected = "'const' declarations must be initialized")]
+    fn ts_error_for_const_declaration_not_initialized() {
+        let src = r#"
+"use strict";
+const foo;"#;
+
+        test_parser(
+            src,
+            Syntax::Typescript(TsConfig {
+                ..Default::default()
+            }),
+            |p| p.parse_script(),
+        );
+    }
+
+    #[test]
+    #[should_panic(expected = "'const' declarations must be initialized")]
+    fn es_error_for_const_declaration_not_initialized() {
+        let src = r#"
+"use strict";
+const foo;"#;
+
+        test_parser(
+            src,
+            Syntax::Es(EsConfig {
+                ..Default::default()
+            }),
+            |p| p.parse_script(),
+        );
     }
 }

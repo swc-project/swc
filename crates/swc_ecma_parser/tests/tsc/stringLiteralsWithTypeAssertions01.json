@@ -533,7 +533,8 @@
                 },
                 "value": "fooOrBar",
                 "optional": false
-              }
+              },
+              "typeArguments": null
             }
           },
           "definite": false

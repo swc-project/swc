@@ -76,7 +76,7 @@ error: Str
 1 | [b^="c"] {}
   |     ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/cpoL0JfVO7TLrlcAga939A/input.css:1:10
   |
 1 | [b^="c"] {}

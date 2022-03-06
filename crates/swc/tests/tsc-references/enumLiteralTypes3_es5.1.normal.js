@@ -29,32 +29,32 @@ function f4(a, b, c, d) {
     d = d;
 }
 function f5(a, b, c, d) {
-    a = Choice.Unknown;
-    a = Choice.Yes;
-    a = Choice.No;
-    b = Choice.Unknown;
-    b = Choice.Yes;
-    b = Choice.No;
-    c = Choice.Unknown;
-    c = Choice.Yes;
-    c = Choice.No;
-    d = Choice.Unknown;
-    d = Choice.Yes;
-    d = Choice.No;
+    a = 0;
+    a = 1;
+    a = 2;
+    b = 0;
+    b = 1;
+    b = 2;
+    c = 0;
+    c = 1;
+    c = 2;
+    d = 0;
+    d = 1;
+    d = 2;
 }
 function f6(a, b, c, d) {
-    a === Choice.Unknown;
-    a === Choice.Yes;
-    a === Choice.No;
-    b === Choice.Unknown;
-    b === Choice.Yes;
-    b === Choice.No;
-    c === Choice.Unknown;
-    c === Choice.Yes;
-    c === Choice.No;
-    d === Choice.Unknown;
-    d === Choice.Yes;
-    d === Choice.No;
+    a === 0;
+    a === 1;
+    a === 2;
+    b === 0;
+    b === 1;
+    b === 2;
+    c === 0;
+    c === 1;
+    c === 2;
+    d === 0;
+    d === 1;
+    d === 2;
 }
 function f7(a, b, c, d) {
     a === a;
@@ -76,44 +76,44 @@ function f7(a, b, c, d) {
 }
 function f10(x) {
     switch(x){
-        case Choice.Unknown:
+        case 0:
             return x;
-        case Choice.Yes:
+        case 1:
             return x;
-        case Choice.No:
+        case 2:
             return x;
     }
     return x;
 }
 function f11(x) {
     switch(x){
-        case Choice.Unknown:
+        case 0:
             return x;
-        case Choice.Yes:
+        case 1:
             return x;
-        case Choice.No:
+        case 2:
             return x;
     }
     return x;
 }
 function f12(x) {
     switch(x){
-        case Choice.Unknown:
+        case 0:
             return x;
-        case Choice.Yes:
+        case 1:
             return x;
-        case Choice.No:
+        case 2:
             return x;
     }
     return x;
 }
 function f13(x) {
     switch(x){
-        case Choice.Unknown:
+        case 0:
             return x;
-        case Choice.Yes:
+        case 1:
             return x;
-        case Choice.No:
+        case 2:
             return x;
     }
     return x;

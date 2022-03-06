@@ -33,20 +33,20 @@ function _superPropBase(object, property) {
     for(; !Object.prototype.hasOwnProperty.call(object, property) && null !== (object = _getPrototypeOf(object)););
     return object;
 }
-var symbol, tmp = symbol, Foo = function() {
+var symbol, _symbol = symbol, Foo = function() {
     "use strict";
     function Foo() {
         _classCallCheck(this, Foo);
     }
     return _createClass(Foo, null, [
         {
-            key: tmp,
+            key: _symbol,
             value: function() {
                 return 0;
             }
         }
     ]), Foo;
-}(), tmp1 = symbol, Bar = function(Foo) {
+}(), _symbol1 = symbol, Bar = function(Foo) {
     "use strict";
     !function(subClass, superClass) {
         if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
@@ -83,7 +83,7 @@ var symbol, tmp = symbol, Foo = function() {
     }
     return _createClass(Bar, null, [
         {
-            key: tmp1,
+            key: _symbol1,
             value: function() {
                 return _get(_getPrototypeOf(Bar), symbol, this).call(this);
             }

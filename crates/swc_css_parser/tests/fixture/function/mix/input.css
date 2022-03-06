@@ -1,0 +1,5 @@
+div {
+    /*   mix( [ <timeline> && [ by <easing-function> ]? ] ; <start-value> ; <end-value>) */
+    opacity: mix( 70% by ease ; 0% ; 100% );
+    opacity: mix(70%;0%;100%);
+}

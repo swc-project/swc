@@ -1,0 +1,121 @@
+name: SWC Bot
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  GIT_COMMITTER_NAME: "SWC Bot"
+  GIT_COMMITTER_EMAIL: "bot@swc.rs"
+
+jobs:
+  auto-rebase:
+    name: Auto rebase
+    runs-on: ubuntu-latest
+    concurrency: swc-bot-auto-rebase
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: "swc-project/swc"
+          ref: "main"
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+
+      - name: Install dependencies
+        working-directory: scripts/bot
+        run: |
+          yarn
+
+      - name: Rebase a PR
+        working-directory: scripts/bot
+        run: |
+          npx ts-node src/auto-rebase.ts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+  bump-crates:
+    name: Create cargo bump commit
+    runs-on: ubuntu-latest
+    concurrency: swc-bot-cargo-bump
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: "swc-project/swc"
+          ref: "main"
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+
+      - name: Install node dependencies
+        working-directory: scripts/bot
+        run: |
+          yarn
+
+      - name: Install cargo-mono
+        uses: baptiste0928/cargo-install@v1.1.0
+        with:
+          crate: cargo-mono
+          version: "0.3.1"
+
+      - name: Install git-cliff
+        uses: baptiste0928/cargo-install@v1.1.0
+        with:
+          crate: git-cliff
+          version: "0.4.2"
+
+      - name: Bump crates
+        id: bump
+        continue-on-error: true
+        working-directory: scripts/bot
+        run: |
+          npx ts-node src/cargo/bump.ts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Update changelog
+        if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
+        run: |
+          yarn changelog
+
+      - name: Update lockfile
+        if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
+        run: |
+          cargo metadata --format-version 1 > /dev/null
+
+      - name: Create commit
+        if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
+        run: |
+          git add -A
+          git commit --author="SWC Bot <bot@swc.rs>" -m 'chore: Publish crates'
+
+      - uses: webfactory/ssh-agent@v0.5.4
+        if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
+        with:
+          ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
+
+      # Push back, using ssh
+      - name: Push back
+        if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
+        run: |
+          git push git@github.com:swc-project/swc.git --no-verify
+
+      - name: Configure crates.io
+        if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
+        run: |
+          cargo login $CARGO_TOKEN
+        env:
+          CARGO_TOKEN: ${{ secrets.CARGO_TOKEN }}
+
+      - name: Publish crates
+        if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
+        run: |
+          cargo mono publish --no-verify
+          cargo mono publish --no-verify
+          cargo mono publish --no-verify
+          cargo mono publish --no-verify
+          cargo mono publish --no-verify

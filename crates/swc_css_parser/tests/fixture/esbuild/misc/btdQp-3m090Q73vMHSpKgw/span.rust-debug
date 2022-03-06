@@ -70,7 +70,7 @@ error: Ident
 1 | \2a|div {}
   |     ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:9
   |
 1 | \2a|div {}

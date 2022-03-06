@@ -23,36 +23,46 @@
         "value": "a,c",
         "raw": "a\\,c"
       },
-      "blocks": [
-        {
-          "span": {
-            "start": 18,
-            "end": 27,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Ident",
-              "span": {
-                "start": 18,
-                "end": 24,
-                "ctxt": 0
-              },
-              "value": "from",
-              "raw": "\\66rom"
-            }
-          ],
-          "block": {
-            "type": "Block",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 16,
+          "end": 29,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
             "span": {
-              "start": 25,
+              "start": 18,
               "end": 27,
               "ctxt": 0
             },
-            "value": []
+            "prelude": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 18,
+                  "end": 24,
+                  "ctxt": 0
+                },
+                "value": "from",
+                "raw": "\\66rom"
+              }
+            ],
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 25,
+                "end": 27,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": []
+            }
           }
-        }
-      ]
+        ]
+      }
     }
   ]
 }

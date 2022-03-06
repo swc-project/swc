@@ -30,7 +30,7 @@ error: FontFaceRule
 3 | | }
   | |_^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/rome/font/input.css:1:12
   |
 1 |   @font-face {
@@ -38,6 +38,12 @@ error: Block
 2 | |     src: url("");
 3 | | }
   | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/font/input.css:2:2
+  |
+2 |     src: url("");
+  |     ^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/font/input.css:2:2
@@ -57,7 +63,7 @@ error: Ident
 2 |     src: url("");
   |     ^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/font/input.css:2:7
   |
 2 |     src: url("");

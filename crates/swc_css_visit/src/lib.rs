@@ -1,4 +1,5 @@
 #![deny(clippy::all)]
+#![allow(clippy::ptr_arg)]
 
 use swc_atoms::JsWord;
 use swc_common::Span;
@@ -24,7 +25,34 @@ define!({
     pub struct SimpleBlock {
         pub span: Span,
         pub name: char,
-        pub value: Vec<Value>,
+        pub value: Vec<ComponentValue>,
+    }
+
+    pub enum ComponentValue {
+        PreservedToken(TokenAndSpan),
+        Function(Function),
+        SimpleBlock(SimpleBlock),
+
+        DeclarationOrAtRule(DeclarationOrAtRule),
+        Rule(Rule),
+        StyleBlock(StyleBlock),
+        KeyframeBlock(KeyframeBlock),
+
+        Ident(Ident),
+        DashedIdent(DashedIdent),
+        Str(Str),
+        Url(Url),
+        Integer(Integer),
+        Number(Number),
+        Percentage(Percentage),
+        Dimension(Dimension),
+        Ratio(Ratio),
+        UnicodeRange(UnicodeRange),
+        Color(Color),
+        Delimiter(Delimiter),
+
+        CalcSum(CalcSum),
+        ComplexSelector(ComplexSelector),
     }
 
     pub struct Ident {
@@ -51,6 +79,12 @@ define!({
         pub raw: JsWord,
     }
 
+    pub struct Integer {
+        pub span: Span,
+        pub value: i64,
+        pub raw: JsWord,
+    }
+
     pub struct Number {
         pub span: Span,
         pub value: f64,
@@ -60,7 +94,7 @@ define!({
     pub struct Declaration {
         pub span: Span,
         pub name: DeclarationName,
-        pub value: Vec<Value>,
+        pub value: Vec<ComponentValue>,
         pub important: Option<ImportantFlag>,
     }
 
@@ -77,40 +111,26 @@ define!({
     pub struct QualifiedRule {
         pub span: Span,
         pub prelude: SelectorList,
-        pub block: Block,
+        pub block: SimpleBlock,
     }
 
-    pub struct Block {
-        pub span: Span,
-        pub value: Vec<DeclarationBlockItem>,
-    }
-
-    pub enum DeclarationBlockItem {
+    pub enum StyleBlock {
+        AtRule(AtRule),
+        Declaration(Declaration),
+        QualifiedRule(QualifiedRule),
         Invalid(Tokens),
+    }
+
+    pub enum DeclarationOrAtRule {
         Declaration(Declaration),
         AtRule(AtRule),
-    }
-
-    pub enum Value {
-        SimpleBlock(SimpleBlock),
-        Dimension(Dimension),
-        Number(Number),
-        Percentage(Percentage),
-        Ratio(Ratio),
-        Color(Color),
-        Ident(Ident),
-        DashedIdent(DashedIdent),
-        Str(Str),
-        Function(Function),
-        Bin(BinValue),
-        Delimiter(Delimiter),
-        Tokens(Tokens),
-        Url(Url),
+        Invalid(Tokens),
     }
 
     pub enum DelimiterValue {
         Comma,
         Solidus,
+        Semicolon,
     }
 
     pub struct Delimiter {
@@ -118,24 +138,15 @@ define!({
         pub value: DelimiterValue,
     }
 
-    pub struct BinValue {
-        pub span: Span,
-
-        pub op: BinOp,
-
-        pub left: Box<Value>,
-
-        pub right: Box<Value>,
-    }
-
     pub struct Function {
         pub span: Span,
         pub name: Ident,
-        pub value: Vec<Value>,
+        pub value: Vec<ComponentValue>,
     }
 
     pub enum Color {
         HexColor(HexColor),
+        Function(Function),
     }
 
     pub struct HexColor {
@@ -232,9 +243,67 @@ define!({
         Function(Function),
     }
 
+    pub struct UnicodeRange {
+        pub span: Span,
+        pub prefix: char,
+        pub start: JsWord,
+        pub end: Option<JsWord>,
+    }
+
+    pub struct CalcSum {
+        pub span: Span,
+        pub expressions: Vec<CalcProductOrOperator>,
+    }
+
+    pub enum CalcProductOrOperator {
+        Product(CalcProduct),
+        Operator(CalcOperator),
+    }
+
+    pub struct CalcProduct {
+        pub span: Span,
+        pub expressions: Vec<CalcValueOrOperator>,
+    }
+
+    pub struct CalcOperator {
+        pub span: Span,
+        pub value: CalcOperatorType,
+    }
+
+    pub enum CalcOperatorType {
+        Add,
+        Sub,
+        Mul,
+        Div,
+    }
+
+    pub enum CalcValueOrOperator {
+        Value(CalcValue),
+        Operator(CalcOperator),
+    }
+
+    pub enum CalcValue {
+        Number(Number),
+        Dimension(Dimension),
+        Percentage(Percentage),
+        Constant(Ident),
+        Sum(CalcSum),
+        Function(Function),
+    }
+
     pub struct SelectorList {
         pub span: Span,
         pub children: Vec<ComplexSelector>,
+    }
+
+    pub struct CompoundSelectorList {
+        pub span: Span,
+        pub children: Vec<CompoundSelector>,
+    }
+
+    pub struct RelativeSelectorList {
+        pub span: Span,
+        pub children: Vec<RelativeSelector>,
     }
 
     pub struct ComplexSelector {
@@ -245,6 +314,12 @@ define!({
     pub enum ComplexSelectorChildren {
         CompoundSelector(CompoundSelector),
         Combinator(Combinator),
+    }
+
+    pub struct RelativeSelector {
+        pub span: Span,
+        pub combinator: Option<Combinator>,
+        pub selector: ComplexSelector,
     }
 
     pub struct CompoundSelector {
@@ -320,25 +395,30 @@ define!({
         pub value: Ident,
     }
 
-    pub enum PseudoSelectorChildren {
-        Nth(Nth),
-
-        Tokens(Tokens),
-    }
-
-    pub struct Nth {
+    pub struct PseudoClassSelector {
         pub span: Span,
-        pub nth: NthValue,
-        pub selector_list: Option<SelectorList>,
+        pub name: Ident,
+        pub children: Option<Vec<PseudoClassSelectorChildren>>,
     }
 
-    pub enum NthValue {
+    pub enum PseudoClassSelectorChildren {
+        PreservedToken(TokenAndSpan),
         AnPlusB(AnPlusB),
-
         Ident(Ident),
+        Str(Str),
+        Delimiter(Delimiter),
+        SelectorList(SelectorList),
+        CompoundSelectorList(CompoundSelectorList),
+        RelativeSelectorList(RelativeSelectorList),
+        CompoundSelector(CompoundSelector),
     }
 
-    pub struct AnPlusB {
+    pub enum AnPlusB {
+        Ident(Ident),
+        AnPlusBNotation(AnPlusBNotation),
+    }
+
+    pub struct AnPlusBNotation {
         pub span: Span,
         pub a: Option<i32>,
         pub a_raw: Option<JsWord>,
@@ -346,16 +426,16 @@ define!({
         pub b_raw: Option<JsWord>,
     }
 
-    pub struct PseudoClassSelector {
-        pub span: Span,
-        pub name: Ident,
-        pub children: Option<PseudoSelectorChildren>,
-    }
-
     pub struct PseudoElementSelector {
         pub span: Span,
         pub name: Ident,
-        pub children: Option<Tokens>,
+        pub children: Option<Vec<PseudoElementSelectorChildren>>,
+    }
+
+    pub enum PseudoElementSelectorChildren {
+        PreservedToken(TokenAndSpan),
+        CompoundSelector(CompoundSelector),
+        Ident(Ident),
     }
 
     pub struct IdSelector {
@@ -392,6 +472,7 @@ define!({
         Page(PageRule),
         PageMargin(PageMarginRule),
         Namespace(NamespaceRule),
+        Nest(NestRule),
         Viewport(ViewportRule),
         Document(DocumentRule),
         ColorProfile(ColorProfileRule),
@@ -430,7 +511,7 @@ define!({
 
     pub struct FontFaceRule {
         pub span: Span,
-        pub block: Block,
+        pub block: SimpleBlock,
     }
 
     pub enum NamespaceUri {
@@ -444,9 +525,15 @@ define!({
         pub uri: NamespaceUri,
     }
 
+    pub struct NestRule {
+        pub span: Span,
+        pub prelude: SelectorList,
+        pub block: SimpleBlock,
+    }
+
     pub struct ViewportRule {
         pub span: Span,
-        pub block: Block,
+        pub block: SimpleBlock,
     }
 
     pub enum AtRuleName {
@@ -457,14 +544,14 @@ define!({
     pub struct UnknownAtRule {
         pub span: Span,
         pub name: AtRuleName,
-        pub prelude: Vec<Value>,
+        pub prelude: Vec<ComponentValue>,
         pub block: Option<SimpleBlock>,
     }
 
     pub struct DocumentRule {
         pub span: Span,
         pub matching_functions: Vec<DocumentRuleMatchingFunction>,
-        pub block: Vec<Rule>,
+        pub block: SimpleBlock,
     }
 
     pub enum DocumentRuleMatchingFunction {
@@ -480,13 +567,13 @@ define!({
     pub struct KeyframesRule {
         pub span: Span,
         pub name: KeyframesName,
-        pub blocks: Vec<KeyframeBlock>,
+        pub block: SimpleBlock,
     }
 
     pub struct KeyframeBlock {
         pub span: Span,
         pub prelude: Vec<KeyframeSelector>,
-        pub block: Block,
+        pub block: SimpleBlock,
     }
 
     pub enum KeyframeSelector {
@@ -512,13 +599,13 @@ define!({
     pub struct LayerRule {
         pub span: Span,
         pub prelude: Option<LayerPrelude>,
-        pub rules: Option<Vec<Rule>>,
+        pub block: Option<SimpleBlock>,
     }
 
     pub struct MediaRule {
         pub span: Span,
         pub media: Option<MediaQueryList>,
-        pub rules: Vec<Rule>,
+        pub block: SimpleBlock,
     }
 
     pub struct MediaQueryList {
@@ -629,7 +716,7 @@ define!({
     pub struct PageRule {
         pub span: Span,
         pub prelude: Option<PageSelectorList>,
-        pub block: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 
     pub struct PageSelectorList {
@@ -656,13 +743,13 @@ define!({
     pub struct PageMarginRule {
         pub span: Span,
         pub name: Ident,
-        pub block: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 
     pub struct SupportsRule {
         pub span: Span,
         pub condition: SupportsCondition,
-        pub rules: Vec<Rule>,
+        pub block: SimpleBlock,
     }
 
     pub struct SupportsCondition {
@@ -695,10 +782,17 @@ define!({
     pub enum SupportsInParens {
         SupportsCondition(SupportsCondition),
         Feature(SupportsFeature),
+        GeneralEnclosed(GeneralEnclosed),
     }
 
     pub enum SupportsFeature {
         Declaration(Declaration),
+        Function(Function),
+    }
+
+    pub enum GeneralEnclosed {
+        Function(Function),
+        SimpleBlock(SimpleBlock),
     }
 
     pub enum ColorProfileName {
@@ -709,18 +803,18 @@ define!({
     pub struct ColorProfileRule {
         pub span: Span,
         pub name: ColorProfileName,
-        pub block: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 
     pub struct CounterStyleRule {
         pub span: Span,
         pub name: CustomIdent,
-        pub block: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 
     pub struct PropertyRule {
         pub span: Span,
         pub name: DashedIdent,
-        pub block: Vec<DeclarationBlockItem>,
+        pub block: SimpleBlock,
     }
 });

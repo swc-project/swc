@@ -23,128 +23,139 @@
         "value": "name",
         "raw": "name"
       },
-      "blocks": [
-        {
-          "span": {
-            "start": 16,
-            "end": 31,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Ident",
-              "span": {
-                "start": 16,
-                "end": 20,
-                "ctxt": 0
-              },
-              "value": "from",
-              "raw": "from"
-            }
-          ],
-          "block": {
-            "type": "Block",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 15,
+          "end": 46,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
             "span": {
-              "start": 20,
+              "start": 16,
               "end": 31,
               "ctxt": 0
             },
-            "value": [
+            "prelude": [
               {
-                "type": "Declaration",
+                "type": "Ident",
                 "span": {
-                  "start": 21,
-                  "end": 30,
+                  "start": 16,
+                  "end": 20,
                   "ctxt": 0
                 },
-                "name": {
-                  "type": "Ident",
-                  "span": {
-                    "start": 21,
-                    "end": 26,
-                    "ctxt": 0
-                  },
-                  "value": "color",
-                  "raw": "color"
-                },
-                "value": [
-                  {
-                    "type": "Ident",
-                    "span": {
-                      "start": 27,
-                      "end": 30,
-                      "ctxt": 0
-                    },
-                    "value": "red",
-                    "raw": "red"
-                  }
-                ],
-                "important": null
+                "value": "from",
+                "raw": "from"
               }
-            ]
-          }
-        },
-        {
-          "span": {
-            "start": 31,
-            "end": 45,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Ident",
+            ],
+            "block": {
+              "type": "SimpleBlock",
               "span": {
-                "start": 31,
-                "end": 33,
+                "start": 20,
+                "end": 31,
                 "ctxt": 0
               },
-              "value": "to",
-              "raw": "to"
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 21,
+                    "end": 30,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 21,
+                      "end": 26,
+                      "ctxt": 0
+                    },
+                    "value": "color",
+                    "raw": "color"
+                  },
+                  "value": [
+                    {
+                      "type": "Ident",
+                      "span": {
+                        "start": 27,
+                        "end": 30,
+                        "ctxt": 0
+                      },
+                      "value": "red",
+                      "raw": "red"
+                    }
+                  ],
+                  "important": null
+                }
+              ]
             }
-          ],
-          "block": {
-            "type": "Block",
+          },
+          {
             "span": {
-              "start": 33,
+              "start": 31,
               "end": 45,
               "ctxt": 0
             },
-            "value": [
+            "prelude": [
               {
-                "type": "Declaration",
+                "type": "Ident",
                 "span": {
-                  "start": 34,
-                  "end": 44,
+                  "start": 31,
+                  "end": 33,
                   "ctxt": 0
                 },
-                "name": {
-                  "type": "Ident",
+                "value": "to",
+                "raw": "to"
+              }
+            ],
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 33,
+                "end": 45,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
                   "span": {
                     "start": 34,
-                    "end": 39,
+                    "end": 44,
                     "ctxt": 0
                   },
-                  "value": "color",
-                  "raw": "color"
-                },
-                "value": [
-                  {
+                  "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 40,
-                      "end": 44,
+                      "start": 34,
+                      "end": 39,
                       "ctxt": 0
                     },
-                    "value": "blue",
-                    "raw": "blue"
-                  }
-                ],
-                "important": null
-              }
-            ]
+                    "value": "color",
+                    "raw": "color"
+                  },
+                  "value": [
+                    {
+                      "type": "Ident",
+                      "span": {
+                        "start": 40,
+                        "end": 44,
+                        "ctxt": 0
+                      },
+                      "value": "blue",
+                      "raw": "blue"
+                    }
+                  ],
+                  "important": null
+                }
+              ]
+            }
           }
-        }
-      ]
+        ]
+      }
     }
   ]
 }

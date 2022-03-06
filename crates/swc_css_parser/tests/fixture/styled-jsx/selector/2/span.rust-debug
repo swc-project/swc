@@ -94,11 +94,11 @@ error: Ident
 1 | p :global(span:not(.test)) {
   |    ^^^^^^
 
-error: Tokens
+error: PseudoClassSelectorChildren
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:11
   |
 1 | p :global(span:not(.test)) {
-  |           ^^^^^^^^^^^^^^^
+  |           ^^^^
 
 error: Ident { value: Atom('span' type=inline), raw: Atom('span' type=inline) }
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:11
@@ -106,11 +106,23 @@ error: Ident { value: Atom('span' type=inline), raw: Atom('span' type=inline) }
 1 | p :global(span:not(.test)) {
   |           ^^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:15
+  |
+1 | p :global(span:not(.test)) {
+  |               ^
+
 error: Colon
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:15
   |
 1 | p :global(span:not(.test)) {
   |               ^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:16
+  |
+1 | p :global(span:not(.test)) {
+  |                ^^^^
 
 error: Function { value: Atom('not' type=static), raw: Atom('not' type=static) }
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:16
@@ -118,11 +130,23 @@ error: Function { value: Atom('not' type=static), raw: Atom('not' type=static) }
 1 | p :global(span:not(.test)) {
   |                ^^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:20
+  |
+1 | p :global(span:not(.test)) {
+  |                    ^
+
 error: Delim { value: '.' }
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:20
   |
 1 | p :global(span:not(.test)) {
   |                    ^
+
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:21
+  |
+1 | p :global(span:not(.test)) {
+  |                     ^^^^
 
 error: Ident { value: Atom('test' type=inline), raw: Atom('test' type=inline) }
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:21
@@ -130,13 +154,19 @@ error: Ident { value: Atom('test' type=inline), raw: Atom('test' type=inline) }
 1 | p :global(span:not(.test)) {
   |                     ^^^^
 
+error: PseudoClassSelectorChildren
+ --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:25
+  |
+1 | p :global(span:not(.test)) {
+  |                         ^
+
 error: RParen
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:25
   |
 1 | p :global(span:not(.test)) {
   |                         ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:1:28
   |
 1 |   p :global(span:not(.test)) {
@@ -144,6 +174,18 @@ error: Block
 2 | |     color: green;
 3 | | }
   | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:2:5
+  |
+2 |     color: green;
+  |     ^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:2:5
+  |
+2 |     color: green;
+  |     ^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:2:5
@@ -163,7 +205,7 @@ error: Ident
 2 |     color: green;
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/styled-jsx/selector/2/input.css:2:12
   |
 2 |     color: green;

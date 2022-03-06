@@ -556,23 +556,20 @@ impl<'a> VisitMut for InitThis<'a> {
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
 
-        if let Expr::Call(CallExpr {
-            callee: Callee::Super(Super { span: super_span }),
-            span,
-            ..
-        }) = expr
+        if let Expr::Call(
+            call_expr @ CallExpr {
+                callee: Callee::Super(..),
+                ..
+            },
+        ) = expr
         {
+            let span = call_expr.span;
             *expr = Expr::Paren(ParenExpr {
-                span: *span,
+                span,
                 expr: Box::new(Expr::Seq(SeqExpr {
-                    span: *span,
+                    span,
                     exprs: vec![
-                        Box::new(Expr::Call(CallExpr {
-                            span: *span,
-                            callee: Callee::Super(Super { span: *super_span }),
-                            args: Vec::new(),
-                            type_args: None,
-                        })),
+                        Box::new(Expr::Call(call_expr.take())),
                         Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
                             left: PatOrExpr::Pat(self.this_id.clone().into()),

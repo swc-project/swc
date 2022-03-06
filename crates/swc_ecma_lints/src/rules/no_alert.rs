@@ -25,7 +25,7 @@ pub fn no_alert(
     match rule_reaction {
         LintRuleReaction::Off => None,
         _ => Some(visitor_rule(NoAlert::new(
-            *rule_reaction,
+            rule_reaction,
             top_level_declared_vars,
             top_level_ctxt,
             es_version,
@@ -40,6 +40,9 @@ struct NoAlert {
     top_level_declared_vars: AHashSet<Id>,
     pass_call_on_global_this: bool,
     inside_callee: bool,
+    classes_depth: usize,
+    objects_depth: usize,
+    arrow_fns_depth: usize,
     obj: Option<JsWord>,
     prop: Option<JsWord>,
 }
@@ -57,6 +60,9 @@ impl NoAlert {
             top_level_declared_vars,
             pass_call_on_global_this: es_version < EsVersion::Es2020,
             inside_callee: false,
+            classes_depth: 0,
+            objects_depth: 0,
+            arrow_fns_depth: 0,
             obj: None,
             prop: None,
         }
@@ -74,6 +80,18 @@ impl NoAlert {
             }
             _ => {}
         });
+    }
+
+    fn is_inside_class(&self) -> bool {
+        self.classes_depth > 0
+    }
+
+    fn is_inside_object(&self) -> bool {
+        self.objects_depth > 0
+    }
+
+    fn is_inside_arrow_fn(&self) -> bool {
+        self.arrow_fns_depth > 0
     }
 
     fn check(&self, call_span: Span, obj: &Option<JsWord>, prop: &JsWord) {
@@ -108,6 +126,20 @@ impl NoAlert {
         true
     }
 
+    fn handle_member_prop(&mut self, prop: &MemberProp) {
+        match prop {
+            MemberProp::Ident(Ident { sym, .. }) => {
+                self.prop = Some(sym.clone());
+            }
+            MemberProp::Computed(comp) => {
+                if let Expr::Lit(Lit::Str(Str { value, .. })) = comp.expr.as_ref() {
+                    self.prop = Some(value.clone());
+                }
+            }
+            _ => {}
+        }
+    }
+
     fn handle_callee(&mut self, expr: &Expr) {
         match expr {
             Expr::Ident(ident) => {
@@ -115,30 +147,39 @@ impl NoAlert {
                     self.prop = Some(ident.sym.clone());
                 }
             }
-            Expr::Member(member_expr) => {
+            Expr::Member(member_expr)
+            | Expr::OptChain(OptChainExpr {
+                base: OptChainBase::Member(member_expr),
+                ..
+            }) => {
                 let MemberExpr { obj, prop, .. } = member_expr;
 
-                if let Expr::Ident(obj) = obj.as_ref() {
-                    if !self.is_satisfying_indent(obj) {
-                        return;
-                    }
-
-                    self.obj = Some(obj.sym.clone());
-
-                    match prop {
-                        MemberProp::Ident(Ident { sym, .. }) => {
-                            self.prop = Some(sym.clone());
+                match obj.as_ref() {
+                    Expr::Ident(obj) => {
+                        if !self.is_satisfying_indent(obj) {
+                            return;
                         }
-                        MemberProp::Computed(comp) => {
-                            if let Expr::Lit(Lit::Str(Str { value, .. })) = comp.expr.as_ref() {
-                                self.prop = Some(value.clone());
-                            }
-                        }
-                        _ => {}
+
+                        self.obj = Some(obj.sym.clone());
+
+                        self.handle_member_prop(prop);
                     }
+                    Expr::This(_) => {
+                        let inside_arrow_fn = self.is_inside_arrow_fn();
+                        let inside_class = self.is_inside_class();
+
+                        if inside_arrow_fn && inside_class {
+                            return;
+                        }
+
+                        if !inside_arrow_fn && (inside_class || self.is_inside_object()) {
+                            return;
+                        }
+
+                        self.handle_member_prop(prop);
+                    }
+                    _ => {}
                 }
-
-                // TODO: handle call alert on "this"
             }
             Expr::OptChain(opt_chain) => {
                 opt_chain.visit_children_with(self);
@@ -181,5 +222,29 @@ impl Visit for NoAlert {
 
             expr.visit_children_with(self);
         }
+    }
+
+    fn visit_class(&mut self, class: &Class) {
+        self.classes_depth += 1;
+
+        class.visit_children_with(self);
+
+        self.classes_depth -= 1;
+    }
+
+    fn visit_object_lit(&mut self, lit_obj: &ObjectLit) {
+        self.objects_depth += 1;
+
+        lit_obj.visit_children_with(self);
+
+        self.objects_depth -= 1;
+    }
+
+    fn visit_arrow_expr(&mut self, arrow_fn: &ArrowExpr) {
+        self.arrow_fns_depth += 1;
+
+        arrow_fn.visit_children_with(self);
+
+        self.arrow_fns_depth -= 1;
     }
 }

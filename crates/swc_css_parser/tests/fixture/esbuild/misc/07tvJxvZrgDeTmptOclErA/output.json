@@ -71,12 +71,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 2,
           "end": 21,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",
@@ -97,43 +98,43 @@
             },
             "value": [
               {
-                "type": "Number",
+                "type": "Integer",
                 "span": {
                   "start": 12,
                   "end": 13,
                   "ctxt": 0
                 },
-                "value": 0.0,
+                "value": 0,
                 "raw": "0"
               },
               {
-                "type": "Number",
+                "type": "Integer",
                 "span": {
                   "start": 14,
                   "end": 15,
                   "ctxt": 0
                 },
-                "value": 1.0,
+                "value": 1,
                 "raw": "1"
               },
               {
-                "type": "Number",
+                "type": "Integer",
                 "span": {
                   "start": 16,
                   "end": 17,
                   "ctxt": 0
                 },
-                "value": 0.0,
+                "value": 0,
                 "raw": "0"
               },
               {
-                "type": "Number",
+                "type": "Integer",
                 "span": {
                   "start": 18,
                   "end": 19,
                   "ctxt": 0
                 },
-                "value": 1.0,
+                "value": 1,
                 "raw": "1"
               }
             ],

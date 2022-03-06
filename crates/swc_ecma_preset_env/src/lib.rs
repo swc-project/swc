@@ -4,18 +4,11 @@
 
 use std::path::PathBuf;
 
-use anyhow::{Context, Error};
-use dashmap::DashMap;
-use once_cell::sync::Lazy;
+use preset_env_base::query::{targets_to_versions, Query};
+pub use preset_env_base::{query::Targets, version::Version, BrowserData, Versions};
 use serde::Deserialize;
-use st_map::StaticMap;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{
-    chain,
-    collections::{AHashMap, AHashSet},
-    comments::Comments,
-    FromVariant, Mark, DUMMY_SP,
-};
+use swc_common::{chain, collections::AHashSet, comments::Comments, FromVariant, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
     compat::{bugfixes, es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, es3},
@@ -24,7 +17,7 @@ use swc_ecma_transforms::{
 use swc_ecma_utils::prepend_stmts;
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
-pub use self::{transform_data::Feature, version::Version};
+pub use self::transform_data::Feature;
 
 #[macro_use]
 mod util;
@@ -32,7 +25,6 @@ mod corejs2;
 mod corejs3;
 mod regenerator;
 mod transform_data;
-mod version;
 
 pub fn preset_env<C>(global_mark: Mark, comments: Option<C>, c: Config) -> impl Fold
 where
@@ -100,7 +92,12 @@ where
     let pass = add!(
         pass,
         ClassProperties,
-        es2022::class_properties(es2022::class_properties::Config { loose })
+        es2022::class_properties(es2022::class_properties::Config {
+            private_as_properties: loose,
+            set_public_fields: loose,
+            constant_super: loose,
+            no_document_all: loose
+        })
     );
     let pass = add!(pass, PrivatePropertyInObject, es2022::private_in_object());
 
@@ -161,7 +158,19 @@ where
         }),
         true
     );
-    let pass = add!(pass, Classes, es2015::classes(comments));
+    let pass = add!(
+        pass,
+        Classes,
+        es2015::classes(
+            comments,
+            es2015::classes::Config {
+                constant_super: loose,
+                no_class_calls: loose,
+                set_class_methods: loose,
+                super_is_callable_constructor: loose,
+            }
+        )
+    );
     let pass = add!(
         pass,
         Spread,
@@ -251,46 +260,6 @@ where
             excludes: excluded_modules,
         }
     )
-}
-
-/// A map without allocation.
-#[derive(Debug, Default, Deserialize, Clone, Copy, StaticMap)]
-#[serde(deny_unknown_fields)]
-pub struct BrowserData<T: Default> {
-    #[serde(default)]
-    pub chrome: T,
-    #[serde(default)]
-    pub and_chr: T,
-    #[serde(default)]
-    pub and_ff: T,
-    #[serde(default)]
-    pub op_mob: T,
-    #[serde(default)]
-    pub ie: T,
-    #[serde(default)]
-    pub edge: T,
-    #[serde(default)]
-    pub firefox: T,
-    #[serde(default)]
-    pub safari: T,
-    #[serde(default)]
-    pub node: T,
-    #[serde(default)]
-    pub ios: T,
-    #[serde(default)]
-    pub samsung: T,
-    #[serde(default)]
-    pub opera: T,
-    #[serde(default)]
-    pub android: T,
-    #[serde(default)]
-    pub electron: T,
-    #[serde(default)]
-    pub phantom: T,
-    #[serde(default)]
-    pub opera_mobile: T,
-    #[serde(default)]
-    pub rhino: T,
 }
 
 #[derive(Debug)]
@@ -439,57 +408,6 @@ pub enum Mode {
     Entry,
 }
 
-pub type Versions = BrowserData<Option<Version>>;
-
-impl BrowserData<Option<Version>> {
-    pub(crate) fn is_any_target(&self) -> bool {
-        self.iter().all(|(_, v)| v.is_none())
-    }
-
-    pub(crate) fn parse_versions(distribs: Vec<browserslist::Distrib>) -> Result<Self, Error> {
-        fn remap(key: &str) -> &str {
-            match key {
-                "and_chr" => "chrome",
-                "and_ff" => "firefox",
-                "ie_mob" => "ie",
-                "ios_saf" => "ios",
-                "op_mob" => "opera",
-                _ => key,
-            }
-        }
-
-        let mut data: Versions = BrowserData::default();
-        for dist in distribs {
-            let browser = dist.name();
-            let browser = remap(browser);
-            let version = dist.version();
-            match &*browser {
-                "and_qq" | "and_uc" | "baidu" | "bb" | "kaios" | "op_mini" => continue,
-
-                _ => {}
-            }
-
-            let version = version
-                .split_once('-')
-                .map(|(version, _)| version)
-                .unwrap_or(version)
-                .parse()
-                .unwrap();
-
-            // lowest version
-            if data[&browser].map(|v| v > version).unwrap_or(true) {
-                for (k, v) in data.iter_mut() {
-                    if browser == k {
-                        *v = Some(version);
-                    }
-                }
-            }
-        }
-
-        Ok(data)
-    }
-}
-
 #[derive(Debug, Clone, Deserialize, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct Config {
@@ -572,130 +490,5 @@ impl FeatureOrModule {
         }
 
         (features, modules)
-    }
-}
-
-#[derive(Debug, Clone, Deserialize, FromVariant)]
-#[serde(untagged)]
-pub enum Targets {
-    Query(Query),
-    EsModules(EsModules),
-    Versions(Versions),
-    HashMap(AHashMap<String, QueryOrVersion>),
-}
-
-#[derive(Debug, Clone, Copy, Deserialize)]
-pub struct EsModules {
-    esmodules: bool,
-}
-
-#[derive(Debug, Clone, Deserialize, FromVariant)]
-#[serde(untagged)]
-pub enum QueryOrVersion {
-    Query(Query),
-    Version(Version),
-}
-
-#[derive(Debug, Clone, Deserialize, FromVariant, Eq, PartialEq, PartialOrd, Ord, Hash)]
-#[serde(untagged)]
-pub enum Query {
-    Single(String),
-    Multiple(Vec<String>),
-}
-
-type QueryResult = Result<Versions, Error>;
-
-impl Query {
-    fn exec(&self) -> QueryResult {
-        fn query<T>(s: &[T]) -> QueryResult
-        where
-            T: AsRef<str>,
-        {
-            let distribs = browserslist::resolve(
-                s,
-                browserslist::Opts::new()
-                    .mobile_to_desktop(true)
-                    .ignore_unknown_versions(true),
-            )
-            .with_context(|| {
-                format!(
-                    "failed to resolve browserslist query: {:?}",
-                    s.iter().map(|v| v.as_ref()).collect::<Vec<_>>()
-                )
-            })?;
-
-            let versions =
-                BrowserData::parse_versions(distribs).expect("failed to parse browser version");
-
-            Ok(versions)
-        }
-
-        static CACHE: Lazy<DashMap<Query, Versions, ahash::RandomState>> =
-            Lazy::new(Default::default);
-
-        if let Some(v) = CACHE.get(self) {
-            return Ok(*v);
-        }
-
-        let result = match *self {
-            Query::Single(ref s) => {
-                if s.is_empty() {
-                    query(&["defaults"])
-                } else {
-                    query(&[s])
-                }
-            }
-            Query::Multiple(ref s) => query(s),
-        }
-        .context("failed to execute query")?;
-
-        CACHE.insert(self.clone(), result);
-
-        Ok(result)
-    }
-}
-
-fn targets_to_versions(v: Option<Targets>) -> Result<Versions, Error> {
-    match v {
-        None => Ok(Default::default()),
-        Some(Targets::Versions(v)) => Ok(v),
-        Some(Targets::Query(q)) => q
-            .exec()
-            .context("failed to convert target query to version data"),
-        Some(Targets::HashMap(mut map)) => {
-            let q = map.remove("browsers").map(|q| match q {
-                QueryOrVersion::Query(q) => q.exec().expect("failed to run query"),
-                _ => unreachable!(),
-            });
-
-            let node = map.remove("node").map(|q| match q {
-                QueryOrVersion::Version(v) => v,
-                QueryOrVersion::Query(..) => unreachable!(),
-            });
-
-            if map.is_empty() {
-                if let Some(mut q) = q {
-                    q.node = node;
-                    return Ok(q);
-                }
-            }
-
-            unimplemented!("Targets: {:?}", map)
-        }
-        _ => unimplemented!("Option<Targets>: {:?}", v),
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::Query;
-
-    #[test]
-    fn test_empty() {
-        let res = Query::Single("".into()).exec().unwrap();
-        assert!(
-            !res.is_any_target(),
-            "empty query should return non-empty result"
-        );
     }
 }

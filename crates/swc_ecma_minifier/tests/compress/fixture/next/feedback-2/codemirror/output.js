@@ -2,7 +2,7 @@
     "object" == typeof exports && "undefined" != typeof module ? module.exports = factory() : "function" == typeof define && define.amd ? define(factory) : (global = global || self).CodeMirror = factory();
 }(this, function() {
     "use strict";
-    var CodeMirror3, range1, zwspSupported, badBidiRects, measureText, lastClick, lastDoubleClick, userAgent = navigator.userAgent, platform = navigator.platform, gecko = /gecko\/\d/i.test(userAgent), ie_upto10 = /MSIE \d/.test(userAgent), ie_11up = /Trident\/(?:[7-9]|\d{2,})\..*rv:(\d+)/.exec(userAgent), edge = /Edge\/(\d+)/.exec(userAgent), ie = ie_upto10 || ie_11up || edge, ie_version = ie && (ie_upto10 ? document.documentMode || 6 : +(edge || ie_11up)[1]), webkit = !edge && /WebKit\//.test(userAgent), qtwebkit = webkit && /Qt\/\d+\.\d+/.test(userAgent), chrome = !edge && /Chrome\//.test(userAgent), presto = /Opera\//.test(userAgent), safari = /Apple Computer/.test(navigator.vendor), mac_geMountainLion = /Mac OS X 1\d\D([8-9]|\d\d)\D/.test(userAgent), phantom = /PhantomJS/.test(userAgent), ios = safari && (/Mobile\/\w+/.test(userAgent) || navigator.maxTouchPoints > 2), android = /Android/.test(userAgent), mobile = ios || android || /webOS|BlackBerry|Opera Mini|Opera Mobi|IEMobile/i.test(userAgent), mac = ios || /Mac/.test(platform), chromeOS = /\bCrOS\b/.test(userAgent), windows = /win/i.test(platform), presto_version = presto && userAgent.match(/Version\/(\d*\.\d*)/);
+    var CodeMirror3, optionHandlers2, helpers, CodeMirror1, range1, zwspSupported, badBidiRects, measureText, lastClick, lastDoubleClick, userAgent = navigator.userAgent, platform = navigator.platform, gecko = /gecko\/\d/i.test(userAgent), ie_upto10 = /MSIE \d/.test(userAgent), ie_11up = /Trident\/(?:[7-9]|\d{2,})\..*rv:(\d+)/.exec(userAgent), edge = /Edge\/(\d+)/.exec(userAgent), ie = ie_upto10 || ie_11up || edge, ie_version = ie && (ie_upto10 ? document.documentMode || 6 : +(edge || ie_11up)[1]), webkit = !edge && /WebKit\//.test(userAgent), qtwebkit = webkit && /Qt\/\d+\.\d+/.test(userAgent), chrome = !edge && /Chrome\//.test(userAgent), presto = /Opera\//.test(userAgent), safari = /Apple Computer/.test(navigator.vendor), mac_geMountainLion = /Mac OS X 1\d\D([8-9]|\d\d)\D/.test(userAgent), phantom = /PhantomJS/.test(userAgent), ios = safari && (/Mobile\/\w+/.test(userAgent) || navigator.maxTouchPoints > 2), android = /Android/.test(userAgent), mobile = ios || android || /webOS|BlackBerry|Opera Mini|Opera Mobi|IEMobile/i.test(userAgent), mac = ios || /Mac/.test(platform), chromeOS = /\bCrOS\b/.test(userAgent), windows = /win/i.test(platform), presto_version = presto && userAgent.match(/Version\/(\d*\.\d*)/);
     presto_version && (presto_version = Number(presto_version[1])), presto_version && presto_version >= 15 && (presto = !1, webkit = !0);
     var flipCtrlCmd = mac && (qtwebkit || presto && (null == presto_version || presto_version < 12.11)), captureRightClick = gecko || ie && ie_version >= 9;
     function classTest(cls) {
@@ -2558,8 +2558,8 @@
         last && last.ranges ? (done[done.length - 1] = sel, setSelectionNoUndo(doc, sel, options)) : setSelection(doc, sel, options);
     }
     function setSelection(doc, sel, options) {
-        var doc4, sel1, opId, options1, hist, origin, doc5, origin1, prev, sel2, ch;
-        setSelectionNoUndo(doc, sel, options), doc4 = doc, sel1 = doc.sel, opId = doc.cm ? doc.cm.curOp.id : NaN, options1 = options, hist = doc4.history, origin = options1 && options1.origin, opId == hist.lastSelOp || origin && hist.lastSelOrigin == origin && (hist.lastModTime == hist.lastSelTime && hist.lastOrigin == origin || (doc5 = doc4, origin1 = origin, prev = lst(hist.done), sel2 = sel1, "*" == (ch = origin1.charAt(0)) || "+" == ch && prev.ranges.length == sel2.ranges.length && prev.somethingSelected() == sel2.somethingSelected() && new Date - doc5.history.lastSelTime <= (doc5.cm ? doc5.cm.options.historyEventDelay : 500))) ? hist.done[hist.done.length - 1] = sel1 : pushSelectionToHistory(sel1, hist.done), hist.lastSelTime = +new Date, hist.lastSelOrigin = origin, hist.lastSelOp = opId, options1 && !1 !== options1.clearRedo && clearSelectionEvents(hist.undone);
+        var doc4, sel1, opId, options1, doc5, origin, prev, sel2, ch, hist, origin1;
+        setSelectionNoUndo(doc, sel, options), doc4 = doc, sel1 = doc.sel, opId = doc.cm ? doc.cm.curOp.id : NaN, options1 = options, hist = doc4.history, origin1 = options1 && options1.origin, opId == hist.lastSelOp || origin1 && hist.lastSelOrigin == origin1 && (hist.lastModTime == hist.lastSelTime && hist.lastOrigin == origin1 || (doc5 = doc4, origin = origin1, prev = lst(hist.done), sel2 = sel1, "*" == (ch = origin.charAt(0)) || "+" == ch && prev.ranges.length == sel2.ranges.length && prev.somethingSelected() == sel2.somethingSelected() && new Date - doc5.history.lastSelTime <= (doc5.cm ? doc5.cm.options.historyEventDelay : 500))) ? hist.done[hist.done.length - 1] = sel1 : pushSelectionToHistory(sel1, hist.done), hist.lastSelTime = +new Date, hist.lastSelOrigin = origin1, hist.lastSelOp = opId, options1 && !1 !== options1.clearRedo && clearSelectionEvents(hist.undone);
     }
     function setSelectionNoUndo(doc, sel, options) {
         if (hasHandler(doc, "beforeSelectionChange") || doc.cm && hasHandler(doc.cm, "beforeSelectionChange")) {
@@ -3470,7 +3470,7 @@
             })(copy, findSharedMarkers(this)), copy;
         },
         unlinkDoc: function(other) {
-            if (other instanceof CodeMirror1 && (other = other.doc), this.linked) {
+            if (other instanceof CodeMirror2 && (other = other.doc), this.linked) {
                 for(var i = 0; i < this.linked.length; ++i)if (this.linked[i].doc == other) {
                     this.linked.splice(i, 1), other.unlinkDoc(this), detachSharedMarkers(findSharedMarkers(this));
                     break;
@@ -4351,7 +4351,7 @@
         toString: function() {
             return "CodeMirror.Init";
         }
-    }, defaults = {}, optionHandlers2 = {};
+    }, defaults = {}, optionHandlers1 = {};
     function dragDropChanged(cm, value, old) {
         if (!value != !(old && old != Init)) {
             var funcs = cm.display.dragFunctions, toggle = value ? on1 : off1;
@@ -4363,13 +4363,13 @@
             return updateScrollbars(cm);
         }, 100);
     }
-    function CodeMirror1(place, options) {
+    function CodeMirror2(place, options) {
         var this$1 = this;
-        if (!(this instanceof CodeMirror1)) return new CodeMirror1(place, options);
+        if (!(this instanceof CodeMirror2)) return new CodeMirror2(place, options);
         this.options = options = options ? copyObj(options) : {}, copyObj(defaults, options, !1);
         var doc = options.value;
         "string" == typeof doc ? doc = new Doc(doc, options.mode, null, options.lineSeparator, options.direction) : options.mode && (doc.modeOption = options.mode), this.doc = doc;
-        var input = new CodeMirror1.inputStyles[options.inputStyle](this), display = this.display = new Display(place, doc, input, options);
+        var input = new CodeMirror2.inputStyles[options.inputStyle](this), display = this.display = new Display(place, doc, input, options);
         for(var opt in display.wrapper.CodeMirror = this, themeChanged(this), options.lineWrapping && (this.display.wrapper.className += " CodeMirror-wrap"), initScrollbars(this), this.state = {
             keyMaps: [],
             overlays: [],
@@ -4389,7 +4389,7 @@
             return this$1.display.input.reset(!0);
         }, 20), registerEventHandlers(this), globalsRegistered || (registerGlobalHandlers(), globalsRegistered = !0), startOperation(this), this.curOp.forceUpdate = !0, attachDoc(this, doc), options.autofocus && !mobile || this.hasFocus() ? setTimeout(function() {
             this$1.hasFocus() && !this$1.state.focused && onFocus(this$1);
-        }, 20) : onBlur(this), optionHandlers2)optionHandlers2.hasOwnProperty(opt) && optionHandlers2[opt](this, options[opt], Init);
+        }, 20) : onBlur(this), optionHandlers1)optionHandlers1.hasOwnProperty(opt) && optionHandlers1[opt](this, options[opt], Init);
         maybeUpdateLineNumberWidth(this), options.finishInit && options.finishInit(this);
         for(var i = 0; i < initHooks.length; ++i)initHooks[i](this);
         endOperation(this), webkit && options.lineWrapping && "optimizelegibility" == getComputedStyle(display.lineDiv).textRendering && (display.lineDiv.style.textRendering = "auto");
@@ -4425,19 +4425,19 @@
             var dx = other.left - touch.left, dy = other.top - touch.top;
             return dx * dx + dy * dy > 400;
         }
-        on1(d.scroller, "touchstart", function(e2) {
-            if (!signalDOMEvent(cm9, e2) && !function(e) {
+        on1(d.scroller, "touchstart", function(e3) {
+            if (!signalDOMEvent(cm9, e3) && !function(e) {
                 if (1 != e.touches.length) return !1;
                 var touch = e.touches[0];
                 return touch.radiusX <= 1 && touch.radiusY <= 1;
-            }(e2) && !clickInGutter(cm9, e2)) {
+            }(e3) && !clickInGutter(cm9, e3)) {
                 d.input.ensurePolled(), clearTimeout(touchFinished);
                 var now = +new Date;
                 d.activeTouch = {
                     start: now,
                     moved: !1,
                     prev: now - prevTouch.end <= 300 ? prevTouch : null
-                }, 1 == e2.touches.length && (d.activeTouch.left = e2.touches[0].pageX, d.activeTouch.top = e2.touches[0].pageY);
+                }, 1 == e3.touches.length && (d.activeTouch.left = e3.touches[0].pageX, d.activeTouch.top = e3.touches[0].pageY);
             }
         }), on1(d.scroller, "touchmove", function() {
             d.activeTouch && (d.activeTouch.moved = !0);
@@ -4460,16 +4460,16 @@
             enter: function(e) {
                 signalDOMEvent(cm9, e) || e_stop(e);
             },
-            over: function(e3) {
-                signalDOMEvent(cm9, e3) || ((function(cm, e) {
+            over: function(e4) {
+                signalDOMEvent(cm9, e4) || ((function(cm, e) {
                     var pos = posFromMouse(cm, e);
                     if (pos) {
                         var frag = document.createDocumentFragment();
                         drawSelectionCursor(cm, pos, frag), cm.display.dragCursor || (cm.display.dragCursor = elt1("div", null, "CodeMirror-cursors CodeMirror-dragcursors"), cm.display.lineSpace.insertBefore(cm.display.dragCursor, cm.display.cursorDiv)), removeChildrenAndAdd(cm.display.dragCursor, frag);
                     }
-                })(cm9, e3), e_stop(e3));
+                })(cm9, e4), e_stop(e4));
             },
-            start: function(e4) {
+            start: function(e5) {
                 return (function(cm, e) {
                     if (ie && (!cm.state.draggingText || +new Date - lastDrop < 100)) {
                         e_stop(e);
@@ -4479,7 +4479,7 @@
                         var img = elt1("img", null, null, "position: fixed; left: 0; top: 0;");
                         img.src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==", presto && (img.width = img.height = 1, cm.display.wrapper.appendChild(img), img._top = img.offsetTop), e.dataTransfer.setDragImage(img, 0, 0), presto && img.parentNode.removeChild(img);
                     }
-                })(cm9, e4);
+                })(cm9, e5);
             },
             drop: operation(cm9, onDrop),
             leave: function(e) {
@@ -4495,7 +4495,7 @@
             return onBlur(cm9, e);
         });
     }
-    CodeMirror1.defaults = defaults, CodeMirror1.optionHandlers = optionHandlers2;
+    CodeMirror2.defaults = defaults, CodeMirror2.optionHandlers = optionHandlers1;
     var initHooks = [];
     function indentLine(cm, n, how, aggressive) {
         var state, doc = cm.doc;
@@ -4522,7 +4522,7 @@
             }
         }
     }
-    CodeMirror1.defineInitHook = function(f) {
+    CodeMirror2.defineInitHook = function(f) {
         return initHooks.push(f);
     };
     var lastCopied = null;
@@ -4979,7 +4979,7 @@
     }, ContentEditableInput.prototype.readOnlyChanged = function(val) {
         this.div.contentEditable = String("nocursor" != val);
     }, ContentEditableInput.prototype.onContextMenu = function() {}, ContentEditableInput.prototype.resetPosition = function() {}, ContentEditableInput.prototype.needsContentAttribute = !0;
-    var CodeMirror2, optionHandlers1, helpers, TextareaInput = function(cm) {
+    var TextareaInput = function(cm) {
         this.cm = cm, this.prevInput = "", this.pollingFast = !1, this.polling = new Delayed(), this.hasSelection = !1, this.composing = null;
     };
     TextareaInput.prototype.init = function(display) {
@@ -5201,14 +5201,14 @@
         }), option("autofocus", null), option("direction", "ltr", function(cm, val) {
             return cm.doc.setDirection(val);
         }, !0), option("phrases", null);
-    })(CodeMirror1), optionHandlers1 = (CodeMirror2 = CodeMirror1).optionHandlers, helpers = CodeMirror2.helpers = {}, CodeMirror2.prototype = {
-        constructor: CodeMirror2,
+    })(CodeMirror2), optionHandlers2 = (CodeMirror3 = CodeMirror2).optionHandlers, helpers = CodeMirror3.helpers = {}, CodeMirror3.prototype = {
+        constructor: CodeMirror3,
         focus: function() {
             window.focus(), this.display.input.focus();
         },
         setOption: function(option, value) {
             var options = this.options, old = options[option];
-            (options[option] != value || "mode" == option) && (options[option] = value, optionHandlers1.hasOwnProperty(option) && operation(this, optionHandlers1[option])(this, value, old), signal(this, "optionChange", this, option));
+            (options[option] != value || "mode" == option) && (options[option] = value, optionHandlers2.hasOwnProperty(option) && operation(this, optionHandlers2[option])(this, value, old), signal(this, "optionChange", this, option));
         },
         getOption: function(option) {
             return this.options[option];
@@ -5223,7 +5223,7 @@
             for(var maps = this.state.keyMaps, i = 0; i < maps.length; ++i)if (maps[i] == map || maps[i].name == map) return maps.splice(i, 1), !0;
         },
         addOverlay: methodOp(function(spec, options) {
-            var mode = spec.token ? spec : CodeMirror2.getMode(this.options, spec);
+            var mode = spec.token ? spec : CodeMirror3.getMode(this.options, spec);
             if (mode.startState) throw new Error("Overlays may not be stateful.");
             (function(array, value, score) {
                 for(var pos = 0, priority = score(value); pos < array.length && score(array[pos]) <= priority;)pos++;
@@ -5286,7 +5286,7 @@
         },
         getModeAt: function(pos) {
             var mode = this.doc.mode;
-            return mode.innerMode ? CodeMirror2.innerMode(mode, this.getTokenAt(pos).state).mode : mode;
+            return mode.innerMode ? CodeMirror3.innerMode(mode, this.getTokenAt(pos).state).mode : mode;
         },
         getHelper: function(pos, type) {
             return this.getHelpers(pos, type)[0];
@@ -5521,40 +5521,40 @@
         getGutterElement: function() {
             return this.display.gutters;
         }
-    }, eventMixin(CodeMirror2), CodeMirror2.registerHelper = function(type, name, value) {
-        helpers.hasOwnProperty(type) || (helpers[type] = CodeMirror2[type] = {
+    }, eventMixin(CodeMirror3), CodeMirror3.registerHelper = function(type, name, value) {
+        helpers.hasOwnProperty(type) || (helpers[type] = CodeMirror3[type] = {
             _global: []
         }), helpers[type][name] = value;
-    }, CodeMirror2.registerGlobalHelper = function(type, name, predicate, value) {
-        CodeMirror2.registerHelper(type, name, value), helpers[type]._global.push({
+    }, CodeMirror3.registerGlobalHelper = function(type, name, predicate, value) {
+        CodeMirror3.registerHelper(type, name, value), helpers[type]._global.push({
             pred: predicate,
             val: value
         });
     };
     var dontDelegate = "iter insert remove copy getEditor constructor".split(" ");
-    for(var prop1 in Doc.prototype)Doc.prototype.hasOwnProperty(prop1) && 0 > indexOf(dontDelegate, prop1) && (CodeMirror1.prototype[prop1] = (function(method) {
+    for(var prop1 in Doc.prototype)Doc.prototype.hasOwnProperty(prop1) && 0 > indexOf(dontDelegate, prop1) && (CodeMirror2.prototype[prop1] = (function(method) {
         return function() {
             return method.apply(this.doc, arguments);
         };
     })(Doc.prototype[prop1]));
-    return eventMixin(Doc), CodeMirror1.inputStyles = {
+    return eventMixin(Doc), CodeMirror2.inputStyles = {
         textarea: TextareaInput,
         contenteditable: ContentEditableInput
-    }, CodeMirror1.defineMode = function(name) {
-        CodeMirror1.defaults.mode || "null" == name || (CodeMirror1.defaults.mode = name), defineMode.apply(this, arguments);
-    }, CodeMirror1.defineMIME = function(mime, spec) {
+    }, CodeMirror2.defineMode = function(name) {
+        CodeMirror2.defaults.mode || "null" == name || (CodeMirror2.defaults.mode = name), defineMode.apply(this, arguments);
+    }, CodeMirror2.defineMIME = function(mime, spec) {
         mimeModes[mime] = spec;
-    }, CodeMirror1.defineMode("null", function() {
+    }, CodeMirror2.defineMode("null", function() {
         return {
             token: function(stream) {
                 return stream.skipToEnd();
             }
         };
-    }), CodeMirror1.defineMIME("text/plain", "null"), CodeMirror1.defineExtension = function(name, func) {
-        CodeMirror1.prototype[name] = func;
-    }, CodeMirror1.defineDocExtension = function(name, func) {
+    }), CodeMirror2.defineMIME("text/plain", "null"), CodeMirror2.defineExtension = function(name, func) {
+        CodeMirror2.prototype[name] = func;
+    }, CodeMirror2.defineDocExtension = function(name, func) {
         Doc.prototype[name] = func;
-    }, CodeMirror1.fromTextArea = function(textarea, options) {
+    }, CodeMirror2.fromTextArea = function(textarea, options) {
         if ((options = options ? copyObj(options) : {}).value = textarea.value, !options.tabindex && textarea.tabIndex && (options.tabindex = textarea.tabIndex), !options.placeholder && textarea.placeholder && (options.placeholder = textarea.placeholder), null == options.autofocus) {
             var realSubmit, hasFocus = activeElt();
             options.autofocus = hasFocus == textarea || null != textarea.getAttribute("autofocus") && hasFocus == document.body;
@@ -5578,16 +5578,16 @@
                 cm.toTextArea = isNaN, save(), textarea.parentNode.removeChild(cm.getWrapperElement()), textarea.style.display = "", textarea.form && (off1(textarea.form, "submit", save), options.leaveSubmitMethodAlone || "function" != typeof textarea.form.submit || (textarea.form.submit = realSubmit));
             };
         }, textarea.style.display = "none";
-        var cm10 = CodeMirror1(function(node) {
+        var cm10 = CodeMirror2(function(node) {
             return textarea.parentNode.insertBefore(node, textarea.nextSibling);
         }, options);
         return cm10;
-    }, (CodeMirror3 = CodeMirror1).off = off1, CodeMirror3.on = on1, CodeMirror3.wheelEventPixels = function(e) {
+    }, (CodeMirror1 = CodeMirror2).off = off1, CodeMirror1.on = on1, CodeMirror1.wheelEventPixels = function(e) {
         var delta = wheelEventDelta(e);
         return delta.x *= wheelPixelsPerUnit, delta.y *= wheelPixelsPerUnit, delta;
-    }, CodeMirror3.Doc = Doc, CodeMirror3.splitLines = splitLinesAuto, CodeMirror3.countColumn = countColumn, CodeMirror3.findColumn = findColumn, CodeMirror3.isWordChar = isWordCharBasic, CodeMirror3.Pass = Pass, CodeMirror3.signal = signal, CodeMirror3.Line = Line, CodeMirror3.changeEnd = changeEnd, CodeMirror3.scrollbarModel = scrollbarModel, CodeMirror3.Pos = Pos, CodeMirror3.cmpPos = cmp, CodeMirror3.modes = modes, CodeMirror3.mimeModes = mimeModes, CodeMirror3.resolveMode = resolveMode, CodeMirror3.getMode = getMode, CodeMirror3.modeExtensions = modeExtensions, CodeMirror3.extendMode = function(mode, properties) {
+    }, CodeMirror1.Doc = Doc, CodeMirror1.splitLines = splitLinesAuto, CodeMirror1.countColumn = countColumn, CodeMirror1.findColumn = findColumn, CodeMirror1.isWordChar = isWordCharBasic, CodeMirror1.Pass = Pass, CodeMirror1.signal = signal, CodeMirror1.Line = Line, CodeMirror1.changeEnd = changeEnd, CodeMirror1.scrollbarModel = scrollbarModel, CodeMirror1.Pos = Pos, CodeMirror1.cmpPos = cmp, CodeMirror1.modes = modes, CodeMirror1.mimeModes = mimeModes, CodeMirror1.resolveMode = resolveMode, CodeMirror1.getMode = getMode, CodeMirror1.modeExtensions = modeExtensions, CodeMirror1.extendMode = function(mode, properties) {
         copyObj(properties, modeExtensions.hasOwnProperty(mode) ? modeExtensions[mode] : modeExtensions[mode] = {});
-    }, CodeMirror3.copyState = copyState, CodeMirror3.startState = startState, CodeMirror3.innerMode = innerMode, CodeMirror3.commands = commands, CodeMirror3.keyMap = keyMap, CodeMirror3.keyName = keyName, CodeMirror3.isModifierKey = isModifierKey, CodeMirror3.lookupKey = lookupKey, CodeMirror3.normalizeKeyMap = function(keymap) {
+    }, CodeMirror1.copyState = copyState, CodeMirror1.startState = startState, CodeMirror1.innerMode = innerMode, CodeMirror1.commands = commands, CodeMirror1.keyMap = keyMap, CodeMirror1.keyName = keyName, CodeMirror1.isModifierKey = isModifierKey, CodeMirror1.lookupKey = lookupKey, CodeMirror1.normalizeKeyMap = function(keymap) {
         var copy = {};
         for(var keyname in keymap)if (keymap.hasOwnProperty(keyname)) {
             var value = keymap[keyname];
@@ -5608,5 +5608,5 @@
         }
         for(var prop in copy)keymap[prop] = copy[prop];
         return keymap;
-    }, CodeMirror3.StringStream = StringStream, CodeMirror3.SharedTextMarker = SharedTextMarker, CodeMirror3.TextMarker = TextMarker, CodeMirror3.LineWidget = LineWidget, CodeMirror3.e_preventDefault = e_preventDefault, CodeMirror3.e_stopPropagation = e_stopPropagation, CodeMirror3.e_stop = e_stop, CodeMirror3.addClass = addClass, CodeMirror3.contains = contains, CodeMirror3.rmClass = rmClass, CodeMirror3.keyNames = keyNames, CodeMirror1.version = "5.65.1", CodeMirror1;
+    }, CodeMirror1.StringStream = StringStream, CodeMirror1.SharedTextMarker = SharedTextMarker, CodeMirror1.TextMarker = TextMarker, CodeMirror1.LineWidget = LineWidget, CodeMirror1.e_preventDefault = e_preventDefault, CodeMirror1.e_stopPropagation = e_stopPropagation, CodeMirror1.e_stop = e_stop, CodeMirror1.addClass = addClass, CodeMirror1.contains = contains, CodeMirror1.rmClass = rmClass, CodeMirror1.keyNames = keyNames, CodeMirror2.version = "5.65.1", CodeMirror2;
 });

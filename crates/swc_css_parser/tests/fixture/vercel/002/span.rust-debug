@@ -58,7 +58,7 @@ error: Ident
 1 | .a {
   |  ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/vercel/002/input.css:1:4
   |
 1 |   .a {
@@ -66,6 +66,18 @@ error: Block
 2 | |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
 3 | | }
   | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/vercel/002/input.css:2:5
+  |
+2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/vercel/002/input.css:2:5
+  |
+2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/vercel/002/input.css:2:5
@@ -85,7 +97,7 @@ error: Ident
 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
   |     ^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/vercel/002/input.css:2:25
   |
 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
@@ -103,7 +115,7 @@ error: Ident
 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
   |                         ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/vercel/002/input.css:2:49
   |
 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
@@ -115,7 +127,7 @@ error: Ident
 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
   |                                                 ^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/vercel/002/input.css:2:55
   |
 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
@@ -127,7 +139,7 @@ error: Delimiter
 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
   |                                                       ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/vercel/002/input.css:2:57
   |
 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
@@ -139,7 +151,7 @@ error: Ident
 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
   |                                                         ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/vercel/002/input.css:2:62
   |
 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
@@ -151,7 +163,7 @@ error: Delimiter
 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
   |                                                              ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/vercel/002/input.css:2:64
   |
 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);

@@ -95,65 +95,61 @@
                       "value": "global",
                       "raw": "global"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 11,
-                        "end": 15,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 11,
-                            "end": 12,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": ">"
-                            }
-                          }
+                    "children": [
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 11,
+                          "end": 12,
+                          "ctxt": 0
                         },
-                        {
-                          "span": {
-                            "start": 12,
-                            "end": 13,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "WhiteSpace": {
-                              "value": " "
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 13,
-                            "end": 14,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Delim": {
-                              "value": "."
-                            }
-                          }
-                        },
-                        {
-                          "span": {
-                            "start": 14,
-                            "end": 15,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "b",
-                              "raw": "b"
-                            }
+                        "token": {
+                          "Delim": {
+                            "value": ">"
                           }
                         }
-                      ]
-                    }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 12,
+                          "end": 13,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "WhiteSpace": {
+                            "value": " "
+                          }
+                        }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 13,
+                          "end": 14,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Delim": {
+                            "value": "."
+                          }
+                        }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 14,
+                          "end": 15,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "Ident": {
+                            "value": "b",
+                            "raw": "b"
+                          }
+                        }
+                      }
+                    ]
                   }
                 ]
               }
@@ -162,18 +158,19 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 17,
           "end": 66,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",
             "span": {
               "start": 23,
-              "end": 62,
+              "end": 63,
               "ctxt": 0
             },
             "name": {
@@ -188,39 +185,27 @@
             },
             "value": [
               {
-                "type": "Tokens",
+                "type": "Ident",
                 "span": {
                   "start": 35,
+                  "end": 62,
+                  "ctxt": 0
+                },
+                "value": "__styled-jsx-placeholder__0",
+                "raw": "__styled-jsx-placeholder__0"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 62,
                   "end": 63,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "span": {
-                      "start": 35,
-                      "end": 62,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Ident": {
-                        "value": "__styled-jsx-placeholder__0",
-                        "raw": "__styled-jsx-placeholder__0"
-                      }
-                    }
-                  },
-                  {
-                    "span": {
-                      "start": 62,
-                      "end": 63,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Delim": {
-                        "value": "%"
-                      }
-                    }
+                "token": {
+                  "Delim": {
+                    "value": "%"
                   }
-                ]
+                }
               }
             ],
             "important": null

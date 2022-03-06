@@ -76,7 +76,7 @@ error: Ident
 1 | div {
   | ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/value/length/input.css:1:5
   |
 1 |   div {
@@ -88,6 +88,18 @@ error: Block
 6 | |     width: 100pX;
 7 | | }
   | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/length/input.css:2:5
+  |
+2 |     width: 100e\x;
+  |     ^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/length/input.css:2:5
+  |
+2 |     width: 100e\x;
+  |     ^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/length/input.css:2:5
@@ -107,7 +119,7 @@ error: Ident
 2 |     width: 100e\x;
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/length/input.css:2:12
   |
 2 |     width: 100e\x;
@@ -137,6 +149,18 @@ error: Ident
 2 |     width: 100e\x;
   |               ^^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/value/length/input.css:3:5
+  |
+3 |     width: 100ex;
+  |     ^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/length/input.css:3:5
+  |
+3 |     width: 100ex;
+  |     ^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/length/input.css:3:5
   |
@@ -155,7 +179,7 @@ error: Ident
 3 |     width: 100ex;
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/length/input.css:3:12
   |
 3 |     width: 100ex;
@@ -185,6 +209,18 @@ error: Ident
 3 |     width: 100ex;
   |               ^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/value/length/input.css:4:5
+  |
+4 |     width: 100px;
+  |     ^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/length/input.css:4:5
+  |
+4 |     width: 100px;
+  |     ^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/length/input.css:4:5
   |
@@ -203,7 +239,7 @@ error: Ident
 4 |     width: 100px;
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/length/input.css:4:12
   |
 4 |     width: 100px;
@@ -233,6 +269,18 @@ error: Ident
 4 |     width: 100px;
   |               ^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/value/length/input.css:5:5
+  |
+5 |     width: 100PX;
+  |     ^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/length/input.css:5:5
+  |
+5 |     width: 100PX;
+  |     ^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/length/input.css:5:5
   |
@@ -251,7 +299,7 @@ error: Ident
 5 |     width: 100PX;
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/length/input.css:5:12
   |
 5 |     width: 100PX;
@@ -281,6 +329,18 @@ error: Ident
 5 |     width: 100PX;
   |               ^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/value/length/input.css:6:5
+  |
+6 |     width: 100pX;
+  |     ^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/length/input.css:6:5
+  |
+6 |     width: 100pX;
+  |     ^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/length/input.css:6:5
   |
@@ -299,7 +359,7 @@ error: Ident
 6 |     width: 100pX;
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/length/input.css:6:12
   |
 6 |     width: 100pX;

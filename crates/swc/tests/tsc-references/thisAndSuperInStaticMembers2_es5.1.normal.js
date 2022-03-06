@@ -127,29 +127,28 @@ function _templateObject() {
     };
     return data;
 }
-var ref, ref1;
 var C = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(C, B);
     var _super = _createSuper(C);
     function C() {
         _classCallCheck(this, C);
-        var _thisSuper, _this;
+        var _this;
         _this = _super.apply(this, arguments);
         // these should be unaffected
         _this.x = 1;
         _this.y = _this.x;
-        _this.z = _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(C.prototype)), "f", _thisSuper).call(_thisSuper);
+        _this.z = _get((_assertThisInitialized(_this), _getPrototypeOf(C.prototype)), "f", _this).call(_this);
         return _this;
     }
     return C;
 }(B);
 C.x = undefined;
-C.y1 = this.x;
-C.y2 = this.x();
-C.y3 = (ref = this) === null || ref === void 0 ? void 0 : ref.x();
-C.y4 = this["x"]();
-C.y5 = (ref1 = this) === null || ref1 === void 0 ? void 0 : ref1["x"]();
+C.y1 = C.x;
+C.y2 = C.x();
+C.y3 = C === null || C === void 0 ? void 0 : C.x();
+C.y4 = C["x"]();
+C.y5 = C === null || C === void 0 ? void 0 : C["x"]();
 C.z1 = super.a;
 C.z2 = super["a"];
 C.z3 = super.f();
@@ -159,26 +158,26 @@ C.z6 = super.a += 1;
 C.z7 = (function() {
     _superprop_set_a(0);
 })();
-var ref2;
-C.z8 = (ref2 = [
+var ref;
+C.z8 = (ref = [
     0
-], super.a = ref2[0], ref2);
-var ref3, ref4;
-C.z9 = (ref3 = [
+], super.a = ref[0], ref);
+var ref1, ref2;
+C.z9 = (ref1 = [
     0
-], ref4 = ref3[0], super.a = ref4 === void 0 ? 0 : ref4, ref3);
-var ref5;
-C.z10 = (ref5 = [
+], ref2 = ref1[0], super.a = ref2 === void 0 ? 0 : ref2, ref1);
+var ref3;
+C.z10 = (ref3 = [
     0
-], super.a = ref5.slice(0), ref5);
-var ref6;
-C.z11 = (ref6 = {
+], super.a = ref3.slice(0), ref3);
+var ref4;
+C.z11 = (ref4 = {
     x: 0
-}, super.a = ref6.x, ref6);
-var ref7, ref8;
-C.z12 = (ref7 = {
+}, super.a = ref4.x, ref4);
+var ref5, ref6;
+C.z12 = (ref5 = {
     x: 0
-}, ref8 = ref7.x, super.a = ref8 === void 0 ? 0 : ref8, ref7);
+}, ref6 = ref5.x, super.a = ref6 === void 0 ? 0 : ref6, ref5);
 var _tmp;
 C.z13 = (_tmp = {
     x: 0

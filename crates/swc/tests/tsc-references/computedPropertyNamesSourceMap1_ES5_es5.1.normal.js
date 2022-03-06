@@ -17,7 +17,6 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var tmp = "hello", tmp1 = "goodbye";
 var C = // @target: es5
 // @sourceMap: true
 /*#__PURE__*/ function() {
@@ -27,13 +26,13 @@ var C = // @target: es5
     }
     _createClass(C, [
         {
-            key: tmp,
+            key: "hello",
             value: function value() {
                 debugger;
             }
         },
         {
-            key: tmp1,
+            key: "goodbye",
             get: function get() {
                 return 0;
             }

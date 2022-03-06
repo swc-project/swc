@@ -7,7 +7,7 @@ function _getPrototypeOf(o) {
     }, _getPrototypeOf(o);
 }
 function _instanceof(left, right) {
-    return null != right && "undefined" != typeof Symbol && right[Symbol.hasInstance] ? right[Symbol.hasInstance](left) : left instanceof right;
+    return null != right && "undefined" != typeof Symbol && right[Symbol.hasInstance] ? !!right[Symbol.hasInstance](left) : left instanceof right;
 }
 function _setPrototypeOf(o, p) {
     return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
@@ -16,9 +16,9 @@ function _setPrototypeOf(o, p) {
 }
 var A = function() {
     "use strict";
-    _classCallCheck(this, A), this.constructor, this.d = function() {
-        return this.constructor;
-    }, this.constructor;
+    _instanceof(this, A) && this.constructor, _classCallCheck(this, A), this.d = function _target() {
+        return _instanceof(this, _target) ? this.constructor : void 0;
+    }, _instanceof(this, A) && this.constructor;
 };
 A.c = function _target() {
     return _instanceof(this, _target) ? this.constructor : void 0;
@@ -56,8 +56,9 @@ var B = function(A1) {
         })(self);
     });
     function B() {
-        var _this;
-        return _classCallCheck(this, B), _this.constructor, (_this = _super.call(this)).constructor, _this;
+        _instanceof(this, B) && this.constructor, _classCallCheck(this, B);
+        var _this = _super.call(this);
+        return _instanceof(this, B) && this.constructor, _this;
     }
     return B;
 }(A);

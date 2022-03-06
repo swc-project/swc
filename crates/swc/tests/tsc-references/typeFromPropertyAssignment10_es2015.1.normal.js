@@ -12,7 +12,7 @@ Outer.app.SomeView = (function() {
     };
     return SomeView;
 })();
-Outer.app.Inner = class _class {
+Outer.app.Inner = class {
     constructor(){
         /** @type {number} */ this.y = 12;
     }

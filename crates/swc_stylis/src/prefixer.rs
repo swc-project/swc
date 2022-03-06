@@ -25,7 +25,7 @@ impl VisitMut for Prefixer {
 
         macro_rules! simple {
             ($name:expr,$val:expr) => {{
-                let val = Value::Ident(Ident {
+                let val = ComponentValue::Ident(Ident {
                     span: DUMMY_SP,
                     value: $val.into(),
                     raw: $val.into(),
@@ -70,7 +70,7 @@ impl VisitMut for Prefixer {
                 self.added.push(Declaration {
                     span: n.span,
                     name: n.name.clone(),
-                    value: vec![Value::Ident(val)],
+                    value: vec![ComponentValue::Ident(val)],
                     important: n.important.clone(),
                 });
             }};
@@ -173,9 +173,9 @@ impl VisitMut for Prefixer {
 
             "background" => {
                 if !n.value.is_empty() {
-                    if let Value::Function(f) = &n.value[0] {
+                    if let ComponentValue::Function(f) = &n.value[0] {
                         if &*f.name.value == "image-set" {
-                            let val = Value::Function(Function {
+                            let val = ComponentValue::Function(Function {
                                 span: DUMMY_SP,
                                 name: Ident {
                                     span: DUMMY_SP,
@@ -197,9 +197,9 @@ impl VisitMut for Prefixer {
 
             "background-image" => {
                 if !n.value.is_empty() {
-                    if let Value::Function(f) = &n.value[0] {
+                    if let ComponentValue::Function(f) = &n.value[0] {
                         if let "image-set" = &*f.name.value {
-                            let val = Value::Function(Function {
+                            let val = ComponentValue::Function(Function {
                                 span: DUMMY_SP,
                                 name: Ident {
                                     span: DUMMY_SP,
@@ -225,9 +225,9 @@ impl VisitMut for Prefixer {
                         .value
                         .iter()
                         .map(|node| match node {
-                            Value::Ident(Ident { value, .. }) => {
+                            ComponentValue::Ident(Ident { value, .. }) => {
                                 if &**value == "grab" {
-                                    Value::Ident(Ident {
+                                    ComponentValue::Ident(Ident {
                                         span: DUMMY_SP,
                                         value: "-webkit-grab".into(),
                                         raw: "-webkit-grab".into(),
@@ -236,9 +236,9 @@ impl VisitMut for Prefixer {
                                     node.clone()
                                 }
                             }
-                            Value::Function(Function { name, value, .. }) => {
+                            ComponentValue::Function(Function { name, value, .. }) => {
                                 if &*name.value == "image-set" {
-                                    Value::Function(Function {
+                                    ComponentValue::Function(Function {
                                         span: DUMMY_SP,
                                         name: Ident {
                                             span: DUMMY_SP,
@@ -268,7 +268,7 @@ impl VisitMut for Prefixer {
 
             "display" => {
                 if n.value.len() == 1 {
-                    if let Value::Ident(Ident { value, .. }) = &n.value[0] {
+                    if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                         match &**value {
                             "flex" => {
                                 same_name!("-webkit-box");
@@ -327,7 +327,7 @@ impl VisitMut for Prefixer {
 
             "justify-content" => {
                 if n.value.len() == 1 {
-                    if let Value::Ident(Ident { value, .. }) = &n.value[0] {
+                    if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                         match &**value {
                             "flex-end" => {
                                 simple!("-webkit-box-pack", "end");
@@ -424,7 +424,7 @@ impl VisitMut for Prefixer {
 
             "position" => {
                 if n.value.len() == 1 {
-                    if let Value::Ident(Ident { value, .. }) = &n.value[0] {
+                    if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                         if &**value == "sticky" {
                             same_name!("-webkit-sticky");
                         }
@@ -446,7 +446,7 @@ impl VisitMut for Prefixer {
 
             "text-decoration" => {
                 if n.value.len() == 1 {
-                    if let Value::Ident(Ident { value, .. }) = &n.value[0] {
+                    if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                         if &**value == "none" {
                             same_content!("-webkit-text-decoration");
                         }
@@ -456,7 +456,7 @@ impl VisitMut for Prefixer {
 
             "text-size-adjust" => {
                 if n.value.len() == 1 {
-                    if let Value::Ident(Ident { value, .. }) = &n.value[0] {
+                    if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                         if &**value == "none" {
                             same_content!("-webkit-text-size-adjust");
                             same_content!("-moz-text-size-adjust");
@@ -486,7 +486,7 @@ impl VisitMut for Prefixer {
 
             "writing-mode" => {
                 if n.value.len() == 1 {
-                    if let Value::Ident(Ident { value, .. }) = &n.value[0] {
+                    if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                         match &**value {
                             "none" => {
                                 same_content!("-webkit-writing-mode");
@@ -517,7 +517,7 @@ impl VisitMut for Prefixer {
             "min-width" | "width" | "max-width" | "min-height" | "height" | "max-height"
             | "min-block-size" | "min-inline-size" => {
                 if n.value.len() == 1 {
-                    if let Value::Ident(Ident { value, .. }) = &n.value[0] {
+                    if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                         match &**value {
                             "fit-content" => {
                                 same_name!("-webkit-fit-content");
@@ -555,19 +555,27 @@ impl VisitMut for Prefixer {
         }
     }
 
-    fn visit_mut_declaration_block_items(&mut self, props: &mut Vec<DeclarationBlockItem>) {
+    fn visit_mut_simple_block(&mut self, simple_block: &mut SimpleBlock) {
         let mut new = vec![];
-        for mut n in take(props) {
-            n.visit_mut_with(self);
-            new.extend(self.added.drain(..).map(DeclarationBlockItem::Declaration));
+
+        for mut n in take(&mut simple_block.value) {
+            n.visit_mut_children_with(self);
+
+            new.extend(
+                self.added
+                    .drain(..)
+                    .map(DeclarationOrAtRule::Declaration)
+                    .map(ComponentValue::DeclarationOrAtRule),
+            );
             new.push(n);
         }
 
-        *props = new;
+        simple_block.value = new;
     }
 
     fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
         let old_in_block = self.in_block;
+
         self.in_block = true;
 
         n.visit_mut_children_with(self);

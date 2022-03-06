@@ -100,7 +100,7 @@ error: Ident
 1 | article p {}
   |         ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/complex/input.css:1:11
   |
 1 | article p {}
@@ -202,7 +202,7 @@ error: Ident
 3 | p {}
   | ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/complex/input.css:3:3
   |
 3 | p {}
@@ -298,7 +298,7 @@ error: Ident
 4 | article   p   {}
   |           ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/complex/input.css:4:15
   |
 4 | article   p   {}
@@ -394,7 +394,7 @@ error: Ident
 5 | article > p {}
   |           ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/complex/input.css:5:13
   |
 5 | article > p {}
@@ -498,7 +498,7 @@ error: Ident
 8 | p {}
   | ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/complex/input.css:8:3
   |
 8 | p {}
@@ -594,7 +594,7 @@ error: Ident
 9 | article    >    p    {}
   |                 ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/complex/input.css:9:22
   |
 9 | article    >    p    {}
@@ -690,7 +690,7 @@ error: Ident
 10 | p + img {}
    |     ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:10:9
    |
 10 | p + img {}
@@ -794,7 +794,7 @@ error: Ident
 13 | img {}
    | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:13:5
    |
 13 | img {}
@@ -890,7 +890,7 @@ error: Ident
 14 | p   +   img {}
    |         ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:14:13
    |
 14 | p   +   img {}
@@ -986,7 +986,7 @@ error: Ident
 15 | p ~ img {}
    |     ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:15:9
    |
 15 | p ~ img {}
@@ -1090,7 +1090,7 @@ error: Ident
 18 | img {}
    | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:18:5
    |
 18 | img {}
@@ -1186,7 +1186,7 @@ error: Ident
 19 | p    ~    img {}
    |           ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:19:15
    |
 19 | p    ~    img {}
@@ -1318,7 +1318,7 @@ error: Ident
 20 | article > p > a {}
    |               ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:20:17
    |
 20 | article > p > a {}
@@ -1466,7 +1466,7 @@ error: Ident
 25 | a {}
    | ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:25:3
    |
 25 | a {}
@@ -1562,7 +1562,7 @@ error: Ident
 26 | div p {}
    |     ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:26:7
    |
 26 | div p {}
@@ -1652,7 +1652,7 @@ error: Ident
 27 | .class p {}
    |        ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:27:10
    |
 27 | .class p {}
@@ -1742,7 +1742,7 @@ error: Ident
 28 | div .class {}
    |      ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:28:12
    |
 28 | div .class {}
@@ -1826,7 +1826,7 @@ error: Ident
 29 | .class .class {}
    |         ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:29:15
    |
 29 | .class .class {}
@@ -1916,7 +1916,7 @@ error: Ident
 30 | #id p {}
    |     ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:30:7
    |
 30 | #id p {}
@@ -2006,7 +2006,7 @@ error: Ident
 31 | div #id {}
    |     ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:31:9
    |
 31 | div #id {}
@@ -2090,7 +2090,7 @@ error: Ident
 32 | #id #id {}
    |     ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:32:9
    |
 32 | #id #id {}
@@ -2186,7 +2186,7 @@ error: Ident
 33 | [attribute] p {}
    |             ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:33:15
    |
 33 | [attribute] p {}
@@ -2282,7 +2282,7 @@ error: Ident
 34 | div [attribute] {}
    |      ^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:34:17
    |
 34 | div [attribute] {}
@@ -2378,7 +2378,7 @@ error: Ident
 35 | [attribute] [src] {}
    |              ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:35:19
    |
 35 | [attribute] [src] {}
@@ -2474,7 +2474,7 @@ error: Ident
 36 | div > p {}
    |       ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:36:9
    |
 36 | div > p {}
@@ -2564,7 +2564,7 @@ error: Ident
 37 | .class > p {}
    |          ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:37:12
    |
 37 | .class > p {}
@@ -2654,7 +2654,7 @@ error: Ident
 38 | div > .class {}
    |        ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:38:14
    |
 38 | div > .class {}
@@ -2738,7 +2738,7 @@ error: Ident
 39 | .class > .class {}
    |           ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:39:17
    |
 39 | .class > .class {}
@@ -2828,7 +2828,7 @@ error: Ident
 40 | #id > p {}
    |       ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:40:9
    |
 40 | #id > p {}
@@ -2918,7 +2918,7 @@ error: Ident
 41 | div > #id {}
    |       ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:41:11
    |
 41 | div > #id {}
@@ -3002,7 +3002,7 @@ error: Ident
 42 | #id > #id {}
    |       ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:42:11
    |
 42 | #id > #id {}
@@ -3098,7 +3098,7 @@ error: Ident
 43 | [attribute] > p {}
    |               ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:43:17
    |
 43 | [attribute] > p {}
@@ -3194,7 +3194,7 @@ error: Ident
 44 | div > [attribute] {}
    |        ^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:44:19
    |
 44 | div > [attribute] {}
@@ -3290,7 +3290,7 @@ error: Ident
 45 | [attribute] > [src] {}
    |                ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:45:21
    |
 45 | [attribute] > [src] {}
@@ -3386,7 +3386,7 @@ error: Ident
 46 | div + p {}
    |       ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:46:9
    |
 46 | div + p {}
@@ -3476,7 +3476,7 @@ error: Ident
 47 | .class + p {}
    |          ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:47:12
    |
 47 | .class + p {}
@@ -3566,7 +3566,7 @@ error: Ident
 48 | div + .class {}
    |        ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:48:14
    |
 48 | div + .class {}
@@ -3650,7 +3650,7 @@ error: Ident
 49 | .class + .class {}
    |           ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:49:17
    |
 49 | .class + .class {}
@@ -3740,7 +3740,7 @@ error: Ident
 50 | #id + p {}
    |       ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:50:9
    |
 50 | #id + p {}
@@ -3830,7 +3830,7 @@ error: Ident
 51 | div + #id {}
    |       ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:51:11
    |
 51 | div + #id {}
@@ -3914,7 +3914,7 @@ error: Ident
 52 | #id + #id {}
    |       ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:52:11
    |
 52 | #id + #id {}
@@ -4010,7 +4010,7 @@ error: Ident
 53 | [attribute] + p {}
    |               ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:53:17
    |
 53 | [attribute] + p {}
@@ -4106,7 +4106,7 @@ error: Ident
 54 | div + [attribute] {}
    |        ^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:54:19
    |
 54 | div + [attribute] {}
@@ -4202,7 +4202,7 @@ error: Ident
 55 | [attribute] + [src] {}
    |                ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:55:21
    |
 55 | [attribute] + [src] {}
@@ -4298,7 +4298,7 @@ error: Ident
 56 | div ~ p {}
    |       ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:56:9
    |
 56 | div ~ p {}
@@ -4388,7 +4388,7 @@ error: Ident
 57 | .class ~ p {}
    |          ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:57:12
    |
 57 | .class ~ p {}
@@ -4478,7 +4478,7 @@ error: Ident
 58 | div ~ .class {}
    |        ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:58:14
    |
 58 | div ~ .class {}
@@ -4562,7 +4562,7 @@ error: Ident
 59 | .class ~ .class {}
    |           ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:59:17
    |
 59 | .class ~ .class {}
@@ -4652,7 +4652,7 @@ error: Ident
 60 | #id ~ p {}
    |       ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:60:9
    |
 60 | #id ~ p {}
@@ -4742,7 +4742,7 @@ error: Ident
 61 | div ~ #id {}
    |       ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:61:11
    |
 61 | div ~ #id {}
@@ -4826,7 +4826,7 @@ error: Ident
 62 | #id ~ #id {}
    |       ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:62:11
    |
 62 | #id ~ #id {}
@@ -4922,7 +4922,7 @@ error: Ident
 63 | [attribute] ~ p {}
    |               ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:63:17
    |
 63 | [attribute] ~ p {}
@@ -5018,7 +5018,7 @@ error: Ident
 64 | div ~ [attribute] {}
    |        ^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:64:19
    |
 64 | div ~ [attribute] {}
@@ -5114,7 +5114,7 @@ error: Ident
 65 | [attribute] ~ [src] {}
    |                ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:65:21
    |
 65 | [attribute] ~ [src] {}
@@ -5228,7 +5228,7 @@ error: Ident
 66 | a:hover [attribute] {}
    |          ^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:66:21
    |
 66 | a:hover [attribute] {}
@@ -5336,7 +5336,7 @@ error: Ident
 67 | a:hover #id {}
    |         ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:67:13
    |
 67 | a:hover #id {}
@@ -5444,7 +5444,7 @@ error: Ident
 68 | a:hover .class {}
    |          ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:68:16
    |
 68 | a:hover .class {}
@@ -5576,7 +5576,7 @@ error: Ident
 69 | a:hover div#thing {}
    |            ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:69:19
    |
 69 | a:hover div#thing {}
@@ -5714,7 +5714,7 @@ error: Str
 70 | a + a[href='place'] {}
    |            ^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:70:21
    |
 70 | a + a[href='place'] {}
@@ -5828,7 +5828,7 @@ error: Ident
 71 | ul.list + a {}
    |           ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:71:13
    |
 71 | ul.list + a {}
@@ -5954,7 +5954,7 @@ error: Ident
 72 | .foo ~ a + bar {}
    |            ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:72:16
    |
 72 | .foo ~ a + bar {}
@@ -6050,7 +6050,7 @@ error: Ident
 73 | a+ a {}
    |    ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:73:6
    |
 73 | a+ a {}
@@ -6146,7 +6146,7 @@ error: Ident
 74 | a> a {}
    |    ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:74:6
    |
 74 | a> a {}
@@ -6242,7 +6242,7 @@ error: Ident
 75 | a~ a {}
    |    ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:75:6
    |
 75 | a~ a {}
@@ -6338,7 +6338,7 @@ error: Ident
 76 | a +a {}
    |    ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:76:6
    |
 76 | a +a {}
@@ -6434,7 +6434,7 @@ error: Ident
 77 | a >a {}
    |    ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:77:6
    |
 77 | a >a {}
@@ -6530,7 +6530,7 @@ error: Ident
 78 | a ~a {}
    |    ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:78:6
    |
 78 | a ~a {}
@@ -6626,7 +6626,7 @@ error: Ident
 79 | a+a {}
    |   ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:79:5
    |
 79 | a+a {}
@@ -6722,7 +6722,7 @@ error: Ident
 80 | a>a {}
    |   ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:80:5
    |
 80 | a>a {}
@@ -6818,7 +6818,7 @@ error: Ident
 81 | a~a {}
    |   ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:81:5
    |
 81 | a~a {}
@@ -6932,7 +6932,7 @@ error: Str
 82 | a [type='button'] {}
    |         ^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:82:19
    |
 82 | a [type='button'] {}
@@ -7052,7 +7052,7 @@ error: Str
 84 | [type='button'] {}
    |       ^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:84:17
    |
 84 | [type='button'] {}
@@ -7148,7 +7148,7 @@ error: Ident
 85 | a   a {}
    |     ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:85:7
    |
 85 | a   a {}
@@ -7268,7 +7268,7 @@ error: Ident
 86 | namespace|type#id > .foo {}
    |                      ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:86:26
    |
 86 | namespace|type#id > .foo {}
@@ -7382,7 +7382,7 @@ error: Ident
 87 | #id > .cl + .cl2 {}
    |              ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:87:18
    |
 87 | #id > .cl + .cl2 {}
@@ -7586,7 +7586,7 @@ error: Ident
 88 | a c, d + e h {}
    |            ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:88:14
    |
 88 | a c, d + e h {}
@@ -7718,7 +7718,7 @@ error: Ident
 89 | a ~ h + d {}
    |         ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:89:11
    |
 89 | a ~ h + d {}
@@ -8138,7 +8138,7 @@ error: Ident
 90 | div div div div div div div div div div div {}
    |                                         ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:90:45
    |
 90 | div div div div div div div div div div div {}
@@ -8318,7 +8318,7 @@ error: Ident
 91 | [href][class][name] h1 > h2 {}
    |                          ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:91:29
    |
 91 | [href][class][name] h1 > h2 {}
@@ -8540,7 +8540,7 @@ error: Ident
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
    |                                                          ^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:92:64
    |
 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
@@ -8780,7 +8780,7 @@ error: Str
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
    |                                                                                                                                     ^^^^^^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:93:152
    |
 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
@@ -8852,7 +8852,7 @@ error: UniversalSelector
 94 | * + * {}
    |     ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:94:7
    |
 94 | * + * {}
@@ -8924,7 +8924,7 @@ error: UniversalSelector
 95 | * * {}
    |   ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:95:5
    |
 95 | * * {}
@@ -8996,7 +8996,7 @@ error: UniversalSelector
 96 | *         * {}
    |           ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:96:13
    |
 96 | *         * {}
@@ -9110,31 +9110,61 @@ error: Ident
 97 | *[href] *:not(*.green) {}
    |           ^^^
 
-error: Tokens
+error: PseudoClassSelectorChildren
   --> $DIR/tests/fixture/selector/complex/input.css:97:15
    |
 97 | *[href] *:not(*.green) {}
    |               ^^^^^^^
 
-error: Delim { value: '*' }
+error: SelectorList
+  --> $DIR/tests/fixture/selector/complex/input.css:97:15
+   |
+97 | *[href] *:not(*.green) {}
+   |               ^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:97:15
+   |
+97 | *[href] *:not(*.green) {}
+   |               ^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:97:15
+   |
+97 | *[href] *:not(*.green) {}
+   |               ^^^^^^^
+
+error: TypeSelector
   --> $DIR/tests/fixture/selector/complex/input.css:97:15
    |
 97 | *[href] *:not(*.green) {}
    |               ^
 
-error: Delim { value: '.' }
+error: UniversalSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:97:15
+   |
+97 | *[href] *:not(*.green) {}
+   |               ^
+
+error: SubclassSelector
   --> $DIR/tests/fixture/selector/complex/input.css:97:16
    |
 97 | *[href] *:not(*.green) {}
-   |                ^
+   |                ^^^^^^
 
-error: Ident { value: Atom('green' type=inline), raw: Atom('green' type=inline) }
+error: ClassSelector
+  --> $DIR/tests/fixture/selector/complex/input.css:97:16
+   |
+97 | *[href] *:not(*.green) {}
+   |                ^^^^^^
+
+error: Ident
   --> $DIR/tests/fixture/selector/complex/input.css:97:17
    |
 97 | *[href] *:not(*.green) {}
    |                 ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:97:24
    |
 97 | *[href] *:not(*.green) {}
@@ -9200,7 +9230,7 @@ error: Ident
 98 | *::-webkit-media-controls-play-button {}
    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:98:39
    |
 98 | *::-webkit-media-controls-play-button {}
@@ -9314,7 +9344,7 @@ error: Ident
 99 | col.selected || td {}
    |                 ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/complex/input.css:99:20
    |
 99 | col.selected || td {}
@@ -9438,7 +9468,7 @@ error: Ident
 102 | td
     | ^^
 
-error: Block
+error: SimpleBlock
    --> $DIR/tests/fixture/selector/complex/input.css:103:1
     |
 103 | {}
@@ -9552,7 +9582,7 @@ error: Ident
 104 | col.selected||td {}
     |               ^^
 
-error: Block
+error: SimpleBlock
    --> $DIR/tests/fixture/selector/complex/input.css:104:18
     |
 104 | col.selected||td {}

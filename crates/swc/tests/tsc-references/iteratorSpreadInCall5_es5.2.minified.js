@@ -32,7 +32,7 @@ function _unsupportedIterableToArray(o, minLen) {
         if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
     }
 }
-var tmp = Symbol.iterator, SymbolIterator = function() {
+var _iterator = Symbol.iterator, SymbolIterator = function() {
     "use strict";
     function SymbolIterator() {
         _classCallCheck(this, SymbolIterator);
@@ -48,13 +48,13 @@ var tmp = Symbol.iterator, SymbolIterator = function() {
             }
         },
         {
-            key: tmp,
+            key: _iterator,
             value: function() {
                 return this;
             }
         }
     ]), SymbolIterator;
-}(), tmp1 = Symbol.iterator, _StringIterator = function() {
+}(), _iterator1 = Symbol.iterator, _StringIterator = function() {
     "use strict";
     function _StringIterator() {
         _classCallCheck(this, _StringIterator);
@@ -70,7 +70,7 @@ var tmp = Symbol.iterator, SymbolIterator = function() {
             }
         },
         {
-            key: tmp1,
+            key: _iterator1,
             value: function() {
                 return this;
             }

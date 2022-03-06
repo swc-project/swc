@@ -73,6 +73,22 @@ error: Ident
 1 | @page MyPage:blank {
   |              ^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/at-page/input.css:1:20
+  |
+1 |   @page MyPage:blank {
+  |  ____________________^
+2 | |     @top-center { content: none }
+3 | |     margin-left: 4cm;
+4 | | }
+  | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/at-page/input.css:2:2
+  |
+2 |     @top-center { content: none }
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: AtRule
  --> $DIR/tests/fixture/rome/at-page/input.css:2:2
   |
@@ -90,6 +106,18 @@ error: Ident
   |
 2 |     @top-center { content: none }
   |      ^^^^^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/at-page/input.css:2:14
+  |
+2 |     @top-center { content: none }
+  |                 ^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/at-page/input.css:2:16
+  |
+2 |     @top-center { content: none }
+  |                   ^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/at-page/input.css:2:16
@@ -109,7 +137,7 @@ error: Ident
 2 |     @top-center { content: none }
   |                   ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/at-page/input.css:2:25
   |
 2 |     @top-center { content: none }
@@ -120,6 +148,12 @@ error: Ident
   |
 2 |     @top-center { content: none }
   |                            ^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/at-page/input.css:3:2
+  |
+3 |     margin-left: 4cm;
+  |     ^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/at-page/input.css:3:2
@@ -139,7 +173,7 @@ error: Ident
 3 |     margin-left: 4cm;
   |     ^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/at-page/input.css:3:15
   |
 3 |     margin-left: 4cm;
@@ -220,6 +254,22 @@ error: Ident
 6 | @page :blank {
   |        ^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/at-page/input.css:6:14
+  |
+6 |   @page :blank {
+  |  ______________^
+7 | |     @top-center { content: none }
+8 | |     margin-left: 4cm;
+9 | | }
+  | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/at-page/input.css:7:2
+  |
+7 |     @top-center { content: none }
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: AtRule
  --> $DIR/tests/fixture/rome/at-page/input.css:7:2
   |
@@ -237,6 +287,18 @@ error: Ident
   |
 7 |     @top-center { content: none }
   |      ^^^^^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/rome/at-page/input.css:7:14
+  |
+7 |     @top-center { content: none }
+  |                 ^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/at-page/input.css:7:16
+  |
+7 |     @top-center { content: none }
+  |                   ^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/at-page/input.css:7:16
@@ -256,7 +318,7 @@ error: Ident
 7 |     @top-center { content: none }
   |                   ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/at-page/input.css:7:25
   |
 7 |     @top-center { content: none }
@@ -267,6 +329,12 @@ error: Ident
   |
 7 |     @top-center { content: none }
   |                            ^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/at-page/input.css:8:2
+  |
+8 |     margin-left: 4cm;
+  |     ^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/at-page/input.css:8:2
@@ -286,7 +354,7 @@ error: Ident
 8 |     margin-left: 4cm;
   |     ^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/at-page/input.css:8:15
   |
 8 |     margin-left: 4cm;
@@ -343,6 +411,22 @@ error: PageRule
 14 | | }
    | |_^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/rome/at-page/input.css:11:7
+   |
+11 |   @page {
+   |  _______^
+12 | |     @top-center { content: none }
+13 | |     margin-left: 4cm;
+14 | | }
+   | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/rome/at-page/input.css:12:2
+   |
+12 |     @top-center { content: none }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: AtRule
   --> $DIR/tests/fixture/rome/at-page/input.css:12:2
    |
@@ -360,6 +444,18 @@ error: Ident
    |
 12 |     @top-center { content: none }
    |      ^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/rome/at-page/input.css:12:14
+   |
+12 |     @top-center { content: none }
+   |                 ^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/rome/at-page/input.css:12:16
+   |
+12 |     @top-center { content: none }
+   |                   ^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/at-page/input.css:12:16
@@ -379,7 +475,7 @@ error: Ident
 12 |     @top-center { content: none }
    |                   ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/at-page/input.css:12:25
    |
 12 |     @top-center { content: none }
@@ -390,6 +486,12 @@ error: Ident
    |
 12 |     @top-center { content: none }
    |                            ^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/rome/at-page/input.css:13:2
+   |
+13 |     margin-left: 4cm;
+   |     ^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/at-page/input.css:13:2
@@ -409,7 +511,7 @@ error: Ident
 13 |     margin-left: 4cm;
    |     ^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/at-page/input.css:13:15
    |
 13 |     margin-left: 4cm;
@@ -466,6 +568,22 @@ error: PageRule
 19 | | }
    | |_^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/rome/at-page/input.css:16:7
+   |
+16 |   @page {
+   |  _______^
+17 | |     @top-center { CONTENT: none }
+18 | |     MARGIN-LEFT: 4cm;
+19 | | }
+   | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/rome/at-page/input.css:17:2
+   |
+17 |     @top-center { CONTENT: none }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: AtRule
   --> $DIR/tests/fixture/rome/at-page/input.css:17:2
    |
@@ -483,6 +601,18 @@ error: Ident
    |
 17 |     @top-center { CONTENT: none }
    |      ^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/rome/at-page/input.css:17:14
+   |
+17 |     @top-center { CONTENT: none }
+   |                 ^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/rome/at-page/input.css:17:16
+   |
+17 |     @top-center { CONTENT: none }
+   |                   ^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/at-page/input.css:17:16
@@ -502,7 +632,7 @@ error: Ident
 17 |     @top-center { CONTENT: none }
    |                   ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/at-page/input.css:17:25
    |
 17 |     @top-center { CONTENT: none }
@@ -513,6 +643,12 @@ error: Ident
    |
 17 |     @top-center { CONTENT: none }
    |                            ^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/rome/at-page/input.css:18:2
+   |
+18 |     MARGIN-LEFT: 4cm;
+   |     ^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/at-page/input.css:18:2
@@ -532,7 +668,7 @@ error: Ident
 18 |     MARGIN-LEFT: 4cm;
    |     ^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/at-page/input.css:18:15
    |
 18 |     MARGIN-LEFT: 4cm;

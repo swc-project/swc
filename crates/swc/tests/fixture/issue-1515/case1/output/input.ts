@@ -25,7 +25,7 @@ exports.ServiceError = ServiceError;
         constructor(...args){
             super(...args);
             // Service was probably not registered, or using the wrong channel
-            this.code = Code.serviceNotFound;
+            this.code = 404;
             this.name = "ServiceError.ServiceNotFound";
         }
     }

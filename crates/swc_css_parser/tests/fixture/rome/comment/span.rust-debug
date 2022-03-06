@@ -69,7 +69,7 @@ error: Ident
 5 | a {
   | ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/rome/comment/input.css:5:3
   |
 5 |   a {
@@ -77,6 +77,18 @@ error: Block
 6 | |     color: white; /* comment */
 7 | | }
   | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/comment/input.css:6:2
+  |
+6 |     color: white; /* comment */
+  |     ^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/comment/input.css:6:2
+  |
+6 |     color: white; /* comment */
+  |     ^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/comment/input.css:6:2
@@ -96,7 +108,7 @@ error: Ident
 6 |     color: white; /* comment */
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/comment/input.css:6:9
   |
 6 |     color: white; /* comment */
@@ -166,7 +178,7 @@ error: Ident
 9 | a {
   | ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/rome/comment/input.css:9:3
    |
 9  |   a {
@@ -174,6 +186,18 @@ error: Block
 10 | |     color: /* comment */ white;
 11 | | }
    | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/rome/comment/input.css:10:2
+   |
+10 |     color: /* comment */ white;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/comment/input.css:10:2
+   |
+10 |     color: /* comment */ white;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/comment/input.css:10:2
@@ -193,7 +217,7 @@ error: Ident
 10 |     color: /* comment */ white;
    |     ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/comment/input.css:10:23
    |
 10 |     color: /* comment */ white;
@@ -263,7 +287,7 @@ error: Ident
 13 | a /* comment */ {
    | ^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/rome/comment/input.css:13:17
    |
 13 |   a /* comment */ {
@@ -271,6 +295,18 @@ error: Block
 14 | |     color: white;
 15 | | }
    | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/rome/comment/input.css:14:2
+   |
+14 |     color: white;
+   |     ^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/rome/comment/input.css:14:2
+   |
+14 |     color: white;
+   |     ^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/rome/comment/input.css:14:2
@@ -290,7 +326,7 @@ error: Ident
 14 |     color: white;
    |     ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/rome/comment/input.css:14:9
    |
 14 |     color: white;

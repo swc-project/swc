@@ -1,6 +1,0 @@
-error: Expected a property value
- --> $DIR/tests/errors/number/plus-dot/input.css:1:12
-  |
-1 | a { width: +0.; }
-  |            ^^^
-

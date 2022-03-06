@@ -40,7 +40,7 @@ fn syntax(decorators_before_export: bool) -> Syntax {
 fn tr() -> impl Fold {
     chain!(
         decorators(Default::default()),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     )
 }
 
@@ -2023,7 +2023,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_class_constructors_return_new_constructor_exec,
     r#"
@@ -2181,7 +2181,7 @@ export { _class1 as default }
 //  "presets": ["env"],
 //  "plugins": [
 //    ["proposal-decorators", { "legacy": true }],
-//    [class_properties(class_properties::Config { loose: false }), { "loose":
+//    [class_properties(Default::default()), { "loose":
 // true }]  ]
 //}
 //"#),
@@ -2208,7 +2208,7 @@ export { _class1 as default }
 //  "presets": ["env"],
 //  "plugins": [
 //    ["proposal-decorators", { "legacy": true }],
-//    [class_properties(class_properties::Config { loose: false }), { "loose":
+//    [class_properties(Default::default()), { "loose":
 // true }]  ]
 //}
 //"#),
@@ -2343,7 +2343,7 @@ export { _class1 as default }
 //  "presets": ["env"],
 //  "plugins": [
 //    ["proposal-decorators", { "legacy": true }],
-//    [class_properties(class_properties::Config { loose: false }), { "loose":
+//    [class_properties(Default::default()), { "loose":
 // true }]  ]
 //}
 //"#),
@@ -2480,7 +2480,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_class_prototype_methods_numeric_props_exec,
     r#"
@@ -2506,7 +2506,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_class_static_properties_mutate_descriptor_exec,
     r#"
@@ -2621,7 +2621,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_class_static_methods_string_props_exec,
     r#"
@@ -2647,7 +2647,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_class_prototype_properties_string_literal_properties_exec,
     r#"
@@ -2692,7 +2692,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_class_prototype_methods_mutate_descriptor_exec,
     r#"
@@ -2825,7 +2825,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_object_properties_numeric_props_exec,
     r#"
@@ -2882,7 +2882,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_class_prototype_properties_return_descriptor_exec,
     r#"
@@ -2999,7 +2999,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_object_properties_string_props_exec,
     r#"
@@ -3027,7 +3027,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_object_properties_return_descriptor_exec,
     r#"
@@ -3140,7 +3140,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_class_prototype_methods_string_props_exec,
     r#"
@@ -3166,7 +3166,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_regression_8041,
     r#"
@@ -3178,7 +3178,7 @@ export default class {
 "#,
     r#"
     var _class;
-    let _class1 = ((_class = class _class {
+    let _class1 = ((_class = class {
         bar() {
         }
     }) || _class, _applyDecoratedDescriptor(_class.prototype, "bar", [
@@ -3196,7 +3196,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_class_prototype_methods_return_descriptor_exec,
     r#"
@@ -3331,7 +3331,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_object_ordering_reverse_order_exec,
     r#"
@@ -3375,7 +3375,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_object_methods_numeric_props_exec,
     r#"
@@ -3402,7 +3402,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_class_static_properties_return_descriptor_exec,
     r#"
@@ -3522,7 +3522,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_class_export_default_exec,
     r#"
@@ -3552,7 +3552,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_class_ordering_reverse_order_exec,
     r#"
@@ -3599,7 +3599,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_object_methods_mutate_descriptor_exec,
     r#"
@@ -3728,7 +3728,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_class_static_methods_return_descriptor_exec,
     r#"
@@ -3860,7 +3860,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_object_methods_return_descriptor_exec,
     r#"
@@ -3991,7 +3991,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_object_methods_string_props_exec,
     r#"
@@ -4019,7 +4019,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_class_prototype_properties_child_classes_properties_exec,
     r#"
@@ -4062,7 +4062,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
+        class_properties(Default::default()),
     ),
     legacy_class_static_methods_mutate_descriptor_exec,
     r#"
@@ -4375,7 +4375,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
     ),
     issue_823_3,
     "import {Debounce} from 'lodash-decorators';
@@ -5144,8 +5144,8 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(class_properties::Config { loose: false }),
-        classes(Some(t.comments.clone()),)
+        class_properties(Default::default()),
+        classes(Some(t.comments.clone()), Default::default())
     ),
     decorators_legacy_interop_local_define_property,
     r#"
@@ -5301,7 +5301,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         function_name(),
     ),
     function_name_function_assignment,
@@ -5362,7 +5362,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         function_name(),
     ),
     function_name_shorthand_property,
@@ -5423,7 +5423,7 @@ test!(
     |t| chain!(
         resolver(),
         function_name(),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
@@ -5484,7 +5484,7 @@ test!(
     |t| chain!(
         resolver(),
         function_name(),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
@@ -5552,7 +5552,7 @@ test!(
             ..Default::default()
         }),
         function_name(),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
     ),
     function_name_global,
     r#"
@@ -5592,7 +5592,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         function_name(),
         common_js(Mark::fresh(Mark::root()), Default::default(), None),
     ),
@@ -5642,7 +5642,7 @@ test!(
     |t| chain!(
         resolver(),
         function_name(),
-        classes(Some(t.comments.clone())),
+        classes(Some(t.comments.clone()), Default::default()),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()

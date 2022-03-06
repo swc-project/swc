@@ -21,7 +21,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 var M;
 (function(M1) {
     var Symbol;
-    var tmp = Symbol.iterator;
+    var _iterator = Symbol.iterator;
     var C = /*#__PURE__*/ function() {
         "use strict";
         function C() {
@@ -29,7 +29,7 @@ var M;
         }
         _createClass(C, [
             {
-                key: tmp,
+                key: _iterator,
                 value: function value() {}
             }
         ]);

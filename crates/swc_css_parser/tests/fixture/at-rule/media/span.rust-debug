@@ -6,9 +6,9 @@ error: Stylesheet
 3   | |
 4   | | @media all {}
 ...   |
-112 | | @media {}
-113 | | @media    {}
-    | |_____________^
+114 | |
+115 | | @media tty {}
+    | |______________^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/media/input.css:1:1
@@ -46,6 +46,12 @@ error: Ident
 1 | @\media screen {}
   |         ^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/media/input.css:1:16
+  |
+1 | @\media screen {}
+  |                ^^
+
 error: Rule
  --> $DIR/tests/fixture/at-rule/media/input.css:2:1
   |
@@ -81,6 +87,12 @@ error: Ident
   |
 2 | @\media \screen {}
   |         ^^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/media/input.css:2:17
+  |
+2 | @\media \screen {}
+  |                 ^^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/media/input.css:4:1
@@ -118,6 +130,12 @@ error: Ident
 4 | @media all {}
   |        ^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/media/input.css:4:12
+  |
+4 | @media all {}
+  |            ^^
+
 error: Rule
  --> $DIR/tests/fixture/at-rule/media/input.css:5:1
   |
@@ -154,6 +172,12 @@ error: Ident
 5 | @media screen {}
   |        ^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/media/input.css:5:15
+  |
+5 | @media screen {}
+  |               ^^
+
 error: Rule
  --> $DIR/tests/fixture/at-rule/media/input.css:6:1
   |
@@ -189,6 +213,12 @@ error: Ident
   |
 6 | @media print {}
   |        ^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/media/input.css:6:14
+  |
+6 | @media print {}
+  |              ^^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/media/input.css:7:1
@@ -267,6 +297,12 @@ error: Ident
   |
 7 | @media screen and (color) {}
   |                    ^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/media/input.css:7:27
+  |
+7 | @media screen and (color) {}
+  |                           ^^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/media/input.css:8:1
@@ -400,6 +436,12 @@ error: Ident
 8 | @media screen and (color), projection and (color) {}
   |                                            ^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/media/input.css:8:51
+  |
+8 | @media screen and (color), projection and (color) {}
+  |                                                   ^^
+
 error: Rule
  --> $DIR/tests/fixture/at-rule/media/input.css:9:1
   |
@@ -532,6 +574,12 @@ error: Ident
 9 | @media    screen    and    (   color   )   ,   projection    and   (   color   )   {}
   |                                                                        ^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/media/input.css:9:84
+  |
+9 | @media    screen    and    (   color   )   ,   projection    and   (   color   )   {}
+  |                                                                                    ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:10:1
    |
@@ -640,6 +688,12 @@ error: Ident
 10 | @media print and (min-resolution: 118dpcm) {}
    |                                      ^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:10:44
+   |
+10 | @media print and (min-resolution: 118dpcm) {}
+   |                                            ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:11:1
    |
@@ -675,6 +729,12 @@ error: Ident
    |
 11 | @media    all    {}
    |           ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:11:18
+   |
+11 | @media    all    {}
+   |                  ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:12:1
@@ -754,6 +814,12 @@ error: Ident
 12 | @media screen and (color) {}
    |                    ^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:12:27
+   |
+12 | @media screen and (color) {}
+   |                           ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:13:1
    |
@@ -831,6 +897,12 @@ error: Ident
    |
 13 | @media   screen   and    (   color   )   {}
    |                              ^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:13:42
+   |
+13 | @media   screen   and    (   color   )   {}
+   |                                          ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:15:1
@@ -915,6 +987,12 @@ error: Ident
    |
 15 | @media not all and (monochrome) {}
    |                     ^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:15:33
+   |
+15 | @media not all and (monochrome) {}
+   |                                 ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:16:1
@@ -1054,6 +1132,12 @@ error: Ident
 16 | @media not screen and (color), print and (color) {}
    |                                           ^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:16:50
+   |
+16 | @media not screen and (color), print and (color) {}
+   |                                                  ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:17:1
    |
@@ -1155,6 +1239,12 @@ error: Number
    |
 17 | @media not (device-aspect-ratio: 16/9) {}
    |                                     ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:17:40
+   |
+17 | @media not (device-aspect-ratio: 16/9) {}
+   |                                        ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:18:1
@@ -1258,6 +1348,12 @@ error: Number
 18 | @media not (device-aspect-ratio: 16 / 9) {}
    |                                       ^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:18:42
+   |
+18 | @media not (device-aspect-ratio: 16 / 9) {}
+   |                                          ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:19:1
    |
@@ -1300,6 +1396,12 @@ error: Ident
 19 | @media not all {}
    |            ^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:19:16
+   |
+19 | @media not all {}
+   |                ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:20:1
    |
@@ -1341,6 +1443,12 @@ error: Ident
    |
 20 | @media    not   all   {}
    |                 ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:20:23
+   |
+20 | @media    not   all   {}
+   |                       ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:22:1
@@ -1426,6 +1534,12 @@ error: Ident
 22 | @media only screen and (color) {}
    |                         ^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:22:32
+   |
+22 | @media only screen and (color) {}
+   |                                ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:23:1
    |
@@ -1509,6 +1623,12 @@ error: Ident
    |
 23 | @media   only   screen   and   (   color   )   {}
    |                                    ^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:23:48
+   |
+23 | @media   only   screen   and   (   color   )   {}
+   |                                                ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:25:1
@@ -1612,6 +1732,12 @@ error: Ident
 25 | @media (min-width: 20px) {}
    |                      ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:25:26
+   |
+25 | @media (min-width: 20px) {}
+   |                          ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:26:1
    |
@@ -1713,6 +1839,12 @@ error: Ident
    |
 26 | @media(min-width: 20px){}
    |                     ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:26:24
+   |
+26 | @media(min-width: 20px){}
+   |                        ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:27:1
@@ -1816,6 +1948,12 @@ error: Ident
 27 | @media   (   min-width   :   20px   )   {}
    |                                ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:27:41
+   |
+27 | @media   (   min-width   :   20px   )   {}
+   |                                         ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:28:1
    |
@@ -1912,6 +2050,12 @@ error: Number
 28 | @media (device-aspect-ratio: 16/9) {}
    |                                 ^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:28:36
+   |
+28 | @media (device-aspect-ratio: 16/9) {}
+   |                                    ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:29:1
    |
@@ -2007,6 +2151,12 @@ error: Number
    |
 29 | @media    (   device-aspect-ratio   :    16   /   9   )   {}
    |                                                   ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:29:59
+   |
+29 | @media    (   device-aspect-ratio   :    16   /   9   )   {}
+   |                                                           ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:30:1
@@ -2152,6 +2302,12 @@ error: Ident
 30 | @media (grid) and (max-width: 15em) {}
    |                                 ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:30:37
+   |
+30 | @media (grid) and (max-width: 15em) {}
+   |                                     ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:31:1
    |
@@ -2223,6 +2379,12 @@ error: Ident
    |
 31 | @media (monochrome) {}
    |         ^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:31:21
+   |
+31 | @media (monochrome) {}
+   |                     ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:33:1
@@ -2398,6 +2560,12 @@ error: Ident
 33 | @media (min-width: 20em) and (min-width: 20em) {}
    |                                            ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:33:48
+   |
+33 | @media (min-width: 20em) and (min-width: 20em) {}
+   |                                                ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:34:1
    |
@@ -2571,6 +2739,12 @@ error: Ident
    |
 34 | @media   (min-width   :   20em   )   and   (   min-width   :   20em   )   {}
    |                                                                  ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:34:75
+   |
+34 | @media   (min-width   :   20em   )   and   (   min-width   :   20em   )   {}
+   |                                                                           ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:35:1
@@ -2818,6 +2992,12 @@ error: Ident
 35 | @media (min-width: 1024px) and (min-width: 1024px) and (min-width: 1024px) {}
    |                                                                        ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:35:76
+   |
+35 | @media (min-width: 1024px) and (min-width: 1024px) and (min-width: 1024px) {}
+   |                                                                            ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:36:1
    |
@@ -2991,6 +3171,12 @@ error: Ident
    |
 36 | @media(min-width:20em)and (min-width: 20em){}
    |                                         ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:36:44
+   |
+36 | @media(min-width:20em)and (min-width: 20em){}
+   |                                            ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:37:1
@@ -3166,6 +3352,12 @@ error: Ident
 37 | @media(min-width:20em)and (min-width:20em){}
    |                                        ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:37:43
+   |
+37 | @media(min-width:20em)and (min-width:20em){}
+   |                                           ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:39:1
    |
@@ -3303,6 +3495,12 @@ error: Ident
    |
 39 | @media (update: slow) or (hover: none) {}
    |                                  ^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:39:40
+   |
+39 | @media (update: slow) or (hover: none) {}
+   |                                        ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:40:1
@@ -3442,6 +3640,12 @@ error: Ident
 40 | @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
    |                                                            ^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:40:72
+   |
+40 | @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
+   |                                                                        ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:41:1
    |
@@ -3579,6 +3783,12 @@ error: Ident
    |
 41 | @media(update: slow)or (hover: none){}
    |                                ^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:41:37
+   |
+41 | @media(update: slow)or (hover: none){}
+   |                                     ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:43:1
@@ -3682,6 +3892,12 @@ error: Ident
 43 | @media (height < 600px) {}
    |                     ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:43:25
+   |
+43 | @media (height < 600px) {}
+   |                         ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:44:1
    |
@@ -3783,6 +3999,12 @@ error: Ident
    |
 44 | @media (height <= 600px) {}
    |                      ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:44:26
+   |
+44 | @media (height <= 600px) {}
+   |                          ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:45:1
@@ -3886,6 +4108,12 @@ error: Ident
 45 | @media (height > 600px) {}
    |                     ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:45:25
+   |
+45 | @media (height > 600px) {}
+   |                         ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:46:1
    |
@@ -3987,6 +4215,12 @@ error: Ident
    |
 46 | @media (height >= 600px) {}
    |                      ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:46:26
+   |
+46 | @media (height >= 600px) {}
+   |                          ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:47:1
@@ -4090,6 +4324,12 @@ error: Ident
 47 | @media (height = 600px) {}
    |                     ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:47:25
+   |
+47 | @media (height = 600px) {}
+   |                         ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:48:1
    |
@@ -4191,6 +4431,12 @@ error: Ident
    |
 48 | @media   (   height   <   600px   )   {}
    |                              ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:48:39
+   |
+48 | @media   (   height   <   600px   )   {}
+   |                                       ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:49:1
@@ -4294,6 +4540,12 @@ error: Ident
 49 | @media   (   height   <=   600px   )   {}
    |                               ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:49:40
+   |
+49 | @media   (   height   <=   600px   )   {}
+   |                                        ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:50:1
    |
@@ -4395,6 +4647,12 @@ error: Ident
    |
 50 | @media   (   height   >   600px   )   {}
    |                              ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:50:39
+   |
+50 | @media   (   height   >   600px   )   {}
+   |                                       ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:51:1
@@ -4498,6 +4756,12 @@ error: Ident
 51 | @media   (   height   >=   600px   )   {}
    |                               ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:51:40
+   |
+51 | @media   (   height   >=   600px   )   {}
+   |                                        ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:52:1
    |
@@ -4599,6 +4863,12 @@ error: Ident
    |
 52 | @media   (   height   =   600px   )   {}
    |                              ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:52:39
+   |
+52 | @media   (   height   =   600px   )   {}
+   |                                       ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:53:1
@@ -4702,6 +4972,12 @@ error: Ident
 53 | @media(height=600px){}
    |                  ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:53:21
+   |
+53 | @media(height=600px){}
+   |                     ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:54:1
    |
@@ -4803,6 +5079,12 @@ error: Ident
    |
 54 | @media(height>=600px) {}
    |                   ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:54:23
+   |
+54 | @media(height>=600px) {}
+   |                       ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:56:1
@@ -4906,6 +5188,12 @@ error: Ident
 56 | @media (600px < height) {}
    |                 ^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:56:25
+   |
+56 | @media (600px < height) {}
+   |                         ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:57:1
    |
@@ -5007,6 +5295,12 @@ error: Ident
    |
 57 | @media (600px <= height) {}
    |                  ^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:57:26
+   |
+57 | @media (600px <= height) {}
+   |                          ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:58:1
@@ -5110,6 +5404,12 @@ error: Ident
 58 | @media (600px > height) {}
    |                 ^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:58:25
+   |
+58 | @media (600px > height) {}
+   |                         ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:59:1
    |
@@ -5211,6 +5511,12 @@ error: Ident
    |
 59 | @media (600px >= height) {}
    |                  ^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:59:26
+   |
+59 | @media (600px >= height) {}
+   |                          ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:60:1
@@ -5314,6 +5620,12 @@ error: Ident
 60 | @media (600px = height) {}
    |                 ^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:60:25
+   |
+60 | @media (600px = height) {}
+   |                         ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:61:1
    |
@@ -5415,6 +5727,12 @@ error: Ident
    |
 61 | @media   (   600px   <   height   )   {}
    |                          ^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:61:39
+   |
+61 | @media   (   600px   <   height   )   {}
+   |                                       ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:62:1
@@ -5518,6 +5836,12 @@ error: Ident
 62 | @media   (   600px   <=   height   )   {}
    |                           ^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:62:40
+   |
+62 | @media   (   600px   <=   height   )   {}
+   |                                        ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:63:1
    |
@@ -5619,6 +5943,12 @@ error: Ident
    |
 63 | @media   (   600px   >   height   )   {}
    |                          ^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:63:39
+   |
+63 | @media   (   600px   >   height   )   {}
+   |                                       ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:64:1
@@ -5722,6 +6052,12 @@ error: Ident
 64 | @media   (   600px   >=   height   )   {}
    |                           ^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:64:40
+   |
+64 | @media   (   600px   >=   height   )   {}
+   |                                        ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:65:1
    |
@@ -5823,6 +6159,12 @@ error: Ident
    |
 65 | @media   (   600px   =   height   )   {}
    |                          ^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:65:39
+   |
+65 | @media   (   600px   =   height   )   {}
+   |                                       ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:66:1
@@ -5926,6 +6268,12 @@ error: Ident
 66 | @media(600px=height) {}
    |              ^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:66:22
+   |
+66 | @media(600px=height) {}
+   |                      ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:67:1
    |
@@ -6027,6 +6375,12 @@ error: Ident
    |
 67 | @media(600px>=height) {}
    |               ^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:67:23
+   |
+67 | @media(600px>=height) {}
+   |                       ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:69:1
@@ -6160,6 +6514,12 @@ error: Ident
 69 | @media (400px < width < 700px) {}
    |                            ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:69:32
+   |
+69 | @media (400px < width < 700px) {}
+   |                                ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:70:1
    |
@@ -6291,6 +6651,12 @@ error: Ident
    |
 70 | @media (400px <= width < 700px) {}
    |                             ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:70:33
+   |
+70 | @media (400px <= width < 700px) {}
+   |                                 ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:71:1
@@ -6424,6 +6790,12 @@ error: Ident
 71 | @media (400px < width <= 700px) {}
    |                             ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:71:33
+   |
+71 | @media (400px < width <= 700px) {}
+   |                                 ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:72:1
    |
@@ -6555,6 +6927,12 @@ error: Ident
    |
 72 | @media (400px <= width <= 700px) {}
    |                              ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:72:34
+   |
+72 | @media (400px <= width <= 700px) {}
+   |                                  ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:73:1
@@ -6688,6 +7066,12 @@ error: Ident
 73 | @media(400px<width<700px){}
    |                       ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:73:26
+   |
+73 | @media(400px<width<700px){}
+   |                          ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:74:1
    |
@@ -6819,6 +7203,12 @@ error: Ident
    |
 74 | @media(400px<=width<=700px){}
    |                         ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:74:28
+   |
+74 | @media(400px<=width<=700px){}
+   |                            ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:75:1
@@ -6952,6 +7342,12 @@ error: Ident
 75 | @media   (   400px   <   width   <   700px   )   {}
    |                                         ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:75:50
+   |
+75 | @media   (   400px   <   width   <   700px   )   {}
+   |                                                  ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:76:1
    |
@@ -7083,6 +7479,12 @@ error: Ident
    |
 76 | @media   (   400px   <=   width   <   700px   )   {}
    |                                          ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:76:51
+   |
+76 | @media   (   400px   <=   width   <   700px   )   {}
+   |                                                   ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:77:1
@@ -7216,6 +7618,12 @@ error: Ident
 77 | @media   (   400px   <   width   <=   700px   )   {}
    |                                          ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:77:51
+   |
+77 | @media   (   400px   <   width   <=   700px   )   {}
+   |                                                   ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:78:1
    |
@@ -7347,6 +7755,12 @@ error: Ident
    |
 78 | @media   (   400px   <=   width   <=   700px   )   {}
    |                                           ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:78:52
+   |
+78 | @media   (   400px   <=   width   <=   700px   )   {}
+   |                                                    ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:79:1
@@ -7480,6 +7894,12 @@ error: Ident
 79 | @media(400px<width<700px){}
    |                       ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:79:26
+   |
+79 | @media(400px<width<700px){}
+   |                          ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:80:1
    |
@@ -7611,6 +8031,12 @@ error: Ident
    |
 80 | @media(400px<=width<=700px){}
    |                         ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:80:28
+   |
+80 | @media(400px<=width<=700px){}
+   |                            ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:82:1
@@ -7744,6 +8170,12 @@ error: Ident
 82 | @media (400px > width > 700px) {}
    |                            ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:82:32
+   |
+82 | @media (400px > width > 700px) {}
+   |                                ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:83:1
    |
@@ -7875,6 +8307,12 @@ error: Ident
    |
 83 | @media (400px >= width > 700px) {}
    |                             ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:83:33
+   |
+83 | @media (400px >= width > 700px) {}
+   |                                 ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:84:1
@@ -8008,6 +8446,12 @@ error: Ident
 84 | @media (400px > width >= 700px) {}
    |                             ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:84:33
+   |
+84 | @media (400px > width >= 700px) {}
+   |                                 ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:85:1
    |
@@ -8139,6 +8583,12 @@ error: Ident
    |
 85 | @media (400px >= width >= 700px) {}
    |                              ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:85:34
+   |
+85 | @media (400px >= width >= 700px) {}
+   |                                  ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:86:1
@@ -8272,6 +8722,12 @@ error: Ident
 86 | @media(400px>width>700px){}
    |                       ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:86:26
+   |
+86 | @media(400px>width>700px){}
+   |                          ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:87:1
    |
@@ -8403,6 +8859,12 @@ error: Ident
    |
 87 | @media(400px>=width>=700px) {}
    |                         ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:87:29
+   |
+87 | @media(400px>=width>=700px) {}
+   |                             ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:88:1
@@ -8536,6 +8998,12 @@ error: Ident
 88 | @media   (   400px   >   width   >   700px   )   {}
    |                                         ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:88:50
+   |
+88 | @media   (   400px   >   width   >   700px   )   {}
+   |                                                  ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:89:1
    |
@@ -8667,6 +9135,12 @@ error: Ident
    |
 89 | @media   (   400px   >=   width   >   700px   )   {}
    |                                          ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:89:51
+   |
+89 | @media   (   400px   >=   width   >   700px   )   {}
+   |                                                   ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:90:1
@@ -8800,6 +9274,12 @@ error: Ident
 90 | @media   (   400px   >   width   >=   700px   )   {}
    |                                          ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:90:51
+   |
+90 | @media   (   400px   >   width   >=   700px   )   {}
+   |                                                   ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:91:1
    |
@@ -8931,6 +9411,12 @@ error: Ident
    |
 91 | @media   (   400px   >=   width   >=   700px   )   {}
    |                                           ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:91:52
+   |
+91 | @media   (   400px   >=   width   >=   700px   )   {}
+   |                                                    ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:92:1
@@ -9064,6 +9550,12 @@ error: Ident
 92 | @media(400px>width>700px){}
    |                       ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:92:26
+   |
+92 | @media(400px>width>700px){}
+   |                          ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:93:1
    |
@@ -9195,6 +9687,12 @@ error: Ident
    |
 93 | @media(400px>=width>=700px){}
    |                         ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:93:28
+   |
+93 | @media(400px>=width>=700px){}
+   |                            ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:95:1
@@ -9340,6 +9838,12 @@ error: Ident
 95 | @media (--modern) and (min-width: 1024px) {}
    |                                       ^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:95:43
+   |
+95 | @media (--modern) and (min-width: 1024px) {}
+   |                                           ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:97:1
    |
@@ -9472,6 +9976,12 @@ error: Ident
 97 | @media (not (color)) or (hover) {}
    |                          ^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:97:33
+   |
+97 | @media (not (color)) or (hover) {}
+   |                                 ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:98:1
    |
@@ -9603,6 +10113,12 @@ error: Ident
    |
 98 | @media   (   not    (   color   )   )   or   (   hover   )   {}
    |                                                  ^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:98:62
+   |
+98 | @media   (   not    (   color   )   )   or   (   hover   )   {}
+   |                                                              ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/media/input.css:99:1
@@ -9807,6 +10323,12 @@ error: Ident
    |
 99 | @media ((color) or (hover)) and (width > 1024px) {}
    |                                              ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/media/input.css:99:50
+   |
+99 | @media ((color) or (hover)) and (width > 1024px) {}
+   |                                                  ^^
 
 error: Rule
    --> $DIR/tests/fixture/at-rule/media/input.css:100:1
@@ -10029,6 +10551,12 @@ error: Ident
     |
 100 | @media (((color)) or ((hover))) and (width > 1024px) {}
     |                                                  ^^
+
+error: SimpleBlock
+   --> $DIR/tests/fixture/at-rule/media/input.css:100:54
+    |
+100 | @media (((color)) or ((hover))) and (width > 1024px) {}
+    |                                                      ^^
 
 error: Rule
    --> $DIR/tests/fixture/at-rule/media/input.css:101:1
@@ -10288,6 +10816,12 @@ error: Ident
 101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
     |                                                      ^^
 
+error: SimpleBlock
+   --> $DIR/tests/fixture/at-rule/media/input.css:101:58
+    |
+101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
+    |                                                          ^^
+
 error: Rule
    --> $DIR/tests/fixture/at-rule/media/input.css:102:1
     |
@@ -10545,6 +11079,12 @@ error: Ident
     |
 102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
     |                                                                                                                 ^^
+
+error: SimpleBlock
+   --> $DIR/tests/fixture/at-rule/media/input.css:102:122
+    |
+102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
+    |                                                                                                                          ^^
 
 error: Rule
    --> $DIR/tests/fixture/at-rule/media/input.css:104:1
@@ -10810,6 +11350,12 @@ error: Ident
 104 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
     |                                                                      ^^
 
+error: SimpleBlock
+   --> $DIR/tests/fixture/at-rule/media/input.css:104:74
+    |
+104 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
+    |                                                                          ^^
+
 error: Rule
    --> $DIR/tests/fixture/at-rule/media/input.css:105:1
     |
@@ -11074,6 +11620,12 @@ error: Ident
 105 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
     |                                                                     ^^
 
+error: SimpleBlock
+   --> $DIR/tests/fixture/at-rule/media/input.css:105:74
+    |
+105 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
+    |                                                                          ^^
+
 error: Rule
    --> $DIR/tests/fixture/at-rule/media/input.css:107:1
     |
@@ -11115,6 +11667,12 @@ error: Ident
     |
 107 | @media    NOT   all   {}
     |                 ^^^
+
+error: SimpleBlock
+   --> $DIR/tests/fixture/at-rule/media/input.css:107:23
+    |
+107 | @media    NOT   all   {}
+    |                       ^^
 
 error: Rule
    --> $DIR/tests/fixture/at-rule/media/input.css:108:1
@@ -11199,6 +11757,12 @@ error: Ident
     |
 108 | @media ONLY screen AND (color) {}
     |                         ^^^^^
+
+error: SimpleBlock
+   --> $DIR/tests/fixture/at-rule/media/input.css:108:32
+    |
+108 | @media ONLY screen AND (color) {}
+    |                                ^^
 
 error: Rule
    --> $DIR/tests/fixture/at-rule/media/input.css:109:1
@@ -11464,6 +12028,12 @@ error: Ident
 109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
     |                                                                      ^^
 
+error: SimpleBlock
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:74
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                                                          ^^
+
 error: Rule
    --> $DIR/tests/fixture/at-rule/media/input.css:110:1
     |
@@ -11728,6 +12298,12 @@ error: Ident
 110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
     |                                                                     ^^
 
+error: SimpleBlock
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:74
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                                                          ^^
+
 error: Rule
    --> $DIR/tests/fixture/at-rule/media/input.css:112:1
     |
@@ -11746,6 +12322,12 @@ error: MediaRule
 112 | @media {}
     | ^^^^^^^^^
 
+error: SimpleBlock
+   --> $DIR/tests/fixture/at-rule/media/input.css:112:8
+    |
+112 | @media {}
+    |        ^^
+
 error: Rule
    --> $DIR/tests/fixture/at-rule/media/input.css:113:1
     |
@@ -11763,4 +12345,52 @@ error: MediaRule
     |
 113 | @media    {}
     | ^^^^^^^^^^^^
+
+error: SimpleBlock
+   --> $DIR/tests/fixture/at-rule/media/input.css:113:11
+    |
+113 | @media    {}
+    |           ^^
+
+error: Rule
+   --> $DIR/tests/fixture/at-rule/media/input.css:115:1
+    |
+115 | @media tty {}
+    | ^^^^^^^^^^^^^
+
+error: AtRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:115:1
+    |
+115 | @media tty {}
+    | ^^^^^^^^^^^^^
+
+error: MediaRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:115:1
+    |
+115 | @media tty {}
+    | ^^^^^^^^^^^^^
+
+error: MediaQueryList
+   --> $DIR/tests/fixture/at-rule/media/input.css:115:8
+    |
+115 | @media tty {}
+    |        ^^^
+
+error: MediaQuery
+   --> $DIR/tests/fixture/at-rule/media/input.css:115:8
+    |
+115 | @media tty {}
+    |        ^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:115:8
+    |
+115 | @media tty {}
+    |        ^^^
+
+error: SimpleBlock
+   --> $DIR/tests/fixture/at-rule/media/input.css:115:12
+    |
+115 | @media tty {}
+    |            ^^
 

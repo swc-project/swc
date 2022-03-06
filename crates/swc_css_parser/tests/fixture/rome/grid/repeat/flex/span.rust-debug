@@ -58,7 +58,7 @@ error: Ident
 1 | .style {
   |  ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/rome/grid/repeat/flex/input.css:1:8
   |
 1 |   .style {
@@ -66,6 +66,18 @@ error: Block
 2 | |     grid-template-columns: repeat(4, 1fr);
 3 | | }
   | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:2
+  |
+2 |     grid-template-columns: repeat(4, 1fr);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:2
+  |
+2 |     grid-template-columns: repeat(4, 1fr);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:2
@@ -85,7 +97,7 @@ error: Ident
 2 |     grid-template-columns: repeat(4, 1fr);
   |     ^^^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:25
   |
 2 |     grid-template-columns: repeat(4, 1fr);
@@ -103,19 +115,19 @@ error: Ident
 2 |     grid-template-columns: repeat(4, 1fr);
   |                            ^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:32
   |
 2 |     grid-template-columns: repeat(4, 1fr);
   |                                   ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:32
   |
 2 |     grid-template-columns: repeat(4, 1fr);
   |                                   ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:33
   |
 2 |     grid-template-columns: repeat(4, 1fr);
@@ -127,7 +139,7 @@ error: Delimiter
 2 |     grid-template-columns: repeat(4, 1fr);
   |                                    ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:35
   |
 2 |     grid-template-columns: repeat(4, 1fr);

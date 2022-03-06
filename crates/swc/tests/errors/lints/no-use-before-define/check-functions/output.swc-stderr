@@ -1,0 +1,6 @@
+error: 'foo' was used before it was defined
+ 
+  |
+1 | foo();
+  | ^^^
+

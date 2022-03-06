@@ -150,10 +150,20 @@
             "ctxt": 0
           },
           "expression": {
-            "type": "TsQualifiedName",
-            "left": {
-              "type": "TsQualifiedName",
-              "left": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 137,
+              "end": 146,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 137,
+                "end": 144,
+                "ctxt": 0
+              },
+              "object": {
                 "type": "Identifier",
                 "span": {
                   "start": 137,
@@ -163,7 +173,7 @@
                 "value": "a",
                 "optional": false
               },
-              "right": {
+              "property": {
                 "type": "Identifier",
                 "span": {
                   "start": 139,
@@ -174,7 +184,7 @@
                 "optional": false
               }
             },
-            "right": {
+            "property": {
               "type": "Identifier",
               "span": {
                 "start": 145,

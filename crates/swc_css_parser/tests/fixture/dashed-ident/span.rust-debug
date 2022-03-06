@@ -64,7 +64,7 @@ error: Ident
 1 | :root {
   |  ^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/dashed-ident/input.css:1:7
   |
 1 |   :root {
@@ -73,6 +73,18 @@ error: Block
 3 | |     --accent-color: #006;
 4 | | }
   | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/dashed-ident/input.css:2:5
+  |
+2 |     --main-color: #06c;
+  |     ^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/dashed-ident/input.css:2:5
+  |
+2 |     --main-color: #06c;
+  |     ^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/dashed-ident/input.css:2:5
@@ -92,13 +104,7 @@ error: DashedIdent
 2 |     --main-color: #06c;
   |     ^^^^^^^^^^^^
 
-error: Value
- --> $DIR/tests/fixture/dashed-ident/input.css:2:19
-  |
-2 |     --main-color: #06c;
-  |                   ^^^^
-
-error: Tokens
+error: ComponentValue
  --> $DIR/tests/fixture/dashed-ident/input.css:2:19
   |
 2 |     --main-color: #06c;
@@ -109,6 +115,18 @@ error: Hash { is_id: false, value: Atom('06c' type=inline), raw: Atom('06c' type
   |
 2 |     --main-color: #06c;
   |                   ^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/dashed-ident/input.css:3:5
+  |
+3 |     --accent-color: #006;
+  |     ^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/dashed-ident/input.css:3:5
+  |
+3 |     --accent-color: #006;
+  |     ^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/dashed-ident/input.css:3:5
@@ -128,13 +146,7 @@ error: DashedIdent
 3 |     --accent-color: #006;
   |     ^^^^^^^^^^^^^^
 
-error: Value
- --> $DIR/tests/fixture/dashed-ident/input.css:3:21
-  |
-3 |     --accent-color: #006;
-  |                     ^^^^
-
-error: Tokens
+error: ComponentValue
  --> $DIR/tests/fixture/dashed-ident/input.css:3:21
   |
 3 |     --accent-color: #006;
@@ -198,7 +210,7 @@ error: Ident
 6 | .foo {
   |  ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/dashed-ident/input.css:6:6
   |
 6 |   .foo {
@@ -206,6 +218,18 @@ error: Block
 7 | |     --fg-color: blue;
 8 | | }
   | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/dashed-ident/input.css:7:5
+  |
+7 |     --fg-color: blue;
+  |     ^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/dashed-ident/input.css:7:5
+  |
+7 |     --fg-color: blue;
+  |     ^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/dashed-ident/input.css:7:5
@@ -225,13 +249,7 @@ error: DashedIdent
 7 |     --fg-color: blue;
   |     ^^^^^^^^^^
 
-error: Value
- --> $DIR/tests/fixture/dashed-ident/input.css:7:17
-  |
-7 |     --fg-color: blue;
-  |                 ^^^^
-
-error: Tokens
+error: ComponentValue
  --> $DIR/tests/fixture/dashed-ident/input.css:7:17
   |
 7 |     --fg-color: blue;
@@ -331,7 +349,7 @@ error: Ident
 10 | #foo h1 {
    |      ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/dashed-ident/input.css:10:9
    |
 10 |   #foo h1 {
@@ -339,6 +357,18 @@ error: Block
 11 | |     color: var(--main-color);
 12 | | }
    | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/dashed-ident/input.css:11:5
+   |
+11 |     color: var(--main-color);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/dashed-ident/input.css:11:5
+   |
+11 |     color: var(--main-color);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/dashed-ident/input.css:11:5
@@ -358,7 +388,7 @@ error: Ident
 11 |     color: var(--main-color);
    |     ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/dashed-ident/input.css:11:12
    |
 11 |     color: var(--main-color);
@@ -376,7 +406,7 @@ error: Ident
 11 |     color: var(--main-color);
    |            ^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/dashed-ident/input.css:11:16
    |
 11 |     color: var(--main-color);
@@ -418,13 +448,7 @@ error: DashedIdent
 14 | @--custom {}
    |  ^^^^^^^^
 
-error: Value
-  --> $DIR/tests/fixture/dashed-ident/input.css:14:10
-   |
-14 | @--custom {}
-   |          ^
-
-error: Tokens
+error: ComponentValue
   --> $DIR/tests/fixture/dashed-ident/input.css:14:10
    |
 14 | @--custom {}
@@ -472,13 +496,7 @@ error: DashedIdent
 15 | @--library1-custom {}
    |  ^^^^^^^^^^^^^^^^^
 
-error: Value
-  --> $DIR/tests/fixture/dashed-ident/input.css:15:19
-   |
-15 | @--library1-custom {}
-   |                   ^
-
-error: Tokens
+error: ComponentValue
   --> $DIR/tests/fixture/dashed-ident/input.css:15:19
    |
 15 | @--library1-custom {}

@@ -52,39 +52,48 @@
           }
         ]
       },
-      "block": [
-        {
-          "type": "Declaration",
-          "span": {
-            "start": 18,
-            "end": 27,
-            "ctxt": 0
-          },
-          "name": {
-            "type": "Ident",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 16,
+          "end": 29,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
             "span": {
               "start": 18,
-              "end": 24,
+              "end": 27,
               "ctxt": 0
             },
-            "value": "margin",
-            "raw": "margin"
-          },
-          "value": [
-            {
-              "type": "Number",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 26,
-                "end": 27,
+                "start": 18,
+                "end": 24,
                 "ctxt": 0
               },
-              "value": 0.0,
-              "raw": "0"
-            }
-          ],
-          "important": null
-        }
-      ]
+              "value": "margin",
+              "raw": "margin"
+            },
+            "value": [
+              {
+                "type": "Integer",
+                "span": {
+                  "start": 26,
+                  "end": 27,
+                  "ctxt": 0
+                },
+                "value": 0,
+                "raw": "0"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
     },
     {
       "type": "PageRule",
@@ -94,824 +103,977 @@
         "ctxt": 0
       },
       "prelude": null,
-      "block": [
-        {
-          "type": "PageMarginRule",
-          "span": {
-            "start": 43,
-            "end": 78,
-            "ctxt": 0
-          },
-          "name": {
-            "type": "Ident",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 38,
+          "end": 609,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "PageMarginRule",
             "span": {
-              "start": 44,
-              "end": 59,
+              "start": 43,
+              "end": 78,
               "ctxt": 0
             },
-            "value": "top-left-corner",
-            "raw": "top-left-corner"
-          },
-          "block": [
-            {
-              "type": "Declaration",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 62,
-                "end": 76,
+                "start": 44,
+                "end": 59,
                 "ctxt": 0
               },
-              "name": {
-                "type": "Ident",
-                "span": {
-                  "start": 62,
-                  "end": 69,
-                  "ctxt": 0
-                },
-                "value": "content",
-                "raw": "content"
+              "value": "top-left-corner",
+              "raw": "top-left-corner"
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 60,
+                "end": 78,
+                "ctxt": 0
               },
+              "name": "{",
               "value": [
                 {
-                  "type": "String",
+                  "type": "Declaration",
                   "span": {
-                    "start": 71,
+                    "start": 62,
                     "end": 76,
                     "ctxt": 0
                   },
-                  "value": "tlc",
-                  "raw": "'tlc'"
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 62,
+                      "end": 69,
+                      "ctxt": 0
+                    },
+                    "value": "content",
+                    "raw": "content"
+                  },
+                  "value": [
+                    {
+                      "type": "String",
+                      "span": {
+                        "start": 71,
+                        "end": 76,
+                        "ctxt": 0
+                      },
+                      "value": "tlc",
+                      "raw": "'tlc'"
+                    }
+                  ],
+                  "important": null
                 }
-              ],
-              "important": null
+              ]
             }
-          ]
-        },
-        {
-          "type": "PageMarginRule",
-          "span": {
-            "start": 82,
-            "end": 109,
-            "ctxt": 0
           },
-          "name": {
-            "type": "Ident",
+          {
+            "type": "PageMarginRule",
             "span": {
-              "start": 83,
-              "end": 91,
+              "start": 82,
+              "end": 109,
               "ctxt": 0
             },
-            "value": "top-left",
-            "raw": "top-left"
-          },
-          "block": [
-            {
-              "type": "Declaration",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 94,
-                "end": 107,
+                "start": 83,
+                "end": 91,
                 "ctxt": 0
               },
-              "name": {
-                "type": "Ident",
-                "span": {
-                  "start": 94,
-                  "end": 101,
-                  "ctxt": 0
-                },
-                "value": "content",
-                "raw": "content"
+              "value": "top-left",
+              "raw": "top-left"
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 92,
+                "end": 109,
+                "ctxt": 0
               },
+              "name": "{",
               "value": [
                 {
-                  "type": "String",
+                  "type": "Declaration",
                   "span": {
-                    "start": 103,
+                    "start": 94,
                     "end": 107,
                     "ctxt": 0
                   },
-                  "value": "tl",
-                  "raw": "'tl'"
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 94,
+                      "end": 101,
+                      "ctxt": 0
+                    },
+                    "value": "content",
+                    "raw": "content"
+                  },
+                  "value": [
+                    {
+                      "type": "String",
+                      "span": {
+                        "start": 103,
+                        "end": 107,
+                        "ctxt": 0
+                      },
+                      "value": "tl",
+                      "raw": "'tl'"
+                    }
+                  ],
+                  "important": null
                 }
-              ],
-              "important": null
+              ]
             }
-          ]
-        },
-        {
-          "type": "PageMarginRule",
-          "span": {
-            "start": 113,
-            "end": 142,
-            "ctxt": 0
           },
-          "name": {
-            "type": "Ident",
+          {
+            "type": "PageMarginRule",
             "span": {
-              "start": 114,
-              "end": 124,
+              "start": 113,
+              "end": 142,
               "ctxt": 0
             },
-            "value": "top-center",
-            "raw": "top-center"
-          },
-          "block": [
-            {
-              "type": "Declaration",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 127,
-                "end": 140,
+                "start": 114,
+                "end": 124,
                 "ctxt": 0
               },
-              "name": {
-                "type": "Ident",
-                "span": {
-                  "start": 127,
-                  "end": 134,
-                  "ctxt": 0
-                },
-                "value": "content",
-                "raw": "content"
+              "value": "top-center",
+              "raw": "top-center"
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 125,
+                "end": 142,
+                "ctxt": 0
               },
+              "name": "{",
               "value": [
                 {
-                  "type": "String",
+                  "type": "Declaration",
                   "span": {
-                    "start": 136,
+                    "start": 127,
                     "end": 140,
                     "ctxt": 0
                   },
-                  "value": "tc",
-                  "raw": "'tc'"
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 127,
+                      "end": 134,
+                      "ctxt": 0
+                    },
+                    "value": "content",
+                    "raw": "content"
+                  },
+                  "value": [
+                    {
+                      "type": "String",
+                      "span": {
+                        "start": 136,
+                        "end": 140,
+                        "ctxt": 0
+                      },
+                      "value": "tc",
+                      "raw": "'tc'"
+                    }
+                  ],
+                  "important": null
                 }
-              ],
-              "important": null
+              ]
             }
-          ]
-        },
-        {
-          "type": "PageMarginRule",
-          "span": {
-            "start": 146,
-            "end": 174,
-            "ctxt": 0
           },
-          "name": {
-            "type": "Ident",
+          {
+            "type": "PageMarginRule",
             "span": {
-              "start": 147,
-              "end": 156,
+              "start": 146,
+              "end": 174,
               "ctxt": 0
             },
-            "value": "top-right",
-            "raw": "top-right"
-          },
-          "block": [
-            {
-              "type": "Declaration",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 159,
-                "end": 172,
+                "start": 147,
+                "end": 156,
                 "ctxt": 0
               },
-              "name": {
-                "type": "Ident",
-                "span": {
-                  "start": 159,
-                  "end": 166,
-                  "ctxt": 0
-                },
-                "value": "content",
-                "raw": "content"
+              "value": "top-right",
+              "raw": "top-right"
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 157,
+                "end": 174,
+                "ctxt": 0
               },
+              "name": "{",
               "value": [
                 {
-                  "type": "String",
+                  "type": "Declaration",
                   "span": {
-                    "start": 168,
+                    "start": 159,
                     "end": 172,
                     "ctxt": 0
                   },
-                  "value": "tr",
-                  "raw": "'tr'"
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 159,
+                      "end": 166,
+                      "ctxt": 0
+                    },
+                    "value": "content",
+                    "raw": "content"
+                  },
+                  "value": [
+                    {
+                      "type": "String",
+                      "span": {
+                        "start": 168,
+                        "end": 172,
+                        "ctxt": 0
+                      },
+                      "value": "tr",
+                      "raw": "'tr'"
+                    }
+                  ],
+                  "important": null
                 }
-              ],
-              "important": null
+              ]
             }
-          ]
-        },
-        {
-          "type": "PageMarginRule",
-          "span": {
-            "start": 178,
-            "end": 214,
-            "ctxt": 0
           },
-          "name": {
-            "type": "Ident",
+          {
+            "type": "PageMarginRule",
             "span": {
-              "start": 179,
-              "end": 195,
+              "start": 178,
+              "end": 214,
               "ctxt": 0
             },
-            "value": "top-right-corner",
-            "raw": "top-right-corner"
-          },
-          "block": [
-            {
-              "type": "Declaration",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 198,
-                "end": 212,
+                "start": 179,
+                "end": 195,
                 "ctxt": 0
               },
-              "name": {
-                "type": "Ident",
-                "span": {
-                  "start": 198,
-                  "end": 205,
-                  "ctxt": 0
-                },
-                "value": "content",
-                "raw": "content"
+              "value": "top-right-corner",
+              "raw": "top-right-corner"
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 196,
+                "end": 214,
+                "ctxt": 0
               },
+              "name": "{",
               "value": [
                 {
-                  "type": "String",
+                  "type": "Declaration",
                   "span": {
-                    "start": 207,
+                    "start": 198,
                     "end": 212,
                     "ctxt": 0
                   },
-                  "value": "trc",
-                  "raw": "'trc'"
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 198,
+                      "end": 205,
+                      "ctxt": 0
+                    },
+                    "value": "content",
+                    "raw": "content"
+                  },
+                  "value": [
+                    {
+                      "type": "String",
+                      "span": {
+                        "start": 207,
+                        "end": 212,
+                        "ctxt": 0
+                      },
+                      "value": "trc",
+                      "raw": "'trc'"
+                    }
+                  ],
+                  "important": null
                 }
-              ],
-              "important": null
+              ]
             }
-          ]
-        },
-        {
-          "type": "PageMarginRule",
-          "span": {
-            "start": 218,
-            "end": 256,
-            "ctxt": 0
           },
-          "name": {
-            "type": "Ident",
+          {
+            "type": "PageMarginRule",
             "span": {
-              "start": 219,
-              "end": 237,
+              "start": 218,
+              "end": 256,
               "ctxt": 0
             },
-            "value": "bottom-left-corner",
-            "raw": "bottom-left-corner"
-          },
-          "block": [
-            {
-              "type": "Declaration",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 240,
-                "end": 254,
+                "start": 219,
+                "end": 237,
                 "ctxt": 0
               },
-              "name": {
-                "type": "Ident",
-                "span": {
-                  "start": 240,
-                  "end": 247,
-                  "ctxt": 0
-                },
-                "value": "content",
-                "raw": "content"
+              "value": "bottom-left-corner",
+              "raw": "bottom-left-corner"
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 238,
+                "end": 256,
+                "ctxt": 0
               },
+              "name": "{",
               "value": [
                 {
-                  "type": "String",
+                  "type": "Declaration",
                   "span": {
-                    "start": 249,
+                    "start": 240,
                     "end": 254,
                     "ctxt": 0
                   },
-                  "value": "blc",
-                  "raw": "'blc'"
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 240,
+                      "end": 247,
+                      "ctxt": 0
+                    },
+                    "value": "content",
+                    "raw": "content"
+                  },
+                  "value": [
+                    {
+                      "type": "String",
+                      "span": {
+                        "start": 249,
+                        "end": 254,
+                        "ctxt": 0
+                      },
+                      "value": "blc",
+                      "raw": "'blc'"
+                    }
+                  ],
+                  "important": null
                 }
-              ],
-              "important": null
+              ]
             }
-          ]
-        },
-        {
-          "type": "PageMarginRule",
-          "span": {
-            "start": 260,
-            "end": 290,
-            "ctxt": 0
           },
-          "name": {
-            "type": "Ident",
+          {
+            "type": "PageMarginRule",
             "span": {
-              "start": 261,
-              "end": 272,
+              "start": 260,
+              "end": 290,
               "ctxt": 0
             },
-            "value": "bottom-left",
-            "raw": "bottom-left"
-          },
-          "block": [
-            {
-              "type": "Declaration",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 275,
-                "end": 288,
+                "start": 261,
+                "end": 272,
                 "ctxt": 0
               },
-              "name": {
-                "type": "Ident",
-                "span": {
-                  "start": 275,
-                  "end": 282,
-                  "ctxt": 0
-                },
-                "value": "content",
-                "raw": "content"
+              "value": "bottom-left",
+              "raw": "bottom-left"
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 273,
+                "end": 290,
+                "ctxt": 0
               },
+              "name": "{",
               "value": [
                 {
-                  "type": "String",
+                  "type": "Declaration",
                   "span": {
-                    "start": 284,
+                    "start": 275,
                     "end": 288,
                     "ctxt": 0
                   },
-                  "value": "bl",
-                  "raw": "'bl'"
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 275,
+                      "end": 282,
+                      "ctxt": 0
+                    },
+                    "value": "content",
+                    "raw": "content"
+                  },
+                  "value": [
+                    {
+                      "type": "String",
+                      "span": {
+                        "start": 284,
+                        "end": 288,
+                        "ctxt": 0
+                      },
+                      "value": "bl",
+                      "raw": "'bl'"
+                    }
+                  ],
+                  "important": null
                 }
-              ],
-              "important": null
+              ]
             }
-          ]
-        },
-        {
-          "type": "PageMarginRule",
-          "span": {
-            "start": 294,
-            "end": 326,
-            "ctxt": 0
           },
-          "name": {
-            "type": "Ident",
+          {
+            "type": "PageMarginRule",
             "span": {
-              "start": 295,
-              "end": 308,
+              "start": 294,
+              "end": 326,
               "ctxt": 0
             },
-            "value": "bottom-center",
-            "raw": "bottom-center"
-          },
-          "block": [
-            {
-              "type": "Declaration",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 311,
-                "end": 324,
+                "start": 295,
+                "end": 308,
                 "ctxt": 0
               },
-              "name": {
-                "type": "Ident",
-                "span": {
-                  "start": 311,
-                  "end": 318,
-                  "ctxt": 0
-                },
-                "value": "content",
-                "raw": "content"
+              "value": "bottom-center",
+              "raw": "bottom-center"
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 309,
+                "end": 326,
+                "ctxt": 0
               },
+              "name": "{",
               "value": [
                 {
-                  "type": "String",
+                  "type": "Declaration",
                   "span": {
-                    "start": 320,
+                    "start": 311,
                     "end": 324,
                     "ctxt": 0
                   },
-                  "value": "bc",
-                  "raw": "'bc'"
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 311,
+                      "end": 318,
+                      "ctxt": 0
+                    },
+                    "value": "content",
+                    "raw": "content"
+                  },
+                  "value": [
+                    {
+                      "type": "String",
+                      "span": {
+                        "start": 320,
+                        "end": 324,
+                        "ctxt": 0
+                      },
+                      "value": "bc",
+                      "raw": "'bc'"
+                    }
+                  ],
+                  "important": null
                 }
-              ],
-              "important": null
+              ]
             }
-          ]
-        },
-        {
-          "type": "PageMarginRule",
-          "span": {
-            "start": 330,
-            "end": 361,
-            "ctxt": 0
           },
-          "name": {
-            "type": "Ident",
+          {
+            "type": "PageMarginRule",
             "span": {
-              "start": 331,
-              "end": 343,
+              "start": 330,
+              "end": 361,
               "ctxt": 0
             },
-            "value": "bottom-right",
-            "raw": "bottom-right"
-          },
-          "block": [
-            {
-              "type": "Declaration",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 346,
-                "end": 359,
+                "start": 331,
+                "end": 343,
                 "ctxt": 0
               },
-              "name": {
-                "type": "Ident",
-                "span": {
-                  "start": 346,
-                  "end": 353,
-                  "ctxt": 0
-                },
-                "value": "content",
-                "raw": "content"
+              "value": "bottom-right",
+              "raw": "bottom-right"
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 344,
+                "end": 361,
+                "ctxt": 0
               },
+              "name": "{",
               "value": [
                 {
-                  "type": "String",
+                  "type": "Declaration",
                   "span": {
-                    "start": 355,
+                    "start": 346,
                     "end": 359,
                     "ctxt": 0
                   },
-                  "value": "br",
-                  "raw": "'br'"
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 346,
+                      "end": 353,
+                      "ctxt": 0
+                    },
+                    "value": "content",
+                    "raw": "content"
+                  },
+                  "value": [
+                    {
+                      "type": "String",
+                      "span": {
+                        "start": 355,
+                        "end": 359,
+                        "ctxt": 0
+                      },
+                      "value": "br",
+                      "raw": "'br'"
+                    }
+                  ],
+                  "important": null
                 }
-              ],
-              "important": null
+              ]
             }
-          ]
-        },
-        {
-          "type": "PageMarginRule",
-          "span": {
-            "start": 365,
-            "end": 404,
-            "ctxt": 0
           },
-          "name": {
-            "type": "Ident",
+          {
+            "type": "PageMarginRule",
             "span": {
-              "start": 366,
-              "end": 385,
+              "start": 365,
+              "end": 404,
               "ctxt": 0
             },
-            "value": "bottom-right-corner",
-            "raw": "bottom-right-corner"
-          },
-          "block": [
-            {
-              "type": "Declaration",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 388,
-                "end": 402,
+                "start": 366,
+                "end": 385,
                 "ctxt": 0
               },
-              "name": {
-                "type": "Ident",
-                "span": {
-                  "start": 388,
-                  "end": 395,
-                  "ctxt": 0
-                },
-                "value": "content",
-                "raw": "content"
+              "value": "bottom-right-corner",
+              "raw": "bottom-right-corner"
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 386,
+                "end": 404,
+                "ctxt": 0
               },
+              "name": "{",
               "value": [
                 {
-                  "type": "String",
+                  "type": "Declaration",
                   "span": {
-                    "start": 397,
+                    "start": 388,
                     "end": 402,
                     "ctxt": 0
                   },
-                  "value": "brc",
-                  "raw": "'brc'"
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 388,
+                      "end": 395,
+                      "ctxt": 0
+                    },
+                    "value": "content",
+                    "raw": "content"
+                  },
+                  "value": [
+                    {
+                      "type": "String",
+                      "span": {
+                        "start": 397,
+                        "end": 402,
+                        "ctxt": 0
+                      },
+                      "value": "brc",
+                      "raw": "'brc'"
+                    }
+                  ],
+                  "important": null
                 }
-              ],
-              "important": null
+              ]
             }
-          ]
-        },
-        {
-          "type": "PageMarginRule",
-          "span": {
-            "start": 408,
-            "end": 435,
-            "ctxt": 0
           },
-          "name": {
-            "type": "Ident",
+          {
+            "type": "PageMarginRule",
             "span": {
-              "start": 409,
-              "end": 417,
+              "start": 408,
+              "end": 435,
               "ctxt": 0
             },
-            "value": "left-top",
-            "raw": "left-top"
-          },
-          "block": [
-            {
-              "type": "Declaration",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 420,
-                "end": 433,
+                "start": 409,
+                "end": 417,
                 "ctxt": 0
               },
-              "name": {
-                "type": "Ident",
-                "span": {
-                  "start": 420,
-                  "end": 427,
-                  "ctxt": 0
-                },
-                "value": "content",
-                "raw": "content"
+              "value": "left-top",
+              "raw": "left-top"
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 418,
+                "end": 435,
+                "ctxt": 0
               },
+              "name": "{",
               "value": [
                 {
-                  "type": "String",
+                  "type": "Declaration",
                   "span": {
-                    "start": 429,
+                    "start": 420,
                     "end": 433,
                     "ctxt": 0
                   },
-                  "value": "lt",
-                  "raw": "'lt'"
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 420,
+                      "end": 427,
+                      "ctxt": 0
+                    },
+                    "value": "content",
+                    "raw": "content"
+                  },
+                  "value": [
+                    {
+                      "type": "String",
+                      "span": {
+                        "start": 429,
+                        "end": 433,
+                        "ctxt": 0
+                      },
+                      "value": "lt",
+                      "raw": "'lt'"
+                    }
+                  ],
+                  "important": null
                 }
-              ],
-              "important": null
+              ]
             }
-          ]
-        },
-        {
-          "type": "PageMarginRule",
-          "span": {
-            "start": 439,
-            "end": 469,
-            "ctxt": 0
           },
-          "name": {
-            "type": "Ident",
+          {
+            "type": "PageMarginRule",
             "span": {
-              "start": 440,
-              "end": 451,
+              "start": 439,
+              "end": 469,
               "ctxt": 0
             },
-            "value": "left-middle",
-            "raw": "left-middle"
-          },
-          "block": [
-            {
-              "type": "Declaration",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 454,
-                "end": 467,
+                "start": 440,
+                "end": 451,
                 "ctxt": 0
               },
-              "name": {
-                "type": "Ident",
-                "span": {
-                  "start": 454,
-                  "end": 461,
-                  "ctxt": 0
-                },
-                "value": "content",
-                "raw": "content"
+              "value": "left-middle",
+              "raw": "left-middle"
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 452,
+                "end": 469,
+                "ctxt": 0
               },
+              "name": "{",
               "value": [
                 {
-                  "type": "String",
+                  "type": "Declaration",
                   "span": {
-                    "start": 463,
+                    "start": 454,
                     "end": 467,
                     "ctxt": 0
                   },
-                  "value": "lm",
-                  "raw": "'lm'"
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 454,
+                      "end": 461,
+                      "ctxt": 0
+                    },
+                    "value": "content",
+                    "raw": "content"
+                  },
+                  "value": [
+                    {
+                      "type": "String",
+                      "span": {
+                        "start": 463,
+                        "end": 467,
+                        "ctxt": 0
+                      },
+                      "value": "lm",
+                      "raw": "'lm'"
+                    }
+                  ],
+                  "important": null
                 }
-              ],
-              "important": null
+              ]
             }
-          ]
-        },
-        {
-          "type": "PageMarginRule",
-          "span": {
-            "start": 473,
-            "end": 503,
-            "ctxt": 0
           },
-          "name": {
-            "type": "Ident",
+          {
+            "type": "PageMarginRule",
             "span": {
-              "start": 474,
-              "end": 485,
+              "start": 473,
+              "end": 503,
               "ctxt": 0
             },
-            "value": "left-bottom",
-            "raw": "left-bottom"
-          },
-          "block": [
-            {
-              "type": "Declaration",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 488,
-                "end": 501,
+                "start": 474,
+                "end": 485,
                 "ctxt": 0
               },
-              "name": {
-                "type": "Ident",
-                "span": {
-                  "start": 488,
-                  "end": 495,
-                  "ctxt": 0
-                },
-                "value": "content",
-                "raw": "content"
+              "value": "left-bottom",
+              "raw": "left-bottom"
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 486,
+                "end": 503,
+                "ctxt": 0
               },
+              "name": "{",
               "value": [
                 {
-                  "type": "String",
+                  "type": "Declaration",
                   "span": {
-                    "start": 497,
+                    "start": 488,
                     "end": 501,
                     "ctxt": 0
                   },
-                  "value": "lb",
-                  "raw": "'lb'"
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 488,
+                      "end": 495,
+                      "ctxt": 0
+                    },
+                    "value": "content",
+                    "raw": "content"
+                  },
+                  "value": [
+                    {
+                      "type": "String",
+                      "span": {
+                        "start": 497,
+                        "end": 501,
+                        "ctxt": 0
+                      },
+                      "value": "lb",
+                      "raw": "'lb'"
+                    }
+                  ],
+                  "important": null
                 }
-              ],
-              "important": null
+              ]
             }
-          ]
-        },
-        {
-          "type": "PageMarginRule",
-          "span": {
-            "start": 507,
-            "end": 535,
-            "ctxt": 0
           },
-          "name": {
-            "type": "Ident",
+          {
+            "type": "PageMarginRule",
             "span": {
-              "start": 508,
-              "end": 517,
+              "start": 507,
+              "end": 535,
               "ctxt": 0
             },
-            "value": "right-top",
-            "raw": "right-top"
-          },
-          "block": [
-            {
-              "type": "Declaration",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 520,
-                "end": 533,
+                "start": 508,
+                "end": 517,
                 "ctxt": 0
               },
-              "name": {
-                "type": "Ident",
-                "span": {
-                  "start": 520,
-                  "end": 527,
-                  "ctxt": 0
-                },
-                "value": "content",
-                "raw": "content"
+              "value": "right-top",
+              "raw": "right-top"
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 518,
+                "end": 535,
+                "ctxt": 0
               },
+              "name": "{",
               "value": [
                 {
-                  "type": "String",
+                  "type": "Declaration",
                   "span": {
-                    "start": 529,
+                    "start": 520,
                     "end": 533,
                     "ctxt": 0
                   },
-                  "value": "rt",
-                  "raw": "'rt'"
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 520,
+                      "end": 527,
+                      "ctxt": 0
+                    },
+                    "value": "content",
+                    "raw": "content"
+                  },
+                  "value": [
+                    {
+                      "type": "String",
+                      "span": {
+                        "start": 529,
+                        "end": 533,
+                        "ctxt": 0
+                      },
+                      "value": "rt",
+                      "raw": "'rt'"
+                    }
+                  ],
+                  "important": null
                 }
-              ],
-              "important": null
+              ]
             }
-          ]
-        },
-        {
-          "type": "PageMarginRule",
-          "span": {
-            "start": 539,
-            "end": 570,
-            "ctxt": 0
           },
-          "name": {
-            "type": "Ident",
+          {
+            "type": "PageMarginRule",
             "span": {
-              "start": 540,
-              "end": 552,
+              "start": 539,
+              "end": 570,
               "ctxt": 0
             },
-            "value": "right-middle",
-            "raw": "right-middle"
-          },
-          "block": [
-            {
-              "type": "Declaration",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 555,
-                "end": 568,
+                "start": 540,
+                "end": 552,
                 "ctxt": 0
               },
-              "name": {
-                "type": "Ident",
-                "span": {
-                  "start": 555,
-                  "end": 562,
-                  "ctxt": 0
-                },
-                "value": "content",
-                "raw": "content"
+              "value": "right-middle",
+              "raw": "right-middle"
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 553,
+                "end": 570,
+                "ctxt": 0
               },
+              "name": "{",
               "value": [
                 {
-                  "type": "String",
+                  "type": "Declaration",
                   "span": {
-                    "start": 564,
+                    "start": 555,
                     "end": 568,
                     "ctxt": 0
                   },
-                  "value": "rm",
-                  "raw": "'rm'"
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 555,
+                      "end": 562,
+                      "ctxt": 0
+                    },
+                    "value": "content",
+                    "raw": "content"
+                  },
+                  "value": [
+                    {
+                      "type": "String",
+                      "span": {
+                        "start": 564,
+                        "end": 568,
+                        "ctxt": 0
+                      },
+                      "value": "rm",
+                      "raw": "'rm'"
+                    }
+                  ],
+                  "important": null
                 }
-              ],
-              "important": null
+              ]
             }
-          ]
-        },
-        {
-          "type": "PageMarginRule",
-          "span": {
-            "start": 574,
-            "end": 605,
-            "ctxt": 0
           },
-          "name": {
-            "type": "Ident",
+          {
+            "type": "PageMarginRule",
             "span": {
-              "start": 575,
-              "end": 587,
+              "start": 574,
+              "end": 605,
               "ctxt": 0
             },
-            "value": "right-bottom",
-            "raw": "right-bottom"
-          },
-          "block": [
-            {
-              "type": "Declaration",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 590,
-                "end": 603,
+                "start": 575,
+                "end": 587,
                 "ctxt": 0
               },
-              "name": {
-                "type": "Ident",
-                "span": {
-                  "start": 590,
-                  "end": 597,
-                  "ctxt": 0
-                },
-                "value": "content",
-                "raw": "content"
+              "value": "right-bottom",
+              "raw": "right-bottom"
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 588,
+                "end": 605,
+                "ctxt": 0
               },
+              "name": "{",
               "value": [
                 {
-                  "type": "String",
+                  "type": "Declaration",
                   "span": {
-                    "start": 599,
+                    "start": 590,
                     "end": 603,
                     "ctxt": 0
                   },
-                  "value": "rb",
-                  "raw": "'rb'"
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 590,
+                      "end": 597,
+                      "ctxt": 0
+                    },
+                    "value": "content",
+                    "raw": "content"
+                  },
+                  "value": [
+                    {
+                      "type": "String",
+                      "span": {
+                        "start": 599,
+                        "end": 603,
+                        "ctxt": 0
+                      },
+                      "value": "rb",
+                      "raw": "'rb'"
+                    }
+                  ],
+                  "important": null
                 }
-              ],
-              "important": null
+              ]
             }
-          ]
-        }
-      ]
+          }
+        ]
+      }
     }
   ]
 }

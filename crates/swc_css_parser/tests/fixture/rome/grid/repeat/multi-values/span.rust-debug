@@ -58,7 +58,7 @@ error: Ident
 1 | .style {
   |  ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:1:8
   |
 1 |   .style {
@@ -66,6 +66,18 @@ error: Block
 2 | |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
 3 | | }
   | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:2
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:2
+  |
+2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:2
@@ -85,7 +97,7 @@ error: Ident
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
   |     ^^^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:25
   |
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
@@ -103,19 +115,19 @@ error: Ident
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
   |                            ^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:32
   |
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
   |                                   ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:32
   |
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
   |                                   ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:33
   |
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
@@ -127,7 +139,7 @@ error: Delimiter
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
   |                                    ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:35
   |
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
@@ -139,7 +151,7 @@ error: SimpleBlock
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
   |                                      ^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:36
   |
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
@@ -151,7 +163,7 @@ error: Ident
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
   |                                       ^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:47
   |
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
@@ -163,7 +175,7 @@ error: Ident
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
   |                                                  ^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:59
   |
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
@@ -175,7 +187,7 @@ error: SimpleBlock
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
   |                                                              ^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:60
   |
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
@@ -187,7 +199,7 @@ error: Ident
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
   |                                                               ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:72
   |
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
@@ -199,7 +211,7 @@ error: Ident
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
   |                                                                           ^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:84
   |
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
@@ -211,7 +223,7 @@ error: SimpleBlock
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
   |                                                                                       ^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:2:85
   |
 2 |     grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);

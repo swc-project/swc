@@ -187,7 +187,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
 
             // skip spaces before getting next character, if we are allowed to.
             if self.state.can_skip_space() {
-                self.skip_space()?;
+                self.skip_space(true)?;
                 start = self.input.cur_pos();
             };
 

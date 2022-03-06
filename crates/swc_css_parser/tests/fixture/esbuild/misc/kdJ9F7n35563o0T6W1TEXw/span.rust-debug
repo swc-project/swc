@@ -22,6 +22,18 @@ error: PageRule
 1 | @page { @top-left {} }
   | ^^^^^^^^^^^^^^^^^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:7
+  |
+1 | @page { @top-left {} }
+  |       ^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:9
+  |
+1 | @page { @top-left {} }
+  |         ^^^^^^^^^^^^
+
 error: AtRule
  --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:9
   |
@@ -39,4 +51,10 @@ error: Ident
   |
 1 | @page { @top-left {} }
   |          ^^^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:19
+  |
+1 | @page { @top-left {} }
+  |                   ^^
 

@@ -71,12 +71,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 4,
           "end": 534,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",
@@ -179,27 +180,14 @@
                 "name": "{",
                 "value": [
                   {
-                    "type": "Tokens",
+                    "type": "Ident",
                     "span": {
                       "start": 53,
                       "end": 58,
                       "ctxt": 0
                     },
-                    "tokens": [
-                      {
-                        "span": {
-                          "start": 53,
-                          "end": 58,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Ident": {
-                            "value": "value",
-                            "raw": "value"
-                          }
-                        }
-                      }
-                    ]
+                    "value": "value",
+                    "raw": "value"
                   }
                 ]
               }
@@ -893,27 +881,14 @@
                 "name": "{",
                 "value": [
                   {
-                    "type": "Tokens",
+                    "type": "Ident",
                     "span": {
                       "start": 364,
                       "end": 369,
                       "ctxt": 0
                     },
-                    "tokens": [
-                      {
-                        "span": {
-                          "start": 364,
-                          "end": 369,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Ident": {
-                            "value": "value",
-                            "raw": "value"
-                          }
-                        }
-                      }
-                    ]
+                    "value": "value",
+                    "raw": "value"
                   }
                 ]
               },
@@ -927,27 +902,14 @@
                 "name": "{",
                 "value": [
                   {
-                    "type": "Tokens",
+                    "type": "Ident",
                     "span": {
                       "start": 371,
                       "end": 376,
                       "ctxt": 0
                     },
-                    "tokens": [
-                      {
-                        "span": {
-                          "start": 371,
-                          "end": 376,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Ident": {
-                            "value": "value",
-                            "raw": "value"
-                          }
-                        }
-                      }
-                    ]
+                    "value": "value",
+                    "raw": "value"
                   }
                 ]
               }
@@ -1419,12 +1381,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 538,
           "end": 562,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",
@@ -1535,12 +1498,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 564,
           "end": 577,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",
@@ -1641,12 +1605,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 581,
           "end": 612,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",

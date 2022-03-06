@@ -28,6 +28,18 @@ error: CustomIdent
 1 | @keyframes a\,c { \66rom {} }
   |            ^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/BGEkoLaLFY8_QtKKVFDVhQ/input.css:1:17
+  |
+1 | @keyframes a\,c { \66rom {} }
+  |                 ^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/BGEkoLaLFY8_QtKKVFDVhQ/input.css:1:19
+  |
+1 | @keyframes a\,c { \66rom {} }
+  |                   ^^^^^^^^^
+
 error: KeyframeBlock
  --> $DIR/tests/fixture/esbuild/misc/BGEkoLaLFY8_QtKKVFDVhQ/input.css:1:19
   |
@@ -46,7 +58,7 @@ error: Ident
 1 | @keyframes a\,c { \66rom {} }
   |                   ^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/BGEkoLaLFY8_QtKKVFDVhQ/input.css:1:26
   |
 1 | @keyframes a\,c { \66rom {} }

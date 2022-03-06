@@ -91,12 +91,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 9,
           "end": 11,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -185,12 +186,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 30,
           "end": 32,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -279,12 +281,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 44,
           "end": 46,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -373,12 +376,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 59,
           "end": 61,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -458,29 +462,45 @@
                       "value": "cue",
                       "raw": "cue"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 73,
-                        "end": 74,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
+                    "children": [
+                      {
+                        "type": "CompoundSelector",
+                        "span": {
+                          "start": 73,
+                          "end": 74,
+                          "ctxt": 0
+                        },
+                        "nestingSelector": null,
+                        "typeSelector": {
+                          "type": "TagNameSelector",
                           "span": {
                             "start": 73,
                             "end": 74,
                             "ctxt": 0
                           },
-                          "token": {
-                            "Ident": {
+                          "name": {
+                            "type": "WqName",
+                            "span": {
+                              "start": 73,
+                              "end": 74,
+                              "ctxt": 0
+                            },
+                            "prefix": null,
+                            "value": {
+                              "type": "Ident",
+                              "span": {
+                                "start": 73,
+                                "end": 74,
+                                "ctxt": 0
+                              },
                               "value": "b",
                               "raw": "b"
                             }
                           }
-                        }
-                      ]
-                    }
+                        },
+                        "subclassSelectors": []
+                      }
+                    ]
                   }
                 ]
               }
@@ -489,12 +509,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 76,
           "end": 78,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -583,12 +604,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 98,
           "end": 100,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -668,30 +690,38 @@
                       "value": "cue-region",
                       "raw": "cue-region"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 119,
-                        "end": 126,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 119,
-                            "end": 126,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Hash": {
-                              "is_id": true,
+                    "children": [
+                      {
+                        "type": "CompoundSelector",
+                        "span": {
+                          "start": 119,
+                          "end": 126,
+                          "ctxt": 0
+                        },
+                        "nestingSelector": null,
+                        "typeSelector": null,
+                        "subclassSelectors": [
+                          {
+                            "type": "IdSelector",
+                            "span": {
+                              "start": 119,
+                              "end": 126,
+                              "ctxt": 0
+                            },
+                            "text": {
+                              "type": "Ident",
+                              "span": {
+                                "start": 119,
+                                "end": 126,
+                                "ctxt": 0
+                              },
                               "value": "scroll",
                               "raw": "scroll"
                             }
                           }
-                        }
-                      ]
-                    }
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -700,12 +730,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 128,
           "end": 130,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -768,12 +799,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 148,
           "end": 150,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -836,12 +868,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 161,
           "end": 163,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -921,29 +954,18 @@
                       "value": "part",
                       "raw": "part"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 193,
-                        "end": 196,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
-                          "span": {
-                            "start": 193,
-                            "end": 196,
-                            "ctxt": 0
-                          },
-                          "token": {
-                            "Ident": {
-                              "value": "tab",
-                              "raw": "tab"
-                            }
-                          }
-                        }
-                      ]
-                    }
+                    "children": [
+                      {
+                        "type": "Ident",
+                        "span": {
+                          "start": 193,
+                          "end": 196,
+                          "ctxt": 0
+                        },
+                        "value": "tab",
+                        "raw": "tab"
+                      }
+                    ]
                   }
                 ]
               }
@@ -952,12 +974,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 198,
           "end": 200,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1020,12 +1043,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 216,
           "end": 218,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1088,12 +1112,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 232,
           "end": 234,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1147,28 +1172,27 @@
                       "value": "slotted",
                       "raw": "slotted"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 246,
-                        "end": 247,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
+                    "children": [
+                      {
+                        "type": "CompoundSelector",
+                        "span": {
+                          "start": 246,
+                          "end": 247,
+                          "ctxt": 0
+                        },
+                        "nestingSelector": null,
+                        "typeSelector": {
+                          "type": "UniversalSelector",
                           "span": {
                             "start": 246,
                             "end": 247,
                             "ctxt": 0
                           },
-                          "token": {
-                            "Delim": {
-                              "value": "*"
-                            }
-                          }
-                        }
-                      ]
-                    }
+                          "prefix": null
+                        },
+                        "subclassSelectors": []
+                      }
+                    ]
                   }
                 ]
               }
@@ -1177,12 +1201,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 249,
           "end": 251,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1236,29 +1261,45 @@
                       "value": "slotted",
                       "raw": "slotted"
                     },
-                    "children": {
-                      "type": "Tokens",
-                      "span": {
-                        "start": 262,
-                        "end": 266,
-                        "ctxt": 0
-                      },
-                      "tokens": [
-                        {
+                    "children": [
+                      {
+                        "type": "CompoundSelector",
+                        "span": {
+                          "start": 262,
+                          "end": 266,
+                          "ctxt": 0
+                        },
+                        "nestingSelector": null,
+                        "typeSelector": {
+                          "type": "TagNameSelector",
                           "span": {
                             "start": 262,
                             "end": 266,
                             "ctxt": 0
                           },
-                          "token": {
-                            "Ident": {
+                          "name": {
+                            "type": "WqName",
+                            "span": {
+                              "start": 262,
+                              "end": 266,
+                              "ctxt": 0
+                            },
+                            "prefix": null,
+                            "value": {
+                              "type": "Ident",
+                              "span": {
+                                "start": 262,
+                                "end": 266,
+                                "ctxt": 0
+                              },
                               "value": "span",
                               "raw": "span"
                             }
                           }
-                        }
-                      ]
-                    }
+                        },
+                        "subclassSelectors": []
+                      }
+                    ]
                   }
                 ]
               }
@@ -1267,12 +1308,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 268,
           "end": 270,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1335,12 +1377,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 289,
           "end": 291,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1403,12 +1446,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 307,
           "end": 309,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1508,12 +1552,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 352,
           "end": 354,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1602,12 +1647,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 366,
           "end": 368,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1715,12 +1761,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 386,
           "end": 388,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -1828,12 +1875,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 415,
           "end": 417,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -2007,12 +2055,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 438,
           "end": 440,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     },
@@ -2101,12 +2150,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 455,
           "end": 457,
           "ctxt": 0
         },
+        "name": "{",
         "value": []
       }
     }

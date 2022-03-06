@@ -46,6 +46,7 @@ fn issue_1532() {
 }
 
 #[testing::fixture("tests/errors/**/input.js")]
+#[testing::fixture("tests/errors/**/input.ts")]
 fn fixture(input: PathBuf) {
     let _log = testing::init();
     let output_path = input.parent().unwrap().join("output.swc-stderr");

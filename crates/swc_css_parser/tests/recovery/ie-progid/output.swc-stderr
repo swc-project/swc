@@ -1,24 +1,84 @@
-error: Expected a property value
- --> $DIR/tests/recovery/ie-progid/input.css:2:12
+error: Expected Declaration value
+ --> $DIR/tests/recovery/ie-progid/input.css:2:18
   |
 2 |     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
-  |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |                  ^
 
-error: Expected whitespace, semicolon, EOF, at-keyword or ident token
- --> $DIR/tests/recovery/ie-progid/input.css:2:115
+error: Expected Declaration value
+ --> $DIR/tests/recovery/ie-progid/input.css:2:35
   |
 2 |     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
+  |                                   ^
+
+error: Expected Declaration value
+ --> $DIR/tests/recovery/ie-progid/input.css:2:45
+  |
+2 |     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
+  |                                             ^
+
+error: Expected Declaration value
+ --> $DIR/tests/recovery/ie-progid/input.css:2:68
+  |
+2 |     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
+  |                                                                    ^
+
+error: Expected Declaration value
+ --> $DIR/tests/recovery/ie-progid/input.css:2:90
+  |
+2 |     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
+  |                                                                                          ^
+
+error: Expected Declaration value
+ --> $DIR/tests/recovery/ie-progid/input.css:2:113
+  |
+2 |     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
+  |                                                                                                                 ^
+
+error: Expected Declaration value
+ --> $DIR/tests/recovery/ie-progid/input.css:3:19
+  |
+3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
+  |                   ^
+
+error: Expected Declaration value
+ --> $DIR/tests/recovery/ie-progid/input.css:3:36
+  |
+3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
+  |                                    ^
+
+error: Expected Declaration value
+ --> $DIR/tests/recovery/ie-progid/input.css:3:46
+  |
+3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
+  |                                              ^
+
+error: Expected Declaration value
+ --> $DIR/tests/recovery/ie-progid/input.css:3:63
+  |
+3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
+  |                                                               ^
+
+error: Expected Declaration value
+ --> $DIR/tests/recovery/ie-progid/input.css:3:73
+  |
+3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
+  |                                                                         ^
+
+error: Expected Declaration value
+ --> $DIR/tests/recovery/ie-progid/input.css:3:90
+  |
+3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
+  |                                                                                          ^
+
+error: Expected Declaration value
+ --> $DIR/tests/recovery/ie-progid/input.css:3:100
+  |
+3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
+  |                                                                                                    ^
+
+error: Expected Declaration value
+ --> $DIR/tests/recovery/ie-progid/input.css:3:115
+  |
+3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
   |                                                                                                                   ^
-
-error: Expected a property value
- --> $DIR/tests/recovery/ie-progid/input.css:3:13
-  |
-3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Expected whitespace, semicolon, EOF, at-keyword or ident token
- --> $DIR/tests/recovery/ie-progid/input.css:3:65
-  |
-3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
-  |                                                                 ^
 

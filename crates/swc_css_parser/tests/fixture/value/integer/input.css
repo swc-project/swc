@@ -1,0 +1,8 @@
+div {
+    z-index: 12;
+    z-index: +123;
+    z-index: -456;
+    z-index: 0;
+    z-index: +0;
+    z-index: -0;
+}

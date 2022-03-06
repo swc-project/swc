@@ -20,8 +20,8 @@ use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{EsConfig, Parser, Syntax};
 use swc_ecma_preset_env::{preset_env, Config, FeatureOrModule, Mode, Targets, Version};
-use swc_ecma_transforms::fixer;
-use swc_ecma_utils::drop_span;
+use swc_ecma_transforms::{fixer, helpers};
+use swc_ecma_utils::{drop_span, HANDLER};
 use swc_ecma_visit::{as_folder, FoldWith, VisitMut};
 use testing::{NormalizedOutput, Tester};
 
@@ -112,7 +112,6 @@ impl Default for UseBuiltIns {
 enum Error {
     Io(io::Error),
     Var(env::VarError),
-    WalkDir(walkdir::Error),
     Json(serde_json::Error),
     Msg(String),
 }
@@ -135,7 +134,6 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                             v => unreachable!("invalid: {:?}", v),
                         },
                         skip: vec![],
-                        // TODO
                         loose: true,
                         // TODO
                         dynamic_import: true,
@@ -195,7 +193,9 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                 e.into_diagnostic(&handler).emit()
             }
 
-            let actual = module.fold_with(&mut pass);
+            let actual = helpers::HELPERS.set(&Default::default(), || {
+                HANDLER.set(&handler, || module.fold_with(&mut pass))
+            });
 
             // debug mode?
             if dir.join("stdout.txt").exists() {

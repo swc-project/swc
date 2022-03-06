@@ -5,7 +5,6 @@ var C, a, b, a, b, b, c, d, K, _class = function() {
     "use strict";
     _classCallCheck(this, _class);
 };
-export { _class as default };
 export var A = function() {
     "use strict";
     _classCallCheck(this, A);
@@ -14,8 +13,8 @@ export var A = function() {
     C[C.One = 0] = "One", C[C.Two = 1] = "Two";
 }(C || (C = {})), console.log(a, b), console.log(a, b);
 var a = A;
-console.log(a, b), C.One;
-var c = C.Two, d = C.Two;
+console.log(a, b);
+var c = 1, d = 1;
 console.log(c, d), console.log(c, d);
 var H = function() {
     "use strict";
@@ -29,4 +28,4 @@ var H = require("./h");
     K[K.One = 0] = "One", K[K.Two = 1] = "Two";
 }(K || (K = {})), module.exports = K;
 var K = require("./k");
-K.One;
+export { _class as default };

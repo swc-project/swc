@@ -64,12 +64,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 7,
           "end": 50,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",
@@ -108,13 +109,13 @@
                 },
                 "value": [
                   {
-                    "type": "Number",
+                    "type": "Integer",
                     "span": {
                       "start": 40,
                       "end": 41,
                       "ctxt": 0
                     },
-                    "value": 4.0,
+                    "value": 4,
                     "raw": "4"
                   },
                   {

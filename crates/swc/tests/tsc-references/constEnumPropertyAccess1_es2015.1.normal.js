@@ -13,14 +13,13 @@ G;
 var o = {
     1: true
 };
-var a = G.A;
-var a1 = G["A"];
-var g = o[G.A];
-var tmp = G.A, tmp1 = G.B, tmp2 = G.B;
+var a = 1;
+var a1 = 1;
+var g = o[1];
 class C {
-    [tmp]() {}
-    get [tmp1]() {
+    [1]() {}
+    get [2]() {
         return true;
     }
-    set [tmp2](x) {}
+    set [2](x) {}
 }

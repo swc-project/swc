@@ -282,7 +282,8 @@
                           },
                           "value": "Zero",
                           "optional": false
-                        }
+                        },
+                        "typeArguments": null
                       }
                     ]
                   }
@@ -417,7 +418,8 @@
                           },
                           "value": "Zero",
                           "optional": false
-                        }
+                        },
+                        "typeArguments": null
                       }
                     ]
                   }

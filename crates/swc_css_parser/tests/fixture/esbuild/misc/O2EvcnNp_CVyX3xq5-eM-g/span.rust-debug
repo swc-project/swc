@@ -79,13 +79,29 @@ error: Ident
 1 | a:after { content: 'a\
   |   ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:9
   |
 1 |   a:after { content: 'a\
   |  _________^
 2 | | b' }
   | |____^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:11
+  |
+1 |   a:after { content: 'a\
+  |  ___________^
+2 | | b' }
+  | |__^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:11
+  |
+1 |   a:after { content: 'a\
+  |  ___________^
+2 | | b' }
+  | |__^
 
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:11
@@ -107,7 +123,7 @@ error: Ident
 1 | a:after { content: 'a\
   |           ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:20
   |
 1 |   a:after { content: 'a\

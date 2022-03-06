@@ -1,7 +1,7 @@
-use swc_common::{BytePos, Spanned};
+use swc_common::{BytePos, Span};
 use swc_css_ast::*;
 
-use super::{input::ParserInput, Ctx, PResult, Parser};
+use super::{input::ParserInput, BlockContentsGrammar, Ctx, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
     Parse,
@@ -14,80 +14,9 @@ impl<I> Parser<I>
 where
     I: ParserInput,
 {
-    /// Ported from `parseDeclaration` of esbuild.
-    ///
-    /// https://github.com/evanw/esbuild/blob/a9456dfbf08ab50607952eefb85f2418968c124c/internal/css_parser/css_parser.go#L987
-    ///
-    /// Returned [BytePos] is `hi`.
-    pub(super) fn parse_property_values(&mut self) -> PResult<(Vec<Value>, BytePos)> {
-        let start = self.input.state();
-        let mut values = vec![];
-        let mut state = self.input.state();
-        let start_pos = self.input.cur_span()?.lo;
-        let mut hi = self.input.last_pos()?;
-
-        loop {
-            if is_one_of!(self, EOF, ";", "}", "!", ")", "]") {
-                self.input.reset(&state);
-                break;
-            }
-
-            let v = self.parse_one_value_inner()?;
-
-            hi = v.span().hi;
-            values.push(v);
-            state = self.input.state();
-
-            if !eat!(self, " ")
-                && !is_one_of!(
-                    self,
-                    ",",
-                    "/",
-                    "function",
-                    "ident",
-                    "dimension",
-                    "percentage",
-                    "num",
-                    "str",
-                    "#",
-                    "url",
-                    "[",
-                    "{",
-                    "("
-                )
-            {
-                if self.ctx.recover_from_property_value
-                    && !is_one_of!(self, EOF, ";", "}", "!", ")", "]")
-                {
-                    self.input.reset(&start);
-
-                    let mut tokens = vec![];
-                    while !is_one_of!(self, EOF, ";", "}", "!", ")", "]") {
-                        tokens.extend(self.input.bump()?);
-                    }
-
-                    let span = span!(self, start_pos);
-                    let v = Value::Tokens(Tokens { span, tokens });
-
-                    self.errors
-                        .push(Error::new(span, ErrorKind::InvalidDeclarationValue));
-
-                    return Ok((vec![v], hi));
-                }
-
-                break;
-            }
-        }
-
-        // TODO: Make this lazy
-        Ok((values, hi))
-    }
-
     /// Parse value as <declaration-value>.
-    pub(super) fn parse_declaration_value(&mut self) -> PResult<Tokens> {
-        let start = self.input.cur_span()?.lo;
-
-        let mut tokens = vec![];
+    pub(super) fn parse_declaration_value(&mut self) -> PResult<Vec<ComponentValue>> {
+        let mut value = vec![];
         let mut balance_stack: Vec<Option<char>> = vec![];
 
         // The <declaration-value> production matches any sequence of one or more
@@ -153,21 +82,16 @@ where
             let token = self.input.bump()?;
 
             match token {
-                Some(token) => tokens.push(token),
+                Some(token) => value.push(ComponentValue::PreservedToken(token)),
                 None => break,
             }
         }
 
-        Ok(Tokens {
-            span: span!(self, start),
-            tokens,
-        })
+        Ok(value)
     }
 
     /// Parse value as <any-value>.
-    pub(super) fn parse_any_value(&mut self) -> PResult<Tokens> {
-        let start = self.input.cur_span()?.lo;
-
+    pub(super) fn parse_any_value(&mut self) -> PResult<Vec<TokenAndSpan>> {
         let mut tokens = vec![];
         let mut balance_stack: Vec<Option<char>> = vec![];
 
@@ -225,303 +149,284 @@ where
             }
         }
 
-        Ok(Tokens {
-            span: span!(self, start),
-            tokens,
-        })
+        Ok(tokens)
     }
 
-    fn parse_one_value_inner(&mut self) -> PResult<Value> {
-        // TODO remove me
-        self.input.skip_ws()?;
+    pub fn parse_function_values(&mut self, function_name: &str) -> PResult<Vec<ComponentValue>> {
+        let mut values = vec![];
 
+        match function_name {
+            "calc" | "sin" | "cos" | "tan" | "asin" | "acos" | "atan" | "sqrt" | "exp" | "abs"
+            | "sign" => {
+                self.input.skip_ws()?;
+
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
+
+                values.push(calc_sum);
+
+                self.input.skip_ws()?;
+            }
+            "min" | "max" | "hypot" => {
+                self.input.skip_ws()?;
+
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
+
+                values.push(calc_sum);
+
+                loop {
+                    self.input.skip_ws()?;
+
+                    if is!(self, ",") {
+                        values.push(ComponentValue::Delimiter(self.parse()?));
+
+                        self.input.skip_ws()?;
+                    } else {
+                        break;
+                    }
+
+                    let calc_sum = ComponentValue::CalcSum(self.parse()?);
+
+                    values.push(calc_sum);
+                }
+            }
+            "clamp" => {
+                self.input.skip_ws()?;
+
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
+
+                values.push(calc_sum);
+
+                self.input.skip_ws()?;
+
+                if is!(self, ",") {
+                    values.push(ComponentValue::Delimiter(self.parse()?));
+
+                    self.input.skip_ws()?;
+                } else {
+                    let span = self.input.cur_span()?;
+
+                    return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
+                }
+
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
+
+                values.push(calc_sum);
+
+                self.input.skip_ws()?;
+
+                if is!(self, ",") {
+                    values.push(ComponentValue::Delimiter(self.parse()?));
+
+                    self.input.skip_ws()?;
+                } else {
+                    let span = self.input.cur_span()?;
+
+                    return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
+                }
+
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
+
+                values.push(calc_sum);
+
+                self.input.skip_ws()?;
+            }
+            "round" => {
+                self.input.skip_ws()?;
+
+                if is!(self, "ident") {
+                    // TODO improve me
+                    let rounding_strategy = ComponentValue::Ident(self.parse()?);
+
+                    values.push(rounding_strategy);
+
+                    self.input.skip_ws()?;
+
+                    if is!(self, ",") {
+                        values.push(ComponentValue::Delimiter(self.parse()?));
+
+                        self.input.skip_ws()?;
+                    } else {
+                        let span = self.input.cur_span()?;
+
+                        return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
+                    }
+                }
+
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
+
+                values.push(calc_sum);
+
+                self.input.skip_ws()?;
+
+                if is!(self, ",") {
+                    values.push(ComponentValue::Delimiter(self.parse()?));
+
+                    self.input.skip_ws()?;
+                } else {
+                    let span = self.input.cur_span()?;
+
+                    return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
+                }
+
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
+
+                values.push(calc_sum);
+
+                self.input.skip_ws()?;
+            }
+            "mod" | "rem" | "atan2" | "pow" => {
+                self.input.skip_ws()?;
+
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
+
+                values.push(calc_sum);
+
+                self.input.skip_ws()?;
+
+                if is!(self, ",") {
+                    values.push(ComponentValue::Delimiter(self.parse()?));
+
+                    self.input.skip_ws()?;
+                } else {
+                    let span = self.input.cur_span()?;
+
+                    return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
+                }
+
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
+
+                values.push(calc_sum);
+
+                self.input.skip_ws()?;
+            }
+            "log" => {
+                self.input.skip_ws()?;
+
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
+
+                values.push(calc_sum);
+
+                self.input.skip_ws()?;
+
+                if is!(self, ",") {
+                    values.push(ComponentValue::Delimiter(self.parse()?));
+
+                    self.input.skip_ws()?;
+
+                    let calc_sum = ComponentValue::CalcSum(self.parse()?);
+
+                    values.push(calc_sum);
+
+                    self.input.skip_ws()?;
+                }
+            }
+            "selector" if self.ctx.in_supports_at_rule => {
+                self.input.skip_ws()?;
+
+                let selector = ComponentValue::ComplexSelector(self.parse()?);
+
+                values.push(selector);
+
+                self.input.skip_ws()?;
+            }
+            _ => loop {
+                self.input.skip_ws()?;
+
+                if is!(self, ")") {
+                    break;
+                }
+
+                let ctx = Ctx {
+                    block_contents_grammar: BlockContentsGrammar::DeclarationValue,
+                    ..self.ctx
+                };
+
+                values.push(self.with_ctx(ctx).parse_as::<ComponentValue>()?);
+            },
+        };
+
+        Ok(values)
+    }
+}
+
+impl<I> Parse<Delimiter> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Delimiter> {
         let span = self.input.cur_span()?;
+
+        if !is_one_of!(self, ",", "/", ";") {
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected("',', '/' or ';' delim token"),
+            ));
+        }
 
         match cur!(self) {
             tok!(",") => {
                 bump!(self);
 
-                return Ok(Value::Delimiter(Delimiter {
+                return Ok(Delimiter {
                     span: span!(self, span.lo),
                     value: DelimiterValue::Comma,
-                }));
+                });
             }
-
             tok!("/") => {
                 bump!(self);
 
-                return Ok(Value::Delimiter(Delimiter {
+                return Ok(Delimiter {
                     span: span!(self, span.lo),
                     value: DelimiterValue::Solidus,
-                }));
+                });
             }
+            tok!(";") => {
+                bump!(self);
 
-            tok!("str") => return Ok(Value::Str(self.parse()?)),
-
-            tok!("url") => return Ok(Value::Url(self.parse()?)),
-
-            Token::Function { value, .. } => {
-                if &*value.to_ascii_lowercase() == "url" || &*value.to_ascii_lowercase() == "src" {
-                    return Ok(Value::Url(self.parse()?));
-                }
-
-                return Ok(Value::Function(self.parse()?));
+                return Ok(Delimiter {
+                    span: span!(self, span.lo),
+                    value: DelimiterValue::Semicolon,
+                });
             }
-
-            tok!("percentage") | tok!("dimension") | tok!("num") => {
-                let span = self.input.cur_span()?;
-                let base = self.parse_basical_numeric_value()?;
-
-                return self.parse_numeric_value_with_base(span.lo, base);
+            _ => {
+                unreachable!();
             }
-
-            Token::Ident { value, .. } => {
-                if value.starts_with("--") {
-                    return Ok(Value::DashedIdent(self.parse()?));
-                };
-
-                return Ok(Value::Ident(self.parse()?));
-            }
-
-            tok!("[") => return self.parse_square_brackets_value().map(From::from),
-
-            tok!("(") => return self.parse_round_brackets_value().map(From::from),
-
-            tok!("{") => {
-                return self.parse_brace_value().map(From::from);
-            }
-
-            tok!("#") => return Ok(Value::Color(Color::HexColor(self.parse()?))),
-
-            _ => {}
         }
-
-        if is_one_of!(self, "<!--", "-->", "!", ";") {
-            let token = self.input.bump()?.unwrap();
-            return Ok(Value::Tokens(Tokens {
-                span,
-                tokens: vec![token],
-            }));
-        }
-
-        Err(Error::new(span, ErrorKind::Expected("Declaration value")))
     }
+}
 
-    fn parse_numeric_value_with_base(&mut self, start: BytePos, base: Value) -> PResult<Value> {
-        let start_state = self.input.state();
-        self.input.skip_ws()?;
-
-        if self.ctx.allow_operation_in_value && is_one_of!(self, "+", "-", "*", "/") {
-            let token = bump!(self);
-
-            self.input.skip_ws()?;
-
-            let op = match token {
-                tok!("+") => BinOp::Add,
-                tok!("-") => BinOp::Sub,
-                tok!("*") => BinOp::Mul,
-                tok!("/") => BinOp::Div,
-                _ => {
-                    unreachable!()
-                }
-            };
-            self.input.skip_ws()?;
-
-            let ctx = Ctx {
-                allow_operation_in_value: false,
-                ..self.ctx
-            };
-            let right = self.with_ctx(ctx).parse_one_value_inner()?;
-
-            let value = Value::Bin(BinValue {
-                span: span!(self, start),
-                op,
-                left: Box::new(base),
-                right: Box::new(right),
-            });
-
-            return self.parse_numeric_value_with_base(start, value);
-        }
-
-        self.input.reset(&start_state);
-
-        Ok(base)
-    }
-
-    fn parse_brace_value(&mut self) -> PResult<SimpleBlock> {
+impl<I> Parse<Integer> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Integer> {
         let span = self.input.cur_span()?;
 
-        expect!(self, "{");
-
-        let brace_start = self.input.cur_span()?.lo;
-        let mut tokens = vec![];
-
-        let mut brace_cnt = 1;
-        loop {
-            if is!(self, "}") {
-                brace_cnt -= 1;
-                if brace_cnt == 0 {
-                    break;
-                }
-            }
-            if is!(self, "{") {
-                brace_cnt += 1;
-            }
-
-            let token = self.input.bump()?;
-            match token {
-                Some(token) => tokens.push(token),
-                None => break,
-            }
+        if !is!(self, Number) {
+            return Err(Error::new(span, ErrorKind::ExpectedNumber));
         }
 
-        let brace_span = span!(self, brace_start);
-        expect!(self, "}");
+        let value = bump!(self);
 
-        Ok(SimpleBlock {
-            span: span!(self, span.lo),
-            name: '{',
-            // TODO refactor me
-            value: vec![Value::Tokens(Tokens {
-                span: brace_span,
-                tokens,
-            })],
-        })
-    }
+        match value {
+            Token::Number {
+                value,
+                raw,
+                type_flag,
+                ..
+            } => {
+                if type_flag == NumberType::Number {
+                    return Err(Error::new(span, ErrorKind::Expected("integer type")));
+                }
 
-    fn parse_basical_numeric_value(&mut self) -> PResult<Value> {
-        match cur!(self) {
-            tok!("percentage") => Ok(Value::Percentage(self.parse()?)),
-            tok!("dimension") => Ok(Value::Dimension(self.parse()?)),
-            tok!("num") => Ok(Value::Number(self.parse()?)),
+                Ok(Integer {
+                    span,
+                    value: value.round() as i64,
+                    raw,
+                })
+            }
             _ => {
                 unreachable!()
-            }
-        }
-    }
-
-    fn parse_square_brackets_value(&mut self) -> PResult<SimpleBlock> {
-        let span = self.input.cur_span()?;
-
-        expect!(self, "[");
-
-        self.input.skip_ws()?;
-
-        let value = self.parse_property_values()?.0;
-
-        self.input.skip_ws()?;
-
-        expect!(self, "]");
-
-        Ok(SimpleBlock {
-            span: span!(self, span.lo),
-            name: '[',
-            value,
-        })
-    }
-
-    fn parse_round_brackets_value(&mut self) -> PResult<SimpleBlock> {
-        let span = self.input.cur_span()?;
-
-        expect!(self, "(");
-
-        self.input.skip_ws()?;
-
-        let value = if is!(self, ")") {
-            vec![]
-        } else {
-            let ctx = Ctx {
-                allow_operation_in_value: true,
-                ..self.ctx
-            };
-
-            self.with_ctx(ctx).parse_property_values()?.0
-        };
-
-        expect!(self, ")");
-
-        Ok(SimpleBlock {
-            span: span!(self, span.lo),
-            name: '(',
-            value,
-        })
-    }
-
-    pub fn parse_simple_block(&mut self, ending: char) -> PResult<SimpleBlock> {
-        let start_pos = self.input.last_pos()? - BytePos(1);
-        let mut simple_block = SimpleBlock {
-            span: Default::default(),
-            name: Default::default(),
-            value: vec![],
-        };
-
-        loop {
-            match cur!(self) {
-                tok!("}") if ending == '}' => {
-                    self.input.bump()?;
-
-                    let ending_pos = self.input.last_pos()?;
-
-                    simple_block.span =
-                        swc_common::Span::new(ending_pos, start_pos, Default::default());
-                    simple_block.name = '{';
-
-                    return Ok(simple_block);
-                }
-                tok!(")") if ending == ')' => {
-                    self.input.bump()?;
-
-                    let ending_pos = self.input.last_pos()?;
-
-                    simple_block.span =
-                        swc_common::Span::new(ending_pos, start_pos, Default::default());
-                    simple_block.name = '(';
-
-                    return Ok(simple_block);
-                }
-                tok!("]") if ending == ']' => {
-                    self.input.bump()?;
-
-                    let ending_pos = self.input.last_pos()?;
-
-                    simple_block.span =
-                        swc_common::Span::new(ending_pos, start_pos, Default::default());
-                    simple_block.name = '[';
-
-                    return Ok(simple_block);
-                }
-                _ => {
-                    let span = self.input.cur_span()?;
-                    let token = self.input.bump()?.unwrap();
-
-                    simple_block.value.push(Value::Tokens(Tokens {
-                        span: span!(self, span.lo),
-                        tokens: vec![token],
-                    }));
-                }
-            }
-        }
-    }
-
-    pub fn parse_component_value(&mut self) -> PResult<Value> {
-        match cur!(self) {
-            tok!("[") => Ok(Value::SimpleBlock(self.parse_simple_block(']')?)),
-            tok!("(") => Ok(Value::SimpleBlock(self.parse_simple_block(')')?)),
-            tok!("{") => Ok(Value::SimpleBlock(self.parse_simple_block('}')?)),
-            tok!("function") => Ok(Value::Function(self.parse()?)),
-            _ => {
-                let span = self.input.cur_span()?;
-                let token = self.input.bump()?;
-
-                match token {
-                    Some(t) => Ok(Value::Tokens(Tokens {
-                        span: span!(self, span.lo),
-                        tokens: vec![t],
-                    })),
-                    _ => {
-                        unreachable!();
-                    }
-                }
             }
         }
     }
@@ -534,14 +439,14 @@ where
     fn parse(&mut self) -> PResult<Number> {
         let span = self.input.cur_span()?;
 
-        if !is!(self, Num) {
+        if !is!(self, Number) {
             return Err(Error::new(span, ErrorKind::ExpectedNumber));
         }
 
         let value = bump!(self);
 
         match value {
-            Token::Num { value, raw, .. } => Ok(Number { span, value, raw }),
+            Token::Number { value, raw, .. } => Ok(Number { span, value, raw }),
             _ => {
                 unreachable!()
             }
@@ -564,10 +469,7 @@ where
             Token::Ident { value, raw } => {
                 match &*value.to_ascii_lowercase() {
                     "initial" | "inherit" | "unset" | "revert" | "default" => {
-                        return Err(Error::new(
-                            span,
-                            ErrorKind::InvalidCustomIdent(stringify!(value)),
-                        ));
+                        return Err(Error::new(span, ErrorKind::InvalidCustomIdent(raw)));
                     }
                     _ => {}
                 }
@@ -1064,6 +966,30 @@ where
     }
 }
 
+impl<I> Parse<Color> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<Color> {
+        let span = self.input.cur_span()?;
+
+        if !is_one_of!(self, "#", "function") {
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected("hash or function token"),
+            ));
+        }
+
+        match cur!(self) {
+            tok!("#") => Ok(Color::HexColor(self.parse()?)),
+            tok!("function") => Ok(Color::Function(self.parse()?)),
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
 impl<I> Parse<Percentage> for Parser<I>
 where
     I: ParserInput,
@@ -1099,12 +1025,12 @@ where
     fn parse(&mut self) -> PResult<Str> {
         let span = self.input.cur_span()?;
 
-        if !is!(self, Str) {
-            return Err(Error::new(span, ErrorKind::Expected("Str")));
+        if !is!(self, "string") {
+            return Err(Error::new(span, ErrorKind::Expected("string token")));
         }
 
         match bump!(self) {
-            Token::Str { value, raw } => Ok(Str { span, value, raw }),
+            Token::String { value, raw } => Ok(Str { span, value, raw }),
             _ => {
                 unreachable!()
             }
@@ -1180,7 +1106,7 @@ where
                 self.input.skip_ws()?;
 
                 let value = match cur!(self) {
-                    tok!("str") => Some(UrlValue::Str(self.parse()?)),
+                    tok!("string") => Some(UrlValue::Str(self.parse()?)),
                     _ => None,
                 };
 
@@ -1238,38 +1164,11 @@ where
                 unreachable!()
             }
         };
-        let is_math_function = matches!(
-            &*ident.0.to_ascii_lowercase(),
-            "calc"
-                | "min"
-                | "max"
-                | "clamp"
-                | "round"
-                | "mod"
-                | "rem"
-                | "sin"
-                | "cos"
-                | "tan"
-                | "asin"
-                | "acos"
-                | "atan"
-                | "atan2"
-                | "pow"
-                | "sqrt"
-                | "hypot"
-                | "log"
-                | "exp"
-                | "abs"
-                | "sign"
-        );
+        let function_name = &*ident.0.to_ascii_lowercase();
         let name = Ident {
             span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
             value: ident.0,
             raw: ident.1,
-        };
-        let ctx = Ctx {
-            allow_operation_in_value: is_math_function,
-            ..self.ctx
         };
 
         // Create a function with its name equal to the value of the current input token
@@ -1301,22 +1200,19 @@ where
                 // returned value to the function’s value.
                 _ => {
                     let state = self.input.state();
-                    let parsed = self.with_ctx(ctx).parse_one_value_inner();
-                    let value = match parsed {
-                        Ok(value) => {
-                            self.input.skip_ws()?;
+                    let values = self.parse_function_values(function_name);
 
-                            value
+                    match values {
+                        Ok(values) => {
+                            function.value.extend(values);
                         }
                         Err(err) => {
                             self.errors.push(err);
                             self.input.reset(&state);
 
-                            self.parse_component_value()?
+                            function.value.push(self.parse()?);
                         }
-                    };
-
-                    function.value.push(value);
+                    }
                 }
             }
         }
@@ -1324,6 +1220,620 @@ where
         function.span = span!(self, span.lo);
 
         return Ok(function);
+    }
+}
+
+// <urange> =
+//   u '+' <ident-token> '?'* |
+//   u <dimension-token> '?'* |
+//   u <number-token> '?'* |
+//   u <number-token> <dimension-token> |
+//   u <number-token> <number-token> |
+//   u '+' '?'+
+impl<I> Parse<UnicodeRange> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<UnicodeRange> {
+        let span = self.input.cur_span()?;
+        let mut unicode_range = String::new();
+
+        // should start with `u` or `U`
+        match cur!(self) {
+            Token::Ident { value, .. } if &*value.to_ascii_lowercase() == "u" => {
+                let ident = match bump!(self) {
+                    Token::Ident { value, .. } => value,
+                    _ => {
+                        unreachable!();
+                    }
+                };
+
+                unicode_range.push_str(&ident);
+            }
+            _ => {
+                return Err(Error::new(span, ErrorKind::Expected("'u' ident token")));
+            }
+        };
+
+        match cur!(self) {
+            // u '+' <ident-token> '?'*
+            // u '+' '?'+
+            Token::Delim { value } if *value == '+' => {
+                let plus = match bump!(self) {
+                    Token::Delim { value } => value,
+                    _ => {
+                        unreachable!();
+                    }
+                };
+
+                unicode_range.push(plus);
+
+                if is!(self, Ident) {
+                    let ident = match bump!(self) {
+                        Token::Ident { value, .. } => value,
+                        _ => {
+                            unreachable!();
+                        }
+                    };
+
+                    unicode_range.push_str(&ident);
+
+                    loop {
+                        if !is!(self, "?") {
+                            break;
+                        }
+
+                        let question = match bump!(self) {
+                            Token::Delim { value } => value,
+                            _ => {
+                                unreachable!();
+                            }
+                        };
+
+                        unicode_range.push(question);
+                    }
+                } else {
+                    let question = match bump!(self) {
+                        Token::Delim { value } if value == '?' => value,
+                        _ => {
+                            return Err(Error::new(span, ErrorKind::Expected("'?' delim token")));
+                        }
+                    };
+
+                    unicode_range.push(question);
+
+                    loop {
+                        if !is!(self, "?") {
+                            break;
+                        }
+
+                        let question = match bump!(self) {
+                            Token::Delim { value } => value,
+                            _ => {
+                                unreachable!();
+                            }
+                        };
+
+                        unicode_range.push(question);
+                    }
+                }
+            }
+            // u <number-token> '?'*
+            // u <number-token> <dimension-token>
+            // u <number-token> <number-token>
+            tok!("number") => {
+                let number = match bump!(self) {
+                    Token::Number { raw, .. } => raw,
+                    _ => {
+                        unreachable!();
+                    }
+                };
+
+                unicode_range.push_str(&number.to_string());
+
+                match cur!(self) {
+                    tok!("?") => {
+                        let question = match bump!(self) {
+                            Token::Delim { value } => value,
+                            _ => {
+                                unreachable!();
+                            }
+                        };
+
+                        unicode_range.push(question);
+
+                        loop {
+                            if !is!(self, "?") {
+                                break;
+                            }
+
+                            let question = match bump!(self) {
+                                Token::Delim { value } => value,
+                                _ => {
+                                    unreachable!();
+                                }
+                            };
+
+                            unicode_range.push(question);
+                        }
+                    }
+                    tok!("dimension") => {
+                        let dimension = match bump!(self) {
+                            Token::Dimension {
+                                raw_value,
+                                raw_unit,
+                                ..
+                            } => (raw_value, raw_unit),
+                            _ => {
+                                unreachable!();
+                            }
+                        };
+
+                        unicode_range.push_str(&dimension.0);
+                        unicode_range.push_str(&dimension.1);
+                    }
+                    tok!("number") => {
+                        let number = match bump!(self) {
+                            Token::Number { raw, .. } => raw,
+                            _ => {
+                                unreachable!();
+                            }
+                        };
+
+                        unicode_range.push_str(&number);
+                    }
+                    _ => {}
+                }
+            }
+            // u <dimension-token> '?'*
+            tok!("dimension") => {
+                let dimension = match bump!(self) {
+                    Token::Dimension {
+                        raw_value,
+                        raw_unit,
+                        ..
+                    } => (raw_value, raw_unit),
+                    _ => {
+                        unreachable!();
+                    }
+                };
+
+                unicode_range.push_str(&dimension.0);
+                unicode_range.push_str(&dimension.1);
+
+                loop {
+                    if !is!(self, "?") {
+                        break;
+                    }
+
+                    let question = match bump!(self) {
+                        Token::Delim { value } => value,
+                        _ => {
+                            unreachable!();
+                        }
+                    };
+
+                    unicode_range.push(question);
+                }
+            }
+            _ => {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("dimension, number or '?' delim token"),
+                ));
+            }
+        }
+
+        let mut chars = unicode_range.chars();
+
+        // 1. Skipping the first u token, concatenate the representations of all the
+        // tokens in the production together. Let this be text.
+        let prefix = chars.next().unwrap();
+
+        let mut next = chars.next();
+
+        // 2. If the first character of text is U+002B PLUS SIGN, consume it. Otherwise,
+        // this is an invalid <urange>, and this algorithm must exit.
+        if next != Some('+') {
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected("'+' character after 'u' in unicode range"),
+            ));
+        } else {
+            next = chars.next();
+        }
+
+        // 3. Consume as many hex digits from text as possible. then consume as many
+        // U+003F QUESTION MARK (?) code points as possible. If zero code points
+        // were consumed, or more than six code points were consumed, this is an
+        // invalid <urange>, and this algorithm must exit.
+        let mut start = String::new();
+
+        loop {
+            match next {
+                Some(c) if c.is_digit(10) => {
+                    start.push(c);
+
+                    next = chars.next();
+                }
+                Some(c @ 'A'..='F') | Some(c @ 'a'..='f') => {
+                    start.push(c);
+
+                    next = chars.next();
+                }
+                _ => {
+                    break;
+                }
+            }
+        }
+
+        let mut has_question_mark = false;
+
+        while let Some(c @ '?') = next {
+            has_question_mark = true;
+
+            start.push(c);
+
+            next = chars.next();
+        }
+
+        let len = start.len();
+
+        if len == 0 || len > 6 {
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected(
+                    "valid length (minimum 1 or maximum 6 hex digits) in the start of unicode \
+                     range",
+                ),
+            ));
+        }
+
+        // If any U+003F QUESTION MARK (?) code points were consumed, then:
+        if has_question_mark {
+            // 1. If there are any code points left in text, this is an invalid <urange>,
+            // and this algorithm must exit.
+            if next != None {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("no characters after '?' in unicode range"),
+                ));
+            }
+
+            // 2. Interpret the consumed code points
+            // as a hexadecimal number, with the U+003F QUESTION MARK (?) code points
+            // replaced by U+0030 DIGIT ZERO (0) code points. This is the start value.
+            //
+            // 3. Interpret the consumed code points as a hexadecimal number again, with the
+            // U+003F QUESTION MARK (?) code points replaced by U+0046 LATIN CAPITAL LETTER
+            // F (F) code points. This is the end value.
+            //
+
+            // 4. Exit this algorithm.
+            return Ok(UnicodeRange {
+                span: span!(self, span.lo),
+                prefix,
+                start: start.into(),
+                end: None,
+            });
+        }
+
+        // Otherwise, interpret the consumed code points as a hexadecimal number. This
+        // is the start value.
+
+        // 4. If there are no code points left in text, The end value is the same as the
+        // start value. Exit this algorithm.
+        if next == None {
+            return Ok(UnicodeRange {
+                span: span!(self, span.lo),
+                prefix,
+                start: start.into(),
+                end: None,
+            });
+        }
+
+        // 5. If the next code point in text is U+002D HYPHEN-MINUS (-), consume it.
+        // Otherwise, this is an invalid <urange>, and this algorithm must exit.
+        if next != Some('-') {
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected("'-' between start and end in unicode range"),
+            ));
+        } else {
+            next = chars.next();
+        }
+
+        // 6. Consume as many hex digits as possible from text.
+        // If zero hex digits were consumed, or more than 6 hex digits were consumed,
+        // this is an invalid <urange>, and this algorithm must exit. If there are any
+        // code points left in text, this is an invalid <urange>, and this algorithm
+        // must exit.
+        let mut end = String::new();
+
+        loop {
+            match next {
+                Some(c) if c.is_digit(10) => {
+                    end.push(c);
+                    next = chars.next();
+                }
+                Some(c @ 'A'..='F') | Some(c @ 'a'..='f') => {
+                    end.push(c);
+                    next = chars.next();
+                }
+                _ => {
+                    break;
+                }
+            }
+        }
+
+        let len = end.len();
+
+        if len == 0 || len > 6 {
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected(
+                    "valid length (minimum 1 or maximum 6 hex digits) in the end of unicode range",
+                ),
+            ));
+        }
+
+        if chars.next() != None {
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected("no characters after end in unicode range"),
+            ));
+        }
+
+        return Ok(UnicodeRange {
+            span: span!(self, span.lo),
+            prefix,
+            start: start.into(),
+            end: Some(end.into()),
+        });
+    }
+}
+
+impl<I> Parse<CalcSum> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<CalcSum> {
+        let start = self.input.cur_span()?.lo;
+        let mut expressions = vec![];
+        let calc_product = CalcProductOrOperator::Product(self.parse()?);
+        let mut end = match calc_product {
+            CalcProductOrOperator::Product(ref calc_product) => calc_product.span.hi,
+            _ => {
+                unreachable!();
+            }
+        };
+
+        expressions.push(calc_product);
+
+        loop {
+            self.input.skip_ws()?;
+
+            match cur!(self) {
+                tok!("+") | tok!("-") => {
+                    let operator = CalcProductOrOperator::Operator(self.parse()?);
+
+                    expressions.push(operator);
+
+                    self.input.skip_ws()?;
+
+                    let calc_product = CalcProductOrOperator::Product(self.parse()?);
+
+                    end = match calc_product {
+                        CalcProductOrOperator::Product(ref calc_product) => calc_product.span.hi,
+                        _ => {
+                            unreachable!();
+                        }
+                    };
+
+                    expressions.push(calc_product);
+                }
+                _ => {
+                    break;
+                }
+            }
+        }
+
+        Ok(CalcSum {
+            span: Span::new(start, end, Default::default()),
+            expressions,
+        })
+    }
+}
+
+impl<I> Parse<CalcProduct> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<CalcProduct> {
+        let start = self.input.cur_span()?.lo;
+        let mut expressions = vec![];
+        let calc_value = CalcValueOrOperator::Value(self.parse()?);
+        let mut end = match calc_value {
+            CalcValueOrOperator::Value(ref calc_value) => match calc_value {
+                CalcValue::Number(item) => item.span.hi,
+                CalcValue::Percentage(item) => item.span.hi,
+                CalcValue::Constant(item) => item.span.hi,
+                CalcValue::Sum(item) => item.span.hi,
+                CalcValue::Function(item) => item.span.hi,
+                CalcValue::Dimension(item) => match item {
+                    Dimension::Length(item) => item.span.hi,
+                    Dimension::Angle(item) => item.span.hi,
+                    Dimension::Time(item) => item.span.hi,
+                    Dimension::Frequency(item) => item.span.hi,
+                    Dimension::Resolution(item) => item.span.hi,
+                    Dimension::Flex(item) => item.span.hi,
+                    Dimension::UnknownDimension(item) => item.span.hi,
+                },
+            },
+            _ => {
+                unreachable!();
+            }
+        };
+
+        expressions.push(calc_value);
+
+        loop {
+            self.input.skip_ws()?;
+
+            match cur!(self) {
+                tok!("*") | tok!("/") => {
+                    let operator = CalcValueOrOperator::Operator(self.parse()?);
+
+                    expressions.push(operator);
+
+                    self.input.skip_ws()?;
+
+                    let calc_value = CalcValueOrOperator::Value(self.parse()?);
+
+                    end = match calc_value {
+                        CalcValueOrOperator::Value(ref calc_value) => match calc_value {
+                            CalcValue::Number(item) => item.span.hi,
+                            CalcValue::Percentage(item) => item.span.hi,
+                            CalcValue::Constant(item) => item.span.hi,
+                            CalcValue::Sum(item) => item.span.hi,
+                            CalcValue::Function(item) => item.span.hi,
+                            CalcValue::Dimension(item) => match item {
+                                Dimension::Length(item) => item.span.hi,
+                                Dimension::Angle(item) => item.span.hi,
+                                Dimension::Time(item) => item.span.hi,
+                                Dimension::Frequency(item) => item.span.hi,
+                                Dimension::Resolution(item) => item.span.hi,
+                                Dimension::Flex(item) => item.span.hi,
+                                Dimension::UnknownDimension(item) => item.span.hi,
+                            },
+                        },
+                        _ => {
+                            unreachable!();
+                        }
+                    };
+
+                    expressions.push(calc_value);
+                }
+                _ => {
+                    break;
+                }
+            }
+        }
+
+        Ok(CalcProduct {
+            span: Span::new(start, end, Default::default()),
+            expressions,
+        })
+    }
+}
+
+impl<I> Parse<CalcOperator> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<CalcOperator> {
+        let span = self.input.cur_span()?;
+
+        match cur!(self) {
+            tok!("+") => {
+                bump!(self);
+
+                Ok(CalcOperator {
+                    span: span!(self, span.lo),
+                    value: CalcOperatorType::Add,
+                })
+            }
+            tok!("-") => {
+                bump!(self);
+
+                Ok(CalcOperator {
+                    span: span!(self, span.lo),
+                    value: CalcOperatorType::Sub,
+                })
+            }
+            tok!("*") => {
+                bump!(self);
+
+                Ok(CalcOperator {
+                    span: span!(self, span.lo),
+                    value: CalcOperatorType::Mul,
+                })
+            }
+            tok!("/") => {
+                bump!(self);
+
+                Ok(CalcOperator {
+                    span: span!(self, span.lo),
+                    value: CalcOperatorType::Div,
+                })
+            }
+            _ => {
+                let span = self.input.cur_span()?;
+
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("'+', '-', '*' or '/' delim tokens"),
+                ));
+            }
+        }
+    }
+}
+
+impl<I> Parse<CalcValue> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<CalcValue> {
+        match cur!(self) {
+            tok!("number") => Ok(CalcValue::Number(self.parse()?)),
+            tok!("dimension") => Ok(CalcValue::Dimension(self.parse()?)),
+            tok!("percentage") => Ok(CalcValue::Percentage(self.parse()?)),
+            Token::Ident { value, .. } => {
+                match &*value.to_ascii_lowercase() {
+                    "e" | "pi" | "infinity" | "-infinity" | "nan" => {}
+                    _ => {
+                        let span = self.input.cur_span()?;
+
+                        return Err(Error::new(
+                            span,
+                            ErrorKind::Expected(
+                                "'e', 'pi', 'infinity', '-infinity' or 'NaN', ident tokens",
+                            ),
+                        ));
+                    }
+                }
+
+                Ok(CalcValue::Constant(self.parse()?))
+            }
+            tok!("(") => {
+                let span = self.input.cur_span()?;
+
+                expect!(self, "(");
+
+                self.input.skip_ws()?;
+
+                let mut calc_sum_in_parens: CalcSum = self.parse()?;
+
+                self.input.skip_ws()?;
+
+                expect!(self, ")");
+
+                calc_sum_in_parens.span = span!(self, span.lo);
+
+                Ok(CalcValue::Sum(calc_sum_in_parens))
+            }
+            tok!("function") => Ok(CalcValue::Function(self.parse()?)),
+            _ => {
+                let span = self.input.cur_span()?;
+
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected(
+                        "'number', 'dimension', 'percentage', 'ident', '(' or 'function' tokens",
+                    ),
+                ));
+            }
+        }
     }
 }
 

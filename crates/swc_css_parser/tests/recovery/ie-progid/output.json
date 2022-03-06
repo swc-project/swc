@@ -71,18 +71,19 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 2,
           "end": 241,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",
             "span": {
               "start": 8,
-              "end": 21,
+              "end": 119,
               "ctxt": 0
             },
             "name": {
@@ -97,98 +98,90 @@
             },
             "value": [
               {
-                "type": "Tokens",
+                "type": "Ident",
                 "span": {
                   "start": 15,
-                  "end": 118,
+                  "end": 21,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "span": {
-                      "start": 15,
-                      "end": 21,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Ident": {
-                        "value": "progid",
-                        "raw": "progid"
-                      }
-                    }
+                "value": "progid",
+                "raw": "progid"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 21,
+                  "end": 22,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 22,
+                  "end": 38,
+                  "ctxt": 0
+                },
+                "value": "DXImageTransform",
+                "raw": "DXImageTransform"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 38,
+                  "end": 39,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "."
+                  }
+                }
+              },
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 39,
+                  "end": 48,
+                  "ctxt": 0
+                },
+                "value": "Microsoft",
+                "raw": "Microsoft"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 48,
+                  "end": 49,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "."
+                  }
+                }
+              },
+              {
+                "type": "Function",
+                "span": {
+                  "start": 49,
+                  "end": 119,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 49,
+                    "end": 57,
+                    "ctxt": 0
                   },
+                  "value": "gradient",
+                  "raw": "gradient"
+                },
+                "value": [
                   {
-                    "span": {
-                      "start": 21,
-                      "end": 22,
-                      "ctxt": 0
-                    },
-                    "token": "Colon"
-                  },
-                  {
-                    "span": {
-                      "start": 22,
-                      "end": 38,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Ident": {
-                        "value": "DXImageTransform",
-                        "raw": "DXImageTransform"
-                      }
-                    }
-                  },
-                  {
-                    "span": {
-                      "start": 38,
-                      "end": 39,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Delim": {
-                        "value": "."
-                      }
-                    }
-                  },
-                  {
-                    "span": {
-                      "start": 39,
-                      "end": 48,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Ident": {
-                        "value": "Microsoft",
-                        "raw": "Microsoft"
-                      }
-                    }
-                  },
-                  {
-                    "span": {
-                      "start": 48,
-                      "end": 49,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Delim": {
-                        "value": "."
-                      }
-                    }
-                  },
-                  {
-                    "span": {
-                      "start": 49,
-                      "end": 58,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Function": {
-                        "value": "gradient",
-                        "raw": "gradient"
-                      }
-                    }
-                  },
-                  {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 58,
                       "end": 71,
@@ -202,6 +195,7 @@
                     }
                   },
                   {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 71,
                       "end": 72,
@@ -214,19 +208,21 @@
                     }
                   },
                   {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 72,
                       "end": 81,
                       "ctxt": 0
                     },
                     "token": {
-                      "Str": {
+                      "String": {
                         "value": "#4f4f4f",
                         "raw": "'#4f4f4f'"
                       }
                     }
                   },
                   {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 81,
                       "end": 82,
@@ -235,6 +231,7 @@
                     "token": "Comma"
                   },
                   {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 82,
                       "end": 93,
@@ -248,6 +245,7 @@
                     }
                   },
                   {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 93,
                       "end": 94,
@@ -260,19 +258,21 @@
                     }
                   },
                   {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 94,
                       "end": 103,
                       "ctxt": 0
                     },
                     "token": {
-                      "Str": {
+                      "String": {
                         "value": "#292929",
                         "raw": "'#292929'"
                       }
                     }
                   },
                   {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 103,
                       "end": 104,
@@ -281,6 +281,7 @@
                     "token": "Comma"
                   },
                   {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 104,
                       "end": 116,
@@ -294,6 +295,7 @@
                     }
                   },
                   {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 116,
                       "end": 117,
@@ -306,18 +308,14 @@
                     }
                   },
                   {
+                    "type": "Integer",
                     "span": {
                       "start": 117,
                       "end": 118,
                       "ctxt": 0
                     },
-                    "token": {
-                      "Num": {
-                        "value": 0.0,
-                        "raw": "0",
-                        "type": "integer"
-                      }
-                    }
+                    "value": 0,
+                    "raw": "0"
                   }
                 ]
               }
@@ -325,28 +323,10 @@
             "important": null
           },
           {
-            "type": "Tokens",
-            "span": {
-              "start": 118,
-              "end": 119,
-              "ctxt": 0
-            },
-            "tokens": [
-              {
-                "span": {
-                  "start": 118,
-                  "end": 119,
-                  "ctxt": 0
-                },
-                "token": "RParen"
-              }
-            ]
-          },
-          {
             "type": "Declaration",
             "span": {
               "start": 125,
-              "end": 139,
+              "end": 238,
               "ctxt": 0
             },
             "name": {
@@ -361,98 +341,90 @@
             },
             "value": [
               {
-                "type": "Tokens",
+                "type": "Ident",
                 "span": {
                   "start": 133,
-                  "end": 185,
+                  "end": 139,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "span": {
-                      "start": 133,
-                      "end": 139,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Ident": {
-                        "value": "progid",
-                        "raw": "progid"
-                      }
-                    }
+                "value": "progid",
+                "raw": "progid"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 139,
+                  "end": 140,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 140,
+                  "end": 156,
+                  "ctxt": 0
+                },
+                "value": "DXImageTransform",
+                "raw": "DXImageTransform"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 156,
+                  "end": 157,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "."
+                  }
+                }
+              },
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 157,
+                  "end": 166,
+                  "ctxt": 0
+                },
+                "value": "Microsoft",
+                "raw": "Microsoft"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 166,
+                  "end": 167,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "."
+                  }
+                }
+              },
+              {
+                "type": "Function",
+                "span": {
+                  "start": 167,
+                  "end": 186,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 167,
+                    "end": 171,
+                    "ctxt": 0
                   },
+                  "value": "Blur",
+                  "raw": "Blur"
+                },
+                "value": [
                   {
-                    "span": {
-                      "start": 139,
-                      "end": 140,
-                      "ctxt": 0
-                    },
-                    "token": "Colon"
-                  },
-                  {
-                    "span": {
-                      "start": 140,
-                      "end": 156,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Ident": {
-                        "value": "DXImageTransform",
-                        "raw": "DXImageTransform"
-                      }
-                    }
-                  },
-                  {
-                    "span": {
-                      "start": 156,
-                      "end": 157,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Delim": {
-                        "value": "."
-                      }
-                    }
-                  },
-                  {
-                    "span": {
-                      "start": 157,
-                      "end": 166,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Ident": {
-                        "value": "Microsoft",
-                        "raw": "Microsoft"
-                      }
-                    }
-                  },
-                  {
-                    "span": {
-                      "start": 166,
-                      "end": 167,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Delim": {
-                        "value": "."
-                      }
-                    }
-                  },
-                  {
-                    "span": {
-                      "start": 167,
-                      "end": 172,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Function": {
-                        "value": "Blur",
-                        "raw": "Blur"
-                      }
-                    }
-                  },
-                  {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 172,
                       "end": 183,
@@ -466,6 +438,7 @@
                     }
                   },
                   {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 183,
                       "end": 184,
@@ -478,66 +451,29 @@
                     }
                   },
                   {
+                    "type": "Integer",
                     "span": {
                       "start": 184,
                       "end": 185,
                       "ctxt": 0
                     },
-                    "token": {
-                      "Num": {
-                        "value": 2.0,
-                        "raw": "2",
-                        "type": "integer"
-                      }
-                    }
+                    "value": 2,
+                    "raw": "2"
                   }
                 ]
-              }
-            ],
-            "important": null
-          },
-          {
-            "type": "Tokens",
-            "span": {
-              "start": 185,
-              "end": 238,
-              "ctxt": 0
-            },
-            "tokens": [
-              {
-                "span": {
-                  "start": 185,
-                  "end": 186,
-                  "ctxt": 0
-                },
-                "token": "RParen"
               },
               {
-                "span": {
-                  "start": 186,
-                  "end": 187,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              },
-              {
+                "type": "Ident",
                 "span": {
                   "start": 187,
                   "end": 193,
                   "ctxt": 0
                 },
-                "token": {
-                  "Ident": {
-                    "value": "progid",
-                    "raw": "progid"
-                  }
-                }
+                "value": "progid",
+                "raw": "progid"
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 193,
                   "end": 194,
@@ -546,19 +482,17 @@
                 "token": "Colon"
               },
               {
+                "type": "Ident",
                 "span": {
                   "start": 194,
                   "end": 210,
                   "ctxt": 0
                 },
-                "token": {
-                  "Ident": {
-                    "value": "DXImageTransform",
-                    "raw": "DXImageTransform"
-                  }
-                }
+                "value": "DXImageTransform",
+                "raw": "DXImageTransform"
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 210,
                   "end": 211,
@@ -571,19 +505,17 @@
                 }
               },
               {
+                "type": "Ident",
                 "span": {
                   "start": 211,
                   "end": 220,
                   "ctxt": 0
                 },
-                "token": {
-                  "Ident": {
-                    "value": "Microsoft",
-                    "raw": "Microsoft"
-                  }
-                }
+                "value": "Microsoft",
+                "raw": "Microsoft"
               },
               {
+                "type": "PreservedToken",
                 "span": {
                   "start": 220,
                   "end": 221,
@@ -596,66 +528,64 @@
                 }
               },
               {
+                "type": "Function",
                 "span": {
                   "start": 221,
-                  "end": 227,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Function": {
-                    "value": "Wheel",
-                    "raw": "Wheel"
-                  }
-                }
-              },
-              {
-                "span": {
-                  "start": 227,
-                  "end": 235,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "duration",
-                    "raw": "duration"
-                  }
-                }
-              },
-              {
-                "span": {
-                  "start": 235,
-                  "end": 236,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Delim": {
-                    "value": "="
-                  }
-                }
-              },
-              {
-                "span": {
-                  "start": 236,
-                  "end": 237,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Num": {
-                    "value": 3.0,
-                    "raw": "3",
-                    "type": "integer"
-                  }
-                }
-              },
-              {
-                "span": {
-                  "start": 237,
                   "end": 238,
                   "ctxt": 0
                 },
-                "token": "RParen"
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 221,
+                    "end": 226,
+                    "ctxt": 0
+                  },
+                  "value": "Wheel",
+                  "raw": "Wheel"
+                },
+                "value": [
+                  {
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 227,
+                      "end": 235,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Ident": {
+                        "value": "duration",
+                        "raw": "duration"
+                      }
+                    }
+                  },
+                  {
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 235,
+                      "end": 236,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Delim": {
+                        "value": "="
+                      }
+                    }
+                  },
+                  {
+                    "type": "Integer",
+                    "span": {
+                      "start": 236,
+                      "end": 237,
+                      "ctxt": 0
+                    },
+                    "value": 3,
+                    "raw": "3"
+                  }
+                ]
               }
-            ]
+            ],
+            "important": null
           }
         ]
       }

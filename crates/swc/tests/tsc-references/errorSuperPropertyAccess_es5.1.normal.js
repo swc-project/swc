@@ -239,9 +239,8 @@ var SomeDerived1 = //super.publicInstanceMemberNotFunction in constructor of der
     var _super = _createSuper(SomeDerived1);
     function SomeDerived1() {
         _classCallCheck(this, SomeDerived1);
-        var _thisSuper;
         var _this = _super.call(this);
-        _set((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(SomeDerived1.prototype)), "publicMember", 1, _thisSuper, true);
+        _set((_assertThisInitialized(_this), _getPrototypeOf(SomeDerived1.prototype)), "publicMember", 1, _this, true);
         return _this;
     }
     _createClass(SomeDerived1, [
@@ -286,9 +285,8 @@ var SomeDerived2 = //super.privateProperty in constructor of derived class
     var _super = _createSuper(SomeDerived2);
     function SomeDerived2() {
         _classCallCheck(this, SomeDerived2);
-        var _thisSuper;
         var _this = _super.call(this);
-        _set((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(SomeDerived2.prototype)), "privateMember", 1, _thisSuper, true);
+        _set((_assertThisInitialized(_this), _getPrototypeOf(SomeDerived2.prototype)), "privateMember", 1, _this, true);
         return _this;
     }
     _createClass(SomeDerived2, [

@@ -1,4 +1,4 @@
-error: A `set` accessor must have a corresponding `get` accessor
+error: A `set` accessor must have exactly one parameter
  --> $DIR/tests/test262-parser/fail/45cb305cf7a07edd.js:1:8
   |
 1 | ({ set prop() {} })

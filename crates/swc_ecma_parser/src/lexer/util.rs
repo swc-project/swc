@@ -179,7 +179,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// Skip comments or whitespaces.
     ///
     /// See https://tc39.github.io/ecma262/#sec-white-space
-    pub(super) fn skip_space(&mut self) -> LexResult<()> {
+    pub(super) fn skip_space(&mut self, lex_comments: bool) -> LexResult<()> {
         loop {
             if self.input.eat_byte(b'\n') || self.input.eat_byte(b'\r') {
                 self.state.had_line_break = true;
@@ -195,6 +195,17 @@ impl<'a, I: Input> Lexer<'a, I> {
                 continue;
             }
 
+            if lex_comments && self.input.is_byte(b'/') {
+                if self.peek() == Some('/') {
+                    self.skip_line_comment(2);
+                    continue;
+                } else if self.peek() == Some('*') {
+                    self.skip_block_comment()?;
+                    continue;
+                }
+                break;
+            }
+
             let c = self.cur();
             let c = match c {
                 Some(v) => v,
@@ -207,17 +218,6 @@ impl<'a, I: Input> Lexer<'a, I> {
                 // line breaks
                 '\u{2028}' | '\u{2029}' => {
                     self.state.had_line_break = true;
-                }
-
-                '/' => {
-                    if self.peek() == Some('/') {
-                        self.skip_line_comment(2);
-                        continue;
-                    } else if self.peek() == Some('*') {
-                        self.skip_block_comment()?;
-                        continue;
-                    }
-                    break;
                 }
 
                 _ if c.is_whitespace() => {}
@@ -299,7 +299,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             false
         };
 
-        let is_for_next = self.state.had_line_break || !self.state.can_have_trailing_comment();
+        let mut is_for_next = self.state.had_line_break || !self.state.can_have_trailing_comment();
 
         while let Some(c) = self.cur() {
             if was_star && c == '/' {
@@ -307,6 +307,12 @@ impl<'a, I: Input> Lexer<'a, I> {
                 self.bump(); // '/'
 
                 let end = self.cur_pos();
+
+                self.skip_space(false)?;
+
+                if self.input.is_byte(b';') {
+                    is_for_next = false;
+                }
 
                 if let Some(comments) = self.comments_buffer.as_mut() {
                     let src = self.input.slice(slice_start, end);

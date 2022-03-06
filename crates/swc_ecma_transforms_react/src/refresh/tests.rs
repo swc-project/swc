@@ -1465,7 +1465,7 @@ test!(
     "
     export function App() {
       console.log(useState())
-    
+
       return null;
     }
   ",
@@ -1475,7 +1475,7 @@ test!(
     export function App() {
       _s();
       console.log(useState())
-    
+
       return null;
     }
 

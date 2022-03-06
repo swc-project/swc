@@ -98,7 +98,16 @@
           }
         ]
       },
-      "rules": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 42,
+          "end": 44,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     },
     {
       "type": "MediaRule",
@@ -192,7 +201,16 @@
           }
         ]
       },
-      "rules": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 88,
+          "end": 90,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     },
     {
       "type": "MediaRule",
@@ -286,7 +304,16 @@
           }
         ]
       },
-      "rules": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 134,
+          "end": 136,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     },
     {
       "type": "MediaRule",
@@ -380,7 +407,16 @@
           }
         ]
       },
-      "rules": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 177,
+          "end": 179,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     },
     {
       "type": "QualifiedRule",
@@ -440,12 +476,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 186,
           "end": 433,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",

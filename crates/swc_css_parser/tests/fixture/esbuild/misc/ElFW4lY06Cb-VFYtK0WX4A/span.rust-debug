@@ -40,6 +40,18 @@ error: Ident
 1 | @-moz-document url-prefix() { h1 { color: green } }
   |                ^^^^^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:29
+  |
+1 | @-moz-document url-prefix() { h1 { color: green } }
+  |                             ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:31
+  |
+1 | @-moz-document url-prefix() { h1 { color: green } }
+  |                               ^^^^^^^^^^^^^^^^^^^
+
 error: Rule
  --> $DIR/tests/fixture/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:31
   |
@@ -94,11 +106,23 @@ error: Ident
 1 | @-moz-document url-prefix() { h1 { color: green } }
   |                               ^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:34
   |
 1 | @-moz-document url-prefix() { h1 { color: green } }
   |                                  ^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:36
+  |
+1 | @-moz-document url-prefix() { h1 { color: green } }
+  |                                    ^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:36
+  |
+1 | @-moz-document url-prefix() { h1 { color: green } }
+  |                                    ^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:36
@@ -118,7 +142,7 @@ error: Ident
 1 | @-moz-document url-prefix() { h1 { color: green } }
   |                                    ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:43
   |
 1 | @-moz-document url-prefix() { h1 { color: green } }

@@ -30,7 +30,7 @@ function _inherits(subClass, superClass) {
 }
 function _instanceof(left, right) {
     if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
-        return right[Symbol.hasInstance](left);
+        return !!right[Symbol.hasInstance](left);
     } else {
         return left instanceof right;
     }
@@ -78,13 +78,13 @@ function _createSuper(Derived) {
 }
 var A = function A() {
     "use strict";
+    var _newtarget = _instanceof(this, A) ? this.constructor : void 0;
     _classCallCheck(this, A);
-    var _newtarget = this.constructor;
     // @target: es5
     this.d = function _target() {
-        return this.constructor;
+        return _instanceof(this, _target) ? this.constructor : void 0;
     };
-    var a = this.constructor;
+    var a = _instanceof(this, A) ? this.constructor : void 0;
     var b = function() {
         return _newtarget;
     };
@@ -92,16 +92,15 @@ var A = function A() {
 A.c = function _target() {
     return _instanceof(this, _target) ? this.constructor : void 0;
 };
-var B = /*#__PURE__*/ function(A) {
+var B = /*#__PURE__*/ function _target(A) {
     "use strict";
     _inherits(B, A);
     var _super = _createSuper(B);
     function B() {
+        var _newtarget = _instanceof(this, B) ? this.constructor : void 0;
         _classCallCheck(this, B);
-        var _this;
-        var _newtarget = _this.constructor;
-        _this = _super.call(this);
-        var e = _this.constructor;
+        var _this = _super.call(this);
+        var e = _instanceof(this, B) ? this.constructor : void 0;
         var f = function() {
             return _newtarget;
         };

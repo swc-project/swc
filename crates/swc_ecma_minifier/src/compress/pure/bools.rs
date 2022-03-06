@@ -429,9 +429,9 @@ where
             }
 
             _ => {
-                let span = n.span();
                 let v = n.as_pure_bool();
                 if let Value::Known(v) = v {
+                    let span = n.span();
                     tracing::debug!("Optimizing expr as {} (in bool context)", v);
                     *n = make_bool(span, v);
                 }

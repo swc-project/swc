@@ -23,36 +23,46 @@
         "value": "abc",
         "raw": "abc"
       },
-      "blocks": [
-        {
-          "span": {
-            "start": 19,
-            "end": 26,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Ident",
-              "span": {
-                "start": 19,
-                "end": 23,
-                "ctxt": 0
-              },
-              "value": "from",
-              "raw": "from"
-            }
-          ],
-          "block": {
-            "type": "Block",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 17,
+          "end": 28,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
             "span": {
-              "start": 24,
+              "start": 19,
               "end": 26,
               "ctxt": 0
             },
-            "value": []
+            "prelude": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 19,
+                  "end": 23,
+                  "ctxt": 0
+                },
+                "value": "from",
+                "raw": "from"
+              }
+            ],
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 24,
+                "end": 26,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": []
+            }
           }
-        }
-      ]
+        ]
+      }
     }
   ]
 }

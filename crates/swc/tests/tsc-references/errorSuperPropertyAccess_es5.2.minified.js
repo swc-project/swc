@@ -48,7 +48,7 @@ function set(target, property, value, receiver) {
         if (desc = Object.getOwnPropertyDescriptor(receiver, property)) {
             if (!desc.writable) return !1;
             desc.value = value, Object.defineProperty(receiver, property, desc);
-        } else obj = receiver, value = value, (key = property) in obj ? Object.defineProperty(obj, key, {
+        } else obj = receiver, (key = property) in obj ? Object.defineProperty(obj, key, {
             value: value,
             enumerable: !0,
             configurable: !0,
@@ -151,8 +151,8 @@ var SomeDerived1 = function(SomeBase) {
     var _super = _createSuper(SomeDerived1);
     function SomeDerived1() {
         _classCallCheck(this, SomeDerived1);
-        var _thisSuper, _this = _super.call(this);
-        return _set((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(SomeDerived1.prototype)), "publicMember", 1, _thisSuper, !0), _this;
+        var _this = _super.call(this);
+        return _set((_assertThisInitialized(_this), _getPrototypeOf(SomeDerived1.prototype)), "publicMember", 1, _this, !0), _this;
     }
     return _createClass(SomeDerived1, [
         {
@@ -181,8 +181,8 @@ var SomeDerived1 = function(SomeBase) {
     var _super = _createSuper(SomeDerived2);
     function SomeDerived2() {
         _classCallCheck(this, SomeDerived2);
-        var _thisSuper, _this = _super.call(this);
-        return _set((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(SomeDerived2.prototype)), "privateMember", 1, _thisSuper, !0), _this;
+        var _this = _super.call(this);
+        return _set((_assertThisInitialized(_this), _getPrototypeOf(SomeDerived2.prototype)), "privateMember", 1, _this, !0), _this;
     }
     return _createClass(SomeDerived2, [
         {

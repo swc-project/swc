@@ -239,3 +239,24 @@ html[xmlns*=""]:root .selector  {}
 _::-moz-svg-foreign-content, :root .selector {}
 
 @media \\0 screen {}
+
+a {
+    *color : black;
+    _background: white;
+    font-size/**/: big;
+    $(var)-size: 100%;
+}
+
+a{*b:c}
+
+div {
+    color: red;
+}
+
+/*\*//*/ selector { property:value; } /**/
+selector { property:value; p\roperty: normal-value; }
+
+
+div {
+    color: red;
+}

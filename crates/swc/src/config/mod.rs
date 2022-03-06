@@ -32,8 +32,9 @@ use swc_ecma_lints::{
     config::LintConfig,
     rules::{lint_to_fold, LintParams},
 };
-use swc_ecma_loader::resolvers::{
-    lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
+use swc_ecma_loader::{
+    resolvers::{lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver},
+    TargetEnv,
 };
 use swc_ecma_minifier::option::{
     terser::{TerserCompressorOptions, TerserEcmaVersion, TerserTopLevelOptions},
@@ -41,7 +42,7 @@ use swc_ecma_minifier::option::{
 };
 #[allow(deprecated)]
 pub use swc_ecma_parser::JscTarget;
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_parser::{parse_file_as_expr, Syntax, TsConfig};
 use swc_ecma_transforms::{
     hygiene, modules,
     modules::{
@@ -52,14 +53,20 @@ use swc_ecma_transforms::{
     proposals::{decorators, export_default_from, import_assertions},
     react,
     resolver::ts_resolver,
-    resolver_with_mark, typescript, Assumptions,
+    resolver_with_mark,
+    typescript::{self, TSEnumConfig},
+    Assumptions,
 };
 use swc_ecma_transforms_compat::es2015::regenerator;
 use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
 use swc_ecma_visit::{Fold, VisitMutWith};
 
 use self::util::BoolOrObject;
-use crate::{builder::PassBuilder, plugin::PluginConfig, SwcComments, SwcImportResolver};
+use crate::{
+    builder::PassBuilder,
+    plugin::{PluginConfig, PluginContext},
+    SwcComments, SwcImportResolver,
+};
 
 #[cfg(test)]
 mod tests;
@@ -419,7 +426,33 @@ impl Options {
                 comments,
             );
 
+        let plugin_resolver = CachingResolver::new(
+            40,
+            NodeModulesResolver::new(TargetEnv::Node, Default::default(), true),
+        );
+
+        let transform_filename = match base {
+            FileName::Real(path) => path.as_os_str().to_str().map(String::from),
+            FileName::Custom(filename) => Some(filename.to_owned()),
+            _ => None,
+        };
+
+        let plugin_context = PluginContext {
+            filename: transform_filename,
+            env_name: self.env_name.to_owned(),
+        };
+
+        #[cfg(feature = "plugin")]
+        swc_plugin_runner::cache::init_plugin_module_cache_once(&experimental.cache_root);
+
         let pass = chain!(
+            lint_to_fold(swc_ecma_lints::rules::all(LintParams {
+                program: &program,
+                lint_config: &lints,
+                top_level_ctxt,
+                es_version,
+                source_map: cm.clone(),
+            })),
             // Decorators may use type information
             Optional::new(
                 decorators(decorators::Config {
@@ -437,6 +470,10 @@ impl Options {
                     typescript::Config {
                         pragma: Some(transform.react.pragma.clone()),
                         pragma_frag: Some(transform.react.pragma_frag.clone()),
+                        ts_enum_config: TSEnumConfig {
+                            treat_const_enum_as_enum: transform.treat_const_enum_as_enum,
+                            ts_enum_is_readonly: assumptions.ts_enum_is_readonly,
+                        },
                         ..Default::default()
                     },
                     comments,
@@ -444,14 +481,7 @@ impl Options {
                 ),
                 syntax.typescript()
             ),
-            lint_to_fold(swc_ecma_lints::rules::all(LintParams {
-                program: &program,
-                lint_config: &lints,
-                top_level_ctxt,
-                es_version,
-                source_map: cm.clone(),
-            })),
-            crate::plugin::plugins(experimental),
+            crate::plugin::plugins(plugin_resolver, experimental, plugin_context),
             custom_before_pass(&program),
             // handle jsx
             Optional::new(
@@ -673,6 +703,9 @@ pub struct Config {
 
     #[serde(default)]
     pub error: ErrorConfig,
+
+    #[serde(rename = "$schema")]
+    pub schema: Option<String>,
 }
 
 /// Second argument of `minify`.
@@ -1036,6 +1069,8 @@ pub enum ModuleConfig {
     Umd(modules::umd::Config),
     #[serde(rename = "amd")]
     Amd(modules::amd::Config),
+    #[serde(rename = "systemjs")]
+    SystemJs(modules::system_js::Config),
     #[serde(rename = "es6")]
     Es6,
 }
@@ -1116,6 +1151,17 @@ impl ModuleConfig {
                     ))
                 }
             }
+            Some(ModuleConfig::SystemJs(config)) => {
+                if paths.is_empty() {
+                    Box::new(modules::system_js::system_js(root_mark, config))
+                } else {
+                    let resolver = build_resolver(base_url, paths);
+
+                    Box::new(modules::system_js::system_js_with_resolver(
+                        resolver, base, root_mark, config,
+                    ))
+                }
+            }
         }
     }
 }
@@ -1143,6 +1189,9 @@ pub struct TransformConfig {
 
     #[serde(default)]
     pub regenerator: regenerator::Config,
+
+    #[serde(default)]
+    pub treat_const_enum_as_enum: bool,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
@@ -1225,17 +1274,17 @@ impl GlobalPassOption {
 
         fn expr(cm: &SourceMap, handler: &Handler, src: String) -> Box<Expr> {
             let fm = cm.new_source_file(FileName::Anon, src);
-            let lexer = Lexer::new(
+
+            let mut errors = vec![];
+            let expr = parse_file_as_expr(
+                &fm,
                 Syntax::Es(Default::default()),
                 Default::default(),
-                StringInput::from(&*fm),
                 None,
+                &mut errors,
             );
 
-            let mut p = Parser::new_from(lexer);
-            let expr = p.parse_expr();
-
-            for e in p.take_errors() {
+            for e in errors {
                 e.into_diagnostic(handler).emit()
             }
 
@@ -1624,12 +1673,12 @@ impl Merge for HiddenTransformConfig {
     }
 }
 
-fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> SwcImportResolver {
+fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> Box<SwcImportResolver> {
     static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths), SwcImportResolver, ahash::RandomState>> =
         Lazy::new(Default::default);
 
     if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone())) {
-        return (*cached).clone();
+        return Box::new((*cached).clone());
     }
 
     let r = {
@@ -1646,5 +1695,5 @@ fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> SwcImportResolver 
 
     CACHE.insert((base_url, paths), r.clone());
 
-    r
+    Box::new(r)
 }

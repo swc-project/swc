@@ -1,1 +1,1 @@
-new WeakMap();
+new WeakMap(), a;

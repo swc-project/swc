@@ -67,7 +67,7 @@ error: Ident
 1 | a {
   | ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/declaration-list/input.css:1:3
   |
 1 |   a {
@@ -77,6 +77,18 @@ error: Block
 4 | | }
   | |_^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/declaration-list/input.css:2:5
+  |
+2 |     prop1: value;
+  |     ^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/declaration-list/input.css:2:5
+  |
+2 |     prop1: value;
+  |     ^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/declaration-list/input.css:2:5
   |
@@ -95,7 +107,7 @@ error: Ident
 2 |     prop1: value;
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/declaration-list/input.css:2:12
   |
 2 |     prop1: value;
@@ -106,6 +118,18 @@ error: Ident
   |
 2 |     prop1: value;
   |            ^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/declaration-list/input.css:3:5
+  |
+3 |     prop2: value;
+  |     ^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/declaration-list/input.css:3:5
+  |
+3 |     prop2: value;
+  |     ^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/declaration-list/input.css:3:5
@@ -125,7 +149,7 @@ error: Ident
 3 |     prop2: value;
   |     ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/declaration-list/input.css:3:12
   |
 3 |     prop2: value;

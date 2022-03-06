@@ -37,7 +37,7 @@ export function makeP(Ctor) {
                 }
             }), superClass && _setPrototypeOf(subClass, superClass);
         }(_class, _PureComponent);
-        var Constructor, protoProps, staticProps, Derived, hasNativeReflectConstruct, _super = (Derived = _class, hasNativeReflectConstruct = function() {
+        var Derived, hasNativeReflectConstruct, Constructor, protoProps, staticProps, _super = (Derived = _class, hasNativeReflectConstruct = function() {
             if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;

@@ -52,7 +52,7 @@ error: Ident
 1 | :pseudo(cl\61ss) {}
   |  ^^^^^^
 
-error: Tokens
+error: PseudoClassSelectorChildren
  --> $DIR/tests/fixture/esbuild/misc/_e6qpZBWfowEh1P3Wn3orA/input.css:1:9
   |
 1 | :pseudo(cl\61ss) {}
@@ -64,7 +64,7 @@ error: Ident { value: Atom('class' type=static), raw: Atom('cl\61ss' type=inline
 1 | :pseudo(cl\61ss) {}
   |         ^^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/_e6qpZBWfowEh1P3Wn3orA/input.css:1:18
   |
 1 | :pseudo(cl\61ss) {}

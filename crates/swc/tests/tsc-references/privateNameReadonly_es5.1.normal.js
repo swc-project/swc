@@ -1,18 +1,37 @@
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
+function _classApplyDescriptorSet(receiver, descriptor, value) {
+    if (descriptor.set) {
+        descriptor.set.call(receiver, value);
+    } else {
+        if (!descriptor.writable) {
+            throw new TypeError("attempted to set read only private field");
+        }
+        descriptor.value = value;
+    }
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-function _classPrivateFieldSet(receiver, privateMap, value) {
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
     if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
+        throw new TypeError("attempted to " + action + " private field on non-instance");
     }
-    var descriptor = privateMap.get(receiver);
-    if (!descriptor.writable) {
-        throw new TypeError("attempted to set read only private field");
-    }
-    descriptor.value = value;
+    return privateMap.get(receiver);
+}
+function _classPrivateFieldSet(receiver, privateMap, value) {
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
+    _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
+}
+function _classPrivateMethodInit(obj, privateSet) {
+    _checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
 }
 function _defineProperties(target, props) {
     for(var i = 0; i < props.length; i++){
@@ -28,26 +47,23 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
+var _bar, _class;
 // @target: es2015
-var C = function() {
-    var bar = function bar() {};
-    var _bar = new WeakSet();
-    var _class = /*#__PURE__*/ function() {
-        "use strict";
-        function _class() {
-            _classCallCheck(this, _class);
-            _bar.add(this);
-        }
-        _createClass(_class, [
-            {
-                key: "foo",
-                value: function foo() {
-                    _classPrivateFieldSet(this, _bar, console.log("should log this then throw"));
-                }
+var C = (_bar = new WeakSet(), _class = /*#__PURE__*/ function() {
+    "use strict";
+    function _class1() {
+        _classCallCheck(this, _class1);
+        _classPrivateMethodInit(this, _bar);
+    }
+    _createClass(_class1, [
+        {
+            key: "foo",
+            value: function foo() {
+                _classPrivateFieldSet(this, _bar, console.log("should log this then throw"));
             }
-        ]);
-        return _class;
-    }();
-    return _class;
-}();
+        }
+    ]);
+    return _class1;
+}(), _class);
 console.log(new C().foo());
+function bar() {}

@@ -371,7 +371,7 @@ var C = /*#__PURE__*/ function() {
 }();
 var M;
 (function(M1) {
-    function f11() {
+    function f14() {
         return _f11.apply(this, arguments);
     }
     function _f11() {
@@ -386,7 +386,7 @@ var M;
         }));
         return _f11.apply(this, arguments);
     }
-    M1.f1 = f11;
+    M1.f1 = f14;
 })(M || (M = {}));
 // @target: es2017
 // @isolatedModules: true

@@ -4,7 +4,10 @@ use std::{
 };
 
 use swc_common::{FileName, Span};
-use swc_css_ast::{HexColor, ImportantFlag, Number, Str, Stylesheet, UrlValueRaw};
+use swc_css_ast::{
+    AnPlusBNotation, ComponentValue, HexColor, ImportantFlag, Integer, Number, Str, Stylesheet,
+    Token, TokenAndSpan, UrlValueRaw,
+};
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodeGenerator, CodegenConfig, Emit,
@@ -36,7 +39,6 @@ fn run(input: &Path, minify: bool) {
         let mut stylesheet: Stylesheet = parse_file(
             &fm,
             ParserConfig {
-                parse_values: true,
                 ..Default::default()
             },
             &mut errors,
@@ -72,7 +74,6 @@ fn run(input: &Path, minify: bool) {
         let mut stylesheet_output: Stylesheet = parse_file(
             &fm_output,
             ParserConfig {
-                parse_values: true,
                 ..Default::default()
             },
             &mut errors,
@@ -112,14 +113,33 @@ impl VisitMut for NormalizeTest {
         n.value.raw = n.value.raw.to_lowercase().into();
     }
 
-    fn visit_mut_number(&mut self, n: &mut Number) {
+    // TODO - we should parse only some properties as `<integer>`, but it requires
+    // more work, let's postpone it to avoid breaking code
+    fn visit_mut_component_value(&mut self, n: &mut ComponentValue) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            ComponentValue::Number(Number { value, .. }) if value.fract() == 0.0 => {
+                *n = ComponentValue::Integer(Integer {
+                    span: Default::default(),
+                    value: value.round() as i64,
+                    raw: "".into(),
+                })
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_mut_integer(&mut self, n: &mut Integer) {
         n.visit_mut_children_with(self);
 
         n.raw = "".into();
     }
 
-    fn visit_mut_span(&mut self, n: &mut Span) {
-        *n = Default::default()
+    fn visit_mut_number(&mut self, n: &mut Number) {
+        n.visit_mut_children_with(self);
+
+        n.raw = "".into();
     }
 
     fn visit_mut_str(&mut self, n: &mut Str) {
@@ -134,6 +154,30 @@ impl VisitMut for NormalizeTest {
         n.before = "".into();
         n.after = "".into();
         n.raw = "".into();
+    }
+
+    fn visit_mut_an_plus_b_notation(&mut self, n: &mut AnPlusBNotation) {
+        n.visit_mut_children_with(self);
+
+        if n.a_raw.is_some() {
+            n.a_raw = Some("".into());
+        }
+
+        if n.b_raw.is_some() {
+            n.b_raw = Some("".into());
+        }
+    }
+
+    fn visit_mut_token_and_span(&mut self, n: &mut TokenAndSpan) {
+        n.visit_mut_children_with(self);
+
+        if let Token::WhiteSpace { .. } = &n.token {
+            n.token = Token::WhiteSpace { value: "".into() }
+        }
+    }
+
+    fn visit_mut_span(&mut self, n: &mut Span) {
+        *n = Default::default()
     }
 }
 
@@ -156,7 +200,6 @@ fn parse_again(input: PathBuf) {
         let mut stylesheet: Stylesheet = parse_file(
             &fm,
             ParserConfig {
-                parse_values: true,
                 ..Default::default()
             },
             &mut errors,
@@ -184,7 +227,6 @@ fn parse_again(input: PathBuf) {
         let mut parsed: Stylesheet = parse_file(
             &new_fm,
             ParserConfig {
-                parse_values: true,
                 ..Default::default()
             },
             &mut parsed_errors,

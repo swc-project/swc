@@ -1,7 +1,11 @@
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
-use crate::{AtRule, DashedIdent, Ident, SelectorList, Tokens, Value};
+use crate::{
+    AtRule, CalcSum, Color, ComplexSelector, DashedIdent, Delimiter, Dimension, Function, Ident,
+    Integer, KeyframeBlock, Number, Percentage, Ratio, SelectorList, Str, TokenAndSpan, Tokens,
+    UnicodeRange, Url,
+};
 
 #[ast_node("Stylesheet")]
 pub struct Stylesheet {
@@ -18,7 +22,7 @@ pub enum Rule {
     #[tag("Tokens")]
     Invalid(Tokens),
 
-    #[tag("*")]
+    #[tag("AtRule")]
     AtRule(AtRule),
 }
 
@@ -26,7 +30,19 @@ pub enum Rule {
 pub struct QualifiedRule {
     pub span: Span,
     pub prelude: SelectorList,
-    pub block: Block,
+    pub block: SimpleBlock,
+}
+
+#[ast_node]
+pub enum StyleBlock {
+    #[tag("AtRule")]
+    AtRule(AtRule),
+    #[tag("Declaration")]
+    Declaration(Declaration),
+    #[tag("QualifiedRule")]
+    QualifiedRule(QualifiedRule),
+    #[tag("Tokens")]
+    Invalid(Tokens),
 }
 
 #[ast_node("SimpleBlock")]
@@ -35,30 +51,77 @@ pub struct SimpleBlock {
     // TODO Create a simple block with its associated token set to the current input token and with
     // its value initially set to an empty list.
     pub name: char,
-    pub value: Vec<Value>,
-}
-
-#[ast_node("Block")]
-pub struct Block {
-    pub span: Span,
-    pub value: Vec<DeclarationBlockItem>,
+    pub value: Vec<ComponentValue>,
 }
 
 #[ast_node]
-pub enum DeclarationBlockItem {
-    #[tag("Tokens")]
-    Invalid(Tokens),
+pub enum ComponentValue {
+    // No grammar
+    #[tag("TokenAndSpan")]
+    PreservedToken(TokenAndSpan),
+    #[tag("Function")]
+    Function(Function),
+    #[tag("SimpleBlock")]
+    SimpleBlock(SimpleBlock),
+
+    // Block Contents grammar
+    #[tag("DeclarationOrAtRule")]
+    DeclarationOrAtRule(DeclarationOrAtRule),
+    #[tag("Rule")]
+    Rule(Rule),
+    #[tag("StyleBlock")]
+    StyleBlock(StyleBlock),
+    #[tag("KeyframeBlock")]
+    KeyframeBlock(KeyframeBlock),
+
+    // Arbitrary Contents grammar
+    #[tag("Ident")]
+    Ident(Ident),
+    #[tag("DashedIdent")]
+    DashedIdent(DashedIdent),
+    #[tag("String")]
+    Str(Str),
+    #[tag("Url")]
+    Url(Url),
+    #[tag("Integer")]
+    Integer(Integer),
+    #[tag("Number")]
+    Number(Number),
+    #[tag("Percentage")]
+    Percentage(Percentage),
+    #[tag("Dimension")]
+    Dimension(Dimension),
+    #[tag("Ratio")]
+    Ratio(Ratio),
+    #[tag("UnicodeRange")]
+    UnicodeRange(UnicodeRange),
+    #[tag("Color")]
+    Color(Color),
+    #[tag("Delimiter")]
+    Delimiter(Delimiter),
+
+    // Special function Contents grammar
+    #[tag("CalcSum")]
+    CalcSum(CalcSum),
+    #[tag("ComplexSelector")]
+    ComplexSelector(ComplexSelector),
+}
+
+#[ast_node]
+pub enum DeclarationOrAtRule {
     #[tag("Declaration")]
     Declaration(Declaration),
-    #[tag("*")]
+    #[tag("AtRule")]
     AtRule(AtRule),
+    #[tag("Tokens")]
+    Invalid(Tokens),
 }
 
 #[ast_node("Declaration")]
 pub struct Declaration {
     pub span: Span,
     pub name: DeclarationName,
-    pub value: Vec<Value>,
+    pub value: Vec<ComponentValue>,
     /// The span includes `!`
     pub important: Option<ImportantFlag>,
 }

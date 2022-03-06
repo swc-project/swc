@@ -4,11 +4,53 @@ use std::{
 };
 
 use anyhow::{anyhow, Context, Error};
-use napi::Status;
+use napi::{Env, Status};
 use serde::de::DeserializeOwned;
 use swc::try_with_handler;
 use swc_common::{errors::Handler, sync::Lrc, SourceMap};
+use tracing::instrument;
+use tracing_chrome::ChromeLayerBuilder;
+use tracing_subscriber::{
+    prelude::__tracing_subscriber_SubscriberExt, util::SubscriberInitExt, EnvFilter,
+};
 
+#[napi]
+pub fn init_custom_trace_subscriber(
+    mut env: Env,
+    trace_out_file_path: Option<String>,
+) -> napi::Result<()> {
+    let mut layer = ChromeLayerBuilder::new().include_args(true);
+    if let Some(trace_out_file) = trace_out_file_path {
+        layer = layer.file(trace_out_file);
+    }
+
+    let (chrome_layer, guard) = layer.build();
+    tracing_subscriber::registry()
+        .with(chrome_layer)
+        .try_init()
+        .expect("Failed to register tracing subscriber");
+
+    env.add_env_cleanup_hook(guard, |flush_guard| {
+        flush_guard.flush();
+        drop(flush_guard);
+    })?;
+
+    Ok(())
+}
+
+/// Trying to initialize default subscriber if global dispatch is not set.
+/// This can be called multiple time, however subsequent calls will be ignored
+/// as tracing_subscriber only allows single global dispatch.
+pub fn init_default_trace_subscriber() {
+    let _unused = tracing_subscriber::FmtSubscriber::builder()
+        .without_time()
+        .with_target(false)
+        .with_ansi(true)
+        .with_env_filter(EnvFilter::from_env("SWC_LOG"))
+        .try_init();
+}
+
+#[instrument(level = "trace", skip_all)]
 pub fn try_with<F, Ret>(cm: Lrc<SourceMap>, skip_filename: bool, op: F) -> Result<Ret, Error>
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,

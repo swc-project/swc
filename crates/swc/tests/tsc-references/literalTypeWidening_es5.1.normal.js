@@ -126,8 +126,8 @@ function isSuccess(result1) {
 function isFailure(result2) {
     return result2 === FAILURE;
 }
-function increment(x1) {
-    return x1 + 1;
+function increment(x4) {
+    return x4 + 1;
 }
 var result = doWork();
 if (isSuccess(result)) {

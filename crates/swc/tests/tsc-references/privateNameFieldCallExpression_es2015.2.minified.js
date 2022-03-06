@@ -1,11 +1,20 @@
 function _classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-    return privateMap.get(receiver).value;
+    var receiver, descriptor, descriptor = function(receiver, privateMap, action) {
+        if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
+        return privateMap.get(receiver);
+    }(receiver, privateMap, "get");
+    return descriptor.get ? descriptor.get.call(receiver) : descriptor.value;
 }
+function _classPrivateFieldInit(obj, privateMap, value) {
+    !function(obj, privateCollection) {
+        if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }(obj, privateMap), privateMap.set(obj, value);
+}
+var _fieldFunc = new WeakMap(), _fieldFunc2 = new WeakMap();
 class A {
     test() {
-        var _obj, ref, _ref;
-        _classPrivateFieldGet(this, _fieldFunc).call(this), null === (ref = (_obj = _classPrivateFieldGet(this, _fieldFunc)).call) || void 0 === ref || ref.call(_obj, this);
+        var ref, _ref;
+        _classPrivateFieldGet(this, _fieldFunc).call(this), null === (ref = _classPrivateFieldGet(this, _fieldFunc)) || void 0 === ref || ref.call(this);
         const func = _classPrivateFieldGet(this, _fieldFunc);
         func(), new (_classPrivateFieldGet(this, _fieldFunc))();
         const arr = [
@@ -18,15 +27,14 @@ class A {
         return new A();
     }
     constructor(){
-        _fieldFunc.set(this, {
+        _classPrivateFieldInit(this, _fieldFunc, {
             writable: !0,
             value: function() {
                 this.x = 10;
             }
-        }), _fieldFunc2.set(this, {
+        }), _classPrivateFieldInit(this, _fieldFunc2, {
             writable: !0,
             value: function(a, ...b) {}
         }), this.x = 1;
     }
 }
-var _fieldFunc = new WeakMap(), _fieldFunc2 = new WeakMap();

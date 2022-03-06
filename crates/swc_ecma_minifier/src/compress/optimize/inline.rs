@@ -165,6 +165,9 @@ where
                             Lit::Regex(_) => self.options.unsafe_regexp,
                             _ => false,
                         },
+                        Expr::Unary(UnaryExpr {
+                            op: op!("!"), arg, ..
+                        }) => arg.is_lit(),
                         Expr::This(..) => usage.is_fn_local,
                         Expr::Arrow(arr) => is_arrow_simple_enough(arr),
                         _ => false,
@@ -194,7 +197,7 @@ where
                         self.lits.insert(i.to_id(), init.take());
 
                         var.name.take();
-                    } else {
+                    } else if self.options.inline != 0 || self.options.reduce_vars {
                         tracing::debug!(
                             "inline: Decided to copy '{}{:?}' because it's simple",
                             i.id.sym,
@@ -551,11 +554,8 @@ where
                         unreachable!()
                     }
                 };
-                if usage.used_above_decl {
-                    self.inlined_vars.insert(i.to_id(), e);
-                } else {
-                    self.vars_for_inlining.insert(i.to_id(), e);
-                }
+
+                self.vars_for_inlining.insert(i.to_id(), e);
             } else {
                 if cfg!(feature = "debug") {
                     tracing::trace!("inline: [x] Usage: {:?}", usage);

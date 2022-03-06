@@ -28,6 +28,12 @@ error: PageRule
 1 | @page{ }
   | ^^^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/page/input.css:1:6
+  |
+1 | @page{ }
+  |      ^^^
+
 error: Rule
  --> $DIR/tests/fixture/at-rule/page/input.css:2:1
   |
@@ -46,6 +52,12 @@ error: PageRule
 2 | @page{}
   | ^^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/page/input.css:2:6
+  |
+2 | @page{}
+  |      ^^
+
 error: Rule
  --> $DIR/tests/fixture/at-rule/page/input.css:3:1
   |
@@ -63,6 +75,18 @@ error: PageRule
   |
 3 | @page{margin: 1cm}
   | ^^^^^^^^^^^^^^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/page/input.css:3:6
+  |
+3 | @page{margin: 1cm}
+  |      ^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/page/input.css:3:7
+  |
+3 | @page{margin: 1cm}
+  |       ^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/at-rule/page/input.css:3:7
@@ -82,7 +106,7 @@ error: Ident
 3 | @page{margin: 1cm}
   |       ^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/page/input.css:3:15
   |
 3 | @page{margin: 1cm}
@@ -130,6 +154,18 @@ error: PageRule
 4 | @page {margin: 1cm}
   | ^^^^^^^^^^^^^^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/page/input.css:4:7
+  |
+4 | @page {margin: 1cm}
+  |       ^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/page/input.css:4:8
+  |
+4 | @page {margin: 1cm}
+  |        ^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/at-rule/page/input.css:4:8
   |
@@ -148,7 +184,7 @@ error: Ident
 4 | @page {margin: 1cm}
   |        ^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/page/input.css:4:16
   |
 4 | @page {margin: 1cm}
@@ -196,6 +232,18 @@ error: PageRule
 5 | @page {margin: 1cm;}
   | ^^^^^^^^^^^^^^^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/page/input.css:5:7
+  |
+5 | @page {margin: 1cm;}
+  |       ^^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/page/input.css:5:8
+  |
+5 | @page {margin: 1cm;}
+  |        ^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/at-rule/page/input.css:5:8
   |
@@ -214,7 +262,7 @@ error: Ident
 5 | @page {margin: 1cm;}
   |        ^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/page/input.css:5:16
   |
 5 | @page {margin: 1cm;}
@@ -286,6 +334,18 @@ error: Ident
 6 | @page :first {margin: 2cm}
   |        ^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/page/input.css:6:14
+  |
+6 | @page :first {margin: 2cm}
+  |              ^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/page/input.css:6:15
+  |
+6 | @page :first {margin: 2cm}
+  |               ^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/at-rule/page/input.css:6:15
   |
@@ -304,7 +364,7 @@ error: Ident
 6 | @page :first {margin: 2cm}
   |               ^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/page/input.css:6:23
   |
 6 | @page :first {margin: 2cm}
@@ -376,6 +436,18 @@ error: Ident
 7 | @page :first {margin: 2cm;}
   |        ^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/page/input.css:7:14
+  |
+7 | @page :first {margin: 2cm;}
+  |              ^^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/page/input.css:7:15
+  |
+7 | @page :first {margin: 2cm;}
+  |               ^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/at-rule/page/input.css:7:15
   |
@@ -394,7 +466,7 @@ error: Ident
 7 | @page :first {margin: 2cm;}
   |               ^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/page/input.css:7:23
   |
 7 | @page :first {margin: 2cm;}
@@ -466,6 +538,18 @@ error: Ident
 8 | @page :first{margin: 2cm;}
   |        ^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/page/input.css:8:13
+  |
+8 | @page :first{margin: 2cm;}
+  |             ^^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/page/input.css:8:14
+  |
+8 | @page :first{margin: 2cm;}
+  |              ^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/at-rule/page/input.css:8:14
   |
@@ -484,7 +568,7 @@ error: Ident
 8 | @page :first{margin: 2cm;}
   |              ^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/page/input.css:8:22
   |
 8 | @page :first{margin: 2cm;}
@@ -532,6 +616,12 @@ error: PageRule
 9 | @page {}
   | ^^^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/page/input.css:9:7
+  |
+9 | @page {}
+  |       ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:10:1
    |
@@ -573,6 +663,12 @@ error: Ident
    |
 10 | @page :left {}
    |        ^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:10:13
+   |
+10 | @page :left {}
+   |             ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:11:1
@@ -616,6 +712,12 @@ error: Ident
 11 | @page :right {}
    |        ^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:11:14
+   |
+11 | @page :right {}
+   |              ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:12:1
    |
@@ -657,6 +759,12 @@ error: Ident
    |
 12 | @page LandscapeTable {}
    |       ^^^^^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:12:22
+   |
+12 | @page LandscapeTable {}
+   |                      ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:13:1
@@ -712,6 +820,12 @@ error: Ident
 13 | @page CompanyLetterHead:first {} /*  identifier and pseudo page. */
    |                         ^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:13:31
+   |
+13 | @page CompanyLetterHead:first {} /*  identifier and pseudo page. */
+   |                               ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:14:1
    |
@@ -753,6 +867,12 @@ error: Ident
    |
 14 | @page:first {}
    |       ^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:14:13
+   |
+14 | @page:first {}
+   |             ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:15:1
@@ -813,6 +933,12 @@ error: Ident
    |
 15 | @page toc, index {}
    |            ^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:15:18
+   |
+15 | @page toc, index {}
+   |                  ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:16:1
@@ -868,6 +994,12 @@ error: Ident
 16 | @page :blank:first { }
    |              ^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:16:20
+   |
+16 | @page :blank:first { }
+   |                    ^^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:17:1
    |
@@ -895,6 +1027,22 @@ error: PageRule
 20 | | }
    | |_^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:17:7
+   |
+17 |   @page {
+   |  _______^
+18 | |     @top-left {}
+19 | |     @bottom-center {}
+20 | | }
+   | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/page/input.css:18:5
+   |
+18 |     @top-left {}
+   |     ^^^^^^^^^^^^
+
 error: AtRule
   --> $DIR/tests/fixture/at-rule/page/input.css:18:5
    |
@@ -913,6 +1061,18 @@ error: Ident
 18 |     @top-left {}
    |      ^^^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:18:15
+   |
+18 |     @top-left {}
+   |               ^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/page/input.css:19:5
+   |
+19 |     @bottom-center {}
+   |     ^^^^^^^^^^^^^^^^^
+
 error: AtRule
   --> $DIR/tests/fixture/at-rule/page/input.css:19:5
    |
@@ -930,6 +1090,12 @@ error: Ident
    |
 19 |     @bottom-center {}
    |      ^^^^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:19:20
+   |
+19 |     @bottom-center {}
+   |                    ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:21:1
@@ -973,6 +1139,18 @@ error: Ident
 21 | @page :left { @left-middle {}}
    |        ^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:21:13
+   |
+21 | @page :left { @left-middle {}}
+   |             ^^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/page/input.css:21:15
+   |
+21 | @page :left { @left-middle {}}
+   |               ^^^^^^^^^^^^^^^
+
 error: AtRule
   --> $DIR/tests/fixture/at-rule/page/input.css:21:15
    |
@@ -990,6 +1168,12 @@ error: Ident
    |
 21 | @page :left { @left-middle {}}
    |                ^^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:21:28
+   |
+21 | @page :left { @left-middle {}}
+   |                            ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:22:1
@@ -1033,6 +1217,18 @@ error: Ident
 22 | @page :right{ @right-middle {}}
    |        ^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:22:13
+   |
+22 | @page :right{ @right-middle {}}
+   |             ^^^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/page/input.css:22:15
+   |
+22 | @page :right{ @right-middle {}}
+   |               ^^^^^^^^^^^^^^^^
+
 error: AtRule
   --> $DIR/tests/fixture/at-rule/page/input.css:22:15
    |
@@ -1050,6 +1246,12 @@ error: Ident
    |
 22 | @page :right{ @right-middle {}}
    |                ^^^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:22:29
+   |
+22 | @page :right{ @right-middle {}}
+   |                             ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:24:1
@@ -1093,6 +1295,18 @@ error: Ident
 24 | @page :left { @bottom-left-corner {}}
    |        ^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:24:13
+   |
+24 | @page :left { @bottom-left-corner {}}
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/page/input.css:24:15
+   |
+24 | @page :left { @bottom-left-corner {}}
+   |               ^^^^^^^^^^^^^^^^^^^^^^
+
 error: AtRule
   --> $DIR/tests/fixture/at-rule/page/input.css:24:15
    |
@@ -1110,6 +1324,12 @@ error: Ident
    |
 24 | @page :left { @bottom-left-corner {}}
    |                ^^^^^^^^^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:24:35
+   |
+24 | @page :left { @bottom-left-corner {}}
+   |                                   ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:25:1
@@ -1153,6 +1373,18 @@ error: Ident
 25 | @page :right { @bottom-right-corner {}}
    |        ^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:25:14
+   |
+25 | @page :right { @bottom-right-corner {}}
+   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/page/input.css:25:16
+   |
+25 | @page :right { @bottom-right-corner {}}
+   |                ^^^^^^^^^^^^^^^^^^^^^^^
+
 error: AtRule
   --> $DIR/tests/fixture/at-rule/page/input.css:25:16
    |
@@ -1170,6 +1402,12 @@ error: Ident
    |
 25 | @page :right { @bottom-right-corner {}}
    |                 ^^^^^^^^^^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:25:37
+   |
+25 | @page :right { @bottom-right-corner {}}
+   |                                     ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:26:1
@@ -1222,6 +1460,22 @@ error: Ident
 26 | @page :first {
    |        ^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:26:14
+   |
+26 |   @page :first {
+   |  ______________^
+27 | |     @bottom-left-corner {}
+28 | |     @bottom-right-corner {}
+29 | | }
+   | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/page/input.css:27:5
+   |
+27 |     @bottom-left-corner {}
+   |     ^^^^^^^^^^^^^^^^^^^^^^
+
 error: AtRule
   --> $DIR/tests/fixture/at-rule/page/input.css:27:5
    |
@@ -1239,6 +1493,18 @@ error: Ident
    |
 27 |     @bottom-left-corner {}
    |      ^^^^^^^^^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:27:25
+   |
+27 |     @bottom-left-corner {}
+   |                         ^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/page/input.css:28:5
+   |
+28 |     @bottom-right-corner {}
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
 
 error: AtRule
   --> $DIR/tests/fixture/at-rule/page/input.css:28:5
@@ -1258,6 +1524,12 @@ error: Ident
 28 |     @bottom-right-corner {}
    |      ^^^^^^^^^^^^^^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:28:26
+   |
+28 |     @bottom-right-corner {}
+   |                          ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:30:1
    |
@@ -1275,6 +1547,12 @@ error: PageRule
    |
 30 | @page {}
    | ^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:30:7
+   |
+30 | @page {}
+   |       ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:31:1
@@ -1318,6 +1596,12 @@ error: Ident
 31 | @page :left {}
    |        ^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:31:13
+   |
+31 | @page :left {}
+   |             ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:32:1
    |
@@ -1359,6 +1643,12 @@ error: Ident
    |
 32 | @page :first {}
    |        ^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:32:14
+   |
+32 | @page :first {}
+   |              ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:33:1
@@ -1414,6 +1704,12 @@ error: Ident
 33 | @page :blank:left {}
    |              ^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:33:19
+   |
+33 | @page :blank:left {}
+   |                   ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:34:1
    |
@@ -1455,6 +1751,12 @@ error: Ident
    |
 34 | @page artsy {}
    |       ^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:34:13
+   |
+34 | @page artsy {}
+   |             ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:35:1
@@ -1510,6 +1812,12 @@ error: Ident
 35 | @page artsy:left {}
    |             ^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:35:18
+   |
+35 | @page artsy:left {}
+   |                  ^^
+
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:36:1
    |
@@ -1563,6 +1871,12 @@ error: Ident
    |
 36 | @page artsy:first {}
    |             ^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:36:19
+   |
+36 | @page artsy:first {}
+   |                   ^^
 
 error: Rule
   --> $DIR/tests/fixture/at-rule/page/input.css:37:1
@@ -1624,6 +1938,25 @@ error: Ident
 37 | @page :first {
    |        ^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:37:14
+   |
+37 |   @page :first {
+   |  ______________^
+38 | |     color: green;
+39 | |
+40 | |     @top-left {
+...  |
+46 | |     }
+47 | | }
+   | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/page/input.css:38:5
+   |
+38 |     color: green;
+   |     ^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/page/input.css:38:5
    |
@@ -1642,7 +1975,7 @@ error: Ident
 38 |     color: green;
    |     ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/page/input.css:38:12
    |
 38 |     color: green;
@@ -1653,6 +1986,15 @@ error: Ident
    |
 38 |     color: green;
    |            ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/page/input.css:40:5
+   |
+40 | /     @top-left {
+41 | |         content: "foo";
+42 | |         color: blue;
+43 | |     }
+   | |_____^
 
 error: AtRule
   --> $DIR/tests/fixture/at-rule/page/input.css:40:5
@@ -1678,6 +2020,22 @@ error: Ident
 40 |     @top-left {
    |      ^^^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:40:15
+   |
+40 |       @top-left {
+   |  _______________^
+41 | |         content: "foo";
+42 | |         color: blue;
+43 | |     }
+   | |_____^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/page/input.css:41:9
+   |
+41 |         content: "foo";
+   |         ^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/page/input.css:41:9
    |
@@ -1696,7 +2054,7 @@ error: Ident
 41 |         content: "foo";
    |         ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/page/input.css:41:18
    |
 41 |         content: "foo";
@@ -1707,6 +2065,12 @@ error: Str
    |
 41 |         content: "foo";
    |                  ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/page/input.css:42:9
+   |
+42 |         color: blue;
+   |         ^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/at-rule/page/input.css:42:9
@@ -1726,7 +2090,7 @@ error: Ident
 42 |         color: blue;
    |         ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/page/input.css:42:16
    |
 42 |         color: blue;
@@ -1737,6 +2101,14 @@ error: Ident
    |
 42 |         color: blue;
    |                ^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/page/input.css:44:5
+   |
+44 | /     @top-right {
+45 | |         content: "bar";
+46 | |     }
+   | |_____^
 
 error: AtRule
   --> $DIR/tests/fixture/at-rule/page/input.css:44:5
@@ -1760,6 +2132,21 @@ error: Ident
 44 |     @top-right {
    |      ^^^^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:44:16
+   |
+44 |       @top-right {
+   |  ________________^
+45 | |         content: "bar";
+46 | |     }
+   | |_____^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/page/input.css:45:9
+   |
+45 |         content: "bar";
+   |         ^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/page/input.css:45:9
    |
@@ -1778,7 +2165,7 @@ error: Ident
 45 |         content: "bar";
    |         ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/page/input.css:45:18
    |
 45 |         content: "bar";
@@ -1850,6 +2237,25 @@ error: Ident
 48 | @page :first {
    |        ^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:48:14
+   |
+48 |   @page :first {
+   |  ______________^
+49 | |     color: green;
+50 | |
+51 | |     @top-left {
+...  |
+59 | |     margin: 20px;
+60 | | }
+   | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/page/input.css:49:5
+   |
+49 |     color: green;
+   |     ^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/page/input.css:49:5
    |
@@ -1868,7 +2274,7 @@ error: Ident
 49 |     color: green;
    |     ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/page/input.css:49:12
    |
 49 |     color: green;
@@ -1879,6 +2285,15 @@ error: Ident
    |
 49 |     color: green;
    |            ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/page/input.css:51:5
+   |
+51 | /     @top-left {
+52 | |         content: "foo";
+53 | |         color: blue;
+54 | |     }
+   | |_____^
 
 error: AtRule
   --> $DIR/tests/fixture/at-rule/page/input.css:51:5
@@ -1904,6 +2319,22 @@ error: Ident
 51 |     @top-left {
    |      ^^^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:51:15
+   |
+51 |       @top-left {
+   |  _______________^
+52 | |         content: "foo";
+53 | |         color: blue;
+54 | |     }
+   | |_____^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/page/input.css:52:9
+   |
+52 |         content: "foo";
+   |         ^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/page/input.css:52:9
    |
@@ -1922,7 +2353,7 @@ error: Ident
 52 |         content: "foo";
    |         ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/page/input.css:52:18
    |
 52 |         content: "foo";
@@ -1933,6 +2364,12 @@ error: Str
    |
 52 |         content: "foo";
    |                  ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/page/input.css:53:9
+   |
+53 |         color: blue;
+   |         ^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/at-rule/page/input.css:53:9
@@ -1952,7 +2389,7 @@ error: Ident
 53 |         color: blue;
    |         ^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/page/input.css:53:16
    |
 53 |         color: blue;
@@ -1963,6 +2400,14 @@ error: Ident
    |
 53 |         color: blue;
    |                ^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/page/input.css:55:5
+   |
+55 | /     @top-right {
+56 | |         content: "bar";
+57 | |     }
+   | |_____^
 
 error: AtRule
   --> $DIR/tests/fixture/at-rule/page/input.css:55:5
@@ -1986,6 +2431,21 @@ error: Ident
 55 |     @top-right {
    |      ^^^^^^^^^
 
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/page/input.css:55:16
+   |
+55 |       @top-right {
+   |  ________________^
+56 | |         content: "bar";
+57 | |     }
+   | |_____^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/page/input.css:56:9
+   |
+56 |         content: "bar";
+   |         ^^^^^^^^^^^^^^
+
 error: Declaration
   --> $DIR/tests/fixture/at-rule/page/input.css:56:9
    |
@@ -2004,7 +2464,7 @@ error: Ident
 56 |         content: "bar";
    |         ^^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/page/input.css:56:18
    |
 56 |         content: "bar";
@@ -2015,6 +2475,12 @@ error: Str
    |
 56 |         content: "bar";
    |                  ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/page/input.css:59:5
+   |
+59 |     margin: 20px;
+   |     ^^^^^^^^^^^^
 
 error: Declaration
   --> $DIR/tests/fixture/at-rule/page/input.css:59:5
@@ -2034,7 +2500,7 @@ error: Ident
 59 |     margin: 20px;
    |     ^^^^^^
 
-error: Value
+error: ComponentValue
   --> $DIR/tests/fixture/at-rule/page/input.css:59:13
    |
 59 |     margin: 20px;

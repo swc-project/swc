@@ -46,6 +46,23 @@ error: CustomIdent
 1 | @counter-style thumbs {
   |                ^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/at-rule/counter-style/input.css:1:23
+  |
+1 |   @counter-style thumbs {
+  |  _______________________^
+2 | |     system: cyclic;
+3 | |     symbols: "\1F44D";
+4 | |     suffix: " ";
+5 | | }
+  | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/counter-style/input.css:2:5
+  |
+2 |     system: cyclic;
+  |     ^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/at-rule/counter-style/input.css:2:5
   |
@@ -64,7 +81,7 @@ error: Ident
 2 |     system: cyclic;
   |     ^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/counter-style/input.css:2:13
   |
 2 |     system: cyclic;
@@ -75,6 +92,12 @@ error: Ident
   |
 2 |     system: cyclic;
   |             ^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/counter-style/input.css:3:5
+  |
+3 |     symbols: "\1F44D";
+  |     ^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/at-rule/counter-style/input.css:3:5
@@ -94,7 +117,7 @@ error: Ident
 3 |     symbols: "\1F44D";
   |     ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/counter-style/input.css:3:14
   |
 3 |     symbols: "\1F44D";
@@ -105,6 +128,12 @@ error: Str
   |
 3 |     symbols: "\1F44D";
   |              ^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/counter-style/input.css:4:5
+  |
+4 |     suffix: " ";
+  |     ^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/at-rule/counter-style/input.css:4:5
@@ -124,7 +153,7 @@ error: Ident
 4 |     suffix: " ";
   |     ^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/counter-style/input.css:4:13
   |
 4 |     suffix: " ";
@@ -194,7 +223,7 @@ error: Ident
 7 | ul {
   | ^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/at-rule/counter-style/input.css:7:4
   |
 7 |   ul {
@@ -202,6 +231,18 @@ error: Block
 8 | |     list-style: thumbs;
 9 | | }
   | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/at-rule/counter-style/input.css:8:5
+  |
+8 |     list-style: thumbs;
+  |     ^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/at-rule/counter-style/input.css:8:5
+  |
+8 |     list-style: thumbs;
+  |     ^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/at-rule/counter-style/input.css:8:5
@@ -221,7 +262,7 @@ error: Ident
 8 |     list-style: thumbs;
   |     ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/at-rule/counter-style/input.css:8:17
   |
 8 |     list-style: thumbs;

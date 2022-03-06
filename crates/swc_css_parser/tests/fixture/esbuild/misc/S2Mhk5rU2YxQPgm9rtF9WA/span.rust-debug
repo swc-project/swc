@@ -52,6 +52,18 @@ error: Str
 1 | @document url("https://www.example.com/") { h1 { color: green } }
   |               ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:43
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |                                           ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:45
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |                                             ^^^^^^^^^^^^^^^^^^^
+
 error: Rule
  --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:45
   |
@@ -106,11 +118,23 @@ error: Ident
 1 | @document url("https://www.example.com/") { h1 { color: green } }
   |                                             ^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:48
   |
 1 | @document url("https://www.example.com/") { h1 { color: green } }
   |                                                ^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:50
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |                                                  ^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:50
+  |
+1 | @document url("https://www.example.com/") { h1 { color: green } }
+  |                                                  ^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:50
@@ -130,7 +154,7 @@ error: Ident
 1 | @document url("https://www.example.com/") { h1 { color: green } }
   |                                                  ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:57
   |
 1 | @document url("https://www.example.com/") { h1 { color: green } }

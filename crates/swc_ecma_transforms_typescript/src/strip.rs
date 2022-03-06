@@ -3,6 +3,7 @@ use std::mem::take;
 use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
+    chain,
     collections::{AHashMap, AHashSet},
     comments::{Comments, NoopComments},
     sync::Lrc,
@@ -20,6 +21,8 @@ use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, visit_obj_and_computed, Fold, Visit, VisitMut, VisitMutWith,
     VisitWith,
 };
+
+use crate::inline_enum::{inline_enum, TSEnumLit};
 
 /// Value does not contain TsLit::Bool
 type EnumValues = AHashMap<JsWord, Option<TsLit>>;
@@ -80,22 +83,54 @@ pub struct Config {
     /// Note: this pass handle jsx directives in comments
     #[serde(default)]
     pub pragma_frag: Option<String>,
+
+    #[serde(default)]
+    pub ts_enum_config: TSEnumConfig,
+}
+
+#[derive(Clone, Copy, Debug, Default, Serialize, Deserialize)]
+pub struct TSEnumConfig {
+    /// Note: `const enum` will be inlined if this is false(default)
+    /// All `const enum` *should be* inlined since it's align to tsc behavior.
+    /// This option exists to allow you to roll back the old behavior of swc.
+    #[serde(default)]
+    pub treat_const_enum_as_enum: bool,
+
+    /// Config from `assumptions`
+    /// Note: If this is true, all enums will be inlined when possible
+    /// whether or not you use `enum` or `const enum`.
+    #[serde(default)]
+    pub ts_enum_is_readonly: bool,
+}
+
+impl TSEnumConfig {
+    pub fn should_collect_enum(&self, is_const: bool) -> bool {
+        self.ts_enum_is_readonly || (!self.treat_const_enum_as_enum && is_const)
+    }
 }
 
 pub fn strip_with_config(config: Config, top_level_mark: Mark) -> impl Fold + VisitMut {
-    as_folder(Strip {
-        config,
-        comments: NoopComments,
-        jsx: None,
-        top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
-        non_top_level: Default::default(),
-        scope: Default::default(),
-        is_side_effect_import: Default::default(),
-        is_type_only_export: Default::default(),
-        uninitialized_vars: Default::default(),
-        decl_names: Default::default(),
-        in_var_pat: Default::default(),
-    })
+    let ts_enum_lit = TSEnumLit::default();
+
+    let ts_enum_config = config.ts_enum_config;
+
+    chain!(
+        as_folder(Strip {
+            config,
+            comments: NoopComments,
+            jsx: None,
+            top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
+            ts_enum_lit: ts_enum_lit.clone(),
+            non_top_level: Default::default(),
+            scope: Default::default(),
+            is_side_effect_import: Default::default(),
+            is_type_only_export: Default::default(),
+            uninitialized_vars: Default::default(),
+            decl_names: Default::default(),
+            in_var_pat: Default::default(),
+        }),
+        inline_enum(ts_enum_lit, ts_enum_config)
+    )
 }
 
 /// Strips type annotations out.
@@ -141,24 +176,31 @@ where
     let pragma_id = id_for_jsx(&pragma);
     let pragma_frag_id = id_for_jsx(&pragma_frag);
 
-    as_folder(Strip {
-        config,
-        comments,
-        jsx: Some(JsxData {
-            cm,
-            top_level_mark,
-            pragma_id,
-            pragma_frag_id,
+    let ts_enum_lit = TSEnumLit::default();
+    let ts_enum_config = config.ts_enum_config;
+
+    chain!(
+        as_folder(Strip {
+            config,
+            comments,
+            jsx: Some(JsxData {
+                cm,
+                top_level_mark,
+                pragma_id,
+                pragma_frag_id,
+            }),
+            top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
+            ts_enum_lit: ts_enum_lit.clone(),
+            non_top_level: Default::default(),
+            scope: Default::default(),
+            is_side_effect_import: Default::default(),
+            is_type_only_export: Default::default(),
+            uninitialized_vars: Default::default(),
+            decl_names: Default::default(),
+            in_var_pat: Default::default(),
         }),
-        top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
-        non_top_level: Default::default(),
-        scope: Default::default(),
-        is_side_effect_import: Default::default(),
-        is_type_only_export: Default::default(),
-        uninitialized_vars: Default::default(),
-        decl_names: Default::default(),
-        in_var_pat: Default::default(),
-    })
+        inline_enum(ts_enum_lit, ts_enum_config)
+    )
 }
 
 /// Get an [Id] which will used by expression.
@@ -198,6 +240,8 @@ where
     is_side_effect_import: bool,
     is_type_only_export: bool,
     uninitialized_vars: Vec<VarDeclarator>,
+
+    ts_enum_lit: TSEnumLit,
 
     /// Names of declarations.
     /// This is used to prevent emitting a variable with same name multiple
@@ -411,8 +455,10 @@ where
         } else {
             for m in class.body.iter_mut() {
                 if let ClassMember::ClassProp(m) = m {
-                    if let Some(orig_ident) = &orig_ident {
-                        replace_ident(&mut m.value, orig_ident.to_id(), &ident)
+                    if m.is_static {
+                        if let Some(orig_ident) = &orig_ident {
+                            replace_ident(&mut m.value, orig_ident.to_id(), &ident)
+                        }
                     }
                 }
             }
@@ -450,8 +496,8 @@ where
                                     })
                                 }
                                 PropName::Ident(id) => MemberProp::Ident(id),
-                                PropName::Str(str) => MemberProp::Computed(ComputedPropName {
-                                    expr: Box::new(Expr::Lit(Lit::Str(str))),
+                                PropName::Str(s) => MemberProp::Computed(ComputedPropName {
+                                    expr: Box::new(Expr::Lit(Lit::Str(s))),
                                     span: DUMMY_SP,
                                 }),
                                 PropName::Num(num) => MemberProp::Computed(ComputedPropName {
@@ -482,7 +528,7 @@ where
                     ClassMember::ClassProp(mut class_field)
                         if class_field.is_static && class_field.decorators.is_empty() =>
                     {
-                        if let Some(value) = class_field.value.take() {
+                        if let Some(mut value) = class_field.value.take() {
                             let prop = match class_field.key.take() {
                                 // make an prop_name_to_member
                                 PropName::Computed(key) => {
@@ -508,8 +554,8 @@ where
                                     })
                                 }
                                 PropName::Ident(id) => MemberProp::Ident(id),
-                                PropName::Str(str) => MemberProp::Computed(ComputedPropName {
-                                    expr: Box::new(Expr::Lit(Lit::Str(str))),
+                                PropName::Str(s) => MemberProp::Computed(ComputedPropName {
+                                    expr: Box::new(Expr::Lit(Lit::Str(s))),
                                     span: DUMMY_SP,
                                 }),
                                 PropName::Num(num) => MemberProp::Computed(ComputedPropName {
@@ -528,6 +574,11 @@ where
                                 obj: Box::new(Expr::Ident(ident.clone())),
                                 prop,
                             })));
+
+                            value.visit_mut_with(&mut ThisInStaticFolder {
+                                ident: ident.clone(),
+                            });
+
                             extra_exprs.push(Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
                                 op: op!("="),
@@ -732,7 +783,8 @@ where
             Expr::TsAs(TsAsExpr { expr, .. })
             | Expr::TsNonNull(TsNonNullExpr { expr, .. })
             | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
-            | Expr::TsConstAssertion(TsConstAssertion { expr, .. }) => {
+            | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
+            | Expr::TsInstantiation(TsInstantiation { expr, .. }) => {
                 expr.visit_mut_with(self);
                 let expr = *expr.take();
                 *n = expr;
@@ -850,13 +902,8 @@ where
                         }
                         //
                         for m in e.members.iter() {
-                            match m.id {
-                                TsEnumMemberId::Str(Str { value: ref sym, .. })
-                                | TsEnumMemberId::Ident(Ident { ref sym, .. }) => {
-                                    if *sym == id.sym {
-                                        return compute(e, span, values, None, m.init.as_deref());
-                                    }
-                                }
+                            if &id.sym == m.id.as_ref() {
+                                return compute(e, span, values, None, m.init.as_deref());
                             }
                         }
                         return Err(());
@@ -940,13 +987,7 @@ where
                         if let TsLit::Number(n) = val {
                             default = n.value as i64 + 1;
                         }
-                        values.insert(
-                            match &m.id {
-                                TsEnumMemberId::Ident(i) => i.sym.clone(),
-                                TsEnumMemberId::Str(s) => s.value.clone(),
-                            },
-                            Some(val.clone()),
-                        );
+                        values.insert(m.id.as_ref().clone(), Some(val.clone()));
 
                         match val {
                             TsLit::Number(v) => Expr::Lit(Lit::Num(v)),
@@ -968,13 +1009,7 @@ where
                             };
                             visitor.visit_mut_expr(&mut v);
 
-                            values.insert(
-                                match &m.id {
-                                    TsEnumMemberId::Ident(i) => i.sym.clone(),
-                                    TsEnumMemberId::Str(s) => s.value.clone(),
-                                },
-                                None,
-                            );
+                            values.insert(m.id.as_ref().clone(), None);
 
                             Ok(v)
                         }
@@ -985,17 +1020,24 @@ where
             .collect::<Result<Vec<_>, _>>()
             .unwrap_or_else(|_| panic!("invalid value for enum is detected"));
 
-        let is_all_str = members
-            .iter()
-            .all(|(_, v)| matches!(v, Expr::Lit(Lit::Str(..))));
-        let no_init_required = is_all_str;
-        let rhs_should_be_name = members.iter().all(|(m, v): &(TsEnumMember, Expr)| match v {
-            Expr::Lit(Lit::Str(s)) => match &m.id {
-                TsEnumMemberId::Ident(i) => i.sym == s.value,
-                TsEnumMemberId::Str(s2) => s2.value == s.value,
-            },
-            _ => true,
-        });
+        let contains_lit = members.iter().any(|(_, v)| matches!(v, Expr::Lit(..)));
+        let should_collect = self.config.ts_enum_config.should_collect_enum(e.is_const);
+
+        if should_collect && contains_lit {
+            let mut enums = self.ts_enum_lit.borrow_mut();
+
+            let k_v = enums.entry(e.id.to_id()).or_default();
+
+            members
+                .iter()
+                .filter(|(_, v)| matches!(v, Expr::Lit(..)))
+                .for_each(|(m, e)| {
+                    let member_key = m.id.as_ref().clone();
+                    let value = e.clone().expect_lit();
+
+                    k_v.insert(member_key, value);
+                })
+        }
 
         let init = CallExpr {
             span: DUMMY_SP,
@@ -1016,8 +1058,13 @@ where
                         span: DUMMY_SP,
                         stmts: members
                             .into_iter()
-                            .enumerate()
-                            .map(|(_, (m, val))| {
+                            .map(|(m, val)| {
+                                let no_init_required = matches!(val, Expr::Lit(Lit::Str(..)));
+                                let rhs_should_be_name = match &val {
+                                    Expr::Lit(Lit::Str(s)) => m.id.as_ref() == &s.value,
+                                    _ => true,
+                                };
+
                                 let value = match m.id {
                                     TsEnumMemberId::Str(s) => s,
                                     TsEnumMemberId::Ident(i) => Str {
@@ -1102,7 +1149,6 @@ where
         };
 
         let body = module.body?;
-        let var = self.create_uninit_var(module_name.span, module_name.to_id());
         let private_name = private_ident!(module_name.sym.clone());
         let body_stmts = match body {
             TsNamespaceBody::TsModuleBlock(block) => {
@@ -1112,6 +1158,8 @@ where
                 self.handle_ts_namespace_decl(decl, &private_name)
             }
         }?;
+
+        let var = self.create_uninit_var(module_name.span, module_name.to_id());
 
         self.get_namespace_var_decl_and_call_expr(
             var,
@@ -2748,4 +2796,28 @@ impl VisitMut for EnumValuesVisitor<'_> {
             _ => expr.visit_mut_children_with(self),
         }
     }
+}
+
+pub(super) struct ThisInStaticFolder {
+    pub ident: Ident,
+}
+
+impl VisitMut for ThisInStaticFolder {
+    noop_visit_mut_type!();
+
+    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
+
+    fn visit_mut_class_decl(&mut self, _: &mut ClassDecl) {}
+
+    fn visit_mut_class_expr(&mut self, _: &mut ClassExpr) {}
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        if let Expr::This(..) = e {
+            *e = Expr::Ident(self.ident.clone())
+        }
+    }
+
+    fn visit_mut_function(&mut self, _: &mut Function) {}
 }

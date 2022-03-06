@@ -4,7 +4,6 @@ use std::{
     iter,
 };
 
-use anyhow::Context;
 use indexmap::{IndexMap, IndexSet};
 use inflector::Inflector;
 use serde::{Deserialize, Serialize};
@@ -12,7 +11,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
     util::take::Take,
-    FileName, Mark, Span, DUMMY_SP,
+    Span, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -20,8 +19,6 @@ use swc_ecma_utils::{
     DestructuringFinder, ExprFactory, Id,
 };
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
-
-use crate::path::ImportResolver;
 
 pub(super) trait ModulePass: Fold {
     fn config(&self) -> &Config;
@@ -558,7 +555,7 @@ impl Scope {
                     } else {
                         *expr.fold_with(folder)
                     };
-                    Callee::Expr(Box::new(callee))
+                    callee.as_callee()
                 } else {
                     callee.fold_with(folder)
                 };
@@ -796,37 +793,6 @@ impl Scope {
     }
 }
 
-pub(super) fn make_require_call<R>(
-    resolver: &Option<(R, FileName)>,
-    mark: Mark,
-    src: JsWord,
-) -> Expr
-where
-    R: ImportResolver,
-{
-    let src = match resolver {
-        Some((resolver, base)) => resolver
-            .resolve_import(base, &src)
-            .with_context(|| format!("failed to resolve import `{}`", src))
-            .unwrap(),
-        None => src,
-    };
-
-    Expr::Call(CallExpr {
-        span: DUMMY_SP,
-        callee: quote_ident!(DUMMY_SP.apply_mark(mark), "require").as_callee(),
-        args: vec![Lit::Str(Str {
-            span: DUMMY_SP,
-            value: src,
-            has_escape: false,
-            kind: Default::default(),
-        })
-        .as_arg()],
-
-        type_args: Default::default(),
-    })
-}
-
 pub(super) fn local_name_for_src(src: &JsWord) -> JsWord {
     if !src.contains('/') {
         return format!("_{}", src.to_camel_case()).into();
@@ -861,13 +827,7 @@ pub(super) fn define_es_module(exports: Ident) -> Stmt {
             span: DUMMY_SP,
             props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(quote_ident!("value")),
-                value: Box::new(
-                    Lit::Bool(Bool {
-                        span: DUMMY_SP,
-                        value: true,
-                    })
-                    .into(),
-                ),
+                value: true.into(),
             })))],
         }
         .as_arg(),
@@ -898,24 +858,43 @@ pub(super) fn use_strict() -> Stmt {
 /// ```js
 /// exports.default = exports.foo = void 0;
 /// ```
-pub(super) fn initialize_to_undefined(
+pub(super) fn initialize_to_undefined<T>(
     exports: Ident,
     initialized: IndexSet<JsWord, ahash::RandomState>,
-) -> Box<Expr> {
-    let mut rhs = undefined(DUMMY_SP);
+) -> Vec<T>
+where
+    T: From<Stmt>,
+{
+    const CHUNK_SIZE: usize = 64;
+    let len = initialized.len();
 
-    for name in initialized.into_iter() {
-        rhs = Box::new(Expr::Assign(AssignExpr {
-            span: DUMMY_SP,
-            left: PatOrExpr::Expr(Box::new(
-                exports.clone().make_member(Ident::new(name, DUMMY_SP)),
-            )),
-            op: op!("="),
-            right: rhs,
-        }));
+    let mut result = Vec::with_capacity(len / CHUNK_SIZE + 1);
+
+    let initialized: Vec<JsWord> = initialized.into_iter().collect();
+
+    for chunks in initialized.chunks(CHUNK_SIZE) {
+        let mut rhs = undefined(DUMMY_SP);
+
+        for name in chunks {
+            rhs = Box::new(
+                AssignExpr {
+                    span: DUMMY_SP,
+                    left: PatOrExpr::Expr(Box::new(
+                        exports
+                            .clone()
+                            .make_member(Ident::new(name.clone(), DUMMY_SP)),
+                    )),
+                    op: op!("="),
+                    right: rhs,
+                }
+                .into(),
+            );
+        }
+
+        result.push(T::from(rhs.into_stmt()));
     }
 
-    rhs
+    result
 }
 
 pub(super) fn make_descriptor(get_expr: Box<Expr>) -> ObjectLit {
@@ -932,13 +911,7 @@ pub(super) fn make_descriptor(get_expr: Box<Expr>) -> ObjectLit {
         props: vec![
             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(quote_ident!("enumerable")),
-                value: Box::new(
-                    Lit::Bool(Bool {
-                        span: DUMMY_SP,
-                        value: true,
-                    })
-                    .into(),
-                ),
+                value: true.into(),
             }))),
             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(quote_ident!("get")),

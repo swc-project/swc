@@ -52,11 +52,23 @@ error: Ident
 1 | .decl { a: b; c: d }
   |  ^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:7
   |
 1 | .decl { a: b; c: d }
   |       ^^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:9
+  |
+1 | .decl { a: b; c: d }
+  |         ^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:9
+  |
+1 | .decl { a: b; c: d }
+  |         ^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:9
@@ -76,7 +88,7 @@ error: Ident
 1 | .decl { a: b; c: d }
   |         ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:12
   |
 1 | .decl { a: b; c: d }
@@ -87,6 +99,18 @@ error: Ident
   |
 1 | .decl { a: b; c: d }
   |            ^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:15
+  |
+1 | .decl { a: b; c: d }
+  |               ^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:15
+  |
+1 | .decl { a: b; c: d }
+  |               ^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:15
@@ -106,7 +130,7 @@ error: Ident
 1 | .decl { a: b; c: d }
   |               ^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:18
   |
 1 | .decl { a: b; c: d }

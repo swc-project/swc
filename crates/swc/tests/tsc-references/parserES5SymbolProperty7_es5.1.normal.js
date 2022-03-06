@@ -17,7 +17,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var tmp = Symbol.toStringTag;
+var _toStringTag = Symbol.toStringTag;
 var C = //@target: ES5
 /*#__PURE__*/ function() {
     "use strict";
@@ -26,7 +26,7 @@ var C = //@target: ES5
     }
     _createClass(C, [
         {
-            key: tmp,
+            key: _toStringTag,
             value: function value() {}
         }
     ]);

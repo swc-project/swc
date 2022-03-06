@@ -5,10 +5,10 @@ use swc_ecma_ast::{
     BlockStmtOrExpr, CallExpr, Callee, ClassExpr, ComputedPropName, CondExpr, Expr, ExprOrSpread,
     FnExpr, Function, Ident, Import, JSXAttr, JSXAttrOrSpread, JSXAttrValue, JSXEmptyExpr, JSXExpr,
     JSXExprContainer, JSXMemberExpr, JSXObject, KeyValueProp, Lit, MemberExpr, MemberProp,
-    MetaPropExpr, MetaPropKind, MethodProp, NewExpr, ObjectLit, OptChainExpr, ParenExpr, PatOrExpr,
-    Prop, PropName, PropOrSpread, SeqExpr, SpreadElement, SuperProp, SuperPropExpr, TaggedTpl,
-    ThisExpr, TsAsExpr, TsNonNullExpr, TsTypeAssertion, TsTypeParamInstantiation, UnaryExpr,
-    UnaryOp, UpdateExpr, YieldExpr,
+    MetaPropExpr, MetaPropKind, MethodProp, NewExpr, ObjectLit, OptCall, OptChainBase,
+    OptChainExpr, ParenExpr, PatOrExpr, Prop, PropName, PropOrSpread, SeqExpr, SpreadElement,
+    SuperProp, SuperPropExpr, TaggedTpl, ThisExpr, TsAsExpr, TsNonNullExpr, TsTypeAssertion,
+    TsTypeParamInstantiation, UnaryExpr, UnaryOp, UpdateExpr, YieldExpr,
 };
 use swc_estree_ast::{
     Arg, ArrayExprEl, ArrayExpression, ArrowFuncExprBody, ArrowFunctionExpression,
@@ -775,7 +775,7 @@ impl Swcify for OptionalMemberExpression {
             span: ctx.span(&self.base),
             // TODO: Use correct span.
             question_dot_token: DUMMY_SP,
-            expr: Box::new(Expr::Member(MemberExpr {
+            base: OptChainBase::Member(MemberExpr {
                 span: ctx.span(&self.base),
                 obj: self.object.swcify(ctx),
                 prop: match (self.property, self.computed) {
@@ -789,7 +789,7 @@ impl Swcify for OptionalMemberExpression {
                     }
                     _ => unreachable!(),
                 },
-            })),
+            }),
         }
     }
 }
@@ -813,12 +813,12 @@ impl Swcify for OptionalCallExpression {
             span: ctx.span(&self.base),
             // TODO: Use correct span.
             question_dot_token: DUMMY_SP,
-            expr: Box::new(Expr::Call(CallExpr {
+            base: OptChainBase::Call(OptCall {
                 span: ctx.span(&self.base),
-                callee: Callee::Expr(self.callee.swcify(ctx)),
+                callee: self.callee.swcify(ctx),
                 args: self.arguments.swcify(ctx).into_iter().flatten().collect(),
                 type_args: self.type_parameters.swcify(ctx),
-            })),
+            }),
         }
     }
 }

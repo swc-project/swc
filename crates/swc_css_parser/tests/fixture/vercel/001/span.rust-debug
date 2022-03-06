@@ -58,7 +58,7 @@ error: Ident
 1 | :nth-child(4n) {
   |  ^^^^^^^^^
 
-error: Nth
+error: PseudoClassSelectorChildren
  --> $DIR/tests/fixture/vercel/001/input.css:1:12
   |
 1 | :nth-child(4n) {
@@ -70,7 +70,13 @@ error: AnPlusB
 1 | :nth-child(4n) {
   |            ^^
 
-error: Block
+error: AnPlusBNotation
+ --> $DIR/tests/fixture/vercel/001/input.css:1:12
+  |
+1 | :nth-child(4n) {
+  |            ^^
+
+error: SimpleBlock
  --> $DIR/tests/fixture/vercel/001/input.css:1:16
   |
 1 |   :nth-child(4n) {
@@ -78,6 +84,18 @@ error: Block
 2 | |     margin-right: 0;
 3 | | }
   | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/vercel/001/input.css:2:5
+  |
+2 |     margin-right: 0;
+  |     ^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/vercel/001/input.css:2:5
+  |
+2 |     margin-right: 0;
+  |     ^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/vercel/001/input.css:2:5
@@ -97,13 +115,13 @@ error: Ident
 2 |     margin-right: 0;
   |     ^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/vercel/001/input.css:2:19
   |
 2 |     margin-right: 0;
   |                   ^
 
-error: Number
+error: Integer
  --> $DIR/tests/fixture/vercel/001/input.css:2:19
   |
 2 |     margin-right: 0;

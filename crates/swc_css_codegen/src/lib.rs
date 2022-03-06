@@ -85,6 +85,7 @@ where
             AtRule::Page(n) => emit!(self, n),
             AtRule::PageMargin(n) => emit!(self, n),
             AtRule::Namespace(n) => emit!(self, n),
+            AtRule::Nest(n) => emit!(self, n),
             AtRule::Viewport(n) => emit!(self, n),
             AtRule::Document(n) => emit!(self, n),
             AtRule::ColorProfile(n) => emit!(self, n),
@@ -198,20 +199,7 @@ where
 
         emit!(self, n.name);
         formatting_space!(self);
-        punct!(self, "{");
-        formatting_newline!(self);
-
-        self.emit_list(
-            &n.blocks,
-            if self.config.minify {
-                ListFormat::NotDelimited
-            } else {
-                ListFormat::MultiLine
-            },
-        )?;
-
-        formatting_newline!(self);
-        punct!(self, "}");
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -269,17 +257,8 @@ where
             formatting_space!(self);
         }
 
-        if let Some(rules) = &n.rules {
-            punct!(self, "{");
-            self.emit_list(
-                rules,
-                if self.config.minify {
-                    ListFormat::NotDelimited
-                } else {
-                    ListFormat::NotDelimited | ListFormat::MultiLine
-                },
-            )?;
-            punct!(self, "}");
+        if let Some(block) = &n.block {
+            emit!(self, block);
         } else {
             semi!(self);
         }
@@ -319,9 +298,7 @@ where
             formatting_space!(self);
         }
 
-        punct!(self, "{");
-        self.emit_list(&n.rules, ListFormat::NotDelimited | ListFormat::MultiLine)?;
-        punct!(self, "}");
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -506,9 +483,7 @@ where
 
         emit!(self, n.condition);
         formatting_space!(self);
-        punct!(self, "{");
-        self.emit_list(&n.rules, ListFormat::NotDelimited)?;
-        punct!(self, "}");
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -559,18 +534,30 @@ where
                 punct!(self, ")");
             }
             SupportsInParens::Feature(n) => emit!(self, n),
+            SupportsInParens::GeneralEnclosed(n) => emit!(self, n),
         }
     }
 
     #[emitter]
     fn emit_supports_feature(&mut self, n: &SupportsFeature) -> Result {
-        punct!(self, "(");
-
         match n {
-            SupportsFeature::Declaration(n) => emit!(self, n),
-        }
+            SupportsFeature::Declaration(n) => {
+                punct!(self, "(");
 
-        punct!(self, ")");
+                emit!(self, n);
+
+                punct!(self, ")");
+            }
+            SupportsFeature::Function(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_general_enclosed(&mut self, n: &GeneralEnclosed) -> Result {
+        match n {
+            GeneralEnclosed::Function(n) => emit!(self, n),
+            GeneralEnclosed::SimpleBlock(n) => emit!(self, n),
+        }
     }
 
     #[emitter]
@@ -589,34 +576,10 @@ where
             }
 
             emit!(self, prelude);
-        } else {
-            formatting_space!(self);
         }
 
-        punct!(self, "{");
-
-        let len = n.block.len();
-
-        for (idx, node) in n.block.iter().enumerate() {
-            emit!(self, node);
-
-            match node {
-                DeclarationBlockItem::AtRule(_) => {}
-                _ => {
-                    let need_delim = !(idx == len - 1 && self.config.minify);
-
-                    if need_delim {
-                        self.write_delim(ListFormat::SemiDelimited)?;
-                    }
-                }
-            }
-
-            if !self.config.minify {
-                formatting_newline!(self);
-            }
-        }
-
-        punct!(self, "}");
+        formatting_space!(self);
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -651,9 +614,7 @@ where
         punct!(self, "@");
         emit!(self, n.name);
         formatting_space!(self);
-        punct!(self, "{");
-        self.emit_list(&n.block, ListFormat::SemiDelimited | ListFormat::MultiLine)?;
-        punct!(self, "}");
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -696,11 +657,20 @@ where
     }
 
     #[emitter]
+    fn emit_nest_rule(&mut self, n: &NestRule) -> Result {
+        punct!(self, "@");
+        keyword!(self, "nest");
+        space!(self);
+        emit!(self, n.prelude);
+        formatting_space!(self);
+        emit!(self, n.block);
+    }
+
+    #[emitter]
     fn emit_viewport_rule(&mut self, n: &ViewportRule) -> Result {
         punct!(self, "@");
         keyword!(self, "viewport");
         formatting_space!(self);
-
         emit!(self, n.block);
     }
 
@@ -709,14 +679,9 @@ where
         punct!(self, "@");
         keyword!(self, "document");
         space!(self);
-
         self.emit_list(&n.matching_functions, ListFormat::CommaDelimited)?;
-
         formatting_space!(self);
-
-        punct!(self, "{");
-        self.emit_list(&n.block, ListFormat::NotDelimited)?;
-        punct!(self, "}");
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -727,33 +692,42 @@ where
         }
     }
 
-    fn emit_list_values(&mut self, nodes: &[Value], format: ListFormat) -> Result {
+    fn emit_list_of_component_values(
+        &mut self,
+        nodes: &[ComponentValue],
+        format: ListFormat,
+    ) -> Result {
         let iter = nodes.iter();
         let len = nodes.len();
 
         for (idx, node) in iter.enumerate() {
             emit!(self, node);
 
-            if idx != len - 1 {
+            let is_current_preserved_token = matches!(node, ComponentValue::PreservedToken(_));
+            let next = nodes.get(idx + 1);
+            let is_next_preserved_token = matches!(next, Some(ComponentValue::PreservedToken(_)));
+
+            if idx != len - 1 && !is_current_preserved_token && !is_next_preserved_token {
                 let need_delim = match node {
-                    Value::SimpleBlock(_)
-                    | Value::Function(_)
-                    | Value::Delimiter(_)
-                    | Value::Str(_)
-                    | Value::Url(_)
-                    | Value::Percentage(_) => match nodes.get(idx + 1) {
-                        Some(Value::Delimiter(Delimiter {
+                    ComponentValue::SimpleBlock(_)
+                    | ComponentValue::Function(_)
+                    | ComponentValue::Color(Color::Function(_))
+                    | ComponentValue::Delimiter(_)
+                    | ComponentValue::Str(_)
+                    | ComponentValue::Url(_)
+                    | ComponentValue::Percentage(_) => match next {
+                        Some(ComponentValue::Delimiter(Delimiter {
                             value: DelimiterValue::Comma,
                             ..
                         })) => false,
                         _ => !self.config.minify,
                     },
-                    Value::Ident(_) => match nodes.get(idx + 1) {
-                        Some(Value::SimpleBlock(_))
-                        | Some(Value::Color(Color::HexColor(_)))
-                        | Some(Value::Str(_)) => !self.config.minify,
-                        Some(Value::Delimiter(_)) => false,
-                        Some(Value::Number(n)) => {
+                    ComponentValue::Ident(_) => match next {
+                        Some(ComponentValue::SimpleBlock(_))
+                        | Some(ComponentValue::Color(Color::HexColor(_)))
+                        | Some(ComponentValue::Str(_)) => !self.config.minify,
+                        Some(ComponentValue::Delimiter(_)) => false,
+                        Some(ComponentValue::Number(n)) => {
                             if self.config.minify {
                                 let minified = minify_numeric(n.value);
 
@@ -762,7 +736,7 @@ where
                                 true
                             }
                         }
-                        Some(Value::Dimension(dimension)) => {
+                        Some(ComponentValue::Dimension(dimension)) => {
                             if self.config.minify {
                                 let value = match dimension {
                                     Dimension::Length(i) => i.value.value,
@@ -783,11 +757,10 @@ where
                         }
                         _ => true,
                     },
-                    _ => match nodes.get(idx + 1) {
-                        Some(Value::SimpleBlock(_)) | Some(Value::Color(Color::HexColor(_))) => {
-                            !self.config.minify
-                        }
-                        Some(Value::Delimiter(_)) => false,
+                    _ => match next {
+                        Some(ComponentValue::SimpleBlock(_))
+                        | Some(ComponentValue::Color(Color::HexColor(_))) => !self.config.minify,
+                        Some(ComponentValue::Delimiter(_)) => false,
                         _ => true,
                     },
                 };
@@ -805,31 +778,11 @@ where
     fn emit_function(&mut self, n: &Function) -> Result {
         emit!(self, n.name);
         punct!(self, "(");
-        self.emit_list_values(
+        self.emit_list_of_component_values(
             &n.value,
             ListFormat::SpaceDelimited | ListFormat::SingleLine,
         )?;
         punct!(self, ")");
-    }
-
-    #[emitter]
-    fn emit_value(&mut self, n: &Value) -> Result {
-        match n {
-            Value::Function(n) => emit!(self, n),
-            Value::SimpleBlock(n) => emit!(self, n),
-            Value::Dimension(n) => emit!(self, n),
-            Value::Number(n) => emit!(self, n),
-            Value::Percentage(n) => emit!(self, n),
-            Value::Ratio(n) => emit!(self, n),
-            Value::Color(n) => emit!(self, n),
-            Value::Ident(n) => emit!(self, n),
-            Value::DashedIdent(n) => emit!(self, n),
-            Value::Str(n) => emit!(self, n),
-            Value::Bin(n) => emit!(self, n),
-            Value::Tokens(n) => emit!(self, n),
-            Value::Url(n) => emit!(self, n),
-            Value::Delimiter(n) => emit!(self, n),
-        }
     }
 
     #[emitter]
@@ -855,16 +808,7 @@ where
         space!(self);
         emit!(self, n.name);
         formatting_space!(self);
-        punct!(self, "{");
-        self.emit_list(
-            &n.block,
-            if self.config.minify {
-                ListFormat::SemiDelimited
-            } else {
-                ListFormat::SemiDelimited | ListFormat::MultiLine
-            },
-        )?;
-        punct!(self, "}");
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -874,16 +818,7 @@ where
         space!(self);
         emit!(self, n.name);
         formatting_space!(self);
-        punct!(self, "{");
-        self.emit_list(
-            &n.block,
-            if self.config.minify {
-                ListFormat::SemiDelimited
-            } else {
-                ListFormat::SemiDelimited | ListFormat::MultiLine
-            },
-        )?;
-        punct!(self, "}");
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -893,16 +828,7 @@ where
         space!(self);
         emit!(self, n.name);
         formatting_space!(self);
-        punct!(self, "{");
-        self.emit_list(
-            &n.block,
-            if self.config.minify {
-                ListFormat::SemiDelimited
-            } else {
-                ListFormat::SemiDelimited | ListFormat::MultiLine
-            },
-        )?;
-        punct!(self, "}");
+        emit!(self, n.block);
     }
 
     #[emitter]
@@ -940,39 +866,121 @@ where
         };
 
         self.wr.write_raw_char(None, n.name)?;
-        self.emit_list(
-            &n.value,
-            if ending == ']' {
-                ListFormat::SpaceDelimited
-            } else {
-                ListFormat::NotDelimited
-            },
-        )?;
+
+        let len = n.value.len();
+
+        for (idx, node) in n.value.iter().enumerate() {
+            match node {
+                ComponentValue::StyleBlock(_) if idx == 0 => {
+                    formatting_newline!(self);
+                }
+                ComponentValue::Rule(_) | ComponentValue::KeyframeBlock(_) => {
+                    formatting_newline!(self);
+                }
+                ComponentValue::DeclarationOrAtRule(_) if idx == 0 => {
+                    formatting_newline!(self);
+                }
+                _ => {}
+            }
+
+            emit!(self, node);
+
+            match node {
+                ComponentValue::Rule(_) => {
+                    formatting_newline!(self);
+                }
+                ComponentValue::StyleBlock(i) => match i {
+                    StyleBlock::AtRule(_) | StyleBlock::QualifiedRule(_) => {
+                        formatting_newline!(self);
+                    }
+                    StyleBlock::Declaration(_) => {
+                        if idx != len - 1 {
+                            semi!(self);
+                        } else {
+                            formatting_semi!(self);
+                        }
+
+                        formatting_newline!(self);
+                    }
+                    StyleBlock::Invalid(_) => {}
+                },
+                ComponentValue::KeyframeBlock(_) => {
+                    if idx == len - 1 {
+                        formatting_newline!(self);
+                    }
+                }
+                ComponentValue::DeclarationOrAtRule(i) => match i {
+                    DeclarationOrAtRule::AtRule(_) => {
+                        formatting_newline!(self);
+                    }
+                    DeclarationOrAtRule::Declaration(_) => {
+                        if idx != len - 1 {
+                            semi!(self);
+                        } else {
+                            formatting_semi!(self);
+                        }
+
+                        formatting_newline!(self);
+                    }
+                    DeclarationOrAtRule::Invalid(_) => {}
+                },
+                _ => {
+                    if ending == ']' && idx != len - 1 {
+                        space!(self);
+                    }
+                }
+            }
+        }
+
         self.wr.write_raw_char(None, ending)?;
     }
 
     #[emitter]
-    fn emit_block(&mut self, n: &Block) -> Result {
-        punct!(self, "{");
+    fn emit_component_value(&mut self, n: &ComponentValue) -> Result {
+        match n {
+            ComponentValue::PreservedToken(n) => emit!(self, n),
+            ComponentValue::Function(n) => emit!(self, n),
+            ComponentValue::SimpleBlock(n) => emit!(self, n),
 
-        self.emit_list(
-            &n.value,
-            if self.config.minify {
-                ListFormat::SemiDelimited
-            } else {
-                ListFormat::SemiDelimited | ListFormat::MultiLine
-            },
-        )?;
+            ComponentValue::StyleBlock(n) => emit!(self, n),
+            ComponentValue::DeclarationOrAtRule(n) => emit!(self, n),
+            ComponentValue::Rule(n) => emit!(self, n),
+            ComponentValue::KeyframeBlock(n) => emit!(self, n),
 
-        punct!(self, "}");
+            ComponentValue::Ident(n) => emit!(self, n),
+            ComponentValue::DashedIdent(n) => emit!(self, n),
+            ComponentValue::Str(n) => emit!(self, n),
+            ComponentValue::Url(n) => emit!(self, n),
+            ComponentValue::Integer(n) => emit!(self, n),
+            ComponentValue::Number(n) => emit!(self, n),
+            ComponentValue::Percentage(n) => emit!(self, n),
+            ComponentValue::Dimension(n) => emit!(self, n),
+            ComponentValue::Ratio(n) => emit!(self, n),
+            ComponentValue::UnicodeRange(n) => emit!(self, n),
+            ComponentValue::Color(n) => emit!(self, n),
+            ComponentValue::Delimiter(n) => emit!(self, n),
+
+            ComponentValue::CalcSum(n) => emit!(self, n),
+            ComponentValue::ComplexSelector(n) => emit!(self, n),
+        }
     }
 
     #[emitter]
-    fn emit_declaration_block_item(&mut self, n: &DeclarationBlockItem) -> Result {
+    fn emit_style_block(&mut self, n: &StyleBlock) -> Result {
         match n {
-            DeclarationBlockItem::Declaration(n) => emit!(self, n),
-            DeclarationBlockItem::AtRule(n) => emit!(self, n),
-            DeclarationBlockItem::Invalid(n) => emit!(self, n),
+            StyleBlock::AtRule(n) => emit!(self, n),
+            StyleBlock::Declaration(n) => emit!(self, n),
+            StyleBlock::QualifiedRule(n) => emit!(self, n),
+            StyleBlock::Invalid(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_declaration_block_item(&mut self, n: &DeclarationOrAtRule) -> Result {
+        match n {
+            DeclarationOrAtRule::Declaration(n) => emit!(self, n),
+            DeclarationOrAtRule::AtRule(n) => emit!(self, n),
+            DeclarationOrAtRule::Invalid(n) => emit!(self, n),
         }
     }
 
@@ -991,7 +999,7 @@ where
         // we print " " (whitespace) always
         if is_custom_property {
             match n.value.get(0) {
-                Some(Value::Tokens(tokens)) if tokens.tokens.is_empty() => {
+                None => {
                     space!(self);
                 }
                 _ => {
@@ -1005,7 +1013,7 @@ where
         if is_custom_property {
             self.emit_list(&n.value, ListFormat::NotDelimited)?;
         } else {
-            self.emit_list_values(
+            self.emit_list_of_component_values(
                 &n.value,
                 ListFormat::SpaceDelimited | ListFormat::SingleLine,
             )?;
@@ -1116,6 +1124,15 @@ where
     }
 
     #[emitter]
+    fn emit_integer(&mut self, n: &Integer) -> Result {
+        if self.config.minify {
+            self.wr.write_raw(Some(n.span), &n.value.to_string())?;
+        } else {
+            self.wr.write_raw(Some(n.span), &n.raw)?;
+        }
+    }
+
+    #[emitter]
     fn emit_number(&mut self, n: &Number) -> Result {
         if self.config.minify {
             let minified = minify_numeric(n.value);
@@ -1140,6 +1157,7 @@ where
     fn emit_color(&mut self, n: &Color) -> Result {
         match n {
             Color::HexColor(n) => emit!(self, n),
+            Color::Function(n) => emit!(self, n),
         }
     }
 
@@ -1157,31 +1175,176 @@ where
     }
 
     #[emitter]
-    fn emit_bin_value(&mut self, n: &BinValue) -> Result {
-        emit!(self, n.left);
-
-        let need_space = matches!(n.op, BinOp::Add | BinOp::Sub);
-
-        if need_space {
-            space!(self);
-        } else {
-            formatting_space!(self);
-        }
-
-        punct!(self, n.op.as_str());
-
-        if need_space {
-            space!(self);
-        } else {
-            formatting_space!(self);
-        }
-
-        emit!(self, n.right);
+    fn emit_delimiter(&mut self, n: &Delimiter) -> Result {
+        punct!(self, n.value.as_str());
     }
 
     #[emitter]
-    fn emit_delimiter(&mut self, n: &Delimiter) -> Result {
+    fn emit_calc_sum(&mut self, n: &CalcSum) -> Result {
+        self.emit_list(&n.expressions, ListFormat::NotDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_calc_product_or_operator(&mut self, n: &CalcProductOrOperator) -> Result {
+        match n {
+            CalcProductOrOperator::Product(n) => emit!(self, n),
+            CalcProductOrOperator::Operator(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_calc_operator(&mut self, n: &CalcOperator) -> Result {
+        let need_space = matches!(n.value, CalcOperatorType::Add | CalcOperatorType::Sub);
+
+        if need_space {
+            space!(self);
+        } else {
+            formatting_space!(self);
+        }
+
         punct!(self, n.value.as_str());
+
+        if need_space {
+            space!(self);
+        } else {
+            formatting_space!(self);
+        }
+    }
+
+    #[emitter]
+    fn emit_calc_product(&mut self, n: &CalcProduct) -> Result {
+        self.emit_list(&n.expressions, ListFormat::None)?;
+    }
+
+    #[emitter]
+    fn emit_calc_value_or_operator(&mut self, n: &CalcValueOrOperator) -> Result {
+        match n {
+            CalcValueOrOperator::Value(n) => emit!(self, n),
+            CalcValueOrOperator::Operator(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_calc_value(&mut self, n: &CalcValue) -> Result {
+        match n {
+            CalcValue::Number(n) => emit!(self, n),
+            CalcValue::Dimension(n) => emit!(self, n),
+            CalcValue::Percentage(n) => emit!(self, n),
+            CalcValue::Constant(n) => emit!(self, n),
+            CalcValue::Sum(n) => {
+                punct!(self, "(");
+                emit!(self, n);
+                punct!(self, ")");
+            }
+            CalcValue::Function(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_token_and_span(&mut self, n: &TokenAndSpan) -> Result {
+        let span = n.span;
+
+        match &n.token {
+            Token::AtKeyword { raw, .. } => {
+                punct!(self, span, "@");
+                self.wr.write_raw(Some(n.span), raw)?;
+            }
+            Token::Delim { value } => {
+                self.wr.write_raw_char(Some(n.span), *value)?;
+            }
+            Token::LParen => {
+                punct!(self, span, "(");
+            }
+            Token::RParen => {
+                punct!(self, span, ")");
+            }
+            Token::LBracket => {
+                punct!(self, span, "[");
+            }
+            Token::RBracket => {
+                punct!(self, span, "]");
+            }
+            Token::Number { raw, .. } => {
+                self.wr.write_raw(Some(span), raw)?;
+            }
+            Token::Percentage { raw, .. } => {
+                self.wr.write_raw(Some(span), raw)?;
+                punct!(self, "%");
+            }
+            Token::Dimension {
+                raw_value,
+                raw_unit,
+                ..
+            } => {
+                self.wr.write_raw(Some(span), raw_value)?;
+                self.wr.write_raw(Some(span), raw_unit)?;
+            }
+            Token::Ident { raw, .. } => {
+                self.wr.write_raw(Some(n.span), raw)?;
+            }
+            Token::Function { raw, .. } => {
+                self.wr.write_raw(Some(n.span), raw)?;
+                punct!(self, "(");
+            }
+            Token::BadString { raw, .. } => {
+                self.wr.write_raw(Some(span), raw)?;
+            }
+            Token::String { raw, .. } => {
+                self.wr.write_raw(Some(span), raw)?;
+            }
+            Token::Url {
+                raw_name,
+                raw_value,
+                before,
+                after,
+                ..
+            } => {
+                self.wr.write_raw(None, raw_name)?;
+                punct!(self, "(");
+                self.wr.write_raw(None, before)?;
+                self.wr.write_raw(None, raw_value)?;
+                self.wr.write_raw(None, after)?;
+                punct!(self, ")");
+            }
+            Token::BadUrl {
+                raw_name,
+                raw_value,
+                ..
+            } => {
+                self.wr.write_raw(Some(span), raw_name)?;
+                punct!(self, "(");
+                self.wr.write_raw(None, raw_value)?;
+                punct!(self, ")");
+            }
+            Token::Comma => {
+                punct!(self, span, ",");
+            }
+            Token::Semi => {
+                punct!(self, span, ";");
+            }
+            Token::LBrace => {
+                punct!(self, span, "{");
+            }
+            Token::RBrace => {
+                punct!(self, span, "}");
+            }
+            Token::Colon => {
+                punct!(self, span, ":");
+            }
+            Token::Hash { raw, .. } => {
+                punct!(self, "#");
+                self.wr.write_raw(Some(span), raw)?;
+            }
+            Token::WhiteSpace { value, .. } => {
+                self.wr.write_raw(None, value)?;
+            }
+            Token::CDC => {
+                punct!(self, span, "-->");
+            }
+            Token::CDO => {
+                punct!(self, span, "<!--");
+            }
+        }
     }
 
     #[emitter]
@@ -1208,7 +1371,7 @@ where
                 Token::RBracket => {
                     punct!(self, span, "]");
                 }
-                Token::Num { raw, .. } => {
+                Token::Number { raw, .. } => {
                     self.wr.write_raw(Some(span), raw)?;
                 }
                 Token::Percentage { raw, .. } => {
@@ -1230,10 +1393,10 @@ where
                     self.wr.write_raw(Some(n.span), raw)?;
                     punct!(self, "(");
                 }
-                Token::BadStr { raw, .. } => {
+                Token::BadString { raw, .. } => {
                     self.wr.write_raw(Some(span), raw)?;
                 }
-                Token::Str { raw, .. } => {
+                Token::String { raw, .. } => {
                     self.wr.write_raw(Some(span), raw)?;
                 }
                 Token::Url {
@@ -1303,7 +1466,10 @@ where
 
         if let Some(modifiers) = &n.modifiers {
             if !modifiers.is_empty() {
-                formatting_space!(self);
+                if n.value.is_some() {
+                    formatting_space!(self);
+                }
+
                 self.emit_list(modifiers, ListFormat::SpaceDelimited)?;
             }
         }
@@ -1345,30 +1511,69 @@ where
     }
 
     #[emitter]
+    fn emit_unicode_range(&mut self, n: &UnicodeRange) -> Result {
+        let mut value = String::new();
+
+        value.push(n.prefix);
+        value.push('+');
+        value.push_str(&n.start);
+
+        if let Some(end) = &n.end {
+            value.push('-');
+            value.push_str(end);
+        }
+
+        self.wr.write_raw(Some(n.span), &value)?;
+    }
+
+    #[emitter]
     fn emit_selector_list(&mut self, n: &SelectorList) -> Result {
         self.emit_list(&n.children, ListFormat::CommaDelimited)?;
     }
 
     #[emitter]
+    fn emit_compound_selector_list(&mut self, n: &CompoundSelectorList) -> Result {
+        self.emit_list(&n.children, ListFormat::CommaDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_relative_selector_list(&mut self, n: &RelativeSelectorList) -> Result {
+        self.emit_list(&n.children, ListFormat::CommaDelimited)?;
+    }
+
+    #[emitter]
     fn emit_complex_selector(&mut self, n: &ComplexSelector) -> Result {
-        let mut need_space = false;
         for (idx, node) in n.children.iter().enumerate() {
-            if let ComplexSelectorChildren::Combinator(..) = node {
-                need_space = false;
+            emit!(self, node);
+
+            match node {
+                ComplexSelectorChildren::Combinator(Combinator {
+                    value: CombinatorValue::Descendant,
+                    ..
+                }) => {}
+                _ => match n.children.get(idx + 1) {
+                    Some(ComplexSelectorChildren::Combinator(Combinator {
+                        value: CombinatorValue::Descendant,
+                        ..
+                    })) => {}
+                    Some(_) => {
+                        formatting_space!(self);
+                    }
+                    _ => {}
+                },
             }
-
-            if idx != 0 && need_space {
-                need_space = false;
-
-                self.wr.write_space()?;
-            }
-
-            if let ComplexSelectorChildren::CompoundSelector(..) = node {
-                need_space = true;
-            }
-
-            emit!(self, node)
         }
+    }
+
+    #[emitter]
+    fn emit_relative_selector(&mut self, n: &RelativeSelector) -> Result {
+        if let Some(combinator) = &n.combinator {
+            emit!(self, combinator);
+
+            formatting_space!(self);
+        }
+
+        emit!(self, n.selector);
     }
 
     #[emitter]
@@ -1503,67 +1708,143 @@ where
     }
 
     #[emitter]
-    fn emit_nth(&mut self, n: &Nth) -> Result {
-        emit!(self, n.nth);
-
-        if n.selector_list.is_some() {
-            emit!(self, n.selector_list);
-        }
-    }
-
-    #[emitter]
     fn emit_an_plus_b(&mut self, n: &AnPlusB) -> Result {
-        if let Some(a_raw) = &n.a_raw {
-            self.wr.write_raw(Some(n.span), a_raw)?;
-            punct!(self, "n");
-        }
-
-        if let Some(b_raw) = &n.b_raw {
-            self.wr.write_raw(Some(n.span), b_raw)?;
+        match n {
+            AnPlusB::Ident(n) => emit!(self, n),
+            AnPlusB::AnPlusBNotation(n) => emit!(self, n),
         }
     }
 
     #[emitter]
-    fn emit_nth_value(&mut self, n: &NthValue) -> Result {
-        match n {
-            NthValue::AnPlusB(n) => emit!(self, n),
-            NthValue::Ident(n) => emit!(self, n),
-        }
-    }
+    fn emit_an_plus_b_notation(&mut self, n: &AnPlusBNotation) -> Result {
+        if self.config.minify {
+            if let Some(a) = &n.a {
+                if *a == -1 {
+                    self.wr.write_raw(None, "-")?;
+                } else if *a != 1 {
+                    self.wr.write_raw(None, &a.to_string())?;
+                }
 
-    #[emitter]
-    fn emit_pseudo_selector_children(&mut self, n: &PseudoSelectorChildren) -> Result {
-        match n {
-            PseudoSelectorChildren::Nth(n) => emit!(self, n),
-            PseudoSelectorChildren::Tokens(n) => emit!(self, n),
+                punct!(self, "n");
+            }
+
+            if let Some(b) = &n.b {
+                if *b >= 0 && n.a.is_some() {
+                    self.wr.write_raw(None, "+")?;
+                }
+
+                self.wr.write_raw(None, &b.to_string())?;
+            }
+        } else {
+            if let Some(a_raw) = &n.a_raw {
+                self.wr.write_raw(None, a_raw)?;
+
+                punct!(self, "n");
+            }
+
+            if let Some(b_raw) = &n.b_raw {
+                self.wr.write_raw(None, b_raw)?;
+            }
         }
     }
 
     #[emitter]
     fn emit_pseudo_class_selector(&mut self, n: &PseudoClassSelector) -> Result {
         punct!(self, ":");
-
         emit!(self, n.name);
 
-        if n.children.is_some() {
+        if let Some(children) = &n.children {
             punct!(self, "(");
-            emit!(self, n.children);
+            self.emit_list_pseudo_class_selector_children(children)?;
             punct!(self, ")");
         }
+    }
+
+    #[emitter]
+    fn emit_pseudo_class_selector_children(&mut self, n: &PseudoClassSelectorChildren) -> Result {
+        match n {
+            PseudoClassSelectorChildren::PreservedToken(n) => emit!(self, n),
+            PseudoClassSelectorChildren::AnPlusB(n) => emit!(self, n),
+            PseudoClassSelectorChildren::Ident(n) => emit!(self, n),
+            PseudoClassSelectorChildren::Str(n) => emit!(self, n),
+            PseudoClassSelectorChildren::Delimiter(n) => emit!(self, n),
+            PseudoClassSelectorChildren::SelectorList(n) => emit!(self, n),
+            PseudoClassSelectorChildren::CompoundSelectorList(n) => emit!(self, n),
+            PseudoClassSelectorChildren::RelativeSelectorList(n) => emit!(self, n),
+            PseudoClassSelectorChildren::CompoundSelector(n) => emit!(self, n),
+        }
+    }
+
+    fn emit_list_pseudo_class_selector_children(
+        &mut self,
+        nodes: &[PseudoClassSelectorChildren],
+    ) -> Result {
+        let len = nodes.len();
+
+        for (idx, node) in nodes.iter().enumerate() {
+            emit!(self, node);
+
+            if idx != len - 1 {
+                match node {
+                    PseudoClassSelectorChildren::PreservedToken(_) => {}
+                    PseudoClassSelectorChildren::Delimiter(_) => {
+                        formatting_space!(self);
+                    }
+                    _ => {
+                        space!(self)
+                    }
+                }
+            }
+        }
+
+        Ok(())
     }
 
     #[emitter]
     fn emit_pseudo_element_selector(&mut self, n: &PseudoElementSelector) -> Result {
         punct!(self, ":");
         punct!(self, ":");
-
         emit!(self, n.name);
 
-        if n.children.is_some() {
+        if let Some(children) = &n.children {
             punct!(self, "(");
-            emit!(self, n.children);
+            self.emit_list_pseudo_element_selector_children(children)?;
             punct!(self, ")");
         }
+    }
+
+    #[emitter]
+    fn emit_pseudo_element_selector_children(
+        &mut self,
+        n: &PseudoElementSelectorChildren,
+    ) -> Result {
+        match n {
+            PseudoElementSelectorChildren::PreservedToken(n) => emit!(self, n),
+            PseudoElementSelectorChildren::Ident(n) => emit!(self, n),
+            PseudoElementSelectorChildren::CompoundSelector(n) => emit!(self, n),
+        }
+    }
+
+    fn emit_list_pseudo_element_selector_children(
+        &mut self,
+        nodes: &[PseudoElementSelectorChildren],
+    ) -> Result {
+        let len = nodes.len();
+
+        for (idx, node) in nodes.iter().enumerate() {
+            emit!(self, node);
+
+            if idx != len - 1 {
+                match node {
+                    PseudoElementSelectorChildren::PreservedToken(_) => {}
+                    _ => {
+                        space!(self)
+                    }
+                }
+            }
+        }
+
+        Ok(())
     }
 
     fn emit_list<N>(&mut self, nodes: &[N], format: ListFormat) -> Result

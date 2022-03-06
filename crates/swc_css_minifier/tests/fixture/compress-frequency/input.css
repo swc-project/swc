@@ -1,0 +1,39 @@
+div {
+    prop: 0hz;
+    prop: 000hz;
+    prop: 1hz;
+    prop: 10hz;
+    prop: 100hz;
+    prop: 101hz;
+    prop: 500hz;
+    prop: +500hz;
+    prop: 999hz;
+    prop: 1000hz;
+    prop: 2000hz;
+    prop: 5000hz;
+    prop: 9999hz;
+    prop: 10000hz;
+    prop: 50000hz;
+    prop: 50005hz;
+    prop: 500005hz;
+    prop: 5000005hz;
+
+    prop: 0kHz;
+    prop: 000kHz;
+    prop: 1kHz;
+    prop: 10kHz;
+    prop: 100kHz;
+    prop: 1000kHz;
+    prop: 10000kHz;
+    prop: 50000kHz;
+    prop: 50005kHz;
+    prop: .001kHz;
+    prop: 0.0001kHz;
+    prop: 0.001kHz;
+    prop: 0.005kHz;
+    prop: 0.05kHz;
+    prop: .05kHz;
+    prop: .5kHz;
+    prop: .1kHz;
+    prop: 0.543kHz;
+}

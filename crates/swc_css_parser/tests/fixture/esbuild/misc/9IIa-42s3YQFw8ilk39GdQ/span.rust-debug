@@ -58,11 +58,23 @@ error: Ident
 1 | a { color: #AABBCCFF }
   | ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/9IIa-42s3YQFw8ilk39GdQ/input.css:1:3
   |
 1 | a { color: #AABBCCFF }
   |   ^^^^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/9IIa-42s3YQFw8ilk39GdQ/input.css:1:5
+  |
+1 | a { color: #AABBCCFF }
+  |     ^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/9IIa-42s3YQFw8ilk39GdQ/input.css:1:5
+  |
+1 | a { color: #AABBCCFF }
+  |     ^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/9IIa-42s3YQFw8ilk39GdQ/input.css:1:5
@@ -82,7 +94,13 @@ error: Ident
 1 | a { color: #AABBCCFF }
   |     ^^^^^
 
-error: Value
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/9IIa-42s3YQFw8ilk39GdQ/input.css:1:12
+  |
+1 | a { color: #AABBCCFF }
+  |            ^^^^^^^^^
+
+error: Color
  --> $DIR/tests/fixture/esbuild/misc/9IIa-42s3YQFw8ilk39GdQ/input.css:1:12
   |
 1 | a { color: #AABBCCFF }

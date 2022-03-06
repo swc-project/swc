@@ -30,8 +30,8 @@ macro_rules! tok_pat {
         swc_css_ast::Token::Str { .. }
     };
 
-    (Num) => {
-        swc_css_ast::Token::Num { .. }
+    (Number) => {
+        swc_css_ast::Token::Number { .. }
     };
 
     (Url) => {
@@ -142,6 +142,14 @@ macro_rules! is {
     }};
 }
 
+macro_rules! is_one_of {
+    ($parser:expr, $($tt:tt),+) => {
+        $(
+            is!($parser, $tt)
+        )||*
+    };
+}
+
 macro_rules! peeked_is {
     ($parser:expr, $tt:tt) => {{
         match $parser.input.peek()? {
@@ -151,10 +159,10 @@ macro_rules! peeked_is {
     }};
 }
 
-macro_rules! is_one_of {
+macro_rules! peeked_is_one_of {
     ($parser:expr, $($tt:tt),+) => {
         $(
-            is!($parser, $tt)
+            peeked_is!($parser, $tt)
         )||*
     };
 }

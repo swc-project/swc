@@ -55,7 +55,6 @@ var _class = function() {
     "use strict";
     _classCallCheck(this, _class);
 };
-export { _class as default };
 var C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -497,37 +496,41 @@ var C = function(B) {
     }
     return C;
 }(B);
-_superprop_get_w().call(_this), (function() {
-    var C, Reflect = function() {
-        "use strict";
-        _classCallCheck(this, Reflect);
-    };
-    (C = (function(B) {
-        "use strict";
-        _inherits(C, B);
-        var _super = _createSuper(C);
-        function C() {
-            return _classCallCheck(this, C), _super.apply(this, arguments);
-        }
-        return C;
-    })(B))._ = super.w.call(this);
-})(), (function() {
-    var _this1, _superprop_get_w2, C, _superprop_get_w1 = ()=>super.w
-    , Reflect = function() {
-        "use strict";
-        _classCallCheck(this, Reflect);
-    };
-    _this1 = this, _superprop_get_w2 = ()=>_superprop_get_w1()
-    , C = (function(B) {
-        "use strict";
-        _inherits(C, B);
-        var _super = _createSuper(C);
-        function C() {
-            return _classCallCheck(this, C), _super.apply(this, arguments);
-        }
-        return C;
-    })(B), _superprop_get_w2().call(_this1);
-})();
+_superprop_get_w().call(_this), _Reflect = function Reflect() {
+    "use strict";
+    _classCallCheck(this, Reflect);
+}, __ = {
+    writable: !0,
+    value: (function() {
+        var C = function(B) {
+            "use strict";
+            _inherits(C, B);
+            var _super = _createSuper(C);
+            function C() {
+                return _classCallCheck(this, C), _super.apply(this, arguments);
+            }
+            return C;
+        }(B);
+        C._ = _superprop_get_w().call(_this);
+    })()
+}, _Reflect = function Reflect() {
+    "use strict";
+    _classCallCheck(this, Reflect);
+}, __ = {
+    writable: !0,
+    value: (function() {
+        var _Reflect, __, C = function(B) {
+            "use strict";
+            _inherits(C, B);
+            var _super = _createSuper(C);
+            function C() {
+                return _classCallCheck(this, C), _super.apply(this, arguments);
+            }
+            return C;
+        }(B);
+        _superprop_get_w().call(_this);
+    })()
+};
 var C = function(B) {
     "use strict";
     _inherits(C, B);
@@ -548,3 +551,4 @@ var C = function(B) {
     return C;
 }(B);
 _superprop_get_w().call(_this);
+export { _class as default };

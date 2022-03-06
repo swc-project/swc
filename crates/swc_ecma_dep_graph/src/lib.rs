@@ -25,8 +25,10 @@ pub fn analyze_dependencies(
 pub enum DependencyKind {
     Import,
     ImportType,
+    ImportEquals,
     Export,
     ExportType,
+    ExportEquals,
     Require,
 }
 
@@ -183,23 +185,26 @@ impl<'a> Visit for DependencyCollector<'a> {
     }
 
     fn visit_call_expr(&mut self, node: &ast::CallExpr) {
-        use ast::{Callee, Expr, Ident};
+        use ast::{Callee, Expr, Ident, MemberProp};
 
         swc_ecma_visit::visit_call_expr(self, node);
         let kind = match &node.callee {
             Callee::Super(_) => return,
             Callee::Import(_) => DependencyKind::Import,
-            Callee::Expr(expr) => {
-                if let Expr::Ident(Ident {
+            Callee::Expr(expr) => match &**expr {
+                Expr::Ident(Ident {
                     sym: js_word!("require"),
                     ..
-                }) = &**expr
-                {
-                    DependencyKind::Require
-                } else {
-                    return;
-                }
-            }
+                }) => DependencyKind::Require,
+                Expr::Member(member) => match (&*member.obj, &member.prop) {
+                    (
+                        Expr::Ident(Ident { sym: obj_sym, .. }),
+                        MemberProp::Ident(Ident { sym: prop_sym, .. }),
+                    ) if obj_sym == "require" && prop_sym == "resolve" => DependencyKind::Require,
+                    _ => return,
+                },
+                _ => return,
+            },
         };
 
         if let Some(arg) = node.args.get(0) {
@@ -223,6 +228,34 @@ impl<'a> Visit for DependencyCollector<'a> {
                     import_assertions: dynamic_import_assertions,
                 });
             }
+        }
+    }
+
+    fn visit_ts_import_equals_decl(&mut self, node: &ast::TsImportEqualsDecl) {
+        use ast::TsModuleRef;
+
+        if let TsModuleRef::TsExternalModuleRef(module) = &node.module_ref {
+            let leading_comments = self.get_leading_comments(node.span);
+            let expr = &module.expr;
+            let specifier = expr.value.clone();
+
+            let kind = if node.is_type_only {
+                DependencyKind::ImportType
+            } else if node.is_export {
+                DependencyKind::ExportEquals
+            } else {
+                DependencyKind::ImportEquals
+            };
+
+            self.items.push(DependencyDescriptor {
+                kind,
+                is_dynamic: false,
+                leading_comments,
+                span: node.span,
+                specifier,
+                specifier_span: expr.span,
+                import_assertions: Default::default(),
+            });
         }
     }
 }
@@ -413,10 +446,21 @@ try {
 } catch (e) {
     // pass
 }
+
+import foo2 = require("some_package_foo");
+import type FooType = require('some_package_foo_type');
+export import bar2 = require("some_package_bar");
+
+const foo3 = require.resolve("some_package_resolve");
+try {
+    const foo4 = require.resolve("some_package_resolve_foo");
+} catch (e) {
+    // pass
+}
       "#;
         let (module, comments) = helper("test.ts", source).unwrap();
         let dependencies = analyze_dependencies(&module, &comments);
-        assert_eq!(dependencies.len(), 8);
+        assert_eq!(dependencies.len(), 13);
         assert_eq!(
             dependencies,
             vec![
@@ -510,7 +554,52 @@ try {
                     specifier: JsWord::from("some_package"),
                     specifier_span: Span::new(BytePos(402), BytePos(416), Default::default()),
                     import_assertions: Default::default(),
-                }
+                },
+                DependencyDescriptor {
+                    kind: DependencyKind::ImportEquals,
+                    is_dynamic: false,
+                    leading_comments: Vec::new(),
+                    span: Span::new(BytePos(448), BytePos(490), Default::default()),
+                    specifier: JsWord::from("some_package_foo"),
+                    specifier_span: Span::new(BytePos(470), BytePos(488), Default::default()),
+                    import_assertions: Default::default(),
+                },
+                DependencyDescriptor {
+                    kind: DependencyKind::ImportType,
+                    is_dynamic: false,
+                    leading_comments: Vec::new(),
+                    span: Span::new(BytePos(491), BytePos(546), Default::default()),
+                    specifier: JsWord::from("some_package_foo_type"),
+                    specifier_span: Span::new(BytePos(521), BytePos(544), Default::default()),
+                    import_assertions: Default::default(),
+                },
+                DependencyDescriptor {
+                    kind: DependencyKind::ExportEquals,
+                    is_dynamic: false,
+                    leading_comments: Vec::new(),
+                    span: Span::new(BytePos(547), BytePos(596), Default::default()),
+                    specifier: JsWord::from("some_package_bar"),
+                    specifier_span: Span::new(BytePos(576), BytePos(594), Default::default()),
+                    import_assertions: Default::default(),
+                },
+                DependencyDescriptor {
+                    kind: DependencyKind::Require,
+                    is_dynamic: false,
+                    leading_comments: Vec::new(),
+                    span: Span::new(BytePos(611), BytePos(650), Default::default()),
+                    specifier: JsWord::from("some_package_resolve"),
+                    specifier_span: Span::new(BytePos(627), BytePos(649), Default::default()),
+                    import_assertions: Default::default(),
+                },
+                DependencyDescriptor {
+                    kind: DependencyKind::Require,
+                    is_dynamic: true,
+                    leading_comments: Vec::new(),
+                    span: Span::new(BytePos(675), BytePos(718), Default::default()),
+                    specifier: JsWord::from("some_package_resolve_foo"),
+                    specifier_span: Span::new(BytePos(691), BytePos(717), Default::default()),
+                    import_assertions: Default::default(),
+                },
             ]
         );
     }

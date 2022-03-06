@@ -1,11 +1,11 @@
-var tmp = Symbol.iterator;
+let _iterator = Symbol.iterator;
 //@target: ES6
 //@noImplicitAny: true
 class StringIterator {
     next() {
         return v;
     }
-    [tmp]() {
+    [_iterator]() {
         return this;
     }
 }

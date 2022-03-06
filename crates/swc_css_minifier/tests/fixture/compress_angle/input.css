@@ -1,0 +1,116 @@
+.deg {
+    transform: rotate(0deg);
+    transform: rotate(-0deg);
+    transform: rotate(9deg);
+    transform: rotate(-9deg);
+    transform: rotate(10deg);
+    transform: rotate(180deg);
+    transform: rotate(-180deg);
+    transform: rotate(360deg);
+    transform: rotate(-360deg);
+    transform: rotate(350deg);
+    transform: rotate(351deg);
+    transform: rotate(720deg);
+    transform: rotate(360.5deg);
+    transform: rotate(-360.5deg);
+    transform: rotate(721deg);
+    transform: rotate(-721deg);
+}
+
+.grad {
+    transform: rotate(0grad);
+    transform: rotate(-0grad);
+    transform: rotate(9grad);
+    transform: rotate(-9grad);
+    transform: rotate(10grad);
+    transform: rotate(200grad);
+    transform: rotate(-200grad);
+    transform: rotate(400grad);
+    transform: rotate(-400grad);
+    transform: rotate(400grad);
+    transform: rotate(400grad);
+    transform: rotate(800grad);
+    transform: rotate(800.5grad);
+    transform: rotate(-800.5grad);
+    transform: rotate(821grad);
+    transform: rotate(-821grad);
+}
+
+.rad {
+    transform: rotate(0rad);
+    transform: rotate(-0rad);
+    transform: rotate(1rad);
+    transform: rotate(1.5rad);
+    transform: rotate(-1.5rad);
+}
+
+.turn {
+    transform: rotate(-0turn);
+    transform: rotate(0turn);
+    transform: rotate(0.5turn);
+    transform: rotate(-0.5turn);
+    transform: rotate(1turn);
+    transform: rotate(-1turn);
+    transform: rotate(1.5turn);
+    transform: rotate(2turn);
+    transform: rotate(2.5turn);
+    transform: rotate(120turn);
+}
+
+.cross {
+    transform: rotate(90deg);
+    transform: rotate(100grad);
+    transform: rotate(0.25turn);
+    transform: rotate(1.57rad);
+    transform: rotate(3.1416rad);
+}
+
+.class1 {
+    transform: rotate(0deg);
+}
+
+.class2 {
+    transform: skew(0deg, 0deg);
+}
+
+.class3 {
+    transform: skewX(0deg);
+}
+
+.class4 {
+    transform: skewY(0deg);
+}
+
+.class5 {
+    transform: rotate3d(10, 10, 10, 0deg);
+}
+
+.class6 {
+    transform: rotateX(0deg);
+}
+
+.class7 {
+    transform: rotateY(0deg);
+}
+
+.class8 {
+    transform: rotateZ(0deg);
+}
+
+.class9 {
+    transform: ROTATE(0deg);
+}
+
+.class10 {
+    transform: ROTATE(0DEG);
+}
+
+.class11 {
+    transform: rotate(0rad);
+}
+
+@keyframes spinner-border {
+    to {
+        transform: rotate(360deg);
+    }
+}

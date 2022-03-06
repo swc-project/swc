@@ -1162,6 +1162,10 @@ pub trait ExprExt {
             | Expr::Yield(_)
             | Expr::Member(_)
             | Expr::SuperProp(_)
+            | Expr::OptChain(OptChainExpr {
+                base: OptChainBase::Member(_),
+                ..
+            })
             | Expr::Update(_)
             | Expr::Assign(_) => true,
 
@@ -1172,10 +1176,24 @@ pub trait ExprExt {
                 callee: Callee::Expr(ref callee),
                 ref args,
                 ..
+            })
+            | Expr::OptChain(OptChainExpr {
+                base:
+                    OptChainBase::Call(OptCall {
+                        ref callee,
+                        ref args,
+                        ..
+                    }),
+                ..
             }) if callee.is_pure_callee() => {
                 args.iter().any(|arg| arg.expr.may_have_side_effects())
             }
-            Expr::Call(_) => true,
+
+            Expr::Call(_)
+            | Expr::OptChain(OptChainExpr {
+                base: OptChainBase::Call(_),
+                ..
+            }) => true,
 
             Expr::Seq(SeqExpr { ref exprs, .. }) => exprs.iter().any(|e| e.may_have_side_effects()),
 
@@ -1214,10 +1232,10 @@ pub trait ExprExt {
 
             Expr::TsAs(TsAsExpr { ref expr, .. })
             | Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
-            | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. }) => {
+            | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
+            | Expr::TsInstantiation(TsInstantiation { ref expr, .. }) => {
                 expr.may_have_side_effects()
             }
-            Expr::OptChain(ref e) => e.expr.may_have_side_effects(),
 
             Expr::Invalid(..) => true,
         }
@@ -1599,6 +1617,9 @@ pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
             | Expr::Member(MemberExpr {
                 prop: MemberProp::Ident(ident),
                 ..
+            })
+            | Expr::Class(ClassExpr {
+                ident: Some(ident), ..
             }) => format!("_{}", ident.sym).into(),
             Expr::Member(MemberExpr {
                 prop: MemberProp::Computed(computed),
@@ -1716,6 +1737,39 @@ pub fn undefined(span: Span) -> Box<Expr> {
         arg: Expr::Lit(Lit::Num(Number { value: 0.0, span })).into(),
     })
     .into()
+}
+
+pub fn opt_chain_test(
+    left: Box<Expr>,
+    right: Box<Expr>,
+    span: Span,
+    no_document_all: bool,
+) -> Expr {
+    if no_document_all {
+        Expr::Bin(BinExpr {
+            span,
+            left,
+            op: op!("=="),
+            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+        })
+    } else {
+        Expr::Bin(BinExpr {
+            span,
+            left: Box::new(Expr::Bin(BinExpr {
+                span: DUMMY_SP,
+                left,
+                op: op!("==="),
+                right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+            })),
+            op: op!("||"),
+            right: Box::new(Expr::Bin(BinExpr {
+                span: DUMMY_SP,
+                left: right,
+                op: op!("==="),
+                right: undefined(DUMMY_SP),
+            })),
+        })
+    }
 }
 
 /// inject `branch` after directives
@@ -1960,7 +2014,12 @@ pub fn extract_side_effects_to(to: &mut Vec<Box<Expr>>, expr: Box<Expr>) {
 
             to.push(Box::new(Expr::New(e)))
         }
-        Expr::Member(_) | Expr::SuperProp(_) => to.push(Box::new(expr)),
+        Expr::Member(_)
+        | Expr::SuperProp(_)
+        | Expr::OptChain(OptChainExpr {
+            base: OptChainBase::Member(_),
+            ..
+        }) => to.push(Box::new(expr)),
 
         // We are at here because we could not determine value of test.
         //TODO: Drop values if it does not have side effects.
@@ -2063,10 +2122,11 @@ pub fn extract_side_effects_to(to: &mut Vec<Box<Expr>>, expr: Box<Expr>) {
         Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
         | Expr::TsNonNull(TsNonNullExpr { expr, .. })
         | Expr::TsAs(TsAsExpr { expr, .. })
-        | Expr::TsConstAssertion(TsConstAssertion { expr, .. }) => {
-            extract_side_effects_to(to, expr)
+        | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
+        | Expr::TsInstantiation(TsInstantiation { expr, .. }) => extract_side_effects_to(to, expr),
+        Expr::OptChain(OptChainExpr { base: child, .. }) => {
+            extract_side_effects_to(to, Box::new(child.into()))
         }
-        Expr::OptChain(e) => extract_side_effects_to(to, e.expr),
 
         Expr::Invalid(..) => unreachable!(),
     }
@@ -2146,6 +2206,18 @@ where
     I: IdentLike + Eq + Hash + Send + Sync,
 {
     noop_visit_type!();
+
+    fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
+        let old = self.is_pat_decl;
+
+        for p in &n.params {
+            self.is_pat_decl = true;
+            p.visit_with(self);
+        }
+
+        n.body.visit_with(self);
+        self.is_pat_decl = old;
+    }
 
     fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
         node.value.visit_with(self);

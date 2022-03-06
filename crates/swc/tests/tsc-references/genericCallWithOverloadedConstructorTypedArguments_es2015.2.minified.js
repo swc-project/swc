@@ -1,10 +1,10 @@
 var NonGenericParameter, GenericParameter;
 !function(NonGenericParameter) {
-    var b;
+    var a;
     function foo4(cb) {
         return new cb(null);
     }
-    foo4(void 0), foo4(b);
+    foo4(a), foo4(void 0);
 }(NonGenericParameter || (NonGenericParameter = {})), (function(GenericParameter) {
     var a, b, c, c2;
     function foo5(cb) {

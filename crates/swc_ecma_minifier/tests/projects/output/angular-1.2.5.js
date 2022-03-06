@@ -1956,8 +1956,8 @@
                     return logFn.apply ? function() {
                         var args = [];
                         return forEach(arguments, function(arg) {
-                            var arg1;
-                            args.push(((arg1 = arg) instanceof Error && (arg1.stack ? arg1 = arg1.message && -1 === arg1.stack.indexOf(arg1.message) ? "Error: " + arg1.message + "\n" + arg1.stack : arg1.stack : arg1.sourceURL && (arg1 = arg1.message + "\n" + arg1.sourceURL + ":" + arg1.line)), arg1));
+                            var arg4;
+                            args.push(((arg4 = arg) instanceof Error && (arg4.stack ? arg4 = arg4.message && -1 === arg4.stack.indexOf(arg4.message) ? "Error: " + arg4.message + "\n" + arg4.stack : arg4.stack : arg4.sourceURL && (arg4 = arg4.message + "\n" + arg4.sourceURL + ":" + arg4.line)), arg4));
                         }), logFn.apply(console, args);
                     } : function(arg1, arg2) {
                         logFn(arg1, null == arg2 ? "" : arg2);
@@ -2481,13 +2481,13 @@
             var promise, pathVal = locals && locals.hasOwnProperty(key0) ? locals : scope;
             return null === pathVal || pathVal === undefined || ((pathVal = pathVal[key0]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
                 promise.$$v = val;
-            })), pathVal = pathVal.$$v), !key1 || null === pathVal || pathVal === undefined || ((pathVal = pathVal[key1]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            })), pathVal = pathVal.$$v), key1 && null !== pathVal && pathVal !== undefined && ((pathVal = pathVal[key1]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
                 promise.$$v = val;
-            })), pathVal = pathVal.$$v), !key2 || null === pathVal || pathVal === undefined || ((pathVal = pathVal[key2]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            })), pathVal = pathVal.$$v), key2 && null !== pathVal && pathVal !== undefined && ((pathVal = pathVal[key2]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
                 promise.$$v = val;
-            })), pathVal = pathVal.$$v), !key3 || null === pathVal || pathVal === undefined || ((pathVal = pathVal[key3]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            })), pathVal = pathVal.$$v), key3 && null !== pathVal && pathVal !== undefined && ((pathVal = pathVal[key3]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
                 promise.$$v = val;
-            })), pathVal = pathVal.$$v), !key4 || null === pathVal || pathVal === undefined || (pathVal = pathVal[key4]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            })), pathVal = pathVal.$$v), key4 && null !== pathVal && pathVal !== undefined && (pathVal = pathVal[key4]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
                 promise.$$v = val;
             })), pathVal = pathVal.$$v))))), pathVal;
         } : function(scope, locals) {
@@ -2735,7 +2735,7 @@
                         return isolate ? ((child = new Scope()).$root = this.$root, child.$$asyncQueue = this.$$asyncQueue, child.$$postDigestQueue = this.$$postDigestQueue) : ((ChildScope = function() {}).prototype = this, (child = new ChildScope()).$id = nextUid()), child.this = child, child.$$listeners = {}, child.$parent = this, child.$$watchers = child.$$nextSibling = child.$$childHead = child.$$childTail = null, child.$$prevSibling = this.$$childTail, this.$$childHead ? (this.$$childTail.$$nextSibling = child, this.$$childTail = child) : this.$$childHead = this.$$childTail = child, child;
                     },
                     $watch: function(watchExp, listener, objectEquality) {
-                        var get = compileToFn(watchExp, "watch"), array = this.$$watchers, watcher = {
+                        var scope2 = this, get = compileToFn(watchExp, "watch"), array = scope2.$$watchers, watcher = {
                             fn: listener,
                             last: initWatchVal,
                             get: get,
@@ -2754,7 +2754,7 @@
                                 originalFn.call(this, newVal, oldVal, scope), arrayRemove(array, watcher);
                             };
                         }
-                        return array || (array = this.$$watchers = []), array.unshift(watcher), function() {
+                        return array || (array = scope2.$$watchers = []), array.unshift(watcher), function() {
                             arrayRemove(array, watcher);
                         };
                     },
@@ -4171,9 +4171,9 @@
                         });
                     }
                 ],
-                link: function(scope4, element8, attr, ctrls) {
+                link: function(scope5, element8, attr, ctrls) {
                     if (ctrls[1]) {
-                        for(var scope2, selectElement2, ctrl1, lastView, scope3, selectElement1, ngModelCtrl, selectCtrl, emptyOption, selectCtrl1 = ctrls[0], ngModelCtrl1 = ctrls[1], multiple = attr.multiple, optionsExp = attr.ngOptions, nullOption = !1, optionTemplate = jqLite(document1.createElement("option")), optGroupTemplate = jqLite(document1.createElement("optgroup")), unknownOption = optionTemplate.clone(), i = 0, children = element8.children(), ii = children.length; i < ii; i++)if ("" === children[i].value) {
+                        for(var scope3, selectElement2, ctrl1, lastView, scope4, selectElement1, ngModelCtrl, selectCtrl, emptyOption, selectCtrl1 = ctrls[0], ngModelCtrl1 = ctrls[1], multiple = attr.multiple, optionsExp = attr.ngOptions, nullOption = !1, optionTemplate = jqLite(document1.createElement("option")), optGroupTemplate = jqLite(document1.createElement("optgroup")), unknownOption = optionTemplate.clone(), i = 0, children = element8.children(), ii = children.length; i < ii; i++)if ("" === children[i].value) {
                             emptyOption = nullOption = children.eq(i);
                             break;
                         }
@@ -4268,25 +4268,25 @@
                                     ctrl.$setViewValue(value);
                                 });
                             }), ctrl.$render = render, scope.$watch(render);
-                        })(scope4, element8, ngModelCtrl1) : multiple ? (scope2 = scope4, selectElement2 = element8, (ctrl1 = ngModelCtrl1).$render = function() {
+                        })(scope5, element8, ngModelCtrl1) : multiple ? (scope3 = scope5, selectElement2 = element8, (ctrl1 = ngModelCtrl1).$render = function() {
                             var items = new HashMap(ctrl1.$viewValue);
                             forEach(selectElement2.find("option"), function(option) {
                                 option.selected = isDefined(items.get(option.value));
                             });
-                        }, scope2.$watch(function() {
+                        }, scope3.$watch(function() {
                             equals(lastView, ctrl1.$viewValue) || (lastView = copy(ctrl1.$viewValue), ctrl1.$render());
                         }), selectElement2.on("change", function() {
-                            scope2.$apply(function() {
+                            scope3.$apply(function() {
                                 var array = [];
                                 forEach(selectElement2.find("option"), function(option) {
                                     option.selected && array.push(option.value);
                                 }), ctrl1.$setViewValue(array);
                             });
-                        })) : (scope3 = scope4, selectElement1 = element8, ngModelCtrl = ngModelCtrl1, selectCtrl = selectCtrl1, ngModelCtrl.$render = function() {
+                        })) : (scope4 = scope5, selectElement1 = element8, ngModelCtrl = ngModelCtrl1, selectCtrl = selectCtrl1, ngModelCtrl.$render = function() {
                             var viewValue = ngModelCtrl.$viewValue;
                             selectCtrl.hasOption(viewValue) ? (unknownOption.parent() && unknownOption.remove(), selectElement1.val(viewValue), "" === viewValue && emptyOption.prop("selected", !0)) : isUndefined(viewValue) && emptyOption ? selectElement1.val("") : selectCtrl.renderUnknownOption(viewValue);
                         }, selectElement1.on("change", function() {
-                            scope3.$apply(function() {
+                            scope4.$apply(function() {
                                 unknownOption.parent() && unknownOption.remove(), ngModelCtrl.$setViewValue(selectElement1.val());
                             });
                         }));

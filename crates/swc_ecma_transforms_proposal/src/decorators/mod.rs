@@ -327,6 +327,9 @@ impl Decorators {
                     in_nested_scope: false,
                     in_injected_define_property_call: false,
                     this_alias_mark: None,
+                    // TODO: loose mode
+                    constant_super: false,
+                    super_class: &None,
                 });
 
                 let method = method.fold_with(&mut folder);
@@ -354,10 +357,7 @@ impl Decorators {
                         .chain(if method.is_static {
                             Some(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                                 key: PropName::Ident(quote_ident!("static")),
-                                value: Box::new(Expr::Lit(Lit::Bool(Bool {
-                                    value: true,
-                                    span: DUMMY_SP,
-                                }))),
+                                value: true.into(),
                             }))))
                         } else {
                             None
@@ -468,10 +468,7 @@ impl Decorators {
                                     Some(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                         KeyValueProp {
                                             key: PropName::Ident(quote_ident!("static")),
-                                            value: Box::new(Expr::Lit(Lit::Bool(Bool {
-                                                value: true,
-                                                span: DUMMY_SP,
-                                            }))),
+                                            value: true.into(),
                                         },
                                     ))))
                                 } else {

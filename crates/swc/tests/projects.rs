@@ -899,3 +899,43 @@ fn opt_source_file_name_1() {
 
     assert!(map.contains("entry-foo"));
 }
+
+#[test]
+fn issue_2224() {
+    let output = str_with_opt(
+        r#"
+        const Injectable = () => {};
+
+        @Injectable
+        export class TestClass {
+            private readonly property = TestClass.name;
+        }"#,
+        Options {
+            is_module: IsModule::Bool(true),
+            config: Config {
+                jsc: JscConfig {
+                    syntax: Some(Syntax::Typescript(TsConfig {
+                        decorators: true,
+                        ..Default::default()
+                    })),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    println!("{}", output);
+
+    assert!(output.contains("this.property = TestClass.name"));
+}
+
+#[test]
+fn bom() {
+    project("tests/projects/bom")
+}
+#[test]
+fn json_schema() {
+    project("tests/projects/json-schema")
+}

@@ -1,11 +1,11 @@
-var tmp = Symbol.toPrimitive, tmp1 = Symbol.toStringTag;
+let _toPrimitive = Symbol.toPrimitive, _toStringTag = Symbol.toStringTag;
 //@target: ES6
 //@declaration: true
 class C {
-    get [tmp]() {
+    get [_toPrimitive]() {
         return "";
     }
-    get [tmp1]() {
+    get [_toStringTag]() {
         return "";
     }
 }

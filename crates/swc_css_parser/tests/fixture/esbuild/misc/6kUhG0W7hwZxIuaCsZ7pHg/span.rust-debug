@@ -76,11 +76,23 @@ error: Ident
 1 | a:after { content: 'a\62 c' }
   |   ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:9
   |
 1 | a:after { content: 'a\62 c' }
   |         ^^^^^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:11
+  |
+1 | a:after { content: 'a\62 c' }
+  |           ^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:11
+  |
+1 | a:after { content: 'a\62 c' }
+  |           ^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:11
@@ -100,7 +112,7 @@ error: Ident
 1 | a:after { content: 'a\62 c' }
   |           ^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:20
   |
 1 | a:after { content: 'a\62 c' }

@@ -28,6 +28,18 @@ error: CustomIdent
 1 | @keyframes test { from { color: red } to {} }
   |            ^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:17
+  |
+1 | @keyframes test { from { color: red } to {} }
+  |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:19
+  |
+1 | @keyframes test { from { color: red } to {} }
+  |                   ^^^^^^^^^^^^^^^^^^^
+
 error: KeyframeBlock
  --> $DIR/tests/fixture/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:19
   |
@@ -46,11 +58,17 @@ error: Ident
 1 | @keyframes test { from { color: red } to {} }
   |                   ^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:24
   |
 1 | @keyframes test { from { color: red } to {} }
   |                        ^^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:26
+  |
+1 | @keyframes test { from { color: red } to {} }
+  |                          ^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:26
@@ -70,7 +88,7 @@ error: Ident
 1 | @keyframes test { from { color: red } to {} }
   |                          ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:33
   |
 1 | @keyframes test { from { color: red } to {} }
@@ -81,6 +99,12 @@ error: Ident
   |
 1 | @keyframes test { from { color: red } to {} }
   |                                 ^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:39
+  |
+1 | @keyframes test { from { color: red } to {} }
+  |                                       ^^^^^
 
 error: KeyframeBlock
  --> $DIR/tests/fixture/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:39
@@ -100,7 +124,7 @@ error: Ident
 1 | @keyframes test { from { color: red } to {} }
   |                                       ^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:42
   |
 1 | @keyframes test { from { color: red } to {} }

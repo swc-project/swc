@@ -357,9 +357,16 @@ impl<I: Tokens> Parser<I> {
             .map(From::from)?
         };
 
+        let type_args = if is!(self, '<') {
+            Some(self.parse_ts_type_args()?)
+        } else {
+            None
+        };
+
         Ok(TsTypeQuery {
             span: span!(self, start),
             expr_name,
+            type_args,
         })
     }
 
@@ -497,6 +504,24 @@ impl<I: Tokens> Parser<I> {
             Err(..) => Ok(false),
             _ => Ok(false),
         }
+    }
+
+    pub(super) fn try_parse_ts_type_args(&mut self) -> Option<TsTypeParamInstantiation> {
+        debug_assert!(self.input.syntax().typescript());
+
+        self.try_parse_ts(|p| {
+            let type_args = p.parse_ts_type_args()?;
+            if is_one_of!(
+                p, ',', '.', '?', ')', ']', ':', '&', '|', '^', '}', "??", "==", "===", "!=",
+                "!==", "&&", "||"
+            ) || is_exact!(p, ';')
+                || eof!(p)
+            {
+                Ok(Some(type_args))
+            } else {
+                Ok(None)
+            }
+        })
     }
 
     /// `tsTryParse`
@@ -899,30 +924,46 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         self.parse_ts_delimited_list(ParsingContext::HeritageClauseElement, |p| {
-            p.parse_expr_with_type_args()
+            p.parse_ts_heritage_clause_element()
         })
     }
 
-    /// `tsParseExpressionWithTypeArguments`
-    fn parse_expr_with_type_args(&mut self) -> PResult<TsExprWithTypeArgs> {
+    fn parse_ts_heritage_clause_element(&mut self) -> PResult<TsExprWithTypeArgs> {
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
         // Note: TS uses parseLeftHandSideExpressionOrHigher,
         // then has grammar errors later if it's not an EntityName.
 
-        let expr = self.parse_ts_entity_name(/* allow_reserved_words */ false)?;
-        let type_args = if is!(self, '<') {
-            Some(self.parse_ts_type_args()?)
-        } else {
-            None
-        };
+        let ident = Box::new(Expr::Ident(self.parse_ident_name()?));
+        let expr = self.parse_subscripts(Callee::Expr(ident), true, true)?;
+        if !matches!(
+            &*expr,
+            Expr::Ident(..) | Expr::Member(..) | Expr::TsInstantiation(..)
+        ) {
+            self.emit_err(span!(self, start), SyntaxError::TS2499);
+        }
 
-        Ok(TsExprWithTypeArgs {
-            span: span!(self, start),
-            expr,
-            type_args,
-        })
+        match *expr {
+            Expr::TsInstantiation(v) => Ok(TsExprWithTypeArgs {
+                span: v.span,
+                expr: v.expr,
+                type_args: Some(v.type_args),
+            }),
+            _ => {
+                let type_args = if is!(self, '<') {
+                    Some(self.parse_ts_type_args()?)
+                } else {
+                    None
+                };
+
+                Ok(TsExprWithTypeArgs {
+                    span: span!(self, start),
+                    expr,
+                    type_args,
+                })
+            }
+        }
     }
 
     /// `tsParseInterfaceDeclaration`

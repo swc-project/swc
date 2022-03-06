@@ -52,7 +52,7 @@ error: NsPrefix
 1 | |* {}
   | ^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/UeHn9b5w6R3dVjrtRCGxkA/input.css:1:4
   |
 1 | |* {}

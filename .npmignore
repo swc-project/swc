@@ -12,6 +12,7 @@ yarn.lock
 package-lock.json
 *.log
 .idea/
+docs/
 
 wasm/
 
@@ -64,3 +65,5 @@ deny.toml
 .mocharc.js
 jest.config.js
 cliff.toml
+.kodiak.toml
+clippy.toml

@@ -1,6 +1,0 @@
-error: Expected Ident
- --> $DIR/tests/errors/custom-properties/exclamation/input.css:1:16
-  |
-1 | .class {--foo:!; }
-  |                ^
-

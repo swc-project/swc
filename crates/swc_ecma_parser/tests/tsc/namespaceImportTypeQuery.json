@@ -213,7 +213,8 @@
                     "value": "A",
                     "optional": false
                   }
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -284,7 +285,8 @@
                     "value": "B",
                     "optional": false
                   }
-                }
+                },
+                "typeArguments": null
               }
             }
           },

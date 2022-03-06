@@ -1315,49 +1315,10 @@
             function resolveSelection(view, doc, parsedSel) {
                 return Math.max(parsedSel.anchor, parsedSel.head) > doc.content.size ? null : selectionBetween(view, doc.resolve(parsedSel.anchor), doc.resolve(parsedSel.head));
             }
-            function isMarkChange(cur, prev) {
-                for(var type, mark, update, curMarks = cur.firstChild.marks, prevMarks = prev.firstChild.marks, added = curMarks, removed = prevMarks, i = 0; i < prevMarks.length; i++)added = prevMarks[i].removeFromSet(added);
-                for(var i$1 = 0; i$1 < curMarks.length; i$1++)removed = curMarks[i$1].removeFromSet(removed);
-                if (1 == added.length && 0 == removed.length) mark = added[0], type = "add", update = function(node) {
-                    return node.mark(mark.addToSet(node.marks));
-                };
-                else {
-                    if (0 != added.length || 1 != removed.length) return null;
-                    mark = removed[0], type = "remove", update = function(node) {
-                        return node.mark(mark.removeFromSet(node.marks));
-                    };
-                }
-                for(var updated = [], i$2 = 0; i$2 < prev.childCount; i$2++)updated.push(update(prev.child(i$2)));
-                if (prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.from(updated).eq(cur)) return {
-                    mark: mark,
-                    type: type
-                };
-            }
-            function looksLikeJoin(old, start, end, $newStart, $newEnd) {
-                if (!$newStart.parent.isTextblock || end - start <= $newEnd.pos - $newStart.pos || skipClosingAndOpening($newStart, !0, !1) < $newEnd.pos) return !1;
-                var $start = old.resolve(start);
-                if ($start.parentOffset < $start.parent.content.size || !$start.parent.isTextblock) return !1;
-                var $next = old.resolve(skipClosingAndOpening($start, !0, !0));
-                return !(!$next.parent.isTextblock || $next.pos > end || skipClosingAndOpening($next, !0, !1) < end) && $newStart.parent.content.cut($newStart.parentOffset).eq($next.parent.content);
-            }
             function skipClosingAndOpening($pos, fromEnd, mayOpen) {
                 for(var depth = $pos.depth, end = fromEnd ? $pos.end() : $pos.pos; depth > 0 && (fromEnd || $pos.indexAfter(depth) == $pos.node(depth).childCount);)depth--, end++, fromEnd = !1;
                 if (mayOpen) for(var next = $pos.node(depth).maybeChild($pos.indexAfter(depth)); next && !next.isLeaf;)next = next.firstChild, end++;
                 return end;
-            }
-            function findDiff(a, b, pos, preferredPos, preferredSide) {
-                var start = a.findDiffStart(b, pos);
-                if (null == start) return null;
-                var ref = a.findDiffEnd(b, pos + a.size, pos + b.size), endA = ref.a, endB = ref.b;
-                if ("end" == preferredSide) {
-                    var adjust = Math.max(0, start - Math.min(endA, endB));
-                    preferredPos -= endA + adjust - start;
-                }
-                return endA < start && a.size < b.size ? (start -= preferredPos <= start && preferredPos >= endA ? start - preferredPos : 0, endB = start + (endB - endA), endA = start) : endB < start && (start -= preferredPos <= start && preferredPos >= endB ? start - preferredPos : 0, endA = start + (endA - endB), endB = start), {
-                    start: start,
-                    endA: endA,
-                    endB: endB
-                };
             }
             function serializeForClipboard(view, slice) {
                 for(var context = [], content = slice.content, openStart = slice.openStart, openEnd = slice.openEnd; openStart > 1 && openEnd > 1 && 1 == content.childCount && 1 == content.firstChild.childCount;){
@@ -2330,7 +2291,7 @@
                         x: 0,
                         y: 0,
                         type: ""
-                    }, view7.lastSelectionOrigin = null, view7.lastSelectionTime = 0, view7.lastIOSEnter = 0, view7.lastIOSEnterFallbackTimeout = null, view7.lastAndroidDelete = 0, view7.composing = !1, view7.composingTimeout = null, view7.compositionNodes = [], view7.compositionEndedAt = -200000000, view7.domObserver = new DOMObserver(view7, function(from1, to1, typeOver1, added) {
+                    }, view7.lastSelectionOrigin = null, view7.lastSelectionTime = 0, view7.lastIOSEnter = 0, view7.lastIOSEnterFallbackTimeout = null, view7.lastAndroidDelete = 0, view7.composing = !1, view7.composingTimeout = null, view7.compositionNodes = [], view7.compositionEndedAt = -200000000, view7.domObserver = new DOMObserver(view7, function(from1, to1, typeOver1, added1) {
                         return (function(view8, from2, to2, typeOver, addedNodes) {
                             if (from2 < 0) {
                                 var preferredPos, preferredSide, nextSel, tr, storedMarks, markChange, $from1, origin = view8.lastSelectionTime > Date.now() - 50 ? view8.lastSelectionOrigin : null, newSel = selectionFromDOM(view8, origin);
@@ -2395,7 +2356,20 @@
                             }
                             var doc1 = view8.state.doc, compare = doc1.slice(parse.from, parse.to);
                             8 === view8.lastKeyCode && Date.now() - 100 < view8.lastKeyCodeTime ? (preferredPos = view8.state.selection.to, preferredSide = "end") : (preferredPos = view8.state.selection.from, preferredSide = "start"), view8.lastKeyCode = null;
-                            var change = findDiff(compare.content, parse.doc.content, parse.from, preferredPos, preferredSide);
+                            var change = function(a, b, pos, preferredPos, preferredSide) {
+                                var start = a.findDiffStart(b, pos);
+                                if (null == start) return null;
+                                var ref = a.findDiffEnd(b, pos + a.size, pos + b.size), endA = ref.a, endB = ref.b;
+                                if ("end" == preferredSide) {
+                                    var adjust = Math.max(0, start - Math.min(endA, endB));
+                                    preferredPos -= endA + adjust - start;
+                                }
+                                return endA < start && a.size < b.size ? (start -= preferredPos <= start && preferredPos >= endA ? start - preferredPos : 0, endB = start + (endB - endA), endA = start) : endB < start && (start -= preferredPos <= start && preferredPos >= endB ? start - preferredPos : 0, endA = start + (endA - endB), endB = start), {
+                                    start: start,
+                                    endA: endA,
+                                    endB: endB
+                                };
+                            }(compare.content, parse.doc.content, parse.from, preferredPos, preferredSide);
                             if (!change) if (typeOver && sel2 instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection && !sel2.empty && sel2.$head.sameParent(sel2.$anchor) && !view8.composing && !(parse.sel && parse.sel.anchor != parse.sel.head)) change = {
                                 start: sel2.from,
                                 endA: sel2.to,
@@ -2416,34 +2390,57 @@
                                 return;
                             }
                             view8.domChangeCount++, view8.state.selection.from < view8.state.selection.to && change.start == change.endB && view8.state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection && (change.start > view8.state.selection.from && change.start <= view8.state.selection.from + 2 ? change.start = view8.state.selection.from : change.endA < view8.state.selection.to && change.endA >= view8.state.selection.to - 2 && (change.endB += view8.state.selection.to - change.endA, change.endA = view8.state.selection.to)), result1.ie && result1.ie_version <= 11 && change.endB == change.start + 1 && change.endA == change.start && change.start > parse.from && " \xa0" == parse.doc.textBetween(change.start - parse.from - 1, change.start - parse.from + 1) && (change.start--, change.endA--, change.endB--);
-                            var $from1 = parse.doc.resolveNoCache(change.start - parse.from), $to = parse.doc.resolveNoCache(change.endB - parse.from), inlineChange = $from1.sameParent($to) && $from1.parent.inlineContent;
+                            var $from2 = parse.doc.resolveNoCache(change.start - parse.from), $to = parse.doc.resolveNoCache(change.endB - parse.from), inlineChange = $from2.sameParent($to) && $from2.parent.inlineContent;
                             if ((result1.ios && view8.lastIOSEnter > Date.now() - 225 && (!inlineChange || addedNodes.some(function(n) {
                                 return "DIV" == n.nodeName || "P" == n.nodeName;
-                            })) || !inlineChange && $from1.pos < parse.doc.content.size && (nextSel = prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.Selection.findFrom(parse.doc.resolve($from1.pos + 1), 1, !0)) && nextSel.head == $to.pos) && view8.someProp("handleKeyDown", function(f) {
+                            })) || !inlineChange && $from2.pos < parse.doc.content.size && (nextSel = prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.Selection.findFrom(parse.doc.resolve($from2.pos + 1), 1, !0)) && nextSel.head == $to.pos) && view8.someProp("handleKeyDown", function(f) {
                                 return f(view8, keyEvent(13, "Enter"));
                             })) {
                                 view8.lastIOSEnter = 0;
                                 return;
                             }
-                            if (view8.state.selection.anchor > change.start && looksLikeJoin(doc1, change.start, change.endA, $from1, $to) && view8.someProp("handleKeyDown", function(f) {
+                            if (view8.state.selection.anchor > change.start && (function(old, start, end, $newStart, $newEnd) {
+                                if (!$newStart.parent.isTextblock || end - start <= $newEnd.pos - $newStart.pos || skipClosingAndOpening($newStart, !0, !1) < $newEnd.pos) return !1;
+                                var $start = old.resolve(start);
+                                if ($start.parentOffset < $start.parent.content.size || !$start.parent.isTextblock) return !1;
+                                var $next = old.resolve(skipClosingAndOpening($start, !0, !0));
+                                return !(!$next.parent.isTextblock || $next.pos > end || skipClosingAndOpening($next, !0, !1) < end) && $newStart.parent.content.cut($newStart.parentOffset).eq($next.parent.content);
+                            })(doc1, change.start, change.endA, $from2, $to) && view8.someProp("handleKeyDown", function(f) {
                                 return f(view8, keyEvent(8, "Backspace"));
                             })) {
                                 result1.android && result1.chrome && view8.domObserver.suppressSelectionUpdates();
                                 return;
                             }
-                            result1.chrome && result1.android && change.toB == change.from && (view8.lastAndroidDelete = Date.now()), result1.android && !inlineChange && $from1.start() != $to.start() && 0 == $to.parentOffset && $from1.depth == $to.depth && parse.sel && parse.sel.anchor == parse.sel.head && parse.sel.head == change.endA && (change.endB -= 2, $to = parse.doc.resolveNoCache(change.endB - parse.from), setTimeout(function() {
+                            result1.chrome && result1.android && change.toB == change.from && (view8.lastAndroidDelete = Date.now()), result1.android && !inlineChange && $from2.start() != $to.start() && 0 == $to.parentOffset && $from2.depth == $to.depth && parse.sel && parse.sel.anchor == parse.sel.head && parse.sel.head == change.endA && (change.endB -= 2, $to = parse.doc.resolveNoCache(change.endB - parse.from), setTimeout(function() {
                                 view8.someProp("handleKeyDown", function(f) {
                                     return f(view8, keyEvent(13, "Enter"));
                                 });
                             }, 20));
                             var chFrom = change.start, chTo = change.endA;
                             if (inlineChange) {
-                                if ($from1.pos == $to.pos) result1.ie && result1.ie_version <= 11 && 0 == $from1.parentOffset && (view8.domObserver.suppressSelectionUpdates(), setTimeout(function() {
+                                if ($from2.pos == $to.pos) result1.ie && result1.ie_version <= 11 && 0 == $from2.parentOffset && (view8.domObserver.suppressSelectionUpdates(), setTimeout(function() {
                                     return selectionToDOM(view8);
                                 }, 20)), tr = view8.state.tr.delete(chFrom, chTo), storedMarks = doc1.resolve(change.start).marksAcross(doc1.resolve(change.endA));
-                                else if (change.endA == change.endB && ($from1 = doc1.resolve(change.start)) && (markChange = isMarkChange($from1.parent.content.cut($from1.parentOffset, $to.parentOffset), $from1.parent.content.cut($from1.parentOffset, change.endA - $from1.start())))) tr = view8.state.tr, "add" == markChange.type ? tr.addMark(chFrom, chTo, markChange.mark) : tr.removeMark(chFrom, chTo, markChange.mark);
-                                else if ($from1.parent.child($from1.index()).isText && $from1.index() == $to.index() - ($to.textOffset ? 0 : 1)) {
-                                    var text$1 = $from1.parent.textBetween($from1.parentOffset, $to.parentOffset);
+                                else if (change.endA == change.endB && ($from1 = doc1.resolve(change.start)) && (markChange = (function(cur, prev) {
+                                    for(var type, mark, update, curMarks = cur.firstChild.marks, prevMarks = prev.firstChild.marks, added = curMarks, removed = prevMarks, i = 0; i < prevMarks.length; i++)added = prevMarks[i].removeFromSet(added);
+                                    for(var i$1 = 0; i$1 < curMarks.length; i$1++)removed = curMarks[i$1].removeFromSet(removed);
+                                    if (1 == added.length && 0 == removed.length) mark = added[0], type = "add", update = function(node) {
+                                        return node.mark(mark.addToSet(node.marks));
+                                    };
+                                    else {
+                                        if (0 != added.length || 1 != removed.length) return null;
+                                        mark = removed[0], type = "remove", update = function(node) {
+                                            return node.mark(mark.removeFromSet(node.marks));
+                                        };
+                                    }
+                                    for(var updated = [], i$2 = 0; i$2 < prev.childCount; i$2++)updated.push(update(prev.child(i$2)));
+                                    if (prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.from(updated).eq(cur)) return {
+                                        mark: mark,
+                                        type: type
+                                    };
+                                })($from2.parent.content.cut($from2.parentOffset, $to.parentOffset), $from1.parent.content.cut($from1.parentOffset, change.endA - $from1.start())))) tr = view8.state.tr, "add" == markChange.type ? tr.addMark(chFrom, chTo, markChange.mark) : tr.removeMark(chFrom, chTo, markChange.mark);
+                                else if ($from2.parent.child($from2.index()).isText && $from2.index() == $to.index() - ($to.textOffset ? 0 : 1)) {
+                                    var text$1 = $from2.parent.textBetween($from2.parentOffset, $to.parentOffset);
                                     if (view8.someProp("handleTextInput", function(f) {
                                         return f(view8, chFrom, chTo, text$1);
                                     })) return;
@@ -2455,7 +2452,7 @@
                                 sel$2 && !(result1.chrome && result1.android && view8.composing && sel$2.empty && (change.start != change.endB || view8.lastAndroidDelete < Date.now() - 100) && (sel$2.head == chFrom || sel$2.head == tr.mapping.map(chTo) - 1) || result1.ie && sel$2.empty && sel$2.head == chFrom) && tr.setSelection(sel$2);
                             }
                             storedMarks && tr.ensureMarks(storedMarks), view8.dispatch(tr.scrollIntoView());
-                        })(view7, from1, to1, typeOver1, added);
+                        })(view7, from1, to1, typeOver1, added1);
                     }), view7.domObserver.start(), view7.domChangeCount = 0, view7.eventHandlers = Object.create(null), handlers1)!function(event6) {
                         var handler = handlers1[event6];
                         view7.dom.addEventListener(event6, view7.eventHandlers[event6] = function(event) {

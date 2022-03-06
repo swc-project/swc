@@ -1,22 +1,32 @@
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) throw new TypeError("attempted to " + action + " private field on non-instance");
+    return privateMap.get(receiver);
+}
 function _classPrivateFieldSet(receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) throw new TypeError("attempted to set private field on non-instance");
-    var descriptor = privateMap.get(receiver);
-    if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
-    return descriptor.value = value, value;
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
+    return !function(receiver, descriptor, value) {
+        if (descriptor.set) descriptor.set.call(receiver, value);
+        else {
+            if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
+            descriptor.value = value;
+        }
+    }(receiver, descriptor, value), value;
 }
 var _value = new WeakMap();
 new class {
     get value() {
-        return (function(receiver, privateMap) {
-            if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
-            return privateMap.get(receiver).value;
-        })(this, _value);
+        var receiver, privateMap, descriptor, receiver, descriptor;
+        return receiver = this, (descriptor = _classExtractFieldDescriptor(receiver, privateMap = _value, "get")).get ? descriptor.get.call(receiver) : descriptor.value;
     }
     set value(value) {
         _classPrivateFieldSet(this, _value, value);
     }
     constructor(initialValue){
-        _value.set(this, {
+        !function(obj, privateMap, value) {
+            (function(obj, privateCollection) {
+                if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+            })(obj, privateMap), privateMap.set(obj, value);
+        }(this, _value, {
             writable: !0,
             value: void 0
         }), _classPrivateFieldSet(this, _value, initialValue);

@@ -6,16 +6,35 @@ function _arrayLikeToArray(arr, len) {
 function _arrayWithoutHoles(arr) {
     if (Array.isArray(arr)) return _arrayLikeToArray(arr);
 }
+function _checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+        throw new TypeError("Cannot initialize the same private elements twice on an object");
+    }
+}
+function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+        return descriptor.get.call(receiver);
+    }
+    return descriptor.value;
+}
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-function _classPrivateFieldGet(receiver, privateMap) {
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
     if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
+        throw new TypeError("attempted to " + action + " private field on non-instance");
     }
-    return privateMap.get(receiver).value;
+    return privateMap.get(receiver);
+}
+function _classPrivateFieldGet(receiver, privateMap) {
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
+    return _classApplyDescriptorGet(receiver, descriptor);
+}
+function _classPrivateFieldInit(obj, privateMap, value) {
+    _checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
 }
 function isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
@@ -115,18 +134,19 @@ function _templateObject1() {
     };
     return data;
 }
+var _fieldFunc = new WeakMap(), _fieldFunc2 = new WeakMap();
 var A = // @target: es2015
 /*#__PURE__*/ function() {
     "use strict";
     function A() {
         _classCallCheck(this, A);
-        _fieldFunc.set(this, {
+        _classPrivateFieldInit(this, _fieldFunc, {
             writable: true,
             value: function value() {
                 this.x = 10;
             }
         });
-        _fieldFunc2.set(this, {
+        _classPrivateFieldInit(this, _fieldFunc2, {
             writable: true,
             value: function value(a) {
                 for(var _len = arguments.length, b = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
@@ -141,10 +161,10 @@ var A = // @target: es2015
             key: "test",
             value: function test() {
                 var _instance;
-                var _obj, ref;
+                var ref;
                 var _ref;
                 _classPrivateFieldGet(this, _fieldFunc).call(this);
-                (ref = (_obj = _classPrivateFieldGet(this, _fieldFunc)).call) === null || ref === void 0 ? void 0 : ref.call(_obj, this);
+                (ref = _classPrivateFieldGet(this, _fieldFunc)) === null || ref === void 0 ? void 0 : ref.call(this);
                 var func = _classPrivateFieldGet(this, _fieldFunc);
                 func();
                 new (_classPrivateFieldGet(this, _fieldFunc))();
@@ -176,5 +196,3 @@ var A = // @target: es2015
     ]);
     return A;
 }();
-var _fieldFunc = new WeakMap();
-var _fieldFunc2 = new WeakMap();

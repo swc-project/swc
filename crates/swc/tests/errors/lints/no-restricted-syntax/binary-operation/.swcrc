@@ -1,0 +1,17 @@
+{
+    "jsc": {
+        "lints": {
+            "noRestrictedSyntax": [
+                "error",
+                {
+                    "BinaryExpression": [
+                        {
+                            "message": "no 'in' expession",
+                            "operator": "in"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

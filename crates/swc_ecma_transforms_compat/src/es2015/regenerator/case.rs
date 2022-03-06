@@ -25,10 +25,7 @@ pub(super) struct Loc {
 impl Loc {
     #[allow(clippy::wrong_self_convention)]
     pub fn to_stmt_index(&self) -> Expr {
-        Expr::Lit(Lit::Num(Number {
-            span: DUMMY_SP,
-            value: self.stmt_index as _,
-        }))
+        self.stmt_index.into()
     }
 
     /// Creates an invalid expression pointing `self`
@@ -130,24 +127,19 @@ impl CaseHandler<'_> {
 
                     let elems = locs
                         .into_iter()
-                        .map(|loc| {
-                            loc.map(|loc| ExprOrSpread {
-                                spread: None,
-                                expr: Box::new(loc.to_stmt_index()),
-                            })
-                        })
+                        .map(|loc| loc.map(|loc| loc.to_stmt_index().as_arg()))
                         .collect::<Vec<_>>();
 
                     if elems.is_empty() {
                         return None;
                     }
-                    Some(ExprOrSpread {
-                        spread: None,
-                        expr: Box::new(Expr::Array(ArrayLit {
+                    Some(
+                        ArrayLit {
                             span: DUMMY_SP,
                             elems,
-                        })),
-                    })
+                        }
+                        .as_arg(),
+                    )
                 })
                 .collect(),
         })
@@ -335,13 +327,11 @@ impl CaseHandler<'_> {
             | Expr::TsConstAssertion(..)
             | Expr::TsNonNull(..)
             | Expr::TsAs(..)
+            | Expr::TsInstantiation(..)
             | Expr::PrivateName(..)
             | Expr::Invalid(..) => e,
 
-            Expr::OptChain(e) => Expr::OptChain(OptChainExpr {
-                expr: e.expr.map(|e| self.explode_expr(e, false)),
-                ..e
-            }),
+            Expr::OptChain(..) => unimplemented!("regenerator: optional chain in generator"),
 
             Expr::Await(..) => unimplemented!("regenerator: await in generator"),
 
@@ -423,16 +413,15 @@ impl CaseHandler<'_> {
                                 me.prop
                             };
 
-                            Callee::Expr(Box::new(
-                                MemberExpr {
-                                    span: me.span,
-                                    obj,
-                                    prop,
-                                }
-                                .make_member(quote_ident!("call")),
-                            ))
+                            MemberExpr {
+                                span: me.span,
+                                obj,
+                                prop,
+                            }
+                            .make_member(quote_ident!("call"))
+                            .as_callee()
                         } else {
-                            Callee::Expr(Box::new(self.explode_expr(Expr::Member(me), false)))
+                            self.explode_expr(Expr::Member(me), false).as_callee()
                         }
                     }
 
@@ -455,7 +444,7 @@ impl CaseHandler<'_> {
                                 // by using the (0, object.property)(...) trick; otherwise, it
                                 // will receive the object of the MemberExpression as its `this`
                                 // object.
-                                Callee::Expr(Box::new(Expr::Seq(SeqExpr {
+                                SeqExpr {
                                     span: DUMMY_SP,
                                     exprs: vec![
                                         Box::new(
@@ -467,9 +456,10 @@ impl CaseHandler<'_> {
                                         ),
                                         Box::new(callee),
                                     ],
-                                })))
+                                }
+                                .as_callee()
                             }
-                            _ => Callee::Expr(Box::new(callee)),
+                            _ => callee.as_callee(),
                         }
                     }
                     Callee::Import(..) => callee,
@@ -790,13 +780,7 @@ impl CaseHandler<'_> {
                                 .as_callee(),
                             args: vec![
                                 arg.unwrap().as_arg(),
-                                Lit::Str(Str {
-                                    span: DUMMY_SP,
-                                    value: name,
-                                    has_escape: false,
-                                    kind: Default::default(),
-                                })
-                                .as_arg(),
+                                name.as_arg(),
                                 after.to_stmt_index().as_arg(),
                             ],
                             type_args: Default::default(),
@@ -854,10 +838,7 @@ impl CaseHandler<'_> {
         for (i, stmt) in stmts.iter_mut().enumerate() {
             let case = SwitchCase {
                 span: DUMMY_SP,
-                test: Some(Box::new(Expr::Lit(Lit::Num(Number {
-                    span: DUMMY_SP,
-                    value: i as _,
-                })))),
+                test: Some(i.into()),
                 cons: vec![],
             };
 
@@ -921,13 +902,7 @@ impl CaseHandler<'_> {
                         .make_member(quote_ident!("abrupt"))
                         .as_callee(),
                     args: {
-                        let ty_arg = Lit::Str(Str {
-                            span: DUMMY_SP,
-                            value: ty.into(),
-                            has_escape: false,
-                            kind: Default::default(),
-                        })
-                        .as_arg();
+                        let ty_arg = ty.as_arg();
 
                         if ty == "break" || ty == "continue" {
                             if let Some(arg) = target {
@@ -1614,10 +1589,7 @@ impl VisitMut for InvalidToLit<'_> {
                 if let Some(Loc { stmt_index, .. }) =
                     self.map.iter().find(|loc| loc.id == span.lo.0)
                 {
-                    *e = Expr::Lit(Lit::Num(Number {
-                        span: DUMMY_SP,
-                        value: (*stmt_index) as _,
-                    }));
+                    *e = (*stmt_index).into();
                 }
             }
         }

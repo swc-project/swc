@@ -2,52 +2,7 @@ use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
-use crate::{SimpleBlock, Tokens};
-
-#[ast_node]
-pub enum Value {
-    #[tag("SimpleBlock")]
-    SimpleBlock(SimpleBlock),
-
-    #[tag("Dimension")]
-    Dimension(Dimension),
-
-    #[tag("Number")]
-    Number(Number),
-
-    #[tag("Percentage")]
-    Percentage(Percentage),
-
-    #[tag("Ratio")]
-    Ratio(Ratio),
-
-    #[tag("Color")]
-    Color(Color),
-
-    #[tag("Ident")]
-    Ident(Ident),
-
-    #[tag("DashedIdent")]
-    DashedIdent(DashedIdent),
-
-    #[tag("String")]
-    Str(Str),
-
-    #[tag("Function")]
-    Function(Function),
-
-    #[tag("BinValue")]
-    Bin(BinValue),
-
-    #[tag("Delimiter")]
-    Delimiter(Delimiter),
-
-    #[tag("Tokens")]
-    Tokens(Tokens),
-
-    #[tag("Url")]
-    Url(Url),
-}
+use crate::ComponentValue;
 
 #[ast_node("Ident")]
 pub struct Ident {
@@ -84,6 +39,8 @@ pub enum DelimiterValue {
     Comma,
     /// `/`
     Solidus,
+    /// `;`
+    Semicolon,
 }
 
 #[ast_node("Delimiter")]
@@ -92,23 +49,12 @@ pub struct Delimiter {
     pub value: DelimiterValue,
 }
 
-#[ast_node("BinValue")]
-pub struct BinValue {
-    pub span: Span,
-
-    pub op: BinOp,
-
-    pub left: Box<Value>,
-
-    pub right: Box<Value>,
-}
-
 #[ast_node("Function")]
 pub struct Function {
     /// Span starting from the `lo` of identifier and to the end of `)`.
     pub span: Span,
     pub name: Ident,
-    pub value: Vec<Value>,
+    pub value: Vec<ComponentValue>,
 }
 
 #[ast_node]
@@ -116,6 +62,8 @@ pub enum Color {
     // TODO more
     #[tag("HexColor")]
     HexColor(HexColor),
+    #[tag("Function")]
+    Function(Function),
 }
 
 #[ast_node("HexColor")]
@@ -207,6 +155,13 @@ pub struct Percentage {
     pub value: Number,
 }
 
+#[ast_node("Integer")]
+pub struct Integer {
+    pub span: Span,
+    pub value: i64,
+    pub raw: JsWord,
+}
+
 #[ast_node("Number")]
 pub struct Number {
     pub span: Span,
@@ -262,6 +217,76 @@ pub struct UrlValueRaw {
 pub enum UrlModifier {
     #[tag("Ident")]
     Ident(Ident),
+    #[tag("Function")]
+    Function(Function),
+}
+
+#[ast_node("UnicodeRange")]
+pub struct UnicodeRange {
+    pub span: Span,
+    pub prefix: char,
+    pub start: JsWord,
+    pub end: Option<JsWord>,
+}
+
+#[ast_node("CalcSum")]
+pub struct CalcSum {
+    pub span: Span,
+    pub expressions: Vec<CalcProductOrOperator>,
+}
+
+#[ast_node]
+pub enum CalcProductOrOperator {
+    #[tag("CalcProduct")]
+    Product(CalcProduct),
+    #[tag("CalcOperator")]
+    Operator(CalcOperator),
+}
+
+#[ast_node("CalcProduct")]
+pub struct CalcProduct {
+    pub span: Span,
+    pub expressions: Vec<CalcValueOrOperator>,
+}
+
+#[ast_node("CalcOperator")]
+pub struct CalcOperator {
+    pub span: Span,
+    pub value: CalcOperatorType,
+}
+
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
+pub enum CalcOperatorType {
+    /// `+`
+    Add,
+    /// `-`
+    Sub,
+    /// `*`
+    Mul,
+    /// `/`
+    Div,
+}
+
+#[ast_node]
+pub enum CalcValueOrOperator {
+    #[tag("CalcValue")]
+    Value(CalcValue),
+    #[tag("CalcOperator")]
+    Operator(CalcOperator),
+}
+
+#[ast_node]
+pub enum CalcValue {
+    #[tag("Number")]
+    Number(Number),
+    #[tag("Dimension")]
+    Dimension(Dimension),
+    #[tag("Percentage")]
+    Percentage(Percentage),
+    #[tag("Ident")]
+    Constant(Ident),
+    #[tag("CalcSum")]
+    Sum(CalcSum),
     #[tag("Function")]
     Function(Function),
 }

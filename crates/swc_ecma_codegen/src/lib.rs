@@ -1,4 +1,5 @@
 #![recursion_limit = "1024"]
+#![deny(clippy::all)]
 #![allow(clippy::match_like_matches_macro)]
 #![allow(clippy::nonminimal_bool)]
 #![allow(unused_variables)]
@@ -507,7 +508,8 @@ where
             }
             StrKind::Synthesized => {
                 let single_quote = false;
-                let value = escape_without_source(&node.value, self.wr.target(), single_quote);
+                let value =
+                    escape_without_source(&node.value, self.wr.target(), single_quote, false);
 
                 (single_quote, value)
             }
@@ -580,7 +582,13 @@ where
     #[emitter]
     fn emit_callee(&mut self, node: &Callee) -> Result {
         match *node {
-            Callee::Expr(ref e) => emit!(e),
+            Callee::Expr(ref e) => {
+                if let Expr::New(new) = &**e {
+                    self.emit_new(new, false)?;
+                } else {
+                    emit!(e);
+                }
+            }
             Callee::Super(ref n) => emit!(n),
             Callee::Import(ref n) => emit!(n),
         }
@@ -635,6 +643,7 @@ where
             Expr::TsNonNull(ref n) => emit!(n),
             Expr::TsTypeAssertion(ref n) => emit!(n),
             Expr::TsConstAssertion(ref n) => emit!(n),
+            Expr::TsInstantiation(ref n) => emit!(n),
             Expr::OptChain(ref n) => emit!(n),
             Expr::Invalid(ref n) => emit!(n),
         }
@@ -648,8 +657,8 @@ where
     fn emit_opt_chain(&mut self, n: &OptChainExpr) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        match *n.expr {
-            Expr::Member(ref e) => {
+        match n.base {
+            OptChainBase::Member(ref e) => {
                 emit!(e.obj);
                 punct!("?.");
 
@@ -659,15 +668,18 @@ where
                     MemberProp::PrivateName(p) => emit!(p),
                 }
             }
-            Expr::Call(ref e) => {
-                emit!(e.callee);
+            OptChainBase::Call(ref e) => {
+                if let Expr::New(new) = &*e.callee {
+                    self.emit_new(new, false)?;
+                } else {
+                    emit!(e.callee);
+                }
                 punct!("?.");
 
                 punct!("(");
                 self.emit_expr_or_spreads(n.span(), &e.args, ListFormat::CallExpressionArguments)?;
                 punct!(")");
             }
-            _ => {}
         }
     }
 
@@ -689,40 +701,58 @@ where
         punct!(")");
     }
 
-    #[emitter]
-    fn emit_new_expr(&mut self, node: &NewExpr) -> Result {
+    fn emit_new(&mut self, node: &NewExpr, should_ignore_empty_args: bool) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         {
             let span = self.cm.span_until_char(node.span, ' ');
-            keyword!(span, "new");
+            keyword!(self, span, "new");
         }
 
         let starts_with_alpha_num = node.callee.starts_with_alpha_num();
 
         if starts_with_alpha_num {
-            space!();
+            space!(self);
         } else {
-            formatting_space!();
+            formatting_space!(self);
         }
-        emit!(node.callee);
+        emit!(self, node.callee);
 
         if let Some(type_args) = &node.type_args {
-            emit!(type_args);
+            emit!(self, type_args);
         }
 
         if let Some(ref args) = node.args {
-            punct!("(");
-            self.emit_expr_or_spreads(node.span(), args, ListFormat::NewExpressionArguments)?;
-            punct!(")");
+            if !(self.cfg.minify && args.is_empty() && should_ignore_empty_args) {
+                punct!(self, "(");
+                self.emit_expr_or_spreads(node.span(), args, ListFormat::NewExpressionArguments)?;
+                punct!(self, ")");
+            }
         }
+
+        // if it's false, it means it doesn't come from emit_expr,
+        // we need to compensate that
+        if !should_ignore_empty_args && self.comments.is_some() {
+            self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
+        }
+
+        Ok(())
+    }
+
+    #[emitter]
+    fn emit_new_expr(&mut self, node: &NewExpr) -> Result {
+        self.emit_new(node, true)?;
     }
 
     #[emitter]
     fn emit_member_expr(&mut self, node: &MemberExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        emit!(node.obj);
+        if let Expr::New(new) = &*node.obj {
+            self.emit_new(new, false)?;
+        } else {
+            emit!(node.obj);
+        }
 
         match &node.prop {
             MemberProp::Computed(computed) => emit!(computed),
@@ -1058,7 +1088,7 @@ where
     }
 
     #[emitter]
-    fn emit_class_memeber(&mut self, node: &ClassMember) -> Result {
+    fn emit_class_member(&mut self, node: &ClassMember) -> Result {
         match *node {
             ClassMember::Constructor(ref n) => emit!(n),
             ClassMember::ClassProp(ref n) => emit!(n),
@@ -1123,7 +1153,7 @@ where
     fn emit_class_method(&mut self, n: &ClassMethod) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        self.emit_accesibility(n.accessibility)?;
+        self.emit_accessibility(n.accessibility)?;
 
         if n.is_static {
             keyword!("static");
@@ -1216,7 +1246,7 @@ where
 
         self.emit_list(n.span, Some(&n.decorators), ListFormat::Decorators)?;
 
-        self.emit_accesibility(n.accessibility)?;
+        self.emit_accessibility(n.accessibility)?;
 
         if n.is_static {
             keyword!("static");
@@ -1257,7 +1287,7 @@ where
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         if n.accessibility != Some(Accessibility::Public) {
-            self.emit_accesibility(n.accessibility)?;
+            self.emit_accessibility(n.accessibility)?;
         }
 
         if n.is_static {
@@ -1295,7 +1325,7 @@ where
         semi!();
     }
 
-    fn emit_accesibility(&mut self, n: Option<Accessibility>) -> Result {
+    fn emit_accessibility(&mut self, n: Option<Accessibility>) -> Result {
         if let Some(a) = n {
             match a {
                 Accessibility::Public => keyword!(self, "public"),
@@ -1312,7 +1342,7 @@ where
     fn emit_class_constructor(&mut self, n: &Constructor) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        self.emit_accesibility(n.accessibility)?;
+        self.emit_accessibility(n.accessibility)?;
 
         keyword!("constructor");
         punct!("(");
@@ -1467,7 +1497,12 @@ where
     fn emit_tagged_tpl_lit(&mut self, node: &TaggedTpl) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        emit!(node.tag);
+        if let Expr::New(new) = &*node.tag {
+            self.emit_new(new, false)?;
+        } else {
+            emit!(node.tag);
+        }
+
         emit!(node.type_params);
         emit!(node.tpl);
     }
@@ -2308,8 +2343,17 @@ where
 
     #[emitter]
     fn emit_expr_stmt(&mut self, e: &ExprStmt) -> Result {
+        let expr_span = e.expr.span();
+
         emit!(e.expr);
-        semi!();
+
+        let span = if expr_span.hi == e.span.hi {
+            DUMMY_SP
+        } else {
+            Span::new(expr_span.hi, e.span.hi, Default::default())
+        };
+
+        semi!(span);
     }
 
     #[emitter]
@@ -2844,7 +2888,7 @@ where
     pub fn emit_module_export_name(&mut self, node: &ModuleExportName) -> Result {
         match *node {
             ModuleExportName::Ident(ref ident) => emit!(ident),
-            ModuleExportName::Str(ref str) => emit!(str),
+            ModuleExportName::Str(ref s) => emit!(s),
         }
     }
 }
@@ -3070,7 +3114,12 @@ fn unescape_tpl_lit(s: &str, is_synthesized: bool) -> String {
     result
 }
 
-fn escape_without_source(v: &str, target: EsVersion, single_quote: bool) -> String {
+fn escape_without_source(
+    v: &str,
+    target: EsVersion,
+    single_quote: bool,
+    emit_non_ascii_as_unicode: bool,
+) -> String {
     let mut buf = String::with_capacity(v.len());
     let mut iter = v.chars().peekable();
 
@@ -3092,7 +3141,6 @@ fn escape_without_source(v: &str, target: EsVersion, single_quote: bool) -> Stri
                     buf.push_str("\\\\")
                 }
             }
-
             '\'' if single_quote => buf.push_str("\\'"),
             '"' if !single_quote => buf.push_str("\\\""),
 
@@ -3110,16 +3158,33 @@ fn escape_without_source(v: &str, target: EsVersion, single_quote: bool) -> Stri
             '\u{7f}'..='\u{ff}' => {
                 let _ = write!(buf, "\\x{:x}", c as u8);
             }
-
             '\u{2028}' => {
                 buf.push_str("\\u2028");
             }
             '\u{2029}' => {
                 buf.push_str("\\u2029");
             }
-
             _ => {
-                buf.push(c);
+                if !emit_non_ascii_as_unicode || c.is_ascii() {
+                    buf.push(c);
+                } else if c > '\u{FFFF}' {
+                    // if we've got this far the char isn't reserved and if the callee has specified
+                    // we should output unicode for non-ascii chars then we have
+                    // to make sure we output unicode that is safe for the target
+                    // Es5 does not support code point escapes and so surrograte formula must be
+                    // used
+                    if target <= EsVersion::Es5 {
+                        // https://mathiasbynens.be/notes/javascript-encoding#surrogate-formulae
+                        let h = ((c as u32 - 0x10000) / 0x400) + 0xd800;
+                        let l = (c as u32 - 0x10000) % 0x400 + 0xdc00;
+
+                        let _ = write!(buf, "\\u{:04X}\\u{:04X}", h, l);
+                    } else {
+                        let _ = write!(buf, "\\u{{{:04X}}}", c as u32);
+                    }
+                } else {
+                    let _ = write!(buf, "\\u{:04X}", c as u16);
+                }
             }
         }
     }
@@ -3134,25 +3199,31 @@ fn escape_with_source(
     s: &str,
     single_quote: Option<bool>,
 ) -> String {
-    if target <= EsVersion::Es5 {
-        return escape_without_source(s, target, single_quote.unwrap_or(false));
-    }
-
     if span.is_dummy() {
-        return escape_without_source(s, target, single_quote.unwrap_or(false));
+        return escape_without_source(s, target, single_quote.unwrap_or(false), false);
     }
 
-    //
     let orig = cm.span_to_snippet(span);
     let orig = match orig {
         Ok(orig) => orig,
         Err(v) => {
-            return escape_without_source(s, target, single_quote.unwrap_or(false));
+            return escape_without_source(s, target, single_quote.unwrap_or(false), false);
         }
     };
 
+    if target <= EsVersion::Es5 {
+        let emit_non_ascii_as_unicode = orig.contains("\\u");
+
+        return escape_without_source(
+            s,
+            target,
+            single_quote.unwrap_or(false),
+            emit_non_ascii_as_unicode,
+        );
+    }
+
     if single_quote.is_some() && orig.len() <= 2 {
-        return escape_without_source(s, target, single_quote.unwrap_or(false));
+        return escape_without_source(s, target, single_quote.unwrap_or(false), false);
     }
 
     let mut orig = &*orig;
@@ -3162,7 +3233,7 @@ fn escape_with_source(
     {
         orig = &orig[1..orig.len() - 1];
     } else if single_quote.is_some() {
-        return escape_without_source(s, target, single_quote.unwrap_or(false));
+        return escape_without_source(s, target, single_quote.unwrap_or(false), false);
     }
 
     let mut buf = String::with_capacity(s.len());

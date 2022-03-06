@@ -1,6 +1,11 @@
+#![allow(clippy::needless_update)]
+
+use std::sync::Arc;
+
 use rayon::prelude::*;
-use swc_common::{pass::Repeated, util::take::Take, DUMMY_SP};
+use swc_common::{collections::AHashSet, pass::Repeated, util::take::Take, DUMMY_SP, GLOBALS};
 use swc_ecma_ast::*;
+use swc_ecma_utils::collect_decls;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::{span, Level};
 
@@ -35,6 +40,7 @@ pub(crate) fn pure_optimizer<'a, M>(
     options: &'a CompressOptions,
     marks: Marks,
     mode: &'a M,
+    enable_everything: bool,
     debug_infinite_loop: bool,
 ) -> impl 'a + VisitMut + Repeated
 where
@@ -45,8 +51,10 @@ where
         marks,
         ctx: Default::default(),
         changed: Default::default(),
+        enable_everything,
         mode,
         debug_infinite_loop,
+        bindings: Default::default(),
     }
 }
 
@@ -55,9 +63,13 @@ struct Pure<'a, M> {
     marks: Marks,
     ctx: Ctx,
     changed: bool,
+    enable_everything: bool,
+
     mode: &'a M,
 
     debug_infinite_loop: bool,
+
+    bindings: Option<Arc<AHashSet<Id>>>,
 }
 
 impl<M> Repeated for Pure<'_, M> {
@@ -66,6 +78,7 @@ impl<M> Repeated for Pure<'_, M> {
     }
 
     fn reset(&mut self) {
+        self.bindings = None;
         self.ctx = Default::default();
         self.changed = false;
     }
@@ -80,20 +93,55 @@ where
         T: ModuleItemExt + Take,
         Vec<T>: VisitWith<self::vars::VarWithOutInitCounter>
             + VisitMutWith<self::vars::VarPrepender>
-            + VisitMutWith<self::vars::VarMover>,
+            + VisitMutWith<self::vars::VarMover>
+            + VisitWith<AssertValid>,
     {
         self.remove_dead_branch(stmts);
 
+        if cfg!(debug_assertions) {
+            stmts.visit_with(&mut AssertValid);
+        }
+
         self.drop_unreachable_stmts(stmts);
+
+        if cfg!(debug_assertions) {
+            stmts.visit_with(&mut AssertValid);
+        }
 
         self.drop_useless_blocks(stmts);
 
+        if cfg!(debug_assertions) {
+            stmts.visit_with(&mut AssertValid);
+        }
+
         self.collapse_vars_without_init(stmts);
+
+        if cfg!(debug_assertions) {
+            stmts.visit_with(&mut AssertValid);
+        }
+
+        if self.enable_everything {
+            self.join_vars(stmts);
+
+            if cfg!(debug_assertions) {
+                stmts.visit_with(&mut AssertValid);
+            }
+        }
 
         stmts.retain(|s| !matches!(s.as_stmt(), Some(Stmt::Empty(..))));
     }
 
     fn optimize_fn_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        if !stmts.is_empty() {
+            if let Stmt::Expr(ExprStmt { expr, .. }) = &stmts[0] {
+                if let Expr::Lit(Lit::Str(v)) = &**expr {
+                    if v.value == *"use asm" {
+                        return;
+                    }
+                }
+            }
+        }
+
         self.remove_useless_return(stmts);
 
         self.negate_if_terminate(stmts, true, false);
@@ -115,35 +163,43 @@ where
                     marks: self.marks,
                     ctx: self.ctx,
                     changed: false,
+                    enable_everything: self.enable_everything,
                     mode: self.mode,
                     debug_infinite_loop: self.debug_infinite_loop,
+                    bindings: self.bindings.clone(),
                 };
                 node.visit_mut_with(&mut v);
 
                 self.changed |= v.changed;
             }
         } else {
-            let changed = nodes
-                .par_iter_mut()
-                .map(|node| {
-                    let mut v = Pure {
-                        options: self.options,
-                        marks: self.marks,
-                        ctx: Ctx {
-                            par_depth: self.ctx.par_depth + 1,
-                            ..self.ctx
-                        },
-                        changed: false,
-                        mode: self.mode,
-                        debug_infinite_loop: self.debug_infinite_loop,
-                    };
-                    node.visit_mut_with(&mut v);
+            GLOBALS.with(|globals| {
+                let changed = nodes
+                    .par_iter_mut()
+                    .map(|node| {
+                        GLOBALS.set(globals, || {
+                            let mut v = Pure {
+                                options: self.options,
+                                marks: self.marks,
+                                ctx: Ctx {
+                                    par_depth: self.ctx.par_depth + 1,
+                                    ..self.ctx
+                                },
+                                changed: false,
+                                enable_everything: self.enable_everything,
+                                mode: self.mode,
+                                debug_infinite_loop: self.debug_infinite_loop,
+                                bindings: self.bindings.clone(),
+                            };
+                            node.visit_mut_with(&mut v);
 
-                    v.changed
-                })
-                .reduce(|| false, |a, b| a || b);
+                            v.changed
+                        })
+                    })
+                    .reduce(|| false, |a, b| a || b);
 
-            self.changed |= changed;
+                self.changed |= changed;
+            });
         }
     }
 }
@@ -372,6 +428,8 @@ where
     }
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        self.bindings = Some(Arc::new(collect_decls(items)));
+
         self.visit_par(items);
 
         self.handle_stmt_likes(items);
@@ -387,6 +445,26 @@ where
         }
 
         e.args.visit_mut_with(self);
+    }
+
+    fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
+        n.visit_mut_children_with(self);
+
+        if self.options.side_effects {
+            if let Some(VarDeclOrExpr::Expr(e)) = n {
+                self.ignore_return_value(
+                    e,
+                    DropOpts {
+                        drop_zero: true,
+                        drop_str_lit: true,
+                        ..Default::default()
+                    },
+                );
+                if e.is_invalid() {
+                    *n = None;
+                }
+            }
+        }
     }
 
     fn visit_mut_pat_or_expr(&mut self, n: &mut PatOrExpr) {
@@ -535,6 +613,16 @@ where
     }
 
     fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
+        if !items.is_empty() {
+            if let Stmt::Expr(ExprStmt { expr, .. }) = &items[0] {
+                if let Expr::Lit(Lit::Str(v)) = &**expr {
+                    if v.value == *"use asm" {
+                        return;
+                    }
+                }
+            }
+        }
+
         self.visit_par(items);
 
         self.handle_stmt_likes(items);

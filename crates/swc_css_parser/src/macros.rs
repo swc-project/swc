@@ -1,6 +1,6 @@
 macro_rules! tok {
-    ("num") => {
-        swc_css_ast::Token::Num { .. }
+    ("number") => {
+        swc_css_ast::Token::Number { .. }
     };
 
     ("dimension") => {
@@ -19,12 +19,12 @@ macro_rules! tok {
         swc_css_ast::Token::Ident { .. }
     };
 
-    ("str") => {
-        swc_css_ast::Token::Str { .. }
+    ("string") => {
+        swc_css_ast::Token::String { .. }
     };
 
     ("bad-string") => {
-        swc_css_ast::Token::BadStr { .. }
+        swc_css_ast::Token::BadString { .. }
     };
 
     ("url") => {
@@ -69,6 +69,10 @@ macro_rules! tok {
 
     ("!") => {
        swc_css_ast::Token::Delim { value: '!', .. }
+    };
+
+    ("?") => {
+       swc_css_ast::Token::Delim { value: '?', .. }
     };
 
     ("{") => {

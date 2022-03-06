@@ -23,36 +23,46 @@
         "value": "abc",
         "raw": "\\61 bc"
       },
-      "blocks": [
-        {
-          "span": {
-            "start": 20,
-            "end": 27,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Ident",
-              "span": {
-                "start": 20,
-                "end": 24,
-                "ctxt": 0
-              },
-              "value": "from",
-              "raw": "from"
-            }
-          ],
-          "block": {
-            "type": "Block",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 18,
+          "end": 29,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
             "span": {
-              "start": 25,
+              "start": 20,
               "end": 27,
               "ctxt": 0
             },
-            "value": []
+            "prelude": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 20,
+                  "end": 24,
+                  "ctxt": 0
+                },
+                "value": "from",
+                "raw": "from"
+              }
+            ],
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 25,
+                "end": 27,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": []
+            }
           }
-        }
-      ]
+        ]
+      }
     }
   ]
 }

@@ -83,4 +83,25 @@
 :nth-of-type(2n+1) {}
 :nth-last-of-type(2n+1) {}
 
-/*:nth-child(2n+1 of li,.test) {}*/
+:nth-col(odd) {}
+:nth-col(2n+1) {}
+:nth-last-col(odd) {}
+:nth-last-col(2n+1) {}
+
+
+p:nth-child(0){}
+p:nth-child(+0){}
+p:nth-child(-0){}
+p:nth-child(1){}
+p:nth-child(+1){}
+p:nth-child(-1){}
+p:nth-child(3){}
+p:nth-child(+3){}
+p:nth-child(-3){}
+
+:nth-child(2n+1 of li) {}
+:nth-child(   2n+1 of li   ) {}
+:nth-child(2n+1 of li,.test) {}
+:nth-child(2n+1 of li, .test) {}
+:nth-child(-n+3 of li.important) {}
+tr:nth-child(even of :not([hidden])) {}

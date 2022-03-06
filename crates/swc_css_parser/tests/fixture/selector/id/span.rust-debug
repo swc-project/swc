@@ -58,7 +58,7 @@ error: Ident
 1 | #id {}
   | ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/id/input.css:1:5
   |
 1 | #id {}
@@ -112,7 +112,7 @@ error: Ident
 2 | #♥ {}
   | ^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/id/input.css:2:4
   |
 2 | #♥ {}
@@ -166,7 +166,7 @@ error: Ident
 3 | #© {}
   | ^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/id/input.css:3:4
   |
 3 | #© {}
@@ -220,7 +220,7 @@ error: Ident
 4 | #“‘’” {}
   | ^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/id/input.css:4:7
   |
 4 | #“‘’” {}
@@ -274,7 +274,7 @@ error: Ident
 5 | #☺☃ {}
   | ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/id/input.css:5:5
   |
 5 | #☺☃ {}
@@ -328,7 +328,7 @@ error: Ident
 6 | #⌘⌥ {}
   | ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/id/input.css:6:5
   |
 6 | #⌘⌥ {}
@@ -382,7 +382,7 @@ error: Ident
 7 | #𝄞♪♩♫♬ {}
   | ^^^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/id/input.css:7:8
   |
 7 | #𝄞♪♩♫♬ {}
@@ -436,7 +436,7 @@ error: Ident
 8 | #💩 {}
   | ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/id/input.css:8:4
   |
 8 | #💩 {}
@@ -490,7 +490,7 @@ error: Ident
 9 | #\? {}
   | ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/selector/id/input.css:9:5
   |
 9 | #\? {}
@@ -544,7 +544,7 @@ error: Ident
 10 | #\@ {}
    | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:10:5
    |
 10 | #\@ {}
@@ -598,7 +598,7 @@ error: Ident
 11 | #\. {}
    | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:11:5
    |
 11 | #\. {}
@@ -652,7 +652,7 @@ error: Ident
 12 | #\3A \) {}
    | ^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:12:9
    |
 12 | #\3A \) {}
@@ -706,7 +706,7 @@ error: Ident
 13 | #\3A \`\( {}
    | ^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:13:11
    |
 13 | #\3A \`\( {}
@@ -760,7 +760,7 @@ error: Ident
 14 | #\31 23 {}
    | ^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:14:9
    |
 14 | #\31 23 {}
@@ -814,7 +814,7 @@ error: Ident
 15 | #\31 a2b3c {}
    | ^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:15:12
    |
 15 | #\31 a2b3c {}
@@ -868,7 +868,7 @@ error: Ident
 16 | #\<p\> {}
    | ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:16:8
    |
 16 | #\<p\> {}
@@ -922,7 +922,7 @@ error: Ident
 17 | #\<\>\<\<\<\>\>\<\> {}
    | ^^^^^^^^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:17:21
    |
 17 | #\<\>\<\<\<\>\>\<\> {}
@@ -976,7 +976,7 @@ error: Ident
 18 | #\+\+\+\+\+\+\+\+\+\+\[\>\+\+\+\+\+\+\+\>\+\+\+\+\+\+\+\+\+\+\>\+\+\+\>\+\<\<\<\<\-\]\>\+\+\.\>\+\.\+\+\+\+\+\+\+\.\.\+\+\+\.\>\+\+\.\<\<\+\+\+\+\+\+\+\+\+\+\+\+\+\+\+\.\>\.\+\+\+\.\-\-\-\-\-\-\.\-\-\-\-\-\-\-\-\.\>\+\.\>\. {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:18:225
    |
 18 | #\+\+\+\+\+\+\+\+\+\+\[\>\+\+\+\+\+\+\+\>\+\+\+\+\+\+\+\+\+\+\>\+\+\+\>\+\<\<\<\<\-\]\>\+\+\.\>\+\.\+\+\+\+\+\+\+\.\.\+\+\+\.\>\+\+\.\<\<\+\+\+\+\+\+\+\+\+\+\+\+\+\+\+\.\>\.\+\+\+\.\-\-\-\-\-\-\.\-\-\-\-\-\-\-\-\.\>\+\.\>\. {}
@@ -1030,7 +1030,7 @@ error: Ident
 19 | #\# {}
    | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:19:5
    |
 19 | #\# {}
@@ -1084,7 +1084,7 @@ error: Ident
 20 | #\#\# {}
    | ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:20:7
    |
 20 | #\#\# {}
@@ -1138,7 +1138,7 @@ error: Ident
 21 | #\#\.\#\.\# {}
    | ^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:21:13
    |
 21 | #\#\.\#\.\# {}
@@ -1192,7 +1192,7 @@ error: Ident
 22 | #\_ {}
    | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:22:5
    |
 22 | #\_ {}
@@ -1246,7 +1246,7 @@ error: Ident
 23 | #\{\} {}
    | ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:23:7
    |
 23 | #\{\} {}
@@ -1300,7 +1300,7 @@ error: Ident
 24 | #\.fake\-class {}
    | ^^^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:24:16
    |
 24 | #\.fake\-class {}
@@ -1354,7 +1354,7 @@ error: Ident
 25 | #foo\.bar {}
    | ^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:25:11
    |
 25 | #foo\.bar {}
@@ -1408,7 +1408,7 @@ error: Ident
 26 | #\3A hover {}
    | ^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:26:12
    |
 26 | #\3A hover {}
@@ -1462,7 +1462,7 @@ error: Ident
 27 | #\3A hover\3A focus\3A active {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:27:31
    |
 27 | #\3A hover\3A focus\3A active {}
@@ -1516,7 +1516,7 @@ error: Ident
 28 | #\[attr\=value\] {}
    | ^^^^^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:28:18
    |
 28 | #\[attr\=value\] {}
@@ -1570,7 +1570,7 @@ error: Ident
 29 | #f\/o\/o {}
    | ^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:29:10
    |
 29 | #f\/o\/o {}
@@ -1624,7 +1624,7 @@ error: Ident
 30 | #f\\o\\o {}
    | ^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:30:10
    |
 30 | #f\\o\\o {}
@@ -1678,7 +1678,7 @@ error: Ident
 31 | #f\*o\*o {}
    | ^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:31:10
    |
 31 | #f\*o\*o {}
@@ -1732,7 +1732,7 @@ error: Ident
 32 | #f\!o\!o {}
    | ^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:32:10
    |
 32 | #f\!o\!o {}
@@ -1786,7 +1786,7 @@ error: Ident
 33 | #f\'o\'o {}
    | ^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:33:10
    |
 33 | #f\'o\'o {}
@@ -1840,7 +1840,7 @@ error: Ident
 34 | #f\~o\~o {}
    | ^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:34:10
    |
 34 | #f\~o\~o {}
@@ -1894,7 +1894,7 @@ error: Ident
 35 | #f\+o\+o {}
    | ^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:35:10
    |
 35 | #f\+o\+o {}
@@ -1948,7 +1948,7 @@ error: Ident
 36 | #id {}
    | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:36:5
    |
 36 | #id {}
@@ -2020,7 +2020,7 @@ error: Ident
 37 | #id.class {}
    |     ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:37:11
    |
 37 | #id.class {}
@@ -2116,7 +2116,7 @@ error: Ident
 38 | #id.class[target] {}
    |           ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:38:19
    |
 38 | #id.class[target] {}
@@ -2212,7 +2212,7 @@ error: Ident
 39 | div#thing:hover {}
    |           ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:39:17
    |
 39 | div#thing:hover {}
@@ -2308,7 +2308,7 @@ error: Ident
 40 | div#thing:nth-child(2n+1) {}
    |           ^^^^^^^^^
 
-error: Nth
+error: PseudoClassSelectorChildren
   --> $DIR/tests/fixture/selector/id/input.css:40:21
    |
 40 | div#thing:nth-child(2n+1) {}
@@ -2320,7 +2320,13 @@ error: AnPlusB
 40 | div#thing:nth-child(2n+1) {}
    |                     ^^^^
 
-error: Block
+error: AnPlusBNotation
+  --> $DIR/tests/fixture/selector/id/input.css:40:21
+   |
+40 | div#thing:nth-child(2n+1) {}
+   |                     ^^^^
+
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:40:27
    |
 40 | div#thing:nth-child(2n+1) {}
@@ -2416,7 +2422,7 @@ error: Ident
 41 | div#thing::before {}
    |            ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:41:19
    |
 41 | div#thing::before {}
@@ -2512,7 +2518,7 @@ error: Ident
 42 | #foo[lang^=en] {}
    |            ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:42:16
    |
 42 | #foo[lang^=en] {}
@@ -2566,7 +2572,7 @@ error: Ident
 43 | #\; {}
    | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:43:5
    |
 43 | #\; {}
@@ -2620,7 +2626,7 @@ error: Ident
 44 | #u-m\00002b {}
    | ^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:44:13
    |
 44 | #u-m\00002b {}
@@ -2674,7 +2680,7 @@ error: Ident
 45 | #♥ {}
    | ^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:45:4
    |
 45 | #♥ {}
@@ -2728,7 +2734,7 @@ error: Ident
 46 | #“‘’” {}
    | ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:46:7
    |
 46 | #“‘’” {}
@@ -2782,7 +2788,7 @@ error: Ident
 47 | #☺☃ {}
    | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:47:5
    |
 47 | #☺☃ {}
@@ -2836,7 +2842,7 @@ error: Ident
 48 | #\@ {}
    | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:48:5
    |
 48 | #\@ {}
@@ -2890,7 +2896,7 @@ error: Ident
 49 | #\. {}
    | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:49:5
    |
 49 | #\. {}
@@ -2944,7 +2950,7 @@ error: Ident
 50 | #\3A \) {}
    | ^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:50:9
    |
 50 | #\3A \) {}
@@ -2998,7 +3004,7 @@ error: Ident
 51 | #\3A \`\( {}
    | ^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:51:11
    |
 51 | #\3A \`\( {}
@@ -3052,7 +3058,7 @@ error: Ident
 52 | #\31 23 {}
    | ^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:52:9
    |
 52 | #\31 23 {}
@@ -3106,7 +3112,7 @@ error: Ident
 53 | #\31 a2b3c {}
    | ^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:53:12
    |
 53 | #\31 a2b3c {}
@@ -3160,7 +3166,7 @@ error: Ident
 54 | #\<p\> {}
    | ^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:54:8
    |
 54 | #\<p\> {}
@@ -3214,7 +3220,7 @@ error: Ident
 55 | #\<\>\<\<\<\>\>\<\> {}
    | ^^^^^^^^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:55:21
    |
 55 | #\<\>\<\<\<\>\>\<\> {}
@@ -3268,7 +3274,7 @@ error: Ident
 56 | #\# {}
    | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:56:5
    |
 56 | #\# {}
@@ -3322,7 +3328,7 @@ error: Ident
 57 | #\#\# {}
    | ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:57:7
    |
 57 | #\#\# {}
@@ -3376,7 +3382,7 @@ error: Ident
 58 | #\#\.\#\.\# {}
    | ^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:58:13
    |
 58 | #\#\.\#\.\# {}
@@ -3430,7 +3436,7 @@ error: Ident
 59 | #\_ {}
    | ^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:59:5
    |
 59 | #\_ {}
@@ -3484,7 +3490,7 @@ error: Ident
 60 | #\{\} {}
    | ^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:60:7
    |
 60 | #\{\} {}
@@ -3538,7 +3544,7 @@ error: Ident
 61 | #\.fake\-class {}
    | ^^^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:61:16
    |
 61 | #\.fake\-class {}
@@ -3592,7 +3598,7 @@ error: Ident
 62 | #foo\.bar {}
    | ^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:62:11
    |
 62 | #foo\.bar {}
@@ -3646,7 +3652,7 @@ error: Ident
 63 | #\3A hover {}
    | ^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:63:12
    |
 63 | #\3A hover {}
@@ -3700,7 +3706,7 @@ error: Ident
 64 | #\3A hover\3A focus\3A active {}
    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:64:31
    |
 64 | #\3A hover\3A focus\3A active {}
@@ -3754,7 +3760,7 @@ error: Ident
 65 | #\[attr\=value\] {}
    | ^^^^^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:65:18
    |
 65 | #\[attr\=value\] {}
@@ -3808,7 +3814,7 @@ error: Ident
 66 | #f\/o\/o {}
    | ^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:66:10
    |
 66 | #f\/o\/o {}
@@ -3862,7 +3868,7 @@ error: Ident
 67 | #f\\o\\o {}
    | ^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:67:10
    |
 67 | #f\\o\\o {}
@@ -3916,7 +3922,7 @@ error: Ident
 68 | #f\*o\*o {}
    | ^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:68:10
    |
 68 | #f\*o\*o {}
@@ -3970,7 +3976,7 @@ error: Ident
 69 | #f\!o\!o {}
    | ^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:69:10
    |
 69 | #f\!o\!o {}
@@ -4024,7 +4030,7 @@ error: Ident
 70 | #f\\\'o\\\'o {}
    | ^^^^^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:70:14
    |
 70 | #f\\\'o\\\'o {}
@@ -4078,7 +4084,7 @@ error: Ident
 71 | #f\~o\~o {}
    | ^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:71:10
    |
 71 | #f\~o\~o {}
@@ -4132,7 +4138,7 @@ error: Ident
 72 | #f\+o\+o {}
    | ^^^^^^^^
 
-error: Block
+error: SimpleBlock
   --> $DIR/tests/fixture/selector/id/input.css:72:10
    |
 72 | #f\+o\+o {}

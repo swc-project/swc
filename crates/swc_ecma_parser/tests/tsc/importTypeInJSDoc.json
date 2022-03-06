@@ -510,7 +510,8 @@
                         },
                         "value": "MyClass",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   }
                 },

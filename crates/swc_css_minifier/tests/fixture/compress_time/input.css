@@ -1,0 +1,38 @@
+div {
+    transition-duration: 0ms;
+    transition-duration: 000ms;
+    transition-duration: 1ms;
+    transition-duration: 10ms;
+    transition-duration: 100ms;
+    transition-duration: 101ms;
+    transition-duration: 500ms;
+    transition-duration: +500ms;
+    transition-duration: 999ms;
+    transition-duration: 1000ms;
+    transition-duration: 9999ms;
+    transition-duration: 10000ms;
+    transition-duration: 50000ms;
+    transition-duration: 50005ms;
+
+    transition-duration: 0s;
+    transition-duration: 000s;
+    transition-duration: 1s;
+    transition-duration: 10s;
+    transition-duration: 100s;
+    transition-duration: 1000s;
+    transition-duration: 10000s;
+    transition-duration: 50000s;
+    transition-duration: 50005s;
+    transition-duration: .001s;
+    transition-duration: 0.001s;
+    transition-duration: 0.005s;
+    transition-duration: 0.05s;
+    transition-duration: .05s;
+    transition-duration: .5s;
+    transition-duration: 0.543s;
+    transition-duration: 0.1s;
+    transition-duration: 0.01s;
+    transition-duration: 0.32s;
+    transition-duration: 0.075s;
+    transition-duration: 0.000075s;
+}

@@ -28,6 +28,18 @@ error: CustomIdent
 1 | @keyframes test { from {} to { color: red } }
   |            ^^^^
 
+error: SimpleBlock
+ --> $DIR/tests/fixture/esbuild/misc/aDkLP2LEPmyD_ImzrGw8SQ/input.css:1:17
+  |
+1 | @keyframes test { from {} to { color: red } }
+  |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/aDkLP2LEPmyD_ImzrGw8SQ/input.css:1:19
+  |
+1 | @keyframes test { from {} to { color: red } }
+  |                   ^^^^^^^
+
 error: KeyframeBlock
  --> $DIR/tests/fixture/esbuild/misc/aDkLP2LEPmyD_ImzrGw8SQ/input.css:1:19
   |
@@ -46,11 +58,17 @@ error: Ident
 1 | @keyframes test { from {} to { color: red } }
   |                   ^^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/aDkLP2LEPmyD_ImzrGw8SQ/input.css:1:24
   |
 1 | @keyframes test { from {} to { color: red } }
   |                        ^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/aDkLP2LEPmyD_ImzrGw8SQ/input.css:1:27
+  |
+1 | @keyframes test { from {} to { color: red } }
+  |                           ^^^^^^^^^^^^^^^^^
 
 error: KeyframeBlock
  --> $DIR/tests/fixture/esbuild/misc/aDkLP2LEPmyD_ImzrGw8SQ/input.css:1:27
@@ -70,11 +88,17 @@ error: Ident
 1 | @keyframes test { from {} to { color: red } }
   |                           ^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/esbuild/misc/aDkLP2LEPmyD_ImzrGw8SQ/input.css:1:30
   |
 1 | @keyframes test { from {} to { color: red } }
   |                              ^^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/esbuild/misc/aDkLP2LEPmyD_ImzrGw8SQ/input.css:1:32
+  |
+1 | @keyframes test { from {} to { color: red } }
+  |                                ^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/esbuild/misc/aDkLP2LEPmyD_ImzrGw8SQ/input.css:1:32
@@ -94,7 +118,7 @@ error: Ident
 1 | @keyframes test { from {} to { color: red } }
   |                                ^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/esbuild/misc/aDkLP2LEPmyD_ImzrGw8SQ/input.css:1:39
   |
 1 | @keyframes test { from {} to { color: red } }

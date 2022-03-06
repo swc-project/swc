@@ -840,7 +840,8 @@
                         },
                         "value": "defaultModule",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   ]
                 }
@@ -1043,7 +1044,8 @@
                       },
                       "value": "defaultModule",
                       "optional": false
-                    }
+                    },
+                    "typeArguments": null
                   }
                 ]
               }
@@ -1307,7 +1309,8 @@
                         },
                         "value": "defaultModule",
                         "optional": false
-                      }
+                      },
+                      "typeArguments": null
                     }
                   ]
                 }

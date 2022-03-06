@@ -2,7 +2,7 @@
 
 use std::path::{Path, PathBuf};
 
-use swc_common::{input::SourceFileInput, sync::Lrc, FileName, Mark, SourceFile, SourceMap};
+use swc_common::{sync::Lrc, FileName, Mark, SourceFile, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{
     text_writer::{omit_trailing_semi, JsWriter, WriteJs},
@@ -12,7 +12,7 @@ use swc_ecma_minifier::{
     optimize,
     option::{ExtraOptions, MangleOptions, ManglePropertiesOptions, MinifyOptions},
 };
-use swc_ecma_parser::{lexer::Lexer, Parser};
+use swc_ecma_parser::parse_file_as_module;
 use swc_ecma_transforms::resolver_with_mark;
 use swc_ecma_visit::VisitMutWith;
 use testing::NormalizedOutput;
@@ -46,15 +46,14 @@ fn parse(cm: Lrc<SourceMap>, path: &Path) -> Module {
 }
 
 fn parse_fm(fm: Lrc<SourceFile>) -> Module {
-    let lexer = Lexer::new(
+    parse_file_as_module(
+        &fm,
         Default::default(),
         EsVersion::latest(),
-        SourceFileInput::from(&*fm),
         None,
-    );
-
-    let mut parser = Parser::new_from(lexer);
-    parser.parse_module().unwrap()
+        &mut vec![],
+    )
+    .unwrap()
 }
 
 #[testing::fixture("tests/compress/fixture/**/output.js")]
@@ -82,6 +81,7 @@ fn compressed(compressed_file: PathBuf) {
                     keep_private_props: false,
                     ie8: false,
                     safari10: false,
+                    reserved: Default::default(),
                 }),
                 compress: None,
                 ..Default::default()
@@ -134,4 +134,176 @@ fn fixture(input: PathBuf) {
         Ok(())
     })
     .unwrap();
+}
+
+fn assert_mangled(src: &str, expected: &str, opts: MangleOptions) {
+    testing::run_test2(false, |cm, _handler| {
+        let fm = cm.new_source_file(FileName::Anon, src.into());
+
+        let m = parse_fm(fm);
+
+        let top_level_mark = Mark::fresh(Mark::root());
+
+        let m = optimize(
+            m,
+            cm.clone(),
+            None,
+            None,
+            &MinifyOptions {
+                mangle: Some(opts),
+                compress: None,
+                ..Default::default()
+            },
+            &ExtraOptions { top_level_mark },
+        );
+
+        let mangled = print(cm, &m, false);
+
+        assert_eq!(
+            NormalizedOutput::from(mangled),
+            NormalizedOutput::from(expected.to_owned())
+        );
+
+        Ok(())
+    })
+    .unwrap()
+}
+
+#[test]
+fn reserved_func_names() {
+    let src = "function func1() {
+    console.log(1);
+}
+function func2() {
+    console.log(2);
+}";
+
+    let expected = "function func1() {
+    console.log(1);
+}
+function a() {
+    console.log(2);
+}";
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: true,
+            reserved: vec!["func1".into()],
+            ..Default::default()
+        },
+    )
+}
+
+#[test]
+fn reserved_class_names() {
+    let src = "class Class1 {
+    hello1 = 1;
+}
+class Class2 {
+    hello2 = 2;
+}";
+
+    let expected = "class Class1 {
+    hello1 = 1;
+}
+class a {
+    hello2 = 2;
+}";
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: true,
+            reserved: vec!["Class1".into()],
+            ..Default::default()
+        },
+    )
+}
+
+#[test]
+fn reserved_class_props() {
+    let src = "class Class1 {
+    hello1 = 1;
+}
+class Class2 {
+    hello2 = 2;
+}";
+
+    let expected = "class a {
+    a = 1;
+}
+class b {
+    hello2 = 2;
+}";
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: true,
+            reserved: vec!["hello1".into()],
+            props: Some(ManglePropertiesOptions {
+                reserved: vec!["hello2".into()],
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    )
+}
+
+#[test]
+fn reserved_private_props() {
+    let src = "class Class1 {
+    #hello1 = 1;
+}
+class Class2 {
+    #hello2 = 2;
+}";
+
+    let expected = "class a {
+    #a = 1;
+}
+class b {
+    #b = 2;
+}";
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: true,
+            reserved: vec!["hello1".into()],
+            ..Default::default()
+        },
+    )
+}
+
+#[test]
+fn reserved_all_private_props() {
+    let src = "class Class1 {
+    #hello1 = 1;
+}
+class Class2 {
+    #hello2 = 2;
+}";
+
+    let expected = "class a {
+    #hello1 = 1;
+}
+class b {
+    #hello2 = 2;
+}";
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: true,
+            keep_private_props: true,
+            ..Default::default()
+        },
+    )
 }

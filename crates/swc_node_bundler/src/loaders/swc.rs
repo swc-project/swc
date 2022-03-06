@@ -15,7 +15,7 @@ use swc_common::{
     FileName, DUMMY_SP,
 };
 use swc_ecma_ast::{EsVersion, Expr, Lit, Module, Program, Str};
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_parser::{parse_file_as_module, Syntax};
 use swc_ecma_transforms::{
     helpers,
     optimization::{
@@ -108,14 +108,15 @@ impl SwcLoader {
                     .compiler
                     .cm
                     .new_source_file(name.clone(), "module.exports = {}".to_string());
-                let lexer = Lexer::new(
+
+                let module = parse_file_as_module(
+                    &fm,
                     Syntax::Es(Default::default()),
                     Default::default(),
-                    StringInput::from(&*fm),
                     None,
-                );
-                let mut parser = Parser::new_from(lexer);
-                let module = parser.parse_module().unwrap();
+                    &mut vec![],
+                )
+                .unwrap();
                 return Ok(ModuleData {
                     fm,
                     module,

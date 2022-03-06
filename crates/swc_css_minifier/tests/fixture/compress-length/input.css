@@ -1,0 +1,288 @@
+.class1 {
+    width: 0px;
+}
+
+.class2 {
+    width: 100px
+}
+
+.class3 {
+    width: calc(100px + 0px);
+}
+
+.class4 {
+    width: caLc(100px + 0px);
+}
+
+.class5 {
+    padding: calc(1in + 0in * 2) 0 calc(0px) 0;
+}
+
+.class6 {
+    padding: calc(var(--foo, 0px) + 10px) 0;
+}
+
+.class7 {
+    padding: max(10px, var(--foo, 0px)) 0;
+}
+
+.class8 {
+    right: max(100vw, 0rem);
+}
+
+.class9 {
+    right: calc(max(100vw, 0rem));
+}
+
+.class10 { 
+    top: 0.000px; 
+}
+
+@media (min-width: 0px) {
+    .foo {
+        color: red
+    }
+}
+
+@media (min-width: 0) {
+    .bar {
+        color: red;
+    }
+}
+
+.class11 { 
+    font: normal normal 400 0px/ 0px cursive; 
+}
+
+.class12 {
+    grid-template-columns: repeat(2, 50px 0px) 100px;
+}
+
+
+.class13 {
+    margin: 0q;
+}
+
+.class14 { 
+    transform: translate(0px); 
+}
+
+.class15 {
+    padding: min(1vw, 0in) max(1vw, 0px) clamp(0em, 1vw, 10px) 0px;
+}
+
+.class16 { 
+    padding: 1px 0vmax 2px 3px; 
+}
+
+.class17 {
+    padding: 1px 2px 0rem 3px;
+}
+
+.class18 {
+    width: 0PX;
+}
+
+.class19 {
+    width: +0px;
+}
+
+.class20 {
+    top: -0.000px;
+}
+
+.class21 {
+    width: 0mm;
+}
+
+.class22 {
+    width: 0.1mm;
+}
+
+.class23 {
+    width: 100mm;
+}
+
+.class24 {
+    width: 1000mm;
+}
+
+.class25 {
+    width: 123mm;
+}
+
+.class26 {
+    width: 0cm;
+}
+
+.class27 {
+    width: 1cm;
+}
+
+.class28 {
+    width: 10cm;
+}
+
+.class29 {
+    width: 100cm;
+}
+
+.class30 {
+    width: .1cm;
+}
+
+.class31 {
+    width: 0.123cm;
+}
+
+.class32 {
+    width: 0.01cm;
+}
+
+.class33 {
+    width: 1.123cm;
+}
+
+.class34 {
+    width: 1q;
+}
+
+.class35 {
+    width: 40q;
+}
+
+.class38 {
+    width: 0.025cm;
+}
+
+.class39 {
+    width: 1in;
+}
+
+.class40 {
+    width: 72pt;
+}
+
+.class41 {
+    width: 144pt;
+}
+
+.class42 {
+    width: 7.2pt;
+}
+
+.class44 {
+    width: 0.72pt;
+}
+
+.class45 {
+    width: 12pt;
+}
+
+.class46 {
+    width: 1.2pt;
+}
+
+.class47 {
+    width: 0.12pt;
+}
+
+.class48 {
+    width: 6pc;
+}
+
+.class49 {
+    width: 12pc;
+}
+
+.class50 {
+    width: 0.6pc;
+}
+
+.class51 {
+    width: 2.54cm;
+}
+
+.class52 {
+    width: 0.1cm;
+}
+
+.class53 {
+    width: 25.4mm;
+}
+
+.class54 {
+    width: 101.6q;
+}
+
+.class55 {
+    width: 0.05cm;
+}
+
+.class56 {
+    width: 80q;
+}
+
+.class57 {
+    width: 120q;
+}
+
+.class58 {
+    width: 0.75pt;
+}
+
+.class59 {
+    width: 4q;
+}
+
+.class80 {
+    width: 8q;
+}
+
+.class81 {
+    width: 12q;
+}
+
+.class82 {
+    width: 96q;
+}
+
+.class83 {
+    width: 0.254cm;
+}
+
+.class84 {
+    margin: -0.75pt;
+}
+
+.class85 {
+    width: 2.54cm;
+}
+
+.class86 {
+    width: 0.254cm;
+}
+
+.class87 {
+    width: 0.0254cm;
+}
+
+.class88 {
+    width: 0.00254cm;
+}
+
+.class89 {
+    width: 0.00254mm;
+}
+
+.class88 {
+    width: 0.6pc;
+}
+
+.class89 {
+    width: 0.75pt;
+}
+
+.class90 {
+    width: 0.075pt;
+}

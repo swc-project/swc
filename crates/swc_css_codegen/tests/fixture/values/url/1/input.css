@@ -41,3 +41,25 @@ https://example.com/image.png
 div {
     background: url(foo.img) red;
 }
+
+* { 
+    background: url('foo');
+    background: url('f o');
+    background: url('f  o');
+    background: url('foo)');
+    background: url('(foo');
+    background: url('(foo)');
+    background: url('\"foo\"');
+}
+
+.bar {
+    background: url(http://example.com/image.svg param(--color var(--primary-color)));
+}
+
+.baz {
+    background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+}
+
+.foo {
+    background: url(__ident__);
+}

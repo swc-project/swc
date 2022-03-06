@@ -1,0 +1,3 @@
+new C();
+
+class C {}

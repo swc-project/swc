@@ -189,7 +189,7 @@ function f15(k0, k1, k2, k3) {
 }
 // Inference to [...T, ...U] with implied arity for T
 function curry(f, ...a) {
-    return (...b1)=>f(...a, ...b1)
+    return (...b2)=>f(...a, ...b2)
     ;
 }
 const fn1 = (a, b, c, d)=>0

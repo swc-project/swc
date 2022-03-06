@@ -5,10 +5,11 @@ use std::{
 };
 
 use anyhow::{anyhow, Error};
-use swc_common::{errors::HANDLER, plugin::Serialized, FileName};
+use swc_common::{errors::HANDLER, plugin::Serialized, sync::Lazy, FileName};
 use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, Str};
-use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
+use swc_ecma_parser::{parse_file_as_program, EsConfig, Syntax};
 use swc_ecma_visit::{Visit, VisitWith};
+use swc_plugin_runner::cache::PluginModuleCache;
 
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
@@ -68,24 +69,33 @@ fn internal() -> Result<(), Error> {
     testing::run_test(false, |cm, _handler| {
         let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
 
-        let lexer = Lexer::new(
+        let program = parse_file_as_program(
+            &fm,
             Syntax::Es(EsConfig {
                 ..Default::default()
             }),
             EsVersion::latest(),
-            StringInput::from(&*fm),
             None,
-        );
-        let mut parser = Parser::new_from(lexer);
-
-        let program = parser.parse_program().unwrap();
+            &mut vec![],
+        )
+        .unwrap();
 
         let program = Serialized::serialize(&program).expect("Should serializable");
         let config = Serialized::serialize(&"{}".to_string()).expect("Should serializable");
+        let context = Serialized::serialize(&"{sourceFileName: 'single_plugin_test'}".to_string())
+            .expect("Should serializable");
 
-        let program_bytes =
-            swc_plugin_runner::apply_js_plugin("internal-test", &path, &mut None, config, program)
-                .expect("Plugin should apply transform");
+        let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
+
+        let program_bytes = swc_plugin_runner::apply_js_plugin(
+            "internal-test",
+            &path,
+            &cache,
+            program,
+            config,
+            context,
+        )
+        .expect("Plugin should apply transform");
 
         let program: Program =
             Serialized::deserialize(&program_bytes).expect("Should able to deserialize");
@@ -105,24 +115,35 @@ fn internal() -> Result<(), Error> {
     testing::run_test2(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
 
-        let lexer = Lexer::new(
+        let program = parse_file_as_program(
+            &fm,
             Syntax::Es(EsConfig {
                 ..Default::default()
             }),
             EsVersion::latest(),
-            StringInput::from(&*fm),
             None,
-        );
-        let mut parser = Parser::new_from(lexer);
-
-        let program = parser.parse_program().unwrap();
+            &mut vec![],
+        )
+        .unwrap();
 
         let program = Serialized::serialize(&program).expect("Should serializable");
         let config = Serialized::serialize(&"{}".to_string()).expect("Should serializable");
+        let context =
+            Serialized::serialize(&"{sourceFileName: 'single_plugin_handler_test'}".to_string())
+                .expect("Should serializable");
+
+        let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
 
         let _res = HANDLER.set(&handler, || {
-            swc_plugin_runner::apply_js_plugin("internal-test", &path, &mut None, config, program)
-                .expect("Plugin should apply transform")
+            swc_plugin_runner::apply_js_plugin(
+                "internal-test",
+                &path,
+                &cache,
+                program,
+                config,
+                context,
+            )
+            .expect("Plugin should apply transform")
         });
 
         Ok(())
@@ -133,26 +154,28 @@ fn internal() -> Result<(), Error> {
     testing::run_test(false, |cm, _handler| {
         let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
 
-        let lexer = Lexer::new(
+        let program = parse_file_as_program(
+            &fm,
             Syntax::Es(EsConfig {
                 ..Default::default()
             }),
             EsVersion::latest(),
-            StringInput::from(&*fm),
             None,
-        );
-        let mut parser = Parser::new_from(lexer);
-
-        let program = parser.parse_program().unwrap();
+            &mut vec![],
+        )
+        .unwrap();
 
         let mut serialized_program = Serialized::serialize(&program).expect("Should serializable");
+        let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
 
         serialized_program = swc_plugin_runner::apply_js_plugin(
             "internal-test",
             &path,
-            &mut None,
-            Serialized::serialize(&"{}".to_string()).expect("Should serializable"),
+            &cache,
             serialized_program,
+            Serialized::serialize(&"{}".to_string()).expect("Should serializable"),
+            Serialized::serialize(&"{sourceFileName: 'multiple_plugin_test'}".to_string())
+                .expect("Should serializable"),
         )
         .expect("Plugin should apply transform");
 
@@ -160,9 +183,11 @@ fn internal() -> Result<(), Error> {
         serialized_program = swc_plugin_runner::apply_js_plugin(
             "internal-test",
             &path,
-            &mut None,
-            Serialized::serialize(&"{}".to_string()).expect("Should serializable"),
+            &cache,
             serialized_program,
+            Serialized::serialize(&"{}".to_string()).expect("Should serializable"),
+            Serialized::serialize(&"{sourceFileName: 'multiple_plugin_test2'}".to_string())
+                .expect("Should serializable"),
         )
         .expect("Plugin should apply transform");
 

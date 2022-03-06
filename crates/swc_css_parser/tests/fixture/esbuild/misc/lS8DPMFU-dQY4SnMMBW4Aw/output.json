@@ -23,64 +23,75 @@
         "value": "test",
         "raw": "test"
       },
-      "blocks": [
-        {
-          "span": {
-            "start": 18,
-            "end": 25,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Ident",
-              "span": {
-                "start": 18,
-                "end": 22,
-                "ctxt": 0
-              },
-              "value": "from",
-              "raw": "from"
-            }
-          ],
-          "block": {
-            "type": "Block",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 16,
+          "end": 33,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
             "span": {
-              "start": 23,
+              "start": 18,
               "end": 25,
               "ctxt": 0
             },
-            "value": []
-          }
-        },
-        {
-          "span": {
-            "start": 26,
-            "end": 31,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Ident",
+            "prelude": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 18,
+                  "end": 22,
+                  "ctxt": 0
+                },
+                "value": "from",
+                "raw": "from"
+              }
+            ],
+            "block": {
+              "type": "SimpleBlock",
               "span": {
-                "start": 26,
-                "end": 28,
+                "start": 23,
+                "end": 25,
                 "ctxt": 0
               },
-              "value": "to",
-              "raw": "to"
+              "name": "{",
+              "value": []
             }
-          ],
-          "block": {
-            "type": "Block",
+          },
+          {
             "span": {
-              "start": 29,
+              "start": 26,
               "end": 31,
               "ctxt": 0
             },
-            "value": []
+            "prelude": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 26,
+                  "end": 28,
+                  "ctxt": 0
+                },
+                "value": "to",
+                "raw": "to"
+              }
+            ],
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 29,
+                "end": 31,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": []
+            }
           }
-        }
-      ]
+        ]
+      }
     }
   ]
 }

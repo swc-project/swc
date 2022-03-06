@@ -51,12 +51,7 @@ fn load_txt(filename: &str) -> Vec<String> {
 }
 
 fn is_ignored(path: &Path) -> bool {
-    static IGNORED: Lazy<Vec<String>> = Lazy::new(|| {
-        load_txt("tests/ignored.txt")
-            .into_iter()
-            .chain(load_txt("tests/postponed.txt"))
-            .collect()
-    });
+    static IGNORED: Lazy<Vec<String>> = Lazy::new(|| load_txt("tests/TODO.txt"));
 
     static GOLDEN: Lazy<Vec<String>> = Lazy::new(|| load_txt("tests/golden.txt"));
 
@@ -272,7 +267,7 @@ fn base_fixture(input: PathBuf) {
 
         let output = print(cm, &[output_module], false, false);
 
-        eprintln!("---- {} -----\n{}", Color::Green.paint("Ourput"), output);
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
 
         println!("{}", input.display());
 
@@ -301,7 +296,7 @@ fn projects(input: PathBuf) {
 
         let output = print(cm, &[output_module], false, false);
 
-        eprintln!("---- {} -----\n{}", Color::Green.paint("Ourput"), output);
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
 
         println!("{}", input.display());
 
@@ -353,7 +348,7 @@ fn fixture(input: PathBuf) {
 
         let output = print(cm.clone(), &[output_module.clone()], false, false);
 
-        eprintln!("---- {} -----\n{}", Color::Green.paint("Ourput"), output);
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
 
         let expected = {
             let expected = read_to_string(&dir.join("output.js")).unwrap();

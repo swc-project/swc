@@ -1,14 +1,12 @@
 class Base {
-    constructor() {
-        this.Foo = (function () {
-            class _class {}
-            var __ = {
-                writable: true,
-                value: (() => {
-                    _class.foo = new.target;
-                })(),
-            };
-            return _class;
-        })();
+    constructor(){
+        var _class, __;
+        this.Foo = (_class = class {
+        }, __ = {
+            writable: true,
+            value: (()=>{
+                _class.foo = void 0;
+            })()
+        }, _class);
     }
 }

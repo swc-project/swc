@@ -8,13 +8,12 @@ class D {
         console.log(this);
     }
 }
-var tmp = 'constructor';
 class E {
-    [tmp]() {
+    ['constructor']() {
         console.log(this);
     }
 }
-new class _class {
+new class {
     constructor(){
         console.log(this);
     }

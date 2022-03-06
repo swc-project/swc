@@ -58,7 +58,7 @@
             ];
             a1 = new Uint16Array([
                 65484
-            ]), 255 === (b1 = new Uint8Array(a1.buffer, a1.byteOffset, a1.byteLength))[0] || 204 === b1[0];
+            ]), 255 === (b1 = new Uint8Array(a1.buffer, a1.byteOffset, a1.byteLength))[0] || b1[0];
             var bytesToNumber = function(bytes, _temp) {
                 var _ref = void 0 === _temp ? {} : _temp, _ref$signed = _ref.signed, _ref$le = _ref.le, le = void 0 !== _ref$le && _ref$le;
                 bytes = toUint8(bytes);
@@ -4903,12 +4903,13 @@
                     return this;
                 },
                 flush: function() {
+                    var self = this;
                     try {
-                        if (this.buffer += this.decoder.decode(), (this.cue || "HEADER" === this.state) && (this.buffer += "\n\n", this.parse()), "INITIAL" === this.state) throw new ParsingError(ParsingError.Errors.BadSignature);
+                        if (self.buffer += self.decoder.decode(), (self.cue || "HEADER" === self.state) && (self.buffer += "\n\n", self.parse()), "INITIAL" === self.state) throw new ParsingError(ParsingError.Errors.BadSignature);
                     } catch (e) {
-                        this.reportOrThrowError(e);
+                        self.reportOrThrowError(e);
                     }
-                    return this.onflush && this.onflush(), this;
+                    return self.onflush && self.onflush(), this;
                 }
             }, module.exports = WebVTT;
         },

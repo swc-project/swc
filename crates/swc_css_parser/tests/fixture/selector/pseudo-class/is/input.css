@@ -1,0 +1,18 @@
+:is(ul) li {}
+:is(ul, ol) li {}
+:is(header, main, footer) p:hover {}
+div:is(.cool, .fun) {}
+:is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+*|*:is(:hover, :focus) {}
+*|*:is(*:hover, *:focus) {}
+:is(ul, ol, .list) > [hidden] {}
+:is(p, p:unsupported) {}
+:is(:valid, :unsupported) {}
+a:is(:not(:hover)) {}
+/*:is(:valid, foo < bar) {}*/
+/*:is(foo < bar) {}*/
+:is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+:is(:nth-child(6),
+    :nth-last-child(6),
+    :nth-of-type(6),
+    :nth-last-of-type(6)) {}

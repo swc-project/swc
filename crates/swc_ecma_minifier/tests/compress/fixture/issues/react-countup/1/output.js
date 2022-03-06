@@ -100,7 +100,7 @@
                     var key, i, target = _objectWithoutPropertiesLoose(source, excluded);
                     if (Object.getOwnPropertySymbols) {
                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-                        for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
+                        for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], excluded.indexOf(key) >= 0 || Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
                     }
                     return target;
                 }(_param, [
@@ -131,9 +131,9 @@
                 src2 = "string" == typeof src2 ? src2 : staticSrc;
                 var widthInt = getInt(width), heightInt = getInt(height), qualityInt = getInt(quality), isLazy = !priority && ("lazy" === loading || void 0 === loading);
                 (src2.startsWith("data:") || src2.startsWith("blob:")) && (unoptimized = !0, isLazy = !1), loadedImageURLs.has(src2) && (isLazy = !1);
-                var arr2, ref2 = function(arr) {
+                var arr3, ref2 = function(arr) {
                     if (Array.isArray(arr)) return arr;
-                }(arr2 = _useIntersection.useIntersection({
+                }(arr3 = _useIntersection.useIntersection({
                     rootMargin: lazyBoundary,
                     disabled: !isLazy
                 })) || function(arr, i) {
@@ -150,7 +150,7 @@
                         }
                     }
                     return _arr;
-                }(arr2, 2) || function() {
+                }(arr3, 2) || function() {
                     throw new TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), setRef = ref2[0], isIntersected = ref2[1], wrapperStyle = {
                     boxSizing: "border-box",
@@ -464,9 +464,9 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.useIntersection = function(param) {
-                var arr3, rootMargin = param.rootMargin, isDisabled = param.disabled || !hasIntersectionObserver, unobserve = _react.useRef(), ref = function(arr) {
+                var arr4, rootMargin = param.rootMargin, isDisabled = param.disabled || !hasIntersectionObserver, unobserve = _react.useRef(), ref = function(arr) {
                     if (Array.isArray(arr)) return arr;
-                }(arr3 = _react.useState(!1)) || function(arr, i) {
+                }(arr4 = _react.useState(!1)) || function(arr, i) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
                         for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);
@@ -480,7 +480,7 @@
                         }
                     }
                     return _arr;
-                }(arr3, 2) || function() {
+                }(arr4, 2) || function() {
                     throw new TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
                     unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = observe(el, function(isVisible) {

@@ -25,7 +25,7 @@
           "end": 5,
           "ctxt": 0
         },
-        "expr": {
+        "base": {
           "type": "CallExpression",
           "span": {
             "start": 0,
@@ -66,7 +66,7 @@
           "end": 15,
           "ctxt": 0
         },
-        "expr": {
+        "base": {
           "type": "CallExpression",
           "span": {
             "start": 10,
@@ -134,7 +134,7 @@
           "end": 32,
           "ctxt": 0
         },
-        "expr": {
+        "base": {
           "type": "CallExpression",
           "span": {
             "start": 24,
@@ -153,7 +153,7 @@
               "end": 26,
               "ctxt": 0
             },
-            "expr": {
+            "base": {
               "type": "MemberExpression",
               "span": {
                 "start": 24,
@@ -206,7 +206,7 @@
           "end": 45,
           "ctxt": 0
         },
-        "expr": {
+        "base": {
           "type": "CallExpression",
           "span": {
             "start": 37,
@@ -225,7 +225,7 @@
               "end": 39,
               "ctxt": 0
             },
-            "expr": {
+            "base": {
               "type": "MemberExpression",
               "span": {
                 "start": 37,
@@ -305,7 +305,7 @@
           "end": 61,
           "ctxt": 0
         },
-        "expr": {
+        "base": {
           "type": "CallExpression",
           "span": {
             "start": 54,

@@ -67,7 +67,7 @@ error: Ident
 1 | div {
   | ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/value/frequency/input.css:1:5
   |
 1 |   div {
@@ -76,6 +76,18 @@ error: Block
 3 | |     prop: 1kHz;
 4 | | }
   | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/frequency/input.css:2:5
+  |
+2 |     prop: 1Hz;
+  |     ^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/frequency/input.css:2:5
+  |
+2 |     prop: 1Hz;
+  |     ^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/frequency/input.css:2:5
@@ -95,7 +107,7 @@ error: Ident
 2 |     prop: 1Hz;
   |     ^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/frequency/input.css:2:11
   |
 2 |     prop: 1Hz;
@@ -125,6 +137,18 @@ error: Ident
 2 |     prop: 1Hz;
   |            ^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/value/frequency/input.css:3:5
+  |
+3 |     prop: 1kHz;
+  |     ^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/frequency/input.css:3:5
+  |
+3 |     prop: 1kHz;
+  |     ^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/frequency/input.css:3:5
   |
@@ -143,7 +167,7 @@ error: Ident
 3 |     prop: 1kHz;
   |     ^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/frequency/input.css:3:11
   |
 3 |     prop: 1kHz;

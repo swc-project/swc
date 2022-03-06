@@ -71,12 +71,13 @@
         ]
       },
       "block": {
-        "type": "Block",
+        "type": "SimpleBlock",
         "span": {
           "start": 4,
           "end": 1334,
           "ctxt": 0
         },
+        "name": "{",
         "value": [
           {
             "type": "Declaration",
@@ -992,27 +993,18 @@
             },
             "value": [
               {
-                "type": "Tokens",
+                "type": "PreservedToken",
                 "span": {
                   "start": 830,
                   "end": 866,
                   "ctxt": 0
                 },
-                "tokens": [
-                  {
-                    "span": {
-                      "start": 830,
-                      "end": 866,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "Str": {
-                        "value": "http://www.example.com/pinkish.gif",
-                        "raw": "\"http://www.example.com/pinkish.gif\""
-                      }
-                    }
+                "token": {
+                  "String": {
+                    "value": "http://www.example.com/pinkish.gif",
+                    "raw": "\"http://www.example.com/pinkish.gif\""
                   }
-                ]
+                }
               }
             ],
             "important": null

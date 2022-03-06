@@ -7,6 +7,7 @@ use swc_ecma_utils::{
     prepend,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, InjectVars, VisitMut, VisitMutWith};
+use swc_trace_macro::swc_trace;
 
 /// Compile ES2015 arrow functions to ES5
 ///
@@ -56,6 +57,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, InjectVars, VisitMut,
 /// };
 /// console.log(bob.printFriends());
 /// ```
+#[tracing::instrument(level = "trace", skip_all)]
 pub fn arrow() -> impl Fold + VisitMut + InjectVars {
     as_folder(Arrow::default())
 }
@@ -66,6 +68,7 @@ struct Arrow {
     hoister: FnEnvHoister,
 }
 
+#[swc_trace]
 impl VisitMut for Arrow {
     noop_visit_mut_type!();
 

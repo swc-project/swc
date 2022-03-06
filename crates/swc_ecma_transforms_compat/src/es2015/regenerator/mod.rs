@@ -56,9 +56,7 @@ fn require_rt(global_mark: Mark, rt: Ident, src: Option<JsWord>) -> Stmt {
             init: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: quote_ident!(DUMMY_SP.apply_mark(global_mark), "require").as_callee(),
-                args: vec![
-                    quote_str!(src.unwrap_or_else(|| "regenerator-runtime".into())).as_arg(),
-                ],
+                args: vec![src.unwrap_or_else(|| "regenerator-runtime".into()).as_arg()],
                 type_args: Default::default(),
             }))),
             definite: false,
@@ -378,21 +376,13 @@ impl Regenerator {
         // Intentionally fall through to the "end" case...
         cases.push(SwitchCase {
             span: DUMMY_SP,
-            test: Some(Box::new(Expr::Lit(Lit::Num(Number {
-                span: DUMMY_SP,
-                value: handler.final_loc() as _,
-            })))),
+            test: Some(handler.final_loc().into()),
             // fallthrough
             cons: vec![],
         });
         cases.push(SwitchCase {
             span: DUMMY_SP,
-            test: Some(Box::new(Expr::Lit(Lit::Str(Str {
-                span: DUMMY_SP,
-                value: "end".into(),
-                has_escape: false,
-                kind: Default::default(),
-            })))),
+            test: Some("end".into()),
             cons: vec![ReturnStmt {
                 span: DUMMY_SP,
                 // _ctx.stop()
@@ -408,10 +398,7 @@ impl Regenerator {
 
         let stmts = vec![Stmt::While(WhileStmt {
             span: DUMMY_SP,
-            test: Box::new(Expr::Lit(Lit::Num(Number {
-                span: DUMMY_SP,
-                value: 1.0,
-            }))),
+            test: 1.0.into(),
             body: Box::new(
                 SwitchStmt {
                     span: DUMMY_SP,
@@ -458,7 +445,7 @@ impl Regenerator {
                                 .make_member(quote_ident!("wrap"))
                                 .as_callee(),
                             args: {
-                                let mut args = vec![Expr::Fn(FnExpr {
+                                let mut args = vec![FnExpr {
                                     ident: Some(inner_name),
                                     function: Function {
                                         params: vec![Param {
@@ -477,7 +464,7 @@ impl Regenerator {
                                         type_params: None,
                                         return_type: None,
                                     },
-                                })
+                                }
                                 .as_arg()];
 
                                 if f.is_generator {
@@ -494,7 +481,7 @@ impl Regenerator {
                                 if uses_this {
                                     args.push(ThisExpr { span: DUMMY_SP }.as_arg())
                                 } else if try_locs_list.is_some() {
-                                    args.push(Lit::Null(Null { span: DUMMY_SP }).as_arg());
+                                    args.push(Null { span: DUMMY_SP }.as_arg());
                                 }
 
                                 if let Some(try_locs_list) = try_locs_list {

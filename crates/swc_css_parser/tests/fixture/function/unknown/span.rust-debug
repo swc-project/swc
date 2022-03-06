@@ -1,0 +1,317 @@
+error: Stylesheet
+ --> $DIR/tests/fixture/function/unknown/input.css:1:1
+  |
+1 | / div {
+2 | |     prod: fn(100px);
+3 | |     prod: --fn(100px);
+4 | |     prod: --fn--fn(100px);
+5 | | }
+  | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/function/unknown/input.css:1:1
+  |
+1 | / div {
+2 | |     prod: fn(100px);
+3 | |     prod: --fn(100px);
+4 | |     prod: --fn--fn(100px);
+5 | | }
+  | |_^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/function/unknown/input.css:1:1
+  |
+1 | / div {
+2 | |     prod: fn(100px);
+3 | |     prod: --fn(100px);
+4 | |     prod: --fn--fn(100px);
+5 | | }
+  | |_^
+
+error: SelectorList
+ --> $DIR/tests/fixture/function/unknown/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/function/unknown/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/function/unknown/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: TypeSelector
+ --> $DIR/tests/fixture/function/unknown/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: TagNameSelector
+ --> $DIR/tests/fixture/function/unknown/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: WqName
+ --> $DIR/tests/fixture/function/unknown/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/function/unknown/input.css:1:1
+  |
+1 | div {
+  | ^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/function/unknown/input.css:1:5
+  |
+1 |   div {
+  |  _____^
+2 | |     prod: fn(100px);
+3 | |     prod: --fn(100px);
+4 | |     prod: --fn--fn(100px);
+5 | | }
+  | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/function/unknown/input.css:2:5
+  |
+2 |     prod: fn(100px);
+  |     ^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/function/unknown/input.css:2:5
+  |
+2 |     prod: fn(100px);
+  |     ^^^^^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/function/unknown/input.css:2:5
+  |
+2 |     prod: fn(100px);
+  |     ^^^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/function/unknown/input.css:2:5
+  |
+2 |     prod: fn(100px);
+  |     ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/function/unknown/input.css:2:5
+  |
+2 |     prod: fn(100px);
+  |     ^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/function/unknown/input.css:2:11
+  |
+2 |     prod: fn(100px);
+  |           ^^^^^^^^^
+
+error: Function
+ --> $DIR/tests/fixture/function/unknown/input.css:2:11
+  |
+2 |     prod: fn(100px);
+  |           ^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/function/unknown/input.css:2:11
+  |
+2 |     prod: fn(100px);
+  |           ^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/function/unknown/input.css:2:14
+  |
+2 |     prod: fn(100px);
+  |              ^^^^^
+
+error: Dimension
+ --> $DIR/tests/fixture/function/unknown/input.css:2:14
+  |
+2 |     prod: fn(100px);
+  |              ^^^^^
+
+error: Length
+ --> $DIR/tests/fixture/function/unknown/input.css:2:14
+  |
+2 |     prod: fn(100px);
+  |              ^^^^^
+
+error: Number
+ --> $DIR/tests/fixture/function/unknown/input.css:2:14
+  |
+2 |     prod: fn(100px);
+  |              ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/function/unknown/input.css:2:17
+  |
+2 |     prod: fn(100px);
+  |                 ^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/function/unknown/input.css:3:5
+  |
+3 |     prod: --fn(100px);
+  |     ^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/function/unknown/input.css:3:5
+  |
+3 |     prod: --fn(100px);
+  |     ^^^^^^^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/function/unknown/input.css:3:5
+  |
+3 |     prod: --fn(100px);
+  |     ^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/function/unknown/input.css:3:5
+  |
+3 |     prod: --fn(100px);
+  |     ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/function/unknown/input.css:3:5
+  |
+3 |     prod: --fn(100px);
+  |     ^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/function/unknown/input.css:3:11
+  |
+3 |     prod: --fn(100px);
+  |           ^^^^^^^^^^^
+
+error: Function
+ --> $DIR/tests/fixture/function/unknown/input.css:3:11
+  |
+3 |     prod: --fn(100px);
+  |           ^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/function/unknown/input.css:3:11
+  |
+3 |     prod: --fn(100px);
+  |           ^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/function/unknown/input.css:3:16
+  |
+3 |     prod: --fn(100px);
+  |                ^^^^^
+
+error: Dimension
+ --> $DIR/tests/fixture/function/unknown/input.css:3:16
+  |
+3 |     prod: --fn(100px);
+  |                ^^^^^
+
+error: Length
+ --> $DIR/tests/fixture/function/unknown/input.css:3:16
+  |
+3 |     prod: --fn(100px);
+  |                ^^^^^
+
+error: Number
+ --> $DIR/tests/fixture/function/unknown/input.css:3:16
+  |
+3 |     prod: --fn(100px);
+  |                ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/function/unknown/input.css:3:19
+  |
+3 |     prod: --fn(100px);
+  |                   ^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/function/unknown/input.css:4:5
+  |
+4 |     prod: --fn--fn(100px);
+  |     ^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/function/unknown/input.css:4:5
+  |
+4 |     prod: --fn--fn(100px);
+  |     ^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/function/unknown/input.css:4:5
+  |
+4 |     prod: --fn--fn(100px);
+  |     ^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/function/unknown/input.css:4:5
+  |
+4 |     prod: --fn--fn(100px);
+  |     ^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/function/unknown/input.css:4:5
+  |
+4 |     prod: --fn--fn(100px);
+  |     ^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/function/unknown/input.css:4:11
+  |
+4 |     prod: --fn--fn(100px);
+  |           ^^^^^^^^^^^^^^^
+
+error: Function
+ --> $DIR/tests/fixture/function/unknown/input.css:4:11
+  |
+4 |     prod: --fn--fn(100px);
+  |           ^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/function/unknown/input.css:4:11
+  |
+4 |     prod: --fn--fn(100px);
+  |           ^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/function/unknown/input.css:4:20
+  |
+4 |     prod: --fn--fn(100px);
+  |                    ^^^^^
+
+error: Dimension
+ --> $DIR/tests/fixture/function/unknown/input.css:4:20
+  |
+4 |     prod: --fn--fn(100px);
+  |                    ^^^^^
+
+error: Length
+ --> $DIR/tests/fixture/function/unknown/input.css:4:20
+  |
+4 |     prod: --fn--fn(100px);
+  |                    ^^^^^
+
+error: Number
+ --> $DIR/tests/fixture/function/unknown/input.css:4:20
+  |
+4 |     prod: --fn--fn(100px);
+  |                    ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/function/unknown/input.css:4:23
+  |
+4 |     prod: --fn--fn(100px);
+  |                       ^^
+

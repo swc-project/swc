@@ -1,1 +1,1 @@
-class a extends b{c(){new super.d()}}
+class a extends b{c(){new super.d}}

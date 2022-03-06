@@ -23,7 +23,16 @@
         "value": "foo",
         "raw": "foo"
       },
-      "blocks": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 15,
+          "end": 28,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     },
     {
       "type": "KeyframesRule",
@@ -42,7 +51,16 @@
         "value": "foo",
         "raw": "\"foo\""
       },
-      "blocks": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 46,
+          "end": 59,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     },
     {
       "type": "KeyframesRule",
@@ -61,7 +79,16 @@
         "value": "foo",
         "raw": "foo"
       },
-      "blocks": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 81,
+          "end": 94,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     },
     {
       "type": "KeyframesRule",
@@ -80,184 +107,195 @@
         "value": "slidein",
         "raw": "slidein"
       },
-      "blocks": [
-        {
-          "span": {
-            "start": 121,
-            "end": 168,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Ident",
-              "span": {
-                "start": 121,
-                "end": 125,
-                "ctxt": 0
-              },
-              "value": "from",
-              "raw": "from"
-            }
-          ],
-          "block": {
-            "type": "Block",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 115,
+          "end": 223,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
             "span": {
-              "start": 126,
+              "start": 121,
               "end": 168,
               "ctxt": 0
             },
-            "value": [
+            "prelude": [
               {
-                "type": "Declaration",
+                "type": "Ident",
                 "span": {
-                  "start": 136,
-                  "end": 161,
+                  "start": 121,
+                  "end": 125,
                   "ctxt": 0
                 },
-                "name": {
-                  "type": "Ident",
-                  "span": {
-                    "start": 136,
-                    "end": 145,
-                    "ctxt": 0
-                  },
-                  "value": "transform",
-                  "raw": "transform"
-                },
-                "value": [
-                  {
-                    "type": "Function",
-                    "span": {
-                      "start": 147,
-                      "end": 161,
-                      "ctxt": 0
-                    },
-                    "name": {
-                      "type": "Ident",
-                      "span": {
-                        "start": 147,
-                        "end": 157,
-                        "ctxt": 0
-                      },
-                      "value": "translateX",
-                      "raw": "translateX"
-                    },
-                    "value": [
-                      {
-                        "type": "Percentage",
-                        "span": {
-                          "start": 158,
-                          "end": 160,
-                          "ctxt": 0
-                        },
-                        "value": {
-                          "type": "Number",
-                          "span": {
-                            "start": 158,
-                            "end": 159,
-                            "ctxt": 0
-                          },
-                          "value": 0.0,
-                          "raw": "0"
-                        }
-                      }
-                    ]
-                  }
-                ],
-                "important": null
+                "value": "from",
+                "raw": "from"
               }
-            ]
-          }
-        },
-        {
-          "span": {
-            "start": 174,
-            "end": 221,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Ident",
+            ],
+            "block": {
+              "type": "SimpleBlock",
               "span": {
-                "start": 174,
-                "end": 176,
+                "start": 126,
+                "end": 168,
                 "ctxt": 0
               },
-              "value": "to",
-              "raw": "to"
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 136,
+                    "end": 161,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 136,
+                      "end": 145,
+                      "ctxt": 0
+                    },
+                    "value": "transform",
+                    "raw": "transform"
+                  },
+                  "value": [
+                    {
+                      "type": "Function",
+                      "span": {
+                        "start": 147,
+                        "end": 161,
+                        "ctxt": 0
+                      },
+                      "name": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 147,
+                          "end": 157,
+                          "ctxt": 0
+                        },
+                        "value": "translateX",
+                        "raw": "translateX"
+                      },
+                      "value": [
+                        {
+                          "type": "Percentage",
+                          "span": {
+                            "start": 158,
+                            "end": 160,
+                            "ctxt": 0
+                          },
+                          "value": {
+                            "type": "Number",
+                            "span": {
+                              "start": 158,
+                              "end": 159,
+                              "ctxt": 0
+                            },
+                            "value": 0.0,
+                            "raw": "0"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "important": null
+                }
+              ]
             }
-          ],
-          "block": {
-            "type": "Block",
+          },
+          {
             "span": {
-              "start": 177,
+              "start": 174,
               "end": 221,
               "ctxt": 0
             },
-            "value": [
+            "prelude": [
               {
-                "type": "Declaration",
+                "type": "Ident",
                 "span": {
-                  "start": 187,
-                  "end": 214,
+                  "start": 174,
+                  "end": 176,
                   "ctxt": 0
                 },
-                "name": {
-                  "type": "Ident",
+                "value": "to",
+                "raw": "to"
+              }
+            ],
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 177,
+                "end": 221,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
                   "span": {
                     "start": 187,
-                    "end": 196,
+                    "end": 214,
                     "ctxt": 0
                   },
-                  "value": "transform",
-                  "raw": "transform"
-                },
-                "value": [
-                  {
-                    "type": "Function",
+                  "name": {
+                    "type": "Ident",
                     "span": {
-                      "start": 198,
-                      "end": 214,
+                      "start": 187,
+                      "end": 196,
                       "ctxt": 0
                     },
-                    "name": {
-                      "type": "Ident",
+                    "value": "transform",
+                    "raw": "transform"
+                  },
+                  "value": [
+                    {
+                      "type": "Function",
                       "span": {
                         "start": 198,
-                        "end": 208,
+                        "end": 214,
                         "ctxt": 0
                       },
-                      "value": "translateX",
-                      "raw": "translateX"
-                    },
-                    "value": [
-                      {
-                        "type": "Percentage",
+                      "name": {
+                        "type": "Ident",
                         "span": {
-                          "start": 209,
-                          "end": 213,
+                          "start": 198,
+                          "end": 208,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "Number",
+                        "value": "translateX",
+                        "raw": "translateX"
+                      },
+                      "value": [
+                        {
+                          "type": "Percentage",
                           "span": {
                             "start": 209,
-                            "end": 212,
+                            "end": 213,
                             "ctxt": 0
                           },
-                          "value": 100.0,
-                          "raw": "100"
+                          "value": {
+                            "type": "Number",
+                            "span": {
+                              "start": 209,
+                              "end": 212,
+                              "ctxt": 0
+                            },
+                            "value": 100.0,
+                            "raw": "100"
+                          }
                         }
-                      }
-                    ]
-                  }
-                ],
-                "important": null
-              }
-            ]
+                      ]
+                    }
+                  ],
+                  "important": null
+                }
+              ]
+            }
           }
-        }
-      ]
+        ]
+      }
     },
     {
       "type": "KeyframesRule",
@@ -276,422 +314,435 @@
         "value": "identifier",
         "raw": "identifier"
       },
-      "blocks": [
-        {
-          "span": {
-            "start": 253,
-            "end": 276,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Percentage",
-              "span": {
-                "start": 253,
-                "end": 255,
-                "ctxt": 0
-              },
-              "value": {
-                "type": "Number",
-                "span": {
-                  "start": 253,
-                  "end": 254,
-                  "ctxt": 0
-                },
-                "value": 0.0,
-                "raw": "0"
-              }
-            }
-          ],
-          "block": {
-            "type": "Block",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 247,
+          "end": 367,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
             "span": {
-              "start": 256,
+              "start": 253,
               "end": 276,
               "ctxt": 0
             },
-            "value": [
+            "prelude": [
               {
-                "type": "Declaration",
+                "type": "Percentage",
                 "span": {
-                  "start": 258,
-                  "end": 264,
+                  "start": 253,
+                  "end": 255,
                   "ctxt": 0
                 },
-                "name": {
-                  "type": "Ident",
+                "value": {
+                  "type": "Number",
                   "span": {
-                    "start": 258,
-                    "end": 261,
+                    "start": 253,
+                    "end": 254,
                     "ctxt": 0
                   },
-                  "value": "top",
-                  "raw": "top"
-                },
-                "value": [
-                  {
-                    "type": "Number",
-                    "span": {
-                      "start": 263,
-                      "end": 264,
-                      "ctxt": 0
-                    },
-                    "value": 0.0,
-                    "raw": "0"
-                  }
-                ],
-                "important": null
-              },
-              {
-                "type": "Declaration",
-                "span": {
-                  "start": 266,
-                  "end": 273,
-                  "ctxt": 0
-                },
-                "name": {
-                  "type": "Ident",
-                  "span": {
-                    "start": 266,
-                    "end": 270,
-                    "ctxt": 0
-                  },
-                  "value": "left",
-                  "raw": "left"
-                },
-                "value": [
-                  {
-                    "type": "Number",
-                    "span": {
-                      "start": 272,
-                      "end": 273,
-                      "ctxt": 0
-                    },
-                    "value": 0.0,
-                    "raw": "0"
-                  }
-                ],
-                "important": null
+                  "value": 0.0,
+                  "raw": "0"
+                }
               }
-            ]
-          }
-        },
-        {
-          "span": {
-            "start": 281,
-            "end": 299,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Percentage",
+            ],
+            "block": {
+              "type": "SimpleBlock",
               "span": {
-                "start": 281,
-                "end": 284,
+                "start": 256,
+                "end": 276,
                 "ctxt": 0
               },
-              "value": {
-                "type": "Number",
-                "span": {
-                  "start": 281,
-                  "end": 283,
-                  "ctxt": 0
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 258,
+                    "end": 264,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 258,
+                      "end": 261,
+                      "ctxt": 0
+                    },
+                    "value": "top",
+                    "raw": "top"
+                  },
+                  "value": [
+                    {
+                      "type": "Integer",
+                      "span": {
+                        "start": 263,
+                        "end": 264,
+                        "ctxt": 0
+                      },
+                      "value": 0,
+                      "raw": "0"
+                    }
+                  ],
+                  "important": null
                 },
-                "value": 30.0,
-                "raw": "30"
-              }
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 266,
+                    "end": 273,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 266,
+                      "end": 270,
+                      "ctxt": 0
+                    },
+                    "value": "left",
+                    "raw": "left"
+                  },
+                  "value": [
+                    {
+                      "type": "Integer",
+                      "span": {
+                        "start": 272,
+                        "end": 273,
+                        "ctxt": 0
+                      },
+                      "value": 0,
+                      "raw": "0"
+                    }
+                  ],
+                  "important": null
+                }
+              ]
             }
-          ],
-          "block": {
-            "type": "Block",
+          },
+          {
             "span": {
-              "start": 285,
+              "start": 281,
               "end": 299,
               "ctxt": 0
             },
-            "value": [
+            "prelude": [
               {
-                "type": "Declaration",
+                "type": "Percentage",
                 "span": {
-                  "start": 287,
-                  "end": 296,
+                  "start": 281,
+                  "end": 284,
                   "ctxt": 0
                 },
-                "name": {
-                  "type": "Ident",
+                "value": {
+                  "type": "Number",
                   "span": {
-                    "start": 287,
-                    "end": 290,
+                    "start": 281,
+                    "end": 283,
                     "ctxt": 0
                   },
-                  "value": "top",
-                  "raw": "top"
-                },
-                "value": [
-                  {
-                    "type": "Length",
+                  "value": 30.0,
+                  "raw": "30"
+                }
+              }
+            ],
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 285,
+                "end": 299,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 287,
+                    "end": 296,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
                     "span": {
-                      "start": 292,
-                      "end": 296,
+                      "start": 287,
+                      "end": 290,
                       "ctxt": 0
                     },
-                    "value": {
-                      "type": "Number",
+                    "value": "top",
+                    "raw": "top"
+                  },
+                  "value": [
+                    {
+                      "type": "Length",
                       "span": {
                         "start": 292,
-                        "end": 294,
-                        "ctxt": 0
-                      },
-                      "value": 50.0,
-                      "raw": "50"
-                    },
-                    "unit": {
-                      "type": "Ident",
-                      "span": {
-                        "start": 294,
                         "end": 296,
                         "ctxt": 0
                       },
-                      "value": "px",
-                      "raw": "px"
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 292,
+                          "end": 294,
+                          "ctxt": 0
+                        },
+                        "value": 50.0,
+                        "raw": "50"
+                      },
+                      "unit": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 294,
+                          "end": 296,
+                          "ctxt": 0
+                        },
+                        "value": "px",
+                        "raw": "px"
+                      }
                     }
-                  }
-                ],
-                "important": null
-              }
-            ]
-          }
-        },
-        {
-          "span": {
-            "start": 304,
-            "end": 328,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Percentage",
-              "span": {
-                "start": 304,
-                "end": 307,
-                "ctxt": 0
-              },
-              "value": {
-                "type": "Number",
-                "span": {
-                  "start": 304,
-                  "end": 306,
-                  "ctxt": 0
-                },
-                "value": 68.0,
-                "raw": "68"
-              }
-            },
-            {
-              "type": "Percentage",
-              "span": {
-                "start": 309,
-                "end": 312,
-                "ctxt": 0
-              },
-              "value": {
-                "type": "Number",
-                "span": {
-                  "start": 309,
-                  "end": 311,
-                  "ctxt": 0
-                },
-                "value": 72.0,
-                "raw": "72"
-              }
+                  ],
+                  "important": null
+                }
+              ]
             }
-          ],
-          "block": {
-            "type": "Block",
+          },
+          {
             "span": {
-              "start": 313,
+              "start": 304,
               "end": 328,
               "ctxt": 0
             },
-            "value": [
+            "prelude": [
               {
-                "type": "Declaration",
+                "type": "Percentage",
                 "span": {
-                  "start": 315,
-                  "end": 325,
+                  "start": 304,
+                  "end": 307,
                   "ctxt": 0
                 },
-                "name": {
-                  "type": "Ident",
+                "value": {
+                  "type": "Number",
                   "span": {
-                    "start": 315,
-                    "end": 319,
+                    "start": 304,
+                    "end": 306,
                     "ctxt": 0
                   },
-                  "value": "left",
-                  "raw": "left"
+                  "value": 68.0,
+                  "raw": "68"
+                }
+              },
+              {
+                "type": "Percentage",
+                "span": {
+                  "start": 309,
+                  "end": 312,
+                  "ctxt": 0
                 },
-                "value": [
-                  {
-                    "type": "Length",
+                "value": {
+                  "type": "Number",
+                  "span": {
+                    "start": 309,
+                    "end": 311,
+                    "ctxt": 0
+                  },
+                  "value": 72.0,
+                  "raw": "72"
+                }
+              }
+            ],
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 313,
+                "end": 328,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 315,
+                    "end": 325,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
                     "span": {
-                      "start": 321,
-                      "end": 325,
+                      "start": 315,
+                      "end": 319,
                       "ctxt": 0
                     },
-                    "value": {
-                      "type": "Number",
+                    "value": "left",
+                    "raw": "left"
+                  },
+                  "value": [
+                    {
+                      "type": "Length",
                       "span": {
                         "start": 321,
-                        "end": 323,
-                        "ctxt": 0
-                      },
-                      "value": 50.0,
-                      "raw": "50"
-                    },
-                    "unit": {
-                      "type": "Ident",
-                      "span": {
-                        "start": 323,
                         "end": 325,
                         "ctxt": 0
                       },
-                      "value": "px",
-                      "raw": "px"
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 321,
+                          "end": 323,
+                          "ctxt": 0
+                        },
+                        "value": 50.0,
+                        "raw": "50"
+                      },
+                      "unit": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 323,
+                          "end": 325,
+                          "ctxt": 0
+                        },
+                        "value": "px",
+                        "raw": "px"
+                      }
                     }
-                  }
-                ],
-                "important": null
-              }
-            ]
-          }
-        },
-        {
-          "span": {
-            "start": 333,
-            "end": 365,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Percentage",
-              "span": {
-                "start": 333,
-                "end": 337,
-                "ctxt": 0
-              },
-              "value": {
-                "type": "Number",
-                "span": {
-                  "start": 333,
-                  "end": 336,
-                  "ctxt": 0
-                },
-                "value": 100.0,
-                "raw": "100"
-              }
+                  ],
+                  "important": null
+                }
+              ]
             }
-          ],
-          "block": {
-            "type": "Block",
+          },
+          {
             "span": {
-              "start": 338,
+              "start": 333,
               "end": 365,
               "ctxt": 0
             },
-            "value": [
+            "prelude": [
               {
-                "type": "Declaration",
+                "type": "Percentage",
                 "span": {
-                  "start": 340,
-                  "end": 350,
+                  "start": 333,
+                  "end": 337,
                   "ctxt": 0
                 },
-                "name": {
-                  "type": "Ident",
+                "value": {
+                  "type": "Number",
                   "span": {
-                    "start": 340,
-                    "end": 343,
+                    "start": 333,
+                    "end": 336,
                     "ctxt": 0
                   },
-                  "value": "top",
-                  "raw": "top"
-                },
-                "value": [
-                  {
-                    "type": "Length",
+                  "value": 100.0,
+                  "raw": "100"
+                }
+              }
+            ],
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 338,
+                "end": 365,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 340,
+                    "end": 350,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
                     "span": {
-                      "start": 345,
-                      "end": 350,
+                      "start": 340,
+                      "end": 343,
                       "ctxt": 0
                     },
-                    "value": {
-                      "type": "Number",
+                    "value": "top",
+                    "raw": "top"
+                  },
+                  "value": [
+                    {
+                      "type": "Length",
                       "span": {
                         "start": 345,
-                        "end": 348,
-                        "ctxt": 0
-                      },
-                      "value": 100.0,
-                      "raw": "100"
-                    },
-                    "unit": {
-                      "type": "Ident",
-                      "span": {
-                        "start": 348,
                         "end": 350,
                         "ctxt": 0
                       },
-                      "value": "px",
-                      "raw": "px"
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 345,
+                          "end": 348,
+                          "ctxt": 0
+                        },
+                        "value": 100.0,
+                        "raw": "100"
+                      },
+                      "unit": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 348,
+                          "end": 350,
+                          "ctxt": 0
+                        },
+                        "value": "px",
+                        "raw": "px"
+                      }
                     }
-                  }
-                ],
-                "important": null
-              },
-              {
-                "type": "Declaration",
-                "span": {
-                  "start": 352,
-                  "end": 362,
-                  "ctxt": 0
+                  ],
+                  "important": null
                 },
-                "name": {
-                  "type": "Ident",
+                {
+                  "type": "Declaration",
                   "span": {
                     "start": 352,
-                    "end": 356,
+                    "end": 362,
                     "ctxt": 0
                   },
-                  "value": "left",
-                  "raw": "left"
-                },
-                "value": [
-                  {
-                    "type": "Percentage",
+                  "name": {
+                    "type": "Ident",
                     "span": {
-                      "start": 358,
-                      "end": 362,
+                      "start": 352,
+                      "end": 356,
                       "ctxt": 0
                     },
-                    "value": {
-                      "type": "Number",
+                    "value": "left",
+                    "raw": "left"
+                  },
+                  "value": [
+                    {
+                      "type": "Percentage",
                       "span": {
                         "start": 358,
-                        "end": 361,
+                        "end": 362,
                         "ctxt": 0
                       },
-                      "value": 100.0,
-                      "raw": "100"
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 358,
+                          "end": 361,
+                          "ctxt": 0
+                        },
+                        "value": 100.0,
+                        "raw": "100"
+                      }
                     }
-                  }
-                ],
-                "important": null
-              }
-            ]
+                  ],
+                  "important": null
+                }
+              ]
+            }
           }
-        }
-      ]
+        ]
+      }
     },
     {
       "type": "KeyframesRule",
@@ -710,7 +761,16 @@
         "value": "FOO",
         "raw": "FOO"
       },
-      "blocks": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 384,
+          "end": 386,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     },
     {
       "type": "KeyframesRule",
@@ -729,7 +789,16 @@
         "value": "initial",
         "raw": "\"initial\""
       },
-      "blocks": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 408,
+          "end": 410,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     },
     {
       "type": "KeyframesRule",
@@ -748,7 +817,16 @@
         "value": "None",
         "raw": "\"None\""
       },
-      "blocks": []
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 429,
+          "end": 431,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
     },
     {
       "type": "KeyframesRule",
@@ -767,349 +845,362 @@
         "value": "slide-right",
         "raw": "slide-right"
       },
-      "blocks": [
-        {
-          "span": {
-            "start": 462,
-            "end": 500,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Ident",
-              "span": {
-                "start": 462,
-                "end": 466,
-                "ctxt": 0
-              },
-              "value": "from",
-              "raw": "from"
-            }
-          ],
-          "block": {
-            "type": "Block",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 455,
+          "end": 651,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
             "span": {
-              "start": 467,
+              "start": 462,
               "end": 500,
               "ctxt": 0
             },
-            "value": [
+            "prelude": [
               {
-                "type": "Declaration",
+                "type": "Ident",
                 "span": {
-                  "start": 477,
-                  "end": 493,
+                  "start": 462,
+                  "end": 466,
                   "ctxt": 0
                 },
-                "name": {
-                  "type": "Ident",
+                "value": "from",
+                "raw": "from"
+              }
+            ],
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 467,
+                "end": 500,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
                   "span": {
                     "start": 477,
-                    "end": 488,
+                    "end": 493,
                     "ctxt": 0
                   },
-                  "value": "margin-left",
-                  "raw": "margin-left"
-                },
-                "value": [
-                  {
-                    "type": "Length",
+                  "name": {
+                    "type": "Ident",
                     "span": {
-                      "start": 490,
-                      "end": 493,
+                      "start": 477,
+                      "end": 488,
                       "ctxt": 0
                     },
-                    "value": {
-                      "type": "Number",
+                    "value": "margin-left",
+                    "raw": "margin-left"
+                  },
+                  "value": [
+                    {
+                      "type": "Length",
                       "span": {
                         "start": 490,
-                        "end": 491,
-                        "ctxt": 0
-                      },
-                      "value": 0.0,
-                      "raw": "0"
-                    },
-                    "unit": {
-                      "type": "Ident",
-                      "span": {
-                        "start": 491,
                         "end": 493,
                         "ctxt": 0
                       },
-                      "value": "px",
-                      "raw": "px"
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 490,
+                          "end": 491,
+                          "ctxt": 0
+                        },
+                        "value": 0.0,
+                        "raw": "0"
+                      },
+                      "unit": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 491,
+                          "end": 493,
+                          "ctxt": 0
+                        },
+                        "value": "px",
+                        "raw": "px"
+                      }
                     }
-                  }
-                ],
-                "important": null
-              }
-            ]
-          }
-        },
-        {
-          "span": {
-            "start": 506,
-            "end": 565,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Percentage",
-              "span": {
-                "start": 506,
-                "end": 509,
-                "ctxt": 0
-              },
-              "value": {
-                "type": "Number",
-                "span": {
-                  "start": 506,
-                  "end": 508,
-                  "ctxt": 0
-                },
-                "value": 50.0,
-                "raw": "50"
-              }
+                  ],
+                  "important": null
+                }
+              ]
             }
-          ],
-          "block": {
-            "type": "Block",
+          },
+          {
             "span": {
-              "start": 510,
+              "start": 506,
               "end": 565,
               "ctxt": 0
             },
-            "value": [
+            "prelude": [
               {
-                "type": "Declaration",
+                "type": "Percentage",
                 "span": {
-                  "start": 520,
-                  "end": 538,
+                  "start": 506,
+                  "end": 509,
                   "ctxt": 0
                 },
-                "name": {
-                  "type": "Ident",
+                "value": {
+                  "type": "Number",
                   "span": {
-                    "start": 520,
-                    "end": 531,
+                    "start": 506,
+                    "end": 508,
                     "ctxt": 0
                   },
-                  "value": "margin-left",
-                  "raw": "margin-left"
-                },
-                "value": [
-                  {
-                    "type": "Length",
+                  "value": 50.0,
+                  "raw": "50"
+                }
+              }
+            ],
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 510,
+                "end": 565,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 520,
+                    "end": 538,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
                     "span": {
-                      "start": 533,
-                      "end": 538,
+                      "start": 520,
+                      "end": 531,
                       "ctxt": 0
                     },
-                    "value": {
-                      "type": "Number",
+                    "value": "margin-left",
+                    "raw": "margin-left"
+                  },
+                  "value": [
+                    {
+                      "type": "Length",
                       "span": {
                         "start": 533,
-                        "end": 536,
-                        "ctxt": 0
-                      },
-                      "value": 110.0,
-                      "raw": "110"
-                    },
-                    "unit": {
-                      "type": "Ident",
-                      "span": {
-                        "start": 536,
                         "end": 538,
                         "ctxt": 0
                       },
-                      "value": "px",
-                      "raw": "px"
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 533,
+                          "end": 536,
+                          "ctxt": 0
+                        },
+                        "value": 110.0,
+                        "raw": "110"
+                      },
+                      "unit": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 536,
+                          "end": 538,
+                          "ctxt": 0
+                        },
+                        "value": "px",
+                        "raw": "px"
+                      }
                     }
-                  }
-                ],
-                "important": null
-              },
-              {
-                "type": "Declaration",
-                "span": {
-                  "start": 548,
-                  "end": 558,
-                  "ctxt": 0
+                  ],
+                  "important": null
                 },
-                "name": {
-                  "type": "Ident",
+                {
+                  "type": "Declaration",
                   "span": {
                     "start": 548,
-                    "end": 555,
+                    "end": 558,
                     "ctxt": 0
                   },
-                  "value": "opacity",
-                  "raw": "opacity"
-                },
-                "value": [
-                  {
-                    "type": "Number",
+                  "name": {
+                    "type": "Ident",
                     "span": {
-                      "start": 557,
-                      "end": 558,
+                      "start": 548,
+                      "end": 555,
                       "ctxt": 0
                     },
-                    "value": 1.0,
-                    "raw": "1"
-                  }
-                ],
-                "important": null
-              }
-            ]
-          }
-        },
-        {
-          "span": {
-            "start": 571,
-            "end": 604,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Percentage",
-              "span": {
-                "start": 571,
-                "end": 574,
-                "ctxt": 0
-              },
-              "value": {
-                "type": "Number",
-                "span": {
-                  "start": 571,
-                  "end": 573,
-                  "ctxt": 0
-                },
-                "value": 50.0,
-                "raw": "50"
-              }
+                    "value": "opacity",
+                    "raw": "opacity"
+                  },
+                  "value": [
+                    {
+                      "type": "Integer",
+                      "span": {
+                        "start": 557,
+                        "end": 558,
+                        "ctxt": 0
+                      },
+                      "value": 1,
+                      "raw": "1"
+                    }
+                  ],
+                  "important": null
+                }
+              ]
             }
-          ],
-          "block": {
-            "type": "Block",
+          },
+          {
             "span": {
-              "start": 575,
+              "start": 571,
               "end": 604,
               "ctxt": 0
             },
-            "value": [
+            "prelude": [
               {
-                "type": "Declaration",
+                "type": "Percentage",
                 "span": {
-                  "start": 585,
-                  "end": 597,
+                  "start": 571,
+                  "end": 574,
                   "ctxt": 0
                 },
-                "name": {
-                  "type": "Ident",
+                "value": {
+                  "type": "Number",
                   "span": {
-                    "start": 585,
-                    "end": 592,
+                    "start": 571,
+                    "end": 573,
                     "ctxt": 0
                   },
-                  "value": "opacity",
-                  "raw": "opacity"
-                },
-                "value": [
-                  {
-                    "type": "Number",
-                    "span": {
-                      "start": 594,
-                      "end": 597,
-                      "ctxt": 0
-                    },
-                    "value": 0.9,
-                    "raw": "0.9"
-                  }
-                ],
-                "important": null
+                  "value": 50.0,
+                  "raw": "50"
+                }
               }
-            ]
-          }
-        },
-        {
-          "span": {
-            "start": 610,
-            "end": 648,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Ident",
+            ],
+            "block": {
+              "type": "SimpleBlock",
               "span": {
-                "start": 610,
-                "end": 612,
+                "start": 575,
+                "end": 604,
                 "ctxt": 0
               },
-              "value": "to",
-              "raw": "to"
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 585,
+                    "end": 597,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 585,
+                      "end": 592,
+                      "ctxt": 0
+                    },
+                    "value": "opacity",
+                    "raw": "opacity"
+                  },
+                  "value": [
+                    {
+                      "type": "Number",
+                      "span": {
+                        "start": 594,
+                        "end": 597,
+                        "ctxt": 0
+                      },
+                      "value": 0.9,
+                      "raw": "0.9"
+                    }
+                  ],
+                  "important": null
+                }
+              ]
             }
-          ],
-          "block": {
-            "type": "Block",
+          },
+          {
             "span": {
-              "start": 613,
+              "start": 610,
               "end": 648,
               "ctxt": 0
             },
-            "value": [
+            "prelude": [
               {
-                "type": "Declaration",
+                "type": "Ident",
                 "span": {
-                  "start": 623,
-                  "end": 641,
+                  "start": 610,
+                  "end": 612,
                   "ctxt": 0
                 },
-                "name": {
-                  "type": "Ident",
+                "value": "to",
+                "raw": "to"
+              }
+            ],
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 613,
+                "end": 648,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
                   "span": {
                     "start": 623,
-                    "end": 634,
+                    "end": 641,
                     "ctxt": 0
                   },
-                  "value": "margin-left",
-                  "raw": "margin-left"
-                },
-                "value": [
-                  {
-                    "type": "Length",
+                  "name": {
+                    "type": "Ident",
                     "span": {
-                      "start": 636,
-                      "end": 641,
+                      "start": 623,
+                      "end": 634,
                       "ctxt": 0
                     },
-                    "value": {
-                      "type": "Number",
+                    "value": "margin-left",
+                    "raw": "margin-left"
+                  },
+                  "value": [
+                    {
+                      "type": "Length",
                       "span": {
                         "start": 636,
-                        "end": 639,
-                        "ctxt": 0
-                      },
-                      "value": 200.0,
-                      "raw": "200"
-                    },
-                    "unit": {
-                      "type": "Ident",
-                      "span": {
-                        "start": 639,
                         "end": 641,
                         "ctxt": 0
                       },
-                      "value": "px",
-                      "raw": "px"
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 636,
+                          "end": 639,
+                          "ctxt": 0
+                        },
+                        "value": 200.0,
+                        "raw": "200"
+                      },
+                      "unit": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 639,
+                          "end": 641,
+                          "ctxt": 0
+                        },
+                        "value": "px",
+                        "raw": "px"
+                      }
                     }
-                  }
-                ],
-                "important": null
-              }
-            ]
+                  ],
+                  "important": null
+                }
+              ]
+            }
           }
-        }
-      ]
+        ]
+      }
     },
     {
       "type": "KeyframesRule",
@@ -1128,184 +1219,195 @@
         "value": "slidein-up",
         "raw": "slidein-up"
       },
-      "blocks": [
-        {
-          "span": {
-            "start": 681,
-            "end": 728,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Ident",
-              "span": {
-                "start": 681,
-                "end": 685,
-                "ctxt": 0
-              },
-              "value": "fRoM",
-              "raw": "fRoM"
-            }
-          ],
-          "block": {
-            "type": "Block",
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 675,
+          "end": 783,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
             "span": {
-              "start": 686,
+              "start": 681,
               "end": 728,
               "ctxt": 0
             },
-            "value": [
+            "prelude": [
               {
-                "type": "Declaration",
+                "type": "Ident",
                 "span": {
-                  "start": 696,
-                  "end": 721,
+                  "start": 681,
+                  "end": 685,
                   "ctxt": 0
                 },
-                "name": {
-                  "type": "Ident",
-                  "span": {
-                    "start": 696,
-                    "end": 705,
-                    "ctxt": 0
-                  },
-                  "value": "transform",
-                  "raw": "transform"
-                },
-                "value": [
-                  {
-                    "type": "Function",
-                    "span": {
-                      "start": 707,
-                      "end": 721,
-                      "ctxt": 0
-                    },
-                    "name": {
-                      "type": "Ident",
-                      "span": {
-                        "start": 707,
-                        "end": 717,
-                        "ctxt": 0
-                      },
-                      "value": "translateX",
-                      "raw": "translateX"
-                    },
-                    "value": [
-                      {
-                        "type": "Percentage",
-                        "span": {
-                          "start": 718,
-                          "end": 720,
-                          "ctxt": 0
-                        },
-                        "value": {
-                          "type": "Number",
-                          "span": {
-                            "start": 718,
-                            "end": 719,
-                            "ctxt": 0
-                          },
-                          "value": 0.0,
-                          "raw": "0"
-                        }
-                      }
-                    ]
-                  }
-                ],
-                "important": null
+                "value": "fRoM",
+                "raw": "fRoM"
               }
-            ]
-          }
-        },
-        {
-          "span": {
-            "start": 734,
-            "end": 781,
-            "ctxt": 0
-          },
-          "prelude": [
-            {
-              "type": "Ident",
+            ],
+            "block": {
+              "type": "SimpleBlock",
               "span": {
-                "start": 734,
-                "end": 736,
+                "start": 686,
+                "end": 728,
                 "ctxt": 0
               },
-              "value": "tO",
-              "raw": "tO"
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 696,
+                    "end": 721,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 696,
+                      "end": 705,
+                      "ctxt": 0
+                    },
+                    "value": "transform",
+                    "raw": "transform"
+                  },
+                  "value": [
+                    {
+                      "type": "Function",
+                      "span": {
+                        "start": 707,
+                        "end": 721,
+                        "ctxt": 0
+                      },
+                      "name": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 707,
+                          "end": 717,
+                          "ctxt": 0
+                        },
+                        "value": "translateX",
+                        "raw": "translateX"
+                      },
+                      "value": [
+                        {
+                          "type": "Percentage",
+                          "span": {
+                            "start": 718,
+                            "end": 720,
+                            "ctxt": 0
+                          },
+                          "value": {
+                            "type": "Number",
+                            "span": {
+                              "start": 718,
+                              "end": 719,
+                              "ctxt": 0
+                            },
+                            "value": 0.0,
+                            "raw": "0"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "important": null
+                }
+              ]
             }
-          ],
-          "block": {
-            "type": "Block",
+          },
+          {
             "span": {
-              "start": 737,
+              "start": 734,
               "end": 781,
               "ctxt": 0
             },
-            "value": [
+            "prelude": [
               {
-                "type": "Declaration",
+                "type": "Ident",
                 "span": {
-                  "start": 747,
-                  "end": 774,
+                  "start": 734,
+                  "end": 736,
                   "ctxt": 0
                 },
-                "name": {
-                  "type": "Ident",
+                "value": "tO",
+                "raw": "tO"
+              }
+            ],
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 737,
+                "end": 781,
+                "ctxt": 0
+              },
+              "name": "{",
+              "value": [
+                {
+                  "type": "Declaration",
                   "span": {
                     "start": 747,
-                    "end": 756,
+                    "end": 774,
                     "ctxt": 0
                   },
-                  "value": "transform",
-                  "raw": "transform"
-                },
-                "value": [
-                  {
-                    "type": "Function",
+                  "name": {
+                    "type": "Ident",
                     "span": {
-                      "start": 758,
-                      "end": 774,
+                      "start": 747,
+                      "end": 756,
                       "ctxt": 0
                     },
-                    "name": {
-                      "type": "Ident",
+                    "value": "transform",
+                    "raw": "transform"
+                  },
+                  "value": [
+                    {
+                      "type": "Function",
                       "span": {
                         "start": 758,
-                        "end": 768,
+                        "end": 774,
                         "ctxt": 0
                       },
-                      "value": "translateX",
-                      "raw": "translateX"
-                    },
-                    "value": [
-                      {
-                        "type": "Percentage",
+                      "name": {
+                        "type": "Ident",
                         "span": {
-                          "start": 769,
-                          "end": 773,
+                          "start": 758,
+                          "end": 768,
                           "ctxt": 0
                         },
-                        "value": {
-                          "type": "Number",
+                        "value": "translateX",
+                        "raw": "translateX"
+                      },
+                      "value": [
+                        {
+                          "type": "Percentage",
                           "span": {
                             "start": 769,
-                            "end": 772,
+                            "end": 773,
                             "ctxt": 0
                           },
-                          "value": 100.0,
-                          "raw": "100"
+                          "value": {
+                            "type": "Number",
+                            "span": {
+                              "start": 769,
+                              "end": 772,
+                              "ctxt": 0
+                            },
+                            "value": 100.0,
+                            "raw": "100"
+                          }
                         }
-                      }
-                    ]
-                  }
-                ],
-                "important": null
-              }
-            ]
+                      ]
+                    }
+                  ],
+                  "important": null
+                }
+              ]
+            }
           }
-        }
-      ]
+        ]
+      }
     }
   ]
 }

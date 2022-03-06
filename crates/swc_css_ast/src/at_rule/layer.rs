@@ -1,6 +1,6 @@
 use swc_common::{ast_node, Span};
 
-use crate::{Ident, Rule};
+use crate::{Ident, SimpleBlock};
 
 #[ast_node("LayerName")]
 pub struct LayerName {
@@ -26,5 +26,5 @@ pub enum LayerPrelude {
 pub struct LayerRule {
     pub span: Span,
     pub prelude: Option<LayerPrelude>,
-    pub rules: Option<Vec<Rule>>,
+    pub block: Option<SimpleBlock>,
 }

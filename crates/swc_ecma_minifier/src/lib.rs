@@ -15,12 +15,12 @@
 #![allow(clippy::blocks_in_if_conditions)]
 #![allow(clippy::collapsible_else_if)]
 #![allow(clippy::collapsible_if)]
+#![allow(clippy::ptr_arg)]
 #![allow(clippy::vec_box)]
 #![allow(unstable_name_collisions)]
 
-use mode::Minification;
-use pass::postcompress::postcompress_optimizer;
-use swc_common::{comments::Comments, sync::Lrc, SourceMap, GLOBALS};
+use compress::pure_optimizer;
+use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, SyntaxContext, GLOBALS};
 use swc_ecma_ast::Module;
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 use swc_timer::timer;
@@ -31,11 +31,12 @@ use crate::{
     compress::compressor,
     marks::Marks,
     metadata::info_marker,
+    mode::Minification,
     option::{ExtraOptions, MinifyOptions},
     pass::{
         compute_char_freq::compute_char_freq, expand_names::name_expander, global_defs,
-        mangle_names::name_mangler, mangle_props::mangle_properties,
-        precompress::precompress_optimizer,
+        mangle_names::name_mangler, mangle_props::mangle_properties, merge_exports::merge_exports,
+        postcompress::postcompress_optimizer, precompress::precompress_optimizer,
     },
 };
 
@@ -65,7 +66,10 @@ pub fn optimize(
 ) -> Module {
     let _timer = timer!("minify");
 
-    let marks = Marks::new();
+    let top_level_ctxt = SyntaxContext::empty().apply_mark(extra.top_level_mark);
+
+    let mut marks = Marks::new();
+    marks.top_level_mark = extra.top_level_mark;
 
     if let Some(defs) = options.compress.as_ref().map(|c| &c.global_defs) {
         let _timer = timer!("inline global defs");
@@ -131,6 +135,13 @@ pub fn optimize(
         let _timer = timer!("postcompress");
 
         m.visit_mut_with(&mut postcompress_optimizer(options));
+        m.visit_mut_with(&mut Repeat::new(pure_optimizer(
+            options,
+            marks,
+            &Minification,
+            true,
+            false,
+        )));
     }
 
     if let Some(ref mut _t) = timings {
@@ -149,12 +160,19 @@ pub fn optimize(
         // TODO: base54.reset();
 
         let char_freq_info = compute_char_freq(&m);
-        m.visit_mut_with(&mut name_mangler(mangle.clone(), char_freq_info, marks));
+        m.visit_mut_with(&mut name_mangler(
+            mangle.clone(),
+            char_freq_info,
+            marks,
+            top_level_ctxt,
+        ));
     }
 
     if let Some(property_mangle_options) = options.mangle.as_ref().and_then(|o| o.props.as_ref()) {
         mangle_properties(&mut m, property_mangle_options.clone());
     }
+
+    m.visit_mut_with(&mut merge_exports());
 
     if let Some(ref mut t) = timings {
         t.section("hygiene");

@@ -40,7 +40,6 @@ mod hoist_props;
 mod if_return;
 mod iife;
 mod inline;
-mod join_vars;
 mod loops;
 mod ops;
 mod sequences;
@@ -75,7 +74,6 @@ where
         append_stmts: Default::default(),
         lits: Default::default(),
         vars_for_inlining: Default::default(),
-        inlined_vars: Default::default(),
         vars_for_prop_hoisting: Default::default(),
         simple_props: Default::default(),
         _simple_array_values: Default::default(),
@@ -200,7 +198,6 @@ struct Optimizer<'a, M> {
     lits: AHashMap<Id, Box<Expr>>,
 
     vars_for_inlining: AHashMap<Id, Box<Expr>>,
-    inlined_vars: AHashMap<Id, Box<Expr>>,
 
     vars_for_prop_hoisting: AHashMap<Id, Box<Expr>>,
     /// Used for `hoist_props`.
@@ -241,7 +238,7 @@ impl<M> Optimizer<'_, M>
 where
     M: Mode,
 {
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, stmts)))]
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self> + VisitWith<AssertValid>,
@@ -334,12 +331,6 @@ where
         }
 
         self.merge_similar_ifs(stmts);
-
-        if cfg!(debug_assertions) {
-            stmts.visit_with(&mut AssertValid);
-        }
-
-        self.join_vars(stmts);
 
         if cfg!(debug_assertions) {
             stmts.visit_with(&mut AssertValid);
@@ -699,14 +690,14 @@ where
 
     /// Returns [None] if expression is side-effect-free.
     /// If an expression has a side effect, only side effects are returned.
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn ignore_return_value(&mut self, e: &mut Expr) -> Option<Expr> {
         self.optimize_bang_within_logical_ops(e, true);
 
         self.compress_cond_to_logical_ignoring_return_value(e);
 
         match e {
-            Expr::Ident(..) | Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
+            Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
                 if cfg!(feature = "debug") {
                     tracing::debug!(
                         "ignore_return_value: Dropping unused expr: {}",
@@ -1193,13 +1184,14 @@ where
 
     /// `new RegExp("([Sap]+)", "ig")` => `/([Sap]+)/gi`
     fn compress_regexp(&mut self, e: &mut Expr) {
-        let span = e.span();
-        let args = match e {
-            Expr::New(NewExpr { callee, args, .. }) => match &**callee {
+        let (span, args) = match e {
+            Expr::New(NewExpr {
+                span, callee, args, ..
+            }) => match &**callee {
                 Expr::Ident(Ident {
                     sym: js_word!("RegExp"),
                     ..
-                }) => args,
+                }) => (*span, args),
                 _ => return,
             },
             _ => return,
@@ -1319,6 +1311,9 @@ where
 
     fn merge_var_decls(&mut self, stmts: &mut Vec<Stmt>) {
         if !self.options.join_vars && !self.options.hoist_vars {
+            return;
+        }
+        if self.ctx.in_asm {
             return;
         }
 
@@ -1546,7 +1541,7 @@ where
 {
     noop_visit_mut_type!();
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n,)))]
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
         let prepend = self.prepend_stmts.take();
 
@@ -1587,7 +1582,7 @@ where
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
         {
             let ctx = Ctx {
@@ -1607,7 +1602,7 @@ where
         self.compress_bin_assignment_to_right(e);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
         n.visit_mut_children_with(self);
 
@@ -1618,7 +1613,7 @@ where
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_bin_expr(&mut self, n: &mut BinExpr) {
         {
             let ctx = Ctx {
@@ -1646,7 +1641,7 @@ where
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
         let ctx = Ctx {
             stmt_labelled: false,
@@ -1670,7 +1665,7 @@ where
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
         let is_this_undefined = match &e.callee {
             Callee::Super(_) | Callee::Import(_) => false,
@@ -1720,7 +1715,7 @@ where
         self.inline_args_of_iife(e);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_class(&mut self, n: &mut Class) {
         n.decorators.visit_mut_with(self);
 
@@ -1749,7 +1744,7 @@ where
         e.visit_mut_children_with(self);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, decl)))]
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_decl(&mut self, decl: &mut Decl) {
         decl.visit_mut_children_with(self);
 
@@ -1758,7 +1753,7 @@ where
         self.store_decl_for_inlining(decl);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_default_decl(&mut self, n: &mut DefaultDecl) {
         match n {
             DefaultDecl::Class(_) => {}
@@ -1773,7 +1768,7 @@ where
         n.visit_mut_children_with(self);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
         if let Decl::Fn(f) = &mut n.decl {
             // I don't know why, but terser removes parameters from an exported function if
@@ -1798,7 +1793,7 @@ where
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         let ctx = Ctx {
             is_exported: false,
@@ -1870,7 +1865,7 @@ where
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
         let was_directive = matches!(&*n.expr, Expr::Lit(Lit::Str(..)));
 
@@ -2024,7 +2019,7 @@ where
         self.with_ctx(ctx).drop_if_break(s);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_function(&mut self, n: &mut Function) {
         {
             let ctx = Ctx {
@@ -2166,11 +2161,6 @@ where
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
         stmts.visit_mut_with(&mut MultiReplacer {
-            vars: take(&mut self.inlined_vars),
-            changed: false,
-        });
-
-        stmts.visit_mut_with(&mut MultiReplacer {
             vars: take(&mut self.vars_for_inlining),
             changed: false,
         });
@@ -2271,7 +2261,7 @@ where
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
         {
             let ctx = Ctx {
@@ -2334,7 +2324,7 @@ where
         self.lift_seqs_of_assign(n);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, s)))]
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         let old_prepend = self.prepend_stmts.take();
         let old_append = self.append_stmts.take();
@@ -2466,7 +2456,8 @@ where
             }
 
             if self.options.unused {
-                let can_be_removed = !is_directive && !expr.may_have_side_effects();
+                let can_be_removed =
+                    !is_directive && !expr.is_ident() && !expr.may_have_side_effects();
 
                 if can_be_removed {
                     self.changed = true;
@@ -2537,6 +2528,21 @@ where
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        // Skip if `use asm` exists.
+        if stmts.iter().any(|stmt| match stmt.as_stmt() {
+            Some(Stmt::Expr(stmt)) => match &*stmt.expr {
+                Expr::Lit(Lit::Str(Str {
+                    value,
+                    has_escape: false,
+                    ..
+                })) => &**value == "use asm",
+                _ => false,
+            },
+            _ => false,
+        }) {
+            return;
+        }
+
         let ctx = Ctx {
             top_level: false,
             ..self.ctx
@@ -2747,8 +2753,13 @@ where
         }
 
         for v in vars.iter_mut() {
+            let was_value_none = v.init.is_none();
+
             self.drop_unused_var_declarator(v, true);
             if v.name.is_invalid() {
+                continue;
+            }
+            if was_value_none {
                 continue;
             }
 
@@ -2756,21 +2767,39 @@ where
         }
 
         for v in vars.iter_mut().rev() {
+            let was_value_none = v.init.is_none();
+
             self.drop_unused_var_declarator(v, false);
             if v.name.is_invalid() {
+                continue;
+            }
+            if was_value_none {
                 continue;
             }
 
             break;
         }
 
-        vars.retain(|var| {
+        vars.retain_mut(|var| {
             if var.name.is_invalid() {
                 self.changed = true;
                 return false;
             }
 
             if let Some(Expr::Invalid(..)) = var.init.as_deref() {
+                if let Pat::Ident(i) = &var.name {
+                    if let Some(usage) = self
+                        .data
+                        .as_ref()
+                        .and_then(|data| data.vars.get(&i.id.to_id()))
+                    {
+                        if usage.declared_as_catch_param {
+                            var.init = None;
+                            return true;
+                        }
+                    }
+                }
+
                 return false;
             }
 

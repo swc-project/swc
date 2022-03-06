@@ -76,7 +76,7 @@ error: Ident
 1 | div {
   | ^^^
 
-error: Block
+error: SimpleBlock
  --> $DIR/tests/fixture/value/square-brackets/input.css:1:5
   |
 1 |   div {
@@ -88,6 +88,18 @@ error: Block
 7 | |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
 8 | | }
   | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/square-brackets/input.css:2:5
+  |
+2 |     prop:  [];
+  |     ^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/square-brackets/input.css:2:5
+  |
+2 |     prop:  [];
+  |     ^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/square-brackets/input.css:2:5
@@ -107,7 +119,7 @@ error: Ident
 2 |     prop:  [];
   |     ^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/square-brackets/input.css:2:12
   |
 2 |     prop:  [];
@@ -118,6 +130,18 @@ error: SimpleBlock
   |
 2 |     prop:  [];
   |            ^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/square-brackets/input.css:3:5
+  |
+3 |     prop:  [ ];
+  |     ^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/square-brackets/input.css:3:5
+  |
+3 |     prop:  [ ];
+  |     ^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/square-brackets/input.css:3:5
@@ -137,7 +161,7 @@ error: Ident
 3 |     prop:  [ ];
   |     ^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/square-brackets/input.css:3:12
   |
 3 |     prop:  [ ];
@@ -148,6 +172,18 @@ error: SimpleBlock
   |
 3 |     prop:  [ ];
   |            ^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/square-brackets/input.css:4:5
+  |
+4 |     prop:  [row1-start];
+  |     ^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/square-brackets/input.css:4:5
+  |
+4 |     prop:  [row1-start];
+  |     ^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/square-brackets/input.css:4:5
@@ -167,7 +203,7 @@ error: Ident
 4 |     prop:  [row1-start];
   |     ^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/square-brackets/input.css:4:12
   |
 4 |     prop:  [row1-start];
@@ -179,7 +215,7 @@ error: SimpleBlock
 4 |     prop:  [row1-start];
   |            ^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/square-brackets/input.css:4:13
   |
 4 |     prop:  [row1-start];
@@ -190,6 +226,18 @@ error: Ident
   |
 4 |     prop:  [row1-start];
   |             ^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/square-brackets/input.css:5:5
+  |
+5 |     prop:  [   row1-start-with-spaces-around   ];
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/square-brackets/input.css:5:5
+  |
+5 |     prop:  [   row1-start-with-spaces-around   ];
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/square-brackets/input.css:5:5
@@ -209,7 +257,7 @@ error: Ident
 5 |     prop:  [   row1-start-with-spaces-around   ];
   |     ^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/square-brackets/input.css:5:12
   |
 5 |     prop:  [   row1-start-with-spaces-around   ];
@@ -221,7 +269,7 @@ error: SimpleBlock
 5 |     prop:  [   row1-start-with-spaces-around   ];
   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/square-brackets/input.css:5:16
   |
 5 |     prop:  [   row1-start-with-spaces-around   ];
@@ -232,6 +280,18 @@ error: Ident
   |
 5 |     prop:  [   row1-start-with-spaces-around   ];
   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:5
+  |
+6 |     prop:  [red #fff 12px];
+  |     ^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:5
+  |
+6 |     prop:  [red #fff 12px];
+  |     ^^^^^^^^^^^^^^^^^^^^^^
 
 error: Declaration
  --> $DIR/tests/fixture/value/square-brackets/input.css:6:5
@@ -251,7 +311,7 @@ error: Ident
 6 |     prop:  [red #fff 12px];
   |     ^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/square-brackets/input.css:6:12
   |
 6 |     prop:  [red #fff 12px];
@@ -263,7 +323,7 @@ error: SimpleBlock
 6 |     prop:  [red #fff 12px];
   |            ^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/square-brackets/input.css:6:13
   |
 6 |     prop:  [red #fff 12px];
@@ -275,7 +335,13 @@ error: Ident
 6 |     prop:  [red #fff 12px];
   |             ^^^
 
-error: Value
+error: ComponentValue
+ --> $DIR/tests/fixture/value/square-brackets/input.css:6:17
+  |
+6 |     prop:  [red #fff 12px];
+  |                 ^^^^
+
+error: Color
  --> $DIR/tests/fixture/value/square-brackets/input.css:6:17
   |
 6 |     prop:  [red #fff 12px];
@@ -287,7 +353,7 @@ error: HexColor
 6 |     prop:  [red #fff 12px];
   |                 ^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/square-brackets/input.css:6:22
   |
 6 |     prop:  [red #fff 12px];
@@ -317,6 +383,18 @@ error: Ident
 6 |     prop:  [red #fff 12px];
   |                        ^^
 
+error: ComponentValue
+ --> $DIR/tests/fixture/value/square-brackets/input.css:7:5
+  |
+7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/value/square-brackets/input.css:7:5
+  |
+7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 error: Declaration
  --> $DIR/tests/fixture/value/square-brackets/input.css:7:5
   |
@@ -335,7 +413,7 @@ error: Ident
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
   |     ^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/square-brackets/input.css:7:11
   |
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
@@ -347,7 +425,7 @@ error: SimpleBlock
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
   |           ^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/square-brackets/input.css:7:12
   |
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
@@ -359,7 +437,7 @@ error: Ident
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
   |            ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/square-brackets/input.css:7:24
   |
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
@@ -377,7 +455,7 @@ error: Number
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
   |                        ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/square-brackets/input.css:7:28
   |
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
@@ -389,7 +467,7 @@ error: SimpleBlock
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
   |                            ^^^^^^^^^^^^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/square-brackets/input.css:7:29
   |
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
@@ -401,7 +479,7 @@ error: Ident
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
   |                             ^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/square-brackets/input.css:7:38
   |
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
@@ -413,7 +491,7 @@ error: Ident
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
   |                                      ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/square-brackets/input.css:7:50
   |
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
@@ -431,7 +509,7 @@ error: Number
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
   |                                                  ^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/square-brackets/input.css:7:54
   |
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
@@ -443,7 +521,7 @@ error: SimpleBlock
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
   |                                                      ^^^^^^^^^^
 
-error: Value
+error: ComponentValue
  --> $DIR/tests/fixture/value/square-brackets/input.css:7:55
   |
 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];

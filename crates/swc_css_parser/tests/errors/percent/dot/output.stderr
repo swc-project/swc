@@ -1,6 +1,0 @@
-error: Expected a property value
- --> $DIR/tests/errors/percent/dot/input.css:1:12
-  |
-1 | a { width: 0.%; }
-  |            ^^^
-

@@ -125,7 +125,6 @@ var C = /*#__PURE__*/ function(CBase) {
     var _super = _createSuper(C);
     function C() {
         _classCallCheck(this, C);
-        var _thisSuper;
         var _this = _super.call(this, {
             method: function method(p) {
                 p.length;
@@ -133,7 +132,7 @@ var C = /*#__PURE__*/ function(CBase) {
         });
         // Should be okay.
         // 'p' should have type 'string'.
-        _get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(C.prototype)), "foo", _thisSuper).call(_thisSuper, {
+        _get((_assertThisInitialized(_this), _getPrototypeOf(C.prototype)), "foo", _this).call(_this, {
             method: function method(p) {
                 p.length;
             }

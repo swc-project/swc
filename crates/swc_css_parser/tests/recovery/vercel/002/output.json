@@ -1,0 +1,806 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 388,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 0,
+        "end": 387,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 0,
+          "end": 6,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 0,
+              "end": 6,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 0,
+                  "end": 6,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 0,
+                      "end": 6,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 1,
+                        "end": 6,
+                        "ctxt": 0
+                      },
+                      "value": "slide",
+                      "raw": "slide"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 7,
+          "end": 387,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 13,
+              "end": 49,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 13,
+                "end": 18,
+                "ctxt": 0
+              },
+              "value": "width",
+              "raw": "width"
+            },
+            "value": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 20,
+                  "end": 49,
+                  "ctxt": 0
+                },
+                "value": "__styled-jsx-placeholder__7px",
+                "raw": "__styled-jsx-placeholder__7px"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 55,
+              "end": 92,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 55,
+                "end": 61,
+                "ctxt": 0
+              },
+              "value": "height",
+              "raw": "height"
+            },
+            "value": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 63,
+                  "end": 92,
+                  "ctxt": 0
+                },
+                "value": "__styled-jsx-placeholder__7px",
+                "raw": "__styled-jsx-placeholder__7px"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 98,
+              "end": 175,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 98,
+                "end": 104,
+                "ctxt": 0
+              },
+              "value": "margin",
+              "raw": "margin"
+            },
+            "value": [
+              {
+                "type": "Integer",
+                "span": {
+                  "start": 106,
+                  "end": 107,
+                  "ctxt": 0
+                },
+                "value": 0,
+                "raw": "0"
+              },
+              {
+                "type": "Function",
+                "span": {
+                  "start": 108,
+                  "end": 175,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 108,
+                    "end": 112,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 113,
+                      "end": 142,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Ident": {
+                        "value": "__styled-jsx-placeholder__7vw",
+                        "raw": "__styled-jsx-placeholder__7vw"
+                      }
+                    }
+                  },
+                  {
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 142,
+                      "end": 143,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 143,
+                      "end": 144,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Delim": {
+                        "value": "-"
+                      }
+                    }
+                  },
+                  {
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 144,
+                      "end": 145,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 145,
+                      "end": 174,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Ident": {
+                        "value": "__styled-jsx-placeholder__7px",
+                        "raw": "__styled-jsx-placeholder__7px"
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 181,
+              "end": 199,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 181,
+                "end": 194,
+                "ctxt": 0
+              },
+              "value": "border-radius",
+              "raw": "border-radius"
+            },
+            "value": [
+              {
+                "type": "Length",
+                "span": {
+                  "start": 196,
+                  "end": 199,
+                  "ctxt": 0
+                },
+                "value": {
+                  "type": "Number",
+                  "span": {
+                    "start": 196,
+                    "end": 197,
+                    "ctxt": 0
+                  },
+                  "value": 7.0,
+                  "raw": "7"
+                },
+                "unit": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 197,
+                    "end": 199,
+                    "ctxt": 0
+                  },
+                  "value": "px",
+                  "raw": "px"
+                }
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 205,
+              "end": 287,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 205,
+                "end": 215,
+                "ctxt": 0
+              },
+              "value": "box-shadow",
+              "raw": "box-shadow"
+            },
+            "value": [
+              {
+                "type": "Integer",
+                "span": {
+                  "start": 217,
+                  "end": 218,
+                  "ctxt": 0
+                },
+                "value": 0,
+                "raw": "0"
+              },
+              {
+                "type": "Length",
+                "span": {
+                  "start": 219,
+                  "end": 223,
+                  "ctxt": 0
+                },
+                "value": {
+                  "type": "Number",
+                  "span": {
+                    "start": 219,
+                    "end": 221,
+                    "ctxt": 0
+                  },
+                  "value": 10.0,
+                  "raw": "10"
+                },
+                "unit": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 221,
+                    "end": 223,
+                    "ctxt": 0
+                  },
+                  "value": "px",
+                  "raw": "px"
+                }
+              },
+              {
+                "type": "Length",
+                "span": {
+                  "start": 224,
+                  "end": 228,
+                  "ctxt": 0
+                },
+                "value": {
+                  "type": "Number",
+                  "span": {
+                    "start": 224,
+                    "end": 226,
+                    "ctxt": 0
+                  },
+                  "value": 20.0,
+                  "raw": "20"
+                },
+                "unit": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 226,
+                    "end": 228,
+                    "ctxt": 0
+                  },
+                  "value": "px",
+                  "raw": "px"
+                }
+              },
+              {
+                "type": "Function",
+                "span": {
+                  "start": 229,
+                  "end": 248,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 229,
+                    "end": 233,
+                    "ctxt": 0
+                  },
+                  "value": "rgba",
+                  "raw": "rgba"
+                },
+                "value": [
+                  {
+                    "type": "Integer",
+                    "span": {
+                      "start": 234,
+                      "end": 235,
+                      "ctxt": 0
+                    },
+                    "value": 0,
+                    "raw": "0"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 235,
+                      "end": 236,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Integer",
+                    "span": {
+                      "start": 237,
+                      "end": 238,
+                      "ctxt": 0
+                    },
+                    "value": 0,
+                    "raw": "0"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 238,
+                      "end": 239,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Integer",
+                    "span": {
+                      "start": 240,
+                      "end": 241,
+                      "ctxt": 0
+                    },
+                    "value": 0,
+                    "raw": "0"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 241,
+                      "end": 242,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 243,
+                      "end": 247,
+                      "ctxt": 0
+                    },
+                    "value": 0.08,
+                    "raw": "0.08"
+                  }
+                ]
+              },
+              {
+                "type": "Delimiter",
+                "span": {
+                  "start": 248,
+                  "end": 249,
+                  "ctxt": 0
+                },
+                "value": ","
+              },
+              {
+                "type": "Integer",
+                "span": {
+                  "start": 258,
+                  "end": 259,
+                  "ctxt": 0
+                },
+                "value": 0,
+                "raw": "0"
+              },
+              {
+                "type": "Length",
+                "span": {
+                  "start": 260,
+                  "end": 263,
+                  "ctxt": 0
+                },
+                "value": {
+                  "type": "Number",
+                  "span": {
+                    "start": 260,
+                    "end": 261,
+                    "ctxt": 0
+                  },
+                  "value": 5.0,
+                  "raw": "5"
+                },
+                "unit": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 261,
+                    "end": 263,
+                    "ctxt": 0
+                  },
+                  "value": "px",
+                  "raw": "px"
+                }
+              },
+              {
+                "type": "Length",
+                "span": {
+                  "start": 264,
+                  "end": 268,
+                  "ctxt": 0
+                },
+                "value": {
+                  "type": "Number",
+                  "span": {
+                    "start": 264,
+                    "end": 266,
+                    "ctxt": 0
+                  },
+                  "value": 12.0,
+                  "raw": "12"
+                },
+                "unit": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 266,
+                    "end": 268,
+                    "ctxt": 0
+                  },
+                  "value": "px",
+                  "raw": "px"
+                }
+              },
+              {
+                "type": "Function",
+                "span": {
+                  "start": 269,
+                  "end": 287,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 269,
+                    "end": 273,
+                    "ctxt": 0
+                  },
+                  "value": "rgba",
+                  "raw": "rgba"
+                },
+                "value": [
+                  {
+                    "type": "Integer",
+                    "span": {
+                      "start": 274,
+                      "end": 275,
+                      "ctxt": 0
+                    },
+                    "value": 0,
+                    "raw": "0"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 275,
+                      "end": 276,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Integer",
+                    "span": {
+                      "start": 277,
+                      "end": 278,
+                      "ctxt": 0
+                    },
+                    "value": 0,
+                    "raw": "0"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 278,
+                      "end": 279,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Integer",
+                    "span": {
+                      "start": 280,
+                      "end": 281,
+                      "ctxt": 0
+                    },
+                    "value": 0,
+                    "raw": "0"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 281,
+                      "end": 282,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 283,
+                      "end": 286,
+                      "ctxt": 0
+                    },
+                    "value": 0.1,
+                    "raw": "0.1"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 293,
+              "end": 318,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 293,
+                "end": 303,
+                "ctxt": 0
+              },
+              "value": "transition",
+              "raw": "transition"
+            },
+            "value": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 305,
+                  "end": 308,
+                  "ctxt": 0
+                },
+                "value": "all",
+                "raw": "all"
+              },
+              {
+                "type": "Time",
+                "span": {
+                  "start": 309,
+                  "end": 313,
+                  "ctxt": 0
+                },
+                "value": {
+                  "type": "Number",
+                  "span": {
+                    "start": 309,
+                    "end": 312,
+                    "ctxt": 0
+                  },
+                  "value": 0.5,
+                  "raw": "0.5"
+                },
+                "unit": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 312,
+                    "end": 313,
+                    "ctxt": 0
+                  },
+                  "value": "s",
+                  "raw": "s"
+                }
+              },
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 314,
+                  "end": 318,
+                  "ctxt": 0
+                },
+                "value": "ease",
+                "raw": "ease"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 324,
+              "end": 339,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 324,
+                "end": 330,
+                "ctxt": 0
+              },
+              "value": "cursor",
+              "raw": "cursor"
+            },
+            "value": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 332,
+                  "end": 339,
+                  "ctxt": 0
+                },
+                "value": "pointer",
+                "raw": "pointer"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 345,
+              "end": 361,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 345,
+                "end": 353,
+                "ctxt": 0
+              },
+              "value": "overflow",
+              "raw": "overflow"
+            },
+            "value": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 355,
+                  "end": 361,
+                  "ctxt": 0
+                },
+                "value": "hidden",
+                "raw": "hidden"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 367,
+              "end": 384,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 367,
+                "end": 377,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 379,
+                  "end": 384,
+                  "ctxt": 0
+                },
+                "value": "white",
+                "raw": "white"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    }
+  ]
+}

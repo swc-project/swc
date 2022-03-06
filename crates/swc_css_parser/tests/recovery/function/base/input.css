@@ -1,0 +1,9 @@
+div {
+    prop: func(1 + 2);
+    prop: func(ident.ident);
+    prop: func3(   ident.ident   );
+    prop: func([foo bar]);
+    prop: func((foo, bar));
+    prop: func({ foo: bar });
+    prop: func(1, 2);
+}

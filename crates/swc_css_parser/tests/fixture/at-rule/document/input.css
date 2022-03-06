@@ -14,3 +14,11 @@
 @document url(https://www.example.com/) {}
 @-moz-document url("https://www.example.com/") {}
 @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
+
+@document url("https://www.example.com/") {
+    @media screen and (min-width: 900px) {
+        article {
+            padding: 1rem 3rem;
+        }
+    }
+}

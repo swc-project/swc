@@ -487,7 +487,8 @@
                   },
                   "value": "a2",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -835,7 +836,8 @@
                   },
                   "value": "a2",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -1277,7 +1279,8 @@
                   },
                   "value": "a2",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -1533,7 +1536,8 @@
                   },
                   "value": "a2",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -1909,7 +1913,8 @@
                   },
                   "value": "a2",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -2264,7 +2269,8 @@
                   },
                   "value": "a2",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -2561,7 +2567,8 @@
                   },
                   "value": "a2",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -3077,7 +3084,8 @@
                   },
                   "value": "a2",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -3861,7 +3869,8 @@
                   },
                   "value": "a2",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -9908,7 +9917,8 @@
                   },
                   "value": "a2",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
@@ -10378,7 +10388,8 @@
                   },
                   "value": "a2",
                   "optional": false
-                }
+                },
+                "typeArguments": null
               }
             }
           },
