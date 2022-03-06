@@ -1,3 +1,4 @@
+#![deny(clippy::all)]
 #![recursion_limit = "1024"]
 
 extern crate proc_macro;
