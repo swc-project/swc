@@ -1,15 +1,10 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 var _Foo, __, __1, __2;
-var _class;
 // https://github.com/microsoft/TypeScript/issues/44872
-void (_class = (_Foo = function Foo() {
+void (_Foo = function Foo() {
     "use strict";
-    _classCallCheck(this, Foo);
-}, __ = {
+    swcHelpers.classCallCheck(this, Foo);
+}, _Foo.prop = 1, __ = {
     writable: true,
     value: function() {
         console.log(_Foo.prop);
@@ -27,4 +22,4 @@ void (_class = (_Foo = function Foo() {
         console.log(_Foo.prop);
         _Foo.prop++;
     }()
-}, _Foo), _class.prop = 1, _class);
+}, _Foo);

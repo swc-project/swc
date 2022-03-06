@@ -1,7 +1,4 @@
-var _typeof = function(obj) {
-    "@swc/helpers - typeof";
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
+import * as swcHelpers from "@swc/helpers";
 var // @allowUnusedLabels: true
 // typeof  operator on enum type
 ENUM;
@@ -13,21 +10,21 @@ var ENUM1;
     ENUM1[ENUM1[""] = 2] = "";
 })(ENUM1 || (ENUM1 = {}));
 // enum type var
-var ResultIsString1 = typeof ENUM === "undefined" ? "undefined" : _typeof(ENUM);
-var ResultIsString2 = typeof ENUM1 === "undefined" ? "undefined" : _typeof(ENUM1);
+var ResultIsString1 = typeof ENUM === "undefined" ? "undefined" : swcHelpers.typeOf(ENUM);
+var ResultIsString2 = typeof ENUM1 === "undefined" ? "undefined" : swcHelpers.typeOf(ENUM1);
 // enum type expressions
-var ResultIsString3 = _typeof(ENUM1["A"]);
-var ResultIsString4 = _typeof(ENUM[0] + ENUM1["B"]);
+var ResultIsString3 = swcHelpers.typeOf(ENUM1["A"]);
+var ResultIsString4 = swcHelpers.typeOf(ENUM[0] + ENUM1["B"]);
 // multiple typeof  operators
-var ResultIsString5 = _typeof(typeof ENUM === "undefined" ? "undefined" : _typeof(ENUM));
-var ResultIsString6 = _typeof(_typeof(_typeof(ENUM[0] + ENUM1.B)));
+var ResultIsString5 = swcHelpers.typeOf(typeof ENUM === "undefined" ? "undefined" : swcHelpers.typeOf(ENUM));
+var ResultIsString6 = swcHelpers.typeOf(swcHelpers.typeOf(swcHelpers.typeOf(ENUM[0] + ENUM1.B)));
 // miss assignment operators
-typeof ENUM === "undefined" ? "undefined" : _typeof(ENUM);
-typeof ENUM1 === "undefined" ? "undefined" : _typeof(ENUM1);
-_typeof(ENUM1["B"]);
-typeof ENUM === "undefined" ? "undefined" : _typeof(ENUM), ENUM1;
+typeof ENUM === "undefined" ? "undefined" : swcHelpers.typeOf(ENUM);
+typeof ENUM1 === "undefined" ? "undefined" : swcHelpers.typeOf(ENUM1);
+swcHelpers.typeOf(ENUM1["B"]);
+typeof ENUM === "undefined" ? "undefined" : swcHelpers.typeOf(ENUM), ENUM1;
 var // use typeof in type query
 z;
 (function(z) {})(z || (z = {}));
-z: typeof ENUM === "undefined" ? "undefined" : _typeof(ENUM);
-z: typeof ENUM1 === "undefined" ? "undefined" : _typeof(ENUM1);
+z: typeof ENUM === "undefined" ? "undefined" : swcHelpers.typeOf(ENUM);
+z: typeof ENUM1 === "undefined" ? "undefined" : swcHelpers.typeOf(ENUM1);

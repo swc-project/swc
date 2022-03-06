@@ -1,121 +1,4 @@
-function AsyncGenerator(gen) {
-    var front, back;
-    function send(key, arg) {
-        return new Promise(function(resolve, reject) {
-            var request = {
-                key: key,
-                arg: arg,
-                resolve: resolve,
-                reject: reject,
-                next: null
-            };
-            if (back) {
-                back = back.next = request;
-            } else {
-                front = back = request;
-                resume(key, arg);
-            }
-        });
-    }
-    function resume(key, arg) {
-        try {
-            var result = gen[key](arg);
-            var value = result.value;
-            var wrappedAwait = value instanceof _AwaitValue;
-            Promise.resolve(wrappedAwait ? value.wrapped : value).then(function(arg) {
-                if (wrappedAwait) {
-                    resume("next", arg);
-                    return;
-                }
-                settle(result.done ? "return" : "normal", arg);
-            }, function(err) {
-                resume("throw", err);
-            });
-        } catch (err) {
-            settle("throw", err);
-        }
-    }
-    function settle(type, value) {
-        switch(type){
-            case "return":
-                front.resolve({
-                    value: value,
-                    done: true
-                });
-                break;
-            case "throw":
-                front.reject(value);
-                break;
-            default:
-                front.resolve({
-                    value: value,
-                    done: false
-                });
-                break;
-        }
-        front = front.next;
-        if (front) {
-            resume(front.key, front.arg);
-        } else {
-            back = null;
-        }
-    }
-    this._invoke = send;
-    if (typeof gen.return !== "function") {
-        this.return = undefined;
-    }
-}
-if (typeof Symbol === "function" && Symbol.asyncIterator) {
-    AsyncGenerator.prototype[Symbol.asyncIterator] = function() {
-        return this;
-    };
-}
-AsyncGenerator.prototype.next = function(arg) {
-    return this._invoke("next", arg);
-};
-AsyncGenerator.prototype.throw = function(arg) {
-    return this._invoke("throw", arg);
-};
-AsyncGenerator.prototype.return = function(arg) {
-    return this._invoke("return", arg);
-};
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-    try {
-        var info = gen[key](arg);
-        var value = info.value;
-    } catch (error) {
-        reject(error);
-        return;
-    }
-    if (info.done) {
-        resolve(value);
-    } else {
-        Promise.resolve(value).then(_next, _throw);
-    }
-}
-function _asyncToGenerator(fn) {
-    return function() {
-        var self = this, args = arguments;
-        return new Promise(function(resolve, reject) {
-            var gen = fn.apply(self, args);
-            function _next(value) {
-                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-            }
-            function _throw(err) {
-                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-            }
-            _next(undefined);
-        });
-    };
-}
-function _AwaitValue(value) {
-    this.wrapped = value;
-}
-function _wrapAsyncGenerator(fn) {
-    return function() {
-        return new AsyncGenerator(fn.apply(this, arguments));
-    };
-}
+import * as swcHelpers from "@swc/helpers";
 // @target: esnext
 // @lib: esnext
 // @declaration: false
@@ -178,7 +61,7 @@ function asyncFuncReturnConstCall() {
 }
 function _asyncFuncReturnConstCall() {
     _asyncFuncReturnConstCall = // async function return inference
-    _asyncToGenerator(function*() {
+    swcHelpers.asyncToGenerator(function*() {
         return constCall;
     });
     return _asyncFuncReturnConstCall.apply(this, arguments);
@@ -187,7 +70,7 @@ function asyncFuncReturnLetCall() {
     return _asyncFuncReturnLetCall.apply(this, arguments);
 }
 function _asyncFuncReturnLetCall() {
-    _asyncFuncReturnLetCall = _asyncToGenerator(function*() {
+    _asyncFuncReturnLetCall = swcHelpers.asyncToGenerator(function*() {
         return letCall;
     });
     return _asyncFuncReturnLetCall.apply(this, arguments);
@@ -196,7 +79,7 @@ function asyncFuncReturnVarCall() {
     return _asyncFuncReturnVarCall.apply(this, arguments);
 }
 function _asyncFuncReturnVarCall() {
-    _asyncFuncReturnVarCall = _asyncToGenerator(function*() {
+    _asyncFuncReturnVarCall = swcHelpers.asyncToGenerator(function*() {
         return varCall;
     });
     return _asyncFuncReturnVarCall.apply(this, arguments);
@@ -206,7 +89,7 @@ function asyncGenFuncYieldConstCall() {
 }
 function _asyncGenFuncYieldConstCall() {
     _asyncGenFuncYieldConstCall = // async generator function yield inference
-    _wrapAsyncGenerator(function*() {
+    swcHelpers.wrapAsyncGenerator(function*() {
         yield constCall;
     });
     return _asyncGenFuncYieldConstCall.apply(this, arguments);
@@ -215,7 +98,7 @@ function asyncGenFuncYieldLetCall() {
     return _asyncGenFuncYieldLetCall.apply(this, arguments);
 }
 function _asyncGenFuncYieldLetCall() {
-    _asyncGenFuncYieldLetCall = _wrapAsyncGenerator(function*() {
+    _asyncGenFuncYieldLetCall = swcHelpers.wrapAsyncGenerator(function*() {
         yield letCall;
     });
     return _asyncGenFuncYieldLetCall.apply(this, arguments);
@@ -224,7 +107,7 @@ function asyncGenFuncYieldVarCall() {
     return _asyncGenFuncYieldVarCall.apply(this, arguments);
 }
 function _asyncGenFuncYieldVarCall() {
-    _asyncGenFuncYieldVarCall = _wrapAsyncGenerator(function*() {
+    _asyncGenFuncYieldVarCall = swcHelpers.wrapAsyncGenerator(function*() {
         yield varCall;
     });
     return _asyncGenFuncYieldVarCall.apply(this, arguments);
@@ -291,12 +174,12 @@ const o2 = {
         return s;
     },
     method2 () {
-        return _asyncToGenerator(function*() {
+        return swcHelpers.asyncToGenerator(function*() {
             return s;
         })();
     },
     method3 () {
-        return _wrapAsyncGenerator(function*() {
+        return swcHelpers.wrapAsyncGenerator(function*() {
             yield s;
         })();
     },
@@ -313,12 +196,12 @@ class C0 {
         return s;
     }
     method2() {
-        return _asyncToGenerator(function*() {
+        return swcHelpers.asyncToGenerator(function*() {
             return s;
         })();
     }
     method3() {
-        return _wrapAsyncGenerator(function*() {
+        return swcHelpers.wrapAsyncGenerator(function*() {
             yield s;
         })();
     }
@@ -375,12 +258,12 @@ const o3 = {
         return s; // return type should not widen due to contextual type
     },
     method2 () {
-        return _asyncToGenerator(function*() {
+        return swcHelpers.asyncToGenerator(function*() {
             return s; // return type should not widen due to contextual type
         })();
     },
     method3 () {
-        return _wrapAsyncGenerator(function*() {
+        return swcHelpers.wrapAsyncGenerator(function*() {
             yield s; // yield type should not widen due to contextual type
         })();
     },

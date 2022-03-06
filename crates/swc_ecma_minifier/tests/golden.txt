@@ -24,7 +24,9 @@ arrow/arrow_functions_without_body/input.js
 arrow/arrow_unused/input.js
 arrow/arrow_unused_toplevel/input.js
 arrow/arrow_with_regexp/input.js
+arrow/async_function_expression/input.js
 arrow/async_identifiers/input.js
+arrow/async_object_literal/input.js
 arrow/call_args/input.js
 arrow/concise_method_with_super/input.js
 arrow/issue_2271/input.js
@@ -49,6 +51,7 @@ async/async_arrow_iife_negate_iife/input.js
 async/async_arrow_wait/input.js
 async/async_class/input.js
 async/async_export/input.js
+async/async_function_expression/input.js
 async/async_generator_class_method/input.js
 async/async_generator_function/input.js
 async/async_generator_object_literal_method/input.js
@@ -100,6 +103,7 @@ classes/class_duplication/input.js
 classes/class_duplication_2/input.js
 classes/class_recursive_refs/input.js
 collapse_vars/anonymous_function/input.js
+collapse_vars/assignment/input.js
 collapse_vars/boolean_binary_1/input.js
 collapse_vars/boolean_binary_2/input.js
 collapse_vars/cascade_if_1/input.js
@@ -162,6 +166,7 @@ collapse_vars/issue_2364_1/input.js
 collapse_vars/issue_2364_2/input.js
 collapse_vars/issue_2364_3/input.js
 collapse_vars/issue_2364_4/input.js
+collapse_vars/issue_2364_5/input.js
 collapse_vars/issue_2364_6/input.js
 collapse_vars/issue_2364_7/input.js
 collapse_vars/issue_2364_8/input.js
@@ -182,6 +187,7 @@ collapse_vars/issue_27/input.js
 collapse_vars/issue_2858/input.js
 collapse_vars/issue_2873_1/input.js
 collapse_vars/issue_2873_2/input.js
+collapse_vars/issue_2878/input.js
 collapse_vars/issue_2891_1/input.js
 collapse_vars/issue_2891_2/input.js
 collapse_vars/issue_2908/input.js
@@ -237,6 +243,7 @@ conditionals/cond_7_1/input.js
 conditionals/cond_8/input.js
 conditionals/cond_8b/input.js
 conditionals/cond_8c/input.js
+conditionals/cond_9/input.js
 conditionals/condition_symbol_matches_consequent/input.js
 conditionals/delete_conditional_1/input.js
 conditionals/delete_conditional_2/input.js
@@ -249,6 +256,7 @@ conditionals/ifs_4/input.js
 conditionals/issue_1645_1/input.js
 conditionals/issue_1645_2/input.js
 conditionals/issue_2535_2/input.js
+conditionals/issue_2560/input.js
 conditionals/no_evaluate/input.js
 conditionals/ternary_boolean_alternative/input.js
 conditionals/ternary_boolean_consequent/input.js
@@ -262,6 +270,7 @@ const/unused_regexp_literal/input.js
 dead_code/accessor/input.js
 dead_code/collapse_vars_assignment/input.js
 dead_code/collapse_vars_lvalues_drop_assign/input.js
+dead_code/collapse_vars_misc1/input.js
 dead_code/dead_code_1/input.js
 dead_code/dead_code_block_decls_die/input.js
 dead_code/dead_code_const_annotation_regex/input.js
@@ -277,6 +286,7 @@ dead_code/issue_2666/input.js
 dead_code/issue_2692/input.js
 dead_code/issue_2701/input.js
 dead_code/issue_2860_1/input.js
+dead_code/issue_2860_2/input.js
 dead_code/issue_2929/input.js
 dead_code/throw_assignment/input.js
 dead_code/try_catch_finally/input.js
@@ -496,6 +506,8 @@ functions/inline_false/input.js
 functions/inline_function_expressions/input.js
 functions/inline_loop_3/input.js
 functions/inline_loop_4/input.js
+functions/issue_1841_1/input.js
+functions/issue_1841_2/input.js
 functions/issue_2097/input.js
 functions/issue_2647_1/input.js
 functions/issue_2647_2/input.js
@@ -861,6 +873,7 @@ object/computed_property_names_evaluated_1/input.js
 object/computed_property_names_evaluated_2/input.js
 object/computed_property_names_side_effects/input.js
 object/concise_generators/input.js
+object/concise_method_to_prop_arrow/input.js
 object/concise_methods/input.js
 object/concise_methods_and_keyword_names/input.js
 object/concise_methods_with_computed_property/input.js
@@ -959,6 +972,7 @@ pure_getters/issue_2938_1/input.js
 pure_getters/issue_2938_2/input.js
 pure_getters/set_immutable_2/input.js
 pure_getters/set_immutable_4/input.js
+pure_getters/strict/input.js
 pure_globals/window_access_is_impure/input.js
 reduce_vars/accessor_1/input.js
 reduce_vars/accessor_2/input.js
@@ -1314,6 +1328,7 @@ yield/generator_yield_undefined/input.js
 yield/generators/input.js
 yield/generators_yield/input.js
 yield/generators_yield_assign/input.js
+yield/issue_2689/input.js
 yield/issue_2832/input.js
 yield/issue_t60/input.js
 yield/yield_as_ES5_property/input.js

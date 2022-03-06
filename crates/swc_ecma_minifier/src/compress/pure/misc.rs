@@ -285,6 +285,7 @@ where
                             ..opts
                         },
                     );
+                    let span = bin.span;
 
                     if bin.left.is_invalid() && bin.right.is_invalid() {
                         *e = Expr::Invalid(Invalid { span: DUMMY_SP });
@@ -294,6 +295,16 @@ where
                         return;
                     } else if bin.left.is_invalid() {
                         *e = *bin.right.take();
+                        return;
+                    }
+
+                    if bin.left.is_await_expr() {
+                        self.changed = true;
+                        tracing::debug!("ignore_return_value: Left is await");
+                        *e = Expr::Seq(SeqExpr {
+                            span,
+                            exprs: vec![bin.left.take(), bin.right.take()],
+                        });
                         return;
                     }
                 }

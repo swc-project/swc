@@ -46,6 +46,12 @@ error: Expected function or ident tokens
 112 |     &property: value;
     |               ^
 
+error: Unexpected character `';'`
+   --> $DIR/tests/recovery/hacks/input.css:112:21
+    |
+112 |     &property: value;
+    |                     ^
+
 error: Expected whitespace, semicolon, EOF, at-keyword or ident token
    --> $DIR/tests/recovery/hacks/input.css:116:5
     |

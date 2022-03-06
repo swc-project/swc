@@ -1,28 +1,10 @@
-function _defineProperty(obj, key, value) {
-    return key in obj ? Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: !0,
-        configurable: !0,
-        writable: !0
-    }) : obj[key] = value, obj;
-}
-function _objectSpread(target) {
-    for(var i = 1; i < arguments.length; i++){
-        var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
-        "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
-            return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-        }))), ownKeys.forEach(function(key) {
-            _defineProperty(target, key, source[key]);
-        });
-    }
-    return target;
-}
-_objectSpread({
+import * as swcHelpers from "@swc/helpers";
+swcHelpers.objectSpread({
     b: 1
-}, ab), _objectSpread({}, ab, ab), _objectSpread({
+}, ab), swcHelpers.objectSpread({}, ab, ab), swcHelpers.objectSpread({
     b: 1
-}, abq), _objectSpread({}, ab, {
+}, abq), swcHelpers.objectSpread({}, ab, {
     b: 1
-}), _objectSpread({}, abq, {
+}), swcHelpers.objectSpread({}, abq, {
     b: 1
 });

@@ -293,6 +293,8 @@ where
             }
         }
 
+        self.unsafe_optimize_fn_as_arrow(e);
+
         self.eval_opt_chain(e);
 
         self.eval_number_call(e);

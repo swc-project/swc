@@ -495,7 +495,7 @@ test!(
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator(),
+            async_to_generator(Default::default()),
             es2015::es2015(
                 mark,
                 Some(comments.clone()),
@@ -570,7 +570,7 @@ test_exec!(
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator(),
+            async_to_generator(Default::default()),
             es2015::es2015(
                 mark,
                 Some(comments.clone()),

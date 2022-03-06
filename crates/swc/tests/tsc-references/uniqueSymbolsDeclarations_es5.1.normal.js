@@ -1,153 +1,4 @@
-function AsyncGenerator(gen) {
-    var front, back;
-    function send(key, arg) {
-        return new Promise(function(resolve, reject) {
-            var request = {
-                key: key,
-                arg: arg,
-                resolve: resolve,
-                reject: reject,
-                next: null
-            };
-            if (back) {
-                back = back.next = request;
-            } else {
-                front = back = request;
-                resume(key, arg);
-            }
-        });
-    }
-    function resume(key, arg) {
-        try {
-            var result = gen[key](arg);
-            var value = result.value;
-            var wrappedAwait = value instanceof _AwaitValue;
-            Promise.resolve(wrappedAwait ? value.wrapped : value).then(function(arg) {
-                if (wrappedAwait) {
-                    resume("next", arg);
-                    return;
-                }
-                settle(result.done ? "return" : "normal", arg);
-            }, function(err) {
-                resume("throw", err);
-            });
-        } catch (err) {
-            settle("throw", err);
-        }
-    }
-    function settle(type, value) {
-        switch(type){
-            case "return":
-                front.resolve({
-                    value: value,
-                    done: true
-                });
-                break;
-            case "throw":
-                front.reject(value);
-                break;
-            default:
-                front.resolve({
-                    value: value,
-                    done: false
-                });
-                break;
-        }
-        front = front.next;
-        if (front) {
-            resume(front.key, front.arg);
-        } else {
-            back = null;
-        }
-    }
-    this._invoke = send;
-    if (typeof gen.return !== "function") {
-        this.return = undefined;
-    }
-}
-if (typeof Symbol === "function" && Symbol.asyncIterator) {
-    AsyncGenerator.prototype[Symbol.asyncIterator] = function() {
-        return this;
-    };
-}
-AsyncGenerator.prototype.next = function(arg) {
-    return this._invoke("next", arg);
-};
-AsyncGenerator.prototype.throw = function(arg) {
-    return this._invoke("throw", arg);
-};
-AsyncGenerator.prototype.return = function(arg) {
-    return this._invoke("return", arg);
-};
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-    try {
-        var info = gen[key](arg);
-        var value = info.value;
-    } catch (error) {
-        reject(error);
-        return;
-    }
-    if (info.done) {
-        resolve(value);
-    } else {
-        Promise.resolve(value).then(_next, _throw);
-    }
-}
-function _asyncToGenerator(fn) {
-    return function() {
-        var self = this, args = arguments;
-        return new Promise(function(resolve, reject) {
-            var gen = fn.apply(self, args);
-            function _next(value) {
-                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-            }
-            function _throw(err) {
-                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-            }
-            _next(undefined);
-        });
-    };
-}
-function _AwaitValue(value) {
-    this.wrapped = value;
-}
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
-function _defineProperty(obj, key, value) {
-    if (key in obj) {
-        Object.defineProperty(obj, key, {
-            value: value,
-            enumerable: true,
-            configurable: true,
-            writable: true
-        });
-    } else {
-        obj[key] = value;
-    }
-    return obj;
-}
-function _wrapAsyncGenerator(fn) {
-    return function() {
-        return new AsyncGenerator(fn.apply(this, arguments));
-    };
-}
+import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(genFuncYieldConstCallWithTypeQuery);
 var _marked1 = regeneratorRuntime.mark(genFuncYieldVarCall);
@@ -248,7 +99,7 @@ function asyncFuncReturnConstCall() {
 }
 function _asyncFuncReturnConstCall() {
     _asyncFuncReturnConstCall = // async function return inference
-    _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -265,7 +116,7 @@ function asyncFuncReturnLetCall() {
     return _asyncFuncReturnLetCall.apply(this, arguments);
 }
 function _asyncFuncReturnLetCall() {
-    _asyncFuncReturnLetCall = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    _asyncFuncReturnLetCall = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -282,7 +133,7 @@ function asyncFuncReturnVarCall() {
     return _asyncFuncReturnVarCall.apply(this, arguments);
 }
 function _asyncFuncReturnVarCall() {
-    _asyncFuncReturnVarCall = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    _asyncFuncReturnVarCall = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -300,7 +151,7 @@ function asyncGenFuncYieldConstCall() {
 }
 function _asyncGenFuncYieldConstCall() {
     _asyncGenFuncYieldConstCall = // async generator function yield inference
-    _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+    swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -318,7 +169,7 @@ function asyncGenFuncYieldLetCall() {
     return _asyncGenFuncYieldLetCall.apply(this, arguments);
 }
 function _asyncGenFuncYieldLetCall() {
-    _asyncGenFuncYieldLetCall = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+    _asyncGenFuncYieldLetCall = swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -336,7 +187,7 @@ function asyncGenFuncYieldVarCall() {
     return _asyncGenFuncYieldVarCall.apply(this, arguments);
 }
 function _asyncGenFuncYieldVarCall() {
-    _asyncGenFuncYieldVarCall = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+    _asyncGenFuncYieldVarCall = swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -352,8 +203,7 @@ function _asyncGenFuncYieldVarCall() {
 }
 var C = function C() {
     "use strict";
-    _classCallCheck(this, C);
-    // classes
+    swcHelpers.classCallCheck(this, C);
     this.readonlyCall = Symbol();
     this.readwriteCall = Symbol();
 };
@@ -412,7 +262,7 @@ var o2 = {
         return s;
     },
     method2: function method2() {
-        return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -425,7 +275,7 @@ var o2 = {
         }))();
     },
     method3: function method3() {
-        return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+        return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -459,7 +309,7 @@ var C0 = // property initializers
 /*#__PURE__*/ function() {
     "use strict";
     function C0() {
-        _classCallCheck(this, C0);
+        swcHelpers.classCallCheck(this, C0);
         this.a = s;
         this.b = N.s;
         this.c = N["s"];
@@ -467,7 +317,7 @@ var C0 = // property initializers
         this.e = N.s;
         this.f = N["s"];
     }
-    _createClass(C0, [
+    swcHelpers.createClass(C0, [
         {
             key: "method1",
             value: function method1() {
@@ -477,7 +327,7 @@ var C0 = // property initializers
         {
             key: "method2",
             value: function method2() {
-                return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function _callee$(_ctx) {
                         while(1)switch(_ctx.prev = _ctx.next){
                             case 0:
@@ -493,7 +343,7 @@ var C0 = // property initializers
         {
             key: "method3",
             value: function method3() {
-                return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+                return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function _callee$(_ctx) {
                         while(1)switch(_ctx.prev = _ctx.next){
                             case 0:
@@ -560,17 +410,17 @@ Math.random() * 2 ? N.s : "a";
 Math.random() * 2 ? N["s"] : "a";
 var _obj;
 // computed property names
-(_obj = {}, _defineProperty(_obj, s, "a"), _defineProperty(_obj, N.s, "b"), _obj);
+(_obj = {}, swcHelpers.defineProperty(_obj, s, "a"), swcHelpers.defineProperty(_obj, N.s, "b"), _obj);
 var C1 = function C1() {
     "use strict";
-    _classCallCheck(this, C1);
+    swcHelpers.classCallCheck(this, C1);
 };
 var o4 = {
     method1: function method1() {
         return s; // return type should not widen due to contextual type
     },
     method2: function method2() {
-        return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -583,7 +433,7 @@ var o4 = {
         }))();
     },
     method3: function method3() {
-        return _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+        return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:

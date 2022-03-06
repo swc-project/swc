@@ -127,8 +127,8 @@ class StringReader extends Deno.Buffer {
     }
 }
 class MultiReader {
+    currentIndex = 0;
     constructor(...readers){
-        this.currentIndex = 0;
         this.readers = readers;
     }
     async read(p) {
@@ -1208,19 +1208,19 @@ class BufferFullError extends Error {
     }
 }
 class PartialReadError extends Deno.errors.UnexpectedEof {
+    name = "PartialReadError";
     constructor(){
         super("Encountered UnexpectedEof, data only partially read");
-        this.name = "PartialReadError";
     }
 }
 class BufReader {
+    r = 0;
+    w = 0;
+    eof = false;
     static create(r, size = 4096) {
         return r instanceof BufReader ? r : new BufReader(r, size);
     }
     constructor(rd, size = 4096){
-        this.r = 0;
-        this.w = 0;
-        this.eof = false;
         if (size < 16) {
             size = MIN_BUF_SIZE;
         }
@@ -1423,6 +1423,8 @@ class BufReader {
     }
 }
 class AbstractBufBase {
+    usedBufferBytes = 0;
+    err = null;
     size() {
         return this.buf.byteLength;
     }
@@ -1431,10 +1433,6 @@ class AbstractBufBase {
     }
     buffered() {
         return this.usedBufferBytes;
-    }
-    constructor(){
-        this.usedBufferBytes = 0;
-        this.err = null;
     }
 }
 class BufWriter extends AbstractBufBase {

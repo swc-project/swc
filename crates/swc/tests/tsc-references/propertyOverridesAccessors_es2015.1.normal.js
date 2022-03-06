@@ -8,8 +8,8 @@ class A {
 class B extends A {
     constructor(...args){
         super(...args);
-        this.p // error
-         = 'yep';
+        this.p = 'yep' // error
+        ;
     }
 }
 class C {
@@ -26,7 +26,7 @@ class C {
 class D extends C {
     constructor(...args){
         super(...args);
-        this.p // error
-         = 101;
+        this.p = 101 // error
+        ;
     }
 }

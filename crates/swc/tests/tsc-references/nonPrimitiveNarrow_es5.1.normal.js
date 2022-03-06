@@ -1,21 +1,10 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _instanceof(left, right) {
-    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
-        return !!right[Symbol.hasInstance](left);
-    } else {
-        return left instanceof right;
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 var Narrow = function Narrow() {
     "use strict";
-    _classCallCheck(this, Narrow);
+    swcHelpers.classCallCheck(this, Narrow);
 };
 var a;
-if (_instanceof(a, Narrow)) {
+if (swcHelpers._instanceof(a, Narrow)) {
     a.narrowed; // ok
     a = 123; // error
 }

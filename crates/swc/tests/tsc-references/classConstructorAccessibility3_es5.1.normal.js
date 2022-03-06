@@ -1,26 +1,22 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 var Foo = function Foo(x) {
     "use strict";
-    _classCallCheck(this, Foo);
+    swcHelpers.classCallCheck(this, Foo);
     this.x = x;
 };
 var Bar = function Bar(x) {
     "use strict";
-    _classCallCheck(this, Bar);
+    swcHelpers.classCallCheck(this, Bar);
     this.x = x;
 };
 var Baz = function Baz(x) {
     "use strict";
-    _classCallCheck(this, Baz);
+    swcHelpers.classCallCheck(this, Baz);
     this.x = x;
 };
 var Qux = function Qux(x) {
     "use strict";
-    _classCallCheck(this, Qux);
+    swcHelpers.classCallCheck(this, Qux);
     this.x = x;
 };
 // b is public

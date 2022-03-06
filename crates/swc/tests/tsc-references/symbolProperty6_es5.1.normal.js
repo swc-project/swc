@@ -1,34 +1,15 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
-var _key;
-var tmp = (_key = Symbol.iterator, Symbol.toPrimitive), _toStringTag = Symbol.toStringTag;
+import * as swcHelpers from "@swc/helpers";
+var _iterator = Symbol.iterator, _toPrimitive = Symbol.toPrimitive, _toStringTag = Symbol.toStringTag;
 var C = //@target: ES6
 /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        _classCallCheck(this, C);
-        this[_key] = 0;
+        swcHelpers.classCallCheck(this, C);
+        this[_iterator] = 0;
     }
-    _createClass(C, [
+    swcHelpers.createClass(C, [
         {
-            key: tmp,
+            key: _toPrimitive,
             value: function value() {}
         },
         {

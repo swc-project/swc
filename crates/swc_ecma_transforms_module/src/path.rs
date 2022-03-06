@@ -12,6 +12,7 @@ use swc_common::{FileName, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_loader::resolve::Resolve;
 use swc_ecma_utils::{quote_ident, ExprFactory};
+use tracing::{debug, warn, Level};
 
 pub(crate) enum Resolver {
     Real {
@@ -22,14 +23,18 @@ pub(crate) enum Resolver {
 }
 
 impl Resolver {
-    pub(crate) fn make_require_call(&self, mark: Mark, src: JsWord) -> Expr {
-        let src = match self {
+    pub(crate) fn resolve(&self, src: JsWord) -> JsWord {
+        match self {
             Self::Real { resolver, base } => resolver
                 .resolve_import(base, &src)
                 .with_context(|| format!("failed to resolve import `{}`", src))
                 .unwrap(),
             Self::Default => src,
-        };
+        }
+    }
+
+    pub(crate) fn make_require_call(&self, mark: Mark, src: JsWord) -> Expr {
+        let src = self.resolve(src);
 
         Expr::Call(CallExpr {
             span: DUMMY_SP,
@@ -103,10 +108,31 @@ where
             p.display().to_string().into()
         }
 
+        let _tracing = if cfg!(debug_assertions) {
+            Some(
+                tracing::span!(
+                    Level::ERROR,
+                    "resolve_import",
+                    base = tracing::field::display(base),
+                    module_specifier = tracing::field::display(module_specifier),
+                )
+                .entered(),
+            )
+        } else {
+            None
+        };
+
+        if cfg!(debug_assertions) {
+            debug!("invoking resolver");
+        }
+
         let target = self.resolver.resolve(base, module_specifier);
         let target = match target {
             Ok(v) => v,
-            Err(_) => return Ok(module_specifier.into()),
+            Err(err) => {
+                warn!("import rewriter: failed to resolve: {}", err);
+                return Ok(module_specifier.into());
+            }
         };
 
         let target = match target {

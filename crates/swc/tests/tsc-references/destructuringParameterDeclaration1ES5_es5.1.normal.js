@@ -1,78 +1,14 @@
-function _arrayLikeToArray(arr, len) {
-    if (len == null || len > arr.length) len = arr.length;
-    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
-    return arr2;
-}
-function _arrayWithHoles(arr) {
-    if (Array.isArray(arr)) return arr;
-}
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
-function _iterableToArrayLimit(arr, i) {
-    var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
-    if (_i == null) return;
-    var _arr = [];
-    var _n = true;
-    var _d = false;
-    var _s, _e;
-    try {
-        for(_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true){
-            _arr.push(_s.value);
-            if (i && _arr.length === i) break;
-        }
-    } catch (err) {
-        _d = true;
-        _e = err;
-    } finally{
-        try {
-            if (!_n && _i["return"] != null) _i["return"]();
-        } finally{
-            if (_d) throw _e;
-        }
-    }
-    return _arr;
-}
-function _nonIterableRest() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-function _slicedToArray(arr, i) {
-    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-}
-function _unsupportedIterableToArray(o, minLen) {
-    if (!o) return;
-    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-    var n = Object.prototype.toString.call(o).slice(8, -1);
-    if (n === "Object" && o.constructor) n = o.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(n);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
+import * as swcHelpers from "@swc/helpers";
 // A parameter declaration may specify either an identifier or a binding pattern.
 // The identifiers specified in parameter declarations and binding patterns
 // in a parameter list must be unique within that parameter list.
 // If the declaration includes a type annotation, the parameter is of that type
 function a1(param) {
-    var _param = _slicedToArray(param, 3), a = _param[0], b = _param[1], ref = _slicedToArray(_param[2], 1), ref1 = _slicedToArray(ref[0], 1), c = ref1[0];
+    var _param = swcHelpers.slicedToArray(param, 3), a = _param[0], b = _param[1], ref = swcHelpers.slicedToArray(_param[2], 1), ref1 = swcHelpers.slicedToArray(ref[0], 1), c = ref1[0];
 }
 function a2(o) {}
 function a3(param) {
-    var j = param.j, k = param.k, _l = param.l, m = _l.m, n = _l.n, _q = _slicedToArray(param.q, 3), a = _q[0], b = _q[1], c = _q[2];
+    var j = param.j, k = param.k, _l = param.l, m = _l.m, n = _l.n, _q = swcHelpers.slicedToArray(param.q, 3), a = _q[0], b = _q[1], c = _q[2];
 }
 function a4(param) {
     var x = param.x, a = param.a;
@@ -122,14 +58,14 @@ function b3() {
     }, _z = ref.z, x = _z.x, j = _z.y.j;
 }
 function b6() {
-    var ref = _slicedToArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [
+    var ref = swcHelpers.slicedToArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [
         undefined,
         null,
         undefined
     ], 3), a = ref[0], z = ref[1], y = ref[2];
 }
 function b7() {
-    var ref = _slicedToArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [
+    var ref = swcHelpers.slicedToArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [
         [
             undefined
         ],
@@ -140,7 +76,7 @@ function b7() {
                 undefined
             ]
         ]
-    ], 3), ref2 = _slicedToArray(ref[0], 1), a = ref2[0], b = ref[1], ref3 = _slicedToArray(ref[2], 1), ref4 = _slicedToArray(ref3[0], 2), c = ref4[0], d = ref4[1];
+    ], 3), ref2 = swcHelpers.slicedToArray(ref[0], 1), a = ref2[0], b = ref[1], ref3 = swcHelpers.slicedToArray(ref[2], 1), ref4 = swcHelpers.slicedToArray(ref3[0], 2), c = ref4[0], d = ref4[1];
 }
 b1([
     1,
@@ -194,10 +130,10 @@ function c3() {
     }).b;
 }
 function c5(param) {
-    var _param = _slicedToArray(param, 3), a = _param[0], b = _param[1], ref = _slicedToArray(_param[2], 1), ref5 = _slicedToArray(ref[0], 1), c = ref5[0];
+    var _param = swcHelpers.slicedToArray(param, 3), a = _param[0], b = _param[1], ref = swcHelpers.slicedToArray(_param[2], 1), ref5 = swcHelpers.slicedToArray(ref[0], 1), c = ref5[0];
 }
 function c6(param) {
-    var _param = _slicedToArray(param, 3), a = _param[0], b = _param[1], ref = _slicedToArray(_param[2], 1), ref6 = _slicedToArray(ref[0], 1), tmp = ref6[0], c = tmp === void 0 ? 1 : tmp;
+    var _param = swcHelpers.slicedToArray(param, 3), a = _param[0], b = _param[1], ref = swcHelpers.slicedToArray(_param[2], 1), ref6 = swcHelpers.slicedToArray(ref[0], 1), tmp = ref6[0], c = tmp === void 0 ? 1 : tmp;
 }
 c0({
     z: {
@@ -256,9 +192,9 @@ function d0() {
 var C2 = /*#__PURE__*/ function() {
     "use strict";
     function C2() {
-        _classCallCheck(this, C2);
+        swcHelpers.classCallCheck(this, C2);
     }
-    _createClass(C2, [
+    swcHelpers.createClass(C2, [
         {
             key: "d3",
             value: function d3() {}
@@ -270,7 +206,7 @@ var C2 = /*#__PURE__*/ function() {
         {
             key: "e0",
             value: function e0(param) {
-                var _param = _slicedToArray(param, 3), a = _param[0], b = _param[1], c = _param[2];
+                var _param = swcHelpers.slicedToArray(param, 3), a = _param[0], b = _param[1], c = _param[2];
             }
         }
     ]);
@@ -279,13 +215,13 @@ var C2 = /*#__PURE__*/ function() {
 var C3 = /*#__PURE__*/ function() {
     "use strict";
     function C3() {
-        _classCallCheck(this, C3);
+        swcHelpers.classCallCheck(this, C3);
     }
-    _createClass(C3, [
+    swcHelpers.createClass(C3, [
         {
             key: "d3",
             value: function d3(param) {
-                var _param = _slicedToArray(param, 3), a = _param[0], b = _param[1], c = _param[2];
+                var _param = swcHelpers.slicedToArray(param, 3), a = _param[0], b = _param[1], c = _param[2];
             }
         },
         {
@@ -297,7 +233,7 @@ var C3 = /*#__PURE__*/ function() {
         {
             key: "e0",
             value: function e0(param) {
-                var _param = _slicedToArray(param, 3), a = _param[0], b = _param[1], c = _param[2];
+                var _param = swcHelpers.slicedToArray(param, 3), a = _param[0], b = _param[1], c = _param[2];
             }
         }
     ]);
@@ -323,8 +259,8 @@ function e3(param) {
     var x = param.x;
 } // x is an optional with type number
 function e4(param) {
-    var _x = _slicedToArray(param.x, 3), number = _x[0], string = _x[1], any = _x[2];
+    var _x = swcHelpers.slicedToArray(param.x, 3), number = _x[0], string = _x[1], any = _x[2];
 } // x has type [any, any, any]
 function e5(param) {
-    var _x = _slicedToArray(param.x, 3), a = _x[0], b = _x[1], c = _x[2];
+    var _x = swcHelpers.slicedToArray(param.x, 3), a = _x[0], b = _x[1], c = _x[2];
 } // x has type [any, any, any]

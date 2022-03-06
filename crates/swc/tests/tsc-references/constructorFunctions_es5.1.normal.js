@@ -1,38 +1,27 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _instanceof(left, right) {
-    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
-        return !!right[Symbol.hasInstance](left);
-    } else {
-        return left instanceof right;
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true
 // @filename: index.js
 function C1() {
-    if (!_instanceof(this, C1)) return new C1();
+    if (!swcHelpers._instanceof(this, C1)) return new C1();
     this.x = 1;
 }
 var c1_v1 = C1();
 var c1_v2 = new C1();
 var C2 = function() {
-    if (!_instanceof(this, C2)) return new C2();
+    if (!swcHelpers._instanceof(this, C2)) return new C2();
     this.x = 1;
 };
 var c2_v1 = C2();
 var c2_v2 = new C2();
 /** @class */ function C3() {
-    if (!_instanceof(this, C3)) return new C3();
+    if (!swcHelpers._instanceof(this, C3)) return new C3();
 }
 var c3_v1 = C3(); // error: @class tag requires 'new'
 var c3_v2 = new C3();
 /** @class */ var C4 = function() {
-    if (!_instanceof(this, C4)) return new C4();
+    if (!swcHelpers._instanceof(this, C4)) return new C4();
 };
 var c4_v1 = C4(); // error: @class tag requires 'new'
 var c4_v2 = new C4();
@@ -42,7 +31,7 @@ new c5_v1();
 var c5_v2;
 c5_v2 = function _class() {
     "use strict";
-    _classCallCheck(this, _class);
+    swcHelpers.classCallCheck(this, _class);
 };
 new c5_v2();
 /** @class */ function C6() {

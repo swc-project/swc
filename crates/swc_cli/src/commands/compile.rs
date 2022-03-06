@@ -15,9 +15,10 @@ use swc::{
     try_with_handler, Compiler, TransformOutput,
 };
 use swc_common::{sync::Lazy, FileName, FilePathMapping, SourceMap};
-use tracing_chrome::{ChromeLayerBuilder, FlushGuard};
-use tracing_subscriber::{prelude::__tracing_subscriber_SubscriberExt, util::SubscriberInitExt};
+use swc_trace_macro::swc_trace;
 use walkdir::WalkDir;
+
+use crate::util::trace::init_trace;
 
 /// Configuration option for transform files.
 #[derive(Parser)]
@@ -259,26 +260,8 @@ fn collect_stdin_input() -> Option<String> {
     )
 }
 
-fn init_trace(out_file: &Option<String>) -> Option<FlushGuard> {
-    let layer = if let Some(trace_out_file) = out_file {
-        ChromeLayerBuilder::new()
-            .file(trace_out_file.clone())
-            .include_args(true)
-    } else {
-        ChromeLayerBuilder::new().include_args(true)
-    };
-
-    let (chrome_layer, guard) = layer.build();
-    tracing_subscriber::registry()
-        .with(chrome_layer)
-        .try_init()
-        .expect("Should able to register trace");
-
-    Some(guard)
-}
-
-impl super::CommandRunner for CompileOptions {
-    #[tracing::instrument(level = "trace", skip_all)]
+#[swc_trace]
+impl CompileOptions {
     fn execute_inner(&self) -> anyhow::Result<()> {
         let stdin_input = collect_stdin_input();
 
@@ -362,7 +345,10 @@ impl super::CommandRunner for CompileOptions {
 
         Ok(())
     }
+}
 
+#[swc_trace]
+impl super::CommandRunner for CompileOptions {
     fn execute(&self) -> anyhow::Result<()> {
         let guard = if self.experimental_trace {
             init_trace(&self.trace_out_file)
@@ -374,6 +360,7 @@ impl super::CommandRunner for CompileOptions {
 
         if let Some(guard) = guard {
             guard.flush();
+            drop(guard);
         }
 
         ret

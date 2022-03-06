@@ -1,10 +1,9 @@
 var B, X, Y, D;
+import * as swcHelpers from "@swc/helpers";
 !function(B) {
     var B1 = function() {
         "use strict";
-        !function(instance, Constructor) {
-            if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, B1);
+        swcHelpers.classCallCheck(this, B1);
     };
 }(B || (B = {})), (function(X1) {
     X1.Y || (X1.Y = {});

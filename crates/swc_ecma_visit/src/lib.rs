@@ -543,13 +543,10 @@ define!({
         pub type_ann: Option<TsTypeAnn>,
         pub is_static: bool,
         pub decorators: Vec<Decorator>,
-        pub computed: bool,
         pub accessibility: Option<Accessibility>,
-        pub is_abstract: bool,
         pub is_optional: bool,
         pub is_override: bool,
         pub readonly: bool,
-        pub definite: bool,
     }
     pub struct ClassMethod {
         pub span: Span,

@@ -105,6 +105,7 @@
 //!
 //! See [swc_ecma_minifier::eval::Evaluator].
 #![deny(unused)]
+#![allow(clippy::too_many_arguments)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
 pub extern crate swc_atoms as atoms;
@@ -123,7 +124,9 @@ use anyhow::{bail, Context, Error};
 use atoms::JsWord;
 use common::{
     collections::AHashMap,
+    comments::SingleThreadedComments,
     errors::{EmitterWriter, HANDLER},
+    Span,
 };
 use config::{util::BoolOrObject, IsModule, JsMinifyCommentOption, JsMinifyOptions};
 use once_cell::sync::Lazy;
@@ -420,48 +423,24 @@ impl Compiler {
         target: EsVersion,
         syntax: Syntax,
         is_module: IsModule,
-        parse_comments: bool,
+        comments: Option<&dyn Comments>,
     ) -> Result<Program, Error> {
         self.run(|| {
             let mut error = false;
 
             let mut errors = vec![];
             let program_result = match is_module {
-                IsModule::Bool(true) => parse_file_as_module(
-                    &fm,
-                    syntax,
-                    target,
-                    if parse_comments {
-                        Some(&self.comments)
-                    } else {
-                        None
-                    },
-                    &mut errors,
-                )
-                .map(Program::Module),
-                IsModule::Bool(false) => parse_file_as_script(
-                    &fm,
-                    syntax,
-                    target,
-                    if parse_comments {
-                        Some(&self.comments)
-                    } else {
-                        None
-                    },
-                    &mut errors,
-                )
-                .map(Program::Script),
-                IsModule::Unknown => parse_file_as_program(
-                    &fm,
-                    syntax,
-                    target,
-                    if parse_comments {
-                        Some(&self.comments)
-                    } else {
-                        None
-                    },
-                    &mut errors,
-                ),
+                IsModule::Bool(true) => {
+                    parse_file_as_module(&fm, syntax, target, comments, &mut errors)
+                        .map(Program::Module)
+                }
+                IsModule::Bool(false) => {
+                    parse_file_as_script(&fm, syntax, target, comments, &mut errors)
+                        .map(Program::Script)
+                }
+                IsModule::Unknown => {
+                    parse_file_as_program(&fm, syntax, target, comments, &mut errors)
+                }
             };
 
             for e in errors {
@@ -501,57 +480,12 @@ impl Compiler {
         source_map_names: &AHashMap<BytePos, JsWord>,
         orig: Option<&sourcemap::SourceMap>,
         minify: bool,
-        preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
+        comments: Option<&dyn Comments>,
     ) -> Result<TransformOutput, Error>
     where
         T: Node + VisitWith<IdentCollector>,
     {
         self.run(|| {
-            let preserve_comments = preserve_comments.unwrap_or({
-                if minify {
-                    BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments)
-                } else {
-                    BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments)
-                }
-            });
-
-            let span = node.span();
-
-            match preserve_comments {
-                BoolOrObject::Bool(true)
-                | BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments) => {}
-
-                BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments) => {
-                    let preserve_excl = |pos: &BytePos, vc: &mut Vec<Comment>| -> bool {
-                        if *pos < span.lo || *pos >= span.hi {
-                            return true;
-                        }
-
-                        // Preserve license comments.
-                        if vc.iter().any(|c| c.text.contains("@license")) {
-                            return true;
-                        }
-
-                        vc.retain(|c: &Comment| c.text.starts_with('!'));
-                        !vc.is_empty()
-                    };
-                    self.comments.leading.retain(preserve_excl);
-                    self.comments.trailing.retain(preserve_excl);
-                }
-
-                BoolOrObject::Bool(false) => {
-                    let remove_all_in_range = |pos: &BytePos, _: &mut Vec<Comment>| -> bool {
-                        if *pos < span.lo || *pos >= span.hi {
-                            return true;
-                        }
-
-                        false
-                    };
-                    self.comments.leading.retain(remove_all_in_range);
-                    self.comments.trailing.retain(remove_all_in_range);
-                }
-            }
-
             let mut src_map_buf = vec![];
 
             let src = {
@@ -575,7 +509,7 @@ impl Compiler {
 
                     let mut emitter = Emitter {
                         cfg: swc_ecma_codegen::Config { minify },
-                        comments: if minify { None } else { Some(&self.comments) },
+                        comments,
                         cm: self.cm.clone(),
                         wr,
                     };
@@ -690,6 +624,97 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
 
     fn inline_sources_content(&self, _: &FileName) -> bool {
         self.inline_sources_content
+    }
+}
+
+pub fn minify_global_comments(
+    comments: &SwcComments,
+    span: Span,
+    minify: bool,
+    preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
+) {
+    let preserve_comments = preserve_comments.unwrap_or({
+        if minify {
+            BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments)
+        } else {
+            BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments)
+        }
+    });
+
+    match preserve_comments {
+        BoolOrObject::Bool(true)
+        | BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments) => {}
+
+        BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments) => {
+            let preserve_excl = |pos: &BytePos, vc: &mut Vec<Comment>| -> bool {
+                if *pos < span.lo || *pos >= span.hi {
+                    return true;
+                }
+
+                // Preserve license comments.
+                if vc.iter().any(|c| c.text.contains("@license")) {
+                    return true;
+                }
+
+                vc.retain(|c: &Comment| c.text.starts_with('!'));
+                !vc.is_empty()
+            };
+            comments.leading.retain(preserve_excl);
+            comments.trailing.retain(preserve_excl);
+        }
+
+        BoolOrObject::Bool(false) => {
+            let remove_all_in_range = |pos: &BytePos, _: &mut Vec<Comment>| -> bool {
+                if *pos < span.lo || *pos >= span.hi {
+                    return true;
+                }
+
+                false
+            };
+            comments.leading.retain(remove_all_in_range);
+            comments.trailing.retain(remove_all_in_range);
+        }
+    }
+}
+
+pub fn minify_file_comments(
+    comments: &SingleThreadedComments,
+    minify: bool,
+    preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
+) {
+    let preserve_comments = preserve_comments.unwrap_or({
+        if minify {
+            BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments)
+        } else {
+            BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments)
+        }
+    });
+
+    match preserve_comments {
+        BoolOrObject::Bool(true)
+        | BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments) => {}
+
+        BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments) => {
+            let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {
+                // Preserve license comments.
+                if vc.iter().any(|c| c.text.contains("@license")) {
+                    return true;
+                }
+
+                vc.retain(|c: &Comment| c.text.starts_with('!'));
+                !vc.is_empty()
+            };
+            let (mut l, mut t) = comments.borrow_all_mut();
+
+            l.retain(preserve_excl);
+            t.retain(preserve_excl);
+        }
+
+        BoolOrObject::Bool(false) => {
+            let (mut l, mut t) = comments.borrow_all_mut();
+            l.clear();
+            t.clear();
+        }
     }
 }
 
@@ -817,12 +842,13 @@ impl Compiler {
         handler: &'a Handler,
         opts: &Options,
         name: &FileName,
+        comments: Option<&'a SingleThreadedComments>,
         before_pass: impl 'a + FnOnce(&Program) -> P,
     ) -> Result<Option<BuiltInput<impl 'a + swc_ecma_visit::Fold>>, Error>
     where
         P: 'a + swc_ecma_visit::Fold,
     {
-        self.run(|| {
+        self.run(move || {
             let config = self.read_config(opts, name)?;
             let config = match config {
                 Some(v) => v,
@@ -834,14 +860,21 @@ impl Compiler {
                 name,
                 move |syntax, target, is_module| match program {
                     Some(v) => Ok(v),
-                    _ => self.parse_js(fm.clone(), handler, target, syntax, is_module, true),
+                    _ => self.parse_js(
+                        fm.clone(),
+                        handler,
+                        target,
+                        syntax,
+                        is_module,
+                        comments.as_ref().map(|v| v as _),
+                    ),
                 },
                 opts.output_path.as_deref(),
                 opts.source_file_name.clone(),
                 handler,
                 opts.is_module,
                 Some(config),
-                Some(&self.comments),
+                comments,
                 before_pass,
             )?;
             Ok(Some(built))
@@ -900,6 +933,7 @@ impl Compiler {
         P2: swc_ecma_visit::Fold,
     {
         self.run(|| -> Result<_, Error> {
+            let comments = SingleThreadedComments::default();
             let config = self.run(|| {
                 self.parse_js_as_input(
                     fm.clone(),
@@ -907,6 +941,7 @@ impl Compiler {
                     handler,
                     opts,
                     &fm.name,
+                    Some(&comments),
                     custom_before_pass,
                 )
             })?;
@@ -933,6 +968,7 @@ impl Compiler {
                 source_file_name: config.source_file_name,
                 preserve_comments: config.preserve_comments,
                 inline_sources_content: config.inline_sources_content,
+                comments: config.comments,
             };
 
             let orig = if config.source_maps.enabled() {
@@ -1008,6 +1044,8 @@ impl Compiler {
                 }
             }
 
+            let comments = SingleThreadedComments::default();
+
             let module = self
                 .parse_js(
                     fm.clone(),
@@ -1019,11 +1057,10 @@ impl Compiler {
                         decorators_before_export: true,
                         import_assertions: true,
                         private_in_object: true,
-
                         ..Default::default()
                     }),
                     IsModule::Bool(true),
-                    true,
+                    Some(&comments),
                 )
                 .context("failed to parse input file")?
                 .expect_module();
@@ -1048,7 +1085,7 @@ impl Compiler {
                 let mut module = swc_ecma_minifier::optimize(
                     module,
                     self.cm.clone(),
-                    Some(&self.comments),
+                    Some(&comments),
                     None,
                     &min_opts,
                     &swc_ecma_minifier::option::ExtraOptions { top_level_mark },
@@ -1057,8 +1094,10 @@ impl Compiler {
                 if !is_mangler_enabled {
                     module.visit_mut_with(&mut hygiene())
                 }
-                module.fold_with(&mut fixer(Some(&self.comments as &dyn Comments)))
+                module.fold_with(&mut fixer(Some(&comments as &dyn Comments)))
             });
+
+            minify_file_comments(&comments, true, Some(opts.format.comments.clone()));
 
             self.print(
                 &module,
@@ -1070,7 +1109,7 @@ impl Compiler {
                 &source_map_names,
                 orig.as_ref(),
                 true,
-                Some(opts.format.comments.clone()),
+                Some(&comments),
             )
         })
     }
@@ -1118,6 +1157,10 @@ impl Compiler {
                 })
             });
 
+            if let Some(comments) = &config.comments {
+                minify_file_comments(comments, config.minify, config.preserve_comments);
+            }
+
             self.print(
                 &program,
                 config.source_file_name.as_deref(),
@@ -1128,7 +1171,7 @@ impl Compiler {
                 &source_map_names,
                 orig,
                 config.minify,
-                config.preserve_comments,
+                config.comments.as_ref().map(|v| v as _),
             )
         })
     }

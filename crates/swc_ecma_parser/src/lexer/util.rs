@@ -1,8 +1,5 @@
 //! Ported from [babylon/util/identifier.js][]
 //!
-//! Note: Currently this use xid instead of id because unicode_xid crate
-//! exists.
-//!
 //!
 //! [babylon/util/identifier.js]:https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
 use std::char;
@@ -12,7 +9,7 @@ use swc_common::{
     BytePos, Span, SyntaxContext,
 };
 use tracing::warn;
-use unicode_xid::UnicodeXID;
+use unicode_id::UnicodeID;
 
 use super::{comments_buffer::BufferedComment, input::Input, Char, LexResult, Lexer};
 use crate::{
@@ -362,12 +359,11 @@ pub trait CharExt: Copy {
             Some(c) => c,
             None => return false,
         };
-        // TODO: Use Unicode ID instead of XID.
         c == '$' || c == '_' || c.is_ascii_alphabetic() || {
             if c.is_ascii() {
                 false
             } else {
-                UnicodeXID::is_xid_start(c)
+                UnicodeID::is_id_start(c)
             }
         }
     }
@@ -379,12 +375,11 @@ pub trait CharExt: Copy {
             Some(c) => c,
             None => return false,
         };
-        // TODO: Use Unicode ID instead of XID.
         c == '$' || c == '_' || c == '\u{200c}' || c == '\u{200d}' || c.is_ascii_alphanumeric() || {
             if c.is_ascii() {
                 false
             } else {
-                UnicodeXID::is_xid_continue(c)
+                UnicodeID::is_id_continue(c)
             }
         }
     }

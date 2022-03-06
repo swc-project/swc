@@ -1,3 +1,4 @@
+import * as swcHelpers from "@swc/helpers";
 (M || (M = {})).a = 1;
 var M, m, M2, M3, m = M;
 M.a, m.a, (function(M21) {
@@ -10,9 +11,7 @@ M.a, m.a, (function(M21) {
 })(M2 || (M2 = {})), (function(M31) {
     var Utils = function() {
         "use strict";
-        !function(instance, Constructor) {
-            if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, Utils);
+        swcHelpers.classCallCheck(this, Utils);
     };
     M31.Utils = Utils;
 })(M3 || (M3 = {}));

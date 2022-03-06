@@ -131,6 +131,8 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
     let compiler = Compiler::new(cm.clone());
     let fm = compiler.cm.new_source_file(FileName::Anon, src);
 
+    let comments = compiler.comments().clone();
+
     let swc_ast = compiler
         .parse_js(
             fm.clone(),
@@ -138,7 +140,7 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
             Default::default(), // EsVersion (ES version)
             syntax,
             IsModule::Bool(is_module),
-            true, // parse_conmments
+            Some(&comments),
         )
         .unwrap();
 

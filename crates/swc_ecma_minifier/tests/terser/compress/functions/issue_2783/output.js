@@ -1,9 +1,10 @@
-(function () {
-    return function (o, i) {
-        while (i--) console.log(f(o));
+(function() {
+    return function(o, i) {
+        while(i--)console.log(f(o));
     };
     function f(a) {
-        var b = a.b;
-        return b || a;
+        return a.b || a;
     }
-})()({ b: "PASS" }, 1);
+})()({
+    b: "PASS"
+}, 1);

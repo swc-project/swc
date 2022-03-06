@@ -1,10 +1,7 @@
-var _typeof = function(obj) {
-    "@swc/helpers - typeof";
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
+import * as swcHelpers from "@swc/helpers";
 var x;
 x;
-if ((typeof x === "undefined" ? "undefined" : _typeof(x)) === "symbol") {
+if ((typeof x === "undefined" ? "undefined" : swcHelpers.typeOf(x)) === "symbol") {
     x;
 } else {
     x;

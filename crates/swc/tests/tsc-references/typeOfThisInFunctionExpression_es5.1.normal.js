@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // type of 'this' in FunctionExpression is Any
 function fn() {
     var p = this;
@@ -18,7 +14,7 @@ var t2 = function f() {
 };
 var C = function C() {
     "use strict";
-    _classCallCheck(this, C);
+    swcHelpers.classCallCheck(this, C);
     this.x = function() {
         var q;
         var q = this;

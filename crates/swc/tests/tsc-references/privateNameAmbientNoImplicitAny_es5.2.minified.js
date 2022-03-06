@@ -1,12 +1,8 @@
+import * as swcHelpers from "@swc/helpers";
 var _prop = new WeakMap(), B = function() {
     "use strict";
-    var obj, privateMap, value;
-    !function(instance, Constructor) {
-        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, B), obj = this, value = {
+    swcHelpers.classCallCheck(this, B), swcHelpers.classPrivateFieldInit(this, _prop, {
         writable: !0,
         value: void 0
-    }, (function(obj, privateCollection) {
-        if (privateCollection.has(obj)) throw new TypeError("Cannot initialize the same private elements twice on an object");
-    })(obj, privateMap = _prop), privateMap.set(obj, value);
+    });
 };

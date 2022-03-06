@@ -1,12 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-var _typeof = function(obj) {
-    "@swc/helpers - typeof";
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
+import * as swcHelpers from "@swc/helpers";
 // @allowUnreachableCode: true
 // Call signatures without a return type should infer one from the function body (if present)
 // Simple types
@@ -43,7 +35,7 @@ function foo6(x) {
 }
 var r6 = foo6(1);
 function foo7(x) {
-    return typeof x === "undefined" ? "undefined" : _typeof(x);
+    return typeof x === "undefined" ? "undefined" : swcHelpers.typeOf(x);
 }
 var r7 = foo7(1);
 // object types
@@ -60,7 +52,7 @@ function foo9(x) {
 var r9 = foo9(1);
 var C = function C() {
     "use strict";
-    _classCallCheck(this, C);
+    swcHelpers.classCallCheck(this, C);
 };
 function foo10(x) {
     var c;
@@ -72,7 +64,7 @@ var M;
     var x = M1.x = 1;
     var C = function C() {
         "use strict";
-        _classCallCheck(this, C);
+        swcHelpers.classCallCheck(this, C);
     };
     M1.C = C;
 })(M || (M = {}));
@@ -97,7 +89,7 @@ function foo13() {
 var r13 = foo13();
 var c1 = function c1(x) {
     "use strict";
-    _classCallCheck(this, c1);
+    swcHelpers.classCallCheck(this, c1);
 };
 (function(c1) {
     var x = c1.x = 1;

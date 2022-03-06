@@ -76,9 +76,8 @@ property: value\9;
 $property: value;color: red;
 }
 .selector {
-&property: value;
-    color: red;
-}
+color: red;
+&property: value;}
 .selector {
 *property: value;color: red;
 }

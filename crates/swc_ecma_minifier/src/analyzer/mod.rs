@@ -153,6 +153,52 @@ pub(crate) struct ProgramData {
     pub scopes: AHashMap<SyntaxContext, ScopeData>,
 }
 
+impl ProgramData {
+    pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
+        match e {
+            Expr::Ident(i) => {
+                if let Some(v) = self.vars.get(&i.to_id()) {
+                    return !v.declared;
+                }
+
+                true
+            }
+
+            Expr::Member(MemberExpr { obj, prop, .. }) => {
+                if self.contains_unresolved(obj) {
+                    return true;
+                }
+
+                if let MemberProp::Computed(prop) = prop {
+                    if self.contains_unresolved(&prop.expr) {
+                        return true;
+                    }
+                }
+
+                false
+            }
+
+            Expr::Call(CallExpr {
+                callee: Callee::Expr(callee),
+                args,
+                ..
+            }) => {
+                if self.contains_unresolved(callee) {
+                    return true;
+                }
+
+                if args.iter().any(|arg| self.contains_unresolved(&arg.expr)) {
+                    return true;
+                }
+
+                false
+            }
+
+            _ => false,
+        }
+    }
+}
+
 /// This assumes there are no two variable with same name and same span hygiene.
 #[derive(Debug)]
 pub(crate) struct UsageAnalyzer<S = ProgramData>
@@ -324,6 +370,46 @@ where
                 self.data
                     .var_or_default(callee.to_id())
                     .mark_used_as_callee();
+            }
+
+            match &**callee {
+                Expr::Fn(callee) => {
+                    for (idx, p) in callee.function.params.iter().enumerate() {
+                        if let Some(arg) = n.args.get(idx) {
+                            if arg.spread.is_some() {
+                                break;
+                            }
+
+                            if is_safe_to_access_prop(&arg.expr) {
+                                if let Pat::Ident(id) = &p.pat {
+                                    self.data
+                                        .var_or_default(id.to_id())
+                                        .mark_initialized_with_safe_value();
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Expr::Arrow(callee) => {
+                    for (idx, p) in callee.params.iter().enumerate() {
+                        if let Some(arg) = n.args.get(idx) {
+                            if arg.spread.is_some() {
+                                break;
+                            }
+
+                            if is_safe_to_access_prop(&arg.expr) {
+                                if let Pat::Ident(id) = &p {
+                                    self.data
+                                        .var_or_default(id.to_id())
+                                        .mark_initialized_with_safe_value();
+                                }
+                            }
+                        }
+                    }
+                }
+
+                _ => {}
             }
         }
 
@@ -717,7 +803,18 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_pat(&mut self, n: &Pat) {
-        n.visit_children_with(self);
+        match n {
+            Pat::Ident(..) => {
+                n.visit_children_with(self);
+            }
+            _ => {
+                let ctx = Ctx {
+                    in_var_decl_with_no_side_effect_for_member_access: false,
+                    ..self.ctx
+                };
+                n.visit_children_with(&mut *self.with_ctx(ctx));
+            }
+        }
 
         if let Pat::Ident(i) = n {
             self.visit_pat_id(&i.id)
@@ -878,10 +975,11 @@ where
                 inline_prevented: self.ctx.inline_prevented || prevent_inline,
                 in_pat_of_var_decl: true,
                 in_pat_of_var_decl_with_init: e.init.is_some(),
-                in_var_decl_with_no_side_effect_for_member_access: matches!(
-                    e.init.as_deref(),
-                    Some(Expr::Array(..) | Expr::Lit(..))
-                ),
+                in_var_decl_with_no_side_effect_for_member_access: e
+                    .init
+                    .as_deref()
+                    .map(is_safe_to_access_prop)
+                    .unwrap_or(false),
                 ..self.ctx
             };
             e.name.visit_with(&mut *self.with_ctx(ctx));
@@ -912,5 +1010,14 @@ where
     fn visit_with_stmt(&mut self, n: &WithStmt) {
         self.scope.mark_with_stmt();
         n.visit_children_with(self);
+    }
+}
+
+// Support for pure_getters
+fn is_safe_to_access_prop(e: &Expr) -> bool {
+    match e {
+        Expr::Lit(Lit::Null(..)) => false,
+        Expr::Lit(..) | Expr::Array(..) | Expr::Fn(..) | Expr::Arrow(..) | Expr::Update(..) => true,
+        _ => false,
     }
 }

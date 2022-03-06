@@ -9,20 +9,21 @@ use std::{
     usize,
 };
 
-use anyhow::{bail, Context, Error};
+use anyhow::{bail, Error};
 use dashmap::DashMap;
 use either::Either;
 use indexmap::IndexMap;
 use once_cell::sync::Lazy;
-use regex::Regex;
 use serde::{
     de::{Unexpected, Visitor},
     Deserialize, Deserializer, Serialize, Serializer,
 };
 use swc_atoms::JsWord;
+use swc_cached::regex::CachedRegex;
 pub use swc_common::chain;
 use swc_common::{
     collections::{AHashMap, AHashSet},
+    comments::SingleThreadedComments,
     errors::Handler,
     FileName, Mark, SourceMap, SyntaxContext,
 };
@@ -65,7 +66,7 @@ use self::util::BoolOrObject;
 use crate::{
     builder::PassBuilder,
     plugin::{PluginConfig, PluginContext},
-    SwcComments, SwcImportResolver,
+    SwcImportResolver,
 };
 
 #[cfg(test)]
@@ -257,6 +258,8 @@ impl Default for InputSourceMap {
 
 impl Options {
     /// `parse`: `(syntax, target, is_module)`
+    ///
+    /// `parse` should use `comments`.
     #[allow(clippy::too_many_arguments)]
     pub fn build_as_input<'a, P>(
         &self,
@@ -268,7 +271,7 @@ impl Options {
         handler: &Handler,
         is_module: IsModule,
         config: Option<Config>,
-        comments: Option<&'a SwcComments>,
+        comments: Option<&'a SingleThreadedComments>,
         custom_before_pass: impl FnOnce(&Program) -> P,
     ) -> Result<BuiltInput<impl 'a + swc_ecma_visit::Fold>, Error>
     where
@@ -296,7 +299,7 @@ impl Options {
             ..
         } = config.jsc;
 
-        let assumptions = assumptions.unwrap_or_else(|| {
+        let mut assumptions = assumptions.unwrap_or_else(|| {
             if loose {
                 Assumptions::all()
             } else {
@@ -314,17 +317,20 @@ impl Options {
 
         let mut program = parse(syntax, es_version, is_module)?;
 
+        let mut transform = transform.unwrap_or_default();
+
         // Do a resolver pass before everything.
         //
         // We do this before creating custom passses, so custom passses can use the
         // variable management system based on the syntax contexts.
         if syntax.typescript() {
+            // assumptions.set_class_methods = !transform.use_define_for_class_fields;
+            assumptions.set_public_class_fields = !transform.use_define_for_class_fields;
+
             program.visit_mut_with(&mut ts_resolver(top_level_mark));
         } else {
             program.visit_mut_with(&mut resolver_with_mark(top_level_mark));
         }
-
-        let mut transform = transform.unwrap_or_default();
 
         if program.is_module() {
             js_minify = js_minify.map(|c| {
@@ -474,6 +480,7 @@ impl Options {
                             treat_const_enum_as_enum: transform.treat_const_enum_as_enum,
                             ts_enum_is_readonly: assumptions.ts_enum_is_readonly,
                         },
+                        use_define_for_class_fields: !assumptions.set_public_class_fields,
                         ..Default::default()
                     },
                     comments,
@@ -505,6 +512,7 @@ impl Options {
             input_source_map: config.input_source_map.clone(),
             output_path: output_path.map(|v| v.to_path_buf()),
             source_file_name,
+            comments: comments.cloned(),
             preserve_comments,
         })
     }
@@ -879,7 +887,17 @@ impl Config {
     ///
     /// - typescript: `tsx` will be modified if file extension is `ts`.
     pub fn adjust(&mut self, file: &Path) {
-        if let Some(Syntax::Typescript(TsConfig { tsx, .. })) = &mut self.jsc.syntax {
+        if let Some(Syntax::Typescript(TsConfig { tsx, dts, .. })) = &mut self.jsc.syntax {
+            let is_dts = file
+                .file_name()
+                .and_then(|f| f.to_str())
+                .map(|s| s.ends_with(".d.ts"))
+                .unwrap_or(false);
+
+            if is_dts {
+                *dts = true;
+            }
+
             let is_ts = file.extension().map(|v| v == "ts").unwrap_or(false);
             if is_ts {
                 *tsx = false;
@@ -891,34 +909,23 @@ impl Config {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FileMatcher {
-    Regex(String),
+    None,
+    Regex(CachedRegex),
     Multi(Vec<FileMatcher>),
 }
 
 impl Default for FileMatcher {
     fn default() -> Self {
-        Self::Regex(String::from(""))
+        Self::None
     }
 }
 
 impl FileMatcher {
     pub fn matches(&self, filename: &Path) -> Result<bool, Error> {
-        static CACHE: Lazy<DashMap<String, Regex, ahash::RandomState>> =
-            Lazy::new(Default::default);
-
         match self {
-            FileMatcher::Regex(ref s) => {
-                if s.is_empty() {
-                    return Ok(false);
-                }
+            FileMatcher::None => Ok(false),
 
-                if !CACHE.contains_key(&*s) {
-                    let re = Regex::new(s).with_context(|| format!("invalid regex: {}", s))?;
-                    CACHE.insert(s.clone(), re);
-                }
-
-                let re = CACHE.get(&*s).unwrap();
-
+            FileMatcher::Regex(re) => {
                 let filename = if cfg!(target_os = "windows") {
                     filename.to_string_lossy().replace('\\', "/")
                 } else {
@@ -977,6 +984,7 @@ pub struct BuiltInput<P: swc_ecma_visit::Fold> {
 
     pub source_file_name: Option<String>,
 
+    pub comments: Option<SingleThreadedComments>,
     pub preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
 
     pub inline_sources_content: bool,
@@ -1056,7 +1064,7 @@ impl Merge for JscExperimental {
 }
 
 /// `paths` section of `tsconfig.json`.
-pub type Paths = AHashMap<String, Vec<String>>;
+pub type Paths = IndexMap<String, Vec<String>, ahash::RandomState>;
 pub(crate) type CompiledPaths = Vec<(String, Vec<String>)>;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1192,6 +1200,9 @@ pub struct TransformConfig {
 
     #[serde(default)]
     pub treat_const_enum_as_enum: bool,
+
+    #[serde(default)]
+    pub use_define_for_class_fields: bool,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
@@ -1554,6 +1565,19 @@ impl Merge for JscConfig {
         self.paths.merge(&from.paths);
         self.minify.merge(&from.minify);
         self.experimental.merge(&from.experimental);
+    }
+}
+
+impl<K, V, S> Merge for IndexMap<K, V, S>
+where
+    K: Clone + Eq + std::hash::Hash,
+    V: Clone,
+    S: Clone + BuildHasher,
+{
+    fn merge(&mut self, from: &Self) {
+        if self.is_empty() {
+            *self = (*from).clone();
+        }
     }
 }
 

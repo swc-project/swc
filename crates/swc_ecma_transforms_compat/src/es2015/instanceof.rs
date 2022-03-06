@@ -4,6 +4,7 @@ use swc_ecma_transforms_base::{helper, perf::Parallel};
 use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-transform-instanceof`
 ///
@@ -30,6 +31,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 ///
 /// _instanceof(foo, Bar);
 /// ```
+#[tracing::instrument(level = "trace", skip_all)]
 pub fn instance_of() -> impl Fold + VisitMut {
     as_folder(InstanceOf)
 }
@@ -43,6 +45,7 @@ impl Parallel for InstanceOf {
     }
 }
 
+#[swc_trace]
 #[parallel]
 impl VisitMut for InstanceOf {
     noop_visit_mut_type!();

@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @strict: true
 // @declaration: true
 // Narrowing by aliased conditional expressions
@@ -188,7 +184,7 @@ function f33(obj15) {
 }
 var C10 = function C10(x) {
     "use strict";
-    _classCallCheck(this, C10);
+    swcHelpers.classCallCheck(this, C10);
     this.x = x;
     var thisX_isString = typeof this.x === 'string';
     var xIsString = typeof x === 'string';
@@ -200,7 +196,7 @@ var C10 = function C10(x) {
 };
 var C11 = function C11(x) {
     "use strict";
-    _classCallCheck(this, C11);
+    swcHelpers.classCallCheck(this, C11);
     this.x = x;
     var thisX_isString = typeof this.x === 'string';
     var xIsString = typeof x === 'string';

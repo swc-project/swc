@@ -1,12 +1,6 @@
-function _instanceof(left, right) {
-    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
-        return !!right[Symbol.hasInstance](left);
-    } else {
-        return left instanceof right;
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 function distinguish(thing) {
-    if (_instanceof(thing, Object)) {
+    if (swcHelpers._instanceof(thing, Object)) {
         console.log("Aha!! It's a Date in " + thing.getFullYear());
     } else if (typeof thing === 'string') {
         console.log("Aha!! It's a string of length " + thing.length);

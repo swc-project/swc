@@ -1,10 +1,9 @@
 var B, Geometry;
+import * as swcHelpers from "@swc/helpers";
 !function(B1) {
     var Line = function(start, end) {
         "use strict";
-        (function(instance, Constructor) {
-            if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        })(this, Line), this.start = start, this.end = end;
+        swcHelpers.classCallCheck(this, Line), this.start = start, this.end = end;
     };
     B1.Line = Line;
 }(B || (B = {})), (function(Geometry1) {

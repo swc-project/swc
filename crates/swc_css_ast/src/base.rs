@@ -2,9 +2,9 @@ use is_macro::Is;
 use swc_common::{ast_node, Span};
 
 use crate::{
-    AtRule, CalcSum, Color, ComplexSelector, DashedIdent, Delimiter, Dimension, Function, Ident,
-    Integer, KeyframeBlock, Number, Percentage, Ratio, SelectorList, Str, TokenAndSpan, Tokens,
-    UnicodeRange, Url,
+    AlphaValue, AtRule, CalcSum, CmykComponent, Color, ComplexSelector, DashedIdent, Delimiter,
+    Dimension, Function, Hue, Ident, Integer, KeyframeBlock, Number, Percentage, Ratio,
+    SelectorList, Str, TokenAndSpan, Tokens, UnicodeRange, Url,
 };
 
 #[ast_node("Stylesheet")]
@@ -29,8 +29,16 @@ pub enum Rule {
 #[ast_node("QualifiedRule")]
 pub struct QualifiedRule {
     pub span: Span,
-    pub prelude: SelectorList,
+    pub prelude: QualifiedRulePrelude,
     pub block: SimpleBlock,
+}
+
+#[ast_node]
+pub enum QualifiedRulePrelude {
+    #[tag("SelectorList")]
+    SelectorList(SelectorList),
+    #[tag("Tokens")]
+    Invalid(Tokens),
 }
 
 #[ast_node]
@@ -97,6 +105,12 @@ pub enum ComponentValue {
     UnicodeRange(UnicodeRange),
     #[tag("Color")]
     Color(Color),
+    #[tag("AlphaValue")]
+    AlphaValue(AlphaValue),
+    #[tag("Hue")]
+    Hue(Hue),
+    #[tag("CmykComponent")]
+    CmykComponent(CmykComponent),
     #[tag("Delimiter")]
     Delimiter(Delimiter),
 

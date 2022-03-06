@@ -96,13 +96,10 @@
                 "typeAnnotation": null,
                 "isStatic": false,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               },
               {
                 "type": "PrivateProperty",
@@ -146,13 +143,10 @@
                 "typeAnnotation": null,
                 "isStatic": false,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               }
             ],
             "superClass": null,
@@ -223,13 +217,10 @@
                 "typeAnnotation": null,
                 "isStatic": false,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               },
               {
                 "type": "PrivateMethod",
@@ -354,13 +345,10 @@
                 "typeAnnotation": null,
                 "isStatic": false,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               },
               {
                 "type": "PrivateMethod",
@@ -508,13 +496,10 @@
                 "typeAnnotation": null,
                 "isStatic": false,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               },
               {
                 "type": "PrivateMethod",
@@ -676,13 +661,10 @@
                 "typeAnnotation": null,
                 "isStatic": false,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               },
               {
                 "type": "PrivateProperty",
@@ -726,13 +708,10 @@
                 "typeAnnotation": null,
                 "isStatic": true,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               }
             ],
             "superClass": null,
@@ -803,13 +782,10 @@
                 "typeAnnotation": null,
                 "isStatic": false,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               },
               {
                 "type": "PrivateMethod",
@@ -934,13 +910,10 @@
                 "typeAnnotation": null,
                 "isStatic": false,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               },
               {
                 "type": "PrivateMethod",
@@ -1088,13 +1061,10 @@
                 "typeAnnotation": null,
                 "isStatic": false,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               },
               {
                 "type": "PrivateMethod",
@@ -1345,13 +1315,10 @@
                 "typeAnnotation": null,
                 "isStatic": false,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               }
             ],
             "superClass": null,
@@ -1941,13 +1908,10 @@
                 "typeAnnotation": null,
                 "isStatic": true,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               }
             ],
             "superClass": null,
@@ -2595,13 +2559,10 @@
                 "typeAnnotation": null,
                 "isStatic": false,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               }
             ],
             "superClass": null,
@@ -4024,13 +3985,10 @@
                 "typeAnnotation": null,
                 "isStatic": false,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               }
             ],
             "superClass": null,
@@ -4768,13 +4726,10 @@
                 "typeAnnotation": null,
                 "isStatic": true,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               }
             ],
             "superClass": null,
@@ -5456,13 +5411,10 @@
                 "typeAnnotation": null,
                 "isStatic": true,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               },
               {
                 "type": "PrivateProperty",
@@ -5506,13 +5458,10 @@
                 "typeAnnotation": null,
                 "isStatic": false,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               }
             ],
             "superClass": null,
@@ -5583,13 +5532,10 @@
                 "typeAnnotation": null,
                 "isStatic": true,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               },
               {
                 "type": "PrivateMethod",
@@ -5714,13 +5660,10 @@
                 "typeAnnotation": null,
                 "isStatic": true,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               },
               {
                 "type": "PrivateMethod",
@@ -5868,13 +5811,10 @@
                 "typeAnnotation": null,
                 "isStatic": true,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               },
               {
                 "type": "PrivateMethod",
@@ -6036,13 +5976,10 @@
                 "typeAnnotation": null,
                 "isStatic": true,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               },
               {
                 "type": "PrivateProperty",
@@ -6086,13 +6023,10 @@
                 "typeAnnotation": null,
                 "isStatic": true,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               }
             ],
             "superClass": null,
@@ -6163,13 +6097,10 @@
                 "typeAnnotation": null,
                 "isStatic": true,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               },
               {
                 "type": "PrivateMethod",
@@ -6294,13 +6225,10 @@
                 "typeAnnotation": null,
                 "isStatic": true,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               },
               {
                 "type": "PrivateMethod",
@@ -6448,13 +6376,10 @@
                 "typeAnnotation": null,
                 "isStatic": true,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               },
               {
                 "type": "PrivateMethod",
@@ -6705,13 +6630,10 @@
                 "typeAnnotation": null,
                 "isStatic": false,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               }
             ],
             "superClass": null,
@@ -7301,13 +7223,10 @@
                 "typeAnnotation": null,
                 "isStatic": true,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               }
             ],
             "superClass": null,
@@ -7955,13 +7874,10 @@
                 "typeAnnotation": null,
                 "isStatic": false,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               }
             ],
             "superClass": null,
@@ -9384,13 +9300,10 @@
                 "typeAnnotation": null,
                 "isStatic": false,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               }
             ],
             "superClass": null,
@@ -10128,13 +10041,10 @@
                 "typeAnnotation": null,
                 "isStatic": true,
                 "decorators": [],
-                "computed": false,
                 "accessibility": null,
-                "isAbstract": false,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false,
-                "definite": false
+                "readonly": false
               }
             ],
             "superClass": null,

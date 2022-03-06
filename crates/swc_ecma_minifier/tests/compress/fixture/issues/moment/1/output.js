@@ -1188,7 +1188,7 @@
     proto.add = add, proto.calendar = function(time, formats) {
         if (1 === arguments.length) if (arguments[0]) {
             var input2, input1, arrayTest, dataTypeTest;
-            (input2 = arguments[0], isMoment(input2) || isDate(input2) || isString(input2) || isNumber(input2) || (dataTypeTest = !1, (arrayTest = isArray(input1 = input2)) && (dataTypeTest = 0 === input1.filter(function(item) {
+            (input2 = arguments[0], isMoment(input2) || isDate(input2) || isString(input2) || isNumber(input2) || (arrayTest = isArray(input1 = input2), dataTypeTest = !1, arrayTest && (dataTypeTest = 0 === input1.filter(function(item) {
                 return !isNumber(item) && isString(input1);
             }).length), arrayTest && dataTypeTest) || (function(input) {
                 var i, property, objectTest = isObject(input) && !isObjectEmpty(input), propertyTest = !1, properties = [

@@ -1,13 +1,10 @@
 var f;
+import * as swcHelpers from "@swc/helpers";
 function _templateObject() {
-    var strings, raw, data = (strings = [
+    var data = swcHelpers.taggedTemplateLiteral([
         "abc",
         "def"
-    ], raw || (raw = strings.slice(0)), Object.freeze(Object.defineProperties(strings, {
-        raw: {
-            value: Object.freeze(raw)
-        }
-    })));
+    ]);
     return _templateObject = function _templateObject() {
         return data;
     }, data;

@@ -1,12 +1,4 @@
-function _extends() {
-    return (_extends = Object.assign || function(target) {
-        for(var i = 1; i < arguments.length; i++){
-            var source = arguments[i];
-            for(var key in source)Object.prototype.hasOwnProperty.call(source, key) && (target[key] = source[key]);
-        }
-        return target;
-    }).apply(this, arguments);
-}
+import * as swcHelpers from "@swc/helpers";
 var obj2, React = require("react"), obj = {
     yy: 10,
     yy1: "hello"
@@ -15,17 +7,17 @@ React.createElement(OneThing, {
     extraProp: !0
 }), React.createElement(OneThing, {
     yy: 10
-}), React.createElement(OneThing, _extends({}, obj, {
+}), React.createElement(OneThing, swcHelpers.extends({}, obj, {
     yy1: !0
-})), React.createElement(OneThing, _extends({}, obj, {
+})), React.createElement(OneThing, swcHelpers.extends({}, obj, {
     extra: "extra attr"
-})), React.createElement(OneThing, _extends({}, obj, {
+})), React.createElement(OneThing, swcHelpers.extends({}, obj, {
     y1: 10000
-})), React.createElement(OneThing, _extends({}, obj, {
+})), React.createElement(OneThing, swcHelpers.extends({}, obj, {
     yy: !0
-})), React.createElement(OneThing, _extends({}, obj2, {
+})), React.createElement(OneThing, swcHelpers.extends({}, obj2, {
     extra: "extra attr"
-})), React.createElement(OneThing, _extends({}, obj2, {
+})), React.createElement(OneThing, swcHelpers.extends({}, obj2, {
     yy: !0
 })), React.createElement(TestingOneThing, {
     "extra-data": !0
@@ -47,4 +39,3 @@ React.createElement(OneThing, {
     y1: "hello",
     y2: 1000
 }, "Hi");
-export { };

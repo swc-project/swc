@@ -1,23 +1,12 @@
 var ImmediatelyFix, WithCandidates;
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 !function(ImmediatelyFix) {
     var C = function() {
         "use strict";
         function C() {
-            _classCallCheck(this, C);
+            swcHelpers.classCallCheck(this, C);
         }
-        return _createClass(C, [
+        return swcHelpers.createClass(C, [
             {
                 key: "foo",
                 value: function(x) {
@@ -36,9 +25,9 @@ function _createClass(Constructor, protoProps, staticProps) {
     var C2 = function() {
         "use strict";
         function C2() {
-            _classCallCheck(this, C2);
+            swcHelpers.classCallCheck(this, C2);
         }
-        return _createClass(C2, [
+        return swcHelpers.createClass(C2, [
             {
                 key: "foo",
                 value: function(x) {
@@ -56,9 +45,9 @@ function _createClass(Constructor, protoProps, staticProps) {
     var c, c2, C = function() {
         "use strict";
         function C() {
-            _classCallCheck(this, C);
+            swcHelpers.classCallCheck(this, C);
         }
-        return _createClass(C, [
+        return swcHelpers.createClass(C, [
             {
                 key: "foo2",
                 value: function(x, cb) {
@@ -77,9 +66,9 @@ function _createClass(Constructor, protoProps, staticProps) {
     var C2 = function() {
         "use strict";
         function C2() {
-            _classCallCheck(this, C2);
+            swcHelpers.classCallCheck(this, C2);
         }
-        return _createClass(C2, [
+        return swcHelpers.createClass(C2, [
             {
                 key: "foo3",
                 value: function(x, cb, y) {
@@ -96,9 +85,9 @@ function _createClass(Constructor, protoProps, staticProps) {
     var C3 = function() {
         "use strict";
         function C3() {
-            _classCallCheck(this, C3);
+            swcHelpers.classCallCheck(this, C3);
         }
-        return _createClass(C3, [
+        return swcHelpers.createClass(C3, [
             {
                 key: "foo3",
                 value: function(x, cb, y) {

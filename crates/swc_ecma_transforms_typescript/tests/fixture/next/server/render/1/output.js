@@ -28,21 +28,6 @@ function noRouter() {
     throw new Error(message);
 }
 class ServerRouter {
-    constructor(pathname, query, as, { isFallback  }, isReady, basePath, locale, locales, defaultLocale, domainLocales, isPreview, isLocaleDomain){
-        this.route = pathname.replace(/\/$/, "") || "/";
-        this.pathname = pathname;
-        this.query = query;
-        this.asPath = as;
-        this.isFallback = isFallback;
-        this.basePath = basePath;
-        this.locale = locale;
-        this.locales = locales;
-        this.defaultLocale = defaultLocale;
-        this.isReady = isReady;
-        this.domainLocales = domainLocales;
-        this.isPreview = !!isPreview;
-        this.isLocaleDomain = !!isLocaleDomain;
-    }
     push() {
         noRouter();
     }
@@ -60,6 +45,21 @@ class ServerRouter {
     }
     beforePopState() {
         noRouter();
+    }
+    constructor(pathname, query, as, { isFallback  }, isReady, basePath, locale, locales, defaultLocale, domainLocales, isPreview, isLocaleDomain){
+        this.route = pathname.replace(/\/$/, "") || "/";
+        this.pathname = pathname;
+        this.query = query;
+        this.asPath = as;
+        this.isFallback = isFallback;
+        this.basePath = basePath;
+        this.locale = locale;
+        this.locales = locales;
+        this.defaultLocale = defaultLocale;
+        this.isReady = isReady;
+        this.domainLocales = domainLocales;
+        this.isPreview = !!isPreview;
+        this.isLocaleDomain = !!isLocaleDomain;
     }
 }
 function enhanceComponents(options, App, Component) {

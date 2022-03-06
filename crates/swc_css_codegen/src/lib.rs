@@ -73,6 +73,14 @@ where
     }
 
     #[emitter]
+    fn emit_qualified_rule_prelude(&mut self, n: &QualifiedRulePrelude) -> Result {
+        match n {
+            QualifiedRulePrelude::SelectorList(n) => emit!(self, n),
+            QualifiedRulePrelude::Invalid(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
     fn emit_at_rule(&mut self, n: &AtRule) -> Result {
         match n {
             AtRule::Charset(n) => emit!(self, n),
@@ -723,8 +731,14 @@ where
                         _ => !self.config.minify,
                     },
                     ComponentValue::Ident(_) => match next {
-                        Some(ComponentValue::SimpleBlock(_))
-                        | Some(ComponentValue::Color(Color::HexColor(_)))
+                        Some(ComponentValue::SimpleBlock(SimpleBlock { name, .. })) => {
+                            if *name == '(' {
+                                true
+                            } else {
+                                !self.config.minify
+                            }
+                        }
+                        Some(ComponentValue::Color(Color::HexColor(_)))
                         | Some(ComponentValue::Str(_)) => !self.config.minify,
                         Some(ComponentValue::Delimiter(_)) => false,
                         Some(ComponentValue::Number(n)) => {
@@ -958,6 +972,9 @@ where
             ComponentValue::Ratio(n) => emit!(self, n),
             ComponentValue::UnicodeRange(n) => emit!(self, n),
             ComponentValue::Color(n) => emit!(self, n),
+            ComponentValue::AlphaValue(n) => emit!(self, n),
+            ComponentValue::Hue(n) => emit!(self, n),
+            ComponentValue::CmykComponent(n) => emit!(self, n),
             ComponentValue::Delimiter(n) => emit!(self, n),
 
             ComponentValue::CalcSum(n) => emit!(self, n),
@@ -1171,6 +1188,30 @@ where
             self.wr.write_raw(Some(n.span), &minified)?;
         } else {
             self.wr.write_raw(Some(n.span), &n.raw)?;
+        }
+    }
+
+    #[emitter]
+    fn emit_alpha_value(&mut self, n: &AlphaValue) -> Result {
+        match n {
+            AlphaValue::Number(n) => emit!(self, n),
+            AlphaValue::Percentage(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_hue(&mut self, n: &Hue) -> Result {
+        match n {
+            Hue::Number(n) => emit!(self, n),
+            Hue::Angle(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_cmyk_component(&mut self, n: &CmykComponent) -> Result {
+        match n {
+            CmykComponent::Number(n) => emit!(self, n),
+            CmykComponent::Percentage(n) => emit!(self, n),
         }
     }
 

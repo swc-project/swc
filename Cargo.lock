@@ -60,9 +60,9 @@ dependencies = [
 
 [[package]]
 name = "anyhow"
-version = "1.0.53"
+version = "1.0.55"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "94a45b455c14666b85fc40a019e8ab9eb75e3a124e05494f5397122bc9eb06e0"
+checksum = "159bb86af3a200e19a068f4224eae4c8bb2d0fa054c7e5d1cacd5cef95e684cd"
 
 [[package]]
 name = "arbitrary"
@@ -93,7 +93,7 @@ checksum = "8da52d66c7071e2e3fa2a1e5c6d088fec47b593032b254f5e980de8ea54454d6"
 
 [[package]]
 name = "ast_node"
-version = "0.7.6"
+version = "0.7.7"
 dependencies = [
  "darling 0.10.2",
  "pmutil",
@@ -644,6 +644,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "dashmap"
+version = "5.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c0834a35a3fce649144119e18da2a4d8ed12ef3862f47183fd46f625d072d96c"
+dependencies = [
+ "cfg-if 1.0.0",
+ "num_cpus",
+ "parking_lot 0.12.0",
+]
+
+[[package]]
 name = "debug_unreachable"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1136,10 +1147,10 @@ dependencies = [
 
 [[package]]
 name = "jsdoc"
-version = "0.60.0"
+version = "0.61.0"
 dependencies = [
  "anyhow",
- "dashmap",
+ "dashmap 4.0.2",
  "nom 5.1.2",
  "serde",
  "swc_atoms",
@@ -1917,7 +1928,7 @@ dependencies = [
  "ahash",
  "anyhow",
  "browserslist-rs",
- "dashmap",
+ "dashmap 4.0.2",
  "from_variant",
  "once_cell",
  "semver 1.0.4",
@@ -2460,16 +2471,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "serde_regex"
-version = "1.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a8136f1a4ea815d7eac4101cfd0b16dc0cb5e1fe1b8609dfd728058656b7badf"
-dependencies = [
- "regex",
- "serde",
-]
-
-[[package]]
 name = "serde_urlencoded"
 version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2697,12 +2698,12 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.139.1"
+version = "0.145.0"
 dependencies = [
  "ahash",
  "anyhow",
  "base64 0.13.0",
- "dashmap",
+ "dashmap 4.0.2",
  "either",
  "indexmap",
  "lru",
@@ -2717,6 +2718,7 @@ dependencies = [
  "serde_json",
  "sourcemap",
  "swc_atoms",
+ "swc_cached",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -2752,12 +2754,12 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.114.0"
+version = "0.119.0"
 dependencies = [
  "ahash",
  "anyhow",
  "crc",
- "dashmap",
+ "dashmap 4.0.2",
  "hex",
  "indexmap",
  "is-macro",
@@ -2795,8 +2797,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_cached"
+version = "0.1.1"
+dependencies = [
+ "ahash",
+ "anyhow",
+ "dashmap 5.1.0",
+ "once_cell",
+ "regex",
+ "serde",
+ "swc_atoms",
+]
+
+[[package]]
 name = "swc_cli"
-version = "0.13.0"
+version = "0.19.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -2808,6 +2823,7 @@ dependencies = [
  "serde_json",
  "swc",
  "swc_common",
+ "swc_trace_macro",
  "tracing",
  "tracing-chrome",
  "tracing-futures",
@@ -2817,7 +2833,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.9"
+version = "0.17.10"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2850,7 +2866,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.96.0"
+version = "0.98.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -2862,7 +2878,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.87.0"
+version = "0.89.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -2873,7 +2889,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.93.1"
+version = "0.95.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -2899,7 +2915,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_lints"
-version = "0.4.2"
+version = "0.6.0"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -2908,16 +2924,18 @@ dependencies = [
  "serde",
  "serde_json",
  "swc_atoms",
+ "swc_cached",
  "swc_common",
  "swc_css_ast",
  "swc_css_parser",
  "swc_css_visit",
  "testing",
+ "thiserror",
 ]
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.58.0"
+version = "0.60.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2930,7 +2948,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.94.2"
+version = "0.96.0"
 dependencies = [
  "bitflags",
  "lexical",
@@ -2945,7 +2963,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "0.84.0"
+version = "0.86.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2955,7 +2973,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "0.86.0"
+version = "0.88.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2965,7 +2983,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.68.3"
+version = "0.69.1"
 dependencies = [
  "arbitrary",
  "is-macro",
@@ -2976,12 +2994,12 @@ dependencies = [
  "string_enum",
  "swc_atoms",
  "swc_common",
- "unicode-xid",
+ "unicode-id",
 ]
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.93.5"
+version = "0.94.0"
 dependencies = [
  "bitflags",
  "memchr",
@@ -3011,7 +3029,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_dep_graph"
-version = "0.63.1"
+version = "0.64.0"
 dependencies = [
  "pretty_assertions",
  "swc_atoms",
@@ -3024,7 +3042,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ext_transforms"
-version = "0.55.0"
+version = "0.57.0"
 dependencies = [
  "phf",
  "swc_atoms",
@@ -3036,11 +3054,11 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.19.1"
+version = "0.22.0"
 dependencies = [
  "ahash",
  "auto_impl",
- "dashmap",
+ "dashmap 4.0.2",
  "parking_lot 0.12.0",
  "rayon",
  "regex",
@@ -3058,26 +3076,26 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "0.28.0"
+version = "0.29.0"
 dependencies = [
  "ahash",
  "anyhow",
- "dashmap",
+ "dashmap 4.0.2",
  "lru",
  "normpath",
  "once_cell",
  "parking_lot 0.12.0",
  "path-clean",
- "regex",
  "serde",
  "serde_json",
+ "swc_cached",
  "swc_common",
  "tracing",
 ]
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.81.8"
+version = "0.87.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3092,8 +3110,8 @@ dependencies = [
  "retain_mut",
  "serde",
  "serde_json",
- "serde_regex",
  "swc_atoms",
+ "swc_cached",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3106,12 +3124,12 @@ dependencies = [
  "swc_timer",
  "testing",
  "tracing",
- "unicode-xid",
+ "unicode-id",
 ]
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.91.13"
+version = "0.92.2"
 dependencies = [
  "either",
  "enum_kind",
@@ -3129,17 +3147,17 @@ dependencies = [
  "testing",
  "tracing",
  "typed-arena",
- "unicode-xid",
+ "unicode-id",
  "walkdir",
 ]
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.98.0"
+version = "0.103.0"
 dependencies = [
  "ahash",
  "anyhow",
- "dashmap",
+ "dashmap 4.0.2",
  "indexmap",
  "once_cell",
  "preset_env_base",
@@ -3162,7 +3180,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote"
-version = "0.1.2"
+version = "0.3.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3174,7 +3192,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote_macros"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "anyhow",
  "pmutil",
@@ -3190,7 +3208,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.124.1"
+version = "0.129.0"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3211,12 +3229,11 @@ dependencies = [
  "swc_ecma_visit",
  "tempfile",
  "testing",
- "unicode-xid",
 ]
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.63.2"
+version = "0.66.0"
 dependencies = [
  "better_scoped_tls",
  "once_cell",
@@ -3238,7 +3255,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "0.51.0"
+version = "0.54.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3250,7 +3267,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.75.6"
+version = "0.78.0"
 dependencies = [
  "ahash",
  "arrayvec 0.7.2",
@@ -3290,7 +3307,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.84.2"
+version = "0.89.2"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3299,6 +3316,7 @@ dependencies = [
  "pathdiff",
  "serde",
  "swc_atoms",
+ "swc_cached",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_loader",
@@ -3309,14 +3327,15 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "testing",
+ "tracing",
 ]
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.94.1"
+version = "0.99.0"
 dependencies = [
  "ahash",
- "dashmap",
+ "dashmap 4.0.2",
  "indexmap",
  "once_cell",
  "rayon",
@@ -3341,7 +3360,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.82.0"
+version = "0.86.0"
 dependencies = [
  "either",
  "serde",
@@ -3364,11 +3383,11 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.86.2"
+version = "0.91.0"
 dependencies = [
  "ahash",
  "base64 0.13.0",
- "dashmap",
+ "dashmap 4.0.2",
  "indexmap",
  "once_cell",
  "regex",
@@ -3392,7 +3411,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.65.0"
+version = "0.68.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -3413,7 +3432,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.89.2"
+version = "0.94.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -3433,7 +3452,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.69.0"
+version = "0.71.0"
 dependencies = [
  "indexmap",
  "once_cell",
@@ -3448,7 +3467,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.54.0"
+version = "0.55.0"
 dependencies = [
  "num-bigint",
  "swc_atoms",
@@ -3460,7 +3479,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.123.0"
+version = "0.129.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3496,7 +3515,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.58.0"
+version = "0.65.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3563,7 +3582,7 @@ name = "swc_node_bundler"
 version = "0.0.0"
 dependencies = [
  "anyhow",
- "dashmap",
+ "dashmap 4.0.2",
  "is-macro",
  "once_cell",
  "pretty_assertions",
@@ -3592,13 +3611,13 @@ name = "swc_node_comments"
 version = "0.4.0"
 dependencies = [
  "ahash",
- "dashmap",
+ "dashmap 4.0.2",
  "swc_common",
 ]
 
 [[package]]
 name = "swc_plugin"
-version = "0.30.0"
+version = "0.32.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3619,7 +3638,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.38.3"
+version = "0.40.0"
 dependencies = [
  "anyhow",
  "once_cell",
@@ -3645,7 +3664,7 @@ version = "0.24.1"
 
 [[package]]
 name = "swc_stylis"
-version = "0.92.0"
+version = "0.94.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3696,7 +3715,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.56.0"
+version = "0.63.0"
 dependencies = [
  "anyhow",
  "rayon",
@@ -4070,6 +4089,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1a01404663e3db436ed2746d9fefef640d868edae3cceb81c3b8d5732fda678f"
 
 [[package]]
+name = "unicode-id"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4285d92be83dfbc8950a2601178b89ed36f979ebf51bfcf7b272b17001184e6c"
+
+[[package]]
 name = "unicode-normalization"
 version = "0.1.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4170,7 +4195,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.147"
+version = "1.2.150"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",

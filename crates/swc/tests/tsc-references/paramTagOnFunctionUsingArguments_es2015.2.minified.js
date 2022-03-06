@@ -1,4 +1,3 @@
 !function() {
     arguments;
-}(1, 2, 3) // oh no
-;
+}(1, 2, 3);

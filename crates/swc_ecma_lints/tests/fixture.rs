@@ -7,7 +7,7 @@ use swc_ecma_lints::{
     rules::{all, LintParams},
 };
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
-use swc_ecma_transforms_base::resolver::resolver_with_mark;
+use swc_ecma_transforms_base::resolver::{resolver_with_mark, ts_resolver};
 use swc_ecma_utils::HANDLER;
 use swc_ecma_visit::VisitMutWith;
 
@@ -43,7 +43,11 @@ fn pass(input: PathBuf) {
         let mut m = parser.parse_module().unwrap();
         let top_level_mark = Mark::fresh(Mark::root());
 
-        m.visit_mut_with(&mut resolver_with_mark(top_level_mark));
+        if input.extension().unwrap() == "ts" || input.extension().unwrap() == "tsx" {
+            m.visit_mut_with(&mut ts_resolver(top_level_mark));
+        } else {
+            m.visit_mut_with(&mut resolver_with_mark(top_level_mark));
+        }
 
         let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
 

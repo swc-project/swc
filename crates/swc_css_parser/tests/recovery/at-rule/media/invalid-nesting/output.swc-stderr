@@ -4,3 +4,9 @@ error: Expected function or ident tokens
 2 |     max-inline-size: 1024px;
   |                     ^
 
+error: Unexpected character `';'`
+ --> $DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:2:28
+  |
+2 |     max-inline-size: 1024px;
+  |                            ^
+

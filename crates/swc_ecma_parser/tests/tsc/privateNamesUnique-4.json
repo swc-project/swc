@@ -206,13 +206,10 @@
           },
           "isStatic": false,
           "decorators": [],
-          "computed": false,
           "accessibility": null,
-          "isAbstract": false,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false,
-          "definite": false
+          "readonly": false
         }
       ],
       "superClass": null,

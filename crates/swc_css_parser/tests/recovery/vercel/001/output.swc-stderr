@@ -4,3 +4,5 @@ error: Invalid selector
 15 | }
    | ^
 
+error: Unexpected end of file
+

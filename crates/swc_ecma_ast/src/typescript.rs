@@ -241,7 +241,7 @@ pub struct TsIndexSignature {
 // TypeScript types
 // ================
 
-#[ast_node]
+#[ast_node(no_clone)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsType {
@@ -306,6 +306,36 @@ pub enum TsType {
 
     #[tag("TsImportType")]
     TsImportType(TsImportType),
+}
+
+// Implement Clone without inline to avoid multiple copies of the
+// implementation.
+impl Clone for TsType {
+    fn clone(&self) -> Self {
+        use TsType::*;
+        match self {
+            TsKeywordType(t) => TsKeywordType(t.clone()),
+            TsThisType(t) => TsThisType(t.clone()),
+            TsFnOrConstructorType(t) => TsFnOrConstructorType(t.clone()),
+            TsTypeRef(t) => TsTypeRef(t.clone()),
+            TsTypeQuery(t) => TsTypeQuery(t.clone()),
+            TsTypeLit(t) => TsTypeLit(t.clone()),
+            TsArrayType(t) => TsArrayType(t.clone()),
+            TsTupleType(t) => TsTupleType(t.clone()),
+            TsOptionalType(t) => TsOptionalType(t.clone()),
+            TsRestType(t) => TsRestType(t.clone()),
+            TsUnionOrIntersectionType(t) => TsUnionOrIntersectionType(t.clone()),
+            TsConditionalType(t) => TsConditionalType(t.clone()),
+            TsInferType(t) => TsInferType(t.clone()),
+            TsParenthesizedType(t) => TsParenthesizedType(t.clone()),
+            TsTypeOperator(t) => TsTypeOperator(t.clone()),
+            TsIndexedAccessType(t) => TsIndexedAccessType(t.clone()),
+            TsMappedType(t) => TsMappedType(t.clone()),
+            TsLitType(t) => TsLitType(t.clone()),
+            TsTypePredicate(t) => TsTypePredicate(t.clone()),
+            TsImportType(t) => TsImportType(t.clone()),
+        }
+    }
 }
 
 #[ast_node]

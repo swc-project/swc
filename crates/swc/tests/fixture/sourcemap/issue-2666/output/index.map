@@ -1,0 +1,15 @@
+{
+  "mappings": "AAAA,EAAE,EAAC,IAAI,EAAC,CAAC;IAAA,GAAG,CAACA,CAAC,GAACC,MAAM,CAACC,GAAG;AAAC,CAAC",
+  "names": [
+    "h",
+    "Symbol",
+    "for"
+  ],
+  "sources": [
+    "../../input/index.js"
+  ],
+  "sourcesContent": [
+    "if(true){var h=Symbol.for;}"
+  ],
+  "version": 3
+}

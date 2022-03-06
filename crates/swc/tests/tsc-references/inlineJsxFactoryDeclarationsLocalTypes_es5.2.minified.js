@@ -1,15 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 import { predom } from "./renderer2";
 import prerendered from "./component";
 export var MySFC = function(props) {
@@ -18,9 +7,9 @@ export var MySFC = function(props) {
 export var MyClass = function() {
     "use strict";
     function MyClass(props) {
-        _classCallCheck(this, MyClass), this.props = props;
+        swcHelpers.classCallCheck(this, MyClass), this.props = props;
     }
-    return _createClass(MyClass, [
+    return swcHelpers.createClass(MyClass, [
         {
             key: "render",
             value: function() {
@@ -46,9 +35,9 @@ var DOMSFC = function(props) {
 }, DOMClass = function() {
     "use strict";
     function DOMClass(props) {
-        _classCallCheck(this, DOMClass), this.props = props;
+        swcHelpers.classCallCheck(this, DOMClass), this.props = props;
     }
-    return _createClass(DOMClass, [
+    return swcHelpers.createClass(DOMClass, [
         {
             key: "render",
             value: function() {

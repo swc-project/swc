@@ -1,16 +1,10 @@
-function _instanceof(left, right) {
-    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
-        return !!right[Symbol.hasInstance](left);
-    } else {
-        return left instanceof right;
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 function foo(staticToString) {
-    return _instanceof(staticToString, StaticToString);
+    return swcHelpers._instanceof(staticToString, StaticToString);
 }
 function bar(staticToNumber) {
-    return _instanceof(staticToNumber, StaticToNumber);
+    return swcHelpers._instanceof(staticToNumber, StaticToNumber);
 }
 function baz(normal) {
-    return _instanceof(normal, NormalToString);
+    return swcHelpers._instanceof(normal, NormalToString);
 }

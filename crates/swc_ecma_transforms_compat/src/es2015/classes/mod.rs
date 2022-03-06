@@ -13,6 +13,7 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+use swc_trace_macro::swc_trace;
 use tracing::debug;
 
 use self::{
@@ -26,6 +27,7 @@ use self::{
 mod constructor;
 mod prop_name;
 
+#[tracing::instrument(level = "trace", skip_all)]
 pub fn classes<C>(comments: Option<C>, config: Config) -> impl Fold + VisitMut
 where
     C: Comments,
@@ -100,6 +102,7 @@ struct Data {
     get: Option<Box<Expr>>,
 }
 
+#[swc_trace]
 impl<C> Classes<C>
 where
     C: Comments,
@@ -202,6 +205,7 @@ where
     }
 }
 
+#[swc_trace]
 #[fast_path(ClassFinder)]
 impl<C> VisitMut for Classes<C>
 where
@@ -237,6 +241,7 @@ where
     }
 }
 
+#[swc_trace]
 impl<C> Classes<C>
 where
     C: Comments,
@@ -1032,6 +1037,7 @@ where
     }
 }
 
+#[tracing::instrument(level = "trace", skip_all)]
 fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
     let mut class_name_sym = name.clone();
     class_name_sym.span = DUMMY_SP;
@@ -1052,6 +1058,7 @@ fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
 }
 
 /// Returns true if no `super` is used before `super()` call.
+#[tracing::instrument(level = "trace", skip_all)]
 fn is_always_initialized(body: &[Stmt]) -> bool {
     struct SuperFinder {
         found: bool,

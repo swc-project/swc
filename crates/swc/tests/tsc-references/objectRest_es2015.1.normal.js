@@ -1,121 +1,63 @@
-function _extends() {
-    _extends = Object.assign || function(target) {
-        for(var i1 = 1; i1 < arguments.length; i1++){
-            var source = arguments[i1];
-            for(var key in source){
-                if (Object.prototype.hasOwnProperty.call(source, key)) {
-                    target[key] = source[key];
-                }
-            }
-        }
-        return target;
-    };
-    return _extends.apply(this, arguments);
-}
-function _objectWithoutProperties(source, excluded) {
-    if (source == null) return {};
-    var target = _objectWithoutPropertiesLoose(source, excluded);
-    var key, i1;
-    if (Object.getOwnPropertySymbols) {
-        var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-        for(i1 = 0; i1 < sourceSymbolKeys.length; i1++){
-            key = sourceSymbolKeys[i1];
-            if (excluded.indexOf(key) >= 0) continue;
-            if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
-            target[key] = source[key];
-        }
-    }
-    return target;
-}
-function _objectWithoutPropertiesLoose(source, excluded) {
-    if (source == null) return {};
-    var target = {};
-    var sourceKeys = Object.keys(source);
-    var key, i1;
-    for(i1 = 0; i1 < sourceKeys.length; i1++){
-        key = sourceKeys[i1];
-        if (excluded.indexOf(key) >= 0) continue;
-        target[key] = source[key];
-    }
-    return target;
-}
-function _toPrimitive(input, hint) {
-    if (_typeof(input) !== "object" || input === null) return input;
-    var prim = input[Symbol.toPrimitive];
-    if (prim !== undefined) {
-        var res = prim.call(input, hint || "default");
-        if (_typeof(res) !== "object") return res;
-        throw new TypeError("@@toPrimitive must return a primitive value.");
-    }
-    return (hint === "string" ? String : Number)(input);
-}
-function _toPropertyKey(arg) {
-    var key = _toPrimitive(arg, "string");
-    return _typeof(key) === "symbol" ? key : String(key);
-}
-var _typeof = function(obj) {
-    "@swc/helpers - typeof";
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
+import * as swcHelpers from "@swc/helpers";
 // @target: es2015
 var o = {
     a: 1,
     b: 'no'
 };
-var clone = _extends({}, o);
-var { a  } = o, justB = _objectWithoutProperties(o, [
+var clone = swcHelpers.extends({}, o);
+var { a  } = o, justB = swcHelpers.objectWithoutProperties(o, [
     "a"
 ]);
-var { a , b: renamed  } = o, empty = _objectWithoutProperties(o, [
+var { a , b: renamed  } = o, empty = swcHelpers.objectWithoutProperties(o, [
     "a",
     "b"
 ]);
-var { ['b']: renamed  } = o, justA = _objectWithoutProperties(o, [
+var { ['b']: renamed  } = o, justA = swcHelpers.objectWithoutProperties(o, [
     'b'
 ]);
-var { 'b': renamed  } = o, justA = _objectWithoutProperties(o, [
+var { 'b': renamed  } = o, justA = swcHelpers.objectWithoutProperties(o, [
     'b'
 ]);
-var { b: { '0': n , '1': oooo  }  } = o, justA = _objectWithoutProperties(o, [
+var { b: { '0': n , '1': oooo  }  } = o, justA = swcHelpers.objectWithoutProperties(o, [
     "b"
 ]);
 let o2 = {
     c: 'terrible idea?',
     d: 'yes'
 };
-var { d: renamed  } = o2, d = _objectWithoutProperties(o2, [
+var { d: renamed  } = o2, d = swcHelpers.objectWithoutProperties(o2, [
     "d"
 ]);
 let nestedrest;
-var { x , n1: { y , n2: { z  }  }  } = nestedrest, nr = _extends({}, nestedrest.n1.n2.n3), restrest = _objectWithoutProperties(nestedrest, [
+var { x , n1: { y , n2: { z  }  }  } = nestedrest, nr = swcHelpers.extends({}, nestedrest.n1.n2.n3), restrest = swcHelpers.objectWithoutProperties(nestedrest, [
     "x",
     "n1"
 ]);
 let complex;
-var { x: { ka  } , y: other  } = complex, nested = _objectWithoutProperties(complex.x, [
+var { x: { ka  } , y: other  } = complex, nested = swcHelpers.objectWithoutProperties(complex.x, [
     "ka"
-]), rest = _objectWithoutProperties(complex, [
+]), rest = swcHelpers.objectWithoutProperties(complex, [
     "x",
     "y"
 ]);
 var _complex;
-_complex = complex, nested = _objectWithoutProperties(_complex.x, [
+_complex = complex, nested = swcHelpers.objectWithoutProperties(_complex.x, [
     "ka"
-]), rest = _objectWithoutProperties(_complex, [
+]), rest = swcHelpers.objectWithoutProperties(_complex, [
     "x",
     "y"
 ]), ({ x: { ka  } , y: other  } = _complex), _complex;
 var _ref = {
     x: 1,
     y: 2
-}, { x  } = _ref, fresh = _objectWithoutProperties(_ref, [
+}, { x  } = _ref, fresh = swcHelpers.objectWithoutProperties(_ref, [
     "x"
 ]);
 var _tmp;
 _tmp = {
     x: 1,
     y: 2
-}, fresh = _objectWithoutProperties(_tmp, [
+}, fresh = swcHelpers.objectWithoutProperties(_tmp, [
     "x"
 ]), ({ x  } = _tmp), _tmp;
 class Removable {
@@ -127,26 +69,26 @@ class Removable {
     m() {}
 }
 var removable = new Removable();
-var { removed  } = removable, removableRest = _objectWithoutProperties(removable, [
+var { removed  } = removable, removableRest = swcHelpers.objectWithoutProperties(removable, [
     "removed"
 ]);
 var i = removable;
-var { removed  } = i, removableRest2 = _objectWithoutProperties(i, [
+var { removed  } = i, removableRest2 = swcHelpers.objectWithoutProperties(i, [
     "removed"
 ]);
 let computed = 'b';
 let computed2 = 'a';
-var { [computed]: stillNotGreat , [computed2]: soSo  } = o, o = _objectWithoutProperties(o, [
+var { [computed]: stillNotGreat , [computed2]: soSo  } = o, o = swcHelpers.objectWithoutProperties(o, [
     computed,
     computed2
-].map(_toPropertyKey));
+].map(swcHelpers.toPropertyKey));
 var _o;
-_o = o, o = _objectWithoutProperties(_o, [
+_o = o, o = swcHelpers.objectWithoutProperties(_o, [
     computed,
     computed2
-].map(_toPropertyKey)), ({ [computed]: stillNotGreat , [computed2]: soSo  } = _o), _o;
+].map(swcHelpers.toPropertyKey)), ({ [computed]: stillNotGreat , [computed2]: soSo  } = _o), _o;
 var noContextualType = (_param)=>{
-    var { aNumber =12  } = _param, notEmptyObject = _objectWithoutProperties(_param, [
+    var { aNumber =12  } = _param, notEmptyObject = swcHelpers.objectWithoutProperties(_param, [
         "aNumber"
     ]);
     return aNumber + notEmptyObject.anythingGoes;

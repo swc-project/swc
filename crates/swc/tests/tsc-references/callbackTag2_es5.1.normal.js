@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -17,7 +13,7 @@ function _classCallCheck(instance, Constructor) {
 };
 var SharedClass = function SharedClass() {
     "use strict";
-    _classCallCheck(this, SharedClass);
+    swcHelpers.classCallCheck(this, SharedClass);
     /** @type {SharedId<S>} */ this.id;
 };
 /** @type {SharedId<number>} */ var outside = function(n) {

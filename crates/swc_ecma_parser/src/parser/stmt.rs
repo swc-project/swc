@@ -809,7 +809,8 @@ impl<'a, I: Tokens> Parser<I> {
                 // typescript allows `declare` vars not to have initializers.
                 if self.ctx().in_declare {
                     None
-                } else if kind == VarDeclKind::Const && self.ctx().strict {
+                } else if kind == VarDeclKind::Const && self.ctx().strict && !self.ctx().in_declare
+                {
                     self.emit_err(
                         span!(self, start),
                         SyntaxError::ConstDeclarationsRequireInitialization,
@@ -1919,16 +1920,33 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
-    #[should_panic(expected = "await isn't allowed in non-async function")]
     fn await_in_function_in_script() {
         let src = "function foo (p) { await p; }";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
     }
 
     #[test]
-    #[should_panic(expected = "await isn't allowed in non-async function")]
     fn await_in_function_in_program() {
         let src = "function foo (p) { await p; }";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_program());
+    }
+
+    #[test]
+    #[should_panic(expected = "await isn't allowed in non-async function")]
+    fn await_in_nested_async_function_in_module() {
+        let src = "async function foo () { function bar(x = await) {} }";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
+    }
+
+    #[test]
+    fn await_in_nested_async_function_in_script() {
+        let src = "async function foo () { function bar(x = await) {} }";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
+    }
+
+    #[test]
+    fn await_in_nested_async_function_in_program() {
+        let src = "async function foo () { function bar(x = await) {} }";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_program());
     }
 

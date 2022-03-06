@@ -1,22 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
@@ -134,7 +116,7 @@ var TypeScript;
     };
     var TypeCollectionContext = function TypeCollectionContext(scopeChain, checker) {
         "use strict";
-        _classCallCheck(this, TypeCollectionContext);
+        swcHelpers.classCallCheck(this, TypeCollectionContext);
         this.scopeChain = scopeChain;
         this.checker = checker;
         this.script = null;
@@ -142,7 +124,7 @@ var TypeScript;
     TypeScript1.TypeCollectionContext = TypeCollectionContext;
     var MemberScopeContext = function MemberScopeContext(flow, pos, matchFlag) {
         "use strict";
-        _classCallCheck(this, MemberScopeContext);
+        swcHelpers.classCallCheck(this, MemberScopeContext);
         this.flow = flow;
         this.pos = pos;
         this.matchFlag = matchFlag;
@@ -154,7 +136,7 @@ var TypeScript;
     var EnclosingScopeContext = /*#__PURE__*/ function() {
         "use strict";
         function EnclosingScopeContext(logger, script, text, pos, isMemberCompletion) {
-            _classCallCheck(this, EnclosingScopeContext);
+            swcHelpers.classCallCheck(this, EnclosingScopeContext);
             this.logger = logger;
             this.script = script;
             this.text = text;
@@ -170,7 +152,7 @@ var TypeScript;
             this.publicsOnly = true;
             this.useFullAst = false;
         }
-        _createClass(EnclosingScopeContext, [
+        swcHelpers.createClass(EnclosingScopeContext, [
             {
                 key: "getScope",
                 value: function getScope() {

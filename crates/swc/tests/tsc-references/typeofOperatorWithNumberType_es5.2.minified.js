@@ -1,22 +1,13 @@
-var NUMBER, M, _typeof = function(obj) {
-    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
-}, NUMBER1 = [
+import * as swcHelpers from "@swc/helpers";
+var NUMBER, M, NUMBER1 = [
     1,
     2
 ], A = function() {
     "use strict";
-    var Constructor;
     function A() {
-        !function(instance, Constructor) {
-            if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, A);
+        swcHelpers.classCallCheck(this, A);
     }
-    return (function(target, props) {
-        for(var i = 0; i < props.length; i++){
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-        }
-    })(Constructor = A, [
+    return swcHelpers.createClass(A, null, [
         {
             key: "foo",
             value: function() {
@@ -30,21 +21,21 @@ var NUMBER, M, _typeof = function(obj) {
     M1.n = n;
 }(M || (M = {}));
 var objA = new A();
-void 0 === NUMBER || _typeof(NUMBER), _typeof(NUMBER1), _typeof(1), _typeof({
+void 0 === NUMBER || swcHelpers.typeOf(NUMBER), swcHelpers.typeOf(NUMBER1), swcHelpers.typeOf(1), swcHelpers.typeOf({
     x: 1,
     y: 2
-}), _typeof({
+}), swcHelpers.typeOf({
     x: 1,
     y: function(n) {
         return n;
     }
-}), _typeof(objA.a), _typeof(M.n), _typeof(NUMBER1[0]), _typeof(1), _typeof(A.foo()), _typeof(NUMBER + NUMBER), _typeof(void 0 === NUMBER ? "undefined" : _typeof(NUMBER)), _typeof(_typeof(_typeof(NUMBER + NUMBER))), _typeof(1), void 0 === NUMBER || _typeof(NUMBER), _typeof(NUMBER1), _typeof(1), _typeof(objA.a), _typeof(M.n), _typeof(objA.a), M.n;
-z: void 0 === NUMBER || _typeof(NUMBER);
-x: _typeof(NUMBER1);
-r: _typeof(function() {
+}), swcHelpers.typeOf(objA.a), swcHelpers.typeOf(M.n), swcHelpers.typeOf(NUMBER1[0]), swcHelpers.typeOf(1), swcHelpers.typeOf(A.foo()), swcHelpers.typeOf(NUMBER + NUMBER), swcHelpers.typeOf(void 0 === NUMBER ? "undefined" : swcHelpers.typeOf(NUMBER)), swcHelpers.typeOf(swcHelpers.typeOf(swcHelpers.typeOf(NUMBER + NUMBER))), swcHelpers.typeOf(1), void 0 === NUMBER || swcHelpers.typeOf(NUMBER), swcHelpers.typeOf(NUMBER1), swcHelpers.typeOf(1), swcHelpers.typeOf(objA.a), swcHelpers.typeOf(M.n), swcHelpers.typeOf(objA.a), M.n;
+z: void 0 === NUMBER || swcHelpers.typeOf(NUMBER);
+x: swcHelpers.typeOf(NUMBER1);
+r: swcHelpers.typeOf(function() {
     return 1;
 });
-z: _typeof(1);
-z: _typeof(objA.a);
-z: _typeof(A.foo);
-z: _typeof(M.n);
+z: swcHelpers.typeOf(1);
+z: swcHelpers.typeOf(objA.a);
+z: swcHelpers.typeOf(A.foo);
+z: swcHelpers.typeOf(M.n);

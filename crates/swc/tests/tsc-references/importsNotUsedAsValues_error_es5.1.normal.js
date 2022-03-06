@@ -1,19 +1,12 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-var _class = function _class() {
+import * as swcHelpers from "@swc/helpers";
+var _default = function _default() {
     "use strict";
-    _classCallCheck(this, _class);
+    swcHelpers.classCallCheck(this, _default);
 };
-// @importsNotUsedAsValues: error
-// @noUnusedLocals: true
-// @Filename: /a.ts
-export { _class as default };
+export { _default as default };
 export var A = function A() {
     "use strict";
-    _classCallCheck(this, A);
+    swcHelpers.classCallCheck(this, A);
 };
 export var C;
 (function(C) {
@@ -38,7 +31,7 @@ var d;
 console.log(c, d);
 var H = function H() {
     "use strict";
-    _classCallCheck(this, H);
+    swcHelpers.classCallCheck(this, H);
 };
 module.exports = H;
 // @Filename: /i.ts

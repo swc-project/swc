@@ -1,3 +1,4 @@
+import * as swcHelpers from "@swc/helpers";
 !function(A1) {
     (A1.Utils || (A1.Utils = {})).mirror = function(p) {
         return {
@@ -12,9 +13,7 @@
     var Utils, Plane;
     Utils = A2.Utils || (A2.Utils = {}), Plane = function(tl, br) {
         "use strict";
-        (function(instance, Constructor) {
-            if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        })(this, Plane), this.tl = tl, this.br = br;
+        swcHelpers.classCallCheck(this, Plane), this.tl = tl, this.br = br;
     }, Utils.Plane = Plane;
 })(A || (A = {}));
 var A, o, o, o = A.Origin, o = A.Utils.mirror(o);
