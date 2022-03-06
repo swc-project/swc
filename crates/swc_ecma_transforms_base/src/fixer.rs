@@ -43,9 +43,7 @@ enum Context {
     ///  - `foo((bar, x))` != `foo(bar, x)`
     ///  - `var foo = (bar, x)` != `var foo = bar, x`
     ///  - `[(foo, bar)]` != `[foo, bar]`
-    ForcedExpr {
-        is_var_decl: bool,
-    },
+    ForcedExpr,
 
     /// Always treated as expr and comma does not matter.
     FreeExpr,
@@ -61,7 +59,7 @@ macro_rules! array {
     ($name:ident, $T:tt) => {
         fn $name(&mut self, e: &mut $T) {
             let old = self.ctx;
-            self.ctx = Context::ForcedExpr { is_var_decl: false }.into();
+            self.ctx = Context::ForcedExpr;
             e.elems.visit_mut_with(self);
             self.ctx = old;
         }
@@ -131,14 +129,14 @@ impl VisitMut for Fixer<'_> {
         node.key.visit_mut_children_with(self);
 
         let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: false };
+        self.ctx = Context::ForcedExpr;
         node.value.visit_mut_with(self);
         self.ctx = old;
     }
 
     fn visit_mut_await_expr(&mut self, expr: &mut AwaitExpr) {
         let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: false };
+        self.ctx = Context::ForcedExpr;
         expr.arg.visit_mut_with(self);
         self.ctx = old;
 
@@ -284,7 +282,7 @@ impl VisitMut for Fixer<'_> {
 
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
         let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: false };
+        self.ctx = Context::ForcedExpr;
         node.args.visit_mut_with(self);
         self.ctx = old;
 
@@ -394,7 +392,7 @@ impl VisitMut for Fixer<'_> {
 
     fn visit_mut_key_value_pat_prop(&mut self, node: &mut KeyValuePatProp) {
         let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: false };
+        self.ctx = Context::ForcedExpr;
         node.key.visit_mut_with(self);
         self.ctx = old;
 
@@ -415,7 +413,7 @@ impl VisitMut for Fixer<'_> {
 
         match n {
             MemberExpr { obj, .. }
-                if obj.is_object() && matches!(self.ctx, Context::ForcedExpr { .. }) => {}
+                if obj.is_object() && matches!(self.ctx, Context::ForcedExpr) => {}
 
             MemberExpr { obj, .. }
                 if obj.is_fn_expr()
@@ -457,7 +455,7 @@ impl VisitMut for Fixer<'_> {
 
     fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
         let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: false };
+        self.ctx = Context::ForcedExpr;
         node.args.visit_mut_with(self);
         self.ctx = old;
 
@@ -479,7 +477,7 @@ impl VisitMut for Fixer<'_> {
 
     fn visit_mut_param(&mut self, node: &mut Param) {
         let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: false };
+        self.ctx = Context::ForcedExpr;
         node.visit_mut_children_with(self);
         self.ctx = old;
     }
@@ -567,7 +565,7 @@ impl VisitMut for Fixer<'_> {
         node.name.visit_mut_children_with(self);
 
         let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: true };
+        self.ctx = Context::ForcedExpr;
         node.init.visit_mut_with(self);
         self.ctx = old;
     }
@@ -670,7 +668,7 @@ impl Fixer<'_> {
                 };
 
                 match self.ctx {
-                    Context::ForcedExpr { .. } => {
+                    Context::ForcedExpr => {
                         *e = Expr::Paren(ParenExpr {
                             span: *span,
                             expr: Box::new(expr),
@@ -731,7 +729,7 @@ impl Fixer<'_> {
                 callee: Callee::Expr(ref mut callee),
                 ..
             }) if callee.is_fn_expr() => match self.ctx {
-                Context::ForcedExpr { .. } | Context::FreeExpr => {}
+                Context::ForcedExpr | Context::FreeExpr => {}
 
                 Context::Callee { is_new: true } => self.wrap(e),
 
