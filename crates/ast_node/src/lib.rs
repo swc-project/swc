@@ -177,7 +177,7 @@ pub fn ast_node(
             impl parse::Parse for EnumArgs {
                 fn parse(i: parse::ParseStream<'_>) -> syn::Result<Self> {
                     let name: Ident = i.parse()?;
-                    if name.to_string() != "no_clone" {
+                    if name != "no_clone" {
                         return Err(i.error("unknown attribute"));
                     }
                     Ok(EnumArgs { clone: false })
