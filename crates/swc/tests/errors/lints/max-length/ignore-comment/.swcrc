@@ -1,0 +1,12 @@
+{
+    "jsc": {
+        "lints": {
+            "maxLength": [
+                "error",
+                {
+                    "ignoreComments": true
+                }
+            ]
+        }
+    }
+}

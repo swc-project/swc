@@ -1,0 +1,48 @@
+error: This line has a length of 134. Maximum allowed is 80
+ 
+  |
+2 |     const x = 'lineeeee.lineeeee.lineeeee.lineeeee.lineeeee.lineeeee.lineeeee.lineeeee.lineeeee.lineeeee.lineeeee.lineeeee.lineeeee.';
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: This line has a length of 145. Maximum allowed is 80
+ 
+  |
+6 | `// not a comment not a comment not a comment not a comment not a comment not a comment not a comment not a comment not a comment not a comment`;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: This line has a length of 145. Maximum allowed is 80
+ 
+  |
+8 | '// not a comment not a comment not a comment not a comment not a comment not a comment not a comment not a comment not a comment not a comment';
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: This line has a length of 145. Maximum allowed is 80
+  
+   |
+10 | "// not a comment not a comment not a comment not a comment not a comment not a comment not a comment not a comment not a comment not a comment";
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: This line has a length of 151. Maximum allowed is 80
+  
+   |
+12 | `// not a comment with escape \` -_-  not a comment not a comment not a comment not a comment not a comment not a comment not a comment not a comment`;
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: This line has a length of 130. Maximum allowed is 80
+  
+   |
+14 | // comment comment comment comment comment comment comment comment comment comment comment comment comment comment comment comment
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: This line has a length of 130. Maximum allowed is 80
+  
+   |
+17 |  * comment comment comment comment comment comment comment comment comment comment comment comment comment comment comment comment
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: This line has a length of 128. Maximum allowed is 80
+  
+   |
+21 | const a = 10; // tailing comment tailing comment tailing comment tailing comment tailing comment tailing comment tailing comment
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
