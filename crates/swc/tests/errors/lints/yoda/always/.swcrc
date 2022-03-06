@@ -1,0 +1,12 @@
+{
+    "jsc": {
+        "lints": {
+            "yoda": [
+                "error",
+                {
+                    "mode": "always"
+                }
+            ]
+        }
+    }
+}
