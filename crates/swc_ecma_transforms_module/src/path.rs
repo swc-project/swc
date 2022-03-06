@@ -12,6 +12,7 @@ use swc_common::{FileName, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_loader::resolve::Resolve;
 use swc_ecma_utils::{quote_ident, ExprFactory};
+use tracing::warn;
 
 pub(crate) enum Resolver {
     Real {
@@ -106,7 +107,10 @@ where
         let target = self.resolver.resolve(base, module_specifier);
         let target = match target {
             Ok(v) => v,
-            Err(_) => return Ok(module_specifier.into()),
+            Err(err) => {
+                warn!("import rewriter: failed to resolve: {}", err);
+                return Ok(module_specifier.into());
+            }
         };
 
         let target = match target {
