@@ -18,6 +18,7 @@ pub(crate) mod non_critical_lints {
     pub mod default_param_last;
     pub mod dot_notation;
     pub mod eqeqeq;
+    pub mod max_length;
     pub mod no_alert;
     pub mod no_bitwise;
     pub mod no_console;
@@ -126,6 +127,12 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
 
         rules.extend(default_param_last::default_param_last(
             &lint_config.default_param_last,
+        ));
+
+        rules.extend(max_length::max_length(
+            &source_map,
+            top_level_ctxt,
+            &lint_config.max_length,
         ));
     }
 
