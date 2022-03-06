@@ -3,6 +3,7 @@ use std::path::{Component, PathBuf};
 use anyhow::{bail, Context, Error};
 use swc_cached::regex::CachedRegex;
 use swc_common::FileName;
+use tracing::info;
 
 use crate::resolve::Resolve;
 
@@ -48,6 +49,13 @@ where
     ///
     /// Note that this is not a hashmap because value is not used as a hash map.
     pub fn new(inner: R, base_url: PathBuf, paths: Vec<(String, Vec<String>)>) -> Self {
+        if cfg!(debug_assertions) {
+            info!(
+                base_url = tracing::field::display(base_url.display()),
+                "jsc.paths"
+            );
+        }
+
         let paths = paths
             .into_iter()
             .map(|(from, to)| {
