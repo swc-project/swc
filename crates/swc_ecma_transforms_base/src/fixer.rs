@@ -102,7 +102,12 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_assign_expr(&mut self, expr: &mut AssignExpr) {
-        expr.visit_mut_children_with(self);
+        expr.left.visit_mut_with(self);
+
+        let ctx = self.ctx;
+        self.ctx = Context::FreeExpr;
+        expr.right.visit_mut_with(self);
+        self.ctx = ctx;
 
         fn rhs_need_paren(e: &Expr) -> bool {
             match e {
@@ -151,7 +156,11 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_bin_expr(&mut self, expr: &mut BinExpr) {
-        expr.visit_mut_children_with(self);
+        expr.left.visit_mut_with(self);
+        let ctx = self.ctx;
+        self.ctx = Context::FreeExpr;
+        expr.right.visit_mut_with(self);
+        self.ctx = ctx;
 
         match expr.op {
             op!("||") | op!("&&") => match (&*expr.left, &*expr.right) {
@@ -268,6 +277,31 @@ impl VisitMut for Fixer<'_> {
         }
     }
 
+    fn visit_mut_cond_expr(&mut self, expr: &mut CondExpr) {
+        expr.test.visit_mut_with(self);
+
+        let ctx = self.ctx;
+        self.ctx = Context::FreeExpr;
+        expr.cons.visit_mut_with(self);
+        expr.alt.visit_mut_with(self);
+        self.ctx = ctx;
+    }
+
+    fn visit_mut_seq_expr(&mut self, seq: &mut SeqExpr) {
+        if seq.exprs.len() > 1 {
+            seq.exprs[0].visit_mut_with(self);
+
+            let ctx = self.ctx;
+            self.ctx = Context::FreeExpr;
+            for expr in seq.exprs.iter_mut().skip(1) {
+                expr.visit_mut_with(self)
+            }
+            self.ctx = ctx;
+        } else {
+            seq.exprs.visit_mut_children_with(self)
+        }
+    }
+
     fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
         body.visit_mut_children_with(self);
 
@@ -333,6 +367,19 @@ impl VisitMut for Fixer<'_> {
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         let ctx = self.ctx;
+
+        if ctx == Context::Default {
+            match e {
+                // might have a child expr in start of stmt
+                Expr::OptChain(_)
+                | Expr::Member(_)
+                | Expr::Bin(_)
+                | Expr::Assign(_)
+                | Expr::Seq(_)
+                | Expr::Cond(_) => (),
+                _ => self.ctx = Context::FreeExpr,
+            }
+        }
         self.unwrap_expr(e);
         e.visit_mut_children_with(self);
 
@@ -480,6 +527,13 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::ForcedExpr;
         node.visit_mut_children_with(self);
         self.ctx = old;
+    }
+
+    fn visit_mut_computed_prop_name(&mut self, name: &mut ComputedPropName) {
+        let ctx = self.ctx;
+        self.ctx = Context::FreeExpr;
+        name.visit_mut_children_with(self);
+        self.ctx = ctx;
     }
 
     fn visit_mut_prop_name(&mut self, name: &mut PropName) {

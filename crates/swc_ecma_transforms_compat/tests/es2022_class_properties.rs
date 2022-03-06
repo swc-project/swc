@@ -403,7 +403,7 @@ function withContext(ComposedComponent) {
     r#"
 function withContext(ComposedComponent) {
   var _WithContext
-  return _WithContext = (function(Component) {
+  return _WithContext = function(Component) {
       'use strict';
       _inherits(WithContext, Component);
       var _super = _createSuper(WithContext);
@@ -412,7 +412,7 @@ function withContext(ComposedComponent) {
         return _super.apply(this, arguments);
       }
       return WithContext;
-    })(Component),
+    }(Component),
     _defineProperty(_WithContext, 'propTypes', {
       context: PropTypes.shape({
         addCss: PropTypes.func,
