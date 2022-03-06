@@ -908,6 +908,10 @@ impl ModulePass for CommonJs {
         self.scope.borrow_mut()
     }
 
+    fn resolver(&self) -> &Resolver {
+        &self.resolver
+    }
+
     fn make_dynamic_import(&mut self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
         handle_dynamic_import(span, args, !self.config.no_interop)
     }

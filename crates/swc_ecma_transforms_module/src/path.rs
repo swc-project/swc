@@ -23,14 +23,18 @@ pub(crate) enum Resolver {
 }
 
 impl Resolver {
-    pub(crate) fn make_require_call(&self, mark: Mark, src: JsWord) -> Expr {
-        let src = match self {
+    pub(crate) fn resolve(&self, src: JsWord) -> JsWord {
+        match self {
             Self::Real { resolver, base } => resolver
                 .resolve_import(base, &src)
                 .with_context(|| format!("failed to resolve import `{}`", src))
                 .unwrap(),
             Self::Default => src,
-        };
+        }
+    }
+
+    pub(crate) fn make_require_call(&self, mark: Mark, src: JsWord) -> Expr {
+        let src = self.resolve(src);
 
         Expr::Call(CallExpr {
             span: DUMMY_SP,

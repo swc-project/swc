@@ -807,6 +807,10 @@ impl ModulePass for Umd {
         self.scope.borrow_mut()
     }
 
+    fn resolver(&self) -> &Resolver {
+        &self.resolver
+    }
+
     /// ```js
     ///  exports === undefined ? (try_amd) : (try_common_js)
     /// ```
