@@ -40,20 +40,18 @@ fn pass(input: PathBuf) {
 
         let mut parser = Parser::new_from(lexer);
 
-        let mut m = parser.parse_module().unwrap();
+        let mut program = parser.parse_program().unwrap();
         let top_level_mark = Mark::fresh(Mark::root());
 
         if input.extension().unwrap() == "ts" || input.extension().unwrap() == "tsx" {
-            m.visit_mut_with(&mut ts_resolver(top_level_mark));
+            program.visit_mut_with(&mut ts_resolver(top_level_mark));
         } else {
-            m.visit_mut_with(&mut resolver_with_mark(top_level_mark));
+            program.visit_mut_with(&mut resolver_with_mark(top_level_mark));
         }
 
         let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
 
         let config = LintConfig::default();
-
-        let program = Program::Module(m);
 
         let rules = all(LintParams {
             program: &program,
