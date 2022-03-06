@@ -21,11 +21,14 @@ use swc_ecma_utils::{
 };
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
+use crate::path::Resolver;
+
 pub(super) trait ModulePass: Fold {
     fn config(&self) -> &Config;
     fn scope(&self) -> Ref<Scope>;
     fn scope_mut(&mut self) -> RefMut<Scope>;
 
+    fn resolver(&self) -> &Resolver;
     fn make_dynamic_import(&mut self, span: Span, args: Vec<ExprOrSpread>) -> Expr;
 }
 
@@ -549,6 +552,18 @@ impl Scope {
                 && args.len() == 1 =>
             {
                 let expr = args.pop().unwrap().expr.fold_with(folder);
+                let expr = match &*expr {
+                    Expr::Lit(Lit::Str(s)) => {
+                        let src = folder.resolver().resolve(s.value.clone());
+                        Box::new(Expr::Lit(Lit::Str(Str {
+                            value: src,
+                            kind: Default::default(),
+                            ..s.clone()
+                        })))
+                    }
+                    _ => expr,
+                };
+
                 let expr = match *expr {
                     Expr::Ident(ident) => match Self::fold_ident(folder, ident) {
                         Ok(expr) => expr.0,

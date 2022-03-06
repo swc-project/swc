@@ -3,6 +3,7 @@ use std::path::{Component, PathBuf};
 use anyhow::{bail, Context, Error};
 use swc_cached::regex::CachedRegex;
 use swc_common::FileName;
+use tracing::{debug, info, Level};
 
 use crate::resolve::Resolve;
 
@@ -48,6 +49,13 @@ where
     ///
     /// Note that this is not a hashmap because value is not used as a hash map.
     pub fn new(inner: R, base_url: PathBuf, paths: Vec<(String, Vec<String>)>) -> Self {
+        if cfg!(debug_assertions) {
+            info!(
+                base_url = tracing::field::display(base_url.display()),
+                "jsc.paths"
+            );
+        }
+
         let paths = paths
             .into_iter()
             .map(|(from, to)| {
@@ -94,12 +102,31 @@ where
     R: Resolve,
 {
     fn resolve(&self, base: &FileName, src: &str) -> Result<FileName, Error> {
+        let _tracing = if cfg!(debug_assertions) {
+            Some(
+                tracing::span!(
+                    Level::ERROR,
+                    "tsc.resolve",
+                    base_url = tracing::field::display(self.base_url.display()),
+                    base = tracing::field::display(base),
+                    src = tracing::field::display(src),
+                )
+                .entered(),
+            )
+        } else {
+            None
+        };
+
         if src.starts_with('.') && (src == ".." || src.starts_with("./") || src.starts_with("../"))
         {
             return self
                 .inner
                 .resolve(base, src)
                 .context("not processed by tsc resolver because it's relative import");
+        }
+
+        if cfg!(debug_assertions) {
+            debug!("non-relative import");
         }
 
         if let FileName::Real(v) = base {

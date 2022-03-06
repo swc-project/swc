@@ -3327,6 +3327,7 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "testing",
+ "tracing",
 ]
 
 [[package]]
