@@ -1005,7 +1005,7 @@ macro_rules! mark_as_nested {
                 n.key = key;
                 n
             } else {
-                n
+                n.fold_children_with(self)
             }
         }
     };
