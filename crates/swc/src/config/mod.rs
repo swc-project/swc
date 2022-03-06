@@ -1054,7 +1054,7 @@ impl Merge for JscExperimental {
 }
 
 /// `paths` section of `tsconfig.json`.
-pub type Paths = AHashMap<String, Vec<String>>;
+pub type Paths = IndexMap<String, Vec<String>, ahash::RandomState>;
 pub(crate) type CompiledPaths = Vec<(String, Vec<String>)>;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1555,6 +1555,19 @@ impl Merge for JscConfig {
         self.paths.merge(&from.paths);
         self.minify.merge(&from.minify);
         self.experimental.merge(&from.experimental);
+    }
+}
+
+impl<K, V, S> Merge for IndexMap<K, V, S>
+where
+    K: Clone + Eq + std::hash::Hash,
+    V: Clone,
+    S: Clone + BuildHasher,
+{
+    fn merge(&mut self, from: &Self) {
+        if self.is_empty() {
+            *self = (*from).clone();
+        }
     }
 }
 
