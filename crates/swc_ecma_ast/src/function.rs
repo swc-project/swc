@@ -74,7 +74,7 @@ impl From<Pat> for Param {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ParamOrTsParamProp {
     #[tag("TsParameterProperty")]

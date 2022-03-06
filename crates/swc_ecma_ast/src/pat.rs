@@ -36,6 +36,23 @@ pub enum Pat {
     Expr(Box<Expr>),
 }
 
+// Implement Clone without inline to avoid multiple copies of the
+// implementation.
+impl Clone for Pat {
+    fn clone(&self) -> Self {
+        use Pat::*;
+        match self {
+            Ident(p) => Ident(p.clone()),
+            Array(p) => Array(p.clone()),
+            Rest(p) => Rest(p.clone()),
+            Object(p) => Object(p.clone()),
+            Assign(p) => Assign(p.clone()),
+            Invalid(p) => Invalid(p.clone()),
+            Expr(p) => Expr(p.clone()),
+        }
+    }
+}
+
 impl Take for Pat {
     fn dummy() -> Self {
         Pat::Invalid(Invalid { span: DUMMY_SP })
@@ -112,7 +129,7 @@ pub struct RestPat {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum ObjectPatProp {
     #[tag("KeyValuePatternProperty")]

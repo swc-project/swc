@@ -179,7 +179,6 @@ pub fn ast_node(
                 #[derive(
                     ::swc_common::FromVariant,
                     ::swc_common::Spanned,
-                    Clone,
                     Debug,
                     PartialEq,
                     ::serde::Serialize,

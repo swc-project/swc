@@ -78,7 +78,7 @@ pub struct TsParamProp {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsParamPropParam {
     #[tag("Identifier")]
@@ -99,7 +99,7 @@ pub struct TsQualifiedName {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
 #[allow(variant_size_differences)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsEntityName {
@@ -115,7 +115,7 @@ pub enum TsEntityName {
 // ================
 
 #[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsTypeElement {
     #[tag("TsCallSignatureDeclaration")]
@@ -308,8 +308,38 @@ pub enum TsType {
     TsImportType(TsImportType),
 }
 
+// Implement Clone without inline to avoid multiple copies of the
+// implementation.
+impl Clone for TsType {
+    fn clone(&self) -> Self {
+        use TsType::*;
+        match self {
+            TsKeywordType(t) => TsKeywordType(t.clone()),
+            TsThisType(t) => TsThisType(t.clone()),
+            TsFnOrConstructorType(t) => TsFnOrConstructorType(t.clone()),
+            TsTypeRef(t) => TsTypeRef(t.clone()),
+            TsTypeQuery(t) => TsTypeQuery(t.clone()),
+            TsTypeLit(t) => TsTypeLit(t.clone()),
+            TsArrayType(t) => TsArrayType(t.clone()),
+            TsTupleType(t) => TsTupleType(t.clone()),
+            TsOptionalType(t) => TsOptionalType(t.clone()),
+            TsRestType(t) => TsRestType(t.clone()),
+            TsUnionOrIntersectionType(t) => TsUnionOrIntersectionType(t.clone()),
+            TsConditionalType(t) => TsConditionalType(t.clone()),
+            TsInferType(t) => TsInferType(t.clone()),
+            TsParenthesizedType(t) => TsParenthesizedType(t.clone()),
+            TsTypeOperator(t) => TsTypeOperator(t.clone()),
+            TsIndexedAccessType(t) => TsIndexedAccessType(t.clone()),
+            TsMappedType(t) => TsMappedType(t.clone()),
+            TsLitType(t) => TsLitType(t.clone()),
+            TsTypePredicate(t) => TsTypePredicate(t.clone()),
+            TsImportType(t) => TsImportType(t.clone()),
+        }
+    }
+}
+
 #[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsFnOrConstructorType {
     #[tag("TsFunctionType")]
@@ -405,7 +435,7 @@ pub struct TsThisType {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsFnParam {
     #[tag("Identifier")]
@@ -469,7 +499,7 @@ pub struct TsTypePredicate {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
 #[allow(variant_size_differences)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsThisTypeOrIdent {
@@ -492,7 +522,7 @@ pub struct TsTypeQuery {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsTypeQueryExpr {
     #[tag("TsQualifiedName")]
@@ -567,7 +597,7 @@ pub struct TsRestType {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsUnionOrIntersectionType {
     #[tag("TsUnionType")]
@@ -750,7 +780,7 @@ pub struct TsLitType {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsLit {
     #[tag("NumericLiteral")]
@@ -853,7 +883,7 @@ pub struct TsEnumMember {
 ///
 /// - Invalid: [Ident] with empty symbol.
 #[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsEnumMemberId {
     #[tag("Identifier")]
@@ -888,7 +918,7 @@ pub struct TsModuleDecl {
 /// `namespace A.B { }` is a namespace named `A` with another TsNamespaceDecl as
 /// its body.
 #[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsNamespaceBody {
     #[tag("TsModuleBlock")]
@@ -919,7 +949,7 @@ pub struct TsNamespaceDecl {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsModuleName {
     #[tag("Identifier")]
@@ -942,7 +972,7 @@ pub struct TsImportEqualsDecl {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+#[derive(Clone, Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum TsModuleRef {
     #[tag("TsQualifiedName")]
