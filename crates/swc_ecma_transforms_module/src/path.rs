@@ -12,7 +12,7 @@ use swc_common::{FileName, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_loader::resolve::Resolve;
 use swc_ecma_utils::{quote_ident, ExprFactory};
-use tracing::warn;
+use tracing::{debug, warn, Level};
 
 pub(crate) enum Resolver {
     Real {
@@ -102,6 +102,24 @@ where
                 }
             }
             p.display().to_string().into()
+        }
+
+        let _tracing = if cfg!(debug_assertions) {
+            Some(
+                tracing::span!(
+                    Level::ERROR,
+                    "resolve_import",
+                    base = tracing::field::display(base),
+                    module_specifier = tracing::field::display(module_specifier),
+                )
+                .entered(),
+            )
+        } else {
+            None
+        };
+
+        if cfg!(debug_assertions) {
+            debug!("invoking resolver");
         }
 
         let target = self.resolver.resolve(base, module_specifier);
