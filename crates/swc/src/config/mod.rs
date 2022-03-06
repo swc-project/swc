@@ -887,7 +887,17 @@ impl Config {
     ///
     /// - typescript: `tsx` will be modified if file extension is `ts`.
     pub fn adjust(&mut self, file: &Path) {
-        if let Some(Syntax::Typescript(TsConfig { tsx, .. })) = &mut self.jsc.syntax {
+        if let Some(Syntax::Typescript(TsConfig { tsx, dts, .. })) = &mut self.jsc.syntax {
+            let is_dts = file
+                .file_name()
+                .and_then(|f| f.to_str())
+                .map(|s| s.ends_with(".d.ts"))
+                .unwrap_or(false);
+
+            if is_dts {
+                *dts = true;
+            }
+
             let is_ts = file.extension().map(|v| v == "ts").unwrap_or(false);
             if is_ts {
                 *tsx = false;
