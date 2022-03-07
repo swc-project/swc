@@ -13,7 +13,6 @@ pub mod input;
 mod selector;
 #[cfg(test)]
 mod tests;
-mod traits;
 mod util;
 mod value;
 

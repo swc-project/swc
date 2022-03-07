@@ -2,6 +2,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend, private_ident, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_trace_macro::swc_trace;
 
 // Converts destructured parameters with default values to non-shorthand syntax.
 // This fixes the only Tagged Templates-related bug in ES Modules-supporting
@@ -18,6 +19,7 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 //   Object``===Object``  // true, should be false.
 //
 // Benchmarks: https://jsperf.com/compiled-tagged-template-performance
+#[tracing::instrument(level = "trace", skip_all)]
 pub fn template_literal_caching() -> impl Fold {
     TemplateLiteralCaching::default()
 }
@@ -52,6 +54,7 @@ impl TemplateLiteralCaching {
 }
 
 /// TODO: VisitMut
+#[swc_trace]
 impl Fold for TemplateLiteralCaching {
     noop_fold_type!();
 
