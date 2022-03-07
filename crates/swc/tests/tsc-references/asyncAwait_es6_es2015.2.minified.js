@@ -8,11 +8,11 @@ swcHelpers.asyncToGenerator(function*() {}), swcHelpers.asyncToGenerator(functio
     return mp;
 }), swcHelpers.asyncToGenerator(function*() {
     return p;
-}), (function(M1) {
+}), function(M1) {
     function _f1() {
         return (_f1 = swcHelpers.asyncToGenerator(function*() {})).apply(this, arguments);
     }
     M1.f1 = function() {
         return _f1.apply(this, arguments);
     };
-})(M || (M = {}));
+}(M || (M = {}));

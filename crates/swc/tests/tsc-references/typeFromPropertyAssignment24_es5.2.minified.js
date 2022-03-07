@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 Outer.Inner.Message = function() {}, new Outer.Inner().name, x.name;
 var x, Outer = {};
-Outer.Inner = (function() {
+Outer.Inner = function() {
     "use strict";
     function _class() {
         swcHelpers.classCallCheck(this, _class);
@@ -9,4 +9,4 @@ Outer.Inner = (function() {
     return _class.prototype.name = function() {
         return "hi";
     }, _class;
-})();
+}();

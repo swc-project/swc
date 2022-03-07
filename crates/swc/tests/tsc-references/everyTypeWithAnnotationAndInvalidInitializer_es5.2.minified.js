@@ -14,7 +14,7 @@ var M, N, C = function() {
     M1.A = A, M1.F2 = function(x) {
         return x.toString();
     };
-})(M || (M = {})), (function(N1) {
+})(M || (M = {})), function(N1) {
     var A = function() {
         "use strict";
         swcHelpers.classCallCheck(this, A);
@@ -22,4 +22,4 @@ var M, N, C = function() {
     N1.A = A, N1.F2 = function(x) {
         return x.toString();
     };
-})(N || (N = {})), new D(), new D(), new C(), new C(), new N.A();
+}(N || (N = {})), new D(), new D(), new C(), new C(), new N.A();

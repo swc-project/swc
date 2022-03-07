@@ -5,9 +5,9 @@ var B, A;
     class D extends a.C {
     }
     B1.D = D;
-}(B || (B = {})), (function(A1) {
+}(B || (B = {})), function(A1) {
     A1.C = class {
     };
     var b = B;
     A1.b = b;
-})(A || (A = {})), new B.a.C();
+}(A || (A = {})), new B.a.C();

@@ -11,7 +11,7 @@ y.name;
 x.name;
 // @Filename: def.js
 var Outer = {};
-Outer.Inner = /*#__PURE__*/ (function() {
+Outer.Inner = /*#__PURE__*/ function() {
     "use strict";
     function _class() {
         swcHelpers.classCallCheck(this, _class);
@@ -21,4 +21,4 @@ Outer.Inner = /*#__PURE__*/ (function() {
         return 'hi';
     };
     return _class;
-})();
+}();

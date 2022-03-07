@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 function rootConnection(name) {
     return {
-        resolve: (function() {
+        resolve: function() {
             var _ref = swcHelpers.asyncToGenerator(function*(context, args) {
                 const { objects  } = yield {
                     objects: 12
@@ -11,7 +11,7 @@ function rootConnection(name) {
             return function(context, args) {
                 return _ref.apply(this, arguments);
             };
-        })()
+        }()
     };
 }
 rootConnection('test');

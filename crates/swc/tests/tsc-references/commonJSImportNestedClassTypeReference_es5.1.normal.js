@@ -11,7 +11,7 @@ var K = require("./mod1").K;
 }
 // @filename: mod1.js
 var NS = {};
-NS.K = /*#__PURE__*/ (function() {
+NS.K = /*#__PURE__*/ function() {
     "use strict";
     function _class() {
         swcHelpers.classCallCheck(this, _class);
@@ -21,5 +21,5 @@ NS.K = /*#__PURE__*/ (function() {
         return new NS.K();
     };
     return _class;
-})();
+}();
 exports.K = NS.K;

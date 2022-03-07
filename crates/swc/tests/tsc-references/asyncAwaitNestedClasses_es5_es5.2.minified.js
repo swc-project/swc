@@ -4,7 +4,7 @@ var _B, A = function() {
     "use strict";
     swcHelpers.classCallCheck(this, A);
 };
-(_B = (function() {
+(_B = function() {
     "use strict";
     function B() {
         swcHelpers.classCallCheck(this, B);
@@ -14,7 +14,7 @@ var _B, A = function() {
             resolve(null);
         });
     }, B;
-})()).C = (function() {
+}()).C = function() {
     "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);
@@ -32,4 +32,4 @@ var _B, A = function() {
             }, _callee);
         }))();
     }, C;
-})(), A.B = _B, A.B.C.func();
+}(), A.B = _B, A.B.C.func();

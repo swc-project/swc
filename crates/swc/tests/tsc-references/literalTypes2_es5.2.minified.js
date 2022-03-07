@@ -31,7 +31,7 @@ g1(1), g2(1, 1), g2(1, 2), g3(1, "two"), g4(1), g5(1, 2), g6([
 var aa = [
     0
 ];
-aa = (function(a1, x) {
+aa = function(a1, x) {
     var result = a1.slice();
     return result.push(1), result;
-})(aa, 1);
+}(aa, 1);

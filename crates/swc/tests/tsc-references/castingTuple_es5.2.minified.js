@@ -27,9 +27,9 @@ var E1, E2, A = function() {
 }(A);
 !function(E1) {
     E1[E1.one = 0] = "one";
-}(E1 || (E1 = {})), (function(E2) {
+}(E1 || (E1 = {})), function(E2) {
     E2[E2.one = 0] = "one";
-})(E2 || (E2 = {}));
+}(E2 || (E2 = {}));
 var classCDATuple = [
     new C(),
     new D()

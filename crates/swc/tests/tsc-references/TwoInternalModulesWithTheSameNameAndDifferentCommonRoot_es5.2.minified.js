@@ -8,7 +8,7 @@ import * as swcHelpers from "@swc/helpers";
             y: p.x
         };
     };
-}(Root || (Root = {})), (function(otherRoot1) {
+}(Root || (Root = {})), function(otherRoot1) {
     var A, Utils, Plane;
     (A = otherRoot1.A || (otherRoot1.A = {})).Origin = {
         x: 0,
@@ -17,4 +17,4 @@ import * as swcHelpers from "@swc/helpers";
         "use strict";
         swcHelpers.classCallCheck(this, Plane), this.tl = tl, this.br = br;
     }, Utils.Plane = Plane;
-})(otherRoot || (otherRoot = {}));
+}(otherRoot || (otherRoot = {}));

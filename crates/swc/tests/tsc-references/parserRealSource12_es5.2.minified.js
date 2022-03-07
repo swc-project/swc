@@ -45,7 +45,7 @@ import * as swcHelpers from "@swc/helpers";
     }();
     TypeScript1.AstWalkerFactory = AstWalkerFactory, TypeScript1.getAstWalkerFactory = function() {
         return globalAstWalkerFactory || (globalAstWalkerFactory = new AstWalkerFactory()), globalAstWalkerFactory;
-    }, (function(ChildrenWalkers) {
+    }, function(ChildrenWalkers) {
         function walkRecordChildren(preAst, parent, walker) {
             preAst.name = walker.walk(preAst.name, preAst), walker.options.goNextSibling && preAst.members && (preAst.members = walker.walk(preAst.members, preAst));
         }
@@ -113,5 +113,5 @@ import * as swcHelpers from "@swc/helpers";
         }, ChildrenWalkers.walkLabelChildren = function(preAst, parent, walker) {}, ChildrenWalkers.walkLabeledStatementChildren = function(preAst, parent, walker) {
             preAst.labels = walker.walk(preAst.labels, preAst), walker.options.goNextSibling && (preAst.stmt = walker.walk(preAst.stmt, preAst));
         };
-    })(ChildrenWalkers1 || (ChildrenWalkers1 = {}));
+    }(ChildrenWalkers1 || (ChildrenWalkers1 = {}));
 }(TypeScript || (TypeScript = {}));

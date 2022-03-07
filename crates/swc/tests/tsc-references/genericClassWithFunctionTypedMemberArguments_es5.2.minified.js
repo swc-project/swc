@@ -31,7 +31,7 @@ import * as swcHelpers from "@swc/helpers";
     }), c2.foo(function(x) {
         return 1;
     });
-}(ImmediatelyFix || (ImmediatelyFix = {})), (function(WithCandidates) {
+}(ImmediatelyFix || (ImmediatelyFix = {})), function(WithCandidates) {
     var c, c2, C = function() {
         "use strict";
         function C() {
@@ -71,4 +71,4 @@ import * as swcHelpers from "@swc/helpers";
             return cb(x);
         }, C3;
     }();
-})(WithCandidates || (WithCandidates = {}));
+}(WithCandidates || (WithCandidates = {}));

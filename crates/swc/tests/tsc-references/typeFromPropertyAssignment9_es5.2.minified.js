@@ -9,7 +9,7 @@ my.method = function(n) {
     return 1;
 }, my.predicate.query.result = "none", my.predicate.sort = my.predicate.sort || function(first, second) {
     return first > second ? first : second;
-}, my.predicate.type = (function() {
+}, my.predicate.type = function() {
     "use strict";
     function _class() {
         swcHelpers.classCallCheck(this, _class);
@@ -17,7 +17,7 @@ my.method = function(n) {
     return _class.prototype.m = function() {
         return 101;
     }, _class;
-})();
+}();
 var min = window.min || {};
 min.nest = this.min.nest || function() {}, min.nest.other = self.min.nest.other || function _class() {
     "use strict";

@@ -5,7 +5,7 @@ import * as swcHelpers from "@swc/helpers";
         "use strict";
         swcHelpers.classCallCheck(this, Point), this.x = x, this.y = y;
     };
-    A1.Point = Point, (B = A1.B || (A1.B = {})).Origin = new Point(0, 0), Line = (function() {
+    A1.Point = Point, (B = A1.B || (A1.B = {})).Origin = new Point(0, 0), Line = function() {
         "use strict";
         function Line(start, end) {
             swcHelpers.classCallCheck(this, Line);
@@ -16,5 +16,5 @@ import * as swcHelpers from "@swc/helpers";
                 y: 0
             }, p);
         }, Line;
-    })(), B.Line = Line;
+    }(), B.Line = Line;
 }(A || (A = {}));

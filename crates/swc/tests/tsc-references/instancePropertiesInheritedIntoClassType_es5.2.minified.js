@@ -27,7 +27,7 @@ import * as swcHelpers from "@swc/helpers";
         return D;
     }(C), d = new D(1, 2), r = d.fn();
     r.x, r.y, r.y = 4, d.y();
-}(NonGeneric || (NonGeneric = {})), (function(Generic) {
+}(NonGeneric || (NonGeneric = {})), function(Generic) {
     var C = function() {
         "use strict";
         function C(a, b) {
@@ -54,4 +54,4 @@ import * as swcHelpers from "@swc/helpers";
         return D;
     }(C), d = new D(1, ""), r = d.fn();
     r.x, r.y, r.y = "", d.y();
-})(Generic || (Generic = {}));
+}(Generic || (Generic = {}));

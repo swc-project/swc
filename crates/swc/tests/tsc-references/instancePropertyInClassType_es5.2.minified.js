@@ -19,7 +19,7 @@ import * as swcHelpers from "@swc/helpers";
         ]), C;
     }(), c = new C(1, 2), r = c.fn();
     r.x, r.y, r.y = 4, c.y();
-}(NonGeneric || (NonGeneric = {})), (function(Generic) {
+}(NonGeneric || (NonGeneric = {})), function(Generic) {
     var C = function() {
         "use strict";
         function C(a, b) {
@@ -38,4 +38,4 @@ import * as swcHelpers from "@swc/helpers";
         ]), C;
     }(), c = new C(1, ""), r = c.fn();
     r.x, r.y, r.y = "", c.y();
-})(Generic || (Generic = {}));
+}(Generic || (Generic = {}));

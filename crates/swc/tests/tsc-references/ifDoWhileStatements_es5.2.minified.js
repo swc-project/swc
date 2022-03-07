@@ -22,7 +22,7 @@ for(!function(M1) {
     M1.A = A, M1.F2 = function(x) {
         return x.toString();
     };
-}(M || (M = {})), (function(N1) {
+}(M || (M = {})), function(N1) {
     var A = function() {
         "use strict";
         swcHelpers.classCallCheck(this, A);
@@ -30,7 +30,7 @@ for(!function(M1) {
     N1.A = A, N1.F2 = function(x) {
         return x.toString();
     };
-})(N || (N = {}));;);
+}(N || (N = {}));;);
 for(;;);
 do ;
 while (null);

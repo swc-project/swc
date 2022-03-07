@@ -2,7 +2,7 @@ import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 function rootConnection(name) {
     return {
-        resolve: (function() {
+        resolve: function() {
             var _ref = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(context, args) {
                 var objects;
                 return regeneratorRuntime.wrap(function _callee$(_ctx) {
@@ -24,7 +24,7 @@ function rootConnection(name) {
             return function(context, args) {
                 return _ref.apply(this, arguments);
             };
-        })()
+        }()
     };
 }
 rootConnection('test');

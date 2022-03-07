@@ -21,7 +21,7 @@ import * as swcHelpers from "@swc/helpers";
     (C || (C = {})).bar = "";
     var c = new C(1, 2);
     c.fn(), c.foo, c.bar, c.x;
-}(NonGeneric || (NonGeneric = {})), (function(Generic) {
+}(NonGeneric || (NonGeneric = {})), function(Generic) {
     var C = function() {
         "use strict";
         function C(a, b) {
@@ -42,4 +42,4 @@ import * as swcHelpers from "@swc/helpers";
     (C || (C = {})).bar = "";
     var c = new C(1, "");
     c.fn(), c.foo, c.bar, c.x;
-})(Generic || (Generic = {}));
+}(Generic || (Generic = {}));

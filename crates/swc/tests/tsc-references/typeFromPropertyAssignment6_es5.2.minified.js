@@ -3,7 +3,7 @@ var Outer = function() {
     "use strict";
     swcHelpers.classCallCheck(this, Outer);
 };
-Outer.Inner = (function() {
+Outer.Inner = function() {
     "use strict";
     function I() {
         swcHelpers.classCallCheck(this, I);
@@ -11,4 +11,4 @@ Outer.Inner = (function() {
     return I.prototype.messages = function() {
         return [];
     }, I;
-})(), Outer.i, Outer.i.messages();
+}(), Outer.i, Outer.i.messages();

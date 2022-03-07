@@ -27,7 +27,7 @@ var _sort;
  */ my.predicate.sort = (_sort = my.predicate.sort) !== null && _sort !== void 0 ? _sort : function(first, second) {
     return first > second ? first : second;
 };
-my.predicate.type = /*#__PURE__*/ (function() {
+my.predicate.type = /*#__PURE__*/ function() {
     "use strict";
     function _class() {
         swcHelpers.classCallCheck(this, _class);
@@ -37,7 +37,7 @@ my.predicate.type = /*#__PURE__*/ (function() {
         return 101;
     };
     return _class;
-})();
+}();
 var _min;
 // global-ish prefixes
 var min = (_min = window.min) !== null && _min !== void 0 ? _min : {};
