@@ -44,7 +44,7 @@ import * as swcHelpers from "@swc/helpers";
             };
         };
     };
-}(ClassTypeParam || (ClassTypeParam = {})), (function(GenericSignaturesInvalid) {
+}(ClassTypeParam || (ClassTypeParam = {})), function(GenericSignaturesInvalid) {
     var Base2 = function() {
         "use strict";
         swcHelpers.classCallCheck(this, Base2);
@@ -52,7 +52,7 @@ import * as swcHelpers from "@swc/helpers";
         "use strict";
         swcHelpers.classCallCheck(this, Target);
     };
-})(GenericSignaturesInvalid || (GenericSignaturesInvalid = {})), (function(GenericSignaturesValid) {
+}(GenericSignaturesInvalid || (GenericSignaturesInvalid = {})), function(GenericSignaturesValid) {
     var Base2 = function() {
         "use strict";
         var _this = this;
@@ -96,4 +96,4 @@ import * as swcHelpers from "@swc/helpers";
             };
         };
     };
-})(GenericSignaturesValid || (GenericSignaturesValid = {}));
+}(GenericSignaturesValid || (GenericSignaturesValid = {}));

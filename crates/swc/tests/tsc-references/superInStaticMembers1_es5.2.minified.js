@@ -36,13 +36,13 @@ C._ = [
     void swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C),
     void swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C),
     void swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C), 
-], _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), (function() {
+], _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), function() {
     var Reflect2 = function() {
         "use strict";
         swcHelpers.classCallCheck(this, Reflect2);
     };
     _superprop_get_w().call(_this);
-})(), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this);
+}(), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this);
 var Reflect = null, C = function(B) {
     "use strict";
     swcHelpers.inherits(C, B);
@@ -455,7 +455,7 @@ _superprop_get_w().call(_this), _$_Reflect = function Reflect3() {
     swcHelpers.classCallCheck(this, Reflect3);
 }, _$__ = {
     writable: !0,
-    value: (function() {
+    value: function() {
         var C = function(B) {
             "use strict";
             swcHelpers.inherits(C, B);
@@ -466,13 +466,13 @@ _superprop_get_w().call(_this), _$_Reflect = function Reflect3() {
             return C;
         }(B);
         C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
-    })()
+    }()
 }, _$_Reflect = function Reflect4() {
     "use strict";
     swcHelpers.classCallCheck(this, Reflect4);
 }, _$__ = {
     writable: !0,
-    value: (function() {
+    value: function() {
         var _$_Reflect, _$__, C = function(B) {
             "use strict";
             swcHelpers.inherits(C, B);
@@ -483,7 +483,7 @@ _superprop_get_w().call(_this), _$_Reflect = function Reflect3() {
             return C;
         }(B);
         _superprop_get_w().call(_this);
-    })()
+    }()
 };
 var C = function(B) {
     "use strict";

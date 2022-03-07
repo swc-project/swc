@@ -71,7 +71,7 @@ export default function createInstantSearchManager({ indexName , initialState ={
                 client.search = (requests, ...methodArgs)=>{
                     const requestsWithSerializedParams = requests.map((request)=>({
                             ...request,
-                            params: (function(parameters) {
+                            params: function(parameters) {
                                 const isObjectOrArray = (value)=>"[object Object]" === Object.prototype.toString.call(value) || "[object Array]" === Object.prototype.toString.call(value)
                                 , encode = (format, ...args)=>{
                                     let i = 0;
@@ -80,7 +80,7 @@ export default function createInstantSearchManager({ indexName , initialState ={
                                 };
                                 return Object.keys(parameters).map((key)=>encode("%s=%s", key, isObjectOrArray(parameters[key]) ? JSON.stringify(parameters[key]) : parameters[key])
                                 ).join("&");
-                            })(request.params)
+                            }(request.params)
                         })
                     );
                     return client.transporter.responsesCache.get({

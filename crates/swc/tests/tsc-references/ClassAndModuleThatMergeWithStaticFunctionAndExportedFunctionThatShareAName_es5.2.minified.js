@@ -13,7 +13,7 @@ var A, Point = function() {
 }();
 (Point || (Point = {})).Origin = function() {
     return null;
-}, (function(A1) {
+}, function(A1) {
     var Point = function() {
         "use strict";
         function Point(x, y) {
@@ -29,4 +29,4 @@ var A, Point = function() {
     A1.Point = Point, (Point = A1.Point || (A1.Point = {})).Origin = function() {
         return "";
     };
-})(A || (A = {}));
+}(A || (A = {}));

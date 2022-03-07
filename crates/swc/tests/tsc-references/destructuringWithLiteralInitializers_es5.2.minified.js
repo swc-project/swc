@@ -92,16 +92,16 @@ function g5() {
         x: 1,
         y: 1
     }
-}), (function(param) {
+}), function(param) {
     var _param = swcHelpers.slicedToArray(param, 2);
     _param[0], _param[1];
-})([
+}([
     1,
     1
-]), (function(param) {
+]), function(param) {
     var _param = swcHelpers.slicedToArray(param, 2);
     _param[0], _param[1];
-})([
+}([
     1,
     1
 ]), g3(), g3([

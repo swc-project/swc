@@ -33,9 +33,9 @@ a1([
 }), b2("string", {
     x: 200,
     y: !0
-}), (function(Foo) {
+}), function(Foo) {
     Foo[Foo.a = 0] = "a";
-})(Foo || (Foo = {})), c0({
+}(Foo || (Foo = {})), c0({
     z: {
         x: 1,
         y: {

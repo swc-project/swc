@@ -6,7 +6,7 @@
     }) : factory(root.jQuery, root, doc);
 }(this, document, function(jQuery, window3, document1, undefined9) {
     var $28, nsNormalizeDict, oldFind, rbrace, jqmDataRE, $1, window1, compensateToolbars, $2, undefined1, uuid1, slice, _cleanData, $3, rcapitals, replaceFunction, $4, doc1, bool, docElem, refNode, fakeBody1, div1, $5, support1, $6, self1, $win1, dummyFnToInitNavigate, $7, undefined2, path2, $base, dialogHashKey, $8, undefined3, $9, path1, initialHref, $10, loc1, $11, undefined4, props1, testElement, vendorPrefixes, $12, heldCall, curr, diff1, handler1, lastCall, $13, baseElement, base1, $14, undefined5, originalWidget, keepNativeFactoryDefault, orig1, $15, undefined6, pageTransitionQueue, isPageTransitioning, $16, window2, $17, $18, $19, $20, $21, $22, undefined7, rInitialLetter, iconposClass1, $23, $24, $25, meta, initialContent1, disabledZoom, enabledZoom, disabledInitially, $26, $27, undefined8, rDividerListItem, origDefaultFilterCallback;
-    jQuery.mobile = {}, (function($, window, undefined) {
+    jQuery.mobile = {}, function($, window, undefined) {
         $.extend($.mobile, {
             version: "1.4.2",
             subPageUrlKey: "ui-page",
@@ -36,7 +36,7 @@
             allowCrossDomainPages: !1,
             dialogHashKey: "&ui-state=dialog"
         });
-    })(jQuery, this), nsNormalizeDict = {}, oldFind = ($28 = jQuery).find, rbrace = /(?:\{[\s\S]*\}|\[[\s\S]*\])$/, jqmDataRE = /:jqmData\(([^)]*)\)/g, $28.extend($28.mobile, {
+    }(jQuery, this), nsNormalizeDict = {}, oldFind = ($28 = jQuery).find, rbrace = /(?:\{[\s\S]*\}|\[[\s\S]*\])$/, jqmDataRE = /:jqmData\(([^)]*)\)/g, $28.extend($28.mobile, {
         ns: "",
         getAttribute: function(element, key) {
             var data;
@@ -65,7 +65,7 @@
         return $28.removeData(elem, $28.mobile.nsNormalize(prop));
     }, $28.find = function(selector, context, ret, extra) {
         return selector.indexOf(":jqmData") > -1 && (selector = selector.replace(jqmDataRE, "[data-" + ($28.mobile.ns || "") + "$1]")), oldFind.call(this, selector, context, ret, extra);
-    }, $28.extend($28.find, oldFind), (function($, undefined) {
+    }, $28.extend($28.find, oldFind), function($, undefined) {
         var removeData, orig2, uuid = 0, runiqueId = /^ui-id-\d+$/;
         function focusable(element, isTabIndexNotNaN) {
             var map, mapName, img, nodeName = element.nodeName.toLowerCase();
@@ -202,7 +202,7 @@
                 if (set && (allowDisconnected || instance.element[0].parentNode && 11 !== instance.element[0].parentNode.nodeType)) for(i = 0; i < set.length; i++)instance.options[set[i][0]] && set[i][1].apply(instance.element, args);
             }
         };
-    })(jQuery), $1 = jQuery, window1 = this, compensateToolbars = function(page, desiredHeight) {
+    }(jQuery), $1 = jQuery, window1 = this, compensateToolbars = function(page, desiredHeight) {
         var pageParent = page.parent(), toolbarsAffectingHeight = [], externalHeaders = pageParent.children(":jqmData(role='header')"), internalHeaders = page.children(":jqmData(role='header')"), externalFooters = pageParent.children(":jqmData(role='footer')"), internalFooters = page.children(":jqmData(role='footer')");
         return 0 === internalHeaders.length && externalHeaders.length > 0 && (toolbarsAffectingHeight = toolbarsAffectingHeight.concat(externalHeaders.toArray())), 0 === internalFooters.length && externalFooters.length > 0 && (toolbarsAffectingHeight = toolbarsAffectingHeight.concat(externalFooters.toArray())), $1.each(toolbarsAffectingHeight, function(index, value) {
             desiredHeight -= $1(value).outerHeight();
@@ -493,7 +493,7 @@
             if (!$3.mobile.getAttribute(elem, "defaults")) for(option in this.options)null != (value = $3.mobile.getAttribute(elem, option.replace(rcapitals, replaceFunction))) && (options[option] = value);
             return options;
         }
-    }), $3.mobile.widget = $3.Widget, (function($) {
+    }), $3.mobile.widget = $3.Widget, function($) {
         var loaderClass = "ui-loader", $html = $("html");
         $.widget("mobile.loader", {
             options: {
@@ -524,7 +524,7 @@
                 $html.removeClass("ui-loading"), this.options.text && this.element.removeClass("ui-loader-fakefix"), $.mobile.window.unbind("scroll", this.fakeFixLoader), $.mobile.window.unbind("scroll", this.checkLoaderPosition);
             }
         });
-    })(jQuery, this), (function($, window, undefined) {
+    }(jQuery, this), function($, window, undefined) {
         "$:nomunge";
         var fake_onhashchange, str_hashchange = "hashchange", doc = document1, special = $.event.special, doc_mode = doc.documentMode, supports_onhashchange = "on" + str_hashchange in window && (doc_mode === undefined || doc_mode > 7);
         function get_fragment(url) {
@@ -541,7 +541,7 @@
                 if (supports_onhashchange) return !1;
                 $(fake_onhashchange.stop);
             }
-        }), fake_onhashchange = (function() {
+        }), fake_onhashchange = function() {
             var iframe, iframe_src, timeout_id, self = {}, last_hash = get_fragment(), fn_retval = function(val) {
                 return val;
             }, history_set = fn_retval, history_get = fn_retval;
@@ -567,8 +567,8 @@
                 var iframe_doc = iframe.document, domain = $.fn[str_hashchange].domain;
                 hash !== history_hash && (iframe_doc.title = doc.title, iframe_doc.open(), domain && iframe_doc.write("<script>document.domain=\"" + domain + "\"</script>"), iframe_doc.close(), iframe.location.hash = hash);
             }), self;
-        })();
-    })(jQuery, this), $4 = jQuery, window3.matchMedia = window3.matchMedia || (refNode = (docElem = (doc1 = document1).documentElement).firstElementChild || docElem.firstChild, fakeBody1 = doc1.createElement("body"), div1 = doc1.createElement("div"), div1.id = "mq-test-1", div1.style.cssText = "position:absolute;top:-100em", fakeBody1.style.background = "none", fakeBody1.appendChild(div1), function(q) {
+        }();
+    }(jQuery, this), $4 = jQuery, window3.matchMedia = window3.matchMedia || (refNode = (docElem = (doc1 = document1).documentElement).firstElementChild || docElem.firstChild, fakeBody1 = doc1.createElement("body"), div1 = doc1.createElement("div"), div1.id = "mq-test-1", div1.style.cssText = "position:absolute;top:-100em", fakeBody1.style.background = "none", fakeBody1.appendChild(div1), function(q) {
         return div1.innerHTML = "&shy;<style media=\"" + q + "\"> #mq-test-1 { width: 42px; }</style>", docElem.insertBefore(fakeBody1, refNode), bool = 42 === div1.offsetWidth, docElem.removeChild(fakeBody1), {
             matches: bool,
             media: q
@@ -577,11 +577,11 @@
         return window3.matchMedia(q).matches;
     }, $5 = jQuery, support1 = {
         touch: "ontouchend" in document1
-    }, $5.mobile.support = $5.mobile.support || {}, $5.extend($5.support, support1), $5.extend($5.mobile.support, support1), (function($, undefined) {
+    }, $5.mobile.support = $5.mobile.support || {}, $5.extend($5.support, support1), $5.extend($5.mobile.support, support1), function($, undefined) {
         $.extend($.support, {
             orientation: "orientation" in window3 && "onorientationchange" in window3
         });
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         function propExists(prop) {
             var v, uc_prop = prop.charAt(0).toUpperCase() + prop.substr(1), props = (prop + " " + vendors.join(uc_prop + " ") + uc_prop).split(" ");
             for(v in props)if (undefined !== fbCSS[props[v]]) return !0;
@@ -593,12 +593,12 @@
         ], operamini = window3.operamini && "[object OperaMini]" === ({}).toString.call(window3.operamini), bb = window3.blackberry && !propExists("-webkit-transform");
         $.extend($.mobile, {
             browser: {}
-        }), $.mobile.browser.oldIE = (function() {
+        }), $.mobile.browser.oldIE = function() {
             var v = 3, div = document1.createElement("div"), a = div.all || [];
             do div.innerHTML = "<!--[if gt IE " + ++v + "]><br><![endif]-->";
             while (a[0])
             return v > 4 ? v : !v;
-        })(), $.extend($.support, {
+        }(), $.extend($.support, {
             pushState: "pushState" in history && "replaceState" in history && !(window3.navigator.userAgent.indexOf("Firefox") >= 0 && window3.top !== window3) && -1 === window3.navigator.userAgent.search(/CriOS/),
             mediaquery: $.mobile.media("only all"),
             cssPseudoElement: !!propExists("content"),
@@ -635,7 +635,7 @@
         }, $.mobile.ajaxBlacklist = window3.blackberry && !window3.WebKitPoint || operamini || nokiaLTE7_3, nokiaLTE7_3 && $(function() {
             $("head link[rel='stylesheet']").attr("rel", "alternate stylesheet").attr("rel", "stylesheet");
         }), $.support.boxShadow || $("html").addClass("ui-noboxshadow");
-    })(jQuery), $win1 = ($6 = jQuery).mobile.window, dummyFnToInitNavigate = function() {}, $6.event.special.beforenavigate = {
+    }(jQuery), $win1 = ($6 = jQuery).mobile.window, dummyFnToInitNavigate = function() {}, $6.event.special.beforenavigate = {
         setup: function() {
             $win1.on("navigate", dummyFnToInitNavigate);
         },
@@ -942,7 +942,7 @@
         }, duration), $11(this).one(props1[animationType].event, function() {
             clearTimeout(timer), callback.call(this, arguments);
         })) : (setTimeout($11.proxy(callback, this), 0), $11(this));
-    }, $11.fn.animationComplete.defaultDuration = 1000, (function($, window, document, undefined) {
+    }, $11.fn.animationComplete.defaultDuration = 1000, function($, window, document, undefined) {
         var threshold, i1, dataPropertyName = "virtualMouseBindings", touchTargetPropertyName = "virtualTouchID", virtualEventNames = "vmouseover vmousedown vmousemove vmouseup vclick vmouseout vmousecancel".split(" "), touchEventProps = "clientX clientY pageX pageY screenX screenY".split(" "), mouseHookProps = $.event.mouseHooks ? $.event.mouseHooks.props : [], mouseEventProps = $.event.props.concat(mouseHookProps), activeDocHandlers = {}, resetTimerID = 0, startX = 0, startY = 0, didScroll = !1, clickBlockList = [], blockMouseTriggers = !1, blockTouchTriggers = !1, eventCaptureSupported = "addEventListener" in document, $document = $(document), nextTouchID = 1, lastTouchID = 0;
         function getNativeEvent(event) {
             for(; event && void 0 !== event.originalEvent;)event = event.originalEvent;
@@ -968,18 +968,18 @@
         }
         function triggerVirtualEvent(eventType1, event1, flags) {
             var ve;
-            return (flags && flags[eventType1] || !flags && (function(element, eventType) {
+            return (flags && flags[eventType1] || !flags && function(element, eventType) {
                 for(var b; element;){
                     if ((b = $.data(element, dataPropertyName)) && (!eventType || b[eventType])) return element;
                     element = element.parentNode;
                 }
                 return null;
-            })(event1.target, eventType1)) && (ve = (function(event, eventType) {
+            }(event1.target, eventType1)) && (ve = function(event, eventType) {
                 var oe, props, ne, prop, ct, touch, i, j, len, t = event.type;
                 if ((event = $.Event(event)).type = eventType, oe = event.originalEvent, props = $.event.props, t.search(/^(mouse|click)/) > -1 && (props = mouseEventProps), oe) for(i = props.length; i;)event[prop = props[--i]] = oe[prop];
                 if (t.search(/mouse(down|up)|click/) > -1 && !event.which && (event.which = 1), -1 !== t.search(/^touch/) && (t = (ne = getNativeEvent(oe)).touches, ct = ne.changedTouches, touch = t && t.length ? t[0] : ct && ct.length ? ct[0] : void 0)) for(j = 0, len = touchEventProps.length; j < len; j++)event[prop = touchEventProps[j]] = touch[prop];
                 return event;
-            })(event1, eventType1), $(event1.target).trigger(ve)), ve;
+            }(event1, eventType1), $(event1.target).trigger(ve)), ve;
         }
         function mouseEventCallback(event) {
             var ve, touchID = $.data(event.target, touchTargetPropertyName);
@@ -1045,7 +1045,7 @@
                 ele = ele.parentNode;
             }
         }, !0);
-    })(jQuery, window3, document1), (function($, window, undefined) {
+    }(jQuery, window3, document1), function($, window, undefined) {
         var $document = $(document1), supportTouch = $.mobile.support.touch, scrollEvent = "touchmove scroll", touchStartEvent = supportTouch ? "touchstart" : "mousedown", touchStopEvent = supportTouch ? "touchend" : "mouseup", touchMoveEvent = supportTouch ? "touchmove" : "mousemove";
         function triggerCustomEvent(obj, eventType, event, bubble) {
             var originalType = event.type;
@@ -1182,7 +1182,7 @@
                 }
             };
         });
-    })(jQuery, this), ($12 = jQuery).event.special.throttledresize = {
+    }(jQuery, this), ($12 = jQuery).event.special.throttledresize = {
         setup: function() {
             $12(this).bind("resize", handler1);
         },
@@ -1191,7 +1191,7 @@
         }
     }, handler1 = function() {
         (diff1 = (curr = new Date().getTime()) - lastCall) >= 250 ? (lastCall = curr, $12(this).trigger("throttledresize")) : (heldCall && clearTimeout(heldCall), heldCall = setTimeout(handler1, 250 - diff1));
-    }, lastCall = 0, (function($, window) {
+    }, lastCall = 0, function($, window) {
         var get_orientation, last_orientation, initial_orientation_is_landscape, initial_orientation_is_default, ww, wh, landscape_threshold, win = $(window), event_name = "orientationchange", portrait_map = {
             "0": !0,
             "180": !0
@@ -1224,7 +1224,7 @@
         }, $.fn[event_name] = function(fn) {
             return fn ? this.bind(event_name, fn) : this.trigger(event_name);
         }, $.attrFn && ($.attrFn[event_name] = !0);
-    })(jQuery, this), base1 = {
+    }(jQuery, this), base1 = {
         element: (baseElement = ($13 = jQuery)("head").children("base")).length ? baseElement : $13("<base>", {
             href: $13.mobile.path.documentBase.hrefNoHash
         }).prependTo($13("head")),
@@ -1618,7 +1618,7 @@
         _findBaseWithDefault: function() {
             return this.activePage && $15.mobile.getClosestBaseUrl(this.activePage) || $15.mobile.path.documentBase.hrefNoHash;
         }
-    }), $15.mobile.navreadyDeferred = $15.Deferred(), pageTransitionQueue = [], isPageTransitioning = !1, (function($, undefined) {
+    }), $15.mobile.navreadyDeferred = $15.Deferred(), pageTransitionQueue = [], isPageTransitioning = !1, function($, undefined) {
         var domreadyDeferred = $.Deferred(), loadDeferred = $.Deferred(), documentUrl = $.mobile.path.documentUrl, $lastVClicked = null;
         function findClosestLink(ele) {
             for(; ele;){
@@ -1739,7 +1739,7 @@
         }), $.when(domreadyDeferred, $.mobile.navreadyDeferred).done(function() {
             $.mobile._registerInternalEvents();
         });
-    })(jQuery), $16 = jQuery, window2 = this, $16.mobile.Transition = function() {
+    }(jQuery), $16 = jQuery, window2 = this, $16.mobile.Transition = function() {
         this.init.apply(this, arguments);
     }, $16.extend($16.mobile.Transition.prototype, {
         toPreClass: " ui-page-pre-in",
@@ -1837,7 +1837,7 @@
             var html, hasType, findstr, repstr, element = $21(this), type = this.getAttribute("type"), optType = $21.mobile.degradeInputs[type] || "text";
             $21.mobile.degradeInputs[type] && (findstr = (hasType = (html = $21("<div>").html(element.clone()).html()).indexOf(" type=") > -1) ? /\s+type=["']?\w+['"]?/ : /\/?>/, repstr = " type=\"" + optType + "\" data-" + $21.mobile.ns + "type=\"" + type + "\"" + (hasType ? "" : ">"), element.replaceWith(html.replace(findstr, repstr)));
         });
-    }, (function($, window, undefined) {
+    }, function($, window, undefined) {
         $.widget("mobile.page", $.mobile.page, {
             options: {
                 closeBtn: "left",
@@ -1873,7 +1873,7 @@
                 }).attr("data-" + $.mobile.ns + "rel", "back").text(text || this.options.closeBtnText || "").prependTo(dst)), this._headerCloseButton = btn;
             }
         });
-    })(jQuery, this), (function($, window, undefined) {
+    }(jQuery, this), function($, window, undefined) {
         $.widget("mobile.dialog", {
             options: {
                 closeBtn: "left",
@@ -1926,7 +1926,7 @@
                 this._isCloseable && (this._isCloseable = !1, $.mobile.hashListeningEnabled && hist.activeIndex > 0 ? $.mobile.back() : $.mobile.pageContainer.pagecontainer("back"));
             }
         });
-    })(jQuery, this), $22 = jQuery, rInitialLetter = /([A-Z])/g, iconposClass1 = function(iconpos) {
+    }(jQuery, this), $22 = jQuery, rInitialLetter = /([A-Z])/g, iconposClass1 = function(iconpos) {
         return "ui-btn-icon-" + (null === iconpos ? "left" : iconpos);
     }, $22.widget("mobile.collapsible", {
         options: {
@@ -2027,7 +2027,7 @@
         _removeFirstLastClasses: function($els) {
             $els.removeClass("ui-first-child ui-last-child");
         }
-    }, (function($, undefined) {
+    }, function($, undefined) {
         var childCollapsiblesSelector = ":mobile-collapsible, " + $.mobile.collapsible.initSelector;
         $.widget("mobile.collapsibleset", $.extend({
             initSelector: ":jqmData(role='collapsible-set'),:jqmData(role='collapsibleset')",
@@ -2068,7 +2068,7 @@
                 this._refresh(!1);
             }
         }, $.mobile.behaviors.addFirstLastClasses));
-    })(jQuery), jQuery.fn.fieldcontain = function() {
+    }(jQuery), jQuery.fn.fieldcontain = function() {
         return this.addClass("ui-field-contain");
     }, ($23 = jQuery).fn.grid = function(options) {
         return this.each(function() {
@@ -2085,7 +2085,7 @@
             else grid = "a", $this.addClass("ui-grid-duo");
             iterator = gridCols[grid], $this.addClass("ui-grid-" + grid), $kids.filter(":nth-child(" + iterator + "n+1)").addClass("ui-block-a"), iterator > 1 && $kids.filter(":nth-child(" + iterator + "n+2)").addClass("ui-block-b"), iterator > 2 && $kids.filter(":nth-child(" + iterator + "n+3)").addClass("ui-block-c"), iterator > 3 && $kids.filter(":nth-child(" + iterator + "n+4)").addClass("ui-block-d"), iterator > 4 && $kids.filter(":nth-child(" + iterator + "n+5)").addClass("ui-block-e");
         });
-    }, (function($, undefined) {
+    }, function($, undefined) {
         $.widget("mobile.navbar", {
             options: {
                 iconpos: "top",
@@ -2108,7 +2108,7 @@
                 });
             }
         });
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         var getAttr = $.mobile.getAttribute;
         $.widget("mobile.listview", $.extend({
             options: {
@@ -2154,7 +2154,7 @@
                 }), countThemeClass && countBubbles.addClass(countThemeClass), this._addThumbClasses(li), this._addThumbClasses(li.find(".ui-btn")), this._afterListviewRefresh(), this._addFirstLastClasses(li, this._getVisibles(li, create), create);
             }
         }, $.mobile.behaviors.addFirstLastClasses));
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         $.widget("mobile.listview", $.mobile.listview, {
             options: {
                 autodividers: !1,
@@ -2171,7 +2171,7 @@
                 for(list.children("li:jqmData(role='list-divider')").remove(), lis = list.children("li"), i = 0; i < lis.length; i++)li = lis[i], (dividerText = this.options.autodividersSelector($(li))) && lastDividerText !== dividerText && ((divider = document1.createElement("li")).appendChild(document1.createTextNode(dividerText)), divider.setAttribute("data-" + $.mobile.ns + "role", "list-divider"), li.parentNode.insertBefore(divider, li)), lastDividerText = dividerText;
             }
         });
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         var rdivider = /(^|\s)ui-li-divider($|\s)/, rhidden = /(^|\s)ui-screen-hidden($|\s)/;
         $.widget("mobile.listview", $.mobile.listview, {
             options: {
@@ -2182,7 +2182,7 @@
                 if (this._superApply(arguments), this.options.hideDividers) for(idx = (items = this._getChildrenByTagName(this.element[0], "li", "LI")).length - 1; idx > -1; idx--)(item = items[idx]).className.match(rdivider) ? (hideDivider && (item.className = item.className + " ui-screen-hidden"), hideDivider = !0) : item.className.match(rhidden) || (hideDivider = !1);
             }
         });
-    })(jQuery), ($24 = jQuery).mobile.nojs = function(target) {
+    }(jQuery), ($24 = jQuery).mobile.nojs = function(target) {
         $24(":jqmData(role='nojs')", target).addClass("ui-nojs");
     }, jQuery.mobile.behaviors.formReset = {
         _handleFormReset: function() {
@@ -2192,7 +2192,7 @@
                 }
             });
         }
-    }, (function($, undefined) {
+    }, function($, undefined) {
         var escapeId = $.mobile.path.hashToSelector;
         $.widget("mobile.checkboxradio", $.extend({
             initSelector: "input:not( :jqmData(role='flipswitch' ) )[type='checkbox'],input[type='radio']:not( :jqmData(role='flipswitch' ))",
@@ -2293,7 +2293,7 @@
                 undefined !== options.disabled && (this.input.prop("disabled", !!options.disabled), outer.toggleClass("ui-state-disabled", !!options.disabled)), undefined !== options.mini && outer.toggleClass("ui-mini", !!options.mini), undefined !== options.theme && label.removeClass("ui-btn-" + currentOptions.theme).addClass("ui-btn-" + options.theme), undefined !== options.wrapperClass && outer.removeClass(currentOptions.wrapperClass).addClass(options.wrapperClass), undefined !== options.iconpos && hasIcon ? label.removeClass("ui-btn-icon-" + currentOptions.iconpos).addClass("ui-btn-icon-" + options.iconpos) : hasIcon || label.removeClass("ui-btn-icon-" + currentOptions.iconpos), this._super(options);
             }
         }, $.mobile.behaviors.formReset));
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         $.widget("mobile.button", {
             initSelector: "input[type='button'], input[type='submit'], input[type='reset']",
             options: {
@@ -2347,7 +2347,7 @@
                 });
             }
         });
-    })(jQuery), disabledZoom = (initialContent1 = (meta = ($25 = jQuery)("meta[name=viewport]")).attr("content")) + ",maximum-scale=1, user-scalable=no", enabledZoom = initialContent1 + ",maximum-scale=10, user-scalable=yes", disabledInitially = /(user-scalable[\s]*=[\s]*no)|(maximum-scale[\s]*=[\s]*1)[$,\s]/.test(initialContent1), $25.mobile.zoom = $25.extend({}, {
+    }(jQuery), disabledZoom = (initialContent1 = (meta = ($25 = jQuery)("meta[name=viewport]")).attr("content")) + ",maximum-scale=1, user-scalable=no", enabledZoom = initialContent1 + ",maximum-scale=10, user-scalable=yes", disabledInitially = /(user-scalable[\s]*=[\s]*no)|(maximum-scale[\s]*=[\s]*1)[$,\s]/.test(initialContent1), $25.mobile.zoom = $25.extend({}, {
         enabled: !disabledInitially,
         locked: !1,
         disable: function(lock) {
@@ -2359,7 +2359,7 @@
         restore: function() {
             disabledInitially || (meta.attr("content", initialContent1), $25.mobile.zoom.enabled = !0);
         }
-    }), (function($, undefined) {
+    }), function($, undefined) {
         $.widget("mobile.textinput", {
             initSelector: "input[type='text'],input[type='search'],:jqmData(type='search'),input[type='number'],:jqmData(type='number'),input[type='password'],input[type='email'],input[type='url'],input[type='tel'],textarea,input[type='time'],input[type='date'],input[type='month'],input[type='week'],input[type='datetime'],input[type='datetime-local'],input[type='color'],input:not([type]),input[type='file']",
             options: {
@@ -2419,7 +2419,7 @@
                 this.options.enhanced || (this.inputNeedsWrap && this.element.unwrap(), this.element.removeClass("ui-input-text " + this.classes.join(" ")));
             }
         });
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         $.widget("mobile.slider", $.extend({
             initSelector: "input[type='range'], :jqmData(type='range'), :jqmData(role='slider')",
             widgetEventPrefix: "slide",
@@ -2602,7 +2602,7 @@
                 value = !!value, this.element.prop("disabled", value), this.slider.toggleClass("ui-state-disabled", value).attr("aria-disabled", value);
             }
         }, $.mobile.behaviors.formReset));
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         var popup;
         $.widget("mobile.slider", $.mobile.slider, {
             options: {
@@ -2647,7 +2647,7 @@
                 o.popupEnabled && this._popupVisible && (o.showValue && !o.mini && this.handle.html(this._value()), this._popup.hide(), this._popupVisible = !1);
             }
         });
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         $.widget("mobile.flipswitch", $.extend({
             options: {
                 onText: "On",
@@ -2725,7 +2725,7 @@
                 this.options.enhanced || (null != this._originalTabIndex ? this.element.attr("tabindex", this._originalTabIndex) : this.element.removeAttr("tabindex"), this.on.remove(), this.off.remove(), this.element.unwrap(), this.flipswitch.remove(), this.removeClass("ui-flipswitch-input"));
             }
         }, $.mobile.behaviors.formReset));
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         $.widget("mobile.rangeslider", $.extend({
             options: {
                 theme: null,
@@ -2827,7 +2827,7 @@
                 this._label.prependTo(this.element), this.element.removeClass("ui-rangeslider ui-mini"), this._inputFirst.after(this._sliderFirst), this._inputLast.after(this._sliderLast), this._sliders.remove(), this.element.find("input").removeClass("ui-rangeslider-first ui-rangeslider-last").slider("destroy");
             }
         }, $.mobile.behaviors.formReset));
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         $.widget("mobile.textinput", $.mobile.textinput, {
             options: {
                 clearBtn: !1,
@@ -2882,7 +2882,7 @@
                 this._super(), this._destroyClear();
             }
         });
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         $.widget("mobile.textinput", $.mobile.textinput, {
             options: {
                 autogrow: !0,
@@ -2938,7 +2938,7 @@
                 this._super(options), undefined !== options.autogrow && this.isTextarea && (options.autogrow ? this._autogrow() : this._unbindAutogrow());
             }
         });
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         $.widget("mobile.selectmenu", $.extend({
             initSelector: "select:not( :jqmData(role='slider')):not( :jqmData(role='flipswitch') )",
             options: {
@@ -3057,12 +3057,12 @@
                 this._setDisabled(!1), this.button.removeClass("ui-state-disabled");
             }
         }, $.mobile.behaviors.formReset));
-    })(jQuery), ($26 = jQuery).mobile.links = function(target) {
+    }(jQuery), ($26 = jQuery).mobile.links = function(target) {
         $26(target).find("a").jqmEnhanceable().filter(":jqmData(rel='popup')[href][href!='']").each(function() {
             var idref = this.getAttribute("href").substring(1);
             idref && (this.setAttribute("aria-haspopup", !0), this.setAttribute("aria-owns", idref), this.setAttribute("aria-expanded", !1));
         }).end().not(".ui-btn, :jqmData(role='none'), :jqmData(role='nojs')").addClass("ui-link");
-    }, (function($, undefined) {
+    }, function($, undefined) {
         function fitSegmentInsideSegment(windowSize, segmentSize, offset, desired) {
             return windowSize < segmentSize ? offset + (windowSize - segmentSize) / 2 : Math.min(Math.max(offset, desired - segmentSize / 2), offset + windowSize - segmentSize);
         }
@@ -3364,7 +3364,7 @@
         }, $.mobile.document.on("pagebeforechange", function(theEvent, data) {
             "popup" === data.options.role && ($.mobile.popup.handleLink(data.options.link), theEvent.preventDefault());
         });
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         var unfocusableItemSelector = ".ui-disabled,.ui-state-disabled,.ui-li-divider,.ui-screen-hidden,:jqmData(role='placeholder')", goToAdjacentItem = function(item, target, direction) {
             var adjacent = item[direction + "All"]().not(unfocusableItemSelector).first();
             adjacent.length && (target.blur().attr("tabindex", "-1"), adjacent.find("a").first().focus());
@@ -3516,7 +3516,7 @@
                 this.options.nativeMenu || (this.close(), undefined !== this._origTabIndex && (!1 !== this._origTabIndex ? this.select.attr("tabindex", this._origTabIndex) : this.select.removeAttr("tabindex")), this._removePlaceholderAttr && this._selectOptions().removeAttr("data-" + $.mobile.ns + "placeholder"), this.listbox.remove(), this.menuPage.remove()), this._super();
             }
         });
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         var reverseBoolOptionMap = {
             "ui-shadow": "shadow",
             "ui-corner-all": "corners",
@@ -3575,7 +3575,7 @@
         }, $.extend($.fn.buttonMarkup, {
             initSelector: "a:jqmData(role='button'), .ui-bar > a, .ui-bar > :jqmData(role='controlgroup') > a, button"
         });
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         $.widget("mobile.controlgroup", $.extend({
             options: {
                 enhanced: !1,
@@ -3633,7 +3633,7 @@
                 ui = this._ui, buttons = this.element.removeClass("ui-controlgroup ui-controlgroup-horizontal ui-controlgroup-vertical ui-corner-all ui-mini " + this._themeClassFromOption(opts.theme)).find(".ui-btn").not(".ui-slider-handle"), this._removeFirstLastClasses(buttons), ui.groupLegend.unwrap(), ui.childWrapper.children().unwrap();
             }
         }, $.mobile.behaviors.addFirstLastClasses));
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         $.widget("mobile.toolbar", {
             initSelector: ":jqmData(role='footer'), :jqmData(role='header')",
             options: {
@@ -3686,7 +3686,7 @@
                 });
             }
         });
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         $.widget("mobile.toolbar", $.mobile.toolbar, {
             options: {
                 position: null,
@@ -3795,7 +3795,7 @@
                 $el.closest(".ui-page").css("padding-" + (header ? "top" : "bottom"), ""), $el.removeClass("ui-header-fixed ui-footer-fixed ui-header-fullscreen ui-footer-fullscreen in out fade slidedown slideup ui-fixed-hidden"), $el.closest(".ui-page").removeClass("ui-page-header-fixed ui-page-footer-fixed ui-page-header-fullscreen ui-page-footer-fullscreen");
             }
         });
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         $.widget("mobile.toolbar", $.mobile.toolbar, {
             _makeFixed: function() {
                 this._super(), this._workarounds();
@@ -3838,7 +3838,7 @@
                 this._super(), this.element.closest(".ui-page-active").removeClass("ui-android-2x-fix");
             }
         });
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         var ieHack = $.mobile.browser.oldIE && $.mobile.browser.oldIE <= 8, uiTemplate = $("<div class='ui-popup-arrow-guide'></div><div class='ui-popup-arrow-container" + (ieHack ? " ie" : "") + "'><div class='ui-popup-arrow'></div></div>");
         $.widget("mobile.popup", $.mobile.popup, {
             options: {
@@ -3974,7 +3974,7 @@
                 return ar && ar.arEls.remove(), this._super();
             }
         });
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         $.widget("mobile.panel", {
             options: {
                 classes: {
@@ -4155,7 +4155,7 @@
                 ].join(" ")).off("swipeleft.panel swiperight.panel").off("panelbeforeopen").off("panelhide").off("keyup.panel").off("updatelayout"), this._modal && this._modal.remove();
             }
         });
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         $.widget("mobile.table", {
             options: {
                 classes: {
@@ -4189,7 +4189,7 @@
                 });
             }
         });
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         $.widget("mobile.table", $.mobile.table, {
             options: {
                 mode: "columntoggle",
@@ -4254,7 +4254,7 @@
                 this._super();
             }
         });
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         $.widget("mobile.table", $.mobile.table, {
             options: {
                 mode: "reflow",
@@ -4283,7 +4283,7 @@
                 cells.not(":has(b." + label + ")").prepend("<b class='" + label + "'>" + text + "</b>");
             }
         });
-    })(jQuery), (function($, undefined) {
+    }(jQuery), function($, undefined) {
         var defaultFilterCallback = function(index, searchValue) {
             return -1 === ("" + ($.mobile.getAttribute(this, "filtertext") || $(this).text())).toLowerCase().indexOf(searchValue);
         };
@@ -4356,7 +4356,7 @@
                 this._timer && (window3.clearTimeout(this._timer), this._timer = 0), this._filterItems((this._search && this._search.val() || "").toLowerCase());
             }
         });
-    })(jQuery), rDividerListItem = /(^|\s)ui-li-divider(\s|$)/, origDefaultFilterCallback = ($27 = jQuery).mobile.filterable.prototype.options.filterCallback, $27.mobile.filterable.prototype.options.filterCallback = function(index, searchValue) {
+    }(jQuery), rDividerListItem = /(^|\s)ui-li-divider(\s|$)/, origDefaultFilterCallback = ($27 = jQuery).mobile.filterable.prototype.options.filterCallback, $27.mobile.filterable.prototype.options.filterCallback = function(index, searchValue) {
         return !this.className.match(rDividerListItem) && origDefaultFilterCallback.call(this, index, searchValue);
     }, $27.widget("mobile.filterable", $27.mobile.filterable, {
         options: {
@@ -4420,7 +4420,7 @@
                 this._search.textinput("option", textinputOptions);
             }
         }
-    }), (function($, undefined) {
+    }), function($, undefined) {
         var tabId = 0, rhash = /#.*$/;
         function isLocal(anchor) {
             return anchor.hash.length > 1 && decodeURIComponent(anchor.href.replace(rhash, "")) === decodeURIComponent(location.href.replace(rhash, ""));
@@ -4715,7 +4715,7 @@
                 return this.element.find(this._sanitizeSelector("#" + id));
             }
         });
-    })(jQuery), (function($, window) {
+    }(jQuery), function($, window) {
         $.mobile.iosorientationfixEnabled = !0;
         var zoom, evt, x, y, z, aig, ua = navigator.userAgent;
         if (!(/iPhone|iPad|iPod/.test(navigator.platform) && /OS [1-5]_[0-9_]* like Mac OS X/i.test(ua) && ua.indexOf("AppleWebKit") > -1)) {
@@ -4728,7 +4728,7 @@
         zoom = $.mobile.zoom, $.mobile.document.on("mobileinit", function() {
             $.mobile.iosorientationfixEnabled && $.mobile.window.bind("orientationchange.iosorientationfix", zoom.enable).bind("devicemotion.iosorientationfix", checkTilt);
         });
-    })(jQuery, this), (function($, window, undefined) {
+    }(jQuery, this), function($, window, undefined) {
         var $html = $("html"), $window = $.mobile.window;
         function hideRenderingClass() {
             $html.removeClass("ui-mobile-rendering");
@@ -4753,5 +4753,5 @@
                 e.preventDefault(), e.stopImmediatePropagation();
             });
         }));
-    })(jQuery, this);
+    }(jQuery, this);
 });

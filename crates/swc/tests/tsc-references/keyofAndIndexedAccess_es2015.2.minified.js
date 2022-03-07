@@ -27,6 +27,6 @@ new class extends SampleClass {
             foo: "bar"
         }));
     }
-}({}), (function(Flag) {
+}({}), function(Flag) {
     Flag.FLAG_1 = "flag_1", Flag.FLAG_2 = "flag_2";
-})(Flag || (Flag = {}));
+}(Flag || (Flag = {}));

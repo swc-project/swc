@@ -20,7 +20,7 @@ D.arrowFunctionBoundary = function() {
 }, D.classExprBoundary = function _class() {
     "use strict";
     swcHelpers.classCallCheck(this, _class), this.a = swcHelpers.get(swcHelpers.getPrototypeOf(_class.prototype), "f", this) + 3;
-}, D.functionAndClassDeclBoundary = (function() {
+}, D.functionAndClassDeclBoundary = function() {
     var C2 = function() {
         "use strict";
         function C2() {
@@ -30,4 +30,4 @@ D.arrowFunctionBoundary = function() {
             return swcHelpers.get(swcHelpers.getPrototypeOf(C2.prototype), "f", this) + 6;
         }, C2;
     }();
-})();
+}();

@@ -25,7 +25,7 @@ D.classExprBoundary = function _class() {
     swcHelpers.classCallCheck(this, _class);
     this.a = swcHelpers.get(swcHelpers.getPrototypeOf(_class.prototype), "f", this) + 3;
 };
-D.functionAndClassDeclBoundary = (function() {
+D.functionAndClassDeclBoundary = function() {
     var foo = function foo() {
         return swcHelpers.get(swcHelpers.getPrototypeOf(D), "f", this) + 4;
     };
@@ -41,4 +41,4 @@ D.functionAndClassDeclBoundary = (function() {
         };
         return C;
     }();
-})();
+}();

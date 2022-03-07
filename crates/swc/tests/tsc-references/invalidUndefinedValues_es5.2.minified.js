@@ -8,6 +8,6 @@ x = C, x = b, x = c, (M || (M = {})).x = 1, x = M, x = {
     f: function() {}
 }, x = function(a1) {
     x = a1;
-}, (function(E) {
+}, function(E) {
     E[E.A = 0] = "A";
-})(E || (E = {})), x = E, x = E.A;
+}(E || (E = {})), x = E, x = E.A;

@@ -6,7 +6,7 @@ var A;
 }).Origin = {
     x: 0,
     y: 0
-}, (function(A1) {
+}, function(A1) {
     class Point {
         constructor(x, y){
             this.x = x, this.y = y;
@@ -16,4 +16,4 @@ var A;
         x: 0,
         y: 0
     }, A1.Point = Point;
-})(A || (A = {}));
+}(A || (A = {}));

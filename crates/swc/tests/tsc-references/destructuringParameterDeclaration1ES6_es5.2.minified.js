@@ -39,9 +39,9 @@ a1([
         ]
     ],
     3
-]), (function() {
+]), function() {
     arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
-})([
+}([
     1,
     2,
     3
@@ -51,9 +51,9 @@ a1([
 }), b2("string", {
     x: 200,
     y: !0
-}), (function(Foo) {
+}), function(Foo) {
     Foo[Foo.a = 0] = "a";
-})(Foo || (Foo = {})), c0({
+}(Foo || (Foo = {})), c0({
     z: {
         x: 1,
         y: {
@@ -71,11 +71,11 @@ a1([
     z: 1
 }), c2({}), c2({
     z: 1
-}), (function() {
+}), function() {
     (arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         b: "hello"
     }).b;
-})({
+}({
     b: 1
 }), c5([
     1,

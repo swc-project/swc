@@ -906,11 +906,11 @@
         var pollTimeout, pollFns = [];
         self.addPollFn = function(fn) {
             var setTimeout;
-            return isUndefined(pollTimeout) && (setTimeout = setTimeout1, (function check() {
+            return isUndefined(pollTimeout) && (setTimeout = setTimeout1, function check() {
                 forEach(pollFns, function(pollFn) {
                     pollFn();
                 }), pollTimeout = setTimeout(check, 100);
-            })()), pollFns.push(fn), fn;
+            }()), pollFns.push(fn), fn;
         };
         var lastBrowserUrl = location.href, baseElement = document.find("base"), newLocation = null;
         self.url = function(url, replace) {
@@ -1219,10 +1219,10 @@
                     }
                     function nodeLinkFn(childLinkFn, scope1, linkNode, $rootElement, boundTranscludeFn) {
                         var attrs, $element, i, ii, linkFn, controller, isolateScope, transcludeFn, elementControllers = {};
-                        if ($element = (attrs = compileNode === linkNode ? templateAttrs : (function(src, dst) {
+                        if ($element = (attrs = compileNode === linkNode ? templateAttrs : function(src, dst) {
                             for(var key in dst = dst || {}, src)src.hasOwnProperty(key) && "$$" !== key.substr(0, 2) && (dst[key] = src[key]);
                             return dst;
-                        })(templateAttrs, new Attributes(jqLite(linkNode), templateAttrs.$attr))).$$element, newIsolateScopeDirective) {
+                        }(templateAttrs, new Attributes(jqLite(linkNode), templateAttrs.$attr))).$$element, newIsolateScopeDirective) {
                             var LOCAL_REGEXP = /^\s*([@=&])(\??)\s*(\w*)\s*$/, $linkNode = jqLite(linkNode);
                             isolateScope = scope1.$new(!0), templateDirective && templateDirective === newIsolateScopeDirective.$$originalDirective ? $linkNode.data("$isolateScope", isolateScope) : $linkNode.data("$isolateScopeNoTemplate", isolateScope), safeAddClass($linkNode, "ng-isolate-scope"), forEach(newIsolateScopeDirective.scope, function(definition, scopeName) {
                                 var lastValue, parentGet, parentSet, compare, match = definition.match(LOCAL_REGEXP) || [], attrName = match[3] || scopeName, optional = "?" == match[2], mode = match[1];
@@ -1579,7 +1579,7 @@
                             return responseFn($q.reject(response));
                         }
                     });
-                }), $http.pendingRequests = [], (function(names) {
+                }), $http.pendingRequests = [], function(names) {
                     forEach(arguments, function(name) {
                         $http[name] = function(url, config) {
                             return $http(extend(config || {}, {
@@ -1588,7 +1588,7 @@
                             }));
                         };
                     });
-                })("get", "delete", "head", "jsonp"), (function(name1) {
+                }("get", "delete", "head", "jsonp"), function(name1) {
                     forEach(arguments, function(name) {
                         $http[name] = function(url, data, config) {
                             return $http(extend(config || {}, {
@@ -1598,7 +1598,7 @@
                             }));
                         };
                     });
-                })("post", "put"), $http.defaults = defaults, $http;
+                }("post", "put"), $http.defaults = defaults, $http;
                 function sendReq(config, reqData, reqHeaders) {
                     var cache, cachedResp, deferred = $q.defer(), promise = deferred.promise, url = buildUrl(config.url, config.params);
                     if ($http.pendingRequests.push(config), promise.then(removePendingReq, removePendingReq), (config.cache || defaults.cache) && !1 !== config.cache && "GET" == config.method && (cache = isObject(config.cache) ? config.cache : isObject(defaults.cache) ? defaults.cache : defaultCache), cache) if (isDefined(cachedResp = cache.get(url))) {
@@ -2255,11 +2255,11 @@
         options = options || {};
         for(var key, element = path.split("."), i = 0; element.length > 1; i++){
             var propertyObj = obj[key = ensureSafeMemberName(element.shift(), fullExp)];
-            propertyObj || (propertyObj = {}, obj[key] = propertyObj), (obj = propertyObj).then && options.unwrapPromises && (promiseWarning(fullExp), "$$v" in obj || (function(promise) {
+            propertyObj || (propertyObj = {}, obj[key] = propertyObj), (obj = propertyObj).then && options.unwrapPromises && (promiseWarning(fullExp), "$$v" in obj || function(promise) {
                 promise.then(function(val) {
                     promise.$$v = val;
                 });
-            })(obj), undefined === obj.$$v && (obj.$$v = {}), obj = obj.$$v);
+            }(obj), undefined === obj.$$v && (obj.$$v = {}), obj = obj.$$v);
         }
         return obj[key = ensureSafeMemberName(element.shift(), fullExp)] = setValue, setValue;
     }
@@ -3206,21 +3206,21 @@
                         $: expression
                     };
                 case "object":
-                    for(var key in expression)"$" == key ? (function() {
+                    for(var key in expression)"$" == key ? function() {
                         if (expression[key]) {
                             var path = key;
                             predicates.push(function(value) {
                                 return search(value, expression[path]);
                             });
                         }
-                    })() : (function() {
+                    }() : function() {
                         if (void 0 !== expression[key]) {
                             var path = key;
                             predicates.push(function(value) {
                                 return search(getter1(value, path), expression[path]);
                             });
                         }
-                    })();
+                    }();
                     break;
                 case "function":
                     predicates.push(expression);
@@ -3326,7 +3326,7 @@
         var R_ISO8601_STR = /^(\d{4})-?(\d\d)-?(\d\d)(?:T(\d\d)(?::?(\d\d)(?::?(\d\d)(?:\.(\d+))?)?)?(Z|([+-])(\d\d):?(\d\d))?)?$/;
         return function(date1, format) {
             var fn, match1, text = "", parts = [];
-            if (format = format || "mediumDate", format = $locale.DATETIME_FORMATS[format] || format, isString(date1) && (date1 = NUMBER_STRING.test(date1) ? int(date1) : (function(string) {
+            if (format = format || "mediumDate", format = $locale.DATETIME_FORMATS[format] || format, isString(date1) && (date1 = NUMBER_STRING.test(date1) ? int(date1) : function(string) {
                 var match;
                 if (match = string.match(R_ISO8601_STR)) {
                     var date = new Date(0), tzHour = 0, tzMin = 0, dateSetter = match[8] ? date.setUTCFullYear : date.setFullYear, timeSetter = match[8] ? date.setUTCHours : date.setHours;
@@ -3335,7 +3335,7 @@
                     return timeSetter.call(date, h, m, s, ms), date;
                 }
                 return string;
-            })(date1)), isNumber(date1) && (date1 = new Date(date1)), !isDate(date1)) return date1;
+            }(date1)), isNumber(date1) && (date1 = new Date(date1)), !isDate(date1)) return date1;
             for(; format;)(match1 = DATE_FORMATS_SPLIT.exec(format)) ? format = (parts = concat1(parts, match1, 1)).pop() : (parts.push(format), format = null);
             return forEach(parts, function(value) {
                 text += (fn = DATE_FORMATS[value]) ? fn(date1, $locale.DATETIME_FORMATS) : value.replace(/(^'|'$)/g, "").replace(/''/g, "'");
@@ -3364,12 +3364,12 @@
         return function(array, sortPredicate, reverseOrder) {
             if (!isArray(array)) return array;
             if (!sortPredicate) return array;
-            sortPredicate = (function(obj, iterator, context) {
+            sortPredicate = function(obj, iterator, context) {
                 var results = [];
                 return forEach(obj, function(value, index, list) {
                     results.push(iterator.call(void 0, value, index, list));
                 }), results;
-            })(sortPredicate = isArray(sortPredicate) ? sortPredicate : [
+            }(sortPredicate = isArray(sortPredicate) ? sortPredicate : [
                 sortPredicate
             ], function(predicate) {
                 var descending = !1, get = predicate || identity;
@@ -4185,7 +4185,7 @@
                                 requiredValidator(ngModelCtrl1.$viewValue);
                             });
                         }
-                        optionsExp ? (function(scope, selectElement, ctrl) {
+                        optionsExp ? function(scope, selectElement, ctrl) {
                             if (!(match = optionsExp.match(NG_OPTIONS_REGEXP))) throw ngOptionsMinErr("iexp", "Expected expression in form of '_select_ (as _label_)? for (_key_,)?_value_ in _collection_' but got '{0}'. Element: {1}", optionsExp, startingTag(selectElement));
                             var match, displayFn = $parse(match[2] || match[1]), valueName = match[4] || match[6], keyName = match[5], groupByFn = $parse(match[3] || ""), valueFn = $parse(match[2] ? match[1] : valueName), valuesFn = $parse(match[7]), trackFn = match[8] ? $parse(match[8]) : null, optionGroupsCache = [
                                 [
@@ -4268,7 +4268,7 @@
                                     ctrl.$setViewValue(value);
                                 });
                             }), ctrl.$render = render, scope.$watch(render);
-                        })(scope5, element8, ngModelCtrl1) : multiple ? (scope3 = scope5, selectElement2 = element8, (ctrl1 = ngModelCtrl1).$render = function() {
+                        }(scope5, element8, ngModelCtrl1) : multiple ? (scope3 = scope5, selectElement2 = element8, (ctrl1 = ngModelCtrl1).$render = function() {
                             var items = new HashMap(ctrl1.$viewValue);
                             forEach(selectElement2.find("option"), function(option) {
                                 option.selected = isDefined(items.get(option.value));
@@ -4330,7 +4330,7 @@
         controller: JQLitePrototype.controller,
         injector: JQLitePrototype.injector,
         inheritedData: JQLitePrototype.inheritedData
-    }), jqLitePatchJQueryRemove("remove", !0, !0, !1), jqLitePatchJQueryRemove("empty", !1, !1, !1), jqLitePatchJQueryRemove("html", !1, !1, !0)) : jqLite = JQLite, angular1.element = jqLite, (function(angular2) {
+    }), jqLitePatchJQueryRemove("remove", !0, !0, !1), jqLitePatchJQueryRemove("empty", !1, !1, !1), jqLitePatchJQueryRemove("html", !1, !1, !0)) : jqLite = JQLite, angular1.element = jqLite, function(angular2) {
         extend(angular2, {
             bootstrap: bootstrap1,
             copy: copy,
@@ -4361,7 +4361,7 @@
             },
             "$$minErr": minErr,
             "$$csp": csp
-        }), angularModule = (function(window) {
+        }), angularModule = function(window) {
             var $injectorMinErr = minErr("$injector"), ngMinErr = minErr("ng");
             function ensure(obj, name, factory) {
                 return obj[name] || (obj[name] = factory());
@@ -4406,7 +4406,7 @@
                     });
                 };
             });
-        })(window1);
+        }(window1);
         try {
             angularModule("ngLocale");
         } catch (e) {
@@ -4499,7 +4499,7 @@
                 });
             }
         ]);
-    })(angular1), jqLite(document1).ready(function() {
+    }(angular1), jqLite(document1).ready(function() {
         !function(element10, bootstrap) {
             var appElement, module, elements = [
                 element10

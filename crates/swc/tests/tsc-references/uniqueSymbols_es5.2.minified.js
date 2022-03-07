@@ -119,7 +119,7 @@ regeneratorRuntime.mark(function method4() {
                 return _ctx.stop();
         }
     }, method4);
-}), (function() {
+}), function() {
     "use strict";
     function _class() {
         swcHelpers.classCallCheck(this, _class);
@@ -130,4 +130,4 @@ regeneratorRuntime.mark(function method4() {
     }, _proto.method2 = function(p) {
         return p;
     };
-})();
+}();

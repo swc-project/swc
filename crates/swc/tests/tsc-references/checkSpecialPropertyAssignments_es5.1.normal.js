@@ -4,7 +4,7 @@ import * as swcHelpers from "@swc/helpers";
 // @allowJs: true
 // @Filename: bug24252.js
 var A = {};
-A.B = /*#__PURE__*/ (function() {
+A.B = /*#__PURE__*/ function() {
     "use strict";
     function _class() {
         swcHelpers.classCallCheck(this, _class);
@@ -16,4 +16,4 @@ A.B = /*#__PURE__*/ (function() {
         y = x;
     };
     return _class;
-})();
+}();
