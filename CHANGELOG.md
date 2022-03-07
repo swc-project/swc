@@ -13,6 +13,9 @@
 
 - **(common)** Align `stable_hasher` to latest rustc (#3895) ([372f298](https://github.com/swc-project/swc/commit/372f298f5f6faae804370a3caaf8dce309fcb9f5))
 
+
+- **(css/parser)** Improve error recovery (#3901) ([6f781c3](https://github.com/swc-project/swc/commit/6f781c3b43a99ce65e5680665b8101a382adb4ef))
+
 ## [1.2.151] - 2022-03-07
 
 ### Bug Fixes
