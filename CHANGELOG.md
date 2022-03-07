@@ -25,6 +25,12 @@
 
 - **(es/parser)** Improve performance by adjusting inlining (#3902) ([4387813](https://github.com/swc-project/swc/commit/43878137e71894fbb3367473317ba65de5e40616))
 
+### Refactor
+
+
+
+- **(css/parser)** Remove unused codes (#3903) ([3a9af73](https://github.com/swc-project/swc/commit/3a9af7316748641e8b59b59d014513456ecfc606))
+
 ## [1.2.151] - 2022-03-07
 
 ### Bug Fixes
