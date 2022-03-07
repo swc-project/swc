@@ -1,0 +1,30 @@
+error: Expected ":"
+ --> $DIR/tests/recovery/at-rule/font-face/input.css:3:1
+  |
+3 | }
+  | ^
+
+error: Expected ":"
+ --> $DIR/tests/recovery/at-rule/font-face/input.css:6:12
+  |
+6 |     invalid;
+  |            ^
+
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+  --> $DIR/tests/recovery/at-rule/font-face/input.css:10:5
+   |
+10 |     123
+   |     ^^^
+
+error: Expected whitespace, semicolon, EOF, at-keyword or ident token
+  --> $DIR/tests/recovery/at-rule/font-face/input.css:14:5
+   |
+14 |     123;
+   |     ^^^
+
+error: Expected '{', '(' or '[' token
+  --> $DIR/tests/recovery/at-rule/font-face/input.css:17:12
+   |
+17 | @font-face foo {}
+   |            ^^^
+

@@ -356,6 +356,7 @@ where
 {
     fn parse(&mut self) -> PResult<SimpleBlock> {
         let span = self.input.cur_span()?;
+        println!("{:?}", self.input.cur());
         let name = match cur!(self) {
             tok!("{") => {
                 bump!(self);
@@ -373,7 +374,10 @@ where
                 '['
             }
             _ => {
-                unreachable!();
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("'{', '(' or '[' token"),
+                ));
             }
         };
         // Create a simple block with its associated token set to the current input
