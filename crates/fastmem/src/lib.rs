@@ -9,6 +9,6 @@
 #![deny(clippy::all)]
 #![deny(unused)]
 
-pub use self::fast_drop::FastDrop;
+pub use self::fast_drop::*;
 
 mod fast_drop;

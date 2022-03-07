@@ -1,18 +1,38 @@
 use std::ops::{Deref, DerefMut};
 
+pub fn drop_fast<T>(v: T)
+where
+    T: Send + 'static,
+{
+    FastDrop::new(v);
+}
+
 /// Utility type to deallocate memory in another thread.
 ///
 ///
 ///
 /// If ths feature `enable` is turned on, the value will be deallocated in other
 /// thread.
+///
+/// This type uses [rayon::spawn]
 #[repr(transparent)]
-#[derive(Debug, Clone, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct FastDrop<T>
 where
     T: Send + 'static,
 {
     value: Option<T>,
+}
+
+impl<T> Default for FastDrop<T>
+where
+    T: Send + 'static,
+    T: Default,
+{
+    #[inline(always)]
+    fn default() -> Self {
+        Self::new(T::default())
+    }
 }
 
 impl<T> FastDrop<T>
@@ -44,6 +64,7 @@ where
 
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
+        assert!(self.value.is_some());
         // Safety: self.value can be None only if drop is called.
         unsafe { self.value.as_ref().unwrap_unchecked() }
     }
@@ -55,6 +76,7 @@ where
 {
     #[inline(always)]
     fn deref_mut(&mut self) -> &mut Self::Target {
+        assert!(self.value.is_some());
         // Safety: self.value can be None only if drop is called.
         unsafe { self.value.as_mut().unwrap_unchecked() }
     }
