@@ -17,22 +17,26 @@ pub fn custom_property_no_missing_var_function(ctx: LintRuleContext<()>) -> Box<
 struct CustomPropertyNoMissingVarFunction {
     ctx: LintRuleContext<()>,
 
-    in_declaration: bool,
-    in_declaration_value: bool,
+    in_declaration: Vec<bool>,
+    in_declaration_value: Vec<bool>,
     in_var_function: bool,
 }
 
 impl Visit for CustomPropertyNoMissingVarFunction {
     fn visit_declaration(&mut self, declaration: &Declaration) {
-        self.in_declaration = true;
+        self.in_declaration.push(true);
         declaration.visit_children_with(self);
-        self.in_declaration = false;
+        self.in_declaration.pop();
     }
 
     fn visit_component_value(&mut self, component_value: &ComponentValue) {
-        self.in_declaration_value = self.in_declaration;
-        component_value.visit_children_with(self);
-        self.in_declaration_value = false;
+        if let Some(v) = self.in_declaration.last() {
+            self.in_declaration_value.push(*v);
+            component_value.visit_children_with(self);
+            self.in_declaration_value.pop();
+        } else {
+            component_value.visit_children_with(self);
+        }
     }
 
     fn visit_function(&mut self, function: &Function) {
@@ -42,14 +46,17 @@ impl Visit for CustomPropertyNoMissingVarFunction {
     }
 
     fn visit_dashed_ident(&mut self, dashed_ident: &DashedIdent) {
-        if self.in_declaration_value && !self.in_var_function {
-            self.ctx.report(
-                dashed_ident,
-                format!(
-                    "Unexpected missing var function for '{}'.",
-                    dashed_ident.value
-                ),
-            );
+        match self.in_declaration_value.last() {
+            Some(true) if !self.in_var_function => {
+                self.ctx.report(
+                    dashed_ident,
+                    format!(
+                        "Unexpected missing var function for '{}'.",
+                        dashed_ident.value
+                    ),
+                );
+            }
+            _ => {}
         }
 
         dashed_ident.visit_children_with(self);
