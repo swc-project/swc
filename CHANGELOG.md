@@ -10,6 +10,9 @@
 
 - **(es/fixer)** Remove extra parens around iife in expression position (#3887) ([9dd0105](https://github.com/swc-project/swc/commit/9dd0105c5b5479e421b36a0fb5ea3f2ea788d8a5))
 
+
+- **(es/lints)** Support module/script mode in `duplicate_bindings`  (#3880) ([0181fbe](https://github.com/swc-project/swc/commit/0181fbe63b04145b99475a63a81937d8039abcd7))
+
 ### Performance
 
 
