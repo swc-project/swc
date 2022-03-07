@@ -16,6 +16,12 @@
 
 - **(css/parser)** Improve error recovery (#3901) ([6f781c3](https://github.com/swc-project/swc/commit/6f781c3b43a99ce65e5680665b8101a382adb4ef))
 
+### Performance
+
+
+
+- **(es/parser)** Improve performance by adjusting inlining (#3902) ([4387813](https://github.com/swc-project/swc/commit/43878137e71894fbb3367473317ba65de5e40616))
+
 ## [1.2.151] - 2022-03-07
 
 ### Bug Fixes
