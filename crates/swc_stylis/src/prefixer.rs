@@ -360,7 +360,7 @@ impl VisitMut for Prefixer {
                 same_content!("-webkit-order");
                 same_content!("-ms-flex-order");
             }
-            
+
             "image-rendering" => {
                 simple!("-ms-interpolation-mode", "nearest-neighbor");
                 same_name!("-webkit-optimize-contrast");
@@ -442,7 +442,18 @@ impl VisitMut for Prefixer {
             "user-select" => {
                 same_content!("-webkit-user-select");
                 same_content!("-moz-user-select");
-                same_content!("-ms-user-select");
+
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    match &**value {
+                        "contain" => {
+                            simple!("-ms-user-select", "element");
+                        }
+                        "all" => {}
+                        _ => {
+                            same_content!("-ms-user-select");
+                        }
+                    }
+                }
             }
 
             "transform" => {
