@@ -11,14 +11,15 @@ function someCall() {
 function warn() {
     throw new Error("this should not be called");
 }
-const test = {};
+const test = {
+};
 exports.test = test;
-Object.defineProperty(exports.test, "someCall", {
+Object.defineProperty(test, "someCall", {
     set: (v)=>{
         exports.default = someCall = v;
     }
 });
-Object.defineProperty(exports.test, "warn", {
+Object.defineProperty(test, "warn", {
     get: ()=>warn
     ,
     set: (v)=>{

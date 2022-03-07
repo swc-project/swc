@@ -12,8 +12,8 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    find_ids, ident::IdentLike, member_expr, private_ident, quote_ident, quote_str,
-    var::VarCollector, DestructuringFinder, ExprFactory, IsDirective,
+    ident::IdentLike, member_expr, private_ident, quote_ident, quote_str, var::VarCollector,
+    DestructuringFinder, ExprFactory, IsDirective,
 };
 use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, VisitWith};
 
@@ -190,19 +190,6 @@ impl Fold for CommonJs {
                         exports.push(orig.sym.clone());
                     }
                 }
-            }
-        }
-
-        for item in &items {
-            if let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                decl: Decl::Var(v),
-                ..
-            })) = item
-            {
-                self.scope
-                    .borrow_mut()
-                    .exported_var_decls
-                    .extend(find_ids(&v.decls));
             }
         }
 
@@ -399,9 +386,9 @@ impl Fold for CommonJs {
                             decl: Decl::Var(var),
                             ..
                         })) => {
-                            let new_var = var.clone().fold_with(self);
-
-                            extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(new_var))));
+                            extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(
+                                var.clone().fold_with(self),
+                            ))));
 
                             let mut scope = self.scope.borrow_mut();
                             var.decls.visit_with(&mut VarCollector {
