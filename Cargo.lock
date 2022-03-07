@@ -3432,7 +3432,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.94.0"
+version = "0.94.1"
 dependencies = [
  "serde",
  "swc_atoms",
