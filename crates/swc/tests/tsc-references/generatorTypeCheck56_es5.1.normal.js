@@ -12,7 +12,7 @@ function g() {
                 return 0;
             case 3:
                 tmp = _ctx1.sent;
-                x = (0, /*#__PURE__*/ (function() {
+                x = (0, /*#__PURE__*/ function() {
                     "use strict";
                     function C() {
                         swcHelpers.classCallCheck(this, C);
@@ -31,7 +31,7 @@ function g() {
                         }, _callee);
                     });
                     return C;
-                })());
+                }());
             case 5:
             case "end":
                 return _ctx1.stop();

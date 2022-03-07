@@ -48,7 +48,7 @@ function _qux1() {
         }, _callee);
     }))).apply(this, arguments);
 }
-new (_bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet(), (function() {
+new (_bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet(), function() {
     "use strict";
     function _class() {
         swcHelpers.classCallCheck(this, _class), swcHelpers.classPrivateMethodInit(this, _bar), swcHelpers.classPrivateMethodInit(this, _baz), swcHelpers.classPrivateMethodInit(this, _qux);
@@ -78,4 +78,4 @@ new (_bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet(), (function
             }, _callee);
         }))();
     }, _class;
-}()))().foo().then(console.log);
+}())().foo().then(console.log);

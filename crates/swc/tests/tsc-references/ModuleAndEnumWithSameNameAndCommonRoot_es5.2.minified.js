@@ -6,6 +6,6 @@ import * as swcHelpers from "@swc/helpers";
         swcHelpers.classCallCheck(this, Point), this.x = x, this.y = y;
     };
     enumdule1.Point = Point;
-}(enumdule || (enumdule = {})), (function(enumdule) {
+}(enumdule || (enumdule = {})), function(enumdule) {
     enumdule[enumdule.Red = 0] = "Red", enumdule[enumdule.Blue = 1] = "Blue";
-})(enumdule || (enumdule = {})), enumdule.Red, new enumdule.Point(0, 0);
+}(enumdule || (enumdule = {})), enumdule.Red, new enumdule.Point(0, 0);

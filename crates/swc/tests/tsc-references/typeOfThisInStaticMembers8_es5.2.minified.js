@@ -10,7 +10,7 @@ C.f = 1, C.arrowFunctionBoundary = function() {
 }, C.classExprBoundary = function _class() {
     "use strict";
     swcHelpers.classCallCheck(this, _class), this.a = this.f + 3;
-}, C.functionAndClassDeclBoundary = (function() {
+}, C.functionAndClassDeclBoundary = function() {
     var CC = function() {
         "use strict";
         function CC() {
@@ -20,4 +20,4 @@ C.f = 1, C.arrowFunctionBoundary = function() {
             return this.f + 6;
         }, CC;
     }();
-})();
+}();

@@ -17,7 +17,7 @@ var ImmediatelyFix, WithCandidates;
     c2.foo((x)=>1
     ), c2.foo((x)=>1
     );
-}(ImmediatelyFix || (ImmediatelyFix = {})), (function(WithCandidates) {
+}(ImmediatelyFix || (ImmediatelyFix = {})), function(WithCandidates) {
     var c, c2;
     c.foo2(1, function(a) {
         return "";
@@ -27,4 +27,4 @@ var ImmediatelyFix, WithCandidates;
     , ""), c2.foo3(1, function(a) {
         return "";
     }, "");
-})(WithCandidates || (WithCandidates = {}));
+}(WithCandidates || (WithCandidates = {}));

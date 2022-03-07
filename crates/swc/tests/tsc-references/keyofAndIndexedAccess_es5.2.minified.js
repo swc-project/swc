@@ -133,9 +133,9 @@ var A = function() {
         this.props.foo.concat;
     }, AnotherSampleClass;
 }(SampleClass);
-new AnotherSampleClass({}), (function(Flag) {
+new AnotherSampleClass({}), function(Flag) {
     Flag.FLAG_1 = "flag_1", Flag.FLAG_2 = "flag_2";
-})(Flag || (Flag = {}));
+}(Flag || (Flag = {}));
 var Unbounded = function() {
     "use strict";
     function Unbounded() {

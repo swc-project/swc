@@ -25,7 +25,7 @@ my.predicate.query.result = 'none';
  */ my.predicate.sort = my.predicate.sort || function(first, second) {
     return first > second ? first : second;
 };
-my.predicate.type = /*#__PURE__*/ (function() {
+my.predicate.type = /*#__PURE__*/ function() {
     "use strict";
     function _class() {
         swcHelpers.classCallCheck(this, _class);
@@ -35,7 +35,7 @@ my.predicate.type = /*#__PURE__*/ (function() {
         return 101;
     };
     return _class;
-})();
+}();
 // global-ish prefixes
 var min = window.min || {};
 min.nest = this.min.nest || function() {};

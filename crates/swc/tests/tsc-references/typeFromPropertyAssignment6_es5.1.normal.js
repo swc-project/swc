@@ -4,7 +4,7 @@ var Outer = function Outer() {
     swcHelpers.classCallCheck(this, Outer);
 };
 // @Filename: a.js
-Outer.Inner = /*#__PURE__*/ (function() {
+Outer.Inner = /*#__PURE__*/ function() {
     "use strict";
     function I() {
         swcHelpers.classCallCheck(this, I);
@@ -14,7 +14,7 @@ Outer.Inner = /*#__PURE__*/ (function() {
         return [];
     };
     return I;
-})();
+}();
 /** @type {!Outer.Inner} */ Outer.i;
 // @Filename: b.js
 var msgs = Outer.i.messages();

@@ -12,7 +12,7 @@
     let { p1: {} , p2: []  } = a;
     const { p1: {} , p2: []  } = a;
     var {} = {}, {} = {};
-}(), (function() {
+}(), function() {
     const ns = [];
     for (var {} of ns);
     for (let {} of ns);
@@ -20,4 +20,4 @@
     for (var [] of ns);
     for (let [] of ns);
     for (const [] of ns);
-})();
+}();

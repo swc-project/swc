@@ -10,7 +10,7 @@ var K = require("./mod1").K;
     k.values();
 }
 // @filename: mod1.js
-exports.K = /*#__PURE__*/ (function() {
+exports.K = /*#__PURE__*/ function() {
     "use strict";
     function K1() {
         swcHelpers.classCallCheck(this, K1);
@@ -18,4 +18,4 @@ exports.K = /*#__PURE__*/ (function() {
     var _proto = K1.prototype;
     _proto.values = function values() {};
     return K1;
-})();
+}();

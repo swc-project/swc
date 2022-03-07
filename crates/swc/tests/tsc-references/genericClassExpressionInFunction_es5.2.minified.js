@@ -4,14 +4,14 @@ var A = function() {
     swcHelpers.classCallCheck(this, A);
 }, B2 = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, B2), this.anon = (function(A1) {
+    swcHelpers.classCallCheck(this, B2), this.anon = function(A1) {
         swcHelpers.inherits(_class, A1);
         var _super = swcHelpers.createSuper(_class);
         function _class() {
             return swcHelpers.classCallCheck(this, _class), _super.apply(this, arguments);
         }
         return _class;
-    })(A);
+    }(A);
 }, K = function(_superClass) {
     "use strict";
     swcHelpers.inherits(K, _superClass);
