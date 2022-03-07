@@ -774,6 +774,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4443176a9f2c162692bd3d352d745ef9413eec5782a80d8fd6f8a1ac692a07f7"
 
 [[package]]
+name = "fastmem"
+version = "0.1.0"
+dependencies = [
+ "rayon",
+]
+
+[[package]]
 name = "fixedbitset"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3133,6 +3140,7 @@ version = "0.92.2"
 dependencies = [
  "either",
  "enum_kind",
+ "fastmem",
  "lexical",
  "num-bigint",
  "pretty_assertions",
