@@ -324,8 +324,6 @@ struct Scope {
 
 #[derive(Debug, Default)]
 struct DeclInfo {
-    /// interface / type alias
-    has_type: bool,
     /// Var, Fn, Class
     has_concrete: bool,
     /// In `import foo = bar.baz`, `foo`'s dependency is `bar`. This means that
@@ -343,8 +341,6 @@ where
 
         if concrete {
             entry.has_concrete = true
-        } else {
-            entry.has_type = true;
         }
     }
 
@@ -1540,17 +1536,13 @@ where
 
     fn visit_ident(&mut self, n: &Ident) {
         let entry = self.scope.referenced_idents.entry(n.to_id()).or_default();
-        if self.is_type_only_export {
-            entry.has_type = true;
-        } else {
+        if !self.is_type_only_export {
             entry.has_concrete = true;
         }
         if let Some(i) = &entry.maybe_dependency {
             let id = i.to_id();
             if let Some(entry) = self.scope.referenced_idents.get_mut(&id) {
-                if self.is_type_only_export {
-                    entry.has_type = true;
-                } else {
+                if !self.is_type_only_export {
                     entry.has_concrete = true;
                 }
             }
@@ -1559,22 +1551,19 @@ where
     }
 
     fn visit_import_decl(&mut self, n: &ImportDecl) {
-        macro_rules! store {
-            ($i:expr) => {{
-                self.scope
-                    .referenced_idents
-                    .entry(($i.sym.clone(), $i.span.ctxt()))
-                    .or_default();
-                if n.type_only {
-                    self.scope.decls.entry($i.to_id()).or_default().has_type = true;
-                }
-            }};
-        }
         for s in &n.specifiers {
-            match *s {
-                ImportSpecifier::Default(ref import) => store!(import.local),
-                ImportSpecifier::Named(ref import) => store!(import.local),
-                ImportSpecifier::Namespace(ref import) => store!(import.local),
+            match s {
+                ImportSpecifier::Default(ImportDefaultSpecifier { local, .. })
+                | ImportSpecifier::Named(ImportNamedSpecifier { local, .. })
+                | ImportSpecifier::Namespace(ImportStarAsSpecifier { local, .. }) => {
+                    self.scope
+                        .referenced_idents
+                        .entry((local.sym.clone(), local.span.ctxt()))
+                        .or_default();
+                    if n.type_only {
+                        self.scope.decls.entry(local.to_id()).or_default();
+                    }
+                }
             }
         }
     }
@@ -1608,21 +1597,12 @@ where
         self.non_top_level = old;
     }
 
-    fn visit_ts_entity_name(&mut self, name: &TsEntityName) {
-        match *name {
-            TsEntityName::Ident(ref i) => {
-                let entry = self.scope.referenced_idents.entry(i.to_id()).or_default();
-                entry.has_type = true;
-                if let Some(i) = &entry.maybe_dependency {
-                    let id = i.to_id();
-                    if let Some(entry) = self.scope.referenced_idents.get_mut(&id) {
-                        entry.has_type = true;
-                    }
-                }
-            }
-            TsEntityName::TsQualifiedName(ref q) => q.left.visit_with(self),
-        }
-    }
+    fn visit_ts_entity_name(&mut self, _: &TsEntityName) {}
+
+    // these may contain expr
+    fn visit_ts_expr_with_type_args(&mut self, _: &TsExprWithTypeArgs) {}
+
+    fn visit_ts_type_element(&mut self, _: &TsTypeElement) {}
 
     fn visit_class(&mut self, c: &Class) {
         c.decorators.visit_with(self);

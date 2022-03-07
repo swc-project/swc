@@ -1,6 +1,20 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/typescript)** Remove imports used in interfaces and type signatures (#3893) ([5c92b2d](https://github.com/swc-project/swc/commit/5c92b2d4cee64686d0aad788b177b34cd2fd3bfc))
+
+## [1.2.151] - 2022-03-07
+
+### Bug Fixes
+
+
+
+- **(es/module)** Revert fix for `jest.spyOn` ([8e30d83](https://github.com/swc-project/swc/commit/8e30d83d145061c9ee256e76e77e64ab0b5552ed))
+
 ### Features
 
 
