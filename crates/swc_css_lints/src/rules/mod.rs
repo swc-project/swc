@@ -6,6 +6,7 @@ use crate::{
         at_rule_no_unknown::at_rule_no_unknown, block_no_empty::block_no_empty,
         color_hex_alpha::color_hex_alpha, color_hex_length::color_hex_length,
         color_no_invalid_hex::color_no_invalid_hex,
+        custom_property_no_missing_var_function::custom_property_no_missing_var_function,
         declaration_no_important::declaration_no_important,
         font_family_no_duplicate_names::font_family_no_duplicate_names,
         keyframe_declaration_no_important::keyframe_declaration_no_important,
@@ -21,6 +22,7 @@ pub mod block_no_empty;
 pub mod color_hex_alpha;
 pub mod color_hex_length;
 pub mod color_no_invalid_hex;
+pub mod custom_property_no_missing_var_function;
 pub mod declaration_no_important;
 pub mod font_family_no_duplicate_names;
 pub mod keyframe_declaration_no_important;
@@ -55,6 +57,9 @@ pub fn get_rules(
         selector_max_combinators((&rules_config.selector_max_combinators).into()),
         font_family_no_duplicate_names((&rules_config.font_family_no_duplicate_names).into())?,
         color_hex_alpha((&rules_config.color_hex_alpha).into()),
+        custom_property_no_missing_var_function(
+            (&rules_config.custom_property_no_missing_var_function).into(),
+        ),
     ];
 
     Ok(rules)

@@ -111,6 +111,9 @@ pub struct RulesConfig {
 
     #[serde(default, alias = "colorHexAlpha")]
     pub color_hex_alpha: RuleConfig<ColorHexAlphaConfig>,
+
+    #[serde(default, alias = "customPropertyNoMissingVarFunction")]
+    pub custom_property_no_missing_var_function: RuleConfig<()>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
