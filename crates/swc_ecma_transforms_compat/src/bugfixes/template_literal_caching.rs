@@ -19,7 +19,7 @@ use swc_trace_macro::swc_trace;
 //   Object``===Object``  // true, should be false.
 //
 // Benchmarks: https://jsperf.com/compiled-tagged-template-performance
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn template_literal_caching() -> impl Fold {
     TemplateLiteralCaching::default()
 }

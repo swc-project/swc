@@ -15,7 +15,7 @@ use wasmer_wasi::{is_wasi_module, WasiState};
 
 pub mod cache;
 
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 fn copy_bytes_into_host(memory: &Memory, bytes_ptr: i32, bytes_ptr_len: i32) -> Vec<u8> {
     let ptr: WasmPtr<u8, Array> = WasmPtr::new(bytes_ptr as _);
 
@@ -33,7 +33,7 @@ fn copy_bytes_into_host(memory: &Memory, bytes_ptr: i32, bytes_ptr_len: i32) -> 
 }
 
 /// Locate a view from given memory, write serialized bytes into.
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 fn write_into_memory_view<F>(
     memory: &Memory,
     serialized_bytes: &Serialized,
@@ -203,7 +203,7 @@ struct HostEnvironment {
     transform_result: Arc<Mutex<Vec<u8>>>,
 }
 
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 fn load_plugin(
     plugin_path: &Path,
     cache: &Lazy<PluginModuleCache>,
@@ -356,7 +356,7 @@ struct PluginTransformTracker {
 }
 
 impl PluginTransformTracker {
-    #[tracing::instrument(level = "trace", skip(cache))]
+    #[tracing::instrument(level = "info", skip(cache))]
     fn new(path: &Path, cache: &Lazy<PluginModuleCache>) -> Result<PluginTransformTracker, Error> {
         let (instance, transform_result) = load_plugin(path, cache)?;
 
@@ -424,7 +424,7 @@ impl PluginTransformTracker {
         }
     }
 
-    #[tracing::instrument(level = "trace", skip_all)]
+    #[tracing::instrument(level = "info", skip_all)]
     fn transform(
         &mut self,
         program: &Serialized,

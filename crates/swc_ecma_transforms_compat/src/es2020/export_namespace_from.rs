@@ -4,7 +4,7 @@ use swc_ecma_utils::{IdentExt, IsDirective};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
 use swc_trace_macro::swc_trace;
 
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn export_namespace_from() -> impl Fold + VisitMut {
     as_folder(ExportNamespaceFrom)
 }

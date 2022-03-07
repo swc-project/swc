@@ -25,7 +25,7 @@ use swc_trace_macro::swc_trace;
 ///
 /// x = Math.pow(x, 3);
 /// ```
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn exponentation() -> impl Fold + VisitMut {
     as_folder(Exponentation::default())
 }
@@ -128,7 +128,7 @@ impl VisitMut for Exponentation {
     }
 }
 
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 fn mk_call(span: Span, left: Box<Expr>, right: Box<Expr>) -> Expr {
     // Math.pow()
     Expr::Call(CallExpr {

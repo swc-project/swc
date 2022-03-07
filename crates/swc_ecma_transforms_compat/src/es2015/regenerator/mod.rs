@@ -27,7 +27,7 @@ pub struct Config {
     pub import_path: Option<JsWord>,
 }
 
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn regenerator(config: Config, top_level_mark: Mark) -> impl Fold + VisitMut {
     as_folder(Regenerator {
         config,
