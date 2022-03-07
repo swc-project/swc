@@ -9,12 +9,7 @@ var MixinClass, AbstractBase = function() {
     function DerivedFromAbstract2() {
         return swcHelpers.classCallCheck(this, DerivedFromAbstract2), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(DerivedFromAbstract2, [
-        {
-            key: "abstractBaseMethod",
-            value: function() {}
-        }
-    ]), DerivedFromAbstract2;
+    return DerivedFromAbstract2.prototype.abstractBaseMethod = function() {}, DerivedFromAbstract2;
 }(MixinClass = function(baseClass) {
     "use strict";
     swcHelpers.inherits(MixinClass, baseClass);
@@ -22,15 +17,5 @@ var MixinClass, AbstractBase = function() {
     function MixinClass() {
         return swcHelpers.classCallCheck(this, MixinClass), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(MixinClass, [
-        {
-            key: "mixinMethod",
-            value: function() {}
-        }
-    ], [
-        {
-            key: "staticMixinMethod",
-            value: function() {}
-        }
-    ]), MixinClass;
+    return MixinClass.prototype.mixinMethod = function() {}, MixinClass.staticMixinMethod = function() {}, MixinClass;
 }(AbstractBase));

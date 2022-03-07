@@ -18,12 +18,8 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "valueOf",
-            value: function valueOf() {}
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.valueOf = function valueOf() {};
     return C;
 }();
 var c;

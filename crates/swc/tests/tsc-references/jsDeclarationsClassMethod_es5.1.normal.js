@@ -37,19 +37,15 @@ var C2 = /*#__PURE__*/ function() {
     function C2() {
         swcHelpers.classCallCheck(this, C2);
     }
-    swcHelpers.createClass(C2, [
-        {
-            /**
+    var _proto = C2.prototype;
+    /**
      * A comment method1
      * @param {number} x
      * @param {number} y
      * @returns {number}
-     */ key: "method1",
-            value: function method1(x, y) {
-                return x + y;
-            }
-        }
-    ]);
+     */ _proto.method1 = function method1(x, y) {
+        return x + y;
+    };
     return C2;
 }();
 /**

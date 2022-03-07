@@ -7,15 +7,11 @@ export var ShortDetails = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, ShortDetails);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(ShortDetails, [
-        {
-            key: "render",
-            value: function render() {
-                if (this.props.id < 1) {
-                    return(/*#__PURE__*/ React.createElement("div", null));
-                }
-            }
+    var _proto = ShortDetails.prototype;
+    _proto.render = function render() {
+        if (this.props.id < 1) {
+            return(/*#__PURE__*/ React.createElement("div", null));
         }
-    ]);
+    };
     return ShortDetails;
 }(React.Component);

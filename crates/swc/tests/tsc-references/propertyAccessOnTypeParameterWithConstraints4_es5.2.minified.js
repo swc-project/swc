@@ -4,15 +4,10 @@ var i, a, C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "f",
-            value: function() {
-                var x;
-                return x.notHere() + x.notHere();
-            }
-        }
-    ]), C;
+    return C.prototype.f = function() {
+        var x;
+        return x.notHere() + x.notHere();
+    }, C;
 }();
 new C().f(), i.foo.notHere(), i.foo.notHere(), a().notHere(), a().notHere();
 var b = {

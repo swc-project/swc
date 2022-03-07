@@ -7,11 +7,7 @@ var C = //@target: ES6
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: _toPrimitive,
-            value: function value(x) {}
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto[_toPrimitive] = function(x) {};
     return C;
 }();

@@ -15,12 +15,7 @@ var c, i, b, A = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "valueOf",
-            value: function() {}
-        }
-    ]), C;
+    return C.prototype.valueOf = function() {}, C;
 }();
 c.valueOf(), c.data.hm, c.hm, i.valueOf(), i.data.hm, i.hm;
 var a = {

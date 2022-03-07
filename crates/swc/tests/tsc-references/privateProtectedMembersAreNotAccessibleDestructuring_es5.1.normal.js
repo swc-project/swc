@@ -4,19 +4,12 @@ var K = /*#__PURE__*/ function() {
     function K() {
         swcHelpers.classCallCheck(this, K);
     }
-    swcHelpers.createClass(K, [
-        {
-            key: "privateMethod",
-            value: function privateMethod() {}
-        },
-        {
-            key: "m",
-            value: function m() {
-                var ref = this, a = ref.priv, b = ref.prot; // ok
-                var ref1 = new K(), priv = ref1.priv, prot = ref1.prot; // ok
-            }
-        }
-    ]);
+    var _proto = K.prototype;
+    _proto.privateMethod = function privateMethod() {};
+    _proto.m = function m() {
+        var ref = this, a = ref.priv, b = ref.prot; // ok
+        var ref1 = new K(), priv = ref1.priv, prot = ref1.prot; // ok
+    };
     return K;
 }();
 var C = /*#__PURE__*/ function(K) {
@@ -27,15 +20,11 @@ var C = /*#__PURE__*/ function(K) {
         swcHelpers.classCallCheck(this, C);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "m2",
-            value: function m2() {
-                var ref = this, a = ref.priv; // error
-                var ref2 = this, b = ref2.prot; // ok
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.m2 = function m2() {
+        var ref = this, a = ref.priv; // error
+        var ref2 = this, b = ref2.prot; // ok
+    };
     return C;
 }(K);
 var k = new K();

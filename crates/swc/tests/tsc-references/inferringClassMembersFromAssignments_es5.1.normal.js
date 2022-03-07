@@ -24,91 +24,71 @@ var C = // @out: output.js
         }
         this.inMultiple = 0;
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "method",
-            value: function method() {
-                var _this = this;
-                if (Math.random()) {
-                    this.inMethod = 0;
-                    this.inMethodNullable = null;
-                } else {
-                    this.inMethod = "string";
-                    this.inMethodNullable = undefined;
-                }
-                this.inMultiple = "string";
-                this.inMultipleMethods = "string";
-                var action = function() {
-                    if (Math.random()) {
-                        _this.inNestedArrowFunction = 0;
-                    } else {
-                        _this.inNestedArrowFunction = "string";
-                    }
-                };
-            }
-        },
-        {
-            key: "get",
-            value: function get() {
-                if (Math.random()) {
-                    this.inGetter = 0;
-                } else {
-                    this.inGetter = "string";
-                }
-                this.inMultiple = false;
-                this.inMultipleMethods = false;
-            }
-        },
-        {
-            key: "set",
-            value: function set() {
-                if (Math.random()) {
-                    this.inSetter = 0;
-                } else {
-                    this.inSetter = "string";
-                }
-            }
+    var _proto = C.prototype;
+    _proto.method = function method() {
+        var _this = this;
+        if (Math.random()) {
+            this.inMethod = 0;
+            this.inMethodNullable = null;
+        } else {
+            this.inMethod = "string";
+            this.inMethodNullable = undefined;
         }
-    ], [
-        {
-            key: "method",
-            value: function method() {
-                var _this = this;
-                if (Math.random()) {
-                    this.inStaticMethod = 0;
-                } else {
-                    this.inStaticMethod = "string";
-                }
-                var action = function() {
-                    if (Math.random()) {
-                        _this.inStaticNestedArrowFunction = 0;
-                    } else {
-                        _this.inStaticNestedArrowFunction = "string";
-                    }
-                };
+        this.inMultiple = "string";
+        this.inMultipleMethods = "string";
+        var action = function() {
+            if (Math.random()) {
+                _this.inNestedArrowFunction = 0;
+            } else {
+                _this.inNestedArrowFunction = "string";
             }
-        },
-        {
-            key: "get",
-            value: function get() {
-                if (Math.random()) {
-                    this.inStaticGetter = 0;
-                } else {
-                    this.inStaticGetter = "string";
-                }
-            }
-        },
-        {
-            key: "set",
-            value: function set() {
-                if (Math.random()) {
-                    this.inStaticSetter = 0;
-                } else {
-                    this.inStaticSetter = "string";
-                }
-            }
+        };
+    };
+    _proto.get = function get() {
+        if (Math.random()) {
+            this.inGetter = 0;
+        } else {
+            this.inGetter = "string";
         }
-    ]);
+        this.inMultiple = false;
+        this.inMultipleMethods = false;
+    };
+    _proto.set = function set() {
+        if (Math.random()) {
+            this.inSetter = 0;
+        } else {
+            this.inSetter = "string";
+        }
+    };
+    C.method = function method() {
+        var _this = this;
+        if (Math.random()) {
+            this.inStaticMethod = 0;
+        } else {
+            this.inStaticMethod = "string";
+        }
+        var action = function() {
+            if (Math.random()) {
+                _this.inStaticNestedArrowFunction = 0;
+            } else {
+                _this.inStaticNestedArrowFunction = "string";
+            }
+        };
+    };
+    C.get = function get() {
+        if (Math.random()) {
+            this.inStaticGetter = 0;
+        } else {
+            this.inStaticGetter = "string";
+        }
+    };
+    C.set = function set() {
+        if (Math.random()) {
+            this.inStaticSetter = 0;
+        } else {
+            this.inStaticSetter = "string";
+        }
+    };
     return C;
 }();
 C.prop = function() {

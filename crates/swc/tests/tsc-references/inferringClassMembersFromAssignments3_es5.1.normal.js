@@ -12,13 +12,9 @@ var Derived = /*#__PURE__*/ function(Base) {
         swcHelpers.classCallCheck(this, Derived);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(Derived, [
-        {
-            key: "m",
-            value: function m() {
-                this.p = 1;
-            }
-        }
-    ]);
+    var _proto = Derived.prototype;
+    _proto.m = function m() {
+        this.p = 1;
+    };
     return Derived;
 }(Base);

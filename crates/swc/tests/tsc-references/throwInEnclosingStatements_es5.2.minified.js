@@ -14,12 +14,7 @@ var y, C = function() {
     function C() {
         throw swcHelpers.classCallCheck(this, C), this;
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "biz",
-            value: function() {
-                throw this.value;
-            }
-        }
-    ]), C;
+    return C.prototype.biz = function() {
+        throw this.value;
+    }, C;
 }();

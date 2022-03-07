@@ -6,12 +6,7 @@ export var ShortDetails = function(_Component) {
     function ShortDetails() {
         return swcHelpers.classCallCheck(this, ShortDetails), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(ShortDetails, [
-        {
-            key: "render",
-            value: function() {
-                if (this.props.id < 1) return React.createElement("div", null);
-            }
-        }
-    ]), ShortDetails;
+    return ShortDetails.prototype.render = function() {
+        if (this.props.id < 1) return React.createElement("div", null);
+    }, ShortDetails;
 }(React.Component);

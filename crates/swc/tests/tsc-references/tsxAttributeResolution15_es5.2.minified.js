@@ -6,14 +6,9 @@ var _this = this, React = require("react"), BigGreeter = function(_Component) {
     function BigGreeter() {
         return swcHelpers.classCallCheck(this, BigGreeter), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(BigGreeter, [
-        {
-            key: "render",
-            value: function() {
-                return React.createElement("div", null, "Default hi");
-            }
-        }
-    ]), BigGreeter;
+    return BigGreeter.prototype.render = function() {
+        return React.createElement("div", null, "Default hi");
+    }, BigGreeter;
 }(React.Component);
 React.createElement(BigGreeter, {
     prop1: "hello"

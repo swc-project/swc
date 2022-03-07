@@ -17,20 +17,13 @@ var Bar = /*#__PURE__*/ function() {
         this.e = e;
         this.c = 2;
     }
-    swcHelpers.createClass(Bar, [
-        {
-            key: "f",
-            value: function f() {
-                return 1;
-            }
-        },
-        {
-            key: "h",
-            value: function h() {
-                return 2;
-            }
-        }
-    ]);
+    var _proto = Bar.prototype;
+    _proto.f = function f() {
+        return 1;
+    };
+    _proto.h = function h() {
+        return 2;
+    };
     return Bar;
 }();
 function test2(x) {
@@ -62,13 +55,9 @@ var Derived = /*#__PURE__*/ function(Base) {
         _this.a = 1;
         return _this;
     }
-    swcHelpers.createClass(Derived, [
-        {
-            key: "f",
-            value: function f() {
-                return 1;
-            }
-        }
-    ]);
+    var _proto = Derived.prototype;
+    _proto.f = function f() {
+        return 1;
+    };
     return Derived;
 }(Base);

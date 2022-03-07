@@ -23,14 +23,10 @@ export var C = /*#__PURE__*/ function() {
             value: 100
         });
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "getWorld",
-            value: function getWorld() {
-                return swcHelpers.classPrivateFieldGet(this, _world);
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.getWorld = function getWorld() {
+        return swcHelpers.classPrivateFieldGet(this, _world);
+    };
     return C;
 }();
 function calcHello() {

@@ -31,16 +31,14 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
+    var _proto = C.prototype;
+    _proto.m = function m(_param) {
+        var a = _param.a, clone = swcHelpers.objectWithoutProperties(_param, [
+            "a"
+        ]);
+    // actually, never mind, don't clone
+    };
     swcHelpers.createClass(C, [
-        {
-            key: "m",
-            value: function m(_param) {
-                var a = _param.a, clone = swcHelpers.objectWithoutProperties(_param, [
-                    "a"
-                ]);
-            // actually, never mind, don't clone
-            }
-        },
         {
             key: "p",
             set: function set(_param) {

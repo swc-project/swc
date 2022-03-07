@@ -9,21 +9,13 @@ var C = /*#__PURE__*/ function() {
             return '';
         };
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "c",
-            value: function c() {
-                return '';
-            }
-        }
-    ], [
-        {
-            key: "f",
-            value: function f() {
-                return '';
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.c = function c() {
+        return '';
+    };
+    C.f = function f() {
+        return '';
+    };
     return C;
 }();
 C.g = function() {

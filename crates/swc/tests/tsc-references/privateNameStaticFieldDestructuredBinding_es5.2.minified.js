@@ -14,33 +14,20 @@ var A = function() {
             b: []
         }).a, swcHelpers.classStaticPrivateFieldDestructureSet(A, _field).value = void 0 === ref6 ? 1 : ref6, ref7 = swcHelpers.slicedToArray(ref5.b, 1)[0], swcHelpers.classStaticPrivateFieldDestructureSet(A, _field).value = void 0 === ref7 ? 1 : ref7, ref8 = void 0, swcHelpers.classStaticPrivateFieldDestructureSet(A, _field).value = void 0 === ref8 ? 2 : ref8, ref9 = void 0, swcHelpers.classStaticPrivateFieldDestructureSet(this.otherClass, _field).value = void 0 === ref9 ? 2 : ref9;
     }
-    return swcHelpers.createClass(A, [
-        {
-            key: "testObject",
-            value: function() {
-                return {
-                    x: 10,
-                    y: 6
-                };
-            }
-        },
-        {
-            key: "testArray",
-            value: function() {
-                return [
-                    10,
-                    11
-                ];
-            }
-        }
-    ], [
-        {
-            key: "test",
-            value: function(_a) {
-                swcHelpers.classStaticPrivateFieldDestructureSet(_a, _field).value = 2;
-            }
-        }
-    ]), A;
+    var _proto = A.prototype;
+    return _proto.testObject = function() {
+        return {
+            x: 10,
+            y: 6
+        };
+    }, _proto.testArray = function() {
+        return [
+            10,
+            11
+        ];
+    }, A.test = function(_a) {
+        swcHelpers.classStaticPrivateFieldDestructureSet(_a, _field).value = 2;
+    }, A;
 }(), _field = {
     writable: !0,
     value: 1

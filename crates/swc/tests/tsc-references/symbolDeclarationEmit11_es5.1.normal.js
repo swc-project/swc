@@ -7,11 +7,8 @@ var C = //@target: ES6
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
+    C[_isConcatSpreadable] = function() {};
     swcHelpers.createClass(C, null, [
-        {
-            key: _isConcatSpreadable,
-            value: function value() {}
-        },
         {
             key: _toPrimitive,
             get: function get() {

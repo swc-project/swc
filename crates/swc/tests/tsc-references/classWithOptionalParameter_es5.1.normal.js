@@ -5,12 +5,8 @@ var C = // classes do not permit optional parameters, these are errors
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "f",
-            value: function f() {}
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.f = function f() {};
     return C;
 }();
 var C2 = /*#__PURE__*/ function() {
@@ -18,11 +14,7 @@ var C2 = /*#__PURE__*/ function() {
     function C2() {
         swcHelpers.classCallCheck(this, C2);
     }
-    swcHelpers.createClass(C2, [
-        {
-            key: "f",
-            value: function f(x) {}
-        }
-    ]);
+    var _proto = C2.prototype;
+    _proto.f = function f(x) {};
     return C2;
 }();

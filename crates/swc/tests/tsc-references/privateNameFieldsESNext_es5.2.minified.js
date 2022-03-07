@@ -15,21 +15,11 @@ var _a = new WeakMap(), _b = new WeakMap(), _something = new WeakMap(), C = func
             }
         });
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "method",
-            value: function() {
-                console.log(swcHelpers.classPrivateFieldGet(this, _a)), swcHelpers.classPrivateFieldSet(this, _a, "hello"), console.log(swcHelpers.classPrivateFieldGet(this, _b));
-            }
-        }
-    ], [
-        {
-            key: "test",
-            value: function() {
-                console.log(swcHelpers.classStaticPrivateFieldSpecGet(this, C, _m)), console.log(swcHelpers.classStaticPrivateFieldSpecSet(this, C, _x, "test"));
-            }
-        }
-    ]), C;
+    return C.prototype.method = function() {
+        console.log(swcHelpers.classPrivateFieldGet(this, _a)), swcHelpers.classPrivateFieldSet(this, _a, "hello"), console.log(swcHelpers.classPrivateFieldGet(this, _b));
+    }, C.test = function() {
+        console.log(swcHelpers.classStaticPrivateFieldSpecGet(this, C, _m)), console.log(swcHelpers.classStaticPrivateFieldSpecSet(this, C, _x, "test"));
+    }, C;
 }(), _m = {
     writable: !0,
     value: "test"

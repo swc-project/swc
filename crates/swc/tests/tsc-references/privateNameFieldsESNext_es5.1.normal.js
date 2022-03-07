@@ -23,24 +23,16 @@ var C = // @target: esnext, es2022
             }
         });
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "method",
-            value: function method() {
-                console.log(swcHelpers.classPrivateFieldGet(this, _a));
-                swcHelpers.classPrivateFieldSet(this, _a, "hello");
-                console.log(swcHelpers.classPrivateFieldGet(this, _b));
-            }
-        }
-    ], [
-        {
-            key: "test",
-            value: function test() {
-                console.log(swcHelpers.classStaticPrivateFieldSpecGet(this, C, _m));
-                console.log(swcHelpers.classStaticPrivateFieldSpecSet(this, C, _x, "test"));
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.method = function method() {
+        console.log(swcHelpers.classPrivateFieldGet(this, _a));
+        swcHelpers.classPrivateFieldSet(this, _a, "hello");
+        console.log(swcHelpers.classPrivateFieldGet(this, _b));
+    };
+    C.test = function test() {
+        console.log(swcHelpers.classStaticPrivateFieldSpecGet(this, C, _m));
+        console.log(swcHelpers.classStaticPrivateFieldSpecSet(this, C, _x, "test"));
+    };
     return C;
 }();
 var _m = {

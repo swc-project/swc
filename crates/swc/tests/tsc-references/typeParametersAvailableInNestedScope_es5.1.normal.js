@@ -8,18 +8,14 @@ var C = /*#__PURE__*/ function() {
             return y;
         };
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function foo() {
-                var temp = function temp(a) {
-                    var y;
-                    return y;
-                };
-                return temp(null);
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.foo = function foo() {
+        var temp = function temp(a) {
+            var y;
+            return y;
+        };
+        return temp(null);
+    };
     return C;
 }();
 var c = new C();

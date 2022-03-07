@@ -6,14 +6,9 @@ var React = require("react"), B1 = function(_Component) {
     function B1() {
         return swcHelpers.classCallCheck(this, B1), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(B1, [
-        {
-            key: "render",
-            value: function() {
-                return React.createElement("div", null, "hi");
-            }
-        }
-    ]), B1;
+    return B1.prototype.render = function() {
+        return React.createElement("div", null, "hi");
+    }, B1;
 }(React.Component), B = function(_Component) {
     "use strict";
     swcHelpers.inherits(B, _Component);
@@ -21,14 +16,9 @@ var React = require("react"), B1 = function(_Component) {
     function B() {
         return swcHelpers.classCallCheck(this, B), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(B, [
-        {
-            key: "render",
-            value: function() {
-                return React.createElement(B1, swcHelpers.extends({}, this.props, {
-                    x: "hi"
-                }));
-            }
-        }
-    ]), B;
+    return B.prototype.render = function() {
+        return React.createElement(B1, swcHelpers.extends({}, this.props, {
+            x: "hi"
+        }));
+    }, B;
 }(React.Component);

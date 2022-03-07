@@ -4,12 +4,8 @@ var CBase = /*#__PURE__*/ function() {
     function CBase(param) {
         swcHelpers.classCallCheck(this, CBase);
     }
-    swcHelpers.createClass(CBase, [
-        {
-            key: "foo",
-            value: function foo(param) {}
-        }
-    ]);
+    var _proto = CBase.prototype;
+    _proto.foo = function foo(param) {};
     return CBase;
 }();
 var C = /*#__PURE__*/ function(CBase) {

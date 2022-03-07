@@ -16,13 +16,8 @@ C.f = 1, C.arrowFunctionBoundary = function() {
         function CC() {
             swcHelpers.classCallCheck(this, CC), this.a = this.f + 5;
         }
-        return swcHelpers.createClass(CC, [
-            {
-                key: "method",
-                value: function() {
-                    return this.f + 6;
-                }
-            }
-        ]), CC;
+        return CC.prototype.method = function() {
+            return this.f + 6;
+        }, CC;
     }();
 })();

@@ -32,14 +32,10 @@ my.predicate.type = /*#__PURE__*/ (function() {
     function _class() {
         swcHelpers.classCallCheck(this, _class);
     }
-    swcHelpers.createClass(_class, [
-        {
-            key: "m",
-            value: function m() {
-                return 101;
-            }
-        }
-    ]);
+    var _proto = _class.prototype;
+    _proto.m = function m() {
+        return 101;
+    };
     return _class;
 })();
 var _min;

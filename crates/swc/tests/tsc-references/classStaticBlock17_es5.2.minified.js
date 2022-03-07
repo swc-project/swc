@@ -7,14 +7,9 @@ var friendA, _x = new WeakMap(), A = function() {
             value: void 0
         }), swcHelpers.classPrivateFieldSet(this, _x, v);
     }
-    return swcHelpers.createClass(A, [
-        {
-            key: "getX",
-            value: function() {
-                return swcHelpers.classPrivateFieldGet(this, _x);
-            }
-        }
-    ]), A;
+    return A.prototype.getX = function() {
+        return swcHelpers.classPrivateFieldGet(this, _x);
+    }, A;
 }();
 friendA = {
     getX: function(obj) {

@@ -6,14 +6,10 @@ function foo() {
         function _class() {
             swcHelpers.classCallCheck(this, _class);
         }
-        swcHelpers.createClass(_class, [
-            {
-                key: "foo",
-                value: function foo(v) {
-                    return v;
-                }
-            }
-        ]);
+        var _proto = _class.prototype;
+        _proto.foo = function foo(v) {
+            return v;
+        };
         return _class;
     })();
 }

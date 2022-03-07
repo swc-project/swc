@@ -4,11 +4,7 @@ var _iterator = Symbol.iterator, _isConcatSpreadable = Symbol.isConcatSpreadable
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, null, [
-        {
-            key: _isConcatSpreadable,
-            value: function() {}
-        },
+    return C[_isConcatSpreadable] = function() {}, swcHelpers.createClass(C, null, [
         {
             key: _toPrimitive,
             get: function() {

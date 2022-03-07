@@ -4,13 +4,9 @@ var Test = /*#__PURE__*/ function() {
     function Test() {
         swcHelpers.classCallCheck(this, Test);
     }
-    swcHelpers.createClass(Test, [
-        {
-            key: "test",
-            value: function test() {
-                a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1);
-            }
-        }
-    ]);
+    var _proto = Test.prototype;
+    _proto.test = function test() {
+        a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1).a(1);
+    };
     return Test;
 }();

@@ -6,16 +6,9 @@ var Foo = /*#__PURE__*/ function() {
     function _class() {
         swcHelpers.classCallCheck(this, _class);
     }
-    swcHelpers.createClass(_class, [
-        {
-            key: "m1",
-            value: function m1() {}
-        },
-        {
-            key: "m2",
-            value: function m2() {}
-        }
-    ]);
+    var _proto = _class.prototype;
+    _proto.m1 = function m1() {};
+    _proto.m2 = function m2() {};
     return _class;
 }();
 export var Bar = /*#__PURE__*/ function(Foo1) {
@@ -26,19 +19,12 @@ export var Bar = /*#__PURE__*/ function(Foo1) {
         swcHelpers.classCallCheck(this, Bar);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(Bar, [
-        {
-            key: "m1",
-            value: function m1() {
-                swcHelpers.get(swcHelpers.getPrototypeOf(Bar.prototype), "m1", this).call(this);
-            }
-        },
-        {
-            key: "m2",
-            value: function m2() {
-                swcHelpers.get(swcHelpers.getPrototypeOf(Bar.prototype), "m2", this).call(this);
-            }
-        }
-    ]);
+    var _proto = Bar.prototype;
+    _proto.m1 = function m1() {
+        swcHelpers.get(swcHelpers.getPrototypeOf(Bar.prototype), "m1", this).call(this);
+    };
+    _proto.m2 = function m2() {
+        swcHelpers.get(swcHelpers.getPrototypeOf(Bar.prototype), "m2", this).call(this);
+    };
     return Bar;
 }(Foo);

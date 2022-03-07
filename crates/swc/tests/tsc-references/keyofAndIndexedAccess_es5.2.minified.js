@@ -31,20 +31,12 @@ var Component = function() {
     function Component() {
         swcHelpers.classCallCheck(this, Component);
     }
-    return swcHelpers.createClass(Component, [
-        {
-            key: "getProperty",
-            value: function(key) {
-                return this.props[key];
-            }
-        },
-        {
-            key: "setProperty",
-            value: function(key, value) {
-                this.props[key] = value;
-            }
-        }
-    ]), Component;
+    var _proto = Component.prototype;
+    return _proto.getProperty = function(key) {
+        return this.props[key];
+    }, _proto.setProperty = function(key, value) {
+        this.props[key] = value;
+    }, Component;
 }(), C = function() {
     "use strict";
     swcHelpers.classCallCheck(this, C);
@@ -53,45 +45,25 @@ var Component = function() {
     function C1() {
         swcHelpers.classCallCheck(this, C1);
     }
-    return swcHelpers.createClass(C1, [
-        {
-            key: "get",
-            value: function(key) {
-                return this[key];
-            }
-        },
-        {
-            key: "set",
-            value: function(key, value) {
-                this[key] = value;
-            }
-        },
-        {
-            key: "foo",
-            value: function() {
-                this.x, this.x, this.get("x"), getProperty(this, "x"), this.x = 42, this.x = 42, this.set("x", 42), setProperty(this, "x", 42);
-            }
-        }
-    ]), C1;
+    var _proto = C1.prototype;
+    return _proto.get = function(key) {
+        return this[key];
+    }, _proto.set = function(key, value) {
+        this[key] = value;
+    }, _proto.foo = function() {
+        this.x, this.x, this.get("x"), getProperty(this, "x"), this.x = 42, this.x = 42, this.set("x", 42), setProperty(this, "x", 42);
+    }, C1;
 }(), Base = function() {
     "use strict";
     function Base() {
         swcHelpers.classCallCheck(this, Base);
     }
-    return swcHelpers.createClass(Base, [
-        {
-            key: "get",
-            value: function(prop) {
-                return this[prop];
-            }
-        },
-        {
-            key: "set",
-            value: function(prop, value) {
-                this[prop] = value;
-            }
-        }
-    ]), Base;
+    var _proto = Base.prototype;
+    return _proto.get = function(prop) {
+        return this[prop];
+    }, _proto.set = function(prop, value) {
+        this[prop] = value;
+    }, Base;
 }(), Person = function(Base) {
     "use strict";
     swcHelpers.inherits(Person, Base);
@@ -100,27 +72,17 @@ var Component = function() {
         var _this;
         return swcHelpers.classCallCheck(this, Person), (_this = _super.call(this)).set("parts", parts), _this;
     }
-    return swcHelpers.createClass(Person, [
-        {
-            key: "getParts",
-            value: function() {
-                return this.get("parts");
-            }
-        }
-    ]), Person;
+    return Person.prototype.getParts = function() {
+        return this.get("parts");
+    }, Person;
 }(Base), OtherPerson = function() {
     "use strict";
     function OtherPerson(parts) {
         swcHelpers.classCallCheck(this, OtherPerson), setProperty(this, "parts", parts);
     }
-    return swcHelpers.createClass(OtherPerson, [
-        {
-            key: "getParts",
-            value: function() {
-                return getProperty(this, "parts");
-            }
-        }
-    ]), OtherPerson;
+    return OtherPerson.prototype.getParts = function() {
+        return getProperty(this, "parts");
+    }, OtherPerson;
 }();
 one(function() {}), on({
     test: function() {}
@@ -144,27 +106,17 @@ var A = function() {
     function B() {
         return swcHelpers.classCallCheck(this, B), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(B, [
-        {
-            key: "f",
-            value: function(p) {
-                p.x;
-            }
-        }
-    ]), B;
+    return B.prototype.f = function(p) {
+        p.x;
+    }, B;
 }(A), Form = function() {
     "use strict";
     function Form() {
         swcHelpers.classCallCheck(this, Form);
     }
-    return swcHelpers.createClass(Form, [
-        {
-            key: "set",
-            value: function(prop, value) {
-                this.childFormFactories[prop](value);
-            }
-        }
-    ]), Form;
+    return Form.prototype.set = function(prop, value) {
+        this.childFormFactories[prop](value);
+    }, Form;
 }(), SampleClass = function(props) {
     "use strict";
     swcHelpers.classCallCheck(this, SampleClass), this.props = Object.freeze(props);
@@ -177,14 +129,9 @@ var A = function() {
             foo: "bar"
         }));
     }
-    return swcHelpers.createClass(AnotherSampleClass, [
-        {
-            key: "brokenMethod",
-            value: function() {
-                this.props.foo.concat;
-            }
-        }
-    ]), AnotherSampleClass;
+    return AnotherSampleClass.prototype.brokenMethod = function() {
+        this.props.foo.concat;
+    }, AnotherSampleClass;
 }(SampleClass);
 new AnotherSampleClass({}), (function(Flag) {
     Flag.FLAG_1 = "flag_1", Flag.FLAG_2 = "flag_2";
@@ -194,10 +141,5 @@ var Unbounded = function() {
     function Unbounded() {
         swcHelpers.classCallCheck(this, Unbounded);
     }
-    return swcHelpers.createClass(Unbounded, [
-        {
-            key: "foo",
-            value: function(x) {}
-        }
-    ]), Unbounded;
+    return Unbounded.prototype.foo = function(x) {}, Unbounded;
 }();

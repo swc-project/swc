@@ -7,13 +7,9 @@ var C = function() {
             return _this.ia;
         };
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "baz",
-            value: function(x) {
-                return "";
-            }
-        },
+    return C.prototype.baz = function(x) {
+        return "";
+    }, C.foo = function(x) {}, C.bar = function(x) {}, swcHelpers.createClass(C, [
         {
             key: "ic",
             get: function() {
@@ -28,14 +24,6 @@ var C = function() {
             }
         }
     ], [
-        {
-            key: "foo",
-            value: function(x) {}
-        },
-        {
-            key: "bar",
-            value: function(x) {}
-        },
         {
             key: "sc",
             get: function() {
@@ -59,10 +47,5 @@ var D = function() {
     function D(y) {
         swcHelpers.classCallCheck(this, D), this.y = y;
     }
-    return swcHelpers.createClass(D, [
-        {
-            key: "foo",
-            value: function() {}
-        }
-    ]), D;
+    return D.prototype.foo = function() {}, D;
 }();

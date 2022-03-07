@@ -52,14 +52,10 @@ var Opt = // Repros from #22860
     function Opt() {
         swcHelpers.classCallCheck(this, Opt);
     }
-    swcHelpers.createClass(Opt, [
-        {
-            key: "toVector",
-            value: function toVector() {
-                return undefined;
-            }
-        }
-    ]);
+    var _proto = Opt.prototype;
+    _proto.toVector = function toVector() {
+        return undefined;
+    };
     return Opt;
 }();
 var Vector = /*#__PURE__*/ function() {
@@ -67,20 +63,13 @@ var Vector = /*#__PURE__*/ function() {
     function Vector() {
         swcHelpers.classCallCheck(this, Vector);
     }
-    swcHelpers.createClass(Vector, [
-        {
-            key: "tail",
-            value: function tail() {
-                return undefined;
-            }
-        },
-        {
-            key: "partition2",
-            value: function partition2(predicate) {
-                return undefined;
-            }
-        }
-    ]);
+    var _proto = Vector.prototype;
+    _proto.tail = function tail() {
+        return undefined;
+    };
+    _proto.partition2 = function partition2(predicate) {
+        return undefined;
+    };
     return Vector;
 }();
 function foo(value) {

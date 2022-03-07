@@ -105,16 +105,12 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "setState",
-            value: function setState(props) {
-                for(var k in props){
-                    this.state[k] = props[k];
-                }
-            }
+    var _proto = C.prototype;
+    _proto.setState = function setState(props) {
+        for(var k in props){
+            this.state[k] = props[k];
         }
-    ]);
+    };
     return C;
 }();
 var c = new C();

@@ -4,18 +4,10 @@ var Foo = function() {
     function Foo() {
         swcHelpers.classCallCheck(this, Foo);
     }
-    return swcHelpers.createClass(Foo, [
-        {
-            key: "bar",
-            value: function() {
-                this.hasData() && this.data.toLocaleLowerCase();
-            }
-        },
-        {
-            key: "hasData",
-            value: function() {
-                return !0;
-            }
-        }
-    ]), Foo;
+    var _proto = Foo.prototype;
+    return _proto.bar = function() {
+        this.hasData() && this.data.toLocaleLowerCase();
+    }, _proto.hasData = function() {
+        return !0;
+    }, Foo;
 }();

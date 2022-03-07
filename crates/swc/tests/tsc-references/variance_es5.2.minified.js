@@ -4,17 +4,9 @@ var Bar = function() {
     function Bar() {
         swcHelpers.classCallCheck(this, Bar);
     }
-    return swcHelpers.createClass(Bar, [
-        {
-            key: "cast",
-            value: function(_name) {}
-        },
-        {
-            key: "pushThis",
-            value: function() {
-                Bar.instance.push(this);
-            }
-        }
-    ]), Bar;
+    var _proto = Bar.prototype;
+    return _proto.cast = function(_name) {}, _proto.pushThis = function() {
+        Bar.instance.push(this);
+    }, Bar;
 }();
 Bar.instance = [];

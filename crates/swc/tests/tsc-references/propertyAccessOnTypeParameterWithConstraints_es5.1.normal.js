@@ -6,16 +6,12 @@ var C = // generic types should behave as if they have properties of their const
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "f",
-            value: function f() {
-                var x;
-                var a1 = x['getDate'](); // number
-                return a1 + x.getDate();
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.f = function f() {
+        var x;
+        var a1 = x['getDate'](); // number
+        return a1 + x.getDate();
+    };
     return C;
 }();
 var r = new C().f();

@@ -6,14 +6,10 @@ var Foo = //@target: ES6
     function Foo() {
         swcHelpers.classCallCheck(this, Foo);
     }
-    swcHelpers.createClass(Foo, [
-        {
-            key: _isConcatSpreadable,
-            value: function value() {
-                return 0;
-            }
-        }
-    ]);
+    var _proto = Foo.prototype;
+    _proto[_isConcatSpreadable] = function() {
+        return 0;
+    };
     return Foo;
 }();
 var _isConcatSpreadable1 = Symbol.isConcatSpreadable;
@@ -25,13 +21,9 @@ var Bar = /*#__PURE__*/ function(Foo) {
         swcHelpers.classCallCheck(this, Bar);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(Bar, [
-        {
-            key: _isConcatSpreadable1,
-            value: function value() {
-                return swcHelpers.get(swcHelpers.getPrototypeOf(Bar.prototype), Symbol.isConcatSpreadable, this).call(this);
-            }
-        }
-    ]);
+    var _proto = Bar.prototype;
+    _proto[_isConcatSpreadable1] = function() {
+        return swcHelpers.get(swcHelpers.getPrototypeOf(Bar.prototype), Symbol.isConcatSpreadable, this).call(this);
+    };
     return Bar;
 }(Foo);

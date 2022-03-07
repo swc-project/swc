@@ -4,13 +4,14 @@ var MyTestClass = function() {
     function MyTestClass() {
         swcHelpers.classCallCheck(this, MyTestClass), this.someFunc = function() {}, this.canary, this.canary = 3;
     }
-    return swcHelpers.createClass(MyTestClass, [
-        {
-            key: "memberFunc",
-            value: function() {
-                arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
-            }
-        },
+    return MyTestClass.prototype.memberFunc = function() {
+        arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
+    }, MyTestClass.staticFn = function() {
+        var t, p, t = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : this, t = MyTestClass;
+        t.staticCanary;
+        var p = this, p = MyTestClass;
+        p.staticCanary;
+    }, swcHelpers.createClass(MyTestClass, [
         {
             key: "prop",
             get: function() {
@@ -19,15 +20,6 @@ var MyTestClass = function() {
             set: function(v) {}
         }
     ], [
-        {
-            key: "staticFn",
-            value: function() {
-                var t, p, t = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : this, t = MyTestClass;
-                t.staticCanary;
-                var p = this, p = MyTestClass;
-                p.staticCanary;
-            }
-        },
         {
             key: "staticProp",
             get: function() {
@@ -45,13 +37,14 @@ var MyTestClass = function() {
     function MyGenericTestClass() {
         swcHelpers.classCallCheck(this, MyGenericTestClass), this.someFunc = function() {}, this.canary, this.canary = 3;
     }
-    return swcHelpers.createClass(MyGenericTestClass, [
-        {
-            key: "memberFunc",
-            value: function() {
-                arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
-            }
-        },
+    return MyGenericTestClass.prototype.memberFunc = function() {
+        arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
+    }, MyGenericTestClass.staticFn = function() {
+        var t, p, t = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : this, t = MyGenericTestClass;
+        t.staticCanary;
+        var p = this, p = MyGenericTestClass;
+        p.staticCanary;
+    }, swcHelpers.createClass(MyGenericTestClass, [
         {
             key: "prop",
             get: function() {
@@ -60,15 +53,6 @@ var MyTestClass = function() {
             set: function(v) {}
         }
     ], [
-        {
-            key: "staticFn",
-            value: function() {
-                var t, p, t = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : this, t = MyGenericTestClass;
-                t.staticCanary;
-                var p = this, p = MyGenericTestClass;
-                p.staticCanary;
-            }
-        },
         {
             key: "staticProp",
             get: function() {

@@ -5,12 +5,8 @@ export var MyComponent = /*#__PURE__*/ function() {
     function MyComponent() {
         swcHelpers.classCallCheck(this, MyComponent);
     }
-    swcHelpers.createClass(MyComponent, [
-        {
-            key: "render",
-            value: function render() {}
-        }
-    ]);
+    var _proto = MyComponent.prototype;
+    _proto.render = function render() {};
     return MyComponent;
 }();
 // Should be an error

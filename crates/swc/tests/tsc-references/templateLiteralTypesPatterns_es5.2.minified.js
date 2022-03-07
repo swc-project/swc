@@ -10,12 +10,7 @@ export var BB = function() {
     function BB() {
         swcHelpers.classCallCheck(this, BB);
     }
-    return swcHelpers.createClass(BB, [
-        {
-            key: "update",
-            value: function(id) {
-                this.get(id);
-            }
-        }
-    ]), BB;
+    return BB.prototype.update = function(id) {
+        this.get(id);
+    }, BB;
 }();

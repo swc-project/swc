@@ -26,13 +26,8 @@ D.arrowFunctionBoundary = function() {
         function C2() {
             swcHelpers.classCallCheck(this, C2), this.a = swcHelpers.get(swcHelpers.getPrototypeOf(C2.prototype), "f", this) + 5;
         }
-        return swcHelpers.createClass(C2, [
-            {
-                key: "method",
-                value: function() {
-                    return swcHelpers.get(swcHelpers.getPrototypeOf(C2.prototype), "f", this) + 6;
-                }
-            }
-        ]), C2;
+        return C2.prototype.method = function() {
+            return swcHelpers.get(swcHelpers.getPrototypeOf(C2.prototype), "f", this) + 6;
+        }, C2;
     }();
 })();

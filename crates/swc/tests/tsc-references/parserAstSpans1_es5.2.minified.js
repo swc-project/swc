@@ -4,24 +4,8 @@ var i1_i, i2_i, i3_i, c1 = function() {
     function c1() {
         swcHelpers.classCallCheck(this, c1);
     }
-    return swcHelpers.createClass(c1, [
-        {
-            key: "i1_f1",
-            value: function() {}
-        },
-        {
-            key: "i1_nc_f1",
-            value: function() {}
-        },
-        {
-            key: "f1",
-            value: function() {}
-        },
-        {
-            key: "nc_f1",
-            value: function() {}
-        }
-    ]), c1;
+    var _proto = c1.prototype;
+    return _proto.i1_f1 = function() {}, _proto.i1_nc_f1 = function() {}, _proto.f1 = function() {}, _proto.nc_f1 = function() {}, c1;
 }();
 i1_i.i1_f1(), i1_i.i1_nc_f1(), i1_i.f1(), i1_i.nc_f1(), i1_i.i1_l1(), i1_i.i1_nc_l1(), i1_i.l1(), i1_i.nc_l1();
 var c1_i = new c1();
@@ -31,20 +15,13 @@ var c2 = function() {
     function c2(a) {
         swcHelpers.classCallCheck(this, c2), this.c2_p1 = a;
     }
-    return swcHelpers.createClass(c2, [
-        {
-            key: "c2_f1",
-            value: function() {}
-        },
+    var _proto = c2.prototype;
+    return _proto.c2_f1 = function() {}, _proto.c2_nc_f1 = function() {}, _proto.f1 = function() {}, _proto.nc_f1 = function() {}, swcHelpers.createClass(c2, [
         {
             key: "c2_prop",
             get: function() {
                 return 10;
             }
-        },
-        {
-            key: "c2_nc_f1",
-            value: function() {}
         },
         {
             key: "c2_nc_prop",
@@ -53,18 +30,10 @@ var c2 = function() {
             }
         },
         {
-            key: "f1",
-            value: function() {}
-        },
-        {
             key: "prop",
             get: function() {
                 return 10;
             }
-        },
-        {
-            key: "nc_f1",
-            value: function() {}
         },
         {
             key: "nc_prop",
@@ -81,20 +50,13 @@ var c2 = function() {
         var _this;
         return swcHelpers.classCallCheck(this, c3), (_this = _super.call(this, 10)).p1 = swcHelpers.get((swcHelpers.assertThisInitialized(_this), swcHelpers.getPrototypeOf(c3.prototype)), "c2_p1", _this), _this;
     }
-    return swcHelpers.createClass(c3, [
-        {
-            key: "f1",
-            value: function() {}
-        },
+    var _proto = c3.prototype;
+    return _proto.f1 = function() {}, _proto.nc_f1 = function() {}, swcHelpers.createClass(c3, [
         {
             key: "prop",
             get: function() {
                 return 10;
             }
-        },
-        {
-            key: "nc_f1",
-            value: function() {}
         },
         {
             key: "nc_prop",

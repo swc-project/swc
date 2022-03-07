@@ -6,24 +6,14 @@ var A = // @noImplicitOverride: true
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    swcHelpers.createClass(A, [
-        {
-            key: "m1",
-            value: function m1() {
-                return 0;
-            }
-        },
-        {
-            key: "m2",
-            value: function m2() {
-                return 0;
-            }
-        },
-        {
-            key: "m3",
-            value: function m3() {}
-        }
-    ]);
+    var _proto = A.prototype;
+    _proto.m1 = function m1() {
+        return 0;
+    };
+    _proto.m2 = function m2() {
+        return 0;
+    };
+    _proto.m3 = function m3() {};
     return A;
 }();
 var B = /*#__PURE__*/ function(A) {
@@ -34,23 +24,13 @@ var B = /*#__PURE__*/ function(A) {
         swcHelpers.classCallCheck(this, B);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(B, [
-        {
-            key: "m1",
-            value: function m1() {
-                return 10;
-            }
-        },
-        {
-            key: "m2",
-            value: function m2() {
-                return 30;
-            }
-        },
-        {
-            key: "m3",
-            value: function m3() {}
-        }
-    ]);
+    var _proto = B.prototype;
+    _proto.m1 = function m1() {
+        return 10;
+    };
+    _proto.m2 = function m2() {
+        return 30;
+    };
+    _proto.m3 = function m3() {};
     return B;
 }(A);

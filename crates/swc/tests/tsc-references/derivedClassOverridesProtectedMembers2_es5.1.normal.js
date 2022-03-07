@@ -7,11 +7,10 @@ var Base = /*#__PURE__*/ function() {
     function Base(a) {
         swcHelpers.classCallCheck(this, Base);
     }
+    var _proto = Base.prototype;
+    _proto.b = function b(a) {};
+    Base.s = function s(a) {};
     swcHelpers.createClass(Base, [
-        {
-            key: "b",
-            value: function b(a) {}
-        },
         {
             key: "c",
             get: function get() {
@@ -20,10 +19,6 @@ var Base = /*#__PURE__*/ function() {
             set: function set(v) {}
         }
     ], [
-        {
-            key: "s",
-            value: function s(a) {}
-        },
         {
             key: "t",
             get: function get() {
@@ -43,11 +38,10 @@ var Derived = // Increase visibility of all protected members to public
         swcHelpers.classCallCheck(this, Derived);
         return _super.call(this, a);
     }
+    var _proto = Derived.prototype;
+    _proto.b = function b(a) {};
+    Derived.s = function s(a) {};
     swcHelpers.createClass(Derived, [
-        {
-            key: "b",
-            value: function b(a) {}
-        },
         {
             key: "c",
             get: function get() {
@@ -56,10 +50,6 @@ var Derived = // Increase visibility of all protected members to public
             set: function set(v) {}
         }
     ], [
-        {
-            key: "s",
-            value: function s(a) {}
-        },
         {
             key: "t",
             get: function get() {

@@ -8,14 +8,9 @@ export var App = function(_Component) {
     function App() {
         return swcHelpers.classCallCheck(this, App), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(App, [
-        {
-            key: "render",
-            value: function() {
-                return React.createElement(Button, null);
-            }
-        }
-    ]), App;
+    return App.prototype.render = function() {
+        return React.createElement(Button, null);
+    }, App;
 }(React.Component);
 export var Button = function(_Component) {
     "use strict";
@@ -24,12 +19,7 @@ export var Button = function(_Component) {
     function Button() {
         return swcHelpers.classCallCheck(this, Button), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(Button, [
-        {
-            key: "render",
-            value: function() {
-                return React.createElement("button", null, "Some button");
-            }
-        }
-    ]), Button;
+    return Button.prototype.render = function() {
+        return React.createElement("button", null, "Some button");
+    }, Button;
 }(React.Component);

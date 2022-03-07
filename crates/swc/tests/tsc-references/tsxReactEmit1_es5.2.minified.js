@@ -31,36 +31,31 @@ var p, SomeClass = function() {
     function SomeClass() {
         swcHelpers.classCallCheck(this, SomeClass);
     }
-    return swcHelpers.createClass(SomeClass, [
-        {
-            key: "f",
-            value: function() {
-                var _this = this;
-                React.createElement("div", null, function() {
-                    return _this;
-                }), React.createElement("div", null, [
-                    p
-                ].concat(swcHelpers.toConsumableArray(p), [
-                    p
-                ])), React.createElement("div", null, {
-                    p: p
-                }), React.createElement("div", {
-                    a: function() {
-                        return _this;
-                    }
-                }), React.createElement("div", {
-                    a: [
-                        p
-                    ].concat(swcHelpers.toConsumableArray(p), [
-                        p
-                    ])
-                }), React.createElement("div", {
-                    a: {
-                        p: p
-                    }
-                });
+    return SomeClass.prototype.f = function() {
+        var _this = this;
+        React.createElement("div", null, function() {
+            return _this;
+        }), React.createElement("div", null, [
+            p
+        ].concat(swcHelpers.toConsumableArray(p), [
+            p
+        ])), React.createElement("div", null, {
+            p: p
+        }), React.createElement("div", {
+            a: function() {
+                return _this;
             }
-        }
-    ]), SomeClass;
+        }), React.createElement("div", {
+            a: [
+                p
+            ].concat(swcHelpers.toConsumableArray(p), [
+                p
+            ])
+        }), React.createElement("div", {
+            a: {
+                p: p
+            }
+        });
+    }, SomeClass;
 }();
 React.createElement("div", null, "      "), React.createElement("div", null, "  ", p, "    "), React.createElement("div", null, p);

@@ -6,11 +6,7 @@ var C = //@target: ES6
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: tmp,
-            value: function value() {}
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto[tmp] = function() {};
     return C;
 }();
