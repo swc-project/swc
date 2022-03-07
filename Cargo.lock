@@ -3582,6 +3582,7 @@ dependencies = [
 name = "swc_node_base"
 version = "0.5.1"
 dependencies = [
+ "fastmem",
  "mimalloc-rust",
 ]
 
