@@ -6,21 +6,11 @@ var C = function() {
             return "";
         };
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "c",
-            value: function() {
-                return "";
-            }
-        }
-    ], [
-        {
-            key: "f",
-            value: function() {
-                return "";
-            }
-        }
-    ]), C;
+    return C.prototype.c = function() {
+        return "";
+    }, C.f = function() {
+        return "";
+    }, C;
 }();
 C.g = function() {
     return "";
@@ -32,13 +22,8 @@ var D = function(C1) {
     function D() {
         return swcHelpers.classCallCheck(this, D), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(D, [
-        {
-            key: "method",
-            value: function() {
-                var d = new D();
-                d.x, d.a, d.b, d.c(), d.d(), C.e, C.f(), C.g();
-            }
-        }
-    ]), D;
+    return D.prototype.method = function() {
+        var d = new D();
+        d.x, d.a, d.b, d.c(), d.d(), C.e, C.f(), C.g();
+    }, D;
 }(C);

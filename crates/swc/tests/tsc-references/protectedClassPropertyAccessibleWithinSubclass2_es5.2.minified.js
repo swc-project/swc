@@ -4,15 +4,10 @@ var b, d1, d2, d3, d4, Base = function() {
     function Base() {
         swcHelpers.classCallCheck(this, Base);
     }
-    return swcHelpers.createClass(Base, [
-        {
-            key: "method",
-            value: function() {
-                var d11, d21, d31, d41;
-                (void 0).x, d11.x, d21.x, d31.x, d41.x;
-            }
-        }
-    ]), Base;
+    return Base.prototype.method = function() {
+        var d11, d21, d31, d41;
+        (void 0).x, d11.x, d21.x, d31.x, d41.x;
+    }, Base;
 }(), Derived1 = function(Base) {
     "use strict";
     swcHelpers.inherits(Derived1, Base);
@@ -20,15 +15,10 @@ var b, d1, d2, d3, d4, Base = function() {
     function Derived1() {
         return swcHelpers.classCallCheck(this, Derived1), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(Derived1, [
-        {
-            key: "method1",
-            value: function() {
-                var d12, d22, d32, d42;
-                (void 0).x, d12.x, d22.x, d32.x, d42.x;
-            }
-        }
-    ]), Derived1;
+    return Derived1.prototype.method1 = function() {
+        var d12, d22, d32, d42;
+        (void 0).x, d12.x, d22.x, d32.x, d42.x;
+    }, Derived1;
 }(Base), Derived2 = function(Base) {
     "use strict";
     swcHelpers.inherits(Derived2, Base);
@@ -36,15 +26,10 @@ var b, d1, d2, d3, d4, Base = function() {
     function Derived2() {
         return swcHelpers.classCallCheck(this, Derived2), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(Derived2, [
-        {
-            key: "method2",
-            value: function() {
-                var d13, d23, d33, d43;
-                (void 0).x, d13.x, d23.x, d33.x, d43.x;
-            }
-        }
-    ]), Derived2;
+    return Derived2.prototype.method2 = function() {
+        var d13, d23, d33, d43;
+        (void 0).x, d13.x, d23.x, d33.x, d43.x;
+    }, Derived2;
 }(Base), Derived3 = function(Derived1) {
     "use strict";
     swcHelpers.inherits(Derived3, Derived1);
@@ -52,15 +37,10 @@ var b, d1, d2, d3, d4, Base = function() {
     function Derived3() {
         return swcHelpers.classCallCheck(this, Derived3), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(Derived3, [
-        {
-            key: "method3",
-            value: function() {
-                var d14, d24, d34, d44;
-                (void 0).x, d14.x, d24.x, d34.x, d44.x;
-            }
-        }
-    ]), Derived3;
+    return Derived3.prototype.method3 = function() {
+        var d14, d24, d34, d44;
+        (void 0).x, d14.x, d24.x, d34.x, d44.x;
+    }, Derived3;
 }(Derived1), Derived4 = function(Derived2) {
     "use strict";
     swcHelpers.inherits(Derived4, Derived2);
@@ -68,14 +48,9 @@ var b, d1, d2, d3, d4, Base = function() {
     function Derived4() {
         return swcHelpers.classCallCheck(this, Derived4), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(Derived4, [
-        {
-            key: "method4",
-            value: function() {
-                var d15, d25, d35, d45;
-                (void 0).x, d15.x, d25.x, d35.x, d45.x;
-            }
-        }
-    ]), Derived4;
+    return Derived4.prototype.method4 = function() {
+        var d15, d25, d35, d45;
+        (void 0).x, d15.x, d25.x, d35.x, d45.x;
+    }, Derived4;
 }(Derived2);
 b.x, d1.x, d2.x, d3.x, d4.x;

@@ -9,7 +9,7 @@ export var A;
         x: 0,
         y: 0
     };
-}(A || (A = {})), (function(A2) {
+}(A || (A = {})), function(A2) {
     A2.Origin = {
         x: 0,
         y: 0
@@ -18,4 +18,4 @@ export var A;
             this.tl = tl, this.br = br;
         }
     };
-})(A || (A = {}));
+}(A || (A = {}));

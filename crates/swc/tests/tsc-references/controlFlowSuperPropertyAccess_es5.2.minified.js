@@ -9,12 +9,7 @@ var B = function() {
     function C() {
         return swcHelpers.classCallCheck(this, C), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "body",
-            value: function() {
-                swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "m", this) && swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "m", this).call(this);
-            }
-        }
-    ]), C;
+    return C.prototype.body = function() {
+        swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "m", this) && swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "m", this).call(this);
+    }, C;
 }(B);

@@ -585,7 +585,7 @@
             function formatUnixTimestampSeconds(d) {
                 return Math.floor(+d / 1000);
             }
-            (locale1 = (function(locale) {
+            (locale1 = function(locale) {
                 var locale_dateTime = locale.dateTime, locale_date = locale.date, locale_time = locale.time, locale_periods = locale.periods, locale_weekdays = locale.days, locale_shortWeekdays = locale.shortDays, locale_months = locale.months, locale_shortMonths = locale.shortMonths, periodRe = formatRe(locale_periods), periodLookup = formatLookup(locale_periods), weekdayRe = formatRe(locale_weekdays), weekdayLookup = formatLookup(locale_weekdays), shortWeekdayRe = formatRe(locale_shortWeekdays), shortWeekdayLookup = formatLookup(locale_shortWeekdays), monthRe = formatRe(locale_months), monthLookup = formatLookup(locale_months), shortMonthRe = formatRe(locale_shortMonths), shortMonthLookup = formatLookup(locale_shortMonths), formats1 = {
                     a: function(d) {
                         return locale_shortWeekdays[d.getDay()];
@@ -786,7 +786,7 @@
                         }, p;
                     }
                 };
-            })({
+            }({
                 dateTime: "%x, %X",
                 date: "%-m/%-d/%Y",
                 time: "%-I:%M:%S %p",

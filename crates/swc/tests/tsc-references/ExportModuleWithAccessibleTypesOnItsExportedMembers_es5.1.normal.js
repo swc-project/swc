@@ -16,17 +16,12 @@ var A;
             function Line(start, end) {
                 swcHelpers.classCallCheck(this, Line);
             }
-            swcHelpers.createClass(Line, null, [
-                {
-                    key: "fromOrigin",
-                    value: function fromOrigin(p) {
-                        return new Line({
-                            x: 0,
-                            y: 0
-                        }, p);
-                    }
-                }
-            ]);
+            Line.fromOrigin = function fromOrigin(p) {
+                return new Line({
+                    x: 0,
+                    y: 0
+                }, p);
+            };
             return Line;
         }();
         B.Line = Line;

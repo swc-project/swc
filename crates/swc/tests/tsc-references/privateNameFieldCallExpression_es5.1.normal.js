@@ -43,43 +43,36 @@ var A = // @target: es2015
         });
         this.x = 1;
     }
-    swcHelpers.createClass(A, [
-        {
-            key: "test",
-            value: function test() {
-                var _instance;
-                var ref;
-                var _ref;
-                swcHelpers.classPrivateFieldGet(this, _fieldFunc).call(this);
-                (ref = swcHelpers.classPrivateFieldGet(this, _fieldFunc)) === null || ref === void 0 ? void 0 : ref.call(this);
-                var func = swcHelpers.classPrivateFieldGet(this, _fieldFunc);
-                func();
-                new (swcHelpers.classPrivateFieldGet(this, _fieldFunc))();
-                var arr = [
-                    1,
-                    2
-                ];
-                (_instance = swcHelpers.classPrivateFieldGet(this, _fieldFunc2)).call.apply(_instance, [
-                    this,
-                    0
-                ].concat(swcHelpers.toConsumableArray(arr), [
-                    3
-                ]));
-                var b = swcHelpers.construct(swcHelpers.classPrivateFieldGet(this, _fieldFunc2), [
-                    0
-                ].concat(swcHelpers.toConsumableArray(arr), [
-                    3
-                ]));
-                var str = swcHelpers.classPrivateFieldGet(this, _fieldFunc2).bind(this)(_templateObject(), 1, 2);
-                swcHelpers.classPrivateFieldGet(_ref = this.getInstance(), _fieldFunc2).bind(_ref)(_templateObject1(), 1, 2);
-            }
-        },
-        {
-            key: "getInstance",
-            value: function getInstance() {
-                return new A();
-            }
-        }
-    ]);
+    var _proto = A.prototype;
+    _proto.test = function test() {
+        var _instance;
+        var ref;
+        var _ref;
+        swcHelpers.classPrivateFieldGet(this, _fieldFunc).call(this);
+        (ref = swcHelpers.classPrivateFieldGet(this, _fieldFunc)) === null || ref === void 0 ? void 0 : ref.call(this);
+        var func = swcHelpers.classPrivateFieldGet(this, _fieldFunc);
+        func();
+        new (swcHelpers.classPrivateFieldGet(this, _fieldFunc))();
+        var arr = [
+            1,
+            2
+        ];
+        (_instance = swcHelpers.classPrivateFieldGet(this, _fieldFunc2)).call.apply(_instance, [
+            this,
+            0
+        ].concat(swcHelpers.toConsumableArray(arr), [
+            3
+        ]));
+        var b = swcHelpers.construct(swcHelpers.classPrivateFieldGet(this, _fieldFunc2), [
+            0
+        ].concat(swcHelpers.toConsumableArray(arr), [
+            3
+        ]));
+        var str = swcHelpers.classPrivateFieldGet(this, _fieldFunc2).bind(this)(_templateObject(), 1, 2);
+        swcHelpers.classPrivateFieldGet(_ref = this.getInstance(), _fieldFunc2).bind(_ref)(_templateObject1(), 1, 2);
+    };
+    _proto.getInstance = function getInstance() {
+        return new A();
+    };
     return A;
 }();

@@ -31,27 +31,17 @@ var aString, anAny, c, d, e, i, M, Color, A = function() {
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    return swcHelpers.createClass(A, [
-        {
-            key: "biz",
-            value: function() {
-                for(var x in this.biz());
-                for(var x in this.biz);
-                for(var x in this);
-                return null;
-            }
-        }
-    ], [
-        {
-            key: "baz",
-            value: function() {
-                for(var x in this);
-                for(var x in this.baz);
-                for(var x in this.baz());
-                return null;
-            }
-        }
-    ]), A;
+    return A.prototype.biz = function() {
+        for(var x in this.biz());
+        for(var x in this.biz);
+        for(var x in this);
+        return null;
+    }, A.baz = function() {
+        for(var x in this);
+        for(var x in this.baz);
+        for(var x in this.baz());
+        return null;
+    }, A;
 }(), B = function(A) {
     "use strict";
     swcHelpers.inherits(B, A);
@@ -59,19 +49,14 @@ var aString, anAny, c, d, e, i, M, Color, A = function() {
     function B() {
         return swcHelpers.classCallCheck(this, B), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(B, [
-        {
-            key: "boz",
-            value: function() {
-                for(var x in this.biz());
-                for(var x in this.biz);
-                for(var x in this);
-                for(var x in swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "biz", this));
-                for(var x in swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "biz", this).call(this));
-                return null;
-            }
-        }
-    ]), B;
+    return B.prototype.boz = function() {
+        for(var x in this.biz());
+        for(var x in this.biz);
+        for(var x in this);
+        for(var x in swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "biz", this));
+        for(var x in swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "biz", this).call(this));
+        return null;
+    }, B;
 }(A);
 for(var x in i[42]);
 for(var x in !function(M1) {

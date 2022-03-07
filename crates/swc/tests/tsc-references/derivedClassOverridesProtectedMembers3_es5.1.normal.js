@@ -7,11 +7,10 @@ var Base = /*#__PURE__*/ function() {
     function Base(a) {
         swcHelpers.classCallCheck(this, Base);
     }
+    var _proto = Base.prototype;
+    _proto.b = function b(a) {};
+    Base.s = function s(a) {};
     swcHelpers.createClass(Base, [
-        {
-            key: "b",
-            value: function b(a) {}
-        },
         {
             key: "c",
             get: function get() {
@@ -20,10 +19,6 @@ var Base = /*#__PURE__*/ function() {
             set: function set(v) {}
         }
     ], [
-        {
-            key: "s",
-            value: function s(a) {}
-        },
         {
             key: "t",
             get: function get() {
@@ -54,12 +49,8 @@ var Derived2 = /*#__PURE__*/ function(Base) {
         swcHelpers.classCallCheck(this, Derived2);
         return _super.call(this, a);
     }
-    swcHelpers.createClass(Derived2, [
-        {
-            key: "b",
-            value: function b(a) {}
-        }
-    ]);
+    var _proto = Derived2.prototype;
+    _proto.b = function b(a) {};
     return Derived2;
 }(Base);
 var Derived3 = /*#__PURE__*/ function(Base) {
@@ -124,12 +115,7 @@ var Derived7 = /*#__PURE__*/ function(Base) {
         swcHelpers.classCallCheck(this, Derived7);
         return _super.call(this, a);
     }
-    swcHelpers.createClass(Derived7, null, [
-        {
-            key: "s",
-            value: function s(a) {}
-        }
-    ]);
+    Derived7.s = function s(a) {};
     return Derived7;
 }(Base);
 var Derived8 = /*#__PURE__*/ function(Base) {

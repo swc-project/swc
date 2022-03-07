@@ -15,14 +15,10 @@ var SomeClass = /*#__PURE__*/ function() {
     function SomeClass() {
         swcHelpers.classCallCheck(this, SomeClass);
     }
-    swcHelpers.createClass(SomeClass, [
-        {
-            key: "a",
-            value: function a() {
-                return 1;
-            }
-        }
-    ]);
+    var _proto = SomeClass.prototype;
+    _proto.a = function a() {
+        return 1;
+    };
     return SomeClass;
 }();
 module.exports = {

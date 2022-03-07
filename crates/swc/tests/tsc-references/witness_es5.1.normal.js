@@ -12,15 +12,11 @@ var InitClass = /*#__PURE__*/ function() {
         swcHelpers.classCallCheck(this, InitClass);
         this.x = this.x;
     }
-    swcHelpers.createClass(InitClass, [
-        {
-            key: "fn",
-            value: function fn() {
-                var y = this.x;
-                var y;
-            }
-        }
-    ]);
+    var _proto = InitClass.prototype;
+    _proto.fn = function fn() {
+        var y = this.x;
+        var y;
+    };
     return InitClass;
 }();
 // Return type
@@ -88,27 +84,17 @@ var C = // New operator
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "fn1",
-            value: function fn1() {
-                return new (this.fn1())();
-            }
-        },
-        {
-            key: "fn2",
-            value: function fn2() {
-                return new (this.fn2());
-            }
-        },
-        {
-            key: "fn3",
-            value: function fn3() {
-                var a1;
-                return new a1(this.fn3);
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.fn1 = function fn1() {
+        return new (this.fn1())();
+    };
+    _proto.fn2 = function fn2() {
+        return new (this.fn2());
+    };
+    _proto.fn3 = function fn3() {
+        var a1;
+        return new a1(this.fn3);
+    };
     return C;
 }();
 function fn5() {

@@ -8,14 +8,9 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, null, [
-        {
-            key: "bar",
-            value: function bar() {
-                var obj = swcHelpers.defineProperty({}, foo(), function() {});
-                return 0;
-            }
-        }
-    ]);
+    C.bar = function bar() {
+        var obj = swcHelpers.defineProperty({}, foo(), function() {});
+        return 0;
+    };
     return C;
 }();

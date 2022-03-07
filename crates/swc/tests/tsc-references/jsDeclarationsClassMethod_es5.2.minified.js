@@ -14,14 +14,9 @@ var C2 = function() {
     function C2() {
         swcHelpers.classCallCheck(this, C2);
     }
-    return swcHelpers.createClass(C2, [
-        {
-            key: "method1",
-            value: function(x, y) {
-                return x + y;
-            }
-        }
-    ]), C2;
+    return C2.prototype.method1 = function(x, y) {
+        return x + y;
+    }, C2;
 }();
 C2.prototype.method2 = function(x, y) {
     return x + y;

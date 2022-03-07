@@ -12,9 +12,9 @@ var A2 = function() {
     swcHelpers.classCallCheck(this, A2);
 };
 function f() {}
-foo10(E.A), foo11(E.A), foo12(E.A), (function(E2) {
+foo10(E.A), foo11(E.A), foo12(E.A), function(E2) {
     E2[E2.A = 0] = "A";
-})(E2 || (E2 = {})), foo13(E.A), (f || (f = {})).bar = 1, foo14(E.A);
+}(E2 || (E2 = {})), foo13(E.A), (f || (f = {})).bar = 1, foo14(E.A);
 var CC = function() {
     "use strict";
     swcHelpers.classCallCheck(this, CC);

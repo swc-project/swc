@@ -15,7 +15,7 @@ import * as swcHelpers from "@swc/helpers";
     var _p12 = a.p1, _p12 = null !== _p12 ? _p12 : swcHelpers._throw(new TypeError("Cannot destructure undefined"));
     swcHelpers.slicedToArray(a.p2, 0);
     var ref = {}, ref = null !== ref ? ref : swcHelpers._throw(new TypeError("Cannot destructure undefined")), ref1 = {}, ref1 = null !== ref1 ? ref1 : swcHelpers._throw(new TypeError("Cannot destructure undefined"));
-}(), (function() {
+}(), function() {
     var ns = [], _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
     try {
         for(var _step, _iterator = ns[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0)var _value = _step.value, _value = null !== _value ? _value : swcHelpers._throw(new TypeError("Cannot destructure undefined"));
@@ -88,4 +88,4 @@ import * as swcHelpers from "@swc/helpers";
             if (_didIteratorError5) throw _iteratorError5;
         }
     }
-})();
+}();

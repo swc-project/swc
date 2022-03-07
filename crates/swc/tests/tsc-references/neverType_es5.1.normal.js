@@ -42,32 +42,19 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "void1",
-            value: function void1() {
-                throw new Error();
-            }
-        },
-        {
-            key: "void2",
-            value: function void2() {
-                while(true){}
-            }
-        },
-        {
-            key: "never1",
-            value: function never1() {
-                throw new Error();
-            }
-        },
-        {
-            key: "never2",
-            value: function never2() {
-                while(true){}
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.void1 = function void1() {
+        throw new Error();
+    };
+    _proto.void2 = function void2() {
+        while(true){}
+    };
+    _proto.never1 = function never1() {
+        throw new Error();
+    };
+    _proto.never2 = function never2() {
+        while(true){}
+    };
     return C;
 }();
 function f1(x) {

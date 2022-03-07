@@ -2759,7 +2759,7 @@ function MyClass(item) {
     this.item = item;
     console.log('Constructor | this.item', this.item);
 }
-MyClass.prototype.fun = (function() {
+MyClass.prototype.fun = function() {
     var _fun = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -2776,7 +2776,7 @@ MyClass.prototype.fun = (function() {
         return _fun.apply(this, arguments);
     }
     return fun;
-})();
+}();
 const tmp = new MyClass({
     foo: 'bar'
 });
@@ -2860,7 +2860,7 @@ function MyClass() {
 MyClass.prototype.handle = function() {
     console.log('this is MyClass handle');
 };
-MyClass.prototype.init = (function() {
+MyClass.prototype.init = function() {
     var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(param1) {
         var a;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
@@ -2887,7 +2887,7 @@ MyClass.prototype.init = (function() {
     return function(param1) {
         return _ref.apply(this, arguments);
     };
-})();
+}();
 const myclass = new MyClass();
 myclass.handle();
   "

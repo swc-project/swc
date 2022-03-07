@@ -11,13 +11,9 @@ var C = /*#__PURE__*/ function(B) {
         swcHelpers.classCallCheck(this, C);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "body",
-            value: function body() {
-                swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "m", this) && swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "m", this).call(this);
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.body = function body() {
+        swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "m", this) && swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "m", this).call(this);
+    };
     return C;
 }(B);

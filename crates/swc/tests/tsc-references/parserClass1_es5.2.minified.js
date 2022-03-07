@@ -4,40 +4,16 @@ export var NullLogger = function() {
     function NullLogger() {
         swcHelpers.classCallCheck(this, NullLogger);
     }
-    return swcHelpers.createClass(NullLogger, [
-        {
-            key: "information",
-            value: function() {
-                return !1;
-            }
-        },
-        {
-            key: "debug",
-            value: function() {
-                return !1;
-            }
-        },
-        {
-            key: "warning",
-            value: function() {
-                return !1;
-            }
-        },
-        {
-            key: "error",
-            value: function() {
-                return !1;
-            }
-        },
-        {
-            key: "fatal",
-            value: function() {
-                return !1;
-            }
-        },
-        {
-            key: "log",
-            value: function(s) {}
-        }
-    ]), NullLogger;
+    var _proto = NullLogger.prototype;
+    return _proto.information = function() {
+        return !1;
+    }, _proto.debug = function() {
+        return !1;
+    }, _proto.warning = function() {
+        return !1;
+    }, _proto.error = function() {
+        return !1;
+    }, _proto.fatal = function() {
+        return !1;
+    }, _proto.log = function(s) {}, NullLogger;
 }();

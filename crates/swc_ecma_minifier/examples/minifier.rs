@@ -11,7 +11,7 @@ use swc_ecma_minifier::{
     option::{ExtraOptions, MangleOptions, MinifyOptions},
 };
 use swc_ecma_parser::parse_file_as_module;
-use swc_ecma_transforms::{fixer, hygiene, resolver_with_mark};
+use swc_ecma_transforms::{fixer, resolver_with_mark};
 use swc_ecma_visit::FoldWith;
 
 fn main() {
@@ -53,7 +53,6 @@ fn main() {
             &ExtraOptions { top_level_mark },
         );
 
-        let output = output.fold_with(&mut hygiene());
         let output = output.fold_with(&mut fixer(None));
 
         let code = print(cm, &[output], true);

@@ -7,23 +7,16 @@ var SymbolIterator = /*#__PURE__*/ function() {
     function SymbolIterator() {
         swcHelpers.classCallCheck(this, SymbolIterator);
     }
-    swcHelpers.createClass(SymbolIterator, [
-        {
-            key: "next",
-            value: function next() {
-                return {
-                    value: Symbol(),
-                    done: false
-                };
-            }
-        },
-        {
-            key: _iterator,
-            value: function value() {
-                return this;
-            }
-        }
-    ]);
+    var _proto = SymbolIterator.prototype;
+    _proto.next = function next() {
+        return {
+            value: Symbol(),
+            done: false
+        };
+    };
+    _proto[_iterator] = function() {
+        return this;
+    };
     return SymbolIterator;
 }();
 foo.apply(void 0, swcHelpers.toConsumableArray(new SymbolIterator));

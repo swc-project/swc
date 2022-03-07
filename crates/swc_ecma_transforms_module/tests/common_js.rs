@@ -1595,41 +1595,39 @@ var Bar = _interopRequireWildcard(require("bar"));
 
 var _baz = require("baz");
 
-_foo.default = (42, (function() {
+_foo.default = (42, function() {
     throw new Error('"' + 'Foo' + '" is read-only.');
-})());
-Bar = (43, (function() {
+}());
+Bar = (43, function() {
     throw new Error('"' + 'Bar' + '" is read-only.');
-})());
-_baz.Baz = (44, (function() {
+}());
+_baz.Baz = (44, function() {
     throw new Error('"' + 'Baz' + '" is read-only.');
-})());
+}());
 ({ Foo  } = ( {
-}, (function() {
+}, function() {
     throw new Error('"' + 'Foo' + '" is read-only.');
-})()));
+}()));
 ({ Bar  } = ( {
-}, (function() {
+}, function() {
     throw new Error('"' + 'Bar' + '" is read-only.');
-})()));
+}()));
 ({ Baz  } = ( {
-}, (function() {
+}, function() {
     throw new Error('"' + 'Baz' + '" is read-only.');
-})()));
+}()));
 ({ prop: Foo  } = ( {
-}, (function() {
+}, function() {
     throw new Error('"' + 'Foo' + '" is read-only.');
-})()));
+}()));
 ({ prop: Bar  } = ( {
-}, (function() {
+}, function() {
     throw new Error('"' + 'Bar' + '" is read-only.');
-})()));
+}()));
 ({ prop: Baz  } = ( {
-}, (function() {
+}, function() {
     throw new Error('"' + 'Baz' + '" is read-only.');
-})()));
-
-
+}()));
 "#
 );
 

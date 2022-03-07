@@ -55,12 +55,7 @@ var C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C), this.p = 1;
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "m",
-            value: function() {}
-        }
-    ]), C;
+    return C.prototype.m = function() {}, C;
 }(), c = new C();
 swcHelpers.objectSpread({}, c).m(), swcHelpers.objectSpread({}, {
     a: 123

@@ -5,20 +5,13 @@ var RoyalGuard = // @declaration: true
     function RoyalGuard() {
         swcHelpers.classCallCheck(this, RoyalGuard);
     }
-    swcHelpers.createClass(RoyalGuard, [
-        {
-            key: "isLeader",
-            value: function isLeader() {
-                return swcHelpers._instanceof(this, LeadGuard);
-            }
-        },
-        {
-            key: "isFollower",
-            value: function isFollower() {
-                return swcHelpers._instanceof(this, FollowerGuard);
-            }
-        }
-    ]);
+    var _proto = RoyalGuard.prototype;
+    _proto.isLeader = function isLeader() {
+        return swcHelpers._instanceof(this, LeadGuard);
+    };
+    _proto.isFollower = function isFollower() {
+        return swcHelpers._instanceof(this, FollowerGuard);
+    };
     return RoyalGuard;
 }();
 var LeadGuard = /*#__PURE__*/ function(RoyalGuard) {
@@ -29,12 +22,8 @@ var LeadGuard = /*#__PURE__*/ function(RoyalGuard) {
         swcHelpers.classCallCheck(this, LeadGuard);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(LeadGuard, [
-        {
-            key: "lead",
-            value: function lead() {}
-        }
-    ]);
+    var _proto = LeadGuard.prototype;
+    _proto.lead = function lead() {};
     return LeadGuard;
 }(RoyalGuard);
 var FollowerGuard = /*#__PURE__*/ function(RoyalGuard) {
@@ -45,12 +34,8 @@ var FollowerGuard = /*#__PURE__*/ function(RoyalGuard) {
         swcHelpers.classCallCheck(this, FollowerGuard);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(FollowerGuard, [
-        {
-            key: "follow",
-            value: function follow() {}
-        }
-    ]);
+    var _proto = FollowerGuard.prototype;
+    _proto.follow = function follow() {};
     return FollowerGuard;
 }(RoyalGuard);
 var a = new FollowerGuard();
@@ -104,12 +89,8 @@ var ArrowElite = /*#__PURE__*/ function(ArrowGuard) {
         swcHelpers.classCallCheck(this, ArrowElite);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(ArrowElite, [
-        {
-            key: "defend",
-            value: function defend() {}
-        }
-    ]);
+    var _proto = ArrowElite.prototype;
+    _proto.defend = function defend() {};
     return ArrowElite;
 }(ArrowGuard);
 var ArrowMedic = /*#__PURE__*/ function(ArrowGuard) {
@@ -120,12 +101,8 @@ var ArrowMedic = /*#__PURE__*/ function(ArrowGuard) {
         swcHelpers.classCallCheck(this, ArrowMedic);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(ArrowMedic, [
-        {
-            key: "heal",
-            value: function heal() {}
-        }
-    ]);
+    var _proto = ArrowMedic.prototype;
+    _proto.heal = function heal() {};
     return ArrowMedic;
 }(ArrowGuard);
 var guard = new ArrowGuard();
@@ -148,20 +125,13 @@ var MimicGuard = /*#__PURE__*/ function() {
     function MimicGuard() {
         swcHelpers.classCallCheck(this, MimicGuard);
     }
-    swcHelpers.createClass(MimicGuard, [
-        {
-            key: "isLeader",
-            value: function isLeader() {
-                return swcHelpers._instanceof(this, MimicLeader);
-            }
-        },
-        {
-            key: "isFollower",
-            value: function isFollower() {
-                return swcHelpers._instanceof(this, MimicFollower);
-            }
-        }
-    ]);
+    var _proto = MimicGuard.prototype;
+    _proto.isLeader = function isLeader() {
+        return swcHelpers._instanceof(this, MimicLeader);
+    };
+    _proto.isFollower = function isFollower() {
+        return swcHelpers._instanceof(this, MimicFollower);
+    };
     return MimicGuard;
 }();
 var MimicLeader = /*#__PURE__*/ function(MimicGuard) {
@@ -172,12 +142,8 @@ var MimicLeader = /*#__PURE__*/ function(MimicGuard) {
         swcHelpers.classCallCheck(this, MimicLeader);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(MimicLeader, [
-        {
-            key: "lead",
-            value: function lead() {}
-        }
-    ]);
+    var _proto = MimicLeader.prototype;
+    _proto.lead = function lead() {};
     return MimicLeader;
 }(MimicGuard);
 var MimicFollower = /*#__PURE__*/ function(MimicGuard) {
@@ -188,12 +154,8 @@ var MimicFollower = /*#__PURE__*/ function(MimicGuard) {
         swcHelpers.classCallCheck(this, MimicFollower);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(MimicFollower, [
-        {
-            key: "follow",
-            value: function follow() {}
-        }
-    ]);
+    var _proto = MimicFollower.prototype;
+    _proto.follow = function follow() {};
     return MimicFollower;
 }(MimicGuard);
 var mimic = new MimicGuard();

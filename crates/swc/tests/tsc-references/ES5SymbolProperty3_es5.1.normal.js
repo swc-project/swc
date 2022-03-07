@@ -7,12 +7,8 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: _iterator,
-            value: function value() {}
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto[_iterator] = function() {};
     return C;
 }();
 (new C)[Symbol.iterator];

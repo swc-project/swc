@@ -9,24 +9,11 @@ var B = // @target: es6
         this[10076] = "WORLD";
         this[20] = "twenty";
     }
-    swcHelpers.createClass(B, [
-        {
-            key: "foo",
-            value: function foo() {}
-        },
-        {
-            key: 14,
-            value: function value() {}
-        },
-        {
-            key: 11,
-            value: function value() {}
-        },
-        {
-            key: "interface",
-            value: function _interface() {}
-        }
-    ]);
+    var _proto = B.prototype;
+    _proto["foo"] = function foo() {};
+    _proto[14] = function() {};
+    _proto[11] = function() {};
+    _proto.interface = function _interface() {};
     return B;
 }();
 B["hi"] = 10000;

@@ -8,14 +8,10 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "toString",
-            value: function toString() {
-                return 1;
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.toString = function toString() {
+        return 1;
+    };
     return C;
 }();
 var c;

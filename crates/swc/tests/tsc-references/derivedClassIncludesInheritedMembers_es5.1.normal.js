@@ -4,11 +4,10 @@ var Base = /*#__PURE__*/ function() {
     function Base(x) {
         swcHelpers.classCallCheck(this, Base);
     }
+    var _proto = Base.prototype;
+    _proto.b = function b() {};
+    Base.s = function s() {};
     swcHelpers.createClass(Base, [
-        {
-            key: "b",
-            value: function b() {}
-        },
         {
             key: "c",
             get: function get() {
@@ -17,10 +16,6 @@ var Base = /*#__PURE__*/ function() {
             set: function set(v) {}
         }
     ], [
-        {
-            key: "s",
-            value: function s() {}
-        },
         {
             key: "t",
             get: function get() {

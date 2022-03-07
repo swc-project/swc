@@ -13,14 +13,10 @@ export var MyClass = /*#__PURE__*/ function() {
         swcHelpers.classCallCheck(this, MyClass);
         this[_sym] = "ok";
     }
-    swcHelpers.createClass(MyClass, [
-        {
-            key: "method",
-            value: function method() {
-                this[_sym] = "yep";
-                var x = this[_sym];
-            }
-        }
-    ]);
+    var _proto = MyClass.prototype;
+    _proto.method = function method() {
+        this[_sym] = "yep";
+        var x = this[_sym];
+    };
     return MyClass;
 }();

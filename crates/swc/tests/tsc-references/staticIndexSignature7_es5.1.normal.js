@@ -10,11 +10,7 @@ var Y = /*#__PURE__*/ function() {
     function Y() {
         swcHelpers.classCallCheck(this, Y);
     }
-    swcHelpers.createClass(Y, null, [
-        {
-            key: "foo",
-            value: function foo() {} // should error, incompatible with index signature
-        }
-    ]);
+    Y.foo // should error, incompatible with index signature
+     = function foo() {};
     return Y;
 }();

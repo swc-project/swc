@@ -2698,7 +2698,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.145.0"
+version = "0.145.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2833,7 +2833,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.10"
+version = "0.17.11"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2947,7 +2947,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.96.0"
+version = "0.96.2"
 dependencies = [
  "bitflags",
  "lexical",
@@ -3053,7 +3053,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.22.0"
+version = "0.22.2"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3094,7 +3094,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.87.1"
+version = "0.87.2"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3128,7 +3128,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.92.2"
+version = "0.92.3"
 dependencies = [
  "either",
  "enum_kind",
@@ -3266,7 +3266,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.78.0"
+version = "0.78.1"
 dependencies = [
  "ahash",
  "arrayvec 0.7.2",
@@ -3431,7 +3431,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.94.0"
+version = "0.94.1"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -4194,7 +4194,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.150"
+version = "1.2.151"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",

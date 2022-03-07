@@ -10,18 +10,10 @@ var Foo = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "",
-            value: function() {
-                return new Foo;
-            }
-        },
-        {
-            key: "",
-            value: function() {
-                return new Foo2;
-            }
-        }
-    ]), C;
+    var _proto = C.prototype;
+    return _proto[""] = function() {
+        return new Foo;
+    }, _proto[""] = function() {
+        return new Foo2;
+    }, C;
 }();

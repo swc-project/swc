@@ -6,14 +6,9 @@ var React = require("react"), Button = function(_Component) {
     function Button() {
         return swcHelpers.classCallCheck(this, Button), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(Button, [
-        {
-            key: "render",
-            value: function() {
-                return React.createElement("div", null, "My Button");
-            }
-        }
-    ]), Button;
+    return Button.prototype.render = function() {
+        return React.createElement("div", null, "My Button");
+    }, Button;
 }(React.Component);
 function AnotherButton(p) {
     return React.createElement("h1", null, "Just Another Button");

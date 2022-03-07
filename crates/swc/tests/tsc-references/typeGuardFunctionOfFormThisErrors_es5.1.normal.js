@@ -5,20 +5,13 @@ var RoyalGuard = // @declaration: true
     function RoyalGuard() {
         swcHelpers.classCallCheck(this, RoyalGuard);
     }
-    swcHelpers.createClass(RoyalGuard, [
-        {
-            key: "isLeader",
-            value: function isLeader() {
-                return swcHelpers._instanceof(this, LeadGuard);
-            }
-        },
-        {
-            key: "isFollower",
-            value: function isFollower() {
-                return swcHelpers._instanceof(this, FollowerGuard);
-            }
-        }
-    ]);
+    var _proto = RoyalGuard.prototype;
+    _proto.isLeader = function isLeader() {
+        return swcHelpers._instanceof(this, LeadGuard);
+    };
+    _proto.isFollower = function isFollower() {
+        return swcHelpers._instanceof(this, FollowerGuard);
+    };
     return RoyalGuard;
 }();
 var LeadGuard = /*#__PURE__*/ function(RoyalGuard) {
@@ -29,12 +22,8 @@ var LeadGuard = /*#__PURE__*/ function(RoyalGuard) {
         swcHelpers.classCallCheck(this, LeadGuard);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(LeadGuard, [
-        {
-            key: "lead",
-            value: function lead() {}
-        }
-    ]);
+    var _proto = LeadGuard.prototype;
+    _proto.lead = function lead() {};
     return LeadGuard;
 }(RoyalGuard);
 var FollowerGuard = /*#__PURE__*/ function(RoyalGuard) {
@@ -45,12 +34,8 @@ var FollowerGuard = /*#__PURE__*/ function(RoyalGuard) {
         swcHelpers.classCallCheck(this, FollowerGuard);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(FollowerGuard, [
-        {
-            key: "follow",
-            value: function follow() {}
-        }
-    ]);
+    var _proto = FollowerGuard.prototype;
+    _proto.follow = function follow() {};
     return FollowerGuard;
 }(RoyalGuard);
 var a = new FollowerGuard();

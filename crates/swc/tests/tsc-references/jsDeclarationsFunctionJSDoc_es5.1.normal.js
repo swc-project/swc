@@ -20,15 +20,11 @@ import * as swcHelpers from "@swc/helpers";
          * Field is always null
          */ this.field = b;
     }
-    swcHelpers.createClass(Aleph, [
-        {
-            /**
+    var _proto = Aleph.prototype;
+    /**
      * Doesn't actually do anything
      * @returns {void}
-     */ key: "doIt",
-            value: function doIt() {}
-        }
-    ]);
+     */ _proto.doIt = function doIt() {};
     return Aleph;
 }();
 /**

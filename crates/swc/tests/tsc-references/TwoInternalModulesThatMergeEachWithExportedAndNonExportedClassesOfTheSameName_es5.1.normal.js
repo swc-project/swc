@@ -13,17 +13,13 @@ var A;
         function Point() {
             swcHelpers.classCallCheck(this, Point);
         }
-        swcHelpers.createClass(Point, [
-            {
-                key: "fromCarthesian",
-                value: function fromCarthesian(p1) {
-                    return {
-                        x: p1.x,
-                        y: p1.y
-                    };
-                }
-            }
-        ]);
+        var _proto = Point.prototype;
+        _proto.fromCarthesian = function fromCarthesian(p1) {
+            return {
+                x: p1.x,
+                y: p1.y
+            };
+        };
         return Point;
     }();
 })(A || (A = {}));

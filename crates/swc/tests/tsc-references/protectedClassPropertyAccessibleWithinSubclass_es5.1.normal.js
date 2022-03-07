@@ -11,6 +11,19 @@ var C = /*#__PURE__*/ function(B) {
         swcHelpers.classCallCheck(this, C);
         return _super.apply(this, arguments);
     }
+    var _proto = C.prototype;
+    _proto.foo = function foo() {
+        return this.x;
+    };
+    _proto.bar = function bar() {
+        return this.foo();
+    };
+    C.foo = function foo() {
+        return this.x;
+    };
+    C.bar = function bar() {
+        this.foo();
+    };
     swcHelpers.createClass(C, [
         {
             key: "y",
@@ -19,18 +32,6 @@ var C = /*#__PURE__*/ function(B) {
             },
             set: function set(x) {
                 this.y = this.x;
-            }
-        },
-        {
-            key: "foo",
-            value: function foo() {
-                return this.x;
-            }
-        },
-        {
-            key: "bar",
-            value: function bar() {
-                return this.foo();
             }
         }
     ], [
@@ -41,18 +42,6 @@ var C = /*#__PURE__*/ function(B) {
             },
             set: function set(x) {
                 this.y = this.x;
-            }
-        },
-        {
-            key: "foo",
-            value: function foo() {
-                return this.x;
-            }
-        },
-        {
-            key: "bar",
-            value: function bar() {
-                this.foo();
             }
         }
     ]);

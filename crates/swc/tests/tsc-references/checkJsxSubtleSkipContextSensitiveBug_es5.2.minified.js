@@ -8,14 +8,9 @@ var AsyncLoader = function(_Component) {
     function AsyncLoader() {
         return swcHelpers.classCallCheck(this, AsyncLoader), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(AsyncLoader, [
-        {
-            key: "render",
-            value: function() {
-                return null;
-            }
-        }
-    ]), AsyncLoader;
+    return AsyncLoader.prototype.render = function() {
+        return null;
+    }, AsyncLoader;
 }(React.Component);
 function _load() {
     return (_load = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {

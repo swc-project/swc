@@ -4,12 +4,7 @@ var child, grandchild, BaseClass = function() {
     function BaseClass() {
         swcHelpers.classCallCheck(this, BaseClass);
     }
-    return swcHelpers.createClass(BaseClass, [
-        {
-            key: "baseMethod",
-            value: function() {}
-        }
-    ]), BaseClass;
+    return BaseClass.prototype.baseMethod = function() {}, BaseClass;
 }(), Child = function(BaseClass) {
     "use strict";
     swcHelpers.inherits(Child, BaseClass);
@@ -17,23 +12,13 @@ var child, grandchild, BaseClass = function() {
     function Child() {
         return swcHelpers.classCallCheck(this, Child), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(Child, [
-        {
-            key: "method",
-            value: function() {}
-        }
-    ]), Child;
+    return Child.prototype.method = function() {}, Child;
 }(BaseClass), ChildNoBaseClass = function() {
     "use strict";
     function ChildNoBaseClass() {
         swcHelpers.classCallCheck(this, ChildNoBaseClass);
     }
-    return swcHelpers.createClass(ChildNoBaseClass, [
-        {
-            key: "method2",
-            value: function() {}
-        }
-    ]), ChildNoBaseClass;
+    return ChildNoBaseClass.prototype.method2 = function() {}, ChildNoBaseClass;
 }(), Grandchild = function(ChildNoBaseClass) {
     "use strict";
     swcHelpers.inherits(Grandchild, ChildNoBaseClass);

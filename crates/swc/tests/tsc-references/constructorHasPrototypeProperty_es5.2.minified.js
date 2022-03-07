@@ -14,7 +14,7 @@ import * as swcHelpers from "@swc/helpers";
         return D;
     }(C1);
     C1.prototype.foo, D.prototype.bar;
-}(NonGeneric || (NonGeneric = {})), (function(Generic) {
+}(NonGeneric || (NonGeneric = {})), function(Generic) {
     var C2 = function() {
         "use strict";
         swcHelpers.classCallCheck(this, C2);
@@ -28,4 +28,4 @@ import * as swcHelpers from "@swc/helpers";
         return D;
     }(C2);
     C2.prototype.foo, D.prototype.baz;
-})(Generic || (Generic = {}));
+}(Generic || (Generic = {}));

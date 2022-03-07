@@ -60,20 +60,13 @@ var Component = /*#__PURE__*/ function() {
     function Component() {
         swcHelpers.classCallCheck(this, Component);
     }
-    swcHelpers.createClass(Component, [
-        {
-            key: "getProperty",
-            value: function getProperty(key) {
-                return this.props[key];
-            }
-        },
-        {
-            key: "setProperty",
-            value: function setProperty(key, value) {
-                this.props[key] = value;
-            }
-        }
-    ]);
+    var _proto = Component.prototype;
+    _proto.getProperty = function getProperty(key) {
+        return this.props[key];
+    };
+    _proto.setProperty = function setProperty(key, value) {
+        this.props[key] = value;
+    };
     return Component;
 }();
 function f20(component) {
@@ -278,33 +271,23 @@ var C1 = /*#__PURE__*/ function() {
     function C1() {
         swcHelpers.classCallCheck(this, C1);
     }
-    swcHelpers.createClass(C1, [
-        {
-            key: "get",
-            value: function get(key) {
-                return this[key];
-            }
-        },
-        {
-            key: "set",
-            value: function set(key, value) {
-                this[key] = value;
-            }
-        },
-        {
-            key: "foo",
-            value: function foo() {
-                var x1 = this.x; // number
-                var x2 = this["x"]; // number
-                var x3 = this.get("x"); // this["x"]
-                var x4 = getProperty(this, "x"); // this["x"]
-                this.x = 42;
-                this["x"] = 42;
-                this.set("x", 42);
-                setProperty(this, "x", 42);
-            }
-        }
-    ]);
+    var _proto = C1.prototype;
+    _proto.get = function get(key) {
+        return this[key];
+    };
+    _proto.set = function set(key, value) {
+        this[key] = value;
+    };
+    _proto.foo = function foo() {
+        var x1 = this.x; // number
+        var x2 = this["x"]; // number
+        var x3 = this.get("x"); // this["x"]
+        var x4 = getProperty(this, "x"); // this["x"]
+        this.x = 42;
+        this["x"] = 42;
+        this.set("x", 42);
+        setProperty(this, "x", 42);
+    };
     return C1;
 }();
 function f90(x1, x2, x3) {
@@ -336,20 +319,13 @@ var Base = // Repros from #12011
     function Base() {
         swcHelpers.classCallCheck(this, Base);
     }
-    swcHelpers.createClass(Base, [
-        {
-            key: "get",
-            value: function get(prop) {
-                return this[prop];
-            }
-        },
-        {
-            key: "set",
-            value: function set(prop, value) {
-                this[prop] = value;
-            }
-        }
-    ]);
+    var _proto = Base.prototype;
+    _proto.get = function get(prop) {
+        return this[prop];
+    };
+    _proto.set = function set(prop, value) {
+        this[prop] = value;
+    };
     return Base;
 }();
 var Person = /*#__PURE__*/ function(Base) {
@@ -363,14 +339,10 @@ var Person = /*#__PURE__*/ function(Base) {
         _this.set("parts", parts);
         return _this;
     }
-    swcHelpers.createClass(Person, [
-        {
-            key: "getParts",
-            value: function getParts() {
-                return this.get("parts");
-            }
-        }
-    ]);
+    var _proto = Person.prototype;
+    _proto.getParts = function getParts() {
+        return this.get("parts");
+    };
     return Person;
 }(Base);
 var OtherPerson = /*#__PURE__*/ function() {
@@ -379,14 +351,10 @@ var OtherPerson = /*#__PURE__*/ function() {
         swcHelpers.classCallCheck(this, OtherPerson);
         setProperty(this, "parts", parts);
     }
-    swcHelpers.createClass(OtherPerson, [
-        {
-            key: "getParts",
-            value: function getParts() {
-                return getProperty(this, "parts");
-            }
-        }
-    ]);
+    var _proto = OtherPerson.prototype;
+    _proto.getParts = function getParts() {
+        return getProperty(this, "parts");
+    };
     return OtherPerson;
 }();
 function path(obj) {
@@ -506,14 +474,10 @@ var B = /*#__PURE__*/ function(A) {
         swcHelpers.classCallCheck(this, B);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(B, [
-        {
-            key: "f",
-            value: function f(p) {
-                p.x;
-            }
-        }
-    ]);
+    var _proto = B.prototype;
+    _proto.f = function f(p) {
+        p.x;
+    };
     return B;
 }(A);
 var Form = // Repro from #13749
@@ -522,14 +486,10 @@ var Form = // Repro from #13749
     function Form() {
         swcHelpers.classCallCheck(this, Form);
     }
-    swcHelpers.createClass(Form, [
-        {
-            key: "set",
-            value: function set(prop, value) {
-                this.childFormFactories[prop](value);
-            }
-        }
-    ]);
+    var _proto = Form.prototype;
+    _proto.set = function set(prop, value) {
+        this.childFormFactories[prop](value);
+    };
     return Form;
 }();
 var SampleClass = function SampleClass(props) {
@@ -548,14 +508,10 @@ var AnotherSampleClass = /*#__PURE__*/ function(SampleClass) {
         };
         return _super.call(this, merge(props, foo));
     }
-    swcHelpers.createClass(AnotherSampleClass, [
-        {
-            key: "brokenMethod",
-            value: function brokenMethod() {
-                this.props.foo.concat;
-            }
-        }
-    ]);
+    var _proto = AnotherSampleClass.prototype;
+    _proto.brokenMethod = function brokenMethod() {
+        this.props.foo.concat;
+    };
     return AnotherSampleClass;
 }(SampleClass);
 new AnotherSampleClass({});
@@ -588,14 +544,10 @@ var Unbounded = // Repro from #23133
     function Unbounded() {
         swcHelpers.classCallCheck(this, Unbounded);
     }
-    swcHelpers.createClass(Unbounded, [
-        {
-            key: "foo",
-            value: function foo(x) {
-                var y = x;
-            }
-        }
-    ]);
+    var _proto = Unbounded.prototype;
+    _proto.foo = function foo(x) {
+        var y = x;
+    };
     return Unbounded;
 }();
 function ff1(dd, k1, k2) {

@@ -10,10 +10,5 @@ var _foo = new WeakMap(), _bar = new WeakMap(), A = function() {
             value: 6
         }), this.qux = 6;
     }
-    return swcHelpers.createClass(A, [
-        {
-            key: "quux",
-            value: function() {}
-        }
-    ]), A;
+    return A.prototype.quux = function() {}, A;
 }();

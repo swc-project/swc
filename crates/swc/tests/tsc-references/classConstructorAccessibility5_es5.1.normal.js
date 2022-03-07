@@ -11,14 +11,10 @@ var Derived = /*#__PURE__*/ function(Base1) {
         swcHelpers.classCallCheck(this, Derived);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(Derived, null, [
-        {
-            key: "make",
-            value: function make() {
-                new Base();
-            } // ok
-        }
-    ]);
+    Derived.make // ok
+     = function make() {
+        new Base();
+    };
     return Derived;
 }(Base);
 var Unrelated = /*#__PURE__*/ function() {
@@ -26,13 +22,9 @@ var Unrelated = /*#__PURE__*/ function() {
     function Unrelated() {
         swcHelpers.classCallCheck(this, Unrelated);
     }
-    swcHelpers.createClass(Unrelated, null, [
-        {
-            key: "fake",
-            value: function fake() {
-                new Base();
-            } // error
-        }
-    ]);
+    Unrelated.fake // error
+     = function fake() {
+        new Base();
+    };
     return Unrelated;
 }();

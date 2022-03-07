@@ -345,25 +345,18 @@ var TypeScript;
             this.stop = stop;
             this.result = null;
         }
-        swcHelpers.createClass(ScopeSearchFilter, [
-            {
-                key: "reset",
-                value: function reset() {
-                    this.result = null;
-                }
-            },
-            {
-                key: "update",
-                value: function update(b) {
-                    this.result = this.select(this.result, b);
-                    if (this.result) {
-                        return this.stop(this.result);
-                    } else {
-                        return false;
-                    }
-                }
+        var _proto = ScopeSearchFilter.prototype;
+        _proto.reset = function reset() {
+            this.result = null;
+        };
+        _proto.update = function update(b) {
+            this.result = this.select(this.result, b);
+            if (this.result) {
+                return this.stop(this.result);
+            } else {
+                return false;
             }
-        ]);
+        };
         return ScopeSearchFilter;
     }();
     TypeScript1.ScopeSearchFilter = ScopeSearchFilter;

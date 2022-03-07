@@ -8,7 +8,7 @@ First.Item = function I() {
     "use strict";
     swcHelpers.classCallCheck(this, I);
 };
-Common.Object = /*#__PURE__*/ (function(_Item) {
+Common.Object = /*#__PURE__*/ function(_Item) {
     "use strict";
     swcHelpers.inherits(_class, _Item);
     var _super = swcHelpers.createSuper(_class);
@@ -17,8 +17,8 @@ Common.Object = /*#__PURE__*/ (function(_Item) {
         return _super.apply(this, arguments);
     }
     return _class;
-})(First.Item);
-Workspace.Object = /*#__PURE__*/ (function(_Object) {
+}(First.Item);
+Workspace.Object = /*#__PURE__*/ function(_Object) {
     "use strict";
     swcHelpers.inherits(_class, _Object);
     var _super = swcHelpers.createSuper(_class);
@@ -27,7 +27,7 @@ Workspace.Object = /*#__PURE__*/ (function(_Object) {
         return _super.apply(this, arguments);
     }
     return _class;
-})(Common.Object);
+}(Common.Object);
 /** @type {Workspace.Object} */ var am;
 // @filename: roots.js
 var First = {};

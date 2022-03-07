@@ -10,15 +10,10 @@ var D = function() {
             value: void 0
         });
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function() {
-                var c = new C();
-                swcHelpers.classPrivateFieldGet(c, _x);
-                var d = new C();
-                swcHelpers.classPrivateFieldGet(d, _x);
-            }
-        }
-    ]), C;
+    return C.prototype.foo = function() {
+        var c = new C();
+        swcHelpers.classPrivateFieldGet(c, _x);
+        var d = new C();
+        swcHelpers.classPrivateFieldGet(d, _x);
+    }, C;
 }();

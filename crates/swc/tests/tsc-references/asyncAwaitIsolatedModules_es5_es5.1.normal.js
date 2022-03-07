@@ -233,93 +233,73 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "m1",
-            value: function m1() {
-                return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                        while(1)switch(_ctx.prev = _ctx.next){
-                            case 0:
-                            case "end":
-                                return _ctx.stop();
-                        }
-                    }, _callee);
-                }))();
-            }
-        },
-        {
-            key: "m2",
-            value: function m2() {
-                return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                        while(1)switch(_ctx.prev = _ctx.next){
-                            case 0:
-                            case "end":
-                                return _ctx.stop();
-                        }
-                    }, _callee);
-                }))();
-            }
-        },
-        {
-            key: "m3",
-            value: function m3() {
-                return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                        while(1)switch(_ctx.prev = _ctx.next){
-                            case 0:
-                            case "end":
-                                return _ctx.stop();
-                        }
-                    }, _callee);
-                }))();
-            }
-        }
-    ], [
-        {
-            key: "m4",
-            value: function m4() {
-                return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                        while(1)switch(_ctx.prev = _ctx.next){
-                            case 0:
-                            case "end":
-                                return _ctx.stop();
-                        }
-                    }, _callee);
-                }))();
-            }
-        },
-        {
-            key: "m5",
-            value: function m5() {
-                return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                        while(1)switch(_ctx.prev = _ctx.next){
-                            case 0:
-                            case "end":
-                                return _ctx.stop();
-                        }
-                    }, _callee);
-                }))();
-            }
-        },
-        {
-            key: "m6",
-            value: function m6() {
-                return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                        while(1)switch(_ctx.prev = _ctx.next){
-                            case 0:
-                            case "end":
-                                return _ctx.stop();
-                        }
-                    }, _callee);
-                }))();
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.m1 = function m1() {
+        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
+    };
+    _proto.m2 = function m2() {
+        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
+    };
+    _proto.m3 = function m3() {
+        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
+    };
+    C.m4 = function m4() {
+        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
+    };
+    C.m5 = function m5() {
+        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
+    };
+    C.m6 = function m6() {
+        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
+    };
     return C;
 }();
 var M;

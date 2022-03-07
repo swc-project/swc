@@ -163,20 +163,13 @@ var C2 = /*#__PURE__*/ function() {
     function C2() {
         swcHelpers.classCallCheck(this, C2);
     }
-    swcHelpers.createClass(C2, [
-        {
-            key: "foo",
-            value: function foo() {
-                return 0;
-            }
-        },
-        {
-            key: "bar",
-            value: function bar() {
-                return cond ? 0 : 1;
-            }
-        }
-    ]);
+    var _proto = C2.prototype;
+    _proto.foo = function foo() {
+        return 0;
+    };
+    _proto.bar = function bar() {
+        return cond ? 0 : 1;
+    };
     return C2;
 }();
 function f20() {

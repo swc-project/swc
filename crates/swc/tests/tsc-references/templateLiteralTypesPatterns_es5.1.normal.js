@@ -138,13 +138,9 @@ export var BB = /*#__PURE__*/ function() {
     function BB() {
         swcHelpers.classCallCheck(this, BB);
     }
-    swcHelpers.createClass(BB, [
-        {
-            key: "update",
-            value: function update(id) {
-                this.get(id);
-            }
-        }
-    ]);
+    var _proto = BB.prototype;
+    _proto.update = function update(id) {
+        this.get(id);
+    };
     return BB;
 }();

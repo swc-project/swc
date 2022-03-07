@@ -7,12 +7,8 @@ var C = // @target: esnext,es2016
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            // ? should be removed in emit
-            key: "method",
-            value: function method() {}
-        }
-    ]);
+    var _proto = C.prototype;
+    // ? should be removed in emit
+    _proto.method = function method() {};
     return C;
 }();

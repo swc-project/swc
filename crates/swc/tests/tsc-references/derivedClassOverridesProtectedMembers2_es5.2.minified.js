@@ -4,11 +4,7 @@ var x, y, d2, Base = function() {
     function Base(a) {
         swcHelpers.classCallCheck(this, Base);
     }
-    return swcHelpers.createClass(Base, [
-        {
-            key: "b",
-            value: function(a) {}
-        },
+    return Base.prototype.b = function(a) {}, Base.s = function(a) {}, swcHelpers.createClass(Base, [
         {
             key: "c",
             get: function() {
@@ -17,10 +13,6 @@ var x, y, d2, Base = function() {
             set: function(v) {}
         }
     ], [
-        {
-            key: "s",
-            value: function(a) {}
-        },
         {
             key: "t",
             get: function() {
@@ -36,11 +28,7 @@ var x, y, d2, Base = function() {
     function Derived(a) {
         return swcHelpers.classCallCheck(this, Derived), _super.call(this, a);
     }
-    return swcHelpers.createClass(Derived, [
-        {
-            key: "b",
-            value: function(a) {}
-        },
+    return Derived.prototype.b = function(a) {}, Derived.s = function(a) {}, swcHelpers.createClass(Derived, [
         {
             key: "c",
             get: function() {
@@ -49,10 +37,6 @@ var x, y, d2, Base = function() {
             set: function(v) {}
         }
     ], [
-        {
-            key: "s",
-            value: function(a) {}
-        },
         {
             key: "t",
             get: function() {

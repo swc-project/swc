@@ -4,12 +4,7 @@ var Base = function() {
     function Base() {
         swcHelpers.classCallCheck(this, Base);
     }
-    return swcHelpers.createClass(Base, [
-        {
-            key: "method",
-            value: function() {}
-        }
-    ]), Base;
+    return Base.prototype.method = function() {}, Base;
 }(), Derived = function(Base) {
     "use strict";
     swcHelpers.inherits(Derived, Base);
@@ -17,20 +12,12 @@ var Base = function() {
     function Derived() {
         return swcHelpers.classCallCheck(this, Derived), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(Derived, [
-        {
-            key: "method1",
-            value: function() {
-                var ref;
-                return null === (ref = swcHelpers.get(swcHelpers.getPrototypeOf(Derived.prototype), "method", this)) || void 0 === ref ? void 0 : ref.call(this);
-            }
-        },
-        {
-            key: "method2",
-            value: function() {
-                var ref;
-                return null === (ref = swcHelpers.get(swcHelpers.getPrototypeOf(Derived.prototype), "method", this)) || void 0 === ref ? void 0 : ref.call(this);
-            }
-        }
-    ]), Derived;
+    var _proto = Derived.prototype;
+    return _proto.method1 = function() {
+        var ref;
+        return null === (ref = swcHelpers.get(swcHelpers.getPrototypeOf(Derived.prototype), "method", this)) || void 0 === ref ? void 0 : ref.call(this);
+    }, _proto.method2 = function() {
+        var ref;
+        return null === (ref = swcHelpers.get(swcHelpers.getPrototypeOf(Derived.prototype), "method", this)) || void 0 === ref ? void 0 : ref.call(this);
+    }, Derived;
 }(Base);

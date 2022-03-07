@@ -13,14 +13,10 @@ var RC1 = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, RC1);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(RC1, [
-        {
-            key: "render",
-            value: function render() {
-                return null;
-            }
-        }
-    ]);
+    var _proto = RC1.prototype;
+    _proto.render = function render() {
+        return null;
+    };
     return RC1;
 }(React.Component);
 var RC2 = /*#__PURE__*/ function(_Component) {
@@ -31,18 +27,11 @@ var RC2 = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, RC2);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(RC2, [
-        {
-            key: "render",
-            value: function render() {
-                return null;
-            }
-        },
-        {
-            key: "method",
-            value: function method() {}
-        }
-    ]);
+    var _proto = RC2.prototype;
+    _proto.render = function render() {
+        return null;
+    };
+    _proto.method = function method() {};
     return RC2;
 }(React.Component);
 var RC3 = /*#__PURE__*/ function(_Component) {
@@ -53,14 +42,10 @@ var RC3 = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, RC3);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(RC3, [
-        {
-            key: "render",
-            value: function render() {
-                return null;
-            }
-        }
-    ]);
+    var _proto = RC3.prototype;
+    _proto.render = function render() {
+        return null;
+    };
     return RC3;
 }(React.Component);
 var RC4 = /*#__PURE__*/ function(_Component) {
@@ -71,14 +56,10 @@ var RC4 = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, RC4);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(RC4, [
-        {
-            key: "render",
-            value: function render() {
-                return null;
-            }
-        }
-    ]);
+    var _proto = RC4.prototype;
+    _proto.render = function render() {
+        return null;
+    };
     return RC4;
 }(React.Component);
 var EmptyRCComp = RC3 || RC4;

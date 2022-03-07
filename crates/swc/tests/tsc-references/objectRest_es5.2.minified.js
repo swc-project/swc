@@ -56,7 +56,7 @@ var Removable = function() {
     function Removable() {
         swcHelpers.classCallCheck(this, Removable);
     }
-    return swcHelpers.createClass(Removable, [
+    return Removable.prototype.m = function() {}, swcHelpers.createClass(Removable, [
         {
             key: "z",
             set: function(value) {}
@@ -67,10 +67,6 @@ var Removable = function() {
                 return 12;
             },
             set: function(value) {}
-        },
-        {
-            key: "m",
-            value: function() {}
         }
     ]), Removable;
 }(), removable = new Removable();

@@ -5,14 +5,10 @@ var C1 = // @declaration: true
     function C1(x) {
         swcHelpers.classCallCheck(this, C1);
     }
-    swcHelpers.createClass(C1, [
-        {
-            key: "f",
-            value: function f(x) {
-                return undefined;
-            }
-        }
-    ]);
+    var _proto = C1.prototype;
+    _proto.f = function f(x) {
+        return undefined;
+    };
     return C1;
 }();
 var C2 = function C2() {
@@ -43,42 +39,29 @@ var C4 = /*#__PURE__*/ function() {
             return _this;
         };
     }
-    swcHelpers.createClass(C4, [
-        {
-            key: "f1",
-            value: function f1() {
-                return {
-                    a: this
-                };
+    var _proto = C4.prototype;
+    _proto.f1 = function f1() {
+        return {
+            a: this
+        };
+    };
+    _proto.f2 = function f2() {
+        return [
+            this
+        ];
+    };
+    _proto.f3 = function f3() {
+        return [
+            {
+                a: this
             }
-        },
-        {
-            key: "f2",
-            value: function f2() {
-                return [
-                    this
-                ];
-            }
-        },
-        {
-            key: "f3",
-            value: function f3() {
-                return [
-                    {
-                        a: this
-                    }
-                ];
-            }
-        },
-        {
-            key: "f4",
-            value: function f4() {
-                var _this = this;
-                return function() {
-                    return _this;
-                };
-            }
-        }
-    ]);
+        ];
+    };
+    _proto.f4 = function f4() {
+        var _this = this;
+        return function() {
+            return _this;
+        };
+    };
     return C4;
 }();

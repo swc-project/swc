@@ -12,7 +12,7 @@ use swc_cached::regex::CachedRegex;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     util::take::Take,
-    Span, SyntaxContext, DUMMY_SP,
+    Span, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -135,7 +135,7 @@ pub struct Scope {
     ///   -> `{foo: ('bar', default)}`
     pub(crate) idents: AHashMap<Id, (JsWord, JsWord)>,
 
-    /// Declared variables.
+    /// Declared variables except const.
     pub(crate) declared_vars: Vec<Id>,
 
     /// Maps of exported bindings.
@@ -149,13 +149,9 @@ pub struct Scope {
     ///   -> `{ a: [b] }`
     pub(crate) exported_bindings: AHashMap<Id, Vec<Id>>,
 
-    pub(crate) exported_var_decls: AHashSet<Id>,
-
     /// This is required to handle
     /// `export * from 'foo';`
     pub(crate) lazy_blacklist: AHashSet<JsWord>,
-
-    exports: Option<Ident>,
 }
 
 impl Scope {
@@ -444,28 +440,13 @@ impl Scope {
         match value {
             Ok(value) => Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(key),
-                value: Box::new(value.0),
+                value: Box::new(value),
             }),
             Err(ident) => Prop::Shorthand(ident),
         }
     }
 
-    /// Try converting identifier to member expression referring imports.
-    ///
-    /// returns `(expr, true)` for import refs and `(expr, false)` for exports.
-    fn fold_ident(folder: &mut impl ModulePass, i: Ident) -> Result<(Expr, bool), Ident> {
-        if folder.scope().exported_var_decls.contains(&i.to_id()) {
-            return Ok((
-                folder
-                    .scope()
-                    .exports
-                    .clone()
-                    .unwrap()
-                    .make_member(Ident::new(i.sym, i.span.with_ctxt(SyntaxContext::empty()))),
-                false,
-            ));
-        }
-
+    fn fold_ident(folder: &mut impl ModulePass, i: Ident) -> Result<Expr, Ident> {
         let orig_span = i.span;
         let v = folder.scope().idents.get(&i.to_id()).cloned();
         match v {
@@ -497,9 +478,9 @@ impl Scope {
 
                 if *prop == js_word!("") {
                     // import * as foo from 'foo';
-                    Ok((obj, true))
+                    Ok(obj)
                 } else {
-                    Ok((obj.make_member(Ident::new(prop, DUMMY_SP)), true))
+                    Ok(obj.make_member(Ident::new(prop, DUMMY_SP)))
                 }
             }
         }
@@ -511,8 +492,6 @@ impl Scope {
         top_level: bool,
         expr: Expr,
     ) -> Expr {
-        folder.scope_mut().exports = Some(exports.clone());
-
         macro_rules! chain_assign {
             ($entry:expr, $e:expr) => {{
                 let mut e = $e;
@@ -536,7 +515,7 @@ impl Scope {
             // In a JavaScript module, this is undefined at the top level (i.e., outside functions).
             Expr::This(ThisExpr { span }) if top_level => *undefined(span),
             Expr::Ident(i) => match Self::fold_ident(folder, i) {
-                Ok(expr) => expr.0,
+                Ok(expr) => expr,
                 Err(ident) => Expr::Ident(ident),
             },
 
@@ -566,7 +545,7 @@ impl Scope {
 
                 let expr = match *expr {
                     Expr::Ident(ident) => match Self::fold_ident(folder, ident) {
-                        Ok(expr) => expr.0,
+                        Ok(expr) => expr,
                         Err(ident) => Expr::Ident(ident),
                     },
                     expr => expr,
@@ -584,24 +563,21 @@ impl Scope {
                 let callee = if let Callee::Expr(expr) = callee {
                     let callee = if let Expr::Ident(ident) = *expr {
                         match Self::fold_ident(folder, ident) {
-                            Ok((mut expr, need_zero)) => {
-                                if need_zero {
-                                    if let Expr::Member(member) = &mut expr {
-                                        if let Expr::Ident(ident) = member.obj.as_mut() {
-                                            member.obj = Box::new(Expr::Paren(ParenExpr {
-                                                expr: Box::new(Expr::Seq(SeqExpr {
-                                                    span,
-                                                    exprs: vec![
-                                                        Box::new(0_f64.into()),
-                                                        Box::new(ident.take().into()),
-                                                    ],
-                                                })),
+                            Ok(mut expr) => {
+                                if let Expr::Member(member) = &mut expr {
+                                    if let Expr::Ident(ident) = member.obj.as_mut() {
+                                        member.obj = Box::new(Expr::Paren(ParenExpr {
+                                            expr: Box::new(Expr::Seq(SeqExpr {
                                                 span,
-                                            }))
-                                        }
-                                    };
-                                }
-
+                                                exprs: vec![
+                                                    Box::new(0_f64.into()),
+                                                    Box::new(ident.take().into()),
+                                                ],
+                                            })),
+                                            span,
+                                        }))
+                                    }
+                                };
                                 expr
                             }
                             Err(ident) => Expr::Ident(ident),
@@ -761,7 +737,7 @@ impl Scope {
                         let left = if let PatOrExpr::Pat(ref left_pat) = expr.left {
                             if let Pat::Ident(BindingIdent { ref id, .. }) = **left_pat {
                                 let expr = match Self::fold_ident(folder, id.clone()) {
-                                    Ok(expr) => expr.0,
+                                    Ok(expr) => expr,
                                     Err(ident) => Expr::Ident(ident),
                                 };
                                 PatOrExpr::Expr(Box::new(expr))

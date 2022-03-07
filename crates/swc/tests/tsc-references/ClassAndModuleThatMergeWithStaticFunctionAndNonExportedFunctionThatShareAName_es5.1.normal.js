@@ -6,17 +6,12 @@ var Point = /*#__PURE__*/ function() {
         this.x = x;
         this.y = y;
     }
-    swcHelpers.createClass(Point, null, [
-        {
-            key: "Origin",
-            value: function Origin() {
-                return {
-                    x: 0,
-                    y: 0
-                };
-            }
-        }
-    ]);
+    Point.Origin = function Origin() {
+        return {
+            x: 0,
+            y: 0
+        };
+    };
     return Point;
 }();
 (function(Point) {
@@ -34,17 +29,12 @@ var A;
             this.x = x;
             this.y = y;
         }
-        swcHelpers.createClass(Point, null, [
-            {
-                key: "Origin",
-                value: function Origin() {
-                    return {
-                        x: 0,
-                        y: 0
-                    };
-                }
-            }
-        ]);
+        Point.Origin = function Origin() {
+            return {
+                x: 0,
+                y: 0
+            };
+        };
         return Point;
     }();
     A1.Point = Point;

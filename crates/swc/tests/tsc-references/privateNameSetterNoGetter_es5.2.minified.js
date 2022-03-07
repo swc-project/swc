@@ -7,14 +7,9 @@ var _x, C = (_x = new WeakMap(), function() {
             set: set_x
         });
     }
-    return swcHelpers.createClass(_class, [
-        {
-            key: "m",
-            value: function() {
-                swcHelpers.classPrivateFieldSet(this, _x, swcHelpers.classPrivateFieldGet(this, _x) + 2);
-            }
-        }
-    ]), _class;
+    return _class.prototype.m = function() {
+        swcHelpers.classPrivateFieldSet(this, _x, swcHelpers.classPrivateFieldGet(this, _x) + 2);
+    }, _class;
 }());
 function set_x(x) {}
 console.log(new C().m());

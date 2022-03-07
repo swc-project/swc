@@ -4,33 +4,17 @@ var Test = function() {
     function Test() {
         swcHelpers.classCallCheck(this, Test);
     }
-    return swcHelpers.createClass(Test, [
-        {
-            key: "fail",
-            value: function(message) {
-                throw new Error(message);
-            }
-        },
-        {
-            key: "f1",
-            value: function(x) {
-                void 0 === x && this.fail("undefined argument"), x.length;
-            }
-        },
-        {
-            key: "f2",
-            value: function(x) {
-                if (x >= 0) return x;
-                this.fail("negative number");
-            }
-        },
-        {
-            key: "f3",
-            value: function(x) {
-                this.fail();
-            }
-        }
-    ]), Test;
+    var _proto = Test.prototype;
+    return _proto.fail = function(message) {
+        throw new Error(message);
+    }, _proto.f1 = function(x) {
+        void 0 === x && this.fail("undefined argument"), x.length;
+    }, _proto.f2 = function(x) {
+        if (x >= 0) return x;
+        this.fail("negative number");
+    }, _proto.f3 = function(x) {
+        this.fail();
+    }, Test;
 }();
 registerComponent("test-component", {
     schema: {
@@ -64,14 +48,9 @@ var MyThrowable = function() {
     function MyThrowable() {
         swcHelpers.classCallCheck(this, MyThrowable);
     }
-    return swcHelpers.createClass(MyThrowable, [
-        {
-            key: "throw",
-            value: function() {
-                throw new Error();
-            }
-        }
-    ]), MyThrowable;
+    return MyThrowable.prototype.throw = function() {
+        throw new Error();
+    }, MyThrowable;
 }(), SuperThrowable = function(MyThrowable) {
     "use strict";
     swcHelpers.inherits(SuperThrowable, MyThrowable);
@@ -79,18 +58,10 @@ var MyThrowable = function() {
     function SuperThrowable() {
         return swcHelpers.classCallCheck(this, SuperThrowable), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(SuperThrowable, [
-        {
-            key: "err",
-            value: function(msg) {
-                swcHelpers.get(swcHelpers.getPrototypeOf(SuperThrowable.prototype), "throw", this).call(this);
-            }
-        },
-        {
-            key: "ok",
-            value: function() {
-                this.throw();
-            }
-        }
-    ]), SuperThrowable;
+    var _proto = SuperThrowable.prototype;
+    return _proto.err = function(msg) {
+        swcHelpers.get(swcHelpers.getPrototypeOf(SuperThrowable.prototype), "throw", this).call(this);
+    }, _proto.ok = function() {
+        this.throw();
+    }, SuperThrowable;
 }(MyThrowable);

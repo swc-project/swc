@@ -1,14 +1,6 @@
 use std::ops::{Deref, DerefMut};
 
-use swc_common::Span;
-
 use super::{input::ParserInput, Ctx, PResult, Parse, Parser};
-
-pub(crate) trait ItemBlock {
-    type Item;
-
-    fn from_items(span: Span, items: Vec<Self::Item>) -> Self;
-}
 
 impl<I> Parser<I>
 where

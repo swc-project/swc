@@ -4,14 +4,9 @@ var co2, cnd1, or1, or2, or3, and1, and3, propAcc1, M2, InitClass = function() {
     function InitClass() {
         swcHelpers.classCallCheck(this, InitClass), this.x = this.x;
     }
-    return swcHelpers.createClass(InitClass, [
-        {
-            key: "fn",
-            value: function() {
-                this.x;
-            }
-        }
-    ]), InitClass;
+    return InitClass.prototype.fn = function() {
+        this.x;
+    }, InitClass;
 }();
 function fnReturn1() {
     return fnReturn1();
@@ -33,26 +28,14 @@ var C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "fn1",
-            value: function() {
-                return new (this.fn1())();
-            }
-        },
-        {
-            key: "fn2",
-            value: function() {
-                return new (this.fn2());
-            }
-        },
-        {
-            key: "fn3",
-            value: function() {
-                return new (void 0)(this.fn3);
-            }
-        }
-    ]), C;
+    var _proto = C.prototype;
+    return _proto.fn1 = function() {
+        return new (this.fn1())();
+    }, _proto.fn2 = function() {
+        return new (this.fn2());
+    }, _proto.fn3 = function() {
+        return new (void 0)(this.fn3);
+    }, C;
 }();
 function fn5() {
     return new (void 0)(fn5);

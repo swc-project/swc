@@ -6,22 +6,15 @@ var SymbolIterator = //@target: ES6
     function SymbolIterator() {
         swcHelpers.classCallCheck(this, SymbolIterator);
     }
-    swcHelpers.createClass(SymbolIterator, [
-        {
-            key: "next",
-            value: function next() {
-                return {
-                    value: Symbol()
-                };
-            }
-        },
-        {
-            key: _iterator,
-            value: function value() {
-                return this;
-            }
-        }
-    ]);
+    var _proto = SymbolIterator.prototype;
+    _proto.next = function next() {
+        return {
+            value: Symbol()
+        };
+    };
+    _proto[_iterator] = function() {
+        return this;
+    };
     return SymbolIterator;
 }();
 var array = swcHelpers.toConsumableArray(new SymbolIterator);

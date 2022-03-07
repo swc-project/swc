@@ -5,6 +5,67 @@
 
 
 
+- **(es/typescript)** Remove imports used in interfaces and type signatures (#3893) ([5c92b2d](https://github.com/swc-project/swc/commit/5c92b2d4cee64686d0aad788b177b34cd2fd3bfc))
+
+### Features
+
+
+
+- **(common)** Align `stable_hasher` to latest rustc (#3895) ([372f298](https://github.com/swc-project/swc/commit/372f298f5f6faae804370a3caaf8dce309fcb9f5))
+
+
+- **(css/parser)** Improve error recovery (#3901) ([6f781c3](https://github.com/swc-project/swc/commit/6f781c3b43a99ce65e5680665b8101a382adb4ef))
+
+
+- **(es/compat)** Add tracing support to remaining compat transforms (#3904) ([bd0a921](https://github.com/swc-project/swc/commit/bd0a9214c3a678a65a814517ffef6c59199ac06b))
+
+### Performance
+
+
+
+- **(es/parser)** Improve performance by adjusting inlining (#3902) ([4387813](https://github.com/swc-project/swc/commit/43878137e71894fbb3367473317ba65de5e40616))
+
+### Refactor
+
+
+
+- **(css/parser)** Remove unused codes (#3903) ([3a9af73](https://github.com/swc-project/swc/commit/3a9af7316748641e8b59b59d014513456ecfc606))
+
+## [1.2.151] - 2022-03-07
+
+### Bug Fixes
+
+
+
+- **(es/module)** Revert fix for `jest.spyOn` ([8e30d83](https://github.com/swc-project/swc/commit/8e30d83d145061c9ee256e76e77e64ab0b5552ed))
+
+### Features
+
+
+
+- **(es/compat)** Enable `set_public_method` for TypeScript (#3884) ([cb93883](https://github.com/swc-project/swc/commit/cb93883232515cbce46d1f87a0f5feec37bd489c))
+
+
+- **(es/fixer)** Remove extra parens around iife in expression position (#3887) ([9dd0105](https://github.com/swc-project/swc/commit/9dd0105c5b5479e421b36a0fb5ea3f2ea788d8a5))
+
+
+- **(es/lints)** Support module/script mode in `duplicate_bindings`  (#3880) ([0181fbe](https://github.com/swc-project/swc/commit/0181fbe63b04145b99475a63a81937d8039abcd7))
+
+### Performance
+
+
+
+- **(es/lints)** Extract top level bindings only if the rule is enabled (#3889) ([3e8efac](https://github.com/swc-project/swc/commit/3e8efacf3a804c4dbaa3f92fa2f5f08e425b7866))
+
+
+- **(es/minifier)** Add a fast-path to export merger (#3891) ([a47eed7](https://github.com/swc-project/swc/commit/a47eed7241bb3aa932cd51109c39b7f7fe6d4789))
+
+## [1.2.150] - 2022-03-06
+
+### Bug Fixes
+
+
+
 - **(es/module)** Fix `jsc.paths` (#3879) ([a65755f](https://github.com/swc-project/swc/commit/a65755fd9a2dfa9bad929df735bb7b3c21613972))
 
 

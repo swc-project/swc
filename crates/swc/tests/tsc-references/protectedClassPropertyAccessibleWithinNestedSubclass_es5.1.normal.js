@@ -11,6 +11,37 @@ var C = /*#__PURE__*/ function(B) {
         swcHelpers.classCallCheck(this, C);
         return _super.apply(this, arguments);
     }
+    var _proto1 = C.prototype;
+    _proto1.foo = function foo() {
+        return this.x;
+    };
+    _proto1.bar = function bar() {
+        var D = /*#__PURE__*/ function() {
+            function D() {
+                swcHelpers.classCallCheck(this, D);
+            }
+            var _proto = D.prototype;
+            _proto.foo = function foo() {
+                var c = new C();
+                var c1 = c.y;
+                var c2 = c.x;
+                var c3 = c.foo;
+                var c4 = c.bar;
+                var c5 = c.z; // error
+                var sc1 = C.x;
+                var sc2 = C.y;
+                var sc3 = C.foo;
+                var sc4 = C.bar;
+            };
+            return D;
+        }();
+    };
+    C.foo = function foo() {
+        return this.x;
+    };
+    C.bar = function bar() {
+        this.foo();
+    };
     swcHelpers.createClass(C, [
         {
             key: "y",
@@ -19,40 +50,6 @@ var C = /*#__PURE__*/ function(B) {
             },
             set: function set(x) {
                 this.y = this.x;
-            }
-        },
-        {
-            key: "foo",
-            value: function foo() {
-                return this.x;
-            }
-        },
-        {
-            key: "bar",
-            value: function bar() {
-                var D = /*#__PURE__*/ function() {
-                    function D() {
-                        swcHelpers.classCallCheck(this, D);
-                    }
-                    swcHelpers.createClass(D, [
-                        {
-                            key: "foo",
-                            value: function foo() {
-                                var c = new C();
-                                var c1 = c.y;
-                                var c2 = c.x;
-                                var c3 = c.foo;
-                                var c4 = c.bar;
-                                var c5 = c.z; // error
-                                var sc1 = C.x;
-                                var sc2 = C.y;
-                                var sc3 = C.foo;
-                                var sc4 = C.bar;
-                            }
-                        }
-                    ]);
-                    return D;
-                }();
             }
         }
     ], [
@@ -63,18 +60,6 @@ var C = /*#__PURE__*/ function(B) {
             },
             set: function set(x) {
                 this.y = this.x;
-            }
-        },
-        {
-            key: "foo",
-            value: function foo() {
-                return this.x;
-            }
-        },
-        {
-            key: "bar",
-            value: function bar() {
-                this.foo();
             }
         }
     ]);

@@ -10,20 +10,13 @@ export var Foo = /*#__PURE__*/ function() {
         swcHelpers.classCallCheck(this, Foo);
         this.foo = "Hello";
     }
-    swcHelpers.createClass(Foo, [
-        {
-            key: "slicey",
-            value: function slicey() {
-                this.foo = this.foo.slice();
-            }
-        },
-        {
-            key: "m",
-            value: function m() {
-                this.foo;
-            }
-        }
-    ]);
+    var _proto = Foo.prototype;
+    _proto.slicey = function slicey() {
+        this.foo = this.foo.slice();
+    };
+    _proto.m = function m() {
+        this.foo;
+    };
     return Foo;
 }();
 /** @class */ function C() {

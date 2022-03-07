@@ -10,12 +10,7 @@ var _brand_check_brand = new WeakSet(), _unused = new WeakMap(), _brand = new We
             value: void _brand_check_brand.add(this)
         });
     }
-    return swcHelpers.createClass(Foo, [
-        {
-            key: "isFoo",
-            value: function(v) {
-                return _brand_check_brand.has(v);
-            }
-        }
-    ]), Foo;
+    return Foo.prototype.isFoo = function(v) {
+        return _brand_check_brand.has(v);
+    }, Foo;
 }();

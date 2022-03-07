@@ -7,14 +7,10 @@ var Foo = /*#__PURE__*/ function() {
     function Foo() {
         swcHelpers.classCallCheck(this, Foo);
     }
-    swcHelpers.createClass(Foo, [
-        {
-            key: _symbol,
-            value: function value() {
-                return 0;
-            }
-        }
-    ]);
+    var _proto = Foo.prototype;
+    _proto[_symbol] = function() {
+        return 0;
+    };
     return Foo;
 }();
 var _symbol1 = symbol;
@@ -26,13 +22,9 @@ var Bar = /*#__PURE__*/ function(Foo) {
         swcHelpers.classCallCheck(this, Bar);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(Bar, [
-        {
-            key: _symbol1,
-            value: function value() {
-                return swcHelpers.get(swcHelpers.getPrototypeOf(Bar.prototype), symbol, this).call(this);
-            }
-        }
-    ]);
+    var _proto = Bar.prototype;
+    _proto[_symbol1] = function() {
+        return swcHelpers.get(swcHelpers.getPrototypeOf(Bar.prototype), symbol, this).call(this);
+    };
     return Bar;
 }(Foo);

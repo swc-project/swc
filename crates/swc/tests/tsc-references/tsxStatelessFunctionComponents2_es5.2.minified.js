@@ -10,14 +10,9 @@ var BigGreeter = function(_Component) {
     function BigGreeter() {
         return swcHelpers.classCallCheck(this, BigGreeter), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(BigGreeter, [
-        {
-            key: "render",
-            value: function() {
-                return React.createElement("div", null);
-            }
-        }
-    ]), BigGreeter;
+    return BigGreeter.prototype.render = function() {
+        return React.createElement("div", null);
+    }, BigGreeter;
 }(React.Component);
 React.createElement(Greet, null), React.createElement(Greet, {
     key: "k"

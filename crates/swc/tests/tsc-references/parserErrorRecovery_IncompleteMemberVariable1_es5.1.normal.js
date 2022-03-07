@@ -9,15 +9,11 @@ var Shapes;
             this.x = x;
             this.y = y;
         }
-        swcHelpers.createClass(Point, [
-            {
-                // Instance member
-                key: "getDist",
-                value: function getDist() {
-                    return Math.sqrt(this.x * this.x + this.y * this.y);
-                }
-            }
-        ]);
+        var _proto = Point.prototype;
+        // Instance member
+        _proto.getDist = function getDist() {
+            return Math.sqrt(this.x * this.x + this.y * this.y);
+        };
         return Point;
     }();
     // Static member

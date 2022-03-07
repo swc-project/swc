@@ -2,51 +2,43 @@
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), exports.default = void 0;
-var c = require("@swc/helpers"), e = require("react/jsx-runtime"), d = c.interopRequireWildcard(require("react")), a = c.interopRequireDefault(require("prop-types")), b = function(d) {
+var c = require("@swc/helpers"), e = require("react/jsx-runtime"), d = c.interopRequireWildcard(require("react")), a = c.interopRequireDefault(require("prop-types")), b = function(f) {
     "use strict";
-    c.inherits(b, d);
-    var f = c.createSuper(b);
+    c.inherits(b, f);
+    var g = c.createSuper(b);
     function b() {
         var a;
-        return c.classCallCheck(this, b), a = f.apply(this, arguments), a.storeHighlightedItemReference = function(b) {
+        return c.classCallCheck(this, b), a = g.apply(this, arguments), a.storeHighlightedItemReference = function(b) {
             a.props.onHighlightedItemChange(null === b ? null : b.item);
         }, a;
     }
-    return c.createClass(b, [
-        {
-            key: "shouldComponentUpdate",
-            value: function(a) {
-                return !0;
-            }
-        },
-        {
-            key: "render",
-            value: function() {
-                var j = this, a = this.props, f = a.items, g = a.itemProps, k = a.renderItem, l = a.renderItemData, b = a.sectionIndex, m = a.highlightedItemIndex, n = a.getItemId, h = a.theme, d = a.keyPrefix, i = null === b ? d : "".concat(d, "section-").concat(b, "-"), o = "function" == typeof g;
-                return e.jsx("ul", c.objectSpread({
-                    role: "listbox"
-                }, h("".concat(i, "items-list"), "itemsList"), {
-                    children: f.map(function(p, a) {
-                        var d = a === m, q = "".concat(i, "item-").concat(a), r = o ? g({
-                            sectionIndex: b,
-                            itemIndex: a
-                        }) : g, f = c.objectSpread({
-                            id: n(b, a),
-                            "aria-selected": d
-                        }, h(q, "item", 0 === a && "itemFirst", d && "itemHighlighted"), r);
-                        return d && (f.ref = j.storeHighlightedItemReference), e.jsx(Item, c.objectSpread({}, f, {
-                            sectionIndex: b,
-                            isHighlighted: d,
-                            itemIndex: a,
-                            item: p,
-                            renderItem: k,
-                            renderItemData: l
-                        }));
-                    })
+    var d = b.prototype;
+    return d.shouldComponentUpdate = function(a) {
+        return !0;
+    }, d.render = function() {
+        var j = this, a = this.props, f = a.items, g = a.itemProps, k = a.renderItem, l = a.renderItemData, b = a.sectionIndex, m = a.highlightedItemIndex, n = a.getItemId, h = a.theme, d = a.keyPrefix, i = null === b ? d : "".concat(d, "section-").concat(b, "-"), o = "function" == typeof g;
+        return e.jsx("ul", c.objectSpread({
+            role: "listbox"
+        }, h("".concat(i, "items-list"), "itemsList"), {
+            children: f.map(function(p, a) {
+                var d = a === m, q = "".concat(i, "item-").concat(a), r = o ? g({
+                    sectionIndex: b,
+                    itemIndex: a
+                }) : g, f = c.objectSpread({
+                    id: n(b, a),
+                    "aria-selected": d
+                }, h(q, "item", 0 === a && "itemFirst", d && "itemHighlighted"), r);
+                return d && (f.ref = j.storeHighlightedItemReference), e.jsx(Item, c.objectSpread({}, f, {
+                    sectionIndex: b,
+                    isHighlighted: d,
+                    itemIndex: a,
+                    item: p,
+                    renderItem: k,
+                    renderItemData: l
                 }));
-            }
-        }
-    ]), b;
+            })
+        }));
+    }, b;
 }(d.Component);
 exports.default = b, b.propTypes = {
     items: a.default.array.isRequired,

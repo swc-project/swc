@@ -12,23 +12,16 @@ var SymbolIterator = /*#__PURE__*/ function() {
     function SymbolIterator() {
         swcHelpers.classCallCheck(this, SymbolIterator);
     }
-    swcHelpers.createClass(SymbolIterator, [
-        {
-            key: "next",
-            value: function next() {
-                return {
-                    value: Symbol(),
-                    done: false
-                };
-            }
-        },
-        {
-            key: _iterator,
-            value: function value() {
-                return this;
-            }
-        }
-    ]);
+    var _proto = SymbolIterator.prototype;
+    _proto.next = function next() {
+        return {
+            value: Symbol(),
+            done: false
+        };
+    };
+    _proto[_iterator] = function() {
+        return this;
+    };
     return SymbolIterator;
 }();
 var _iterator1 = Symbol.iterator;
@@ -37,23 +30,16 @@ var _StringIterator = /*#__PURE__*/ function() {
     function _StringIterator() {
         swcHelpers.classCallCheck(this, _StringIterator);
     }
-    swcHelpers.createClass(_StringIterator, [
-        {
-            key: "next",
-            value: function next() {
-                return {
-                    value: "",
-                    done: false
-                };
-            }
-        },
-        {
-            key: _iterator1,
-            value: function value() {
-                return this;
-            }
-        }
-    ]);
+    var _proto = _StringIterator.prototype;
+    _proto.next = function next() {
+        return {
+            value: "",
+            done: false
+        };
+    };
+    _proto[_iterator1] = function() {
+        return this;
+    };
     return _StringIterator;
 }();
 swcHelpers.construct(Foo, swcHelpers.toConsumableArray(swcHelpers.toConsumableArray(new SymbolIterator).concat(swcHelpers.toConsumableArray(swcHelpers.toConsumableArray(new _StringIterator)))));

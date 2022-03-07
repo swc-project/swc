@@ -20,14 +20,9 @@ var D = function() {
     function D() {
         swcHelpers.classCallCheck(this, D);
     }
-    return swcHelpers.createClass(D, [
-        {
-            key: "method1",
-            value: function(p1) {
-                return !0;
-            }
-        }
-    ]), D;
+    return D.prototype.method1 = function(p1) {
+        return !0;
+    }, D;
 }();
 f2(function(p1) {
     return !0;

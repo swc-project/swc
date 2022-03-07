@@ -21,7 +21,7 @@ import * as swcHelpers from "@swc/helpers";
         return D;
     }(C21);
     new D(), new D(1), new D("");
-}(NonGeneric || (NonGeneric = {})), (function(Generics) {
+}(NonGeneric || (NonGeneric = {})), function(Generics) {
     var C = function(x) {
         "use strict";
         swcHelpers.classCallCheck(this, C);
@@ -42,4 +42,4 @@ import * as swcHelpers from "@swc/helpers";
         return D;
     }(C22);
     new D(), new D(1), new D("");
-})(Generics || (Generics = {}));
+}(Generics || (Generics = {}));

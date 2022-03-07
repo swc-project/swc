@@ -18,14 +18,10 @@ var B = /*#__PURE__*/ function() {
     function B() {
         swcHelpers.classCallCheck(this, B);
     }
-    swcHelpers.createClass(B, [
-        {
-            key: "test",
-            value: function test(x) {
-                swcHelpers.classStaticPrivateFieldSpecGet(x, B, _foo1); // error (#foo is a static property on B, not an instance property)
-            }
-        }
-    ]);
+    var _proto = B.prototype;
+    _proto.test = function test(x) {
+        swcHelpers.classStaticPrivateFieldSpecGet(x, B, _foo1); // error (#foo is a static property on B, not an instance property)
+    };
     return B;
 }();
 var _foo1 = {

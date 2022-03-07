@@ -4,14 +4,6 @@ var _iterator = Symbol.iterator, _iterator1 = Symbol.iterator, C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: _iterator,
-            value: function(x) {}
-        },
-        {
-            key: _iterator1,
-            value: function(x) {}
-        }
-    ]), C;
+    var _proto = C.prototype;
+    return _proto[_iterator] = function(x) {}, _proto[_iterator1] = function(x) {}, C;
 }();
