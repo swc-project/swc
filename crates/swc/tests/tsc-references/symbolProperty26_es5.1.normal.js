@@ -6,14 +6,10 @@ var C1 = //@target: ES6
     function C1() {
         swcHelpers.classCallCheck(this, C1);
     }
-    swcHelpers.createClass(C1, [
-        {
-            key: _toStringTag,
-            value: function value() {
-                return "";
-            }
-        }
-    ]);
+    var _proto = C1.prototype;
+    _proto[_toStringTag] = function() {
+        return "";
+    };
     return C1;
 }();
 var _toStringTag1 = Symbol.toStringTag;
@@ -25,13 +21,9 @@ var C2 = /*#__PURE__*/ function(C1) {
         swcHelpers.classCallCheck(this, C2);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(C2, [
-        {
-            key: _toStringTag1,
-            value: function value() {
-                return "";
-            }
-        }
-    ]);
+    var _proto = C2.prototype;
+    _proto[_toStringTag1] = function() {
+        return "";
+    };
     return C2;
 }(C1);

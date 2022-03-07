@@ -256,7 +256,7 @@ function someGenerics9(strs, a, b, c) {
 }
 !function(strs, n) {}(_templateObject(), function(n) {
     return n;
-}), (function(strs, n) {})(_templateObject1(), function(n, x) {
+}), function(strs, n) {}(_templateObject1(), function(n, x) {
     return n;
 }), someGenerics3(_templateObject2(), function() {
     return "";

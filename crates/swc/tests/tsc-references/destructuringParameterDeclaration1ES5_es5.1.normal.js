@@ -194,22 +194,12 @@ var C2 = /*#__PURE__*/ function() {
     function C2() {
         swcHelpers.classCallCheck(this, C2);
     }
-    swcHelpers.createClass(C2, [
-        {
-            key: "d3",
-            value: function d3() {}
-        },
-        {
-            key: "d4",
-            value: function d4() {}
-        },
-        {
-            key: "e0",
-            value: function e0(param) {
-                var _param = swcHelpers.slicedToArray(param, 3), a = _param[0], b = _param[1], c = _param[2];
-            }
-        }
-    ]);
+    var _proto = C2.prototype;
+    _proto.d3 = function d3() {};
+    _proto.d4 = function d4() {};
+    _proto.e0 = function e0(param) {
+        var _param = swcHelpers.slicedToArray(param, 3), a = _param[0], b = _param[1], c = _param[2];
+    };
     return C2;
 }();
 var C3 = /*#__PURE__*/ function() {
@@ -217,26 +207,16 @@ var C3 = /*#__PURE__*/ function() {
     function C3() {
         swcHelpers.classCallCheck(this, C3);
     }
-    swcHelpers.createClass(C3, [
-        {
-            key: "d3",
-            value: function d3(param) {
-                var _param = swcHelpers.slicedToArray(param, 3), a = _param[0], b = _param[1], c = _param[2];
-            }
-        },
-        {
-            key: "d4",
-            value: function d4(param) {
-                var x = param.x, y = param.y, z = param.z;
-            }
-        },
-        {
-            key: "e0",
-            value: function e0(param) {
-                var _param = swcHelpers.slicedToArray(param, 3), a = _param[0], b = _param[1], c = _param[2];
-            }
-        }
-    ]);
+    var _proto = C3.prototype;
+    _proto.d3 = function d3(param) {
+        var _param = swcHelpers.slicedToArray(param, 3), a = _param[0], b = _param[1], c = _param[2];
+    };
+    _proto.d4 = function d4(param) {
+        var x = param.x, y = param.y, z = param.z;
+    };
+    _proto.e0 = function e0(param) {
+        var _param = swcHelpers.slicedToArray(param, 3), a = _param[0], b = _param[1], c = _param[2];
+    };
     return C3;
 }();
 function d5() {

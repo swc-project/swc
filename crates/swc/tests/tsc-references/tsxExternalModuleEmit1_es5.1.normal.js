@@ -11,14 +11,10 @@ export var App = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, App);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(App, [
-        {
-            key: "render",
-            value: function render() {
-                return(/*#__PURE__*/ React.createElement(Button, null));
-            }
-        }
-    ]);
+    var _proto = App.prototype;
+    _proto.render = function render() {
+        return(/*#__PURE__*/ React.createElement(Button, null));
+    };
     return App;
 }(React.Component);
 export var Button = /*#__PURE__*/ function(_Component) {
@@ -29,13 +25,9 @@ export var Button = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, Button);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(Button, [
-        {
-            key: "render",
-            value: function render() {
-                return(/*#__PURE__*/ React.createElement("button", null, "Some button"));
-            }
-        }
-    ]);
+    var _proto = Button.prototype;
+    _proto.render = function render() {
+        return(/*#__PURE__*/ React.createElement("button", null, "Some button"));
+    };
     return Button;
 }(React.Component);

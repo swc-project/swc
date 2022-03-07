@@ -264,11 +264,11 @@
                         var p1, p2, p12, m1, m2, m12, vet = [
                             0
                         ], max = (1 << bitsPerPixel1) - 1;
-                        hist1 = (function(imageWrapper, bitsPerPixel) {
+                        hist1 = function(imageWrapper, bitsPerPixel) {
                             bitsPerPixel || (bitsPerPixel = 8);
                             for(var imageData = imageWrapper.data, length = imageData.length, bitShift = 8 - bitsPerPixel, hist = new Int32Array(1 << bitsPerPixel); length--;)hist[imageData[length] >> bitShift]++;
                             return hist;
-                        })(imageWrapper2, bitsPerPixel1);
+                        }(imageWrapper2, bitsPerPixel1);
                         for(var k = 1; k < max; k++)p1 = px(0, k), p2 = px(k + 1, max), p12 = p1 * p2, 0 === p12 && (p12 = 1), m1 = mx(0, k) * p2, m2 = mx(k + 1, max) * p1, m12 = m1 - m2, vet[k] = m12 * m12 / p12;
                         return array_helper.a.maxIndex(vet);
                     })() << 8 - bitsPerPixel1;
@@ -837,7 +837,7 @@
                     if (moments1.length >= 2) {
                         for(k = 0; k < moments1.length; k++)moments1[k].m00 > minComponentWeight && eligibleMoments.push(moments1[k]);
                         if (eligibleMoments.length >= 2) {
-                            for(k = 0, matchingMoments = (function(moments) {
+                            for(k = 0, matchingMoments = function(moments) {
                                 var clusters = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.b)(moments, 0.9), topCluster = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.j)(clusters, 1, function(e) {
                                     return e.getPoints().length;
                                 }), points = [], result = [];
@@ -846,7 +846,7 @@
                                     for(var i = 0; i < points.length; i++)result.push(points[i].point);
                                 }
                                 return result;
-                            })(eligibleMoments), avg = 0; k < matchingMoments.length; k++)avg += matchingMoments[k].rad;
+                            }(eligibleMoments), avg = 0; k < matchingMoments.length; k++)avg += matchingMoments[k].rad;
                             matchingMoments.length > 1 && matchingMoments.length >= eligibleMoments.length / 4 * 3 && matchingMoments.length > moments1.length / 4 && (avg /= matchingMoments.length, patch = {
                                 index: patchPos[1] * _numPatches.x + patchPos[0],
                                 pos: {
@@ -965,7 +965,7 @@
                                 return el.val >= 5;
                             });
                         }(maxLabel1);
-                        return 0 === topLabels1.length ? null : (function(topLabels, maxLabel) {
+                        return 0 === topLabels1.length ? null : function(topLabels, maxLabel) {
                             var i, j, sum, patch, box, patches = [], boxes = [], hsv = [
                                 0,
                                 1,
@@ -983,7 +983,7 @@
                                 });
                             }
                             return boxes;
-                        })(topLabels1, maxLabel1);
+                        }(topLabels1, maxLabel1);
                     },
                     checkImageConstraints: function(inputStream, config) {
                         var patchSize, area, width = inputStream.getWidth(), height = inputStream.getHeight(), thisHalfSample = config.halfSample ? 0.5 : 1;
@@ -5477,10 +5477,10 @@
                                 sum *= 3;
                                 for(var _i = length - 1; _i >= 0; _i -= 2)sum += result[_i];
                                 return (sum *= 3) % 10;
-                            })(result1) !== (function(codeFrequency) {
+                            })(result1) !== function(codeFrequency) {
                                 for(var i = 0; i < 10; i++)if (codeFrequency === CHECK_DIGIT_ENCODINGS[i]) return i;
                                 return null;
-                            })(codeFrequency1)) return null;
+                            }(codeFrequency1)) return null;
                             var startInfo = this._findStart();
                             return {
                                 code: result1.join(""),
@@ -6503,7 +6503,7 @@
                                 y: (box1[3][1] - box1[2][1]) / 2 + box1[2][1]
                             }
                         ])[1].y - line1[0].y), 2) + Math.pow(Math.abs(line1[1].x - line1[0].x), 2)), lineAngle1 = Math.atan2(line2[1].y - line2[0].y, line2[1].x - line2[0].x);
-                        return null === (line2 = (function(line, angle, ext) {
+                        return null === (line2 = function(line, angle, ext) {
                             function extendLine(amount) {
                                 var extension = {
                                     y: amount * Math.sin(angle),
@@ -6513,14 +6513,14 @@
                             }
                             for(extendLine(ext); ext > 1 && (!inputImageWrapper1.inImageWithBorder(line[0]) || !inputImageWrapper1.inImageWithBorder(line[1]));)extendLine(-(ext -= Math.ceil(ext / 2)));
                             return line;
-                        })(line2, lineAngle1, Math.floor(0.1 * lineLength))) ? null : (null === (result2 = tryDecode(line2)) && (result2 = (function(box, line, lineAngle) {
+                        }(line2, lineAngle1, Math.floor(0.1 * lineLength))) ? null : (null === (result2 = tryDecode(line2)) && (result2 = function(box, line, lineAngle) {
                             var i, dir, extension, sideLength = Math.sqrt(Math.pow(box[1][0] - box[0][0], 2) + Math.pow(box[1][1] - box[0][1], 2)), result = null, xdir = Math.sin(lineAngle), ydir = Math.cos(lineAngle);
                             for(i = 1; i < 16 && null === result; i++)extension = {
                                 y: (dir = sideLength / 16 * i * (i % 2 == 0 ? -1 : 1)) * xdir,
                                 x: dir * ydir
                             }, line[0].y += extension.x, line[0].x -= extension.y, line[1].y += extension.x, line[1].x -= extension.y, result = tryDecode(line);
                             return result;
-                        })(box2, line2, lineAngle1)), null === result2) ? null : (result2 && config.debug.drawScanline && ctx && image_debug.a.drawPath(line2, {
+                        }(box2, line2, lineAngle1)), null === result2) ? null : (result2 && config.debug.drawScanline && ctx && image_debug.a.drawPath(line2, {
                             x: "x",
                             y: "y"
                         }, ctx, {
@@ -6539,7 +6539,7 @@
                             var $debug = document.querySelector("#debug.detection");
                             _canvas.dom.frequency = document.querySelector("canvas.frequency"), !_canvas.dom.frequency && (_canvas.dom.frequency = document.createElement("canvas"), _canvas.dom.frequency.className = "frequency", $debug && $debug.appendChild(_canvas.dom.frequency)), _canvas.ctx.frequency = _canvas.dom.frequency.getContext("2d"), _canvas.dom.pattern = document.querySelector("canvas.patternBuffer"), !_canvas.dom.pattern && (_canvas.dom.pattern = document.createElement("canvas"), _canvas.dom.pattern.className = "patternBuffer", $debug && $debug.appendChild(_canvas.dom.pattern)), _canvas.ctx.pattern = _canvas.dom.pattern.getContext("2d"), _canvas.dom.overlay = document.querySelector("canvas.drawingBuffer"), _canvas.dom.overlay && (_canvas.ctx.overlay = _canvas.dom.overlay.getContext("2d"));
                         }
-                    })(), initReaders(), (function() {
+                    })(), initReaders(), function() {
                         if ("undefined" != typeof document) {
                             var i, vis = [
                                 {
@@ -6553,7 +6553,7 @@
                             ];
                             for(i = 0; i < vis.length; i++)!0 === vis[i].prop ? vis[i].node.style.display = "block" : vis[i].node.style.display = "none";
                         }
-                    })(), {
+                    }(), {
                         decodeFromBoundingBox: function(box) {
                             return _decodeFromBoundingBox(box);
                         },

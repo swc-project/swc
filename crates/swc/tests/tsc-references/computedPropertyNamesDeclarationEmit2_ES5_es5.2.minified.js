@@ -4,11 +4,7 @@ var C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, null, [
-        {
-            key: "",
-            value: function() {}
-        },
+    return C[""] = function() {}, swcHelpers.createClass(C, null, [
         {
             key: "",
             get: function() {

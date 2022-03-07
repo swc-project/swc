@@ -11,21 +11,17 @@ var C = // @strict: true
             value: 1
         });
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "method",
-            value: function method(other) {
-                var obj = swcHelpers.objectSpread({}, other);
-                swcHelpers.classPrivateFieldGet(obj, _prop);
-                var rest = swcHelpers.extends({}, other);
-                swcHelpers.classPrivateFieldGet(rest, _prop);
-                var statics = swcHelpers.objectSpread({}, C);
-                swcHelpers.classStaticPrivateFieldSpecGet(statics, C, _propStatic);
-                var sRest = swcHelpers.extends({}, C);
-                swcHelpers.classStaticPrivateFieldSpecGet(sRest, C, _propStatic);
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.method = function method(other) {
+        var obj = swcHelpers.objectSpread({}, other);
+        swcHelpers.classPrivateFieldGet(obj, _prop);
+        var rest = swcHelpers.extends({}, other);
+        swcHelpers.classPrivateFieldGet(rest, _prop);
+        var statics = swcHelpers.objectSpread({}, C);
+        swcHelpers.classStaticPrivateFieldSpecGet(statics, C, _propStatic);
+        var sRest = swcHelpers.extends({}, C);
+        swcHelpers.classStaticPrivateFieldSpecGet(sRest, C, _propStatic);
+    };
     return C;
 }();
 var _propStatic = {

@@ -3,10 +3,10 @@ import * as swcHelpers from "@swc/helpers";
 (A || (A = {})).Point = {
     x: 0,
     y: 0
-}, (function(X1) {
+}, function(X1) {
     var Y = function() {
         "use strict";
         swcHelpers.classCallCheck(this, Y);
     };
     X1.Y = Y;
-})(X || (X = {}));
+}(X || (X = {}));

@@ -4,21 +4,13 @@ var Base = /*#__PURE__*/ function() {
     function Base() {
         swcHelpers.classCallCheck(this, Base);
     }
-    swcHelpers.createClass(Base, [
-        {
-            key: "foo",
-            value: function foo() {
-                return 1;
-            }
-        }
-    ], [
-        {
-            key: "create",
-            value: function create() {
-                return new this();
-            }
-        }
-    ]);
+    var _proto = Base.prototype;
+    _proto.foo = function foo() {
+        return 1;
+    };
+    Base.create = function create() {
+        return new this();
+    };
     return Base;
 }();
 var Derived = /*#__PURE__*/ function(Base) {
@@ -29,14 +21,10 @@ var Derived = /*#__PURE__*/ function(Base) {
         swcHelpers.classCallCheck(this, Derived);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(Derived, [
-        {
-            key: "foo",
-            value: function foo() {
-                return 2;
-            }
-        }
-    ]);
+    var _proto = Derived.prototype;
+    _proto.foo = function foo() {
+        return 2;
+    };
     return Derived;
 }(Base);
 var d = Derived.create();

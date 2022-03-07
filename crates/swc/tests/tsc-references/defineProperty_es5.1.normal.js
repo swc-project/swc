@@ -13,12 +13,8 @@ var A = /*#__PURE__*/ function() {
         this[_x] = 14;
         this.z = this.y;
     }
-    swcHelpers.createClass(A, [
-        {
-            key: "m",
-            value: function m() {}
-        }
-    ]);
+    var _proto = A.prototype;
+    _proto.m = function m() {};
     return A;
 }();
 var B = function B() {

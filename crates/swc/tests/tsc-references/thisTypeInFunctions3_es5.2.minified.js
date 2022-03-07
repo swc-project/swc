@@ -6,12 +6,7 @@ var Test = function(Base) {
     function Test() {
         return swcHelpers.classCallCheck(this, Test), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(Test, [
-        {
-            key: "m",
-            value: function() {
-                this.check(this);
-            }
-        }
-    ]), Test;
+    return Test.prototype.m = function() {
+        this.check(this);
+    }, Test;
 }(Base);

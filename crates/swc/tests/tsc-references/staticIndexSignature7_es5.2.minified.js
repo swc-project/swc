@@ -9,10 +9,5 @@ var Y = function() {
     function Y() {
         swcHelpers.classCallCheck(this, Y);
     }
-    return swcHelpers.createClass(Y, null, [
-        {
-            key: "foo",
-            value: function() {}
-        }
-    ]), Y;
+    return Y.foo = function() {}, Y;
 }();

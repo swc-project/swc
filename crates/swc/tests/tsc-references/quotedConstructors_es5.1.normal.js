@@ -14,14 +14,10 @@ var E = /*#__PURE__*/ function() {
     function E() {
         swcHelpers.classCallCheck(this, E);
     }
-    swcHelpers.createClass(E, [
-        {
-            key: 'constructor',
-            value: function value() {
-                console.log(this);
-            }
-        }
-    ]);
+    var _proto = E.prototype;
+    _proto['constructor'] = function() {
+        console.log(this);
+    };
     return E;
 }();
 new function _class() {

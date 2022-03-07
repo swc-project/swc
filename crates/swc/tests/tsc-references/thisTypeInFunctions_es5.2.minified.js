@@ -7,32 +7,16 @@ var explicitCFunction, explicitPropertyFunction, _this = this, B = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "explicitThis",
-            value: function(m) {
-                return this.n + m;
-            }
-        },
-        {
-            key: "explicitC",
-            value: function(m) {
-                return this.n + m;
-            }
-        },
-        {
-            key: "explicitProperty",
-            value: function(m) {
-                return this.n + m;
-            }
-        },
-        {
-            key: "explicitVoid",
-            value: function(m) {
-                return m + 1;
-            }
-        }
-    ]), C;
+    var _proto = C.prototype;
+    return _proto.explicitThis = function(m) {
+        return this.n + m;
+    }, _proto.explicitC = function(m) {
+        return this.n + m;
+    }, _proto.explicitProperty = function(m) {
+        return this.n + m;
+    }, _proto.explicitVoid = function(m) {
+        return m + 1;
+    }, C;
 }(), D = function(C) {
     "use strict";
     swcHelpers.inherits(D, C);
@@ -131,27 +115,14 @@ var Base1 = function() {
     function Base1() {
         swcHelpers.classCallCheck(this, Base1);
     }
-    return swcHelpers.createClass(Base1, [
-        {
-            key: "polymorphic",
-            value: function() {
-                return this.x;
-            }
-        },
-        {
-            key: "explicit",
-            value: function() {
-                return this.x;
-            }
-        }
-    ], [
-        {
-            key: "explicitStatic",
-            value: function() {
-                return this.y;
-            }
-        }
-    ]), Base1;
+    var _proto = Base1.prototype;
+    return _proto.polymorphic = function() {
+        return this.x;
+    }, _proto.explicit = function() {
+        return this.x;
+    }, Base1.explicitStatic = function() {
+        return this.y;
+    }, Base1;
 }(), Derived1 = function(Base1) {
     "use strict";
     swcHelpers.inherits(Derived1, Base1);
@@ -165,20 +136,12 @@ var Base1 = function() {
     function Base2() {
         swcHelpers.classCallCheck(this, Base2);
     }
-    return swcHelpers.createClass(Base2, [
-        {
-            key: "polymorphic",
-            value: function() {
-                return this.y;
-            }
-        },
-        {
-            key: "explicit",
-            value: function() {
-                return this.x;
-            }
-        }
-    ]), Base2;
+    var _proto = Base2.prototype;
+    return _proto.polymorphic = function() {
+        return this.y;
+    }, _proto.explicit = function() {
+        return this.x;
+    }, Base2;
 }(), Derived2 = function(Base2) {
     "use strict";
     swcHelpers.inherits(Derived2, Base2);

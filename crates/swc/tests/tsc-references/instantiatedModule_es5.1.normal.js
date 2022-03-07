@@ -21,17 +21,12 @@ var M2;
         function Point() {
             swcHelpers.classCallCheck(this, Point);
         }
-        swcHelpers.createClass(Point, null, [
-            {
-                key: "Origin",
-                value: function Origin() {
-                    return {
-                        x: 0,
-                        y: 0
-                    };
-                }
-            }
-        ]);
+        Point.Origin = function Origin() {
+            return {
+                x: 0,
+                y: 0
+            };
+        };
         return Point;
     }();
     M21.Point = Point;

@@ -4,12 +4,7 @@ var A = function() {
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    return swcHelpers.createClass(A, [
-        {
-            key: "m",
-            value: function() {}
-        }
-    ]), A;
+    return A.prototype.m = function() {}, A;
 }(), B = function(A) {
     "use strict";
     swcHelpers.inherits(B, A);

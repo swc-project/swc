@@ -19,14 +19,10 @@ var C = /*#__PURE__*/ function(_TreeElement) {
         swcHelpers.classCallCheck(this, C);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "onpopulate",
-            value: function onpopulate() {
-                this.doesNotExist;
-                this.treeOutline.doesntExistEither();
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.onpopulate = function onpopulate() {
+        this.doesNotExist;
+        this.treeOutline.doesntExistEither();
+    };
     return C;
 }(UI.TreeElement);

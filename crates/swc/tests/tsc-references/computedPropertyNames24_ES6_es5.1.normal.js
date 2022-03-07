@@ -5,14 +5,10 @@ var Base = // @target: es6
     function Base() {
         swcHelpers.classCallCheck(this, Base);
     }
-    swcHelpers.createClass(Base, [
-        {
-            key: "bar",
-            value: function bar() {
-                return 0;
-            }
-        }
-    ]);
+    var _proto = Base.prototype;
+    _proto.bar = function bar() {
+        return 0;
+    };
     return Base;
 }();
 var tmp = super.bar();
@@ -24,13 +20,9 @@ var C = /*#__PURE__*/ function(Base) {
         swcHelpers.classCallCheck(this, C);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(C, [
-        {
-            // Gets emitted as super, not _super, which is consistent with
-            // use of super in static properties initializers.
-            key: tmp,
-            value: function value() {}
-        }
-    ]);
+    var _proto = C.prototype;
+    // Gets emitted as super, not _super, which is consistent with
+    // use of super in static properties initializers.
+    _proto[tmp] = function() {};
     return C;
 }(Base);

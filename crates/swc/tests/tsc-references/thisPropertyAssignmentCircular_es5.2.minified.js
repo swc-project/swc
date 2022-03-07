@@ -4,18 +4,10 @@ export var Foo = function() {
     function Foo() {
         swcHelpers.classCallCheck(this, Foo), this.foo = "Hello";
     }
-    return swcHelpers.createClass(Foo, [
-        {
-            key: "slicey",
-            value: function() {
-                this.foo = this.foo.slice();
-            }
-        },
-        {
-            key: "m",
-            value: function() {
-                this.foo;
-            }
-        }
-    ]), Foo;
+    var _proto = Foo.prototype;
+    return _proto.slicey = function() {
+        this.foo = this.foo.slice();
+    }, _proto.m = function() {
+        this.foo;
+    }, Foo;
 }();

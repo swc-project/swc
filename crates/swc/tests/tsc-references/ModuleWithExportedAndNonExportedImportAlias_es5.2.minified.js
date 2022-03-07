@@ -6,7 +6,7 @@ import * as swcHelpers from "@swc/helpers";
         swcHelpers.classCallCheck(this, Line), this.start = start, this.end = end;
     };
     B1.Line = Line;
-}(B || (B = {})), (function(Geometry1) {
+}(B || (B = {})), function(Geometry1) {
     Geometry1.Points = A;
     var Lines = B, Origin = Geometry1.Origin = {
         x: 0,
@@ -16,4 +16,4 @@ import * as swcHelpers from "@swc/helpers";
         x: 1,
         y: 0
     });
-})(Geometry || (Geometry = {})), Geometry.Origin, Geometry.Unit, Geometry.Lines.Line;
+}(Geometry || (Geometry = {})), Geometry.Origin, Geometry.Unit, Geometry.Lines.Line;

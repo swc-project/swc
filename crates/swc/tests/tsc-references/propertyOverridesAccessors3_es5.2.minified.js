@@ -4,7 +4,9 @@ var Animal = function() {
     function Animal() {
         swcHelpers.classCallCheck(this, Animal), this._sound = "rustling noise in the bushes";
     }
-    return swcHelpers.createClass(Animal, [
+    return Animal.prototype.makeSound = function() {
+        console.log(this._sound);
+    }, swcHelpers.createClass(Animal, [
         {
             key: "sound",
             get: function() {
@@ -12,12 +14,6 @@ var Animal = function() {
             },
             set: function(val) {
                 this._sound = val;
-            }
-        },
-        {
-            key: "makeSound",
-            value: function() {
-                console.log(this._sound);
             }
         }
     ]), Animal;

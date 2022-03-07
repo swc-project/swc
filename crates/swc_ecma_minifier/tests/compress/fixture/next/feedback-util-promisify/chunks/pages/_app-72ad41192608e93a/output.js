@@ -395,7 +395,7 @@
                         }
                         r3.Buffer = Buffer, r3.SlowBuffer = function(e) {
                             return +e != e && (e = 0), Buffer.alloc(+e);
-                        }, r3.INSPECT_MAX_BYTES = 50, r3.kMaxLength = 2147483647, Buffer.TYPED_ARRAY_SUPPORT = (function() {
+                        }, r3.INSPECT_MAX_BYTES = 50, r3.kMaxLength = 2147483647, Buffer.TYPED_ARRAY_SUPPORT = function() {
                             try {
                                 var e = new Uint8Array(1), r = {
                                     foo: function() {
@@ -406,7 +406,7 @@
                             } catch (e) {
                                 return !1;
                             }
-                        })(), Buffer.TYPED_ARRAY_SUPPORT || "undefined" == typeof console || "function" != typeof console.error || console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."), Object.defineProperty(Buffer.prototype, "parent", {
+                        }(), Buffer.TYPED_ARRAY_SUPPORT || "undefined" == typeof console || "function" != typeof console.error || console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."), Object.defineProperty(Buffer.prototype, "parent", {
                             enumerable: !0,
                             get: function() {
                                 if (Buffer.isBuffer(this)) return this.buffer;
@@ -846,7 +846,7 @@
                                     for(u = i, i = []; ++a < t;)u && u[a].run();
                                     a = -1, t = i.length;
                                 }
-                                u = null, o = !1, (function(e) {
+                                u = null, o = !1, function(e) {
                                     if (n === clearTimeout) return clearTimeout(e);
                                     if ((n === defaultClearTimeout || !n) && clearTimeout) return n = clearTimeout, clearTimeout(e);
                                     try {
@@ -858,7 +858,7 @@
                                             return n.call(this, e);
                                         }
                                     }
-                                })(e11);
+                                }(e11);
                             }
                         }
                         function Item(e, t) {

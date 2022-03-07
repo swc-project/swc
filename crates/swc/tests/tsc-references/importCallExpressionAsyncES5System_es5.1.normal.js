@@ -31,29 +31,25 @@ export var cl1 = /*#__PURE__*/ function() {
     function cl1() {
         swcHelpers.classCallCheck(this, cl1);
     }
-    swcHelpers.createClass(cl1, [
-        {
-            key: "m",
-            value: function m() {
-                return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                    var req;
-                    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                        while(1)switch(_ctx.prev = _ctx.next){
-                            case 0:
-                                _ctx.next = 2;
-                                return import('./test') // TWO
-                                ;
-                            case 2:
-                                req = _ctx.sent;
-                            case 3:
-                            case "end":
-                                return _ctx.stop();
-                        }
-                    }, _callee);
-                }))();
-            }
-        }
-    ]);
+    var _proto = cl1.prototype;
+    _proto.m = function m() {
+        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            var req;
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        _ctx.next = 2;
+                        return import('./test') // TWO
+                        ;
+                    case 2:
+                        req = _ctx.sent;
+                    case 3:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
+    };
     return cl1;
 }();
 export var obj = {

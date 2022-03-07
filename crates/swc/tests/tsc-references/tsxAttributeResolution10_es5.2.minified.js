@@ -4,12 +4,7 @@ export var MyComponent = function() {
     function MyComponent() {
         swcHelpers.classCallCheck(this, MyComponent);
     }
-    return swcHelpers.createClass(MyComponent, [
-        {
-            key: "render",
-            value: function() {}
-        }
-    ]), MyComponent;
+    return MyComponent.prototype.render = function() {}, MyComponent;
 }();
 React.createElement(MyComponent, {
     bar: "world"

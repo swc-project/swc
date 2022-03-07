@@ -4,12 +4,7 @@ new (function() {
     function _class() {
         swcHelpers.classCallCheck(this, _class);
     }
-    return swcHelpers.createClass(_class, [
-        {
-            key: "hi",
-            value: function() {
-                return "Hi!";
-            }
-        }
-    ]), _class;
+    return _class.prototype.hi = function() {
+        return "Hi!";
+    }, _class;
 }())().hi();

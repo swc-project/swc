@@ -358,10 +358,8 @@ const obj =(
     },
     ref1 = ref.foo,
     foo = ref1 === void 0 ? 123 : ref1,
-    (
-        ref2 = ref.bar,
-        x = ref2 === void 0 ? 123 : ref2
-    ),
+    ref2 = ref.bar,
+    x = ref2 === void 0 ? 123 : ref2,
     ref
 );
 "

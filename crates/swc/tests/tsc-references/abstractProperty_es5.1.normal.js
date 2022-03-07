@@ -6,14 +6,10 @@ var A = // @target: es2015,esnext
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    swcHelpers.createClass(A, [
-        {
-            key: "foo",
-            value: function foo() {
-                console.log(this.x);
-            }
-        }
-    ]);
+    var _proto = A.prototype;
+    _proto.foo = function foo() {
+        console.log(this.x);
+    };
     return A;
 }();
 var B = /*#__PURE__*/ function(A) {

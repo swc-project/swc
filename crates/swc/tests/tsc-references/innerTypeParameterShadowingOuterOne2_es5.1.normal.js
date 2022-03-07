@@ -6,22 +6,15 @@ var C = // inner type parameters shadow outer ones of the same name
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "g",
-            value: function g() {
-                var x;
-                x.toFixed();
-            }
-        },
-        {
-            key: "h",
-            value: function h() {
-                var x;
-                x.getDate();
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.g = function g() {
+        var x;
+        x.toFixed();
+    };
+    _proto.h = function h() {
+        var x;
+        x.getDate();
+    };
     return C;
 }();
 var C2 = /*#__PURE__*/ function() {
@@ -29,22 +22,15 @@ var C2 = /*#__PURE__*/ function() {
     function C2() {
         swcHelpers.classCallCheck(this, C2);
     }
-    swcHelpers.createClass(C2, [
-        {
-            key: "g",
-            value: function g() {
-                var x;
-                x.toFixed();
-            }
-        },
-        {
-            key: "h",
-            value: function h() {
-                var x;
-                x.getDate();
-            }
-        }
-    ]);
+    var _proto = C2.prototype;
+    _proto.g = function g() {
+        var x;
+        x.toFixed();
+    };
+    _proto.h = function h() {
+        var x;
+        x.getDate();
+    };
     return C2;
 } //class C2<T extends Date, U extends T> {
  //    g<T extends Number, U extends T>() {

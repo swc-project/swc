@@ -88,11 +88,11 @@
                         for(var i = 0, arr2 = new Array(arr.length); i < arr.length; i++)arr2[i] = arr[i];
                         return arr2;
                     }
-                })(arr1) || (function(iter) {
+                })(arr1) || function(iter) {
                     if (Symbol.iterator in Object(iter) || "[object Arguments]" === Object.prototype.toString.call(iter)) return Array.from(iter);
-                })(arr1) || (function() {
+                }(arr1) || function() {
                     throw new TypeError("Invalid attempt to spread non-iterable instance");
-                })();
+                }();
             }
             exports.default = function(_param) {
                 var sizerSvg, src2 = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyBoundary = _param.lazyBoundary, lazyBoundary = void 0 === _lazyBoundary ? "200px" : _lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete1 = _param.onLoadingComplete, _loader = _param.loader, loader = void 0 === _loader ? defaultImageLoader : _loader, _placeholder = _param.placeholder, placeholder1 = void 0 === _placeholder ? "empty" : _placeholder, blurDataURL = _param.blurDataURL, all = function(source, excluded) {
@@ -242,7 +242,7 @@
                     "data-nimg": layout,
                     className: className,
                     ref: function(img1) {
-                        setRef(img1), (function(img, src, layout, placeholder, onLoadingComplete) {
+                        setRef(img1), function(img, src, layout, placeholder, onLoadingComplete) {
                             if (img) {
                                 var handleLoad = function() {
                                     img.src !== emptyDataURL && ("decode" in img ? img.decode() : Promise.resolve()).catch(function() {}).then(function() {
@@ -257,7 +257,7 @@
                                 };
                                 img.complete ? handleLoad() : img.onload = handleLoad;
                             }
-                        })(img1, srcString, layout, placeholder1, onLoadingComplete1);
+                        }(img1, srcString, layout, placeholder1, onLoadingComplete1);
                     },
                     style: _objectSpread({}, imgStyle, blurStyle)
                 })), _react.default.createElement("noscript", null, _react.default.createElement("img", Object.assign({}, rest, generateImgAttrs({

@@ -8,14 +8,9 @@ var React = require("react"), obj1 = {
     function OverWriteAttr() {
         return swcHelpers.classCallCheck(this, OverWriteAttr), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(OverWriteAttr, [
-        {
-            key: "render",
-            value: function() {
-                return React.createElement("div", null, "Hello");
-            }
-        }
-    ]), OverWriteAttr;
+    return OverWriteAttr.prototype.render = function() {
+        return React.createElement("div", null, "Hello");
+    }, OverWriteAttr;
 }(React.Component);
 React.createElement(OverWriteAttr, swcHelpers.extends({}, {}, {
     y: !0,

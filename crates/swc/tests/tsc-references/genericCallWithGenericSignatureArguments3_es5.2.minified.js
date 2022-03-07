@@ -25,11 +25,11 @@ foo("", function(x) {
     return "";
 }, function(x) {
     return "";
-}), (function(E) {
+}), function(E) {
     E[E.A = 0] = "A";
-})(E || (E = {})), (function(F) {
+}(E || (E = {})), function(F) {
     F[F.A = 0] = "A";
-})(F || (F = {})), foo(E.A, function(x) {
+}(F || (F = {})), foo(E.A, function(x) {
     return E.A;
 }, function(x) {
     return F.A;

@@ -14,12 +14,8 @@ var A = /*#__PURE__*/ function() {
             value: 100
         });
     }
-    swcHelpers.createClass(A, [
-        {
-            key: tmp,
-            value: function value() {}
-        }
-    ]);
+    var _proto = A.prototype;
+    _proto[tmp] = function() {};
     return A;
 }();
 console.log(getX(new A));

@@ -5,12 +5,8 @@ var C = // subclassing is not transitive when you can remove required parameters
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function foo(x, y) {}
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.foo = function foo(x, y) {};
     return C;
 }();
 var D = /*#__PURE__*/ function(C) {
@@ -21,12 +17,9 @@ var D = /*#__PURE__*/ function(C) {
         swcHelpers.classCallCheck(this, D);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(D, [
-        {
-            key: "foo",
-            value: function foo(x) {} // ok to drop parameters
-        }
-    ]);
+    var _proto = D.prototype;
+    _proto.foo // ok to drop parameters
+     = function foo(x) {};
     return D;
 }(C);
 var E = /*#__PURE__*/ function(D) {
@@ -37,12 +30,9 @@ var E = /*#__PURE__*/ function(D) {
         swcHelpers.classCallCheck(this, E);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(E, [
-        {
-            key: "foo",
-            value: function foo(x, y) {} // ok to add optional parameters
-        }
-    ]);
+    var _proto = E.prototype;
+    _proto.foo // ok to add optional parameters
+     = function foo(x, y) {};
     return E;
 }(D);
 var c;

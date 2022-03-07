@@ -4,14 +4,9 @@ var i, a, A = function() {
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    return swcHelpers.createClass(A, [
-        {
-            key: "foo",
-            value: function() {
-                return "";
-            }
-        }
-    ]), A;
+    return A.prototype.foo = function() {
+        return "";
+    }, A;
 }(), B = function(A) {
     "use strict";
     swcHelpers.inherits(B, A);
@@ -19,28 +14,18 @@ var i, a, A = function() {
     function B() {
         return swcHelpers.classCallCheck(this, B), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(B, [
-        {
-            key: "bar",
-            value: function() {
-                return "";
-            }
-        }
-    ]), B;
+    return B.prototype.bar = function() {
+        return "";
+    }, B;
 }(A), C = function() {
     "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "f",
-            value: function() {
-                var x;
-                return x.foo() + x.foo() + x.notHere();
-            }
-        }
-    ]), C;
+    return C.prototype.f = function() {
+        var x;
+        return x.foo() + x.foo() + x.notHere();
+    }, C;
 }();
 new C().f(), i.foo.notHere(), i.foo.foo(), a().notHere(), a().foo();
 var b = {

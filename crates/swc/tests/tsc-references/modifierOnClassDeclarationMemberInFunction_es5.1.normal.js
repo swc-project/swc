@@ -7,17 +7,9 @@ function f() {
             swcHelpers.classCallCheck(this, C);
             this.baz = 1;
         }
-        swcHelpers.createClass(C, [
-            {
-                key: "bar",
-                value: function bar() {}
-            }
-        ], [
-            {
-                key: "foo",
-                value: function foo() {}
-            }
-        ]);
+        var _proto = C.prototype;
+        _proto.bar = function bar() {};
+        C.foo = function foo() {};
         return C;
     }();
 }

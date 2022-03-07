@@ -6,19 +6,15 @@ var MyClass = // @noImplicitAny: true
     function MyClass() {
         swcHelpers.classCallCheck(this, MyClass);
     }
-    swcHelpers.createClass(MyClass, [
-        {
-            key: "fn",
-            value: function fn() {
-                //type of 'this' in an object literal is the containing scope's this
-                var t = {
-                    x: this,
-                    y: this.t
-                };
-                var t;
-            }
-        }
-    ]);
+    var _proto = MyClass.prototype;
+    _proto.fn = function fn() {
+        //type of 'this' in an object literal is the containing scope's this
+        var t = {
+            x: this,
+            y: this.t
+        };
+        var t;
+    };
     return MyClass;
 }();
 //type of 'this' in an object literal method is the type of the object literal

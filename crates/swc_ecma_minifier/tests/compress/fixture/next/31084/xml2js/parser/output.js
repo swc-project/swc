@@ -17,7 +17,7 @@
         var i, len;
         for(i = 0, len = processors.length; i < len; i++)item = processors[i](item, key);
         return item;
-    }, exports.Parser = (function(superClass) {
+    }, exports.Parser = function(superClass) {
         function Parser(opts) {
             var key, ref, value;
             if (this.parseStringPromise = bind(this.parseStringPromise, this), this.parseString = bind(this.parseString, this), this.reset = bind(this.reset, this), this.assignOrPush = bind(this.assignOrPush, this), this.processAsync = bind(this.processAsync, this), !(this instanceof exports.Parser)) return new exports.Parser(opts);
@@ -62,14 +62,14 @@
                     var i, len, results;
                     for(i = 0, results = [], len = stack.length; i < len; i++)node = stack[i], results.push(node["#name"]);
                     return results;
-                })().concat(nodeName).join("/"), (function() {
+                })().concat(nodeName).join("/"), function() {
                     var err;
                     try {
                         obj = _this3.options.validator(xpath, s && s[nodeName], obj);
                     } catch (error1) {
                         return err = error1, _this3.emit("error", err);
                     }
-                })()), _this3.options.explicitChildren && !_this3.options.mergeAttrs && "object" == typeof obj) if (_this3.options.preserveChildrenOrder) {
+                }()), _this3.options.explicitChildren && !_this3.options.mergeAttrs && "object" == typeof obj) if (_this3.options.preserveChildrenOrder) {
                     if (s) {
                         for(key in s[_this3.options.childkey] = s[_this3.options.childkey] || [], objClone = {}, obj)hasProp.call(obj, key) && (objClone[key] = obj[key]);
                         s[_this3.options.childkey].push(objClone), delete obj["#name"], 1 === Object.keys(obj).length && charkey in obj && !_this3.EXPLICIT_CHARKEY && (obj = obj[charkey]);
@@ -108,7 +108,7 @@
                 });
             }));
         }, Parser;
-    })(events), exports.parseString = function(str, a, b) {
+    }(events), exports.parseString = function(str, a, b) {
         var cb, options;
         return null != b ? ("function" == typeof b && (cb = b), "object" == typeof a && (options = a)) : ("function" == typeof a && (cb = a), options = {}), new exports.Parser(options).parseString(str, cb);
     }, exports.parseStringPromise = function(str, a) {

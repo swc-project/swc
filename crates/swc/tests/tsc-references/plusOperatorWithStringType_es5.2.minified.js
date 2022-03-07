@@ -7,14 +7,9 @@ var STRING, M, A = function() {
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    return swcHelpers.createClass(A, null, [
-        {
-            key: "foo",
-            value: function() {
-                return "";
-            }
-        }
-    ]), A;
+    return A.foo = function() {
+        return "";
+    }, A;
 }();
 !function(M1) {
     var n;

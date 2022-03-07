@@ -29,21 +29,14 @@ var Foo = /*#__PURE__*/ function() {
     function Foo() {
         swcHelpers.classCallCheck(this, Foo);
     }
-    swcHelpers.createClass(Foo, [
-        {
-            key: "bar",
-            value: function bar() {
-                if (this.hasData()) {
-                    this.data.toLocaleLowerCase();
-                }
-            }
-        },
-        {
-            key: "hasData",
-            value: function hasData() {
-                return true;
-            }
+    var _proto = Foo.prototype;
+    _proto.bar = function bar() {
+        if (this.hasData()) {
+            this.data.toLocaleLowerCase();
         }
-    ]);
+    };
+    _proto.hasData = function hasData() {
+        return true;
+    };
     return Foo;
 }();

@@ -8,12 +8,8 @@ var M;
         function C() {
             swcHelpers.classCallCheck(this, C);
         }
-        swcHelpers.createClass(C, [
-            {
-                key: _iterator,
-                value: function value() {}
-            }
-        ]);
+        var _proto = C.prototype;
+        _proto[_iterator] = function() {};
         return C;
     }();
 })(M || (M = {}));

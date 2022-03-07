@@ -15,15 +15,11 @@ var C = // @noEmit: true
             console.log(self.x);
         };
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "mreal",
-            value: function mreal() {
-                var self = this;
-                self.y = 2;
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.mreal = function mreal() {
+        var self = this;
+        self.y = 2;
+    };
     return C;
 }();
 var c = new C();

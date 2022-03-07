@@ -7,14 +7,9 @@ var _foo = new WeakMap(), Parent = function() {
             value: 3
         });
     }
-    return swcHelpers.createClass(Parent, [
-        {
-            key: "accessChildProps",
-            value: function() {
-                swcHelpers.classPrivateFieldGet(new Child(), _foo), swcHelpers.classStaticPrivateFieldSpecGet(Child, Parent, _bar);
-            }
-        }
-    ]), Parent;
+    return Parent.prototype.accessChildProps = function() {
+        swcHelpers.classPrivateFieldGet(new Child(), _foo), swcHelpers.classStaticPrivateFieldSpecGet(Child, Parent, _bar);
+    }, Parent;
 }(), _bar = {
     writable: !0,
     value: 5

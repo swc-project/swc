@@ -4,33 +4,13 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function foo(x, y) {}
-        },
-        {
-            key: "bar",
-            value: function bar(x, y) {}
-        },
-        {
-            key: "baz",
-            value: function baz(x, y) {}
-        }
-    ], [
-        {
-            key: "foo",
-            value: function foo(x, y) {}
-        },
-        {
-            key: "bar",
-            value: function bar(x, y) {}
-        },
-        {
-            key: "baz",
-            value: function baz(x, y) {}
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.foo = function foo(x, y) {};
+    _proto.bar = function bar(x, y) {};
+    _proto.baz = function baz(x, y) {};
+    C.foo = function foo(x, y) {};
+    C.bar = function bar(x, y) {};
+    C.baz = function baz(x, y) {};
     return C;
 }();
 var D = /*#__PURE__*/ function() {
@@ -38,33 +18,13 @@ var D = /*#__PURE__*/ function() {
     function D() {
         swcHelpers.classCallCheck(this, D);
     }
-    swcHelpers.createClass(D, [
-        {
-            key: "foo",
-            value: function foo(x, y) {}
-        },
-        {
-            key: "bar",
-            value: function bar(x, y) {}
-        },
-        {
-            key: "baz",
-            value: function baz(x, y) {}
-        }
-    ], [
-        {
-            key: "foo",
-            value: function foo(x, y) {}
-        },
-        {
-            key: "bar",
-            value: function bar(x, y) {}
-        },
-        {
-            key: "baz",
-            value: function baz(x, y) {}
-        }
-    ]);
+    var _proto = D.prototype;
+    _proto.foo = function foo(x, y) {};
+    _proto.bar = function bar(x, y) {};
+    _proto.baz = function baz(x, y) {};
+    D.foo = function foo(x, y) {};
+    D.bar = function bar(x, y) {};
+    D.baz = function baz(x, y) {};
     return D;
 }();
 var c;

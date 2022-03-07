@@ -6,14 +6,10 @@ var BaseA = // @declaration: true
         swcHelpers.classCallCheck(this, BaseA);
         this.x = x;
     }
-    swcHelpers.createClass(BaseA, [
-        {
-            key: "createInstance",
-            value: function createInstance() {
-                new BaseA(1);
-            }
-        }
-    ]);
+    var _proto = BaseA.prototype;
+    _proto.createInstance = function createInstance() {
+        new BaseA(1);
+    };
     return BaseA;
 }();
 var BaseB = /*#__PURE__*/ function() {
@@ -22,14 +18,10 @@ var BaseB = /*#__PURE__*/ function() {
         swcHelpers.classCallCheck(this, BaseB);
         this.x = x;
     }
-    swcHelpers.createClass(BaseB, [
-        {
-            key: "createInstance",
-            value: function createInstance() {
-                new BaseB(2);
-            }
-        }
-    ]);
+    var _proto = BaseB.prototype;
+    _proto.createInstance = function createInstance() {
+        new BaseB(2);
+    };
     return BaseB;
 }();
 var BaseC = /*#__PURE__*/ function() {
@@ -38,21 +30,13 @@ var BaseC = /*#__PURE__*/ function() {
         swcHelpers.classCallCheck(this, BaseC);
         this.x = x;
     }
-    swcHelpers.createClass(BaseC, [
-        {
-            key: "createInstance",
-            value: function createInstance() {
-                new BaseC(3);
-            }
-        }
-    ], [
-        {
-            key: "staticInstance",
-            value: function staticInstance() {
-                new BaseC(4);
-            }
-        }
-    ]);
+    var _proto = BaseC.prototype;
+    _proto.createInstance = function createInstance() {
+        new BaseC(3);
+    };
+    BaseC.staticInstance = function staticInstance() {
+        new BaseC(4);
+    };
     return BaseC;
 }();
 var DerivedA = /*#__PURE__*/ function(BaseA1) {
@@ -66,27 +50,16 @@ var DerivedA = /*#__PURE__*/ function(BaseA1) {
         _this.x = x;
         return _this;
     }
-    swcHelpers.createClass(DerivedA, [
-        {
-            key: "createInstance",
-            value: function createInstance() {
-                new DerivedA(5);
-            }
-        },
-        {
-            key: "createBaseInstance",
-            value: function createBaseInstance() {
-                new BaseA(6);
-            }
-        }
-    ], [
-        {
-            key: "staticBaseInstance",
-            value: function staticBaseInstance() {
-                new BaseA(7);
-            }
-        }
-    ]);
+    var _proto = DerivedA.prototype;
+    _proto.createInstance = function createInstance() {
+        new DerivedA(5);
+    };
+    _proto.createBaseInstance = function createBaseInstance() {
+        new BaseA(6);
+    };
+    DerivedA.staticBaseInstance = function staticBaseInstance() {
+        new BaseA(7);
+    };
     return DerivedA;
 }(BaseA);
 var DerivedB = /*#__PURE__*/ function(BaseB1) {
@@ -100,27 +73,18 @@ var DerivedB = /*#__PURE__*/ function(BaseB1) {
         _this.x = x;
         return _this;
     }
-    swcHelpers.createClass(DerivedB, [
-        {
-            key: "createInstance",
-            value: function createInstance() {
-                new DerivedB(7);
-            }
-        },
-        {
-            key: "createBaseInstance",
-            value: function createBaseInstance() {
-                new BaseB(8);
-            } // ok
-        }
-    ], [
-        {
-            key: "staticBaseInstance",
-            value: function staticBaseInstance() {
-                new BaseB(9);
-            } // ok
-        }
-    ]);
+    var _proto = DerivedB.prototype;
+    _proto.createInstance = function createInstance() {
+        new DerivedB(7);
+    };
+    _proto.createBaseInstance // ok
+     = function createBaseInstance() {
+        new BaseB(8);
+    };
+    DerivedB.staticBaseInstance // ok
+     = function staticBaseInstance() {
+        new BaseB(9);
+    };
     return DerivedB;
 }(BaseB);
 var DerivedC = /*#__PURE__*/ function(BaseC1) {
@@ -134,27 +98,18 @@ var DerivedC = /*#__PURE__*/ function(BaseC1) {
         _this.x = x;
         return _this;
     }
-    swcHelpers.createClass(DerivedC, [
-        {
-            key: "createInstance",
-            value: function createInstance() {
-                new DerivedC(9);
-            }
-        },
-        {
-            key: "createBaseInstance",
-            value: function createBaseInstance() {
-                new BaseC(10);
-            } // error
-        }
-    ], [
-        {
-            key: "staticBaseInstance",
-            value: function staticBaseInstance() {
-                new BaseC(11);
-            } // error
-        }
-    ]);
+    var _proto = DerivedC.prototype;
+    _proto.createInstance = function createInstance() {
+        new DerivedC(9);
+    };
+    _proto.createBaseInstance // error
+     = function createBaseInstance() {
+        new BaseC(10);
+    };
+    DerivedC.staticBaseInstance // error
+     = function staticBaseInstance() {
+        new BaseC(11);
+    };
     return DerivedC;
 }(BaseC);
 var ba = new BaseA(1);

@@ -4,14 +4,10 @@ var A1 = /*#__PURE__*/ function() {
     function A1() {
         swcHelpers.classCallCheck(this, A1);
     }
-    swcHelpers.createClass(A1, [
-        {
-            key: "fn",
-            value: function fn(a) {
-                return null;
-            }
-        }
-    ]);
+    var _proto = A1.prototype;
+    _proto.fn = function fn(a) {
+        return null;
+    };
     return A1;
 }();
 var B1 = /*#__PURE__*/ function() {
@@ -19,14 +15,10 @@ var B1 = /*#__PURE__*/ function() {
     function B1() {
         swcHelpers.classCallCheck(this, B1);
     }
-    swcHelpers.createClass(B1, [
-        {
-            key: "fn",
-            value: function fn(b) {
-                return null;
-            }
-        }
-    ]);
+    var _proto = B1.prototype;
+    _proto.fn = function fn(b) {
+        return null;
+    };
     return B1;
 }();
 var Base = /*#__PURE__*/ function() {
@@ -34,14 +26,10 @@ var Base = /*#__PURE__*/ function() {
     function Base() {
         swcHelpers.classCallCheck(this, Base);
     }
-    swcHelpers.createClass(Base, [
-        {
-            key: "fn",
-            value: function fn(b) {
-                return null;
-            }
-        }
-    ]);
+    var _proto = Base.prototype;
+    _proto.fn = function fn(b) {
+        return null;
+    };
     return Base;
 }();
 var A2 = /*#__PURE__*/ function(Base) {

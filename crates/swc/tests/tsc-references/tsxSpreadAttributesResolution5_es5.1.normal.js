@@ -13,14 +13,10 @@ var Poisoned = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, Poisoned);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(Poisoned, [
-        {
-            key: "render",
-            value: function render() {
-                return(/*#__PURE__*/ React.createElement("div", null, "Hello"));
-            }
-        }
-    ]);
+    var _proto = Poisoned.prototype;
+    _proto.render = function render() {
+        return(/*#__PURE__*/ React.createElement("div", null, "Hello"));
+    };
     return Poisoned;
 }(React.Component);
 var obj = {
@@ -37,14 +33,10 @@ var EmptyProp = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, EmptyProp);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(EmptyProp, [
-        {
-            key: "render",
-            value: function render() {
-                return(/*#__PURE__*/ React.createElement("div", null, "Default hi"));
-            }
-        }
-    ]);
+    var _proto = EmptyProp.prototype;
+    _proto.render = function render() {
+        return(/*#__PURE__*/ React.createElement("div", null, "Default hi"));
+    };
     return EmptyProp;
 }(React.Component);
 var o = {

@@ -10,12 +10,7 @@ var AbstractBase = function() {
         function MixinClass() {
             return swcHelpers.classCallCheck(this, MixinClass), _super.apply(this, arguments);
         }
-        return swcHelpers.createClass(MixinClass, [
-            {
-                key: "mixinMethod",
-                value: function() {}
-            }
-        ]), MixinClass;
+        return MixinClass.prototype.mixinMethod = function() {}, MixinClass;
     }(baseClass1);
     return MixinClass;
 }(AbstractBase), DerivedFromAbstract = function(MixedBase1) {

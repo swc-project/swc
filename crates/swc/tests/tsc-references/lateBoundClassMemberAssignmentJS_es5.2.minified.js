@@ -5,12 +5,7 @@ export var MyClass = function() {
     function MyClass() {
         swcHelpers.classCallCheck(this, MyClass), this[_sym] = "ok";
     }
-    return swcHelpers.createClass(MyClass, [
-        {
-            key: "method",
-            value: function() {
-                this[_sym] = "yep", this[_sym];
-            }
-        }
-    ]), MyClass;
+    return MyClass.prototype.method = function() {
+        this[_sym] = "yep", this[_sym];
+    }, MyClass;
 }();

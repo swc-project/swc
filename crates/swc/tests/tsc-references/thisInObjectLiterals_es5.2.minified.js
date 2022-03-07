@@ -4,12 +4,7 @@ var MyClass = function() {
     function MyClass() {
         swcHelpers.classCallCheck(this, MyClass);
     }
-    return swcHelpers.createClass(MyClass, [
-        {
-            key: "fn",
-            value: function() {
-                this.t;
-            }
-        }
-    ]), MyClass;
+    return MyClass.prototype.fn = function() {
+        this.t;
+    }, MyClass;
 }();

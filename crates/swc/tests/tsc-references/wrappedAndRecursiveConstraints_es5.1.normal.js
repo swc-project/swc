@@ -6,14 +6,10 @@ var C = // no errors expected
         swcHelpers.classCallCheck(this, C);
         this.data = data;
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function foo(x) {
-                return x;
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.foo = function foo(x) {
+        return x;
+    };
     return C;
 }();
 var y = null;

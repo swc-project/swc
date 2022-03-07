@@ -6,14 +6,9 @@ var React = require("react"), TextComponent = function(_Component) {
     function TextComponent() {
         return swcHelpers.classCallCheck(this, TextComponent), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(TextComponent, [
-        {
-            key: "render",
-            value: function() {
-                return React.createElement("span", null, "Some Text..");
-            }
-        }
-    ]), TextComponent;
+    return TextComponent.prototype.render = function() {
+        return React.createElement("span", null, "Some Text..");
+    }, TextComponent;
 }(React.Component);
 React.createElement(TextComponent, {
     editable: !0

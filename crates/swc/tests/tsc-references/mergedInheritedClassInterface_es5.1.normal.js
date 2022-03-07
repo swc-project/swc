@@ -4,12 +4,8 @@ var BaseClass = /*#__PURE__*/ function() {
     function BaseClass() {
         swcHelpers.classCallCheck(this, BaseClass);
     }
-    swcHelpers.createClass(BaseClass, [
-        {
-            key: "baseMethod",
-            value: function baseMethod() {}
-        }
-    ]);
+    var _proto = BaseClass.prototype;
+    _proto.baseMethod = function baseMethod() {};
     return BaseClass;
 }();
 var Child = /*#__PURE__*/ function(BaseClass) {
@@ -20,12 +16,8 @@ var Child = /*#__PURE__*/ function(BaseClass) {
         swcHelpers.classCallCheck(this, Child);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(Child, [
-        {
-            key: "method",
-            value: function method() {}
-        }
-    ]);
+    var _proto = Child.prototype;
+    _proto.method = function method() {};
     return Child;
 }(BaseClass);
 var ChildNoBaseClass = /*#__PURE__*/ function() {
@@ -33,12 +25,8 @@ var ChildNoBaseClass = /*#__PURE__*/ function() {
     function ChildNoBaseClass() {
         swcHelpers.classCallCheck(this, ChildNoBaseClass);
     }
-    swcHelpers.createClass(ChildNoBaseClass, [
-        {
-            key: "method2",
-            value: function method2() {}
-        }
-    ]);
+    var _proto = ChildNoBaseClass.prototype;
+    _proto.method2 = function method2() {};
     return ChildNoBaseClass;
 }();
 var Grandchild = /*#__PURE__*/ function(ChildNoBaseClass) {

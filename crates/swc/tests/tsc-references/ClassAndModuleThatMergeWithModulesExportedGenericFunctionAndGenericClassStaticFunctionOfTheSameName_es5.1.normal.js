@@ -4,12 +4,7 @@ var clodule = /*#__PURE__*/ function() {
     function clodule() {
         swcHelpers.classCallCheck(this, clodule);
     }
-    swcHelpers.createClass(clodule, null, [
-        {
-            key: "fn",
-            value: function fn(id) {}
-        }
-    ]);
+    clodule.fn = function fn(id) {};
     return clodule;
 }();
 (function(clodule) {

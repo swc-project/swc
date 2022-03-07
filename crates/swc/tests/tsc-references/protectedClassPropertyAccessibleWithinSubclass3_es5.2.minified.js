@@ -4,14 +4,9 @@ var Base = function() {
     function Base() {
         swcHelpers.classCallCheck(this, Base);
     }
-    return swcHelpers.createClass(Base, [
-        {
-            key: "method",
-            value: function() {
-                this.x;
-            }
-        }
-    ]), Base;
+    return Base.prototype.method = function() {
+        this.x;
+    }, Base;
 }(), Derived = function(Base) {
     "use strict";
     swcHelpers.inherits(Derived, Base);
@@ -19,12 +14,7 @@ var Base = function() {
     function Derived() {
         return swcHelpers.classCallCheck(this, Derived), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(Derived, [
-        {
-            key: "method1",
-            value: function() {
-                this.x, swcHelpers.get(swcHelpers.getPrototypeOf(Derived.prototype), "x", this);
-            }
-        }
-    ]), Derived;
+    return Derived.prototype.method1 = function() {
+        this.x, swcHelpers.get(swcHelpers.getPrototypeOf(Derived.prototype), "x", this);
+    }, Derived;
 }(Base);

@@ -4,13 +4,10 @@ var Base = /*#__PURE__*/ function() {
     function Base() {
         swcHelpers.classCallCheck(this, Base);
     }
+    Base.fn = function fn() {
+        return '';
+    };
     swcHelpers.createClass(Base, null, [
-        {
-            key: "fn",
-            value: function fn() {
-                return '';
-            }
-        },
         {
             key: "a",
             get: function get() {
@@ -31,13 +28,10 @@ var Derived = // BUG 847404
         swcHelpers.classCallCheck(this, Derived);
         return _super.apply(this, arguments);
     }
+    Derived.fn = function fn() {
+        return '';
+    };
     swcHelpers.createClass(Derived, null, [
-        {
-            key: "fn",
-            value: function fn() {
-                return '';
-            }
-        },
         {
             key: "a",
             get: function get() {

@@ -28,7 +28,7 @@ import * as swcHelpers from "@swc/helpers";
         swcHelpers.classCallCheck(this, T);
     };
     new Derived(), new Derived2();
-}(OnlyDerived || (OnlyDerived = {})), (function(WithBase) {
+}(OnlyDerived || (OnlyDerived = {})), function(WithBase) {
     var Base2 = function() {
         "use strict";
         swcHelpers.classCallCheck(this, Base2);
@@ -56,4 +56,4 @@ import * as swcHelpers from "@swc/helpers";
         swcHelpers.classCallCheck(this, T);
     };
     new Base2(), new Derived2();
-})(WithBase || (WithBase = {}));
+}(WithBase || (WithBase = {}));

@@ -9,16 +9,11 @@ var C = /*#__PURE__*/ function() {
             value: void 0
         });
     }
-    swcHelpers.createClass(C, null, [
-        {
-            key: "test",
-            value: function test() {
-                swcHelpers.classPrivateFieldSet(new C(), _x, 10);
-                var y = new C();
-                var z = new y();
-                z.x = 123;
-            }
-        }
-    ]);
+    C.test = function test() {
+        swcHelpers.classPrivateFieldSet(new C(), _x, 10);
+        var y = new C();
+        var z = new y();
+        z.x = 123;
+    };
     return C;
 }();

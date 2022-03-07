@@ -13,14 +13,10 @@ var B1 = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, B1);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(B1, [
-        {
-            key: "render",
-            value: function render() {
-                return(/*#__PURE__*/ React.createElement("div", null, "hi"));
-            }
-        }
-    ]);
+    var _proto = B1.prototype;
+    _proto.render = function render() {
+        return(/*#__PURE__*/ React.createElement("div", null, "hi"));
+    };
     return B1;
 }(React.Component);
 var B = /*#__PURE__*/ function(_Component) {
@@ -31,16 +27,12 @@ var B = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, B);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(B, [
-        {
-            key: "render",
-            value: function render() {
-                return(/*#__PURE__*/ React.createElement(B1, swcHelpers.extends({}, this.props, {
-                    x: "hi"
-                })));
-            }
-        }
-    ]);
+    var _proto = B.prototype;
+    _proto.render = function render() {
+        return(/*#__PURE__*/ React.createElement(B1, swcHelpers.extends({}, this.props, {
+            x: "hi"
+        })));
+    };
     return B;
 }(React.Component);
 export { };

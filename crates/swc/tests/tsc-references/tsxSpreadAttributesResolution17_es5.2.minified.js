@@ -6,13 +6,8 @@ export var Empty = function(_Component) {
     function Empty() {
         return swcHelpers.classCallCheck(this, Empty), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(Empty, [
-        {
-            key: "render",
-            value: function() {
-                return React.createElement("div", null, "Hello");
-            }
-        }
-    ]), Empty;
+    return Empty.prototype.render = function() {
+        return React.createElement("div", null, "Hello");
+    }, Empty;
 }(React.Component);
 React.createElement(Empty, swcHelpers.extends({}, obj));

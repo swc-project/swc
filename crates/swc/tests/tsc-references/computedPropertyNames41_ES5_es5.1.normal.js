@@ -12,14 +12,9 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, null, [
-        {
-            key: "",
-            value: // Computed properties
-            function value() {
-                return new Foo;
-            }
-        }
-    ]);
+    // Computed properties
+    C[""] = function() {
+        return new Foo;
+    };
     return C;
 }();
