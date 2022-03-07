@@ -3394,6 +3394,7 @@ dependencies = [
  "serde",
  "sha-1",
  "string_enum",
+ "swc",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
