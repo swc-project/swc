@@ -10,7 +10,7 @@ use swc_trace_macro::swc_trace;
 #[cfg(test)]
 mod tests;
 
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn nullish_coalescing(c: Config) -> impl Fold + VisitMut + 'static {
     as_folder(NullishCoalescing {
         c,
@@ -193,7 +193,7 @@ impl VisitMut for NullishCoalescing {
     }
 }
 
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 fn make_cond(c: Config, span: Span, alias: &Ident, var_expr: Expr, init: Box<Expr>) -> Expr {
     Expr::Cond(if c.no_document_all {
         CondExpr {

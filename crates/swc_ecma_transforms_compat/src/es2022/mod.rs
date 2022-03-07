@@ -12,6 +12,8 @@ pub mod static_blocks;
 
 #[tracing::instrument(level = "trace", skip_all)]
 pub fn es2022<C: Comments>(cm: Option<C>, config: Config) -> impl Fold {
+#[tracing::instrument(level = "info", skip_all)]
+pub fn es2022(config: Config) -> impl Fold {
     chain!(
         static_blocks(),
         class_properties(cm, config.class_properties),
