@@ -377,6 +377,10 @@ impl VisitMut for Prefixer {
                 same_content!("-webkit-filter");
             }
 
+            "backdrop-filter" => {
+                same_content!("-webkit-backdrop-filter");
+            }
+
             "mask" => {
                 same_content!("-webkit-mask");
             }
