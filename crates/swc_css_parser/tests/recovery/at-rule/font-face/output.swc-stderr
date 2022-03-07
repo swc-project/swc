@@ -28,3 +28,15 @@ error: Expected '{', '(' or '[' token
 17 | @font-face foo {}
    |            ^^^
 
+error: Expected '{', '(' or '[' token
+  --> $DIR/tests/recovery/at-rule/font-face/input.css:19:12
+   |
+19 | @font-face foo;
+   |            ^^^
+
+error: Expected '{', '(' or '[' token
+  --> $DIR/tests/recovery/at-rule/font-face/input.css:21:12
+   |
+21 | @font-face ;
+   |            ^
+

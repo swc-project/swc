@@ -15,3 +15,7 @@
 }
 
 @font-face foo {}
+
+@font-face foo;
+
+@font-face ;
