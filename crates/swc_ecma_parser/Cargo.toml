@@ -23,6 +23,7 @@ verify = ["swc_ecma_visit"]
 [dependencies]
 either = {version = "1.4"}
 enum_kind = {version = "0.2.1", path = "../enum_kind"}
+fastmem = {version = "0.1.0", path = "../fastmem"}
 lexical = {version = "5.2.2", features = ["radix"]}
 num-bigint = "0.2"
 serde = {version = "1", features = ["derive"]}
