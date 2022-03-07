@@ -544,7 +544,7 @@ fn test_fold_logical_op2() {
     fold("x = true && function(){}", "x = function(){}");
     fold(
         "x = [(function(){alert(x)})()] && x",
-        "x = ((function() { alert(x); })(), x);",
+        "x = (function() { alert(x); }(), x);",
     );
 }
 
