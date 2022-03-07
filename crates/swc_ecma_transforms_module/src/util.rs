@@ -672,7 +672,13 @@ impl Scope {
 
                 let mut found: Vec<(JsWord, Span)> = vec![];
                 let mut v = DestructuringFinder { found: &mut found };
-                expr.left.visit_with(&mut v);
+
+                if let PatOrExpr::Expr(e) = &expr.left {
+                    e.visit_children_with(&mut v);
+                } else {
+                    expr.left.visit_with(&mut v);
+                }
+
                 if v.found.is_empty() {
                     return Expr::Assign(AssignExpr {
                         left: expr.left,
@@ -759,63 +765,63 @@ impl Scope {
                     }
                 }
 
-                match expr.left {
-                    PatOrExpr::Pat(pat) if pat.is_ident() => {
-                        let i = pat.expect_ident();
-                        let mut scope = folder.scope_mut();
-                        let entry = scope
-                            .exported_bindings
-                            .entry((i.id.sym.clone(), i.id.span.ctxt()));
+                if let Some(binding_ident) = match expr.left {
+                    PatOrExpr::Pat(ref pat) if pat.is_ident() => Some(pat.clone().expect_ident()),
+                    PatOrExpr::Expr(ref e) if e.is_ident() => Some(e.clone().expect_ident().into()),
+                    _ => None,
+                } {
+                    let mut scope = folder.scope_mut();
+                    let entry = scope
+                        .exported_bindings
+                        .entry((binding_ident.id.sym.clone(), binding_ident.id.span.ctxt()));
 
-                        match entry {
-                            Entry::Occupied(entry) => {
-                                let expr = Expr::Assign(AssignExpr {
-                                    left: PatOrExpr::Pat(i.into()),
-                                    ..expr
-                                });
-                                let e = chain_assign!(entry, Box::new(expr));
-
-                                *e
-                            }
-                            _ => Expr::Assign(AssignExpr {
-                                left: PatOrExpr::Pat(i.into()),
+                    match entry {
+                        Entry::Occupied(entry) => {
+                            let expr = Expr::Assign(AssignExpr {
+                                left: PatOrExpr::Pat(binding_ident.into()),
                                 ..expr
-                            }),
-                        }
-                    }
-                    _ => {
-                        let mut exprs = iter::once(Box::new(Expr::Assign(expr)))
-                            .chain(
-                                found
-                                    .into_iter()
-                                    .map(|var| Ident::new(var.0, var.1))
-                                    .filter_map(|i| {
-                                        let mut scope = folder.scope_mut();
-                                        let entry = match scope
-                                            .exported_bindings
-                                            .entry((i.sym.clone(), i.span.ctxt()))
-                                        {
-                                            Entry::Occupied(entry) => entry,
-                                            _ => {
-                                                return None;
-                                            }
-                                        };
-                                        let e = chain_assign!(entry, Box::new(Expr::Ident(i)));
+                            });
+                            let e = chain_assign!(entry, Box::new(expr));
 
-                                        // exports.name = x
-                                        Some(e)
-                                    }),
-                            )
-                            .collect::<Vec<_>>();
-                        if exprs.len() == 1 {
-                            return *exprs.pop().unwrap();
+                            *e
                         }
-
-                        Expr::Seq(SeqExpr {
-                            span: DUMMY_SP,
-                            exprs,
-                        })
+                        _ => Expr::Assign(AssignExpr {
+                            left: PatOrExpr::Pat(binding_ident.into()),
+                            ..expr
+                        }),
                     }
+                } else {
+                    let mut exprs = iter::once(Box::new(Expr::Assign(expr)))
+                        .chain(
+                            found
+                                .into_iter()
+                                .map(|var| Ident::new(var.0, var.1))
+                                .filter_map(|i| {
+                                    let mut scope = folder.scope_mut();
+                                    let entry = match scope
+                                        .exported_bindings
+                                        .entry((i.sym.clone(), i.span.ctxt()))
+                                    {
+                                        Entry::Occupied(entry) => entry,
+                                        _ => {
+                                            return None;
+                                        }
+                                    };
+                                    let e = chain_assign!(entry, Box::new(Expr::Ident(i)));
+
+                                    // exports.name = x
+                                    Some(e)
+                                }),
+                        )
+                        .collect::<Vec<_>>();
+                    if exprs.len() == 1 {
+                        return *exprs.pop().unwrap();
+                    }
+
+                    Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs,
+                    })
                 }
             }
             _ => expr.fold_children_with(folder),
