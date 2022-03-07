@@ -7,12 +7,12 @@ for(!function(M1) {
     }, M1.F2 = function(x) {
         return x.toString();
     };
-}(M || (M = {})), (function(N1) {
+}(M || (M = {})), function(N1) {
     N1.A = class {
     }, N1.F2 = function(x) {
         return x.toString();
     };
-})(N || (N = {}));;);
+}(N || (N = {}));;);
 for(;;);
 do ;
 while (null)

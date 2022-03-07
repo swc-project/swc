@@ -113,12 +113,8 @@ var C = // methods are not enumerable
         swcHelpers.classCallCheck(this, C);
         this.p = 1;
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "m",
-            value: function m() {}
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.m = function m() {};
     return C;
 }();
 var c = new C();

@@ -4,20 +4,12 @@ var c, RoyalGuard = function() {
     function RoyalGuard() {
         swcHelpers.classCallCheck(this, RoyalGuard);
     }
-    return swcHelpers.createClass(RoyalGuard, [
-        {
-            key: "isLeader",
-            value: function() {
-                return swcHelpers._instanceof(this, LeadGuard);
-            }
-        },
-        {
-            key: "isFollower",
-            value: function() {
-                return swcHelpers._instanceof(this, FollowerGuard);
-            }
-        }
-    ]), RoyalGuard;
+    var _proto = RoyalGuard.prototype;
+    return _proto.isLeader = function() {
+        return swcHelpers._instanceof(this, LeadGuard);
+    }, _proto.isFollower = function() {
+        return swcHelpers._instanceof(this, FollowerGuard);
+    }, RoyalGuard;
 }(), LeadGuard = function(RoyalGuard) {
     "use strict";
     swcHelpers.inherits(LeadGuard, RoyalGuard);
@@ -25,12 +17,7 @@ var c, RoyalGuard = function() {
     function LeadGuard() {
         return swcHelpers.classCallCheck(this, LeadGuard), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(LeadGuard, [
-        {
-            key: "lead",
-            value: function() {}
-        }
-    ]), LeadGuard;
+    return LeadGuard.prototype.lead = function() {}, LeadGuard;
 }(RoyalGuard), FollowerGuard = function(RoyalGuard) {
     "use strict";
     swcHelpers.inherits(FollowerGuard, RoyalGuard);
@@ -38,12 +25,7 @@ var c, RoyalGuard = function() {
     function FollowerGuard() {
         return swcHelpers.classCallCheck(this, FollowerGuard), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(FollowerGuard, [
-        {
-            key: "follow",
-            value: function() {}
-        }
-    ]), FollowerGuard;
+    return FollowerGuard.prototype.follow = function() {}, FollowerGuard;
 }(RoyalGuard), a = new FollowerGuard(), b = new LeadGuard();
 function invalidGuard(c) {
     return !1;

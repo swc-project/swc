@@ -17,24 +17,12 @@ var C = function() {
     function C(a, b) {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function(a, b) {
-                return "";
-            }
-        },
-        {
-            key: "overloaded",
-            value: function(x) {}
-        },
-        {
-            key: "generic",
-            value: function(x) {
-                return x;
-            }
-        }
-    ]), C;
+    var _proto = C.prototype;
+    return _proto.foo = function(a, b) {
+        return "";
+    }, _proto.overloaded = function(x) {}, _proto.generic = function(x) {
+        return x;
+    }, C;
 }();
 c.foo.bind(c), c.foo.bind(c, 10), c.foo.bind(c, 10, "hello"), c.foo.bind(c, 10, 20), c.foo.bind(void 0), c.overloaded.bind(c), c.generic.bind(c), c.foo.call(c, 10, "hello"), c.foo.call(c, 10), c.foo.call(c, 10, 20), c.foo.call(c, 10, "hello", 30), c.foo.call(void 0, 10, "hello"), c.foo.apply(c, [
     10,

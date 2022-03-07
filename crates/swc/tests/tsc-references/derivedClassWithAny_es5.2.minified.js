@@ -4,16 +4,14 @@ var e, C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
+    return C.prototype.foo = function() {
+        return 1;
+    }, C.bar = function() {
+        return 1;
+    }, swcHelpers.createClass(C, [
         {
             key: "X",
             get: function() {
-                return 1;
-            }
-        },
-        {
-            key: "foo",
-            value: function() {
                 return 1;
             }
         }
@@ -21,12 +19,6 @@ var e, C = function() {
         {
             key: "Y",
             get: function() {
-                return 1;
-            }
-        },
-        {
-            key: "bar",
-            value: function() {
                 return 1;
             }
         }
@@ -38,29 +30,21 @@ var e, C = function() {
     function D() {
         return swcHelpers.classCallCheck(this, D), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(D, [
+    return D.prototype.foo = function() {
+        return 1;
+    }, D.bar = function() {
+        return null;
+    }, swcHelpers.createClass(D, [
         {
             key: "X",
             get: function() {
                 return null;
-            }
-        },
-        {
-            key: "foo",
-            value: function() {
-                return 1;
             }
         }
     ], [
         {
             key: "Y",
             get: function() {
-                return null;
-            }
-        },
-        {
-            key: "bar",
-            value: function() {
                 return null;
             }
         }
@@ -72,16 +56,14 @@ var e, C = function() {
     function E() {
         return swcHelpers.classCallCheck(this, E), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(E, [
+    return E.prototype.foo = function() {
+        return "";
+    }, E.bar = function() {
+        return "";
+    }, swcHelpers.createClass(E, [
         {
             key: "X",
             get: function() {
-                return "";
-            }
-        },
-        {
-            key: "foo",
-            value: function() {
                 return "";
             }
         }
@@ -89,12 +71,6 @@ var e, C = function() {
         {
             key: "Y",
             get: function() {
-                return "";
-            }
-        },
-        {
-            key: "bar",
-            value: function() {
                 return "";
             }
         }

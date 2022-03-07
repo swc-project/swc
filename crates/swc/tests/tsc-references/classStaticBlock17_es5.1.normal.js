@@ -12,14 +12,10 @@ var A = /*#__PURE__*/ function() {
         });
         swcHelpers.classPrivateFieldSet(this, _x, v);
     }
-    swcHelpers.createClass(A, [
-        {
-            key: "getX",
-            value: function getX() {
-                return swcHelpers.classPrivateFieldGet(this, _x);
-            }
-        }
-    ]);
+    var _proto = A.prototype;
+    _proto.getX = function getX() {
+        return swcHelpers.classPrivateFieldGet(this, _x);
+    };
     return A;
 }();
 var __ = {

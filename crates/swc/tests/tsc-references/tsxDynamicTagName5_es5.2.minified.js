@@ -8,12 +8,7 @@ export var Text = function(_Component) {
         var _this;
         return swcHelpers.classCallCheck(this, Text), _this = _super.apply(this, arguments), _this._tagName = "div", _this;
     }
-    return swcHelpers.createClass(Text, [
-        {
-            key: "render",
-            value: function() {
-                return React.createElement(this._tagName, null);
-            }
-        }
-    ]), Text;
+    return Text.prototype.render = function() {
+        return React.createElement(this._tagName, null);
+    }, Text;
 }(React.Component);

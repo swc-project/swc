@@ -15,16 +15,9 @@ var X = /*#__PURE__*/ function() {
         this.m = this.m.bind(this);
         this.mistake = 'frankly, complete nonsense';
     }
-    swcHelpers.createClass(X, [
-        {
-            key: "m",
-            value: function m() {}
-        },
-        {
-            key: "mistake",
-            value: function mistake() {}
-        }
-    ]);
+    var _proto = X.prototype;
+    _proto.m = function m() {};
+    _proto.mistake = function mistake() {};
     return X;
 }();
 var x = new X();
@@ -38,16 +31,9 @@ var Y = /*#__PURE__*/ function() {
         this.m = this.m.bind(this);
         this.mistake = 'even more nonsense';
     }
-    swcHelpers.createClass(Y, [
-        {
-            key: "mistake",
-            value: function mistake() {}
-        },
-        {
-            key: "m",
-            value: function m() {}
-        }
-    ]);
+    var _proto = Y.prototype;
+    _proto.mistake = function mistake() {};
+    _proto.m = function m() {};
     return Y;
 }();
 Y.prototype.mistake = true;

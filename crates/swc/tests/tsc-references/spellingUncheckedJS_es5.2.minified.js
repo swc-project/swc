@@ -6,14 +6,9 @@ var Classe = function() {
     function Classe() {
         swcHelpers.classCallCheck(this, Classe), this.non = "oui";
     }
-    return swcHelpers.createClass(Classe, [
-        {
-            key: "methode",
-            value: function() {
-                return this.none;
-            }
-        }
-    ]), Classe;
+    return Classe.prototype.methode = function() {
+        return this.none;
+    }, Classe;
 }(), Derivee = function(Classe) {
     "use strict";
     swcHelpers.inherits(Derivee, Classe);
@@ -21,14 +16,9 @@ var Classe = function() {
     function Derivee() {
         return swcHelpers.classCallCheck(this, Derivee), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(Derivee, [
-        {
-            key: "methode",
-            value: function() {
-                return swcHelpers.get(swcHelpers.getPrototypeOf(Derivee.prototype), "none", this);
-            }
-        }
-    ]), Derivee;
+    return Derivee.prototype.methode = function() {
+        return swcHelpers.get(swcHelpers.getPrototypeOf(Derivee.prototype), "none", this);
+    }, Derivee;
 }(Classe), object = {
     spaaace: 3
 };

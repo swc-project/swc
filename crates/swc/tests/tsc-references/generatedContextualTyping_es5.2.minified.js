@@ -918,36 +918,36 @@ x187 || (x187 = {}), x188 || (x188 = {}), x189 || (x189 = {}), x190 || (x190 = {
             d2
         ];
     }
-}, (function(n) {})(function() {
+}, function(n) {}(function() {
     return [
         d1,
         d2
     ];
-}), (function(n) {})(function() {
+}), function(n) {}(function() {
     return [
         d1,
         d2
     ];
-}), (function(n) {})(function() {
+}), function(n) {}(function() {
     return [
         d1,
         d2
     ];
-}), (function(n) {})(function() {
+}), function(n) {}(function() {
     return [
         d1,
         d2
     ];
-}), (function(n) {})(function() {
+}), function(n) {}(function() {
     return [
         d1,
         d2
     ];
-}), (function(n) {})(function() {
+}), function(n) {}(function() {
     return [
         d1,
         d2
     ];
-}), (function(n) {})(function(n) {
+}), function(n) {}(function(n) {
     return null;
 });

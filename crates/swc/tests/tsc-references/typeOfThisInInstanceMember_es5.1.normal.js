@@ -10,13 +10,11 @@ var C = /*#__PURE__*/ function() {
         t.z;
         var r = t.foo();
     }
+    var _proto = C.prototype;
+    _proto.foo = function foo() {
+        return this;
+    };
     swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function foo() {
-                return this;
-            }
-        },
         {
             key: "y",
             get: function get() {

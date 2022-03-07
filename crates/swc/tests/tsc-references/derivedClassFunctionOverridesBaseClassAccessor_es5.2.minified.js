@@ -20,12 +20,7 @@ var Base = function() {
     function Derived() {
         return swcHelpers.classCallCheck(this, Derived), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(Derived, [
-        {
-            key: "x",
-            value: function() {
-                return 1;
-            }
-        }
-    ]), Derived;
+    return Derived.prototype.x = function() {
+        return 1;
+    }, Derived;
 }(Base);

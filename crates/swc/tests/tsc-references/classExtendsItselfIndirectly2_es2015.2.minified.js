@@ -2,11 +2,11 @@ var M, N, O;
 class C extends N.E {
 }
 (M || (M = {})).D = class extends C {
-}, (function(N1) {
+}, function(N1) {
     class E extends M.D {
     }
     N1.E = E;
-})(N || (N = {})), (function(O) {
+}(N || (N = {})), function(O) {
     class C2 extends Q.E2 {
     }
     let P;
@@ -18,4 +18,4 @@ class C extends N.E {
         }
         Q.E2 = E2;
     }(Q1 || (Q1 = {}));
-})(O || (O = {}));
+}(O || (O = {}));

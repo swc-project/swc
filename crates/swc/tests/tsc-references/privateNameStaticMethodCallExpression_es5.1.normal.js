@@ -38,54 +38,46 @@ var AA = // @target: es2015
     function AA() {
         swcHelpers.classCallCheck(this, AA);
     }
-    swcHelpers.createClass(AA, [
-        {
-            key: "test",
-            value: function test() {
-                var _instance, _instance1;
-                swcHelpers.classStaticPrivateMethodGet(AA, AA, method).call(AA);
-                var func = swcHelpers.classStaticPrivateMethodGet(AA, AA, method);
-                func();
-                new (swcHelpers.classStaticPrivateMethodGet(AA, AA, method))();
-                var arr = [
-                    1,
-                    2
-                ];
-                (_instance = swcHelpers.classStaticPrivateMethodGet(AA, AA, method2)).call.apply(_instance, [
-                    AA,
-                    0
-                ].concat(swcHelpers.toConsumableArray(arr), [
-                    3
-                ]));
-                var b = swcHelpers.construct(swcHelpers.classStaticPrivateMethodGet(AA, AA, method2), [
-                    0
-                ].concat(swcHelpers.toConsumableArray(arr), [
-                    3
-                ])); //Error 
-                var str = swcHelpers.classStaticPrivateMethodGet(AA, AA, method2).bind(AA)(_templateObject(), 1, 2);
-                swcHelpers.classStaticPrivateMethodGet(AA.getClass(), AA, method2).bind(AA)(_templateObject1(), 1, 2);
-                (_instance1 = swcHelpers.classStaticPrivateMethodGet(AA.getClass(), AA, method2)).call.apply(_instance1, [
-                    AA,
-                    0
-                ].concat(swcHelpers.toConsumableArray(arr), [
-                    3
-                ]));
-                var b2 = swcHelpers.construct(swcHelpers.classStaticPrivateMethodGet(AA.getClass(), AA, method2), [
-                    0
-                ].concat(swcHelpers.toConsumableArray(arr), [
-                    3
-                ])); //Error 
-                var str2 = swcHelpers.classStaticPrivateMethodGet(AA.getClass(), AA, method2).bind(AA)(_templateObject2(), 1, 2);
-            }
-        }
-    ], [
-        {
-            key: "getClass",
-            value: function getClass() {
-                return AA;
-            }
-        }
-    ]);
+    var _proto = AA.prototype;
+    _proto.test = function test() {
+        var _instance, _instance1;
+        swcHelpers.classStaticPrivateMethodGet(AA, AA, method).call(AA);
+        var func = swcHelpers.classStaticPrivateMethodGet(AA, AA, method);
+        func();
+        new (swcHelpers.classStaticPrivateMethodGet(AA, AA, method))();
+        var arr = [
+            1,
+            2
+        ];
+        (_instance = swcHelpers.classStaticPrivateMethodGet(AA, AA, method2)).call.apply(_instance, [
+            AA,
+            0
+        ].concat(swcHelpers.toConsumableArray(arr), [
+            3
+        ]));
+        var b = swcHelpers.construct(swcHelpers.classStaticPrivateMethodGet(AA, AA, method2), [
+            0
+        ].concat(swcHelpers.toConsumableArray(arr), [
+            3
+        ])); //Error 
+        var str = swcHelpers.classStaticPrivateMethodGet(AA, AA, method2).bind(AA)(_templateObject(), 1, 2);
+        swcHelpers.classStaticPrivateMethodGet(AA.getClass(), AA, method2).bind(AA)(_templateObject1(), 1, 2);
+        (_instance1 = swcHelpers.classStaticPrivateMethodGet(AA.getClass(), AA, method2)).call.apply(_instance1, [
+            AA,
+            0
+        ].concat(swcHelpers.toConsumableArray(arr), [
+            3
+        ]));
+        var b2 = swcHelpers.construct(swcHelpers.classStaticPrivateMethodGet(AA.getClass(), AA, method2), [
+            0
+        ].concat(swcHelpers.toConsumableArray(arr), [
+            3
+        ])); //Error 
+        var str2 = swcHelpers.classStaticPrivateMethodGet(AA.getClass(), AA, method2).bind(AA)(_templateObject2(), 1, 2);
+    };
+    AA.getClass = function getClass() {
+        return AA;
+    };
     return AA;
 }();
 AA.x = 1;

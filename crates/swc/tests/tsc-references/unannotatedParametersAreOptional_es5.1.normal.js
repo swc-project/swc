@@ -11,17 +11,9 @@ var C = /*#__PURE__*/ function() {
         swcHelpers.classCallCheck(this, C);
         this.p = function(x) {};
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "m",
-            value: function m(x) {}
-        }
-    ], [
-        {
-            key: "m",
-            value: function m(x) {}
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.m = function m(x) {};
+    C.m = function m(x) {};
     return C;
 }();
 C.m(); // Always been ok

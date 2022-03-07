@@ -1,0 +1,12 @@
+error: Duplicate binding
+ 
+  |
+4 | function foo() {}
+  |          ^^^
+  |
+note: foo was declared at here
+ 
+  |
+3 | function foo() {}
+  |          ^^^
+

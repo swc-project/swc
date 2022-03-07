@@ -42,54 +42,47 @@ var AA = // @target: es2015
         swcHelpers.classPrivateMethodInit(this, _method2);
         this.x = 1;
     }
-    swcHelpers.createClass(AA, [
-        {
-            key: "test",
-            value: function test() {
-                var _instance, _instance1;
-                var _ref, _ref1, _ref2, _ref3;
-                swcHelpers.classPrivateMethodGet(this, _method, method).call(this);
-                var func = swcHelpers.classPrivateMethodGet(this, _method, method);
-                func();
-                new (swcHelpers.classPrivateMethodGet(this, _method, method))();
-                var arr = [
-                    1,
-                    2
-                ];
-                (_instance = swcHelpers.classPrivateMethodGet(this, _method2, method2)).call.apply(_instance, [
-                    this,
-                    0
-                ].concat(swcHelpers.toConsumableArray(arr), [
-                    3
-                ]));
-                var b = swcHelpers.construct(swcHelpers.classPrivateMethodGet(this, _method2, method2), [
-                    0
-                ].concat(swcHelpers.toConsumableArray(arr), [
-                    3
-                ])); //Error 
-                var str = swcHelpers.classPrivateMethodGet(this, _method2, method2).bind(this)(_templateObject(), 1, 2);
-                swcHelpers.classPrivateMethodGet(_ref = this.getInstance(), _method2, method2).bind(_ref)(_templateObject1(), 1, 2);
-                (_instance1 = swcHelpers.classPrivateMethodGet(_ref1 = this.getInstance(), _method2, method2)).call.apply(_instance1, [
-                    _ref1,
-                    0
-                ].concat(swcHelpers.toConsumableArray(arr), [
-                    3
-                ]));
-                var b2 = swcHelpers.construct(swcHelpers.classPrivateMethodGet(_ref2 = this.getInstance(), _method2, method2), [
-                    0
-                ].concat(swcHelpers.toConsumableArray(arr), [
-                    3
-                ])); //Error 
-                var str2 = swcHelpers.classPrivateMethodGet(_ref3 = this.getInstance(), _method2, method2).bind(_ref3)(_templateObject2(), 1, 2);
-            }
-        },
-        {
-            key: "getInstance",
-            value: function getInstance() {
-                return new AA();
-            }
-        }
-    ]);
+    var _proto = AA.prototype;
+    _proto.test = function test() {
+        var _instance, _instance1;
+        var _ref, _ref1, _ref2, _ref3;
+        swcHelpers.classPrivateMethodGet(this, _method, method).call(this);
+        var func = swcHelpers.classPrivateMethodGet(this, _method, method);
+        func();
+        new (swcHelpers.classPrivateMethodGet(this, _method, method))();
+        var arr = [
+            1,
+            2
+        ];
+        (_instance = swcHelpers.classPrivateMethodGet(this, _method2, method2)).call.apply(_instance, [
+            this,
+            0
+        ].concat(swcHelpers.toConsumableArray(arr), [
+            3
+        ]));
+        var b = swcHelpers.construct(swcHelpers.classPrivateMethodGet(this, _method2, method2), [
+            0
+        ].concat(swcHelpers.toConsumableArray(arr), [
+            3
+        ])); //Error 
+        var str = swcHelpers.classPrivateMethodGet(this, _method2, method2).bind(this)(_templateObject(), 1, 2);
+        swcHelpers.classPrivateMethodGet(_ref = this.getInstance(), _method2, method2).bind(_ref)(_templateObject1(), 1, 2);
+        (_instance1 = swcHelpers.classPrivateMethodGet(_ref1 = this.getInstance(), _method2, method2)).call.apply(_instance1, [
+            _ref1,
+            0
+        ].concat(swcHelpers.toConsumableArray(arr), [
+            3
+        ]));
+        var b2 = swcHelpers.construct(swcHelpers.classPrivateMethodGet(_ref2 = this.getInstance(), _method2, method2), [
+            0
+        ].concat(swcHelpers.toConsumableArray(arr), [
+            3
+        ])); //Error 
+        var str2 = swcHelpers.classPrivateMethodGet(_ref3 = this.getInstance(), _method2, method2).bind(_ref3)(_templateObject2(), 1, 2);
+    };
+    _proto.getInstance = function getInstance() {
+        return new AA();
+    };
     return AA;
 }();
 function method() {

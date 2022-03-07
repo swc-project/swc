@@ -5,14 +5,10 @@ var C = // @target: es5
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "bar",
-            value: function bar() {
-                var obj = swcHelpers.defineProperty({}, this.bar(), function() {});
-                return 0;
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.bar = function bar() {
+        var obj = swcHelpers.defineProperty({}, this.bar(), function() {});
+        return 0;
+    };
     return C;
 }();

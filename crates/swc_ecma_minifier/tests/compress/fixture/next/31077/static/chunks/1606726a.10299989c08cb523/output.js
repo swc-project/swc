@@ -1713,7 +1713,7 @@
                     var view1, event1, event2, result, code, mods;
                     view2.someProp("handleKeyDown", function(f) {
                         return f(view2, event);
-                    }) || (view1 = view2, code = (event1 = event).keyCode, result = "", (event2 = event1).ctrlKey && (result += "c"), event2.metaKey && (result += "m"), event2.altKey && (result += "a"), event2.shiftKey && (result += "s"), mods = result, 8 == code || result1.mac && 72 == code && "c" == mods ? stopNativeHorizontalDelete(view1, -1) || skipIgnoredNodesLeft(view1) : 46 == code || result1.mac && 68 == code && "c" == mods ? stopNativeHorizontalDelete(view1, 1) || skipIgnoredNodesRight(view1) : 13 == code || 27 == code || (37 == code ? selectHorizontally(view1, -1, mods) || skipIgnoredNodesLeft(view1) : 39 == code ? selectHorizontally(view1, 1, mods) || skipIgnoredNodesRight(view1) : 38 == code ? selectVertically(view1, -1, mods) || skipIgnoredNodesLeft(view1) : 40 == code ? (function(view) {
+                    }) || (view1 = view2, code = (event1 = event).keyCode, result = "", (event2 = event1).ctrlKey && (result += "c"), event2.metaKey && (result += "m"), event2.altKey && (result += "a"), event2.shiftKey && (result += "s"), mods = result, 8 == code || result1.mac && 72 == code && "c" == mods ? stopNativeHorizontalDelete(view1, -1) || skipIgnoredNodesLeft(view1) : 46 == code || result1.mac && 68 == code && "c" == mods ? stopNativeHorizontalDelete(view1, 1) || skipIgnoredNodesRight(view1) : 13 == code || 27 == code || (37 == code ? selectHorizontally(view1, -1, mods) || skipIgnoredNodesLeft(view1) : 39 == code ? selectHorizontally(view1, 1, mods) || skipIgnoredNodesRight(view1) : 38 == code ? selectVertically(view1, -1, mods) || skipIgnoredNodesLeft(view1) : 40 == code ? function(view) {
                         if (result1.safari && !(view.state.selection.$head.parentOffset > 0)) {
                             var ref = view.root.getSelection(), focusNode = ref.focusNode, focusOffset = ref.focusOffset;
                             if (focusNode && 1 == focusNode.nodeType && 0 == focusOffset && focusNode.firstChild && "false" == focusNode.firstChild.contentEditable) {
@@ -1723,7 +1723,7 @@
                                 }, 20);
                             }
                         }
-                    })(view1) || selectVertically(view1, 1, mods) || skipIgnoredNodesRight(view1) : mods == (result1.mac ? "m" : "c") && (66 == code || 73 == code || 89 == code || 90 == code))) ? event.preventDefault() : setSelectionOrigin(view2, "key");
+                    }(view1) || selectVertically(view1, 1, mods) || skipIgnoredNodesRight(view1) : mods == (result1.mac ? "m" : "c") && (66 == code || 73 == code || 89 == code || 90 == code))) ? event.preventDefault() : setSelectionOrigin(view2, "key");
                 } else {
                     var now = Date.now();
                     view2.lastIOSEnter = now, view2.lastIOSEnterFallbackTimeout = setTimeout(function() {
@@ -1797,7 +1797,7 @@
                     var view3, pos, inside1, event4, selectNode, pos1 = this.pos;
                     (this.view.state.doc != this.startDoc && (pos1 = this.view.posAtCoords(eventCoords(event))), this.allowDefault || !pos1) ? setSelectionOrigin(this.view, "pointer") : (view3 = this.view, pos = pos1.pos, inside1 = pos1.inside, event4 = event, selectNode = this.selectNode, runHandlerOnContext(view3, "handleClickOn", pos, inside1, event4) || view3.someProp("handleClick", function(f) {
                         return f(view3, pos, event4);
-                    }) || (selectNode ? (function(view, inside) {
+                    }) || (selectNode ? function(view, inside) {
                         if (-1 == inside) return !1;
                         var selectedNode, selectAt, sel = view.state.selection;
                         sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection && (selectedNode = sel.node);
@@ -1809,11 +1809,11 @@
                             }
                         }
                         return null != selectAt && (updateSelection(view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection.create(view.state.doc, selectAt), "pointer"), !0);
-                    })(view3, inside1) : (function(view, inside) {
+                    }(view3, inside1) : function(view, inside) {
                         if (-1 == inside) return !1;
                         var $pos = view.state.doc.resolve(inside), node = $pos.nodeAfter;
                         return !!(node && node.isAtom && prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection.isSelectable(node)) && (updateSelection(view, new prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection($pos), "pointer"), !0);
-                    })(view3, inside1))) ? event.preventDefault() : 0 == event.button && (this.flushed || result1.safari && this.mightDrag && !this.mightDrag.node.isAtom || result1.chrome && !(this.view.state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection) && 2 >= Math.min(Math.abs(pos1.pos - this.view.state.selection.from), Math.abs(pos1.pos - this.view.state.selection.to))) ? (updateSelection(this.view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.Selection.near(this.view.state.doc.resolve(pos1.pos)), "pointer"), event.preventDefault()) : setSelectionOrigin(this.view, "pointer");
+                    }(view3, inside1))) ? event.preventDefault() : 0 == event.button && (this.flushed || result1.safari && this.mightDrag && !this.mightDrag.node.isAtom || result1.chrome && !(this.view.state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection) && 2 >= Math.min(Math.abs(pos1.pos - this.view.state.selection.from), Math.abs(pos1.pos - this.view.state.selection.to))) ? (updateSelection(this.view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.Selection.near(this.view.state.doc.resolve(pos1.pos)), "pointer"), event.preventDefault()) : setSelectionOrigin(this.view, "pointer");
                 }
             }, MouseDown.prototype.move = function(event) {
                 !this.allowDefault && (Math.abs(this.event.x - event.clientX) > 4 || Math.abs(this.event.y - event.clientY) > 4) && (this.allowDefault = !0), setSelectionOrigin(this.view, "pointer"), 0 == event.buttons && this.done();
@@ -1878,7 +1878,7 @@
                 var sel1 = view5.state.selection, cut = "cut" == e.type;
                 if (!sel1.empty) {
                     var data = brokenClipboardAPI ? null : e.clipboardData, ref = serializeForClipboard(view5, sel1.content()), dom1 = ref.dom, text = ref.text;
-                    data ? (e.preventDefault(), data.clearData(), data.setData("text/html", dom1.innerHTML), data.setData("text/plain", text)) : (function(view, dom) {
+                    data ? (e.preventDefault(), data.clearData(), data.setData("text/html", dom1.innerHTML), data.setData("text/plain", text)) : function(view, dom) {
                         if (view.dom.parentNode) {
                             var wrap = view.dom.parentNode.appendChild(document.createElement("div"));
                             wrap.appendChild(dom), wrap.style.cssText = "position: fixed; left: -10000px; top: 10px";
@@ -1887,18 +1887,18 @@
                                 wrap.parentNode && wrap.parentNode.removeChild(wrap), view.focus();
                             }, 50);
                         }
-                    })(view5, dom1), cut && view5.dispatch(view5.state.tr.deleteSelection().scrollIntoView().setMeta("uiEvent", "cut"));
+                    }(view5, dom1), cut && view5.dispatch(view5.state.tr.deleteSelection().scrollIntoView().setMeta("uiEvent", "cut"));
                 }
             }, editHandlers.paste = function(view6, e1) {
                 var data = brokenClipboardAPI ? null : e1.clipboardData;
-                data && doPaste(view6, data.getData("text/plain"), data.getData("text/html"), e1) ? e1.preventDefault() : (function(view, e) {
+                data && doPaste(view6, data.getData("text/plain"), data.getData("text/html"), e1) ? e1.preventDefault() : function(view, e) {
                     if (view.dom.parentNode) {
                         var plainText = view.shiftKey || view.state.selection.$from.parent.type.spec.code, target = view.dom.parentNode.appendChild(document.createElement(plainText ? "textarea" : "div"));
                         plainText || (target.contentEditable = "true"), target.style.cssText = "position: fixed; left: -10000px; top: 10px", target.focus(), setTimeout(function() {
                             view.focus(), target.parentNode && target.parentNode.removeChild(target), plainText ? doPaste(view, target.value, null, e) : doPaste(view, target.textContent, target.innerHTML, e);
                         }, 50);
                     }
-                })(view6, e1);
+                }(view6, e1);
             };
             var Dragging = function(slice, move) {
                 this.slice = slice, this.move = move;
@@ -2285,7 +2285,7 @@
                 }
             };
             var EditorView = function(place, props) {
-                this._props = props, this.state = props.state, this.directPlugins = props.plugins || [], this.directPlugins.forEach(checkStateComponent), this.dispatch = this.dispatch.bind(this), this._root = null, this.focused = !1, this.trackWrites = null, this.dom = place && place.mount || document.createElement("div"), place && (place.appendChild ? place.appendChild(this.dom) : place.apply ? place(this.dom) : place.mount && (this.mounted = !0)), this.editable = getEditable(this), this.markCursor = null, this.cursorWrapper = null, updateCursorWrapper(this), this.nodeViews = buildNodeViews(this), this.docView = docViewDesc(this.state.doc, computeDocDeco(this), viewDecorations(this), this.dom, this), this.lastSelectedViewDesc = null, this.dragging = null, (function(view7) {
+                this._props = props, this.state = props.state, this.directPlugins = props.plugins || [], this.directPlugins.forEach(checkStateComponent), this.dispatch = this.dispatch.bind(this), this._root = null, this.focused = !1, this.trackWrites = null, this.dom = place && place.mount || document.createElement("div"), place && (place.appendChild ? place.appendChild(this.dom) : place.apply ? place(this.dom) : place.mount && (this.mounted = !0)), this.editable = getEditable(this), this.markCursor = null, this.cursorWrapper = null, updateCursorWrapper(this), this.nodeViews = buildNodeViews(this), this.docView = docViewDesc(this.state.doc, computeDocDeco(this), viewDecorations(this), this.dom, this), this.lastSelectedViewDesc = null, this.dragging = null, function(view7) {
                     for(var event5 in view7.shiftKey = !1, view7.mouseDown = null, view7.lastKeyCode = null, view7.lastKeyCodeTime = 0, view7.lastClick = {
                         time: 0,
                         x: 0,
@@ -2399,13 +2399,13 @@
                                 view8.lastIOSEnter = 0;
                                 return;
                             }
-                            if (view8.state.selection.anchor > change.start && (function(old, start, end, $newStart, $newEnd) {
+                            if (view8.state.selection.anchor > change.start && function(old, start, end, $newStart, $newEnd) {
                                 if (!$newStart.parent.isTextblock || end - start <= $newEnd.pos - $newStart.pos || skipClosingAndOpening($newStart, !0, !1) < $newEnd.pos) return !1;
                                 var $start = old.resolve(start);
                                 if ($start.parentOffset < $start.parent.content.size || !$start.parent.isTextblock) return !1;
                                 var $next = old.resolve(skipClosingAndOpening($start, !0, !0));
                                 return !(!$next.parent.isTextblock || $next.pos > end || skipClosingAndOpening($next, !0, !1) < end) && $newStart.parent.content.cut($newStart.parentOffset).eq($next.parent.content);
-                            })(doc1, change.start, change.endA, $from2, $to) && view8.someProp("handleKeyDown", function(f) {
+                            }(doc1, change.start, change.endA, $from2, $to) && view8.someProp("handleKeyDown", function(f) {
                                 return f(view8, keyEvent(8, "Backspace"));
                             })) {
                                 result1.android && result1.chrome && view8.domObserver.suppressSelectionUpdates();
@@ -2421,7 +2421,7 @@
                                 if ($from2.pos == $to.pos) result1.ie && result1.ie_version <= 11 && 0 == $from2.parentOffset && (view8.domObserver.suppressSelectionUpdates(), setTimeout(function() {
                                     return selectionToDOM(view8);
                                 }, 20)), tr = view8.state.tr.delete(chFrom, chTo), storedMarks = doc1.resolve(change.start).marksAcross(doc1.resolve(change.endA));
-                                else if (change.endA == change.endB && ($from1 = doc1.resolve(change.start)) && (markChange = (function(cur, prev) {
+                                else if (change.endA == change.endB && ($from1 = doc1.resolve(change.start)) && (markChange = function(cur, prev) {
                                     for(var type, mark, update, curMarks = cur.firstChild.marks, prevMarks = prev.firstChild.marks, added = curMarks, removed = prevMarks, i = 0; i < prevMarks.length; i++)added = prevMarks[i].removeFromSet(added);
                                     for(var i$1 = 0; i$1 < curMarks.length; i$1++)removed = curMarks[i$1].removeFromSet(removed);
                                     if (1 == added.length && 0 == removed.length) mark = added[0], type = "add", update = function(node) {
@@ -2438,7 +2438,7 @@
                                         mark: mark,
                                         type: type
                                     };
-                                })($from2.parent.content.cut($from2.parentOffset, $to.parentOffset), $from1.parent.content.cut($from1.parentOffset, change.endA - $from1.start())))) tr = view8.state.tr, "add" == markChange.type ? tr.addMark(chFrom, chTo, markChange.mark) : tr.removeMark(chFrom, chTo, markChange.mark);
+                                }($from2.parent.content.cut($from2.parentOffset, $to.parentOffset), $from1.parent.content.cut($from1.parentOffset, change.endA - $from1.start())))) tr = view8.state.tr, "add" == markChange.type ? tr.addMark(chFrom, chTo, markChange.mark) : tr.removeMark(chFrom, chTo, markChange.mark);
                                 else if ($from2.parent.child($from2.index()).isText && $from2.index() == $to.index() - ($to.textOffset ? 0 : 1)) {
                                     var text$1 = $from2.parent.textBetween($from2.parentOffset, $to.parentOffset);
                                     if (view8.someProp("handleTextInput", function(f) {
@@ -2462,7 +2462,7 @@
                     result1.safari && view7.dom.addEventListener("input", function() {
                         return null;
                     }), ensureListeners(view7);
-                })(this), this.prevDirectPlugins = [], this.pluginViews = [], this.updatePluginViews();
+                }(this), this.prevDirectPlugins = [], this.pluginViews = [], this.updatePluginViews();
             }, prototypeAccessors$21 = {
                 props: {
                     configurable: !0
@@ -2604,7 +2604,7 @@
             }, EditorView.prototype.hasFocus = function() {
                 return this.root.activeElement == this.dom;
             }, EditorView.prototype.focus = function() {
-                this.domObserver.stop(), this.editable && (function(dom) {
+                this.domObserver.stop(), this.editable && function(dom) {
                     if (dom.setActive) return dom.setActive();
                     if (preventScrollSupported) return dom.focus(preventScrollSupported);
                     var stored = scrollStack(dom);
@@ -2615,7 +2615,7 @@
                             }, !0;
                         }
                     } : void 0), preventScrollSupported || (preventScrollSupported = !1, restoreScrollStack(stored, 0));
-                })(this.dom), selectionToDOM(this), this.domObserver.start();
+                }(this.dom), selectionToDOM(this), this.domObserver.start();
             }, prototypeAccessors$21.root.get = function() {
                 var cached = this._root;
                 if (null == cached) {
@@ -2647,7 +2647,7 @@
                             var dom, coords1, parent, box$1, next = node1.childNodes[offset1];
                             "IMG" == next.nodeName && (box$1 = next.getBoundingClientRect()).right <= coords3.left && box$1.bottom > coords3.top && offset1++;
                         }
-                        node1 == view10.dom && offset1 == node1.childNodes.length - 1 && 1 == node1.lastChild.nodeType && coords3.top > node1.lastChild.getBoundingClientRect().bottom ? pos = view10.state.doc.content.size : (0 == offset1 || 1 != node1.nodeType || "BR" != node1.childNodes[offset1 - 1].nodeName) && (pos = (function(view, node, offset, coords) {
+                        node1 == view10.dom && offset1 == node1.childNodes.length - 1 && 1 == node1.lastChild.nodeType && coords3.top > node1.lastChild.getBoundingClientRect().bottom ? pos = view10.state.doc.content.size : (0 == offset1 || 1 != node1.nodeType || "BR" != node1.childNodes[offset1 - 1].nodeName) && (pos = function(view, node, offset, coords) {
                             for(var outside = -1, cur = node;;){
                                 if (cur == view.dom) break;
                                 var desc = view.docView.nearestDesc(cur, !0);
@@ -2661,16 +2661,16 @@
                                 cur = desc.dom.parentNode;
                             }
                             return outside > -1 ? outside : view.docView.posFromDOM(node, offset);
-                        })(view10, node1, offset1, coords3));
+                        }(view10, node1, offset1, coords3));
                     }
-                    null == pos && (pos = (function(view, elt, coords) {
+                    null == pos && (pos = function(view, elt, coords) {
                         var ref = findOffsetInNode(elt, coords), node = ref.node, offset = ref.offset, bias = -1;
                         if (1 == node.nodeType && !node.firstChild) {
                             var rect = node.getBoundingClientRect();
                             bias = rect.left != rect.right && coords.left > (rect.left + rect.right) / 2 ? 1 : -1;
                         }
                         return view.docView.posFromDOM(node, offset, bias);
-                    })(view10, elt1, coords3));
+                    }(view10, elt1, coords3));
                     var desc1 = view10.docView.nearestDesc(elt1, !0);
                     return {
                         pos: pos,
@@ -2714,7 +2714,7 @@
                         }
                     }
                     return !0;
-                })) : (function(view, state, dir) {
+                })) : function(view, state, dir) {
                     var $head = state.selection.$head;
                     if (!$head.parent.isTextblock) return !1;
                     var offset = $head.parentOffset, atEnd = offset == $head.parent.content.size, sel = view.root.getSelection();
@@ -2724,12 +2724,12 @@
                         var parentDOM = $head.depth ? view.docView.domAfterPos($head.before()) : view.dom, result = !parentDOM.contains(1 == sel.focusNode.nodeType ? sel.focusNode : sel.focusNode.parentNode) || oldNode == sel.focusNode && oldOff == sel.focusOffset;
                         return sel.removeAllRanges(), sel.addRange(oldRange), null != oldBidiLevel && (sel.caretBidiLevel = oldBidiLevel), result;
                     }) : "left" == dir || "backward" == dir ? !offset : atEnd;
-                })(view12, state1, dir1));
+                }(view12, state1, dir1));
             }, EditorView.prototype.destroy = function() {
-                this.docView && ((function(view) {
+                this.docView && (function(view) {
                     for(var type in view.domObserver.stop(), view.eventHandlers)view.dom.removeEventListener(type, view.eventHandlers[type]);
                     clearTimeout(view.composingTimeout), clearTimeout(view.lastIOSEnterFallbackTimeout);
-                })(this), this.destroyPluginViews(), this.mounted ? (this.docView.update(this.state.doc, [], viewDecorations(this), this), this.dom.textContent = "") : this.dom.parentNode && this.dom.parentNode.removeChild(this.dom), this.docView.destroy(), this.docView = null);
+                }(this), this.destroyPluginViews(), this.mounted ? (this.docView.update(this.state.doc, [], viewDecorations(this), this), this.dom.textContent = "") : this.dom.parentNode && this.dom.parentNode.removeChild(this.dom), this.docView.destroy(), this.docView = null);
             }, EditorView.prototype.dispatchEvent = function(event) {
                 var view, event7;
                 return view = this, void (runCustomHandler(view, event7 = event) || !handlers1[event7.type] || !view.editable && event7.type in editHandlers || handlers1[event7.type](view, event7));

@@ -37,9 +37,9 @@ C.z3 = swcHelpers.get(swcHelpers.getPrototypeOf(C), "f", C).call(C);
 C.z4 = swcHelpers.get(swcHelpers.getPrototypeOf(C), "f", C).call(C);
 C.z5 = swcHelpers.set(swcHelpers.getPrototypeOf(C.prototype), "a", 0, C, true);
 C.z6 = swcHelpers.set(swcHelpers.getPrototypeOf(C.prototype), "a", swcHelpers.get(swcHelpers.getPrototypeOf(C), "a", C) + 1, C, true);
-C.z7 = (function() {
+C.z7 = function() {
     swcHelpers.set(swcHelpers.getPrototypeOf(C.prototype), "a", 0, C, true);
-})();
+}();
 var ref;
 C.z8 = (ref = [
     0

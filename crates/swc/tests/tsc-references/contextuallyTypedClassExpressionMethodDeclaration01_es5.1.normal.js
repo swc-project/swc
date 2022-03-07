@@ -5,20 +5,12 @@ function getFoo1() {
         function _class() {
             swcHelpers.classCallCheck(this, _class);
         }
-        swcHelpers.createClass(_class, null, [
-            {
-                key: "method1",
-                value: function method1(arg) {
-                    arg.numProp = 10;
-                }
-            },
-            {
-                key: "method2",
-                value: function method2(arg) {
-                    arg.strProp = "hello";
-                }
-            }
-        ]);
+        _class.method1 = function method1(arg) {
+            arg.numProp = 10;
+        };
+        _class.method2 = function method2(arg) {
+            arg.strProp = "hello";
+        };
         return _class;
     })();
 }

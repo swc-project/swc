@@ -5,12 +5,8 @@ var A = // @target: es6
     function A(x) {
         swcHelpers.classCallCheck(this, A);
     }
-    swcHelpers.createClass(A, [
-        {
-            key: "foo",
-            value: function foo() {}
-        }
-    ]);
+    var _proto = A.prototype;
+    _proto.foo = function foo() {};
     return A;
 }();
 var B = /*#__PURE__*/ function() {
@@ -24,13 +20,9 @@ var B = /*#__PURE__*/ function() {
         this.x = "hello";
         this.y = 10;
     }
-    swcHelpers.createClass(B, [
-        {
-            key: "baz",
-            value: function baz(z, v) {
-                return this._bar;
-            }
-        }
-    ]);
+    var _proto = B.prototype;
+    _proto.baz = function baz(z, v) {
+        return this._bar;
+    };
     return B;
 }();

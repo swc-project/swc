@@ -4,14 +4,9 @@ var Base = function() {
     function Base() {
         swcHelpers.classCallCheck(this, Base);
     }
-    return swcHelpers.createClass(Base, null, [
-        {
-            key: "staticMethod",
-            value: function() {
-                this.x;
-            }
-        }
-    ]), Base;
+    return Base.staticMethod = function() {
+        this.x;
+    }, Base;
 }(), Derived1 = function(Base) {
     "use strict";
     swcHelpers.inherits(Derived1, Base);
@@ -19,14 +14,9 @@ var Base = function() {
     function Derived1() {
         return swcHelpers.classCallCheck(this, Derived1), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(Derived1, null, [
-        {
-            key: "staticMethod1",
-            value: function() {
-                this.x, swcHelpers.get(swcHelpers.getPrototypeOf(Derived1), "x", this);
-            }
-        }
-    ]), Derived1;
+    return Derived1.staticMethod1 = function() {
+        this.x, swcHelpers.get(swcHelpers.getPrototypeOf(Derived1), "x", this);
+    }, Derived1;
 }(Base), Derived2 = function(Derived1) {
     "use strict";
     swcHelpers.inherits(Derived2, Derived1);
@@ -34,12 +24,7 @@ var Base = function() {
     function Derived2() {
         return swcHelpers.classCallCheck(this, Derived2), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(Derived2, null, [
-        {
-            key: "staticMethod3",
-            value: function() {
-                this.x, swcHelpers.get(swcHelpers.getPrototypeOf(Derived2), "x", this);
-            }
-        }
-    ]), Derived2;
+    return Derived2.staticMethod3 = function() {
+        this.x, swcHelpers.get(swcHelpers.getPrototypeOf(Derived2), "x", this);
+    }, Derived2;
 }(Derived1);

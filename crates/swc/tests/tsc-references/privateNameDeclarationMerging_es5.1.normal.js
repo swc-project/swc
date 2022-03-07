@@ -13,16 +13,12 @@ var C = /*#__PURE__*/ function() {
             value: void 0
         });
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function foo() {
-                var c = new C();
-                swcHelpers.classPrivateFieldGet(c, _x); // OK
-                var d = new C();
-                swcHelpers.classPrivateFieldGet(d, _x); // Error
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.foo = function foo() {
+        var c = new C();
+        swcHelpers.classPrivateFieldGet(c, _x); // OK
+        var d = new C();
+        swcHelpers.classPrivateFieldGet(d, _x); // Error
+    };
     return C;
 }();

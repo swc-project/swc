@@ -10,12 +10,9 @@ var Handler = // @allowJs: true
     function Handler() {
         swcHelpers.classCallCheck(this, Handler);
     }
-    swcHelpers.createClass(Handler, [
-        {
-            key: "process",
-            value: function process() {}
-        }
-    ], [
+    var _proto = Handler.prototype;
+    _proto.process = function process() {};
+    swcHelpers.createClass(Handler, null, [
         {
             key: "OPTIONS",
             get: function get() {

@@ -19,7 +19,7 @@ var M, N, O, C = function(_E) {
         return D;
     }(C);
     M1.D = D;
-}(M || (M = {})), (function(N1) {
+}(M || (M = {})), function(N1) {
     var E = function(_D) {
         "use strict";
         swcHelpers.inherits(E, _D);
@@ -30,7 +30,7 @@ var M, N, O, C = function(_E) {
         return E;
     }(M.D);
     N1.E = E;
-})(N || (N = {})), (function(O) {
+}(N || (N = {})), function(O) {
     var P, _$Q, P1, D2, Q1, E2, C2 = function(_E2) {
         "use strict";
         swcHelpers.inherits(C2, _E2);
@@ -40,7 +40,7 @@ var M, N, O, C = function(_E) {
         }
         return C2;
     }(Q.E2);
-    P1 = P || (P = {}), D2 = (function(C2) {
+    P1 = P || (P = {}), D2 = function(C2) {
         "use strict";
         swcHelpers.inherits(D2, C2);
         var _super = swcHelpers.createSuper(D2);
@@ -48,7 +48,7 @@ var M, N, O, C = function(_E) {
             return swcHelpers.classCallCheck(this, D2), _super.apply(this, arguments);
         }
         return D2;
-    })(C2), P1.D2 = D2, Q1 = _$Q || (_$Q = {}), E2 = (function(_D2) {
+    }(C2), P1.D2 = D2, Q1 = _$Q || (_$Q = {}), E2 = function(_D2) {
         "use strict";
         swcHelpers.inherits(E2, _D2);
         var _super = swcHelpers.createSuper(E2);
@@ -56,5 +56,5 @@ var M, N, O, C = function(_E) {
             return swcHelpers.classCallCheck(this, E2), _super.apply(this, arguments);
         }
         return E2;
-    })(P.D2), Q1.E2 = E2;
-})(O || (O = {}));
+    }(P.D2), Q1.E2 = E2;
+}(O || (O = {}));

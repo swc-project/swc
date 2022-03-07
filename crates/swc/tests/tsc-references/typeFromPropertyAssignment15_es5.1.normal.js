@@ -4,20 +4,16 @@ import * as swcHelpers from "@swc/helpers";
 // @checkJs: true
 // @Filename: a.js
 var Outer = {};
-Outer.Inner = /*#__PURE__*/ (function() {
+Outer.Inner = /*#__PURE__*/ function() {
     "use strict";
     function _class() {
         swcHelpers.classCallCheck(this, _class);
         this.x = 1;
     }
-    swcHelpers.createClass(_class, [
-        {
-            key: "m",
-            value: function m() {}
-        }
-    ]);
+    var _proto = _class.prototype;
+    _proto.m = function m() {};
     return _class;
-})();
+}();
 /** @type {Outer.Inner} */ var inner;
 inner.x;
 inner.m();

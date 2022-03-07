@@ -10,19 +10,14 @@ C.f = 1, C.arrowFunctionBoundary = function() {
 }, C.classExprBoundary = function _class() {
     "use strict";
     swcHelpers.classCallCheck(this, _class), this.a = this.f + 3;
-}, C.functionAndClassDeclBoundary = (function() {
+}, C.functionAndClassDeclBoundary = function() {
     var CC = function() {
         "use strict";
         function CC() {
             swcHelpers.classCallCheck(this, CC), this.a = this.f + 5;
         }
-        return swcHelpers.createClass(CC, [
-            {
-                key: "method",
-                value: function() {
-                    return this.f + 6;
-                }
-            }
-        ]), CC;
+        return CC.prototype.method = function() {
+            return this.f + 6;
+        }, CC;
     }();
-})();
+}();

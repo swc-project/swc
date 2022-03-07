@@ -5,14 +5,10 @@ var B = // @target: es6
     function B() {
         swcHelpers.classCallCheck(this, B);
     }
-    swcHelpers.createClass(B, [
-        {
-            key: "baz",
-            value: function baz(a) {
-                var y = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 10;
-            }
-        }
-    ]);
+    var _proto = B.prototype;
+    _proto.baz = function baz(a) {
+        var y = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 10;
+    };
     return B;
 }();
 var C = /*#__PURE__*/ function(B) {
@@ -23,18 +19,11 @@ var C = /*#__PURE__*/ function(B) {
         swcHelpers.classCallCheck(this, C);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function foo() {}
-        },
-        {
-            key: "baz",
-            value: function baz(a, y) {
-                swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "baz", this).call(this, a, y);
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.foo = function foo() {};
+    _proto.baz = function baz(a, y) {
+        swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "baz", this).call(this, a, y);
+    };
     return C;
 }(B);
 var D = /*#__PURE__*/ function(C) {
@@ -45,19 +34,12 @@ var D = /*#__PURE__*/ function(C) {
         swcHelpers.classCallCheck(this, D);
         return _super.call(this);
     }
-    swcHelpers.createClass(D, [
-        {
-            key: "foo",
-            value: function foo() {
-                swcHelpers.get(swcHelpers.getPrototypeOf(D.prototype), "foo", this).call(this);
-            }
-        },
-        {
-            key: "baz",
-            value: function baz() {
-                swcHelpers.get(swcHelpers.getPrototypeOf(D.prototype), "baz", this).call(this, "hello", 10);
-            }
-        }
-    ]);
+    var _proto = D.prototype;
+    _proto.foo = function foo() {
+        swcHelpers.get(swcHelpers.getPrototypeOf(D.prototype), "foo", this).call(this);
+    };
+    _proto.baz = function baz() {
+        swcHelpers.get(swcHelpers.getPrototypeOf(D.prototype), "baz", this).call(this, "hello", 10);
+    };
     return D;
 }(C);

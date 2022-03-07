@@ -27,41 +27,33 @@ var A = // @target: es2015
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    swcHelpers.createClass(A, null, [
-        {
-            key: "test",
-            value: function test() {
-                var _instance;
-                swcHelpers.classStaticPrivateFieldSpecGet(this, A, _fieldFunc).call(A);
-                var func = swcHelpers.classStaticPrivateFieldSpecGet(this, A, _fieldFunc);
-                func();
-                new (swcHelpers.classStaticPrivateFieldSpecGet(this, A, _fieldFunc))();
-                var arr = [
-                    1,
-                    2
-                ];
-                (_instance = swcHelpers.classStaticPrivateFieldSpecGet(this, A, _fieldFunc2)).call.apply(_instance, [
-                    A,
-                    0
-                ].concat(swcHelpers.toConsumableArray(arr), [
-                    3
-                ]));
-                var b = swcHelpers.construct(swcHelpers.classStaticPrivateFieldSpecGet(this, A, _fieldFunc2), [
-                    0
-                ].concat(swcHelpers.toConsumableArray(arr), [
-                    3
-                ]));
-                var str = swcHelpers.classStaticPrivateFieldSpecGet(this, A, _fieldFunc2).bind(A)(_templateObject(), 1, 2);
-                swcHelpers.classStaticPrivateFieldSpecGet(this.getClass(), A, _fieldFunc2).bind(A)(_templateObject1(), 1, 2);
-            }
-        },
-        {
-            key: "getClass",
-            value: function getClass() {
-                return A;
-            }
-        }
-    ]);
+    A.test = function test() {
+        var _instance;
+        swcHelpers.classStaticPrivateFieldSpecGet(this, A, _fieldFunc).call(A);
+        var func = swcHelpers.classStaticPrivateFieldSpecGet(this, A, _fieldFunc);
+        func();
+        new (swcHelpers.classStaticPrivateFieldSpecGet(this, A, _fieldFunc))();
+        var arr = [
+            1,
+            2
+        ];
+        (_instance = swcHelpers.classStaticPrivateFieldSpecGet(this, A, _fieldFunc2)).call.apply(_instance, [
+            A,
+            0
+        ].concat(swcHelpers.toConsumableArray(arr), [
+            3
+        ]));
+        var b = swcHelpers.construct(swcHelpers.classStaticPrivateFieldSpecGet(this, A, _fieldFunc2), [
+            0
+        ].concat(swcHelpers.toConsumableArray(arr), [
+            3
+        ]));
+        var str = swcHelpers.classStaticPrivateFieldSpecGet(this, A, _fieldFunc2).bind(A)(_templateObject(), 1, 2);
+        swcHelpers.classStaticPrivateFieldSpecGet(this.getClass(), A, _fieldFunc2).bind(A)(_templateObject1(), 1, 2);
+    };
+    A.getClass = function getClass() {
+        return A;
+    };
     return A;
 }();
 var _fieldFunc = {

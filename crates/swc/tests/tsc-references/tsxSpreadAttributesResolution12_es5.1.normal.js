@@ -21,14 +21,10 @@ var OverWriteAttr = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, OverWriteAttr);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(OverWriteAttr, [
-        {
-            key: "render",
-            value: function render() {
-                return(/*#__PURE__*/ React.createElement("div", null, "Hello"));
-            }
-        }
-    ]);
+    var _proto = OverWriteAttr.prototype;
+    _proto.render = function render() {
+        return(/*#__PURE__*/ React.createElement("div", null, "Hello"));
+    };
     return OverWriteAttr;
 }(React.Component);
 var anyobj;

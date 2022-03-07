@@ -62,67 +62,47 @@ var C0 = function() {
     function C0() {
         swcHelpers.classCallCheck(this, C0), this.a = s, this.b = N.s, this.c = N.s, this.d = s, this.e = N.s, this.f = N.s;
     }
-    return swcHelpers.createClass(C0, [
-        {
-            key: "method1",
-            value: function() {
-                return s;
+    var _proto = C0.prototype;
+    return _proto.method1 = function() {
+        return s;
+    }, _proto.method2 = function() {
+        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function(_ctx) {
+                for(;;)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        return _ctx.abrupt("return", s);
+                    case 1:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
+    }, _proto.method3 = function() {
+        return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function(_ctx) {
+                for(;;)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        return _ctx.next = 2, s;
+                    case 2:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
+    }, _proto.method4 = regeneratorRuntime.mark(function method4() {
+        return regeneratorRuntime.wrap(function(_ctx) {
+            for(;;)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    return _ctx.next = 2, s;
+                case 2:
+                case "end":
+                    return _ctx.stop();
             }
-        },
-        {
-            key: "method2",
-            value: function() {
-                return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                    return regeneratorRuntime.wrap(function(_ctx) {
-                        for(;;)switch(_ctx.prev = _ctx.next){
-                            case 0:
-                                return _ctx.abrupt("return", s);
-                            case 1:
-                            case "end":
-                                return _ctx.stop();
-                        }
-                    }, _callee);
-                }))();
-            }
-        },
-        {
-            key: "method3",
-            value: function() {
-                return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
-                    return regeneratorRuntime.wrap(function(_ctx) {
-                        for(;;)switch(_ctx.prev = _ctx.next){
-                            case 0:
-                                return _ctx.next = 2, s;
-                            case 2:
-                            case "end":
-                                return _ctx.stop();
-                        }
-                    }, _callee);
-                }))();
-            }
-        },
-        {
-            key: "method4",
-            value: regeneratorRuntime.mark(function method4() {
-                return regeneratorRuntime.wrap(function(_ctx) {
-                    for(;;)switch(_ctx.prev = _ctx.next){
-                        case 0:
-                            return _ctx.next = 2, s;
-                        case 2:
-                        case "end":
-                            return _ctx.stop();
-                    }
-                }, method4);
-            })
-        },
-        {
-            key: "method5",
-            value: function() {
-                var p = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : s;
-                return p;
-            }
-        }
-    ]), C0;
+        }, method4);
+    }), _proto.method5 = function() {
+        var p = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : s;
+        return p;
+    }, C0;
 }();
 C0.a = s, C0.b = N.s, C0.c = N.s, C0.d = s, C0.e = N.s, C0.f = N.s, o[s], o[N.s], o[N.s], f(s), f(N.s), f(N.s), g(s), g(N.s), g(N.s), s, N.s, N.s, 2 * Math.random() && N.s, 2 * Math.random() && N.s, _obj = {}, swcHelpers.defineProperty(_obj, s, "a"), swcHelpers.defineProperty(_obj, N.s, "b");
 var C1 = function() {

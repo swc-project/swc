@@ -11,18 +11,14 @@ y.name;
 x.name;
 // @Filename: def.js
 var Outer = {};
-Outer.Inner = /*#__PURE__*/ (function() {
+Outer.Inner = /*#__PURE__*/ function() {
     "use strict";
     function _class() {
         swcHelpers.classCallCheck(this, _class);
     }
-    swcHelpers.createClass(_class, [
-        {
-            key: "name",
-            value: function name() {
-                return 'hi';
-            }
-        }
-    ]);
+    var _proto = _class.prototype;
+    _proto.name = function name() {
+        return 'hi';
+    };
     return _class;
-})();
+}();

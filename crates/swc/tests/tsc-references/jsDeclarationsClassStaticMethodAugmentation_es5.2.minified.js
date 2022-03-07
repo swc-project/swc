@@ -4,11 +4,6 @@ export var Clazz = function() {
     function Clazz() {
         swcHelpers.classCallCheck(this, Clazz);
     }
-    return swcHelpers.createClass(Clazz, null, [
-        {
-            key: "method",
-            value: function() {}
-        }
-    ]), Clazz;
+    return Clazz.method = function() {}, Clazz;
 }();
 Clazz.method.prop = 5;

@@ -10,13 +10,9 @@ export var Clazz = /*#__PURE__*/ function() {
     function Clazz() {
         swcHelpers.classCallCheck(this, Clazz);
     }
-    swcHelpers.createClass(Clazz, [
-        {
-            /**
+    var _proto = Clazz.prototype;
+    /**
    * @param {function(this:Object, ...*):*} functionDeclaration
-   */ key: "method",
-            value: function method(functionDeclaration) {}
-        }
-    ]);
+   */ _proto.method = function method(functionDeclaration) {};
     return Clazz;
 }();

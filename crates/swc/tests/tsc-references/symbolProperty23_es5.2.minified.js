@@ -4,12 +4,7 @@ var _toPrimitive = Symbol.toPrimitive, C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: _toPrimitive,
-            value: function() {
-                return !0;
-            }
-        }
-    ]), C;
+    return C.prototype[_toPrimitive] = function() {
+        return !0;
+    }, C;
 }();

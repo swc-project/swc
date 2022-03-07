@@ -9,12 +9,7 @@ var MyClass = function() {
             return n && _this;
         };
     }
-    return swcHelpers.createClass(MyClass, [
-        {
-            key: "fn",
-            value: function() {}
-        }
-    ]), MyClass;
+    return MyClass.prototype.fn = function() {}, MyClass;
 }();
 (function() {
     return 0;

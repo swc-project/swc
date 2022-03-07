@@ -10,16 +10,12 @@ var Parent = // @target: es2015
             value: 3
         });
     }
-    swcHelpers.createClass(Parent, [
-        {
-            key: "accessChildProps",
-            value: function accessChildProps() {
-                var _ref;
-                swcHelpers.classPrivateFieldGet(_ref = new Child(), _foo); // OK (`#foo` was added when `Parent`'s constructor was called on `child`)
-                swcHelpers.classStaticPrivateFieldSpecGet(Child, Parent, _bar); // Error: not found
-            }
-        }
-    ]);
+    var _proto = Parent.prototype;
+    _proto.accessChildProps = function accessChildProps() {
+        var _ref;
+        swcHelpers.classPrivateFieldGet(_ref = new Child(), _foo); // OK (`#foo` was added when `Parent`'s constructor was called on `child`)
+        swcHelpers.classStaticPrivateFieldSpecGet(Child, Parent, _bar); // Error: not found
+    };
     return Parent;
 }();
 var _bar = {

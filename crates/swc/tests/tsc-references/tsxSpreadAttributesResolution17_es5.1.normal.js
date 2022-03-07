@@ -7,14 +7,10 @@ export var Empty = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, Empty);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(Empty, [
-        {
-            key: "render",
-            value: function render() {
-                return(/*#__PURE__*/ React.createElement("div", null, "Hello"));
-            }
-        }
-    ]);
+    var _proto = Empty.prototype;
+    _proto.render = function render() {
+        return(/*#__PURE__*/ React.createElement("div", null, "Hello"));
+    };
     return Empty;
 }(React.Component);
 // OK

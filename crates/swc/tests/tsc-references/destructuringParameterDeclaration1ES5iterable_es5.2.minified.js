@@ -39,9 +39,9 @@ a1([
         ]
     ],
     3
-]), (function() {
+]), function() {
     arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
-})([
+}([
     1,
     2,
     3
@@ -51,18 +51,18 @@ a1([
 }), b2("string", {
     x: 200,
     y: !0
-}), (function() {
+}), function() {
     var ref = swcHelpers.slicedToArray(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [
         void 0,
         null,
         void 0
     ], 3);
     ref[0], ref[1], ref[2];
-})([
+}([
     "string",
     1,
     2
-]), (function() {
+]), function() {
     var ref = swcHelpers.slicedToArray(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [
         [
             void 0
@@ -76,7 +76,7 @@ a1([
         ]
     ], 3), a = swcHelpers.slicedToArray(ref[0], 1)[0], b = ref[1], ref3 = swcHelpers.slicedToArray(ref[2], 1), ref4 = swcHelpers.slicedToArray(ref3[0], 2);
     ref4[0], ref4[1];
-})([
+}([
     [
         "string"
     ],
@@ -87,9 +87,9 @@ a1([
             !1
         ]
     ]
-]), (function(Foo) {
+]), function(Foo) {
     Foo[Foo.a = 0] = "a";
-})(Foo || (Foo = {})), c0({
+}(Foo || (Foo = {})), c0({
     z: {
         x: 1,
         y: {
@@ -107,11 +107,11 @@ a1([
     z: 1
 }), c2({}), c2({
     z: 1
-}), (function() {
+}), function() {
     (arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         b: "hello"
     }).b;
-})({
+}({
     b: 1
 }), c5([
     1,
@@ -137,50 +137,26 @@ var Foo, C2 = function() {
     function C2() {
         swcHelpers.classCallCheck(this, C2);
     }
-    return swcHelpers.createClass(C2, [
-        {
-            key: "d3",
-            value: function() {}
-        },
-        {
-            key: "d4",
-            value: function() {}
-        },
-        {
-            key: "e0",
-            value: function(param) {
-                var _param = swcHelpers.slicedToArray(param, 3);
-                _param[0], _param[1], _param[2];
-            }
-        }
-    ]), C2;
+    var _proto = C2.prototype;
+    return _proto.d3 = function() {}, _proto.d4 = function() {}, _proto.e0 = function(param) {
+        var _param = swcHelpers.slicedToArray(param, 3);
+        _param[0], _param[1], _param[2];
+    }, C2;
 }(), C3 = function() {
     "use strict";
     function C3() {
         swcHelpers.classCallCheck(this, C3);
     }
-    return swcHelpers.createClass(C3, [
-        {
-            key: "d3",
-            value: function(param) {
-                var _param = swcHelpers.slicedToArray(param, 3);
-                _param[0], _param[1], _param[2];
-            }
-        },
-        {
-            key: "d4",
-            value: function(param) {
-                param.x, param.y, param.z;
-            }
-        },
-        {
-            key: "e0",
-            value: function(param) {
-                var _param = swcHelpers.slicedToArray(param, 3);
-                _param[0], _param[1], _param[2];
-            }
-        }
-    ]), C3;
+    var _proto = C3.prototype;
+    return _proto.d3 = function(param) {
+        var _param = swcHelpers.slicedToArray(param, 3);
+        _param[0], _param[1], _param[2];
+    }, _proto.d4 = function(param) {
+        param.x, param.y, param.z;
+    }, _proto.e0 = function(param) {
+        var _param = swcHelpers.slicedToArray(param, 3);
+        _param[0], _param[1], _param[2];
+    }, C3;
 }();
 !function() {
     var ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {

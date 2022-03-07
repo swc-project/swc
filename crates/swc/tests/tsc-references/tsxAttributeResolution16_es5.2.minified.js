@@ -7,14 +7,9 @@ export var AddressComp = function(_Component) {
     function AddressComp() {
         return swcHelpers.classCallCheck(this, AddressComp), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(AddressComp, [
-        {
-            key: "render",
-            value: function() {
-                return null;
-            }
-        }
-    ]), AddressComp;
+    return AddressComp.prototype.render = function() {
+        return null;
+    }, AddressComp;
 }(React.Component);
 React.createElement(AddressComp, {
     postalCode: "T1B 0L3",

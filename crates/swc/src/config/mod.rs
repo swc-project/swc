@@ -324,7 +324,7 @@ impl Options {
         // We do this before creating custom passses, so custom passses can use the
         // variable management system based on the syntax contexts.
         if syntax.typescript() {
-            // assumptions.set_class_methods = !transform.use_define_for_class_fields;
+            assumptions.set_class_methods = !transform.use_define_for_class_fields;
             assumptions.set_public_class_fields = !transform.use_define_for_class_fields;
 
             program.visit_mut_with(&mut ts_resolver(top_level_mark));
@@ -887,7 +887,17 @@ impl Config {
     ///
     /// - typescript: `tsx` will be modified if file extension is `ts`.
     pub fn adjust(&mut self, file: &Path) {
-        if let Some(Syntax::Typescript(TsConfig { tsx, .. })) = &mut self.jsc.syntax {
+        if let Some(Syntax::Typescript(TsConfig { tsx, dts, .. })) = &mut self.jsc.syntax {
+            let is_dts = file
+                .file_name()
+                .and_then(|f| f.to_str())
+                .map(|s| s.ends_with(".d.ts"))
+                .unwrap_or(false);
+
+            if is_dts {
+                *dts = true;
+            }
+
             let is_ts = file.extension().map(|v| v == "ts").unwrap_or(false);
             if is_ts {
                 *tsx = false;

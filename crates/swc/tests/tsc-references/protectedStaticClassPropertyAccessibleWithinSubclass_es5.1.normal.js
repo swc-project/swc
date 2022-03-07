@@ -4,17 +4,12 @@ var Base = /*#__PURE__*/ function() {
     function Base() {
         swcHelpers.classCallCheck(this, Base);
     }
-    swcHelpers.createClass(Base, null, [
-        {
-            key: "staticMethod",
-            value: function staticMethod() {
-                Base.x; // OK, accessed within their declaring class
-                Derived1.x; // OK, accessed within their declaring class
-                Derived2.x; // OK, accessed within their declaring class
-                Derived3.x; // Error, redefined in a subclass, can only be accessed in the declaring class or one of its subclasses
-            }
-        }
-    ]);
+    Base.staticMethod = function staticMethod() {
+        Base.x; // OK, accessed within their declaring class
+        Derived1.x; // OK, accessed within their declaring class
+        Derived2.x; // OK, accessed within their declaring class
+        Derived3.x; // Error, redefined in a subclass, can only be accessed in the declaring class or one of its subclasses
+    };
     return Base;
 }();
 var Derived1 = /*#__PURE__*/ function(Base1) {
@@ -25,17 +20,12 @@ var Derived1 = /*#__PURE__*/ function(Base1) {
         swcHelpers.classCallCheck(this, Derived1);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(Derived1, null, [
-        {
-            key: "staticMethod1",
-            value: function staticMethod1() {
-                Base.x; // OK, accessed within a class derived from their declaring class
-                Derived1.x; // OK, accessed within a class derived from their declaring class
-                Derived2.x; // OK, accessed within a class derived from their declaring class
-                Derived3.x; // Error, redefined in a subclass, can only be accessed in the declaring class or one of its subclasses
-            }
-        }
-    ]);
+    Derived1.staticMethod1 = function staticMethod1() {
+        Base.x; // OK, accessed within a class derived from their declaring class
+        Derived1.x; // OK, accessed within a class derived from their declaring class
+        Derived2.x; // OK, accessed within a class derived from their declaring class
+        Derived3.x; // Error, redefined in a subclass, can only be accessed in the declaring class or one of its subclasses
+    };
     return Derived1;
 }(Base);
 var Derived2 = /*#__PURE__*/ function(Base2) {
@@ -46,17 +36,12 @@ var Derived2 = /*#__PURE__*/ function(Base2) {
         swcHelpers.classCallCheck(this, Derived2);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(Derived2, null, [
-        {
-            key: "staticMethod2",
-            value: function staticMethod2() {
-                Base.x; // OK, accessed within a class derived from their declaring class
-                Derived1.x; // OK, accessed within a class derived from their declaring class
-                Derived2.x; // OK, accessed within a class derived from their declaring class
-                Derived3.x; // Error, redefined in a subclass, can only be accessed in the declaring class or one of its subclasses
-            }
-        }
-    ]);
+    Derived2.staticMethod2 = function staticMethod2() {
+        Base.x; // OK, accessed within a class derived from their declaring class
+        Derived1.x; // OK, accessed within a class derived from their declaring class
+        Derived2.x; // OK, accessed within a class derived from their declaring class
+        Derived3.x; // Error, redefined in a subclass, can only be accessed in the declaring class or one of its subclasses
+    };
     return Derived2;
 }(Base);
 var Derived3 = /*#__PURE__*/ function(Derived11) {
@@ -67,17 +52,12 @@ var Derived3 = /*#__PURE__*/ function(Derived11) {
         swcHelpers.classCallCheck(this, Derived3);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(Derived3, null, [
-        {
-            key: "staticMethod3",
-            value: function staticMethod3() {
-                Base.x; // OK, accessed within a class derived from their declaring class
-                Derived1.x; // OK, accessed within a class derived from their declaring class
-                Derived2.x; // OK, accessed within a class derived from their declaring class
-                Derived3.x; // OK, accessed within their declaring class
-            }
-        }
-    ]);
+    Derived3.staticMethod3 = function staticMethod3() {
+        Base.x; // OK, accessed within a class derived from their declaring class
+        Derived1.x; // OK, accessed within a class derived from their declaring class
+        Derived2.x; // OK, accessed within a class derived from their declaring class
+        Derived3.x; // OK, accessed within their declaring class
+    };
     return Derived3;
 }(Derived1);
 Base.x; // Error, neither within their declaring class nor classes derived from their declaring class

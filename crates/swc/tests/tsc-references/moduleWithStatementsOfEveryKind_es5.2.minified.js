@@ -28,7 +28,7 @@ import * as swcHelpers from "@swc/helpers";
         "use strict";
         swcHelpers.classCallCheck(this, A1);
     }, (Color = Color || (Color = {}))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red";
-}(A || (A = {})), (function(Y1) {
+}(A || (A = {})), function(Y1) {
     var Color, A6 = function() {
         "use strict";
         swcHelpers.classCallCheck(this, A6);
@@ -70,4 +70,4 @@ import * as swcHelpers from "@swc/helpers";
         id: 2,
         isvalid: !0
     };
-})(Y || (Y = {}));
+}(Y || (Y = {}));

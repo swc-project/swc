@@ -7,12 +7,7 @@ var E, Class = function() {
     function Class() {
         swcHelpers.classCallCheck(this, Class);
     }
-    return swcHelpers.createClass(Class, [
-        {
-            key: "foo",
-            value: function() {}
-        }
-    ]), Class;
+    return Class.prototype.foo = function() {}, Class;
 }(), C = function() {
     "use strict";
     swcHelpers.classCallCheck(this, C);

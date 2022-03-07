@@ -12,11 +12,7 @@ var C = /*#__PURE__*/ function(Base) {
         swcHelpers.classCallCheck(this, C);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: tmp,
-            value: function value() {}
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto[tmp] = function() {};
     return C;
 }(Base);

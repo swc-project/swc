@@ -6,21 +6,11 @@ var C = function() {
             return "";
         };
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "c",
-            value: function() {
-                return "";
-            }
-        }
-    ], [
-        {
-            key: "f",
-            value: function() {
-                return "";
-            }
-        }
-    ]), C;
+    return C.prototype.c = function() {
+        return "";
+    }, C.f = function() {
+        return "";
+    }, C;
 }();
 C.g = function() {
     return "";

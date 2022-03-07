@@ -12,7 +12,7 @@ class Point {
 }
 (Point || (Point = {})).Origin = function() {
     return null;
-}, (function(A1) {
+}, function(A1) {
     class Point1 {
         static Origin() {
             return {
@@ -27,4 +27,4 @@ class Point {
     A1.Point = Point1, (Point1 = A1.Point || (A1.Point = {})).Origin = function() {
         return "";
     };
-})(A || (A = {}));
+}(A || (A = {}));

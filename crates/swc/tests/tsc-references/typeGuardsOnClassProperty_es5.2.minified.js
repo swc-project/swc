@@ -4,21 +4,13 @@ var D = function() {
     function D() {
         swcHelpers.classCallCheck(this, D);
     }
-    return swcHelpers.createClass(D, [
-        {
-            key: "getData",
-            value: function() {
-                var data = this.data;
-                return "string" == typeof data ? data : data.join(" ");
-            }
-        },
-        {
-            key: "getData1",
-            value: function() {
-                return "string" == typeof this.data ? this.data : this.data.join(" ");
-            }
-        }
-    ]), D;
+    var _proto = D.prototype;
+    return _proto.getData = function() {
+        var data = this.data;
+        return "string" == typeof data ? data : data.join(" ");
+    }, _proto.getData1 = function() {
+        return "string" == typeof this.data ? this.data : this.data.join(" ");
+    }, D;
 }(), o = {
     prop1: "string",
     prop2: !0

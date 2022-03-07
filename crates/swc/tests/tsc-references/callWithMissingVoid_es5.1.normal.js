@@ -6,16 +6,12 @@ var X = // @strict: true
     function X() {
         swcHelpers.classCallCheck(this, X);
     }
-    swcHelpers.createClass(X, [
-        {
-            key: "f",
-            value: function f(t) {
-                return {
-                    a: t
-                };
-            }
-        }
-    ]);
+    var _proto = X.prototype;
+    _proto.f = function f(t) {
+        return {
+            a: t
+        };
+    };
     return X;
 }();
 x.f() // no error because f expects void

@@ -8,12 +8,8 @@ var A = /*#__PURE__*/ function() {
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    swcHelpers.createClass(A, [
-        {
-            key: "doSomething",
-            value: function doSomething() {}
-        }
-    ]);
+    var _proto = A.prototype;
+    _proto.doSomething = function doSomething() {};
     return A;
 }();
 var B = /*#__PURE__*/ function(_superClass) {
@@ -24,12 +20,9 @@ var B = /*#__PURE__*/ function(_superClass) {
         swcHelpers.classCallCheck(this, B);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(B, [
-        {
-            key: "foo",
-            value: function foo() {} // Remove override
-        }
-    ]);
+    var _proto = B.prototype;
+    _proto.foo // Remove override
+     = function foo() {};
     return B;
 }(CreateMixin(Context, A));
 var C = /*#__PURE__*/ function(_superClass) {
@@ -40,11 +33,8 @@ var C = /*#__PURE__*/ function(_superClass) {
         swcHelpers.classCallCheck(this, C);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "doSomethang",
-            value: function doSomethang() {} // Suggestion 'doSomething'
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.doSomethang // Suggestion 'doSomething'
+     = function doSomethang() {};
     return C;
 }(CreateMixin(Context, A));

@@ -4,48 +4,14 @@ var c, d, C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function(x, y) {}
-        },
-        {
-            key: "bar",
-            value: function(x, y) {}
-        }
-    ], [
-        {
-            key: "foo",
-            value: function(x, y) {}
-        },
-        {
-            key: "bar",
-            value: function(x, y) {}
-        }
-    ]), C;
+    var _proto = C.prototype;
+    return _proto.foo = function(x, y) {}, _proto.bar = function(x, y) {}, C.foo = function(x, y) {}, C.bar = function(x, y) {}, C;
 }(), D = function() {
     "use strict";
     function D() {
         swcHelpers.classCallCheck(this, D);
     }
-    return swcHelpers.createClass(D, [
-        {
-            key: "foo",
-            value: function(x, y) {}
-        },
-        {
-            key: "bar",
-            value: function(x, y) {}
-        }
-    ], [
-        {
-            key: "foo",
-            value: function(x, y) {}
-        },
-        {
-            key: "bar",
-            value: function(x, y) {}
-        }
-    ]), D;
+    var _proto = D.prototype;
+    return _proto.foo = function(x, y) {}, _proto.bar = function(x, y) {}, D.foo = function(x, y) {}, D.bar = function(x, y) {}, D;
 }();
 c.foo(1), d.foo(2), C.foo(1), D.bar("");

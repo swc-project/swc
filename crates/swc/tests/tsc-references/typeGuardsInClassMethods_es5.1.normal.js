@@ -16,60 +16,46 @@ var C1 = /*#__PURE__*/ function() {
         // parameters in function declaration
         num = typeof param === "string" && param.length; // string
     }
-    swcHelpers.createClass(C1, [
-        {
-            key: "p1",
-            value: // Inside function declaration
-            function p1(param) {
-                // global vars in function declaration
-                num = typeof var1 === "string" && var1.length; // string
-                // variables in function declaration
-                var var2;
-                num = typeof var2 === "string" && var2.length; // string
-                // parameters in function declaration
-                num = typeof param === "string" && param.length; // string
-            }
-        },
-        {
-            // Inside function declaration
-            key: "p2",
-            value: function p2(param) {
-                // global vars in function declaration
-                num = typeof var1 === "string" && var1.length; // string
-                // variables in function declaration
-                var var2;
-                num = typeof var2 === "string" && var2.length; // string
-                // parameters in function declaration
-                num = typeof param === "string" && param.length; // string
-            }
-        }
-    ], [
-        {
-            key: "s1",
-            value: // Inside function declaration
-            function s1(param) {
-                // global vars in function declaration
-                num = typeof var1 === "string" && var1.length; // string
-                // variables in function declaration
-                var var2;
-                num = typeof var2 === "string" && var2.length; // string
-                // parameters in function declaration
-                num = typeof param === "string" && param.length; // string
-            }
-        },
-        {
-            key: "s2",
-            value: // Inside function declaration
-            function s2(param) {
-                // global vars in function declaration
-                num = typeof var1 === "string" && var1.length; // string
-                // variables in function declaration
-                var var2;
-                num = typeof var2 === "string" && var2.length; // string
-                // parameters in function declaration
-                num = typeof param === "string" && param.length; // string
-            }
-        }
-    ]);
+    var _proto = C1.prototype;
+    // Inside function declaration
+    _proto.p1 = function p1(param) {
+        // global vars in function declaration
+        num = typeof var1 === "string" && var1.length; // string
+        // variables in function declaration
+        var var2;
+        num = typeof var2 === "string" && var2.length; // string
+        // parameters in function declaration
+        num = typeof param === "string" && param.length; // string
+    };
+    // Inside function declaration
+    _proto.p2 = function p2(param) {
+        // global vars in function declaration
+        num = typeof var1 === "string" && var1.length; // string
+        // variables in function declaration
+        var var2;
+        num = typeof var2 === "string" && var2.length; // string
+        // parameters in function declaration
+        num = typeof param === "string" && param.length; // string
+    };
+    // Inside function declaration
+    C1.s1 = function s1(param) {
+        // global vars in function declaration
+        num = typeof var1 === "string" && var1.length; // string
+        // variables in function declaration
+        var var2;
+        num = typeof var2 === "string" && var2.length; // string
+        // parameters in function declaration
+        num = typeof param === "string" && param.length; // string
+    };
+    // Inside function declaration
+    C1.s2 = function s2(param) {
+        // global vars in function declaration
+        num = typeof var1 === "string" && var1.length; // string
+        // variables in function declaration
+        var var2;
+        num = typeof var2 === "string" && var2.length; // string
+        // parameters in function declaration
+        num = typeof param === "string" && param.length; // string
+    };
     return C1;
 }();

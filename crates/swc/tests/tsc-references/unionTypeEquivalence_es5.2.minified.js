@@ -9,10 +9,5 @@ var C = function() {
     function D() {
         return swcHelpers.classCallCheck(this, D), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(D, [
-        {
-            key: "foo",
-            value: function() {}
-        }
-    ]), D;
+    return D.prototype.foo = function() {}, D;
 }(C);

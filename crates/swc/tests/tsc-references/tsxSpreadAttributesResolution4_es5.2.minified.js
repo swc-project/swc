@@ -6,14 +6,9 @@ var j, _this = this, React = require("react"), Poisoned = function(_Component) {
     function Poisoned() {
         return swcHelpers.classCallCheck(this, Poisoned), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(Poisoned, [
-        {
-            key: "render",
-            value: function() {
-                return React.createElement("div", null, "Hello");
-            }
-        }
-    ]), Poisoned;
+    return Poisoned.prototype.render = function() {
+        return React.createElement("div", null, "Hello");
+    }, Poisoned;
 }(React.Component);
 React.createElement(Poisoned, swcHelpers.extends({}, {
     x: "hello world",
@@ -26,14 +21,9 @@ var EmptyProp = function(_Component) {
     function EmptyProp() {
         return swcHelpers.classCallCheck(this, EmptyProp), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(EmptyProp, [
-        {
-            key: "render",
-            value: function() {
-                return React.createElement("div", null, "Default hi");
-            }
-        }
-    ]), EmptyProp;
+    return EmptyProp.prototype.render = function() {
+        return React.createElement("div", null, "Default hi");
+    }, EmptyProp;
 }(React.Component);
 React.createElement(EmptyProp, swcHelpers.extends({}, {})), React.createElement(EmptyProp, swcHelpers.extends({}, j)), React.createElement(EmptyProp, swcHelpers.extends({}, {
     ref: function(input) {

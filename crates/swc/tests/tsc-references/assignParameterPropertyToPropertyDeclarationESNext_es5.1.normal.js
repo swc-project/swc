@@ -23,22 +23,15 @@ var C = // @useDefineForClassFields: true
         this.quid = this.baz // ok
         ;
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "m1",
-            value: function m1() {
-                this.foo // ok
-                ;
-            }
-        },
-        {
-            key: "m2",
-            value: function m2() {
-                this.foo // ok
-                ;
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.m1 = function m1() {
+        this.foo // ok
+        ;
+    };
+    _proto.m2 = function m2() {
+        this.foo // ok
+        ;
+    };
     return C;
 }();
 var D = /*#__PURE__*/ function(C) {
@@ -68,7 +61,7 @@ var E = function E(foo2) {
 var F1 = function F1() {
     "use strict";
     swcHelpers.classCallCheck(this, F1);
-    this.Inner = /*#__PURE__*/ (function(F2) {
+    this.Inner = /*#__PURE__*/ function(F2) {
         swcHelpers.inherits(_class, F2);
         var _super = swcHelpers.createSuper(_class);
         function _class() {
@@ -79,14 +72,14 @@ var F1 = function F1() {
             return _this;
         }
         return _class;
-    })(F1);
+    }(F1);
     this.p1 = 0;
 };
 var G1 = function G1(p1) {
     "use strict";
     swcHelpers.classCallCheck(this, G1);
     this.p1 = p1;
-    this.Inner = /*#__PURE__*/ (function(G2) {
+    this.Inner = /*#__PURE__*/ function(G2) {
         swcHelpers.inherits(_class, G2);
         var _super = swcHelpers.createSuper(_class);
         function _class() {
@@ -97,7 +90,7 @@ var G1 = function G1(p1) {
             return _this;
         }
         return _class;
-    })(G1);
+    }(G1);
 };
 var H = function H(p1) {
     "use strict";

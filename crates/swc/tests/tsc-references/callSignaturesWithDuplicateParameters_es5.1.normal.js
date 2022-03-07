@@ -15,20 +15,10 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function foo(x, x) {}
-        },
-        {
-            key: "foo2",
-            value: function foo2(x, x) {}
-        },
-        {
-            key: "foo3",
-            value: function foo3(x, x) {}
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.foo = function foo(x, x) {};
+    _proto.foo2 = function foo2(x, x) {};
+    _proto.foo3 = function foo3(x, x) {};
     return C;
 }();
 var a;

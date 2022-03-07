@@ -25,21 +25,17 @@ my.predicate.query.result = 'none';
  */ my.predicate.sort = my.predicate.sort || function(first, second) {
     return first > second ? first : second;
 };
-my.predicate.type = /*#__PURE__*/ (function() {
+my.predicate.type = /*#__PURE__*/ function() {
     "use strict";
     function _class() {
         swcHelpers.classCallCheck(this, _class);
     }
-    swcHelpers.createClass(_class, [
-        {
-            key: "m",
-            value: function m() {
-                return 101;
-            }
-        }
-    ]);
+    var _proto = _class.prototype;
+    _proto.m = function m() {
+        return 101;
+    };
     return _class;
-})();
+}();
 // global-ish prefixes
 var min = window.min || {};
 min.nest = this.min.nest || function() {};

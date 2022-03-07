@@ -10,13 +10,13 @@ var C = /*#__PURE__*/ function() {
             return _this.ia;
         };
     }
+    var _proto = C.prototype;
+    _proto.baz = function baz(x) {
+        return '';
+    };
+    C.foo = function foo(x) {};
+    C.bar = function bar(x) {};
     swcHelpers.createClass(C, [
-        {
-            key: "baz",
-            value: function baz(x) {
-                return '';
-            }
-        },
         {
             key: "ic",
             get: function get() {
@@ -31,14 +31,6 @@ var C = /*#__PURE__*/ function() {
             }
         }
     ], [
-        {
-            key: "foo",
-            value: function foo(x) {}
-        },
-        {
-            key: "bar",
-            value: function bar(x) {}
-        },
         {
             key: "sc",
             get: function get() {
@@ -69,12 +61,8 @@ var D = /*#__PURE__*/ function() {
         swcHelpers.classCallCheck(this, D);
         this.y = y;
     }
-    swcHelpers.createClass(D, [
-        {
-            key: "foo",
-            value: function foo() {}
-        }
-    ]);
+    var _proto = D.prototype;
+    _proto.foo = function foo() {};
     return D;
 }();
 var d;

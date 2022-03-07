@@ -18,14 +18,10 @@ var Foo = // @strict: true
         }) // expect no error
         ;
     }
-    swcHelpers.createClass(Foo, [
-        {
-            key: "isFoo",
-            value: function isFoo(v) {
-                // This should count as using/reading '#brand'
-                return _brand_check_brand.has(v);
-            }
-        }
-    ]);
+    var _proto = Foo.prototype;
+    _proto.isFoo = function isFoo(v) {
+        // This should count as using/reading '#brand'
+        return _brand_check_brand.has(v);
+    };
     return Foo;
 }();

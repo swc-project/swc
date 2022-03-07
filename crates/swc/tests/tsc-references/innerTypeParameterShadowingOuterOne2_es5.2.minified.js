@@ -4,37 +4,21 @@ var C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "g",
-            value: function() {
-                (void 0).toFixed();
-            }
-        },
-        {
-            key: "h",
-            value: function() {
-                (void 0).getDate();
-            }
-        }
-    ]), C;
+    var _proto = C.prototype;
+    return _proto.g = function() {
+        (void 0).toFixed();
+    }, _proto.h = function() {
+        (void 0).getDate();
+    }, C;
 }(), C2 = function() {
     "use strict";
     function C2() {
         swcHelpers.classCallCheck(this, C2);
     }
-    return swcHelpers.createClass(C2, [
-        {
-            key: "g",
-            value: function() {
-                (void 0).toFixed();
-            }
-        },
-        {
-            key: "h",
-            value: function() {
-                (void 0).getDate();
-            }
-        }
-    ]), C2;
+    var _proto = C2.prototype;
+    return _proto.g = function() {
+        (void 0).toFixed();
+    }, _proto.h = function() {
+        (void 0).getDate();
+    }, C2;
 }();

@@ -11,14 +11,10 @@ export var MyClass = /*#__PURE__*/ function() {
         swcHelpers.classCallCheck(this, MyClass);
         this.props = props;
     }
-    swcHelpers.createClass(MyClass, [
-        {
-            key: "render",
-            value: function render() {
-                return(/*#__PURE__*/ predom("p", null, this.props.x, " + ", this.props.y, " = ", this.props.x + this.props.y));
-            }
-        }
-    ]);
+    var _proto = MyClass.prototype;
+    _proto.render = function render() {
+        return(/*#__PURE__*/ predom("p", null, this.props.x, " + ", this.props.y, " = ", this.props.x + this.props.y));
+    };
     return MyClass;
 }();
 export var tree = /*#__PURE__*/ predom(MySFC, {
@@ -43,14 +39,10 @@ var DOMClass = /*#__PURE__*/ function() {
         swcHelpers.classCallCheck(this, DOMClass);
         this.props = props;
     }
-    swcHelpers.createClass(DOMClass, [
-        {
-            key: "render",
-            value: function render() {
-                return(/*#__PURE__*/ predom("p", null, this.props.x, " + ", this.props.y, " = ", this.props.x + this.props.y));
-            }
-        }
-    ]);
+    var _proto = DOMClass.prototype;
+    _proto.render = function render() {
+        return(/*#__PURE__*/ predom("p", null, this.props.x, " + ", this.props.y, " = ", this.props.x + this.props.y));
+    };
     return DOMClass;
 }();
 // Should work, everything is a DOM element

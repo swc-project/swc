@@ -64,7 +64,7 @@ var M, M2, Foo = function() {
         }
         return Bar3;
     }(Foo4);
-}(M || (M = {})), (function(M2) {
+}(M || (M = {})), function(M2) {
     var b, Foo9 = function() {
         "use strict";
         swcHelpers.classCallCheck(this, Foo9);
@@ -103,4 +103,4 @@ var M, M2, Foo = function() {
         }
         return Bar3;
     }(Foo9);
-})(M2 || (M2 = {}));
+}(M2 || (M2 = {}));

@@ -11,7 +11,7 @@ var NonGeneric, Generics;
     class D extends C2 {
     }
     new D(), new D(1), new D("");
-}(NonGeneric || (NonGeneric = {})), (function(Generics) {
+}(NonGeneric || (NonGeneric = {})), function(Generics) {
     class C {
         constructor(x){}
     }
@@ -23,4 +23,4 @@ var NonGeneric, Generics;
     class D extends C2 {
     }
     new D(), new D(1), new D("");
-})(Generics || (Generics = {}));
+}(Generics || (Generics = {}));

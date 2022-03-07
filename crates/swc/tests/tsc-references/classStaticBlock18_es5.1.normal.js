@@ -7,7 +7,7 @@ function foo() {
         swcHelpers.classCallCheck(this, _class);
     }, _class1.foo = 1, __1 = {
         writable: true,
-        value: (function() {
+        value: function() {
             var _class2, __;
             var c = (_class2 = function _class() {
                 "use strict";
@@ -18,6 +18,6 @@ function foo() {
                 // do
                 }()
             }, _class2);
-        })()
+        }()
     }, _class1;
 }

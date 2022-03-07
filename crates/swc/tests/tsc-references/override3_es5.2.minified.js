@@ -6,16 +6,8 @@ var DB = function(B) {
     function DB() {
         return swcHelpers.classCallCheck(this, DB), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(DB, [
-        {
-            key: "foo",
-            value: function() {}
-        },
-        {
-            key: "bar",
-            value: function() {}
-        }
-    ]), DB;
+    var _proto = DB.prototype;
+    return _proto.foo = function() {}, _proto.bar = function() {}, DB;
 }(B), DD = function(D) {
     "use strict";
     swcHelpers.inherits(DD, D);
@@ -23,16 +15,8 @@ var DB = function(B) {
     function DD() {
         return swcHelpers.classCallCheck(this, DD), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(DD, [
-        {
-            key: "foo",
-            value: function() {}
-        },
-        {
-            key: "bar",
-            value: function() {}
-        }
-    ]), DD;
+    var _proto = DD.prototype;
+    return _proto.foo = function() {}, _proto.bar = function() {}, DD;
 }(D), EB = function(D) {
     "use strict";
     swcHelpers.inherits(EB, D);
@@ -40,14 +24,6 @@ var DB = function(B) {
     function EB() {
         return swcHelpers.classCallCheck(this, EB), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(EB, [
-        {
-            key: "foo",
-            value: function() {}
-        },
-        {
-            key: "bar",
-            value: function() {}
-        }
-    ]), EB;
+    var _proto = EB.prototype;
+    return _proto.foo = function() {}, _proto.bar = function() {}, EB;
 }(D);

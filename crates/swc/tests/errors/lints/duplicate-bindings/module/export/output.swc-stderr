@@ -1,0 +1,36 @@
+error: Duplicate binding
+ 
+  |
+2 | const foo = 1; // error
+  |       ^^^
+  |
+note: foo was declared at here
+ 
+  |
+1 | function foo() {}
+  |          ^^^
+
+error: Duplicate binding
+ 
+  |
+5 | var bar; // error
+  |     ^^^
+  |
+note: bar was declared at here
+ 
+  |
+4 | function bar() {}
+  |          ^^^
+
+error: Duplicate binding
+ 
+  |
+8 | function baz() {} // error
+  |          ^^^
+  |
+note: baz was declared at here
+ 
+  |
+7 | function baz() {}
+  |          ^^^
+

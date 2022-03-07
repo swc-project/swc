@@ -4,7 +4,13 @@ var C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
+    return C.prototype.foo = function() {
+        return this.foo;
+    }, C.foo = function() {
+        return this.foo;
+    }, C.bar = function() {
+        this.foo();
+    }, swcHelpers.createClass(C, [
         {
             key: "y",
             get: function() {
@@ -12,12 +18,6 @@ var C = function() {
             },
             set: function(x) {
                 this.y = this.x;
-            }
-        },
-        {
-            key: "foo",
-            value: function() {
-                return this.foo;
             }
         }
     ], [
@@ -28,18 +28,6 @@ var C = function() {
             },
             set: function(x) {
                 this.y = this.x;
-            }
-        },
-        {
-            key: "foo",
-            value: function() {
-                return this.foo;
-            }
-        },
-        {
-            key: "bar",
-            value: function() {
-                this.foo();
             }
         }
     ]), C;
@@ -48,17 +36,13 @@ var C = function() {
     function C2() {
         swcHelpers.classCallCheck(this, C2);
     }
-    return swcHelpers.createClass(C2, [
+    return C2.prototype.foo = function() {}, C2.foo = function() {}, C2.bar = function() {}, swcHelpers.createClass(C2, [
         {
             key: "y",
             get: function() {
                 return null;
             },
             set: function(x) {}
-        },
-        {
-            key: "foo",
-            value: function() {}
         }
     ], [
         {
@@ -67,14 +51,6 @@ var C = function() {
                 return null;
             },
             set: function(x) {}
-        },
-        {
-            key: "foo",
-            value: function() {}
-        },
-        {
-            key: "bar",
-            value: function() {}
         }
     ]), C2;
 }();

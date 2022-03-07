@@ -10,7 +10,7 @@ export var A;
         x: 0,
         y: 0
     };
-}(A || (A = {})), (function(A2) {
+}(A || (A = {})), function(A2) {
     var Utils, Plane;
     A2.Origin = {
         x: 0,
@@ -19,4 +19,4 @@ export var A;
         "use strict";
         swcHelpers.classCallCheck(this, Plane), this.tl = tl, this.br = br;
     }, Utils.Plane = Plane;
-})(A || (A = {}));
+}(A || (A = {}));
