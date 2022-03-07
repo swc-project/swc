@@ -362,10 +362,14 @@ impl VisitMut for Prefixer {
             }
 
             "image-rendering" => {
-                simple!("-ms-interpolation-mode", "nearest-neighbor");
-                same_name!("-webkit-optimize-contrast");
-                same_name!("-moz-crisp-edges");
-                same_name!("-o-pixelated");
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    if &**value == "pixelated" {
+                        simple!("-ms-interpolation-mode", "nearest-neighbor");
+                        same_name!("-webkit-optimize-contrast");
+                        same_name!("-moz-crisp-edges");
+                        same_name!("-o-pixelated");
+                    }
+                }
             }
 
             "flex-direction" => {
