@@ -616,53 +616,22 @@ impl Scope {
                 ..e
             }),
 
-            Expr::Update(UpdateExpr {
-                span,
-                arg,
-                op,
-                prefix,
-            }) if arg.is_ident() => {
-                let arg = arg.ident().unwrap();
+            Expr::Update(update) if update.arg.is_ident() => {
+                let arg = update.arg.clone().expect_ident();
                 let mut scope = folder.scope_mut();
                 let entry = scope
                     .exported_bindings
                     .entry((arg.sym.clone(), arg.span.ctxt()));
 
                 match entry {
-                    Entry::Occupied(entry) => {
-                        let e = chain_assign!(
-                            entry,
-                            Box::new(Expr::Assign(AssignExpr {
-                                span: DUMMY_SP,
-                                left: PatOrExpr::Pat(arg.clone().into()),
-                                op: op!("="),
-                                right: Box::new(Expr::Bin(BinExpr {
-                                    span: DUMMY_SP,
-                                    left: Box::new(Expr::Unary(UnaryExpr {
-                                        span: DUMMY_SP,
-                                        op: op!(unary, "+"),
-                                        arg: Box::new(Expr::Ident(arg)),
-                                    })),
-                                    op: match op {
-                                        op!("++") => op!(bin, "+"),
-                                        op!("--") => op!(bin, "-"),
-                                    },
-                                    right: Box::new(Expr::Lit(Lit::Num(Number {
-                                        span: DUMMY_SP,
-                                        value: 1.0,
-                                    }))),
-                                })),
-                            }))
-                        );
-
-                        *e
-                    }
-                    _ => Expr::Update(UpdateExpr {
-                        span,
-                        arg: Box::new(Expr::Ident(arg)),
-                        op,
-                        prefix,
+                    Entry::Occupied(entry) => Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs: vec![
+                            Box::new(update.into()),
+                            chain_assign!(entry, Box::new(arg.into())),
+                        ],
                     }),
+                    _ => update.into(),
                 }
             }
 
