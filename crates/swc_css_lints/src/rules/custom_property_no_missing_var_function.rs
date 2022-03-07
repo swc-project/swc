@@ -19,7 +19,7 @@ struct CustomPropertyNoMissingVarFunction {
 
     in_declaration: Vec<bool>,
     in_declaration_value: Vec<bool>,
-    in_var_function: bool,
+    in_var_function: Vec<bool>,
 }
 
 impl Visit for CustomPropertyNoMissingVarFunction {
@@ -30,33 +30,31 @@ impl Visit for CustomPropertyNoMissingVarFunction {
     }
 
     fn visit_component_value(&mut self, component_value: &ComponentValue) {
-        if let Some(v) = self.in_declaration.last() {
-            self.in_declaration_value.push(*v);
-            component_value.visit_children_with(self);
-            self.in_declaration_value.pop();
-        } else {
-            component_value.visit_children_with(self);
-        }
+        self.in_declaration_value
+            .push(self.in_declaration.last().copied().unwrap_or_default());
+        component_value.visit_children_with(self);
+        self.in_declaration_value.pop();
     }
 
     fn visit_function(&mut self, function: &Function) {
-        self.in_var_function = function.name.value.eq_str_ignore_ascii_case("var");
+        self.in_var_function
+            .push(function.name.value.eq_str_ignore_ascii_case("var"));
         function.visit_children_with(self);
-        self.in_var_function = false;
+        self.in_var_function.pop();
     }
 
     fn visit_dashed_ident(&mut self, dashed_ident: &DashedIdent) {
-        match self.in_declaration_value.last() {
-            Some(true) if !self.in_var_function => {
-                self.ctx.report(
-                    dashed_ident,
-                    format!(
-                        "Unexpected missing var function for '{}'.",
-                        dashed_ident.value
-                    ),
-                );
-            }
-            _ => {}
+        if let (Some(true), Some(false) | None) = (
+            self.in_declaration_value.last(),
+            self.in_var_function.last(),
+        ) {
+            self.ctx.report(
+                dashed_ident,
+                format!(
+                    "Unexpected missing var function for '{}'.",
+                    dashed_ident.value
+                ),
+            );
         }
 
         dashed_ident.visit_children_with(self);
