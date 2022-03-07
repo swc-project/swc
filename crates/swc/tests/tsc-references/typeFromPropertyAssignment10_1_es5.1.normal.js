@@ -8,12 +8,12 @@ var Outer = Outer !== null && Outer !== void 0 ? Outer : {};
 var _app;
 Outer.app = (_app = Outer.app) !== null && _app !== void 0 ? _app : {};
 // @Filename: someview.js
-Outer.app.SomeView = (function() {
+Outer.app.SomeView = function() {
     var SomeView = function SomeView() {
         var me = this;
     };
     return SomeView;
-})();
+}();
 Outer.app.Inner = function _class() {
     "use strict";
     swcHelpers.classCallCheck(this, _class);
@@ -25,7 +25,7 @@ example.y;
     return Math.pow(k, k);
 };
 // @Filename: application.js
-Outer.app.Application = (function() {
+Outer.app.Application = function() {
     /**
      * Application main class.
      * Will be instantiated & initialized by HTML page
@@ -34,7 +34,7 @@ Outer.app.Application = (function() {
         me.view = new Outer.app.SomeView();
     };
     return Application;
-})();
+}();
 // @Filename: main.js
 var app = new Outer.app.Application();
 var inner = new Outer.app.Inner();

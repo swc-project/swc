@@ -4,51 +4,6 @@ var s, n, a, _s = s, _n = n, tmp = s + s, tmp1 = s + n, tmp2 = +s, _a = a, tmp3 
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: _s,
-            value: function() {}
-        },
-        {
-            key: _n,
-            value: function() {}
-        },
-        {
-            key: tmp1,
-            value: function() {}
-        },
-        {
-            key: tmp2,
-            value: function() {}
-        },
-        {
-            key: 0,
-            value: function() {}
-        },
-        {
-            key: _a,
-            value: function() {}
-        },
-        {
-            key: "hello bye",
-            value: function() {}
-        }
-    ], [
-        {
-            key: tmp,
-            value: function() {}
-        },
-        {
-            key: "",
-            value: function() {}
-        },
-        {
-            key: !0,
-            value: function() {}
-        },
-        {
-            key: tmp3,
-            value: function() {}
-        }
-    ]), C;
+    var _proto = C.prototype;
+    return _proto[_s] = function() {}, _proto[_n] = function() {}, _proto[tmp1] = function() {}, _proto[tmp2] = function() {}, _proto[0] = function() {}, _proto[_a] = function() {}, _proto["hello bye"] = function() {}, C[tmp] = function() {}, C[""] = function() {}, C[!0] = function() {}, C[tmp3] = function() {}, C;
 }();

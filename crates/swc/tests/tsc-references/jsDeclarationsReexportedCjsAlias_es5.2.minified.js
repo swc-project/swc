@@ -4,14 +4,9 @@ var SomeClass = function() {
     function SomeClass() {
         swcHelpers.classCallCheck(this, SomeClass);
     }
-    return swcHelpers.createClass(SomeClass, [
-        {
-            key: "a",
-            value: function() {
-                return 1;
-            }
-        }
-    ]), SomeClass;
+    return SomeClass.prototype.a = function() {
+        return 1;
+    }, SomeClass;
 }();
 module.exports = {
     bar: function(a) {

@@ -8,14 +8,11 @@ var NonGeneric;
             this.a = a;
             this.b = b;
         }
-        swcHelpers.createClass(C, [
-            {
-                key: "fn",
-                value: function fn() {
-                    return this;
-                }
-            }
-        ], [
+        var _proto = C.prototype;
+        _proto.fn = function fn() {
+            return this;
+        };
+        swcHelpers.createClass(C, null, [
             {
                 key: "x",
                 get: function get() {
@@ -44,14 +41,11 @@ var Generic;
             this.a = a;
             this.b = b;
         }
-        swcHelpers.createClass(C, [
-            {
-                key: "fn",
-                value: function fn() {
-                    return this;
-                }
-            }
-        ], [
+        var _proto = C.prototype;
+        _proto.fn = function fn() {
+            return this;
+        };
+        swcHelpers.createClass(C, null, [
             {
                 key: "x",
                 get: function get() {

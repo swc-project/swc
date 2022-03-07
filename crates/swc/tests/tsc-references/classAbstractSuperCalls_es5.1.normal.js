@@ -4,14 +4,10 @@ var A = /*#__PURE__*/ function() {
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    swcHelpers.createClass(A, [
-        {
-            key: "foo",
-            value: function foo() {
-                return 1;
-            }
-        }
-    ]);
+    var _proto = A.prototype;
+    _proto.foo = function foo() {
+        return 1;
+    };
     return A;
 }();
 var B = /*#__PURE__*/ function(A) {
@@ -22,20 +18,13 @@ var B = /*#__PURE__*/ function(A) {
         swcHelpers.classCallCheck(this, B);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(B, [
-        {
-            key: "bar",
-            value: function bar() {
-                swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "foo", this).call(this);
-            }
-        },
-        {
-            key: "baz",
-            value: function baz() {
-                return this.foo;
-            }
-        }
-    ]);
+    var _proto = B.prototype;
+    _proto.bar = function bar() {
+        swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "foo", this).call(this);
+    };
+    _proto.baz = function baz() {
+        return this.foo;
+    };
     return B;
 }(A);
 var C = /*#__PURE__*/ function(B) {
@@ -46,26 +35,17 @@ var C = /*#__PURE__*/ function(B) {
         swcHelpers.classCallCheck(this, C);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function foo() {
-                return 2;
-            }
-        },
-        {
-            key: "qux",
-            value: function qux() {
-                return swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "foo", this).call(this) || swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "foo", this);
-            } // 2 errors, foo is abstract
-        },
-        {
-            key: "norf",
-            value: function norf() {
-                return swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "bar", this).call(this);
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.foo = function foo() {
+        return 2;
+    };
+    _proto.qux // 2 errors, foo is abstract
+     = function qux() {
+        return swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "foo", this).call(this) || swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "foo", this);
+    };
+    _proto.norf = function norf() {
+        return swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "bar", this).call(this);
+    };
     return C;
 }(B);
 var AA = /*#__PURE__*/ function() {
@@ -73,20 +53,13 @@ var AA = /*#__PURE__*/ function() {
     function AA() {
         swcHelpers.classCallCheck(this, AA);
     }
-    swcHelpers.createClass(AA, [
-        {
-            key: "foo",
-            value: function foo() {
-                return 1;
-            }
-        },
-        {
-            key: "bar",
-            value: function bar() {
-                return this.foo();
-            }
-        }
-    ]);
+    var _proto = AA.prototype;
+    _proto.foo = function foo() {
+        return 1;
+    };
+    _proto.bar = function bar() {
+        return this.foo();
+    };
     return AA;
 }();
 var BB = /*#__PURE__*/ function(AA) {

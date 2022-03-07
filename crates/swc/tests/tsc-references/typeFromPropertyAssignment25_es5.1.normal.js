@@ -9,7 +9,7 @@ Common.I = function _class() {
     swcHelpers.classCallCheck(this, _class);
     this.i = 1;
 };
-Common.O = /*#__PURE__*/ (function(_I) {
+Common.O = /*#__PURE__*/ function(_I) {
     "use strict";
     swcHelpers.inherits(_class, _I);
     var _super = swcHelpers.createSuper(_class);
@@ -21,7 +21,7 @@ Common.O = /*#__PURE__*/ (function(_I) {
         return _this;
     }
     return _class;
-})(Common.I);
+}(Common.I);
 var o = new Common.O();
 var i = new Common.I();
 o.i;

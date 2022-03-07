@@ -31,33 +31,22 @@ var A = // @target: esnext, es2022, es2015
         var ref11, ref12;
         ref11 = [], ref12 = ref11[0], swcHelpers.classStaticPrivateFieldDestructureSet(this.otherClass, _field).value = ref12 === void 0 ? 2 : ref12, ref11;
     }
-    swcHelpers.createClass(A, [
-        {
-            key: "testObject",
-            value: function testObject() {
-                return {
-                    x: 10,
-                    y: 6
-                };
-            }
-        },
-        {
-            key: "testArray",
-            value: function testArray() {
-                return [
-                    10,
-                    11
-                ];
-            }
-        }
-    ], [
-        {
-            key: "test",
-            value: function test(_a) {
-                swcHelpers.classStaticPrivateFieldDestructureSet(_a, _field).value = 2;
-            }
-        }
-    ]);
+    var _proto = A.prototype;
+    _proto.testObject = function testObject() {
+        return {
+            x: 10,
+            y: 6
+        };
+    };
+    _proto.testArray = function testArray() {
+        return [
+            10,
+            11
+        ];
+    };
+    A.test = function test(_a) {
+        swcHelpers.classStaticPrivateFieldDestructureSet(_a, _field).value = 2;
+    };
     return A;
 }();
 var _field = {

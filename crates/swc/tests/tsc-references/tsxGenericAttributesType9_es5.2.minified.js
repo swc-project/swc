@@ -8,13 +8,8 @@ export function makeP(Ctor) {
         function _class() {
             return swcHelpers.classCallCheck(this, _class), _super.apply(this, arguments);
         }
-        return swcHelpers.createClass(_class, [
-            {
-                key: "render",
-                value: function() {
-                    return React.createElement(Ctor, swcHelpers.extends({}, this.props));
-                }
-            }
-        ]), _class;
+        return _class.prototype.render = function() {
+            return React.createElement(Ctor, swcHelpers.extends({}, this.props));
+        }, _class;
     })(React.PureComponent);
 }

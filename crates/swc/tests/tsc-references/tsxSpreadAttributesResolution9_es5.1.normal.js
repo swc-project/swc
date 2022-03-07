@@ -13,14 +13,10 @@ var Opt = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, Opt);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(Opt, [
-        {
-            key: "render",
-            value: function render() {
-                return(/*#__PURE__*/ React.createElement("div", null, "Hello"));
-            }
-        }
-    ]);
+    var _proto = Opt.prototype;
+    _proto.render = function render() {
+        return(/*#__PURE__*/ React.createElement("div", null, "Hello"));
+    };
     return Opt;
 }(React.Component);
 var obj = {};

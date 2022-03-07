@@ -8,7 +8,7 @@ import * as swcHelpers from "@swc/helpers";
         "use strict";
         swcHelpers.classCallCheck(this, T);
     };
-}(JustStrings || (JustStrings = {})), (function(NumbersAndStrings) {
+}(JustStrings || (JustStrings = {})), function(NumbersAndStrings) {
     var S = function() {
         "use strict";
         swcHelpers.classCallCheck(this, S);
@@ -16,4 +16,4 @@ import * as swcHelpers from "@swc/helpers";
         "use strict";
         swcHelpers.classCallCheck(this, T);
     };
-})(NumbersAndStrings || (NumbersAndStrings = {}));
+}(NumbersAndStrings || (NumbersAndStrings = {}));

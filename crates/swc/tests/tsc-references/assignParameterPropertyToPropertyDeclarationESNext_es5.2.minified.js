@@ -4,20 +4,12 @@ var C = function() {
     function C(foo) {
         swcHelpers.classCallCheck(this, C), this.foo = foo, this.qux = this.bar, this.bar = this.foo, this.quiz = this.bar, this.quench = this.m1(), this.quanch = this.m3(), this.m3 = function() {}, this.quim = this.baz, this.baz = this.foo, this.quid = this.baz;
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "m1",
-            value: function() {
-                this.foo;
-            }
-        },
-        {
-            key: "m2",
-            value: function() {
-                this.foo;
-            }
-        }
-    ]), C;
+    var _proto = C.prototype;
+    return _proto.m1 = function() {
+        this.foo;
+    }, _proto.m2 = function() {
+        this.foo;
+    }, C;
 }(), D = function(C) {
     "use strict";
     swcHelpers.inherits(D, C);
@@ -35,7 +27,7 @@ var C = function() {
     }, this.foo1 = "";
 }, F = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, F), this.Inner = (function(F1) {
+    swcHelpers.classCallCheck(this, F), this.Inner = function(F1) {
         swcHelpers.inherits(_class, F1);
         var _super = swcHelpers.createSuper(_class);
         function _class() {
@@ -43,10 +35,10 @@ var C = function() {
             return swcHelpers.classCallCheck(this, _class), _this = _super.apply(this, arguments), _this.p2 = _this.p1, _this;
         }
         return _class;
-    })(F), this.p1 = 0;
+    }(F), this.p1 = 0;
 }, G = function(p1) {
     "use strict";
-    swcHelpers.classCallCheck(this, G), this.p1 = p1, this.Inner = (function(G1) {
+    swcHelpers.classCallCheck(this, G), this.p1 = p1, this.Inner = function(G1) {
         swcHelpers.inherits(_class, G1);
         var _super = swcHelpers.createSuper(_class);
         function _class() {
@@ -54,7 +46,7 @@ var C = function() {
             return swcHelpers.classCallCheck(this, _class), _this = _super.apply(this, arguments), _this.p2 = _this.p1, _this;
         }
         return _class;
-    })(G);
+    }(G);
 }, H = function(p1) {
     "use strict";
     var _this = this;

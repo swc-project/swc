@@ -1,0 +1,36 @@
+error: Duplicate binding
+ 
+  |
+2 | let a = 2; // error
+  |     ^
+  |
+note: a was declared at here
+ 
+  |
+1 | const a = 5;
+  |       ^
+
+error: Duplicate binding
+ 
+  |
+5 | var b = 2; // error
+  |     ^
+  |
+note: b was declared at here
+ 
+  |
+4 | const b = 1;
+  |       ^
+
+error: Duplicate binding
+ 
+  |
+8 | var c = 4; // error
+  |     ^
+  |
+note: c was declared at here
+ 
+  |
+7 | let c = 3;
+  |     ^
+

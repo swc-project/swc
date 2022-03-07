@@ -749,7 +749,7 @@ _$_Reflect = function Reflect() {
     swcHelpers.classCallCheck(this, Reflect);
 }, _$__ = {
     writable: true,
-    value: (function() {
+    value: function() {
         var C = /*#__PURE__*/ function(B) {
             "use strict";
             swcHelpers.inherits(C, B);
@@ -761,14 +761,14 @@ _$_Reflect = function Reflect() {
             return C;
         }(B);
         C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
-    })()
+    }()
 }, _$_Reflect;
 _$_Reflect = function Reflect() {
     "use strict";
     swcHelpers.classCallCheck(this, Reflect);
 }, _$__ = {
     writable: true,
-    value: (function() {
+    value: function() {
         var _this1 = _this, _superprop_get_w1 = ()=>_superprop_get_w()
         ;
         var _$_Reflect, _$__;
@@ -788,7 +788,7 @@ _$_Reflect = function Reflect() {
                 _superprop_get_w1().call(_this1);
             }()
         };
-    })()
+    }()
 }, _$_Reflect;
 (function Reflect() {}); // no collision
 var C = /*#__PURE__*/ function(B) {

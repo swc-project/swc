@@ -19,7 +19,7 @@ function B1() {
 var B2 = function B2() {
     "use strict";
     swcHelpers.classCallCheck(this, B2);
-    this.anon = /*#__PURE__*/ (function(A) {
+    this.anon = /*#__PURE__*/ function(A) {
         swcHelpers.inherits(_class, A);
         var _super = swcHelpers.createSuper(_class);
         function _class() {
@@ -27,7 +27,7 @@ var B2 = function B2() {
             return _super.apply(this, arguments);
         }
         return _class;
-    })(A);
+    }(A);
 };
 function B3() {
     return /*#__PURE__*/ (function(A) {

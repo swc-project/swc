@@ -22,11 +22,9 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
+    var _proto = C.prototype;
+    _proto[1] = function() {};
     swcHelpers.createClass(C, [
-        {
-            key: 1,
-            value: function value() {}
-        },
         {
             key: 2,
             get: function get() {

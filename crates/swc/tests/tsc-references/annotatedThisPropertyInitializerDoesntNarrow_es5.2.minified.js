@@ -4,10 +4,5 @@ export var C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C), this.assets = {};
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "m",
-            value: function() {}
-        }
-    ]), C;
+    return C.prototype.m = function() {}, C;
 }();

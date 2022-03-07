@@ -4,12 +4,7 @@ var Handler = function() {
     function Handler() {
         swcHelpers.classCallCheck(this, Handler);
     }
-    return swcHelpers.createClass(Handler, [
-        {
-            key: "process",
-            value: function() {}
-        }
-    ], [
+    return Handler.prototype.process = function() {}, swcHelpers.createClass(Handler, null, [
         {
             key: "OPTIONS",
             get: function() {

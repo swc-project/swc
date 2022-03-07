@@ -15,22 +15,14 @@ var ref, Bar = function() {
     function FooIterator() {
         swcHelpers.classCallCheck(this, FooIterator);
     }
-    return swcHelpers.createClass(FooIterator, [
-        {
-            key: "next",
-            value: function() {
-                return {
-                    value: new Foo,
-                    done: !1
-                };
-            }
-        },
-        {
-            key: _iterator,
-            value: function() {
-                return this;
-            }
-        }
-    ]), FooIterator;
+    var _proto = FooIterator.prototype;
+    return _proto.next = function() {
+        return {
+            value: new Foo,
+            done: !1
+        };
+    }, _proto[_iterator] = function() {
+        return this;
+    }, FooIterator;
 }();
 (ref = swcHelpers.toArray(new FooIterator))[0], ref.slice(1);

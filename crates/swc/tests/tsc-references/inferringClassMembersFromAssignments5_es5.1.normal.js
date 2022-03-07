@@ -10,14 +10,10 @@ var Base = // @noEmit: true
     function Base() {
         swcHelpers.classCallCheck(this, Base);
     }
-    swcHelpers.createClass(Base, [
-        {
-            key: "m",
-            value: function m() {
-                this.p = 1;
-            }
-        }
-    ]);
+    var _proto = Base.prototype;
+    _proto.m = function m() {
+        this.p = 1;
+    };
     return Base;
 }();
 var Derived = /*#__PURE__*/ function(Base) {
@@ -32,13 +28,9 @@ var Derived = /*#__PURE__*/ function(Base) {
         _this.p = 1;
         return _this;
     }
-    swcHelpers.createClass(Derived, [
-        {
-            key: "test",
-            value: function test() {
-                return this.p;
-            }
-        }
-    ]);
+    var _proto = Derived.prototype;
+    _proto.test = function test() {
+        return this.p;
+    };
     return Derived;
 }(Base);

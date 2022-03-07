@@ -6,18 +6,11 @@ var C = // @strict: true
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "method",
-            value: function method() {}
-        },
-        {
-            key: "other",
-            value: function other() {
-                var _obj, ref;
-                (ref = (_obj = this).method) === null || ref === void 0 ? void 0 : ref.call(_obj);
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.method = function method() {};
+    _proto.other = function other() {
+        var _obj, ref;
+        (ref = (_obj = this).method) === null || ref === void 0 ? void 0 : ref.call(_obj);
+    };
     return C;
 }();

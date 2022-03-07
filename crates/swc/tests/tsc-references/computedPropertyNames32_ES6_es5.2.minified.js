@@ -4,16 +4,8 @@ var C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "bar",
-            value: function() {
-                return 0;
-            }
-        },
-        {
-            key: "",
-            value: function() {}
-        }
-    ]), C;
+    var _proto = C.prototype;
+    return _proto.bar = function() {
+        return 0;
+    }, _proto[""] = function() {}, C;
 }();

@@ -4,12 +4,7 @@ var A = function() {
     function A(x) {
         swcHelpers.classCallCheck(this, A);
     }
-    return swcHelpers.createClass(A, [
-        {
-            key: "foo",
-            value: function() {}
-        }
-    ]), A;
+    return A.prototype.foo = function() {}, A;
 }(), B = function() {
     "use strict";
     function B(x) {
@@ -17,12 +12,7 @@ var A = function() {
         for(var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)args[_key - 2] = arguments[_key];
         swcHelpers.classCallCheck(this, B), this.x = "hello", this.y = 10;
     }
-    return swcHelpers.createClass(B, [
-        {
-            key: "baz",
-            value: function(z, v) {
-                return this._bar;
-            }
-        }
-    ]), B;
+    return B.prototype.baz = function(z, v) {
+        return this._bar;
+    }, B;
 }();

@@ -23,14 +23,9 @@ var C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "setState",
-            value: function(props) {
-                for(var k in props)this.state[k] = props[k];
-            }
-        }
-    ]), C;
+    return C.prototype.setState = function(props) {
+        for(var k in props)this.state[k] = props[k];
+    }, C;
 }(), c = new C();
 c.setState({
     a: "test",

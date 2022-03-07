@@ -20,43 +20,27 @@ var Bar = function() {
     function FooIterator() {
         swcHelpers.classCallCheck(this, FooIterator);
     }
-    return swcHelpers.createClass(FooIterator, [
-        {
-            key: "next",
-            value: function() {
-                return {
-                    value: new Foo,
-                    done: !1
-                };
-            }
-        },
-        {
-            key: _iterator,
-            value: function() {
-                return this;
-            }
-        }
-    ]), FooIterator;
+    var _proto = FooIterator.prototype;
+    return _proto.next = function() {
+        return {
+            value: new Foo,
+            done: !1
+        };
+    }, _proto[_iterator] = function() {
+        return this;
+    }, FooIterator;
 }(), _iterator1 = Symbol.iterator, FooIteratorIterator = function() {
     "use strict";
     function FooIteratorIterator() {
         swcHelpers.classCallCheck(this, FooIteratorIterator);
     }
-    return swcHelpers.createClass(FooIteratorIterator, [
-        {
-            key: "next",
-            value: function() {
-                return {
-                    value: new FooIterator,
-                    done: !1
-                };
-            }
-        },
-        {
-            key: _iterator1,
-            value: function() {
-                return this;
-            }
-        }
-    ]), FooIteratorIterator;
+    var _proto = FooIteratorIterator.prototype;
+    return _proto.next = function() {
+        return {
+            value: new FooIterator,
+            done: !1
+        };
+    }, _proto[_iterator1] = function() {
+        return this;
+    }, FooIteratorIterator;
 }();

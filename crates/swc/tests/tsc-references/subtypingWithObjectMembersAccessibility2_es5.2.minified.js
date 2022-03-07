@@ -46,7 +46,7 @@ var ExplicitPublic, ImplicitPublic, Base = function() {
         }
         return B3;
     }(A31);
-}(ExplicitPublic || (ExplicitPublic = {})), (function(ImplicitPublic) {
+}(ExplicitPublic || (ExplicitPublic = {})), function(ImplicitPublic) {
     var A4 = function() {
         "use strict";
         swcHelpers.classCallCheck(this, A4);
@@ -81,4 +81,4 @@ var ExplicitPublic, ImplicitPublic, Base = function() {
         }
         return B3;
     }(A32);
-})(ImplicitPublic || (ImplicitPublic = {}));
+}(ImplicitPublic || (ImplicitPublic = {}));

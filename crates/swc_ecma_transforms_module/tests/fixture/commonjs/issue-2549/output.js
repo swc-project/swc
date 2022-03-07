@@ -21,12 +21,13 @@ exports.errors = errors;
 const addOne = (x)=>`${x + 1}`
 ;
 exports.addOne = addOne;
-const someFunc = (x)=>`The answer is : ${exports.addOne(x)}`
+const someFunc = (x)=>`The answer is : ${addOne(x)}`
 ;
 exports.someFunc = someFunc;
-const test = {};
+const test = {
+};
 exports.test = test;
-Object.defineProperty(exports.test, "log", {
+Object.defineProperty(test, "log", {
     get: function get() {
         return log;
     },
@@ -34,15 +35,15 @@ Object.defineProperty(exports.test, "log", {
         log = v;
     }
 });
-Object.defineProperty(exports.test, "warn", {
+Object.defineProperty(test, "warn", {
     get: ()=>warn
     ,
     set: (v)=>{
         exports.warn = warn = v;
     }
 });
-Object.defineProperty(exports.test, "errors", {
-    get: ()=>exports.errors
+Object.defineProperty(test, "errors", {
+    get: ()=>errors
     ,
     set: (v)=>{
         exports.errors = errors = v;

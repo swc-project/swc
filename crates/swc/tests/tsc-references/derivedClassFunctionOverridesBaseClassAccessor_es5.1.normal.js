@@ -24,13 +24,9 @@ var Derived = // error
         swcHelpers.classCallCheck(this, Derived);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(Derived, [
-        {
-            key: "x",
-            value: function x() {
-                return 1;
-            }
-        }
-    ]);
+    var _proto = Derived.prototype;
+    _proto.x = function x() {
+        return 1;
+    };
     return Derived;
 }(Base);

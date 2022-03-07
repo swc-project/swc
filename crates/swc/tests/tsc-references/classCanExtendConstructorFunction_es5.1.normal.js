@@ -31,25 +31,21 @@ var Sql = // ok
         _this.foonly = 12;
         return _this;
     }
-    swcHelpers.createClass(Sql, [
-        {
-            /**
+    var _proto = Sql.prototype;
+    /**
      * @param {Array.<string>} files
      * @param {"csv" | "json" | "xmlolololol"} format
      * This is not assignable, so should have a type error
-     */ key: "load",
-            value: function load(files, format) {
-                if (format === "xmlolololol") {
-                    throw new Error("please do not use XML. It was a joke.");
-                } else {
-                    swcHelpers.get(swcHelpers.getPrototypeOf(Sql.prototype), "speed", this).call(this); // run faster
-                    if (swcHelpers.get(swcHelpers.getPrototypeOf(Sql.prototype), "weight", this).call(this) < 0) {
-                    // ????????????????????????
-                    }
-                }
+     */ _proto.load = function load(files, format) {
+        if (format === "xmlolololol") {
+            throw new Error("please do not use XML. It was a joke.");
+        } else {
+            swcHelpers.get(swcHelpers.getPrototypeOf(Sql.prototype), "speed", this).call(this); // run faster
+            if (swcHelpers.get(swcHelpers.getPrototypeOf(Sql.prototype), "weight", this).call(this) < 0) {
+            // ????????????????????????
             }
         }
-    ]);
+    };
     return Sql;
 }(Wagon);
 var db = new Sql();
@@ -94,15 +90,10 @@ var Conestoga = // ok
         _this.drunkOO = drunkOO;
         return _this;
     }
-    swcHelpers.createClass(Conestoga, null, [
-        {
-            key: "circle",
-            value: // should error since others is not optional
-            function circle(others) {
-                return others.length;
-            }
-        }
-    ]);
+    // should error since others is not optional
+    Conestoga.circle = function circle(others) {
+        return others.length;
+    };
     return Conestoga;
 }(Wagon);
 var c = new Conestoga(true);
@@ -123,14 +114,10 @@ var Chowder = /** @extends {Soup<{ claim: "ignorant" | "malicious" }>} */ /*#__P
         swcHelpers.classCallCheck(this, Chowder);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(Chowder, [
-        {
-            key: "log",
-            value: function log() {
-                return this.flavour;
-            }
-        }
-    ]);
+    var _proto = Chowder.prototype;
+    _proto.log = function log() {
+        return this.flavour;
+    };
     return Chowder;
 }(Soup);
 var soup = new Soup(1);

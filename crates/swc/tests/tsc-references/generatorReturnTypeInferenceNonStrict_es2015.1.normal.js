@@ -92,7 +92,7 @@ function* g310() {
     const [a = 1, b = 2] = yield;
 }
 function* g311() {
-    yield* (function*() {
+    yield* function*() {
         const y = yield;
-    })();
+    }();
 }

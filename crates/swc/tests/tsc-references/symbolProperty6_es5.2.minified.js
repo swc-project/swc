@@ -4,11 +4,7 @@ var _iterator = Symbol.iterator, _toPrimitive = Symbol.toPrimitive, _toStringTag
     function C() {
         swcHelpers.classCallCheck(this, C), this[_iterator] = 0;
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: _toPrimitive,
-            value: function() {}
-        },
+    return C.prototype[_toPrimitive] = function() {}, swcHelpers.createClass(C, [
         {
             key: _toStringTag,
             get: function() {

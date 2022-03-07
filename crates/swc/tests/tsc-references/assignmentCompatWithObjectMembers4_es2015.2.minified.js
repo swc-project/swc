@@ -5,9 +5,9 @@ var OnlyDerived, WithBase;
     new class extends Base {
     }(), new class extends Base {
     }();
-}(OnlyDerived || (OnlyDerived = {})), (function(WithBase) {
+}(OnlyDerived || (OnlyDerived = {})), function(WithBase) {
     class Base {
     }
     new Base(), new class extends Base {
     }();
-})(WithBase || (WithBase = {}));
+}(WithBase || (WithBase = {}));

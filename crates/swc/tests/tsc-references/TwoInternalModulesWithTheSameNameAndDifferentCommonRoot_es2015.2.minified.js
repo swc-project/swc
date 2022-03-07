@@ -7,7 +7,7 @@ var Root, otherRoot;
             y: p.x
         };
     };
-}(Root || (Root = {})), (function(otherRoot1) {
+}(Root || (Root = {})), function(otherRoot1) {
     var A;
     (A = otherRoot1.A || (otherRoot1.A = {})).Origin = {
         x: 0,
@@ -17,4 +17,4 @@ var Root, otherRoot;
             this.tl = tl, this.br = br;
         }
     };
-})(otherRoot || (otherRoot = {}));
+}(otherRoot || (otherRoot = {}));

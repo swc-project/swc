@@ -10,20 +10,12 @@ var E, cond, C1 = function() {
     function C2() {
         swcHelpers.classCallCheck(this, C2);
     }
-    return swcHelpers.createClass(C2, [
-        {
-            key: "foo",
-            value: function() {
-                return 0;
-            }
-        },
-        {
-            key: "bar",
-            value: function() {
-                return cond ? 0 : 1;
-            }
-        }
-    ]), C2;
+    var _proto = C2.prototype;
+    return _proto.foo = function() {
+        return 0;
+    }, _proto.bar = function() {
+        return cond ? 0 : 1;
+    }, C2;
 }(), a = [
     1,
     2
@@ -39,7 +31,7 @@ g1(1), g2(1, 1), g2(1, 2), g3(1, "two"), g4(1), g5(1, 2), g6([
 var aa = [
     0
 ];
-aa = (function(a1, x) {
+aa = function(a1, x) {
     var result = a1.slice();
     return result.push(1), result;
-})(aa, 1);
+}(aa, 1);

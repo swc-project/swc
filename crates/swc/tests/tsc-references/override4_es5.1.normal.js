@@ -8,16 +8,9 @@ var B = // @declaration: true
         this.p1 = 1;
         this.p2 = 1;
     }
-    swcHelpers.createClass(B, [
-        {
-            key: "foo",
-            value: function foo(v) {}
-        },
-        {
-            key: "fooo",
-            value: function fooo(v) {}
-        }
-    ]);
+    var _proto = B.prototype;
+    _proto.foo = function foo(v) {};
+    _proto.fooo = function fooo(v) {};
     return B;
 }();
 var D = /*#__PURE__*/ function(B) {
@@ -32,16 +25,9 @@ var D = /*#__PURE__*/ function(B) {
         _this.p2 = 3;
         return _this;
     }
-    swcHelpers.createClass(D, [
-        {
-            key: "foo",
-            value: function foo(v) {}
-        },
-        {
-            key: "fooo",
-            value: function fooo(v) {}
-        }
-    ]);
+    var _proto = D.prototype;
+    _proto.foo = function foo(v) {};
+    _proto.fooo = function fooo(v) {};
     return D;
 }(B);
 var DD = /*#__PURE__*/ function(B) {

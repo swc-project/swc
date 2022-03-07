@@ -8,7 +8,7 @@ import * as swcHelpers from "@swc/helpers";
         "use strict";
         swcHelpers.classCallCheck(this, T);
     };
-}(SimpleTypes || (SimpleTypes = {})), (function(ObjectTypes) {
+}(SimpleTypes || (SimpleTypes = {})), function(ObjectTypes) {
     var t, t2, b, S = function() {
         "use strict";
         swcHelpers.classCallCheck(this, S);
@@ -21,4 +21,4 @@ import * as swcHelpers from "@swc/helpers";
         foo: b2
     };
     b2 = a2 = b2, a2 = b, a2 = t2, a2 = t;
-})(ObjectTypes || (ObjectTypes = {}));
+}(ObjectTypes || (ObjectTypes = {}));

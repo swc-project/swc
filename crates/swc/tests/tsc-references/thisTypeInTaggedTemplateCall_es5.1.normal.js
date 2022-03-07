@@ -23,14 +23,9 @@ var Foo = // @target: esnext
     function Foo() {
         swcHelpers.classCallCheck(this, Foo);
     }
-    swcHelpers.createClass(Foo, null, [
-        {
-            key: "m",
-            value: function m(strings) {
-                return new this();
-            }
-        }
-    ]);
+    Foo.m = function m(strings) {
+        return new this();
+    };
     return Foo;
 }();
 Foo.m(_templateObject());

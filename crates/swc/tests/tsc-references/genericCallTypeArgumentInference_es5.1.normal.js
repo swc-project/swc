@@ -20,59 +20,34 @@ var C = /*#__PURE__*/ function() {
         this.t = t;
         this.u = u;
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function foo(t, u) {
-                return t;
-            }
-        },
-        {
-            key: "foo2",
-            value: function foo2(t, u) {
-                return u;
-            }
-        },
-        {
-            key: "foo3",
-            value: function foo3(t, u) {
-                return t;
-            }
-        },
-        {
-            key: "foo4",
-            value: function foo4(t, u) {
-                return t;
-            }
-        },
-        {
-            key: "foo5",
-            value: function foo5(t, u) {
-                return t;
-            }
-        },
-        {
-            key: "foo6",
-            value: function foo6() {
-                var x;
-                return x;
-            }
-        },
-        {
-            key: "foo7",
-            value: function foo7(u) {
-                var x;
-                return x;
-            }
-        },
-        {
-            key: "foo8",
-            value: function foo8() {
-                var x;
-                return x;
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.foo = function foo(t, u) {
+        return t;
+    };
+    _proto.foo2 = function foo2(t, u) {
+        return u;
+    };
+    _proto.foo3 = function foo3(t, u) {
+        return t;
+    };
+    _proto.foo4 = function foo4(t, u) {
+        return t;
+    };
+    _proto.foo5 = function foo5(t, u) {
+        return t;
+    };
+    _proto.foo6 = function foo6() {
+        var x;
+        return x;
+    };
+    _proto.foo7 = function foo7(u) {
+        var x;
+        return x;
+    };
+    _proto.foo8 = function foo8() {
+        var x;
+        return x;
+    };
     return C;
 }();
 var c = new C('', 1);

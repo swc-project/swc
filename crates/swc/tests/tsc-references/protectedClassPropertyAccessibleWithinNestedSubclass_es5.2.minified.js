@@ -9,7 +9,24 @@ var B = function() {
     function C() {
         return swcHelpers.classCallCheck(this, C), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(C, [
+    var _proto = C.prototype;
+    return _proto.foo = function() {
+        return this.x;
+    }, _proto.bar = function() {
+        var D = function() {
+            function D() {
+                swcHelpers.classCallCheck(this, D);
+            }
+            return D.prototype.foo = function() {
+                var c = new C();
+                c.y, c.x, c.foo, c.bar, c.z, C.x, C.y, C.foo, C.bar;
+            }, D;
+        }();
+    }, C.foo = function() {
+        return this.x;
+    }, C.bar = function() {
+        this.foo();
+    }, swcHelpers.createClass(C, [
         {
             key: "y",
             get: function() {
@@ -17,31 +34,6 @@ var B = function() {
             },
             set: function(x) {
                 this.y = this.x;
-            }
-        },
-        {
-            key: "foo",
-            value: function() {
-                return this.x;
-            }
-        },
-        {
-            key: "bar",
-            value: function() {
-                var D = function() {
-                    function D() {
-                        swcHelpers.classCallCheck(this, D);
-                    }
-                    return swcHelpers.createClass(D, [
-                        {
-                            key: "foo",
-                            value: function() {
-                                var c = new C();
-                                c.y, c.x, c.foo, c.bar, c.z, C.x, C.y, C.foo, C.bar;
-                            }
-                        }
-                    ]), D;
-                }();
             }
         }
     ], [
@@ -52,18 +44,6 @@ var B = function() {
             },
             set: function(x) {
                 this.y = this.x;
-            }
-        },
-        {
-            key: "foo",
-            value: function() {
-                return this.x;
-            }
-        },
-        {
-            key: "bar",
-            value: function() {
-                this.foo();
             }
         }
     ]), C;

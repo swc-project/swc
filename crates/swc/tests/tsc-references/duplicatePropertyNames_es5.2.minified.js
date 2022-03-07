@@ -4,12 +4,7 @@ var _obj, C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C), this.baz = function() {}, this.baz = function() {};
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "bar",
-            value: function(x) {}
-        }
-    ]), C;
+    return C.prototype.bar = function(x) {}, C;
 }();
 _obj = {
     foo: ""

@@ -12,14 +12,10 @@ var C = // @noEmit: true
             x
         ];
     }
-    swcHelpers.createClass(C, [
-        {
-            /** @param {number} y */ key: "m",
-            value: function m(y) {
-                return this.x + y;
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    /** @param {number} y */ _proto.m = function m(y) {
+        return this.x + y;
+    };
     return C;
 }();
 function exec() {

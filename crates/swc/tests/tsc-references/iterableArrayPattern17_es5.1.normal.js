@@ -19,23 +19,16 @@ var FooIterator = /*#__PURE__*/ function() {
     function FooIterator() {
         swcHelpers.classCallCheck(this, FooIterator);
     }
-    swcHelpers.createClass(FooIterator, [
-        {
-            key: "next",
-            value: function next() {
-                return {
-                    value: new Foo,
-                    done: false
-                };
-            }
-        },
-        {
-            key: _iterator,
-            value: function value() {
-                return this;
-            }
-        }
-    ]);
+    var _proto = FooIterator.prototype;
+    _proto.next = function next() {
+        return {
+            value: new Foo,
+            done: false
+        };
+    };
+    _proto[_iterator] = function() {
+        return this;
+    };
     return FooIterator;
 }();
 function fun() {

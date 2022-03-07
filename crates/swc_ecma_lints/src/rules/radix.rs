@@ -55,13 +55,11 @@ pub fn radix(
     top_level_ctxt: SyntaxContext,
     config: &RuleConfig<RadixConfig>,
 ) -> Option<Box<dyn Rule>> {
-    let top_level_declared_vars: AHashSet<Id> = collect_decls_with_ctxt(program, top_level_ctxt);
-
     match config.get_rule_reaction() {
         LintRuleReaction::Off => None,
         _ => Some(visitor_rule(Radix::new(
             source_map.clone(),
-            top_level_declared_vars,
+            collect_decls_with_ctxt(program, top_level_ctxt),
             top_level_ctxt,
             config,
         ))),

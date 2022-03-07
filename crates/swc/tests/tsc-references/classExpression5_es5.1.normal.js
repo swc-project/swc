@@ -4,13 +4,9 @@ new (/*#__PURE__*/ function() {
     function _class() {
         swcHelpers.classCallCheck(this, _class);
     }
-    swcHelpers.createClass(_class, [
-        {
-            key: "hi",
-            value: function hi() {
-                return "Hi!";
-            }
-        }
-    ]);
+    var _proto = _class.prototype;
+    _proto.hi = function hi() {
+        return "Hi!";
+    };
     return _class;
 }())().hi();

@@ -6,13 +6,9 @@ var C = //@target: ES6
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: _iterator,
-            value: function value(x) {
-                return undefined;
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto[_iterator] = function(x) {
+        return undefined;
+    };
     return C;
 }();

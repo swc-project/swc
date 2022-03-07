@@ -9,17 +9,10 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "bar",
-            value: function bar() {
-                return 0;
-            }
-        },
-        {
-            key: tmp,
-            value: function value() {}
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.bar = function bar() {
+        return 0;
+    };
+    _proto[tmp] = function() {};
     return C;
 }();

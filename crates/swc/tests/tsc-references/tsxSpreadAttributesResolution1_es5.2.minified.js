@@ -6,13 +6,8 @@ var React = require("react"), Poisoned = function(_Component) {
     function Poisoned() {
         return swcHelpers.classCallCheck(this, Poisoned), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(Poisoned, [
-        {
-            key: "render",
-            value: function() {
-                return React.createElement("div", null, "Hello");
-            }
-        }
-    ]), Poisoned;
+    return Poisoned.prototype.render = function() {
+        return React.createElement("div", null, "Hello");
+    }, Poisoned;
 }(React.Component);
 React.createElement(Poisoned, swcHelpers.extends({}, {})), React.createElement(Poisoned, null);

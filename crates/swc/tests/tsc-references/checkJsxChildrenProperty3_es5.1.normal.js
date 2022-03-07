@@ -13,14 +13,10 @@ var FetchUser = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, FetchUser);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(FetchUser, [
-        {
-            key: "render",
-            value: function render() {
-                return this.state ? this.props.children(this.state.result) : null;
-            }
-        }
-    ]);
+    var _proto = FetchUser.prototype;
+    _proto.render = function render() {
+        return this.state ? this.props.children(this.state.result) : null;
+    };
     return FetchUser;
 }(React.Component);
 // Ok

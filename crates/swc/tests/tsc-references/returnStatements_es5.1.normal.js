@@ -29,12 +29,8 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "dispose",
-            value: function dispose() {}
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.dispose = function dispose() {};
     return C;
 }();
 var D = /*#__PURE__*/ function(C) {

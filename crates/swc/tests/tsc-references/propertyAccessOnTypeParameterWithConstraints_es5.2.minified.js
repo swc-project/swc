@@ -4,15 +4,10 @@ var i, a, C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "f",
-            value: function() {
-                var x;
-                return x.getDate() + x.getDate();
-            }
-        }
-    ]), C;
+    return C.prototype.f = function() {
+        var x;
+        return x.getDate() + x.getDate();
+    }, C;
 }();
 new C().f(), i.foo.getDate(), i.foo.getDate(), a().getDate(), a().getDate(), ({
     foo: function(x) {

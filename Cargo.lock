@@ -774,6 +774,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4443176a9f2c162692bd3d352d745ef9413eec5782a80d8fd6f8a1ac692a07f7"
 
 [[package]]
+name = "fastmem"
+version = "0.1.0"
+dependencies = [
+ "rayon",
+]
+
+[[package]]
 name = "fixedbitset"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2698,7 +2705,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.145.0"
+version = "0.145.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2833,7 +2840,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.10"
+version = "0.17.11"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2948,7 +2955,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.96.0"
+version = "0.96.2"
 dependencies = [
  "bitflags",
  "lexical",
@@ -3054,7 +3061,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.22.0"
+version = "0.22.2"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3095,7 +3102,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.87.1"
+version = "0.87.2"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3129,7 +3136,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.92.2"
+version = "0.92.3"
 dependencies = [
  "either",
  "enum_kind",
@@ -3267,7 +3274,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.78.0"
+version = "0.78.1"
 dependencies = [
  "ahash",
  "arrayvec 0.7.2",
@@ -3307,7 +3314,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.89.2"
+version = "0.89.3"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3332,7 +3339,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.99.0"
+version = "0.99.1"
 dependencies = [
  "ahash",
  "dashmap 4.0.2",
@@ -3432,7 +3439,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.94.0"
+version = "0.94.1"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -3574,6 +3581,7 @@ dependencies = [
 name = "swc_node_base"
 version = "0.5.1"
 dependencies = [
+ "fastmem",
  "mimalloc-rust",
 ]
 
@@ -4195,7 +4203,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.150"
+version = "1.2.151"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",

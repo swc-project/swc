@@ -4,19 +4,9 @@ var Controller = /*#__PURE__*/ function() {
     function Controller() {
         swcHelpers.classCallCheck(this, Controller);
     }
-    swcHelpers.createClass(Controller, [
-        {
-            key: "create",
-            value: function create() {}
-        },
-        {
-            key: "delete",
-            value: function _delete() {}
-        },
-        {
-            key: "var",
-            value: function _var() {}
-        }
-    ]);
+    var _proto = Controller.prototype;
+    _proto.create = function create() {};
+    _proto.delete = function _delete() {};
+    _proto.var = function _var() {};
     return Controller;
 }();

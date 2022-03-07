@@ -14,17 +14,13 @@ var Button = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, Button);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(Button, [
-        {
-            key: "render",
-            value: function render() {
-                // Error children are specified twice
-                return(/*#__PURE__*/ React.createElement(InnerButton, swcHelpers.extends({}, this.props, {
-                    children: "hi"
-                }), /*#__PURE__*/ React.createElement("div", null, "Hello World")));
-            }
-        }
-    ]);
+    var _proto = Button.prototype;
+    _proto.render = function render() {
+        // Error children are specified twice
+        return(/*#__PURE__*/ React.createElement(InnerButton, swcHelpers.extends({}, this.props, {
+            children: "hi"
+        }), /*#__PURE__*/ React.createElement("div", null, "Hello World")));
+    };
     return Button;
 }(React.Component);
 var InnerButton = /*#__PURE__*/ function(_Component) {
@@ -35,14 +31,10 @@ var InnerButton = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, InnerButton);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(InnerButton, [
-        {
-            key: "render",
-            value: function render() {
-                return(/*#__PURE__*/ React.createElement("button", null, "Hello"));
-            }
-        }
-    ]);
+    var _proto = InnerButton.prototype;
+    _proto.render = function render() {
+        return(/*#__PURE__*/ React.createElement("button", null, "Hello"));
+    };
     return InnerButton;
 }(React.Component);
 export { };

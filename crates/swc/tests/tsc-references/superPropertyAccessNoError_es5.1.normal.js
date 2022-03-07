@@ -11,27 +11,16 @@ var SomeBaseClass = // @target: es5
     function SomeBaseClass() {
         swcHelpers.classCallCheck(this, SomeBaseClass);
     }
-    swcHelpers.createClass(SomeBaseClass, [
-        {
-            key: "func",
-            value: function func() {
-                return '';
-            }
-        },
-        {
-            key: "returnThis",
-            value: function returnThis() {
-                return this;
-            }
-        }
-    ], [
-        {
-            key: "func",
-            value: function func() {
-                return 3;
-            }
-        }
-    ]);
+    var _proto = SomeBaseClass.prototype;
+    _proto.func = function func() {
+        return '';
+    };
+    _proto.returnThis = function returnThis() {
+        return this;
+    };
+    SomeBaseClass.func = function func() {
+        return 3;
+    };
     return SomeBaseClass;
 }();
 var SomeDerivedClass = /*#__PURE__*/ function(SomeBaseClass) {
@@ -45,18 +34,23 @@ var SomeDerivedClass = /*#__PURE__*/ function(SomeBaseClass) {
         var x;
         return _this;
     }
+    var _proto = SomeDerivedClass.prototype;
+    _proto.fn = function fn() {
+        var _this = this;
+        var x = swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass.prototype), "func", this).call(this);
+        var x;
+        var y = function() {
+            return swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass.prototype), "func", _this).call(_this);
+        };
+    };
+    _proto.returnThis = function returnThis() {
+        return swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass.prototype), "returnThis", this).call(this);
+    };
+    SomeDerivedClass.fn = function fn() {
+        var x = swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass), "func", this).call(this);
+        var x;
+    };
     swcHelpers.createClass(SomeDerivedClass, [
-        {
-            key: "fn",
-            value: function fn() {
-                var _this = this;
-                var x = swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass.prototype), "func", this).call(this);
-                var x;
-                var y = function() {
-                    return swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass.prototype), "func", _this).call(_this);
-                };
-            }
-        },
         {
             key: "a",
             get: function get() {
@@ -68,21 +62,8 @@ var SomeDerivedClass = /*#__PURE__*/ function(SomeBaseClass) {
                 var x = swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass.prototype), "func", this).call(this);
                 var x;
             }
-        },
-        {
-            key: "returnThis",
-            value: function returnThis() {
-                return swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass.prototype), "returnThis", this).call(this);
-            }
         }
     ], [
-        {
-            key: "fn",
-            value: function fn() {
-                var x = swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass), "func", this).call(this);
-                var x;
-            }
-        },
         {
             key: "a",
             get: function get() {

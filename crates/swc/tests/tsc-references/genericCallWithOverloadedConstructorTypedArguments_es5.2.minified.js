@@ -4,7 +4,7 @@ var NonGenericParameter, GenericParameter;
         return new cb(null);
     };
     foo4(void 0), foo4(b);
-}(NonGenericParameter || (NonGenericParameter = {})), (function(GenericParameter) {
+}(NonGenericParameter || (NonGenericParameter = {})), function(GenericParameter) {
     var a, b, c, c2, foo5 = function(cb) {
         return cb;
     }, foo6 = function(cb) {
@@ -13,4 +13,4 @@ var NonGenericParameter, GenericParameter;
         return cb;
     };
     foo5(a), foo5(b), foo6(a), foo6(b), foo7(1, b), foo7(1, c), foo7(1, c2);
-})(GenericParameter || (GenericParameter = {}));
+}(GenericParameter || (GenericParameter = {}));

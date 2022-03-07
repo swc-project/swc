@@ -8,16 +8,12 @@ import * as swcHelpers from "@swc/helpers";
     function Encoder() {
         swcHelpers.classCallCheck(this, Encoder);
     }
-    swcHelpers.createClass(Encoder, [
-        {
-            /**
+    var _proto = Encoder.prototype;
+    /**
      * @param {T} value 
-     */ key: "encode",
-            value: function encode(value) {
-                return new Uint8Array(0);
-            }
-        }
-    ]);
+     */ _proto.encode = function encode(value) {
+        return new Uint8Array(0);
+    };
     return Encoder;
 } /**
  * @template T

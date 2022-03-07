@@ -14,14 +14,10 @@ export function makeP(Ctor) {
             swcHelpers.classCallCheck(this, _class);
             return _super.apply(this, arguments);
         }
-        swcHelpers.createClass(_class, [
-            {
-                key: "render",
-                value: function render() {
-                    return(/*#__PURE__*/ React.createElement(Ctor, swcHelpers.extends({}, this.props)));
-                }
-            }
-        ]);
+        var _proto = _class.prototype;
+        _proto.render = function render() {
+            return(/*#__PURE__*/ React.createElement(Ctor, swcHelpers.extends({}, this.props)));
+        };
         return _class;
     })(React.PureComponent);
 }

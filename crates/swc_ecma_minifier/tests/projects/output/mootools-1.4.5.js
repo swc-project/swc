@@ -518,7 +518,7 @@ String.implement({
     toInt: function(base) {
         return parseInt(this, base || 10);
     }
-}), Number.alias("each", "times"), (function(math) {
+}), Number.alias("each", "times"), function(math) {
     var methods = {};
     math.each(function(name) {
         Number[name] || (methods[name] = function() {
@@ -527,7 +527,7 @@ String.implement({
             ].concat(Array.from(arguments)));
         });
     }), Number.implement(methods);
-})([
+}([
     "abs",
     "acos",
     "asin",
@@ -742,7 +742,7 @@ var $try = Function.attempt;
 }), Hash.extend = Object.append, Hash.alias({
     indexOf: "keyOf",
     contains: "hasValue"
-}), (function() {
+}), function() {
     var XMLHTTP, MSXML2, MSXML, document = this.document, window = document.window = this, ua = navigator.userAgent.toLowerCase(), platform = navigator.platform.toLowerCase(), UA = ua.match(/(opera|ie|firefox|chrome|version)[\s\/:]([\w\d\.]+)?.*?(safari|version[\s\/:]([\w\d\.]+)|$)/) || [
         null,
         "unknown",
@@ -879,7 +879,7 @@ var $try = Function.attempt;
             Browser.Engine.gecko = !0;
     }
     this.$exec = Browser.exec;
-})(), (function() {
+}(), function() {
     var _keys = {}, DOMEvent = this.DOMEvent = new Type("DOMEvent", function(event, win) {
         if (win || (win = window), (event = event || win.event).$extended) return event;
         this.event = event, this.$extended = !0, this.shift = event.shiftKey, this.control = event.ctrlKey, this.alt = event.altKey, this.meta = event.metaKey;
@@ -939,9 +939,9 @@ var $try = Function.attempt;
         "46": "delete",
         "13": "enter"
     });
-})();
+}();
 var Event = DOMEvent;
-Event.Keys = {}, Event.Keys = new Hash(Event.Keys), (function() {
+Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
     var Class = this.Class = new Type("Class", function(params) {
         instanceOf(params, Function) && (params = {
             initialize: params
@@ -1009,7 +1009,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), (function() {
             }, this);
         }
     };
-})(), (function() {
+}(), function() {
     this.Chain = new Class({
         $chain: [],
         chain: function() {
@@ -1071,7 +1071,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), (function() {
             return this;
         }
     });
-})(), (function() {
+}(), (function() {
     var parsed, separatorIndex, combinatorIndex, reversed, cache = {}, reverseCache = {}, reUnescape = /\\/g, parse = function(expression, isReversed) {
         if (null == expression) return null;
         if (!0 === expression.Slick) return expression;
@@ -1767,7 +1767,7 @@ Elements.prototype = {
         for(; this.length;)delete this[--this.length];
         return this;
     }).protect()
-}), Elements.alias("extend", "append"), (function() {
+}), Elements.alias("extend", "append"), function() {
     var createElementAcceptsHTML, splice = Array.prototype.splice, object = {
         "0": 0,
         "1": 1,
@@ -1790,7 +1790,7 @@ Elements.prototype = {
             return props && null != props.checked && (props.defaultChecked = props.checked), createElementAcceptsHTML && props && (tag = "<" + tag, props.name && (tag += " name=\"" + escapeQuotes(props.name) + "\""), props.type && (tag += " type=\"" + escapeQuotes(props.type) + "\""), tag += ">", delete props.name, delete props.type), this.id(this.createElement(tag)).set(props);
         }
     });
-})(), (function() {
+}(), function() {
     Slick.uidOf(window), Slick.uidOf(document), Document.implement({
         newTextNode: function(text) {
             return this.createTextNode(text);
@@ -2296,7 +2296,7 @@ Elements.prototype = {
             this.id = this.getAttributeNode("id").value = "";
         }
     });
-})(), (function() {
+}(), function() {
     var html = document.html, el = document.createElement("div");
     el.style.color = "red", el.style.color = null;
     var doesNotRemoveStyles = "red" == el.style.color;
@@ -2451,7 +2451,7 @@ Elements.prototype = {
         var bdw = bd + "Width", bds = bd + "Style", bdc = bd + "Color";
         Short[bd] = {}, Short.borderWidth[bdw] = Short[bd][bdw] = All[bdw] = "@px", Short.borderStyle[bds] = Short[bd][bds] = All[bds] = "@", Short.borderColor[bdc] = Short[bd][bdc] = All[bdc] = "rgb(@, @, @)";
     });
-})(), (function() {
+}(), function() {
     if (Element.Properties.events = {
         set: function(events) {
             this.addEvents(events);
@@ -2593,7 +2593,7 @@ Elements.prototype = {
             return "radio" != this.type || "checked" == event.event.propertyName && this.checked;
         }
     }), Element.Events = new Hash(Element.Events);
-})(), (function() {
+}(), function() {
     var eventListenerSupport = !!window.addEventListener;
     Element.NativeEvents.focusin = Element.NativeEvents.focusout = 2;
     var bubbleUp = function(self, match, fn, event, target) {
@@ -2720,7 +2720,7 @@ Elements.prototype = {
         addEvent: relay(addEvent, delegation.addEvent),
         removeEvent: relay(removeEvent, delegation.removeEvent)
     });
-})(), (function() {
+}(), function() {
     var element1 = document.createElement("div"), child = document.createElement("div");
     element1.style.height = "0", element1.appendChild(child);
     var brokenOffsetParent = child.offsetParent === element1;
@@ -2891,7 +2891,7 @@ Elements.prototype = {
         var doc = element.getDocument();
         return doc.compatMode && "CSS1Compat" != doc.compatMode ? doc.body : doc.html;
     }
-})(), Element.alias({
+}(), Element.alias({
     position: "setPosition"
 }), [
     Window,
@@ -2922,7 +2922,7 @@ Elements.prototype = {
     getLeft: function() {
         return this.getPosition().x;
     }
-}), (function() {
+}), function() {
     var Fx = this.Fx = new Class({
         Implements: [
             Chain,
@@ -3013,7 +3013,7 @@ Elements.prototype = {
         var list = instances[fps];
         list && (list.erase(this), !list.length && timers[fps] && (delete instances[fps], timers[fps] = clearInterval(timers[fps])));
     };
-})(), Fx.CSS = new Class({
+}(), Fx.CSS = new Class({
     Extends: Fx,
     prepare: function(element, property, values) {
         var from = (values = Array.from(values))[0], to = values[1];
@@ -3294,7 +3294,7 @@ Elements.prototype = {
     Fx.Transitions[transition] = new Fx.Transition(function(p) {
         return Math.pow(p, i + 2);
     });
-}), (function() {
+}), function() {
     var empty = function() {}, progressSupport = "onprogress" in new Browser.Request, Request = this.Request = new Class({
         Implements: [
             Chain,
@@ -3487,7 +3487,7 @@ Elements.prototype = {
             }), this;
         }
     });
-})(), Request.HTML = new Class({
+}(), Request.HTML = new Class({
     Extends: Request,
     options: {
         update: !1,
@@ -3538,7 +3538,7 @@ Elements.prototype = {
 }), "undefined" == typeof JSON && (this.JSON = {}), JSON = new Hash({
     stringify: JSON.stringify,
     parse: JSON.parse
-}), (function() {
+}), function() {
     var special = {
         "\b": "\\b",
         "\t": "\\t",
@@ -3582,7 +3582,7 @@ Elements.prototype = {
         }
         return eval("(" + string + ")");
     };
-})(), Request.JSON = new Class({
+}(), Request.JSON = new Class({
     Extends: Request,
     options: {
         secure: !0
@@ -3643,7 +3643,7 @@ Cookie.write = function(key, value, options) {
     return new Cookie(key).read();
 }, Cookie.dispose = function(key, options) {
     return new Cookie(key, options).dispose();
-}, (function(window, document) {
+}, function(window, document) {
     var ready, loaded, shouldPoll, timer, checks = [], testElement = document.createElement("div"), domready = function() {
         clearTimeout(timer), ready || (Browser.loaded = ready = !0, document.removeListener("DOMContentLoaded", domready).removeListener("readystatechange", check), document.fireEvent("domready"), window.fireEvent("domready"));
     }, check = function() {
@@ -3677,7 +3677,7 @@ Cookie.write = function(key, value, options) {
     }, window.addEvent("load", function() {
         loaded = !0;
     });
-})(window, document), (function() {
+}(window, document), function() {
     var Swiff = this.Swiff = new Class({
         Implements: Options,
         options: {
@@ -3706,11 +3706,11 @@ Cookie.write = function(key, value, options) {
                 height: options.height,
                 width: options.width
             }, options.properties), self = this;
-            for(var callBack in callBacks)Swiff.CallBacks[this.instance][callBack] = (function(option) {
+            for(var callBack in callBacks)Swiff.CallBacks[this.instance][callBack] = function(option) {
                 return function() {
                     return option.apply(self.object, arguments);
                 };
-            })(callBacks[callBack]), vars[callBack] = "Swiff.CallBacks." + this.instance + "." + callBack;
+            }(callBacks[callBack]), vars[callBack] = "Swiff.CallBacks." + this.instance + "." + callBack;
             params.flashVars = Object.toQueryString(vars), Browser.ie ? (properties.classid = "clsid:D27CDB6E-AE6D-11cf-96B8-444553540000", params.movie = path) : properties.type = "application/x-shockwave-flash", properties.data = path;
             var build = "<object id=\"" + id + "\"";
             for(var property in properties)build += " " + property + "=\"" + properties[property] + "\"";
@@ -3733,4 +3733,4 @@ Cookie.write = function(key, value, options) {
         var rs = obj.CallFunction("<invoke name=\"" + fn + "\" returntype=\"javascript\">" + __flash__argumentsToXML(arguments, 2) + "</invoke>");
         return eval(rs);
     };
-})();
+}();

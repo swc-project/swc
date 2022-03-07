@@ -4,12 +4,8 @@ var A = /*#__PURE__*/ function() {
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    swcHelpers.createClass(A, [
-        {
-            key: "foo",
-            value: function foo() {}
-        }
-    ]);
+    var _proto = A.prototype;
+    _proto.foo = function foo() {};
     return A;
 }();
 var B = /*#__PURE__*/ function(A) {
@@ -27,12 +23,8 @@ var AA = /*#__PURE__*/ function() {
     function AA() {
         swcHelpers.classCallCheck(this, AA);
     }
-    swcHelpers.createClass(AA, [
-        {
-            key: "foo",
-            value: function foo() {}
-        }
-    ]);
+    var _proto = AA.prototype;
+    _proto.foo = function foo() {};
     return AA;
 }();
 var BB = /*#__PURE__*/ function(AA) {
@@ -43,12 +35,8 @@ var BB = /*#__PURE__*/ function(AA) {
         swcHelpers.classCallCheck(this, BB);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(BB, [
-        {
-            key: "bar",
-            value: function bar() {}
-        }
-    ]);
+    var _proto = BB.prototype;
+    _proto.bar = function bar() {};
     return BB;
 }(AA);
 var CC = /*#__PURE__*/ function(BB) {
@@ -70,11 +58,7 @@ var DD = /*#__PURE__*/ function(BB) {
         swcHelpers.classCallCheck(this, DD);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(DD, [
-        {
-            key: "foo",
-            value: function foo() {}
-        }
-    ]);
+    var _proto = DD.prototype;
+    _proto.foo = function foo() {};
     return DD;
 }(BB);

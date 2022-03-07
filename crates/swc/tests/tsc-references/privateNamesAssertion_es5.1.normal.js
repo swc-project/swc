@@ -16,15 +16,11 @@ var Foo = // @strict: true
             }
         });
     }
-    swcHelpers.createClass(Foo, [
-        {
-            key: "m1",
-            value: function m1(v) {
-                swcHelpers.classPrivateFieldGet(this, _p1).call(this, v);
-                v;
-            }
-        }
-    ]);
+    var _proto = Foo.prototype;
+    _proto.m1 = function m1(v) {
+        swcHelpers.classPrivateFieldGet(this, _p1).call(this, v);
+        v;
+    };
     return Foo;
 }();
 var _p11 = new WeakSet();
@@ -34,15 +30,11 @@ var Foo2 = /*#__PURE__*/ function() {
         swcHelpers.classCallCheck(this, Foo2);
         swcHelpers.classPrivateMethodInit(this, _p11);
     }
-    swcHelpers.createClass(Foo2, [
-        {
-            key: "m1",
-            value: function m1(v) {
-                swcHelpers.classPrivateMethodGet(this, _p11, p1).call(this, v);
-                v;
-            }
-        }
-    ]);
+    var _proto = Foo2.prototype;
+    _proto.m1 = function m1(v) {
+        swcHelpers.classPrivateMethodGet(this, _p11, p1).call(this, v);
+        v;
+    };
     return Foo2;
 }();
 function p1(v) {

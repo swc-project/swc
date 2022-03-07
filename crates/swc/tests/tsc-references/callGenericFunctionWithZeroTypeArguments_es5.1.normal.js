@@ -15,14 +15,10 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "f",
-            value: function f(x) {
-                return null;
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.f = function f(x) {
+        return null;
+    };
     return C;
 }();
 var r4 = new C().f(1);
@@ -33,14 +29,10 @@ var C2 = /*#__PURE__*/ function() {
     function C2() {
         swcHelpers.classCallCheck(this, C2);
     }
-    swcHelpers.createClass(C2, [
-        {
-            key: "f",
-            value: function f(x) {
-                return null;
-            }
-        }
-    ]);
+    var _proto = C2.prototype;
+    _proto.f = function f(x) {
+        return null;
+    };
     return C2;
 }();
 var r6 = new C2().f(1);

@@ -23,13 +23,8 @@ var i, a, Base = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function(x) {
-                return x;
-            }
-        }
-    ]), C;
+    return C.prototype.foo = function(x) {
+        return x;
+    }, C;
 }(), c = new C();
 c = i, i = c = a, i = a, a = c, a = i, c.foo("hi"), c.foo("bye"), c.foo("hm");

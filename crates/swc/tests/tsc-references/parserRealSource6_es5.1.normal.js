@@ -152,56 +152,34 @@ var TypeScript;
             this.publicsOnly = true;
             this.useFullAst = false;
         }
-        swcHelpers.createClass(EnclosingScopeContext, [
-            {
-                key: "getScope",
-                value: function getScope() {
-                    return this.scopeGetter();
-                }
-            },
-            {
-                key: "getObjectLiteralScope",
-                value: function getObjectLiteralScope() {
-                    return this.objectLiteralScopeGetter();
-                }
-            },
-            {
-                key: "getScopeAST",
-                value: function getScopeAST() {
-                    return this.scopeStartAST;
-                }
-            },
-            {
-                key: "getScopePosition",
-                value: function getScopePosition() {
-                    return this.scopeStartAST.minChar;
-                }
-            },
-            {
-                key: "getScriptFragmentStartAST",
-                value: function getScriptFragmentStartAST() {
-                    return this.scopeStartAST;
-                }
-            },
-            {
-                key: "getScriptFragmentPosition",
-                value: function getScriptFragmentPosition() {
-                    return this.getScriptFragmentStartAST().minChar;
-                }
-            },
-            {
-                key: "getScriptFragment",
-                value: function getScriptFragment() {
-                    if (this.scriptFragment == null) {
-                        var ast = this.getScriptFragmentStartAST();
-                        var minChar = ast.minChar;
-                        var limChar = this.isMemberCompletion ? this.pos : this.pos + 1;
-                        this.scriptFragment = TypeScript.quickParse(this.logger, ast, this.text, minChar, limChar, null).Script;
-                    }
-                    return this.scriptFragment;
-                }
+        var _proto = EnclosingScopeContext.prototype;
+        _proto.getScope = function getScope() {
+            return this.scopeGetter();
+        };
+        _proto.getObjectLiteralScope = function getObjectLiteralScope() {
+            return this.objectLiteralScopeGetter();
+        };
+        _proto.getScopeAST = function getScopeAST() {
+            return this.scopeStartAST;
+        };
+        _proto.getScopePosition = function getScopePosition() {
+            return this.scopeStartAST.minChar;
+        };
+        _proto.getScriptFragmentStartAST = function getScriptFragmentStartAST() {
+            return this.scopeStartAST;
+        };
+        _proto.getScriptFragmentPosition = function getScriptFragmentPosition() {
+            return this.getScriptFragmentStartAST().minChar;
+        };
+        _proto.getScriptFragment = function getScriptFragment() {
+            if (this.scriptFragment == null) {
+                var ast = this.getScriptFragmentStartAST();
+                var minChar = ast.minChar;
+                var limChar = this.isMemberCompletion ? this.pos : this.pos + 1;
+                this.scriptFragment = TypeScript.quickParse(this.logger, ast, this.text, minChar, limChar, null).Script;
             }
-        ]);
+            return this.scriptFragment;
+        };
         return EnclosingScopeContext;
     }();
     TypeScript1.EnclosingScopeContext = EnclosingScopeContext;

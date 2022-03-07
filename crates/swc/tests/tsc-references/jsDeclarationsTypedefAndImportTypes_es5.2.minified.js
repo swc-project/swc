@@ -4,12 +4,7 @@ var Conn = function() {
     function Conn() {
         swcHelpers.classCallCheck(this, Conn), this.item = 3;
     }
-    return swcHelpers.createClass(Conn, [
-        {
-            key: "method",
-            value: function() {}
-        }
-    ]), Conn;
+    return Conn.prototype.method = function() {}, Conn;
 }();
 module.exports = Conn;
 var Wrap = function(c) {

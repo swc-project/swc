@@ -22,54 +22,50 @@ var Test = // @target: es2015
             set: set_valueCompound
         });
     }
-    swcHelpers.createClass(Test, [
-        {
-            key: "m",
-            value: function m() {
-                var foo = {
-                    bar: 1
-                };
-                console.log(swcHelpers.classPrivateFieldGet(this, _value)); // error
-                swcHelpers.classPrivateFieldSet(this, _value, {
-                    foo: foo
-                }); // ok
-                swcHelpers.classPrivateFieldSet(this, _value, {
-                    foo: foo
-                }); // ok
-                swcHelpers.classPrivateFieldGet(this, _value).foo = foo; // error
-                var ref;
-                ref = {
-                    o: {
-                        foo: foo
-                    }
-                }, swcHelpers.classPrivateFieldDestructureSet(this, _value).value = ref.o, ref; //ok
-                var _tmp;
-                _tmp = {
-                    foo: foo
-                }, swcHelpers.classPrivateFieldDestructureSet(this, _value).value = swcHelpers.extends({}, _tmp), _tmp; //ok
-                var ref1;
-                ref1 = {
-                    foo: foo
-                }, swcHelpers.classPrivateFieldGet(this, _value).foo = ref1.foo, ref1; //error
-                var _tmp1;
-                var ref2, ref3;
-                _tmp1 = {
-                    foo: foo
-                }, swcHelpers.classPrivateFieldGet(this, _value).foo = swcHelpers.extends({}, _tmp1.foo), ref2 = _tmp1, ref3 = ref2.foo, ref3, ref2, _tmp1; //error
-                var r = {
-                    o: swcHelpers.classPrivateFieldGet(this, _value)
-                }; //error
-                swcHelpers.classPrivateFieldDestructureSet(this, _valueOne).value = 1, swcHelpers.classPrivateFieldDestructureSet(this, _valueRest).value = [
-                    2,
-                    3
-                ];
-                var arr = [
-                    swcHelpers.classPrivateFieldGet(this, _valueOne)
-                ].concat(swcHelpers.toConsumableArray(swcHelpers.classPrivateFieldGet(this, _valueRest)));
-                swcHelpers.classPrivateFieldSet(this, _valueCompound, swcHelpers.classPrivateFieldGet(this, _valueCompound) + 3);
+    var _proto = Test.prototype;
+    _proto.m = function m() {
+        var foo = {
+            bar: 1
+        };
+        console.log(swcHelpers.classPrivateFieldGet(this, _value)); // error
+        swcHelpers.classPrivateFieldSet(this, _value, {
+            foo: foo
+        }); // ok
+        swcHelpers.classPrivateFieldSet(this, _value, {
+            foo: foo
+        }); // ok
+        swcHelpers.classPrivateFieldGet(this, _value).foo = foo; // error
+        var ref;
+        ref = {
+            o: {
+                foo: foo
             }
-        }
-    ]);
+        }, swcHelpers.classPrivateFieldDestructureSet(this, _value).value = ref.o, ref; //ok
+        var _tmp;
+        _tmp = {
+            foo: foo
+        }, swcHelpers.classPrivateFieldDestructureSet(this, _value).value = swcHelpers.extends({}, _tmp), _tmp; //ok
+        var ref1;
+        ref1 = {
+            foo: foo
+        }, swcHelpers.classPrivateFieldGet(this, _value).foo = ref1.foo, ref1; //error
+        var _tmp1;
+        var ref2, ref3;
+        _tmp1 = {
+            foo: foo
+        }, swcHelpers.classPrivateFieldGet(this, _value).foo = swcHelpers.extends({}, _tmp1.foo), ref2 = _tmp1, ref3 = ref2.foo, ref3, ref2, _tmp1; //error
+        var r = {
+            o: swcHelpers.classPrivateFieldGet(this, _value)
+        }; //error
+        swcHelpers.classPrivateFieldDestructureSet(this, _valueOne).value = 1, swcHelpers.classPrivateFieldDestructureSet(this, _valueRest).value = [
+            2,
+            3
+        ];
+        var arr = [
+            swcHelpers.classPrivateFieldGet(this, _valueOne)
+        ].concat(swcHelpers.toConsumableArray(swcHelpers.classPrivateFieldGet(this, _valueRest)));
+        swcHelpers.classPrivateFieldSet(this, _valueCompound, swcHelpers.classPrivateFieldGet(this, _valueCompound) + 3);
+    };
     return Test;
 }();
 function set_value(v) {}

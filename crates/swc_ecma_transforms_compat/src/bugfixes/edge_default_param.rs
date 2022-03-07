@@ -1,10 +1,12 @@
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_trace_macro::swc_trace;
 
 /// Converts destructured parameters with default values to non-shorthand
 /// syntax. This fixes the only arguments-related bug in ES Modules-supporting
 /// browsers (Edge 16 & 17). Use this plugin instead of
 /// @babel/plugin-transform-parameters when targeting ES Modules.
+#[tracing::instrument(level = "trace", skip_all)]
 pub fn edge_default_param() -> impl Fold + VisitMut {
     as_folder(EdgeDefaultParam::default())
 }
@@ -13,6 +15,7 @@ struct EdgeDefaultParam {
     in_arrow: bool,
 }
 
+#[swc_trace]
 impl VisitMut for EdgeDefaultParam {
     noop_visit_mut_type!();
 

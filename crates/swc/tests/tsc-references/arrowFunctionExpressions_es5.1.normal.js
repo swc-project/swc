@@ -69,20 +69,16 @@ var MyClass = // Arrow function used in class member initializer
             return n && _this;
         };
     }
-    swcHelpers.createClass(MyClass, [
-        {
-            key: "fn",
-            value: function fn() {
-                var _this = this;
-                var m = function(n) {
-                    return n + 1;
-                };
-                var p = function(n) {
-                    return n && _this;
-                };
-            }
-        }
-    ]);
+    var _proto = MyClass.prototype;
+    _proto.fn = function fn() {
+        var _this = this;
+        var m = function(n) {
+            return n + 1;
+        };
+        var p = function(n) {
+            return n && _this;
+        };
+    };
     return MyClass;
 }();
 // Arrow function used in arrow function
