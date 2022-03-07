@@ -4,17 +4,13 @@ var strOrNum, c1, obj1, C1 = function() {
     function C1() {
         swcHelpers.classCallCheck(this, C1);
     }
-    return swcHelpers.createClass(C1, [
+    return C1.prototype.method = function() {
+        strOrNum = "string" == typeof this.pp1 && this.pp1, strOrNum = "string" == typeof this.pp2 && this.pp2, strOrNum = "string" == typeof this.pp3 && this.pp3;
+    }, swcHelpers.createClass(C1, [
         {
             key: "pp3",
             get: function() {
                 return strOrNum;
-            }
-        },
-        {
-            key: "method",
-            value: function() {
-                strOrNum = "string" == typeof this.pp1 && this.pp1, strOrNum = "string" == typeof this.pp2 && this.pp2, strOrNum = "string" == typeof this.pp3 && this.pp3;
             }
         }
     ]), C1;

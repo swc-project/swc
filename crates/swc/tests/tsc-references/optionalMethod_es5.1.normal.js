@@ -6,11 +6,7 @@ var Base = // @target: esnext
     function Base() {
         swcHelpers.classCallCheck(this, Base);
     }
-    swcHelpers.createClass(Base, [
-        {
-            key: "method",
-            value: function method() {}
-        }
-    ]);
+    var _proto = Base.prototype;
+    _proto.method = function method() {};
     return Base;
 }();

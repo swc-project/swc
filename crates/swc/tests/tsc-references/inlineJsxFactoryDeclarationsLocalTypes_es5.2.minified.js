@@ -9,14 +9,9 @@ export var MyClass = function() {
     function MyClass(props) {
         swcHelpers.classCallCheck(this, MyClass), this.props = props;
     }
-    return swcHelpers.createClass(MyClass, [
-        {
-            key: "render",
-            value: function() {
-                return predom("p", null, this.props.x, " + ", this.props.y, " = ", this.props.x + this.props.y);
-            }
-        }
-    ]), MyClass;
+    return MyClass.prototype.render = function() {
+        return predom("p", null, this.props.x, " + ", this.props.y, " = ", this.props.x + this.props.y);
+    }, MyClass;
 }();
 export var tree = predom(MySFC, {
     x: 1,
@@ -37,14 +32,9 @@ var DOMSFC = function(props) {
     function DOMClass(props) {
         swcHelpers.classCallCheck(this, DOMClass), this.props = props;
     }
-    return swcHelpers.createClass(DOMClass, [
-        {
-            key: "render",
-            value: function() {
-                return predom("p", null, this.props.x, " + ", this.props.y, " = ", this.props.x + this.props.y);
-            }
-        }
-    ]), DOMClass;
+    return DOMClass.prototype.render = function() {
+        return predom("p", null, this.props.x, " + ", this.props.y, " = ", this.props.x + this.props.y);
+    }, DOMClass;
 }();
 predom(DOMSFC, {
     x: 1,

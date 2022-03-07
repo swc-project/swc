@@ -4,27 +4,14 @@ var SomeBaseClass = function() {
     function SomeBaseClass() {
         swcHelpers.classCallCheck(this, SomeBaseClass);
     }
-    return swcHelpers.createClass(SomeBaseClass, [
-        {
-            key: "func",
-            value: function() {
-                return "";
-            }
-        },
-        {
-            key: "returnThis",
-            value: function() {
-                return this;
-            }
-        }
-    ], [
-        {
-            key: "func",
-            value: function() {
-                return 3;
-            }
-        }
-    ]), SomeBaseClass;
+    var _proto = SomeBaseClass.prototype;
+    return _proto.func = function() {
+        return "";
+    }, _proto.returnThis = function() {
+        return this;
+    }, SomeBaseClass.func = function() {
+        return 3;
+    }, SomeBaseClass;
 }(), SomeDerivedClass = function(SomeBaseClass) {
     "use strict";
     swcHelpers.inherits(SomeDerivedClass, SomeBaseClass);
@@ -34,13 +21,14 @@ var SomeBaseClass = function() {
         var _this = _super.call(this);
         return swcHelpers.get((swcHelpers.assertThisInitialized(_this), swcHelpers.getPrototypeOf(SomeDerivedClass.prototype)), "func", _this).call(_this), _this;
     }
-    return swcHelpers.createClass(SomeDerivedClass, [
-        {
-            key: "fn",
-            value: function() {
-                swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass.prototype), "func", this).call(this);
-            }
-        },
+    var _proto = SomeDerivedClass.prototype;
+    return _proto.fn = function() {
+        swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass.prototype), "func", this).call(this);
+    }, _proto.returnThis = function() {
+        return swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass.prototype), "returnThis", this).call(this);
+    }, SomeDerivedClass.fn = function() {
+        swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass), "func", this).call(this);
+    }, swcHelpers.createClass(SomeDerivedClass, [
         {
             key: "a",
             get: function() {
@@ -49,20 +37,8 @@ var SomeBaseClass = function() {
             set: function(n) {
                 swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass.prototype), "func", this).call(this);
             }
-        },
-        {
-            key: "returnThis",
-            value: function() {
-                return swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass.prototype), "returnThis", this).call(this);
-            }
         }
     ], [
-        {
-            key: "fn",
-            value: function() {
-                swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass), "func", this).call(this);
-            }
-        },
         {
             key: "a",
             get: function() {

@@ -14,14 +14,10 @@ var AsyncLoader = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, AsyncLoader);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(AsyncLoader, [
-        {
-            key: "render",
-            value: function render() {
-                return null;
-            }
-        }
-    ]);
+    var _proto = AsyncLoader.prototype;
+    _proto.render = function render() {
+        return null;
+    };
     return AsyncLoader;
 }(React.Component);
 function load() {

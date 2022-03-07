@@ -4,22 +4,14 @@ var _iterator = Symbol.iterator, SymbolIterator = function() {
     function SymbolIterator() {
         swcHelpers.classCallCheck(this, SymbolIterator);
     }
-    return swcHelpers.createClass(SymbolIterator, [
-        {
-            key: "next",
-            value: function() {
-                return {
-                    value: Symbol(),
-                    done: !1
-                };
-            }
-        },
-        {
-            key: _iterator,
-            value: function() {
-                return this;
-            }
-        }
-    ]), SymbolIterator;
+    var _proto = SymbolIterator.prototype;
+    return _proto.next = function() {
+        return {
+            value: Symbol(),
+            done: !1
+        };
+    }, _proto[_iterator] = function() {
+        return this;
+    }, SymbolIterator;
 }();
 (function(s) {}).apply(void 0, swcHelpers.toConsumableArray(new SymbolIterator));

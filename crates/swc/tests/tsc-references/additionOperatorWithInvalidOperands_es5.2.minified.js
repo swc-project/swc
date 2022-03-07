@@ -4,12 +4,7 @@ var E, M, C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, null, [
-        {
-            key: "foo",
-            value: function() {}
-        }
-    ]), C;
+    return C.foo = function() {}, C;
 }();
 (function(E) {
     E[E.a = 0] = "a", E[E.b = 1] = "b", E[E.c = 2] = "c";

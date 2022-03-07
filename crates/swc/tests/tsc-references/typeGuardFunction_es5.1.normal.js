@@ -43,14 +43,10 @@ var D = /*#__PURE__*/ function() {
     function D() {
         swcHelpers.classCallCheck(this, D);
     }
-    swcHelpers.createClass(D, [
-        {
-            key: "method1",
-            value: function method1(p1) {
-                return true;
-            }
-        }
-    ]);
+    var _proto = D.prototype;
+    _proto.method1 = function method1(p1) {
+        return true;
+    };
     return D;
 }();
 // Arrow function

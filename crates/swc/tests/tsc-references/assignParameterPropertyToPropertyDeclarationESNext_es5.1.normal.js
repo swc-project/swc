@@ -23,22 +23,15 @@ var C = // @useDefineForClassFields: true
         this.quid = this.baz // ok
         ;
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "m1",
-            value: function m1() {
-                this.foo // ok
-                ;
-            }
-        },
-        {
-            key: "m2",
-            value: function m2() {
-                this.foo // ok
-                ;
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.m1 = function m1() {
+        this.foo // ok
+        ;
+    };
+    _proto.m2 = function m2() {
+        this.foo // ok
+        ;
+    };
     return C;
 }();
 var D = /*#__PURE__*/ function(C) {

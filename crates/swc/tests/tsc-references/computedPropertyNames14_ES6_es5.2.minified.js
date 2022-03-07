@@ -4,31 +4,6 @@ var _b = void 0, _undefined = void 0, C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: _b,
-            value: function() {}
-        },
-        {
-            key: [],
-            value: function() {}
-        },
-        {
-            key: _undefined,
-            value: function() {}
-        }
-    ], [
-        {
-            key: !0,
-            value: function() {}
-        },
-        {
-            key: {},
-            value: function() {}
-        },
-        {
-            key: null,
-            value: function() {}
-        }
-    ]), C;
+    var _proto = C.prototype;
+    return _proto[_b] = function() {}, _proto[[]] = function() {}, _proto[_undefined] = function() {}, C[!0] = function() {}, C[{}] = function() {}, C[null] = function() {}, C;
 }();

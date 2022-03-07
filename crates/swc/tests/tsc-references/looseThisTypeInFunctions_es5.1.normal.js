@@ -4,26 +4,16 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "explicitThis",
-            value: function explicitThis(m) {
-                return this.n + m;
-            }
-        },
-        {
-            key: "implicitThis",
-            value: function implicitThis(m) {
-                return this.n + m;
-            }
-        },
-        {
-            key: "explicitVoid",
-            value: function explicitVoid(m) {
-                return m + 1;
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.explicitThis = function explicitThis(m) {
+        return this.n + m;
+    };
+    _proto.implicitThis = function implicitThis(m) {
+        return this.n + m;
+    };
+    _proto.explicitVoid = function explicitVoid(m) {
+        return m + 1;
+    };
     return C;
 }();
 var c = new C();

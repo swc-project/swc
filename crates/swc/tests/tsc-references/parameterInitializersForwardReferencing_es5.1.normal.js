@@ -44,14 +44,10 @@ var C = /*#__PURE__*/ function() {
         var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b, _$b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 1;
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "method",
-            value: function method() {
-                var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b, _$b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 1;
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.method = function method() {
+        var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b, _$b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 1;
+    };
     return C;
 }();
 // Function expressions

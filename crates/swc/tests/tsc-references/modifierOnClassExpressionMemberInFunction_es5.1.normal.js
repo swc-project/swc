@@ -9,12 +9,8 @@ function g() {
             swcHelpers.classCallCheck(this, C);
             this.prop1 = 1;
         }
-        swcHelpers.createClass(C, [
-            {
-                key: "foo",
-                value: function foo() {}
-            }
-        ]);
+        var _proto = C.prototype;
+        _proto.foo = function foo() {};
         return C;
     }(), _C.prop2 = 43, _C);
 }

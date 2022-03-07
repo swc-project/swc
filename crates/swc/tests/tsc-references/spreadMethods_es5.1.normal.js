@@ -7,11 +7,9 @@ var K = // @target: esnext
         swcHelpers.classCallCheck(this, K);
         this.p = 12;
     }
+    var _proto = K.prototype;
+    _proto.m = function m() {};
     swcHelpers.createClass(K, [
-        {
-            key: "m",
-            value: function m() {}
-        },
         {
             key: "g",
             get: function get() {

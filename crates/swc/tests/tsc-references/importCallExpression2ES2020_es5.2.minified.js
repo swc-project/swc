@@ -4,14 +4,9 @@ export var B = function() {
     function B() {
         swcHelpers.classCallCheck(this, B);
     }
-    return swcHelpers.createClass(B, [
-        {
-            key: "print",
-            value: function() {
-                return "I am B";
-            }
-        }
-    ]), B;
+    return B.prototype.print = function() {
+        return "I am B";
+    }, B;
 }();
 !function(x) {
     x.then(function(value) {

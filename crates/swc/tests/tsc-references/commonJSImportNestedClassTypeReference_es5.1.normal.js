@@ -16,14 +16,10 @@ NS.K = /*#__PURE__*/ (function() {
     function _class() {
         swcHelpers.classCallCheck(this, _class);
     }
-    swcHelpers.createClass(_class, [
-        {
-            key: "values",
-            value: function values() {
-                return new NS.K();
-            }
-        }
-    ]);
+    var _proto = _class.prototype;
+    _proto.values = function values() {
+        return new NS.K();
+    };
     return _class;
 })();
 exports.K = NS.K;

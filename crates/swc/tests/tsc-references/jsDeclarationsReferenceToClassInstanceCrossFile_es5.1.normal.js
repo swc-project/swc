@@ -18,20 +18,16 @@ var Render = /*#__PURE__*/ function() {
          * @type {Rectangle[]}
          */ this.objects = [];
     }
-    swcHelpers.createClass(Render, [
-        {
-            /**
+    var _proto = Render.prototype;
+    /**
      * Adds a rectangle
      * 
      * @returns {Rectangle} the rect
-     */ key: "addRectangle",
-            value: function addRectangle() {
-                var obj = new Rectangle();
-                this.objects.push(obj);
-                return obj;
-            }
-        }
-    ]);
+     */ _proto.addRectangle = function addRectangle() {
+        var obj = new Rectangle();
+        this.objects.push(obj);
+        return obj;
+    };
     return Render;
 }();
 module.exports = {

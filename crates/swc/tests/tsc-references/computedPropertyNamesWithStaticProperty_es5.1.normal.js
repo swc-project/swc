@@ -6,6 +6,8 @@ var C = // @target: es6
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
+    var _proto = C.prototype;
+    _proto[_staticProp2] = function() {};
     swcHelpers.createClass(C, [
         {
             key: _staticProp,
@@ -18,10 +20,6 @@ var C = // @target: es6
             set: function set(x) {
                 var y = x;
             }
-        },
-        {
-            key: _staticProp2,
-            value: function value() {}
         }
     ]);
     return C;

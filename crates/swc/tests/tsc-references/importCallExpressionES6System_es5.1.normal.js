@@ -20,14 +20,10 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "method",
-            value: function method() {
-                var loadAsync = import("./0");
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.method = function method() {
+        var loadAsync = import("./0");
+    };
     return C;
 }();
 export var D = /*#__PURE__*/ function() {
@@ -35,13 +31,9 @@ export var D = /*#__PURE__*/ function() {
     function D() {
         swcHelpers.classCallCheck(this, D);
     }
-    swcHelpers.createClass(D, [
-        {
-            key: "method",
-            value: function method() {
-                var loadAsync = import("./0");
-            }
-        }
-    ]);
+    var _proto = D.prototype;
+    _proto.method = function method() {
+        var loadAsync = import("./0");
+    };
     return D;
 }();

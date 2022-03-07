@@ -6,12 +6,8 @@ var Foo = // @target: es2015, esnext
     function Foo() {
         swcHelpers.classCallCheck(this, Foo);
     }
-    swcHelpers.createClass(Foo, [
-        {
-            key: "m",
-            value: function m() {}
-        }
-    ]);
+    var _proto = Foo.prototype;
+    _proto.m = function m() {};
     return Foo;
 }();
 var foo = new Foo();

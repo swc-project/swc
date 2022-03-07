@@ -12,20 +12,12 @@ export var classExpression = function() {
     function _class() {
         swcHelpers.classCallCheck(this, _class);
     }
-    return swcHelpers.createClass(_class, [
-        {
-            key: "method1",
-            value: function(p) {
-                return p;
-            }
-        },
-        {
-            key: "method2",
-            value: function(p) {
-                return p;
-            }
-        }
-    ]), _class;
+    var _proto = _class.prototype;
+    return _proto.method1 = function(p) {
+        return p;
+    }, _proto.method2 = function(p) {
+        return p;
+    }, _class;
 }();
 export function funcInferredReturnType(obj1) {
     return obj1;
@@ -40,17 +32,7 @@ export var ClassWithPrivateNamedMethods = function() {
     function ClassWithPrivateNamedMethods() {
         swcHelpers.classCallCheck(this, ClassWithPrivateNamedMethods);
     }
-    return swcHelpers.createClass(ClassWithPrivateNamedMethods, [
-        {
-            key: _s,
-            value: function() {}
-        }
-    ], [
-        {
-            key: _s1,
-            value: function() {}
-        }
-    ]), ClassWithPrivateNamedMethods;
+    return ClassWithPrivateNamedMethods.prototype[_s] = function() {}, ClassWithPrivateNamedMethods[_s1] = function() {}, ClassWithPrivateNamedMethods;
 }();
 var _s2 = s, _s3 = s, _s4 = s, _s5 = s;
 export var ClassWithPrivateNamedAccessors = function() {

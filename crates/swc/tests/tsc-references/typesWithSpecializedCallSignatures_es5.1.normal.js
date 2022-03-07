@@ -28,14 +28,10 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function foo(x) {
-                return x;
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.foo = function foo(x) {
+        return x;
+    };
     return C;
 }();
 var c = new C();

@@ -11,13 +11,9 @@ export var C = /*#__PURE__*/ function() {
         swcHelpers.classCallCheck(this, C);
         /** @type {{ [assetName: string]: number}} */ this.assets = {};
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "m",
-            value: function m() {
-                mappy(this.assets);
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.m = function m() {
+        mappy(this.assets);
+    };
     return C;
 }();

@@ -14,14 +14,9 @@ export var C = function() {
             value: 100
         });
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "getWorld",
-            value: function() {
-                return swcHelpers.classPrivateFieldGet(this, _world);
-            }
-        }
-    ]), C;
+    return C.prototype.getWorld = function() {
+        return swcHelpers.classPrivateFieldGet(this, _world);
+    }, C;
 }();
 function get_screamingHello() {
     return swcHelpers.classPrivateFieldGet(this, _hello).toUpperCase();

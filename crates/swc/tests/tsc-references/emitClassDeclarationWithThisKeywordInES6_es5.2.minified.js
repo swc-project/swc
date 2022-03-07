@@ -4,13 +4,9 @@ var B = function() {
     function B() {
         swcHelpers.classCallCheck(this, B), this.x = 10, this.x = 10;
     }
-    return swcHelpers.createClass(B, [
-        {
-            key: "foo",
-            value: function() {
-                B.log(this.x);
-            }
-        },
+    return B.prototype.foo = function() {
+        B.log(this.x);
+    }, B.log = function(a) {}, swcHelpers.createClass(B, [
         {
             key: "X",
             get: function() {
@@ -22,11 +18,6 @@ var B = function() {
             set: function(y) {
                 this.x = y;
             }
-        }
-    ], [
-        {
-            key: "log",
-            value: function(a) {}
         }
     ]), B;
 }();

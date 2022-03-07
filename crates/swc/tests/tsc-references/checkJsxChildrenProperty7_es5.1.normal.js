@@ -13,14 +13,10 @@ var Button = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, Button);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(Button, [
-        {
-            key: "render",
-            value: function render() {
-                return(/*#__PURE__*/ React.createElement("div", null, "My Button"));
-            }
-        }
-    ]);
+    var _proto = Button.prototype;
+    _proto.render = function render() {
+        return(/*#__PURE__*/ React.createElement("div", null, "My Button"));
+    };
     return Button;
 }(React.Component);
 function AnotherButton(p) {

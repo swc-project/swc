@@ -4,13 +4,11 @@ var Base = /*#__PURE__*/ function() {
     function Base() {
         swcHelpers.classCallCheck(this, Base);
     }
+    var _proto = Base.prototype;
+    _proto.fn = function fn() {
+        return '';
+    };
     swcHelpers.createClass(Base, [
-        {
-            key: "fn",
-            value: function fn() {
-                return '';
-            }
-        },
         {
             key: "a",
             get: function get() {
@@ -30,13 +28,11 @@ var Derived = // error, not a subtype
         swcHelpers.classCallCheck(this, Derived);
         return _super.apply(this, arguments);
     }
+    var _proto = Derived.prototype;
+    _proto.fn = function fn() {
+        return '';
+    };
     swcHelpers.createClass(Derived, [
-        {
-            key: "fn",
-            value: function fn() {
-                return '';
-            }
-        },
         {
             key: "a",
             get: function get() {

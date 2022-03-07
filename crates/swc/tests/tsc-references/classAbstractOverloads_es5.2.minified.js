@@ -4,12 +4,7 @@ var A = function() {
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    return swcHelpers.createClass(A, [
-        {
-            key: "baz",
-            value: function() {}
-        }
-    ]), A;
+    return A.prototype.baz = function() {}, A;
 }(), B = function() {
     "use strict";
     swcHelpers.classCallCheck(this, B);

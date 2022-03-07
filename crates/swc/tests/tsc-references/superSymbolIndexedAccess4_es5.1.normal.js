@@ -7,13 +7,9 @@ var Bar = /*#__PURE__*/ function() {
     function Bar() {
         swcHelpers.classCallCheck(this, Bar);
     }
-    swcHelpers.createClass(Bar, [
-        {
-            key: _symbol,
-            value: function value() {
-                return swcHelpers.get(swcHelpers.getPrototypeOf(Bar.prototype), symbol, this).call(this);
-            }
-        }
-    ]);
+    var _proto = Bar.prototype;
+    _proto[_symbol] = function() {
+        return swcHelpers.get(swcHelpers.getPrototypeOf(Bar.prototype), symbol, this).call(this);
+    };
     return Bar;
 }();

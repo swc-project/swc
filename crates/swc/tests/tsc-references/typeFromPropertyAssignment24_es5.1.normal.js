@@ -16,13 +16,9 @@ Outer.Inner = /*#__PURE__*/ (function() {
     function _class() {
         swcHelpers.classCallCheck(this, _class);
     }
-    swcHelpers.createClass(_class, [
-        {
-            key: "name",
-            value: function name() {
-                return 'hi';
-            }
-        }
-    ]);
+    var _proto = _class.prototype;
+    _proto.name = function name() {
+        return 'hi';
+    };
     return _class;
 })();

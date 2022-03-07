@@ -5,18 +5,13 @@ var C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "f",
-            value: regeneratorRuntime.mark(function f(s) {
-                return regeneratorRuntime.wrap(function(_ctx) {
-                    for(;;)switch(_ctx.prev = _ctx.next){
-                        case 0:
-                        case "end":
-                            return _ctx.stop();
-                    }
-                }, f);
-            })
-        }
-    ]), C;
+    return C.prototype.f = regeneratorRuntime.mark(function f(s) {
+        return regeneratorRuntime.wrap(function(_ctx) {
+            for(;;)switch(_ctx.prev = _ctx.next){
+                case 0:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, f);
+    }), C;
 }();

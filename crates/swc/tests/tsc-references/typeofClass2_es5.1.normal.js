@@ -4,16 +4,8 @@ var C = /*#__PURE__*/ function() {
     function C(x) {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, null, [
-        {
-            key: "foo",
-            value: function foo(x) {}
-        },
-        {
-            key: "bar",
-            value: function bar(x) {}
-        }
-    ]);
+    C.foo = function foo(x) {};
+    C.bar = function bar(x) {};
     return C;
 }();
 var D = /*#__PURE__*/ function(C) {
@@ -24,17 +16,9 @@ var D = /*#__PURE__*/ function(C) {
         swcHelpers.classCallCheck(this, D);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(D, [
-        {
-            key: "foo",
-            value: function foo() {}
-        }
-    ], [
-        {
-            key: "baz",
-            value: function baz(x) {}
-        }
-    ]);
+    var _proto = D.prototype;
+    _proto.foo = function foo() {};
+    D.baz = function baz(x) {};
     return D;
 }(C);
 var d;

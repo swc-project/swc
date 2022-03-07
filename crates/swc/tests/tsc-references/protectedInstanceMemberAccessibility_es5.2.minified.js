@@ -4,14 +4,9 @@ var A = function() {
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    return swcHelpers.createClass(A, [
-        {
-            key: "f",
-            value: function() {
-                return "hello";
-            }
-        }
-    ]), A;
+    return A.prototype.f = function() {
+        return "hello";
+    }, A;
 }(), B = function(A) {
     "use strict";
     swcHelpers.inherits(B, A);
@@ -19,15 +14,10 @@ var A = function() {
     function B() {
         return swcHelpers.classCallCheck(this, B), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(B, [
-        {
-            key: "g",
-            value: function() {
-                var a, b, c;
-                this.x, this.f(), this.y, this.z, swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "x", this), swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "f", this).call(this), swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "y", this), swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "z", this), a.x, a.f(), a.y, a.z, b.x, b.f(), b.y, b.z, c.x, c.f(), c.y, c.z;
-            }
-        }
-    ]), B;
+    return B.prototype.g = function() {
+        var a, b, c;
+        this.x, this.f(), this.y, this.z, swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "x", this), swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "f", this).call(this), swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "y", this), swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "z", this), a.x, a.f(), a.y, a.z, b.x, b.f(), b.y, b.z, c.x, c.f(), c.y, c.z;
+    }, B;
 }(A), C = function(A) {
     "use strict";
     swcHelpers.inherits(C, A);

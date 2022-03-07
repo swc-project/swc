@@ -5,11 +5,6 @@ export var Aleph = function() {
     function Aleph(a, b) {
         swcHelpers.classCallCheck(this, Aleph), this.field = b;
     }
-    return swcHelpers.createClass(Aleph, [
-        {
-            key: "doIt",
-            value: function() {}
-        }
-    ]), Aleph;
+    return Aleph.prototype.doIt = function() {}, Aleph;
 }();
 export var c = 12;

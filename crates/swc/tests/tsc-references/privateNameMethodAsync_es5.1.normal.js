@@ -11,42 +11,38 @@ var C = (_bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet(), _clas
         swcHelpers.classPrivateMethodInit(this, _baz);
         swcHelpers.classPrivateMethodInit(this, _qux);
     }
-    swcHelpers.createClass(_class1, [
-        {
-            key: "foo",
-            value: function foo() {
-                var _this = this;
-                return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                    var b;
-                    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                        while(1)switch(_ctx.prev = _ctx.next){
-                            case 0:
-                                _ctx.next = 2;
-                                return swcHelpers.classPrivateMethodGet(_this, _bar, bar).call(_this);
-                            case 2:
-                                b = _ctx.sent;
-                                _ctx.t0 = b + (swcHelpers.classPrivateMethodGet(_this, _baz, baz).call(_this).next().value || 0);
-                                _ctx.next = 6;
-                                return swcHelpers.classPrivateMethodGet(_this, _qux, qux).call(_this).next();
-                            case 6:
-                                _ctx.t1 = _ctx.sent.value;
-                                if (_ctx.t1) {
-                                    _ctx.next = 9;
-                                    break;
-                                }
-                                _ctx.t1 = 0;
-                            case 9:
-                                _ctx.t2 = _ctx.t1;
-                                return _ctx.abrupt("return", _ctx.t0 + _ctx.t2);
-                            case 11:
-                            case "end":
-                                return _ctx.stop();
+    var _proto = _class1.prototype;
+    _proto.foo = function foo() {
+        var _this = this;
+        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            var b;
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        _ctx.next = 2;
+                        return swcHelpers.classPrivateMethodGet(_this, _bar, bar).call(_this);
+                    case 2:
+                        b = _ctx.sent;
+                        _ctx.t0 = b + (swcHelpers.classPrivateMethodGet(_this, _baz, baz).call(_this).next().value || 0);
+                        _ctx.next = 6;
+                        return swcHelpers.classPrivateMethodGet(_this, _qux, qux).call(_this).next();
+                    case 6:
+                        _ctx.t1 = _ctx.sent.value;
+                        if (_ctx.t1) {
+                            _ctx.next = 9;
+                            break;
                         }
-                    }, _callee);
-                }))();
-            }
-        }
-    ]);
+                        _ctx.t1 = 0;
+                    case 9:
+                        _ctx.t2 = _ctx.t1;
+                        return _ctx.abrupt("return", _ctx.t0 + _ctx.t2);
+                    case 11:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
+    };
     return _class1;
 }(), _class);
 new C().foo().then(console.log);

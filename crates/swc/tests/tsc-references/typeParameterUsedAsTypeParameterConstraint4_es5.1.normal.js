@@ -6,15 +6,11 @@ var C = // Type parameters are in scope in their own and other type parameter li
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function foo(x) {
-                var r;
-                return x;
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.foo = function foo(x) {
+        var r;
+        return x;
+    };
     return C;
 }();
 function foo(x, y) {

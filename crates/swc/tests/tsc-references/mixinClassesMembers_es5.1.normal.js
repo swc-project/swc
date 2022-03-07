@@ -74,13 +74,9 @@ var C3 = /*#__PURE__*/ function(Mixed3) {
         _this.f();
         return _this;
     }
-    swcHelpers.createClass(C3, [
-        {
-            key: "f",
-            value: function f() {
-                return swcHelpers.get(swcHelpers.getPrototypeOf(C3.prototype), "f", this).call(this);
-            }
-        }
-    ]);
+    var _proto = C3.prototype;
+    _proto.f = function f() {
+        return swcHelpers.get(swcHelpers.getPrototypeOf(C3.prototype), "f", this).call(this);
+    };
     return C3;
 }(Mixed3);

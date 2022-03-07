@@ -10,12 +10,8 @@ Outer.Inner = /*#__PURE__*/ (function() {
         swcHelpers.classCallCheck(this, _class);
         this.x = 1;
     }
-    swcHelpers.createClass(_class, [
-        {
-            key: "m",
-            value: function m() {}
-        }
-    ]);
+    var _proto = _class.prototype;
+    _proto.m = function m() {};
     return _class;
 })();
 /** @type {Outer.Inner} */ var inner;

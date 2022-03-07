@@ -5,21 +5,11 @@ import * as swcHelpers from "@swc/helpers";
     function O() {
         swcHelpers.classCallCheck(this, O);
     }
-    return swcHelpers.createClass(O, [
-        {
-            key: "m",
-            value: function(x, y) {}
-        }
-    ]), O;
+    return O.prototype.m = function(x, y) {}, O;
 })().Inner = (function() {
     "use strict";
     function I() {
         swcHelpers.classCallCheck(this, I);
     }
-    return swcHelpers.createClass(I, [
-        {
-            key: "n",
-            value: function(a, b) {}
-        }
-    ]), I;
+    return I.prototype.n = function(a, b) {}, I;
 })(), si.m, oi.n;

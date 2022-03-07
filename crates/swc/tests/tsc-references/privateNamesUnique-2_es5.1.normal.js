@@ -14,14 +14,10 @@ export var Foo = /*#__PURE__*/ function() {
             value: void 0
         });
     }
-    swcHelpers.createClass(Foo, [
-        {
-            key: "copy",
-            value: function copy(other) {
-                swcHelpers.classPrivateFieldGet(other, _x); // error
-            }
-        }
-    ]);
+    var _proto = Foo.prototype;
+    _proto.copy = function copy(other) {
+        swcHelpers.classPrivateFieldGet(other, _x); // error
+    };
     return Foo;
 }();
 var _x1 = new WeakMap();

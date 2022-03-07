@@ -11,15 +11,10 @@ var Rectangle = require("./rectangle").Rectangle, Render = function() {
     function Render() {
         swcHelpers.classCallCheck(this, Render), this.objects = [];
     }
-    return swcHelpers.createClass(Render, [
-        {
-            key: "addRectangle",
-            value: function() {
-                var obj = new Rectangle();
-                return this.objects.push(obj), obj;
-            }
-        }
-    ]), Render;
+    return Render.prototype.addRectangle = function() {
+        var obj = new Rectangle();
+        return this.objects.push(obj), obj;
+    }, Render;
 }();
 module.exports = {
     Render: Render

@@ -18,15 +18,11 @@ var Classe = /*#__PURE__*/ function() {
         swcHelpers.classCallCheck(this, Classe);
         this.non = 'oui';
     }
-    swcHelpers.createClass(Classe, [
-        {
-            key: "methode",
-            value: function methode() {
-                // no error on 'this' references
-                return this.none;
-            }
-        }
-    ]);
+    var _proto = Classe.prototype;
+    _proto.methode = function methode() {
+        // no error on 'this' references
+        return this.none;
+    };
     return Classe;
 }();
 var Derivee = /*#__PURE__*/ function(Classe) {
@@ -37,15 +33,11 @@ var Derivee = /*#__PURE__*/ function(Classe) {
         swcHelpers.classCallCheck(this, Derivee);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(Derivee, [
-        {
-            key: "methode",
-            value: function methode() {
-                // no error on 'super' references
-                return swcHelpers.get(swcHelpers.getPrototypeOf(Derivee.prototype), "none", this);
-            }
-        }
-    ]);
+    var _proto = Derivee.prototype;
+    _proto.methode = function methode() {
+        // no error on 'super' references
+        return swcHelpers.get(swcHelpers.getPrototypeOf(Derivee.prototype), "none", this);
+    };
     return Derivee;
 }(Classe);
 var object = {

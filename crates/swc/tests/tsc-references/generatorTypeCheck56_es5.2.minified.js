@@ -12,22 +12,17 @@ var _marked = regeneratorRuntime.mark(function() {
                     function C() {
                         swcHelpers.classCallCheck(this, C);
                     }
-                    return swcHelpers.createClass(C, [
-                        {
-                            key: tmp,
-                            value: regeneratorRuntime.mark(function value() {
-                                return regeneratorRuntime.wrap(function(_ctx) {
-                                    for(;;)switch(_ctx.prev = _ctx.next){
-                                        case 0:
-                                            return _ctx.next = 2, 0;
-                                        case 2:
-                                        case "end":
-                                            return _ctx.stop();
-                                    }
-                                }, value);
-                            })
-                        }
-                    ]), C;
+                    return C.prototype[tmp] = regeneratorRuntime.mark(function _callee() {
+                        return regeneratorRuntime.wrap(function(_ctx) {
+                            for(;;)switch(_ctx.prev = _ctx.next){
+                                case 0:
+                                    return _ctx.next = 2, 0;
+                                case 2:
+                                case "end":
+                                    return _ctx.stop();
+                            }
+                        }, _callee);
+                    }), C;
                 })();
             case 5:
             case "end":

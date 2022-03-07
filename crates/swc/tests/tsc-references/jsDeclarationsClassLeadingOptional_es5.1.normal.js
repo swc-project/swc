@@ -10,17 +10,13 @@ export var Z = /*#__PURE__*/ function() {
     function Z() {
         swcHelpers.classCallCheck(this, Z);
     }
-    swcHelpers.createClass(Z, [
-        {
-            key: "f",
-            value: function f() {
-                var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 1, y = arguments.length > 1 ? arguments[1] : void 0;
-                return [
-                    x,
-                    y
-                ];
-            }
-        }
-    ]);
+    var _proto = Z.prototype;
+    _proto.f = function f() {
+        var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 1, y = arguments.length > 1 ? arguments[1] : void 0;
+        return [
+            x,
+            y
+        ];
+    };
     return Z;
 }();

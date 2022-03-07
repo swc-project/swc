@@ -6,15 +6,10 @@ var React = require("react"), MyComponent = function(_Component) {
     function MyComponent() {
         return swcHelpers.classCallCheck(this, MyComponent), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(MyComponent, [
-        {
-            key: "render",
-            value: function() {
-                var AnyComponent = this.props.AnyComponent;
-                return React.createElement(AnyComponent, null);
-            }
-        }
-    ]), MyComponent;
+    return MyComponent.prototype.render = function() {
+        var AnyComponent = this.props.AnyComponent;
+        return React.createElement(AnyComponent, null);
+    }, MyComponent;
 }(React.Component);
 React.createElement(MyComponent, {
     AnyComponent: function() {

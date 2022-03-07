@@ -5,12 +5,7 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, null, [
-        {
-            key: "foo",
-            value: function foo() {}
-        }
-    ]);
+    C.foo = function foo() {};
     return C;
 }();
 var E;

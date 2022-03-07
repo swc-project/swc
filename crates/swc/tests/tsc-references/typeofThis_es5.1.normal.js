@@ -60,32 +60,25 @@ var Test9 = /*#__PURE__*/ function() {
         this.no = 0;
         this.this = 0;
     }
-    swcHelpers.createClass(Test9, [
-        {
-            key: "f",
-            value: function f() {
-                if (swcHelpers._instanceof(this, Test9D1)) {
-                    var d1 = this;
-                    d1.f1();
-                }
-                if (swcHelpers._instanceof(this, Test9D2)) {
-                    var d2 = this;
-                    d2.f2();
-                }
-            }
-        },
-        {
-            key: "g",
-            value: function g() {
-                if (this.no === 1) {
-                    var no = this.no;
-                }
-                if (this.this === 1) {
-                    var no1 = this.this;
-                }
-            }
+    var _proto = Test9.prototype;
+    _proto.f = function f() {
+        if (swcHelpers._instanceof(this, Test9D1)) {
+            var d1 = this;
+            d1.f1();
         }
-    ]);
+        if (swcHelpers._instanceof(this, Test9D2)) {
+            var d2 = this;
+            d2.f2();
+        }
+    };
+    _proto.g = function g() {
+        if (this.no === 1) {
+            var no = this.no;
+        }
+        if (this.this === 1) {
+            var no1 = this.this;
+        }
+    };
     return Test9;
 }();
 var Test9D1 = /*#__PURE__*/ function() {
@@ -93,12 +86,8 @@ var Test9D1 = /*#__PURE__*/ function() {
     function Test9D1() {
         swcHelpers.classCallCheck(this, Test9D1);
     }
-    swcHelpers.createClass(Test9D1, [
-        {
-            key: "f1",
-            value: function f1() {}
-        }
-    ]);
+    var _proto = Test9D1.prototype;
+    _proto.f1 = function f1() {};
     return Test9D1;
 }();
 var Test9D2 = /*#__PURE__*/ function() {
@@ -106,12 +95,8 @@ var Test9D2 = /*#__PURE__*/ function() {
     function Test9D2() {
         swcHelpers.classCallCheck(this, Test9D2);
     }
-    swcHelpers.createClass(Test9D2, [
-        {
-            key: "f2",
-            value: function f2() {}
-        }
-    ]);
+    var _proto = Test9D2.prototype;
+    _proto.f2 = function f2() {};
     return Test9D2;
 }();
 var Test10 = /*#__PURE__*/ function() {
@@ -119,21 +104,17 @@ var Test10 = /*#__PURE__*/ function() {
     function Test10() {
         swcHelpers.classCallCheck(this, Test10);
     }
-    swcHelpers.createClass(Test10, [
-        {
-            key: "foo",
-            value: function foo() {
-                var a = undefined;
-                if (this.a) {
-                    var a1 = undefined; // should narrow to { b?: string }
-                    var b = undefined;
-                    if (this.a.b) {
-                        var b1 = undefined; // should narrow to string
-                    }
-                }
+    var _proto = Test10.prototype;
+    _proto.foo = function foo() {
+        var a = undefined;
+        if (this.a) {
+            var a1 = undefined; // should narrow to { b?: string }
+            var b = undefined;
+            if (this.a.b) {
+                var b1 = undefined; // should narrow to string
             }
         }
-    ]);
+    };
     return Test10;
 }();
 var Test11 = /*#__PURE__*/ function() {
@@ -141,18 +122,14 @@ var Test11 = /*#__PURE__*/ function() {
     function Test11() {
         swcHelpers.classCallCheck(this, Test11);
     }
-    swcHelpers.createClass(Test11, [
-        {
-            key: "foo",
-            value: function foo() {
-                var o = this;
-                var bar = {};
-                if (o.this && o.this.x) {
-                    var y = o.this.x; // should narrow to string
-                }
-            }
+    var _proto = Test11.prototype;
+    _proto.foo = function foo() {
+        var o = this;
+        var bar = {};
+        if (o.this && o.this.x) {
+            var y = o.this.x; // should narrow to string
         }
-    ]);
+    };
     return Test11;
 }();
 var Tests12 = /*#__PURE__*/ function() {
@@ -160,47 +137,34 @@ var Tests12 = /*#__PURE__*/ function() {
     function Tests12() {
         swcHelpers.classCallCheck(this, Tests12);
     }
-    swcHelpers.createClass(Tests12, [
-        {
-            key: "test1",
-            value: function test1() {}
-        },
-        {
-            key: "test2",
-            value: function test2() {
-                for(;;){}
+    var _proto = Tests12.prototype;
+    _proto.test1 = function test1() {};
+    _proto.test2 = function test2() {
+        for(;;){}
+    };
+    _proto.test3 = function test3() {
+        for(var dummy in []){}
+    };
+    _proto.test4 = function test4() {
+        var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
+        try {
+            for(var _iterator = [][Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
+                var dummy = _step.value;
             }
-        },
-        {
-            key: "test3",
-            value: function test3() {
-                for(var dummy in []){}
-            }
-        },
-        {
-            key: "test4",
-            value: function test4() {
-                var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
-                try {
-                    for(var _iterator = [][Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
-                        var dummy = _step.value;
-                    }
-                } catch (err) {
-                    _didIteratorError = true;
-                    _iteratorError = err;
-                } finally{
-                    try {
-                        if (!_iteratorNormalCompletion && _iterator.return != null) {
-                            _iterator.return();
-                        }
-                    } finally{
-                        if (_didIteratorError) {
-                            throw _iteratorError;
-                        }
-                    }
+        } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+        } finally{
+            try {
+                if (!_iteratorNormalCompletion && _iterator.return != null) {
+                    _iterator.return();
+                }
+            } finally{
+                if (_didIteratorError) {
+                    throw _iteratorError;
                 }
             }
         }
-    ]);
+    };
     return Tests12;
 }();

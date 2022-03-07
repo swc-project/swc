@@ -15,14 +15,9 @@ var C2 = /*#__PURE__*/ function() {
     function C2() {
         swcHelpers.classCallCheck(this, C2);
     }
-    swcHelpers.createClass(C2, null, [
-        {
-            key: "foo",
-            value: function foo(x) {
-                return undefined;
-            }
-        }
-    ]);
+    C2.foo = function foo(x) {
+        return undefined;
+    };
     return C2;
 }();
 C2.y = undefined;
@@ -42,20 +37,16 @@ var C3 = /*#__PURE__*/ function() {
             }
         };
     }
-    swcHelpers.createClass(C3, [
-        {
-            key: "f",
-            value: function f() {
-                var g = function g(x) {
-                    return undefined;
-                };
-                var x2 = {
-                    h: function h(x) {
-                        return undefined;
-                    }
-                };
+    var _proto = C3.prototype;
+    _proto.f = function f() {
+        var g = function g(x) {
+            return undefined;
+        };
+        var x2 = {
+            h: function h(x) {
+                return undefined;
             }
-        }
-    ]);
+        };
+    };
     return C3;
 }();

@@ -18,15 +18,11 @@ var Class;
         function G() {
             swcHelpers.classCallCheck(this, G);
         }
-        swcHelpers.createClass(G, [
-            {
-                key: "foo",
-                value: function foo(t, t2) {
-                    var x;
-                    return x;
-                }
-            }
-        ]);
+        var _proto = G.prototype;
+        _proto.foo = function foo(t, t2) {
+            var x;
+            return x;
+        };
         return G;
     }();
     var c1 = new X();
@@ -39,15 +35,11 @@ var Class;
         function G2() {
             swcHelpers.classCallCheck(this, G2);
         }
-        swcHelpers.createClass(G2, [
-            {
-                key: "foo2",
-                value: function foo2(t, t2) {
-                    var x;
-                    return x;
-                }
-            }
-        ]);
+        var _proto = G2.prototype;
+        _proto.foo2 = function foo2(t, t2) {
+            var x;
+            return x;
+        };
         return G2;
     }();
     var g2;

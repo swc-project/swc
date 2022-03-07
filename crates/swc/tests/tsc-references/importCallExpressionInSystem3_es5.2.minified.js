@@ -5,14 +5,9 @@ export var B = function() {
     function B() {
         swcHelpers.classCallCheck(this, B);
     }
-    return swcHelpers.createClass(B, [
-        {
-            key: "print",
-            value: function() {
-                return "I am B";
-            }
-        }
-    ]), B;
+    return B.prototype.print = function() {
+        return "I am B";
+    }, B;
 }();
 function _foo() {
     return (_foo = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {

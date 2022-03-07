@@ -28,14 +28,9 @@ import * as swcHelpers from "@swc/helpers";
         function Line(start, end) {
             swcHelpers.classCallCheck(this, Line), this.start = start, this.end = end;
         }
-        return swcHelpers.createClass(Line, null, [
-            {
-                key: "fromorigin2d",
-                value: function(p) {
-                    return null;
-                }
-            }
-        ]), Line;
+        return Line.fromorigin2d = function(p) {
+            return null;
+        }, Line;
     }();
     A1.Line = Line;
 }(A || (A = {}));

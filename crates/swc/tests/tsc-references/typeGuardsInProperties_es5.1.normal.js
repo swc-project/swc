@@ -9,20 +9,18 @@ var C1 = /*#__PURE__*/ function() {
     function C1() {
         swcHelpers.classCallCheck(this, C1);
     }
+    var _proto = C1.prototype;
+    _proto.method = function method() {
+        strOrNum = typeof this.pp1 === "string" && this.pp1; // string | number
+        strOrNum = typeof this.pp2 === "string" && this.pp2; // string | number
+        strOrNum = typeof this.pp3 === "string" && this.pp3; // string | number
+    };
     swcHelpers.createClass(C1, [
         {
             key: "pp3",
             get: // Inside public accessor getter
             function get() {
                 return strOrNum;
-            }
-        },
-        {
-            key: "method",
-            value: function method() {
-                strOrNum = typeof this.pp1 === "string" && this.pp1; // string | number
-                strOrNum = typeof this.pp2 === "string" && this.pp2; // string | number
-                strOrNum = typeof this.pp3 === "string" && this.pp3; // string | number
             }
         }
     ]);

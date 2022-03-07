@@ -6,12 +6,8 @@ var A = // @target: esnext
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    swcHelpers.createClass(A, [
-        {
-            key: "m",
-            value: function m() {}
-        }
-    ]);
+    var _proto = A.prototype;
+    _proto.m = function m() {};
     return A;
 }();
 var B = /*#__PURE__*/ function(A) {

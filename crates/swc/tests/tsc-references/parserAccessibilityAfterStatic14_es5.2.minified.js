@@ -4,10 +4,5 @@ var Outer = function() {
     function Outer() {
         swcHelpers.classCallCheck(this, Outer);
     }
-    return swcHelpers.createClass(Outer, null, [
-        {
-            key: "public",
-            value: function() {}
-        }
-    ]), Outer;
+    return Outer.public = function() {}, Outer;
 }();

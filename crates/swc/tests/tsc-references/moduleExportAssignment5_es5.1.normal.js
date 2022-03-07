@@ -8,12 +8,8 @@ var Axios = // @noEmit: true
     function Axios() {
         swcHelpers.classCallCheck(this, Axios);
     }
-    swcHelpers.createClass(Axios, [
-        {
-            key: "m",
-            value: function m() {}
-        }
-    ]);
+    var _proto = Axios.prototype;
+    _proto.m = function m() {};
     return Axios;
 }();
 var axios = new Axios();

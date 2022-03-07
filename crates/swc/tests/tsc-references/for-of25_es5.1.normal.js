@@ -6,14 +6,10 @@ var StringIterator = //@target: ES6
     function StringIterator() {
         swcHelpers.classCallCheck(this, StringIterator);
     }
-    swcHelpers.createClass(StringIterator, [
-        {
-            key: _iterator,
-            value: function value() {
-                return x;
-            }
-        }
-    ]);
+    var _proto = StringIterator.prototype;
+    _proto[_iterator] = function() {
+        return x;
+    };
     return StringIterator;
 }();
 var x;

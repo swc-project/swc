@@ -14,14 +14,9 @@ my.method = function(n) {
     function _class() {
         swcHelpers.classCallCheck(this, _class);
     }
-    return swcHelpers.createClass(_class, [
-        {
-            key: "m",
-            value: function() {
-                return 101;
-            }
-        }
-    ]), _class;
+    return _class.prototype.m = function() {
+        return 101;
+    }, _class;
 })();
 var min = window.min || {};
 min.nest = this.min.nest || function() {}, min.nest.other = self.min.nest.other || function _class() {

@@ -8,12 +8,8 @@ var EE = // @noEmit: true
     function EE() {
         swcHelpers.classCallCheck(this, EE);
     }
-    swcHelpers.createClass(EE, [
-        {
-            /** @param {string} s */ key: "on",
-            value: function on(s) {}
-        }
-    ]);
+    var _proto = EE.prototype;
+    /** @param {string} s */ _proto.on = function on(s) {};
     return EE;
 }();
 var npmlog = module.exports = new EE();

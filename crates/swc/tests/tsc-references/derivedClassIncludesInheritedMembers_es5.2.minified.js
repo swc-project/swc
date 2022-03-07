@@ -4,11 +4,7 @@ var d2, Base = function() {
     function Base(x) {
         swcHelpers.classCallCheck(this, Base);
     }
-    return swcHelpers.createClass(Base, [
-        {
-            key: "b",
-            value: function() {}
-        },
+    return Base.prototype.b = function() {}, Base.s = function() {}, swcHelpers.createClass(Base, [
         {
             key: "c",
             get: function() {
@@ -17,10 +13,6 @@ var d2, Base = function() {
             set: function(v) {}
         }
     ], [
-        {
-            key: "s",
-            value: function() {}
-        },
         {
             key: "t",
             get: function() {
