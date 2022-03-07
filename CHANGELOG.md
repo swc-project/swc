@@ -5,6 +5,12 @@
 
 
 
+- **(es/module/cjs)** Allow re-exports to be lazy (#3856) ([f575b1b](https://github.com/swc-project/swc/commit/f575b1bc4868dd46c572c3ef61767fdd2ee2c2b3))
+
+
+- **(es/transform/optimization)** Prevent inlining of vars used as RHS in logical expressions (#3907) ([782a874](https://github.com/swc-project/swc/commit/782a8746963f11a1ada446cb1f744a58f6516cf8))
+
+
 - **(es/typescript)** Remove imports used in interfaces and type signatures (#3893) ([5c92b2d](https://github.com/swc-project/swc/commit/5c92b2d4cee64686d0aad788b177b34cd2fd3bfc))
 
 ### Features

@@ -3314,7 +3314,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.89.2"
+version = "0.89.3"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3339,7 +3339,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.99.0"
+version = "0.99.1"
 dependencies = [
  "ahash",
  "dashmap 4.0.2",
