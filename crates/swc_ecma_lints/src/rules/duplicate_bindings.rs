@@ -44,16 +44,15 @@ impl DuplicateBindings {
                             .span_note(prev.get().span, &format!("{} was declared at here", id.sym))
                             .emit();
                     });
-
-                    if unique {
-                        *prev.get_mut() = BindingInfo {
-                            span: id.span,
-                            unique,
-                        }
-                    }
                 }
 
                 // Next span.
+                if unique || !prev.get().unique {
+                    *prev.get_mut() = BindingInfo {
+                        span: id.span,
+                        unique,
+                    }
+                }
             }
             Entry::Vacant(e) => {
                 e.insert(BindingInfo {
