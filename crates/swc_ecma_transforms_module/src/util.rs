@@ -765,30 +765,19 @@ impl Scope {
                     }
                 }
 
-                if let Some(binding_ident) = match expr.left {
-                    PatOrExpr::Pat(ref pat) if pat.is_ident() => Some(pat.clone().expect_ident()),
-                    PatOrExpr::Expr(ref e) if e.is_ident() => Some(e.clone().expect_ident().into()),
-                    _ => None,
-                } {
+                if let Some(ident) = expr.left.as_ident() {
                     let mut scope = folder.scope_mut();
                     let entry = scope
                         .exported_bindings
-                        .entry((binding_ident.id.sym.clone(), binding_ident.id.span.ctxt()));
+                        .entry((ident.sym.clone(), ident.span.ctxt()));
 
                     match entry {
                         Entry::Occupied(entry) => {
-                            let expr = Expr::Assign(AssignExpr {
-                                left: PatOrExpr::Pat(binding_ident.into()),
-                                ..expr
-                            });
-                            let e = chain_assign!(entry, Box::new(expr));
+                            let expr = Expr::Assign(expr);
 
-                            *e
+                            *chain_assign!(entry, Box::new(expr))
                         }
-                        _ => Expr::Assign(AssignExpr {
-                            left: PatOrExpr::Pat(binding_ident.into()),
-                            ..expr
-                        }),
+                        _ => expr.into(),
                     }
                 } else {
                     let mut exprs = iter::once(Box::new(Expr::Assign(expr)))
