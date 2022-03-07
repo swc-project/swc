@@ -48,14 +48,9 @@ var _obj, _obj1, _instance, _instance1, a, obj, xa, C = function() {
             y
         ].concat(swcHelpers.toConsumableArray(z)));
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function(x, y) {
-                for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
-            }
-        }
-    ]), C;
+    return C.prototype.foo = function(x, y) {
+        for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
+    }, C;
 }(), D = function(C) {
     "use strict";
     swcHelpers.inherits(D, C);
@@ -63,17 +58,12 @@ var _obj, _obj1, _instance, _instance1, a, obj, xa, C = function() {
     function D() {
         return swcHelpers.classCallCheck(this, D), _super.call(this, 1, 2);
     }
-    return swcHelpers.createClass(D, [
-        {
-            key: "foo",
-            value: function() {
-                var _instance2;
-                swcHelpers.get(swcHelpers.getPrototypeOf(D.prototype), "foo", this).call(this, 1, 2), (_instance2 = swcHelpers.get(swcHelpers.getPrototypeOf(D.prototype), "foo", this)).call.apply(_instance2, [
-                    this,
-                    1,
-                    2
-                ].concat(swcHelpers.toConsumableArray(a)));
-            }
-        }
-    ]), D;
+    return D.prototype.foo = function() {
+        var _instance2;
+        swcHelpers.get(swcHelpers.getPrototypeOf(D.prototype), "foo", this).call(this, 1, 2), (_instance2 = swcHelpers.get(swcHelpers.getPrototypeOf(D.prototype), "foo", this)).call.apply(_instance2, [
+            this,
+            1,
+            2
+        ].concat(swcHelpers.toConsumableArray(a)));
+    }, D;
 }(C);

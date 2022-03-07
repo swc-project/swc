@@ -4,12 +4,7 @@ var e, C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function(x, y) {}
-        }
-    ]), C;
+    return C.prototype.foo = function(x, y) {}, C;
 }(), D = function(C) {
     "use strict";
     swcHelpers.inherits(D, C);
@@ -17,12 +12,7 @@ var e, C = function() {
     function D() {
         return swcHelpers.classCallCheck(this, D), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(D, [
-        {
-            key: "foo",
-            value: function(x) {}
-        }
-    ]), D;
+    return D.prototype.foo = function(x) {}, D;
 }(C), E = function(D) {
     "use strict";
     swcHelpers.inherits(E, D);
@@ -30,11 +20,6 @@ var e, C = function() {
     function E() {
         return swcHelpers.classCallCheck(this, E), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(E, [
-        {
-            key: "foo",
-            value: function(x, y) {}
-        }
-    ]), E;
+    return E.prototype.foo = function(x, y) {}, E;
 }(D);
 e.foo("", ""), e.foo("", 1);

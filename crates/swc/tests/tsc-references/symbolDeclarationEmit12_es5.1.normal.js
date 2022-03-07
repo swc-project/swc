@@ -9,17 +9,12 @@ var M;
         function C() {
             swcHelpers.classCallCheck(this, C);
         }
+        var _proto = C.prototype;
+        _proto[_toPrimitive] = function(x) {};
+        _proto[_isConcatSpreadable] = function() {
+            return undefined;
+        };
         swcHelpers.createClass(C, [
-            {
-                key: _toPrimitive,
-                value: function value(x) {}
-            },
-            {
-                key: _isConcatSpreadable,
-                value: function value() {
-                    return undefined;
-                }
-            },
             {
                 key: _toPrimitive1,
                 get: function get() {

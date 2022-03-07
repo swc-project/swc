@@ -4,14 +4,10 @@ var abstract = /*#__PURE__*/ function() {
     function abstract() {
         swcHelpers.classCallCheck(this, abstract);
     }
-    swcHelpers.createClass(abstract, [
-        {
-            key: "foo",
-            value: function foo() {
-                return 1;
-            }
-        }
-    ]);
+    var _proto = abstract.prototype;
+    _proto.foo = function foo() {
+        return 1;
+    };
     return abstract;
 }();
 new abstract;

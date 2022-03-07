@@ -4,14 +4,9 @@ var C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function() {
-                return swcHelpers.classStaticPrivateFieldSpecGet(C, C, _x);
-            }
-        }
-    ]), C;
+    return C.prototype.foo = function() {
+        return swcHelpers.classStaticPrivateFieldSpecGet(C, C, _x);
+    }, C;
 }(), _x = {
     writable: !0,
     value: 123

@@ -6,12 +6,7 @@ Outer.Inner = (function() {
     function _class() {
         swcHelpers.classCallCheck(this, _class);
     }
-    return swcHelpers.createClass(_class, [
-        {
-            key: "name",
-            value: function() {
-                return "hi";
-            }
-        }
-    ]), _class;
+    return _class.prototype.name = function() {
+        return "hi";
+    }, _class;
 })();

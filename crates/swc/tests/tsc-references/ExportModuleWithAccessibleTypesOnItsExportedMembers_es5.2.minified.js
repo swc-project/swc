@@ -10,16 +10,11 @@ import * as swcHelpers from "@swc/helpers";
         function Line(start, end) {
             swcHelpers.classCallCheck(this, Line);
         }
-        return swcHelpers.createClass(Line, null, [
-            {
-                key: "fromOrigin",
-                value: function(p) {
-                    return new Line({
-                        x: 0,
-                        y: 0
-                    }, p);
-                }
-            }
-        ]), Line;
+        return Line.fromOrigin = function(p) {
+            return new Line({
+                x: 0,
+                y: 0
+            }, p);
+        }, Line;
     })(), B.Line = Line;
 }(A || (A = {}));

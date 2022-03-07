@@ -7,13 +7,8 @@ export var MyClass = function() {
         var self = this;
         self[_sym] = "ok";
     }
-    return swcHelpers.createClass(MyClass, [
-        {
-            key: "method",
-            value: function() {
-                var self = this;
-                self[_sym] = "yep", self[_sym];
-            }
-        }
-    ]), MyClass;
+    return MyClass.prototype.method = function() {
+        var self = this;
+        self[_sym] = "yep", self[_sym];
+    }, MyClass;
 }();

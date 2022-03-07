@@ -6,16 +6,12 @@ var C1 = //@target: ES6
     function C1() {
         swcHelpers.classCallCheck(this, C1);
     }
-    swcHelpers.createClass(C1, [
-        {
-            key: _toStringTag,
-            value: function value() {
-                return {
-                    x: ""
-                };
-            }
-        }
-    ]);
+    var _proto = C1.prototype;
+    _proto[_toStringTag] = function() {
+        return {
+            x: ""
+        };
+    };
     return C1;
 }();
 var C2 = /*#__PURE__*/ function(C1) {

@@ -9,14 +9,9 @@ var A = function() {
     function B() {
         return swcHelpers.classCallCheck(this, B), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(B, [
-        {
-            key: "foo",
-            value: function() {
-                return 1;
-            }
-        }
-    ]), B;
+    return B.prototype.foo = function() {
+        return 1;
+    }, B;
 }(A), C = function(A2) {
     "use strict";
     swcHelpers.inherits(C, A2);

@@ -4,12 +4,7 @@ var CBase = function() {
     function CBase(param) {
         swcHelpers.classCallCheck(this, CBase);
     }
-    return swcHelpers.createClass(CBase, [
-        {
-            key: "foo",
-            value: function(param) {}
-        }
-    ]), CBase;
+    return CBase.prototype.foo = function(param) {}, CBase;
 }(), C = function(CBase) {
     "use strict";
     swcHelpers.inherits(C, CBase);

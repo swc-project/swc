@@ -8,24 +8,17 @@ var C = // @target: es6
         }
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "bar",
-            value: function bar() {
-                for(var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++){
-                    rest[_key] = arguments[_key];
-                }
-            }
-        },
-        {
-            key: "foo",
-            value: function foo(x) {
-                for(var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
-                    rest[_key - 1] = arguments[_key];
-                }
-            }
+    var _proto = C.prototype;
+    _proto.bar = function bar() {
+        for(var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++){
+            rest[_key] = arguments[_key];
         }
-    ]);
+    };
+    _proto.foo = function foo(x) {
+        for(var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
+            rest[_key - 1] = arguments[_key];
+        }
+    };
     return C;
 }();
 var D = /*#__PURE__*/ function() {
@@ -36,23 +29,16 @@ var D = /*#__PURE__*/ function() {
         }
         swcHelpers.classCallCheck(this, D);
     }
-    swcHelpers.createClass(D, [
-        {
-            key: "bar",
-            value: function bar() {
-                for(var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++){
-                    rest[_key] = arguments[_key];
-                }
-            }
-        },
-        {
-            key: "foo",
-            value: function foo(x) {
-                for(var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
-                    rest[_key - 1] = arguments[_key];
-                }
-            }
+    var _proto = D.prototype;
+    _proto.bar = function bar() {
+        for(var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++){
+            rest[_key] = arguments[_key];
         }
-    ]);
+    };
+    _proto.foo = function foo(x) {
+        for(var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
+            rest[_key - 1] = arguments[_key];
+        }
+    };
     return D;
 }();

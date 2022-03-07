@@ -15,14 +15,10 @@ var K = // @filename: mod1.js
     function K() {
         swcHelpers.classCallCheck(this, K);
     }
-    swcHelpers.createClass(K, [
-        {
-            key: "values",
-            value: function values() {
-                return new K();
-            }
-        }
-    ]);
+    var _proto = K.prototype;
+    _proto.values = function values() {
+        return new K();
+    };
     return K;
 }();
 exports.K = K;

@@ -8,12 +8,8 @@ function Mixin(baseClass1) {
             swcHelpers.classCallCheck(this, MixinClass);
             return _super.apply(this, arguments);
         }
-        swcHelpers.createClass(MixinClass, [
-            {
-                key: "mixinMethod",
-                value: function mixinMethod() {}
-            }
-        ]);
+        var _proto = MixinClass.prototype;
+        _proto.mixinMethod = function mixinMethod() {};
         return MixinClass;
     }(baseClass1);
     return MixinClass;
@@ -23,12 +19,8 @@ var ConcreteBase = /*#__PURE__*/ function() {
     function ConcreteBase() {
         swcHelpers.classCallCheck(this, ConcreteBase);
     }
-    swcHelpers.createClass(ConcreteBase, [
-        {
-            key: "baseMethod",
-            value: function baseMethod() {}
-        }
-    ]);
+    var _proto = ConcreteBase.prototype;
+    _proto.baseMethod = function baseMethod() {};
     return ConcreteBase;
 }();
 var AbstractBase = function AbstractBase() {
@@ -56,12 +48,8 @@ var DerivedFromAbstract = /*#__PURE__*/ function(_superClass) {
         swcHelpers.classCallCheck(this, DerivedFromAbstract);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(DerivedFromAbstract, [
-        {
-            key: "abstractBaseMethod",
-            value: function abstractBaseMethod() {}
-        }
-    ]);
+    var _proto = DerivedFromAbstract.prototype;
+    _proto.abstractBaseMethod = function abstractBaseMethod() {};
     return DerivedFromAbstract;
 }(Mixin(AbstractBase));
 var wasAbstract = new DerivedFromAbstract();

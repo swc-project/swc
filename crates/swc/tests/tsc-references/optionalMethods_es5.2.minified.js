@@ -5,20 +5,12 @@ var Bar = function() {
         var e = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 10;
         swcHelpers.classCallCheck(this, Bar), this.d = d, this.e = e, this.c = 2;
     }
-    return swcHelpers.createClass(Bar, [
-        {
-            key: "f",
-            value: function() {
-                return 1;
-            }
-        },
-        {
-            key: "h",
-            value: function() {
-                return 2;
-            }
-        }
-    ]), Bar;
+    var _proto = Bar.prototype;
+    return _proto.f = function() {
+        return 1;
+    }, _proto.h = function() {
+        return 2;
+    }, Bar;
 }(), Base = function() {
     "use strict";
     swcHelpers.classCallCheck(this, Base);
@@ -30,12 +22,7 @@ var Bar = function() {
         var _this;
         return swcHelpers.classCallCheck(this, Derived), _this = _super.apply(this, arguments), _this.a = 1, _this;
     }
-    return swcHelpers.createClass(Derived, [
-        {
-            key: "f",
-            value: function() {
-                return 1;
-            }
-        }
-    ]), Derived;
+    return Derived.prototype.f = function() {
+        return 1;
+    }, Derived;
 }(Base);

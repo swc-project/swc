@@ -27,14 +27,10 @@ var Printable = function(superClass1) {
             swcHelpers.classCallCheck(this, _class);
             return _super.apply(this, arguments);
         }
-        swcHelpers.createClass(_class, [
-            {
-                key: "print",
-                value: function print() {
-                    var output = this.x + "," + this.y;
-                }
-            }
-        ]);
+        var _proto = _class.prototype;
+        _proto.print = function print() {
+            var output = this.x + "," + this.y;
+        };
         return _class;
     }(superClass1);
     _class.message = "hello";
@@ -86,14 +82,10 @@ var Thing3 = /*#__PURE__*/ function(Thing21) {
         _this._tag = tag;
         return _this;
     }
-    swcHelpers.createClass(Thing3, [
-        {
-            key: "test",
-            value: function test() {
-                this.print();
-            }
-        }
-    ]);
+    var _proto = Thing3.prototype;
+    _proto.test = function test() {
+        this.print();
+    };
     return Thing3;
 }(Thing2);
 // Repro from #13805

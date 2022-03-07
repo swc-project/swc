@@ -4,10 +4,5 @@ import * as swcHelpers from "@swc/helpers";
     function _class() {
         swcHelpers.classCallCheck(this, _class);
     }
-    return swcHelpers.createClass(_class, [
-        {
-            key: "m",
-            value: function() {}
-        }
-    ]), _class;
+    return _class.prototype.m = function() {}, _class;
 })();

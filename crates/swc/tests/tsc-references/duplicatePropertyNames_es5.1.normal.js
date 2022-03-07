@@ -6,12 +6,8 @@ var C = /*#__PURE__*/ function() {
         this.baz = function() {};
         this.baz = function() {};
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "bar",
-            value: function bar(x) {}
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.bar = function bar(x) {};
     return C;
 }();
 var a;

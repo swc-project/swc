@@ -101,50 +101,26 @@ var Foo, C2 = function() {
     function C2() {
         swcHelpers.classCallCheck(this, C2);
     }
-    return swcHelpers.createClass(C2, [
-        {
-            key: "d3",
-            value: function() {}
-        },
-        {
-            key: "d4",
-            value: function() {}
-        },
-        {
-            key: "e0",
-            value: function(param) {
-                var _param = swcHelpers.slicedToArray(param, 3);
-                _param[0], _param[1], _param[2];
-            }
-        }
-    ]), C2;
+    var _proto = C2.prototype;
+    return _proto.d3 = function() {}, _proto.d4 = function() {}, _proto.e0 = function(param) {
+        var _param = swcHelpers.slicedToArray(param, 3);
+        _param[0], _param[1], _param[2];
+    }, C2;
 }(), C3 = function() {
     "use strict";
     function C3() {
         swcHelpers.classCallCheck(this, C3);
     }
-    return swcHelpers.createClass(C3, [
-        {
-            key: "d3",
-            value: function(param) {
-                var _param = swcHelpers.slicedToArray(param, 3);
-                _param[0], _param[1], _param[2];
-            }
-        },
-        {
-            key: "d4",
-            value: function(param) {
-                param.x, param.y, param.z;
-            }
-        },
-        {
-            key: "e0",
-            value: function(param) {
-                var _param = swcHelpers.slicedToArray(param, 3);
-                _param[0], _param[1], _param[2];
-            }
-        }
-    ]), C3;
+    var _proto = C3.prototype;
+    return _proto.d3 = function(param) {
+        var _param = swcHelpers.slicedToArray(param, 3);
+        _param[0], _param[1], _param[2];
+    }, _proto.d4 = function(param) {
+        param.x, param.y, param.z;
+    }, _proto.e0 = function(param) {
+        var _param = swcHelpers.slicedToArray(param, 3);
+        _param[0], _param[1], _param[2];
+    }, C3;
 }();
 !function() {
     var ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {

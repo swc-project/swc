@@ -5,14 +5,10 @@ var A = // generic types should behave as if they have properties of their const
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    swcHelpers.createClass(A, [
-        {
-            key: "foo",
-            value: function foo() {
-                return '';
-            }
-        }
-    ]);
+    var _proto = A.prototype;
+    _proto.foo = function foo() {
+        return '';
+    };
     return A;
 }();
 var B = /*#__PURE__*/ function(A) {
@@ -23,14 +19,10 @@ var B = /*#__PURE__*/ function(A) {
         swcHelpers.classCallCheck(this, B);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(B, [
-        {
-            key: "bar",
-            value: function bar() {
-                return '';
-            }
-        }
-    ]);
+    var _proto = B.prototype;
+    _proto.bar = function bar() {
+        return '';
+    };
     return B;
 }(A);
 var C = /*#__PURE__*/ function() {
@@ -38,23 +30,16 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "f",
-            value: function f() {
-                var x;
-                var a1 = x['foo'](); // should be string
-                return a1 + x.foo();
-            }
-        },
-        {
-            key: "g",
-            value: function g(x) {
-                var a2 = x['foo'](); // should be string
-                return a2 + x.foo();
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.f = function f() {
+        var x;
+        var a1 = x['foo'](); // should be string
+        return a1 + x.foo();
+    };
+    _proto.g = function g(x) {
+        var a2 = x['foo'](); // should be string
+        return a2 + x.foo();
+    };
     return C;
 }();
 //class C<U extends T, T extends A> {

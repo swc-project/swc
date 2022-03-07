@@ -87,16 +87,12 @@ var EventEmitter = // Repro from #44093
     function EventEmitter() {
         swcHelpers.classCallCheck(this, EventEmitter);
     }
-    swcHelpers.createClass(EventEmitter, [
-        {
-            key: "off",
-            value: function off() {
-                for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
-                    args[_key] = arguments[_key];
-                }
-            }
+    var _proto = EventEmitter.prototype;
+    _proto.off = function off() {
+        for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
+            args[_key] = arguments[_key];
         }
-    ]);
+    };
     return EventEmitter;
 }();
 function once(emittingObject, eventName) {
@@ -124,21 +120,17 @@ var TableBaseEnum = // Repro from #44166
     function TableBaseEnum() {
         swcHelpers.classCallCheck(this, TableBaseEnum);
     }
-    swcHelpers.createClass(TableBaseEnum, [
-        {
-            key: "m",
-            value: function m() {
-                var iSpec = null;
-                iSpec[null]; // Error, object possibly undefined
-                iSpec[null]; // Error, object possibly undefined
-                if (iSpec === undefined) {
-                    return;
-                }
-                iSpec[null];
-                iSpec[null];
-            }
+    var _proto = TableBaseEnum.prototype;
+    _proto.m = function m() {
+        var iSpec = null;
+        iSpec[null]; // Error, object possibly undefined
+        iSpec[null]; // Error, object possibly undefined
+        if (iSpec === undefined) {
+            return;
         }
-    ]);
+        iSpec[null];
+        iSpec[null];
+    };
     return TableBaseEnum;
 }();
 // Repros from #45145
@@ -150,18 +142,11 @@ var SqlTable = /*#__PURE__*/ function() {
     function SqlTable() {
         swcHelpers.classCallCheck(this, SqlTable);
     }
-    swcHelpers.createClass(SqlTable, [
-        {
-            key: "validateRow",
-            value: function validateRow(_row) {}
-        },
-        {
-            key: "insertRow",
-            value: function insertRow(row) {
-                this.validateRow(row);
-            }
-        }
-    ]);
+    var _proto = SqlTable.prototype;
+    _proto.validateRow = function validateRow(_row) {};
+    _proto.insertRow = function insertRow(row) {
+        this.validateRow(row);
+    };
     return SqlTable;
 }();
 function update(control, key, value) {

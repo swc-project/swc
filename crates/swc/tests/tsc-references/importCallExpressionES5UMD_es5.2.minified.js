@@ -11,26 +11,16 @@ var C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "method",
-            value: function() {
-                import("./0");
-            }
-        }
-    ]), C;
+    return C.prototype.method = function() {
+        import("./0");
+    }, C;
 }();
 export var D = function() {
     "use strict";
     function D() {
         swcHelpers.classCallCheck(this, D);
     }
-    return swcHelpers.createClass(D, [
-        {
-            key: "method",
-            value: function() {
-                import("./0");
-            }
-        }
-    ]), D;
+    return D.prototype.method = function() {
+        import("./0");
+    }, D;
 }();

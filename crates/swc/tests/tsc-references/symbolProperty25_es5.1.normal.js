@@ -5,13 +5,9 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: _toStringTag,
-            value: function value() {
-                return "";
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto[_toStringTag] = function() {
+        return "";
+    };
     return C;
 }();

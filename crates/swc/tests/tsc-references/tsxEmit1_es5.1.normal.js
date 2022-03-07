@@ -41,42 +41,38 @@ var SomeClass = /*#__PURE__*/ function() {
     function SomeClass() {
         swcHelpers.classCallCheck(this, SomeClass);
     }
-    swcHelpers.createClass(SomeClass, [
-        {
-            key: "f",
-            value: function f() {
-                var _this = this;
-                var rewrites1 = /*#__PURE__*/ React.createElement("div", null, function() {
-                    return _this;
-                });
-                var rewrites2 = /*#__PURE__*/ React.createElement("div", null, [
-                    p
-                ].concat(swcHelpers.toConsumableArray(p), [
-                    p
-                ]));
-                var rewrites3 = /*#__PURE__*/ React.createElement("div", null, {
-                    p: p
-                });
-                var rewrites4 = /*#__PURE__*/ React.createElement("div", {
-                    a: function() {
-                        return _this;
-                    }
-                });
-                var rewrites5 = /*#__PURE__*/ React.createElement("div", {
-                    a: [
-                        p
-                    ].concat(swcHelpers.toConsumableArray(p), [
-                        p
-                    ])
-                });
-                var rewrites6 = /*#__PURE__*/ React.createElement("div", {
-                    a: {
-                        p: p
-                    }
-                });
+    var _proto = SomeClass.prototype;
+    _proto.f = function f() {
+        var _this = this;
+        var rewrites1 = /*#__PURE__*/ React.createElement("div", null, function() {
+            return _this;
+        });
+        var rewrites2 = /*#__PURE__*/ React.createElement("div", null, [
+            p
+        ].concat(swcHelpers.toConsumableArray(p), [
+            p
+        ]));
+        var rewrites3 = /*#__PURE__*/ React.createElement("div", null, {
+            p: p
+        });
+        var rewrites4 = /*#__PURE__*/ React.createElement("div", {
+            a: function() {
+                return _this;
             }
-        }
-    ]);
+        });
+        var rewrites5 = /*#__PURE__*/ React.createElement("div", {
+            a: [
+                p
+            ].concat(swcHelpers.toConsumableArray(p), [
+                p
+            ])
+        });
+        var rewrites6 = /*#__PURE__*/ React.createElement("div", {
+            a: {
+                p: p
+            }
+        });
+    };
     return SomeClass;
 }();
 var whitespace1 = /*#__PURE__*/ React.createElement("div", null, "      ");

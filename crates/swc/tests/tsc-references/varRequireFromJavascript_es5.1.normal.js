@@ -10,14 +10,10 @@ export var Crunch = /*#__PURE__*/ function() {
         swcHelpers.classCallCheck(this, Crunch);
         this.n = n;
     }
-    swcHelpers.createClass(Crunch, [
-        {
-            key: "m",
-            value: function m() {
-                return this.n;
-            }
-        }
-    ]);
+    var _proto = Crunch.prototype;
+    _proto.m = function m() {
+        return this.n;
+    };
     return Crunch;
 }();
 // @Filename: use.js

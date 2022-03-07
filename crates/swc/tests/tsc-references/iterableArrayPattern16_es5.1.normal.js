@@ -27,23 +27,16 @@ var FooIterator = /*#__PURE__*/ function() {
     function FooIterator() {
         swcHelpers.classCallCheck(this, FooIterator);
     }
-    swcHelpers.createClass(FooIterator, [
-        {
-            key: "next",
-            value: function next() {
-                return {
-                    value: new Foo,
-                    done: false
-                };
-            }
-        },
-        {
-            key: _iterator,
-            value: function value() {
-                return this;
-            }
-        }
-    ]);
+    var _proto = FooIterator.prototype;
+    _proto.next = function next() {
+        return {
+            value: new Foo,
+            done: false
+        };
+    };
+    _proto[_iterator] = function() {
+        return this;
+    };
     return FooIterator;
 }();
 var _iterator1 = Symbol.iterator;
@@ -52,22 +45,15 @@ var FooIteratorIterator = /*#__PURE__*/ function() {
     function FooIteratorIterator() {
         swcHelpers.classCallCheck(this, FooIteratorIterator);
     }
-    swcHelpers.createClass(FooIteratorIterator, [
-        {
-            key: "next",
-            value: function next() {
-                return {
-                    value: new FooIterator,
-                    done: false
-                };
-            }
-        },
-        {
-            key: _iterator1,
-            value: function value() {
-                return this;
-            }
-        }
-    ]);
+    var _proto = FooIteratorIterator.prototype;
+    _proto.next = function next() {
+        return {
+            value: new FooIterator,
+            done: false
+        };
+    };
+    _proto[_iterator1] = function() {
+        return this;
+    };
     return FooIteratorIterator;
 }();

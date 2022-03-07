@@ -5,6 +5,16 @@ var C = // no errors
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
+    var _proto = C.prototype;
+    _proto.foo = function foo() {
+        return this.foo;
+    };
+    C.foo = function foo() {
+        return this.foo;
+    };
+    C.bar = function bar() {
+        this.foo();
+    };
     swcHelpers.createClass(C, [
         {
             key: "y",
@@ -13,12 +23,6 @@ var C = // no errors
             },
             set: function set(x) {
                 this.y = this.x;
-            }
-        },
-        {
-            key: "foo",
-            value: function foo() {
-                return this.foo;
             }
         }
     ], [
@@ -30,18 +34,6 @@ var C = // no errors
             set: function set(x) {
                 this.y = this.x;
             }
-        },
-        {
-            key: "foo",
-            value: function foo() {
-                return this.foo;
-            }
-        },
-        {
-            key: "bar",
-            value: function bar() {
-                this.foo();
-            }
         }
     ]);
     return C;
@@ -52,6 +44,25 @@ var C2 = // added level of function nesting
     function C2() {
         swcHelpers.classCallCheck(this, C2);
     }
+    var _proto = C2.prototype;
+    _proto.foo = function foo() {
+        var _this = this;
+        (function() {
+            return _this.foo;
+        });
+    };
+    C2.foo = function foo() {
+        var _this = this;
+        (function() {
+            return _this.foo;
+        });
+    };
+    C2.bar = function bar() {
+        var _this = this;
+        (function() {
+            return _this.foo();
+        });
+    };
     swcHelpers.createClass(C2, [
         {
             key: "y",
@@ -68,15 +79,6 @@ var C2 = // added level of function nesting
                     _this.y = _this.x;
                 });
             }
-        },
-        {
-            key: "foo",
-            value: function foo() {
-                var _this = this;
-                (function() {
-                    return _this.foo;
-                });
-            }
         }
     ], [
         {
@@ -92,24 +94,6 @@ var C2 = // added level of function nesting
                 var _this = this;
                 (function() {
                     _this.y = _this.x;
-                });
-            }
-        },
-        {
-            key: "foo",
-            value: function foo() {
-                var _this = this;
-                (function() {
-                    return _this.foo;
-                });
-            }
-        },
-        {
-            key: "bar",
-            value: function bar() {
-                var _this = this;
-                (function() {
-                    return _this.foo();
                 });
             }
         }

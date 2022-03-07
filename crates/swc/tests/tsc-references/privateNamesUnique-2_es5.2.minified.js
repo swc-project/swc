@@ -10,14 +10,9 @@ export var Foo = function() {
             value: void 0
         });
     }
-    return swcHelpers.createClass(Foo, [
-        {
-            key: "copy",
-            value: function(other) {
-                swcHelpers.classPrivateFieldGet(other, _x);
-            }
-        }
-    ]), Foo;
+    return Foo.prototype.copy = function(other) {
+        swcHelpers.classPrivateFieldGet(other, _x);
+    }, Foo;
 }();
 var _x1 = new WeakMap();
 export var Foo = function() {

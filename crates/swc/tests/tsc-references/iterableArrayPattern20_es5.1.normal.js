@@ -19,25 +19,18 @@ var FooArrayIterator = /*#__PURE__*/ function() {
     function FooArrayIterator() {
         swcHelpers.classCallCheck(this, FooArrayIterator);
     }
-    swcHelpers.createClass(FooArrayIterator, [
-        {
-            key: "next",
-            value: function next() {
-                return {
-                    value: [
-                        new Foo
-                    ],
-                    done: false
-                };
-            }
-        },
-        {
-            key: _iterator,
-            value: function value() {
-                return this;
-            }
-        }
-    ]);
+    var _proto = FooArrayIterator.prototype;
+    _proto.next = function next() {
+        return {
+            value: [
+                new Foo
+            ],
+            done: false
+        };
+    };
+    _proto[_iterator] = function() {
+        return this;
+    };
     return FooArrayIterator;
 }();
 function fun() {

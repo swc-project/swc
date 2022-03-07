@@ -7,12 +7,7 @@ var N1, C1 = function() {
     function C2() {
         swcHelpers.classCallCheck(this, C2);
     }
-    return swcHelpers.createClass(C2, null, [
-        {
-            key: "foo",
-            value: function(x) {}
-        }
-    ]), C2;
+    return C2.foo = function(x) {}, C2;
 }();
 C2.y = void 0, (function(N11) {
     var x;
@@ -25,10 +20,5 @@ var C3 = function() {
             g: function(x) {}
         };
     }
-    return swcHelpers.createClass(C3, [
-        {
-            key: "f",
-            value: function() {}
-        }
-    ]), C3;
+    return C3.prototype.f = function() {}, C3;
 }();

@@ -9,14 +9,10 @@ Outer.Inner = /*#__PURE__*/ (function() {
     function I() {
         swcHelpers.classCallCheck(this, I);
     }
-    swcHelpers.createClass(I, [
-        {
-            key: "messages",
-            value: function messages() {
-                return [];
-            }
-        }
-    ]);
+    var _proto = I.prototype;
+    _proto.messages = function messages() {
+        return [];
+    };
     return I;
 })();
 /** @type {!Outer.Inner} */ Outer.i;

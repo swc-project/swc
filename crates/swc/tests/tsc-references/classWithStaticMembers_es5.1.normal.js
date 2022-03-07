@@ -6,13 +6,10 @@ var C = /*#__PURE__*/ function() {
         this.a = a;
         this.b = b;
     }
+    C.fn = function fn() {
+        return this;
+    };
     swcHelpers.createClass(C, null, [
-        {
-            key: "fn",
-            value: function fn() {
-                return this;
-            }
-        },
         {
             key: "x",
             get: function get() {

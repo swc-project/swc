@@ -28,17 +28,13 @@ var Thing = // this-property assignment
             m: function m(n) {}
         };
     }
-    swcHelpers.createClass(Thing, [
-        {
-            key: "fail",
-            value: function fail() {
-                this.s = {
-                    status: 'done',
-                    m: function m(n) {}
-                };
-            }
-        }
-    ]);
+    var _proto = Thing.prototype;
+    _proto.fail = function fail() {
+        this.s = {
+            status: 'done',
+            m: function m(n) {}
+        };
+    };
     return Thing;
 }();
 // exports-property assignment

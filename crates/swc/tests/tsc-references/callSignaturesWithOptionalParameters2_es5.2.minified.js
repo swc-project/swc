@@ -7,15 +7,7 @@ var c, i, a, C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function(x) {}
-        },
-        {
-            key: "foo2",
-            value: function(x, y) {}
-        }
-    ]), C;
+    var _proto = C.prototype;
+    return _proto.foo = function(x) {}, _proto.foo2 = function(x, y) {}, C;
 }();
 c.foo(), c.foo(1), c.foo2(1), c.foo2(1, 2), i(), i(1), i(1, 2), i.foo(1), i.foo(1, 2), i.foo(1, 2, 3), a(), a(1), a(1, 2), a.foo(1), a.foo(1, 2), a.foo(1, 2, 3);

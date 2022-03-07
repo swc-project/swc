@@ -5,14 +5,9 @@ var Alias = function() {
     function Alias() {
         swcHelpers.classCallCheck(this, Alias);
     }
-    return swcHelpers.createClass(Alias, [
-        {
-            key: "bar",
-            value: function() {
-                return 1;
-            }
-        }
-    ]), Alias;
+    return Alias.prototype.bar = function() {
+        return 1;
+    }, Alias;
 }();
 module.exports = Alias, A.prototype.foo = 0, A.prototype.func = function() {
     this._func = 0;

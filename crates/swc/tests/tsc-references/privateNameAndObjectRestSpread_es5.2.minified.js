@@ -7,21 +7,16 @@ var _prop = new WeakMap(), C = function() {
             value: 1
         });
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "method",
-            value: function(other) {
-                var obj = swcHelpers.objectSpread({}, other);
-                swcHelpers.classPrivateFieldGet(obj, _prop);
-                var rest = swcHelpers.extends({}, other);
-                swcHelpers.classPrivateFieldGet(rest, _prop);
-                var statics = swcHelpers.objectSpread({}, C);
-                swcHelpers.classStaticPrivateFieldSpecGet(statics, C, _propStatic);
-                var sRest = swcHelpers.extends({}, C);
-                swcHelpers.classStaticPrivateFieldSpecGet(sRest, C, _propStatic);
-            }
-        }
-    ]), C;
+    return C.prototype.method = function(other) {
+        var obj = swcHelpers.objectSpread({}, other);
+        swcHelpers.classPrivateFieldGet(obj, _prop);
+        var rest = swcHelpers.extends({}, other);
+        swcHelpers.classPrivateFieldGet(rest, _prop);
+        var statics = swcHelpers.objectSpread({}, C);
+        swcHelpers.classStaticPrivateFieldSpecGet(statics, C, _propStatic);
+        var sRest = swcHelpers.extends({}, C);
+        swcHelpers.classStaticPrivateFieldSpecGet(sRest, C, _propStatic);
+    }, C;
 }(), _propStatic = {
     writable: !0,
     value: 1

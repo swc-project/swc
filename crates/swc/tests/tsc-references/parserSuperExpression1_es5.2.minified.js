@@ -4,14 +4,9 @@ var M1, C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function() {
-                swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "foo", this).call(this);
-            }
-        }
-    ]), C;
+    return C.prototype.foo = function() {
+        swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "foo", this).call(this);
+    }, C;
 }();
 !function(M11) {
     var C;
@@ -20,13 +15,8 @@ var M1, C = function() {
         function C() {
             swcHelpers.classCallCheck(this, C);
         }
-        return swcHelpers.createClass(C, [
-            {
-                key: "foo",
-                value: function() {
-                    swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "foo", this).call(this);
-                }
-            }
-        ]), C;
+        return C.prototype.foo = function() {
+            swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "foo", this).call(this);
+        }, C;
     })();
 }(M1 || (M1 = {}));

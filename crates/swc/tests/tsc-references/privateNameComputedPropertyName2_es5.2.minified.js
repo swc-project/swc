@@ -9,11 +9,6 @@ var getX, _x = new WeakMap(), tmp = (getX = function(a) {
             value: 100
         });
     }
-    return swcHelpers.createClass(A, [
-        {
-            key: tmp,
-            value: function() {}
-        }
-    ]), A;
+    return A.prototype[tmp] = function() {}, A;
 }();
 console.log(getX(new A));

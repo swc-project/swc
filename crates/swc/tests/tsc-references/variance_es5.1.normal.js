@@ -11,18 +11,11 @@ var Bar = // Repro from #30118
     function Bar() {
         swcHelpers.classCallCheck(this, Bar);
     }
-    swcHelpers.createClass(Bar, [
-        {
-            key: "cast",
-            value: function cast(_name) {}
-        },
-        {
-            key: "pushThis",
-            value: function pushThis() {
-                Bar.instance.push(this);
-            }
-        }
-    ]);
+    var _proto = Bar.prototype;
+    _proto.cast = function cast(_name) {};
+    _proto.pushThis = function pushThis() {
+        Bar.instance.push(this);
+    };
     return Bar;
 }();
 Bar.instance = [];

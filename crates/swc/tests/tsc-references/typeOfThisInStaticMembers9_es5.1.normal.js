@@ -35,14 +35,10 @@ D.functionAndClassDeclBoundary = (function() {
             swcHelpers.classCallCheck(this, C);
             this.a = swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "f", this) + 5;
         }
-        swcHelpers.createClass(C, [
-            {
-                key: "method",
-                value: function method() {
-                    return swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "f", this) + 6;
-                }
-            }
-        ]);
+        var _proto = C.prototype;
+        _proto.method = function method() {
+            return swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "f", this) + 6;
+        };
         return C;
     }();
 })();

@@ -7,17 +7,12 @@ M.Point, m.Point, (function(M21) {
         function Point() {
             swcHelpers.classCallCheck(this, Point);
         }
-        return swcHelpers.createClass(Point, null, [
-            {
-                key: "Origin",
-                value: function() {
-                    return {
-                        x: 0,
-                        y: 0
-                    };
-                }
-            }
-        ]), Point;
+        return Point.Origin = function() {
+            return {
+                x: 0,
+                y: 0
+            };
+        }, Point;
     }();
     M21.Point = Point;
 })(M2 || (M2 = {}));

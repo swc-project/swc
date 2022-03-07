@@ -6,14 +6,10 @@ export var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "m",
-            value: function m() {
-                return swcHelpers._instanceof(this, D);
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.m = function m() {
+        return swcHelpers._instanceof(this, D);
+    };
     return C;
 }();
 export var D = /*#__PURE__*/ function(C) {

@@ -10,21 +10,13 @@ var C = // accessing any private outside the class is an error
             return '';
         };
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "c",
-            value: function c() {
-                return '';
-            }
-        }
-    ], [
-        {
-            key: "f",
-            value: function f() {
-                return '';
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.c = function c() {
+        return '';
+    };
+    C.f = function f() {
+        return '';
+    };
     return C;
 }();
 C.g = function() {

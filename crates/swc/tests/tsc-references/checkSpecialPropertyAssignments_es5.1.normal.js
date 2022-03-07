@@ -9,15 +9,11 @@ A.B = /*#__PURE__*/ (function() {
     function _class() {
         swcHelpers.classCallCheck(this, _class);
     }
-    swcHelpers.createClass(_class, [
-        {
-            key: "m",
-            value: function m() {
-                /** @type {string[]} */ var x = [];
-                /** @type {number[]} */ var y;
-                y = x;
-            }
-        }
-    ]);
+    var _proto = _class.prototype;
+    _proto.m = function m() {
+        /** @type {string[]} */ var x = [];
+        /** @type {number[]} */ var y;
+        y = x;
+    };
     return _class;
 })();

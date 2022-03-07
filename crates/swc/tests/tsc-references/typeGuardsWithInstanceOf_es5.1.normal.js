@@ -9,14 +9,10 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "validate",
-            value: function validate() {
-                return {};
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.validate = function validate() {
+        return {};
+    };
     return C;
 }();
 function foo() {

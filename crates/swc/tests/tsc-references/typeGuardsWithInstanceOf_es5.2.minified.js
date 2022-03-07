@@ -5,12 +5,7 @@ var result, result2, C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "validate",
-            value: function() {
-                return {};
-            }
-        }
-    ]), C;
+    return C.prototype.validate = function() {
+        return {};
+    }, C;
 }();

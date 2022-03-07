@@ -4,12 +4,7 @@ export var Encoder = function() {
     function Encoder() {
         swcHelpers.classCallCheck(this, Encoder);
     }
-    return swcHelpers.createClass(Encoder, [
-        {
-            key: "encode",
-            value: function(value) {
-                return new Uint8Array(0);
-            }
-        }
-    ]), Encoder;
+    return Encoder.prototype.encode = function(value) {
+        return new Uint8Array(0);
+    }, Encoder;
 }();

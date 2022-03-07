@@ -6,12 +6,7 @@ var C = function() {
             x
         ];
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "m",
-            value: function(y) {
-                return this.x + y;
-            }
-        }
-    ]), C;
+    return C.prototype.m = function(y) {
+        return this.x + y;
+    }, C;
 }();

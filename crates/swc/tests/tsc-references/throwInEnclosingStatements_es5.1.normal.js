@@ -36,14 +36,10 @@ var C = /*#__PURE__*/ function() {
         swcHelpers.classCallCheck(this, C);
         throw this;
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "biz",
-            value: function biz() {
-                throw this.value;
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.biz = function biz() {
+        throw this.value;
+    };
     return C;
 }();
 var aa = {

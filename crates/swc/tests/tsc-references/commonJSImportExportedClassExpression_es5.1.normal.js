@@ -15,11 +15,7 @@ exports.K = /*#__PURE__*/ (function() {
     function K1() {
         swcHelpers.classCallCheck(this, K1);
     }
-    swcHelpers.createClass(K1, [
-        {
-            key: "values",
-            value: function values() {}
-        }
-    ]);
+    var _proto = K1.prototype;
+    _proto.values = function values() {};
     return K1;
 })();

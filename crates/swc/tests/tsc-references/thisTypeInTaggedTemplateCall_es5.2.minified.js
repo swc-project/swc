@@ -20,13 +20,8 @@ var Foo = function() {
     function Foo() {
         swcHelpers.classCallCheck(this, Foo);
     }
-    return swcHelpers.createClass(Foo, null, [
-        {
-            key: "m",
-            value: function(strings) {
-                return new this();
-            }
-        }
-    ]), Foo;
+    return Foo.m = function(strings) {
+        return new this();
+    }, Foo;
 }();
 Foo.m(_templateObject()), Foo.m(_templateObject1());

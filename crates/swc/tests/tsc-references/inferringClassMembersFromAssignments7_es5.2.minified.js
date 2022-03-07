@@ -8,14 +8,9 @@ var C = function() {
             console.log(self.x);
         };
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "mreal",
-            value: function() {
-                var self = this;
-                self.y = 2;
-            }
-        }
-    ]), C;
+    return C.prototype.mreal = function() {
+        var self = this;
+        self.y = 2;
+    }, C;
 }(), c = new C();
 c.x, c.y, c.m();
