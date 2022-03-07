@@ -6,7 +6,9 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::hygiene::rename;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_trace_macro::swc_trace;
 
+#[tracing::instrument(level = "trace", skip_all)]
 pub fn safari_id_destructuring_collision_in_function_expression() -> impl Fold + VisitMut {
     as_folder(SafariIdDestructuringCollisionInFunctionExpression::default())
 }
@@ -19,6 +21,7 @@ struct SafariIdDestructuringCollisionInFunctionExpression {
     in_body: bool,
 }
 
+#[swc_trace]
 impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
     noop_visit_mut_type!();
 
