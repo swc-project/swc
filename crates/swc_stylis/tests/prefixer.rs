@@ -592,7 +592,7 @@ fn fixture(input: PathBuf) {
         {
             let mut wr = BasicCssWriter::new(&mut s, BasicCssWriterConfig { indent: "  " });
             let mut gen =
-                swc_css_codegen::CodeGenerator::new(&mut wr, CodegenConfig { minify: true });
+                swc_css_codegen::CodeGenerator::new(&mut wr, CodegenConfig { minify: false });
 
             gen.emit(&ss).unwrap();
         }
