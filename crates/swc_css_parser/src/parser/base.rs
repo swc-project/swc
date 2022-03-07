@@ -356,7 +356,6 @@ where
 {
     fn parse(&mut self) -> PResult<SimpleBlock> {
         let span = self.input.cur_span()?;
-        println!("{:?}", self.input.cur());
         let name = match cur!(self) {
             tok!("{") => {
                 bump!(self);
