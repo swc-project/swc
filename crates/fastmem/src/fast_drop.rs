@@ -64,7 +64,7 @@ where
 
     #[inline(always)]
     fn deref(&self) -> &Self::Target {
-        assert!(self.value.is_some());
+        debug_assert!(self.value.is_some());
         // Safety: self.value can be None only if drop is called.
         unsafe { self.value.as_ref().unwrap_unchecked() }
     }
@@ -76,7 +76,7 @@ where
 {
     #[inline(always)]
     fn deref_mut(&mut self) -> &mut Self::Target {
-        assert!(self.value.is_some());
+        debug_assert!(self.value.is_some());
         // Safety: self.value can be None only if drop is called.
         unsafe { self.value.as_mut().unwrap_unchecked() }
     }
