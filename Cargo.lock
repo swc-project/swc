@@ -2917,7 +2917,6 @@ dependencies = [
 name = "swc_css_lints"
 version = "0.6.0"
 dependencies = [
- "ahash",
  "auto_impl",
  "parking_lot 0.12.0",
  "rayon",

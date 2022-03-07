@@ -1,7 +1,7 @@
 use std::fmt::Display;
 
-use ahash::AHashSet;
 use swc_atoms::JsWord;
+use swc_common::collections::AHashSet;
 use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitWith};
 
