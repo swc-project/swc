@@ -11,14 +11,14 @@ const test = {};
 exports.test = test;
 const test2 = {};
 exports.test2 = test2;
-Object.defineProperty(exports.test, "warn", {
+Object.defineProperty(test, "warn", {
     get: ()=>warn
     ,
     set: (v)=>{
         exports.warn = warn = v;
     }
 });
-Object.defineProperty(exports.test2, "work", {
+Object.defineProperty(test2, "work", {
     get: ()=>warn
     ,
     set: (v)=>{
