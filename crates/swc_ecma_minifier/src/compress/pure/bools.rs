@@ -8,7 +8,6 @@ use swc_ecma_utils::{ExprExt, Type, Value};
 use super::Pure;
 use crate::{
     compress::util::{is_pure_undefined, negate, negate_cost},
-    mode::Mode,
     option::CompressOptions,
     util::make_bool,
 };

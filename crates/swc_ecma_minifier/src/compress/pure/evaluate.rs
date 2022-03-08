@@ -4,10 +4,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{undefined, ExprExt, Value};
 
 use super::Pure;
-use crate::{
-    compress::util::{eval_as_number, is_pure_undefined_or_null},
-    mode::Mode,
-};
+use crate::compress::util::{eval_as_number, is_pure_undefined_or_null};
 
 impl Pure<'_> {
     pub(super) fn eval_array_method_call(&mut self, e: &mut Expr) {
@@ -179,7 +176,7 @@ impl Pure<'_> {
 
                 self.changed = true;
                 tracing::debug!(
-                    "evaludate: Reduced `funtion.valueOf()` into a function expression"
+                    "evaluate: Reduced `function.valueOf()` into a function expression"
                 );
 
                 *e = *obj.take();
@@ -187,7 +184,7 @@ impl Pure<'_> {
         }
     }
 
-    /// unsafely evaulate call to `Number`.
+    /// unsafely evaluate call to `Number`.
     pub(super) fn eval_number_call(&mut self, e: &mut Expr) {
         if self.options.unsafe_passes && self.options.unsafe_math {
             if let Expr::Call(CallExpr {
