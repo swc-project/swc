@@ -784,6 +784,10 @@ impl VisitMut for Prefixer {
             "touch-action" => {
                 same_content!("-ms-touch-action");
             }
+            
+            "text-orientation" => {
+                same_content!("-webkit-text-orientation");
+            }
 
             _ => {}
         }
