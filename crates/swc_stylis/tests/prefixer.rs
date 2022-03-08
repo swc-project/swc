@@ -110,34 +110,6 @@ fn flex_box() {
 }
 
 #[test]
-fn writing_mode() {
-    t(
-        "writing-mode:none;",
-        "-webkit-writing-mode:none;-ms-writing-mode:none;writing-mode:none;",
-    );
-    t(
-        "writing-mode:vertical-lr;",
-        "-webkit-writing-mode:vertical-lr;-ms-writing-mode:tb;writing-mode:vertical-lr;",
-    );
-    t(
-        "writing-mode:vertical-rl;",
-        "-webkit-writing-mode:vertical-rl;-ms-writing-mode:tb-rl;writing-mode:vertical-rl;",
-    );
-    t(
-        "writing-mode:horizontal-tb;",
-        "-webkit-writing-mode:horizontal-tb;-ms-writing-mode:lr;writing-mode:horizontal-tb;",
-    );
-    t(
-        "writing-mode:sideways-rl;",
-        "-webkit-writing-mode:sideways-rl;-ms-writing-mode:tb-rl;writing-mode:sideways-rl;",
-    );
-    t(
-        "writing-mode:sideways-lr;",
-        "-webkit-writing-mode:sideways-lr;-ms-writing-mode:tb;writing-mode:sideways-lr;",
-    );
-}
-
-#[test]
 fn mask() {
     t("mask:none;", "-webkit-mask:none;mask:none;");
     t(
