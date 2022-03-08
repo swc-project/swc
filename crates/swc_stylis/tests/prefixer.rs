@@ -7,11 +7,7 @@
 
 use std::path::PathBuf;
 
-use swc_common::{FileName, DUMMY_SP};
-use swc_css_ast::{
-    ComponentValue, DeclarationOrAtRule, QualifiedRule, QualifiedRulePrelude, SelectorList,
-    SimpleBlock, Stylesheet,
-};
+use swc_css_ast::Stylesheet;
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodegenConfig, Emit,
@@ -20,91 +16,6 @@ use swc_css_parser::{parse_file, parser::ParserConfig};
 use swc_css_visit::VisitMutWith;
 use swc_stylis::prefixer::prefixer;
 use testing::NormalizedOutput;
-
-#[test]
-fn background() {
-    t("background:none;", "background:none;");
-    t(
-        "background:image-set(url(foo.jpg) 2x);",
-        "background:-webkit-image-set(url(foo.jpg)2x);background:image-set(url(foo.jpg)2x);",
-    );
-    t(
-        "background-image:image-set(url(foo.jpg) 2x);",
-        "background-image:-webkit-image-set(url(foo.jpg)2x);background-image:image-set(url(foo.\
-         jpg)2x);",
-    );
-}
-
-/// Test
-fn t(src: &str, expected: &str) {
-    testing::run_test2(false, |cm, handler| {
-        //
-        let fm = cm.new_source_file(FileName::Anon, src.to_string());
-        let mut errors = vec![];
-        let props: Vec<DeclarationOrAtRule> = parse_file(
-            &fm,
-            ParserConfig {
-                ..Default::default()
-            },
-            &mut errors,
-        )
-        .unwrap();
-
-        for err in errors {
-            err.to_diagnostics(&handler).emit();
-        }
-
-        let mut node = QualifiedRule {
-            span: DUMMY_SP,
-            prelude: QualifiedRulePrelude::SelectorList(SelectorList {
-                span: DUMMY_SP,
-                children: Default::default(),
-            }),
-            block: SimpleBlock {
-                span: DUMMY_SP,
-                name: '{',
-                value: props
-                    .into_iter()
-                    .map(ComponentValue::DeclarationOrAtRule)
-                    .collect(),
-            },
-        };
-        node.visit_mut_with(&mut prefixer());
-
-        let mut wr = String::new();
-
-        {
-            for p in &node.block.value {
-                let mut s = String::new();
-                {
-                    let mut wr = BasicCssWriter::new(&mut s, BasicCssWriterConfig { indent: "  " });
-                    let mut gen = swc_css_codegen::CodeGenerator::new(
-                        &mut wr,
-                        CodegenConfig { minify: true },
-                    );
-
-                    gen.emit(p).unwrap();
-                }
-
-                wr.push_str(&s);
-
-                let need_semi = !matches!(
-                    p,
-                    ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::Invalid(_))
-                );
-
-                if need_semi {
-                    wr.push(';');
-                }
-            }
-        }
-
-        assert_eq!(wr, expected);
-
-        Ok(())
-    })
-    .unwrap();
-}
 
 #[testing::fixture("tests/fixture/**/input.css")]
 fn fixture(input: PathBuf) {

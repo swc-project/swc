@@ -22,7 +22,7 @@ impl VisitMut for Prefixer {
         if !self.in_block {
             return;
         }
-        
+
         if n.value.is_empty() {
             return;
         }
