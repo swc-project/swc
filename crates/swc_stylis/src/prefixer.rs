@@ -778,6 +778,7 @@ impl VisitMut for Prefixer {
                 if n.value.len() == 1 {
                     if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                         match &**value {
+                            // TODO better handle in more properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L559
                             "fit-content" => {
                                 same_name!("-webkit-fit-content");
                                 same_name!("-moz-fit-content");
@@ -922,6 +923,11 @@ impl VisitMut for Prefixer {
 
             "object-position" => {
                 same_content!("-o-object-position");
+            }
+            
+            "tab-size" => {
+                same_content!("-moz-tab-size");
+                same_content!("-o-tab-size");
             }
 
             // TODO add `overscroll-behavior`
