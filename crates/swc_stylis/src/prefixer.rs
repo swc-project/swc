@@ -255,7 +255,7 @@ impl VisitMut for Prefixer {
 
             "background" => {
                 if let ComponentValue::Function(f) = &n.value[0] {
-                    if &*f.name.value == "image-set" {
+                    if *f.name.value == "image-set".to_lowercase() {
                         let val = ComponentValue::Function(Function {
                             span: DUMMY_SP,
                             name: Ident {
@@ -277,7 +277,7 @@ impl VisitMut for Prefixer {
 
             "background-image" => {
                 if let ComponentValue::Function(f) = &n.value[0] {
-                    if let "image-set" = &*f.name.value {
+                    if let "image-set" = &*f.name.value.to_lowercase() {
                         let val = ComponentValue::Function(Function {
                             span: DUMMY_SP,
                             name: Ident {
@@ -329,7 +329,7 @@ impl VisitMut for Prefixer {
                             }
                         }
                         ComponentValue::Function(Function { name, value, .. }) => {
-                            if &*name.value == "image-set" {
+                            if &*name.value.to_lowercase() == "image-set" {
                                 ComponentValue::Function(Function {
                                     span: DUMMY_SP,
                                     name: Ident {
@@ -360,7 +360,7 @@ impl VisitMut for Prefixer {
             "display" => {
                 if n.value.len() == 1 {
                     if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        match &**value {
+                        match &*value.to_lowercase() {
                             "flex" => {
                                 same_name!("-webkit-box");
                                 same_name!("-webkit-flex");
@@ -423,7 +423,7 @@ impl VisitMut for Prefixer {
             "justify-content" => {
                 if n.value.len() == 1 {
                     if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        match &**value {
+                        match &*value.to_lowercase() {
                             "flex-end" => {
                                 simple!("-webkit-box-pack", "end");
                                 simple!("-ms-flex-pack", "end");
@@ -621,7 +621,7 @@ impl VisitMut for Prefixer {
             "position" => {
                 if n.value.len() == 1 {
                     if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        if &**value == "sticky" {
+                        if &*value.to_lowercase() == "sticky" {
                             same_name!("-webkit-sticky");
                         }
                     }
@@ -633,7 +633,7 @@ impl VisitMut for Prefixer {
                 same_content!("-moz-user-select");
 
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    match &**value {
+                    match &*value.to_lowercase() {
                         "contain" => {
                             simple!("-ms-user-select", "element");
                         }
@@ -736,7 +736,7 @@ impl VisitMut for Prefixer {
             "text-size-adjust" => {
                 if n.value.len() == 1 {
                     if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        if &**value == "none" {
+                        if &*value.to_lowercase() == "none" {
                             same_content!("-webkit-text-size-adjust");
                             same_content!("-moz-text-size-adjust");
                             same_content!("-ms-text-size-adjust");
@@ -792,7 +792,7 @@ impl VisitMut for Prefixer {
             "writing-mode" => {
                 if n.value.len() == 1 {
                     if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        match &**value {
+                        match &*value.to_lowercase() {
                             "none" => {
                                 same_content!("-webkit-writing-mode");
                                 same_content!("-ms-writing-mode");
@@ -823,7 +823,7 @@ impl VisitMut for Prefixer {
             | "min-block-size" | "min-inline-size" => {
                 if n.value.len() == 1 {
                     if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        match &**value {
+                        match &*value.to_lowercase() {
                             // TODO better handle in more properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L559
                             "fit-content" => {
                                 same_name!("-webkit-fit-content");
