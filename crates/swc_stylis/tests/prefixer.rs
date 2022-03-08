@@ -272,15 +272,6 @@ fn filter() {
 }
 
 #[test]
-fn color_adjust() {
-    t("color:none;", "color:none;");
-    t(
-        "color-adjust:none;",
-        "-webkit-print-color-adjust:none;color-adjust:none;",
-    );
-}
-
-#[test]
 fn boxed() {
     t(
         "box-decoration-break:slice;",
