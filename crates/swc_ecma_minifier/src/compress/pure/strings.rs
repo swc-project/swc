@@ -6,12 +6,8 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
 
 use super::Pure;
-use crate::mode::Mode;
 
-impl<M> Pure<'_, M>
-where
-    M: Mode,
-{
+impl Pure<'_> {
     /// Converts template literals to string if `exprs` of [Tpl] is empty.
     pub(super) fn convert_tpl_to_str(&mut self, e: &mut Expr) {
         match e {
@@ -20,9 +16,9 @@ where
 
                 if c.value.chars().all(|c| match c {
                     '\u{0020}'..='\u{007e}' => true,
-                    '\n' | '\r' => M::force_str_for_tpl(),
+                    '\n' | '\r' => self.ctx.force_str_for_tpl,
                     _ => false,
-                }) && (M::force_str_for_tpl()
+                }) && (self.ctx.force_str_for_tpl
                     || (!c.value.contains("\\n") && !c.value.contains("\\r")))
                     && !c.value.contains("\\0")
                     && !c.value.contains("\\x")

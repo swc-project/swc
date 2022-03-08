@@ -4,7 +4,7 @@ use swc_ecma_utils::undefined;
 
 use super::Pure;
 
-impl<M> Pure<'_, M> {
+impl Pure<'_> {
     pub(super) fn drop_console(&mut self, e: &mut Expr) {
         if !self.options.drop_console {
             return;

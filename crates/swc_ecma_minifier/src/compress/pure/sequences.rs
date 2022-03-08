@@ -4,12 +4,8 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, ExprFactory};
 
 use super::Pure;
-use crate::mode::Mode;
 
-impl<M> Pure<'_, M>
-where
-    M: Mode,
-{
+impl Pure<'_> {
     pub(super) fn drop_useless_ident_ref_in_seq(&mut self, seq: &mut SeqExpr) {
         if !self.options.collapse_vars {
             return;

@@ -2,12 +2,8 @@ use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 
 use super::Pure;
-use crate::mode::Mode;
 
-impl<M> Pure<'_, M>
-where
-    M: Mode,
-{
+impl Pure<'_> {
     pub(super) fn optimize_expr_in_num_ctx(&mut self, e: &mut Expr) {
         if let Expr::Lit(Lit::Str(Str { span, value, .. })) = e {
             let value = if value.is_empty() { 0f64 } else { 1f64 };
