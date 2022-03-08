@@ -1,0 +1,4 @@
+.class {
+-ms-touch-action: none;
+touch-action: none;
+}
