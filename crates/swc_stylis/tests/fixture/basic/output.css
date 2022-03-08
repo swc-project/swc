@@ -8,6 +8,8 @@ display: -webkit-flex;
 display: -ms-flexbox;
 display: flex;
 -webkit-animation: foo 1s ease-out;
+-moz-animation: foo 1s ease-out;
+-o-animation: foo 1s ease-out;
 animation: foo 1s ease-out;
 }
 div a {

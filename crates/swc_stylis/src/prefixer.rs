@@ -101,22 +101,64 @@ impl VisitMut for Prefixer {
 
             "animation" => {
                 same_content!("-webkit-animation");
-            }
-
-            "animation-duration" => {
-                same_content!("-webkit-animation-duration");
+                same_content!("-moz-animation");
+                same_content!("-o-animation");
             }
 
             "animation-name" => {
                 same_content!("-webkit-animation-name");
+                same_content!("-moz-animation-name");
+                same_content!("-o-animation-name");
+            }
+
+            "animation-duration" => {
+                same_content!("-webkit-animation-duration");
+                same_content!("-moz-animation-duration");
+                same_content!("-o-animation-duration");
+            }
+
+            "animation-delay" => {
+                same_content!("-webkit-animation-delay");
+                same_content!("-moz-animation-delay");
+                same_content!("-o-animation-delay");
+            }
+
+            "animation-direction" => {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    match &*value.to_lowercase() {
+                        "alternate-reverse" | "reverse" => {}
+
+                        _ => {
+                            same_content!("-webkit-animation-direction");
+                            same_content!("-moz-animation-direction");
+                            same_content!("-o-animation-direction");
+                        }
+                    }
+                }
+            }
+
+            "animation-fill-mode" => {
+                same_content!("-webkit-animation-fill-mode");
+                same_content!("-moz-animation-fill-mode");
+                same_content!("-o-animation-fill-mode");
             }
 
             "animation-iteration-count" => {
                 same_content!("-webkit-animation-iteration-count");
+                same_content!("-moz-animation-iteration-count");
+                same_content!("-o-animation-iteration-count");
+            }
+
+            "animation-play-state" => {
+                same_content!("-webkit-animation-play-state");
+                same_content!("-moz-animation-play-state");
+                same_content!("-o-animation-play-state");
             }
 
             "animation-timing-function" => {
                 same_content!("-webkit-animation-timing-function");
+                same_content!("-moz-animation-timing-function");
+                same_content!("-o-animation-timing-function");
             }
 
             "background-clip" => {
@@ -134,7 +176,7 @@ impl VisitMut for Prefixer {
             "box-decoration-break" => {
                 same_content!("-webkit-box-decoration-break");
             }
-            
+
             "box-sizing" => {
                 same_content!("-webkit-box-sizing");
                 same_content!("-moz-box-sizing");

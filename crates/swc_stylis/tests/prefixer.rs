@@ -192,31 +192,6 @@ fn background() {
     );
 }
 
-#[test]
-fn appearance() {
-    t(
-        "animation:inherit;",
-        "-webkit-animation:inherit;animation:inherit;",
-    );
-    t(
-        "animation-duration:0.6s;",
-        "-webkit-animation-duration:.6s;animation-duration:.6s;",
-    );
-    t(
-        "animation-name:slidein;",
-        "-webkit-animation-name:slidein;animation-name:slidein;",
-    );
-    t(
-        "animation-iteration-count:infinite;",
-        "-webkit-animation-iteration-count:infinite;animation-iteration-count:infinite;",
-    );
-    t(
-        "animation-timing-function:cubic-bezier(0.1,0.7,1.0,0.1);",
-        "-webkit-animation-timing-function:cubic-bezier(.1,.7,1,.1);animation-timing-function:\
-         cubic-bezier(.1,.7,1,.1);",
-    );
-}
-
 /// Test
 fn t(src: &str, expected: &str) {
     testing::run_test2(false, |cm, handler| {
