@@ -202,14 +202,6 @@ fn background() {
 }
 
 #[test]
-fn background_clip() {
-    t(
-        "background-clip:text;",
-        "-webkit-background-clip:text;background-clip:text;",
-    );
-}
-
-#[test]
 fn margin_inline() {
     t(
         "margin-inline-start:20px;",
