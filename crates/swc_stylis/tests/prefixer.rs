@@ -281,11 +281,6 @@ fn boxed() {
 }
 
 #[test]
-fn clip() {
-    t("clip-path:none;", "-webkit-clip-path:none;clip-path:none;");
-}
-
-#[test]
 fn size() {
     t("width:auto;", "width:auto;");
     t("width:unset;", "width:unset;");
