@@ -13,6 +13,7 @@ use self::{ctx::Ctx, misc::DropOpts};
 use crate::{
     debug::{dump, AssertValid},
     marks::Marks,
+    mode::Mode,
     option::CompressOptions,
     util::ModuleItemExt,
     MAX_PAR_DEPTH,
@@ -38,13 +39,20 @@ mod vars;
 pub(crate) fn pure_optimizer<'a, M>(
     options: &'a CompressOptions,
     marks: Marks,
+    mode: &'a M,
     enable_everything: bool,
     debug_infinite_loop: bool,
-) -> impl 'a + VisitMut + Repeated {
+) -> impl 'a + VisitMut + Repeated
+where
+    M: Mode,
+{
     Pure {
         options,
         marks,
-        ctx: Default::default(),
+        ctx: Ctx {
+            force_str_for_tpl: M::force_str_for_tpl(),
+            ..Default::default()
+        },
         changed: Default::default(),
         enable_everything,
         debug_infinite_loop,
