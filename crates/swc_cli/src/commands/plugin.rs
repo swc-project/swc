@@ -61,7 +61,7 @@ fn get_name(option: &PluginScaffoldOptions) -> Result<&str> {
 /// Note: this is slim implementation does not support different vcs other than
 /// git at the moment.
 fn write_ignore_file(base_path: &Path) -> Result<()> {
-    let ignore_list: Vec<String> = vec!["/target", "^target/", "target"]
+    let ignore_list: Vec<String> = vec!["/target", "^target/", "target", "Cargo.lock"]
         .iter()
         .map(|v| v.to_string())
         .collect();
