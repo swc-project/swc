@@ -1,0 +1,5 @@
+{
+    "rules": {
+        "custom-property-no-missing-var-function": ["error"]
+    }
+}

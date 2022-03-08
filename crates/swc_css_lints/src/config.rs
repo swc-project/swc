@@ -114,6 +114,9 @@ pub struct RulesConfig {
 
     #[serde(default, alias = "noDuplicateAtImportRules")]
     pub no_duplicate_at_import_rules: RuleConfig<()>,
+
+    #[serde(default, alias = "customPropertyNoMissingVarFunction")]
+    pub custom_property_no_missing_var_function: RuleConfig<()>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
