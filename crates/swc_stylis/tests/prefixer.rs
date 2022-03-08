@@ -428,20 +428,7 @@ fn margin_inline() {
 }
 
 #[test]
-fn user_select() {
-    t(
-        "user-select:none;",
-        "-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;",
-    );
-}
-
-#[test]
 fn appearance() {
-    t(
-        "appearance:none;",
-        "-webkit-appearance:none;-moz-appearance:none;-ms-appearance:none;appearance:none;",
-    );
-
     t(
         "animation:inherit;",
         "-webkit-animation:inherit;animation:inherit;",
@@ -482,15 +469,6 @@ fn error_recovery_1() {
         ",
         "-webkit-animation:slide 3s ease infinite;animation:slide 3s ease \
          infinite;__styled-jsx-placeholder__1\n        ",
-    );
-}
-
-#[test]
-fn image_rendering() {
-    t(
-        "image-rendering: pixelated;",
-        "-ms-interpolation-mode:nearest-neighbor;image-rendering:-webkit-optimize-contrast;\
-         image-rendering:-moz-crisp-edges;image-rendering:-o-pixelated;image-rendering:pixelated;",
     );
 }
 
