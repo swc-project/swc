@@ -883,6 +883,18 @@ impl VisitMut for Prefixer {
                 same_content!("-o-text-overflow");
             }
 
+            "shape-margin" => {
+                same_content!("-webkit-shape-margin");
+            }
+
+            "shape-outside" => {
+                same_content!("-webkit-shape-outside");
+            }
+
+            "shape-image-threshold" => {
+                same_content!("-webkit-shape-image-threshold");
+            }
+
             // TODO add `overscroll-behavior`
             // TODO add `grid` support https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L987
             // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
