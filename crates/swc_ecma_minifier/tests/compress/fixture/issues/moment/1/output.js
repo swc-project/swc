@@ -594,7 +594,7 @@
                 key
             ];
         }
-        return (function(names) {
+        return function(names) {
             for(var j, next, locale, split, i = 0; i < names.length;){
                 for(j = (split = normalizeLocale(names[i]).split("-")).length, next = normalizeLocale(names[i + 1]), next = next ? next.split("-") : null; j > 0;){
                     if (locale = loadLocale(split.slice(0, j).join("-"))) return locale;
@@ -604,7 +604,7 @@
                 i++;
             }
             return globalLocale;
-        })(key);
+        }(key);
     }
     function checkOverflow(m) {
         var overflow, a = m._a;

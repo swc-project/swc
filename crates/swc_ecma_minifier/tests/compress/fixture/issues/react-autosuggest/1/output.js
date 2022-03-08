@@ -95,7 +95,7 @@ var ItemsList = function(_Component) {
     }(ItemsList1, _Component);
     var Derived, Constructor1, protoProps, staticProps, _super = (Derived = ItemsList1, function() {
         var self, call, result, Super = _getPrototypeOf(Derived);
-        if ((function() {
+        if (function() {
             if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
             if (Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
@@ -104,7 +104,7 @@ var ItemsList = function(_Component) {
             } catch (e) {
                 return !1;
             }
-        })()) {
+        }()) {
             var NewTarget = _getPrototypeOf(this).constructor;
             result = Reflect.construct(Super, arguments, NewTarget);
         } else result = Super.apply(this, arguments);

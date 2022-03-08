@@ -4,7 +4,7 @@ var MyClass = function MyClass() {
     swcHelpers.classCallCheck(this, MyClass);
 };
 export var fn = function() {
-    return /*#__PURE__*/ (function(MyClass) {
+    return /*#__PURE__*/ function(MyClass) {
         "use strict";
         swcHelpers.inherits(_class, MyClass);
         var _super = swcHelpers.createSuper(_class);
@@ -13,5 +13,5 @@ export var fn = function() {
             return _super.apply(this, arguments);
         }
         return _class;
-    })(MyClass);
+    }(MyClass);
 };
