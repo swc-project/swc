@@ -847,6 +847,31 @@ impl VisitMut for Prefixer {
                 same_content!("-ms-region-fragment");
             }
 
+            "scroll-snap-type" => {
+                same_content!("-webkit-scroll-snap-type");
+                same_content!("-ms-scroll-snap-type");
+            }
+
+            "scroll-snap-coordinate" => {
+                same_content!("-webkit-scroll-snap-coordinate");
+                same_content!("-ms-scroll-snap-coordinate");
+            }
+
+            "scroll-snap-destination" => {
+                same_content!("-webkit-scroll-snap-destination");
+                same_content!("-ms-scroll-snap-destination");
+            }
+
+            "scroll-snap-points-x" => {
+                same_content!("-webkit-scroll-snap-points-x");
+                same_content!("-ms-scroll-snap-points-x");
+            }
+
+            "scroll-snap-points-y" => {
+                same_content!("-webkit-scroll-snap-points-y");
+                same_content!("-ms-scroll-snap-points-y");
+            }
+
             // TODO add `overscroll-behavior`
             // TODO add `grid` support https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L987
             // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
