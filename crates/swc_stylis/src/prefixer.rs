@@ -183,12 +183,8 @@ impl VisitMut for Prefixer {
 
             "background-clip" => {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    match &*value.to_lowercase() {
-                        "text" => {
-                            same_content!("-webkit-background-clip");
-                        }
-
-                        _ => {}
+                    if &*value.to_lowercase() == "text" {
+                        same_content!("-webkit-background-clip");
                     }
                 }
             }
