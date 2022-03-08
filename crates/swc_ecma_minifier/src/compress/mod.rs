@@ -320,7 +320,7 @@ where
             let mut visitor = pure_optimizer(
                 self.options,
                 self.marks,
-                self.mode,
+                M::force_str_for_tpl(),
                 self.pass > 1,
                 self.pass >= 20,
             );

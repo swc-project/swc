@@ -13,7 +13,6 @@ use self::{ctx::Ctx, misc::DropOpts};
 use crate::{
     debug::{dump, AssertValid},
     marks::Marks,
-    mode::Mode,
     option::CompressOptions,
     util::ModuleItemExt,
     MAX_PAR_DEPTH,
@@ -36,21 +35,19 @@ mod strings;
 mod unsafes;
 mod vars;
 
-pub(crate) fn pure_optimizer<'a, M>(
+#[allow(clippy::needless_lifetimes)]
+pub(crate) fn pure_optimizer<'a>(
     options: &'a CompressOptions,
     marks: Marks,
-    mode: &'a M,
+    force_str_for_tpl: bool,
     enable_everything: bool,
     debug_infinite_loop: bool,
-) -> impl 'a + VisitMut + Repeated
-where
-    M: Mode,
-{
+) -> impl 'a + VisitMut + Repeated {
     Pure {
         options,
         marks,
         ctx: Ctx {
-            force_str_for_tpl: M::force_str_for_tpl(),
+            force_str_for_tpl,
             ..Default::default()
         },
         changed: Default::default(),
@@ -161,7 +158,6 @@ impl Pure<'_> {
                     ctx: self.ctx,
                     changed: false,
                     enable_everything: self.enable_everything,
-                    mode: self.mode,
                     debug_infinite_loop: self.debug_infinite_loop,
                     bindings: self.bindings.clone(),
                 };
@@ -184,7 +180,6 @@ impl Pure<'_> {
                                 },
                                 changed: false,
                                 enable_everything: self.enable_everything,
-                                mode: self.mode,
                                 debug_infinite_loop: self.debug_infinite_loop,
                                 bindings: self.bindings.clone(),
                             };

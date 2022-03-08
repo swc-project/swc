@@ -21,6 +21,7 @@
 #![allow(unstable_name_collisions)]
 
 use compress::pure_optimizer;
+use mode::Mode;
 use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, SyntaxContext, GLOBALS};
 use swc_ecma_ast::Module;
 use swc_ecma_visit::{FoldWith, VisitMutWith};
@@ -141,7 +142,7 @@ pub fn optimize(
         m.visit_mut_with(&mut Repeat::new(pure_optimizer(
             options,
             marks,
-            &Minification,
+            Minification::force_str_for_tpl(),
             true,
             false,
         )));
