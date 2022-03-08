@@ -86,13 +86,13 @@ impl VisitMut for Prefixer {
         }
 
         let name = match &n.name {
-            DeclarationName::Ident(i) => &*i.value,
+            DeclarationName::Ident(ident) => &ident.value,
             _ => {
                 unreachable!();
             }
         };
 
-        match name {
+        match &*name.to_lowercase() {
             "appearance" => {
                 same_content!("-webkit-appearance");
                 same_content!("-moz-appearance");
