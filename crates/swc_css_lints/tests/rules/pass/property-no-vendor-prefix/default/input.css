@@ -1,0 +1,4 @@
+:root { --foo-bar: 1px; }
+a { color: pink; --webkit-transform: 1px; }
+a { transform: scale(1); }
+a { box-sizing: border-box; }

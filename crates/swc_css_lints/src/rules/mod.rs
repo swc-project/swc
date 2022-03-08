@@ -28,6 +28,7 @@ pub mod font_family_no_duplicate_names;
 pub mod keyframe_declaration_no_important;
 pub mod no_empty_source;
 pub mod no_invalid_position_at_import_rule;
+pub mod property_no_vendor_prefix;
 pub mod selector_max_class;
 pub mod selector_max_combinators;
 pub mod unit_no_unknown;
@@ -60,6 +61,9 @@ pub fn get_rules(
         custom_property_no_missing_var_function(
             (&rules_config.custom_property_no_missing_var_function).into(),
         ),
+        property_no_vendor_prefix::property_no_vendor_prefix(
+            (&rules_config.property_no_vendor_prefix).into(),
+        )?,
     ];
 
     Ok(rules)

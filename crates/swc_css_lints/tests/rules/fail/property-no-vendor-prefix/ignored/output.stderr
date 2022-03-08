@@ -1,0 +1,12 @@
+error: Unexpected vendor-prefix '-webkit-border-radius'.
+ --> $DIR/tests/rules/fail/property-no-vendor-prefix/ignored/input.css:1:5
+  |
+1 | a { -webkit-border-radius: 10px; }
+  |     ^^^^^^^^^^^^^^^^^^^^^
+
+error: Unexpected vendor-prefix '-moz-background-size'.
+ --> $DIR/tests/rules/fail/property-no-vendor-prefix/ignored/input.css:2:5
+  |
+2 | a { -moz-background-size: cover; }
+  |     ^^^^^^^^^^^^^^^^^^^^
+

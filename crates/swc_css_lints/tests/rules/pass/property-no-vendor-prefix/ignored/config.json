@@ -1,0 +1,8 @@
+{
+    "rules": {
+        "property-no-vendor-prefix": [
+            "error",
+            { "ignoreProperties": ["transform", "columns", "/^animation-/"] }
+        ]
+    }
+}

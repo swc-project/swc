@@ -1,0 +1,54 @@
+error: Unexpected vendor-prefix '-webkit-transform'.
+ --> $DIR/tests/rules/fail/property-no-vendor-prefix/default/input.css:1:5
+  |
+1 | a { -webkit-transform: scale(1); }
+  |     ^^^^^^^^^^^^^^^^^
+
+error: Unexpected vendor-prefix '-wEbKiT-tRaNsFoRm'.
+ --> $DIR/tests/rules/fail/property-no-vendor-prefix/default/input.css:2:5
+  |
+2 | a { -wEbKiT-tRaNsFoRm: scale(1); }
+  |     ^^^^^^^^^^^^^^^^^
+
+error: Unexpected vendor-prefix '-WEBKIT-TRANSFORM'.
+ --> $DIR/tests/rules/fail/property-no-vendor-prefix/default/input.css:3:5
+  |
+3 | a { -WEBKIT-TRANSFORM: scale(1); }
+  |     ^^^^^^^^^^^^^^^^^
+
+error: Unexpected vendor-prefix '-webkit-transform'.
+ --> $DIR/tests/rules/fail/property-no-vendor-prefix/default/input.css:4:5
+  |
+4 | a { -webkit-transform: scale(1); transform: scale(1); }
+  |     ^^^^^^^^^^^^^^^^^
+
+error: Unexpected vendor-prefix '-webkit-transform'.
+ --> $DIR/tests/rules/fail/property-no-vendor-prefix/default/input.css:5:26
+  |
+5 | a { transform: scale(1); -webkit-transform: scale(1); }
+  |                          ^^^^^^^^^^^^^^^^^
+
+error: Unexpected vendor-prefix '-moz-transition'.
+ --> $DIR/tests/rules/fail/property-no-vendor-prefix/default/input.css:6:5
+  |
+6 | a { -moz-transition: all 3s; }
+  |     ^^^^^^^^^^^^^^^
+
+error: Unexpected vendor-prefix '-moz-columns'.
+ --> $DIR/tests/rules/fail/property-no-vendor-prefix/default/input.css:7:5
+  |
+7 | a { -moz-columns: 2; }
+  |     ^^^^^^^^^^^^
+
+error: Unexpected vendor-prefix '-o-columns'.
+ --> $DIR/tests/rules/fail/property-no-vendor-prefix/default/input.css:8:5
+  |
+8 | a { -o-columns: 2; }
+  |     ^^^^^^^^^^
+
+error: Unexpected vendor-prefix '-ms-interpolation-mode'.
+ --> $DIR/tests/rules/fail/property-no-vendor-prefix/default/input.css:9:5
+  |
+9 | a { -ms-interpolation-mode: nearest-neighbor; }
+  |     ^^^^^^^^^^^^^^^^^^^^^^
+

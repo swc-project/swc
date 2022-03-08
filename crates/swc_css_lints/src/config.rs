@@ -7,6 +7,7 @@ use crate::rules::{
     color_hex_length::ColorHexLengthConfig,
     font_family_no_duplicate_names::FontFamilyNoDuplicateNamesConfig,
     no_invalid_position_at_import_rule::NoInvalidPositionAtImportRuleConfig,
+    property_no_vendor_prefix::PropertyNoVendorPrefixConfig,
     selector_max_class::SelectorMaxClassConfig,
     selector_max_combinators::SelectorMaxCombinatorsConfig, unit_no_unknown::UnitNoUnknownConfig,
 };
@@ -114,6 +115,9 @@ pub struct RulesConfig {
 
     #[serde(default, alias = "customPropertyNoMissingVarFunction")]
     pub custom_property_no_missing_var_function: RuleConfig<()>,
+
+    #[serde(default, alias = "propertyNoVendorPrefix")]
+    pub property_no_vendor_prefix: RuleConfig<PropertyNoVendorPrefixConfig>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

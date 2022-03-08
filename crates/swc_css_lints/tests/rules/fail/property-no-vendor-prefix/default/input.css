@@ -1,0 +1,9 @@
+a { -webkit-transform: scale(1); }
+a { -wEbKiT-tRaNsFoRm: scale(1); }
+a { -WEBKIT-TRANSFORM: scale(1); }
+a { -webkit-transform: scale(1); transform: scale(1); }
+a { transform: scale(1); -webkit-transform: scale(1); }
+a { -moz-transition: all 3s; }
+a { -moz-columns: 2; }
+a { -o-columns: 2; }
+a { -ms-interpolation-mode: nearest-neighbor; }
