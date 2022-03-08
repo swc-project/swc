@@ -363,6 +363,7 @@ impl VisitMut for Prefixer {
             "flex-grow" => {
                 same_content!("-webkit-box-flex");
                 same_content!("-webkit-flex-grow");
+                same_content!("-moz-box-flex");
                 same_content!("-ms-flex-positive");
             }
 
@@ -376,20 +377,19 @@ impl VisitMut for Prefixer {
                 same_content!("-ms-flex-preferred-size");
             }
 
-            "align-self" => {
-                same_content!("-webkit-align-self");
-                same_content!("-ms-flex-item-align");
+            "flex-direction" => {
+                same_content!("-webkit-flex-direction");
+                same_content!("-ms-flex-direction");
             }
 
-            "align-content" => {
-                same_content!("-webkit-align-content");
-                same_content!("-ms-flex-line-pack");
+            "flex-wrap" => {
+                same_content!("-webkit-flex-wrap");
+                same_content!("-ms-flex-wrap");
             }
 
-            "align-items" => {
-                same_content!("-webkit-align-items");
-                same_content!("-webkit-box-align");
-                same_content!("-ms-flex-align");
+            "flex-flow" => {
+                same_content!("-webkit-flex-flow");
+                same_content!("-ms-flex-flow");
             }
 
             "justify-content" => {
@@ -428,6 +428,22 @@ impl VisitMut for Prefixer {
                 same_content!("-ms-flex-order");
             }
 
+            "align-items" => {
+                same_content!("-webkit-align-items");
+                same_content!("-webkit-box-align");
+                same_content!("-ms-flex-align");
+            }
+
+            "align-self" => {
+                same_content!("-webkit-align-self");
+                same_content!("-ms-flex-item-align");
+            }
+
+            "align-content" => {
+                same_content!("-webkit-align-content");
+                same_content!("-ms-flex-line-pack");
+            }
+
             "image-rendering" => {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     if &**value == "pixelated" {
@@ -437,11 +453,6 @@ impl VisitMut for Prefixer {
                         same_name!("-o-pixelated");
                     }
                 }
-            }
-
-            "flex-direction" => {
-                same_content!("-webkit-flex-direction");
-                same_content!("-ms-flex-direction");
             }
 
             "filter" => {
