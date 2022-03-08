@@ -21,3 +21,15 @@ cursor: image-set(url(foo.jpg) 2x), grab;
 cursor: url(cursor_1.svg) 4 5, url(cursor_2.svg), -webkit-image-set(url(foo.jpg) 2x) 5 5, -webkit-grab;
 cursor: url(cursor_1.svg) 4 5, url(cursor_2.svg), image-set(url(foo.jpg) 2x) 5 5, grab;
 }
+.class {
+cursor: -webkit-grab;
+cursor: zoom-in;
+}
+.class {
+cursor: -webkit-zoom-out;
+cursor: zoom-out;
+}
+.class {
+cursor: -webkit-grabbing;
+cursor: grabbing;
+}

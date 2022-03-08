@@ -253,98 +253,106 @@ impl VisitMut for Prefixer {
             }
 
             "background" => {
-                if !n.value.is_empty() {
-                    if let ComponentValue::Function(f) = &n.value[0] {
-                        if &*f.name.value == "image-set" {
-                            let val = ComponentValue::Function(Function {
+                if let ComponentValue::Function(f) = &n.value[0] {
+                    if &*f.name.value == "image-set" {
+                        let val = ComponentValue::Function(Function {
+                            span: DUMMY_SP,
+                            name: Ident {
                                 span: DUMMY_SP,
-                                name: Ident {
-                                    span: DUMMY_SP,
-                                    value: "-webkit-image-set".into(),
-                                    raw: "-webkit-image-set".into(),
-                                },
-                                value: f.value.clone(),
-                            });
-                            self.added.push(Declaration {
-                                span: n.span,
-                                name: n.name.clone(),
-                                value: vec![val],
-                                important: n.important.clone(),
-                            });
-                        }
+                                value: "-webkit-image-set".into(),
+                                raw: "-webkit-image-set".into(),
+                            },
+                            value: f.value.clone(),
+                        });
+                        self.added.push(Declaration {
+                            span: n.span,
+                            name: n.name.clone(),
+                            value: vec![val],
+                            important: n.important.clone(),
+                        });
                     }
                 }
             }
 
             "background-image" => {
-                if !n.value.is_empty() {
-                    if let ComponentValue::Function(f) = &n.value[0] {
-                        if let "image-set" = &*f.name.value {
-                            let val = ComponentValue::Function(Function {
+                if let ComponentValue::Function(f) = &n.value[0] {
+                    if let "image-set" = &*f.name.value {
+                        let val = ComponentValue::Function(Function {
+                            span: DUMMY_SP,
+                            name: Ident {
                                 span: DUMMY_SP,
-                                name: Ident {
-                                    span: DUMMY_SP,
-                                    value: "-webkit-image-set".into(),
-                                    raw: "-webkit-image-set".into(),
-                                },
-                                value: f.value.clone(),
-                            });
-                            self.added.push(Declaration {
-                                span: n.span,
-                                name: n.name.clone(),
-                                value: vec![val],
-                                important: n.important.clone(),
-                            });
-                        }
+                                value: "-webkit-image-set".into(),
+                                raw: "-webkit-image-set".into(),
+                            },
+                            value: f.value.clone(),
+                        });
+                        self.added.push(Declaration {
+                            span: n.span,
+                            name: n.name.clone(),
+                            value: vec![val],
+                            important: n.important.clone(),
+                        });
                     }
                 }
             }
 
-            // TODO Handle `zoom-in`, `zoom-out` and `grabbing`
+            // TODO Handle moz prefix in `zoom-in`, `zoom-out` and `grabbing`
             "cursor" => {
-                if !n.value.is_empty() {
-                    let new_value = n
-                        .value
-                        .iter()
-                        .map(|node| match node {
-                            ComponentValue::Ident(Ident { value, .. }) => {
-                                if &**value == "grab" {
-                                    ComponentValue::Ident(Ident {
-                                        span: DUMMY_SP,
-                                        value: "-webkit-grab".into(),
-                                        raw: "-webkit-grab".into(),
-                                    })
-                                } else {
-                                    node.clone()
-                                }
+                let new_value = n
+                    .value
+                    .iter()
+                    .map(|node| match node {
+                        ComponentValue::Ident(Ident { value, .. }) => {
+                            match &*value.to_lowercase() {
+                                "zoom-in" => ComponentValue::Ident(Ident {
+                                    span: DUMMY_SP,
+                                    value: "-webkit-zoom-in".into(),
+                                    raw: "-webkit-grab".into(),
+                                }),
+                                "zoom-out" => ComponentValue::Ident(Ident {
+                                    span: DUMMY_SP,
+                                    value: "-webkit-zoom-out".into(),
+                                    raw: "-webkit-zoom-out".into(),
+                                }),
+                                "grab" => ComponentValue::Ident(Ident {
+                                    span: DUMMY_SP,
+                                    value: "-webkit-grab".into(),
+                                    raw: "-webkit-grab".into(),
+                                }),
+                                "grabbing" => ComponentValue::Ident(Ident {
+                                    span: DUMMY_SP,
+                                    value: "-webkit-grabbing".into(),
+                                    raw: "-webkit-grabbing".into(),
+                                }),
+                                _ => node.clone(),
                             }
-                            ComponentValue::Function(Function { name, value, .. }) => {
-                                if &*name.value == "image-set" {
-                                    ComponentValue::Function(Function {
+                        }
+                        ComponentValue::Function(Function { name, value, .. }) => {
+                            if &*name.value == "image-set" {
+                                ComponentValue::Function(Function {
+                                    span: DUMMY_SP,
+                                    name: Ident {
                                         span: DUMMY_SP,
-                                        name: Ident {
-                                            span: DUMMY_SP,
-                                            value: "-webkit-image-set".into(),
-                                            raw: "-webkit-image-set".into(),
-                                        },
-                                        value: value.clone(),
-                                    })
-                                } else {
-                                    node.clone()
-                                }
+                                        value: "-webkit-image-set".into(),
+                                        raw: "-webkit-image-set".into(),
+                                    },
+                                    value: value.clone(),
+                                })
+                            } else {
+                                node.clone()
                             }
-                            _ => node.clone(),
-                        })
-                        .collect();
+                        }
+                        _ => node.clone(),
+                    })
+                    .collect();
 
-                    if n.value != new_value {
-                        self.added.push(Declaration {
-                            span: n.span,
-                            name: n.name.clone(),
-                            value: new_value,
-                            important: n.important.clone(),
-                        });
-                    }
+                if n.value != new_value {
+                    self.added.push(Declaration {
+                        span: n.span,
+                        name: n.name.clone(),
+                        value: new_value,
+                        important: n.important.clone(),
+                    });
                 }
             }
 
