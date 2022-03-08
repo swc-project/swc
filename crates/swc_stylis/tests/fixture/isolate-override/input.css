@@ -1,0 +1,4 @@
+.bible-quote {
+    direction: rtl;
+    unicode-bidi: isolate-override;
+}

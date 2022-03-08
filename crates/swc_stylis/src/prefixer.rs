@@ -784,11 +784,24 @@ impl VisitMut for Prefixer {
             "touch-action" => {
                 same_content!("-ms-touch-action");
             }
-            
+
             "text-orientation" => {
                 same_content!("-webkit-text-orientation");
             }
 
+            "unicode-bidi" => {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    match &*value.to_lowercase() {
+                        "isolate-override" => {
+                            same_name!("-moz-isolate-override");
+                        }
+
+                        _ => {}
+                    }
+                }
+            }
+
+            // TODO add `overscroll-behavior`
             _ => {}
         }
     }
