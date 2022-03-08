@@ -1,0 +1,21 @@
+.class {
+-webkit-text-spacing: none;
+text-emphasis: none;
+}
+.class {
+-webkit-text-spacing: filled red;
+text-emphasis: filled red;
+-webkit-text-emphasis: filled red;
+}
+.class {
+-webkit-text-emphasis-position: left;
+text-emphasis-position: left;
+}
+.class {
+-webkit-text-emphasis-style: circle;
+text-emphasis-style: circle;
+}
+.class {
+-webkit-text-emphasis-color: red;
+text-emphasis-color: red;
+}

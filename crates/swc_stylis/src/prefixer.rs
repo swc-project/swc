@@ -813,7 +813,25 @@ impl VisitMut for Prefixer {
                 same_content!("-ms-text-spacing");
             }
 
+            "text-emphasis" => {
+                same_content!("-webkit-text-spacing");
+            }
+            
+            "text-emphasis-position" => {
+                same_content!("-webkit-text-emphasis-position");
+            }
+            
+            "text-emphasis-style" => {
+                same_content!("-webkit-text-emphasis-style");
+            }
+            
+            "text-emphasis-color" => {
+                same_content!("-webkit-text-emphasis-color");
+            }
+
             // TODO add `overscroll-behavior`
+            // TODO add `grid` support https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L987
+
             _ => {}
         }
     }
