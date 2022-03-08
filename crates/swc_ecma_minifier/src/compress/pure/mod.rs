@@ -13,7 +13,6 @@ use self::{ctx::Ctx, misc::DropOpts};
 use crate::{
     debug::{dump, AssertValid},
     marks::Marks,
-    mode::Mode,
     option::CompressOptions,
     util::ModuleItemExt,
     MAX_PAR_DEPTH,
@@ -48,7 +47,6 @@ pub(crate) fn pure_optimizer<'a, M>(
         ctx: Default::default(),
         changed: Default::default(),
         enable_everything,
-        mode,
         debug_infinite_loop,
         bindings: Default::default(),
     }
@@ -66,7 +64,7 @@ struct Pure<'a> {
     bindings: Option<Arc<AHashSet<Id>>>,
 }
 
-impl<M> Repeated for Pure<'_, M> {
+impl Repeated for Pure<'_> {
     fn changed(&self) -> bool {
         self.changed
     }
@@ -78,10 +76,7 @@ impl<M> Repeated for Pure<'_, M> {
     }
 }
 
-impl<M> Pure<'_, M>
-where
-    M: Mode,
-{
+impl Pure<'_> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: ModuleItemExt + Take,
@@ -148,7 +143,7 @@ where
     /// Visit `nodes`, maybe in parallel.
     fn visit_par<N>(&mut self, nodes: &mut Vec<N>)
     where
-        N: for<'aa> VisitMutWith<Pure<'aa, M>> + Send + Sync,
+        N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
     {
         if self.ctx.par_depth >= MAX_PAR_DEPTH * 2 || cfg!(target_arch = "wasm32") {
             for node in nodes {
@@ -198,10 +193,7 @@ where
     }
 }
 
-impl<M> VisitMut for Pure<'_, M>
-where
-    M: Mode,
-{
+impl VisitMut for Pure<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
