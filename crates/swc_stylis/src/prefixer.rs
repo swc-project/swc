@@ -832,9 +832,25 @@ impl VisitMut for Prefixer {
                 same_content!("-webkit-text-emphasis-color");
             }
 
+            "flow-into" => {
+                same_content!("-webkit-flow-into");
+                same_content!("-ms-flow-into");
+            }
+
+            "flow-from" => {
+                same_content!("-webkit-flow-from");
+                same_content!("-ms-flow-from");
+            }
+
+            "region-fragment" => {
+                same_content!("-webkit-region-fragment");
+                same_content!("-ms-region-fragment");
+            }
+
             // TODO add `overscroll-behavior`
             // TODO add `grid` support https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L987
             // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
+            // TODO handle `image-set` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L907
             _ => {}
         }
     }
