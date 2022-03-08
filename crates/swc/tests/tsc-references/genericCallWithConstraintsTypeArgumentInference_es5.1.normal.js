@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// Basic type inference with generic calls and constraints, no errors expected
 var Base = function Base() {
     "use strict";
     swcHelpers.classCallCheck(this, Base);

@@ -1,4 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
+//
+// Calling new with (non)abstract classes.
+//
 var A = function A() {
     "use strict";
     swcHelpers.classCallCheck(this, A);

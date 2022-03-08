@@ -18,8 +18,8 @@ ns.x = {
     m: function m(n) {}
 };
 ns.x;
-var Thing = // this-property assignment
-/*#__PURE__*/ function() {
+// this-property assignment
+var Thing = /*#__PURE__*/ function() {
     "use strict";
     function Thing() {
         swcHelpers.classCallCheck(this, Thing);

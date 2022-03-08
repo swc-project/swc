@@ -15,7 +15,7 @@ var Opt = /*#__PURE__*/ function(_Component) {
     }
     var _proto = Opt.prototype;
     _proto.render = function render() {
-        return(/*#__PURE__*/ React.createElement("div", null, "Hello"));
+        return /*#__PURE__*/ React.createElement("div", null, "Hello");
     };
     return Opt;
 }(React.Component);

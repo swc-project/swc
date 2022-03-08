@@ -1,9 +1,9 @@
 import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
-var A = // @target: ES5
+// @target: ES5
 // @lib: es5,es2015.promise
 // @noEmitHelpers: true
-/*#__PURE__*/ function() {
+var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
         swcHelpers.classCallCheck(this, A);

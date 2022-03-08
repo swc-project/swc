@@ -7,7 +7,7 @@ import * as swcHelpers from "@swc/helpers";
 const React = require('react');
 class Poisoned extends React.Component {
     render() {
-        return(/*#__PURE__*/ React.createElement("div", null, "Hello"));
+        return /*#__PURE__*/ React.createElement("div", null, "Hello");
     }
 }
 const obj = {
@@ -18,7 +18,7 @@ const obj = {
 let p = /*#__PURE__*/ React.createElement(Poisoned, swcHelpers.extends({}, obj));
 class EmptyProp extends React.Component {
     render() {
-        return(/*#__PURE__*/ React.createElement("div", null, "Default hi"));
+        return /*#__PURE__*/ React.createElement("div", null, "Default hi");
     }
 }
 // OK

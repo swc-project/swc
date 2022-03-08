@@ -1,5 +1,10 @@
 import * as swcHelpers from "@swc/helpers";
 var _class, _class1;
+// @target: esnext
+// @noTypesAndSymbols: true
+// @noEmit: true
+// @useDefineForClassFields: true
+// https://github.com/microsoft/TypeScript/issues/36295
 var C = function C() {
     "use strict";
     swcHelpers.classCallCheck(this, C);

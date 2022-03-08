@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// object types are identical structurally
 var A = function A(x) {
     "use strict";
     swcHelpers.classCallCheck(this, A);

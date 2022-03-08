@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// checking whether other types are subtypes of type parameters
 var C3 = function C3() {
     "use strict";
     swcHelpers.classCallCheck(this, C3);

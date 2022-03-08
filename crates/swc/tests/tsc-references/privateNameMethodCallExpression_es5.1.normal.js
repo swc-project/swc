@@ -33,8 +33,8 @@ function _templateObject2() {
     return data;
 }
 var _method = new WeakSet(), _method2 = new WeakSet();
-var AA = // @target: es2015
-/*#__PURE__*/ function() {
+// @target: es2015
+var AA = /*#__PURE__*/ function() {
     "use strict";
     function AA() {
         swcHelpers.classCallCheck(this, AA);

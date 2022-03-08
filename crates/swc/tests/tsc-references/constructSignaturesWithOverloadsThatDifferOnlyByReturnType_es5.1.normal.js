@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// Error for construct signature overloads to differ only by return type
 var C = function C(x) {
     "use strict";
     swcHelpers.classCallCheck(this, C);

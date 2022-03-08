@@ -17,7 +17,7 @@ c.Cls = function _class() {
  * @param {number} b
  * @return {string} 
  */ export function d(a, b) {
-    return(/** @type {*} */ (null));
+    return /** @type {*} */ (null);
 }
 /**
  * @template T,U
@@ -25,7 +25,7 @@ c.Cls = function _class() {
  * @param {U} b
  * @return {T & U} 
  */ export function e(a, b) {
-    return(/** @type {*} */ (null));
+    return /** @type {*} */ (null);
 }
 /**
  * @template T

@@ -6,7 +6,7 @@
 // @libFiles: react.d.ts,lib.d.ts
 const React = require('react');
 function MyComponent(attr) {
-    return(/*#__PURE__*/ React.createElement("div", null, "attr.values"));
+    return /*#__PURE__*/ React.createElement("div", null, "attr.values");
 }
 // OK
 let i = /*#__PURE__*/ React.createElement(MyComponent, {

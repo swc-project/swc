@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
-var A = // @noImplicitOverride: true
+// @noImplicitOverride: true
 // @target: es2015,esnext
-/*#__PURE__*/ function() {
+var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
         swcHelpers.classCallCheck(this, A);

@@ -1,12 +1,12 @@
 import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
-var X = // @allowJs: true
+// @allowJs: true
 // @checkJs: true
 // @target: es6
 // @outDir: ./out
 // @declaration: true
 // @filename: file.js
-/*#__PURE__*/ function() {
+var X = /*#__PURE__*/ function() {
     "use strict";
     function X() {
         swcHelpers.classCallCheck(this, X);

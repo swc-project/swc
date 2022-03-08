@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// Check that errors are reported for non-generic types with type arguments
 var C = function C() {
     "use strict";
     swcHelpers.classCallCheck(this, C);

@@ -10,7 +10,7 @@ export var ShortDetails = /*#__PURE__*/ function(_Component) {
     var _proto = ShortDetails.prototype;
     _proto.render = function render() {
         if (this.props.id < 1) {
-            return(/*#__PURE__*/ React.createElement("div", null));
+            return /*#__PURE__*/ React.createElement("div", null);
         }
     };
     return ShortDetails;

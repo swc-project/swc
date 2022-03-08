@@ -1,9 +1,9 @@
 import * as swcHelpers from "@swc/helpers";
-var EE = // @noEmit: true
+// @noEmit: true
 // @allowJs: true
 // @checkJs: true
 // @Filename: npmlog.js
-/*#__PURE__*/ function() {
+var EE = /*#__PURE__*/ function() {
     "use strict";
     function EE() {
         swcHelpers.classCallCheck(this, EE);

@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-var C = // all of these valueOf calls should return the type shown in the overriding signatures here
-/*#__PURE__*/ function() {
+// all of these valueOf calls should return the type shown in the overriding signatures here
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);

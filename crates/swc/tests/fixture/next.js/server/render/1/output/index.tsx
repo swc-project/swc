@@ -235,10 +235,10 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         locales: renderOpts.locales,
         defaultLocale: renderOpts.defaultLocale,
         AppTree: (props)=>{
-            return(/*#__PURE__*/ React.createElement(AppContainer, null, /*#__PURE__*/ React.createElement(App, swcHelpers.extends({}, props, {
+            return /*#__PURE__*/ React.createElement(AppContainer, null, /*#__PURE__*/ React.createElement(App, swcHelpers.extends({}, props, {
                 Component: Component,
                 router: router
-            }))));
+            })));
         },
         defaultGetInitialProps: async (docCtx)=>{
             const enhanceApp = (AppComp)=>{

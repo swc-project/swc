@@ -1,5 +1,9 @@
 import * as swcHelpers from "@swc/helpers";
-var Bar = function Bar() {
+// @noEmit: true
+// @allowJs: true
+// @checkJs: true
+// @Filename: mod3.js
+/** @typedef {number} Foo */ var Bar = function Bar() {
     "use strict";
     swcHelpers.classCallCheck(this, Bar);
 };

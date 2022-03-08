@@ -33,8 +33,8 @@ var D = /*#__PURE__*/ function(Base2) {
 var r2 = D;
 var d = new D(); // error
 var d2 = new D(1); // ok
-var D2 = // specialized base class
-/*#__PURE__*/ function(Base2) {
+// specialized base class
+var D2 = /*#__PURE__*/ function(Base2) {
     "use strict";
     swcHelpers.inherits(D2, Base2);
     var _super = swcHelpers.createSuper(D2);

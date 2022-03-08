@@ -18,9 +18,9 @@ var Base = /*#__PURE__*/ function() {
     ]);
     return Base;
 }();
-var Derived = // BUG 847404
+// BUG 847404
 // should be error
-/*#__PURE__*/ function(Base) {
+var Derived = /*#__PURE__*/ function(Base) {
     "use strict";
     swcHelpers.inherits(Derived, Base);
     var _super = swcHelpers.createSuper(Derived);

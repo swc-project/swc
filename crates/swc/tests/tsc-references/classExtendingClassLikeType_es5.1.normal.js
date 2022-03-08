@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-var D0 = // Error, no Base constructor function
-/*#__PURE__*/ function(Base) {
+// Error, no Base constructor function
+var D0 = /*#__PURE__*/ function(Base) {
     "use strict";
     swcHelpers.inherits(D0, Base);
     var _super = swcHelpers.createSuper(D0);
@@ -53,8 +53,8 @@ var D3 = /*#__PURE__*/ function(_superClass) {
     }
     return D3;
 }(getBase());
-var D4 = // Error, no constructors with three type arguments
-/*#__PURE__*/ function(_superClass) {
+// Error, no constructors with three type arguments
+var D4 = /*#__PURE__*/ function(_superClass) {
     "use strict";
     swcHelpers.inherits(D4, _superClass);
     var _super = swcHelpers.createSuper(D4);
@@ -64,8 +64,8 @@ var D4 = // Error, no constructors with three type arguments
     }
     return D4;
 }(getBase());
-var D5 = // Error, constructor return types differ
-/*#__PURE__*/ function(_superClass) {
+// Error, constructor return types differ
+var D5 = /*#__PURE__*/ function(_superClass) {
     "use strict";
     swcHelpers.inherits(D5, _superClass);
     var _super = swcHelpers.createSuper(D5);

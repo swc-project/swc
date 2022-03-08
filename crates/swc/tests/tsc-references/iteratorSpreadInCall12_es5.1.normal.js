@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+//@target: ES6
 var Foo = function Foo() {
     "use strict";
     for(var _len = arguments.length, s = new Array(_len), _key = 0; _key < _len; _key++){

@@ -1,4 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
+// @strictNullChecks: true
+// Type guards involving type parameters produce intersection types
 var C = function C() {
     "use strict";
     swcHelpers.classCallCheck(this, C);

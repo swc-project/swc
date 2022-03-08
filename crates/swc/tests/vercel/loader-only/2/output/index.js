@@ -9,7 +9,7 @@ export default function MyComp() {
     var teamSlug = useTeam().teamSlug;
     var projectId = projectInfo === null || projectInfo === void 0 ? void 0 : projectInfo.id;
     var ref1 = useProjectBranches(projectId), branches = ref1.data;
-    return(/*#__PURE__*/ _jsx(_Fragment, {}));
+    return /*#__PURE__*/ _jsx(_Fragment, {});
 };
 for(var i = 0; i < points.length; i++){
     var point = points[i];

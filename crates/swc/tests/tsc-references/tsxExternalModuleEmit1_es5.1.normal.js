@@ -13,7 +13,7 @@ export var App = /*#__PURE__*/ function(_Component) {
     }
     var _proto = App.prototype;
     _proto.render = function render() {
-        return(/*#__PURE__*/ React.createElement(Button, null));
+        return /*#__PURE__*/ React.createElement(Button, null);
     };
     return App;
 }(React.Component);
@@ -27,7 +27,7 @@ export var Button = /*#__PURE__*/ function(_Component) {
     }
     var _proto = Button.prototype;
     _proto.render = function render() {
-        return(/*#__PURE__*/ React.createElement("button", null, "Some button"));
+        return /*#__PURE__*/ React.createElement("button", null, "Some button");
     };
     return Button;
 }(React.Component);

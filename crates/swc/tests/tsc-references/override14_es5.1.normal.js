@@ -1,4 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
+// @noImplicitOverride: true
+// @target: esnext
 var Foo = function Foo() {
     "use strict";
     swcHelpers.classCallCheck(this, Foo);

@@ -1,4 +1,9 @@
 import * as swcHelpers from "@swc/helpers";
+// @noEmit: true
+// @allowJs: true
+// @checkJs: true
+// @Filename: a.js
+// mixed prototype-assignment+class declaration
 var C = function C() {
     "use strict";
     swcHelpers.classCallCheck(this, C);

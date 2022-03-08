@@ -7,14 +7,14 @@ import * as swcHelpers from "@swc/helpers";
 const React = require('react');
 class B1 extends React.Component {
     render() {
-        return(/*#__PURE__*/ React.createElement("div", null, "hi"));
+        return /*#__PURE__*/ React.createElement("div", null, "hi");
     }
 }
 class B extends React.Component {
     render() {
-        return(/*#__PURE__*/ React.createElement(B1, swcHelpers.extends({}, this.props, {
+        return /*#__PURE__*/ React.createElement(B1, swcHelpers.extends({}, this.props, {
             x: "hi"
-        })));
+        }));
     }
 }
 export { };

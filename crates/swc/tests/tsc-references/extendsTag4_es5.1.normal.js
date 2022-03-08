@@ -1,5 +1,14 @@
 import * as swcHelpers from "@swc/helpers";
-var A = function A() {
+// @allowJs: true
+// @checkJs: true
+// @target: esnext
+// @outDir: out
+// @Filename: foo.js
+/**
+ * @constructor
+ */ var A = function A() {
     "use strict";
     swcHelpers.classCallCheck(this, A);
-};
+} /**
+ * @extends {A}
+ */ ;

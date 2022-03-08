@@ -27,7 +27,7 @@ function App() {
             }, _callee);
         }))();
     }, []);
-    return(/*#__PURE__*/ _jsxs(ConfigProvider, {
+    return /*#__PURE__*/ _jsxs(ConfigProvider, {
         locale: zhCN,
         children: [
             "state: ",
@@ -36,6 +36,6 @@ function App() {
                 children: "Antd"
             })
         ]
-    }));
+    });
 }
 render(/*#__PURE__*/ _jsx(App, {}), document.getElementById('root'));

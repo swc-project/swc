@@ -1,4 +1,10 @@
 import * as swcHelpers from "@swc/helpers";
+// @allowJs: true
+// @checkJs: true
+// @target: es5
+// @outDir: ./out
+// @declaration: true
+// @filename: bar.js
 var Bar = function Bar() {
     "use strict";
     swcHelpers.classCallCheck(this, Bar);

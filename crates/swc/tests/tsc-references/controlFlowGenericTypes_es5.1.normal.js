@@ -81,8 +81,8 @@ function get(key, obj) {
     }
     return 0;
 }
-var EventEmitter = // Repro from #44093
-/*#__PURE__*/ function() {
+// Repro from #44093
+var EventEmitter = /*#__PURE__*/ function() {
     "use strict";
     function EventEmitter() {
         swcHelpers.classCallCheck(this, EventEmitter);
@@ -114,8 +114,8 @@ function fx3(obj, key) {
     var x1 = obj[key]; // Error
     var x2 = obj && obj[key];
 }
-var TableBaseEnum = // Repro from #44166
-/*#__PURE__*/ function() {
+// Repro from #44166
+var TableBaseEnum = /*#__PURE__*/ function() {
     "use strict";
     function TableBaseEnum() {
         swcHelpers.classCallCheck(this, TableBaseEnum);

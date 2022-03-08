@@ -17,9 +17,9 @@ var Button = /*#__PURE__*/ function(_Component) {
     var _proto = Button.prototype;
     _proto.render = function render() {
         // Error children are specified twice
-        return(/*#__PURE__*/ React.createElement(InnerButton, swcHelpers.extends({}, this.props, {
+        return /*#__PURE__*/ React.createElement(InnerButton, swcHelpers.extends({}, this.props, {
             children: "hi"
-        }), /*#__PURE__*/ React.createElement("div", null, "Hello World")));
+        }), /*#__PURE__*/ React.createElement("div", null, "Hello World"));
     };
     return Button;
 }(React.Component);
@@ -33,7 +33,7 @@ var InnerButton = /*#__PURE__*/ function(_Component) {
     }
     var _proto = InnerButton.prototype;
     _proto.render = function render() {
-        return(/*#__PURE__*/ React.createElement("button", null, "Hello"));
+        return /*#__PURE__*/ React.createElement("button", null, "Hello");
     };
     return InnerButton;
 }(React.Component);

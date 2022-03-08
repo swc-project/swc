@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// checking whether other types are subtypes of type parameters with constraints
 var C3 = function C3() {
     "use strict";
     swcHelpers.classCallCheck(this, C3);
@@ -43,10 +44,10 @@ var D4 = /*#__PURE__*/ function(C3) {
     }
     return D4;
 }(C3);
-var D5 = // V > U > T
+// V > U > T
 // test if T is subtype of T, U, V
 // should all work
-/*#__PURE__*/ function(C3) {
+var D5 = /*#__PURE__*/ function(C3) {
     "use strict";
     swcHelpers.inherits(D5, C3);
     var _super = swcHelpers.createSuper(D5);
@@ -76,9 +77,9 @@ var D7 = /*#__PURE__*/ function(C3) {
     }
     return D7;
 }(C3);
-var D8 = // test if U is a subtype of T, U, V
+// test if U is a subtype of T, U, V
 // only a subtype of V and itself
-/*#__PURE__*/ function(C3) {
+var D8 = /*#__PURE__*/ function(C3) {
     "use strict";
     swcHelpers.inherits(D8, C3);
     var _super = swcHelpers.createSuper(D8);
@@ -108,9 +109,9 @@ var D10 = /*#__PURE__*/ function(C3) {
     }
     return D10;
 }(C3);
-var D11 = // test if V is a subtype of T, U, V
+// test if V is a subtype of T, U, V
 // only a subtype of itself
-/*#__PURE__*/ function(C3) {
+var D11 = /*#__PURE__*/ function(C3) {
     "use strict";
     swcHelpers.inherits(D11, C3);
     var _super = swcHelpers.createSuper(D11);
@@ -140,10 +141,10 @@ var D13 = /*#__PURE__*/ function(C3) {
     }
     return D13;
 }(C3);
-var D14 = // Date > V > U > T
+// Date > V > U > T
 // test if T is subtype of T, U, V, Date
 // should all work
-/*#__PURE__*/ function(C3) {
+var D14 = /*#__PURE__*/ function(C3) {
     "use strict";
     swcHelpers.inherits(D14, C3);
     var _super = swcHelpers.createSuper(D14);
@@ -183,9 +184,9 @@ var D17 = /*#__PURE__*/ function(C3) {
     }
     return D17;
 }(C3);
-var D18 = // test if U is a subtype of T, U, V, Date
+// test if U is a subtype of T, U, V, Date
 // only a subtype of V, Date and itself
-/*#__PURE__*/ function(C3) {
+var D18 = /*#__PURE__*/ function(C3) {
     "use strict";
     swcHelpers.inherits(D18, C3);
     var _super = swcHelpers.createSuper(D18);
@@ -225,9 +226,9 @@ var D21 = /*#__PURE__*/ function(C3) {
     }
     return D21;
 }(C3);
-var D22 = // test if V is a subtype of T, U, V, Date
+// test if V is a subtype of T, U, V, Date
 // only a subtype of itself and Date
-/*#__PURE__*/ function(C3) {
+var D22 = /*#__PURE__*/ function(C3) {
     "use strict";
     swcHelpers.inherits(D22, C3);
     var _super = swcHelpers.createSuper(D22);
@@ -267,9 +268,9 @@ var D25 = /*#__PURE__*/ function(C3) {
     }
     return D25;
 }(C3);
-var D26 = // test if Date is a subtype of T, U, V, Date
+// test if Date is a subtype of T, U, V, Date
 // only a subtype of itself
-/*#__PURE__*/ function(C3) {
+var D26 = /*#__PURE__*/ function(C3) {
     "use strict";
     swcHelpers.inherits(D26, C3);
     var _super = swcHelpers.createSuper(D26);

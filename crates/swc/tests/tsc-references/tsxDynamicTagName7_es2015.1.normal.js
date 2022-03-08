@@ -2,8 +2,8 @@
 import * as React from 'react';
 export class Text extends React.Component {
     render() {
-        return(/*#__PURE__*/ React.createElement(this, null) // this should be an error
-        );
+        return /*#__PURE__*/ React.createElement(this, null) // this should be an error
+        ;
     }
     constructor(...args){
         super(...args);

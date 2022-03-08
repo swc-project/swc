@@ -1,10 +1,10 @@
 import * as swcHelpers from "@swc/helpers";
-var FancyError = // @allowJs: true
+// @allowJs: true
 // @checkJs: true
 // @outDir: ./out
 // @declaration: true
 // @filename: utils/errors.js
-/*#__PURE__*/ function(Error) {
+var FancyError = /*#__PURE__*/ function(Error) {
     "use strict";
     swcHelpers.inherits(FancyError, Error);
     var _super = swcHelpers.createSuper(FancyError);

@@ -1,4 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
+// @module: commonjs
+// @Filename: foo_0.ts
 var Foo = function Foo() {
     "use strict";
     swcHelpers.classCallCheck(this, Foo);
@@ -8,6 +10,4 @@ module.exports = Foo;
 var foo = require("./foo_0");
 var x = new foo();
 var y = x.test;
-// @module: commonjs
-// @Filename: foo_0.ts
 export { };

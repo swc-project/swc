@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// Duplicate overloads of construct signatures should generate errors
 var C = function C(x) {
     "use strict";
     swcHelpers.classCallCheck(this, C);

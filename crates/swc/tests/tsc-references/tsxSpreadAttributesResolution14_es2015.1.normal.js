@@ -12,5 +12,5 @@ export default function Component(props) {
     })));
 };
 function AnotherComponent({ property1  }) {
-    return(/*#__PURE__*/ React.createElement("span", null, property1));
+    return /*#__PURE__*/ React.createElement("span", null, property1);
 }

@@ -1,8 +1,8 @@
 import * as swcHelpers from "@swc/helpers";
 var _this = this;
-var MyTestClass = // @target: esnext
+// @target: esnext
 // @useDefineForClassFields: false
-/*#__PURE__*/ function() {
+var MyTestClass = /*#__PURE__*/ function() {
     "use strict";
     function MyTestClass() {
         var _this1 = this;

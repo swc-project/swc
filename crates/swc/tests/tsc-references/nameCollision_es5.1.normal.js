@@ -11,6 +11,8 @@ var B;
     var A = 12;
 })(B || (B = {}));
 (function(B) {
+    // re-opened module with colliding name
+    // this should add an underscore.
     var B1 = function B1() {
         "use strict";
         swcHelpers.classCallCheck(this, B1);

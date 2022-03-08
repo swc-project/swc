@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+//Cond ? Expr1 : Expr2,  Expr1 and Expr2 have identical best common type
 var X = function X() {
     "use strict";
     swcHelpers.classCallCheck(this, X);

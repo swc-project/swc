@@ -1,11 +1,11 @@
 import * as swcHelpers from "@swc/helpers";
-var C = // @out: output.js
+// @out: output.js
 // @allowJs: true
 // @checkJs: true
 // @noImplicitAny: true
 // @strictNullChecks: true
 // @filename: a.js
-/*#__PURE__*/ function() {
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
         var _this = this;

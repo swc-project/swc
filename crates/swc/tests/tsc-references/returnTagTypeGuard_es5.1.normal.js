@@ -1,10 +1,10 @@
 import * as swcHelpers from "@swc/helpers";
-var Entry = // @noEmit: true
+// @noEmit: true
 // @allowJs: true
 // @checkJs: true
 // @lib: esnext
 // @Filename: bug25127.js
-/*#__PURE__*/ function() {
+var Entry = /*#__PURE__*/ function() {
     "use strict";
     function Entry() {
         swcHelpers.classCallCheck(this, Entry);

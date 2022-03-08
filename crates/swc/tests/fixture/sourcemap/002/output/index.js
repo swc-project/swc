@@ -2,7 +2,7 @@ import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 export default function StaticPage(param) {
     var data = param.data;
-    return(/*#__PURE__*/ React.createElement("div", null, data.foo));
+    return /*#__PURE__*/ React.createElement("div", null, data.foo);
 };
 export function getStaticProps() {
     return _getStaticProps.apply(this, arguments);

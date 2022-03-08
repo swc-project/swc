@@ -95,8 +95,8 @@ var InMemberOfClass = /*#__PURE__*/ function() {
     };
     return InMemberOfClass;
 }();
-var SelfAssert = // added for completeness
-/*#__PURE__*/ function() {
+// added for completeness
+var SelfAssert = /*#__PURE__*/ function() {
     "use strict";
     function SelfAssert() {
         swcHelpers.classCallCheck(this, SelfAssert);

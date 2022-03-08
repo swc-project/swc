@@ -1,4 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
+// members N and M of types S and T have the same name, same accessibility, same optionality, and N is assignable M
+// numeric named properties work correctly, no errors expected
 var S = function S() {
     "use strict";
     swcHelpers.classCallCheck(this, S);
