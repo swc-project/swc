@@ -4470,7 +4470,7 @@
                 }(cm9, e4), e_stop(e4));
             },
             start: function(e5) {
-                return (function(cm, e) {
+                return function(cm, e) {
                     if (ie && (!cm.state.draggingText || +new Date - lastDrop < 100)) {
                         e_stop(e);
                         return;
@@ -4479,7 +4479,7 @@
                         var img = elt1("img", null, null, "position: fixed; left: 0; top: 0;");
                         img.src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==", presto && (img.width = img.height = 1, cm.display.wrapper.appendChild(img), img._top = img.offsetTop), e.dataTransfer.setDragImage(img, 0, 0), presto && img.parentNode.removeChild(img);
                     }
-                })(cm9, e5);
+                }(cm9, e5);
             },
             drop: operation(cm9, onDrop),
             leave: function(e) {

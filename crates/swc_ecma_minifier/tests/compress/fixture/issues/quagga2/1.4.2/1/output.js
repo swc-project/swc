@@ -1,7 +1,7 @@
 !function(root, factory) {
     "object" == typeof exports && "object" == typeof module ? module.exports = factory() : "function" == typeof define && define.amd ? define([], factory) : "object" == typeof exports ? exports.Quagga = factory() : root.Quagga = factory();
 }(window, function() {
-    return (function(modules) {
+    return function(modules) {
         var installedModules = {};
         function __webpack_require__(moduleId) {
             if (installedModules[moduleId]) return installedModules[moduleId].exports;
@@ -44,7 +44,7 @@
         }, __webpack_require__.o = function(object, property) {
             return Object.prototype.hasOwnProperty.call(object, property);
         }, __webpack_require__.p = "/", __webpack_require__(__webpack_require__.s = 89);
-    })([
+    }([
         function(module, exports) {
             module.exports = function(obj, key, value) {
                 return key in obj ? Object.defineProperty(obj, key, {
@@ -260,7 +260,7 @@
                         for(var sum = 0, i = init; i <= end; i++)sum += i * hist1[i];
                         return sum;
                     }
-                    return (function() {
+                    return function() {
                         var p1, p2, p12, m1, m2, m12, vet = [
                             0
                         ], max = (1 << bitsPerPixel1) - 1;
@@ -271,7 +271,7 @@
                         }(imageWrapper2, bitsPerPixel1);
                         for(var k = 1; k < max; k++)p1 = px(0, k), p2 = px(k + 1, max), p12 = p1 * p2, 0 === p12 && (p12 = 1), m1 = mx(0, k) * p2, m2 = mx(k + 1, max) * p1, m12 = m1 - m2, vet[k] = m12 * m12 / p12;
                         return array_helper.a.maxIndex(vet);
-                    })() << 8 - bitsPerPixel1;
+                    }() << 8 - bitsPerPixel1;
                 }(imageWrapper1);
                 return !function(imageWrapper, threshold, targetWrapper) {
                     targetWrapper || (targetWrapper = imageWrapper);
@@ -732,7 +732,7 @@
                             return _trace(current, color, label, edgelabel);
                         },
                         contourTracing: function(sy1, sx1, label1, color1, edgelabel1) {
-                            return (function(sy, sx, label, color, edgelabel) {
+                            return function(sy, sx, label, color, edgelabel) {
                                 var Cv, P, ldir, Fv = null, current = {
                                     cx: sx,
                                     cy: sy,
@@ -745,7 +745,7 @@
                                     Fv.prev = Cv.prev, Cv.prev.next = Fv;
                                 }
                                 return Fv;
-                            })(sy1, sx1, label1, color1, edgelabel1);
+                            }(sy1, sx1, label1, color1, edgelabel1);
                         }
                     };
                 }
@@ -5472,12 +5472,12 @@
                                 decodedCodes.push(code), result1.push(code.code % 10), code.code >= 10 && (codeFrequency1 |= 1 << 4 - i1), 4 !== i1 && (offset = this._nextSet(this._row, code.end), offset = this._nextUnset(this._row, offset));
                             }
                             if (5 !== result1.length) return null;
-                            if ((function(result) {
+                            if (function(result) {
                                 for(var length = result.length, sum = 0, i = length - 2; i >= 0; i -= 2)sum += result[i];
                                 sum *= 3;
                                 for(var _i = length - 1; _i >= 0; _i -= 2)sum += result[_i];
                                 return (sum *= 3) % 10;
-                            })(result1) !== function(codeFrequency) {
+                            }(result1) !== function(codeFrequency) {
                                 for(var i = 0; i < 10; i++)if (codeFrequency === CHECK_DIGIT_ENCODINGS[i]) return i;
                                 return null;
                             }(codeFrequency1)) return null;
@@ -6534,12 +6534,12 @@
                             threshold: result2.barcodeLine.threshold
                         });
                     }
-                    return (function() {
+                    return function() {
                         if ("undefined" != typeof document) {
                             var $debug = document.querySelector("#debug.detection");
                             _canvas.dom.frequency = document.querySelector("canvas.frequency"), !_canvas.dom.frequency && (_canvas.dom.frequency = document.createElement("canvas"), _canvas.dom.frequency.className = "frequency", $debug && $debug.appendChild(_canvas.dom.frequency)), _canvas.ctx.frequency = _canvas.dom.frequency.getContext("2d"), _canvas.dom.pattern = document.querySelector("canvas.patternBuffer"), !_canvas.dom.pattern && (_canvas.dom.pattern = document.createElement("canvas"), _canvas.dom.pattern.className = "patternBuffer", $debug && $debug.appendChild(_canvas.dom.pattern)), _canvas.ctx.pattern = _canvas.dom.pattern.getContext("2d"), _canvas.dom.overlay = document.querySelector("canvas.drawingBuffer"), _canvas.dom.overlay && (_canvas.ctx.overlay = _canvas.dom.overlay.getContext("2d"));
                         }
-                    })(), initReaders(), function() {
+                    }(), initReaders(), function() {
                         if ("undefined" != typeof document) {
                             var i, vis = [
                                 {
@@ -6569,10 +6569,10 @@
                             };
                         },
                         decodeFromImage: function(inputImageWrapper) {
-                            return (function(imageWrapper) {
+                            return function(imageWrapper) {
                                 for(var result = null, i = 0; i < _barcodeReaders.length && null === result; i++)result = _barcodeReaders[i].decodeImage ? _barcodeReaders[i].decodeImage(imageWrapper) : null;
                                 return result;
-                            })(inputImageWrapper);
+                            }(inputImageWrapper);
                         },
                         registerReader: function(name, reader) {
                             if (READERS[name]) throw new Error("cannot register existing reader", name);
@@ -6946,7 +6946,7 @@
                                 }, http.onerror = reject, http.send();
                             });
                         })(src).then(readToBuffer).then(function(buffer) {
-                            return (function(file) {
+                            return function(file) {
                                 var selectedTags = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : AvailableTags, dataView = new DataView(file), length = file.byteLength, exifTags = selectedTags.reduce(function(result, selectedTag) {
                                     var exifTag = Object.keys(ExifTags).filter(function(tag) {
                                         return ExifTags[tag] === selectedTag;
@@ -6960,7 +6960,7 @@
                                     offset += 2 + dataView.getUint16(offset + 2);
                                 }
                                 return !1;
-                            })(buffer, tags);
+                            }(buffer, tags);
                         }) : Promise.resolve(null);
                     })(directory, [
                         "orientation"

@@ -445,9 +445,9 @@
                                 copy(replace(element.value, "@", "@" + WEBKIT), element, "")
                             ], callback1);
                         case Enum_RULESET:
-                            if (element.length) return (function(array, callback) {
+                            if (element.length) return function(array, callback) {
                                 return array.map(callback).join("");
-                            })(element.props, function(value) {
+                            }(element.props, function(value) {
                                 var value3;
                                 switch(value3 = value, (value3 = /(::plac\w+|:read-\w+)/.exec(value3)) ? value3[0] : value3){
                                     case ":read-only":
@@ -793,9 +793,9 @@
         8418: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             function _slicedToArray(arr1, i1) {
-                return (function(arr) {
+                return function(arr) {
                     if (Array.isArray(arr)) return arr;
-                })(arr1) || function(arr, i) {
+                }(arr1) || function(arr, i) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
                         for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);

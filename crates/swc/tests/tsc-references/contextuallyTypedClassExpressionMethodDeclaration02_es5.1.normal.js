@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 function getFoo1() {
-    return /*#__PURE__*/ (function() {
+    return /*#__PURE__*/ function() {
         "use strict";
         function _class() {
             swcHelpers.classCallCheck(this, _class);
@@ -13,7 +13,7 @@ function getFoo1() {
             arg.strProp = "hello";
         };
         return _class;
-    })();
+    }();
 }
 function getFoo2() {
     return function _class() {

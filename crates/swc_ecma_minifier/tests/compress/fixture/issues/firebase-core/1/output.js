@@ -1751,12 +1751,12 @@
         8045: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             function _toConsumableArray(arr1) {
-                return (function(arr) {
+                return function(arr) {
                     if (Array.isArray(arr)) {
                         for(var i = 0, arr2 = new Array(arr.length); i < arr.length; i++)arr2[i] = arr[i];
                         return arr2;
                     }
-                })(arr1) || function(iter) {
+                }(arr1) || function(iter) {
                     if (Symbol.iterator in Object(iter) || "[object Arguments]" === Object.prototype.toString.call(iter)) return Array.from(iter);
                 }(arr1) || function() {
                     throw new TypeError("Invalid attempt to spread non-iterable instance");
