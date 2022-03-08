@@ -2,6 +2,7 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prepend;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, InjectVars};
+use swc_trace_macro::swc_trace;
 
 use crate::es2015::arrow;
 
@@ -10,6 +11,7 @@ use crate::es2015::arrow;
 /// instance via `this` within those methods would also throw. This is fixed by
 /// converting arrow functions in class methods into equivalent function
 /// expressions. See https://bugs.webkit.org/show_bug.cgi?id=166879
+#[tracing::instrument(level = "trace", skip_all)]
 pub fn async_arrows_in_class() -> impl Fold {
     AsyncArrowsInClass::default()
 }
@@ -20,6 +22,7 @@ struct AsyncArrowsInClass {
 }
 
 /// TODO: VisitMut
+#[swc_trace]
 impl Fold for AsyncArrowsInClass {
     noop_fold_type!();
 

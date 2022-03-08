@@ -3842,6 +3842,38 @@ function use() {
 "#
 );
 
+// lazy_export_named
+test!(
+    syntax(),
+    |_| tr(Config {
+        lazy: Lazy::Bool(true),
+        ..Default::default()
+    }),
+    lazy_export_named,
+    r#"
+export { named1 } from "external";
+"#,
+    r#"
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "named1", {
+    enumerable: true,
+    get: function() {
+        return _external().named1;
+    }
+});
+function _external() {
+    const data = require("external");
+    _external = function() {
+        return data;
+    };
+    return data;
+}
+"#
+);
+
 // lazy_local_reexport_named
 test!(
     syntax(),

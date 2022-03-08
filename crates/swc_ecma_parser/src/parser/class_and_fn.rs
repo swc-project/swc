@@ -51,8 +51,9 @@ impl<'a, I: Tokens> Parser<I> {
         start: BytePos,
         class_start: BytePos,
         decorators: Vec<Decorator>,
+        is_abstract: bool,
     ) -> PResult<Decl> {
-        self.parse_class(start, class_start, decorators)
+        self.parse_class(start, class_start, decorators, is_abstract)
     }
 
     pub(super) fn parse_class_expr(
@@ -60,7 +61,7 @@ impl<'a, I: Tokens> Parser<I> {
         start: BytePos,
         decorators: Vec<Decorator>,
     ) -> PResult<Box<Expr>> {
-        self.parse_class(start, start, decorators)
+        self.parse_class(start, start, decorators, false)
     }
 
     pub(super) fn parse_default_class(
@@ -68,8 +69,9 @@ impl<'a, I: Tokens> Parser<I> {
         start: BytePos,
         class_start: BytePos,
         decorators: Vec<Decorator>,
+        is_abstract: bool,
     ) -> PResult<ExportDefaultDecl> {
-        self.parse_class(start, class_start, decorators)
+        self.parse_class(start, class_start, decorators, is_abstract)
     }
 
     /// Not generic
@@ -179,12 +181,33 @@ impl<'a, I: Tokens> Parser<I> {
         start: BytePos,
         class_start: BytePos,
         decorators: Vec<Decorator>,
+        is_abstract: bool,
     ) -> PResult<T>
     where
         T: OutputType,
     {
-        let (ident, class) =
+        let (ident, mut class) =
             self.parse_class_inner(start, class_start, decorators, T::IS_IDENT_REQUIRED)?;
+
+        if is_abstract {
+            class.is_abstract = true
+        } else {
+            for member in class.body.iter() {
+                match member {
+                    ClassMember::ClassProp(ClassProp {
+                        is_abstract: true,
+                        span,
+                        ..
+                    })
+                    | ClassMember::Method(ClassMethod {
+                        span,
+                        is_abstract: true,
+                        ..
+                    }) => self.emit_err(*span, SyntaxError::TS1244),
+                    _ => (),
+                }
+            }
+        }
 
         match T::finish_class(span!(self, start), ident, class) {
             Ok(v) => Ok(v),
@@ -955,22 +978,28 @@ impl<'a, I: Tokens> Parser<I> {
                     type_ann,
                 }
                 .into(),
-                Either::Right(key) => ClassProp {
-                    span: span!(p, start),
-                    key,
-                    value,
-                    is_static,
-                    decorators,
-                    accessibility,
-                    is_abstract,
-                    is_optional,
-                    is_override,
-                    readonly,
-                    declare,
-                    definite,
-                    type_ann,
+                Either::Right(key) => {
+                    let span = span!(p, start);
+                    if is_abstract && value.is_some() {
+                        p.emit_err(span, SyntaxError::TS1267)
+                    }
+                    ClassProp {
+                        span,
+                        key,
+                        value,
+                        is_static,
+                        decorators,
+                        accessibility,
+                        is_abstract,
+                        is_optional,
+                        is_override,
+                        readonly,
+                        declare,
+                        definite,
+                        type_ann,
+                    }
+                    .into()
                 }
-                .into(),
             })
         })
     }
@@ -1281,20 +1310,26 @@ impl<'a, I: Tokens> Parser<I> {
                 kind,
             }
             .into()),
-            Either::Right(key) => Ok(ClassMethod {
-                span: span!(self, start),
+            Either::Right(key) => {
+                let span = span!(self, start);
+                if is_abstract && function.body.is_some() {
+                    self.emit_err(span, SyntaxError::TS1245)
+                }
+                Ok(ClassMethod {
+                    span,
 
-                accessibility,
-                is_abstract,
-                is_optional,
-                is_override,
+                    accessibility,
+                    is_abstract,
+                    is_optional,
+                    is_override,
 
-                is_static,
-                key,
-                function,
-                kind,
+                    is_static,
+                    key,
+                    function,
+                    kind,
+                }
+                .into())
             }
-            .into()),
         }
     }
 }
