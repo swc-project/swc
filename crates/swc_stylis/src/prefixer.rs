@@ -472,9 +472,58 @@ impl VisitMut for Prefixer {
 
             "text-decoration" => {
                 if n.value.len() == 1 {
-                    if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        if &**value == "none" {
+                    match &n.value[0] {
+                        ComponentValue::Ident(Ident { value, .. })
+                            if matches!(
+                                &*value.to_lowercase(),
+                                "none"
+                                    | "underline"
+                                    | "overline"
+                                    | "line-through"
+                                    | "blink"
+                                    | "inherit"
+                                    | "initial"
+                                    | "revert"
+                                    | "unset"
+                            ) => {}
+                        _ => {
                             same_content!("-webkit-text-decoration");
+                            same_content!("-moz-text-decoration");
+                        }
+                    }
+                } else {
+                    same_content!("-webkit-text-decoration");
+                    same_content!("-moz-text-decoration");
+                }
+            }
+
+            "text-decoration-style" => {
+                same_content!("-webkit-text-decoration-style");
+                same_content!("-moz-text-decoration-style");
+            }
+
+            "text-decoration-color" => {
+                same_content!("-webkit-text-decoration-color");
+                same_content!("-moz-text-decoration-color");
+            }
+
+            "text-decoration-line" => {
+                same_content!("-webkit-text-decoration-line");
+                same_content!("-moz-text-decoration-line");
+            }
+
+            "text-decoration-skip" => {
+                same_content!("-webkit-text-decoration-skip");
+            }
+
+            "text-decoration-skip-ink" => {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    match &*value.to_lowercase() {
+                        "auto" => {
+                            simple!("-webkit-text-decoration-skip", "ink")
+                        }
+                        _ => {
+                            same_content!("-webkit-text-decoration-skip-ink");
                         }
                     }
                 }

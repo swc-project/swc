@@ -231,14 +231,6 @@ fn columns() {
 }
 
 #[test]
-fn text() {
-    t(
-        "text-decoration:none;",
-        "-webkit-text-decoration:none;text-decoration:none;",
-    );
-}
-
-#[test]
 fn mask() {
     t("mask:none;", "-webkit-mask:none;mask:none;");
     t(
