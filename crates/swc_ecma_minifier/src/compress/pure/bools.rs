@@ -13,10 +13,7 @@ use crate::{
     util::make_bool,
 };
 
-impl<M> Pure<'_, M>
-where
-    M: Mode,
-{
+impl Pure<'_> {
     pub(super) fn negate_twice(&mut self, e: &mut Expr, is_ret_val_ignored: bool) {
         negate(e, false, is_ret_val_ignored);
         negate(e, false, is_ret_val_ignored);

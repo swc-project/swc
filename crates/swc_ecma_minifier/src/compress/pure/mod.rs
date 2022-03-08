@@ -39,13 +39,9 @@ mod vars;
 pub(crate) fn pure_optimizer<'a, M>(
     options: &'a CompressOptions,
     marks: Marks,
-    mode: &'a M,
     enable_everything: bool,
     debug_infinite_loop: bool,
-) -> impl 'a + VisitMut + Repeated
-where
-    M: Mode,
-{
+) -> impl 'a + VisitMut + Repeated {
     Pure {
         options,
         marks,
@@ -58,14 +54,12 @@ where
     }
 }
 
-struct Pure<'a, M> {
+struct Pure<'a> {
     options: &'a CompressOptions,
     marks: Marks,
     ctx: Ctx,
     changed: bool,
     enable_everything: bool,
-
-    mode: &'a M,
 
     debug_infinite_loop: bool,
 
