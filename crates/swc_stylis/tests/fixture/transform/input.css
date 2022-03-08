@@ -18,3 +18,7 @@ em {
         transform: rotate(90deg);
     }
 }
+
+.class {
+    transform-style: flat;
+}

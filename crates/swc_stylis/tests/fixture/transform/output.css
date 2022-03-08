@@ -38,3 +38,8 @@ from {
 transform: rotate(90deg);
 }
 }
+.class {
+-webkit-transform-style: flat;
+-moz-transform-style: flat;
+transform-style: flat;
+}

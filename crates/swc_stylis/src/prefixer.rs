@@ -654,8 +654,6 @@ impl VisitMut for Prefixer {
             "transform-style" => {
                 same_content!("-webkit-transform-style");
                 same_content!("-moz-transform-style");
-                same_content!("-ms-transform-style");
-                same_content!("-o-transform-style");
             }
             
             "perspective" => {
