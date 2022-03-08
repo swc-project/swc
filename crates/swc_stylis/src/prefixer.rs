@@ -16,8 +16,9 @@ struct Prefixer {
 }
 
 impl VisitMut for Prefixer {
-    // TODO handle `resolution` in media/supports at-rules and handle declarations
-    // in `@media`/`@support` TODO handle `@viewport`
+    // TODO handle `resolution` in media/supports at-rules
+    // TODO handle declarations in `@media`/`@support`
+    // TODO handle `@viewport`
     // TODO handle `@keyframes`
 
     // TODO handle `:any-link` pseudo
