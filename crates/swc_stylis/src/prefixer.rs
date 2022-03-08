@@ -872,6 +872,10 @@ impl VisitMut for Prefixer {
                 same_content!("-ms-scroll-snap-points-y");
             }
 
+            "text-align-last" => {
+                same_content!("-moz-text-align-last");
+            }
+
             // TODO add `overscroll-behavior`
             // TODO add `grid` support https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L987
             // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
