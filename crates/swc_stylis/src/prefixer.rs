@@ -16,7 +16,7 @@ struct Prefixer {
 }
 
 impl VisitMut for Prefixer {
-    // TODO handle `resolution` in media/supports at-rules
+    // TODO handle `resolution` in media/supports at-rules and handle declarations in `@media`/`@support`
     // TODO handle `@viewport`
     // TODO handle `@keyframes`
 
@@ -118,6 +118,7 @@ impl VisitMut for Prefixer {
                 same_content!("-ms-appearance");
             }
 
+            // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/animation.js
             "animation" => {
                 same_content!("-webkit-animation");
                 same_content!("-moz-animation");
@@ -376,6 +377,7 @@ impl VisitMut for Prefixer {
             }
 
             // TODO improve old spec https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L330
+            // TODO https://github.com/postcss/autoprefixer/blob/main/lib/hacks/ (starting with flex)
             "flex" => {
                 same_content!("-webkit-flex");
                 same_content!("-ms-flex");
@@ -477,6 +479,7 @@ impl VisitMut for Prefixer {
                 }
             }
 
+            // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/filter.js
             "filter" => {
                 same_content!("-webkit-filter");
             }
@@ -489,6 +492,7 @@ impl VisitMut for Prefixer {
                 same_content!("-webkit-mask-clip");
             }
 
+            // Fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/mask-composite.js
             "mask-composite" => {
                 same_content!("-webkit-mask-composite");
             }
@@ -947,6 +951,7 @@ impl VisitMut for Prefixer {
                 same_content!("-ms-hyphens");
             }
 
+            // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/border-image.js
             "border-image" => {
                 same_content!("-webkit-border-image");
                 same_content!("-moz-border-image");
@@ -977,6 +982,7 @@ impl VisitMut for Prefixer {
                 same_content!("-o-background-origin");
             }
 
+            // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/background-size.js
             "background-size" => {
                 same_content!("-webkit-background-size");
                 same_content!("-o-background-size");
@@ -1000,16 +1006,19 @@ impl VisitMut for Prefixer {
                 }
             }
 
-            // TODO add `grid` support https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L987
+            // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid)
             // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
-            // TODO handle `image-set()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L907
+            // TODO handle `image-set()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L907 and https://github.com/postcss/autoprefixer/blob/main/lib/hacks/image-set.js
             // TODO handle `calc()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L395
             // TODO handle `element()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L269
             // TODO handle `filter()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L241
             // TODO handle `linear-gradient()`/`repeating-linear-gradient()`/`radial-gradient()`/`repeating-radial-gradient()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L168
-            // TODO add `break-before`, `break-after`, `break-inside`
+            // TODO add `break-before`, `break-after`, `break-inside` https://github.com/postcss/autoprefixer/blob/main/lib/hacks/break-props.js
             // TODO add `box-shadow` https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L79
             // TODO add `border-radius` https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L59
+            // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/intrinsic.js
+            // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/filter-value.js
+            // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/cross-fade.js
             _ => {}
         }
     }
