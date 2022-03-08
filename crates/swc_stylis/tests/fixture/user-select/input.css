@@ -1,0 +1,11 @@
+a {
+    user-select: none;
+}
+
+b {
+    user-select: contain;
+}
+
+.all {
+    user-select: all;
+}

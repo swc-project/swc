@@ -467,11 +467,11 @@
                     return btoa(this.binaryString);
                 }
                 toUint8Array() {
-                    return (function(t) {
+                    return function(t) {
                         const e = new Uint8Array(t.length);
                         for(let n = 0; n < t.length; n++)e[n] = t.charCodeAt(n);
                         return e;
-                    })(this.binaryString);
+                    }(this.binaryString);
                 }
                 approximateByteSize() {
                     return 2 * this.binaryString.length;
@@ -575,11 +575,11 @@
                     case 4:
                         return It(t10).isEqual(It(e8));
                     case 3:
-                        return (function(t, e) {
+                        return function(t, e) {
                             if ("string" == typeof t.timestampValue && "string" == typeof e.timestampValue && t.timestampValue.length === e.timestampValue.length) return t.timestampValue === e.timestampValue;
                             const n = gt(t.timestampValue), s = gt(e.timestampValue);
                             return n.seconds === s.seconds && n.nanos === s.nanos;
-                        })(t10, e8);
+                        }(t10, e8);
                     case 5:
                         return t10.stringValue === e8.stringValue;
                     case 6:
@@ -589,23 +589,23 @@
                     case 8:
                         return t9 = t10, e7 = e8, yt(t9.geoPointValue.latitude) === yt(e7.geoPointValue.latitude) && yt(t9.geoPointValue.longitude) === yt(e7.geoPointValue.longitude);
                     case 2:
-                        return (function(t, e) {
+                        return function(t, e) {
                             if ("integerValue" in t && "integerValue" in e) return yt(t.integerValue) === yt(e.integerValue);
                             if ("doubleValue" in t && "doubleValue" in e) {
                                 const n = yt(t.doubleValue), s = yt(e.doubleValue);
                                 return n === s ? Rt(n) === Rt(s) : isNaN(n) && isNaN(s);
                             }
                             return !1;
-                        })(t10, e8);
+                        }(t10, e8);
                     case 9:
                         return nt(t10.arrayValue.values || [], e8.arrayValue.values || [], Vt);
                     case 10:
-                        return (function(t, e) {
+                        return function(t, e) {
                             const n = t.mapValue.fields || {}, s = e.mapValue.fields || {};
                             if (ot(n) !== ot(s)) return !1;
                             for(const t11 in n)if (n.hasOwnProperty(t11) && (void 0 === s[t11] || !Vt(n[t11], s[t11]))) return !1;
                             return !0;
-                        })(t10, e8);
+                        }(t10, e8);
                     default:
                         return L();
                 }
@@ -623,10 +623,10 @@
                     case 1:
                         return et(t13.booleanValue, e9.booleanValue);
                     case 2:
-                        return (function(t, e) {
+                        return function(t, e) {
                             const n = yt(t.integerValue || t.doubleValue), s = yt(e.integerValue || e.doubleValue);
                             return n < s ? -1 : n > s ? 1 : n === s ? 0 : isNaN(n) ? isNaN(s) ? 0 : -1 : 1;
-                        })(t13, e9);
+                        }(t13, e9);
                     case 3:
                         return Ct(t13.timestampValue, e9.timestampValue);
                     case 4:
@@ -634,35 +634,35 @@
                     case 5:
                         return et(t13.stringValue, e9.stringValue);
                     case 6:
-                        return (function(t, e) {
+                        return function(t, e) {
                             const n = pt(t), s = pt(e);
                             return n.compareTo(s);
-                        })(t13.bytesValue, e9.bytesValue);
+                        }(t13.bytesValue, e9.bytesValue);
                     case 7:
-                        return (function(t, e) {
+                        return function(t, e) {
                             const n = t.split("/"), s = e.split("/");
                             for(let t14 = 0; t14 < n.length && t14 < s.length; t14++){
                                 const e = et(n[t14], s[t14]);
                                 if (0 !== e) return e;
                             }
                             return et(n.length, s.length);
-                        })(t13.referenceValue, e9.referenceValue);
+                        }(t13.referenceValue, e9.referenceValue);
                     case 8:
-                        return (function(t, e) {
+                        return function(t, e) {
                             const n = et(yt(t.latitude), yt(e.latitude));
                             return 0 !== n ? n : et(yt(t.longitude), yt(e.longitude));
-                        })(t13.geoPointValue, e9.geoPointValue);
+                        }(t13.geoPointValue, e9.geoPointValue);
                     case 9:
-                        return (function(t, e) {
+                        return function(t, e) {
                             const n = t.values || [], s = e.values || [];
                             for(let t15 = 0; t15 < n.length && t15 < s.length; ++t15){
                                 const e = Dt(n[t15], s[t15]);
                                 if (e) return e;
                             }
                             return et(n.length, s.length);
-                        })(t13.arrayValue, e9.arrayValue);
+                        }(t13.arrayValue, e9.arrayValue);
                     case 10:
-                        return (function(t, e) {
+                        return function(t, e) {
                             const n = t.fields || {}, s = Object.keys(n), i = e.fields || {}, r = Object.keys(i);
                             s.sort(), r.sort();
                             for(let t16 = 0; t16 < s.length && t16 < r.length; ++t16){
@@ -672,7 +672,7 @@
                                 if (0 !== o) return o;
                             }
                             return et(s.length, r.length);
-                        })(t13.mapValue, e9.mapValue);
+                        }(t13.mapValue, e9.mapValue);
                     default:
                         throw L();
                 }
@@ -4698,7 +4698,7 @@
             async function So(t182, e109) {
                 e109 && No(t182).Vr && await async function(t183, e) {
                     var n;
-                    if ((function(t) {
+                    if (function(t) {
                         switch(t){
                             default:
                                 return L();
@@ -4721,7 +4721,7 @@
                             case K.DATA_LOSS:
                                 return !0;
                         }
-                    })(n = e.code) && n !== K.ABORTED) {
+                    }(n = e.code) && n !== K.ABORTED) {
                         const n = t183.jr.shift();
                         No(t183).dr(), await To(t183, ()=>t183.remoteSyncer.rejectFailedWrite(n.batchId, e)
                         ), await Eo(t183);
@@ -5402,16 +5402,16 @@
                     , r = Qr.bt() ? new Qr : new jr, new io(e, n, s, i, r);
                 }
                 createSyncEngine(t226, e127) {
-                    return (function(t, e, n, s, i, r, o) {
+                    return function(t, e, n, s, i, r, o) {
                         const c = new ec(t, e, n, s, i, r);
                         return o && (c.Qo = !0), c;
-                    })(this.localStore, this.remoteStore, this.eventManager, this.sharedClientState, t226.initialUser, t226.maxConcurrentLimboResolutions, e127);
+                    }(this.localStore, this.remoteStore, this.eventManager, this.sharedClientState, t226.initialUser, t226.maxConcurrentLimboResolutions, e127);
                 }
                 terminate() {
-                    return (async function(t) {
+                    return async function(t) {
                         const e = q(t);
                         $("RemoteStore", "RemoteStore shutting down."), e.Wr.add(5), await oo(e), e.zr.shutdown(), e.Hr.set("Unknown");
-                    })(this.remoteStore);
+                    }(this.remoteStore);
                 }
             }
             class Lc {
@@ -5628,10 +5628,10 @@
                     };
                 }
                 _terminate() {
-                    return (function(t) {
+                    return function(t) {
                         const e = la.get(t);
                         e && ($("ComponentProvider", "Removing Datastore"), la.delete(t), e.terminate());
-                    })(this), Promise.resolve();
+                    }(this), Promise.resolve();
                 }
             }
             class Ia {
@@ -5949,16 +5949,16 @@
             }
             function yu(t244, e137) {
                 if (Tu(t244 = getModularInstance(t244))) return Eu("Unsupported field value:", e137, t244), pu(t244, e137);
-                if (t244 instanceof Za) return (function(t, e) {
+                if (t244 instanceof Za) return function(t, e) {
                     if (!iu(e.kc)) throw e.Uc(`${t._methodName}() can only be used with update() and set()`);
                     if (!e.path) throw e.Uc(`${t._methodName}() is not currently supported inside arrays`);
                     const n = t._toFieldTransform(e);
                     n && e.fieldTransforms.push(n);
-                })(t244, e137), null;
+                }(t244, e137), null;
                 if (void 0 === t244 && e137.ignoreUndefinedProperties) return null;
                 if (e137.path && e137.fieldMask.push(e137.path), t244 instanceof Array) {
                     if (e137.settings.Fc && 4 !== e137.kc) throw e137.Uc("Nested arrays are not supported");
-                    return (function(t, e) {
+                    return function(t, e) {
                         const n = [];
                         let s = 0;
                         for (const i of t){
@@ -5972,9 +5972,9 @@
                                 values: n
                             }
                         };
-                    })(t244, e137);
+                    }(t244, e137);
                 }
-                return (function(t, e) {
+                return function(t, e) {
                     if (null === (t = getModularInstance(t))) return {
                         nullValue: "NULL_VALUE"
                     };
@@ -6017,7 +6017,7 @@
                         };
                     }
                     throw e.Uc(`Unsupported field value: ${ma(t)}`);
-                })(t244, e137);
+                }(t244, e137);
             }
             function pu(t246, e) {
                 const n = {};
@@ -6272,9 +6272,9 @@
                 var t253;
                 t254 = ga(t254, Aa);
                 const e142 = ga(t254.firestore, ka), n52 = ((t253 = e142)._firestoreClient || Ma(t253), t253._firestoreClient.verifyNotTerminated(), t253._firestoreClient), s24 = new ah(e142);
-                return (function(t) {
+                return function(t) {
                     if (me(t) && 0 === t.explicitOrderBy.length) throw new j(K.UNIMPLEMENTED, "limitToLast() queries require specifying at least one orderBy() clause");
-                })(t254._query), (function(t255, e143, n53 = {}) {
+                }(t254._query), (function(t255, e143, n53 = {}) {
                     const s25 = new Q;
                     return t255.asyncQueue.enqueueAndForget(async ()=>(function(t256, e, n54, s, i) {
                             const r = new Lc({

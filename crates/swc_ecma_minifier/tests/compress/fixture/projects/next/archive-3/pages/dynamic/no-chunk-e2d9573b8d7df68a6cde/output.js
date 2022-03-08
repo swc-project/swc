@@ -290,7 +290,7 @@
                 ]), LoadableSubscription;
             }();
             function Loadable(opts1) {
-                return (function(loadFn, options) {
+                return function(loadFn, options) {
                     var opts = Object.assign({
                         loader: null,
                         loading: null,
@@ -403,7 +403,7 @@
                     return LoadableComponent.preload = function() {
                         return init();
                     }, LoadableComponent.displayName = "LoadableComponent", _react.default.forwardRef(LoadableComponent);
-                })(load, opts1);
+                }(load, opts1);
             }
             function flushInitializers(initializers, ids) {
                 for(var promises = []; initializers.length;){

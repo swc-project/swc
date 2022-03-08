@@ -1,0 +1,7 @@
+a { color: --foo; }
+a { color: env(--foo); }
+a { color: color(--foo 0% 0% 0% 0%); }
+a { --foo: red; color: --foo; }
+@property --foo {} a { color: --foo; }
+:root { --foo: pink; }  a { color: --foo, red; }
+:root { --bar: 0; } a { color: --foo(--bar); }

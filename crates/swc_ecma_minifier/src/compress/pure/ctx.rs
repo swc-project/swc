@@ -4,6 +4,9 @@ use super::Pure;
 
 #[derive(Default, Clone, Copy)]
 pub(super) struct Ctx {
+    /// This is actually config, but stored here.
+    pub force_str_for_tpl: bool,
+
     pub par_depth: u8,
 
     pub in_delete: bool,
@@ -24,10 +27,10 @@ pub(super) struct Ctx {
     pub in_first_expr: bool,
 }
 
-impl<'b, M> Pure<'b, M> {
+impl<'b> Pure<'b> {
     /// RAII guard to change context temporarically
     #[inline]
-    pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<'_, 'b, M> {
+    pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<'_, 'b> {
         let orig_ctx = self.ctx;
         self.ctx = ctx;
         WithCtx {
@@ -37,26 +40,26 @@ impl<'b, M> Pure<'b, M> {
     }
 }
 
-pub(super) struct WithCtx<'a, 'b, M> {
-    pass: &'a mut Pure<'b, M>,
+pub(super) struct WithCtx<'a, 'b> {
+    pass: &'a mut Pure<'b>,
     orig_ctx: Ctx,
 }
 
-impl<'b, M> Deref for WithCtx<'_, 'b, M> {
-    type Target = Pure<'b, M>;
+impl<'b> Deref for WithCtx<'_, 'b> {
+    type Target = Pure<'b>;
 
     fn deref(&self) -> &Self::Target {
         self.pass
     }
 }
 
-impl<M> DerefMut for WithCtx<'_, '_, M> {
+impl DerefMut for WithCtx<'_, '_> {
     fn deref_mut(&mut self) -> &mut Self::Target {
         self.pass
     }
 }
 
-impl<M> Drop for WithCtx<'_, '_, M> {
+impl Drop for WithCtx<'_, '_> {
     fn drop(&mut self) {
         self.pass.ctx = self.orig_ctx;
     }

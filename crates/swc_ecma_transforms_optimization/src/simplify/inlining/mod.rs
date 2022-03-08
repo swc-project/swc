@@ -339,6 +339,15 @@ impl VisitMut for Inlining<'_> {
                 }
             }
         }
+
+        if let Expr::Bin(b) = node {
+            match b.op {
+                BinaryOp::LogicalAnd | BinaryOp::LogicalOr => {
+                    self.visit_with_child(ScopeKind::Cond, &mut b.right);
+                }
+                _ => {}
+            }
+        }
     }
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {

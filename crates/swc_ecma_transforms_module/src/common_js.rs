@@ -620,23 +620,24 @@ impl Fold for CommonJs {
                                     }
                                 };
 
-                                let is_reexport = export.src.is_some()
-                                    || scope
-                                        .idents
-                                        .contains_key(&(orig.sym.clone(), orig.span.ctxt()));
-
                                 drop(scope);
 
                                 let old = self.in_top_level;
 
-                                // When we are in top level we make import not lazy.
-                                let is_top_level = if lazy { !is_reexport } else { true };
-                                self.in_top_level = is_top_level;
-
                                 let value = match imported {
-                                    Some(ref imported) => Box::new(
-                                        imported.clone().unwrap().make_member(orig.clone()),
-                                    ),
+                                    Some(ref imported) => {
+                                        let receiver = if lazy {
+                                            Expr::Call(CallExpr {
+                                                span: DUMMY_SP,
+                                                callee: imported.clone().unwrap().as_callee(),
+                                                args: vec![],
+                                                type_args: Default::default(),
+                                            })
+                                        } else {
+                                            Expr::Ident(imported.clone().unwrap())
+                                        };
+                                        Box::new(receiver.make_member(orig.clone()))
+                                    }
                                     None => Box::new(Expr::Ident(orig.clone()).fold_with(self)),
                                 };
 

@@ -1,0 +1,18 @@
+error: Unexpected duplicate '@import' rule 'a.css'.
+ --> $DIR/tests/rules/fail/no-duplicate-at-import-rules/11/input.css:2:1
+  |
+2 | @import 'a.css' layer();
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Unexpected duplicate '@import' rule 'a.css'.
+ --> $DIR/tests/rules/fail/no-duplicate-at-import-rules/11/input.css:3:1
+  |
+3 | @import 'a.css' layer(default);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Unexpected duplicate '@import' rule 'a.css'.
+ --> $DIR/tests/rules/fail/no-duplicate-at-import-rules/11/input.css:4:1
+  |
+4 | @import 'a.css' layer(other);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+

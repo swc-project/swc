@@ -1,6 +1,5 @@
-use ahash::AHashSet;
 use serde::{Deserialize, Serialize};
-use swc_common::Span;
+use swc_common::{collections::AHashSet, Span};
 use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitWith};
 
@@ -77,9 +76,9 @@ impl FontFamilyNoDuplicateNames {
             fonts.push((FontNameKind::from(identifier), span));
         }
 
-        fonts.iter().fold(
-            AHashSet::with_capacity(values.len()),
-            |mut seen, (font, span)| {
+        fonts
+            .iter()
+            .fold(AHashSet::default(), |mut seen, (font, span)| {
                 let name = font.name();
                 if seen.contains(&font) && self.ignored.iter().all(|item| !item.is_match(name)) {
                     self.ctx
@@ -87,8 +86,7 @@ impl FontFamilyNoDuplicateNames {
                 }
                 seen.insert(font);
                 seen
-            },
-        );
+            });
     }
 }
 
