@@ -43,7 +43,7 @@ pub(super) struct WithCtx<'a, 'b> {
 }
 
 impl<'b> Deref for WithCtx<'_, 'b> {
-    type Target = Pure<'b, M>;
+    type Target = Pure<'b>;
 
     fn deref(&self) -> &Self::Target {
         self.pass

@@ -9,10 +9,7 @@ use crate::{
     mode::Mode,
 };
 
-impl<M> Pure<'_, M>
-where
-    M: Mode,
-{
+impl Pure<'_> {
     pub(super) fn eval_array_method_call(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
             return;
