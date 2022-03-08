@@ -952,6 +952,21 @@ impl VisitMut for Prefixer {
             "font-kerning" => {
                 same_content!("-webkit-font-kerning");
             }
+            
+            "font-feature-settings" => {
+                same_content!("-webkit-font-feature-settings");
+                same_content!("-moz-font-feature-settings");
+            }
+            
+            "font-variant-ligatures" => {
+                same_content!("-webkit-font-variant-ligatures");
+                same_content!("-moz-font-variant-ligatures");
+            }
+            
+            "font-language-override" => {
+                same_content!("-webkit-font-language-override");
+                same_content!("-moz-font-language-override");
+            }
 
             // TODO add `overscroll-behavior`
             // TODO add `grid` support https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L987
