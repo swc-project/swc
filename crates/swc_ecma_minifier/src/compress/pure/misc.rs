@@ -5,12 +5,9 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 
 use super::Pure;
-use crate::{compress::util::is_pure_undefined, mode::Mode};
+use crate::compress::util::is_pure_undefined;
 
-impl<M> Pure<'_, M>
-where
-    M: Mode,
-{
+impl Pure<'_> {
     pub(super) fn remove_invalid(&mut self, e: &mut Expr) {
         if let Expr::Bin(BinExpr { left, right, .. }) = e {
             self.remove_invalid(left);

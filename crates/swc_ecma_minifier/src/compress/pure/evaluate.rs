@@ -308,10 +308,7 @@ impl Pure<'_> {
 }
 
 /// Evaluation of strings.
-impl<M> Pure<'_, M>
-where
-    M: Mode,
-{
+impl Pure<'_> {
     /// Handle calls on string literals, like `'foo'.toUpperCase()`.
     pub(super) fn eval_str_method_call(&mut self, e: &mut Expr) {
         if !self.options.evaluate {

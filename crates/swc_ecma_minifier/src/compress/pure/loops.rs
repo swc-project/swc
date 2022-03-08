@@ -5,10 +5,7 @@ use swc_ecma_utils::{ExprExt, Value};
 use super::Pure;
 use crate::mode::Mode;
 
-impl<M> Pure<'_, M>
-where
-    M: Mode,
-{
+impl Pure<'_> {
     ///
     /// - `while(test);` => `for(;;test);
     /// - `do; while(true)` => `for(;;);

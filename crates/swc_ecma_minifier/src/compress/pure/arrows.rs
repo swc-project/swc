@@ -3,7 +3,6 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::contains_this_expr;
 
 use super::Pure;
-use crate::mode::Mode;
 
 /// Methods related to the option `arrows`.
 impl Pure<'_> {
